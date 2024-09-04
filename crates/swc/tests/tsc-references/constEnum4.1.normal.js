@@ -1,7 +1,8 @@
 //// [constEnum4.ts]
-if (1) const enum A {
-}
-else if (2) const enum B {
-}
-else const enum C {
+if (1) {
+    var A;
+} else if (2) {
+    var B;
+} else {
+    var C;
 }

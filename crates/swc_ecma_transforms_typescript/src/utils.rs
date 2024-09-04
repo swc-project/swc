@@ -94,6 +94,11 @@ impl AsEnumOrModule for ModuleItem {
     }
 }
 
+#[inline]
+pub(crate) fn stmt_is_enum(stmt: &Stmt) -> bool {
+    matches!(stmt, Stmt::Decl(Decl::TsEnum(..)))
+}
+
 ///
 /// this.prop = value
 pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box<Expr> {

@@ -21,8 +21,8 @@ use crate::{
     config::TsImportExportAssignConfig,
     ts_enum::{EnumValueComputer, InlineEnum, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
     utils::{
-        assign_value_to_this_private_prop, assign_value_to_this_prop, AsCollapsibleDecl,
-        AsEnumOrModule, Factory,
+        assign_value_to_this_private_prop, assign_value_to_this_prop, stmt_is_enum,
+        AsCollapsibleDecl, AsEnumOrModule, Factory,
     },
 };
 
@@ -286,6 +286,105 @@ impl VisitMut for Transform {
         n.body.visit_mut_with(self);
 
         self.namespace_id = old_id;
+    }
+
+    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
+        if stmt_is_enum(&node.cons) {
+            node.cons = BlockStmt {
+                stmts: vec![*node.cons.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+
+        if let Some(ref mut alt) = node.alt {
+            if stmt_is_enum(alt) {
+                *alt = BlockStmt {
+                    stmts: vec![*alt.take()],
+                    ..Default::default()
+                }
+                .into();
+            }
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
+        if stmt_is_enum(&node.body) {
+            node.body = BlockStmt {
+                stmts: vec![*node.body.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+        node.visit_mut_children_with(self);
     }
 }
 
