@@ -255,7 +255,7 @@ impl Visit for TscDecorator {
 
 impl VisitMut for TscDecorator {
     fn visit_mut_class(&mut self, n: &mut Class) {
-        debug_assert!(self.appended_private_access_exprs.is_empty());
+        let appended_private = self.appended_private_access_exprs.take();
 
         n.visit_mut_with(&mut ParamMetadata);
 
@@ -267,13 +267,15 @@ impl VisitMut for TscDecorator {
 
         n.visit_mut_children_with(self);
 
-        let appended_private_access_exprs = self.appended_private_access_exprs.take();
-        if !appended_private_access_exprs.is_empty() {
-            let expr = if appended_private_access_exprs.len() == 1 {
-                *appended_private_access_exprs.into_iter().next().unwrap()
+        let appended_private =
+            mem::replace(&mut self.appended_private_access_exprs, appended_private);
+
+        if !appended_private.is_empty() {
+            let expr = if appended_private.len() == 1 {
+                *appended_private.into_iter().next().unwrap()
             } else {
                 SeqExpr {
-                    exprs: appended_private_access_exprs,
+                    exprs: appended_private,
                     ..Default::default()
                 }
                 .into()
