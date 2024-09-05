@@ -26,6 +26,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
         enums: Default::default(),
         vars: Default::default(),
         appended_exprs: Default::default(),
+        appended_private_access_exprs: Default::default(),
         prepended_exprs: Default::default(),
         class_name: Default::default(),
 
@@ -41,6 +42,7 @@ pub(super) struct TscDecorator {
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
     appended_exprs: Vec<Box<Expr>>,
+    appended_private_access_exprs: Vec<Box<Expr>>,
     prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
@@ -155,6 +157,17 @@ impl TscDecorator {
         prop_name_to_expr_value(k.clone())
     }
 
+    fn has_private_access(mut expr: &Expr) -> bool {
+        while let Some(MemberExpr { obj, prop, .. }) = expr.as_member() {
+            if prop.is_private_name() {
+                return true;
+            }
+            expr = obj;
+        }
+
+        false
+    }
+
     /// Creates `__decorate` calls.
     fn add_decorate_call(
         &mut self,
@@ -163,10 +176,14 @@ impl TscDecorator {
         key: ExprOrSpread,
         mut desc: ExprOrSpread,
     ) {
+        let mut has_private_access = false;
         let decorators = ArrayLit {
             span: DUMMY_SP,
             elems: decorators
                 .into_iter()
+                .inspect(|e| {
+                    has_private_access |= Self::has_private_access(e);
+                })
                 .map(|mut v| {
                     remove_span(&mut v);
 
@@ -180,15 +197,18 @@ impl TscDecorator {
         remove_span(&mut target.expr);
         remove_span(&mut desc.expr);
 
-        self.appended_exprs.push(
-            CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(ts, ts_decorate),
-                args: vec![decorators, target, key, desc],
-                ..Default::default()
-            }
-            .into(),
-        );
+        let expr = CallExpr {
+            callee: helper!(ts, ts_decorate),
+            args: vec![decorators, target, key, desc],
+            ..Default::default()
+        }
+        .into();
+
+        if has_private_access {
+            self.appended_private_access_exprs.push(expr);
+        } else {
+            self.appended_exprs.push(expr);
+        }
     }
 }
 
@@ -235,6 +255,8 @@ impl Visit for TscDecorator {
 
 impl VisitMut for TscDecorator {
     fn visit_mut_class(&mut self, n: &mut Class) {
+        debug_assert!(self.appended_private_access_exprs.is_empty());
+
         n.visit_mut_with(&mut ParamMetadata);
 
         if self.metadata {
@@ -244,6 +266,30 @@ impl VisitMut for TscDecorator {
         }
 
         n.visit_mut_children_with(self);
+
+        let appended_private_access_exprs = self.appended_private_access_exprs.take();
+        if !appended_private_access_exprs.is_empty() {
+            let expr = if appended_private_access_exprs.len() == 1 {
+                *appended_private_access_exprs.into_iter().next().unwrap()
+            } else {
+                SeqExpr {
+                    exprs: appended_private_access_exprs,
+                    ..Default::default()
+                }
+                .into()
+            };
+
+            n.body.push(
+                StaticBlock {
+                    body: BlockStmt {
+                        stmts: vec![expr.into_stmt()],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                }
+                .into(),
+            )
+        }
 
         if let Some(class_name) = self.class_name.clone() {
             if !n.decorators.is_empty() {
