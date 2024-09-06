@@ -182,7 +182,10 @@ impl TscDecorator {
             elems: decorators
                 .into_iter()
                 .inspect(|e| {
-                    has_private_access |= Self::has_private_access(e);
+                    if has_private_access {
+                        return;
+                    }
+                    has_private_access = Self::has_private_access(e);
                 })
                 .map(|mut v| {
                     remove_span(&mut v);
