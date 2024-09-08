@@ -27,11 +27,7 @@ fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         function_name(),
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark
-        ),
+        class_properties(Default::default(), unresolved_mark),
         classes(Default::default()),
         block_scoping(unresolved_mark),
         reserved_words(false),
@@ -121,11 +117,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             function_name(),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_class_method,
@@ -1766,11 +1758,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            )
+            class_properties(Default::default(), unresolved_mark)
         )
     },
     issue_308,
@@ -1794,11 +1782,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default())
         )
     },
@@ -1822,11 +1806,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(unresolved_mark)
         )
     },
@@ -1853,11 +1833,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -1893,11 +1869,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -1930,11 +1902,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -1975,11 +1943,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2013,11 +1977,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2044,11 +2004,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2096,11 +2052,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_destructuring_object_pattern_1_exec,
@@ -2135,11 +2087,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2169,11 +2117,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2200,11 +2144,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2230,11 +2170,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(
                 Default::default(),
                 Some(t.comments.clone()),
@@ -2275,11 +2211,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2306,11 +2238,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     regression_8882_exec,
@@ -2349,11 +2277,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            ),
+            class_properties(Default::default(), unresolved_mark,),
         )
     },
     regression_8882_exec_2,
@@ -2392,11 +2316,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_field_reinitialized,
@@ -2426,11 +2346,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2456,11 +2372,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default())
         )
     },
@@ -2481,11 +2393,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default())
         )
     },
@@ -2506,11 +2414,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             arrow(Mark::new())
         )
     },
@@ -2557,11 +2461,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
         )
     },
@@ -2678,11 +2578,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_optional_chain_call,
@@ -2705,11 +2601,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_optional_chain_member,
@@ -2732,11 +2624,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2776,11 +2664,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     regression_8882,
@@ -2818,11 +2702,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2847,11 +2727,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     staic_private_destructuring_array_pattern,
@@ -2874,11 +2750,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     public_static_super_exec,
@@ -2911,11 +2783,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -2941,11 +2809,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -2975,11 +2839,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     regression_8110,
@@ -3002,11 +2862,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     public_computed_without_block_exec,
@@ -3028,11 +2884,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             exponentiation(),
             classes(Default::default()),
             block_scoping(Mark::new()),
@@ -3056,11 +2908,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default())
         )
     },
@@ -3082,11 +2930,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -3125,11 +2969,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -3151,11 +2991,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            )
+            class_properties(Default::default(), unresolved_mark)
         )
     },
     regression_7951,
@@ -3178,11 +3014,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             block_scoping(Mark::new())
         )
     },
@@ -3213,11 +3045,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -3238,11 +3066,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_destructuring_array_pattern_2_exec,
@@ -3275,11 +3099,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
             block_scoping(Mark::new())
         )
@@ -3308,11 +3128,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_destructuring_array_pattern_exec,
@@ -3344,11 +3160,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     private_destructuring_array_pattern_1_exec,
@@ -3382,11 +3194,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1306_1,
@@ -3413,11 +3221,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1306_2,
@@ -3444,11 +3248,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_1,
@@ -3471,11 +3271,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_2,
@@ -3578,11 +3374,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_3,
@@ -3619,11 +3411,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_4,
@@ -3653,11 +3441,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_5,
@@ -3679,11 +3463,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1333_6,
@@ -3705,11 +3485,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1660_1,
@@ -3726,11 +3502,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_3055_1,
@@ -3758,11 +3530,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_3618,
@@ -3784,11 +3552,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -3813,11 +3577,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -3842,11 +3602,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -3879,11 +3635,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1711_1,
@@ -3909,11 +3661,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1742_1,
@@ -3945,11 +3693,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             template_literal(Default::default())
         )
     },
@@ -3982,11 +3726,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     new_target_in_class_prop,
@@ -4011,11 +3751,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     class_field_evalutaion_order,
@@ -4040,11 +3776,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1742_3,
@@ -4076,11 +3808,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1869_1,
@@ -4107,11 +3835,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_1869_2,
@@ -4137,11 +3861,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_2021_1,
@@ -4164,11 +3884,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_3229_1,
@@ -4192,11 +3908,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_3229_2,
@@ -4221,11 +3933,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_3368,
@@ -4253,11 +3961,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     nested_class_in_arrow,
@@ -4281,11 +3985,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_2481,
@@ -4307,11 +4007,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_4473,
@@ -4338,7 +4034,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     constant_super: true,
                     ..Default::default()
@@ -4364,7 +4059,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     constant_super: true,
                     ..Default::default()
@@ -4391,7 +4085,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     no_document_all: true,
                     ..Default::default()
@@ -4420,7 +4113,6 @@ test_exec!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -4481,7 +4173,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -4529,7 +4220,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -4563,7 +4253,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -4589,7 +4278,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     private_as_properties: true,
                     ..Default::default()
@@ -4635,7 +4323,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     private_as_properties: true,
                     ..Default::default()
@@ -4663,7 +4350,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     private_as_properties: true,
                     ..Default::default()
@@ -4698,7 +4384,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     private_as_properties: true,
                     set_public_fields: true,
@@ -4768,11 +4453,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     set_only_getter,
@@ -4808,11 +4489,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     get_only_setter,
@@ -4840,7 +4517,6 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     private_as_properties: true,
                     ..Default::default()
@@ -4882,11 +4558,7 @@ fn exec(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark,
-                )
+                class_properties(Default::default(), unresolved_mark,)
             )
         },
         &src,
@@ -4903,11 +4575,7 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                )
+                class_properties(Default::default(), unresolved_mark)
             )
         },
         &input,
@@ -4924,11 +4592,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
-            )
+            class_properties(Default::default(), unresolved_mark,)
         )
     },
     issue_6305,
@@ -4943,11 +4607,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             optional_chaining(Default::default(), unresolved_mark)
         )
     },

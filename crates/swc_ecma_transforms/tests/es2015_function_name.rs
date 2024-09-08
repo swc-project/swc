@@ -211,7 +211,7 @@ const z = { z: () => y(x) }.z;
 // function_name_modules_3
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -247,7 +247,7 @@ export default class Login extends React.Component {
 // function_name_basic
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -274,7 +274,7 @@ var g = function () {
 test!(
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         chain!(
             arrow(unresolved_mark),
@@ -386,7 +386,7 @@ test!(
     // not important
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -429,7 +429,7 @@ const z = { z: () => y(x) }.z;
 // function_name_method_definition
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -490,7 +490,7 @@ test!(
     // not important
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -528,7 +528,7 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -538,11 +538,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
         )
     },
@@ -565,7 +561,7 @@ c = 456;
 test!(
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -611,7 +607,7 @@ b();
 // function_name_collisions
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -644,7 +640,7 @@ function search({search}) {
 test!(
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -684,7 +680,7 @@ return last(this.tokens.get(key))
 // function_name_await
 test!(
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 

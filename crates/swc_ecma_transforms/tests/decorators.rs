@@ -44,11 +44,7 @@ fn tr(t: &Tester) -> impl Fold {
         resolver(unresolved_mark, top_level_mark, true),
         decorators(Default::default()),
         class_fields_use_set(true),
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark
-        ),
+        class_properties(Default::default(), unresolved_mark),
     )
 }
 
@@ -79,7 +75,6 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
         ),
         class_fields_use_set(true),
         class_properties(
-            Some(t.comments.clone()),
             class_properties::Config {
                 set_public_fields: true,
                 ..Default::default()
@@ -1632,11 +1627,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_constructors_return_new_constructor_exec,
@@ -1671,11 +1662,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_numeric_props_exec,
@@ -1709,11 +1696,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_properties_mutate_descriptor_exec,
@@ -1834,11 +1817,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_string_props_exec,
@@ -1871,11 +1850,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_string_literal_properties_exec,
@@ -1928,11 +1903,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_mutate_descriptor_exec,
@@ -2071,11 +2042,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_numeric_props_exec,
@@ -2108,11 +2075,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_return_descriptor_exec,
@@ -2235,11 +2198,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_string_props_exec,
@@ -2273,11 +2232,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_return_descriptor_exec,
@@ -2396,11 +2351,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_string_props_exec,
@@ -2432,11 +2383,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_return_descriptor_exec,
@@ -2577,11 +2524,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_ordering_reverse_order_exec,
@@ -2631,11 +2574,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_numeric_props_exec,
@@ -2670,11 +2609,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_properties_return_descriptor_exec,
@@ -2800,11 +2735,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_export_default_exec,
@@ -2840,11 +2771,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_ordering_reverse_order_exec,
@@ -2897,11 +2824,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_mutate_descriptor_exec,
@@ -3036,11 +2959,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_return_descriptor_exec,
@@ -3178,11 +3097,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_return_descriptor_exec,
@@ -3319,11 +3234,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_string_props_exec,
@@ -3358,11 +3269,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_child_classes_properties_exec,
@@ -3411,11 +3318,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_mutate_descriptor_exec,
@@ -3631,11 +3534,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             classes(Default::default())
         )
     },

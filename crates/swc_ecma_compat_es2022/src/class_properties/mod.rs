@@ -1,6 +1,6 @@
 use swc_common::{
-    collections::AHashMap, comments::Comments, errors::HANDLER, util::take::Take, Mark, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -40,14 +40,9 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties<C: Comments>(
-    cm: Option<C>,
-    config: Config,
-    unresolved_mark: Mark,
-) -> impl Fold + VisitMut {
+pub fn class_properties(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
-        cm,
         private: PrivateRecord::new(),
         extra: ClassExtra::default(),
         unresolved_mark,
@@ -77,10 +72,9 @@ impl Default for Config {
     }
 }
 
-struct ClassProperties<C: Comments> {
+struct ClassProperties {
     extra: ClassExtra,
     c: Config,
-    cm: Option<C>,
     private: PrivateRecord,
     unresolved_mark: Mark,
 }
@@ -158,7 +152,7 @@ impl Take for ClassExtra {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl<C: Comments> VisitMut for ClassProperties<C> {
+impl VisitMut for ClassProperties {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -329,7 +323,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
 }
 
 #[swc_trace]
-impl<C: Comments> ClassProperties<C> {
+impl ClassProperties {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Stmt>,
@@ -438,7 +432,7 @@ impl<C: Comments> ClassProperties<C> {
 }
 
 #[swc_trace]
-impl<C: Comments> ClassProperties<C> {
+impl ClassProperties {
     fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
@@ -751,13 +745,7 @@ impl<C: Comments> ClassProperties<C> {
                         name: ident.clone(),
                         value,
                     });
-                    let span = if let Some(cm) = &self.cm {
-                        let span = Span::dummy_with_cmt();
-                        cm.add_pure_comment(span.lo);
-                        span
-                    } else {
-                        DUMMY_SP
-                    };
+                    let span = PURE_SP;
                     if self.c.private_as_properties {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
@@ -906,13 +894,7 @@ impl<C: Comments> ClassProperties<C> {
                     };
 
                     if let Some(extra) = extra_collect {
-                        let span = if let Some(cm) = &self.cm {
-                            let span = Span::dummy_with_cmt();
-                            cm.add_pure_comment(span.lo);
-                            span
-                        } else {
-                            DUMMY_SP
-                        };
+                        let span = PURE_SP;
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,

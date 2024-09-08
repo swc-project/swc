@@ -473,7 +473,6 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -513,7 +512,6 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -596,7 +594,6 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()

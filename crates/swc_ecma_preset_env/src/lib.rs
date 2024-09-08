@@ -143,7 +143,6 @@ where
         pass,
         ClassProperties,
         es2022::class_properties(
-            comments.clone(),
             es2022::class_properties::Config {
                 private_as_properties: loose || assumptions.private_fields_as_properties,
                 set_public_fields: loose || assumptions.set_public_class_fields,

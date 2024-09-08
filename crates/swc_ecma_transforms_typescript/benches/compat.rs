@@ -137,11 +137,7 @@ fn single_tr_group(c: &mut Criterion) {
 
 fn es2020(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        swc_ecma_transforms_compat::es2022(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-            unresolved_mark,
-        )
+        swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark)
     });
 }
 
@@ -163,11 +159,7 @@ fn es2020_optional_chaining(b: &mut Bencher) {
 
 fn es2022_class_properties(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        swc_ecma_transforms_compat::es2022::class_properties(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-            unresolved_mark,
-        )
+        swc_ecma_transforms_compat::es2022::class_properties(Default::default(), unresolved_mark)
     });
 }
 
@@ -315,11 +307,7 @@ fn full_es2016(b: &mut Bencher) {
     run(b, |unresolved_mark| {
         let cmt = SingleThreadedComments::default();
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(cmt.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(Default::default(), Some(cmt), Mark::new()),
@@ -332,11 +320,7 @@ fn full_es2017(b: &mut Bencher) {
     run(b, |unresolved_mark| {
         let cmt = SingleThreadedComments::default();
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(cmt.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(Default::default(), Some(cmt), Mark::new()),
@@ -347,11 +331,7 @@ fn full_es2017(b: &mut Bencher) {
 fn full_es2018(b: &mut Bencher) {
     run(b, |unresolved_mark| {
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(SingleThreadedComments::default()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
         )

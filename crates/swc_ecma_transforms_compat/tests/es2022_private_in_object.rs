@@ -58,7 +58,6 @@ fn fixture(input: PathBuf) {
                             pass = Box::new(chain!(
                                 pass,
                                 class_properties(
-                                    Some(t.comments.clone()),
                                     class_properties::Config {
                                         set_public_fields: loose,
                                         constant_super: loose,
@@ -79,7 +78,6 @@ fn fixture(input: PathBuf) {
                             pass = Box::new(chain!(
                                 pass,
                                 class_properties(
-                                    Some(t.comments.clone()),
                                     class_properties::Config {
                                         set_public_fields: loose,
                                         constant_super: loose,

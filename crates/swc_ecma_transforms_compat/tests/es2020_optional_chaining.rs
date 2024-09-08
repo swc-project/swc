@@ -284,7 +284,6 @@ fn fixture(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
-                    Some(t.comments.clone()),
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         ..Default::default()
@@ -312,7 +311,6 @@ fn fixture_loose(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
-                    Some(t.comments.clone()),
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         pure_getter: true,

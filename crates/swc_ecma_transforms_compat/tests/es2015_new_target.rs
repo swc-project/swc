@@ -41,7 +41,6 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                 pass = Box::new(chain!(
                     pass,
                     class_properties(
-                        Some(t.comments.clone()),
                         class_properties::Config {
                             constant_super: loose,
                             set_public_fields: loose,

@@ -3677,11 +3677,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            es2022::es2022(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            es2022::es2022(Default::default(), unresolved_mark),
             es2018::es2018(Default::default()),
             es2017::es2017(
                 Default::default(),
@@ -3710,11 +3706,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3758,11 +3750,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3788,11 +3776,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3821,11 +3805,7 @@ fn exec(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, true),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
+                class_properties(Default::default(), unresolved_mark),
                 classes(Default::default())
             )
         },
@@ -3845,11 +3825,7 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, true),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
+                class_properties(Default::default(), unresolved_mark),
                 classes(Default::default())
             )
         },

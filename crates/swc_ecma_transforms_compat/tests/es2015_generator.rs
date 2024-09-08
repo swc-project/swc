@@ -1411,11 +1411,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            es2022(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            es2022(Default::default(), unresolved_mark),
             es2021(),
             es2018(Default::default()),
             es2017(

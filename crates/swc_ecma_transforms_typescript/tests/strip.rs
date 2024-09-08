@@ -96,7 +96,6 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
         resolver(unresolved_mark, top_level_mark, false),
         static_blocks(static_blocks_mark),
         class_properties(
-            Some(t.comments.clone()),
             class_properties::Config {
                 static_blocks_mark,
                 set_public_fields: loose,
