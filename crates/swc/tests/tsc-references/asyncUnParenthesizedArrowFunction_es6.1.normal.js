@@ -1,6 +1,6 @@
 //// [asyncUnParenthesizedArrowFunction_es6.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-const x = function() {
+const x = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function*(i) {
         return yield someOtherFunction(i);
     });
@@ -8,7 +8,7 @@ const x = function() {
         return _ref.apply(this, arguments);
     };
 }();
-const x1 = function() {
+const x1 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function*(i) {
         return yield someOtherFunction(i);
     });

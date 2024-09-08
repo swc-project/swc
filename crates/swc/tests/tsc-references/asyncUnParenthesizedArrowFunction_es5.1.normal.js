@@ -1,7 +1,7 @@
 //// [asyncUnParenthesizedArrowFunction_es5.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var x = function() {
+var x = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(i) {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -22,7 +22,7 @@ var x = function() {
         return _ref.apply(this, arguments);
     };
 }();
-var x1 = function() {
+var x1 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(i) {
         return _ts_generator(this, function(_state) {
             switch(_state.label){

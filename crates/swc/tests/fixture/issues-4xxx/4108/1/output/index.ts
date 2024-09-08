@@ -6,7 +6,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
-export var getErrorForTransaction = function() {
+export var getErrorForTransaction = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(connection, txid) {
         var tx, errors;
         return _ts_generator(this, function(_state) {
@@ -157,7 +157,7 @@ function _sendTransactionsWithManualRetry() {
     });
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
-export var sendTransactions = function() {
+export var sendTransactions = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
         var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
         var _arguments = arguments;
@@ -364,7 +364,7 @@ export var sendTransactions = function() {
         return _ref.apply(this, arguments);
     };
 }();
-export var sendTransaction = function() {
+export var sendTransaction = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
         var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         var _arguments = arguments;
@@ -482,7 +482,7 @@ export var sendTransaction = function() {
         return _ref.apply(this, arguments);
     };
 }();
-export var sendTransactionWithRetry = function() {
+export var sendTransactionWithRetry = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
         var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
         var _arguments = arguments;
@@ -777,7 +777,7 @@ function _awaitTransactionSignatureConfirmation() {
                     subId = 0;
                     return [
                         4,
-                        new Promise(function() {
+                        new Promise(/*#__PURE__*/ function() {
                             var _ref = _async_to_generator(function(resolve, reject) {
                                 return _ts_generator(this, function(_state) {
                                     switch(_state.label){

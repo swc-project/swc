@@ -7,7 +7,7 @@ var obj = {
             platform: platform
         };
     },
-    byPlatform: function() {
+    byPlatform: /*#__PURE__*/ function() {
         var _ref = _async_to_generator._(function(platform) {
             var result;
             return _ts_generator._(this, function(_state) {

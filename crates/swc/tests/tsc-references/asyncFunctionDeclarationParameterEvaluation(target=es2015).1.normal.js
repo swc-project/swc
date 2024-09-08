@@ -34,7 +34,7 @@ function _f4() {
     _f4 = _async_to_generator(function*(x = z) {
         var _arguments = arguments;
         return /*#__PURE__*/ _async_to_generator(function*() {
-            /*#__PURE__*/ return _async_to_generator(function*() {
+            /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                 return _arguments;
             });
         });
@@ -67,7 +67,7 @@ function _f7() {
     _f7 = _async_to_generator(function*(x = z, ...args) {
         var _arguments = arguments;
         return /*#__PURE__*/ _async_to_generator(function*() {
-            /*#__PURE__*/ return _async_to_generator(function*() {
+            /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                 return _arguments;
             });
         });
@@ -93,7 +93,7 @@ function _f9() {
     _f9 = _async_to_generator(function*() {
         var _arguments = arguments;
         return /*#__PURE__*/ _async_to_generator(function*(x = z) {
-            /*#__PURE__*/ return _async_to_generator(function*() {
+            /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                 return _arguments;
             });
         });
@@ -106,7 +106,7 @@ function f10() {
 function _f10() {
     _f10 = _async_to_generator(function*(x = z) {
         return /*#__PURE__*/ _async_to_generator(function*() {
-            /*#__PURE__*/ return _async_to_generator(function*() {
+            /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                 var _arguments = arguments;
                 return /*#__PURE__*/ _async_to_generator(function*() {
                     return _arguments;
@@ -125,26 +125,26 @@ function f11() {
 function f12() {
     var _arguments = arguments;
     return /*#__PURE__*/ _async_to_generator(function*(x = z) {
-        /*#__PURE__*/ return _async_to_generator(function*() {
+        /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
             return _arguments;
         });
     });
 }
 function f() {
-    const a1 = function() {
+    const a1 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x, y = z) {});
         return function a1(x) {
             return _ref.apply(this, arguments);
         };
     }();
-    const a2 = function() {
+    const a2 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*({ [z]: x }) {});
         return function a2(_) {
             return _ref.apply(this, arguments);
         };
     }();
     var _arguments = arguments;
-    const a3 = function() {
+    const a3 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z) {
             return /*#__PURE__*/ _async_to_generator(function*() {
                 return _arguments;
@@ -155,10 +155,10 @@ function f() {
         };
     }();
     var _arguments1 = arguments;
-    const a4 = function() {
+    const a4 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z) {
             return /*#__PURE__*/ _async_to_generator(function*() {
-                /*#__PURE__*/ return _async_to_generator(function*() {
+                /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                     return _arguments1;
                 });
             });
@@ -167,14 +167,14 @@ function f() {
             return _ref.apply(this, arguments);
         };
     }();
-    const a5 = function() {
+    const a5 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z, ...args) {});
         return function a5() {
             return _ref.apply(this, arguments);
         };
     }();
     var _arguments2 = arguments;
-    const a6 = function() {
+    const a6 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z, ...args) {
             return /*#__PURE__*/ _async_to_generator(function*() {
                 return _arguments2;
@@ -185,10 +185,10 @@ function f() {
         };
     }();
     var _arguments3 = arguments;
-    const a7 = function() {
+    const a7 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z, ...args) {
             return /*#__PURE__*/ _async_to_generator(function*() {
-                /*#__PURE__*/ return _async_to_generator(function*() {
+                /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                     return _arguments3;
                 });
             });
@@ -198,7 +198,7 @@ function f() {
         };
     }();
     var _arguments4 = arguments;
-    const a8 = function() {
+    const a8 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*() {
             return /*#__PURE__*/ _async_to_generator(function*(x = z) {
                 return _arguments4;
@@ -209,10 +209,10 @@ function f() {
         };
     }();
     var _arguments5 = arguments;
-    const a9 = function() {
+    const a9 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*() {
             return /*#__PURE__*/ _async_to_generator(function*(x = z) {
-                /*#__PURE__*/ return _async_to_generator(function*() {
+                /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                     return _arguments5;
                 });
             });
@@ -221,10 +221,10 @@ function f() {
             return _ref.apply(this, arguments);
         };
     }();
-    const a10 = function() {
+    const a10 = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*(x = z) {
             return /*#__PURE__*/ _async_to_generator(function*() {
-                /*#__PURE__*/ return _async_to_generator(function*() {
+                /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
                     var _arguments = arguments;
                     return /*#__PURE__*/ _async_to_generator(function*() {
                         return _arguments;

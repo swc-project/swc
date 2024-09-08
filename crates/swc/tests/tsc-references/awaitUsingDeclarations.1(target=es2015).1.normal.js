@@ -53,7 +53,7 @@ try {
         });
         return _ag.apply(this, arguments);
     }
-    const a = function() {
+    const a = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function*() {
             try {
                 var _usingCtx = _using_ctx();

@@ -4,7 +4,7 @@ function scanUser(groups) {
 }
 function _scanUser() {
     _scanUser = _async_to_generator._(function*(groups) {
-        yield Promise.all(groups.map(function() {
+        yield Promise.all(groups.map(/*#__PURE__*/ function() {
             var _ref = _async_to_generator._(function*({ users }) {
                 for (const user of users){
                     console.log("user", user);

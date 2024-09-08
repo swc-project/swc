@@ -1,6 +1,6 @@
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 const SampleData = typedModel("SampleVideo", VideosSchema, undefined, undefined, {
-    byPlatform: function() {
+    byPlatform: /*#__PURE__*/ function() {
         var _ref = _async_to_generator._(function*(platform) {
             const result = yield this.find({
                 platform: {

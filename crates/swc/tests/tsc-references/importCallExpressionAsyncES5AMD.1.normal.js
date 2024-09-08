@@ -150,7 +150,7 @@ define([
             })
         };
     };
-    var l = function() {
+    var l = /*#__PURE__*/ function() {
         var _ref = _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {

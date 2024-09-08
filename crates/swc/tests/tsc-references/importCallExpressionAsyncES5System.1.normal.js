@@ -112,7 +112,7 @@ System.register([
                     })
                 };
             });
-            _export("l", l = function() {
+            _export("l", l = /*#__PURE__*/ function() {
                 var _ref = _async_to_generator(function() {
                     var req;
                     return _ts_generator(this, function(_state) {

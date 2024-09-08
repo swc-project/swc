@@ -62,7 +62,7 @@ class cl2 {
         };
     }
 }
-const l = function() {
+const l = /*#__PURE__*/ function() {
     var _ref = _async_to_generator._(function*() {
         const req = yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // FIVE
         ;
