@@ -3636,7 +3636,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     decorators_legacy_interop_local_define_property,
@@ -3735,7 +3735,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -3773,7 +3773,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -3814,7 +3814,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -3854,7 +3854,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -3902,7 +3902,7 @@ test!(
                 ..Default::default()
             }),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
         )
     },
     function_name_global,
@@ -3929,7 +3929,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
             common_js(
                 Mark::fresh(Mark::root()),
@@ -3964,7 +3964,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()

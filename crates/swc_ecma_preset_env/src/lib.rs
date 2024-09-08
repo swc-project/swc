@@ -232,15 +232,12 @@ where
     let pass = add!(
         pass,
         Classes,
-        es2015::classes(
-            comments.clone(),
-            es2015::classes::Config {
-                constant_super: loose || assumptions.constant_super,
-                no_class_calls: loose || assumptions.no_class_calls,
-                set_class_methods: loose || assumptions.set_class_methods,
-                super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
-            }
-        )
+        es2015::classes(es2015::classes::Config {
+            constant_super: loose || assumptions.constant_super,
+            no_class_calls: loose || assumptions.no_class_calls,
+            set_class_methods: loose || assumptions.set_class_methods,
+            super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
+        })
     );
     let pass = add!(
         pass,

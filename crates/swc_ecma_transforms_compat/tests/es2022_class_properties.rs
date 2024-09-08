@@ -32,7 +32,7 @@ fn tr(t: &Tester) -> impl Fold {
             Default::default(),
             unresolved_mark
         ),
-        classes(Some(t.comments.clone()), Default::default()),
+        classes(Default::default()),
         block_scoping(unresolved_mark),
         reserved_words(false),
     )
@@ -1799,7 +1799,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     issue_342,
@@ -2018,7 +2018,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -2174,7 +2174,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -2280,7 +2280,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -2461,7 +2461,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     static_property_tdz_edgest_case,
@@ -2486,7 +2486,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     static_property_tdz_false_alarm,
@@ -2737,7 +2737,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -2823,7 +2823,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -2916,7 +2916,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -3034,7 +3034,7 @@ test!(
                 unresolved_mark
             ),
             exponentiation(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new()),
         )
     },
@@ -3061,7 +3061,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     static_property_tdz_general,
@@ -3218,7 +3218,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },
@@ -3280,7 +3280,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             block_scoping(Mark::new())
         )
     },

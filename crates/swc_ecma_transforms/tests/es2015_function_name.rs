@@ -218,7 +218,7 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -257,7 +257,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -397,7 +397,7 @@ test!(
                 ..Default::default()
             }),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default())
+            classes(Default::default())
         )
     },
     function_name_self_reference,
@@ -439,7 +439,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -500,7 +500,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -543,7 +543,7 @@ test!(
                 Default::default(),
                 unresolved_mark
             ),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
         )
     },
     decorators_legacy_interop_strict,
@@ -575,7 +575,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -621,7 +621,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -654,7 +654,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
             common_js(
                 unresolved_mark,
@@ -694,7 +694,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },

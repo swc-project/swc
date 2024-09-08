@@ -138,10 +138,7 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        tr(Default::default())
-    ),
+    |t| chain!(classes(Default::default()), tr(Default::default())),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -170,10 +167,7 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        tr(Default::default())
-    ),
+    |t| chain!(classes(Default::default()), tr(Default::default())),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -730,7 +724,7 @@ test!(
     syntax(),
     |t| chain!(
         tr(Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
+        classes(Default::default()),
         spread(Default::default())
     ),
     rest_nested_iife,

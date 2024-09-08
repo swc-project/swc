@@ -111,10 +111,7 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        new_target()
-    ),
+    |t| chain!(classes(Default::default()), new_target()),
     issue_6259,
     r#"
 (() => {

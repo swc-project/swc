@@ -249,10 +249,7 @@ fn es2015_block_scoping(b: &mut Bencher) {
 
 fn es2015_classes(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::es2015::classes(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-        )
+        swc_ecma_transforms_compat::es2015::classes(Default::default())
     });
 }
 
