@@ -87,7 +87,7 @@ fn tsxr(t: &Tester) -> impl Fold {
     )
 }
 
-fn properties(t: &Tester, loose: bool) -> impl Fold {
+fn properties(_: &Tester, loose: bool) -> impl Fold {
     let static_blocks_mark = Mark::new();
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();

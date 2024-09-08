@@ -278,7 +278,7 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(
@@ -305,7 +305,7 @@ fn fixture_loose(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(

@@ -36,7 +36,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr(t: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -58,7 +58,7 @@ fn ts_transform(t: &Tester) -> impl Fold {
     )
 }
 
-fn simple_strip(t: &Tester, config: Config) -> impl Fold {
+fn simple_strip(_: &Tester, config: Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -1617,7 +1617,7 @@ expect(el).toEqual(Object.defineProperty({
 // legacy_class_constructors_return_new_constructor
 test_exec!(
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1652,7 +1652,7 @@ expect(typeof Parent.prototype.child).toBe("function");
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1686,7 +1686,7 @@ test_exec!(
     // I tested using typescript playground and node js
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1807,7 +1807,7 @@ expect(Example._).toBe("__8__");
 // legacy_class_static_methods_string_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1840,7 +1840,7 @@ class Example {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1893,7 +1893,7 @@ test_exec!(
     // I tested on typescript playground
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2032,7 +2032,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2065,7 +2065,7 @@ const inst = {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2188,7 +2188,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2222,7 +2222,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2341,7 +2341,7 @@ expect(inst._).toBe("__8__");
 // legacy_class_prototype_methods_string_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2373,7 +2373,7 @@ class Example {
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2514,7 +2514,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2564,7 +2564,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2599,7 +2599,7 @@ test_exec!(
     // I tested using typescript playground and node js
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2725,7 +2725,7 @@ test_exec!(
     // below correctly.
     ignore,
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2761,7 +2761,7 @@ expect(calls).toEqual(["Foo"]);
 // legacy_class_ordering_reverse_order
 test_exec!(
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2814,7 +2814,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2949,7 +2949,7 @@ expect(inst._()).toBe("__8__");
 // legacy_class_static_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3087,7 +3087,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3224,7 +3224,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3259,7 +3259,7 @@ const inst = {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3308,7 +3308,7 @@ expect(inst.prop2).toBe("__4__");
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3524,7 +3524,7 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3565,7 +3565,7 @@ fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
 
 test!(
     issue_395_syntax(),
-    |t| chain!(
+    |_| chain!(
         decorators(Default::default()),
         common_js(
             Mark::fresh(Mark::root()),
@@ -3593,7 +3593,7 @@ class Demo {
 
 test!(
     issue_395_syntax(),
-    |t| chain!(
+    |_| chain!(
         decorators(Default::default()),
         common_js::common_js(
             Mark::fresh(Mark::root()),
@@ -3622,7 +3622,7 @@ export default Test
 test!(
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3660,7 +3660,7 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3704,7 +3704,7 @@ var obj = {
 test!(
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3744,7 +3744,7 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3788,7 +3788,7 @@ test!(
     // Cost of development is too high.
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3816,7 +3816,7 @@ setInterval: function(fn, ms) {
 // function_name_modules
 test!(
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3853,7 +3853,7 @@ console.log(new Template().events());
 // function_name_eval
 test!(
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 

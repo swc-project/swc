@@ -138,7 +138,7 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |t| chain!(classes(Default::default()), tr(Default::default())),
+    |_| chain!(classes(Default::default()), tr(Default::default())),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -167,7 +167,7 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |t| chain!(classes(Default::default()), tr(Default::default())),
+    |_| chain!(classes(Default::default()), tr(Default::default())),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -722,7 +722,7 @@ function d(thing, ...args) {
 
 test!(
     syntax(),
-    |t| chain!(
+    |_| chain!(
         tr(Default::default()),
         classes(Default::default()),
         spread(Default::default())

@@ -20,7 +20,7 @@ fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
-fn tr(t: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -110,7 +110,7 @@ class Foo extends Bar {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1752,7 +1752,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1776,7 +1776,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1800,7 +1800,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1863,7 +1863,7 @@ export default class MyClass3 {
 // private_regression_t6719
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1896,7 +1896,7 @@ function withContext(ComposedComponent) {
 // private_reevaluated
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1937,7 +1937,7 @@ function classFactory() {
 // private_static
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1971,7 +1971,7 @@ expect(Foo.test()).toBe("foo")
 // private_destructuring_object_pattern_1
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1998,7 +1998,7 @@ class Foo {
 // private_static_inherited
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2046,7 +2046,7 @@ class Sub2 extends Base {}
 // private_destructuring_object_pattern_1_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2081,7 +2081,7 @@ expect(foo.z).toBe('bar');
 // private_static_undefined
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2111,7 +2111,7 @@ class Foo {
 // private_destructuring_array_pattern
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2138,7 +2138,7 @@ class Foo {
 // private_regression_t2983
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2205,7 +2205,7 @@ export default class MyClass3 {
 // private_destructuring_array_pattern_1
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2232,7 +2232,7 @@ class Foo {
 // regression_8882_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2271,7 +2271,7 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2310,7 +2310,7 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2340,7 +2340,7 @@ expect(() => new Derived(foo)).toThrow()
 // private_static_export
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2366,7 +2366,7 @@ export default class MyClass2 {
 // static_property_tdz_edgest_case
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2387,7 +2387,7 @@ class A {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2408,7 +2408,7 @@ static A = 123;
 // regression_6153
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2455,7 +2455,7 @@ var qux = function() {
 // regression_7371
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2572,7 +2572,7 @@ new ComputedField();
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2595,7 +2595,7 @@ class A {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2618,7 +2618,7 @@ class MyClass {
 // private_canonical
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2658,7 +2658,7 @@ class Point {
 // regression_8882
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2696,7 +2696,7 @@ for(let i = 0; i <= 10; ++i){
 // private_destructuring_array_pattern_3
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2721,7 +2721,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2744,7 +2744,7 @@ class A {
 // public_static_super_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2777,7 +2777,7 @@ expect(getPropA()).toBe(1);
 // private_destructuring_array_pattern_2
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2803,7 +2803,7 @@ class Foo {
 // private_non_block_arrow_func
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2833,7 +2833,7 @@ export default param =>
 // regression_8110
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2856,7 +2856,7 @@ class A {
 // public_computed_without_block_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2878,7 +2878,7 @@ expect(instance.foo).toBe(2);
 // private_instance
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2902,7 +2902,7 @@ class Foo {
 // static_property_tdz_general
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2924,7 +2924,7 @@ class C {
 // public_native_classes
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2963,7 +2963,7 @@ test!(
     // Seems useless, while being hard to implement.
     ignore,
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2985,7 +2985,7 @@ var Foo = class {
 // regression_7951
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3008,7 +3008,7 @@ export class Foo extends Bar {
 // private_native_classes
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3039,7 +3039,7 @@ class Foo {
 // public_computed_without_block
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3060,7 +3060,7 @@ const createClass = (k) => class { [k()] = 2 };
 // private_destructuring_array_pattern_2_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3093,7 +3093,7 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 // public_static_super
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3122,7 +3122,7 @@ class B extends A {
 // private_destructuring_array_pattern_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3154,7 +3154,7 @@ expect(foo.getClient()).toBe('bar');
 // private_destructuring_array_pattern_1_exec
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3188,7 +3188,7 @@ expect(foo.y).toBe('bar');
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3215,7 +3215,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3242,7 +3242,7 @@ class Animal {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3265,7 +3265,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3368,7 +3368,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3405,7 +3405,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3435,7 +3435,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3457,7 +3457,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3479,7 +3479,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3496,7 +3496,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3524,7 +3524,7 @@ export class Node {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3629,7 +3629,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3655,7 +3655,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3687,7 +3687,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3720,7 +3720,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3745,7 +3745,7 @@ expect(foo.baz).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3770,7 +3770,7 @@ expect(() => new Foo()).not.toThrow();
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3802,7 +3802,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3829,7 +3829,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3855,7 +3855,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3878,7 +3878,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3902,7 +3902,7 @@ class A {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3927,7 +3927,7 @@ class A {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3955,7 +3955,7 @@ class A {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3979,7 +3979,7 @@ const a = () => class {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4001,7 +4001,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4027,7 +4027,7 @@ function a() {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4052,7 +4052,7 @@ class A extends class B {} {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4078,7 +4078,7 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4106,7 +4106,7 @@ class MyClass {
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4166,7 +4166,7 @@ expect(inst[9]).toBe(15);
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4213,7 +4213,7 @@ class MyClass {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4246,7 +4246,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4271,7 +4271,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4316,7 +4316,7 @@ class Cl {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4343,7 +4343,7 @@ class Cl {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4377,7 +4377,7 @@ class Cl {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4447,7 +4447,7 @@ class Cl {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4483,7 +4483,7 @@ const cl = new Cl();
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4510,7 +4510,7 @@ class Cl {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4552,7 +4552,7 @@ fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| {
+        |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -4569,7 +4569,7 @@ fn exec(input: PathBuf) {
 fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -4586,7 +4586,7 @@ fn fixture(input: PathBuf) {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -4601,7 +4601,7 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 

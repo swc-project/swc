@@ -2062,7 +2062,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
@@ -2100,7 +2100,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(

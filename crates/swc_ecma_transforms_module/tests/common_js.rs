@@ -1,6 +1,6 @@
-use std::{fs::File, path::PathBuf, rc::Rc};
+use std::{fs::File, path::PathBuf};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
@@ -54,7 +54,7 @@ fn esm_to_cjs(input: PathBuf) {
 
     test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
-        &|tester| tr(config.clone(), is_ts),
+        &|_| tr(config.clone(), is_ts),
         &input,
         &output,
         FixtureTestConfig {
@@ -66,7 +66,7 @@ fn esm_to_cjs(input: PathBuf) {
 
 test!(
     syntax(),
-    |tester| chain!(
+    |_| chain!(
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()
