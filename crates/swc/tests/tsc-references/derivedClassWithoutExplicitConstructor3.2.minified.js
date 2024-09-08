@@ -26,7 +26,7 @@ var D2 = /*#__PURE__*/ function(D) {
         return _class_call_check(this, D2), _this = _call_super(this, D2, arguments), _this.x = 2, _this.y = null, _this;
     }
     return _inherits(D2, D), D2;
-}(/*#__PURE__*/ /*#__PURE__*/ function(Base) {
+}(/*#__PURE__*/ function(Base) {
     function D(y, z) {
         var _this;
         return _class_call_check(this, D), (_this = _call_super(this, D, [

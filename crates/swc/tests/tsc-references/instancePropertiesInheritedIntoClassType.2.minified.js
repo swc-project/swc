@@ -9,7 +9,7 @@ NonGeneric || (NonGeneric = {}), (r = (d = new /*#__PURE__*/ (/*#__PURE__*/ func
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
     return _inherits(D, C), D;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -29,7 +29,7 @@ NonGeneric || (NonGeneric = {}), (r = (d = new /*#__PURE__*/ (/*#__PURE__*/ func
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
     return _inherits(D, C), D;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }

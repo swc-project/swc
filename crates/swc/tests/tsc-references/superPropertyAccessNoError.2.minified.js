@@ -40,7 +40,7 @@ new /*#__PURE__*/ (/*#__PURE__*/ function(SomeBaseClass) {
             }
         }
     ]), SomeDerivedClass;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function SomeBaseClass() {
         _class_call_check(this, SomeBaseClass);
     }

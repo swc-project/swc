@@ -38,7 +38,7 @@ System.register([
         ],
         execute: function() {
             var _ref;
-            _export("cl1", /*#__PURE__*/ /*#__PURE__*/ function() {
+            _export("cl1", /*#__PURE__*/ function() {
                 function cl1() {
                     _class_call_check(this, cl1);
                 }

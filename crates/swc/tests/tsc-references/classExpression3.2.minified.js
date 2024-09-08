@@ -8,7 +8,7 @@ var c = new /*#__PURE__*/ (/*#__PURE__*/ function(_superClass) {
         return _class_call_check(this, C), _this = _call_super(this, C, arguments), _this.c = 3, _this;
     }
     return _inherits(C, _superClass), C;
-}(/*#__PURE__*/ /*#__PURE__*/ function(_superClass) {
+}(/*#__PURE__*/ function(_superClass) {
     function _class() {
         var _this;
         return _class_call_check(this, _class), _this = _call_super(this, _class, arguments), _this.b = 2, _this;

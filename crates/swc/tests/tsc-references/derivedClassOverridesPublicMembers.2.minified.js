@@ -26,7 +26,7 @@ var x, y, d2, Derived = /*#__PURE__*/ function(Base) {
             set: function(a) {}
         }
     ]), Derived;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function Base(a) {
         _class_call_check(this, Base);
     }

@@ -7,7 +7,7 @@ var d, d2, D = /*#__PURE__*/ function(C) {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }
     return _inherits(D, C), D;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -19,7 +19,7 @@ var D2 = /*#__PURE__*/ function(C2) {
         return _class_call_check(this, D2), _call_super(this, D2, arguments);
     }
     return _inherits(D2, C2), D2;
-}(/*#__PURE__*/ /*#__PURE__*/ function() {
+}(/*#__PURE__*/ function() {
     function C2() {
         _class_call_check(this, C2);
     }
