@@ -18,7 +18,7 @@ class Class {
                     (function() {
                         _this;
                     });
-                    _async_to_generator(function*() {
+                    /*#__PURE__*/ _async_to_generator(function*() {
                         _this;
                     });
                 }
@@ -29,7 +29,7 @@ class Class {
                 (function() {
                     _this;
                 });
-                _async_to_generator(function*() {
+                /*#__PURE__*/ _async_to_generator(function*() {
                     _this;
                 });
             }

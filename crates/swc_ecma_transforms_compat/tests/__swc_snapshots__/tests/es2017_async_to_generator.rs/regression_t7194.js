@@ -1,12 +1,12 @@
 function f() {
-    g(_async_to_generator(function*() {
+    g(/*#__PURE__*/ _async_to_generator(function*() {
         var _this = this;
         c(function() {
             return _this;
         });
     }));
 }
-_async_to_generator(function*() {
+/*#__PURE__*/ _async_to_generator(function*() {
     var _this = this;
     console.log('async wrapper:', this === 'foo');
     (function() {

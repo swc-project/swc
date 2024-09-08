@@ -1,5 +1,5 @@
 var _this = this;
-const foo = function() {
+const foo = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function*(x, y, ...z) {
         return _this;
     });

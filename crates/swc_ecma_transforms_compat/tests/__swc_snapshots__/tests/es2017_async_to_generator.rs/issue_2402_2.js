@@ -2,7 +2,7 @@ function MyClass(item) {
     this.item = item;
     console.log('Constructor | this.item', this.item);
 }
-MyClass.prototype.fun = function() {
+MyClass.prototype.fun = /*#__PURE__*/ function() {
     var _fun = _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             console.log('fun | this.item', this.item);

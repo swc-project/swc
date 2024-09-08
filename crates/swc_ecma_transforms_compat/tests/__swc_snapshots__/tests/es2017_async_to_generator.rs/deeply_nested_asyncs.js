@@ -7,9 +7,9 @@ function _s() {
             args[_key - 1] = arguments[_key];
         }
         var _this = this, _arguments = arguments;
-        let t = function() {
+        let t = /*#__PURE__*/ function() {
             var _t = _async_to_generator(function*(y, a) {
-                let r = function() {
+                let r = /*#__PURE__*/ function() {
                     var _r = _async_to_generator(function*(z, b) {
                         for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];

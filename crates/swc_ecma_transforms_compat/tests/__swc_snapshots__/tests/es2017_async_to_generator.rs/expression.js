@@ -1,4 +1,4 @@
-var foo = function() {
+var foo = /*#__PURE__*/ function() {
     var _foo = _async_to_generator(function*() {
         var wat = yield bar();
     });
@@ -7,7 +7,7 @@ var foo = function() {
     }
     return foo;
 }();
-var foo2 = function() {
+var foo2 = /*#__PURE__*/ function() {
     var _foo2 = _async_to_generator(function*() {
         var wat = yield bar();
     });
@@ -15,7 +15,7 @@ var foo2 = function() {
         return _foo2.apply(this, arguments);
     }
     return foo2;
-}(), bar = function() {
+}(), bar = /*#__PURE__*/ function() {
     var _bar = _async_to_generator(function*() {
         var wat = yield foo();
     });

@@ -1,7 +1,7 @@
 class Foo {
     constractur() {
         var _newtarget = new.target;
-        const foo = function() {
+        const foo = /*#__PURE__*/ function() {
             var _ref = _async_to_generator(function*() {
                 return _newtarget;
             });
@@ -12,7 +12,7 @@ class Foo {
     }
     hello() {
         var _this = this, _superprop_get_hello = ()=>super.hello;
-        const world = function() {
+        const world = /*#__PURE__*/ function() {
             var _ref = _async_to_generator(function*() {
                 return _superprop_get_hello().call(_this);
             });

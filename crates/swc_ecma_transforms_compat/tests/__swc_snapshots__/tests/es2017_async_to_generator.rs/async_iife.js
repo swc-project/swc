@@ -4,7 +4,7 @@ _async_to_generator(function*() {
 _async_to_generator(function*() {
     yield 'ok';
 })();
-(function() {
+/*#__PURE__*/ (function() {
     var _notIIFE = _async_to_generator(function*() {
         yield 'ok';
     });
@@ -13,6 +13,6 @@ _async_to_generator(function*() {
     }
     return notIIFE;
 })();
-_async_to_generator(function*() {
+/*#__PURE__*/ _async_to_generator(function*() {
     yield 'not iife';
 });
