@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -793,7 +793,7 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
             parameters(Default::default(), unresolved_mark),
         )
@@ -817,7 +817,7 @@ test!(
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
             parameters(Default::default(), unresolved_mark),
         )

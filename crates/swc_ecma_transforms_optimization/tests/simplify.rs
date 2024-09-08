@@ -561,11 +561,7 @@ test!(
                 dce::dce(Default::default(), unresolved_mark)
             )),
             es2018(Default::default()),
-            es2017(
-                Default::default(),
-                Some(t.comments.clone()),
-                unresolved_mark
-            ),
+            es2017(Default::default(), unresolved_mark),
             es2016(),
             es2015(
                 unresolved_mark,

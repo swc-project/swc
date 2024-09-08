@@ -1827,14 +1827,14 @@ class foo {
 // public_regression_t7364
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     public_regression_t7364,
@@ -2164,18 +2164,14 @@ export default class {
 // private_regression_t7364
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(
-                Default::default(),
-                Some(t.comments.clone()),
-                unresolved_mark
-            ),
+            async_to_generator(Default::default(), unresolved_mark),
             block_scoping(unresolved_mark)
         )
     },
@@ -3546,14 +3542,14 @@ class MyClass {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     issue_1694_1,
@@ -3571,14 +3567,14 @@ test!(
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     issue_1694_2,
@@ -3596,14 +3592,14 @@ class MyClass {
 
 test!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     issue_1702_1,

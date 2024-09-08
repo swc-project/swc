@@ -1,11 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{
-    chain,
-    comments::{NoopComments, SingleThreadedComments},
-    pass::Optional,
-    Mark,
-};
+use swc_common::{chain, comments::NoopComments, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -1867,7 +1862,7 @@ test!(
             Optional::new(decorators(Default::default()), false,),
             resolver(unresolved_mark, top_level_mark, true),
             typescript(config, unresolved_mark, top_level_mark),
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
         )
     },
     issue_1235_1,

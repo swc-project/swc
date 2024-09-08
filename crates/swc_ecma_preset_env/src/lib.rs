@@ -209,7 +209,6 @@ where
                 ignore_function_name: loose || assumptions.ignore_function_name,
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
-            comments.clone(),
             unresolved_mark
         )
     );
