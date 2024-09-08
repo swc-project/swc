@@ -4064,7 +4064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.103.1"
+version = "0.103.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4389,7 +4389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -4605,7 +4605,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.205.1"
+version = "0.205.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4808,7 +4808,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.172.0"
+version = "0.172.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -4917,7 +4917,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.180.0"
+version = "0.180.1"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4994,7 +4994,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.199.0"
+version = "0.199.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
