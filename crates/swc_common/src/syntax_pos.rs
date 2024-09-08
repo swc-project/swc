@@ -83,6 +83,11 @@ pub const DUMMY_SP: Span = Span {
     hi: BytePos::DUMMY,
 };
 
+pub const PURE_SP: Span = Span {
+    lo: BytePos::PURE,
+    hi: BytePos::PURE,
+};
+
 pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
     #[allow(unused)]
@@ -394,6 +399,11 @@ impl Span {
     #[inline]
     pub fn is_dummy(self) -> bool {
         self.lo.0 == 0 && self.hi.0 == 0 || self.lo.0 >= DUMMY_RESERVE
+    }
+
+    #[inline]
+    pub fn is_pure(self) -> bool {
+        self.lo.is_pure()
     }
 
     /// Returns `true` if this is a dummy span with any hygienic context.
@@ -1020,6 +1030,7 @@ impl BytePos {
     /// Dummy position. This is reserved for synthesized spans.
     pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
+    pub const PURE: Self = BytePos(u32::MAX - 1);
     /// Synthesized, but should be stored in a source map.
     pub const SYNTHESIZED: Self = BytePos(u32::MAX);
 
@@ -1031,6 +1042,10 @@ impl BytePos {
     /// code.
     pub const fn is_dummy(self) -> bool {
         self.0 == 0
+    }
+
+    pub const fn is_pure(self) -> bool {
+        self.0 == Self::PURE.0
     }
 
     /// Returns `true`` if this is explicitly synthesized or has relevant input

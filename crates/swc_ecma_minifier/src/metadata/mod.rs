@@ -307,7 +307,7 @@ pub(super) fn has_noinline(comments: Option<&dyn Comments>, span: Span) -> bool 
 
 /// Check for `/*#__PURE__*/`
 pub(super) fn has_pure(comments: Option<&dyn Comments>, span: Span) -> bool {
-    has_flag(comments, span, "PURE")
+    span.is_pure() || has_flag(comments, span, "PURE")
 }
 
 fn find_comment<F>(comments: Option<&dyn Comments>, span: Span, mut op: F) -> bool
