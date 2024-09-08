@@ -19,7 +19,7 @@ setState(foo, {
 }), setState(foo, {
     c: !0
 });
-var c = new /*#__PURE__*/ (/*#__PURE__*/ function() {
+var c = new (/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }

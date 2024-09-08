@@ -14,7 +14,7 @@ one(function() {}), on({
 }).get("hello"), dispatchMethod("someMethod", [
     "hello",
     35
-]), new /*#__PURE__*/ (/*#__PURE__*/ function(SampleClass) {
+]), new (/*#__PURE__*/ function(SampleClass) {
     function AnotherSampleClass(props) {
         return _class_call_check(this, AnotherSampleClass), _call_super(this, AnotherSampleClass, [
             merge(props, {
