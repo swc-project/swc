@@ -27,7 +27,7 @@ function _func() {
                         p
                     ];
                 case 1:
-                    D = /*#__PURE__*/ _./*#__PURE__*/ apply(void 0, [
+                    D = /*#__PURE__*/ _.apply(void 0, [
                         _state.sent()
                     ]);
                     return [
