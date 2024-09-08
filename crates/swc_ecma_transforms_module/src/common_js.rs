@@ -1,6 +1,6 @@
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span,
-    SyntaxContext, DUMMY_SP,
+    collections::AHashSet, comments::Comments, source_map::PURE_SP, util::take::Take, FileName,
+    Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -23,21 +23,16 @@ use crate::{
     },
 };
 
-pub fn common_js<C>(
+pub fn common_js(
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-    comments: Option<C>,
-) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
+) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
         resolver: Resolver::Default,
         unresolved_mark,
         available_features,
-        comments,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -47,23 +42,18 @@ where
     })
 }
 
-pub fn common_js_with_resolver<C>(
+pub fn common_js_with_resolver(
     resolver: Box<dyn ImportResolver>,
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-    comments: Option<C>,
-) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
+) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
         available_features,
-        comments,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -73,23 +63,16 @@ where
     })
 }
 
-pub struct Cjs<C>
-where
-    C: Comments,
-{
+pub struct Cjs {
     config: Config,
     resolver: Resolver,
     unresolved_mark: Mark,
     available_features: FeatureFlag,
-    comments: Option<C>,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 }
 
-impl<C> VisitMut for Cjs<C>
-where
-    C: Comments,
-{
+impl VisitMut for Cjs {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, n: &mut Module) {
@@ -231,7 +214,6 @@ where
 
                 *n = cjs_dynamic_import(
                     *span,
-                    self.pure_span(),
                     args.take(),
                     quote_ident!(unresolved_ctxt, *import_span, "require"),
                     self.config.import_interop(),
@@ -260,10 +242,7 @@ where
     }
 }
 
-impl<C> Cjs<C>
-where
-    C: Comments,
-{
+impl Cjs {
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
@@ -337,11 +316,11 @@ where
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => helper_expr!(
-                            interop_require_wildcard
-                        )
-                        .as_call(self.pure_span(), vec![import_expr.as_arg(), true.as_arg()]),
+                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard)
+                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
                         _ => import_expr,
                     }
                 };
@@ -558,20 +537,6 @@ where
                 .into_stmt()
             })
     }
-
-    fn pure_span(&self) -> Span {
-        let mut span = DUMMY_SP;
-
-        if self.config.import_interop().is_none() {
-            return span;
-        }
-
-        if let Some(comments) = &self.comments {
-            span = Span::dummy_with_cmt();
-            comments.add_pure_comment(span.lo);
-        }
-        span
-    }
 }
 
 /// ```javascript
@@ -581,7 +546,6 @@ where
 /// ```
 pub(crate) fn cjs_dynamic_import(
     span: Span,
-    pure_span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
     import_interop: ImportInterop,
@@ -607,10 +571,10 @@ pub(crate) fn cjs_dynamic_import(
         match import_interop {
             ImportInterop::None => require,
             ImportInterop::Swc => {
-                helper_expr!(interop_require_wildcard).as_call(pure_span, vec![require.as_arg()])
+                helper_expr!(interop_require_wildcard).as_call(PURE_SP, vec![require.as_arg()])
             }
             ImportInterop::Node => helper_expr!(interop_require_wildcard)
-                .as_call(pure_span, vec![require.as_arg(), true.as_arg()]),
+                .as_call(PURE_SP, vec![require.as_arg(), true.as_arg()]),
         }
     };
 
