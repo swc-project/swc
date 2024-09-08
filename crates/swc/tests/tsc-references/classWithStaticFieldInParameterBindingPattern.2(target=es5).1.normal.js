@@ -9,7 +9,7 @@ var C = function C() {
     _class_call_check(this, C);
 };
 (function(param) {
-    var tmp = param[/*#__PURE__*/ (_class = function(C) {
+    var tmp = param[(_class = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(_class, C);
         function _class() {
@@ -22,7 +22,7 @@ var C = function C() {
 })();
 var x = "";
 (function(param) {
-    var tmp = param[/*#__PURE__*/ (_class1 = function(C) {
+    var tmp = param[(_class1 = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(_class, C);
         function _class() {

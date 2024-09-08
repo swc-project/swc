@@ -9,7 +9,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
     return _inherits(Derived, Base), Derived.prototype.foo = function() {
         return 2;
     }, Derived;
-})(/*#__PURE__*/ function() {
+})(/*#__PURE__*/ /*#__PURE__*/ function() {
     function Base() {
         _class_call_check(this, Base);
     }

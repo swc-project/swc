@@ -9,7 +9,7 @@ var i, a, B = /*#__PURE__*/ function(A) {
     return _inherits(B, A), B.prototype.bar = function() {
         return '';
     }, B;
-}(/*#__PURE__*/ function() {
+}(/*#__PURE__*/ /*#__PURE__*/ function() {
     function A() {
         _class_call_check(this, A);
     }

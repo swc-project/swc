@@ -5,13 +5,13 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var _class, _class1, C = function C() {
     _class_call_check(this, C);
 };
-(void 0)[/*#__PURE__*/ ((_class = function(C) {
+(void 0)[((_class = /*#__PURE__*/ function(C) {
     function _class() {
         return _class_call_check(this, _class), _call_super(this, _class, arguments);
     }
     return _inherits(_class, C), _class;
 }(C)).x = 1, _class).x], function(param) {
-    param[/*#__PURE__*/ ((_class1 = function(C) {
+    param[((_class1 = /*#__PURE__*/ function(C) {
         function _class() {
             return _class_call_check(this, _class), _call_super(this, _class, arguments);
         }

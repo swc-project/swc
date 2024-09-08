@@ -8,7 +8,7 @@ var Base = function Base() {
 };
 ;
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -24,7 +24,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -39,7 +39,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -55,7 +55,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -68,7 +68,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -82,7 +82,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -95,7 +95,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {
@@ -109,7 +109,7 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
-    return new /*#__PURE__*/ (function(Base) {
+    return new /*#__PURE__*/ (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits._(_class, Base);
         function _class() {

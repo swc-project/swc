@@ -9,7 +9,7 @@ var A = function A() {
         return _class_call_check(this, K), _call_super(this, K, arguments);
     }
     return _inherits(K, _B1), K;
-}(/*#__PURE__*/ function(A) {
+}(/*#__PURE__*/ /*#__PURE__*/ function(A) {
     function _class() {
         return _class_call_check(this, _class), _call_super(this, _class, arguments);
     }
@@ -31,7 +31,7 @@ var A = function A() {
         return _class_call_check(this, S), _call_super(this, S, arguments);
     }
     return _inherits(S, b3Number), S;
-}(/*#__PURE__*/ function(A) {
+}(/*#__PURE__*/ /*#__PURE__*/ function(A) {
     function Inner() {
         return _class_call_check(this, Inner), _call_super(this, Inner, arguments);
     }

@@ -12,7 +12,7 @@ var C = /*#__PURE__*/ function(_superClass) {
         return _this;
     }
     return C;
-}(/*#__PURE__*/ function(_superClass) {
+}(/*#__PURE__*/ /*#__PURE__*/ function(_superClass) {
     "use strict";
     _inherits(_class, _superClass);
     function _class() {

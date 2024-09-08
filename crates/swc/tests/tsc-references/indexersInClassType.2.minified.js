@@ -1,6 +1,6 @@
 //// [indexersInClassType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var r = new /*#__PURE__*/ (function() {
+var r = new /*#__PURE__*/ (/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }

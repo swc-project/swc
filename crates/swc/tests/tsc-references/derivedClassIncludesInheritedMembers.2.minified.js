@@ -8,7 +8,7 @@ var d2, Derived = /*#__PURE__*/ function(Base) {
         return _class_call_check(this, Derived), _call_super(this, Derived, arguments);
     }
     return _inherits(Derived, Base), Derived;
-}(/*#__PURE__*/ function() {
+}(/*#__PURE__*/ /*#__PURE__*/ function() {
     function Base(x) {
         _class_call_check(this, Base);
     }

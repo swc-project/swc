@@ -14,7 +14,7 @@ Wagon.circle = function(wagons) {
 }, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
-var db = new /*#__PURE__*/ (function(Wagon) {
+var db = new /*#__PURE__*/ (/*#__PURE__*/ function(Wagon) {
     function Sql() {
         var _this;
         return _class_call_check(this, Sql), (_this = _call_super(this, Sql)).foonly = 12, _this;
@@ -29,7 +29,7 @@ db.numberOxen = db.foonly, /*#__PURE__*/ Dragon;
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var c = new /*#__PURE__*/ (function(Wagon1) {
+var c = new /*#__PURE__*/ (/*#__PURE__*/ function(Wagon1) {
     function Conestoga(drunkOO) {
         var _this;
         return _class_call_check(this, Conestoga), (_this = _call_super(this, Conestoga, [

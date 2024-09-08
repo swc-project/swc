@@ -9,7 +9,7 @@ M || (M = {}), C = /*#__PURE__*/ function(S) {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
     return _inherits(C, S), C.prototype.method = function() {}, C;
-}(/*#__PURE__*/ function() {
+}(/*#__PURE__*/ /*#__PURE__*/ function() {
     function S() {
         _class_call_check(this, S);
     }
