@@ -1,6 +1,6 @@
 use swc_common::{
-    collections::AHashSet, comments::Comments, source_map::PURE_SP, util::take::Take, FileName,
-    Mark, Span, SyntaxContext, DUMMY_SP,
+    collections::AHashSet, source_map::PURE_SP, util::take::Take, FileName, Mark, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};

@@ -1368,10 +1368,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -1415,10 +1412,7 @@ test_exec!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
         )
     },
@@ -2124,10 +2118,7 @@ fn exec(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Default::default(),
-                    unresolved_mark
-                ),
+                class_properties(Default::default(), unresolved_mark),
                 async_to_generator(
                     Default::default(),
                     Some(t.comments.clone()),
@@ -2150,10 +2141,7 @@ fn exec_regenerator(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Default::default(),
-                    unresolved_mark
-                ),
+                class_properties(Default::default(), unresolved_mark),
                 async_to_generator(
                     Default::default(),
                     Some(t.comments.clone()),

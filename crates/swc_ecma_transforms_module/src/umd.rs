@@ -1,8 +1,8 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark,
-    SourceMap, Span, SyntaxContext, DUMMY_SP,
+    source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
