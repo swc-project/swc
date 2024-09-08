@@ -234,7 +234,7 @@ impl SuperReplacer {
                         callee: MemberExpr {
                             span: DUMMY_SP,
                             obj: Box::new(callee),
-                            prop: MemberProp::Ident(quote_ident!("apply")),
+                            prop: quote_ident!("apply").into(),
                         }
                         .as_callee(),
                         args: iter::once(this)
