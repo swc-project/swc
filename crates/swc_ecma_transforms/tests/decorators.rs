@@ -36,7 +36,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr(t: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -44,11 +44,7 @@ fn tr(t: &Tester) -> impl Fold {
         resolver(unresolved_mark, top_level_mark, true),
         decorators(Default::default()),
         class_fields_use_set(true),
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark
-        ),
+        class_properties(Default::default(), unresolved_mark),
     )
 }
 
@@ -62,7 +58,7 @@ fn ts_transform(t: &Tester) -> impl Fold {
     )
 }
 
-fn simple_strip(t: &Tester, config: Config) -> impl Fold {
+fn simple_strip(_: &Tester, config: Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -79,7 +75,6 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
         ),
         class_fields_use_set(true),
         class_properties(
-            Some(t.comments.clone()),
             class_properties::Config {
                 set_public_fields: true,
                 ..Default::default()
@@ -1622,7 +1617,7 @@ expect(el).toEqual(Object.defineProperty({
 // legacy_class_constructors_return_new_constructor
 test_exec!(
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1632,11 +1627,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_constructors_return_new_constructor_exec,
@@ -1661,7 +1652,7 @@ expect(typeof Parent.prototype.child).toBe("function");
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1671,11 +1662,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_numeric_props_exec,
@@ -1699,7 +1686,7 @@ test_exec!(
     // I tested using typescript playground and node js
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1709,11 +1696,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_properties_mutate_descriptor_exec,
@@ -1824,7 +1807,7 @@ expect(Example._).toBe("__8__");
 // legacy_class_static_methods_string_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1834,11 +1817,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_string_props_exec,
@@ -1861,7 +1840,7 @@ class Example {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1871,11 +1850,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_string_literal_properties_exec,
@@ -1918,7 +1893,7 @@ test_exec!(
     // I tested on typescript playground
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -1928,11 +1903,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_mutate_descriptor_exec,
@@ -2061,7 +2032,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2071,11 +2042,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_numeric_props_exec,
@@ -2098,7 +2065,7 @@ const inst = {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2108,11 +2075,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_return_descriptor_exec,
@@ -2225,7 +2188,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2235,11 +2198,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_string_props_exec,
@@ -2263,7 +2222,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2273,11 +2232,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_properties_return_descriptor_exec,
@@ -2386,7 +2341,7 @@ expect(inst._).toBe("__8__");
 // legacy_class_prototype_methods_string_props
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2396,11 +2351,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_string_props_exec,
@@ -2422,7 +2373,7 @@ class Example {
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2432,11 +2383,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_methods_return_descriptor_exec,
@@ -2567,7 +2514,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2577,11 +2524,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_ordering_reverse_order_exec,
@@ -2621,7 +2564,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2631,11 +2574,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_numeric_props_exec,
@@ -2660,7 +2599,7 @@ test_exec!(
     // I tested using typescript playground and node js
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2670,11 +2609,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_properties_return_descriptor_exec,
@@ -2790,7 +2725,7 @@ test_exec!(
     // below correctly.
     ignore,
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2800,11 +2735,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_export_default_exec,
@@ -2830,7 +2761,7 @@ expect(calls).toEqual(["Foo"]);
 // legacy_class_ordering_reverse_order
 test_exec!(
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2840,11 +2771,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_ordering_reverse_order_exec,
@@ -2887,7 +2814,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(true),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -2897,11 +2824,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_mutate_descriptor_exec,
@@ -3026,7 +2949,7 @@ expect(inst._()).toBe("__8__");
 // legacy_class_static_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3036,11 +2959,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_return_descriptor_exec,
@@ -3168,7 +3087,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3178,11 +3097,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_return_descriptor_exec,
@@ -3309,7 +3224,7 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3319,11 +3234,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_object_methods_string_props_exec,
@@ -3348,7 +3259,7 @@ const inst = {
 test_exec!(
     ignore,
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3358,11 +3269,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_prototype_properties_child_classes_properties_exec,
@@ -3401,7 +3308,7 @@ expect(inst.prop2).toBe("__4__");
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
     syntax(false),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3411,11 +3318,7 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     legacy_class_static_methods_mutate_descriptor_exec,
@@ -3621,7 +3524,7 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3631,12 +3534,8 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
-            classes(Some(t.comments.clone()), Default::default())
+            class_properties(Default::default(), unresolved_mark),
+            classes(Default::default())
         )
     },
     decorators_legacy_interop_local_define_property,
@@ -3666,7 +3565,7 @@ fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
 
 test!(
     issue_395_syntax(),
-    |t| chain!(
+    |_| chain!(
         decorators(Default::default()),
         common_js(
             Mark::fresh(Mark::root()),
@@ -3677,7 +3576,6 @@ test!(
                 ..Default::default()
             },
             Default::default(),
-            Some(t.comments.clone())
         ),
     ),
     issue_395_1,
@@ -3695,7 +3593,7 @@ class Demo {
 
 test!(
     issue_395_syntax(),
-    |t| chain!(
+    |_| chain!(
         decorators(Default::default()),
         common_js::common_js(
             Mark::fresh(Mark::root()),
@@ -3706,7 +3604,6 @@ test!(
                 ..Default::default()
             },
             Default::default(),
-            Some(t.comments.clone())
         ),
     ),
     issue_395_2,
@@ -3725,7 +3622,7 @@ export default Test
 test!(
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3735,7 +3632,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -3763,7 +3660,7 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3773,7 +3670,7 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
         )
     },
@@ -3807,14 +3704,14 @@ var obj = {
 test!(
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -3847,14 +3744,14 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -3891,7 +3788,7 @@ test!(
     // Cost of development is too high.
     ignore,
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3902,7 +3799,7 @@ test!(
                 ..Default::default()
             }),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
         )
     },
     function_name_global,
@@ -3919,7 +3816,7 @@ setInterval: function(fn, ms) {
 // function_name_modules
 test!(
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
@@ -3929,13 +3826,12 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             function_name(),
             common_js(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
             ),
         )
     },
@@ -3957,14 +3853,14 @@ console.log(new Template().events());
 // function_name_eval
 test!(
     Default::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
-            classes(Some(t.comments.clone()), Default::default()),
+            classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()

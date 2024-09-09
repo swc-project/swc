@@ -17,7 +17,7 @@ var i, a, B = /*#__PURE__*/ function(A) {
         return '';
     }, A;
 }());
-new /*#__PURE__*/ (function() {
+new (/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }

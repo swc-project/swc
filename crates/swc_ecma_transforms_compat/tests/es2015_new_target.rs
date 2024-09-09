@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
-fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
+fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -41,7 +41,6 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                 pass = Box::new(chain!(
                     pass,
                     class_properties(
-                        Some(t.comments.clone()),
                         class_properties::Config {
                             constant_super: loose,
                             set_public_fields: loose,
@@ -111,10 +110,7 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        new_target()
-    ),
+    |_| chain!(classes(Default::default()), new_target()),
     issue_6259,
     r#"
 (() => {

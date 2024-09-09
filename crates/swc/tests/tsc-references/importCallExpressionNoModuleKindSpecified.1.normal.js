@@ -33,7 +33,7 @@ var C = /*#__PURE__*/ function() {
         var loadAsync = import("./0");
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
-        }, function() {
+        }, /*#__PURE__*/ function() {
             var _ref = _async_to_generator(function(err) {
                 var one;
                 return _ts_generator(this, function(_state) {

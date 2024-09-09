@@ -18,7 +18,7 @@ function _foo() {
                             [
                                 3
                             ]
-                        ].map(function() {
+                        ].map(/*#__PURE__*/ function() {
                             var _ref = _async_to_generator(function(param) {
                                 var _param, a;
                                 return _ts_generator(this, function(_state) {

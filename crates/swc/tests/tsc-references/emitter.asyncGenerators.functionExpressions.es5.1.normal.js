@@ -1,7 +1,7 @@
 //// [F1.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f1 = function() {
+var f1 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -16,7 +16,7 @@ var f1 = function() {
 //// [F2.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f2 = function() {
+var f2 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
@@ -40,7 +40,7 @@ var f2 = function() {
 //// [F3.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f3 = function() {
+var f3 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
@@ -69,7 +69,7 @@ import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generat
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
-var f4 = function() {
+var f4 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
@@ -100,7 +100,7 @@ import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generat
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
-var f5 = function() {
+var f5 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
@@ -141,7 +141,7 @@ var f5 = function() {
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f6 = function() {
+var f6 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
@@ -166,7 +166,7 @@ var f6 = function() {
 //// [F7.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f7 = function() {
+var f7 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function() {
         return _ts_generator(this, function(_state) {
             return [

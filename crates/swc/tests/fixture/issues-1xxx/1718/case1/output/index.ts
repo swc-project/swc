@@ -10,7 +10,7 @@ function _scanUser() {
                 case 0:
                     return [
                         4,
-                        Promise.all(groups.map(function() {
+                        Promise.all(groups.map(/*#__PURE__*/ function() {
                             var _ref = _async_to_generator._(function(param) {
                                 var users, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user, err;
                                 return _ts_generator._(this, function(_state) {

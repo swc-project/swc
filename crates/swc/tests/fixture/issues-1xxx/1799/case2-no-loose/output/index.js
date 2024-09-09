@@ -13,7 +13,7 @@ const _interop_require_default = require("@swc/helpers/_/_interop_require_defaul
 const _react = /*#__PURE__*/ _interop_require_default._(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: function() {
+        onClick: /*#__PURE__*/ function() {
             var _ref = _async_to_generator._(function*(e) {
                 yield doSomething();
             });

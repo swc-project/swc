@@ -2132,11 +2132,9 @@ where
 
     #[emitter]
     fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
-        if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
-        }
+        if let Some(span) = node.spread {
+            self.emit_leading_comments_of_span(span, false)?;
 
-        if node.spread.is_some() {
             punct!("...");
         }
 

@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark, Spanned};
+use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
@@ -49,7 +49,7 @@ fn tr() -> impl Fold {
         parameters(Default::default(), unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
-        async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+        async_to_generator(Default::default(), unresolved_mark),
         fixer(None)
     )
 }
@@ -59,7 +59,7 @@ fn with_resolver() -> impl Fold {
     let top_level = Mark::new();
     chain!(
         resolver(unresolved, top_level, false),
-        async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved)
+        async_to_generator(Default::default(), unresolved)
     )
 }
 
@@ -448,7 +448,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_400_2,
     "class A {
     constructor() {
@@ -481,11 +481,7 @@ test_exec!(
     |t| {
         let unresolved_mark = Mark::new();
         chain!(
-            async_to_generator(
-                Default::default(),
-                Some(t.comments.clone()),
-                unresolved_mark
-            ),
+            async_to_generator(Default::default(), unresolved_mark),
             es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -547,7 +543,7 @@ return (new A()).print();"
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_named_expression,
     r#"
 var foo = async function bar() {
@@ -562,7 +558,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_lone_export,
     r#"
 export async function foo () { }
@@ -574,7 +570,7 @@ export async function foo () { }
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_arrow_function,
     r#"
 (async () => { await foo(); })()
@@ -591,7 +587,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             arrow(unresolved_mark)
         )
     },
@@ -633,7 +629,7 @@ async function foo() {
 // async_to_generator_object_method_with_arrows
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method_with_arrows,
     r#"
 class Class {
@@ -662,7 +658,7 @@ class Class {
 // async_to_generator_object_method
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method,
     r#"
 let obj = {
@@ -679,7 +675,7 @@ let obj = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_class,
     r#"
 class Foo {
@@ -698,7 +694,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             //regenerator(),
             arrow(unresolved_mark),
         )
@@ -784,7 +780,7 @@ test!(
 // async_to_generator_named_expression
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_named_expression,
     r#"
 var foo = async function bar() {
@@ -890,7 +886,7 @@ var foo = async function bar() {
 // async_to_generator_async_arrow_in_method
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
@@ -911,7 +907,7 @@ let TestClass = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_statement,
     r#"
 async function foo() {
@@ -930,7 +926,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(destructuring::Config { loose: false }),
         )
@@ -955,7 +951,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_default_arrow_export,
     r#"
 export default async () => { return await foo(); }
@@ -966,7 +962,7 @@ export default async () => { return await foo(); }
 // async_to_generator_function_arity
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_function_arity,
     r#"
 async function one(a, b = 1) {}
@@ -982,7 +978,7 @@ async function six(a, {b} = {}){}
 // async_to_generator_object_method_with_super
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_object_method_with_super_caching,
     r#"
 class Foo extends class {} {
@@ -1001,7 +997,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_default_export,
     r#"
 export default async function myFunc() {}
@@ -1012,7 +1008,7 @@ export default async function myFunc() {}
 // async_to_generator_async
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_async,
     r#"
 class Foo {
@@ -1027,7 +1023,7 @@ class Foo {
 // regression_8783
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_8783,
     r#"
 (async function poll() {
@@ -1068,7 +1064,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_async_import_and_export,
     r#"
 import bar from 'bar';
@@ -1108,7 +1104,7 @@ async function foo() {
 // regression_4599
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_4599,
     r#"
 async () => await promise
@@ -1121,7 +1117,7 @@ async () => { await promise }
 // regression_4943_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_4943_exec,
     r#"
 "use strict";
@@ -1144,7 +1140,7 @@ return foo().then(() => {
 // regression_8783_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_8783_exec,
     r#"
 let log = [];
@@ -1169,7 +1165,7 @@ return main.then(() => {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     bluebird_coroutines_expression,
     r#"
 var foo = async function () {
@@ -1182,7 +1178,7 @@ var foo = async function () {
 // async_to_generator_expression
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_expression,
     r#"
 var foo = async function () {
@@ -1202,7 +1198,7 @@ bar = async function () {
 // async_to_generator_statement
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_statement,
     r#"
 async function foo() {
@@ -1232,7 +1228,7 @@ async function foo() {
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_to_generator_parameters,
     r#"
 async function foo(bar) {
@@ -1247,7 +1243,7 @@ async function foo(bar) {
 // regression_t6882_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     regression_t6882_exec,
     r#"
 foo();
@@ -1260,7 +1256,7 @@ async function foo() {}
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_600,
     r#"
 async function foo() {
@@ -1272,7 +1268,7 @@ for (let a of b) {
 
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1036_1,
     "
     const x = async function() {
@@ -1287,7 +1283,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1036_2,
     "
     const x = async function() {
@@ -1303,7 +1299,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1216_1,
     "
     const source = Math.random() < 2 ? 'matilda' : 'fred';
@@ -1328,7 +1324,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1125_1,
     "
 async function test() {
@@ -1344,7 +1340,7 @@ test()
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1341_1,
     "
     class A {
@@ -1362,18 +1358,14 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            class_properties(Default::default(), unresolved_mark),
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     issue_1341_1_exec,
@@ -1396,7 +1388,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1341_2,
     "
   class A {
@@ -1410,18 +1402,14 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
-            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+            class_properties(Default::default(), unresolved_mark),
+            async_to_generator(Default::default(), Mark::new())
         )
     },
     issue_1341_2_exec,
@@ -1440,7 +1428,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1455_1,
     "
     const obj = {
@@ -1459,7 +1447,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1575_1,
     "
   const obj = {
@@ -1477,7 +1465,7 @@ test_exec!(
     |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
+            async_to_generator(Default::default(), mark),
             generator(mark, t.comments.clone())
         )
     },
@@ -1495,7 +1483,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1722_1,
     "
     (async function main() {
@@ -1506,7 +1494,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1721_1,
     "
     async function main() {
@@ -1519,7 +1507,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1721_2_async_generator,
     "
     async function* lol() {
@@ -1531,7 +1519,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1684_1,
     "
     const cache = {}
@@ -1552,7 +1540,7 @@ test!(
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
         )
     },
@@ -1573,7 +1561,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1752_1,
     "
     async function* generate() {
@@ -1601,7 +1589,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_1918_1,
     "
     let counter = 0;
@@ -1641,7 +1629,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_2402_1,
     "
 function MyClass(item) {
@@ -1665,7 +1653,7 @@ test!(
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
         )
     },
@@ -1691,7 +1679,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_2305_1,
     "
     function MyClass () {}
@@ -1726,7 +1714,7 @@ test!(
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
         )
     },
@@ -1763,7 +1751,7 @@ test!(
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
         )
     },
@@ -1787,7 +1775,7 @@ test!(
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
         )
     },
@@ -1804,7 +1792,7 @@ export default async function() {
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_parameters,
     "
 class A {
@@ -1827,7 +1815,7 @@ expect(a.doTest()).resolves.toEqual(3);
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_1,
     r#"
 async function foo(x, y, ...z) {
@@ -1838,7 +1826,7 @@ async function foo(x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_2,
     r#"
 async function* foo(x, y, ...z) {
@@ -1849,7 +1837,7 @@ async function* foo(x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_3,
     r#"
 const foo = async function (x, y, ...z) {
@@ -1860,7 +1848,7 @@ const foo = async function (x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_4,
     r#"
 const foo = async function* (x, y, ...z) {
@@ -1871,7 +1859,7 @@ const foo = async function* (x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_5,
     r#"
 const foo = async function foo(x, y, ...z) {
@@ -1885,7 +1873,7 @@ const foo = async function foo(x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_6,
     r#"
 const foo = async function* foo(x, y, ...z) {
@@ -1899,7 +1887,7 @@ const foo = async function* foo(x, y, ...z) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     function_length_issue_3135_7,
     r#"
 const foo = async (x, y, ...z) => {
@@ -1910,7 +1898,7 @@ const foo = async (x, y, ...z) => {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_wrap_this,
     r#"
 const foo = async (x, y, ...z) => {
@@ -1955,7 +1943,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_default_async_nested_1,
     "
 export default async function foo(x) {
@@ -1968,7 +1956,7 @@ export default async function foo(x) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     export_default_async_nested_2,
     "
 export default async function (x) {
@@ -1981,7 +1969,7 @@ export default async function (x) {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_with_optional_params,
     "
 (async function (a = 10, ...rest) {})();
@@ -2006,7 +1994,7 @@ export class Quirk {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     super_field_update,
     "
 class Foo {
@@ -2020,7 +2008,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     microbundle_835,
     "
 class A extends B {
@@ -2035,7 +2023,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     super_update,
     "
 class A extends B {
@@ -2051,7 +2039,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     async_with_optional_params_2,
     "
 const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
@@ -2066,7 +2054,7 @@ const p = Z(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_4208,
     "
     function foo() {
@@ -2079,7 +2067,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator::<SingleThreadedComments>(Default::default(), None, Mark::new()),
+    |_| async_to_generator(Default::default(), Mark::new()),
     issue_8452,
     r#"
 class Test0 {}
@@ -2120,22 +2108,14 @@ fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| {
+        |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
-                async_to_generator(
-                    Default::default(),
-                    Some(t.comments.clone()),
-                    unresolved_mark
-                )
+                class_properties(Default::default(), unresolved_mark),
+                async_to_generator(Default::default(), unresolved_mark)
             )
         },
         &input,
@@ -2153,16 +2133,8 @@ fn exec_regenerator(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
-                async_to_generator(
-                    Default::default(),
-                    Some(t.comments.clone()),
-                    unresolved_mark
-                ),
+                class_properties(Default::default(), unresolved_mark),
+                async_to_generator(Default::default(), unresolved_mark),
                 es2015::for_of(Default::default()),
                 block_scoping(unresolved_mark),
                 generator(unresolved_mark, t.comments.clone())

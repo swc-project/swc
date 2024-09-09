@@ -1,11 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{
-    chain,
-    comments::{NoopComments, SingleThreadedComments},
-    pass::Optional,
-    Mark,
-};
+use swc_common::{chain, comments::NoopComments, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -87,7 +82,7 @@ fn tsxr(t: &Tester) -> impl Fold {
     )
 }
 
-fn properties(t: &Tester, loose: bool) -> impl Fold {
+fn properties(_: &Tester, loose: bool) -> impl Fold {
     let static_blocks_mark = Mark::new();
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
@@ -96,7 +91,6 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
         resolver(unresolved_mark, top_level_mark, false),
         static_blocks(static_blocks_mark),
         class_properties(
-            Some(t.comments.clone()),
             class_properties::Config {
                 static_blocks_mark,
                 set_public_fields: loose,
@@ -1868,7 +1862,7 @@ test!(
             Optional::new(decorators(Default::default()), false,),
             resolver(unresolved_mark, top_level_mark, true),
             typescript(config, unresolved_mark, top_level_mark),
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
+            async_to_generator(Default::default(), unresolved_mark),
         )
     },
     issue_1235_1,

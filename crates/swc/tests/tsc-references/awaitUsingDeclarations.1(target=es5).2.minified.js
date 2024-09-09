@@ -16,49 +16,7 @@ try {
                 ];
             });
         })();
-    })), _async_to_generator(function() {
-        var _usingCtx, _;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return _state.trys.push([
-                        0,
-                        1,
-                        2,
-                        4
-                    ]), (_usingCtx = _using_ctx()).a(_define_property({}, Symbol.asyncDispose, function() {
-                        return _async_to_generator(function() {
-                            return _ts_generator(this, function(_state) {
-                                return [
-                                    2
-                                ];
-                            });
-                        })();
-                    })), [
-                        3,
-                        4
-                    ];
-                case 1:
-                    return _ = _state.sent(), _usingCtx.e = _, [
-                        3,
-                        4
-                    ];
-                case 2:
-                    return [
-                        4,
-                        _usingCtx.d()
-                    ];
-                case 3:
-                    return _state.sent(), [
-                        7
-                    ];
-                case 4:
-                    return [
-                        2
-                    ];
-            }
-        });
-    });
+    }));
     try {
         var _usingCtx1 = _using_ctx();
         _usingCtx1.a(_define_property({}, Symbol.asyncDispose, function() {

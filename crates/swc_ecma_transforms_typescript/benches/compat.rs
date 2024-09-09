@@ -137,11 +137,7 @@ fn single_tr_group(c: &mut Criterion) {
 
 fn es2020(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        swc_ecma_transforms_compat::es2022(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-            unresolved_mark,
-        )
+        swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark)
     });
 }
 
@@ -163,11 +159,7 @@ fn es2020_optional_chaining(b: &mut Bencher) {
 
 fn es2022_class_properties(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        swc_ecma_transforms_compat::es2022::class_properties(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-            unresolved_mark,
-        )
+        swc_ecma_transforms_compat::es2022::class_properties(Default::default(), unresolved_mark)
     });
 }
 
@@ -192,21 +184,13 @@ fn es2019_optional_catch_binding(b: &mut Bencher) {
 
 fn es2017(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::es2017(
-            Default::default(),
-            Some(SingleThreadedComments::default()),
-            Mark::new(),
-        )
+        swc_ecma_transforms_compat::es2017(Default::default(), Mark::new())
     });
 }
 
 fn es2017_async_to_generator(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::es2017::async_to_generator(
-            Default::default(),
-            Some(SingleThreadedComments::default()),
-            Mark::new(),
-        )
+        swc_ecma_transforms_compat::es2017::async_to_generator(Default::default(), Mark::new())
     });
 }
 
@@ -249,10 +233,7 @@ fn es2015_block_scoping(b: &mut Bencher) {
 
 fn es2015_classes(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::es2015::classes(
-            Some(SingleThreadedComments::default()),
-            Default::default(),
-        )
+        swc_ecma_transforms_compat::es2015::classes(Default::default())
     });
 }
 
@@ -316,16 +297,11 @@ fn es3(b: &mut Bencher) {
 
 fn full_es2016(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        let cmt = SingleThreadedComments::default();
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(cmt.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
-            swc_ecma_transforms_compat::es2017(Default::default(), Some(cmt), Mark::new()),
+            swc_ecma_transforms_compat::es2017(Default::default(), Mark::new()),
             swc_ecma_transforms_compat::es2016(),
         )
     });
@@ -333,16 +309,11 @@ fn full_es2016(b: &mut Bencher) {
 
 fn full_es2017(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        let cmt = SingleThreadedComments::default();
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(cmt.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
-            swc_ecma_transforms_compat::es2017(Default::default(), Some(cmt), Mark::new()),
+            swc_ecma_transforms_compat::es2017(Default::default(), Mark::new()),
         )
     });
 }
@@ -350,11 +321,7 @@ fn full_es2017(b: &mut Bencher) {
 fn full_es2018(b: &mut Bencher) {
     run(b, |unresolved_mark| {
         chain!(
-            swc_ecma_transforms_compat::es2022(
-                Some(SingleThreadedComments::default()),
-                Default::default(),
-                unresolved_mark
-            ),
+            swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
         )

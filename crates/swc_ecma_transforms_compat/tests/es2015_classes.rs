@@ -16,15 +16,15 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(tester: &Tester) -> impl Fold {
-    classes(Some(tester.comments.clone()), Default::default())
+fn tr(_: &Tester) -> impl Fold {
+    classes(Default::default())
 }
 
-fn spec_tr(tester: &Tester) -> impl Fold {
+fn spec_tr(_: &Tester) -> impl Fold {
     let unresolved_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, Mark::new(), false),
-        classes(Some(tester.comments.clone()), Default::default()),
+        classes(Default::default()),
         spread(Default::default()),
         block_scoping(unresolved_mark),
     )
@@ -2602,9 +2602,9 @@ test!(
 
 test!(
     syntax(),
-    |t| chain!(
+    |_| chain!(
         resolver(Mark::new(), Mark::new(), false),
-        classes(Some(t.comments.clone()), Default::default())
+        classes(Default::default())
     ),
     duplicate_ident,
     r#"
@@ -2725,10 +2725,7 @@ class List extends Array {}
 // extend_builtins_imported_babel_plugin_transform_builtin_classes
 test_exec!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
     r#"
 // Imported from
@@ -3029,10 +3026,7 @@ expect(obj.test).toBe(3);
 // extend_builtins_spec
 test_exec!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_spec_exec,
     r#"
 class List extends Array {}
@@ -3420,10 +3414,7 @@ expect(obj.test).toBe(3);
 // extend_builtins_builtin_objects_throw_when_wrapped
 test_exec!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_builtin_objects_throw_when_wrapped_exec,
     r#"
 // JSON is wrapped because it starts with an uppercase letter, but it
@@ -3472,10 +3463,7 @@ test_exec!(
     // Just don't do this.
     ignore,
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_overwritten_null_exec,
     r#"
 var env = {
@@ -3496,10 +3484,7 @@ test_exec!(
     // Just don't do this. With is evil.
     ignore,
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_super_called_exec,
     r#"
 var called = false;
@@ -3523,7 +3508,7 @@ with (env) {
 
 test_exec!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_846,
     r#"
 class SomeClass {
@@ -3546,7 +3531,7 @@ expect(obj.anotherMethod()).toBe(2);
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1490_1,
     "
     class ColouredCanvasElement extends CanvasElement {
@@ -3559,7 +3544,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1490_2,
     "
   class ColouredCanvasElement extends CanvasElement {
@@ -3572,7 +3557,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     super_binding,
     "
   class Foo {}
@@ -3586,7 +3571,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     super_binding_exec,
     "
   class Foo {}
@@ -3602,7 +3587,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1617_1,
     "
     class A extends B {
@@ -3615,7 +3600,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1617_2,
     "
   class A extends B {
@@ -3628,7 +3613,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1660_1,
     "
     class A {
@@ -3639,7 +3624,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     constructor_super_update,
     "
 class A extends B {
@@ -3655,7 +3640,7 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     prefix_super_update,
     "
 class A extends B {
@@ -3668,7 +3653,7 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1660_2,
     "
     const foo = class {run(){}};
@@ -3677,7 +3662,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone()), Default::default()),
+    |_| classes(Default::default()),
     issue_1660_3,
     "
     console.log(class { run() { } });
@@ -3692,17 +3677,9 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            es2022::es2022(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            es2022::es2022(Default::default(), unresolved_mark),
             es2018::es2018(Default::default()),
-            es2017::es2017(
-                Default::default(),
-                Some(t.comments.clone()),
-                unresolved_mark
-            ),
+            es2017::es2017(Default::default(), unresolved_mark),
             es2016::es2016(),
             es2015::es2015(
                 unresolved_mark,
@@ -3725,11 +3702,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3773,11 +3746,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3803,11 +3772,7 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark
-            ),
+            class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
@@ -3830,18 +3795,14 @@ fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| {
+        |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, true),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
-                classes(Some(t.comments.clone()), Default::default())
+                class_properties(Default::default(), unresolved_mark),
+                classes(Default::default())
             )
         },
         &src,
@@ -3854,18 +3815,14 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, true),
-                class_properties(
-                    Some(t.comments.clone()),
-                    Default::default(),
-                    unresolved_mark
-                ),
-                classes(Some(t.comments.clone()), Default::default())
+                class_properties(Default::default(), unresolved_mark),
+                classes(Default::default())
             )
         },
         &input,
@@ -3876,13 +3833,10 @@ fn fixture(input: PathBuf) {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     constant_super_class,
     r#"
 class Test extends Foo {
@@ -3903,13 +3857,10 @@ class Test extends Foo {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     constant_super_property,
     r#"
 class Test extends Foo {
@@ -3924,13 +3875,10 @@ class Test extends Foo {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     constant_super_call,
     r#"
 class Test extends Foo {
@@ -3949,13 +3897,10 @@ class Test extends Foo {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     constant_super_default,
     r#"
 class Test {
@@ -3973,13 +3918,10 @@ class Test {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     constant_super_update,
     r#"
 class A extends B {
@@ -3995,26 +3937,20 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            no_class_calls: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        no_class_calls: true,
+        ..Default::default()
+    }),
     no_class_call,
     "class A {}"
 );
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            no_class_calls: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        no_class_calls: true,
+        ..Default::default()
+    }),
     no_class_call_constructor,
     r#"
 class A {
@@ -4033,13 +3969,10 @@ class B {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            no_class_calls: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        no_class_calls: true,
+        ..Default::default()
+    }),
     no_class_call_super,
     r#"
 class B {}
@@ -4055,13 +3988,10 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            set_class_methods: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        set_class_methods: true,
+        ..Default::default()
+    }),
     set_method_literal_key,
     r#"
 class Foo {
@@ -4073,13 +4003,10 @@ class Foo {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            set_class_methods: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        set_class_methods: true,
+        ..Default::default()
+    }),
     set_method_static,
     r#"
 class Test {
@@ -4092,13 +4019,10 @@ class Test {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            set_class_methods: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        set_class_methods: true,
+        ..Default::default()
+    }),
     set_method_getter_setter,
     r#"
 class Test extends Foo {
@@ -4113,13 +4037,10 @@ class Test extends Foo {
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            super_is_callable_constructor: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        super_is_callable_constructor: true,
+        ..Default::default()
+    }),
     super_callable,
     r#"
 class BaseController extends Chaplin.Controller { }
@@ -4130,26 +4051,20 @@ class BaseController2 extends Chaplin.Controller.Another { }
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            super_is_callable_constructor: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        super_is_callable_constructor: true,
+        ..Default::default()
+    }),
     super_callable_super,
     r#"class Test extends Foo { }"#
 );
 
 test!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            super_is_callable_constructor: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        super_is_callable_constructor: true,
+        ..Default::default()
+    }),
     issue_3943,
     r#"
 class Thing extends B {
@@ -4163,10 +4078,7 @@ class Thing extends B {
 
 test!(
     syntax(),
-    |t| chain!(
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
     issue_5102,
     r#"
 let C = class {}
@@ -4178,13 +4090,10 @@ D ??= class /* D */ {};
 
 test_exec!(
     syntax(),
-    |t| classes(
-        Some(t.comments.clone()),
-        Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |_| classes(Config {
+        constant_super: true,
+        ..Default::default()
+    }),
     issue_5936,
     "
 class Superclass {

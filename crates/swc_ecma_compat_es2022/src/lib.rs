@@ -1,6 +1,6 @@
 #![allow(clippy::vec_box)]
 
-use swc_common::{chain, comments::Comments, Mark};
+use swc_common::{chain, Mark};
 use swc_ecma_compat_common::regexp::{self, regexp};
 use swc_ecma_visit::Fold;
 
@@ -14,7 +14,7 @@ pub mod optional_chaining_impl;
 pub mod private_in_object;
 pub mod static_blocks;
 
-pub fn es2022<C: Comments>(cm: Option<C>, config: Config, unresolved_mark: Mark) -> impl Fold {
+pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Fold {
     chain!(
         regexp(regexp::Config {
             dot_all_regex: true,
@@ -27,7 +27,7 @@ pub fn es2022<C: Comments>(cm: Option<C>, config: Config, unresolved_mark: Mark)
             unicode_sets_regex: false,
         }),
         static_blocks(config.class_properties.static_blocks_mark),
-        class_properties(cm, config.class_properties, unresolved_mark),
+        class_properties(config.class_properties, unresolved_mark),
         private_in_object(),
     )
 }

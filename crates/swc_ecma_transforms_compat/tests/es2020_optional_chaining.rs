@@ -278,13 +278,12 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
-                    Some(t.comments.clone()),
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         ..Default::default()
@@ -306,13 +305,12 @@ fn fixture_loose(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
-                    Some(t.comments.clone()),
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         pure_getter: true,

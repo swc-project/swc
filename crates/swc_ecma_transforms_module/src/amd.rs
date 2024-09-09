@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
+    source_map::PURE_SP,
     util::take::Take,
     FileName, Mark, Span, SyntaxContext, DUMMY_SP,
 };
@@ -312,7 +313,6 @@ where
 
                 *n = amd_dynamic_import(
                     *span,
-                    self.pure_span(),
                     args.take(),
                     require,
                     self.config.import_interop(),
@@ -402,11 +402,11 @@ where
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => helper_expr!(
-                            interop_require_wildcard
-                        )
-                        .as_call(self.pure_span(), vec![import_expr.as_arg(), true.as_arg()]),
+                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard)
+                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
                         _ => import_expr,
                     }
                 };
@@ -455,20 +455,6 @@ where
             .clone()
     }
 
-    fn pure_span(&self) -> Span {
-        let mut span = DUMMY_SP;
-
-        if self.config.import_interop().is_none() {
-            return span;
-        }
-
-        if let Some(comments) = &self.comments {
-            span = Span::dummy_with_cmt();
-            comments.add_pure_comment(span.lo);
-        }
-        span
-    }
-
     fn get_amd_module_id_from_comments(&self, span: Span) -> Option<String> {
         // https://github.com/microsoft/TypeScript/blob/1b9c8a15adc3c9a30e017a7048f98ef5acc0cada/src/compiler/parser.ts#L9648-L9658
         let amd_module_re =
@@ -497,7 +483,6 @@ where
 /// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
 pub(crate) fn amd_dynamic_import(
     span: Span,
-    pure_span: Span,
     args: Vec<ExprOrSpread>,
     require: Ident,
     import_interop: ImportInterop,
@@ -512,10 +497,10 @@ pub(crate) fn amd_dynamic_import(
     let resolved_module: Expr = match import_interop {
         ImportInterop::None => module.clone().into(),
         ImportInterop::Swc => {
-            helper_expr!(interop_require_wildcard).as_call(pure_span, vec![module.clone().as_arg()])
+            helper_expr!(interop_require_wildcard).as_call(PURE_SP, vec![module.clone().as_arg()])
         }
         ImportInterop::Node => helper_expr!(interop_require_wildcard)
-            .as_call(pure_span, vec![module.clone().as_arg(), true.as_arg()]),
+            .as_call(PURE_SP, vec![module.clone().as_arg(), true.as_arg()]),
     };
 
     let resolve_callback = resolve

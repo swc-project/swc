@@ -2062,14 +2062,13 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
@@ -2101,14 +2100,13 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
-                Some(t.comments.clone()),
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()

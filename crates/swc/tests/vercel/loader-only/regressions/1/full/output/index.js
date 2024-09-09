@@ -8,7 +8,7 @@ var Test = function Test(name) {
     "use strict";
     _class_call_check(this, Test);
     var _this = this;
-    _define_property(this, "print", function() {
+    _define_property(this, "print", /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(arg) {
             return _ts_generator(this, function(_state) {
                 console.log(_this.name, arg);

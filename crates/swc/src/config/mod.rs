@@ -1329,7 +1329,6 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
-                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths, config.resolve_fully);
@@ -1339,7 +1338,6 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
-                        comments,
                     ))
                 }
             }
@@ -1350,7 +1348,6 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
-                        comments,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
@@ -1362,7 +1359,6 @@ impl ModuleConfig {
                         unresolved_mark,
                         config,
                         available_features,
-                        comments,
                     ))
                 }
             }

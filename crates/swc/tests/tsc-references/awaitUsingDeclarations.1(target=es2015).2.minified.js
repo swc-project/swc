@@ -7,17 +7,6 @@ try {
     var _usingCtx = _using_ctx();
     _usingCtx.a({
         [Symbol.asyncDispose]: ()=>_async_to_generator(function*() {})()
-    }), _async_to_generator(function*() {
-        try {
-            var _usingCtx = _using_ctx();
-            _usingCtx.a({
-                [Symbol.asyncDispose]: ()=>_async_to_generator(function*() {})()
-            });
-        } catch (_) {
-            _usingCtx.e = _;
-        } finally{
-            yield _usingCtx.d();
-        }
     });
     try {
         var _usingCtx1 = _using_ctx();

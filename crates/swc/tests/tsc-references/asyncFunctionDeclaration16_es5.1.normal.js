@@ -18,7 +18,7 @@
  * @returns {string}
  */ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var f1 = function() {
+var f1 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(str) {
         return _ts_generator(this, function(_state) {
             return [
@@ -31,7 +31,7 @@ var f1 = function() {
         return _ref.apply(this, arguments);
     };
 }();
-/** @type {T1} */ var f2 = function() {
+/** @type {T1} */ var f2 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(str) {
         return _ts_generator(this, function(_state) {
             return [
@@ -47,7 +47,7 @@ var f1 = function() {
 /**
  * @param {string} str
  * @returns {Promise<string>}
- */ var f3 = function() {
+ */ var f3 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(str) {
         return _ts_generator(this, function(_state) {
             return [
@@ -60,7 +60,7 @@ var f1 = function() {
         return _ref.apply(this, arguments);
     };
 }();
-/** @type {T2} */ var f4 = function() {
+/** @type {T2} */ var f4 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(str) {
         return _ts_generator(this, function(_state) {
             return [
@@ -73,7 +73,7 @@ var f1 = function() {
         return _ref.apply(this, arguments);
     };
 }();
-/** @type {T3} */ var f5 = function() {
+/** @type {T3} */ var f5 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(str) {
         return _ts_generator(this, function(_state) {
             return [

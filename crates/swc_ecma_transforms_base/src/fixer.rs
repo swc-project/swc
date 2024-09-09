@@ -1025,13 +1025,15 @@ impl Fixer<'_> {
             return;
         }
 
-        let span = e.span();
+        let mut span = e.span();
 
-        let span = if let Some(span) = self.span_map.shift_remove(&span) {
-            span
-        } else {
-            span
-        };
+        if let Some(new_span) = self.span_map.shift_remove(&span) {
+            span = new_span;
+        }
+
+        if span.is_pure() {
+            span = DUMMY_SP;
+        }
 
         let expr = Box::new(e.take());
         *e = ParenExpr { expr, span }.into();

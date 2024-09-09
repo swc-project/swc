@@ -32,7 +32,7 @@ fn fixture(input: PathBuf) {
     let output = parent.join("output.js");
     test_fixture(
         Default::default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -58,7 +58,6 @@ fn fixture(input: PathBuf) {
                             pass = Box::new(chain!(
                                 pass,
                                 class_properties(
-                                    Some(t.comments.clone()),
                                     class_properties::Config {
                                         set_public_fields: loose,
                                         constant_super: loose,
@@ -79,7 +78,6 @@ fn fixture(input: PathBuf) {
                             pass = Box::new(chain!(
                                 pass,
                                 class_properties(
-                                    Some(t.comments.clone()),
                                     class_properties::Config {
                                         set_public_fields: loose,
                                         constant_super: loose,
@@ -95,10 +93,7 @@ fn fixture(input: PathBuf) {
                     }
 
                     "transform-classes" => {
-                        pass = Box::new(chain!(
-                            pass,
-                            classes(Some(t.comments.clone()), Default::default())
-                        ));
+                        pass = Box::new(chain!(pass, classes(Default::default())));
                     }
 
                     _ => {

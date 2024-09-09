@@ -69,7 +69,7 @@
             };
         }
     }
-    const l = function() {
+    const l = /*#__PURE__*/ function() {
         var _ref = _async_to_generator._(function*() {
             const req = yield import('./test') // FIVE
             ;

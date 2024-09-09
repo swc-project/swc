@@ -143,7 +143,6 @@ where
         pass,
         ClassProperties,
         es2022::class_properties(
-            comments.clone(),
             es2022::class_properties::Config {
                 private_as_properties: loose || assumptions.private_fields_as_properties,
                 set_public_fields: loose || assumptions.set_public_class_fields,
@@ -210,7 +209,6 @@ where
                 ignore_function_name: loose || assumptions.ignore_function_name,
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
-            comments.clone(),
             unresolved_mark
         )
     );
@@ -232,15 +230,12 @@ where
     let pass = add!(
         pass,
         Classes,
-        es2015::classes(
-            comments.clone(),
-            es2015::classes::Config {
-                constant_super: loose || assumptions.constant_super,
-                no_class_calls: loose || assumptions.no_class_calls,
-                set_class_methods: loose || assumptions.set_class_methods,
-                super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
-            }
-        )
+        es2015::classes(es2015::classes::Config {
+            constant_super: loose || assumptions.constant_super,
+            no_class_calls: loose || assumptions.no_class_calls,
+            set_class_methods: loose || assumptions.set_class_methods,
+            super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
+        })
     );
     let pass = add!(
         pass,

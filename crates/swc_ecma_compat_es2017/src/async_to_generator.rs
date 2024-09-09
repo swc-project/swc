@@ -1,9 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_common::{
-    comments::Comments, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -37,14 +35,9 @@ use swc_trace_macro::swc_trace;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator<C: Comments + Clone>(
-    c: Config,
-    comments: Option<C>,
-    unresolved_mark: Mark,
-) -> impl Fold + VisitMut {
+pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(AsyncToGenerator {
         c,
-        comments,
         in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
@@ -60,16 +53,15 @@ pub struct Config {
 }
 
 #[derive(Default, Clone)]
-struct AsyncToGenerator<C: Comments + Clone> {
+struct AsyncToGenerator {
     c: Config,
-    comments: Option<C>,
+
     in_subclass: bool,
     unresolved_ctxt: SyntaxContext,
 }
 
-struct Actual<C: Comments> {
+struct Actual {
     c: Config,
-    comments: Option<C>,
 
     in_subclass: bool,
     hoister: FnEnvHoister,
@@ -80,7 +72,7 @@ struct Actual<C: Comments> {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
+impl VisitMut for AsyncToGenerator {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, c: &mut Class) {
@@ -101,10 +93,10 @@ impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
 }
 
 #[swc_trace]
-impl<C: Comments + Clone> AsyncToGenerator<C> {
+impl AsyncToGenerator {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Actual<C>>,
+        T: StmtLike + VisitMutWith<Actual>,
         Vec<T>: VisitMutWith<Self>,
     {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
@@ -114,7 +106,6 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
 
             let mut actual = Actual {
                 c: self.c,
-                comments: self.comments.clone(),
                 in_subclass: self.in_subclass,
                 hoister,
                 unresolved_ctxt: self.unresolved_ctxt,
@@ -134,7 +125,7 @@ impl<C: Comments + Clone> AsyncToGenerator<C> {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl<C: Comments> VisitMut for Actual<C> {
+impl VisitMut for Actual {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, c: &mut Class) {
@@ -430,7 +421,7 @@ impl<C: Comments> VisitMut for Actual<C> {
 }
 
 #[swc_trace]
-impl<C: Comments> Actual<C> {
+impl Actual {
     fn visit_mut_expr_with_binding(
         &mut self,
         expr: &mut Expr,
@@ -453,13 +444,7 @@ impl<C: Comments> Actual<C> {
                 wrapper.function = make_fn_ref(fn_expr);
                 *expr = wrapper.into();
                 if !in_iife {
-                    if let Some(c) = &mut self.comments {
-                        let mut lo = expr.span().lo;
-                        if lo.is_dummy() {
-                            lo = Span::dummy_with_cmt().lo;
-                        }
-                        c.add_pure_comment(lo);
-                    }
+                    expr.set_span(PURE_SP);
                 }
             }
 
@@ -475,13 +460,7 @@ impl<C: Comments> Actual<C> {
 
                 *expr = wrapper.into();
                 if !in_iife {
-                    if let Some(c) = &mut self.comments {
-                        let mut lo = expr.span().lo;
-                        if lo.is_dummy() {
-                            lo = Span::dummy_with_cmt().lo;
-                        }
-                        c.add_pure_comment(lo)
-                    }
+                    expr.set_span(PURE_SP);
                 }
             }
 

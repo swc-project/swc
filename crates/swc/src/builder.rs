@@ -215,7 +215,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 ),
                 Optional::new(
                     compat::es2022::es2022(
-                        comments,
                         compat::es2022::Config {
                             class_properties: compat::es2022::class_properties::Config {
                                 private_as_properties: assumptions.private_fields_as_properties,
@@ -271,7 +270,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 ignore_function_length: assumptions.ignore_function_length
                             },
                         },
-                        comments,
                         self.unresolved_mark
                     ),
                     should_enable(self.target, EsVersion::Es2017)

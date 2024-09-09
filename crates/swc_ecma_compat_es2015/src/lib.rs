@@ -72,7 +72,7 @@ where
         }),
         block_scoped_functions(),
         template_literal(c.template_literal),
-        classes(comments.clone(), c.classes),
+        classes(c.classes),
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441

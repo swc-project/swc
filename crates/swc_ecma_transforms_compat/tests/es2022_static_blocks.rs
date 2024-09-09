@@ -14,7 +14,7 @@ fn fixture(input: PathBuf) {
     let output = parent.join("output.js");
     test_fixture(
         Syntax::Es(Default::default()),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
@@ -23,7 +23,7 @@ fn fixture(input: PathBuf) {
                 Box::new(chain!(
                     resolver(unresolved_mark, top_level_mark, false),
                     static_blocks(config.static_blocks_mark),
-                    class_properties(Some(t.comments.clone()), config, unresolved_mark)
+                    class_properties(config, unresolved_mark)
                 ))
             } else {
                 Box::new(chain!(

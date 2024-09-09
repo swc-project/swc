@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark, SyntaxContext};
+use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_ast::{Ident, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
@@ -311,7 +311,7 @@ test!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
+            async_to_generator(Default::default(), mark),
             es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
@@ -330,7 +330,7 @@ test_exec!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(Default::default(), Some(comments.clone()), mark),
+            async_to_generator(Default::default(), mark),
             es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },

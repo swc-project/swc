@@ -135,7 +135,6 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                         static_block_mark
                     ));
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
-                        Some(comments.clone()),
                         Default::default(),
                         unresolved_mark
                     ));
@@ -144,7 +143,6 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
 
                 "proposal-private-methods" => {
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
-                        Some(comments.clone()),
                         Default::default(),
                         unresolved_mark
                     ));

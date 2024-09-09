@@ -1,6 +1,6 @@
-use std::{fs::File, path::PathBuf, rc::Rc};
+use std::{fs::File, path::PathBuf};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
@@ -17,7 +17,7 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(config: common_js::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Fold {
+fn tr(config: common_js::Config, is_ts: bool) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -26,7 +26,7 @@ fn tr(config: common_js::Config, is_ts: bool, comments: Rc<SingleThreadedComment
     chain!(
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
-        common_js(unresolved_mark, config, available_set, Some(comments)),
+        common_js(unresolved_mark, config, available_set),
     )
 }
 
@@ -54,7 +54,7 @@ fn esm_to_cjs(input: PathBuf) {
 
     test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
-        &|tester| tr(config.clone(), is_ts, tester.comments.clone()),
+        &|_| tr(config.clone(), is_ts),
         &input,
         &output,
         FixtureTestConfig {
@@ -66,12 +66,12 @@ fn esm_to_cjs(input: PathBuf) {
 
 test!(
     syntax(),
-    |tester| chain!(
+    |_| chain!(
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()
         }),
-        tr(Default::default(), false, tester.comments.clone())
+        tr(Default::default(), false)
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"

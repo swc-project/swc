@@ -6,7 +6,7 @@ var Base = function Base() {
     _class_call_check._(this, Base);
 };
 ;
-new /*#__PURE__*/ (function(Base) {
+new (/*#__PURE__*/ function(Base) {
     "use strict";
     _inherits._(_class, Base);
     function _class() {
@@ -17,7 +17,7 @@ new /*#__PURE__*/ (function(Base) {
     }
     return _class;
 }(Base));
-new /*#__PURE__*/ (function(Base) {
+new (/*#__PURE__*/ function(Base) {
     "use strict";
     _inherits._(_class, Base);
     function _class() {
@@ -29,7 +29,7 @@ new /*#__PURE__*/ (function(Base) {
     }
     return _class;
 }(Base));
-new /*#__PURE__*/ (function(Base) {
+new (/*#__PURE__*/ function(Base) {
     "use strict";
     _inherits._(_class, Base);
     function _class() {
@@ -41,7 +41,7 @@ new /*#__PURE__*/ (function(Base) {
     }
     return _class;
 }(Base));
-new /*#__PURE__*/ (function(Base) {
+new (/*#__PURE__*/ function(Base) {
     "use strict";
     _inherits._(_class, Base);
     function _class() {

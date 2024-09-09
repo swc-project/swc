@@ -6,7 +6,7 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-new /*#__PURE__*/ (function(SomeBaseClass) {
+new (/*#__PURE__*/ function(SomeBaseClass) {
     function SomeDerivedClass() {
         var _this;
         return _class_call_check(this, SomeDerivedClass), _get((_assert_this_initialized(_this = _call_super(this, SomeDerivedClass)), _get_prototype_of(SomeDerivedClass.prototype)), "func", _this).call(_this), _this;

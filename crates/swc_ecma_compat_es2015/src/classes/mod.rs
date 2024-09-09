@@ -2,8 +2,8 @@ use std::iter;
 
 use serde::Deserialize;
 use swc_common::{
-    collections::ARandomState, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
-    SyntaxContext, DUMMY_SP,
+    collections::ARandomState, util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -27,13 +27,9 @@ use self::{
 mod constructor;
 mod prop_name;
 
-pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
+pub fn classes(config: Config) -> impl Fold + VisitMut {
     as_folder(Classes {
         in_strict: false,
-        comments,
         config,
 
         params: Default::default(),
@@ -75,12 +71,8 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, ARandomState>;
 /// }();
 /// ```
 #[derive(Default, Clone)]
-struct Classes<C>
-where
-    C: Comments,
-{
+struct Classes {
     in_strict: bool,
-    comments: Option<C>,
     config: Config,
 
     params: Vec<Param>,
@@ -108,10 +100,7 @@ struct Data {
 }
 
 #[swc_trace]
-impl<C> Classes<C>
-where
-    C: Comments,
-{
+impl Classes {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Take,
@@ -215,10 +204,7 @@ where
 
 #[swc_trace]
 #[fast_path(ClassFinder)]
-impl<C> VisitMut for Classes<C>
-where
-    C: Comments,
-{
+impl VisitMut for Classes {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -343,18 +329,9 @@ where
 }
 
 #[swc_trace]
-impl<C> Classes<C>
-where
-    C: Comments,
-{
+impl Classes {
     fn add_pure_comments(&mut self, start: &mut BytePos) {
-        if start.is_dummy() {
-            *start = Span::dummy_with_cmt().lo;
-        }
-
-        if let Some(comments) = &self.comments {
-            comments.add_pure_comment(*start);
-        }
+        *start = BytePos::PURE;
     }
 
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Box<Class>) -> VarDecl {

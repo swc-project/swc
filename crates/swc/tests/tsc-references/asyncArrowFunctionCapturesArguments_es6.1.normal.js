@@ -4,7 +4,7 @@ class C {
     method() {
         function other() {}
         var _this = this, _arguments = arguments;
-        var fn = function() {
+        var fn = /*#__PURE__*/ function() {
             var _ref = _async_to_generator(function*() {
                 return yield other.apply(_this, _arguments);
             });
@@ -17,7 +17,7 @@ class C {
 function f() {
     var _arguments = arguments;
     return /*#__PURE__*/ _async_to_generator(function*() {
-        /*#__PURE__*/ return _async_to_generator(function*() {
+        /*#__PURE__*/ return /*#__PURE__*/ _async_to_generator(function*() {
             return _arguments.length;
         });
     });

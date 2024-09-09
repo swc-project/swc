@@ -1,4 +1,4 @@
-const foo = function() {
+const foo = /*#__PURE__*/ function() {
     var _foo = _wrap_async_generator(function*(x, y, ...z) {
         if (x) {
             return foo(0, y);

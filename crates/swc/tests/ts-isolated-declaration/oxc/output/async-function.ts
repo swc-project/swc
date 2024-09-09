@@ -14,7 +14,7 @@ function _asyncFunctionGood() {
     });
     return _asyncFunctionGood.apply(this, arguments);
 }
-var asyncFunctionGoo2 = function() {
+var asyncFunctionGoo2 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -43,7 +43,7 @@ function _asyncFunction() {
     });
     return _asyncFunction.apply(this, arguments);
 }
-var asyncFunction2 = function() {
+var asyncFunction2 = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [

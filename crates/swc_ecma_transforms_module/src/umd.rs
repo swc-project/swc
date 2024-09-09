@@ -1,7 +1,7 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
+    source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -27,22 +27,17 @@ use crate::{
 
 mod config;
 
-pub fn umd<C>(
+pub fn umd(
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-    comments: Option<C>,
-) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
+) -> impl Fold + VisitMut {
     as_folder(Umd {
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
-        comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -56,24 +51,19 @@ where
     })
 }
 
-pub fn umd_with_resolver<C>(
+pub fn umd_with_resolver(
     cm: Lrc<SourceMap>,
     resolver: Box<dyn ImportResolver>,
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-    comments: Option<C>,
-) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
+) -> impl Fold + VisitMut {
     as_folder(Umd {
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
-        comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -86,15 +76,11 @@ where
     })
 }
 
-pub struct Umd<C>
-where
-    C: Comments,
-{
+pub struct Umd {
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: BuiltConfig,
     resolver: Resolver,
-    comments: Option<C>,
 
     const_var_kind: VarDeclKind,
 
@@ -103,10 +89,7 @@ where
     exports: Option<Ident>,
 }
 
-impl<C> VisitMut for Umd<C>
-where
-    C: Comments,
-{
+impl VisitMut for Umd {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_module(&mut self, module: &mut Module) {
@@ -207,10 +190,7 @@ where
     }
 }
 
-impl<C> Umd<C>
-where
-    C: Comments,
-{
+impl Umd {
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
@@ -272,11 +252,11 @@ where
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(self.pure_span(), vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => helper_expr!(
-                            interop_require_wildcard
-                        )
-                        .as_call(self.pure_span(), vec![import_expr.as_arg(), true.as_arg()]),
+                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        ImportInterop::Node if link_flag.namespace() => {
+                            helper_expr!(interop_require_wildcard)
+                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                        }
                         _ => import_expr,
                     }
                 };
@@ -531,19 +511,5 @@ where
         .into();
 
         (adapter_fn_expr, factory_params)
-    }
-
-    fn pure_span(&self) -> Span {
-        let mut span = DUMMY_SP;
-
-        if self.config.config.import_interop().is_none() {
-            return span;
-        }
-
-        if let Some(comments) = &self.comments {
-            span = Span::dummy_with_cmt();
-            comments.add_pure_comment(span.lo);
-        }
-        span
     }
 }

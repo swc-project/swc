@@ -144,7 +144,7 @@ try {
         });
         return _ag.apply(this, arguments);
     }
-    var a = function() {
+    var a = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function() {
             var _usingCtx, d6, _;
             return _ts_generator(this, function(_state) {

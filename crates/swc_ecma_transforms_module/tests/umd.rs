@@ -25,13 +25,7 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, typescript),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
-        umd(
-            tester.cm.clone(),
-            unresolved_mark,
-            config,
-            avalible_set,
-            Some(tester.comments.clone())
-        ),
+        umd(tester.cm.clone(), unresolved_mark, config, avalible_set,),
     )
 }
 

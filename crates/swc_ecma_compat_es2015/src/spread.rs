@@ -156,7 +156,7 @@ impl VisitMut for Spread {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee_updated.unwrap_or_else(|| callee.take()),
-                    prop: MemberProp::Ident(IdentName::new("apply".into(), *span)),
+                    prop: quote_ident!("apply").into(),
                 };
 
                 *e = CallExpr {

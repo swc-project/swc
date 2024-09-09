@@ -1,4 +1,4 @@
-const x = function() {
+const x = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function*() {
         console.log((yield Promise.all([
             [
@@ -10,7 +10,7 @@ const x = function() {
             [
                 3
             ]
-        ].map(function() {
+        ].map(/*#__PURE__*/ function() {
             var _ref = _async_to_generator(function*([a]) {
                 return Promise.resolve().then(()=>a * 2);
             });
