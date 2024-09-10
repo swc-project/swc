@@ -22,10 +22,7 @@ plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { workspace = true, features = [
-  "strict",
-  "validation",
-], optional = true }
+rkyv = { workspace = true, features = ["validation"], optional = true }
 tracing = { workspace = true }
 
 better_scoped_tls = { version = "0.1.1", path = "../better_scoped_tls" }
