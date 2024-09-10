@@ -4335,12 +4335,12 @@ fn minify_number(num: f64, detect_dot: &mut bool) -> String {
         if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
             let int = num.abs() as u64;
 
-            if int < 0xffffff {
+            if int < 10000000 {
                 break 'hex;
             }
 
             // use scientific notation
-            if int % 10000 == 0 {
+            if int % 1000 == 0 {
                 break 'hex;
             }
 
