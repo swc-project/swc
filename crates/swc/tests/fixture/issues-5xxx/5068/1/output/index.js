@@ -3,7 +3,7 @@ function _templateObject() {
     var data = _tagged_template_literal([
         "\n  position: absolute;\n"
     ]);
-    _templateObject = function _templateObject() {
+    _templateObject = function _templateObject1() {
         return data;
     };
     return data;
@@ -12,7 +12,7 @@ function _templateObject1() {
     var data = _tagged_template_literal([
         "\n  position: absolute;\n"
     ]);
-    _templateObject1 = function _templateObject() {
+    _templateObject1 = function _templateObject1() {
         return data;
     };
     return data;
