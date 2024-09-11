@@ -191,7 +191,7 @@ jobs:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
   publish-npm-stable:
-    name: "Publish ${{ matrix.package }}}}@${{ inputs.version || 'stable' }} to npm"
+    name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"
     strategy:
       fail-fast: false
       matrix:

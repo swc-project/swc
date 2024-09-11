@@ -1,12 +1,19 @@
 #!/bin/sh
+set -eu
 
 mkdir -p ./artifacts_cli
 # Naive substitution to napi artifacts for the cli binary.
 for filename in artifacts/*/*.node
 do
-  BINDING_NAME=${filename#*.}
-  BINDING_ABI=${BINDING_NAME%%.*}
-  CLI_BINARY_PATH=${filename%%.*}
+  # filename: artifacts/bindings-core-1.7.24-aarch64-apple-darwin/swc.darwin-arm64.node
+
+  # BINDING_NAME: darwin-arm64.node
+  # BINDING_ABI: darwin-arm64
+  # CLI_BINARY_PATH: artifacts/bindings-core-1.7.24-aarch64-apple-darwin/swc
+
+  BINDING_NAME=$(basename "$filename")
+  BINDING_ABI=$(echo "$BINDING_NAME" | sed 's/swc\.\(.*\)\.node/\1/')
+  CLI_BINARY_PATH=$(dirname "$filename")/swc
 
   echo "Preparing build artifacts:"
   echo "Binding name $BINDING_NAME"
