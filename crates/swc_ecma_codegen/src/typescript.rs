@@ -688,11 +688,9 @@ where
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.emit_accessibility(n.accessibility)?;
+        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
-        for dec in &n.decorators {
-            emit!(dec);
-        }
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_override {
             keyword!("override");
