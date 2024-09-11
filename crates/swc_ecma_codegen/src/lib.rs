@@ -697,7 +697,7 @@ where
     fn emit_num_lit_internal(
         &mut self,
         num: &Number,
-        detect_dot: bool,
+        mut detect_dot: bool,
     ) -> std::result::Result<bool, io::Error> {
         self.wr.commit_pending_semi()?;
 
@@ -722,7 +722,7 @@ where
             if num.value.is_infinite() && num.raw.is_some() {
                 self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
             } else {
-                value = minify_number(num.value);
+                value = minify_number(num.value, &mut detect_dot);
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
             }
         } else {
@@ -4327,69 +4327,76 @@ fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
     span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.span_hi() - BytePos(1)))
 }
 
-fn minify_number(num: f64) -> String {
-    let mut printed = num.to_string();
+fn minify_number(num: f64, detect_dot: &mut bool) -> String {
+    // ddddd -> 0xhhhh
+    // len(0xhhhh) == len(ddddd)
+    // 10000000 <= num <= 0xffffff
+    'hex: {
+        if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
+            let int = num.abs() as u64;
 
-    let mut original = printed.clone();
-
-    if num.fract() == 0.0 && (i64::MIN as f64) <= num && num <= (i64::MAX as f64) {
-        let hex = format!(
-            "{}{:#x}",
-            if num.is_sign_negative() { "-" } else { "" },
-            num as i64
-        );
-
-        if hex.len() < printed.len() {
-            printed = hex;
-        }
-    }
-
-    if original.starts_with("0.") {
-        original.replace_range(0..1, "");
-    }
-
-    if original.starts_with("-0.") {
-        original.replace_range(1..2, "");
-    }
-
-    if original.starts_with(".000") {
-        let mut cnt = 3;
-
-        for &v in original.as_bytes().iter().skip(4) {
-            if v == b'0' {
-                cnt += 1;
-            } else {
-                break;
+            if int < 10000000 {
+                break 'hex;
             }
-        }
 
-        original.replace_range(0..cnt + 1, "");
-
-        let remain_len = original.len();
-
-        original.push_str("e-");
-        original.push_str(&(remain_len + cnt).to_string());
-    } else if original.ends_with("000") {
-        let mut cnt = 3;
-
-        for &v in original.as_bytes().iter().rev().skip(3) {
-            if v == b'0' {
-                cnt += 1;
-            } else {
-                break;
+            // use scientific notation
+            if int % 1000 == 0 {
+                break 'hex;
             }
+
+            *detect_dot = false;
+            return format!(
+                "{}{:#x}",
+                if num.is_sign_negative() { "-" } else { "" },
+                int
+            );
         }
-
-        original.truncate(original.len() - cnt);
-        original.push('e');
-        original.push_str(&cnt.to_string());
     }
 
-    if original.len() < printed.len() {
-        printed = original;
+    let mut num = num.to_string();
+
+    if num.contains(".") {
+        *detect_dot = false;
     }
 
-    printed
+    if let Some(num) = num.strip_prefix("0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("{}e-{}", &num[cnt..], num.len());
+        }
+        return format!(".{}", num);
+    }
+
+    if let Some(num) = num.strip_prefix("-0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("-{}e-{}", &num[cnt..], num.len());
+        }
+        return format!("-.{}", num);
+    }
+
+    if num.ends_with("000") {
+        *detect_dot = false;
+
+        let cnt = num
+            .as_bytes()
+            .iter()
+            .rev()
+            .skip(3)
+            .take_while(|&&c| c == b'0')
+            .count()
+            + 3;
+
+        num.truncate(num.len() - cnt);
+        num.push('e');
+        num.push_str(&cnt.to_string());
+    }
+
+    num
+}
+
+fn clz(s: &str) -> usize {
+    s.as_bytes().iter().take_while(|&&c| c == b'0').count()
 }
 
 fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
