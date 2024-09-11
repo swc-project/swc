@@ -14,7 +14,8 @@ export type * from "@swc/types";
 export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
-import type { NapiMinifyExtra } from "../binding";
+// @ts-ignore
+import type { NapiMinifyExtra } from "./binding";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
