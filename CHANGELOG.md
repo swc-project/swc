@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.25] - 2024-09-11
 
 ### Bug Fixes
 
@@ -1300,9 +1300,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es)** Ignore `sourceMappingURL` in string literals ([#8879](https://github.com/swc-project/swc/issues/8879)) ([d7188cd](https://github.com/swc-project/swc/commit/d7188cdb66a3bba577ebefe0c33cf77f48858d50))
 
 
 - **(es/codegen)** Use `Str.raw` for es5 ([#8873](https://github.com/swc-project/swc/issues/8873)) ([c7a06b1](https://github.com/swc-project/swc/commit/c7a06b1a5e3a59abccbd40fed1f65fcf8487fba6))
