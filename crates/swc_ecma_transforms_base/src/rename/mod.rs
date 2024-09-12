@@ -282,9 +282,41 @@ where
 
     unit!(visit_mut_private_method, PrivateMethod);
 
-    unit!(visit_mut_fn_decl, FnDecl, true);
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        if !self.config.ignore_eval && contains_eval(n, true) {
+            n.visit_mut_children_with(self);
+        } else {
+            let id = n.ident.to_id();
+            let inserted = self.preserved.insert(id.clone());
+            let map = self.get_map(n, true, false, false);
 
-    unit!(visit_mut_class_decl, ClassDecl, true);
+            if inserted {
+                self.preserved.remove(&id);
+            }
+
+            if !map.is_empty() {
+                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+            }
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        if !self.config.ignore_eval && contains_eval(n, true) {
+            n.visit_mut_children_with(self);
+        } else {
+            let id = n.ident.to_id();
+            let inserted = self.preserved.insert(id.clone());
+            let map = self.get_map(n, true, false, false);
+
+            if inserted {
+                self.preserved.remove(&id);
+            }
+
+            if !map.is_empty() {
+                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+            }
+        }
+    }
 
     fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
         match n {
