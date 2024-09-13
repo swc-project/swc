@@ -7,7 +7,14 @@ it("should transform synchronously", () => {
 	return 'foo';
 };`);
 
-    expect(code).toMatchInlineSnapshot();
+    expect(code).toMatchInlineSnapshot(`
+        "export function foo() {
+            if (false) {}
+            return 'foo';
+        }
+        ;
+        "
+    `);
 });
 
 it("should transform asynchronously", async () => {
@@ -16,6 +23,12 @@ it("should transform asynchronously", async () => {
 	}
 	return 'foo';
 };`);
-    expect(code).toMatchInlineSnapshot();
+    expect(code).toMatchInlineSnapshot(`
+        "export function foo() {
+            if (false) {}
+            return 'foo';
+        }
+        ;
+        "
+    `);
 });
-
