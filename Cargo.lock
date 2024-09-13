@@ -4128,7 +4128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.104.1"
+version = "0.104.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4669,7 +4669,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.206.0"
+version = "0.206.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5460,7 +5460,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.113.0"
+version = "0.113.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
