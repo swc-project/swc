@@ -146,6 +146,7 @@ fn get_files_list(
             .into_iter()
             .filter_map(|e| e.ok())
             .map(|e| e.into_path())
+            .filter(|e| e.is_file())
             .filter(|e| {
                 extensions
                     .iter()

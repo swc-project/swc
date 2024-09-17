@@ -144,6 +144,20 @@ fn issue_8667_1() -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn issue_9559() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(sandbox.path().join("index.ts"), r"console.log('Hello')")?;
+    fs::create_dir(sandbox.path().join("chart.js"))?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox).arg("compile").arg(sandbox.path());
+
+    cmd.assert().success();
+
+    Ok(())
+}
+
 /// ln -s $a $b
 fn symlink(a: &Path, b: &Path) {
     #[cfg(unix)]
