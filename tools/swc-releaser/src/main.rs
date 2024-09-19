@@ -77,6 +77,11 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
     }
 
+    for (pkg_name, version) in new_versions {
+        run_cargo_set_version(pkg_name, version, dry_run)
+            .with_context(|| format!("failed to set version for {}", pkg_name))?;
+    }
+
     {
         eprintln!("Removing changeset files... ");
         if !dry_run {
@@ -93,6 +98,22 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     commit(dry_run).context("failed to commit")?;
 
     Ok(())
+}
+
+fn run_cargo_set_version(pkg_name: String, version: Version, dry_run: bool) -> Result<()> {
+    let mut cmd = Command::new("cargo");
+    cmd.arg("set-version")
+        .arg("-p")
+        .arg(pkg_name)
+        .arg(version.to_string());
+
+    eprintln!("Running {:?}", cmd);
+
+    if dry_run {
+        return Ok(());
+    }
+
+    todo!()
 }
 
 fn get_swc_core_version() -> Result<String> {
