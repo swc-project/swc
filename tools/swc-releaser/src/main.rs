@@ -1,12 +1,16 @@
 use std::{
+    collections::HashMap,
     env,
     path::{Path, PathBuf},
     process::Command,
 };
 
 use anyhow::{Context, Result};
+use cargo_metadata::{semver::Version, DependencyKind};
 use changesets::ChangeType;
 use clap::{Parser, Subcommand};
+use indexmap::IndexSet;
+use petgraph::prelude::DiGraphMap;
 
 #[derive(Debug, Parser)]
 struct CliArs {
@@ -49,8 +53,27 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         return Ok(());
     }
 
+    let (versions, graph) = get_data()?;
+    let mut new_versions = VersionMap::new();
+
+    let mut worker = Bump {
+        versions: &versions,
+        graph: &graph,
+        new_versions: &mut new_versions,
+    };
+
     for (pkg_name, release) in changeset.releases {
-        bump_crate(&pkg_name, release.change_type(), dry_run)
+        let is_breaking = worker
+            .is_breaking(pkg_name.as_str(), release.change_type())
+            .with_context(|| format!("failed to check if package {} is breaking", pkg_name))?;
+
+        worker
+            .bump_crate(
+                pkg_name.as_str(),
+                release.change_type(),
+                is_breaking,
+                dry_run,
+            )
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
     }
 
@@ -105,23 +128,89 @@ fn commit(dry_run: bool) -> Result<()> {
     Ok(())
 }
 
-fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -> Result<()> {
-    let mut cmd = Command::new("cargo");
-    cmd.arg("mono").arg("bump").arg(pkg_name);
+struct Bump<'a> {
+    /// Original versions
+    versions: &'a VersionMap,
+    /// Dependency graph
+    graph: &'a InternedGraph,
 
-    if let Some(ChangeType::Minor | ChangeType::Major) = change_type {
-        cmd.arg("--breaking");
+    new_versions: &'a mut VersionMap,
+}
+
+impl<'a> Bump<'a> {
+    fn is_breaking(&self, pkg_name: &str, change_type: Option<&ChangeType>) -> Result<bool> {
+        let original_version = self
+            .versions
+            .get(pkg_name)
+            .context(format!("failed to find original version for {}", pkg_name))?;
+
+        Ok(match change_type {
+            Some(ChangeType::Major) => true,
+            Some(ChangeType::Minor) => original_version.major == 0,
+            Some(ChangeType::Patch) => false,
+            Some(ChangeType::Custom(label)) => {
+                if label == "breaking" {
+                    true
+                } else {
+                    panic!("unknown custom change type: {}", label)
+                }
+            }
+            None => false,
+        })
     }
 
-    eprintln!("Running {:?}", cmd);
+    fn bump_crate(
+        &mut self,
+        pkg_name: &str,
+        change_type: Option<&ChangeType>,
+        is_breaking: bool,
+        dry_run: bool,
+    ) -> Result<()> {
+        let original_version = self
+            .versions
+            .get(pkg_name)
+            .context(format!("failed to find original version for {}", pkg_name))?;
 
-    if dry_run {
-        return Ok(());
+        let mut new_version = original_version.clone();
+
+        match change_type {
+            Some(ChangeType::Patch) => {
+                new_version.patch += 1;
+            }
+            Some(ChangeType::Minor) => {
+                new_version.minor += 1;
+                new_version.patch = 0;
+            }
+            Some(ChangeType::Major) => {
+                new_version.major += 1;
+                new_version.minor = 0;
+                new_version.patch = 0;
+            }
+            Some(ChangeType::Custom(label)) => {
+                if label == "breaking" {
+                    if original_version.major == 0 {
+                        new_version.minor += 1;
+                        new_version.patch = 0;
+                    } else {
+                        new_version.major += 1;
+                        new_version.minor = 0;
+                        new_version.patch = 0;
+                    }
+                } else {
+                    panic!("unknown custom change type: {}", label)
+                }
+            }
+            None => {
+                new_version.patch += 1;
+            }
+        };
+
+        let new_version = original_version.clone().max(new_version);
+
+        self.new_versions.insert(pkg_name.to_string(), new_version);
+
+        Ok(())
     }
-
-    cmd.status().context("failed to bump version")?;
-
-    Ok(())
 }
 
 fn update_changelog() -> Result<()> {
@@ -134,4 +223,60 @@ fn update_changelog() -> Result<()> {
     cmd.status().context("failed to run yarn changelog")?;
 
     Ok(())
+}
+
+type VersionMap = HashMap<String, Version>;
+
+#[derive(Debug, Default)]
+struct InternedGraph {
+    ix: IndexSet<String>,
+    g: DiGraphMap<usize, ()>,
+}
+
+impl InternedGraph {
+    fn add_node(&mut self, name: String) -> usize {
+        let id = self.ix.len();
+        self.ix.insert(name);
+        self.g.add_node(id);
+        id
+    }
+
+    fn node(&self, name: &str) -> usize {
+        self.ix.get_index_of(name).expect("unknown node")
+    }
+}
+
+fn get_data() -> Result<(VersionMap, InternedGraph)> {
+    let md = cargo_metadata::MetadataCommand::new()
+        .exec()
+        .expect("failed to run cargo metadata");
+
+    let workspace_packages = md
+        .workspace_packages()
+        .into_iter()
+        .map(|p| p.name.clone())
+        .collect::<Vec<_>>();
+    let mut graph = InternedGraph::default();
+    let mut versions = VersionMap::new();
+
+    for pkg in md.workspace_packages() {
+        versions.insert(pkg.name.clone(), pkg.version.clone());
+    }
+
+    for pkg in md.workspace_packages() {
+        for dep in &pkg.dependencies {
+            if dep.kind != DependencyKind::Normal {
+                continue;
+            }
+
+            if workspace_packages.contains(&dep.name) {
+                let from = graph.add_node(pkg.name.clone());
+                let to = graph.add_node(dep.name.clone());
+
+                graph.g.add_edge(from, to, ());
+            }
+        }
+    }
+
+    Ok((versions, graph))
 }
