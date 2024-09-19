@@ -11,3 +11,4 @@ anyhow         = { workspace = true }
 cargo_metadata = { workspace = true }
 changesets     = { workspace = true }
 clap           = { version = "4.5.9", features = ["derive"] }
+petgraph       = { workspace = true }
