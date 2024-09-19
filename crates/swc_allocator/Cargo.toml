@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "0.1.8"
+version       = "0.1.9"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -38,7 +38,7 @@ triomphe = { workspace = true }
 criterion = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_malloc                = { version = "0.5.10", path = "../swc_malloc" }
+swc_malloc                = { version = "0.5.12", path = "../swc_malloc" }
 
 
 [[bench]]

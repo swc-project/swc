@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.39.0"
+version       = "0.39.1"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -41,30 +41,30 @@ ahash     = { workspace = true, optional = true }
 anyhow    = { workspace = true, optional = true }
 arbitrary = { workspace = true, features = ["derive"], optional = true }
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-bytecheck = { workspace = true, optional = true }
-cfg-if = { workspace = true }
-either = { workspace = true }
+bytecheck             = { workspace = true, optional = true }
+cfg-if                = { workspace = true }
+either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
-num-bigint = { workspace = true }
-once_cell = { workspace = true }
-parking_lot = { workspace = true, optional = true }
-rkyv = { workspace = true, features = ["validation"], optional = true }
-rustc-hash = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-siphasher = { workspace = true }
-sourcemap = { workspace = true, optional = true }
-termcolor = { workspace = true, optional = true }
-tracing = { workspace = true }
-unicode-width = { workspace = true }
-url = { workspace = true }
+num-bigint            = { workspace = true }
+once_cell             = { workspace = true }
+parking_lot           = { workspace = true, optional = true }
+rkyv                  = { workspace = true, features = ["validation"], optional = true }
+rustc-hash            = { workspace = true }
+serde                 = { workspace = true, features = ["derive"] }
+siphasher             = { workspace = true }
+sourcemap             = { workspace = true, optional = true }
+termcolor             = { workspace = true, optional = true }
+tracing               = { workspace = true }
+unicode-width         = { workspace = true }
+url                   = { workspace = true }
 
-ast_node             = { version = "0.10.0", path = "../ast_node" }
-better_scoped_tls    = { version = "0.1.1", path = "../better_scoped_tls" }
-from_variant         = { version = "0.1.8", path = "../from_variant" }
-swc_allocator        = { version = "0.1.7", path = "../swc_allocator", default-features = false }
-swc_atoms            = { version = "0.7.0", path = "../swc_atoms" }
-swc_eq_ignore_macros = { version = "0.1.3", path = "../swc_eq_ignore_macros" }
-swc_visit            = { version = "0.6.0", path = "../swc_visit" }
+ast_node             = { version = "0.10.1", path = "../ast_node" }
+better_scoped_tls    = { version = "0.1.2", path = "../better_scoped_tls" }
+from_variant         = { version = "0.1.10", path = "../from_variant" }
+swc_allocator        = { version = "0.1.9", path = "../swc_allocator", default-features = false }
+swc_atoms            = { version = "0.7.1", path = "../swc_atoms" }
+swc_eq_ignore_macros = { version = "0.1.5", path = "../swc_eq_ignore_macros" }
+swc_visit            = { version = "0.6.3", path = "../swc_visit" }
 
 
 [dev-dependencies]

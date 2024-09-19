@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_ast"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.120.0"
+version       = "0.120.1"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -32,16 +32,16 @@ serde-impl = ["serde"]
 arbitrary = { workspace = true, features = ["derive"], optional = true }
 bitflags  = { workspace = true }
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-bytecheck = { workspace = true, optional = true }
-is-macro = { workspace = true }
-num-bigint = { workspace = true, features = ["serde"] }
-phf = { workspace = true, features = ["macros"] }
-rkyv = { workspace = true, features = ["validation"], optional = true }
-scoped-tls = { workspace = true }
-serde = { workspace = true, features = ["derive"], optional = true }
-string_enum = { version = "0.4.4", path = "../string_enum" }
-swc_atoms = { version = "0.7.0", path = "../swc_atoms" }
-swc_common = { version = "0.39.0", path = "../swc_common" }
+bytecheck        = { workspace = true, optional = true }
+is-macro         = { workspace = true }
+num-bigint       = { workspace = true, features = ["serde"] }
+phf              = { workspace = true, features = ["macros"] }
+rkyv             = { workspace = true, features = ["validation"], optional = true }
+scoped-tls       = { workspace = true }
+serde            = { workspace = true, features = ["derive"], optional = true }
+string_enum      = { version = "0.4.5", path = "../string_enum" }
+swc_atoms        = { version = "0.7.1", path = "../swc_atoms" }
+swc_common       = { version = "0.39.1", path = "../swc_common" }
 unicode-id-start = { workspace = true }
 
 [dev-dependencies]

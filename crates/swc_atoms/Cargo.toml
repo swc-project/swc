@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_atoms"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.0"
+version       = "0.7.1"
 
 [lib]
 bench = false
@@ -21,6 +21,6 @@ arbitrary  = { workspace = true, optional = true }
 bytecheck  = { workspace = true, optional = true }
 hstr       = { workspace = true }
 once_cell  = { workspace = true }
+rkyv       = { workspace = true, features = ["validation"], optional = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
-rkyv       = { workspace = true, features  = ["validation"], optional = true }

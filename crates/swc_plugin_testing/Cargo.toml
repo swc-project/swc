@@ -6,7 +6,7 @@ edition       = "2021"
 license       = { workspace = true }
 name          = "swc_plugin_testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.24.1"
+version       = "0.24.2"
 
 [lib]
 bench = false
