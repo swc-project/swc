@@ -68,17 +68,12 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
             .with_context(|| format!("failed to check if package {} is breaking", pkg_name))?;
 
         worker
-            .bump_crate(
-                pkg_name.as_str(),
-                release.change_type(),
-                is_breaking,
-                dry_run,
-            )
+            .bump_crate(pkg_name.as_str(), release.change_type(), is_breaking)
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
     }
 
     for (pkg_name, version) in new_versions {
-        run_cargo_set_version(pkg_name, version, dry_run)
+        run_cargo_set_version(&pkg_name, &version, dry_run)
             .with_context(|| format!("failed to set version for {}", pkg_name))?;
     }
 
@@ -100,7 +95,7 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     Ok(())
 }
 
-fn run_cargo_set_version(pkg_name: String, version: Version, dry_run: bool) -> Result<()> {
+fn run_cargo_set_version(pkg_name: &str, version: &Version, dry_run: bool) -> Result<()> {
     let mut cmd = Command::new("cargo");
     cmd.arg("set-version")
         .arg("-p")
@@ -113,7 +108,9 @@ fn run_cargo_set_version(pkg_name: String, version: Version, dry_run: bool) -> R
         return Ok(());
     }
 
-    todo!()
+    cmd.status().context("failed to run cargo set-version")?;
+
+    Ok(())
 }
 
 fn get_swc_core_version() -> Result<String> {
@@ -185,7 +182,6 @@ impl<'a> Bump<'a> {
         pkg_name: &str,
         change_type: Option<&ChangeType>,
         is_breaking: bool,
-        dry_run: bool,
     ) -> Result<()> {
         let original_version = self
             .versions
@@ -194,48 +190,48 @@ impl<'a> Bump<'a> {
 
         let mut new_version = original_version.clone();
 
-        if is_breaking {
-            if original_version.major == 0 {
+        match change_type {
+            Some(ChangeType::Patch) => {
+                new_version.patch += 1;
+            }
+            Some(ChangeType::Minor) => {
                 new_version.minor += 1;
                 new_version.patch = 0;
-            } else {
+            }
+            Some(ChangeType::Major) => {
                 new_version.major += 1;
                 new_version.minor = 0;
                 new_version.patch = 0;
             }
-        } else {
-            match change_type {
-                Some(ChangeType::Patch) => {
-                    new_version.patch += 1;
-                }
-                Some(ChangeType::Minor) => {
-                    new_version.minor += 1;
-                    new_version.patch = 0;
-                }
-                Some(ChangeType::Major) => {
-                    new_version.major += 1;
-                    new_version.minor = 0;
-                    new_version.patch = 0;
-                }
-                Some(ChangeType::Custom(label)) => {
-                    if label == "breaking" {
-                        if original_version.major == 0 {
-                            new_version.minor += 1;
-                            new_version.patch = 0;
-                        } else {
-                            new_version.major += 1;
-                            new_version.minor = 0;
-                            new_version.patch = 0;
-                        }
+            Some(ChangeType::Custom(label)) => {
+                if label == "breaking" {
+                    if original_version.major == 0 {
+                        new_version.minor += 1;
+                        new_version.patch = 0;
                     } else {
-                        panic!("unknown custom change type: {}", label)
+                        new_version.major += 1;
+                        new_version.minor = 0;
+                        new_version.patch = 0;
                     }
+                } else {
+                    panic!("unknown custom change type: {}", label)
                 }
-                None => {
+            }
+            None => {
+                if is_breaking {
+                    if original_version.major == 0 {
+                        new_version.minor += 1;
+                        new_version.patch = 0;
+                    } else {
+                        new_version.major += 1;
+                        new_version.minor = 0;
+                        new_version.patch = 0;
+                    }
+                } else {
                     new_version.patch += 1;
                 }
-            };
-        }
+            }
+        };
 
         match self.new_versions.entry(pkg_name.to_string()) {
             Entry::Vacant(v) => {
@@ -252,7 +248,7 @@ impl<'a> Bump<'a> {
             let a = self.graph.node(pkg_name);
             for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
                 let dep_name = &*self.graph.ix[dep];
-                self.bump_crate(&dep_name, None, true, dry_run)?;
+                self.bump_crate(&dep_name, None, true)?;
             }
         }
 
