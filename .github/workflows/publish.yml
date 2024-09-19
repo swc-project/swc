@@ -57,12 +57,6 @@ jobs:
         with:
           tool: cargo-edit@0.12.2
 
-      - name: Install cargo-mono
-        if: github.event_name == 'workflow_dispatch'
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-mono@0.4.1
-
       - run: cargo bump
         if: github.event_name == 'workflow_dispatch'
         continue-on-error: true

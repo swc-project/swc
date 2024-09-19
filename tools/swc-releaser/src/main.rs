@@ -1,12 +1,16 @@
 use std::{
+    collections::{hash_map::Entry, HashMap},
     env,
     path::{Path, PathBuf},
     process::Command,
 };
 
 use anyhow::{Context, Result};
+use cargo_metadata::{semver::Version, DependencyKind};
 use changesets::ChangeType;
 use clap::{Parser, Subcommand};
+use indexmap::IndexSet;
+use petgraph::{prelude::DiGraphMap, Direction};
 
 #[derive(Debug, Parser)]
 struct CliArs {
@@ -49,9 +53,28 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         return Ok(());
     }
 
+    let (versions, graph) = get_data()?;
+    let mut new_versions = VersionMap::new();
+
+    let mut worker = Bump {
+        versions: &versions,
+        graph: &graph,
+        new_versions: &mut new_versions,
+    };
+
     for (pkg_name, release) in changeset.releases {
-        bump_crate(&pkg_name, release.change_type(), dry_run)
+        let is_breaking = worker
+            .is_breaking(pkg_name.as_str(), release.change_type())
+            .with_context(|| format!("failed to check if package {} is breaking", pkg_name))?;
+
+        worker
+            .bump_crate(pkg_name.as_str(), release.change_type(), is_breaking)
             .with_context(|| format!("failed to bump package {}", pkg_name))?;
+    }
+
+    for (pkg_name, version) in new_versions {
+        run_cargo_set_version(&pkg_name, &version, dry_run)
+            .with_context(|| format!("failed to set version for {}", pkg_name))?;
     }
 
     {
@@ -68,6 +91,24 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     }
 
     commit(dry_run).context("failed to commit")?;
+
+    Ok(())
+}
+
+fn run_cargo_set_version(pkg_name: &str, version: &Version, dry_run: bool) -> Result<()> {
+    let mut cmd = Command::new("cargo");
+    cmd.arg("set-version")
+        .arg("-p")
+        .arg(pkg_name)
+        .arg(version.to_string());
+
+    eprintln!("Running {:?}", cmd);
+
+    if dry_run {
+        return Ok(());
+    }
+
+    cmd.status().context("failed to run cargo set-version")?;
 
     Ok(())
 }
@@ -105,23 +146,114 @@ fn commit(dry_run: bool) -> Result<()> {
     Ok(())
 }
 
-fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -> Result<()> {
-    let mut cmd = Command::new("cargo");
-    cmd.arg("mono").arg("bump").arg(pkg_name);
+struct Bump<'a> {
+    /// Original versions
+    versions: &'a VersionMap,
+    /// Dependency graph
+    graph: &'a InternedGraph,
 
-    if let Some(ChangeType::Minor | ChangeType::Major) = change_type {
-        cmd.arg("--breaking");
+    new_versions: &'a mut VersionMap,
+}
+
+impl<'a> Bump<'a> {
+    fn is_breaking(&self, pkg_name: &str, change_type: Option<&ChangeType>) -> Result<bool> {
+        let original_version = self
+            .versions
+            .get(pkg_name)
+            .context(format!("failed to find original version for {}", pkg_name))?;
+
+        Ok(match change_type {
+            Some(ChangeType::Major) => true,
+            Some(ChangeType::Minor) => original_version.major == 0,
+            Some(ChangeType::Patch) => false,
+            Some(ChangeType::Custom(label)) => {
+                if label == "breaking" {
+                    true
+                } else {
+                    panic!("unknown custom change type: {}", label)
+                }
+            }
+            None => false,
+        })
     }
 
-    eprintln!("Running {:?}", cmd);
+    fn bump_crate(
+        &mut self,
+        pkg_name: &str,
+        change_type: Option<&ChangeType>,
+        is_breaking: bool,
+    ) -> Result<()> {
+        let original_version = self
+            .versions
+            .get(pkg_name)
+            .context(format!("failed to find original version for {}", pkg_name))?;
 
-    if dry_run {
-        return Ok(());
+        let mut new_version = original_version.clone();
+
+        match change_type {
+            Some(ChangeType::Patch) => {
+                new_version.patch += 1;
+            }
+            Some(ChangeType::Minor) => {
+                new_version.minor += 1;
+                new_version.patch = 0;
+            }
+            Some(ChangeType::Major) => {
+                new_version.major += 1;
+                new_version.minor = 0;
+                new_version.patch = 0;
+            }
+            Some(ChangeType::Custom(label)) => {
+                if label == "breaking" {
+                    if original_version.major == 0 {
+                        new_version.minor += 1;
+                        new_version.patch = 0;
+                    } else {
+                        new_version.major += 1;
+                        new_version.minor = 0;
+                        new_version.patch = 0;
+                    }
+                } else {
+                    panic!("unknown custom change type: {}", label)
+                }
+            }
+            None => {
+                if is_breaking {
+                    if original_version.major == 0 {
+                        new_version.minor += 1;
+                        new_version.patch = 0;
+                    } else {
+                        new_version.major += 1;
+                        new_version.minor = 0;
+                        new_version.patch = 0;
+                    }
+                } else {
+                    new_version.patch += 1;
+                }
+            }
+        };
+
+        match self.new_versions.entry(pkg_name.to_string()) {
+            Entry::Vacant(v) => {
+                v.insert(new_version);
+            }
+            Entry::Occupied(mut o) => {
+                o.insert(new_version.max(o.get().clone()));
+            }
+        }
+
+        if is_breaking {
+            // Iterate over dependants
+
+            let a = self.graph.node(pkg_name);
+            for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
+                let dep_name = &*self.graph.ix[dep];
+                self.bump_crate(dep_name, None, true)?;
+            }
+        }
+
+        Ok(())
     }
-
-    cmd.status().context("failed to bump version")?;
-
-    Ok(())
 }
 
 fn update_changelog() -> Result<()> {
@@ -134,4 +266,60 @@ fn update_changelog() -> Result<()> {
     cmd.status().context("failed to run yarn changelog")?;
 
     Ok(())
+}
+
+type VersionMap = HashMap<String, Version>;
+
+#[derive(Debug, Default)]
+struct InternedGraph {
+    ix: IndexSet<String>,
+    g: DiGraphMap<usize, ()>,
+}
+
+impl InternedGraph {
+    fn add_node(&mut self, name: String) -> usize {
+        let id = self.ix.len();
+        self.ix.insert(name);
+        self.g.add_node(id);
+        id
+    }
+
+    fn node(&self, name: &str) -> usize {
+        self.ix.get_index_of(name).expect("unknown node")
+    }
+}
+
+fn get_data() -> Result<(VersionMap, InternedGraph)> {
+    let md = cargo_metadata::MetadataCommand::new()
+        .exec()
+        .expect("failed to run cargo metadata");
+
+    let workspace_packages = md
+        .workspace_packages()
+        .into_iter()
+        .map(|p| p.name.clone())
+        .collect::<Vec<_>>();
+    let mut graph = InternedGraph::default();
+    let mut versions = VersionMap::new();
+
+    for pkg in md.workspace_packages() {
+        versions.insert(pkg.name.clone(), pkg.version.clone());
+    }
+
+    for pkg in md.workspace_packages() {
+        for dep in &pkg.dependencies {
+            if dep.kind != DependencyKind::Normal {
+                continue;
+            }
+
+            if workspace_packages.contains(&dep.name) {
+                let from = graph.add_node(pkg.name.clone());
+                let to = graph.add_node(dep.name.clone());
+
+                graph.g.add_edge(from, to, ());
+            }
+        }
+    }
+
+    Ok((versions, graph))
 }
