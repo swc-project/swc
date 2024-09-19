@@ -61,6 +61,12 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         }
     }
 
+    {
+        // Update changelog
+
+        update_changelog().with_context(|| "failed to update changelog")?;
+    }
+
     commit(dry_run).context("failed to commit")?;
 
     Ok(())
@@ -114,6 +120,18 @@ fn bump_crate(pkg_name: &str, change_type: Option<&ChangeType>, dry_run: bool) -
     }
 
     cmd.status().context("failed to bump version")?;
+
+    Ok(())
+}
+
+fn update_changelog() -> Result<()> {
+    // Run `yarn changelog`
+    let mut cmd = Command::new("yarn");
+    cmd.arg("changelog");
+
+    eprintln!("Running {:?}", cmd);
+
+    cmd.status().context("failed to run yarn changelog")?;
 
     Ok(())
 }
