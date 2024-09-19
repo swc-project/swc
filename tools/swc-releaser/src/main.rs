@@ -183,6 +183,8 @@ impl<'a> Bump<'a> {
         change_type: Option<&ChangeType>,
         is_breaking: bool,
     ) -> Result<()> {
+        eprintln!("Bumping crate: {}", pkg_name);
+
         let original_version = self
             .versions
             .get(pkg_name)
@@ -248,6 +250,7 @@ impl<'a> Bump<'a> {
             let a = self.graph.node(pkg_name);
             for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
                 let dep_name = &*self.graph.ix[dep];
+                eprintln!("Bumping dependant crate: {}", dep_name);
                 self.bump_crate(dep_name, None, true)?;
             }
         }
@@ -315,6 +318,10 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
             if workspace_packages.contains(&dep.name) {
                 let from = graph.add_node(pkg.name.clone());
                 let to = graph.add_node(dep.name.clone());
+
+                if from == to {
+                    continue;
+                }
 
                 graph.g.add_edge(from, to, ());
             }
