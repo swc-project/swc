@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::{hash_map::Entry, HashMap},
     env,
     path::{Path, PathBuf},
     process::Command,
@@ -10,7 +10,7 @@ use cargo_metadata::{semver::Version, DependencyKind};
 use changesets::ChangeType;
 use clap::{Parser, Subcommand};
 use indexmap::IndexSet;
-use petgraph::prelude::DiGraphMap;
+use petgraph::{prelude::DiGraphMap, Direction};
 
 #[derive(Debug, Parser)]
 struct CliArs {
@@ -173,41 +173,67 @@ impl<'a> Bump<'a> {
 
         let mut new_version = original_version.clone();
 
-        match change_type {
-            Some(ChangeType::Patch) => {
-                new_version.patch += 1;
-            }
-            Some(ChangeType::Minor) => {
+        if is_breaking {
+            if original_version.major == 0 {
                 new_version.minor += 1;
                 new_version.patch = 0;
-            }
-            Some(ChangeType::Major) => {
+            } else {
                 new_version.major += 1;
                 new_version.minor = 0;
                 new_version.patch = 0;
             }
-            Some(ChangeType::Custom(label)) => {
-                if label == "breaking" {
-                    if original_version.major == 0 {
-                        new_version.minor += 1;
-                        new_version.patch = 0;
-                    } else {
-                        new_version.major += 1;
-                        new_version.minor = 0;
-                        new_version.patch = 0;
-                    }
-                } else {
-                    panic!("unknown custom change type: {}", label)
+        } else {
+            match change_type {
+                Some(ChangeType::Patch) => {
+                    new_version.patch += 1;
                 }
-            }
-            None => {
-                new_version.patch += 1;
-            }
-        };
+                Some(ChangeType::Minor) => {
+                    new_version.minor += 1;
+                    new_version.patch = 0;
+                }
+                Some(ChangeType::Major) => {
+                    new_version.major += 1;
+                    new_version.minor = 0;
+                    new_version.patch = 0;
+                }
+                Some(ChangeType::Custom(label)) => {
+                    if label == "breaking" {
+                        if original_version.major == 0 {
+                            new_version.minor += 1;
+                            new_version.patch = 0;
+                        } else {
+                            new_version.major += 1;
+                            new_version.minor = 0;
+                            new_version.patch = 0;
+                        }
+                    } else {
+                        panic!("unknown custom change type: {}", label)
+                    }
+                }
+                None => {
+                    new_version.patch += 1;
+                }
+            };
+        }
 
-        let new_version = original_version.clone().max(new_version);
+        match self.new_versions.entry(pkg_name.to_string()) {
+            Entry::Vacant(v) => {
+                v.insert(new_version);
+            }
+            Entry::Occupied(mut o) => {
+                o.insert(new_version.max(o.get().clone()));
+            }
+        }
 
-        self.new_versions.insert(pkg_name.to_string(), new_version);
+        if is_breaking {
+            // Iterate over dependants
+
+            let a = self.graph.node(pkg_name);
+            for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
+                let dep_name = self.graph.ix[dep];
+                self.bump_crate(&dep_name, None, true, dry_run)?;
+            }
+        }
 
         Ok(())
     }
