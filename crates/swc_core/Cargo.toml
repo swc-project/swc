@@ -340,7 +340,7 @@ once_cell = { workspace = true, optional = true }
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.80.1", path = "../binding_macros" }
 swc                              = { optional = true, version = "0.288.1", path = "../swc" }
-swc_atoms                        = { optional = true, version = "0.7.1", path = "../swc_atoms" }
+swc_atoms                        = { optional = true, version = "1.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.240.1", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.21", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "0.39.1", path = "../swc_common" }

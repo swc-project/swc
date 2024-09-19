@@ -58,11 +58,11 @@ tracing               = { workspace = true }
 unicode-width         = { workspace = true }
 url                   = { workspace = true }
 
-ast_node             = { version = "0.10.1", path = "../ast_node" }
+ast_node             = { version = "1.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "0.1.2", path = "../better_scoped_tls" }
 from_variant         = { version = "0.1.10", path = "../from_variant" }
 swc_allocator        = { version = "0.1.9", path = "../swc_allocator", default-features = false }
-swc_atoms            = { version = "0.7.1", path = "../swc_atoms" }
+swc_atoms            = { version = "1.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "0.1.5", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "0.6.3", path = "../swc_visit" }
 

@@ -18,7 +18,7 @@ bench = false
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
-swc_atoms       = { version = "0.7.1", path = "../swc_atoms" }
+swc_atoms       = { version = "1.0.0", path = "../swc_atoms" }
 swc_common      = { version = "0.39.1", path = "../swc_common" }
 swc_css_ast     = { version = "0.146.1", path = "../swc_css_ast" }
 swc_css_codegen = { version = "0.157.1", path = "../swc_css_codegen" }

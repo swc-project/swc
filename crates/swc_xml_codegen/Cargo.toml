@@ -20,7 +20,7 @@ auto_impl  = { workspace = true }
 bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
 
-swc_atoms              = { version = "0.7.1", path = "../swc_atoms" }
+swc_atoms              = { version = "1.0.0", path = "../swc_atoms" }
 swc_common             = { version = "0.39.1", path = "../swc_common" }
 swc_xml_ast            = { version = "0.18.1", path = "../swc_xml_ast" }
 swc_xml_codegen_macros = { version = "0.1.5", path = "../swc_xml_codegen_macros" }
