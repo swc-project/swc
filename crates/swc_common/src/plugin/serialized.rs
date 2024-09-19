@@ -103,11 +103,15 @@ impl PluginSerializedBytes {
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>
+            + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
+        let archived = rkyv::check_archived_root::<VersionedSerializable<W>>(&self.field[..])
+            .map_err(|err| {
+                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
+            })?;
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())

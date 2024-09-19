@@ -138,6 +138,8 @@ impl VisitMut for AddAttr {
     fn visit_field_mut(&mut self, f: &mut Field) {
         f.attrs
             .push(parse_quote!(#[cfg_attr(feature = "__rkyv", omit_bounds)]));
+        f.attrs
+            .push(parse_quote!(#[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]));
     }
 }
 
@@ -203,14 +205,13 @@ pub fn ast_node(
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+                #[cfg_attr(feature = "rkyv-impl", archive_attr(check_bytes(
+                    bound = "__C: rkyv::validation::ArchiveContext, <__C as rkyv::Fallible>::Error: std::error::Error"
+                )))]
                 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    archive(bound(
-                        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                    ))
-                )]
+                #[cfg_attr(feature = "rkyv-impl", archive(
+                    bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer")
+                ))]
                 #[cfg_attr(
                     feature = "serde-impl",
                     serde(untagged)
@@ -267,16 +268,13 @@ pub fn ast_node(
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+                #[cfg_attr(feature = "rkyv-impl", archive_attr(check_bytes(
+                    bound = "__C: rkyv::validation::ArchiveContext, <__C as rkyv::Fallible>::Error: std::error::Error"
+                )))]
                 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    archive(
-                        bound(
-                            serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                            deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                        )
-                    )
-                )]
+                #[cfg_attr(feature = "rkyv-impl", archive(
+                    bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer")
+                ))]
                 #serde_tag
                 #[cfg_attr(
                     feature = "serde-impl",

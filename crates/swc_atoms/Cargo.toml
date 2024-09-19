@@ -23,8 +23,4 @@ hstr       = { workspace = true }
 once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
-
-  [dependencies.rkyv]
-  features  = ["strict", "validation"]
-  optional  = true
-  workspace = true
+rkyv       = { workspace = true, features  = ["validation"], optional = true }

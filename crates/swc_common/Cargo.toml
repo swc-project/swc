@@ -48,10 +48,7 @@ new_debug_unreachable = { workspace = true }
 num-bigint = { workspace = true }
 once_cell = { workspace = true }
 parking_lot = { workspace = true, optional = true }
-rkyv = { workspace = true, features = [
-  "strict",
-  "validation",
-], optional = true }
+rkyv = { workspace = true, features = ["validation"], optional = true }
 rustc-hash = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 siphasher = { workspace = true }

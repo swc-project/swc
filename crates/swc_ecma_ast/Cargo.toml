@@ -36,10 +36,7 @@ bytecheck = { workspace = true, optional = true }
 is-macro = { workspace = true }
 num-bigint = { workspace = true, features = ["serde"] }
 phf = { workspace = true, features = ["macros"] }
-rkyv = { workspace = true, features = [
-  "strict",
-  "validation",
-], optional = true }
+rkyv = { workspace = true, features = ["validation"], optional = true }
 scoped-tls = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 string_enum = { version = "0.4.4", path = "../string_enum" }
