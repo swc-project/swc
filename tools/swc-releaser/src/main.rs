@@ -230,7 +230,7 @@ impl<'a> Bump<'a> {
 
             let a = self.graph.node(pkg_name);
             for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
-                let dep_name = self.graph.ix[dep];
+                let dep_name = &*self.graph.ix[dep];
                 self.bump_crate(&dep_name, None, true, dry_run)?;
             }
         }
