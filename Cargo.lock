@@ -3932,6 +3932,7 @@ dependencies = [
  "cargo_metadata",
  "changesets",
  "clap 4.5.9",
+ "petgraph",
 ]
 
 [[package]]
