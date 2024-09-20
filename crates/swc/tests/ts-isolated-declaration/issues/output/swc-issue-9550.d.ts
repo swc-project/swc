@@ -3,7 +3,4 @@
  * @param a - string param
  * @param b - number param
  * @returns - object with a and b
- */
-function sampleFunc(a: string, b: number) {
-    return { a, b };
-}
+ */ declare function sampleFunc(a: string, b: number);
