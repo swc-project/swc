@@ -23,6 +23,7 @@ pub struct DocumentFragment {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
@@ -75,6 +76,7 @@ impl EqIgnoreSpan for DocumentType {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
