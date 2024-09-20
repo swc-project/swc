@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "experimental": {
+            "emitIsolatedDts": true
+        }
+    },
+    "isModule": true
+}
