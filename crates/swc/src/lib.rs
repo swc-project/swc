@@ -113,6 +113,7 @@ pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
 
 use std::{
+    cell::RefCell,
     fs::{read_to_string, File},
     io::ErrorKind,
     path::{Path, PathBuf},
@@ -136,7 +137,7 @@ use swc_common::{
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::{to_code, Node};
+use swc_ecma_codegen::{to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -724,7 +725,7 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, fm.clone(), orig.as_ref(), config)
+            self.apply_transforms(handler, comments.clone(), fm.clone(), orig.as_ref(), config)
         })
     }
 
@@ -944,6 +945,7 @@ impl Compiler {
     fn apply_transforms(
         &self,
         handler: &Handler,
+        comments: SingleThreadedComments,
         fm: Arc<SourceFile>,
         orig: Option<&sourcemap::SourceMap>,
         config: BuiltInput<impl swc_ecma_visit::Fold>,
@@ -971,6 +973,12 @@ impl Compiler {
             };
 
             let dts_code = if emit_dts && program.is_module() {
+                let (leading, trailing) = comments.borrow_all();
+
+                let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
+                let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
+
+                let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
                 let mut checker = FastDts::new(fm.name.clone());
                 let mut module = program.clone().expect_module();
 
@@ -983,7 +991,7 @@ impl Compiler {
                         .struct_span_err(range.span, &issue.to_string())
                         .emit();
                 }
-                let dts_code = to_code(&module);
+                let dts_code = to_code_with_comments(Some(&comments), &module);
                 Some(dts_code)
             } else {
                 None
