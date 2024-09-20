@@ -6,7 +6,7 @@ export default class Demo {
             bitField += B.encode(curValue);
             range.push(i);
             ranges.push(range);
-        }), retrString += '.' + C.encode(ranges);
+        }), retrString += '.', retrString += C.encode(ranges);
     }
 }
 console.log(Deno.encode());

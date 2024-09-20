@@ -1586,7 +1586,7 @@
             function Wt(t) {
                 if (null === t.A) {
                     let t1 = t.path.canonicalString();
-                    null !== t.collectionGroup && (t1 += "|cg:" + t.collectionGroup), t1 += "|f:" + t.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(",") + "|ob:" + t.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(t.limit) || (t1 += "|l:" + t.limit), t.startAt && (t1 += "|lb:" + ce(t.startAt)), t.endAt && (t1 += "|ub:" + ce(t.endAt)), t.A = t1;
+                    null !== t.collectionGroup && (t1 += "|cg:" + t.collectionGroup), t1 += "|f:", t1 += t.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(","), t1 += "|ob:", t1 += t.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(t.limit) || (t1 += "|l:", t1 += t.limit), t.startAt && (t1 += "|lb:", t1 += ce(t.startAt)), t.endAt && (t1 += "|ub:", t1 += ce(t.endAt)), t.A = t1;
                 }
                 return t.A;
             }

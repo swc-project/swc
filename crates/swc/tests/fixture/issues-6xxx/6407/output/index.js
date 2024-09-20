@@ -3,7 +3,7 @@ export default class Demo {
         let ranges = [], range = [], retrString = A.encode(value), bitField = '';
         return value.forEach((curValue, i)=>{
             bitField += B.encode(curValue), range.push(i), ranges.push(range);
-        }), retrString += '.' + C.encode(ranges);
+        }), retrString += '.', retrString += C.encode(ranges);
     }
 }
 console.log(Deno.encode());

@@ -22544,7 +22544,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
-                                        res += (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += void 0 !== tmp ? tmp : 'null', res += join;
                                     }
                                     const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
@@ -22597,7 +22597,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
-                                        res += (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += void 0 !== tmp ? tmp : 'null', res += join;
                                     }
                                     const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
@@ -22648,7 +22648,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
-                                        res += (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += void 0 !== tmp ? tmp : 'null', res += join;
                                     }
                                     const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
                                     if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
@@ -22705,7 +22705,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifySimple(i, value[i], stack);
-                                        res += (void 0 !== tmp ? tmp : 'null') + ',';
+                                        res += void 0 !== tmp ? tmp : 'null', res += ',';
                                     }
                                     const tmp = stringifySimple(i, value[i], stack);
                                     if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {

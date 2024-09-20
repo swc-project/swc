@@ -19377,7 +19377,8 @@
                                     dts: buffer[0].dts
                                 }; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
                                  // find the start of the first frame and the end of the tag
-                                frameStart = 10, 0x40 & tag.data[5] && (frameStart += 4 + parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
+                                frameStart = 10, 0x40 & tag.data[5] && (// advance the frame start past the extended header
+                                frameStart += 4, frameStart += parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
                                 // http://id3.org/id3v2.3.0#ID3v2_frame_overview
                                 do {
                                     if (// determine the number of bytes in this frame
@@ -19395,7 +19396,7 @@
                                         var d = frame.data, size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
                                         size *= 4, size += 0x03 & d[7], frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
                                     }
-                                    tag.frames.push(frame), frameStart += 10 + frameSize;
+                                    tag.frames.push(frame), frameStart += 10, frameStart += frameSize;
                                 }while (frameStart < tagSize)
                                 this.trigger("data", tag);
                             } // collect the entire frame so it can be parsed
@@ -20125,7 +20126,8 @@
                     },
                     parseAacTimestamp: function(packet) {
                         var frameStart, frameSize, frame; // find the start of the first frame and the end of the tag
-                        frameStart = 10, 0x40 & packet[5] && (frameStart += 4 + parseSyncSafeInteger(packet.subarray(10, 14)));
+                        frameStart = 10, 0x40 & packet[5] && (// advance the frame start past the extended header
+                        frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
                         // http://id3.org/id3v2.3.0#ID3v2_frame_overview
                         do {
                             if (// determine the number of bytes in this frame
@@ -20140,7 +20142,7 @@
                                     break;
                                 }
                             }
-                            frameStart += 10 + frameSize; // advance past the frame body
+                            frameStart += 10, frameStart += frameSize;
                         }while (frameStart < packet.byteLength)
                         return null;
                     }
@@ -20567,7 +20569,8 @@
                 var transmuxer_Transmuxer = _Transmuxer, bin_toUnsigned = function(value) {
                     return value >>> 0;
                 }, parseType_1 = function(buffer) {
-                    return "" + (String.fromCharCode(buffer[0]) + String.fromCharCode(buffer[1]) + String.fromCharCode(buffer[2]) + String.fromCharCode(buffer[3]));
+                    var result = "";
+                    return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]);
                 }, findBox_1 = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) // short-circuit the search for empty paths
