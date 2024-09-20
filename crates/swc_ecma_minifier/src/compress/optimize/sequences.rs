@@ -8,6 +8,7 @@ use swc_ecma_usage_analyzer::{
 };
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, IdentUsageFinder, StmtLike,
+    Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -2379,6 +2380,8 @@ impl Optimizer<'_> {
             Mergable::Drop => return Ok(false),
         };
 
+        let a_type = a_right.as_deref().map(|a| a.get_type());
+
         if let Some(a_right) = a_right {
             if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
@@ -2482,8 +2485,13 @@ impl Optimizer<'_> {
                         _ => None,
                     };
 
+                    let Some(a_type) = a_type else {
+                        return Ok(false);
+                    };
+                    let b_type = b.right.get_type();
+
                     if let Some(a_op) = a_op {
-                        if can_drop_op_for(a_op, b.op) {
+                        if can_drop_op_for(a_op, b.op, a_type, b_type) {
                             if b_left.to_id() == left_id.to_id() {
                                 if let Some(bin_op) = b.op.to_update() {
                                     report_change!(
@@ -2715,13 +2723,17 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
 }
 
 /// This assumes `a.left.to_id() == b.left.to_id()`
-fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
+fn can_drop_op_for(a: AssignOp, b: AssignOp, a_type: Value<Type>, b_type: Value<Type>) -> bool {
     if a == op!("=") {
         return true;
     }
 
     if a == b {
-        return matches!(a, op!("+=") | op!("*="));
+        if a == op!("+=") && a_type.is_known() && a_type == b_type {
+            return true;
+        }
+
+        return matches!(a, op!("*="));
     }
 
     false
