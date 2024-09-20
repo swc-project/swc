@@ -23267,7 +23267,7 @@
                 }, Toolbar.prototype.itemWidthCal = function(items) {
                     var style, _this = this, width = 0;
                     return [].slice.call((0, ej2_base /* selectAll */ .td)('.' + CLS_ITEM, items)).forEach(function(el) {
-                        (0, ej2_base /* isVisible */ .pn)(el) && (style = window.getComputedStyle(el), width += (_this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight) + parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
+                        (0, ej2_base /* isVisible */ .pn)(el) && (style = window.getComputedStyle(el), width += _this.isVertical ? el.offsetHeight : el.offsetWidth, width += parseFloat(_this.isVertical ? style.marginTop : style.marginRight), width += parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
                     }), width;
                 }, Toolbar.prototype.getScrollCntEle = function(innerItem) {
                     var trgClass = this.isVertical ? '.e-vscroll-content' : '.e-hscroll-content';

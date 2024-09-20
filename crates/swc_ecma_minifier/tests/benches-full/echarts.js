@@ -5716,7 +5716,7 @@
                     var width = data[i++], height = data[i++];
                     if (x1 = x0 + width, y1 = y0 + height, isStroke) {
                         if (containStroke(x0, y0, x1, y0, lineWidth, x, y) || containStroke(x1, y0, x1, y1, lineWidth, x, y) || containStroke(x1, y1, x0, y1, lineWidth, x, y) || containStroke(x0, y1, x0, y0, lineWidth, x, y)) return !0;
-                    } else w += windingLine(x1, y0, x1, y1, x, y) + windingLine(x0, y1, x0, y0, x, y);
+                    } else w += windingLine(x1, y0, x1, y1, x, y), w += windingLine(x0, y1, x0, y0, x, y);
                     break;
                 case CMD$1.Z:
                     if (isStroke) {
