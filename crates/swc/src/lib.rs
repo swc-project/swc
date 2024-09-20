@@ -136,7 +136,7 @@ use swc_common::{
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::{to_code, Node};
+use swc_ecma_codegen::{to_code, to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -971,6 +971,7 @@ impl Compiler {
             };
 
             let dts_code = if emit_dts && program.is_module() {
+                let comments = self.comments.clone();
                 let mut checker = FastDts::new(fm.name.clone());
                 let mut module = program.clone().expect_module();
 
@@ -983,7 +984,7 @@ impl Compiler {
                         .struct_span_err(range.span, &issue.to_string())
                         .emit();
                 }
-                let dts_code = to_code(&module);
+                let dts_code = to_code_with_comments(comments, &module);
                 Some(dts_code)
             } else {
                 None
