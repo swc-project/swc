@@ -1,4 +1,4 @@
-function panUpdate(e) {
+export function panUpdate(e) {
     if (!moveDirectionExpected) {
         panStart = false;
         return;
