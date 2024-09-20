@@ -1277,15 +1277,22 @@ impl Take for Import {
     archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    archive_attr(check_bytes(bound = "__C: rkyv::validation::ArchiveContext, <__C as \
+                                      rkyv::Fallible>::Error: std::error::Error"))
+)]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
     pub expr: Box<Expr>,
 }
 

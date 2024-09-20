@@ -23,9 +23,15 @@ pub struct Tuple(#[span] HasSpan, usize, usize);
     archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    archive_attr(check_bytes(bound = "__C: rkyv::validation::ArchiveContext, <__C as \
+                                      rkyv::Fallible>::Error: std::error::Error"))
+)]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct HasSpan {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
     pub span: Span,
 }
 

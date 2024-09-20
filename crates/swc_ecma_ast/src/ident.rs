@@ -24,15 +24,22 @@ use crate::{typescript::TsTypeAnn, Expr};
     archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    archive_attr(check_bytes(bound = "__C: rkyv::validation::ArchiveContext, <__C as \
+                                      rkyv::Fallible>::Error: std::error::Error"))
+)]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
     pub id: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
