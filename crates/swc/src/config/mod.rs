@@ -1309,8 +1309,8 @@ impl ModuleConfig {
         };
 
         match config {
-            None => Box::new(noop()),
-            Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver {
+            None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
+            {
                 Resolver::Default => Box::new(noop()),
                 Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
             },
