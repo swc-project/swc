@@ -1,9 +1,8 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
-    SyntaxContext, DUMMY_SP,
-    comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext, DUMMY_SP,
+    source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -39,9 +38,7 @@ pub fn umd(
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
-        resolver: Resolver::Default,
         resolver,
-        comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -51,40 +48,11 @@ pub fn umd(
 
         dep_list: Default::default(),
 
-        exports: None,
-    })
-}
-
-pub fn umd_with_resolver(
-    cm: Lrc<SourceMap>,
-    resolver: Box<dyn ImportResolver>,
-    base: FileName,
-    unresolved_mark: Mark,
-    config: Config,
-    available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
-    as_folder(Umd {
-        config: config.build(cm.clone()),
-        unresolved_mark,
-        cm,
-        resolver: Resolver::Real { base, resolver },
-
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
-            VarDeclKind::Const
-        } else {
-            VarDeclKind::Var
-        },
-
-        dep_list: Default::default(),
         exports: None,
     })
 }
 
 pub struct Umd {
-pub struct Umd<C>
-where
-    C: Comments,
-{
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: BuiltConfig,

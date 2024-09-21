@@ -1319,7 +1319,6 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
                 available_features,
-                comments,
             )),
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
                 cm,
@@ -1327,7 +1326,6 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
                 available_features,
-                comments,
             )),
             Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(
                 resolver,
@@ -1370,43 +1368,6 @@ impl ModuleConfig {
                 build_resolver(base_url, paths, config.resolve_fully)
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                if skip_resolver {
-                    Box::new(modules::common_js::common_js(
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
-                    Box::new(modules::common_js::common_js_with_resolver(
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                }
-            }
-            Some(ModuleConfig::Umd(config)) => {
-                if skip_resolver {
-                    Box::new(modules::umd::umd(
-                        cm,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
-
-                    Box::new(modules::umd::umd_with_resolver(
-                        cm,
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                }
                 build_resolver(base_url, paths, config.resolve_fully)
             }
             Some(ModuleConfig::Umd(config)) => {
