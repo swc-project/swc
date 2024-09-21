@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
@@ -6,25 +8,16 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 use crate::path::ImportResolver;
 
 /// Import rewriter, which rewrites imports as es modules.
-pub fn import_rewriter<R>(base: FileName, resolver: R) -> impl Fold + VisitMut
-where
-    R: ImportResolver,
-{
+pub fn import_rewriter(base: FileName, resolver: Arc<dyn ImportResolver>) -> impl Fold + VisitMut {
     as_folder(Rewriter { base, resolver })
 }
 
-struct Rewriter<R>
-where
-    R: ImportResolver,
-{
+struct Rewriter {
     base: FileName,
-    resolver: R,
+    resolver: Arc<dyn ImportResolver>,
 }
 
-impl<R> VisitMut for Rewriter<R>
-where
-    R: ImportResolver,
-{
+impl VisitMut for Rewriter {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {

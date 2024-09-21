@@ -1,6 +1,8 @@
 use swc_common::{
     collections::AHashSet, source_map::PURE_SP, util::take::Take, FileName, Mark, Span,
     SyntaxContext, DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, Mark, Span, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -15,7 +17,7 @@ use crate::{
         Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
     },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
-    path::{ImportResolver, Resolver},
+    path::Resolver,
     top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, prop_name, use_strict,
@@ -24,6 +26,8 @@ use crate::{
 };
 
 pub fn common_js(
+pub fn common_js<C>(
+    resolver: Resolver,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
@@ -52,6 +56,7 @@ pub fn common_js_with_resolver(
     as_folder(Cjs {
         config,
         resolver: Resolver::Real { base, resolver },
+        resolver,
         unresolved_mark,
         available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),

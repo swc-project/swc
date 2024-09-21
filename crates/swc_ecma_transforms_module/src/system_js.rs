@@ -1,7 +1,7 @@
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, FileName, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
@@ -9,7 +9,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, VisitWith};
 
 use crate::{
-    path::{ImportResolver, Resolver},
+    path::Resolver,
     top_level_this::top_level_this,
     util::{local_name_for_src, use_strict},
 };
@@ -41,35 +41,10 @@ struct SystemJs {
     context_ident: Ident,
 }
 
-pub fn system_js(unresolved_mark: Mark, config: Config) -> impl Fold {
+pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Fold {
     SystemJs {
         unresolved_mark,
-        resolver: Resolver::Default,
-        config,
-
-        declare_var_idents: Vec::new(),
-        export_map: Default::default(),
-        export_names: Vec::new(),
-        export_values: Vec::new(),
-        tla: false,
-        enter_async_fn: 0,
-        root_fn_decl_idents: Vec::new(),
-        module_item_meta_list: Vec::new(),
-        import_idents: Vec::new(),
-        export_ident: private_ident!("_export"),
-        context_ident: private_ident!("_context"),
-    }
-}
-
-pub fn system_js_with_resolver(
-    resolver: Box<dyn ImportResolver>,
-    base: FileName,
-    unresolved_mark: Mark,
-    config: Config,
-) -> impl Fold {
-    SystemJs {
-        unresolved_mark,
-        resolver: Resolver::Real { base, resolver },
+        resolver,
         config,
         declare_var_idents: Vec::new(),
         export_map: Default::default(),

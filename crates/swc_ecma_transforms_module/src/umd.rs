@@ -3,6 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span,
     SyntaxContext, DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -16,7 +17,7 @@ pub use self::config::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
-    path::{ImportResolver, Resolver},
+    path::Resolver,
     top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
@@ -29,6 +30,7 @@ mod config;
 
 pub fn umd(
     cm: Lrc<SourceMap>,
+    resolver: Resolver,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
@@ -38,6 +40,8 @@ pub fn umd(
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
+        resolver,
+        comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -77,6 +81,10 @@ pub fn umd_with_resolver(
 }
 
 pub struct Umd {
+pub struct Umd<C>
+where
+    C: Comments,
+{
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: BuiltConfig,

@@ -147,7 +147,7 @@ use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
     hygiene,
-    modules::path::NodeImportResolver,
+    modules::{path::NodeImportResolver, rewriter::import_rewriter},
     pass::noop,
     resolver,
 };
@@ -981,6 +981,10 @@ impl Compiler {
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
                 let mut checker = FastDts::new(fm.name.clone());
                 let mut module = program.clone().expect_module();
+
+                if let Some((base, resolver)) = config.resolver {
+                    module = module.fold_with(&mut import_rewriter(base, resolver));
+                }
 
                 let issues = checker.transform(&mut module);
 
