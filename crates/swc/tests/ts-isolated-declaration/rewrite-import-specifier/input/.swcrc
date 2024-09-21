@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "experimental": {
+            "emitIsolatedDts": true
+        },
+        "baseUrl": "./",
+        "paths": {
+            "@lib/*": ["src/*"]
+        }
+    }
+}
