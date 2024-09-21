@@ -17,11 +17,13 @@ use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use tracing::{debug, info, warn, Level};
 
+#[derive(Default)]
 pub enum Resolver {
     Real {
         base: FileName,
         resolver: Arc<dyn ImportResolver>,
     },
+    #[default]
     Default,
 }
 

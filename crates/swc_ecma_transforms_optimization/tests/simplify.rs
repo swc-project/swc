@@ -572,6 +572,7 @@ test!(
             import_analyzer(false.into(), false),
             inject_helpers(unresolved_mark),
             common_js(
+                Default::default(),
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),

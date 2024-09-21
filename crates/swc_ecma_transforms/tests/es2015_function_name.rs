@@ -223,7 +223,12 @@ test!(
                 legacy: true,
                 ..Default::default()
             }),
-            common_js(unresolved_mark, Default::default(), Default::default(),)
+            common_js(
+                Default::default(),
+                unresolved_mark,
+                Default::default(),
+                Default::default()
+            )
         )
     },
     function_name_modules_3,
@@ -275,7 +280,12 @@ test!(
             arrow(unresolved_mark),
             shorthand(),
             function_name(),
-            common_js(unresolved_mark, Default::default(), Default::default(),)
+            common_js(
+                Default::default(),
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+            )
         )
     },
     function_name_export_default_arrow_renaming,
@@ -642,7 +652,12 @@ test!(
             }),
             classes(Default::default()),
             function_name(),
-            common_js(unresolved_mark, Default::default(), Default::default(),)
+            common_js(
+                Default::default(),
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+            )
         )
     },
     function_name_modules_2,

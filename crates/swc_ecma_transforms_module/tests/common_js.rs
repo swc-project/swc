@@ -26,7 +26,7 @@ fn tr(config: common_js::Config, is_ts: bool) -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
-        common_js(unresolved_mark, config, available_set),
+        common_js(Default::default(), unresolved_mark, config, available_set),
     )
 }
 

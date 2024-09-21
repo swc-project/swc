@@ -18,7 +18,7 @@ fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        system_js(unresolved_mark, config)
+        system_js(Default::default(), unresolved_mark, config)
     )
 }
 
