@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,SAASA,EAAIC,CAAI,CAAEC,CAAK,EACtBD,EAAKE,SAAS,CAAC,CACXC,QAAS,GAAGF,EAAME,OAAO,CAAC,CAAC,EAAEF,EAAMG,IAAI,CAAG,CAAC;AAAC,qBAAsB,EAAEH,EAAMG,IAAI,EAAE,CAAG,IAAI,AAC3F,EACF,CACAL",
+  "mappings": "AAAA,SAASA,EAAIC,CAAI,CAAEC,CAAK,EACtBD,EAAKE,SAAS,CAAC,CACXC,QAAS,CAAC,EAAEF,EAAME,OAAO,CAAC,CAAC,EACvBF,EAAMG,IAAI,CACJ,CAAC;AAAE;AAAS;AAC5B;AAAS;AACT;AAAI,GAAG,EAAEH,EAAMG,IAAI,CAAC,CAAC,CACL,QACT,CAAC,AACN,EACF,CACAL",
   "names": [
     "foo",
     "span",
@@ -12,7 +12,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "function foo(span, error) {\n  span.setStatus({\n      message: `${error.message} ${error.code ? `\\nMongoose Error Code: ${error.code}` : ''}`,\n  });\n}\nfoo();"
+    "function foo(span, error) {\n  span.setStatus({\n      message: `${error.message} ${\n          error.code\n              ? `\\nMon\\tgo\\nos\ne Error\\n C\nod\\ne: ${error.code}`\n              : \"1\\n23\"\n      }`,\n  });\n}\nfoo();\n"
   ],
   "version": 3
 }

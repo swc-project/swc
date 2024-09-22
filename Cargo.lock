@@ -4400,6 +4400,7 @@ dependencies = [
  "memchr",
  "num-bigint",
  "once_cell",
+ "regex",
  "serde",
  "serde_json",
  "sourcemap",

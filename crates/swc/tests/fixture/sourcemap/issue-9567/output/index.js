@@ -1,2 +1,7 @@
 function e(e,o){e.setStatus({message:`${o.message} ${o.code?`
-Mongoose Error Code: ${o.code}`:""}`})}e();
+Mon	go
+os
+e Error
+ C
+od
+e: ${o.code}`:"1\n23"}`})}e();

@@ -139,6 +139,8 @@ fn replace_close_inline_script(raw: &str) -> Cow<str> {
     Cow::Owned(result)
 }
 
+static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
+
 impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
@@ -1983,24 +1985,24 @@ where
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
             let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
             let span = node.span();
-            let mut last_offset = 0;
-            for (offset, _) in v.match_indices('\n') {
-                self.wr.write_str_lit(
-                    Span {
-                        lo: span.lo + BytePos(last_offset as u32),
-                        hi: span.lo + BytePos((offset + 1) as u32),
-                    },
-                    &v[last_offset..=offset],
-                )?;
-                last_offset = offset + 1;
+
+            let mut last_offset_gen = 0;
+            let mut last_offset_origin = 0;
+            for ((offset_gen, _), mat) in v
+                .match_indices('\n')
+                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
+            {
+                self.wr
+                    .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                self.wr
+                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
+                last_offset_gen = offset_gen + 1;
+                last_offset_origin = mat.end();
             }
-            self.wr.write_str_lit(
-                Span {
-                    lo: span.lo + BytePos(last_offset as u32),
-                    hi: span.hi,
-                },
-                &v[last_offset..],
-            )?;
+            self.wr
+                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+            self.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
+            self.wr.add_srcmap(span.hi)?;
         } else {
             self.wr.write_str_lit(node.span(), &raw)?;
         }
