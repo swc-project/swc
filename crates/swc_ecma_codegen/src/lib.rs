@@ -1979,17 +1979,31 @@ where
 
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        srcmap!(node, true);
-
         let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
             let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
-            self.wr.write_str_lit(DUMMY_SP, &v)?;
+            let span = node.span();
+            let mut last_offset = 0;
+            for (offset, _) in v.match_indices('\n') {
+                self.wr.write_str_lit(
+                    Span {
+                        lo: span.lo + BytePos(last_offset as u32),
+                        hi: span.lo + BytePos((offset + 1) as u32),
+                    },
+                    &v[last_offset..=offset],
+                )?;
+                last_offset = offset + 1;
+            }
+            self.wr.write_str_lit(
+                Span {
+                    lo: span.lo + BytePos(last_offset as u32),
+                    hi: span.hi,
+                },
+                &v[last_offset..],
+            )?;
         } else {
-            self.wr.write_str_lit(DUMMY_SP, &raw)?;
+            self.wr.write_str_lit(node.span(), &raw)?;
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
