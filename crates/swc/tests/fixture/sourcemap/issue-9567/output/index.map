@@ -1,0 +1,18 @@
+{
+  "mappings": "AAAA,SAASA,EAAIC,CAAI,CAAEC,CAAK,EACtBD,EAAKE,SAAS,CAAC,CACXC,QAAS,GAAGF,EAAME,OAAO,CAAC,CAAC,EAAEF,EAAMG,IAAI,CAAG,CAAC;AAAC,qBAAsB,EAAEH,EAAMG,IAAI,EAAE,CAAG,IAAI,AAC3F,EACF,CACAL",
+  "names": [
+    "foo",
+    "span",
+    "error",
+    "setStatus",
+    "message",
+    "code"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "function foo(span, error) {\n  span.setStatus({\n      message: `${error.message} ${error.code ? `\\nMongoose Error Code: ${error.code}` : ''}`,\n  });\n}\nfoo();"
+  ],
+  "version": 3
+}

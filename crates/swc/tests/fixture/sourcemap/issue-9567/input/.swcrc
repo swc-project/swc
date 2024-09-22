@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2015",
+        "externalHelpers": true,
+        "loose": false,
+        "minify": {
+            "compress": true,
+            "mangle": {
+                "toplevel": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true,
+    "sourceMaps": true
+}
