@@ -750,6 +750,12 @@ impl VisitMut for FlowHelper<'_> {
     /// noop
     fn visit_mut_function(&mut self, _f: &mut Function) {}
 
+    /// noop
+    fn visit_mut_getter_prop(&mut self, _f: &mut GetterProp) {}
+
+    /// noop
+    fn visit_mut_setter_prop(&mut self, _f: &mut SetterProp) {}
+
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
 
