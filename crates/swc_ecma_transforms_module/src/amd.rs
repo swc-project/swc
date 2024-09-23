@@ -6,7 +6,7 @@ use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
     util::take::Take,
-    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
+    Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -19,7 +19,7 @@ pub use super::util::Config as InnerConfig;
 use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
-    path::{ImportResolver, Resolver},
+    path::Resolver,
     top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
@@ -39,6 +39,7 @@ pub struct Config {
 }
 
 pub fn amd<C>(
+    resolver: Resolver,
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
@@ -53,45 +54,7 @@ where
         module_id,
         config,
         unresolved_mark,
-        resolver: Resolver::Default,
-        comments,
-
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
-            VarDeclKind::Const
-        } else {
-            VarDeclKind::Var
-        },
-
-        dep_list: Default::default(),
-        require: quote_ident!(
-            SyntaxContext::empty().apply_mark(unresolved_mark),
-            "require"
-        ),
-        exports: None,
-        module: None,
-        found_import_meta: false,
-    })
-}
-
-pub fn amd_with_resolver<C>(
-    resolver: Box<dyn ImportResolver>,
-    base: FileName,
-    unresolved_mark: Mark,
-    config: Config,
-    available_features: FeatureFlag,
-    comments: Option<C>,
-) -> impl Fold + VisitMut
-where
-    C: Comments,
-{
-    let Config { module_id, config } = config;
-
-    as_folder(Amd {
-        module_id,
-        config,
-        unresolved_mark,
-        resolver: Resolver::Real { base, resolver },
+        resolver,
         comments,
 
         support_arrow: caniuse!(available_features.ArrowFunctions),

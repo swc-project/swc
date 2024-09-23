@@ -26,7 +26,13 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
     chain!(
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
-        amd(unresolved_mark, config, avalible_set, Some(comments)),
+        amd(
+            Default::default(),
+            unresolved_mark,
+            config,
+            avalible_set,
+            Some(comments)
+        ),
     )
 }
 

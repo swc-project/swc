@@ -1,4 +1,7 @@
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 use indexmap::IndexMap;
 use serde::Deserialize;
@@ -73,7 +76,7 @@ fn issue_4730() {
 
             import_rewriter(
                 FileName::Real(input_dir.join("src").join("index.js")),
-                resolver,
+                Arc::new(resolver),
             )
         },
         &input_dir.join("src").join("index.js"),
@@ -140,7 +143,7 @@ fn fixture(input_dir: PathBuf) {
 
             let resolver = paths_resolver(&base_dir, rules);
 
-            import_rewriter(FileName::Real(index_path.clone()), resolver)
+            import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
         },
         &index_path,
         &output_dir.join("index.ts"),

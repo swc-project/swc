@@ -45,8 +45,13 @@ use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
     feature::FeatureFlag,
-    hygiene, modules,
-    modules::{path::NodeImportResolver, rewriter::import_rewriter, EsModuleConfig},
+    hygiene,
+    modules::{
+        self,
+        path::{ImportResolver, NodeImportResolver, Resolver},
+        rewriter::import_rewriter,
+        EsModuleConfig,
+    },
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{
@@ -540,6 +545,9 @@ impl Options {
                 .unwrap_or_default()
         };
 
+        let paths = paths.into_iter().collect();
+        let resolver = ModuleConfig::get_resolver(&base_url, paths, base, cfg.module.as_ref());
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -564,12 +572,10 @@ impl Options {
         .preset_env(cfg.env)
         .regenerator(regenerator)
         .finalize(
-            base_url,
-            paths.into_iter().collect(),
-            base,
             syntax,
             cfg.module,
             comments.map(|v| v as _),
+            resolver.clone(),
         );
 
         let keep_import_attributes = experimental.keep_import_attributes.into_bool();
@@ -782,6 +788,7 @@ impl Options {
                 .emit_assert_for_import_attributes
                 .into_bool(),
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
+            resolver,
         })
     }
 }
@@ -1090,6 +1097,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub emit_assert_for_import_attributes: bool,
 
     pub emit_isolated_dts: bool,
+    pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
 }
 
 impl<P> BuiltInput<P>
@@ -1120,6 +1128,7 @@ where
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             emit_isolated_dts: self.emit_isolated_dts,
+            resolver: self.resolver,
         }
     }
 }
@@ -1288,14 +1297,62 @@ impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
         comments: Option<&'cmt dyn Comments>,
-        base_url: PathBuf,
+        config: Option<ModuleConfig>,
+        unresolved_mark: Mark,
+        available_features: FeatureFlag,
+        resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
+        let resolver = if let Some((base, resolver)) = resolver {
+            Resolver::Real { base, resolver }
+        } else {
+            Resolver::Default
+        };
+
+        match config {
+            None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
+            {
+                Resolver::Default => Box::new(noop()),
+                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
+            },
+            Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
+                resolver,
+                unresolved_mark,
+                config,
+                available_features,
+            )),
+            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
+                cm,
+                resolver,
+                unresolved_mark,
+                config,
+                available_features,
+            )),
+            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(
+                resolver,
+                unresolved_mark,
+                config,
+                available_features,
+                comments,
+            )),
+            Some(ModuleConfig::SystemJs(config)) => Box::new(modules::system_js::system_js(
+                resolver,
+                unresolved_mark,
+                config,
+            )),
+        }
+    }
+
+    pub fn get_resolver(
+        base_url: &Path,
         paths: CompiledPaths,
         base: &FileName,
-        unresolved_mark: Mark,
-        config: Option<ModuleConfig>,
-        available_features: FeatureFlag,
-    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
+        config: Option<&ModuleConfig>,
+    ) -> Option<(FileName, Arc<dyn ImportResolver>)> {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
+
+        if skip_resolver {
+            return None;
+        }
 
         let base = match base {
             FileName::Real(v) if !skip_resolver => {
@@ -1304,100 +1361,27 @@ impl ModuleConfig {
             _ => base.clone(),
         };
 
-        match config {
-            None => {
-                if skip_resolver {
-                    Box::new(noop())
-                } else {
-                    let resolver = build_resolver(base_url, paths, false);
-
-                    Box::new(import_rewriter(base, resolver))
-                }
-            }
+        let base_url = base_url.to_path_buf();
+        let resolver = match config {
+            None => build_resolver(base_url, paths, false),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
-                if skip_resolver {
-                    Box::new(noop())
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
-
-                    Box::new(import_rewriter(base, resolver))
-                }
+                build_resolver(base_url, paths, config.resolve_fully)
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                if skip_resolver {
-                    Box::new(modules::common_js::common_js(
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
-                    Box::new(modules::common_js::common_js_with_resolver(
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                }
+                build_resolver(base_url, paths, config.resolve_fully)
             }
             Some(ModuleConfig::Umd(config)) => {
-                if skip_resolver {
-                    Box::new(modules::umd::umd(
-                        cm,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
-
-                    Box::new(modules::umd::umd_with_resolver(
-                        cm,
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                    ))
-                }
+                build_resolver(base_url, paths, config.config.resolve_fully)
             }
             Some(ModuleConfig::Amd(config)) => {
-                if skip_resolver {
-                    Box::new(modules::amd::amd(
-                        unresolved_mark,
-                        config,
-                        available_features,
-                        comments,
-                    ))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
-
-                    Box::new(modules::amd::amd_with_resolver(
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                        available_features,
-                        comments,
-                    ))
-                }
+                build_resolver(base_url, paths, config.config.resolve_fully)
             }
             Some(ModuleConfig::SystemJs(config)) => {
-                if skip_resolver {
-                    Box::new(modules::system_js::system_js(unresolved_mark, config))
-                } else {
-                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
-
-                    Box::new(modules::system_js::system_js_with_resolver(
-                        resolver,
-                        base,
-                        unresolved_mark,
-                        config,
-                    ))
-                }
+                build_resolver(base_url, paths, config.resolve_fully)
             }
-        }
+        };
+
+        Some((base, resolver))
     }
 }
 
@@ -1712,7 +1696,7 @@ fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,
     resolve_fully: bool,
-) -> Box<SwcImportResolver> {
+) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
@@ -1731,7 +1715,7 @@ fn build_resolver(
     }
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone(), resolve_fully)) {
-        return Box::new((*cached).clone());
+        return cached.clone();
     }
 
     let r = {
@@ -1758,5 +1742,5 @@ fn build_resolver(
 
     CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
-    Box::new(r)
+    r
 }

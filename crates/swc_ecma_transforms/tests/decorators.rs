@@ -3568,6 +3568,7 @@ test!(
     |_| chain!(
         decorators(Default::default()),
         common_js(
+            Default::default(),
             Mark::fresh(Mark::root()),
             common_js::Config {
                 strict: false,
@@ -3596,6 +3597,7 @@ test!(
     |_| chain!(
         decorators(Default::default()),
         common_js::common_js(
+            Default::default(),
             Mark::fresh(Mark::root()),
             common_js::Config {
                 strict: false,
@@ -3829,6 +3831,7 @@ test!(
             classes(Default::default()),
             function_name(),
             common_js(
+                Default::default(),
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),

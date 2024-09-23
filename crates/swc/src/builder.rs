@@ -1,4 +1,4 @@
-use std::{path::PathBuf, sync::Arc};
+use std::sync::Arc;
 
 use compat::es2015::regenerator;
 use either::Either;
@@ -15,16 +15,16 @@ use swc_ecma_transforms::{
     compat,
     feature::{enable_available_feature_from_es_version, FeatureFlag},
     fixer::{fixer, paren_remover},
-    helpers, hygiene,
-    hygiene::hygiene_with_config,
-    modules,
+    helpers,
+    hygiene::{self, hygiene_with_config},
+    modules::{self, path::ImportResolver},
     optimization::const_modules,
     pass::Optional,
     resolver, Assumptions,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
+use crate::config::{GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
@@ -168,12 +168,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        base_url: PathBuf,
-        paths: CompiledPaths,
-        base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
+        resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -347,12 +345,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ModuleConfig::build(
                 self.cm.clone(),
                 comments,
-                base_url,
-                paths,
-                base,
-                self.unresolved_mark,
                 module,
-                feature_flag
+                self.unresolved_mark,
+                feature_flag,
+                resolver,
             ),
             as_folder(MinifierPass {
                 options: self.minify,
