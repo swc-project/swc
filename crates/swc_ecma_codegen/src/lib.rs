@@ -139,6 +139,8 @@ fn replace_close_inline_script(raw: &str) -> Cow<str> {
     Cow::Owned(result)
 }
 
+static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
+
 impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
@@ -1979,17 +1981,31 @@ where
 
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        srcmap!(node, true);
-
         let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
             let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
-            self.wr.write_str_lit(DUMMY_SP, &v)?;
-        } else {
-            self.wr.write_str_lit(DUMMY_SP, &raw)?;
-        }
+            let span = node.span();
 
-        srcmap!(node, false);
+            let mut last_offset_gen = 0;
+            let mut last_offset_origin = 0;
+            for ((offset_gen, _), mat) in v
+                .match_indices('\n')
+                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
+            {
+                self.wr
+                    .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                self.wr
+                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
+                last_offset_gen = offset_gen + 1;
+                last_offset_origin = mat.end();
+            }
+            self.wr
+                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+            self.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
+            self.wr.add_srcmap(span.hi)?;
+        } else {
+            self.wr.write_str_lit(node.span(), &raw)?;
+        }
     }
 
     #[emitter]
