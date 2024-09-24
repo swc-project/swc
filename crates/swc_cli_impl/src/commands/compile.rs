@@ -453,10 +453,11 @@ impl CompileOptions {
             )?;
             let mut buf = File::create(single_out_file)?;
             let mut buf_srcmap = None;
+            let mut buf_dts = None;
             let mut source_map_path = None;
 
             // write all transformed files to single output buf
-            result?.iter().try_for_each(|r| {
+            for r in result?.iter() {
                 if let Some(src_map) = r.map.as_ref() {
                     if buf_srcmap.is_none() {
                         let map_out_file = if let Some(source_map_target) = &self.source_map_target
@@ -494,8 +495,27 @@ impl CompileOptions {
                         .and(Ok(()))?;
                 }
 
-                buf.write(r.code.as_bytes()).and(Ok(()))
-            })?;
+                if let Some(extra) = &r.output {
+                    let mut extra: serde_json::Map<String, serde_json::Value> =
+                        serde_json::from_str(extra).context("failed to parse extra output")?;
+
+                    if let Some(dts_code) = extra.remove("__swc_isolated_declarations__") {
+                        if buf_dts.is_none() {
+                            let dts_file_path = single_out_file.with_extension("d.ts");
+                            buf_dts = Some(File::create(dts_file_path)?);
+                        }
+
+                        let dts_code = dts_code.as_str().expect("dts code should be string");
+                        buf_dts
+                            .as_ref()
+                            .expect("dts buffer should be available")
+                            .write(dts_code.as_bytes())
+                            .and(Ok(()))?;
+                    }
+                }
+
+                buf.write(r.code.as_bytes()).and(Ok(()))?;
+            }
 
             if let Some(source_map_path) = source_map_path {
                 buf.write_all(b"\n//# sourceMappingURL=")?;
