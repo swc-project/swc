@@ -1245,7 +1245,7 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (expr.into(), true))
                         .map(Some)
-                    } else if is_one_of!(p, '=', "as") {
+                    } else if is_one_of!(p, '=', "as", "satisfies") {
                         Ok(Some((
                             TsInstantiation {
                                 span: span!(p, start),
