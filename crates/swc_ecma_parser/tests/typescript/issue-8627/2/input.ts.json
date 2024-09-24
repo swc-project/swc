@@ -1,0 +1,122 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 69
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 13
+        },
+        "ctxt": 0,
+        "value": "Module",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 19
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 13,
+          "end": 16
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 14,
+              "end": 15
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 14,
+                "end": 15
+              },
+              "ctxt": 0,
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 21,
+        "end": 69
+      },
+      "expression": {
+        "type": "TsSatisfiesExpression",
+        "span": {
+          "start": 36,
+          "end": 68
+        },
+        "expression": {
+          "type": "TsInstantiation",
+          "span": {
+            "start": 36,
+            "end": 50
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 36,
+              "end": 42
+            },
+            "ctxt": 0,
+            "value": "Module",
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 42,
+              "end": 50
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 43,
+                  "end": 49
+                },
+                "kind": "number"
+              }
+            ]
+          }
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 61,
+            "end": 68
+          },
+          "kind": "unknown"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
