@@ -281,10 +281,11 @@ struct InternedGraph {
 
 impl InternedGraph {
     fn add_node(&mut self, name: String) -> usize {
-        let id = self.ix.len();
-        self.ix.insert(name);
-        self.g.add_node(id);
-        id
+        self.ix.get_index_of(&name).unwrap_or_else(|| {
+            let ix = self.ix.len();
+            self.ix.insert_full(name);
+            ix
+        }) as _
     }
 
     fn node(&self, name: &str) -> usize {
@@ -300,6 +301,7 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
     let workspace_packages = md
         .workspace_packages()
         .into_iter()
+        .filter(|p| p.publish != Some(vec![]))
         .map(|p| p.name.clone())
         .collect::<Vec<_>>();
     let mut graph = InternedGraph::default();
