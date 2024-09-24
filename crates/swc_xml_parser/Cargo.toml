@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = { workspace = true }
 name = "swc_xml_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.19.0"
+version = "0.20.0"
 
 [lib]
 bench = false
@@ -19,16 +19,16 @@ bench = false
 debug = []
 
 [dependencies]
-swc_atoms   = { version = "0.7.0", path = "../swc_atoms" }
-swc_common  = { version = "0.39.0", path = "../swc_common" }
-swc_xml_ast = { version = "0.18.0", path = "../swc_xml_ast" }
+swc_atoms   = { version = "1.0.0", path = "../swc_atoms" }
+swc_common  = { version = "0.40.0", path = "../swc_common" }
+swc_xml_ast = { version = "0.19.0", path = "../swc_xml_ast" }
 
 [dev-dependencies]
 serde      = { workspace = true }
 serde_json = { workspace = true }
 
-swc_xml_ast = { version = "0.18.0", path = "../swc_xml_ast", features = [
+swc_xml_ast = { version = "0.19.0", path = "../swc_xml_ast", features = [
   "serde-impl",
 ] }
-swc_xml_visit = { version = "0.18.0", path = "../swc_xml_visit" }
-testing = { version = "0.41.0", path = "../testing" }
+swc_xml_visit = { version = "0.19.0", path = "../swc_xml_visit" }
+testing = { version = "0.42.0", path = "../testing" }

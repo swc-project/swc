@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.29.0"
+version = "0.30.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -26,5 +26,5 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
 
 better_scoped_tls = { version = "0.1.1", path = "../better_scoped_tls" }
-swc_atoms         = { version = "0.7.0", path = "../swc_atoms" }
-swc_common        = { version = "0.39.0", path = "../swc_common" }
+swc_atoms         = { version = "1.0.0", path = "../swc_atoms" }
+swc_common        = { version = "0.40.0", path = "../swc_common" }

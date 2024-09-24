@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "preset_env_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.5.1"
+version       = "0.6.0"
 
 [lib]
 bench = false
@@ -22,4 +22,4 @@ serde           = { workspace = true, features = ["derive"] }
 st-map          = { workspace = true }
 tracing         = { workspace = true }
 
-from_variant = { version = "0.1.8", path = "../from_variant" }
+from_variant = { version = "1.0.0", path = "../from_variant" }
