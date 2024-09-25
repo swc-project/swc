@@ -410,6 +410,8 @@ define_helpers!(Helpers {
     ts_metadata: (),
     ts_param: (),
     ts_values: (),
+    ts_add_disposable_resource: (),
+    ts_dispose_resources: (),
 
     apply_decs_2203_r: (),
     identity: (),
