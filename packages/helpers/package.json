@@ -36,7 +36,7 @@
         "zx": "^7.2.1"
     },
     "dependencies": {
-        "tslib": "^2.4.0"
+        "tslib": "^2.7.0"
     },
     "exports": {
         "./package.json": "./package.json",
@@ -403,9 +403,17 @@
             "import": "./esm/_to_property_key.js",
             "default": "./cjs/_to_property_key.cjs"
         },
+        "./_/_ts_add_disposable_resource": {
+            "import": "./esm/_ts_add_disposable_resource.js",
+            "default": "./cjs/_ts_add_disposable_resource.cjs"
+        },
         "./_/_ts_decorate": {
             "import": "./esm/_ts_decorate.js",
             "default": "./cjs/_ts_decorate.cjs"
+        },
+        "./_/_ts_dispose_resources": {
+            "import": "./esm/_ts_dispose_resources.js",
+            "default": "./cjs/_ts_dispose_resources.cjs"
         },
         "./_/_ts_generator": {
             "import": "./esm/_ts_generator.js",
