@@ -60,6 +60,42 @@ impl ExplicitResourceManagement {
         let env = private_ident!("env");
         let catch_e = private_ident!("e");
 
+        // const env_1 = { stack: [], error: void 0, hasError: false };
+        new.push(T::from(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(env.clone().into()),
+                init: Some(Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("stack")),
+                            value: Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: vec![],
+                            })),
+                        }))),
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("error")),
+                            value: Expr::undefined(DUMMY_SP),
+                        }))),
+                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            key: PropName::Ident(quote_ident!("hasError")),
+                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value: false,
+                            }))),
+                        }))),
+                    ],
+                }))),
+                definite: false,
+            }],
+            ..Default::default()
+        })))));
+
         let try_block = BlockStmt {};
 
         let catch_clause = CatchClause {
