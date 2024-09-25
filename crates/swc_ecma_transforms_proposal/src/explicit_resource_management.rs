@@ -64,15 +64,43 @@ impl ExplicitResourceManagement {
 
         let catch_clause = CatchClause {
             span: DUMMY_SP,
-            param: Some(Pat::Ident(catch_e.clone())),
-            body: Box::new(
-                BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![],
-                    ..Default::default()
-                }
-                .into(),
-            ),
+            param: Some(Pat::Ident(catch_e.clone().into())),
+            body: BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![
+                    // env.e = e;
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(env.clone().into()),
+                            prop: MemberProp::Ident(quote_ident!("e")),
+                        }
+                        .into(),
+                        op: op!("="),
+                        right: Box::new(catch_e.clone().into()),
+                    }
+                    .into_stmt(),
+                    // env.hasError = true;
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(env.clone().into()),
+                            prop: MemberProp::Ident(quote_ident!("hasError")),
+                        }
+                        .into(),
+                        op: op!("="),
+                        right: Box::new(Expr::Lit(Lit::Bool(Bool {
+                            span: DUMMY_SP,
+                            value: true,
+                        }))),
+                    }
+                    .into_stmt(),
+                ],
+                ..Default::default()
+            }
+            .into(),
         };
 
         let try_stmt = TryStmt {
