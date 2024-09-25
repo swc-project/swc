@@ -52,7 +52,7 @@ impl ExplicitResourceManagement {
         self.state = old_state;
     }
 
-    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>)
+    fn wrap_with_try<T>(&mut self, state: State, disposable: Box<Expr>, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike,
     {
