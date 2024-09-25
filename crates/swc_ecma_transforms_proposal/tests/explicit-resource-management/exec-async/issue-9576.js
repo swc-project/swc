@@ -10,11 +10,7 @@ const disposables = [new Disposable()]
 
 for (using _ of disposables) {/* ... */ }
 
-if (disposables[0].disposed) {
-    console.log("✅ dispose ok")
-} else {
-    console.error("💥 failed to dispose")
-}
+expect(disposables[0].disposed).toBe(true);
 
 class AsyncDisposable {
     disposed = false;
