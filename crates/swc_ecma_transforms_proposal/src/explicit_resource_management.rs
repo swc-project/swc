@@ -49,8 +49,14 @@ impl ExplicitResourceManagement {
         self.state = old_state;
     }
 
-    fn wrap_with_try<T>(&mut self, state: State, disposable: Box<Expr>, stmts: &mut Vec<T>)
-    where
+    fn wrap_with_try<T>(
+        &mut self,
+        state: State,
+        name: Ident,
+        disposable: Box<Expr>,
+        is_async: bool,
+        stmts: &mut Vec<T>,
+    ) where
         T: StmtLike + ModuleItemLike,
     {
         let mut new = Vec::new();
@@ -96,7 +102,37 @@ impl ExplicitResourceManagement {
             ..Default::default()
         })))));
 
-        let try_block = BlockStmt {};
+        let init_var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(name.clone().into()),
+                init: Some(
+                    CallExpr {
+                        callee: helper!(ts, ts_add_disposable_resource),
+                        args: vec![env.clone().as_arg(), disposable.as_arg(), is_async.as_arg()],
+                        ..Default::default()
+                    }
+                    .into(),
+                ),
+                definite: false,
+            }],
+            ..Default::default()
+        })));
+
+        let mut try_block = BlockStmt {
+            stmts: vec![init_var_decl],
+            ..Default::default()
+        };
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => try_block.stmts.push(stmt),
+                Err(t) => extras.push(t),
+            }
+        }
 
         let catch_clause = CatchClause {
             span: DUMMY_SP,
