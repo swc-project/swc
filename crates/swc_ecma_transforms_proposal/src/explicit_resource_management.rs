@@ -263,6 +263,21 @@ impl VisitMut for ExplicitResourceManagement {
 fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {
     state.has_await |= using.is_await;
 
+    for decl in &mut using.decls {
+        decl.init = Some(
+            CallExpr {
+                callee: helper!(ts, ts_add_disposable_resource),
+                args: vec![
+                    state.env.clone().as_arg(),
+                    decl.init.take().unwrap().as_arg(),
+                    using.is_await.as_arg(),
+                ],
+                ..Default::default()
+            }
+            .into(),
+        );
+    }
+
     Box::new(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
