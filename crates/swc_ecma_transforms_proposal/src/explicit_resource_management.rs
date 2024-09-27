@@ -2,8 +2,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_pat_ids, private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory,
-    ModuleItemLike, StmtLike,
+    private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
+    StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -20,14 +20,17 @@ struct ExplicitResourceManagement {
 
 struct State {
     env: Ident,
+    has_await: bool,
+
+    vars: Vec<(Pat, Box<Expr>)>,
 }
 
 impl Default for State {
     fn default() -> Self {
         Self {
-            using_ctx: private_ident!("_usingCtx"),
-            catch_var: private_ident!("_"),
+            env: private_ident!("env"),
             has_await: false,
+            vars: Vec::new(),
         }
     }
 }
@@ -49,22 +52,19 @@ impl ExplicitResourceManagement {
         self.state = old_state;
     }
 
-    fn wrap_with_try<T>(
-        &mut self,
-        state: State,
-        name: Ident,
-        disposable: Box<Expr>,
-        is_async: bool,
-        stmts: &mut Vec<T>,
-    ) where
+    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>)
+    where
         T: StmtLike + ModuleItemLike,
     {
         let mut new = Vec::new();
         let mut extras = Vec::new();
-        let mut try_body = Vec::new();
 
-        let env = private_ident!("env");
+        let env = state.env;
         let catch_e = private_ident!("e");
+
+        let name = state.vars[0].0.clone();
+        let disposable = state.vars[0].1.clone();
+        let is_async = state.has_await;
 
         // const env_1 = { stack: [], error: void 0, hasError: false };
         new.push(T::from(Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -108,7 +108,7 @@ impl ExplicitResourceManagement {
             declare: false,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(name.clone().into()),
+                name,
                 init: Some(
                     CallExpr {
                         callee: helper!(ts, ts_add_disposable_resource),
@@ -171,8 +171,7 @@ impl ExplicitResourceManagement {
                     .into_stmt(),
                 ],
                 ..Default::default()
-            }
-            .into(),
+            },
         };
 
         let try_stmt = TryStmt {
@@ -208,18 +207,14 @@ impl VisitMut for ExplicitResourceManagement {
         n.visit_mut_children_with(self);
 
         if let ForHead::UsingDecl(decl) = &mut n.left {
-            let state = State::default();
+            let mut state = State::default();
 
-            n.left = ForHead::VarDecl(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Const,
-                declare: false,
-                decls: decl.decls.take(),
-                ..Default::default()
-            }));
+            let var_decl = handle_using_decl(decl, &mut state);
 
             let mut body = vec![*n.body.take()];
             self.wrap_with_try(state, &mut body);
+
+            n.left = ForHead::VarDecl(var_decl);
             n.body = Box::new(
                 BlockStmt {
                     span: DUMMY_SP,
@@ -238,48 +233,12 @@ impl VisitMut for ExplicitResourceManagement {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         maybe_grow_default(|| s.visit_mut_children_with(self));
 
-        if let Stmt::Decl(Decl::Using(decl)) = s {
+        if let Stmt::Decl(Decl::Using(using)) = s {
             let state = self.state.get_or_insert_with(Default::default);
 
-            state.has_await |= decl.is_await;
+            let decl = handle_using_decl(using, state);
 
-            *s = VarDecl {
-                span: DUMMY_SP,
-                kind: if self.is_not_top_level {
-                    VarDeclKind::Const
-                } else {
-                    VarDeclKind::Var
-                },
-                declare: Default::default(),
-                decls: decl
-                    .decls
-                    .take()
-                    .into_iter()
-                    .map(|d| {
-                        let init = CallExpr {
-                            span: decl.span,
-                            callee: state
-                                .using_ctx
-                                .clone()
-                                .make_member(if decl.is_await {
-                                    quote_ident!("a")
-                                } else {
-                                    quote_ident!("u")
-                                })
-                                .as_callee(),
-                            args: vec![d.init.unwrap().as_arg()],
-                            ..Default::default()
-                        };
-
-                        VarDeclarator {
-                            init: Some(init.into()),
-                            ..d
-                        }
-                    })
-                    .collect(),
-                ..Default::default()
-            }
-            .into();
+            *s = Stmt::Decl(Decl::Var(decl));
         }
     }
 
@@ -289,4 +248,22 @@ impl VisitMut for ExplicitResourceManagement {
         self.visit_mut_stmt_likes(stmts);
         self.is_not_top_level = old_is_not_top_level;
     }
+}
+
+fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {
+    state.has_await |= using.is_await;
+
+    for decl in &mut using.decls {
+        state
+            .vars
+            .push((decl.name.clone(), decl.init.take().unwrap()));
+    }
+
+    Box::new(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Const,
+        declare: false,
+        decls: vec![],
+        ..Default::default()
+    })
 }
