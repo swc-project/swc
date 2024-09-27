@@ -62,8 +62,6 @@ impl ExplicitResourceManagement {
         let env = state.env;
         let catch_e = private_ident!("e");
 
-        let name = state.vars[0].0.clone();
-        let disposable = state.vars[0].1.clone();
         let is_async = state.has_await;
 
         // const env_1 = { stack: [], error: void 0, hasError: false };
@@ -102,30 +100,38 @@ impl ExplicitResourceManagement {
             ..Default::default()
         })))));
 
-        let init_var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Const,
-            declare: false,
-            decls: vec![VarDeclarator {
-                span: DUMMY_SP,
-                name,
-                init: Some(
-                    CallExpr {
-                        callee: helper!(ts, ts_add_disposable_resource),
-                        args: vec![env.clone().as_arg(), disposable.as_arg(), is_async.as_arg()],
-                        ..Default::default()
-                    }
-                    .into(),
-                ),
-                definite: false,
-            }],
-            ..Default::default()
-        })));
-
         let mut try_block = BlockStmt {
-            stmts: vec![init_var_decl],
+            stmts: vec![],
             ..Default::default()
         };
+
+        for (name, disposable) in state.vars {
+            let init_var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Const,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name,
+                    init: Some(
+                        CallExpr {
+                            callee: helper!(ts, ts_add_disposable_resource),
+                            args: vec![
+                                env.clone().as_arg(),
+                                disposable.as_arg(),
+                                is_async.as_arg(),
+                            ],
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
+                    definite: false,
+                }],
+                ..Default::default()
+            })));
+
+            try_block.stmts.push(init_var_decl);
+        }
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
@@ -237,6 +243,10 @@ impl VisitMut for ExplicitResourceManagement {
             let state = self.state.get_or_insert_with(Default::default);
 
             let decl = handle_using_decl(using, state);
+            if decl.decls.is_empty() {
+                s.take();
+                return;
+            }
 
             *s = Stmt::Decl(Decl::Var(decl));
         }
@@ -253,17 +263,11 @@ impl VisitMut for ExplicitResourceManagement {
 fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {
     state.has_await |= using.is_await;
 
-    for decl in &mut using.decls {
-        state
-            .vars
-            .push((decl.name.clone(), decl.init.take().unwrap()));
-    }
-
     Box::new(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
         declare: false,
-        decls: vec![],
+        decls: using.decls.take(),
         ..Default::default()
     })
 }
