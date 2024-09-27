@@ -1,10 +1,9 @@
-export { fn as default };
+export default function fn() {}
 try {
-    var _usingCtx = _using_ctx();
-    var x = _usingCtx.u(null);
-    var fn = function fn() {};
+  var _usingCtx = babelHelpers.usingCtx();
+  var x = _usingCtx.u(null);
 } catch (_) {
-    _usingCtx.e = _;
-} finally{
-    _usingCtx.d();
+  _usingCtx.e = _;
+} finally {
+  _usingCtx.d();
 }

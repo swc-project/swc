@@ -1,12 +1,9 @@
-for (const x of y){
-    try {
-        var _usingCtx = _using_ctx();
-        {
-            doSomethingWith(x);
-        }
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        _usingCtx.d();
-    }
+for (const _x of y) try {
+  var _usingCtx = babelHelpers.usingCtx();
+  const x = _usingCtx.u(_x);
+  doSomethingWith(x);
+} catch (_) {
+  _usingCtx.e = _;
+} finally {
+  _usingCtx.d();
 }
