@@ -11,4 +11,3 @@ Object.defineProperty(exports, "default", {
 });
 function Foo() {}
 (function(Foo) {})(Foo || (Foo = {}));
-var Foo;
