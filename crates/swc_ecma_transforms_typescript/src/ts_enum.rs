@@ -102,10 +102,12 @@ pub(crate) struct EnumValueComputer<'a> {
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl<'a> EnumValueComputer<'a> {
-    pub fn compute(&mut self, mut expr: Box<Expr>) -> TsEnumRecordValue {
-        expr.visit_mut_with(self);
-
-        self.compute_rec(expr)
+    pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
+        let mut expr = self.compute_rec(expr);
+        if let TsEnumRecordValue::Opaque(expr) = &mut expr {
+            expr.visit_mut_with(self);
+        }
+        expr
     }
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
@@ -122,6 +124,23 @@ impl<'a> EnumValueComputer<'a> {
             {
                 TsEnumRecordValue::Number(f64::INFINITY.into())
             }
+            Expr::Ident(ref ident) => self
+                .record
+                .get(&TsEnumRecordKey {
+                    enum_id: self.enum_id.clone(),
+                    member_name: ident.sym.clone(),
+                })
+                .cloned()
+                .map(|value| match value {
+                    TsEnumRecordValue::String(..) | TsEnumRecordValue::Number(..) => value,
+                    _ => TsEnumRecordValue::Opaque(
+                        self.enum_id
+                            .clone()
+                            .make_member(ident.clone().into())
+                            .into(),
+                    ),
+                })
+                .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr)),
             Expr::Paren(e) => self.compute_rec(e.expr),
             Expr::Unary(e) => self.compute_unary(e),
             Expr::Bin(e) => self.compute_bin(e),
