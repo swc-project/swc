@@ -25,7 +25,6 @@ var Derived2 = /*#__PURE__*/ function(Derived) {
     }
     return Derived2;
 }(Derived);
-var TargetHasOptional;
 (function(TargetHasOptional) {
     var c;
     var a;
@@ -50,7 +49,6 @@ var TargetHasOptional;
     b = a;
     b = c;
 })(TargetHasOptional || (TargetHasOptional = {}));
-var SourceHasOptional;
 (function(SourceHasOptional) {
     var c;
     var a;
@@ -74,3 +72,4 @@ var SourceHasOptional;
     b = a; // ok
     b = c; // ok
 })(SourceHasOptional || (SourceHasOptional = {}));
+var TargetHasOptional, SourceHasOptional;

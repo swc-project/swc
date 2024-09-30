@@ -142,10 +142,10 @@ var D10 = /*#__PURE__*/ function(Base) {
     }
     return D10;
 }(Base);
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var D11 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D11, Base);

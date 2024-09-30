@@ -1,7 +1,5 @@
 //// [part1.ts]
-var A;
 (function(A) {
-    var Utils;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -10,17 +8,16 @@ var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils = A.Utils || (A.Utils = {}));
+    })(A.Utils || (A.Utils = {}));
 })(A || (A = {}));
+var A;
 //// [part2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var A;
 (function(A) {
     A.Origin = {
         x: 0,
         y: 0
     };
-    var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -29,8 +26,9 @@ var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils = A.Utils || (A.Utils = {}));
+    })(A.Utils || (A.Utils = {}));
 })(A || (A = {}));
+var A;
 //// [part3.ts]
 // test the merging actually worked
 var o;

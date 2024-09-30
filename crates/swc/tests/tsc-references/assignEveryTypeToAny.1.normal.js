@@ -17,10 +17,10 @@ var e = undefined;
 x = e;
 var e2;
 x = e2;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 x = 0;
 var f = 0;
 x = f;

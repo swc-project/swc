@@ -2,7 +2,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var NonGeneric;
 (function(NonGeneric) {
     var C = function C() {
         "use strict";
@@ -22,7 +21,6 @@ var NonGeneric;
     var r2 = D.prototype;
     r2.bar;
 })(NonGeneric || (NonGeneric = {}));
-var Generic;
 (function(Generic) {
     var C = function C() {
         "use strict";
@@ -42,3 +40,4 @@ var Generic;
     var r2 = D.prototype; // D<any, any>
     var rb = r2.baz; // any
 })(Generic || (Generic = {}));
+var NonGeneric, Generic;

@@ -74,7 +74,6 @@ var B = /*#__PURE__*/ function(A) {
 }(A);
 var i;
 for(var x in i[42]){}
-var M;
 (function(M) {
     var X = function X() {
         "use strict";
@@ -84,10 +83,11 @@ var M;
 })(M || (M = {}));
 for(var x in M){}
 for(var x in M.X){}
-var Color;
-(function(Color) {
+var Color = /*#__PURE__*/ function(Color) {
     Color[Color["Red"] = 0] = "Red";
     Color[Color["Blue"] = 1] = "Blue";
-})(Color || (Color = {}));
+    return Color;
+}(Color || {});
 for(var x in Color){}
 for(var x in 1){}
+var M;

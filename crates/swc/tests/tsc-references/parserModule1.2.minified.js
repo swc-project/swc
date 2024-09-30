@@ -1,5 +1,4 @@
 //// [parserModule1.ts]
-export var CompilerDiagnostics;
 !function(CompilerDiagnostics) {
     function Alert(output) {
         CompilerDiagnostics.diagnosticWriter && CompilerDiagnostics.diagnosticWriter.Alert(output);
@@ -10,3 +9,4 @@ export var CompilerDiagnostics;
         CompilerDiagnostics.debug && !condition && Alert(s);
     };
 }(CompilerDiagnostics || (CompilerDiagnostics = {}));
+export var CompilerDiagnostics;

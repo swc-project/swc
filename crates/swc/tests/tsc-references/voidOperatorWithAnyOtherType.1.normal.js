@@ -27,7 +27,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
@@ -62,3 +61,4 @@ void ANY2[0];
 ANY, ANY1;
 void objA.a;
 void M.n;
+var M;

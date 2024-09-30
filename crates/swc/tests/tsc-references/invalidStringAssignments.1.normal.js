@@ -13,7 +13,6 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -22,8 +21,9 @@ function i(a) {
     a = x;
 }
 i = x;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var j = x;
+var M;

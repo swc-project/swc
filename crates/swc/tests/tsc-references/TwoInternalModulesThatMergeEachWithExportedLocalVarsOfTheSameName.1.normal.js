@@ -1,7 +1,5 @@
 //// [part1.ts]
-export var A;
 (function(A) {
-    var Utils;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -10,22 +8,20 @@ export var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils = A.Utils || (A.Utils = {}));
+    })(A.Utils || (A.Utils = {}));
     A.Origin = {
         x: 0,
         y: 0
     };
 })(A || (A = {}));
+export var A;
 //// [part2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export var A;
 (function(A) {
-    // collision with 'Origin' var in other part of merged module
     A.Origin = {
         x: 0,
         y: 0
     };
-    var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -34,5 +30,6 @@ export var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils = A.Utils || (A.Utils = {}));
+    })(A.Utils || (A.Utils = {}));
 })(A || (A = {}));
+export var A;

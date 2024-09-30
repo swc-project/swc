@@ -23,6 +23,6 @@ var A, Point, A1, Point1 = /*#__PURE__*/ function() {
             y: 0
         };
     }, Point;
-}(), A.Point = Point, (Point = A.Point || (A.Point = {})).Origin = function() {
+}(), A.Point = Point, (A.Point || (A.Point = {})).Origin = function() {
     return "";
 };

@@ -19,7 +19,6 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-var M;
 (function(M) {
     var C = function C() {
         "use strict";
@@ -30,3 +29,4 @@ var M;
         _class_call_check(this, C2);
     };
 })(M || (M = {}));
+var M;

@@ -1,11 +1,11 @@
 //// [literalTypes2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var cond;
 function f1() {
     var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;

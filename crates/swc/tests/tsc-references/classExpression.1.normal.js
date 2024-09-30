@@ -10,10 +10,10 @@ var y = {
         _class_call_check(this, C2);
     }
 };
-var M;
 (function(M) {
     var z = function C4() {
         "use strict";
         _class_call_check(this, C4);
     };
 })(M || (M = {}));
+var M;

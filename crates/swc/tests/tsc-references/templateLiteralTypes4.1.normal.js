@@ -1,8 +1,8 @@
 //// [templateLiteralTypes4.ts]
 // infer from number
-var StringLiteralEnum;
-var NumberLiteralEnum;
-var NonLiteralEnum;
+;
+;
+;
 p.getIndex(0); // ok, 0 is a valid index
 p.getIndex(1); // ok, 1 is a valid index
 p.getIndex(2); // error, 2 is not a valid index

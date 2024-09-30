@@ -1,7 +1,7 @@
 //// [instantiatedModule.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (M || (M = {})).Point = 1;
-var M2, Point, M3, Color, M, M21, m2, a2, M31, m3, a3, m = M;
+var M2, Point, M3, Color, m2, a2, m3, a3, M, M21, M31, m = M;
 M.Point, m.Point, M2 = M21 || (M21 = {}), Point = /*#__PURE__*/ function() {
     function Point() {
         _class_call_check(this, Point);

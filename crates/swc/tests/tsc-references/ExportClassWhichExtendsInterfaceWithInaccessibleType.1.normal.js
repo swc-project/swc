@@ -1,6 +1,5 @@
 //// [ExportClassWhichExtendsInterfaceWithInaccessibleType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var A;
 (function(A) {
     var Point2d = /*#__PURE__*/ function() {
         "use strict";
@@ -17,3 +16,4 @@ var A;
     }();
     A.Point2d = Point2d;
 })(A || (A = {}));
+var A;

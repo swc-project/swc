@@ -43,18 +43,18 @@ if (u === anIntersection) {}
 if (u === aFunction) {
     var uFunction = u;
 }
-var NumberEnum;
-(function(NumberEnum) {
+var NumberEnum = /*#__PURE__*/ function(NumberEnum) {
     NumberEnum[NumberEnum["A"] = 0] = "A";
     NumberEnum[NumberEnum["B"] = 1] = "B";
     NumberEnum[NumberEnum["C"] = 2] = "C";
-})(NumberEnum || (NumberEnum = {}));
-var StringEnum;
-(function(StringEnum) {
+    return NumberEnum;
+}(NumberEnum || {});
+var StringEnum = /*#__PURE__*/ function(StringEnum) {
     StringEnum["A"] = "A";
     StringEnum["B"] = "B";
     StringEnum["C"] = "C";
-})(StringEnum || (StringEnum = {}));
+    return StringEnum;
+}(StringEnum || {});
 if (u === NumberEnum || u === StringEnum) {
     var enumObj = u;
 }

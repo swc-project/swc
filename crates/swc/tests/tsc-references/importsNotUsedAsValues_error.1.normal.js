@@ -10,11 +10,11 @@ export var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-export var C;
-(function(C) {
+export var C = /*#__PURE__*/ function(C) {
     C[C["One"] = 0] = "One";
     C[C["Two"] = 1] = "Two";
-})(C || (C = {}));
+    return C;
+}({});
 //// [/b.ts]
 var a;
 var b;

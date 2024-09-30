@@ -4,10 +4,10 @@ var x;
 x = 1;
 x = '';
 x = true;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 x = E;
 x = 0;
 var C = function C() {
@@ -21,7 +21,6 @@ x = b;
 x = {
     f: function f() {}
 };
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -30,3 +29,4 @@ function f(a) {
     x = a;
 }
 x = f;
+var M;

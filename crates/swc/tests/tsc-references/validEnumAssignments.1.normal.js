@@ -1,9 +1,9 @@
 //// [validEnumAssignments.ts]
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var n;
 var a;
 var e;

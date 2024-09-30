@@ -2,8 +2,7 @@
 //// [external.ts]
 export class Reflect {
 }
-export var Baz;
-(function(Baz) {})(Baz || (Baz = {}));
+;
 export default class {
 }
 //// [locals.ts]
@@ -38,12 +37,14 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        let Reflect;
-        (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+        let Reflect = /*#__PURE__*/ function(Reflect) {
+            return Reflect;
+        }({})// collision (es2015-es2021 only)
+        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        let Reflect;
+        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
@@ -89,12 +90,14 @@ C._ = [
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (()=>{
-    let Reflect;
-    (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+    let Reflect = /*#__PURE__*/ function(Reflect) {
+        return Reflect;
+    }({})// collision (es2015-es2021 only)
+    ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (()=>{
-    let Reflect;
+    ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -218,8 +221,10 @@ export { };
 //// [enumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -227,8 +232,10 @@ export { };
 //// [enumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -236,7 +243,7 @@ export { };
 //// [constEnumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect;
+;
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -244,7 +251,7 @@ export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect;
+;
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);

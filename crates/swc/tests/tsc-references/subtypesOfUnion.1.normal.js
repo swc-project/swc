@@ -1,10 +1,10 @@
 //// [subtypesOfUnion.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["e1"] = 0] = "e1";
     E[E["e2"] = 1] = "e2";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

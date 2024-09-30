@@ -1,9 +1,9 @@
 //// [compoundAdditionAssignmentWithInvalidOperands.ts]
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var a;
 var x1;
 x1 += a;

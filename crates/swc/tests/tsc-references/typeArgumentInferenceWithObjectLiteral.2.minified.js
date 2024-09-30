@@ -1,6 +1,6 @@
 //// [typeArgumentInferenceWithObjectLiteral.ts]
-var E1, E2, E11, E21;
-(E11 = E1 || (E1 = {}))[E11.X = 0] = "X", (E21 = E2 || (E2 = {}))[E21.X = 0] = "X", f1({
+var E2, E1, E11 = ((E1 = E11 || {})[E1.X = 0] = "X", E1), E21 = ((E2 = E21 || {})[E2.X = 0] = "X", E2);
+f1({
     w: function(x) {
         return x;
     },

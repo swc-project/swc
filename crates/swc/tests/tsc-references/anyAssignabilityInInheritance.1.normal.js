@@ -22,10 +22,10 @@ var A2 = function A2() {
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var r3 = foo3(a); // any
 function f() {}
 (function(f) {

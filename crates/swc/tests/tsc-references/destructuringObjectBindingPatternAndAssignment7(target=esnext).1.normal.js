@@ -1,9 +1,9 @@
 //// [destructuringObjectBindingPatternAndAssignment7.ts]
-var K;
-(function(K) {
+var K = /*#__PURE__*/ function(K) {
     K["a"] = "a";
     K["b"] = "b";
-})(K || (K = {}));
+    return K;
+}(K || {});
 const { ["a"]: aVal, ["b"]: bVal } = (()=>{
     return {
         ["a"]: 1,

@@ -2,7 +2,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var A;
 (function(A) {
     var A1 = function A() {
         "use strict";
@@ -30,18 +29,17 @@ var A;
         }
         return BB;
     }(A1);
-    var Module;
     (function(Module) {
         var A = function A() {
             "use strict";
             _class_call_check(this, A);
         };
     })(Module || (Module = {}));
-    var Color;
-    (function(Color) {
+    var Color = /*#__PURE__*/ function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {}));
+        return Color;
+    }({});
     var x = 12;
     function F(s) {
         return 2;
@@ -55,8 +53,8 @@ var A;
         id: 2,
         isvalid: true
     };
+    var Module;
 })(A || (A = {}));
-var Y;
 (function(Y) {
     var A = function A() {
         "use strict";
@@ -88,18 +86,16 @@ var Y;
         return BB;
     }(A);
     Y.BB = BB;
-    var Module;
     (function(Module) {
         var A = function A() {
             "use strict";
             _class_call_check(this, A);
         };
-    })(Module = Y.Module || (Y.Module = {}));
-    var Color;
+    })(Y.Module || (Y.Module = {}));
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = Y.Color || (Y.Color = {}));
+    })(Y.Color || (Y.Color = {}));
     Y.x = 12;
     function F(s) {
         return 2;
@@ -115,3 +111,4 @@ var Y;
         isvalid: true
     };
 })(Y || (Y = {}));
+var A, Y;

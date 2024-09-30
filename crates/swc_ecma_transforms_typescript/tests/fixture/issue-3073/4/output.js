@@ -1,4 +1,3 @@
-var A;
 (function(A) {
     const a = 1;
     const b = 2;
@@ -19,3 +18,4 @@ var A;
         d: d
     });
 })(A || (A = {}));
+var A;

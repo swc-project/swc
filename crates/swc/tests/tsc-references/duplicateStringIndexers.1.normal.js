@@ -1,7 +1,6 @@
 //// [duplicateStringIndexers.ts]
 // it is an error to have duplicate index signatures of the same kind in a type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var test;
 (function(test) {
     var C = function C() {
         "use strict";
@@ -9,3 +8,4 @@ var test;
     };
     var a;
 })(test || (test = {}));
+var test;

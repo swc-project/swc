@@ -18,7 +18,6 @@ var E = function E(x) {
 var c = new C(1);
 var d = new D(1); // error
 var e = new E(1); // error
-var Generic;
 (function(Generic) {
     var C = function C(x) {
         "use strict";
@@ -39,3 +38,4 @@ var Generic;
     var d = new D(1); // error
     var e = new E(1); // error
 })(Generic || (Generic = {}));
+var Generic;

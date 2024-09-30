@@ -11,11 +11,7 @@ function fun3() {
     }
     return args[+randBool()];
 }
-var n1;
 (function(n1) {
-    // The following should all come back as strings.
-    // They should be assignable to/from something of a type 'string'.
-    // They should not be assignable to either "Hello" or "World".
     n1.a = fun1("Hello", "World");
     n1.b = fun1("Hello", "Hello");
     n1.c = fun2("Hello", "World");
@@ -40,10 +36,7 @@ var n1;
     n1.d = takeReturnHelloWorld(n1.d);
     n1.e = takeReturnHelloWorld(n1.e);
 })(n1 || (n1 = {}));
-var n2;
 (function(n2) {
-    // The following (regardless of errors) should come back typed
-    // as "Hello" (or "Hello" | "Hello").
     n2.a = fun1("Hello", "Hello");
     n2.b = fun1("Hello", "World");
     n2.c = fun2("Hello", "Hello");
@@ -68,10 +61,7 @@ var n2;
     n2.d = takeReturnHelloWorld(n2.d);
     n2.e = takeReturnHelloWorld(n2.e);
 })(n2 || (n2 = {}));
-var n3;
 (function(n3) {
-    // The following (regardless of errors) should come back typed
-    // as "Hello" | "World" (or "World" | "Hello").
     n3.a = fun2("Hello", "World");
     n3.b = fun2("World", "Hello");
     n3.c = fun2("Hello", "Hello");
@@ -96,3 +86,4 @@ var n3;
     n3.d = takeReturnHelloWorld(n3.d);
     n3.e = takeReturnHelloWorld(n3.e);
 })(n3 || (n3 = {}));
+var n1, n2, n3;

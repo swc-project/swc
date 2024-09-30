@@ -47,7 +47,6 @@ ExpandoMerge.p1 = 111;
     ExpandoMerge.p3 = 333;
 })(ExpandoMerge || (ExpandoMerge = {}));
 var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
-var Ns;
 (function(Ns) {
     function ExpandoNamespace() {}
     ExpandoNamespace.p6 = 42;
@@ -87,3 +86,4 @@ ExpandoExpr3.m = function(n) {
     return n + 1;
 };
 var n = ExpandoExpr3.prop + ExpandoExpr3.m(13) + new ExpandoExpr3().n;
+var Ns;

@@ -25,7 +25,6 @@ function F(x) {
 function F2(x) {
     return x < 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -37,7 +36,6 @@ var M;
     }
     M.F2 = F2;
 })(M || (M = {}));
-var N;
 (function(N) {
     var A = function A() {
         "use strict";
@@ -176,3 +174,4 @@ do {}while (fn());
 if (fn) {}
 while(fn){}
 do {}while (fn);
+var M, N;

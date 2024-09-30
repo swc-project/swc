@@ -45,7 +45,6 @@ function f(t, u, v) {
     var r12 = true ? v : new Foo();
     var r12 = true ? new Foo() : v;
 }
-var M1;
 (function(M1) {
     var Base = function Base() {
         "use strict";
@@ -133,7 +132,6 @@ var M1;
         return D9;
     }(Base);
 })(M1 || (M1 = {}));
-var M2;
 (function(M2) {
     var Base2 = function Base2() {
         "use strict";
@@ -221,3 +219,4 @@ var M2;
         return D9;
     }(Base2);
 })(M2 || (M2 = {}));
+var M1, M2;

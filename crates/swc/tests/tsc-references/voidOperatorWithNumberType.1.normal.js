@@ -19,7 +19,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
@@ -55,3 +54,4 @@ void foo();
 void objA.a;
 void M.n;
 objA.a, M.n;
+var M;

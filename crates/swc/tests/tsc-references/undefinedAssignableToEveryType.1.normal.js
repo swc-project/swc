@@ -6,10 +6,10 @@ var C = function C() {
 };
 var ac;
 var ai;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var ae;
 var b = undefined;
 var c = undefined;

@@ -1,11 +1,11 @@
 //// [additionOperatorWithUndefinedValueAndValidOperator.ts]
 // If one operand is the null or undefined value, it is treated as having the type of the other operand.
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var a;
 var b;
 var c;

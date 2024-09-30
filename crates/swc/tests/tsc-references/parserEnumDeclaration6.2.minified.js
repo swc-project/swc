@@ -1,3 +1,2 @@
 //// [parserEnumDeclaration6.ts]
-var E, E1;
-(E1 = E || (E = {}))[E1.A = 1] = "A", E1[E1.B = 2] = "B", E1[E1.C = 2] = "C", E1[E1.D = 3] = "D";
+var E, E1 = ((E = E1 || {})[E.A = 1] = "A", E[E.B = 2] = "B", E[E.C = 2] = "C", E[E.D = 3] = "D", E);

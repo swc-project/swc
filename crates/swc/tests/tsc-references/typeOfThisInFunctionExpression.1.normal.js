@@ -25,7 +25,6 @@ var C = function C() {
         var q = this;
     };
 };
-var M;
 (function(M) {
     function fn() {
         var p = this;
@@ -40,3 +39,4 @@ var M;
         var x;
     };
 })(M || (M = {}));
+var M;

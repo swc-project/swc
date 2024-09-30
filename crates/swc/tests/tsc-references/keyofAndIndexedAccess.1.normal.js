@@ -23,7 +23,7 @@ var Options = function Options() {
     "use strict";
     _class_call_check(this, Options);
 };
-var E;
+;
 function getProperty(obj, key) {
     return obj[key];
 }
@@ -520,11 +520,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag;
-(function(Flag) {
+var Flag = /*#__PURE__*/ function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag || (Flag = {}));
+    return Flag;
+}(Flag || {});
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];
 }

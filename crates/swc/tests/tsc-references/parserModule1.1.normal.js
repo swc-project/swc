@@ -1,5 +1,4 @@
 //// [parserModule1.ts]
-export var CompilerDiagnostics;
 (function(CompilerDiagnostics) {
     CompilerDiagnostics.debug = false;
     CompilerDiagnostics.diagnosticWriter = null;
@@ -25,3 +24,4 @@ export var CompilerDiagnostics;
     }
     CompilerDiagnostics.assert = assert;
 })(CompilerDiagnostics || (CompilerDiagnostics = {}));
+export var CompilerDiagnostics;

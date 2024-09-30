@@ -1,3 +1,4 @@
 //// [parserEnum3.ts]
-export var SignatureFlags;
-(function(SignatureFlags) {})(SignatureFlags || (SignatureFlags = {}));
+export var SignatureFlags = /*#__PURE__*/ function(SignatureFlags) {
+    return SignatureFlags;
+}({});

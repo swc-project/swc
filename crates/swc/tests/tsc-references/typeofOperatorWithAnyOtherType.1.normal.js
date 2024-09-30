@@ -28,7 +28,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
@@ -76,3 +75,4 @@ z: _type_of(objA.a);
 z: _type_of(A.foo);
 z: _type_of(M.n);
 z: _type_of(obj1.x);
+var M;

@@ -2,8 +2,7 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-(Compass1 = Compass || (Compass = {}))[Compass1.North = 0] = "North", Compass1[Compass1.South = 1] = "South", Compass1[Compass1.East = 2] = "East", Compass1[Compass1.West = 3] = "West";
-var Compass, bothIndex, stringOrNumber, someObject, Compass1, numIndex = {
+var bothIndex, stringOrNumber, someObject, Compass, Compass1 = ((Compass = Compass1 || {})[Compass.North = 0] = "North", Compass[Compass.South = 1] = "South", Compass[Compass.East = 2] = "East", Compass[Compass.West = 3] = "West", Compass), numIndex = {
     3: 'three',
     three: 'three'
 }, strIndex = {

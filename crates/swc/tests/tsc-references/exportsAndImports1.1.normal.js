@@ -41,21 +41,21 @@ var C = function C() {
     "use strict";
     _class_call_check._(this, C);
 };
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {}));
-var D;
-(function(D) {
+    return E;
+}(E || {});
+var D = /*#__PURE__*/ function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 1] = "B";
     D[D["C"] = 2] = "C";
-})(D || (D = {}));
-var M;
+    return D;
+}(D || {});
 (function(M) {})(M || (M = {}));
 var a = M.x;
+var M;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

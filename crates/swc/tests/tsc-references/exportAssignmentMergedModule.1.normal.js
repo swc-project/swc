@@ -1,6 +1,5 @@
 //// [foo_0.ts]
 "use strict";
-var Foo;
 (function(Foo) {
     function a() {
         return 5;
@@ -13,11 +12,11 @@ var Foo;
         return a;
     }
     Foo.c = c;
-    var Test;
     (function(Test) {
         Test.answer = 42;
-    })(Test = Foo.Test || (Foo.Test = {}));
+    })(Foo.Test || (Foo.Test = {}));
 })(Foo || (Foo = {}));
+var Foo;
 module.exports = Foo;
 //// [foo_1.ts]
 "use strict";

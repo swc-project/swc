@@ -22,7 +22,6 @@ var Point = /*#__PURE__*/ function() {
     } //expected duplicate identifier error
     Point.Origin = Origin;
 })(Point || (Point = {}));
-var A;
 (function(A) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
@@ -46,5 +45,6 @@ var A;
             return "";
         } //expected duplicate identifier error
         Point.Origin = Origin;
-    })(Point = A.Point || (A.Point = {}));
+    })(A.Point || (A.Point = {}));
 })(A || (A = {}));
+var A;

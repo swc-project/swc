@@ -1,5 +1,5 @@
-var FlexSize;
-(function(FlexSize) {
+var FlexSize = /*#__PURE__*/ function(FlexSize) {
     FlexSize["md"] = "md";
     FlexSize["lg"] = "lg";
-})(FlexSize || (FlexSize = {}));
+    return FlexSize;
+}(FlexSize || {});

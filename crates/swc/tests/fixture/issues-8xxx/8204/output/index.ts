@@ -1,5 +1,5 @@
-var Bar;
-(function(Bar) {
+var Bar = /*#__PURE__*/ function(Bar) {
     Bar[Bar["VALUE"] = 1] = "VALUE";
-})(Bar || (Bar = {}));
+    return Bar;
+}(Bar || {});
 export default Bar;

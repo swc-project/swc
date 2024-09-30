@@ -13,8 +13,7 @@ var r4 = i.as;
 var a;
 var r5 = a.abstract;
 var r6 = a.as;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["abstract"] = 0] = "abstract";
     E[E["as"] = 1] = "as";
     E[E["boolean"] = 2] = "boolean";
@@ -78,6 +77,7 @@ var E;
     E[E["volatile"] = 60] = "volatile";
     E[E["while"] = 61] = "while";
     E[E["with"] = 62] = "with";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var r7 = 0;
 var r8 = 1;

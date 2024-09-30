@@ -1,10 +1,10 @@
 //// [decoratorMetadataWithTypeOnlyImport2.ts]
 //// [services.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export var Services;
 (Services || (Services = {})).Service = function Service() {
     _class_call_check(this, Service);
 };
+export var Services;
 //// [index.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";

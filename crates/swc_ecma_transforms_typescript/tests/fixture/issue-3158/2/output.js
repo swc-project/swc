@@ -1,4 +1,3 @@
-var Test;
 (function(Test) {
     function abc() {
         return 10;
@@ -13,3 +12,4 @@ var Test;
     Test.xyz = xyz;
 })(Test || (Test = {}));
 Test.xyz();
+var Test;

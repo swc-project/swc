@@ -1,6 +1,5 @@
 //// [nonInstantiatedModule.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var M;
 (function(M) {
     M.a = 1;
 })(M || (M = {}));
@@ -11,9 +10,7 @@ var a1;
 var a1 = M.a;
 var a2;
 var a2 = m.a;
-var M2;
 (function(M2) {
-    var Point;
     (function(Point) {
         function Origin() {
             return {
@@ -22,13 +19,12 @@ var M2;
             };
         }
         Point.Origin = Origin;
-    })(Point = M2.Point || (M2.Point = {}));
+    })(M2.Point || (M2.Point = {}));
 })(M2 || (M2 = {}));
 var p;
 var p;
 var p2;
 var p2;
-var M3;
 (function(M3) {
     var Utils = function Utils() {
         "use strict";
@@ -36,3 +32,4 @@ var M3;
     };
     M3.Utils = Utils;
 })(M3 || (M3 = {}));
+var M, M2, M3;

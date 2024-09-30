@@ -1,3 +1,3 @@
 export class A {
 }
-(function(A) {})(A || (A = {}));
+(function(A) {})(A);

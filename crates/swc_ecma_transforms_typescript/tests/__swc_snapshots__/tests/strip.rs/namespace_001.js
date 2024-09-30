@@ -1,4 +1,3 @@
-export var util;
 (function(util) {
     const c = 3;
     [util.a, util.b] = [
@@ -7,3 +6,4 @@ export var util;
         3
     ];
 })(util || (util = {}));
+export var util;

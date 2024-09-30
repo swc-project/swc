@@ -5,7 +5,7 @@ if (isNonBlank(value)) {
 } else {
     doThat(value);
 }
-var Tag2;
+;
 if (isNonBlank2(value)) {
     doThis2(value);
 } else {

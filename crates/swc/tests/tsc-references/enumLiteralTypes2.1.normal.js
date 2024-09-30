@@ -1,5 +1,5 @@
 //// [enumLiteralTypes2.ts]
-var Choice;
+;
 function f1() {
     var a;
     var a;

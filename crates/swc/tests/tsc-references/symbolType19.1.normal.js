@@ -1,6 +1,7 @@
 //// [symbolType19.ts]
-var E;
-(function(E) {})(E || (E = {}));
+var E = /*#__PURE__*/ function(E) {
+    return E;
+}(E || {});
 var x;
 x;
 if (typeof x === "number") {

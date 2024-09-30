@@ -16,7 +16,6 @@ x = C;
 x = b;
 var c;
 x = c;
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -28,9 +27,10 @@ function f(a) {
     x = a;
 }
 x = f;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 x = E;
 x = 0;
+var M;

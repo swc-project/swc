@@ -1,8 +1,9 @@
 //// [subtypesOfUnion.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var E, E1 = ((E = E1 || {})[E.e1 = 0] = "e1", E[E.e2 = 1] = "e2", E);
 function f() {}
-(E = E1 || (E1 = {}))[E.e1 = 0] = "e1", E[E.e2 = 1] = "e2", (f || (f = {})).bar = 1;
-var E, E1, c = function c() {
+(f || (f = {})).bar = 1;
+var c = function c() {
     _class_call_check(this, c);
 };
 (c || (c = {})).bar = 1;

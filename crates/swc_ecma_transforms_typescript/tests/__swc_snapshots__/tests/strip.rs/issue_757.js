@@ -1,7 +1,7 @@
 // test.ts
-var Foo;
-(function(Foo) {
+var Foo = /*#__PURE__*/ function(Foo) {
     Foo[Foo["A"] = 0] = "A";
     Foo[Foo["B"] = 1] = "B";
-})(Foo || (Foo = {}));
+    return Foo;
+}(Foo || {});
 export default Foo;

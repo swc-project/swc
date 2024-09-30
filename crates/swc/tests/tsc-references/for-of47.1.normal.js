@@ -6,10 +6,10 @@ var array = [
         y: true
     }
 ];
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["x"] = 0] = "x";
-})(E || (E = {}));
+    return E;
+}(E || {});
 for ({ x, y: y = 0 } of array){
     x;
     y;

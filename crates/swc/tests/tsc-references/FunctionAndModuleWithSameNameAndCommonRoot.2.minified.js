@@ -15,16 +15,13 @@ var A, A1;
 //// [test.ts]
 A.Point, A.Point(), A.Point.Origin;
 //// [simple.ts]
-var B;
-!function(B) {
-    function Point() {
-        return {
-            x: 0,
-            y: 0
-        };
-    }
-    B.Point = Point, (Point = B.Point || (B.Point = {})).Origin = {
+var B, B1;
+(B1 = B || (B = {})).Point = function() {
+    return {
         x: 0,
         y: 0
     };
-}(B || (B = {})), B.Point, B.Point(), B.Point.Origin;
+}, (B1.Point || (B1.Point = {})).Origin = {
+    x: 0,
+    y: 0
+}, B.Point, B.Point(), B.Point.Origin;

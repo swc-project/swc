@@ -1,6 +1,5 @@
 //// [importAliasIdentifiers.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var moduleA;
 (function(moduleA) {
     var Point = function Point(x, y) {
         "use strict";
@@ -41,3 +40,4 @@ function fundule() {
 var p;
 var p;
 var p;
+var moduleA;

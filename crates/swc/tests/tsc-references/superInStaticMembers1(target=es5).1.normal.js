@@ -5,8 +5,7 @@ export var Reflect = function Reflect() {
     "use strict";
     _class_call_check(this, Reflect);
 };
-export var Baz;
-(function(Baz) {})(Baz || (Baz = {}));
+;
 var _default = function _default() {
     "use strict";
     _class_call_check(this, _default);
@@ -56,12 +55,14 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        var Reflect;
-        (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+        var Reflect = /*#__PURE__*/ function(Reflect) {
+            return Reflect;
+        }({})// collision (es2015-es2021 only)
+        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        var Reflect;
+        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
@@ -111,12 +112,14 @@ C._ = [
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (function() {
-    var Reflect;
-    (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+    var Reflect = /*#__PURE__*/ function(Reflect) {
+        return Reflect;
+    }({})// collision (es2015-es2021 only)
+    ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (function() {
-    var Reflect;
+    ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -367,8 +370,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -386,8 +391,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -405,7 +412,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Reflect;
+;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -423,7 +430,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Reflect;
+;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);

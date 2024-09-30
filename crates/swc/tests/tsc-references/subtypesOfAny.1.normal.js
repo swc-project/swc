@@ -9,10 +9,10 @@ var A2 = function A2() {
     "use strict";
     _class_call_check(this, A2);
 };
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 function f() {}
 (function(f) {
     f.bar = 1;

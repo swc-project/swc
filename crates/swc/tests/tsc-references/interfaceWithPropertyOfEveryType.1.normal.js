@@ -5,14 +5,13 @@ var C = function C() {
     _class_call_check(this, C);
 };
 function f1() {}
-var M;
 (function(M) {
     M.y = 1;
 })(M || (M = {}));
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var a = {
     a: 1,
     b: '',
@@ -36,3 +35,4 @@ var a = {
     n: {},
     o: 0
 };
+var M;

@@ -8,14 +8,14 @@ function f2(x) {
 function f3(x) {
     return true;
 }
-var E1;
-(function(E1) {
+var E1 = /*#__PURE__*/ function(E1) {
     E1[E1["one"] = 0] = "one";
-})(E1 || (E1 = {}));
-var E2;
-(function(E2) {
+    return E1;
+}(E1 || {});
+var E2 = /*#__PURE__*/ function(E2) {
     E2[E2["two"] = 0] = "two";
-})(E2 || (E2 = {}));
+    return E2;
+}(E2 || {});
 var t1;
 var t2;
 var t3;

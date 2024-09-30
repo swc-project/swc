@@ -1,6 +1,5 @@
 //// [objectLiteralShorthandPropertiesWithModule.ts]
 // module export
-var m;
 (function(m) {})(m || (m = {}));
 (function(m) {
     var z = x;
@@ -9,3 +8,4 @@ var m;
         x: x
     };
 })(m || (m = {}));
+var m;

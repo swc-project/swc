@@ -16,7 +16,6 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     return Derived;
 }(Base);
-var ExplicitPublic;
 (function(ExplicitPublic) {
     var A = function A() {
         "use strict";
@@ -58,7 +57,6 @@ var ExplicitPublic;
         return B3;
     }(A3);
 })(ExplicitPublic || (ExplicitPublic = {}));
-var ImplicitPublic;
 (function(ImplicitPublic) {
     var A = function A() {
         "use strict";
@@ -100,3 +98,4 @@ var ImplicitPublic;
         return B3;
     }(A3);
 })(ImplicitPublic || (ImplicitPublic = {}));
+var ExplicitPublic, ImplicitPublic;

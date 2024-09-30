@@ -3,7 +3,6 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var TypeScript;
 (function(TypeScript) {
     function lastOf(items) {
         return items === null || items.length === 0 ? null : items[items.length - 1];
@@ -236,10 +235,6 @@ var TypeScript;
         };
         return AstPath;
     }();
-    //
-    // Helper class representing a path from a root ast node to a (grand)child ast node.
-    // This is helpful as our tree don't have parents.
-    //
     TypeScript.AstPath = AstPath;
     function isValidAstNode(ast) {
         if (ast === null) return false;
@@ -253,7 +248,6 @@ var TypeScript;
         this.path = new TypeScript.AstPath();
     };
     TypeScript.AstPathContext = AstPathContext;
-    var GetAstPathOptions;
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
@@ -265,7 +259,7 @@ var TypeScript;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         GetAstPathOptions[GetAstPathOptions["DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
+    })(TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
     function getAstPathToPosition(script, pos) {
         var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
         var lookInComments = function(comments) {
@@ -322,9 +316,6 @@ var TypeScript;
         TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
         return ctx.path;
     }
-    ///
-    /// Return the stack of AST nodes containing "position"
-    ///
     TypeScript.getAstPathToPosition = getAstPathToPosition;
     function getTokenizationOffset(script, position) {
         var bestOffset = 0;
@@ -344,10 +335,6 @@ var TypeScript;
         TypeScript.getAstWalkerFactory().walk(script, pre);
         return bestOffset;
     }
-    //
-    // Find a source text offset that is safe for lexing tokens at the given position.
-    // This is used when "position" might be inside a comment or string, etc.
-    //
     TypeScript.getTokenizationOffset = getTokenizationOffset;
     function walkAST(ast, callback) {
         var pre = function pre(cur, parent, walker) {
@@ -364,8 +351,6 @@ var TypeScript;
         var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     }
-    ///
-    /// Simple function to Walk an AST using a simple callback function.
-    ///
     TypeScript.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));
+var TypeScript;

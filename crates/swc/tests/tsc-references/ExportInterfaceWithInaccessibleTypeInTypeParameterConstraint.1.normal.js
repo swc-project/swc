@@ -1,5 +1,4 @@
 //// [ExportInterfaceWithInaccessibleTypeInTypeParameterConstraint.ts]
-var A;
 (function(A) {
     A.Origin = {
         x: 0,
@@ -11,3 +10,4 @@ var A;
         z: 0
     };
 })(A || (A = {}));
+var A;

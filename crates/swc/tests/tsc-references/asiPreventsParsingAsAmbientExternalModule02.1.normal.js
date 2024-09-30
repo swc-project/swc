@@ -1,7 +1,6 @@
 //// [asiPreventsParsingAsAmbientExternalModule02.ts]
 var declare;
 var module;
-var container;
 (function(container) {
     declare // this is the identifier 'declare'
     ;
@@ -11,3 +10,4 @@ var container;
     ;
     {}
 })(container || (container = {}));
+var container;

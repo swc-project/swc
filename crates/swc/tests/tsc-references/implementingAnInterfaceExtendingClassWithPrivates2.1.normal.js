@@ -33,7 +33,6 @@ var Bar3 = /*#__PURE__*/ function(Foo) {
     }
     return Bar3;
 }(Foo);
-var M;
 // another level of indirection
 (function(M) {
     var Foo = function Foo() {
@@ -77,7 +76,6 @@ var M;
         return Bar3;
     }(Foo);
 })(M || (M = {}));
-var M2;
 // two levels of privates
 (function(M2) {
     var Foo = function Foo() {
@@ -125,3 +123,4 @@ var M2;
         return Bar3;
     }(Foo);
 })(M2 || (M2 = {}));
+var M, M2;

@@ -14,7 +14,6 @@ x = C;
 x = c;
 var i;
 x = i;
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -23,3 +22,4 @@ function f(a) {
     x = a;
 }
 x = f;
+var M;

@@ -1,7 +1,6 @@
 //// [genericCallWithOverloadedConstructorTypedArguments.ts]
 // Function typed arguments with multiple signatures must be passed an implementation that matches all of them
 // Inferences are made quadratic-pairwise to and from these overload sets
-var NonGenericParameter;
 (function(NonGenericParameter) {
     var a;
     function foo4(cb) {
@@ -11,7 +10,6 @@ var NonGenericParameter;
     var b;
     var r2 = foo4(b);
 })(NonGenericParameter || (NonGenericParameter = {}));
-var GenericParameter;
 (function(GenericParameter) {
     function foo5(cb) {
         return cb;
@@ -34,3 +32,4 @@ var GenericParameter;
     var r14 = foo7(1, c); // new any => string; new(x:any, y?:any) => string
     var r15 = foo7(1, c2); // new any => string; new(x:any, y?:any) => string
 })(GenericParameter || (GenericParameter = {}));
+var NonGenericParameter, GenericParameter;

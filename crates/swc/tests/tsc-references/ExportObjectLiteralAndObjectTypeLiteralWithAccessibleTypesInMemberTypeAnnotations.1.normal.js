@@ -1,6 +1,5 @@
 //// [ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInMemberTypeAnnotations.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -17,3 +16,4 @@ var A;
         end: new Point(1, 0)
     };
 })(A || (A = {}));
+var A;

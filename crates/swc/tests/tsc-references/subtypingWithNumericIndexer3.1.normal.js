@@ -25,7 +25,6 @@ var B2 = /*#__PURE__*/ function(A) {
     }
     return B2;
 }(A);
-var Generics;
 (function(Generics) {
     var A = function A() {
         "use strict";
@@ -77,3 +76,4 @@ var Generics;
         return B5;
     }(A);
 })(Generics || (Generics = {}));
+var Generics;

@@ -19,7 +19,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
@@ -52,3 +51,4 @@ var ResultIsNumber11 = +(NUMBER + NUMBER);
 +objA.a;
 +M.n;
 +objA.a, M.n;
+var M;

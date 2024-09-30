@@ -1,14 +1,14 @@
 //// [mappedTypeOverlappingStringEnumKeys.ts]
 // #37859
-var TerrestrialAnimalTypes;
-(function(TerrestrialAnimalTypes) {
+var TerrestrialAnimalTypes = /*#__PURE__*/ function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes["CAT"] = "cat";
     TerrestrialAnimalTypes["DOG"] = "dog";
-})(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {}));
-var AlienAnimalTypes;
-(function(AlienAnimalTypes) {
+    return TerrestrialAnimalTypes;
+}(TerrestrialAnimalTypes || {});
+var AlienAnimalTypes = /*#__PURE__*/ function(AlienAnimalTypes) {
     AlienAnimalTypes["CAT"] = "cat";
-})(AlienAnimalTypes || (AlienAnimalTypes = {}));
+    return AlienAnimalTypes;
+}(AlienAnimalTypes || {});
 var catMap = {
     cat: [
         {

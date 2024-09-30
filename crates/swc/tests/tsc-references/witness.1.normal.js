@@ -108,7 +108,6 @@ var propAcc1 = {
     m: propAcc1.m
 };
 var propAcc1;
-var M2;
 // Property access of module member
 (function(M2) {
     M2.x = M2.x;
@@ -132,3 +131,4 @@ var C3 = function C3() {
 C3.q = C3.q;
 var qq = C3.q;
 var qq; // Parentheses - tested a bunch above
+var M2;

@@ -35,14 +35,14 @@ var r5 = foo(new Object(), function(x) {
 }, function(x) {
     return '';
 }); // Object => Object
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
-var F;
-(function(F) {
+    return E;
+}(E || {});
+var F = /*#__PURE__*/ function(F) {
     F[F["A"] = 0] = "A";
-})(F || (F = {}));
+    return F;
+}(F || {});
 var r6 = foo(0, function(x) {
     return 0;
 }, function(x) {

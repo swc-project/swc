@@ -47,10 +47,10 @@ var C2 = function C2() {
 var c2;
 var r12 = true ? c2 : null;
 var r12 = true ? null : c2;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var r13 = true ? E : null;
 var r13 = true ? null : E;
 var r14 = true ? 0 : null;

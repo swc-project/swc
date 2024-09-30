@@ -10,7 +10,6 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
@@ -33,3 +32,4 @@ NUMBER1[0]++;
 objA.a++;
 M.n++;
 objA.a++, M.n++;
+var M;

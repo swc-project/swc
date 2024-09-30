@@ -14,7 +14,6 @@ function F(x) {
 function F2(x) {
     return x < 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -26,7 +25,6 @@ var M;
     }
     M.F2 = F2;
 })(M || (M = {}));
-var N;
 (function(N) {
     var A = function A() {
         "use strict";
@@ -57,3 +55,4 @@ var aLambda = function(x) {
 var aModule = N;
 var aClassInModule = new N.A();
 var aFunctionInModule = F2;
+var M, N;

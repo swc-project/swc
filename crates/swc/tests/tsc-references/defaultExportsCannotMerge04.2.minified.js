@@ -1,4 +1,5 @@
 //// [defaultExportsCannotMerge04.ts]
+var Foo;
 function Foo() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0

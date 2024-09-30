@@ -1,14 +1,14 @@
 //// [enumAssignability.ts]
 // enums assignable to number, any, Object, errors unless otherwise noted
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
-var F;
-(function(F) {
+    return E;
+}(E || {});
+var F = /*#__PURE__*/ function(F) {
     F[F["B"] = 0] = "B";
-})(F || (F = {}));
+    return F;
+}(F || {});
 var e = 0;
 var f = 0;
 e = f;
@@ -17,7 +17,6 @@ e = 1; // ok
 f = 1; // ok
 var x = e; // ok
 x = f; // ok
-var Others;
 (function(Others) {
     var a = e; // ok
     var C = function C() {
@@ -52,3 +51,4 @@ var Others;
         var b = e;
     }
 })(Others || (Others = {}));
+var Others;

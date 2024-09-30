@@ -20,8 +20,8 @@ define([
     function boo() {
         return Foo.Bar * 2;
     }
-    var Foo;
     (function(Foo) {
         Foo.Bar = 1234;
     })(Foo || (Foo = {}));
+    var Foo;
 });

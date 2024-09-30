@@ -7,7 +7,6 @@ var r2 = a.bar;
 var b;
 var r3 = b.foo;
 var r4 = b.bar;
-var M;
 // basic non-generic and generic case inside a module
 (function(M) {
     var a;
@@ -19,3 +18,4 @@ var M;
     // BUG 856491
     var r4 = b.bar; // any, should be string
 })(M || (M = {}));
+var M;

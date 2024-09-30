@@ -6,10 +6,10 @@ var c = null;
 var d = null;
 var e = null;
 e = null; // ok
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 E.A = null; // error
 var C = function C() {
     "use strict";
@@ -21,7 +21,6 @@ C = null; // error
 var g;
 g = null; // ok
 I = null; // error
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -31,3 +30,4 @@ function i(a) {
     a = null;
 }
 i = null; // error
+var M;

@@ -15,7 +15,6 @@ class ServiceError extends Error {
     }
 }
 (function(ServiceError) {
-    let Code;
     (function(Code) {
         Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
         Code[Code["serviceNotCompatible"] = 426] = "serviceNotCompatible";
@@ -24,7 +23,7 @@ class ServiceError extends Error {
         Code[Code["timedOut"] = 504] = "timedOut";
         Code[Code["badRequest"] = 400] = "badRequest";
         Code[Code["badResponse"] = 422] = "badResponse";
-    })(Code = ServiceError.Code || (ServiceError.Code = {}));
+    })(ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
         constructor(...args){
             super(...args), // Service was probably not registered, or using the wrong channel

@@ -1,6 +1,6 @@
 //// [constEnumNoObjectPrototypePropertyAccess.ts]
 // https://github.com/microsoft/TypeScript/issues/55421
-var Bebra;
+;
 console.log(Bebra.constructor);
 console.log(Bebra.hasOwnProperty);
 console.log(Bebra.isPrototypeOf);

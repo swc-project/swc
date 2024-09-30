@@ -1,14 +1,14 @@
 //// [/a.ts]
-var SyntaxKind;
-(function(SyntaxKind) {
+var SyntaxKind = /*#__PURE__*/ function(SyntaxKind) {
     SyntaxKind[SyntaxKind["ImportClause"] = 0] = "ImportClause";
     SyntaxKind[SyntaxKind["ExportDeclaration"] = 1] = "ExportDeclaration";
-})(SyntaxKind || (SyntaxKind = {}));
-var SymbolFlags;
-(function(SymbolFlags) {
+    return SyntaxKind;
+}(SyntaxKind || {});
+var SymbolFlags = /*#__PURE__*/ function(SymbolFlags) {
     SymbolFlags["Type"] = "Type";
     SymbolFlags["Value"] = "Value";
-})(SymbolFlags || (SymbolFlags = {}));
+    return SymbolFlags;
+}(SymbolFlags || {});
 export { SymbolFlags };
 //// [/b.ts]
 SyntaxKind.ImportClause;

@@ -1,6 +1,5 @@
 //// [ExportModuleWithAccessibleTypesOnItsExportedMembers.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -9,7 +8,6 @@ var A;
         this.y = y;
     };
     A.Point = Point;
-    var B;
     (function(B) {
         B.Origin = new Point(0, 0);
         var Line = /*#__PURE__*/ function() {
@@ -26,5 +24,6 @@ var A;
             return Line;
         }();
         B.Line = Line;
-    })(B = A.B || (A.B = {}));
+    })(A.B || (A.B = {}));
 })(A || (A = {}));
+var A;

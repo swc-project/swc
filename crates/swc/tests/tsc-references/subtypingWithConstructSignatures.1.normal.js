@@ -1,5 +1,4 @@
 //// [subtypingWithConstructSignatures.ts]
-var ConstructSignature;
 (function(ConstructSignature) {
     var rarg1;
     var r = foo1(rarg1); // ok because base returns void
@@ -10,3 +9,4 @@ var ConstructSignature;
     var r4arg1;
     var r4 = foo2(r4arg1); // ok because base returns void
 })(ConstructSignature || (ConstructSignature = {}));
+var ConstructSignature;

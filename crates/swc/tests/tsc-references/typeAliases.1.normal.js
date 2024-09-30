@@ -32,10 +32,10 @@ var x13_2;
 foo13(x13_1, x13_2);
 foo13(x13_2, x13_1);
 var x14;
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["x"] = 10] = "x";
-})(E || (E = {}));
+    return E;
+}(E || {});
 f15(10).toLowerCase();
 var x;
 f16(x);

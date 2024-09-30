@@ -1,6 +1,5 @@
 //// [a.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export var types;
 (function(types) {
     var A = function A() {
         "use strict";
@@ -8,5 +7,6 @@ export var types;
     };
     types.A = A;
 })(types || (types = {}));
+export var types;
 //// [b.ts]
 export { };
