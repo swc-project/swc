@@ -411,6 +411,22 @@ impl VisitMut for Transform {
         }
     }
 
+    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
+        node.visit_mut_children_with(self);
+
+        if let DefaultDecl::Class(ClassExpr {
+            ident: Some(ref ident),
+            ..
+        })
+        | DefaultDecl::Fn(FnExpr {
+            ident: Some(ref ident),
+            ..
+        }) = node.decl
+        {
+            self.decl_id_record.insert(ident.to_id());
+        }
+    }
+
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if self.ref_rewriter.is_some() {
             if let Decl::Var(var_decl) = &mut node.decl {
