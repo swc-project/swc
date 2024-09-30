@@ -3,7 +3,7 @@ var Foo = /*#__PURE__*/ function(Foo) {
     Foo[Foo["a"] = 10] = "a";
     Foo[Foo["b"] = 10] = "b";
     Foo[Foo["c"] = 10 + x] = "c";
-    Foo[Foo["d"] = 10 + x] = "d";
+    Foo[Foo["d"] = Foo.c] = "d";
     return Foo;
 }(Foo || {});
 var Bar = /*#__PURE__*/ function(Bar) {
