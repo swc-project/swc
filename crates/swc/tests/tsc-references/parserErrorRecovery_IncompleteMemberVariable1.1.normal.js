@@ -19,6 +19,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }();
     // Static member
     Point.origin = new Point(0, 0);
+    // Class
     Shapes.Point = Point;
 })(Shapes || (Shapes = {}));
 // Local variables

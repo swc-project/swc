@@ -1,5 +1,5 @@
 //// [enumExportMergingES6.ts]
-export let Animals = /*#__PURE__*/ function(Animals) {
+export var Animals = /*#__PURE__*/ function(Animals) {
     Animals[Animals["Cat"] = 1] = "Cat";
     return Animals;
 }({});

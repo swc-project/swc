@@ -235,6 +235,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         };
         return AstPath;
     }();
+    //
+    // Helper class representing a path from a root ast node to a (grand)child ast node.
+    // This is helpful as our tree don't have parents.
+    //
     TypeScript.AstPath = AstPath;
     function isValidAstNode(ast) {
         if (ast === null) return false;
@@ -316,6 +320,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
         return ctx.path;
     }
+    ///
+    /// Return the stack of AST nodes containing "position"
+    ///
     TypeScript.getAstPathToPosition = getAstPathToPosition;
     function getTokenizationOffset(script, position) {
         var bestOffset = 0;
@@ -335,6 +342,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         TypeScript.getAstWalkerFactory().walk(script, pre);
         return bestOffset;
     }
+    //
+    // Find a source text offset that is safe for lexing tokens at the given position.
+    // This is used when "position" might be inside a comment or string, etc.
+    //
     TypeScript.getTokenizationOffset = getTokenizationOffset;
     function walkAST(ast, callback) {
         var pre = function pre(cur, parent, walker) {
@@ -351,6 +362,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     }
+    ///
+    /// Simple function to Walk an AST using a simple callback function.
+    ///
     TypeScript.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));
 var TypeScript;

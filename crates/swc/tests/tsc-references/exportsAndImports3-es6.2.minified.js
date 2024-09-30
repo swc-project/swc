@@ -55,7 +55,7 @@ var E, D, M, v = 1;
 function f() {}
 class C {
 }
-let E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
+var E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
 M || (M = {});
 const a = M.x;
 //// [t2.ts]

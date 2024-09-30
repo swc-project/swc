@@ -1,6 +1,6 @@
 //// [arrayLiteralInference.ts]
 // Repro from #31204
-export let AppType = /*#__PURE__*/ function(AppType) {
+export var AppType = /*#__PURE__*/ function(AppType) {
     AppType["HeaderDetail"] = "HeaderDetail";
     AppType["HeaderMultiDetail"] = "HeaderMultiDetail";
     AppType["AdvancedList"] = "AdvancedList";
@@ -12,7 +12,7 @@ export let AppType = /*#__PURE__*/ function(AppType) {
     AppType["ModuleSettings"] = "ModuleSettings";
     return AppType;
 }({});
-export let AppStyle = /*#__PURE__*/ function(AppStyle) {
+export var AppStyle = /*#__PURE__*/ function(AppStyle) {
     AppStyle[AppStyle["Tree"] = 0] = "Tree";
     AppStyle[AppStyle["TreeEntity"] = 1] = "TreeEntity";
     AppStyle[AppStyle["Standard"] = 2] = "Standard";

@@ -59,13 +59,13 @@ var v = 1;
 function f() {}
 class C {
 }
-let E = /*#__PURE__*/ function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
     return E;
 }({});
-let D = /*#__PURE__*/ function(D) {
+var D = /*#__PURE__*/ function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 1] = "B";
     D[D["C"] = 2] = "C";

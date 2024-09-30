@@ -1,4 +1,4 @@
-export let Enum = /*#__PURE__*/ function(Enum) {
+export var Enum = /*#__PURE__*/ function(Enum) {
     Enum[Enum["test"] = 1] = "test";
     return Enum;
 }({});

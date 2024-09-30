@@ -46,6 +46,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         };
         return PrintContext;
     }();
+    // TODO: refactor indent logic for use in emit
     TypeScript.PrintContext = PrintContext;
     function prePrintAST(ast, parent, walker) {
         var pc = walker.state;

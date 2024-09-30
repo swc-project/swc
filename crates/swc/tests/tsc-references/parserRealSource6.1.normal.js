@@ -187,6 +187,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (context.scopeStartAST === null) return null;
         return context;
     }
+    //
+    // Find the enclosing scope context from a position inside a script AST.
+    // The "scopeStartAST" of the returned scope is always valid.
+    // Return "null" if the enclosing scope can't be found.
+    //
     TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
 })(TypeScript || (TypeScript = {}));
 var TypeScript;
