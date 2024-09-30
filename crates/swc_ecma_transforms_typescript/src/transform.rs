@@ -714,7 +714,7 @@ impl Transform {
             }
         };
 
-        let var_kind = if !is_export && id.ctxt == self.top_level_ctxt {
+        let var_kind = if is_export || id.ctxt == self.top_level_ctxt {
             VarDeclKind::Var
         } else {
             VarDeclKind::Let
@@ -733,10 +733,10 @@ impl Transform {
                 break 'init_arg init_arg.or_assign_empty();
             }
 
-            if var_kind == VarDeclKind::Var {
-                init_arg.or_empty()
-            } else {
+            if is_export || var_kind == VarDeclKind::Let {
                 InitArg::empty()
+            } else {
+                init_arg.or_empty()
             }
         };
 
@@ -892,80 +892,63 @@ impl Transform {
         for module_item in body {
             match module_item {
                 ModuleItem::Stmt(stmt) => stmts.push(stmt),
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
-                    match decl {
-                        Decl::Class(ClassDecl { ref ident, .. })
-                        | Decl::Fn(FnDecl { ref ident, .. }) => {
-                            let assign_stmt = Self::assign_prop(&id, ident, span);
-                            stmts.push(decl.into());
-                            stmts.push(assign_stmt);
-                        }
-                        Decl::Var(var_decl) => {
-                            let mut exprs: Vec<Box<_>> = var_decl
-                                .decls
-                                .into_iter()
-                                .flat_map(
-                                    |VarDeclarator {
-                                         span, name, init, ..
-                                     }| {
-                                        let right = init?;
-
-                                        let left = match name {
-                                            Pat::Ident(binding_ident) => {
-                                                AssignTarget::Simple(binding_ident.into())
-                                            }
-                                            Pat::Array(array_pat) => {
-                                                AssignTarget::Pat(array_pat.into())
-                                            }
-                                            Pat::Object(object_pat) => {
-                                                AssignTarget::Pat(object_pat.into())
-                                            }
-                                            Pat::Expr(expr) if expr.is_member() => {
-                                                AssignTarget::Simple(expr.member().unwrap().into())
-                                            }
-                                            _ => {
-                                                unreachable!()
-                                            }
-                                        };
-
-                                        Some(
-                                            AssignExpr {
-                                                span,
-                                                left,
-                                                op: op!("="),
-                                                right,
-                                            }
-                                            .into(),
-                                        )
-                                    },
-                                )
-                                .collect();
-
-                            if exprs.is_empty() {
-                                continue;
-                            }
-
-                            let expr = if exprs.len() == 1 {
-                                exprs.pop().unwrap()
-                            } else {
-                                SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs,
-                                }
-                                .into()
-                            };
-
-                            stmts.push(
-                                ExprStmt {
-                                    span: var_decl.span,
-                                    expr,
-                                }
-                                .into(),
-                            );
-                        }
-                        decl => unreachable!("{decl:?}"),
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl, span, ..
+                })) => match decl {
+                    Decl::Class(ClassDecl { ref ident, .. })
+                    | Decl::Fn(FnDecl { ref ident, .. }) => {
+                        let assign_stmt = Self::assign_prop(&id, ident, span);
+                        stmts.push(decl.into());
+                        stmts.push(assign_stmt);
                     }
-                }
+                    Decl::Var(var_decl) => {
+                        let mut exprs: Vec<Box<_>> = var_decl
+                            .decls
+                            .into_iter()
+                            .flat_map(
+                                |VarDeclarator {
+                                     span, name, init, ..
+                                 }| {
+                                    let right = init?;
+                                    let left = name.try_into().unwrap();
+
+                                    Some(
+                                        AssignExpr {
+                                            span,
+                                            left,
+                                            op: op!("="),
+                                            right,
+                                        }
+                                        .into(),
+                                    )
+                                },
+                            )
+                            .collect();
+
+                        if exprs.is_empty() {
+                            continue;
+                        }
+
+                        let expr = if exprs.len() == 1 {
+                            exprs.pop().unwrap()
+                        } else {
+                            SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            }
+                            .into()
+                        };
+
+                        stmts.push(
+                            ExprStmt {
+                                span: var_decl.span,
+                                expr,
+                            }
+                            .into(),
+                        );
+                    }
+                    decl => unreachable!("{decl:?}"),
+                },
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
                     match decl.module_ref {
                         TsModuleRef::TsEntityName(ts_entity_name) => {
