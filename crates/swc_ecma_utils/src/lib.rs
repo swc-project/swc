@@ -3101,6 +3101,86 @@ where
     pub query: T,
 }
 
+impl<T> RefRewriter<T>
+where
+    T: QueryRef,
+{
+    pub fn exit_prop(&mut self, n: &mut Prop) {
+        if let Prop::Shorthand(shorthand) = n {
+            if let Some(expr) = self.query.query_ref(shorthand) {
+                *n = KeyValueProp {
+                    key: shorthand.take().into(),
+                    value: expr,
+                }
+                .into()
+            }
+        }
+    }
+
+    pub fn exit_pat(&mut self, n: &mut Pat) {
+        if let Pat::Ident(id) = n {
+            if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
+                *n = expr.into();
+            }
+        }
+    }
+
+    pub fn exit_expr(&mut self, n: &mut Expr) {
+        if let Expr::Ident(ref_ident) = n {
+            if let Some(expr) = self.query.query_ref(ref_ident) {
+                *n = *expr;
+            }
+        };
+    }
+
+    pub fn exit_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        if let SimpleAssignTarget::Ident(ref_ident) = n {
+            if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
+                *n = expr.try_into().unwrap();
+            }
+        };
+    }
+
+    pub fn exit_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        if let JSXElementName::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = expr;
+            }
+        }
+    }
+
+    pub fn exit_jsx_object(&mut self, n: &mut JSXObject) {
+        if let JSXObject::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = match expr {
+                    JSXElementName::Ident(ident) => ident.into(),
+                    JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
+                    JSXElementName::JSXNamespacedName(..) => unimplemented!(),
+                }
+            }
+        }
+    }
+
+    pub fn exit_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
+            if let Some(expr) = self.query.query_lhs(&key.id) {
+                let value = value
+                    .take()
+                    .map(|default_value| {
+                        let left = expr.clone().try_into().unwrap();
+                        Box::new(default_value.make_assign_to(op!("="), left))
+                    })
+                    .unwrap_or(expr);
+
+                *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident(key.take().into()),
+                    value: value.into(),
+                });
+            }
+        }
+    }
+}
+
 impl<T> VisitMut for RefRewriter<T>
 where
     T: QueryRef,
@@ -3115,18 +3195,8 @@ where
     /// cobst foo = { bar: baz }
     /// ```
     fn visit_mut_prop(&mut self, n: &mut Prop) {
-        match n {
-            Prop::Shorthand(shorthand) => {
-                if let Some(expr) = self.query.query_ref(shorthand) {
-                    *n = KeyValueProp {
-                        key: shorthand.take().into(),
-                        value: expr,
-                    }
-                    .into()
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
+        n.visit_mut_children_with(self);
+        self.exit_prop(n);
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
@@ -3139,38 +3209,18 @@ where
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        match n {
-            Pat::Ident(id) => {
-                if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
-                    *n = expr.into();
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
+        n.visit_mut_children_with(self);
+        self.exit_pat(n);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(ref_ident) => {
-                if let Some(expr) = self.query.query_ref(ref_ident) {
-                    *n = *expr;
-                }
-            }
-
-            _ => n.visit_mut_children_with(self),
-        };
+        n.visit_mut_children_with(self);
+        self.exit_expr(n);
     }
 
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        match n {
-            SimpleAssignTarget::Ident(ref_ident) => {
-                if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
-                    *n = expr.try_into().unwrap();
-                }
-            }
-
-            _ => n.visit_mut_children_with(self),
-        };
+        n.visit_mut_children_with(self);
+        self.exit_simple_assign_target(n);
     }
 
     fn visit_mut_callee(&mut self, n: &mut Callee) {
@@ -3208,25 +3258,13 @@ where
     fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
         n.visit_mut_children_with(self);
 
-        if let JSXElementName::Ident(ident) = n {
-            if let Some(expr) = self.query.query_jsx(ident) {
-                *n = expr;
-            }
-        }
+        self.exit_jsx_element_name(n);
     }
 
     fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
         n.visit_mut_children_with(self);
 
-        if let JSXObject::Ident(ident) = n {
-            if let Some(expr) = self.query.query_jsx(ident) {
-                *n = match expr {
-                    JSXElementName::Ident(ident) => ident.into(),
-                    JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
-                    JSXElementName::JSXNamespacedName(..) => unimplemented!(),
-                }
-            }
-        }
+        self.exit_jsx_object(n);
     }
 }
 
