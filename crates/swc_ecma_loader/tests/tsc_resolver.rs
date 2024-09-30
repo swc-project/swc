@@ -98,6 +98,62 @@ fn pattern_1() {
 }
 
 #[test]
+fn base_url_works_for_resolves_full_filenames_with_dot_suffix() {
+    let mut map = HashMap::default();
+    map.insert(
+        "./common/folder1/file1.suffix1.ts".to_string(),
+        "suffix1".to_string(),
+    );
+    map.insert(
+        "./common/folder2/file2-suffix2.ts".to_string(),
+        "suffix2".to_string(),
+    );
+
+    let r = TsConfigResolver::new(
+        TestResolver(map),
+        ".".into(),
+        vec![
+            (
+                "@common/file1-suffix1".into(),
+                vec!["common/folder1/file1.suffix1.ts".into()],
+            ),
+            (
+                "@common/file2-suffix2".into(),
+                vec!["common/folder2/file2-suffix2.ts".into()],
+            ),
+        ],
+    );
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@common/file1-suffix1")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("suffix1".into()),
+                slug: Some("file1.suffix1".into())
+            }
+        );
+    }
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@common/file2-suffix2")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("suffix2".into()),
+                slug: Some("file2-suffix2".into())
+            }
+        );
+    }
+}
+
+#[test]
 fn base_url_works_for_bare_specifier() {
     let mut map = HashMap::default();
     map.insert("./src/common/helper".to_string(), "helper".to_string());
