@@ -203,6 +203,10 @@ impl Visit for Transform {
                 .insert(node.id.to_id(), self.namespace_id.clone());
         }
     }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        maybe_grow_default(|| node.visit_children_with(self));
+    }
 }
 
 impl VisitMut for Transform {
