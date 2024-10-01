@@ -683,13 +683,6 @@ impl VisitMut for TreeShaker {
         self.in_block_stmt = old_in_block_stmt;
     }
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        let old_in_fn = self.in_fn;
-        self.in_fn = true;
-        n.visit_mut_children_with(self);
-        self.in_fn = old_in_fn;
-    }
-
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
@@ -827,6 +820,30 @@ impl VisitMut for TreeShaker {
         }
     }
 
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
+        match n {
+            ForHead::VarDecl(..) | ForHead::UsingDecl(..) => {}
+            ForHead::Pat(v) => {
+                v.visit_mut_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_in_fn = self.in_fn;
+        self.in_fn = true;
+        n.visit_mut_children_with(self);
+        self.in_fn = old_in_fn;
+    }
+
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
         ss.retain(|s| {
             let local = match s {
@@ -851,34 +868,6 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 
-        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-
-        if self.bindings.is_empty() {
-            self.bindings = Arc::new(collect_decls(&*m))
-        }
-
-        let mut data = Default::default();
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
-            };
-            m.visit_with(&mut analyzer);
-        }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
-
-        HELPERS.set(&Helpers::new(true), || {
-            m.visit_mut_children_with(self);
-        })
-    }
-
-    fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if self.bindings.is_empty() {
@@ -931,6 +920,42 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_likes(s);
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
+        if self.bindings.is_empty() {
+            self.bindings = Arc::new(collect_decls(&*m))
+        }
+
+        let mut data = Default::default();
+
+        {
+            let mut analyzer = Analyzer {
+                config: &self.config,
+                in_var_decl: false,
+                scope: Default::default(),
+                data: &mut data,
+                cur_class_id: Default::default(),
+                cur_fn_id: Default::default(),
+            };
+            m.visit_with(&mut analyzer);
+        }
+        data.subtract_cycles();
+        self.data = Arc::new(data);
+
+        HELPERS.set(&Helpers::new(true), || {
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -995,21 +1020,17 @@ impl VisitMut for TreeShaker {
         self.visit_mut_stmt_likes(s);
     }
 
-    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
-        match n {
-            VarDeclOrExpr::VarDecl(..) => {}
-            VarDeclOrExpr::Expr(v) => {
-                v.visit_mut_with(self);
-            }
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if matches!(n.op, op!("delete")) {
+            return;
         }
+        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
-        match n {
-            ForHead::VarDecl(..) | ForHead::UsingDecl(..) => {}
-            ForHead::Pat(v) => {
-                v.visit_mut_with(self);
-            }
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
+        for decl in n.decls.iter_mut() {
+            decl.init.visit_mut_with(self);
         }
     }
 
@@ -1018,6 +1039,15 @@ impl VisitMut for TreeShaker {
         self.var_decl_kind = Some(n.kind);
         n.visit_mut_children_with(self);
         self.var_decl_kind = old_var_decl_kind;
+    }
+
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        match n {
+            VarDeclOrExpr::VarDecl(..) => {}
+            VarDeclOrExpr::Expr(v) => {
+                v.visit_mut_with(self);
+            }
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
@@ -1054,29 +1084,6 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
-    }
-
-    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
-        if matches!(n.op, op!("delete")) {
-            return;
-        }
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
     }
 }
 

@@ -431,7 +431,7 @@ impl VisitMut for VarMover {
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
 
-        if self.var_decl_kind.unwrap() != self.target {
+        if self.var_decl_kind != Some(self.target) {
             return;
         }
 

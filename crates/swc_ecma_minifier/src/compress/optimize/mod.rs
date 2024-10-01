@@ -2322,21 +2322,6 @@ impl VisitMut for Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_mut_script(&mut self, s: &mut Script) {
-        let ctx = Ctx {
-            top_level: true,
-            ..self.ctx
-        };
-        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        if self.vars.inline_with_multi_replacer(s) {
-            self.changed = true;
-        }
-
-        drop_invalid_stmts(&mut s.body);
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
@@ -2455,6 +2440,21 @@ impl VisitMut for Optimizer<'_> {
         if let Some(arg) = &mut n.arg {
             self.optimize_last_expr_before_termination(arg);
         }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_script(&mut self, s: &mut Script) {
+        let ctx = Ctx {
+            top_level: true,
+            ..self.ctx
+        };
+        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        if self.vars.inline_with_multi_replacer(s) {
+            self.changed = true;
+        }
+
+        drop_invalid_stmts(&mut s.body);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2595,6 +2595,7 @@ impl VisitMut for Optimizer<'_> {
                     return;
                 }
             }
+
             _ => {}
         }
 
@@ -2908,6 +2909,20 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
+        let ctx = Ctx {
+            is_update_arg: false,
+            has_const_ann: false,
+            var_kind: None,
+            ..self.ctx
+        };
+
+        for decl in n.decls.iter_mut() {
+            decl.init.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

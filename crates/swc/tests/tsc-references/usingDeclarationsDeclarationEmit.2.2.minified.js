@@ -1,14 +1,8 @@
 //// [usingDeclarationsDeclarationEmit.2.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-try {
-    var _usingCtx = _using_ctx();
-    _usingCtx.u({
-        [Symbol.dispose] () {}
-    }), _usingCtx.a({
-        async [Symbol.asyncDispose] () {}
-    });
-} catch (_) {
-    _usingCtx.e = _;
-} finally{
-    await _usingCtx.d();
+using r1 = {
+    [Symbol.dispose] () {}
 }
+await using r2 = {
+    async [Symbol.asyncDispose] () {}
+}
+export { };

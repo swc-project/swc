@@ -7,16 +7,7 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _using_ctx = require("@swc/helpers/_/_using_ctx");
-try {
-    var _usingCtx = _using_ctx._();
-    class C1 {
-    }
-    C1 = _ts_decorate._([
-        dec
-    ], C1), _usingCtx.u(null);
-} catch (_) {
-    _usingCtx.e = _;
-} finally{
-    _usingCtx.d();
+@dec
+class C {
 }
+using after = null
