@@ -506,6 +506,6 @@ impl VisitMut for MinifierPass<'_> {
     }
 }
 
-fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
+pub(crate) fn should_enable(target: EsVersion, feature: EsVersion) -> bool {
     target < feature
 }

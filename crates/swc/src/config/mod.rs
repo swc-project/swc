@@ -74,7 +74,9 @@ use swc_ecma_visit::{Fold, VisitMutWith};
 
 pub use crate::plugin::PluginConfig;
 use crate::{
-    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver, SwcImportResolver,
+    builder::{should_enable, PassBuilder},
+    dropped_comments_preserver::dropped_comments_preserver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -579,6 +581,7 @@ impl Options {
         );
 
         let keep_import_attributes = experimental.keep_import_attributes.into_bool();
+        let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
         let plugin_transforms = {
@@ -697,23 +700,33 @@ impl Options {
                 };
 
             Box::new(chain!(
-                lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                    program: &program,
-                    lint_config: &lints,
-                    top_level_ctxt,
-                    unresolved_ctxt,
-                    es_version,
-                    source_map: cm.clone(),
-                })),
+                Optional::new(
+                    lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                        program: &program,
+                        lint_config: &lints,
+                        top_level_ctxt,
+                        unresolved_ctxt,
+                        es_version,
+                        source_map: cm.clone(),
+                    })),
+                    !disable_all_lints
+                ),
                 // Decorators may use type information
-                Optional::new(decorator_pass, syntax.decorators()),
+                Optional::new(
+                    decorator_pass,
+                    should_enable(es_version, EsVersion::EsNext) && syntax.decorators()
+                ),
                 Optional::new(
                     explicit_resource_management(),
-                    syntax.explicit_resource_management()
+                    should_enable(es_version, EsVersion::EsNext)
+                        && syntax.explicit_resource_management()
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
-                Optional::new(import_assertions(), !keep_import_attributes),
+                Optional::new(
+                    import_assertions(),
+                    should_enable(es_version, EsVersion::EsNext) && !keep_import_attributes
+                ),
                 Optional::new(
                     typescript::tsx::<Option<&dyn Comments>>(
                         cm.clone(),
@@ -1229,6 +1242,9 @@ pub struct JscExperimental {
     /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
     #[serde(default)]
     pub emit_isolated_dts: BoolConfig<false>,
+
+    #[serde(default)]
+    pub disable_all_lints: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

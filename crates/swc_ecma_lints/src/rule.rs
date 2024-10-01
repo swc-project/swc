@@ -20,6 +20,10 @@ pub trait Rule: Debug + Send + Sync {
 
 macro_rules! for_vec {
     ($name:ident, $program:ident, $s:expr) => {{
+        if $s.is_empty() {
+            return;
+        }
+
         let program = $program;
         if cfg!(target_arch = "wasm32") {
             for rule in $s {
