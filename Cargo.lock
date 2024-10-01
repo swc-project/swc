@@ -3850,7 +3850,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "0.289.0"
+version = "0.289.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.106.1"
+version = "0.106.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4614,7 +4614,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
@@ -4657,7 +4657,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.208.0"
+version = "0.208.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4939,7 +4939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.212.0"
+version = "0.212.1"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.5.0",
