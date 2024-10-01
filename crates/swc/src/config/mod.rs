@@ -581,6 +581,7 @@ impl Options {
         );
 
         let keep_import_attributes = experimental.keep_import_attributes.into_bool();
+        let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
         let plugin_transforms = {
@@ -699,14 +700,17 @@ impl Options {
                 };
 
             Box::new(chain!(
-                lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                    program: &program,
-                    lint_config: &lints,
-                    top_level_ctxt,
-                    unresolved_ctxt,
-                    es_version,
-                    source_map: cm.clone(),
-                })),
+                Optional::new(
+                    lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                        program: &program,
+                        lint_config: &lints,
+                        top_level_ctxt,
+                        unresolved_ctxt,
+                        es_version,
+                        source_map: cm.clone(),
+                    })),
+                    !disable_all_lints
+                ),
                 // Decorators may use type information
                 Optional::new(
                     decorator_pass,
@@ -1238,6 +1242,9 @@ pub struct JscExperimental {
     /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
     #[serde(default)]
     pub emit_isolated_dts: BoolConfig<false>,
+
+    #[serde(default)]
+    pub disable_all_lints: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
