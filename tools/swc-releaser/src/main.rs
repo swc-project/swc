@@ -90,7 +90,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         update_changelog().with_context(|| "failed to update changelog")?;
     }
 
-    commit(dry_run).context("failed to commit")?;
+    git_commit(dry_run).context("failed to commit")?;
+    git_tag_core(dry_run).context("failed to tag core")?;
 
     Ok(())
 }
@@ -126,7 +127,7 @@ fn get_swc_core_version() -> Result<String> {
         .context("failed to find swc_core")
 }
 
-fn commit(dry_run: bool) -> Result<()> {
+fn git_commit(dry_run: bool) -> Result<()> {
     let core_ver = get_swc_core_version()?;
 
     let mut cmd = Command::new("git");
@@ -142,6 +143,23 @@ fn commit(dry_run: bool) -> Result<()> {
     }
 
     cmd.status().context("failed to run git commit")?;
+
+    Ok(())
+}
+
+fn git_tag_core(dry_run: bool) -> Result<()> {
+    let core_ver = get_swc_core_version()?;
+
+    let mut cmd = Command::new("git");
+    cmd.arg("tag").arg(format!("swc_core@v{}", core_ver));
+
+    eprintln!("Running {:?}", cmd);
+
+    if dry_run {
+        return Ok(());
+    }
+
+    cmd.status().context("failed to run git tag")?;
 
     Ok(())
 }
