@@ -54,6 +54,6 @@ swc_trace_macro             = { version = "1.0.0", path = "../swc_trace_macro" }
 [dev-dependencies]
 serde_json = { workspace = true }
 
-swc_ecma_parser             = { version = "0.152.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "0.152.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "0.152.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "0.42.0", path = "../testing" }
