@@ -16,4 +16,4 @@ indexmap   = { workspace = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 
-swc_common = { version = "0.40.0", path = "../swc_common" }
+swc_common = { version = "0.40.1", path = "../swc_common" }

@@ -18,6 +18,6 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms     = { version = "1.0.0", path = "../swc_atoms" }
-swc_common    = { version = "0.40.0", path = "../swc_common" }
+swc_common    = { version = "0.40.1", path = "../swc_common" }
 swc_css_ast   = { version = "0.147.0", path = "../swc_css_ast" }
 swc_css_visit = { version = "0.146.0", path = "../swc_css_visit" }

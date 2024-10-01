@@ -19,7 +19,7 @@ serde_json = { workspace = true }
 
 preset_env_base = { version = "0.6.0", path = "../preset_env_base" }
 swc_atoms       = { version = "1.0.0", path = "../swc_atoms" }
-swc_common      = { version = "0.40.0", path = "../swc_common" }
+swc_common      = { version = "0.40.1", path = "../swc_common" }
 swc_css_ast     = { version = "0.147.0", path = "../swc_css_ast" }
 swc_css_utils   = { version = "0.144.0", path = "../swc_css_utils/" }
 swc_css_visit   = { version = "0.146.0", path = "../swc_css_visit" }

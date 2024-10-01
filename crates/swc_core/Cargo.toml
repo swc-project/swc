@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.106.2"
+version       = "0.106.3"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -343,7 +343,7 @@ swc                              = { optional = true, version = "0.289.1", path 
 swc_atoms                        = { optional = true, version = "1.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.241.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.19", path = "../swc_cached" }
-swc_common                       = { optional = true, version = "0.40.0", path = "../swc_common" }
+swc_common                       = { optional = true, version = "0.40.1", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "0.147.0", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.158.0", path = "../swc_css_codegen" }
 swc_css_compat                   = { optional = true, version = "0.34.0", path = "../swc_css_compat" }
@@ -353,7 +353,7 @@ swc_css_parser                   = { optional = true, version = "0.157.0", path 
 swc_css_prefixer                 = { optional = true, version = "0.161.0", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.144.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.146.0", path = "../swc_css_visit" }
-swc_ecma_ast                     = { optional = true, version = "0.121.0", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { optional = true, version = "0.121.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "0.158.0", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "0.104.1", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "0.52.1", path = "../swc_ecma_loader" }
@@ -377,14 +377,14 @@ swc_node_bundler                 = { optional = true, version = "0.79.0", path =
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.16", path = "../swc_plugin_macro" }
-swc_plugin_proxy                 = { optional = true, version = "0.50.0", path = "../swc_plugin_proxy" }
+swc_plugin_proxy                 = { optional = true, version = "0.50.1", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "1.0.0", path = "../swc_trace_macro" }
 swc_transform_common             = { optional = true, version = "0.1.0", path = "../swc_transform_common" }
 swc_typescript                   = { optional = true, version = "0.8.0", path = "../swc_typescript" }
 testing                          = { optional = true, version = "0.42.0", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_allocator     = { version = "0.1.2", path = "../swc_allocator", default-features = false }
-swc_plugin_runner = { optional = true, version = "0.115.0", path = "../swc_plugin_runner", default-features = false }
+swc_allocator     = { version = "0.1.9", path = "../swc_allocator", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.115.1", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { workspace = true, features = ["cargo"] }

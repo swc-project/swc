@@ -69,14 +69,14 @@ url          = { workspace = true }
 
 swc_atoms = { version = "1.0.0", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }
-swc_common = { version = "0.40.0", path = "../swc_common", features = [
+swc_common = { version = "0.40.1", path = "../swc_common", features = [
   "ahash",
   "sourcemap",
   "parking_lot",
 ] }
 swc_compiler_base = { version = "0.23.0", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.13", path = "../swc_config" }
-swc_ecma_ast = { version = "0.121.0", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.158.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.123.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "0.104.1", path = "../swc_ecma_lints" }
@@ -103,8 +103,8 @@ swc_ecma_utils = { version = "0.137.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "1.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.27.0", path = "../swc_node_comments" }
-swc_plugin_proxy = { version = "0.50.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "0.115.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_proxy = { version = "0.50.1", path = "../swc_plugin_proxy", optional = true }
+swc_plugin_runner = { version = "0.115.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.27.0", path = "../swc_timer" }
 swc_transform_common = { version = "0.1.1", path = "../swc_transform_common" }
 swc_typescript = { version = "0.8.0", path = "../swc_typescript" }
@@ -133,7 +133,7 @@ rayon     = { workspace = true }
 walkdir   = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "0.121.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_lints = { version = "0.104.1", path = "../swc_ecma_lints", features = [

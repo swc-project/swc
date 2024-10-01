@@ -3923,7 +3923,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "bumpalo",
  "codspeed-criterion-compat",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.106.2"
+version = "0.106.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4357,7 +4357,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.121.0"
+version = "0.121.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5244,7 +5244,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "is-macro",
  "rkyv",
@@ -5436,7 +5436,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.50.0"
+version = "0.50.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -5448,7 +5448,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.115.0"
+version = "0.115.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

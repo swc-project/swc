@@ -18,4 +18,4 @@ bench = false
 dashmap = { workspace = true }
 
 swc_atoms  = { version = "1.0.0", path = "../swc_atoms" }
-swc_common = { version = "0.40.0", path = "../swc_common" }
+swc_common = { version = "0.40.1", path = "../swc_common" }

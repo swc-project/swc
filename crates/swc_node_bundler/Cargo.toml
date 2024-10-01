@@ -34,10 +34,10 @@ swc_atoms = { version = "1.0.0", path = "../swc_atoms" }
 swc_bundler = { version = "0.241.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "0.40.0", path = "../swc_common", features = [
+swc_common = { version = "0.40.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.121.0", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.158.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.52.1", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
