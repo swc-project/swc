@@ -1,32 +1,12 @@
 //// [usingDeclarationsWithLegacyClassDecorators.2.ts]
-System.register([
-    "@swc/helpers/_/_ts_decorate",
-    "@swc/helpers/_/_using_ctx"
-], function(_export, _context) {
-    var _ts_decorate, _using_ctx;
+System.register([], function(_export, _context) {
     return _export("C", void 0), {
-        setters: [
-            function(_ts_decorate1) {
-                _ts_decorate = _ts_decorate1._;
-            },
-            function(_using_ctx1) {
-                _using_ctx = _using_ctx1._;
-            }
-        ],
+        setters: [],
         execute: function() {
-            try {
-                var _usingCtx = _using_ctx();
-                _usingCtx.u(null);
-                class C {
-                }
-                _export("C", C), C = _ts_decorate([
-                    dec
-                ], C);
-            } catch (_) {
-                _usingCtx.e = _;
-            } finally{
-                _usingCtx.d();
-            }
+            using before = null
+            _export("C", @dec
+            class {
+            });
         }
     };
 });
