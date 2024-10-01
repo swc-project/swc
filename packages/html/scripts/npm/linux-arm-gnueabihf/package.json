@@ -1,6 +1,6 @@
 {
   "name": "@swc/html-linux-arm-gnueabihf",
-  "version": "1.7.29-nightly-20241001.1",
+  "version": "1.7.29",
   "os": [
     "linux"
   ],
