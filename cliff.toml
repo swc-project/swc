@@ -73,6 +73,6 @@ commit_parsers = [
 # filter out the commits that are not matched by commit parsers
 filter_commits = false
 # glob pattern for matching git tags
-ignore_tags   = "nightly"
+ignore_tags   = "nightly|*@"
 limit_commits = 1000
 tag_pattern   = "v[0-9]*"
