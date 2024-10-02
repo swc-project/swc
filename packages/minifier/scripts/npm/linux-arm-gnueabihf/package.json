@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-linux-arm-gnueabihf",
-  "version": "1.7.29",
+  "version": "1.7.30-nightly-20241002.1",
   "os": [
     "linux"
   ],
