@@ -18,11 +18,11 @@ use swc_ecma_transforms::{fixer, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
 const FILES: &[&str] = &[
-    "./assets/Observable.ts",
-    "./assets/parser.ts",
-    "./assets/renderer.ts",
-    "./assets/table.tsx",
-    "./assets/UserSettings.tsx",
+    "./benches/assets/Observable.ts",
+    "./benches/assets/parser.ts",
+    "./benches/assets/renderer.ts",
+    "./benches/assets/table.tsx",
+    "./benches/assets/UserSettings.tsx",
 ];
 
 fn mk() -> swc::Compiler {
