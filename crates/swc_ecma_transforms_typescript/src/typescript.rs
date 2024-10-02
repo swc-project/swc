@@ -44,8 +44,9 @@ impl VisitMut for TypeScript {
 
         if !self.config.verbatim_module_syntax {
             n.visit_mut_with(&mut StripImportExport {
-                id_usage: mem::take(&mut self.id_usage),
                 import_not_used_as_values: self.config.import_not_used_as_values,
+                usage_info: mem::take(&mut self.id_usage).into(),
+                ..Default::default()
             });
         }
 

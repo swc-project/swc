@@ -1,5 +1,3 @@
-use std::mem;
-
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -8,7 +6,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
 
 #[derive(Debug, Default)]
-struct UsageCollect {
+pub(crate) struct UsageCollect {
     id_usage: AHashSet<Id>,
     import_chain: AHashMap<Id, Id>,
 }
@@ -145,7 +143,7 @@ fn get_module_ident(ts_entity_name: &TsEntityName) -> &Ident {
 }
 
 #[derive(Debug, Default)]
-struct DeclareCollect {
+pub(crate) struct DeclareCollect {
     id_type: AHashSet<Id>,
     id_value: AHashSet<Id>,
 }
@@ -284,20 +282,22 @@ impl DeclareCollect {
 ///    import.
 #[derive(Default)]
 pub(crate) struct StripImportExport {
-    pub id_usage: AHashSet<Id>,
     pub import_not_used_as_values: ImportsNotUsedAsValues,
+    pub usage_info: UsageCollect,
+    pub declare_info: DeclareCollect,
 }
 
 impl VisitMut for StripImportExport {
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_with(&mut self.usage_info);
+        n.visit_with(&mut self.declare_info);
+
+        self.usage_info.analyze_import_chain();
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut usage_info = UsageCollect::from(mem::take(&mut self.id_usage));
-        let mut declare_info = DeclareCollect::default();
-
-        n.visit_with(&mut usage_info);
-        n.visit_with(&mut declare_info);
-
-        usage_info.analyze_import_chain();
-
         let mut strip_ts_import_equals = StripTsImportEquals;
 
         n.retain_mut(|module_item| match module_item {
@@ -317,29 +317,29 @@ impl VisitMut for StripImportExport {
 
                         let id = named.local.to_id();
 
-                        if declare_info.has_value(&id) {
+                        if self.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        usage_info.has_usage(&id)
+                        self.usage_info.has_usage(&id)
                     }
                     ImportSpecifier::Default(default) => {
                         let id = default.local.to_id();
 
-                        if declare_info.has_value(&id) {
+                        if self.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        usage_info.has_usage(&id)
+                        self.usage_info.has_usage(&id)
                     }
                     ImportSpecifier::Namespace(namespace) => {
                         let id = namespace.local.to_id();
 
-                        if declare_info.has_value(&id) {
+                        if self.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        usage_info.has_usage(&id)
+                        self.usage_info.has_usage(&id)
                     }
                 });
 
@@ -363,7 +363,7 @@ impl VisitMut for StripImportExport {
                     }) if src.is_none() => {
                         let id = ident.to_id();
 
-                        !declare_info.has_pure_type(&id)
+                        !self.declare_info.has_pure_type(&id)
                     }
                     ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
                         !is_type_only
@@ -383,7 +383,7 @@ impl VisitMut for StripImportExport {
                 .map(|ident| {
                     let id = ident.to_id();
 
-                    !declare_info.has_pure_type(&id)
+                    !self.declare_info.has_pure_type(&id)
                 })
                 .unwrap_or(true),
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
@@ -395,7 +395,7 @@ impl VisitMut for StripImportExport {
                     return true;
                 }
 
-                usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+                self.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
             }
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
                 if ts_module.body.is_some() =>
