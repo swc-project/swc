@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 
 use crate::path::ImportResolver;
 
@@ -18,8 +18,6 @@ struct Rewriter {
 }
 
 impl VisitMut for Rewriter {
-    noop_visit_mut_type!(fail);
-
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.visit_mut_children_with(self);
 
