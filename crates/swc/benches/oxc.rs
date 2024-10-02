@@ -1,21 +1,14 @@
 extern crate swc_malloc;
 
-use std::{
-    fs,
-    io::{self, stderr},
-    sync::Arc,
-};
+use std::{fs, io::stderr, sync::Arc};
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::config::{Config, IsModule, JscConfig, Options, TransformConfig};
-use swc_common::{
-    errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
-};
-use swc_compiler_base::{PrintArgs, SourceMapsConfig};
-use swc_ecma_ast::{EsVersion, Program};
+use swc::config::{Config, JscConfig, Options, TransformConfig};
+use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap, GLOBALS};
+use swc_compiler_base::SourceMapsConfig;
+use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_transforms::{fixer, react::Runtime, resolver, typescript};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_transforms::react::Runtime;
 
 const FILES: &[&str] = &[
     "benches/assets/parser.ts",
