@@ -195,6 +195,9 @@ fn full_group(c: &mut Criterion) {
     compat!(es2018, EsVersion::Es2018);
     compat!(es2019, EsVersion::Es2019);
     compat!(es2020, EsVersion::Es2020);
+    compat!(es2021, EsVersion::Es2021);
+    compat!(es2022, EsVersion::Es2022);
+    compat!(esnext, EsVersion::EsNext);
 }
 
 fn parser_group(c: &mut Criterion) {
