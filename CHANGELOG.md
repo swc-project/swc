@@ -1321,9 +1321,6 @@
 - **(css/modules)** Fix `:global` selectors without preceding whitespace ([#8926](https://github.com/swc-project/swc/issues/8926)) ([2405dc6](https://github.com/swc-project/swc/commit/2405dc6ba0aa227df81fda3db303fc6f523972db))
 
 
-- **(es/minifier)** Consider side effects of operands of binary expressions ([#8929](https://github.com/swc-project/swc/issues/8929)) ([4d4a7a9](https://github.com/swc-project/swc/commit/4d4a7a9bcb39228973c0da2991310b5107feb319))
-
-
 - **(es/minifier)** Fix operand handling of `**` ([#8933](https://github.com/swc-project/swc/issues/8933)) ([c9d72cd](https://github.com/swc-project/swc/commit/c9d72cdc6aa847ba2d81eb2a99c0d0c74bc669b6))
 
 
