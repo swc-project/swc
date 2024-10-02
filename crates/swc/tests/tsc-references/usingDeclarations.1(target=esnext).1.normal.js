@@ -64,28 +64,6 @@ class C1 {
     get x() {
         using d11 = {
             [Symbol.dispose] () {}
-    (function(N) {
-        try {
-            var _usingCtx = _using_ctx();
-            var d18 = _usingCtx.u({
-                [Symbol.dispose] () {}
-            });
-        } catch (_) {
-            _usingCtx.e = _;
-        } finally{
-            _usingCtx.d();
-        }
-    })(N || (N = {}));
-    {
-        try {
-            var _usingCtx1 = _using_ctx();
-            const d19 = _usingCtx1.u({
-                [Symbol.dispose] () {}
-            });
-        } catch (_) {
-            _usingCtx1.e = _;
-        } finally{
-            _usingCtx1.d();
         }
         ;
         return 0;
@@ -137,7 +115,6 @@ class C3 extends C1 {
         super(), this.y = 1;
     }
 }
-var N;
 (function(N) {
     using d18 = {
         [Symbol.dispose] () {}
@@ -180,9 +157,6 @@ try {
         [Symbol.dispose] () {}
     }
     ;
-    var N;
-} catch (_) {
-    _usingCtx.e = _;
 } finally{
     using d25 = {
         [Symbol.dispose] () {}
@@ -233,4 +207,5 @@ for (const x of []){
     }
     ;
 }
+var N;
 export { };
