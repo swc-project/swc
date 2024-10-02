@@ -107,15 +107,6 @@ macro_rules! semi {
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
-        #[cfg(debug_assertions)]
-        let _span = tracing::span!(
-            tracing::Level::ERROR,
-            "srcmap",
-            file = file!(),
-            line = line!()
-        )
-        .entered();
-
         let lo = $n.span_lo();
         if !lo.is_dummy() {
             $emitter.wr.add_srcmap(lo)?;
@@ -125,15 +116,6 @@ macro_rules! srcmap {
         srcmap!($emitter, $n, false, false)
     };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
-        #[cfg(debug_assertions)]
-        let _span = tracing::span!(
-            tracing::Level::ERROR,
-            "srcmap",
-            file = file!(),
-            line = line!()
-        )
-        .entered();
-
         let hi = $n.span_hi();
         if !hi.is_dummy() {
             if $subtract {
