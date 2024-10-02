@@ -13,15 +13,15 @@ use swc_common::{
 };
 use swc_compiler_base::PrintArgs;
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms::{fixer, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
 const FILES: &[&str] = &[
-    "./benches/assets/parser.ts",
-    "./benches/assets/renderer.ts",
-    "./benches/assets/table.tsx",
-    "./benches/assets/UserSettings.tsx",
+    "benches/assets/parser.ts",
+    "benches/assets/renderer.ts",
+    "benches/assets/table.tsx",
+    "benches/assets/UserSettings.tsx",
 ];
 
 fn mk() -> swc::Compiler {
@@ -81,11 +81,14 @@ fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
 }
 
 fn full_group(c: &mut Criterion) {
-    macro_rules! compat {
-        ($name:ident, $target:expr) => {{
-            for filename in FILES {
+    for filename in FILES {
+        for source_map in [true, false] {
+            for react_dev in [true, false] {
                 c.bench_function(
-                    &format!("es/full/all/{}/{}", stringify!($name), filename),
+                    &format!(
+                        "es/oxc/{}/sourceMap={},reactDev={}",
+                        filename, source_map, react_dev
+                    ),
                     |b| {
                         bench_full(
                             b,
@@ -93,8 +96,11 @@ fn full_group(c: &mut Criterion) {
                             &Options {
                                 config: Config {
                                     jsc: JscConfig {
-                                        target: Some($target),
-                                        syntax: Some(Syntax::Typescript(Default::default())),
+                                        target: Some(EsVersion::EsNext),
+                                        syntax: Some(Syntax::Typescript(TsSyntax {
+                                            tsx: filename.ends_with(".tsx"),
+                                            ..Default::default()
+                                        })),
                                         ..Default::default()
                                     },
                                     module: None,
@@ -105,22 +111,10 @@ fn full_group(c: &mut Criterion) {
                             },
                         );
                     },
-                );
+                )
             }
-        }};
+        }
     }
-
-    compat!(es3, EsVersion::Es3);
-    compat!(es5, EsVersion::Es5);
-    compat!(es2015, EsVersion::Es2015);
-    compat!(es2016, EsVersion::Es2016);
-    compat!(es2017, EsVersion::Es2017);
-    compat!(es2018, EsVersion::Es2018);
-    compat!(es2019, EsVersion::Es2019);
-    compat!(es2020, EsVersion::Es2020);
-    compat!(es2021, EsVersion::Es2021);
-    compat!(es2022, EsVersion::Es2022);
-    compat!(esnext, EsVersion::EsNext);
 }
 
 criterion_group!(benches, full_group);
