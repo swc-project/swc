@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.106.3"
+version       = "0.106.4"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -354,7 +354,7 @@ swc_css_prefixer                 = { optional = true, version = "0.161.0", path 
 swc_css_utils                    = { optional = true, version = "0.144.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.146.0", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { optional = true, version = "0.158.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen                 = { optional = true, version = "0.158.1", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "0.104.1", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "0.52.1", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.208.1", path = "../swc_ecma_minifier" }
@@ -363,12 +363,12 @@ swc_ecma_preset_env              = { optional = true, version = "0.221.0", path 
 swc_ecma_quote_macros            = { optional = true, version = "0.63.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.149.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "0.175.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module       = { optional = true, version = "0.194.0", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_module       = { optional = true, version = "0.194.1", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "0.212.1", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "0.183.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react        = { optional = true, version = "0.195.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "0.152.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript   = { optional = true, version = "0.202.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript   = { optional = true, version = "0.202.1", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_usage_analyzer          = { optional = true, version = "0.33.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "0.137.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.107.0", path = "../swc_ecma_visit" }

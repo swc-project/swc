@@ -29,7 +29,7 @@ swc_common = { version = "0.40.1", path = "../swc_common", features = [
 ] }
 swc_config = { version = "0.1.13", path = "../swc_config" }
 swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.158.1", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "0.208.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }

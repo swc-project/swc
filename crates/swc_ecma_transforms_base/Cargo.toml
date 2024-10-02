@@ -40,7 +40,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 rayon                     = { workspace = true }
 
-swc_ecma_codegen           = { version = "0.158.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "0.158.1", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.5", path = "../swc_ecma_transforms_macros" }
 swc_malloc                 = { version = "0.5.10", path = "../swc_malloc" }
 testing                    = { version = "0.42.0", path = "../testing" }

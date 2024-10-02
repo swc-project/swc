@@ -21,10 +21,10 @@ swc_common = { version = "0.40.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.158.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.149.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_typescript = { version = "0.202.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "0.202.1", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]

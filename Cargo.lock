@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.106.3"
+version = "0.106.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4377,7 +4377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.158.0"
+version = "0.158.1"
 dependencies = [
  "base64 0.21.7",
  "codspeed-criterion-compat",
@@ -4909,7 +4909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.194.0"
+version = "0.194.1"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5046,7 +5046,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.202.0"
+version = "0.202.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",

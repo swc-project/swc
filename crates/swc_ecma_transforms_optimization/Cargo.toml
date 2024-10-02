@@ -43,9 +43,9 @@ swc_fast_graph             = { version = "1.0.0", path = "../swc_fast_graph" }
 
 [dev-dependencies]
 swc_ecma_transforms_compat     = { version = "0.175.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module     = { version = "0.194.0", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_module     = { version = "0.194.1", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_proposal   = { version = "0.183.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react      = { version = "0.195.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing    = { version = "0.152.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "0.202.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "0.202.1", path = "../swc_ecma_transforms_typescript" }
 testing                        = { version = "0.42.0", path = "../testing" }

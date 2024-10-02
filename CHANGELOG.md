@@ -1,4 +1,24 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/module)** Allow TypeScript nodes for `Rewriter` ([#9606](https://github.com/swc-project/swc/issues/9606)) ([4ee45ac](https://github.com/swc-project/swc/commit/4ee45ac1fd10da1ea982a152a458deb9f5359998))
+
+### Performance
+
+
+
+- **(es/codegen)** Reduce usage of `tracing::instrument` ([#9604](https://github.com/swc-project/swc/issues/9604)) ([2f06fc5](https://github.com/swc-project/swc/commit/2f06fc559c8e200ea89133b8b30045f970ffc20b))
+
+
+- **(es/transforms)** Copy benchmarks from `oxc` ([#9602](https://github.com/swc-project/swc/issues/9602)) ([24c3a0c](https://github.com/swc-project/swc/commit/24c3a0ce138bacbf12b4660862ccfe9e3d19bdd9))
+
+
+- **(es/typescript)** Reduce unnecessary visits ([#9605](https://github.com/swc-project/swc/issues/9605)) ([866af6c](https://github.com/swc-project/swc/commit/866af6c9478b92cd6be780c515ddd51d2db90ac3))
+
 ## [1.7.29] - 2024-10-01
 
 ### Bug Fixes
@@ -1299,12 +1319,6 @@
 
 
 - **(css/modules)** Fix `:global` selectors without preceding whitespace ([#8926](https://github.com/swc-project/swc/issues/8926)) ([2405dc6](https://github.com/swc-project/swc/commit/2405dc6ba0aa227df81fda3db303fc6f523972db))
-
-
-- **(es/fixer)** Wrap class expressions in callee ([#8928](https://github.com/swc-project/swc/issues/8928)) ([6b60bdb](https://github.com/swc-project/swc/commit/6b60bdb69713f7ccf603db04696621985d200d28))
-
-
-- **(es/minifier)** Respect `module: false` ([#8925](https://github.com/swc-project/swc/issues/8925)) ([aca6a77](https://github.com/swc-project/swc/commit/aca6a77903e31099f473587eb9285ae1c4dee309))
 
 
 - **(es/minifier)** Consider side effects of operands of binary expressions ([#8929](https://github.com/swc-project/swc/issues/8929)) ([4d4a7a9](https://github.com/swc-project/swc/commit/4d4a7a9bcb39228973c0da2991310b5107feb319))
