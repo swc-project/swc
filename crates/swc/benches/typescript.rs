@@ -16,8 +16,6 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
-static SOURCE: &str = include_str!("assets/Observable.ts");
-
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -145,46 +143,57 @@ fn codegen_group(c: &mut Criterion) {
     codegen!(es2020, EsVersion::Es2020);
 }
 
-fn bench_full(b: &mut Bencher, opts: &Options) {
+fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
     let c = mk();
 
-    b.iter(|| {
-        for _ in 0..100 {
-            GLOBALS.set(&Default::default(), || {
-                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+    let source = Arc::new(fs::read_to_string(filename).unwrap());
 
-                let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
-                    SOURCE.to_string(),
-                );
-                let _ = c.process_js_file(fm, &handler, opts).unwrap();
-            })
-        }
+    b.iter(|| {
+        GLOBALS.set(&Default::default(), || {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+
+            let fm = c
+                .cm
+                .new_source_file_from(FileName::Real(filename.to_string()).into(), source.clone());
+            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+        })
     });
 }
 
 fn full_group(c: &mut Criterion) {
     macro_rules! compat {
-        ($name:ident, $target:expr) => {
-            c.bench_function(&format!("es/full/all/{}", stringify!($name)), |b| {
-                bench_full(
-                    b,
-                    &Options {
-                        config: Config {
-                            jsc: JscConfig {
-                                target: Some($target),
-                                syntax: Some(Syntax::Typescript(Default::default())),
+        ($name:ident, $target:expr) => {{
+            for filename in [
+                "./assets/Observable.ts",
+                "./assets/parser.ts",
+                "./assets/renderer.ts",
+                "./assets/table.tsx",
+                "./asserts/UserSettings.tsx",
+            ] {
+                c.bench_function(
+                    &format!("es/full/all/{}/{}", stringify!($name), filename),
+                    |b| {
+                        bench_full(
+                            b,
+                            filename,
+                            &Options {
+                                config: Config {
+                                    jsc: JscConfig {
+                                        target: Some($target),
+                                        syntax: Some(Syntax::Typescript(Default::default())),
+                                        ..Default::default()
+                                    },
+                                    module: None,
+                                    ..Default::default()
+                                },
+                                swcrc: false,
                                 ..Default::default()
                             },
-                            module: None,
-                            ..Default::default()
-                        },
-                        swcrc: false,
-                        ..Default::default()
+                        );
                     },
                 );
-            });
-        };
+            }
+        }};
     }
 
     compat!(es3, EsVersion::Es3);
