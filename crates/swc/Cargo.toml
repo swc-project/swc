@@ -154,6 +154,12 @@ name    = "bugs"
 harness = false
 name    = "minify"
 
+
+[[bench]]
+harness = false
+name    = "oxc"
+
+
 [[bench]]
 harness = false
 name    = "typescript"
