@@ -157,6 +157,7 @@ where
     }
 
     #[emitter]
+    #[tracing::instrument(skip_all)]
     pub fn emit_module(&mut self, node: &Module) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -180,6 +181,7 @@ where
     }
 
     #[emitter]
+    #[tracing::instrument(skip_all)]
     pub fn emit_script(&mut self, node: &Script) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -609,7 +611,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -644,7 +646,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -689,7 +691,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_num_lit(&mut self, num: &Number) -> Result {
         self.emit_num_lit_internal(num, false)?;
     }
@@ -888,7 +890,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_expr(&mut self, node: &Expr) -> Result {
         match node {
             Expr::Array(ref n) => emit!(n),
@@ -1404,7 +1406,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
@@ -1780,7 +1782,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3040,7 +3042,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         self.emit_leading_comments_of_span(e.span, false)?;
 
@@ -3050,7 +3052,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_block_stmt_inner(node, false)?;
     }
@@ -3475,7 +3477,7 @@ where
     }
 
     #[emitter]
-    #[tracing::instrument(skip_all)]
+
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
