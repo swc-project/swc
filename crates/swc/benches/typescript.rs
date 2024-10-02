@@ -1,7 +1,6 @@
 extern crate swc_malloc;
 
 use std::{
-    fs,
     io::{self, stderr},
     sync::Arc,
 };
@@ -17,13 +16,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
-const FILES: &[&str] = &[
-    "./benches/assets/Observable.ts",
-    "./benches/assets/parser.ts",
-    "./benches/assets/renderer.ts",
-    "./benches/assets/table.tsx",
-    "./benches/assets/UserSettings.tsx",
-];
+static SOURCE: &str = include_str!("assets/Observable.ts");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -31,10 +24,10 @@ fn mk() -> swc::Compiler {
     swc::Compiler::new(cm)
 }
 
-fn parse(c: &swc::Compiler, filename: &str) -> (Arc<SourceFile>, Program) {
+fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
-        FileName::Real(filename.to_string().into()).into(),
-        fs::read_to_string(filename).unwrap(),
+        FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
+        SOURCE.to_string(),
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
 
@@ -53,8 +46,8 @@ fn parse(c: &swc::Compiler, filename: &str) -> (Arc<SourceFile>, Program) {
     )
 }
 
-fn as_es(c: &swc::Compiler, filename: &str) -> Program {
-    let program = parse(c, filename).1;
+fn as_es(c: &swc::Compiler) -> Program {
+    let program = parse(c).1;
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -63,13 +56,57 @@ fn as_es(c: &swc::Compiler, filename: &str) -> Program {
         .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
 }
 
+fn base_tr_group(c: &mut Criterion) {
+    c.bench_function("es/full/base/fixer", base_tr_fixer);
+    // c.bench_function(
+    //     "es/full/base/resolver_and_hygiene",
+    //     base_tr_resolver_and_hygiene,
+    // );
+}
+
+fn base_tr_fixer(b: &mut Bencher) {
+    let c = mk();
+    GLOBALS.set(&Default::default(), || {
+        let module = as_es(&c);
+
+        b.iter(|| {
+            GLOBALS.set(&Default::default(), || {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+                black_box(c.run_transform(&handler, true, || {
+                    module.clone().fold_with(&mut fixer(Some(c.comments())))
+                }))
+            })
+        });
+    });
+}
+
+// fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
+//     let c = mk();
+//     GLOBALS.set(&Default::default(), || {
+//         let module = as_es(&c);
+
+//         b.iter(|| {
+//             GLOBALS.set(&Default::default(), || {
+//                 let handler =
+// Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+//                 black_box(c.run_transform(&handler, true, || {
+//                     module
+//                         .clone()
+//                         .fold_with(&mut resolver(Mark::new(), Mark::new(),
+// false))                         .fold_with(&mut hygiene())
+//                 }))
+//             })
+//         });
+//     })
+// }
+
 /// This benchmark exists to know exact execution time of each pass.
 
-fn bench_codegen(b: &mut Bencher, filename: &str, _target: EsVersion) {
+fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
 
     GLOBALS.set(&Default::default(), || {
-        let module = as_es(&c, filename);
+        let module = as_es(&c);
 
         //TODO: Use target
 
@@ -92,14 +129,9 @@ fn bench_codegen(b: &mut Bencher, filename: &str, _target: EsVersion) {
 fn codegen_group(c: &mut Criterion) {
     macro_rules! codegen {
         ($name:ident, $target:expr) => {
-            for filename in FILES {
-                c.bench_function(
-                    &format!("es/full/codegen/{}/{}", stringify!($name), filename),
-                    |b| {
-                        bench_codegen(b, filename, $target);
-                    },
-                );
-            }
+            c.bench_function(&format!("es/full/codegen/{}", stringify!($name)), |b| {
+                bench_codegen(b, $target);
+            });
         };
     }
 
@@ -113,52 +145,46 @@ fn codegen_group(c: &mut Criterion) {
     codegen!(es2020, EsVersion::Es2020);
 }
 
-fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
+fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
 
-    let source = Arc::new(fs::read_to_string(filename).unwrap());
-
     b.iter(|| {
-        GLOBALS.set(&Default::default(), || {
-            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+        for _ in 0..100 {
+            GLOBALS.set(&Default::default(), || {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-            let fm = c.cm.new_source_file_from(
-                FileName::Real(filename.to_string().into()).into(),
-                source.clone(),
-            );
-            let _ = c.process_js_file(fm, &handler, opts).unwrap();
-        })
+                let fm = c.cm.new_source_file(
+                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
+                    SOURCE.to_string(),
+                );
+                let _ = c.process_js_file(fm, &handler, opts).unwrap();
+            })
+        }
     });
 }
 
 fn full_group(c: &mut Criterion) {
     macro_rules! compat {
-        ($name:ident, $target:expr) => {{
-            for filename in FILES {
-                c.bench_function(
-                    &format!("es/full/all/{}/{}", stringify!($name), filename),
-                    |b| {
-                        bench_full(
-                            b,
-                            filename,
-                            &Options {
-                                config: Config {
-                                    jsc: JscConfig {
-                                        target: Some($target),
-                                        syntax: Some(Syntax::Typescript(Default::default())),
-                                        ..Default::default()
-                                    },
-                                    module: None,
-                                    ..Default::default()
-                                },
-                                swcrc: false,
+        ($name:ident, $target:expr) => {
+            c.bench_function(&format!("es/full/all/{}", stringify!($name)), |b| {
+                bench_full(
+                    b,
+                    &Options {
+                        config: Config {
+                            jsc: JscConfig {
+                                target: Some($target),
+                                syntax: Some(Syntax::Typescript(Default::default())),
                                 ..Default::default()
                             },
-                        );
+                            module: None,
+                            ..Default::default()
+                        },
+                        swcrc: false,
+                        ..Default::default()
                     },
                 );
-            }
-        }};
+            });
+        };
     }
 
     compat!(es3, EsVersion::Es3);
@@ -169,9 +195,6 @@ fn full_group(c: &mut Criterion) {
     compat!(es2018, EsVersion::Es2018);
     compat!(es2019, EsVersion::Es2019);
     compat!(es2020, EsVersion::Es2020);
-    compat!(es2021, EsVersion::Es2021);
-    compat!(es2022, EsVersion::Es2022);
-    compat!(esnext, EsVersion::EsNext);
 }
 
 fn parser_group(c: &mut Criterion) {
@@ -183,12 +206,16 @@ fn parser(b: &mut Bencher) {
 
     //TODO: Use target
 
-    for filename in FILES {
-        b.iter(|| {
-            black_box(parse(&c, filename));
-        });
-    }
+    b.iter(|| {
+        black_box(parse(&c));
+    })
 }
 
-criterion_group!(benches, codegen_group, full_group, parser_group,);
+criterion_group!(
+    benches,
+    codegen_group,
+    full_group,
+    parser_group,
+    base_tr_group
+);
 criterion_main!(benches);
