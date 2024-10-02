@@ -7,14 +7,14 @@ use std::{
 };
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::config::{Config, IsModule, JscConfig, Options};
+use swc::config::{Config, IsModule, JscConfig, Options, TransformConfig};
 use swc_common::{
     errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
 };
-use swc_compiler_base::PrintArgs;
+use swc_compiler_base::{PrintArgs, SourceMapsConfig};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_transforms::{fixer, resolver, typescript};
+use swc_ecma_transforms::{fixer, react::Runtime, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
 const FILES: &[&str] = &[
@@ -30,38 +30,6 @@ fn mk() -> swc::Compiler {
     swc::Compiler::new(cm)
 }
 
-fn parse(c: &swc::Compiler, filename: &str) -> (Arc<SourceFile>, Program) {
-    let fm = c.cm.new_source_file(
-        FileName::Real(filename.to_string().into()).into(),
-        fs::read_to_string(filename).unwrap(),
-    );
-    let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
-
-    let comments = c.comments().clone();
-    (
-        fm.clone(),
-        c.parse_js(
-            fm,
-            &handler,
-            EsVersion::Es5,
-            Syntax::Typescript(Default::default()),
-            IsModule::Bool(true),
-            Some(&comments),
-        )
-        .unwrap(),
-    )
-}
-
-fn as_es(c: &swc::Compiler, filename: &str) -> Program {
-    let program = parse(c, filename).1;
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
-
-    program
-        .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-        .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
-}
-
 fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
     let c = mk();
 
@@ -73,7 +41,7 @@ fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
 
             let fm = c.cm.new_source_file_from(
                 FileName::Real(filename.to_string().into()).into(),
-                source.clone(),
+                black_box(source.clone()),
             );
             let _ = c.process_js_file(fm, &handler, opts).unwrap();
         })
@@ -101,9 +69,23 @@ fn full_group(c: &mut Criterion) {
                                             tsx: filename.ends_with(".tsx"),
                                             ..Default::default()
                                         })),
+                                        transform: Some(TransformConfig {
+                                            react: swc_ecma_transforms::react::Options {
+                                                runtime: Some(Runtime::Automatic),
+                                                development: Some(react_dev),
+                                                ..Default::default()
+                                            },
+                                            ..Default::default()
+                                        })
+                                        .into(),
                                         ..Default::default()
                                     },
                                     module: None,
+                                    source_maps: if source_map {
+                                        Some(SourceMapsConfig::Bool(true))
+                                    } else {
+                                        None
+                                    },
                                     ..Default::default()
                                 },
                                 swcrc: false,
@@ -111,7 +93,7 @@ fn full_group(c: &mut Criterion) {
                             },
                         );
                     },
-                )
+                );
             }
         }
     }
