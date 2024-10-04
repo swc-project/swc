@@ -16,10 +16,13 @@ export type Options = {
         | "only-metadata";
     removeEmptyMetadataElements?: boolean;
     removeComments?: boolean;
-    preserveComments: string[];
+    preserveComments?: string[];
     minifyConditionalComments?: boolean;
     removeEmptyAttributes?: boolean;
-    removeRedundantAttributes?: boolean;
+    removeRedundantAttributes?:
+        | "none"
+        | "all"
+        | "smart";
     collapseBooleanAttributes?: boolean;
     normalizeAttributes?: boolean;
     minifyJson?: boolean | { pretty?: boolean };
