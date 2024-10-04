@@ -337,7 +337,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer
             ),
-            compat::reserved_words::reserved_words(),
             Optional::new(
                 helpers::inject_helpers(self.unresolved_mark),
                 self.inject_helpers
