@@ -2257,7 +2257,12 @@ impl Optimizer<'_> {
         let (left_id, a_right) = match a {
             Mergable::Expr(a) => {
                 match a {
-                    Expr::Assign(AssignExpr { left, right, .. }) => {
+                    Expr::Assign(AssignExpr {
+                        left,
+                        right,
+                        op: op!("="),
+                        ..
+                    }) => {
                         // (a = 5, console.log(a))
                         //
                         // =>
