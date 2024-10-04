@@ -73,7 +73,7 @@ impl Scope {
     }
 
     pub(super) fn add_usage(&mut self, id: Id) {
-        if id.0 == "arguments" {
+        if id.0 == atom!("arguments") {
             return;
         }
 
