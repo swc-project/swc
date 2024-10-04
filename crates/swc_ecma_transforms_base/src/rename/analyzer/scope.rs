@@ -8,7 +8,7 @@ use std::{
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
@@ -51,7 +51,7 @@ pub(super) struct ScopeData {
 
 impl Scope {
     pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
-        if id.0 == "arguments" {
+        if id.0 == atom!("arguments") {
             return;
         }
 
