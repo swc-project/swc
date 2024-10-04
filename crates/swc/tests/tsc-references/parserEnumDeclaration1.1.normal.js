@@ -1,6 +1,6 @@
 //// [parserEnumDeclaration1.ts]
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["Foo"] = 1] = "Foo";
     E[E["Bar"] = 2] = "Bar";
-})(E || (E = {}));
+    return E;
+}(E || {});

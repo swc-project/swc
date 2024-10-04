@@ -12,8 +12,8 @@ var x2 = {
 };
 x1[k] = 'bar'; // Error
 x2[k] = 'bar'; // Error
-var Tag1;
-var Tag2;
+;
+;
 s1 = s2;
 s2 = s1;
 t1 = t2;

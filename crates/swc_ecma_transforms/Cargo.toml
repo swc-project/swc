@@ -28,6 +28,7 @@ multi-module-decorator = ["swc_ecma_transforms_proposal/multi-module"]
 optimization = ["swc_ecma_transforms_optimization"]
 proposal = ["swc_ecma_transforms_proposal"]
 react = ["swc_ecma_transforms_react"]
+stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]

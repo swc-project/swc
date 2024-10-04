@@ -1,24 +1,21 @@
-var D;
-(function(D) {
+var D = /*#__PURE__*/ function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 2] = "B";
-})(D || (D = {}));
+    return D;
+}(D || {});
 D.A = 5;
 console.log(D.A);
-var E;
+;
 console.log(1);
-var F;
-var G;
-(function(G) {
+;
+var G = /*#__PURE__*/ function(G) {
     G[G["A"] = 2] = "A";
-})(G || (G = {}));
+    return G;
+}(G || {});
 console.log(G.A);
-var H;
-(function(H) {
+var H = /*#__PURE__*/ function(H) {
     H[H["A"] = 2] = "A";
-})(H || (H = {}));
-var I;
-(function(I) {
-    I[I["A"] = H.A] = "A";
-})(I || (I = {}));
-console.log(I.A);
+    return H;
+}(H || {});
+;
+console.log(2);

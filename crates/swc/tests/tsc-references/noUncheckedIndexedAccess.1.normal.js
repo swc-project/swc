@@ -1,21 +1,21 @@
 //// [noUncheckedIndexedAccess.ts]
-var NumericEnum1;
-(function(NumericEnum1) {
+var NumericEnum1 = /*#__PURE__*/ function(NumericEnum1) {
     NumericEnum1[NumericEnum1["A"] = 0] = "A";
     NumericEnum1[NumericEnum1["B"] = 1] = "B";
     NumericEnum1[NumericEnum1["C"] = 2] = "C";
-})(NumericEnum1 || (NumericEnum1 = {}));
-var NumericEnum2;
-(function(NumericEnum2) {
+    return NumericEnum1;
+}(NumericEnum1 || {});
+var NumericEnum2 = /*#__PURE__*/ function(NumericEnum2) {
     NumericEnum2[NumericEnum2["A"] = 0] = "A";
     NumericEnum2[NumericEnum2["B"] = 1] = "B";
     NumericEnum2[NumericEnum2["C"] = 2] = "C";
-})(NumericEnum2 || (NumericEnum2 = {}));
-var StringEnum1;
-(function(StringEnum1) {
+    return NumericEnum2;
+}(NumericEnum2 || {});
+var StringEnum1 = /*#__PURE__*/ function(StringEnum1) {
     StringEnum1["A"] = "Alpha";
     StringEnum1["B"] = "Beta";
-})(StringEnum1 || (StringEnum1 = {}));
+    return StringEnum1;
+}(StringEnum1 || {});
 // All of these should be errors
 var e1 = strMap["foo"];
 var e2 = strMap.bar;

@@ -6,7 +6,6 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-var M;
 (function(M) {
     var C = 1;
     var D = /*#__PURE__*/ function(C) {
@@ -19,3 +18,4 @@ var M;
         return D;
     }(C);
 })(M || (M = {}));
+var M;

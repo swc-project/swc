@@ -15,7 +15,6 @@
 //
 ///<reference path='formatting.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Formatting;
 (function(Formatting) {
     var Indenter = /*#__PURE__*/ function() {
         "use strict";
@@ -564,3 +563,4 @@ var Formatting;
     }();
     Formatting.Indenter = Indenter;
 })(Formatting || (Formatting = {}));
+var Formatting;

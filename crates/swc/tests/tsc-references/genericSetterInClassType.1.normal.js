@@ -1,5 +1,4 @@
 //// [genericSetterInClassType.ts]
-var Generic;
 (function(Generic) {
     class C {
         get y() {
@@ -20,3 +19,4 @@ var Generic;
     }
     new Box().value = 3;
 })(Generic || (Generic = {}));
+var Generic;

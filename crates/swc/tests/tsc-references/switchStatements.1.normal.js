@@ -3,7 +3,6 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var M;
 (function(M) {
     function fn(x) {
         return '';
@@ -97,3 +96,4 @@ switch(function(x) {
     return '';
 }(1)){
 }
+var M;

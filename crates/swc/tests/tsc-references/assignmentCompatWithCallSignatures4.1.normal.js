@@ -3,7 +3,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Errors;
 (function(Errors) {
     var Base = function Base() {
         "use strict";
@@ -36,7 +35,6 @@ var Errors;
         }
         return OtherDerived;
     }(Base);
-    var WithNonGenericSignaturesInBaseType;
     (function(WithNonGenericSignaturesInBaseType) {
         // target type with non-generic call signatures
         var a2;
@@ -80,7 +78,6 @@ var Errors;
         a17 = b17;
         b17 = a17;
     })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}));
-    var WithGenericSignaturesInBaseType;
     (function(WithGenericSignaturesInBaseType) {
         // target type has generic call signature
         var a2;
@@ -93,4 +90,6 @@ var Errors;
         a3 = b3;
         b3 = a3;
     })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
+    var WithNonGenericSignaturesInBaseType, WithGenericSignaturesInBaseType;
 })(Errors || (Errors = {}));
+var Errors;

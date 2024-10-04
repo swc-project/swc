@@ -66,12 +66,12 @@ a11([
 function foo(...a) {}
 foo("hello", 1, 2);
 foo("hello", "world");
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {}));
-var E1;
+    return E;
+}(E || {});
+;
 function foo1(...a) {}
 foo1(1, 2, 3, 0);
 foo1(1, 2, 3, 0, 1);

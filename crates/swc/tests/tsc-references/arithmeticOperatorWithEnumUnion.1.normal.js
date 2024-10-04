@@ -1,15 +1,15 @@
 //// [arithmeticOperatorWithEnumUnion.ts]
 // operands of an enum type are treated as having the primitive type Number.
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {}));
-var F;
-(function(F) {
+    return E;
+}(E || {});
+var F = /*#__PURE__*/ function(F) {
     F[F["c"] = 0] = "c";
     F[F["d"] = 1] = "d";
-})(F || (F = {}));
+    return F;
+}(F || {});
 var a;
 var b;
 var c;

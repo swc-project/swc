@@ -22,7 +22,6 @@ ServiceError = _ts_decorate._([
     CD
 ], ServiceError);
 (function(ServiceError) {
-    let Code;
     (function(Code) {
         Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
         Code[Code["serviceNotCompatible"] = 426] = "serviceNotCompatible";
@@ -31,7 +30,7 @@ ServiceError = _ts_decorate._([
         Code[Code["timedOut"] = 504] = "timedOut";
         Code[Code["badRequest"] = 400] = "badRequest";
         Code[Code["badResponse"] = 422] = "badResponse";
-    })(Code = ServiceError.Code || (ServiceError.Code = {}));
+    })(ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
         code = 404;
         name = "ServiceError.ServiceNotFound";

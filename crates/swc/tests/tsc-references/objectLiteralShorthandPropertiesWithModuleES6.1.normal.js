@@ -1,5 +1,4 @@
 //// [objectLiteralShorthandPropertiesWithModuleES6.ts]
-var m;
 (function(m) {})(m || (m = {}));
 (function(m) {
     var z = x;
@@ -8,3 +7,4 @@ var m;
         x
     };
 })(m || (m = {}));
+var m;

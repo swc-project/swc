@@ -11,7 +11,6 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -44,3 +43,4 @@ var aClassInModule = new M.A();
 var aFunctionInModule = M.F2;
 // no initializer or annotation, so this is an 'any'
 var x;
+var M;

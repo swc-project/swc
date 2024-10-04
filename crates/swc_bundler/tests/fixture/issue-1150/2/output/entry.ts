@@ -1,12 +1,12 @@
 function a() {
     console.log("a");
 }
-var O;
-(function(O) {
+var O = /*#__PURE__*/ function(O) {
     O[O["A"] = 0] = "A";
     O[O["B"] = 1] = "B";
     O[O["C"] = 2] = "C";
-})(O || (O = {}));
+    return O;
+}({});
 export { O as O };
 class A {
     #a;

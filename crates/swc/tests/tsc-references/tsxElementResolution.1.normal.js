@@ -8,7 +8,6 @@ var Other = function Other() {
     "use strict";
     _class_call_check(this, Other);
 };
-var Dotted;
 (function(Dotted) {
     var Name = function Name() {
         "use strict";
@@ -26,3 +25,4 @@ var b = /*#__PURE__*/ React.createElement("string_named", null);
 // var c = <var />;
 var d = /*#__PURE__*/ React.createElement(Other, null);
 var e = /*#__PURE__*/ React.createElement(Dotted.Name, null);
+var Dotted;

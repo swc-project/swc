@@ -120,7 +120,6 @@ class C {
         return _async_to_generator(function*() {})();
     }
 }
-var M;
 (function(M) {
     function f1() {
         return _f1.apply(this, arguments);
@@ -143,3 +142,4 @@ function _f14() {
     });
     return _f14.apply(this, arguments);
 }
+var M;

@@ -1,4 +1,4 @@
-var Foo;
-(function(Foo) {
+var Foo = /*#__PURE__*/ function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo || (Foo = {}));
+    return Foo;
+}(Foo || {});

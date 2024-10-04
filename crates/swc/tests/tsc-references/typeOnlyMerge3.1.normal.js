@@ -2,11 +2,11 @@
 function A() {}
 export { };
 //// [b.ts]
-var A;
 (function(A) {
     A.displayName = "A";
 })(A || (A = {}));
 export { A };
+var A;
 //// [c.ts]
 import { A } from "./b";
 A;

@@ -7,7 +7,6 @@ b = a; // error
 var b2;
 a = b2; // ok
 b2 = a; // error
-var Generics;
 (function(Generics) {
     var b1;
     var a1;
@@ -26,3 +25,4 @@ var Generics;
         b4 = a3; // error
     }
 })(Generics || (Generics = {}));
+var Generics;

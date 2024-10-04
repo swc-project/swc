@@ -1,10 +1,10 @@
 //// [additionOperatorWithTypeParameter.ts]
 // type parameter type is not a valid operand of addition operator
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {}));
+    return E;
+}(E || {});
 function foo(t, u) {
     var a;
     var b;

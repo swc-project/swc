@@ -11,10 +11,10 @@ Object.defineProperty(exports, "__esModule", {
 const I = require("./a");
 //// [/c.ts]
 "use strict";
-var I;
 (function(I) {
     I.x = 1;
 })(I || (I = {}));
+var I;
 module.exports = I;
 //// [/d.ts]
 "use strict";

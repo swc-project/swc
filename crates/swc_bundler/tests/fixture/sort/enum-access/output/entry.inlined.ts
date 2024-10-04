@@ -1,8 +1,8 @@
-var A;
-(function(A) {
+var A = /*#__PURE__*/ function(A) {
     A[A["b"] = 5] = "b";
     A[A["c"] = 28] = "c";
-})(A || (A = {}));
+    return A;
+}({});
 function foo() {
     console.log(A);
 }

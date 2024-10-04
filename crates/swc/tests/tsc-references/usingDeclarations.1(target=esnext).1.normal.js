@@ -115,7 +115,6 @@ class C3 extends C1 {
         super(), this.y = 1;
     }
 }
-var N;
 (function(N) {
     using d18 = {
         [Symbol.dispose] () {}
@@ -208,4 +207,5 @@ for (const x of []){
     }
     ;
 }
+var N;
 export { };

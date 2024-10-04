@@ -3,7 +3,6 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var TypeScript;
 (function(TypeScript) {
     var AstWalkOptions = /*#__PURE__*/ function() {
         "use strict";
@@ -207,7 +206,6 @@ var TypeScript;
         return globalAstWalkerFactory;
     }
     TypeScript.getAstWalkerFactory = getAstWalkerFactory;
-    var ChildrenWalkers;
     (function(ChildrenWalkers) {
         function walkNone(preAst, parent, walker) {
         // Nothing to do
@@ -504,4 +502,6 @@ var TypeScript;
         }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
     })(ChildrenWalkers || (ChildrenWalkers = {}));
+    var ChildrenWalkers;
 })(TypeScript || (TypeScript = {}));
+var TypeScript;

@@ -1,5 +1,5 @@
 //// [parserInterfaceKeywordInEnum.ts]
-var Bar;
-(function(Bar) {
+var Bar = /*#__PURE__*/ function(Bar) {
     Bar[Bar["interface"] = 0] = "interface";
-})(Bar || (Bar = {}));
+    return Bar;
+}(Bar || {});

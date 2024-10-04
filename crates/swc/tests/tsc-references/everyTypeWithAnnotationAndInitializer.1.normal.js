@@ -11,7 +11,6 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -47,3 +46,4 @@ var aClassInModule = new M.A();
 var aFunctionInModule = function(x) {
     return 'this is a string';
 };
+var M;

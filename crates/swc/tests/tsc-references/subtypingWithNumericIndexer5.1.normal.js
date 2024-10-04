@@ -9,7 +9,6 @@ var B2 = function B2() {
     "use strict";
     _class_call_check(this, B2);
 };
-var Generics;
 (function(Generics) {
     var B = function B() {
         "use strict";
@@ -32,3 +31,4 @@ var Generics;
         _class_call_check(this, B5);
     };
 })(Generics || (Generics = {}));
+var Generics;

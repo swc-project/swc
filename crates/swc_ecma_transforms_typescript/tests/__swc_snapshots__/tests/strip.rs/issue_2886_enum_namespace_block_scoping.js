@@ -1,39 +1,35 @@
-export var Enum;
-(function(Enum) {
+export var Enum = /*#__PURE__*/ function(Enum) {
     Enum[Enum["test"] = 1] = "test";
-})(Enum || (Enum = {}));
-var Namespace;
-(function(Namespace) {
-    let Enum;
+    return Enum;
+}({});
+(function(Namespace2) {
     (function(Enum) {
         Enum[Enum["test"] = 1] = "test";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+    })(Namespace2.Enum || (Namespace2.Enum = {}));
     (function(Enum) {
         Enum[Enum["test2"] = 1] = "test2";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-})(Namespace || (Namespace = {}));
+    })(Namespace2.Enum);
+})(Namespace2 || (Namespace2 = {}));
 {
-    let Enum;
-    (function(Enum) {
+    let Enum = /*#__PURE__*/ function(Enum) {
         Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
+        return Enum;
+    }({});
     (function(Namespace) {
-        let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+        })(Namespace.Enum || (Namespace.Enum = {}));
     })(Namespace || (Namespace = {}));
+    var Namespace;
 }{
-    let Enum;
-    (function(Enum) {
+    let Enum = /*#__PURE__*/ function(Enum) {
         Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
-    (function(Namespace) {
-        let Enum;
+        return Enum;
+    }({});
+    (function(Namespace1) {
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace || (Namespace = {}));
-}
+        })(Namespace1.Enum || (Namespace1.Enum = {}));
+    })(Namespace1 || (Namespace1 = {}));
+    var Namespace1;
+}var Namespace2;

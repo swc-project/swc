@@ -1,5 +1,5 @@
-export var Foo;
-(function(Foo) {
+export var Foo = /*#__PURE__*/ function(Foo) {
     Foo["A"] = "foo";
     Foo["B"] = "bar";
-})(Foo || (Foo = {}));
+    return Foo;
+}({});

@@ -2,7 +2,6 @@
 // Generic functions used as arguments for function typed parameters are not used to make inferences from
 // Using function arguments, no errors expected
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var ImmediatelyFix;
 (function(ImmediatelyFix) {
     var C = /*#__PURE__*/ function() {
         "use strict";
@@ -44,7 +43,6 @@ var ImmediatelyFix;
         return 1;
     }); // number
 })(ImmediatelyFix || (ImmediatelyFix = {}));
-var WithCandidates;
 (function(WithCandidates) {
     var C = /*#__PURE__*/ function() {
         "use strict";
@@ -115,3 +113,4 @@ var WithCandidates;
         }, 1); // error
     }
 })(WithCandidates || (WithCandidates = {}));
+var ImmediatelyFix, WithCandidates;

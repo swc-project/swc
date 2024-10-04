@@ -97,12 +97,12 @@ function foo() {
 }
 foo("hello", 1, 2);
 foo("hello", "world");
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {}));
-var E1;
+    return E;
+}(E || {});
+;
 function foo1() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
         a[_key] = arguments[_key];

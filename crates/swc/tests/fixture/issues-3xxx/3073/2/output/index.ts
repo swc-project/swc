@@ -1,4 +1,3 @@
-var Foo;
 (function(Foo) {
     var ref;
     ref = {
@@ -6,3 +5,4 @@ var Foo;
         b: 2
     }, Foo.A = ref.a, Foo.B = ref.b, ref;
 })(Foo || (Foo = {}));
+var Foo;

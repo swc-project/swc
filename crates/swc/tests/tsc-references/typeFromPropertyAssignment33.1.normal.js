@@ -1,5 +1,4 @@
 //// [ns.ts]
-var ExpandoMerge;
 (function(ExpandoMerge) {
     ExpandoMerge.p3 = 333;
     ExpandoMerge.p4 = 4;
@@ -12,6 +11,7 @@ var ExpandoMerge;
 (function(ExpandoMerge) {
     ExpandoMerge.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
+var ExpandoMerge;
 //// [expando.ts]
 function ExpandoMerge(n) {
     return n;

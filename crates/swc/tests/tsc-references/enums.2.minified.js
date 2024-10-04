@@ -1,7 +1,6 @@
 //// [/a.ts]
-var SyntaxKind, SymbolFlags, SyntaxKind1, SymbolFlags1;
-(SyntaxKind1 = SyntaxKind || (SyntaxKind = {}))[SyntaxKind1.ImportClause = 0] = "ImportClause", SyntaxKind1[SyntaxKind1.ExportDeclaration = 1] = "ExportDeclaration", (SymbolFlags1 = SymbolFlags || (SymbolFlags = {})).Type = "Type", SymbolFlags1.Value = "Value";
-export { SymbolFlags };
+var SyntaxKind, SymbolFlags, SyntaxKind1 = ((SyntaxKind = SyntaxKind1 || {})[SyntaxKind.ImportClause = 0] = "ImportClause", SyntaxKind[SyntaxKind.ExportDeclaration = 1] = "ExportDeclaration", SyntaxKind), SymbolFlags1 = ((SymbolFlags = SymbolFlags1 || {}).Type = "Type", SymbolFlags.Value = "Value", SymbolFlags);
+export { SymbolFlags1 as SymbolFlags };
 //// [/b.ts]
 SyntaxKind.ImportClause, SymbolFlags.Type;
 export { };

@@ -4,7 +4,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Errors;
 (function(Errors) {
     var Base = function Base() {
         "use strict";
@@ -129,10 +128,10 @@ var Errors;
     var r9arg;
     var r9 = foo17(r9arg); // // (x: { <T extends Derived >(a: T): T; <T extends Base >(a: T): T; }): any[]; (x: { <T extends Derived2>(a: T): T; <T extends Base>(a: T): T; }): any[];
 })(Errors || (Errors = {}));
-var WithGenericSignaturesInBaseType;
 (function(WithGenericSignaturesInBaseType) {
     var r2arg2;
     var r2 = foo2(r2arg2); // <T>(x:T) => T[] since we can infer from generic signatures now
     var r3arg2;
     var r3 = foo3(r3arg2); // any
 })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
+var Errors, WithGenericSignaturesInBaseType;

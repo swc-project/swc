@@ -6,7 +6,6 @@ var b = {
     Foo: null
 };
 var r = true ? a : b;
-var TwoLevels;
 (function(TwoLevels) {
     // object literal case
     var a;
@@ -15,3 +14,4 @@ var TwoLevels;
     };
     var r = true ? a : b;
 })(TwoLevels || (TwoLevels = {}));
+var TwoLevels;

@@ -5,7 +5,6 @@ var a;
 var b1;
 a = b1; // error
 b1 = a; // error
-var Generics;
 (function(Generics) {
     var A = function A() {
         "use strict";
@@ -18,3 +17,4 @@ var Generics;
         b = a; // error
     }
 })(Generics || (Generics = {}));
+var Generics;

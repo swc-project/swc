@@ -2,8 +2,7 @@
 //// [external.ts]
 export class Reflect {
 }
-export var Baz;
-(function(Baz) {})(Baz || (Baz = {}));
+;
 export default class {
 }
 //// [locals.ts]
@@ -36,12 +35,14 @@ class C extends B {
                 super.w();
             })(),
             (()=>{
-                let Reflect;
-                (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+                let Reflect = /*#__PURE__*/ function(Reflect) {
+                    return Reflect;
+                }({})// collision (es2015-es2021 only)
+                ;
                 super.w();
             })(),
             (()=>{
-                let Reflect;
+                ;
                 super.w();
             })(),
             (()=>{
@@ -88,12 +89,14 @@ class C extends B {
         super.w();
     }
     static{
-        let Reflect;
-        (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+        let Reflect = /*#__PURE__*/ function(Reflect) {
+            return Reflect;
+        }({})// collision (es2015-es2021 only)
+        ;
         super.w();
     }
     static{
-        let Reflect;
+        ;
         super.w();
     }
     static{
@@ -220,8 +223,10 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 class C extends B {
     static{
         this._ = super.w();
@@ -229,8 +234,10 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
-(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
+var Reflect = /*#__PURE__*/ function(Reflect) {
+    return Reflect;
+}(Reflect || {})// collision (es2015-es2021 only)
+;
 class C extends B {
     static{
         super.w();
@@ -238,7 +245,7 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-var Reflect;
+;
 class C extends B {
     static{
         this._ = super.w();
@@ -246,7 +253,7 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
+;
 class C extends B {
     static{
         super.w();

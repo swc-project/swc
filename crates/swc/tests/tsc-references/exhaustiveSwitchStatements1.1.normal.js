@@ -35,12 +35,12 @@ function f3(x) {
             throw new Error("Bad input");
     }
 }
-var E;
-// Repro from #11572
-(function(E) {
+var // Repro from #11572
+E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {}));
+    return E;
+}(E || {});
 function f(e) {
     switch(e){
         case 0:
@@ -92,12 +92,12 @@ function areaWrapped(s) {
     }();
     return area;
 }
-var MyEnum;
-// Repro from #13241
-(function(MyEnum) {
+var // Repro from #13241
+MyEnum = /*#__PURE__*/ function(MyEnum) {
     MyEnum[MyEnum["A"] = 0] = "A";
     MyEnum[MyEnum["B"] = 1] = "B";
-})(MyEnum || (MyEnum = {}));
+    return MyEnum;
+}(MyEnum || {});
 function thisGivesError(e) {
     var s;
     switch(e){
@@ -133,12 +133,12 @@ function good2(e) {
             return "it was B";
     }
 }
-var Level;
-// Repro from #18362
-(function(Level) {
+var // Repro from #18362
+Level = /*#__PURE__*/ function(Level) {
     Level[Level["One"] = 0] = "One";
     Level[Level["Two"] = 1] = "Two";
-})(Level || (Level = {}));
+    return Level;
+}(Level || {});
 var doSomethingWithLevel = function(level) {
     var next;
     switch(level){
@@ -192,12 +192,12 @@ function test4(value) {
     }
     return x;
 }
-var Animal;
-// Repro from #34661
-(function(Animal) {
+var // Repro from #34661
+Animal = /*#__PURE__*/ function(Animal) {
     Animal[Animal["DOG"] = 0] = "DOG";
     Animal[Animal["CAT"] = 1] = "CAT";
-})(Animal || (Animal = {}));
+    return Animal;
+}(Animal || {});
 function expression() {
     var _zoo_animal;
     switch((_zoo_animal = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : 0){

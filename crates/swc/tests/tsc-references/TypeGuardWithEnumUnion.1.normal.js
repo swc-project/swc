@@ -1,11 +1,11 @@
 //// [TypeGuardWithEnumUnion.ts]
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var Color;
-(function(Color) {
+var Color = /*#__PURE__*/ function(Color) {
     Color[Color["R"] = 0] = "R";
     Color[Color["G"] = 1] = "G";
     Color[Color["B"] = 2] = "B";
-})(Color || (Color = {}));
+    return Color;
+}(Color || {});
 function f1(x) {
     if (typeof x === "number") {
         var y = x;

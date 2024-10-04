@@ -1,6 +1,5 @@
 //// [forgottenNew.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Tools;
 (function(Tools) {
     var NullLogger = function NullLogger() {
         "use strict";
@@ -9,3 +8,4 @@ var Tools;
     Tools.NullLogger = NullLogger;
 })(Tools || (Tools = {}));
 var logger = Tools.NullLogger();
+var Tools;

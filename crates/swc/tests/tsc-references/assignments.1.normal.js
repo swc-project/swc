@@ -14,10 +14,10 @@ var C = function C() {
     _class_call_check(this, C);
 };
 C = null; // Error
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 E = null; // Error
 E.A = null; // OK per spec, Error per implementation (509581)
 function fn() {}

@@ -52,12 +52,12 @@ export var getErrorForTransaction = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
-export var SequenceType;
-(function(SequenceType) {
+export var SequenceType = /*#__PURE__*/ function(SequenceType) {
     SequenceType[SequenceType["Sequential"] = 0] = "Sequential";
     SequenceType[SequenceType["Parallel"] = 1] = "Parallel";
     SequenceType[SequenceType["StopOnFailure"] = 2] = "StopOnFailure";
-})(SequenceType || (SequenceType = {}));
+    return SequenceType;
+}({});
 export function sendTransactionsWithManualRetry(connection, wallet, instructions, signers) {
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }

@@ -86,10 +86,10 @@ function f10(x) {}
 function f11(x) {}
 function f12(x) {}
 function f13(x) {}
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 function f14(x) {}
 function f15(x) {}
 function f16(x) {}

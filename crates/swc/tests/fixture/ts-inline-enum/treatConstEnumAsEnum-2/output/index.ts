@@ -1,12 +1,12 @@
-var Foo;
-(function(Foo) {
+var Foo = /*#__PURE__*/ function(Foo) {
     Foo[Foo["hello"] = 42] = "hello";
-})(Foo || (Foo = {}));
-var Foo2;
-(function(Foo2) {
+    return Foo;
+}(Foo || {});
+var Foo2 = /*#__PURE__*/ function(Foo2) {
     Foo2["hello"] = "42";
-})(Foo2 || (Foo2 = {}));
-var Bar;
-var Bar2;
+    return Foo2;
+}(Foo2 || {});
+;
+;
 console.log(42, "42");
 console.log(42, "42");

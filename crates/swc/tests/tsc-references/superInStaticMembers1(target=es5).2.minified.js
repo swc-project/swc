@@ -4,8 +4,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var Reflect = function Reflect() {
     _class_call_check(this, Reflect);
 };
-export var Baz;
-Baz || (Baz = {});
 var _default = function _default() {
     _class_call_check(this, _default);
 };
@@ -16,7 +14,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var Reflect, Reflect1, C = /*#__PURE__*/ function(B1) {
+var C = /*#__PURE__*/ function(B1) {
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
@@ -28,13 +26,13 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
-    void (Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C)),
+    void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C)
-], _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
+], _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField1.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -197,8 +195,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-Reflect || (Reflect = {});
-var Reflect, C = /*#__PURE__*/ function(B1) {
+var C = /*#__PURE__*/ function(B1) {
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
@@ -211,8 +208,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-Reflect || (Reflect = {});
-var Reflect, C = /*#__PURE__*/ function(B1) {
+var C = /*#__PURE__*/ function(B1) {
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }

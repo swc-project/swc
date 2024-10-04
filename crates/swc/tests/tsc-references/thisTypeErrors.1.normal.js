@@ -22,7 +22,6 @@ var C2 = /*#__PURE__*/ function() {
     return C2;
 }();
 C2.y = undefined;
-var N1;
 (function(N1) {
     N1.y = this;
 })(N1 || (N1 = {}));
@@ -49,3 +48,4 @@ var C3 = /*#__PURE__*/ function() {
     };
     return C3;
 }();
+var N1;

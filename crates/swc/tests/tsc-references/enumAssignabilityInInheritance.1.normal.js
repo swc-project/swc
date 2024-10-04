@@ -1,10 +1,10 @@
 //// [enumAssignabilityInInheritance.ts]
 // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var r = foo(0); // E
 var r2 = foo(1); // number
 var r3 = foo(null); // any
@@ -27,10 +27,10 @@ var A2 = function A2() {
 var r4 = foo10(0);
 var r4 = foo11(0);
 var r4 = foo12(0);
-var E2;
-(function(E2) {
+var E2 = /*#__PURE__*/ function(E2) {
     E2[E2["A"] = 0] = "A";
-})(E2 || (E2 = {}));
+    return E2;
+}(E2 || {});
 var r4 = foo13(0);
 function f() {}
 (function(f) {

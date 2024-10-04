@@ -138,11 +138,11 @@ class C12 {
         this['c'] = 1;
     }
 }
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E["A"] = "A";
     E["B"] = "B";
-})(E || (E = {}));
+    return E;
+}(E || {});
 class C13 {
     constructor(){
         this["A"] = 1;

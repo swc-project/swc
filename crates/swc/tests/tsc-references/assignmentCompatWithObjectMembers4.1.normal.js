@@ -3,7 +3,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var OnlyDerived;
 (function(OnlyDerived) {
     var Base = function Base() {
         "use strict";
@@ -67,7 +66,6 @@ var OnlyDerived;
     a2 = t2; // error
     a2 = t; // error
 })(OnlyDerived || (OnlyDerived = {}));
-var WithBase;
 (function(WithBase) {
     var Base = function Base() {
         "use strict";
@@ -131,3 +129,4 @@ var WithBase;
     a2 = t2; // ok
     a2 = t; // ok
 })(WithBase || (WithBase = {}));
+var OnlyDerived, WithBase;

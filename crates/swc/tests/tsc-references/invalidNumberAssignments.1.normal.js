@@ -13,7 +13,6 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M;
 (function(M) {
     M.x = 1;
 })(M || (M = {}));
@@ -22,3 +21,4 @@ function i(a) {
     a = x;
 }
 i = x;
+var M;

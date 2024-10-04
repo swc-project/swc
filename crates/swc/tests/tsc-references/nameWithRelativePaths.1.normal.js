@@ -35,10 +35,10 @@ Object.defineProperty(exports, "M2", {
         return M2;
     }
 });
-var M2;
 (function(M2) {
     M2.x = true;
 })(M2 || (M2 = {}));
+var M2;
 //// [test/foo_3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

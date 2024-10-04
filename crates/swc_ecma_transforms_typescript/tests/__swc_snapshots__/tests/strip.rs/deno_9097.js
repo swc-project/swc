@@ -1,4 +1,3 @@
-export var util;
 (function(util) {
     function assertNever(_x) {
         throw new Error();
@@ -9,3 +8,4 @@ export var util;
     util.getValues = (obj)=>{};
     util.objectValues = (obj)=>{};
 })(util || (util = {}));
+export var util;

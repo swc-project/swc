@@ -1,8 +1,8 @@
 //// [enum.ts]
-export var Enum;
-(function(Enum) {
+export var Enum = /*#__PURE__*/ function(Enum) {
     Enum[Enum["One"] = 1] = "One";
-})(Enum || (Enum = {}));
+    return Enum;
+}({});
 //// [merge.ts]
 import { Enum } from "./enum";
 //// [index.ts]

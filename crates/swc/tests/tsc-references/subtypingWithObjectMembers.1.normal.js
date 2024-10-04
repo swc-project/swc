@@ -65,7 +65,6 @@ var B3 = /*#__PURE__*/ function(A3) {
     }
     return B3;
 }(A3);
-var TwoLevels;
 (function(TwoLevels) {
     var A = function A() {
         "use strict";
@@ -107,3 +106,4 @@ var TwoLevels;
         return B3;
     }(A3);
 })(TwoLevels || (TwoLevels = {}));
+var TwoLevels;

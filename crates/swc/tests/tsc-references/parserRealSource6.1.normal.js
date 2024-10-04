@@ -3,7 +3,6 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var TypeScript;
 (function(TypeScript) {
     var TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
@@ -195,3 +194,4 @@ var TypeScript;
     //
     TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
 })(TypeScript || (TypeScript = {}));
+var TypeScript;

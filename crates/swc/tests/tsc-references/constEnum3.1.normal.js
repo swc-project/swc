@@ -1,5 +1,5 @@
 //// [constEnum3.ts]
-var TestType;
+;
 function f1(f) {}
 function f2(f) {}
 f1(0);

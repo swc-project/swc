@@ -1,3 +1,2 @@
 //// [exponentiationOperatorWithEnum.ts]
-var E, E1;
-(E1 = E || (E = {}))[E1.a = 0] = "a", E1[E1.b = 1] = "b";
+var E, E1 = ((E = E1 || {})[E.a = 0] = "a", E[E.b = 1] = "b", E);

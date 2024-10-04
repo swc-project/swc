@@ -27,7 +27,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var M;
 (function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
@@ -62,3 +61,4 @@ var ResultIsBoolean21 = !!!(ANY + ANY1);
 !ANY, ANY1;
 !objA.a;
 !M.n;
+var M;

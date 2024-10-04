@@ -20,8 +20,7 @@ export { };
 //!  4 | import * as types from "./types"; // ok
 //!    `----
 //// [/ns.ts]
-export var ns;
 (function(ns) {
-    let A;
-    (function(A) {})(A = ns.A || (ns.A = {}));
+    (function(A) {})(ns.A || (ns.A = {}));
 })(ns || (ns = {}));
+export var ns;

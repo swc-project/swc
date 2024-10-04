@@ -11,4 +11,4 @@ Point1.Origin = {
 }).Origin = {
     x: 0,
     y: 0
-}, A.Point = Point, (Point = A.Point || (A.Point = {})).Origin = "";
+}, A.Point = Point, (A.Point || (A.Point = {})).Origin = "";

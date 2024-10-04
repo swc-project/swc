@@ -3,7 +3,6 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var TypeScript;
 (function(TypeScript) {
     function lastOf(items) {
         return items === null || items.length === 0 ? null : items[items.length - 1];
@@ -253,7 +252,6 @@ var TypeScript;
         this.path = new TypeScript.AstPath();
     };
     TypeScript.AstPathContext = AstPathContext;
-    var GetAstPathOptions;
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
@@ -265,7 +263,7 @@ var TypeScript;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         GetAstPathOptions[GetAstPathOptions["DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
+    })(TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
     function getAstPathToPosition(script, pos) {
         var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
         var lookInComments = function(comments) {
@@ -369,3 +367,4 @@ var TypeScript;
     ///
     TypeScript.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));
+var TypeScript;

@@ -1,6 +1,4 @@
-var Shapes;
 (function(Shapes) {
-    let Polygons;
     (function(Polygons) {
         class Triangle {
         }
@@ -8,7 +6,8 @@ var Shapes;
         class Square {
         }
         Polygons.Square = Square;
-    })(Polygons = Shapes.Polygons || (Shapes.Polygons = {}));
+    })(Shapes.Polygons || (Shapes.Polygons = {}));
 })(Shapes || (Shapes = {}));
 const polygons = Shapes.Polygons;
 let sq = new polygons.Square();
+var Shapes;

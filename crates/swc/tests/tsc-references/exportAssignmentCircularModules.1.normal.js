@@ -4,10 +4,10 @@ define([
     "./foo_1"
 ], function(require, _foo_1) {
     "use strict";
-    var Foo;
     (function(Foo) {
         Foo.x = _foo_1.x;
     })(Foo || (Foo = {}));
+    var Foo;
     return Foo;
 });
 //// [foo_1.ts]
@@ -16,10 +16,10 @@ define([
     "./foo_2"
 ], function(require, _foo_2) {
     "use strict";
-    var Foo;
     (function(Foo) {
         Foo.x = _foo_2.x;
     })(Foo || (Foo = {}));
+    var Foo;
     return Foo;
 });
 //// [foo_2.ts]
@@ -28,9 +28,9 @@ define([
     "./foo_0"
 ], function(require, _foo_0) {
     "use strict";
-    var Foo;
     (function(Foo) {
         Foo.x = _foo_0.x;
     })(Foo || (Foo = {}));
+    var Foo;
     return Foo;
 });

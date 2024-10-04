@@ -1,5 +1,5 @@
 //// [useObjectValuesAndEntries1.ts]
-var E, E1, o = {
+var E, o = {
     a: 1,
     b: 2
 }, _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
@@ -26,6 +26,8 @@ var a = [
     "b",
     "c"
 ];
-Object.entries(a), Object.values(a), (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", Object.entries(E1), Object.values(E1);
+Object.entries(a), Object.values(a);
+var E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E);
+Object.entries(E1), Object.values(E1);
 var i = {};
 Object.entries(i), Object.values(i);

@@ -1,16 +1,16 @@
 //// [equalityWithEnumTypes.ts]
 // Literal enum type
-var E1;
-(function(E1) {
+var E1 = /*#__PURE__*/ function(E1) {
     E1[E1["a"] = 1] = "a";
     E1[E1["b"] = 2] = "b";
-})(E1 || (E1 = {}));
-var E2;
-// Numeric enum type
-(function(E2) {
+    return E1;
+}(E1 || {});
+var // Numeric enum type
+E2 = /*#__PURE__*/ function(E2) {
     E2[E2["a"] = 1] = "a";
     E2[E2["b"] = 2] = "b";
-})(E2 || (E2 = {}));
+    return E2;
+}(E2 || {});
 function f1(v) {
     if (v !== 0) {
         v;

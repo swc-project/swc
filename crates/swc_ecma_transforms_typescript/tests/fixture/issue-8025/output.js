@@ -1,4 +1,3 @@
-var Foo;
 (function(Foo) {
     ({ a: Foo.a = 1 } = {});
     ({ b: Foo.b = 2 } = {});
@@ -6,3 +5,4 @@ var Foo;
     console.log("inner", Foo.a, Foo.b, Foo.c, Foo.d);
 })(Foo || (Foo = {}));
 console.log("outer", Foo.a, Foo.b, Foo.c, Foo.d);
+var Foo;

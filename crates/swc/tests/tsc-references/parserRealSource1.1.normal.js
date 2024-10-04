@@ -3,9 +3,7 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var TypeScript;
 (function(TypeScript) {
-    var CompilerDiagnostics;
     (function(CompilerDiagnostics) {
         CompilerDiagnostics.debug = false;
         CompilerDiagnostics.diagnosticWriter = null;
@@ -30,7 +28,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics = TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
+    })(TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
         function NullLogger() {
@@ -172,3 +170,4 @@ var TypeScript;
     }
     TypeScript.stringToLiteral = stringToLiteral;
 })(TypeScript || (TypeScript = {}));
+var TypeScript;

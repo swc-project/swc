@@ -115,10 +115,10 @@ function test(obj) {
         a: 'hello'
     }, rest);
 }
-var E;
-(function(E) {
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E || (E = {}));
+    return E;
+}(E || {});
 var a = f(0);
 var b = a;

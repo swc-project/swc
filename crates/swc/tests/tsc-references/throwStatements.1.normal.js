@@ -13,7 +13,6 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -93,3 +92,4 @@ throw new Date();
 throw new C();
 throw new Object();
 throw new D();
+var M;

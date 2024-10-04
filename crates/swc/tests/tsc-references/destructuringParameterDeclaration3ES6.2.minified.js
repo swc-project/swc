@@ -1,5 +1,5 @@
 //// [destructuringParameterDeclaration3ES6.ts]
-var E, E1, array = [
+var E, array = [
     1,
     2,
     3
@@ -19,4 +19,5 @@ var E, E1, array = [
 ]), function([a, b, c, ...x]) {}([
     1,
     2
-]), (E = E1 || (E1 = {}))[E.a = 0] = "a", E[E.b = 1] = "b";
+]);
+var E1 = ((E = E1 || {})[E.a = 0] = "a", E[E.b = 1] = "b", E);

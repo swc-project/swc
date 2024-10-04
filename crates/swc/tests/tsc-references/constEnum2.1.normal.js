@@ -4,9 +4,9 @@
 // it is an error for a member declaration to specify an expression that isn't classified as a constant enum expression.
 // Error : not a constant enum expression
 var CONST = 9000 % 2;
-var D;
-(function(D) {
+var D = /*#__PURE__*/ function(D) {
     D[D["e"] = 199 * Math.floor(Math.random() * 1000)] = "e";
     D[D["f"] = 10 - 100 * Math.floor(Math.random() % 8)] = "f";
     D[D["g"] = CONST] = "g";
-})(D || (D = {}));
+    return D;
+}(D || {});

@@ -1,7 +1,6 @@
 //// [arrayLiteralInference.ts]
 // Repro from #31204
-export var AppType;
-(function(AppType) {
+export var AppType = /*#__PURE__*/ function(AppType) {
     AppType["HeaderDetail"] = "HeaderDetail";
     AppType["HeaderMultiDetail"] = "HeaderMultiDetail";
     AppType["AdvancedList"] = "AdvancedList";
@@ -11,15 +10,16 @@ export var AppType;
     AppType["Composite"] = "Composite";
     AppType["ListOnly"] = "ListOnly";
     AppType["ModuleSettings"] = "ModuleSettings";
-})(AppType || (AppType = {}));
-export var AppStyle;
-(function(AppStyle) {
+    return AppType;
+}({});
+export var AppStyle = /*#__PURE__*/ function(AppStyle) {
     AppStyle[AppStyle["Tree"] = 0] = "Tree";
     AppStyle[AppStyle["TreeEntity"] = 1] = "TreeEntity";
     AppStyle[AppStyle["Standard"] = 2] = "Standard";
     AppStyle[AppStyle["MiniApp"] = 3] = "MiniApp";
     AppStyle[AppStyle["PivotTable"] = 4] = "PivotTable";
-})(AppStyle || (AppStyle = {}));
+    return AppStyle;
+}({});
 const appTypeStylesWithError = new Map([
     [
         "Standard",

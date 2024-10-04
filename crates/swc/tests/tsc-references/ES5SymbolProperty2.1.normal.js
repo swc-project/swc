@@ -1,6 +1,5 @@
 //// [ES5SymbolProperty2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var M;
 (function(M) {
     var _$Symbol;
     var C = /*#__PURE__*/ function() {
@@ -16,3 +15,4 @@ var M;
     (new C)[_$Symbol.iterator];
 })(M || (M = {}));
 (new M.C)[Symbol.iterator];
+var M;

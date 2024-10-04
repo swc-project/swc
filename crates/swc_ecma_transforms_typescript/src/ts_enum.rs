@@ -1,7 +1,5 @@
-use std::mem;
-
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, Mark, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     number::{JsNumber, ToJsString},
@@ -98,16 +96,18 @@ impl From<f64> for TsEnumRecordValue {
 
 pub(crate) struct EnumValueComputer<'a> {
     pub enum_id: &'a Id,
-    pub unresolved_mark: Mark,
+    pub unresolved_ctxt: SyntaxContext,
     pub record: &'a TsEnumRecord,
 }
 
 /// https://github.com/microsoft/TypeScript/pull/50528
 impl<'a> EnumValueComputer<'a> {
-    pub fn compute(&mut self, mut expr: Box<Expr>) -> TsEnumRecordValue {
-        expr.visit_mut_with(self);
-
-        self.compute_rec(expr)
+    pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
+        let mut expr = self.compute_rec(expr);
+        if let TsEnumRecordValue::Opaque(expr) = &mut expr {
+            expr.visit_mut_with(self);
+        }
+        expr
     }
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
@@ -115,12 +115,12 @@ impl<'a> EnumValueComputer<'a> {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
             Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "NaN" && ctxt.has_mark(self.unresolved_mark) =>
+                if &*sym == "NaN" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::NAN.into())
             }
             Expr::Ident(Ident { ctxt, sym, .. })
-                if &*sym == "Infinity" && ctxt.has_mark(self.unresolved_mark) =>
+                if &*sym == "Infinity" && ctxt == self.unresolved_ctxt =>
             {
                 TsEnumRecordValue::Number(f64::INFINITY.into())
             }
@@ -131,7 +131,15 @@ impl<'a> EnumValueComputer<'a> {
                     member_name: ident.sym.clone(),
                 })
                 .cloned()
-                .filter(TsEnumRecordValue::is_const)
+                .map(|value| match value {
+                    TsEnumRecordValue::String(..) | TsEnumRecordValue::Number(..) => value,
+                    _ => TsEnumRecordValue::Opaque(
+                        self.enum_id
+                            .clone()
+                            .make_member(ident.clone().into())
+                            .into(),
+                    ),
+                })
                 .unwrap_or_else(|| TsEnumRecordValue::Opaque(expr)),
             Expr::Paren(e) => self.compute_rec(e.expr),
             Expr::Unary(e) => self.compute_unary(e),
@@ -169,6 +177,7 @@ impl<'a> EnumValueComputer<'a> {
     }
 
     fn compute_bin(&self, expr: BinExpr) -> TsEnumRecordValue {
+        let origin_expr = expr.clone();
         if !matches!(
             expr.op,
             op!(bin, "+")
@@ -184,7 +193,7 @@ impl<'a> EnumValueComputer<'a> {
                 | op!("&")
                 | op!("^"),
         ) {
-            return TsEnumRecordValue::Opaque(expr.into());
+            return TsEnumRecordValue::Opaque(origin_expr.into());
         }
 
         let left = self.compute_rec(expr.left);
@@ -223,15 +232,19 @@ impl<'a> EnumValueComputer<'a> {
 
                 TsEnumRecordValue::String(format!("{}{}", left, right).into())
             }
-            (left, right, op) => TsEnumRecordValue::Opaque(
-                BinExpr {
-                    span: expr.span,
-                    op,
-                    left: Box::new(left.into()),
-                    right: Box::new(right.into()),
+            (left, right, _) => {
+                let mut origin_expr = origin_expr;
+
+                if left.is_const() {
+                    origin_expr.left = Box::new(left.into());
                 }
-                .into(),
-            ),
+
+                if right.is_const() {
+                    origin_expr.right = Box::new(right.into());
+                }
+
+                TsEnumRecordValue::Opaque(origin_expr.into())
+            }
         }
     }
 
@@ -300,136 +313,19 @@ impl<'a> VisitMut for EnumValueComputer<'a> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Ident(ident)
-                if self.record.contains_key(&TsEnumRecordKey {
-                    enum_id: self.enum_id.clone(),
-                    member_name: ident.sym.clone(),
-                }) =>
-            {
-                *expr = self
-                    .enum_id
-                    .clone()
-                    .make_member(ident.clone().into())
-                    .into();
-            }
-            Expr::Member(MemberExpr {
-                obj,
-                // prop,
-                ..
-            }) => {
-                obj.visit_mut_with(self);
-            }
-            _ => expr.visit_mut_children_with(self),
-        }
-    }
-}
+        expr.visit_mut_children_with(self);
 
-pub(crate) struct InlineEnum {
-    record: TsEnumRecord,
-    is_lhs: bool,
-}
+        let Expr::Ident(ident) = expr else { return };
 
-impl InlineEnum {
-    pub fn new(record: TsEnumRecord) -> Self {
-        Self {
-            record,
-            is_lhs: false,
-        }
-    }
-}
-
-impl VisitMut for InlineEnum {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        n.visit_mut_children_with(self);
-
-        if self.is_lhs {
-            return;
-        }
-
-        if let Expr::Member(MemberExpr { obj, prop, .. }) = n {
-            let Some(enum_id) = Self::get_enum_id(obj) else {
-                return;
-            };
-
-            let Some(member_name) = Self::get_member_key(prop) else {
-                return;
-            };
-
-            let key = TsEnumRecordKey {
-                enum_id,
-                member_name,
-            };
-
-            let Some(value) = self.record.get(&key) else {
-                return;
-            };
-
-            if value.is_const() {
-                *n = value.clone().into();
-            }
-        }
-    }
-
-    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
-        let is_lhs = mem::replace(&mut self.is_lhs, true);
-        n.left.visit_mut_with(self);
-        self.is_lhs = false;
-        n.right.visit_mut_with(self);
-        self.is_lhs = is_lhs;
-    }
-
-    fn visit_mut_assign_pat(&mut self, n: &mut AssignPat) {
-        let is_lhs = mem::replace(&mut self.is_lhs, true);
-        n.left.visit_mut_with(self);
-        self.is_lhs = false;
-        n.right.visit_mut_with(self);
-        self.is_lhs = is_lhs;
-    }
-
-    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
-        let is_lhs = mem::replace(&mut self.is_lhs, true);
-        n.arg.visit_mut_with(self);
-        self.is_lhs = is_lhs;
-    }
-
-    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
-        n.key.visit_mut_with(self);
-        let is_lhs = mem::replace(&mut self.is_lhs, false);
-        n.value.visit_mut_with(self);
-        self.is_lhs = is_lhs;
-    }
-
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        let is_lhs = mem::replace(&mut self.is_lhs, false);
-        n.visit_mut_children_with(self);
-        self.is_lhs = is_lhs;
-    }
-}
-
-impl InlineEnum {
-    fn get_enum_id(e: &Expr) -> Option<Id> {
-        if let Expr::Ident(ident) = e {
-            Some(ident.to_id())
-        } else {
-            None
-        }
-    }
-
-    fn get_member_key(prop: &MemberProp) -> Option<JsWord> {
-        match prop {
-            MemberProp::Ident(ident) => Some(ident.sym.clone()),
-            MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.clone()),
-                Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                    (0, 1) => quasis[0].cooked.as_ref().map(|v| JsWord::from(&**v)),
-                    _ => None,
-                },
-                _ => None,
-            },
-            MemberProp::PrivateName(_) => None,
+        if self.record.contains_key(&TsEnumRecordKey {
+            enum_id: self.enum_id.clone(),
+            member_name: ident.sym.clone(),
+        }) {
+            *expr = self
+                .enum_id
+                .clone()
+                .make_member(ident.clone().into())
+                .into();
         }
     }
 }

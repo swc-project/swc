@@ -1,7 +1,6 @@
 //// [literalTypes2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-var result, E, E1, a = [
+var E, result, E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), a = [
     1,
     2
 ];

@@ -14,7 +14,6 @@ var X = function X() {
     "use strict";
     _class_call_check(this, X);
 };
-var Class;
 (function(Class) {
     var G = /*#__PURE__*/ function() {
         "use strict";
@@ -49,7 +48,6 @@ var Class;
     var r = g2.foo2(c1, d1);
     var r2 = g2.foo2(c1, c1);
 })(Class || (Class = {}));
-var Interface;
 (function(Interface) {
     var c1 = new X();
     var d1 = new X();
@@ -60,3 +58,4 @@ var Interface;
     var r = g2.foo2(c1, d1);
     var r2 = g2.foo2(c1, c1);
 })(Interface || (Interface = {}));
+var Class, Interface;

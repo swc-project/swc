@@ -24,7 +24,6 @@ var D = function D() {
 };
 var a;
 var r = a.a;
-var M;
 // generic interfaces in a module
 (function(M) {
     var C = function C() {
@@ -48,3 +47,4 @@ var M;
         _class_call_check(this, D);
     };
 })(M || (M = {}));
+var M;

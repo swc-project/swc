@@ -1,4 +1,3 @@
-var Foo;
 (function(Foo) {
     Foo.bar = 42;
     Foo.foo = function() {
@@ -9,3 +8,4 @@ var Foo;
     }
     Foo.xyz = xyz;
 })(Foo || (Foo = {}));
+var Foo;

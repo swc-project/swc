@@ -1,5 +1,4 @@
 //// [subtypingWithCallSignatures.ts]
-var CallSignature;
 (function(CallSignature) {
     var r = foo1(function(x) {
         return 1;
@@ -14,3 +13,4 @@ var CallSignature;
         return '';
     }); // ok because base returns void
 })(CallSignature || (CallSignature = {}));
+var CallSignature;

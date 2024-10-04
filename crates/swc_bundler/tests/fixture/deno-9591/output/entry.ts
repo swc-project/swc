@@ -1621,15 +1621,15 @@ const mod3 = {
     normalizeGlob,
     joinGlobs
 };
-var LogLevels;
-(function(LogLevels) {
+var LogLevels = /*#__PURE__*/ function(LogLevels) {
     LogLevels[LogLevels["NOTSET"] = 0] = "NOTSET";
     LogLevels[LogLevels["DEBUG"] = 10] = "DEBUG";
     LogLevels[LogLevels["INFO"] = 20] = "INFO";
     LogLevels[LogLevels["WARNING"] = 30] = "WARNING";
     LogLevels[LogLevels["ERROR"] = 40] = "ERROR";
     LogLevels[LogLevels["CRITICAL"] = 50] = "CRITICAL";
-})(LogLevels || (LogLevels = {}));
+    return LogLevels;
+}({});
 Object.keys(LogLevels).filter((key)=>isNaN(Number(key)));
 const byLevel = {
     [String(0)]: "NOTSET",
@@ -2917,11 +2917,11 @@ function copySync(src, dest, options = {}) {
         copyFileSync(src, dest, options);
     }
 }
-var EOL;
-(function(EOL) {
+var EOL = /*#__PURE__*/ function(EOL) {
     EOL["LF"] = "\n";
     EOL["CRLF"] = "\r\n";
-})(EOL || (EOL = {}));
+    return EOL;
+}({});
 const regDetect = /(?:\r?\n)/g;
 function detect(content) {
     const d = content.match(regDetect);

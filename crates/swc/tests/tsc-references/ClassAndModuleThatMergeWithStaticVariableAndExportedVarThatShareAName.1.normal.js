@@ -13,7 +13,6 @@ Point.Origin = {
 (function(Point) {
     Point.Origin = ""; //expected duplicate identifier error
 })(Point || (Point = {}));
-var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -28,5 +27,6 @@ var A;
     A.Point = Point;
     (function(Point) {
         Point.Origin = ""; //expected duplicate identifier error
-    })(Point = A.Point || (A.Point = {}));
+    })(A.Point || (A.Point = {}));
 })(A || (A = {}));
+var A;

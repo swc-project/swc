@@ -22,7 +22,6 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -66,3 +65,4 @@ var arr2 = [
 var arr2 = new Array();
 var m;
 var m = M.A;
+var M;

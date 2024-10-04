@@ -1,13 +1,12 @@
 //// [defineProperty.ts]
 var x = "p";
-let _x = x;
 class A {
     y;
     a;
     b;
     c;
     ["computed"];
-    [_x];
+    [_x = x];
     m() {}
     constructor(y){
         this.y = y;
@@ -29,3 +28,4 @@ class C extends B {
     }
     ki;
 }
+var _x;

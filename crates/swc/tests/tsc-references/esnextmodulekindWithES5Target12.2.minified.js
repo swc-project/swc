@@ -5,10 +5,9 @@ export var C = function C() {
     _class_call_check(this, C);
 };
 (C || (C = {})).x = 1;
-var E2;
+var E2 = ((E = {})[E.w = 1] = "w", E);
 export { E2 as E };
-(E = E2 || (E2 = {}))[E.w = 1] = "w", (E1 = E2 || (E2 = {}))[E1.x = 2] = "x", (E2 || (E2 = {})).y = 1, (E2 || (E2 = {})).z = 1;
-export var N;
-(N || (N = {})).x = 1;
+(E1 = E2)[E1.x = 2] = "x", (E2 || (E2 = {})).y = 1, (E2 || (E2 = {})).z = 1, (N || (N = {})).x = 1;
 export function F() {}
 (F || (F = {})).x = 1;
+export var N;

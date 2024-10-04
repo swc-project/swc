@@ -1,6 +1,5 @@
 //// [class.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var X;
 (function(X) {
     (function(Y) {
         var Point = function Point(x, y) {
@@ -12,16 +11,16 @@ var X;
         Y.Point = Point;
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
-//// [module.ts]
 var X;
+//// [module.ts]
 (function(X) {
     (function(Y) {
-        var Point;
         (function(Point) {
-            Point.Origin = new Point(0, 0);
-        })(Point = Y.Point || (Y.Point = {}));
+            Point.Origin = new Y.Point(0, 0);
+        })(Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
+var X;
 //// [test.ts]
 //var cl: { x: number; y: number; }
 var cl = new X.Y.Point(1, 1);

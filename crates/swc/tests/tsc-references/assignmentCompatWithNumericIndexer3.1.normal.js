@@ -23,7 +23,6 @@ var B2 = /*#__PURE__*/ function(A) {
 var b2;
 a = b2; // ok
 b2 = a; // error
-var Generics;
 (function(Generics) {
     var A = function A() {
         "use strict";
@@ -39,3 +38,4 @@ var Generics;
         b2 = a; // ok
     }
 })(Generics || (Generics = {}));
+var Generics;

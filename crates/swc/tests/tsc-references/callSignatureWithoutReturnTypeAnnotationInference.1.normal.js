@@ -60,7 +60,6 @@ function foo10(x) {
     return c;
 }
 var r10 = foo10(1);
-var M;
 (function(M) {
     M.x = 1;
     var C = function C() {
@@ -99,10 +98,10 @@ function foo14() {
     return c1;
 }
 var r14 = foo14();
-var e1;
-(function(e1) {
+var e1 = /*#__PURE__*/ function(e1) {
     e1[e1["A"] = 0] = "A";
-})(e1 || (e1 = {}));
+    return e1;
+}(e1 || {});
 (function(e1) {
     e1.y = 1;
 })(e1 || (e1 = {}));
@@ -110,3 +109,4 @@ function foo15() {
     return e1;
 }
 var r15 = foo15();
+var M;
