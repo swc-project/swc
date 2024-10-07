@@ -18,7 +18,7 @@ proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 syn         = { workspace = true }
 
-swc_atoms         = { version = "1.0.0", path = "../swc_atoms" }
+swc_atoms         = { version = "1.0.2", path = "../swc_atoms" }
 swc_common        = { version = "0.40.1", path = "../swc_common" }
 swc_ecma_ast      = { version = "0.121.1", path = "../swc_ecma_ast" }
 swc_ecma_parser   = { version = "0.152.1", path = "../swc_ecma_parser" }
