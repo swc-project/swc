@@ -219,6 +219,16 @@ impl Optimizer<'_> {
                         }
                     },
 
+                    (
+                        Some(Stmt::Block(BlockStmt { stmts: s1, .. })),
+                        Some(Stmt::Block(BlockStmt { stmts: s2, .. })),
+                    ) if s1.iter().any(|s| matches!(s, Stmt::Return(..)))
+                        && s2.iter().any(|s| matches!(s, Stmt::Return(..))) =>
+                    {
+                        log_abort!("if_return: [x] Aborting because early return is observed");
+                        return;
+                    }
+
                     _ => {}
                 }
             }
