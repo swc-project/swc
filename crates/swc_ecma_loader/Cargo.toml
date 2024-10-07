@@ -36,7 +36,7 @@ serde       = { workspace = true, features = ["derive"] }
 serde_json  = { workspace = true, optional = true }
 tracing     = { workspace = true }
 
-swc_atoms  = { version = "1.0.0", path = "../swc_atoms" }
+swc_atoms  = { version = "1.0.2", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", optional = true, path = "../swc_cached" }
 swc_common = { version = "0.40.1", path = "../swc_common" }
 

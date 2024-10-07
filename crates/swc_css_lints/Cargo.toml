@@ -19,7 +19,7 @@ rayon       = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 
-swc_atoms     = { version = "1.0.0", path = "../swc_atoms" }
+swc_atoms     = { version = "1.0.2", path = "../swc_atoms" }
 swc_cached    = { version = "0.3.19", path = "../swc_cached" }
 swc_common    = { version = "0.40.1", path = "../swc_common" }
 swc_css_ast   = { version = "0.147.0", path = "../swc_css_ast" }
