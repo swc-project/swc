@@ -351,7 +351,7 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
+pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
@@ -704,6 +704,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
 
   URL: Map {
     canParse: define("url/can-parse", ["web.url.can-parse", "web.url"]),
+    parse: define("url/parse", ["web.url.parse", "web.url"]),
   },
 
   WeakMap: Map {
@@ -716,15 +717,27 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
     of: define(null, ["esnext.weak-set.of", WEAK_SET_DEPENDENCIES]),
   },
 
-  Int8Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint8Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint8ClampedArray: *TYPED_ARRAY_STATIC_METHODS,
-  Int16Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint16Array: *TYPED_ARRAY_STATIC_METHODS,
-  Int32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Float32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Float64Array: *TYPED_ARRAY_STATIC_METHODS,
+  Int8Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int8-array"),
+  Uint8Array: Map {
+    fromBase64: define(null, [
+      "esnext.uint8-array.from-base64",
+      TYPED_ARRAY_DEPENDENCIES,
+    ]),
+    fromHex: define(null, [
+      "esnext.uint8-array.from-hex",
+      TYPED_ARRAY_DEPENDENCIES,
+    ]),
+    ...*TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint8-array"),
+  },
+  Uint8ClampedArray: TYPED_ARRAY_STATIC_METHODS(
+    "es.typed-array.uint8-clamped-array",
+  ),
+  Int16Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int16-array"),
+  Uint16Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint16-array"),
+  Int32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int32-array"),
+  Uint32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint32-array"),
+  Float32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.float32-array"),
+  Float64Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.float64-array"),
 
   WebAssembly: Map {
     CompileError: define(null, ERROR_DEPENDENCIES),
