@@ -210,7 +210,7 @@ swc_allocator::nightly_only!(
     }
 );
 
-impl<'a, N> EqIgnoreSpan for &'a N
+impl<N> EqIgnoreSpan for &N
 where
     N: EqIgnoreSpan,
 {
@@ -220,7 +220,7 @@ where
     }
 }
 
-impl<'a, N> TypeEq for &'a N
+impl<N> TypeEq for &N
 where
     N: TypeEq,
 {

@@ -27,7 +27,7 @@ impl<const RADIX: u8> LazyBigInt<RADIX> {
     }
 }
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(
         &mut self,

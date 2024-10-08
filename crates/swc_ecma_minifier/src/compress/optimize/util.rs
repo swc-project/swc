@@ -241,7 +241,7 @@ impl Parallel for Finalizer<'_> {
     }
 }
 
-impl<'a> Finalizer<'a> {
+impl Finalizer<'_> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {

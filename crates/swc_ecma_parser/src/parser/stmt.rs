@@ -1472,7 +1472,7 @@ where
     }
 }
 
-impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
+impl<I: Tokens> StmtLikeParser<'_, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
         if is!(self, "import") && peeked_is!(self, '(') {

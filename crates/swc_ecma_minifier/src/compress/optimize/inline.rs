@@ -646,57 +646,55 @@ impl Optimizer<'_> {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     self.vars.inline_with_multi_replacer(&mut f.function.body);
 
-                    match &f.function.body {
-                        Some(body) => {
-                            if !usage.used_recursively
-                                // only callees can be inlined multiple times
-                                && usage.callee_count > 0
-                                // prefer single inline
-                                && usage.ref_count > 1
-                                && self.is_fn_body_simple_enough_to_inline(
-                                    body,
-                                    f.function.params.len(),
-                                    usage,
-                                )
+                    if let Some(body) = &f.function.body {
+                        if !usage.used_recursively
+                            // only callees can be inlined multiple times
+                            && usage.callee_count > 0
+                            // prefer single inline
+                            && usage.ref_count > 1
+                            && self.is_fn_body_simple_enough_to_inline(
+                                body,
+                                f.function.params.len(),
+                                usage,
+                            )
+                        {
+                            if f.function
+                                .params
+                                .iter()
+                                .any(|param| matches!(param.pat, Pat::Rest(..) | Pat::Assign(..)))
                             {
-                                if f.function.params.iter().any(|param| {
-                                    matches!(param.pat, Pat::Rest(..) | Pat::Assign(..))
-                                }) {
-                                    return;
-                                }
-                                trace_op!(
-                                    "inline: Decided to inline function '{}{:?}' as it's very \
-                                     simple",
-                                    f.ident.sym,
-                                    f.ident.ctxt
-                                );
-
-                                for i in collect_infects_from(
-                                    &f.function,
-                                    AliasConfig {
-                                        marks: Some(self.marks),
-                                        ignore_nested: false,
-                                        need_all: true,
-                                    },
-                                ) {
-                                    if let Some(usage) = self.data.vars.get_mut(&i.0) {
-                                        usage.ref_count += 1;
-                                    }
-                                }
-
-                                self.vars.simple_functions.insert(
-                                    i.to_id(),
-                                    FnExpr {
-                                        ident: None,
-                                        function: f.function.clone(),
-                                    }
-                                    .into(),
-                                );
-
                                 return;
                             }
+                            trace_op!(
+                                "inline: Decided to inline function '{}{:?}' as it's very simple",
+                                f.ident.sym,
+                                f.ident.ctxt
+                            );
+
+                            for i in collect_infects_from(
+                                &f.function,
+                                AliasConfig {
+                                    marks: Some(self.marks),
+                                    ignore_nested: false,
+                                    need_all: true,
+                                },
+                            ) {
+                                if let Some(usage) = self.data.vars.get_mut(&i.0) {
+                                    usage.ref_count += 1;
+                                }
+                            }
+
+                            self.vars.simple_functions.insert(
+                                i.to_id(),
+                                FnExpr {
+                                    ident: None,
+                                    function: f.function.clone(),
+                                }
+                                .into(),
+                            );
+
+                            return;
                         }
-                        None => {}
                     }
                 }
                 _ => {}

@@ -859,13 +859,10 @@ where
             .with_child(n.ctxt, ScopeKind::Fn, |child| {
                 n.params.visit_with(child);
 
-                match &n.body {
-                    Some(body) => {
-                        // We use visit_children_with instead of visit_with to bypass block scope
-                        // handler.
-                        body.visit_children_with(child);
-                    }
-                    None => {}
+                if let Some(body) = &n.body {
+                    // We use visit_children_with instead of visit_with to bypass block scope
+                    // handler.
+                    body.visit_children_with(child);
                 }
             })
     }

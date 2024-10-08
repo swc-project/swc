@@ -2,6 +2,8 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
+/// A bugfix pass for Edge.
+///
 /// Converts destructured parameters with default values to non-shorthand
 /// syntax. This fixes the only arguments-related bug in ES Modules-supporting
 /// browsers (Edge 16 & 17). Use this plugin instead of

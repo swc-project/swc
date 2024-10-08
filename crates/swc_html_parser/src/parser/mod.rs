@@ -8220,7 +8220,7 @@ where
             }
             // 2.4
             // Fragment case
-            else if last_table.is_none() && self.open_elements_stack.items.first().is_some() {
+            else if last_table.is_none() && !self.open_elements_stack.items.is_empty() {
                 let first = if let Some(first) = self.open_elements_stack.items.first() {
                     first.clone()
                 } else {

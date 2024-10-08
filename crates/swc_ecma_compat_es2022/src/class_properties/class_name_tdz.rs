@@ -10,7 +10,7 @@ pub(super) struct ClassNameTdzFolder<'a> {
 }
 
 #[swc_trace]
-impl<'a> VisitMut for ClassNameTdzFolder<'a> {
+impl VisitMut for ClassNameTdzFolder<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

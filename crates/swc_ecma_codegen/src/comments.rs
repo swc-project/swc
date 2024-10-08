@@ -54,7 +54,7 @@ macro_rules! write_comments {
     }};
 }
 
-impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
+impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,

@@ -315,13 +315,10 @@ impl Expr {
         self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
 
-    /// #Note
     pub fn with_span(mut self, span: Span) -> Expr {
         self.set_span(span);
         self
     }
-
-    /// # Note
 
     pub fn set_span(&mut self, span: Span) {
         match self {

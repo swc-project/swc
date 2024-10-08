@@ -301,7 +301,6 @@ impl Visit for UsageVisitor {
 
     ///
     /// - `Symbol.iterator in arr`
-
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         e.visit_children_with(self);
 

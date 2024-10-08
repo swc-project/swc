@@ -12,7 +12,7 @@ impl<'a> Derive<'a> {
             is_generic: bool,
         }
 
-        impl<'a, 'b> Visit<'a> for TypeVisitor<'b> {
+        impl Visit<'_> for TypeVisitor<'_> {
             fn visit_path(&mut self, path: &Path) {
                 if let Some(seg) = path.segments.last() {
                     if seg.ident == "PhantomData" {

@@ -69,7 +69,7 @@ impl Resolve for Resolver {
     }
 }
 
-impl<'a> Tester<'a> {
+impl Tester<'_> {
     pub fn module(&self, name: &str) -> TransformedModule {
         self.bundler
             .scope

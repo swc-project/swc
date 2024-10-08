@@ -602,7 +602,7 @@ struct InitThis<'a> {
 }
 
 // babel is skip function and class property
-impl<'a> VisitMut for InitThis<'a> {
+impl VisitMut for InitThis<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, _: &mut Class) {}

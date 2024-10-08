@@ -94,7 +94,7 @@ where
     }
 }
 
-impl<'a, I> VisitMut for Operator<'a, I>
+impl<I> VisitMut for Operator<'_, I>
 where
     I: IdentLike,
 {
@@ -102,11 +102,8 @@ where
 
     /// Preserve key of properties.
     fn visit_mut_assign_pat_prop(&mut self, p: &mut AssignPatProp) {
-        match &mut p.value {
-            Some(value) => {
-                value.visit_mut_children_with(self);
-            }
-            None => {}
+        if let Some(value) = &mut p.value {
+            value.visit_mut_children_with(self);
         }
     }
 
@@ -640,7 +637,7 @@ where
     }
 }
 
-impl<'a, I> Operator<'a, I>
+impl<I> Operator<'_, I>
 where
     I: IdentLike,
 {

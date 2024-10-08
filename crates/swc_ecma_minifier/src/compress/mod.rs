@@ -364,7 +364,7 @@ impl VisitMut for Compressor<'_> {
 struct DebugUsingDisplay<'a>(pub &'a str);
 
 #[cfg(feature = "debug")]
-impl<'a> Debug for DebugUsingDisplay<'a> {
+impl Debug for DebugUsingDisplay<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)
     }

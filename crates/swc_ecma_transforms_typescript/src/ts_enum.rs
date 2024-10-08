@@ -101,7 +101,7 @@ pub(crate) struct EnumValueComputer<'a> {
 }
 
 /// https://github.com/microsoft/TypeScript/pull/50528
-impl<'a> EnumValueComputer<'a> {
+impl EnumValueComputer<'_> {
     pub fn compute(&mut self, expr: Box<Expr>) -> TsEnumRecordValue {
         let mut expr = self.compute_rec(expr);
         if let TsEnumRecordValue::Opaque(expr) = &mut expr {
@@ -309,7 +309,7 @@ impl<'a> EnumValueComputer<'a> {
     }
 }
 
-impl<'a> VisitMut for EnumValueComputer<'a> {
+impl VisitMut for EnumValueComputer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

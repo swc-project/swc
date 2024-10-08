@@ -522,11 +522,10 @@ fn is_spread_arguements(args: &[ExprOrSpread]) -> bool {
         return false;
     }
 
-    return arg
-        .expr
+    arg.expr
         .as_ident()
         .filter(|ident| ident.sym == *"arguments")
-        .is_some();
+        .is_some()
 }
 
 trait SuperLastCall {

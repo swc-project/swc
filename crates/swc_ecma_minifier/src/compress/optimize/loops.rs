@@ -136,8 +136,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        match &mut s.init {
-            Some(init) => match init {
+        if let Some(init) = &mut s.init {
+            match init {
                 VarDeclOrExpr::VarDecl(_) => {}
                 VarDeclOrExpr::Expr(init) => {
                     let new = self.ignore_return_value(init);
@@ -151,8 +151,7 @@ impl Optimizer<'_> {
                         );
                     }
                 }
-            },
-            None => {}
+            }
         }
     }
 }

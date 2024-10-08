@@ -613,24 +613,18 @@ impl Visit for LabelFinder<'_> {
     noop_visit_type!();
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
-        match &s.label {
-            Some(label) => {
-                if label.sym == self.label.sym {
-                    self.found = true;
-                }
+        if let Some(label) = &s.label {
+            if label.sym == self.label.sym {
+                self.found = true;
             }
-            None => {}
         }
     }
 
     fn visit_continue_stmt(&mut self, s: &ContinueStmt) {
-        match &s.label {
-            Some(label) => {
-                if label.sym == self.label.sym {
-                    self.found = true;
-                }
+        if let Some(label) = &s.label {
+            if label.sym == self.label.sym {
+                self.found = true;
             }
-            None => {}
         }
     }
 }

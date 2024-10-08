@@ -665,7 +665,7 @@ enum Label {
     Continue(Ident),
 }
 
-impl<'a> FlowHelper<'a> {
+impl FlowHelper<'_> {
     fn check(&mut self, i: Id) {
         if self.all.contains(&i) {
             self.mutated.insert(

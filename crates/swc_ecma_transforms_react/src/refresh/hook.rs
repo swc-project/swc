@@ -48,7 +48,7 @@ pub struct HookRegister<'a> {
     pub should_reset: bool,
 }
 
-impl<'a> HookRegister<'a> {
+impl HookRegister<'_> {
     pub fn gen_hook_handle(&mut self) -> Stmt {
         VarDecl {
             span: DUMMY_SP,
@@ -206,7 +206,7 @@ impl<'a> HookRegister<'a> {
     }
 }
 
-impl<'a> VisitMut for HookRegister<'a> {
+impl VisitMut for HookRegister<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
@@ -384,7 +384,7 @@ fn is_hook_like(s: &str) -> bool {
     }
 }
 
-impl<'a> HookCollector<'a> {
+impl HookCollector<'_> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
         let callee = if let Callee::Expr(callee) = &expr.callee {
             Some(callee.as_ref())
@@ -452,7 +452,7 @@ impl<'a> HookCollector<'a> {
     }
 }
 
-impl<'a> Visit for HookCollector<'a> {
+impl Visit for HookCollector<'_> {
     noop_visit_type!();
 
     fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr) {}

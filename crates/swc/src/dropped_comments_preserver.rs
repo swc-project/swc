@@ -16,7 +16,6 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// This transformer shifts orphaned comments to the next closest known span
 /// while making a best-effort to preserve the "general orientation" of
 /// comments.
-
 pub fn dropped_comments_preserver(
     comments: Option<SingleThreadedComments>,
 ) -> impl Fold + VisitMut {

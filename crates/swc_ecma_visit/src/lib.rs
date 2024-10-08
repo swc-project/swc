@@ -215,6 +215,8 @@ where
     }
 }
 
+/// Wrap a [VisitMut] as a [Fold].
+///
 /// The returned folder only handles `fold_script` and `fold_module`, and
 /// typescript nodes are ignored. So if your visitor needs to handle typescript
 /// or low-level nodes, you should use [as_folder] instead.

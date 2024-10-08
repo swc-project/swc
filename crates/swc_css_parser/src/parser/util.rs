@@ -396,20 +396,20 @@ pub(super) struct WithCtx<'w, I: 'w + ParserInput> {
     orig_ctx: Ctx,
 }
 
-impl<'w, I: ParserInput> Deref for WithCtx<'w, I> {
+impl<I: ParserInput> Deref for WithCtx<'_, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
         self.inner
     }
 }
-impl<'w, I: ParserInput> DerefMut for WithCtx<'w, I> {
+impl<I: ParserInput> DerefMut for WithCtx<'_, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
         self.inner
     }
 }
 
-impl<'w, I: ParserInput> Drop for WithCtx<'w, I> {
+impl<I: ParserInput> Drop for WithCtx<'_, I> {
     fn drop(&mut self) {
         self.inner.ctx = self.orig_ctx;
     }

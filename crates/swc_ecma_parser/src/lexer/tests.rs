@@ -104,7 +104,7 @@ impl WithSpan for f64 {
         }
     }
 }
-impl<'a> WithSpan for &'a str {
+impl WithSpan for &str {
     fn into_token(self) -> Token {
         Word(Word::Ident(self.into()))
     }
