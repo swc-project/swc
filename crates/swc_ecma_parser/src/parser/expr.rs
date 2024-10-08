@@ -1988,7 +1988,6 @@ pub(in crate::parser) enum AssignTargetOrSpread {
 }
 
 /// simple leaf methods.
-
 impl<I: Tokens> Parser<I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);

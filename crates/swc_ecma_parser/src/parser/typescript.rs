@@ -59,7 +59,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsIsListTerminator`
-
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
 
