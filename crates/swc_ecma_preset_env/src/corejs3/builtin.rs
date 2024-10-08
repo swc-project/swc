@@ -239,6 +239,22 @@ fn typed_array_static_methods(
     })
 }
 
+fn uint8_typed_array_static_methods() -> ObjectMap<CoreJSPolyfillDescriptor> {
+    let mut map = typed_array_static_methods(&["es.typed-array.uint8-array"]);
+
+    map.extend(map!(Map {
+        fromBase64: define(
+            null,
+            ["esnext.uint8-array.from-base64", TYPED_ARRAY_DEPENDENCIES,]
+        ),
+        fromHex: define(
+            null,
+            ["esnext.uint8-array.from-hex", TYPED_ARRAY_DEPENDENCIES,]
+        ),
+    }));
+    map
+}
+
 static DATA_VIEW_DEPENDENCIES: &[&str] =
     &concat2::<2>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
 
@@ -717,17 +733,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
   },
 
   Int8Array: typed_array_static_methods(&["es.typed-array.int8-array"]),
-  Uint8Array: Map {
-    fromBase64: define(null, [
-      "esnext.uint8-array.from-base64",
-      TYPED_ARRAY_DEPENDENCIES,
-    ]),
-    fromHex: define(null, [
-      "esnext.uint8-array.from-hex",
-      TYPED_ARRAY_DEPENDENCIES,
-    ]),
-    typed_array_static_methods(&["es.typed-array.uint8-array"]),
-  },
+  Uint8Array: uint8_typed_array_static_methods(),
   Uint8ClampedArray: typed_array_static_methods(&["es.typed-array.uint8-clamped-array"]),
   Int16Array: typed_array_static_methods(&["es.typed-array.int16-array"]),
   Uint16Array: typed_array_static_methods(&["es.typed-array.uint16-array"]),
