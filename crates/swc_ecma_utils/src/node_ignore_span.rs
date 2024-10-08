@@ -6,7 +6,7 @@ use swc_ecma_ast::{Expr, MemberProp};
 /// A newtype that will ignore Span while doing `eq` or `hash`.
 pub struct NodeIgnoringSpan<'a, Node: ToOwned + Debug>(Cow<'a, Node>);
 
-impl<'a, Node: ToOwned + Debug> Debug for NodeIgnoringSpan<'a, Node> {
+impl<Node: ToOwned + Debug> Debug for NodeIgnoringSpan<'_, Node> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_tuple("NodeIgnoringSpan").field(&*self.0).finish()
     }
@@ -24,17 +24,17 @@ impl<'a, Node: ToOwned + Debug> NodeIgnoringSpan<'a, Node> {
     }
 }
 
-impl<'a, Node: EqIgnoreSpan + ToOwned + Debug> PartialEq for NodeIgnoringSpan<'a, Node> {
+impl<Node: EqIgnoreSpan + ToOwned + Debug> PartialEq for NodeIgnoringSpan<'_, Node> {
     fn eq(&self, other: &Self) -> bool {
         self.0.eq_ignore_span(&other.0)
     }
 }
 
-impl<'a, Node: EqIgnoreSpan + ToOwned + Debug> Eq for NodeIgnoringSpan<'a, Node> {}
+impl<Node: EqIgnoreSpan + ToOwned + Debug> Eq for NodeIgnoringSpan<'_, Node> {}
 
 // TODO: This is only a workaround for Expr. we need something like
 // `hash_ignore_span` for each node in the end.
-impl<'a> Hash for NodeIgnoringSpan<'a, Expr> {
+impl Hash for NodeIgnoringSpan<'_, Expr> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         // In pratice, most of cases/input we are dealing with are Expr::Member or
         // Expr::Ident.

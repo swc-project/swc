@@ -21,7 +21,7 @@ use crate::{
     Tokens,
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {

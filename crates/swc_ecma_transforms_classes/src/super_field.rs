@@ -63,7 +63,7 @@ macro_rules! mark_nested {
     };
 }
 
-impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
+impl VisitMut for SuperFieldAccessFolder<'_> {
     noop_visit_mut_type!(fail);
 
     // mark_nested!(fold_function, Function);
@@ -162,7 +162,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
     }
 }
 
-impl<'a> SuperFieldAccessFolder<'a> {
+impl SuperFieldAccessFolder<'_> {
     /// # In
     /// ```js
     /// super.foo(a)

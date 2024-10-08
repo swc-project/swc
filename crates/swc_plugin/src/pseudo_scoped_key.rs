@@ -1,6 +1,7 @@
 use once_cell::sync::OnceCell;
 
 /// Simple substitution for scoped_thread_local with limited interface parity.
+///
 /// The only available fn in this struct is `with`, which is being used for the
 /// consumers when they need to access global scope handler (HANDLER.with()).
 /// Any other interfaces to support thread local is not available.

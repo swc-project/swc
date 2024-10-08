@@ -142,7 +142,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 }
 
-impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
+impl<W: Write> WriteJs for JsWriter<'_, W> {
     #[inline]
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;

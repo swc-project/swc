@@ -31,20 +31,20 @@ pub(super) struct WithCtx<'w, I: 'w + CssWriter> {
     orig_ctx: Ctx,
 }
 
-impl<'w, I: CssWriter> Deref for WithCtx<'w, I> {
+impl<I: CssWriter> Deref for WithCtx<'_, I> {
     type Target = CodeGenerator<I>;
 
     fn deref(&self) -> &CodeGenerator<I> {
         self.inner
     }
 }
-impl<'w, I: CssWriter> DerefMut for WithCtx<'w, I> {
+impl<I: CssWriter> DerefMut for WithCtx<'_, I> {
     fn deref_mut(&mut self) -> &mut CodeGenerator<I> {
         self.inner
     }
 }
 
-impl<'w, I: CssWriter> Drop for WithCtx<'w, I> {
+impl<I: CssWriter> Drop for WithCtx<'_, I> {
     fn drop(&mut self) {
         self.inner.ctx = self.orig_ctx;
     }

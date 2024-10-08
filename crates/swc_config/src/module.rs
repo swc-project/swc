@@ -41,7 +41,7 @@ impl Serialize for IsModule {
 
 struct IsModuleVisitor;
 
-impl<'de> Visitor<'de> for IsModuleVisitor {
+impl Visitor<'_> for IsModuleVisitor {
     type Value = IsModule;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {

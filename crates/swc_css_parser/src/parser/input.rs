@@ -440,7 +440,7 @@ impl<'a> Input<'a> {
     }
 }
 
-impl<'a> ParserInput for Input<'a> {
+impl ParserInput for Input<'_> {
     type State = State;
 
     fn start_pos(&mut self) -> BytePos {
@@ -489,7 +489,7 @@ impl<'a> ParserInput for Input<'a> {
     }
 }
 
-impl<'a> Iterator for Input<'a> {
+impl Iterator for Input<'_> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {

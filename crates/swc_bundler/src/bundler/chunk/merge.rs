@@ -259,8 +259,8 @@ where
                             match s {
                                 ExportSpecifier::Namespace(_) => {}
                                 ExportSpecifier::Default(_) => {}
-                                ExportSpecifier::Named(named) => match &named.exported {
-                                    Some(exported) => {
+                                ExportSpecifier::Named(named) => {
+                                    if let Some(exported) = &named.exported {
                                         let exported = match exported {
                                             ModuleExportName::Ident(ident) => ident,
                                             ModuleExportName::Str(..) => {
@@ -290,8 +290,7 @@ where
                                             }
                                         }
                                     }
-                                    None => {}
-                                },
+                                }
                             }
                         }
                     }
@@ -609,8 +608,8 @@ where
                         // Imports are easy to handle.
                         for s in &import.specifiers {
                             match s {
-                                ImportSpecifier::Named(s) => match &s.imported {
-                                    Some(imported) => {
+                                ImportSpecifier::Named(s) => {
+                                    if let Some(imported) = &s.imported {
                                         let imported = match imported {
                                             ModuleExportName::Ident(ident) => ident,
                                             ModuleExportName::Str(..) => {
@@ -627,8 +626,7 @@ where
                                                 ),
                                         );
                                     }
-                                    None => {}
-                                },
+                                }
                                 ImportSpecifier::Default(s) => {
                                     new.push(
                                         Ident::new(
@@ -1259,8 +1257,8 @@ where
 
                     for specifier in &import.specifiers {
                         match specifier {
-                            ImportSpecifier::Named(named) => match &named.imported {
-                                Some(imported) => {
+                            ImportSpecifier::Named(named) => {
+                                if let Some(imported) = &named.imported {
                                     let imporeted_ident = match imported {
                                         ModuleExportName::Ident(ident) => ident,
                                         ModuleExportName::Str(..) => {
@@ -1279,8 +1277,7 @@ where
                                     ));
                                     continue;
                                 }
-                                None => {}
-                            },
+                            }
                             ImportSpecifier::Default(default) => {
                                 if let Some((src, _)) = info
                                     .imports

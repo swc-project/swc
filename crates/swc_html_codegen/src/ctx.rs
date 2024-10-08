@@ -43,7 +43,7 @@ impl<'w, I: HtmlWriter> DerefMut for WithCtx<'_, 'w, I> {
     }
 }
 
-impl<'w, I: HtmlWriter> Drop for WithCtx<'_, 'w, I> {
+impl<I: HtmlWriter> Drop for WithCtx<'_, '_, I> {
     fn drop(&mut self) {
         self.inner.ctx = self.orig_ctx;
     }

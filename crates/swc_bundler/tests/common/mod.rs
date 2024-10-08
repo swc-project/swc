@@ -84,7 +84,7 @@ fn load_url(url: Url) -> Result<String, Error> {
 
     write(&cache_path, &content)?;
 
-    return Ok(String::from_utf8_lossy(&bytes).to_string());
+    Ok(String::from_utf8_lossy(&bytes).to_string())
 }
 
 impl Load for Loader {

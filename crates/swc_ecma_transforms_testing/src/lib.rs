@@ -58,7 +58,7 @@ pub struct Tester<'a> {
     pub comments: Rc<SingleThreadedComments>,
 }
 
-impl<'a> Tester<'a> {
+impl Tester<'_> {
     pub fn run<F, Ret>(op: F) -> Ret
     where
         F: FnOnce(&mut Tester<'_>) -> Result<Ret, ()>,

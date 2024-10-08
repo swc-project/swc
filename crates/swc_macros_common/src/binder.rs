@@ -280,7 +280,7 @@ pub struct BindedField<'a> {
     field: &'a Field,
 }
 
-impl<'a> BindedField<'a> {
+impl BindedField<'_> {
     pub const fn idx(&self) -> usize {
         self.idx
     }
@@ -295,7 +295,7 @@ impl<'a> BindedField<'a> {
     }
 }
 
-impl<'a> ToTokens for BindedField<'a> {
+impl ToTokens for BindedField<'_> {
     fn to_tokens(&self, t: &mut TokenStream) {
         self.binded_ident.to_tokens(t)
     }

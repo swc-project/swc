@@ -1841,19 +1841,16 @@ impl Optimizer<'_> {
 
             Expr::Array(b) => {
                 for elem in &mut b.elems {
-                    match elem {
-                        Some(elem) => {
-                            trace_op!("seq: Try element of array");
-                            if self.merge_sequential_expr(a, &mut elem.expr)? {
-                                return Ok(true);
-                            }
-
-                            if !self.is_skippable_for_seq(Some(a), &elem.expr) {
-                                // To preserve side-effects, we need to abort.
-                                break;
-                            }
+                    if let Some(elem) = elem {
+                        trace_op!("seq: Try element of array");
+                        if self.merge_sequential_expr(a, &mut elem.expr)? {
+                            return Ok(true);
                         }
-                        None => {}
+
+                        if !self.is_skippable_for_seq(Some(a), &elem.expr) {
+                            // To preserve side-effects, we need to abort.
+                            break;
+                        }
                     }
                 }
 

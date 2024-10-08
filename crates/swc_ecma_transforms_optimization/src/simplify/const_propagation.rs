@@ -115,8 +115,8 @@ impl VisitMut for ConstPropagation<'_> {
         if let VarDeclKind::Const = var.kind {
             for decl in &var.decls {
                 if let Pat::Ident(name) = &decl.name {
-                    match &decl.init {
-                        Some(init) => match &**init {
+                    if let Some(init) = &decl.init {
+                        match &**init {
                             Expr::Lit(Lit::Bool(..))
                             | Expr::Lit(Lit::Num(..))
                             | Expr::Lit(Lit::Null(..)) => {
@@ -136,8 +136,7 @@ impl VisitMut for ConstPropagation<'_> {
                                 }
                             }
                             _ => {}
-                        },
-                        None => {}
+                        }
                     }
                 }
             }

@@ -204,7 +204,7 @@ macro_rules! take_vars {
 
 // super.#sdsa is invalid
 #[swc_trace]
-impl<'a> VisitMut for PrivateAccessVisitor<'a> {
+impl VisitMut for PrivateAccessVisitor<'_> {
     noop_visit_mut_type!(fail);
 
     take_vars!(visit_mut_function, Function);
@@ -587,7 +587,7 @@ pub(super) fn visit_private_in_expr(
 }
 
 #[swc_trace]
-impl<'a> PrivateAccessVisitor<'a> {
+impl PrivateAccessVisitor<'_> {
     /// Returns `(expr, thisObject)`
     ///
     ///   - `obj_alias`: If alias is already declared, this method will use

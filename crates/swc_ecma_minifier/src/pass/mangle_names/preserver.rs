@@ -38,13 +38,13 @@ pub(crate) struct Preserver<'a> {
     in_top_level: bool,
 }
 
-impl<'a> Preserver<'a> {
+impl Preserver<'_> {
     fn is_reserved(&self, ident: &Ident) -> bool {
         self.options.reserved.contains(&ident.sym)
     }
 }
 
-impl<'a> Visit for Preserver<'a> {
+impl Visit for Preserver<'_> {
     noop_visit_type!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {

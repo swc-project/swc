@@ -1548,7 +1548,7 @@ impl Destination {
     }
 }
 
-impl<'a> WritableDst<'a> {
+impl WritableDst<'_> {
     #[cfg(feature = "tty-emitter")]
     fn apply_style(&mut self, lvl: Level, style: Style) -> io::Result<()> {
         let mut spec = ColorSpec::new();
@@ -1616,7 +1616,7 @@ impl<'a> WritableDst<'a> {
     }
 }
 
-impl<'a> Write for WritableDst<'a> {
+impl Write for WritableDst<'_> {
     fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
         match *self {
             #[cfg(feature = "tty-emitter")]
@@ -1638,7 +1638,7 @@ impl<'a> Write for WritableDst<'a> {
     }
 }
 
-impl<'a> Drop for WritableDst<'a> {
+impl Drop for WritableDst<'_> {
     fn drop(&mut self) {
         #[cfg(feature = "tty-emitter")]
         if let WritableDst::Buffered(ref mut dst, ref mut buf) = self {

@@ -300,7 +300,7 @@ pub fn diff(l: &str, r: &str) -> String {
 #[derive(PartialEq, Eq)]
 pub struct DebugUsingDisplay<'a>(pub &'a str);
 
-impl<'a> Debug for DebugUsingDisplay<'a> {
+impl Debug for DebugUsingDisplay<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)
     }

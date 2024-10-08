@@ -3,7 +3,7 @@ use smartstring::{LazyCompact, SmartString};
 
 use super::*;
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 

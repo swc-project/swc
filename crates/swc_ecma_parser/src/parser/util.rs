@@ -176,19 +176,19 @@ pub struct WithState<'w, I: 'w + Tokens> {
     inner: &'w mut Parser<I>,
     orig_state: State,
 }
-impl<'w, I: Tokens> Deref for WithState<'w, I> {
+impl<I: Tokens> Deref for WithState<'_, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
         self.inner
     }
 }
-impl<'w, I: Tokens> DerefMut for WithState<'w, I> {
+impl<I: Tokens> DerefMut for WithState<'_, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
         self.inner
     }
 }
-impl<'w, I: Tokens> Drop for WithState<'w, I> {
+impl<I: Tokens> Drop for WithState<'_, I> {
     fn drop(&mut self) {
         std::mem::swap(&mut self.inner.state, &mut self.orig_state);
     }
@@ -198,20 +198,20 @@ pub struct WithCtx<'w, I: 'w + Tokens> {
     inner: &'w mut Parser<I>,
     orig_ctx: Context,
 }
-impl<'w, I: Tokens> Deref for WithCtx<'w, I> {
+impl<I: Tokens> Deref for WithCtx<'_, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
         self.inner
     }
 }
-impl<'w, I: Tokens> DerefMut for WithCtx<'w, I> {
+impl<I: Tokens> DerefMut for WithCtx<'_, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
         self.inner
     }
 }
 
-impl<'w, I: Tokens> Drop for WithCtx<'w, I> {
+impl<I: Tokens> Drop for WithCtx<'_, I> {
     fn drop(&mut self) {
         self.inner.set_ctx(self.orig_ctx);
     }

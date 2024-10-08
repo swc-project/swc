@@ -220,7 +220,7 @@ struct InnerConfig {
     top_level_mark: Mark,
 }
 
-impl<'a> Resolver<'a> {
+impl Resolver<'_> {
     #[cfg(test)]
     fn new(current: Scope<'a>, config: InnerConfig) -> Self {
         Resolver {
@@ -443,7 +443,7 @@ macro_rules! noop {
     };
 }
 
-impl<'a> VisitMut for Resolver<'a> {
+impl VisitMut for Resolver<'_> {
     noop!(visit_mut_accessibility, Accessibility);
 
     noop!(visit_mut_true_plus_minus, TruePlusMinus);
@@ -734,12 +734,9 @@ impl<'a> VisitMut for Resolver<'a> {
             c.params.visit_mut_with(child);
             child.ident_type = old;
 
-            match &mut c.body {
-                Some(body) => {
-                    child.mark_block(&mut body.ctxt);
-                    body.visit_mut_children_with(child);
-                }
-                None => {}
+            if let Some(body) = &mut c.body {
+                child.mark_block(&mut body.ctxt);
+                body.visit_mut_children_with(child);
             }
         });
     }
@@ -895,22 +892,19 @@ impl<'a> VisitMut for Resolver<'a> {
         f.return_type.visit_mut_with(self);
 
         self.ident_type = IdentType::Ref;
-        match &mut f.body {
-            Some(body) => {
-                self.mark_block(&mut body.ctxt);
-                let old_strict_mode = self.strict_mode;
-                if !self.strict_mode {
-                    self.strict_mode = body
-                        .stmts
-                        .first()
-                        .map(|stmt| stmt.is_use_strict())
-                        .unwrap_or(false);
-                }
-                // Prevent creating new scope.
-                body.visit_mut_children_with(self);
-                self.strict_mode = old_strict_mode;
+        if let Some(body) = &mut f.body {
+            self.mark_block(&mut body.ctxt);
+            let old_strict_mode = self.strict_mode;
+            if !self.strict_mode {
+                self.strict_mode = body
+                    .stmts
+                    .first()
+                    .map(|stmt| stmt.is_use_strict())
+                    .unwrap_or(false);
             }
-            None => {}
+            // Prevent creating new scope.
+            body.visit_mut_children_with(self);
+            self.strict_mode = old_strict_mode;
         }
     }
 

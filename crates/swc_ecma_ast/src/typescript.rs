@@ -729,7 +729,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
     {
         struct TruePlusMinusVisitor;
 
-        impl<'de> Visitor<'de> for TruePlusMinusVisitor {
+        impl Visitor<'_> for TruePlusMinusVisitor {
             type Value = TruePlusMinus;
 
             fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {

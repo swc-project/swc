@@ -54,7 +54,7 @@ impl_slice!(Range);
 impl_slice!(RangeFrom);
 impl_slice!(RangeTo);
 
-impl<'i> From<Input<'i>> for Text {
+impl From<Input<'_>> for Text {
     fn from(i: Input) -> Self {
         Self {
             span: Span::new(i.start, i.end),

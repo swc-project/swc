@@ -25,7 +25,7 @@ pub(super) struct WithCtx<'a, 'b> {
     orig_ctx: Ctx,
 }
 
-impl<'a, 'b> Deref for WithCtx<'a, 'b> {
+impl<'b> Deref for WithCtx<'_, 'b> {
     type Target = InfectionCollector<'b>;
 
     fn deref(&self) -> &Self::Target {
@@ -33,7 +33,7 @@ impl<'a, 'b> Deref for WithCtx<'a, 'b> {
     }
 }
 
-impl<'a, 'b> DerefMut for WithCtx<'a, 'b> {
+impl DerefMut for WithCtx<'_, '_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.analyzer
     }

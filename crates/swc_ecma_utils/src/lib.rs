@@ -2418,7 +2418,7 @@ pub struct IdentUsageFinder<'a> {
     found: bool,
 }
 
-impl<'a> Visit for IdentUsageFinder<'a> {
+impl Visit for IdentUsageFinder<'_> {
     noop_visit_type!();
 
     visit_obj_and_computed!();

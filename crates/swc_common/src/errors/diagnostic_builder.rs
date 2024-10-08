@@ -78,7 +78,7 @@ macro_rules! forward {
     };
 }
 
-impl<'a> Deref for DiagnosticBuilder<'a> {
+impl Deref for DiagnosticBuilder<'_> {
     type Target = Diagnostic;
 
     fn deref(&self) -> &Diagnostic {
@@ -86,7 +86,7 @@ impl<'a> Deref for DiagnosticBuilder<'a> {
     }
 }
 
-impl<'a> DerefMut for DiagnosticBuilder<'a> {
+impl DerefMut for DiagnosticBuilder<'_> {
     fn deref_mut(&mut self) -> &mut Diagnostic {
         &mut self.diagnostic
     }
@@ -325,7 +325,7 @@ impl<'a> DiagnosticBuilder<'a> {
     }
 }
 
-impl<'a> Debug for DiagnosticBuilder<'a> {
+impl Debug for DiagnosticBuilder<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.diagnostic.fmt(f)
     }
@@ -333,7 +333,7 @@ impl<'a> Debug for DiagnosticBuilder<'a> {
 
 /// Destructor bomb - a `DiagnosticBuilder` must be either emitted or canceled
 /// or we emit a bug.
-impl<'a> Drop for DiagnosticBuilder<'a> {
+impl Drop for DiagnosticBuilder<'_> {
     fn drop(&mut self) {
         if !panicking() && !self.cancelled() {
             let mut db = DiagnosticBuilder::new(

@@ -591,7 +591,7 @@ struct InitArg<'a> {
     namespace_id: Option<&'a Id>,
 }
 
-impl<'a> InitArg<'a> {
+impl InitArg<'_> {
     // {}
     fn empty() -> ExprOrSpread {
         ExprOrSpread {

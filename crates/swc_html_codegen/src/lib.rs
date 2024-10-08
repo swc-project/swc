@@ -977,9 +977,9 @@ fn minify_attribute_value(value: &str, quotes: bool) -> (Cow<'_, str>, Option<ch
     }
 
     if dq > sq {
-        return (Cow::Owned(minified.replace('\'', "&apos;")), Some('\''));
+        (Cow::Owned(minified.replace('\'', "&apos;")), Some('\''))
     } else {
-        return (Cow::Owned(minified.replace('"', "&quot;")), Some('"'));
+        (Cow::Owned(minified.replace('"', "&quot;")), Some('"'))
     }
 }
 

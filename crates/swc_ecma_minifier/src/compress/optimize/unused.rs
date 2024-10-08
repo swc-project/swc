@@ -356,19 +356,16 @@ impl Optimizer<'_> {
 
             Pat::Array(arr) => {
                 for (idx, arr_elem) in arr.elems.iter_mut().enumerate() {
-                    match arr_elem {
-                        Some(p) => {
-                            let elem = init
-                                .as_mut()
-                                .and_then(|expr| self.access_numeric_property(expr, idx));
+                    if let Some(p) = arr_elem {
+                        let elem = init
+                            .as_mut()
+                            .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(p, elem, is_var_decl);
+                        self.take_pat_if_unused(p, elem, is_var_decl);
 
-                            if p.is_invalid() {
-                                *arr_elem = None;
-                            }
+                        if p.is_invalid() {
+                            *arr_elem = None;
                         }
-                        None => {}
                     }
                 }
 
