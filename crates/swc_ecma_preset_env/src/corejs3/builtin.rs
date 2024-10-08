@@ -54,6 +54,16 @@ static ERROR_DEPENDENCIES: &[&str] = &["es.error.cause", "es.error.to-string"];
 static SUPPRESSED_ERROR_DEPENDENCIES: &[&str] =
     &concat2::<3>(&["esnext.suppressed-error.constructor"], ERROR_DEPENDENCIES);
 
+static ARRAY_BUFFER_DEPENDENCIES: &[&str] = &[
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.data-view",
+    "es.array-buffer.detached",
+    "es.array-buffer.transfer",
+    "es.array-buffer.transfer-to-fixed-length",
+    "es.object.to-string",
+];
+
 static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
     "es.typed-array.at",
     "es.typed-array.copy-within",
