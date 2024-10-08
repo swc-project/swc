@@ -774,7 +774,7 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     bold: define(null, ["es.string.bold"]),
     codePointAt: define("instance/code-point-at", ["es.string.code-point-at"]),
     codePoints: define("instance/code-points", ["esnext.string.code-points"]),
-    concat: define("instance/concat", ["es.array.concat"], None, "String"),
+    concat: define("instance/concat", ["es.array.concat"], None, ["String"]),
     copyWithin: define("instance/copy-within", ["es.array.copy-within"]),
     demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
     description: define(null, ["es.symbol", "es.symbol.description"]),
