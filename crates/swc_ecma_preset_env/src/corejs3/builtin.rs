@@ -12,12 +12,7 @@ fn dynamic_concat(a: &[&'static str], b: &[&'static str]) -> &'static [&'static 
 }
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
-    assert!(
-        N == a.len() + b.len(),
-        "Expected to be {} but {}",
-        a.len() + b.len(),
-        N
-    );
+    assert!(N == a.len() + b.len());
 
     let mut res = [""; N];
     let mut idx = 0;
@@ -223,8 +218,10 @@ static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.obj
 static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
     &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-fn typed_array_static_methods(base: &str) -> ObjectMap<CoreJSPolyfillDescriptor> {
-    lazy_map!(Map {
+const fn typed_array_static_methods(
+    base: &'static [&'static str],
+) -> ObjectMap<CoreJSPolyfillDescriptor> {
+    map!(Map {
         from: define(
             null,
             ["es.typed-array.from", base, TYPED_ARRAY_DEPENDENCIES]
@@ -729,7 +726,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
       "esnext.uint8-array.from-hex",
       TYPED_ARRAY_DEPENDENCIES,
     ]),
-    typed_array_static_methods("es.typed-array.uint8-array"),
+    typed_array_static_methods(&["es.typed-array.uint8-array"]),
   },
   Uint8ClampedArray: typed_array_static_methods(&["es.typed-array.uint8-clamped-array"]),
   Int16Array: typed_array_static_methods(&["es.typed-array.int16-array"]),
@@ -771,7 +768,7 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     bold: define(null, ["es.string.bold"]),
     codePointAt: define("instance/code-point-at", ["es.string.code-point-at"]),
     codePoints: define("instance/code-points", ["esnext.string.code-points"]),
-    concat: define("instance/concat", ["es.array.concat"], None, Some(vec!["String".to_string()])),
+    concat: define("instance/concat", ["es.array.concat"], None, "String"),
     copyWithin: define("instance/copy-within", ["es.array.copy-within"]),
     demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
     description: define(null, ["es.symbol", "es.symbol.description"]),
