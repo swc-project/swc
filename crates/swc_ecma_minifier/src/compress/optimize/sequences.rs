@@ -1840,17 +1840,15 @@ impl Optimizer<'_> {
             }
 
             Expr::Array(b) => {
-                for elem in &mut b.elems {
-                    if let Some(elem) = elem {
-                        trace_op!("seq: Try element of array");
-                        if self.merge_sequential_expr(a, &mut elem.expr)? {
-                            return Ok(true);
-                        }
+                for elem in b.elems.iter_mut().flatten() {
+                    trace_op!("seq: Try element of array");
+                    if self.merge_sequential_expr(a, &mut elem.expr)? {
+                        return Ok(true);
+                    }
 
-                        if !self.is_skippable_for_seq(Some(a), &elem.expr) {
-                            // To preserve side-effects, we need to abort.
-                            break;
-                        }
+                    if !self.is_skippable_for_seq(Some(a), &elem.expr) {
+                        // To preserve side-effects, we need to abort.
+                        break;
                     }
                 }
 
@@ -2085,7 +2083,6 @@ impl Optimizer<'_> {
     /// is same as
     ///
     /// console.log(++c)
-
     fn replace_seq_update(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         if !self.options.sequences() {
             return Ok(false);

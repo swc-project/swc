@@ -297,7 +297,6 @@ impl Pure<'_> {
     }
 
     /// Evaluates method calls of a numeric constant.
-
     pub(super) fn eval_number_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
