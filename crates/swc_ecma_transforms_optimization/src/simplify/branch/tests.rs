@@ -9,6 +9,7 @@ macro_rules! test_stmt {
     ($l:expr, $r:expr) => {
         swc_ecma_transforms_testing::test_transform(
             ::swc_ecma_parser::Syntax::default(),
+            None,
             |_| {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
@@ -30,7 +31,6 @@ macro_rules! test_stmt {
             },
             $l,
             $r,
-            true,
         )
     };
 }

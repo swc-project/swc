@@ -167,37 +167,26 @@ impl<'a> Tester<'a> {
         mut tr: T,
         name: &str,
         syntax: Syntax,
+        is_module: Option<bool>,
         src: &str,
-    ) -> Result<Module, ()> {
-        let fm = self
-            .cm
-            .new_source_file(FileName::Real(name.into()).into(), src.into());
-
-        let module = {
-            let mut p = Parser::new_from(Lexer::new(
+    ) -> Result<Program, ()> {
+        let program =
+            self.with_parser(
+                name,
                 syntax,
-                EsVersion::latest(),
-                StringInput::from(&*fm),
-                Some(&self.comments),
-            ));
-            let res = p
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(self.handler).emit());
+                src,
+                |parser: &mut Parser<Lexer>| match is_module {
+                    Some(true) => parser.parse_module().map(Program::Module),
+                    Some(false) => parser.parse_script().map(Program::Script),
+                    None => parser.parse_program(),
+                },
+            )?;
 
-            for e in p.take_errors() {
-                e.into_diagnostic(self.handler).emit()
-            }
-
-            res?
-        };
-
-        let module = Program::Module(module).fold_with(&mut tr);
-
-        Ok(module.expect_module())
+        Ok(program.fold_with(&mut tr))
     }
 
-    pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
-        to_code_default(self.cm.clone(), Some(comments), module)
+    pub fn print(&mut self, program: &Program, comments: &Rc<SingleThreadedComments>) -> String {
+        to_code_default(self.cm.clone(), Some(comments), program)
     }
 }
 
@@ -259,10 +248,10 @@ where
 #[track_caller]
 pub fn test_transform<F, P>(
     syntax: Syntax,
+    is_module: Option<bool>,
     tr: F,
     input: &str,
     expected: &str,
-    _always_ok_if_code_eq: bool,
 ) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
@@ -272,6 +261,7 @@ pub fn test_transform<F, P>(
             as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
+            is_module,
             expected,
         )?;
 
@@ -280,7 +270,7 @@ pub fn test_transform<F, P>(
         println!("----- Actual -----");
 
         let tr = make_tr(tr, tester);
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -340,8 +330,13 @@ pub fn test_transform<F, P>(
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inline_input_output<F, P>(syntax: Syntax, tr: F, input: &str, output: &str)
-where
+pub fn test_inline_input_output<F, P>(
+    syntax: Syntax,
+    is_module: Option<bool>,
+    tr: F,
+    input: &str,
+    output: &str,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -350,9 +345,10 @@ where
     let expected = output;
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
+        let expected_program =
+            tester.apply_transform(noop(), "expected.js", syntax, is_module, expected)?;
 
-        let expected_src = tester.print(&expected_module, &Default::default());
+        let expected_src = tester.print(&expected_program, &Default::default());
 
         println!(
             "----- {} -----\n{}",
@@ -370,7 +366,7 @@ where
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -407,8 +403,13 @@ where
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inlined_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
+pub fn test_inlined_transform<F, P>(
+    test_name: &str,
+    syntax: Syntax,
+    module: Option<bool>,
+    tr: F,
+    input: &str,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -429,7 +430,10 @@ where
         Box::new(move |tester| Box::new(tr(tester))),
         input,
         &snapshot_dir.join(format!("{test_name}.js")),
-        Default::default(),
+        FixtureTestConfig {
+            module,
+            ..Default::default()
+        },
     )
 }
 
@@ -448,14 +452,14 @@ macro_rules! test_inline {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+            $crate::test_inline_input_output($syntax, None, $tr, $input, $output)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+            $crate::test_inline_input_output($syntax, None, $tr, $input, $output)
         }
     };
 }
@@ -480,7 +484,7 @@ test_inline!(
 #[test]
 #[should_panic]
 fn test_inline_should_fail() {
-    test_inline_input_output(Default::default(), |_| noop(), "class Foo {}", "");
+    test_inline_input_output(Default::default(), None, |_| noop(), "class Foo {}", "");
 }
 
 #[macro_export]
@@ -489,21 +493,41 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
+        }
+    };
+
+    (module, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, Some(true), $tr, $input)
+        }
+    };
+
+    (script, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::test_inlined_script_transform(
+                stringify!($test_name),
+                $syntax,
+                Some(false),
+                $tr,
+                $input,
+            )
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 }
@@ -518,12 +542,12 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let module = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let program = tester.apply_transform(tr, "input.js", syntax, Some(true), input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
-                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
                 println!("----- Hygiene -----\n{}", hygiene_src);
@@ -531,14 +555,14 @@ where
             _ => {}
         }
 
-        let mut module = module
+        let mut program = program
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        let src_without_helpers = tester.print(&program, &tester.comments.clone());
+        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
-        let transformed_src = tester.print(&module, &tester.comments.clone());
+        let transformed_src = tester.print(&program, &tester.comments.clone());
 
         println!(
             "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
@@ -566,10 +590,11 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let module = tester.apply_transform(
+        let program = tester.apply_transform(
             tr,
             "input.js",
             syntax,
+            Some(true),
             &format!(
                 "it('should work', async function () {{
                     {}
@@ -580,7 +605,7 @@ where
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
-                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
                 println!("----- Hygiene -----\n{}", hygiene_src);
@@ -588,14 +613,14 @@ where
             _ => {}
         }
 
-        let mut module = module
+        let mut program = program
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        let src_without_helpers = tester.print(&program, &tester.comments.clone());
+        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
-        let src = tester.print(&module, &tester.comments.clone());
+        let src = tester.print(&program, &tester.comments.clone());
 
         println!(
             "\t>>>>> {} <<<<<\n{}\n\t>>>>> {} <<<<<\n{}",
@@ -693,6 +718,12 @@ fn stdout_of(code: &str) -> Result<String, Error> {
 /// Test transformation.
 #[macro_export]
 macro_rules! test_exec {
+    (@check) => {
+        if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
+            return;
+        }
+    };
+
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
@@ -704,10 +735,7 @@ macro_rules! test_exec {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            if ::std::env::var("EXEC").unwrap_or(String::from("")) == "0" {
-                return;
-            }
-
+            test_exec!(@check);
             $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
@@ -817,7 +845,15 @@ pub struct FixtureTestConfig {
     ///
     /// Defaults to false.
     pub allow_error: bool,
+
+    /// Determines what type of [Program] the source code is parsed as.
+    ///
+    /// - `Some(true)`: parsed as a [Program::Module]
+    /// - `Some(false)`: parsed as a [Program::Script]
+    /// - `None`: parsed as a [Program] (underlying type is auto-detected)
+    pub module: Option<bool>,
 }
+
 /// You can do `UPDATE=1 cargo test` to update fixtures.
 pub fn test_fixture<P>(
     syntax: Syntax,
@@ -853,9 +889,10 @@ fn test_fixture_inner<'a>(
     let expected = expected.unwrap_or_default();
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
+        let expected_program =
+            tester.apply_transform(noop(), "expected.js", syntax, config.module, &expected)?;
 
-        let expected_src = tester.print(&expected_module, &tester.comments.clone());
+        let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
         println!(
             "----- {} -----\n{}",
@@ -881,7 +918,7 @@ fn test_fixture_inner<'a>(
 
         eprintln!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, config.module, input)?;
 
         eprintln!("----- {} -----", Color::Green.paint("Comments"));
         eprintln!("{:?}", tester.comments);

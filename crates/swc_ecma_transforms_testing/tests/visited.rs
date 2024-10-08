@@ -26,6 +26,7 @@ fn ensure_visited() {
             jsx: true,
             ..Default::default()
         }),
+        None,
         |_| Panicking,
         "
         import React from 'react';
@@ -35,6 +36,5 @@ fn ensure_visited() {
         import React from 'react';
         const comp = () => <amp-something className='something' />;
         ",
-        false,
     );
 }
