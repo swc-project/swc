@@ -64,7 +64,7 @@ static ARRAY_BUFFER_DEPENDENCIES: &[&str] = &[
     "es.object.to-string",
 ];
 
-static TYPED_ARRAY_DEPENDENCIES: &[&str] = &concat2::<40>(
+static TYPED_ARRAY_DEPENDENCIES: &[&str] = &concat2::<42>(
     &[
         "es.typed-array.at",
         "es.typed-array.copy-within",
@@ -134,7 +134,7 @@ static MAP_DEPENDENCIES: &[&str] = &concat2::<19>(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static SET_DEPENDENCIES: &[&str] = &concat2::<25>(
+static SET_DEPENDENCIES: &[&str] = &concat2::<28>(
     &[
         "es.set",
         "es.set.difference.v2",
@@ -256,7 +256,7 @@ fn uint8_typed_array_static_methods() -> ObjectMap<CoreJSPolyfillDescriptor> {
 }
 
 static DATA_VIEW_DEPENDENCIES: &[&str] =
-    &concat2::<2>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
+    &concat2::<8>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
 
 pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncDisposableStack: define("async-disposable-stack/index", [
