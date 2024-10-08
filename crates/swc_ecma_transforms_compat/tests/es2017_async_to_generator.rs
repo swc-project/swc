@@ -2108,7 +2108,6 @@ fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
@@ -2128,7 +2127,6 @@ fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        None,
         |t| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();

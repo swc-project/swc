@@ -275,7 +275,6 @@ fn exec(input: PathBuf) {
 
     compare_stdout(
         Syntax::default(),
-        None,
         |_| {
             let top_level_mark = Mark::new();
 

@@ -4548,7 +4548,6 @@ fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();

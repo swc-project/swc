@@ -534,7 +534,7 @@ macro_rules! test {
 
 /// Execute `node` for `input` and ensure that it prints same output after
 /// transformation.
-pub fn compare_stdout<F, P>(syntax: Syntax, is_module: Option<bool>, tr: F, input: &str)
+pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -542,7 +542,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let program = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
+        let program = tester.apply_transform(tr, "input.js", syntax, Some(true), input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -582,7 +582,7 @@ where
 }
 
 /// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, is_module: Option<bool>, tr: F, input: &str)
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -594,7 +594,7 @@ where
             tr,
             "input.js",
             syntax,
-            is_module,
+            Some(true),
             &format!(
                 "it('should work', async function () {{
                     {}
@@ -728,7 +728,7 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::exec_tr(stringify!($test_name), $syntax, None, $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
@@ -736,23 +736,7 @@ macro_rules! test_exec {
         #[test]
         fn $test_name() {
             test_exec!(@check);
-            $crate::exec_tr(stringify!($test_name), $syntax, None, $tr, $input)
-        }
-    };
-
-    (module, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
-        #[test]
-        fn $test_name() {
-            test_exec!(@check);
-            $crate::exec_tr(stringify!($test_name), $syntax, Some(true), $tr, $input)
-        }
-    };
-
-    (script, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
-        #[test]
-        fn $test_name() {
-            test_exec!(@check);
-            $crate::exec_tr(stringify!($test_name), $syntax, Some(false), $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
@@ -764,7 +748,7 @@ macro_rules! compare_stdout {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::compare_stdout($syntax, None, $tr, $input)
+            $crate::compare_stdout($syntax, $tr, $input)
         }
     };
 }

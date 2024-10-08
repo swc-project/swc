@@ -636,7 +636,6 @@ fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        None,
         |_| {
             let unresolved_mark = Mark::new();
             chain!(
@@ -649,7 +648,6 @@ fn exec(input: PathBuf) {
 
     compare_stdout(
         Default::default(),
-        None,
         |t| {
             let unresolved_mark = Mark::new();
             chain!(

@@ -45,7 +45,6 @@ fn exec_inner(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
-        None,
         |t| create_pass(t.comments.clone(), &input),
         &code,
     );

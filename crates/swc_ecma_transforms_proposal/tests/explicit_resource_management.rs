@@ -15,7 +15,6 @@ fn exec(input: PathBuf) {
             explicit_resource_management: true,
             ..Default::default()
         }),
-        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
