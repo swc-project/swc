@@ -6,7 +6,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::system_js::{system_js, Config};
-use swc_ecma_transforms_testing::{test, test_module_fixture, Tester};
+use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -23,7 +23,6 @@ fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
 }
 
 test!(
-    module,
     syntax(),
     |tester| tr(tester, Default::default()),
     allow_continuous_assignment,
@@ -31,7 +30,6 @@ test!(
 );
 
 test!(
-    module,
     syntax(),
     |tester| tr(
         tester,
@@ -45,7 +43,6 @@ test!(
 );
 
 test!(
-    module,
     syntax(),
     |tester| tr(
         tester,
@@ -63,7 +60,6 @@ test!(
 );
 
 test!(
-    module,
     syntax(),
     |tester| tr(
         tester,
@@ -86,7 +82,6 @@ test!(
 );
 
 test!(
-    module,
     syntax(),
     |tester| tr(
         tester,
@@ -104,7 +99,6 @@ test!(
 );
 
 test!(
-    module,
     syntax(),
     |tester| tr(tester, Default::default()),
     imports,
@@ -123,7 +117,7 @@ fn fixture(input: PathBuf) {
 
     let output = dir.join("output.mjs");
 
-    test_module_fixture(
+    test_fixture(
         syntax(),
         &|tester| tr(tester, Default::default()),
         &input,

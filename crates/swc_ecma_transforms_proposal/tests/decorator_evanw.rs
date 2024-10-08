@@ -2,7 +2,7 @@ use std::{fs, path::PathBuf};
 
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
-use swc_ecma_transforms_testing::exec_module_tr;
+use swc_ecma_transforms_testing::exec_tr;
 use swc_ecma_visit::as_folder;
 
 const HELPERS: &str = r###"
@@ -57,7 +57,7 @@ fn fixture(input: PathBuf) {
     {code}"
     );
 
-    exec_module_tr(
+    exec_tr(
         &input.file_name().unwrap().to_string_lossy(),
         Syntax::Es(EsSyntax {
             decorators: true,
