@@ -16,7 +16,7 @@ proc-macro = true
 proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 
-swc_macros_common = { version = "0.3.11", path = "../swc_macros_common" }
+swc_macros_common = { version = "0.3.14", path = "../swc_macros_common" }
   [dependencies.syn]
   features  = ["derive", "fold", "parsing", "printing", "visit-mut"]
   workspace = true

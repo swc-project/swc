@@ -20,6 +20,6 @@ bench = false
 
 [dependencies]
 swc_xml_ast     = { version = "0.19.0", path = "../swc_xml_ast" }
-swc_xml_codegen = { version = "0.20.0", path = "../swc_xml_codegen" }
+swc_xml_codegen = { version = "0.20.1", path = "../swc_xml_codegen" }
 swc_xml_parser  = { version = "0.20.0", path = "../swc_xml_parser" }
 swc_xml_visit   = { version = "0.19.0", path = "../swc_xml_visit" }

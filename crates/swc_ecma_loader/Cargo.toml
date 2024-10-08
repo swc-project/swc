@@ -38,7 +38,7 @@ tracing     = { workspace = true }
 
 swc_atoms  = { version = "1.0.2", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", optional = true, path = "../swc_cached" }
-swc_common = { version = "0.40.1", path = "../swc_common" }
+swc_common = { version = "0.40.2", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = { workspace = true }
