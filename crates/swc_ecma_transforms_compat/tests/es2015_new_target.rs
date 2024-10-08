@@ -76,6 +76,7 @@ fn exec(input: PathBuf) {
     exec_tr(
         "new-target",
         Default::default(),
+        None,
         |t| get_passes(t, &options.plugins),
         &input,
     );

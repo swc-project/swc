@@ -39,12 +39,13 @@ fn exec(input: PathBuf) {
 fn exec_inner(input: PathBuf) {
     let code = std::fs::read_to_string(&input).unwrap();
 
-    swc_ecma_transforms_testing::exec_module_tr(
+    swc_ecma_transforms_testing::exec_tr(
         "decorator",
         Syntax::Typescript(TsSyntax {
             decorators: true,
             ..Default::default()
         }),
+        None,
         |t| create_pass(t.comments.clone(), &input),
         &code,
     );

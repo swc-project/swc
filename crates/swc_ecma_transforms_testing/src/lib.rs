@@ -728,7 +728,7 @@ macro_rules! test_exec {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 
@@ -736,7 +736,7 @@ macro_rules! test_exec {
         #[test]
         fn $test_name() {
             test_exec!(@check);
-            $crate::exec_tr(stringify!($test_name), $syntax, $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 
@@ -744,7 +744,7 @@ macro_rules! test_exec {
         #[test]
         fn $test_name() {
             test_exec!(@check);
-            $crate::exec_module_tr(stringify!($test_name), $syntax, $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, Some(true), $tr, $input)
         }
     };
 
@@ -752,7 +752,7 @@ macro_rules! test_exec {
         #[test]
         fn $test_name() {
             test_exec!(@check);
-            $crate::exec_script_tr(stringify!($test_name), $syntax, $tr, $input)
+            $crate::exec_tr(stringify!($test_name), $syntax, Some(false), $tr, $input)
         }
     };
 }
@@ -764,7 +764,7 @@ macro_rules! compare_stdout {
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::compare_stdout($syntax, $tr, $input)
+            $crate::compare_stdout($syntax, None, $tr, $input)
         }
     };
 }

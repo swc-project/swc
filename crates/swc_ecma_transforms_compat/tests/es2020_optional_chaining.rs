@@ -254,6 +254,7 @@ fn exec(input: PathBuf) {
 
     compare_stdout(
         Default::default(),
+        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();

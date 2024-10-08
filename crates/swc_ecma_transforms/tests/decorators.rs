@@ -3951,6 +3951,7 @@ fn fixture_exec(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
+        None,
         |_t| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
