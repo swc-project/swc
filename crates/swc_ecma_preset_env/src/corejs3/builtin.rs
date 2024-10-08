@@ -30,12 +30,12 @@ const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'s
     res
 }
 
-fn typed(name: &'static str) -> CoreJSPolyfillDescriptor {
-    let mut global = Vec::with_capacity(1 + TYPED_ARRAY_DEPENDENCIES.len());
-    global.push(name);
+fn typed(names: &'static [&'static str]) -> CoreJSPolyfillDescriptor {
+    let mut global = Vec::with_capacity(names.len() + TYPED_ARRAY_DEPENDENCIES.len());
+    global.extend_from_slice(names);
     global.extend_from_slice(TYPED_ARRAY_DEPENDENCIES);
 
-    descriptor(None, global.leak(), Some(name), &[])
+    descriptor(None, global.leak(), Some(names[0]), &[])
 }
 
 static ARRAY_NATURE_ITERATORS: &[&str] = &["es.array.iterator", "web.dom-collections.iterator"];
@@ -54,47 +54,56 @@ static ERROR_DEPENDENCIES: &[&str] = &["es.error.cause", "es.error.to-string"];
 static SUPPRESSED_ERROR_DEPENDENCIES: &[&str] =
     &concat2::<3>(&["esnext.suppressed-error.constructor"], ERROR_DEPENDENCIES);
 
-static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
-    "es.typed-array.at",
-    "es.typed-array.copy-within",
-    "es.typed-array.every",
-    "es.typed-array.fill",
-    "es.typed-array.filter",
-    "es.typed-array.find",
-    "es.typed-array.find-index",
-    "es.typed-array.find-last",
-    "es.typed-array.find-last-index",
-    "es.typed-array.for-each",
-    "es.typed-array.includes",
-    "es.typed-array.index-of",
-    "es.typed-array.iterator",
-    "es.typed-array.join",
-    "es.typed-array.last-index-of",
-    "es.typed-array.map",
-    "es.typed-array.reduce",
-    "es.typed-array.reduce-right",
-    "es.typed-array.reverse",
-    "es.typed-array.set",
-    "es.typed-array.slice",
-    "es.typed-array.some",
-    "es.typed-array.sort",
-    "es.typed-array.subarray",
-    "es.typed-array.to-locale-string",
-    "es.typed-array.to-reversed",
-    "es.typed-array.to-sorted",
-    "es.typed-array.to-string",
-    "es.typed-array.with",
-    "es.object.to-string",
-    "es.array.iterator",
+static ARRAY_BUFFER_DEPENDENCIES: &[&str] = &[
+    "es.array-buffer.constructor",
     "es.array-buffer.slice",
-    "esnext.array-buffer.detached",
-    "esnext.array-buffer.transfer",
-    "esnext.array-buffer.transfer-to-fixed-length",
-    "esnext.typed-array.filter-reject",
-    "esnext.typed-array.group-by",
-    "esnext.typed-array.to-spliced",
-    "esnext.typed-array.unique-by",
+    "es.data-view",
+    "es.array-buffer.detached",
+    "es.array-buffer.transfer",
+    "es.array-buffer.transfer-to-fixed-length",
+    "es.object.to-string",
 ];
+
+static TYPED_ARRAY_DEPENDENCIES: &[&str] = &concat2::<42>(
+    &[
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "es.object.to-string",
+        "es.array.iterator",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by",
+    ],
+    ARRAY_BUFFER_DEPENDENCIES,
+);
 
 pub static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
@@ -128,29 +137,29 @@ static MAP_DEPENDENCIES: &[&str] = &concat2::<19>(
 static SET_DEPENDENCIES: &[&str] = &concat2::<28>(
     &[
         "es.set",
+        "es.set.difference.v2",
+        "es.set.intersection.v2",
+        "es.set.is-disjoint-from.v2",
+        "es.set.is-subset-of.v2",
+        "es.set.is-superset-of.v2",
+        "es.set.symmetric-difference.v2",
+        "es.set.union.v2",
         "esnext.set.add-all",
         "esnext.set.delete-all",
         "esnext.set.difference",
-        "esnext.set.difference.v2",
         "esnext.set.every",
         "esnext.set.filter",
         "esnext.set.find",
         "esnext.set.intersection",
-        "esnext.set.intersection.v2",
         "esnext.set.is-disjoint-from",
-        "esnext.set.is-disjoint-from.v2",
         "esnext.set.is-subset-of",
-        "esnext.set.is-subset-of.v2",
         "esnext.set.is-superset-of",
-        "esnext.set.is-superset-of.v2",
         "esnext.set.join",
         "esnext.set.map",
         "esnext.set.reduce",
         "esnext.set.some",
         "esnext.set.symmetric-difference",
-        "esnext.set.symmetric-difference.v2",
         "esnext.set.union",
-        "esnext.set.union.v2",
     ],
     COMMON_ITERATORS_WITH_TAG,
 );
@@ -206,54 +215,70 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-static TYPED_ARRAY_STATIC_METHODS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
-    from: define(null, ["es.typed-array.from"]),
-    fromAsync: define(
-        null,
-        [
-            "esnext.typed-array.from-async",
-            PROMISE_DEPENDENCIES_WITH_ITERATORS,
-        ]
-    ),
-    of: define(null, ["es.typed-array.of"]),
-});
+static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
+    &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-static DATA_VIEW_DEPENDENCIES: &[&str] = &[
-    "es.data-view",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-];
+fn typed_array_static_methods(
+    base: &'static [&'static str],
+) -> ObjectMap<CoreJSPolyfillDescriptor> {
+    map!(Map {
+        from: define(
+            null,
+            ["es.typed-array.from", base, TYPED_ARRAY_DEPENDENCIES]
+        ),
+        fromAsync: define(
+            null,
+            [
+                "esnext.typed-array.from-async",
+                base,
+                PROMISE_DEPENDENCIES_WITH_ITERATORS,
+                TYPED_ARRAY_DEPENDENCIES,
+            ]
+        ),
+        of: define(null, ["es.typed-array.of", base, TYPED_ARRAY_DEPENDENCIES]),
+    })
+}
+
+fn uint8_typed_array_static_methods() -> ObjectMap<CoreJSPolyfillDescriptor> {
+    let mut map = typed_array_static_methods(&["es.typed-array.uint8-array"]);
+
+    map.extend(map!(Map {
+        fromBase64: define(
+            null,
+            ["esnext.uint8-array.from-base64", TYPED_ARRAY_DEPENDENCIES,]
+        ),
+        fromHex: define(
+            null,
+            ["esnext.uint8-array.from-hex", TYPED_ARRAY_DEPENDENCIES,]
+        ),
+    }));
+    map
+}
+
+static DATA_VIEW_DEPENDENCIES: &[&str] =
+    &concat2::<8>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
 
 pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
-  AsyncDisposableStack: define("async-disposable-stack", [
+  AsyncDisposableStack: define("async-disposable-stack/index", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
     "esnext.async-iterator.async-dispose",
     "esnext.iterator.dispose",
     PROMISE_DEPENDENCIES,
-    SuppressedERROR_DEPENDENCIES,
+    SUPPRESSED_ERROR_DEPENDENCIES,
   ]),
   AsyncIterator: define("async-iterator/index", ASYNC_ITERATOR_DEPENDENCIES),
   AggregateError: define("aggregate-error", [
     "es.aggregate-error",
     ERROR_DEPENDENCIES,
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
     "es.aggregate-error.cause",
   ]),
-  ArrayBuffer: define(null, [
-    "es.array-buffer.constructor",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-  ]),
-  DataView: define(null, [
-    "es.data-view",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-  ]),
+  ArrayBuffer: define(null, ARRAY_BUFFER_DEPENDENCIES),
   DataView: define(null, DATA_VIEW_DEPENDENCIES),
   Date: define(null, ["es.date.to-string"]),
-  DOMException: define("dom-exception", DOM_EXCEPTION_DEPENDENCIES),
-  DisposableStack: define("disposable-stack", [
+  DOMException: define("dom-exception/index", DOM_EXCEPTION_DEPENDENCIES),
+  DisposableStack: define("disposable-stack/index", [
     "esnext.disposable-stack.constructor",
     "es.object.to-string",
     "esnext.iterator.dispose",
@@ -261,16 +286,22 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   ]),
   Error: define(null, ERROR_DEPENDENCIES),
   EvalError: define(null, ERROR_DEPENDENCIES),
-  Float32Array: typed("es.typed-array.float32-array"),
-  Float64Array: typed("es.typed-array.float64-array"),
-  Int8Array: typed("es.typed-array.int8-array"),
-  Int16Array: typed("es.typed-array.int16-array"),
-  Int32Array: typed("es.typed-array.int32-array"),
+  Float32Array: typed(&["es.typed-array.float32-array"]),
+  Float64Array: typed(&["es.typed-array.float64-array"]),
+  Int8Array: typed(&["es.typed-array.int8-array"]),
+  Int16Array: typed(&["es.typed-array.int16-array"]),
+  Int32Array: typed(&["es.typed-array.int32-array"]),
   Iterator: define("iterator/index", ITERATOR_DEPENDENCIES),
-  Uint8Array: typed("es.typed-array.uint8-array"),
-  Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
-  Uint16Array: typed("es.typed-array.uint16-array"),
-  Uint32Array: typed("es.typed-array.uint32-array"),
+  Uint8Array: typed(&[
+    "es.typed-array.uint8-array",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
+    "esnext.uint8-array.to-base64",
+    "esnext.uint8-array.to-hex",
+  ]),
+  Uint8ClampedArray: typed(&["es.typed-array.uint8-clamped-array"]),
+  Uint16Array: typed(&["es.typed-array.uint16-array"]),
+  Uint32Array: typed(&["es.typed-array.uint32-array"]),
   Map: define("map/index", MAP_DEPENDENCIES),
   Number: define(null, ["es.number.constructor"]),
   Observable: define("observable/index", [
@@ -296,7 +327,11 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   SyntaxError: define(null, ERROR_DEPENDENCIES),
   TypeError: define(null, ERROR_DEPENDENCIES),
   URIError: define(null, ERROR_DEPENDENCIES),
-  URL: define("url/index", ["web.url", URL_SEARCH_PARAMS_DEPENDENCIES]),
+  URL: define("url/index", [
+    "web.url",
+    "web.url.to-json",
+    URL_SEARCH_PARAMS_DEPENDENCIES,
+  ]),
   URLSearchParams: define(
     "url-search-params/index",
     URL_SEARCH_PARAMS_DEPENDENCIES
@@ -331,7 +366,7 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
+pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
@@ -684,6 +719,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
 
   URL: Map {
     canParse: define("url/can-parse", ["web.url.can-parse", "web.url"]),
+    parse: define("url/parse", ["web.url.parse", "web.url"]),
   },
 
   WeakMap: Map {
@@ -696,15 +732,15 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
     of: define(null, ["esnext.weak-set.of", WEAK_SET_DEPENDENCIES]),
   },
 
-  Int8Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint8Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint8ClampedArray: *TYPED_ARRAY_STATIC_METHODS,
-  Int16Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint16Array: *TYPED_ARRAY_STATIC_METHODS,
-  Int32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Uint32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Float32Array: *TYPED_ARRAY_STATIC_METHODS,
-  Float64Array: *TYPED_ARRAY_STATIC_METHODS,
+  Int8Array: typed_array_static_methods(&["es.typed-array.int8-array"]),
+  Uint8Array: uint8_typed_array_static_methods(),
+  Uint8ClampedArray: typed_array_static_methods(&["es.typed-array.uint8-clamped-array"]),
+  Int16Array: typed_array_static_methods(&["es.typed-array.int16-array"]),
+  Uint16Array: typed_array_static_methods(&["es.typed-array.uint16-array"]),
+  Int32Array: typed_array_static_methods(&["es.typed-array.int32-array"]),
+  Uint32Array: typed_array_static_methods(&["es.typed-array.uint32-array"]),
+  Float32Array: typed_array_static_methods(&["es.typed-array.float32-array"]),
+  Float64Array: typed_array_static_methods(&["es.typed-array.float64-array"]),
 
   WebAssembly: Map {
     CompileError: define(null, ERROR_DEPENDENCIES),
@@ -714,29 +750,23 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
 });
 
 pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
-    asIndexedPairs: define(
-        "instance/asIndexedPairs",
-        [
-            "esnext.async-iterator.as-indexed-pairs",
-            ASYNC_ITERATOR_DEPENDENCIES,
-            "esnext.iterator.as-indexed-pairs",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
-    at: define(
-        "instance/at",
-        [
-            // TODO: We should introduce overloaded instance methods definition
-            // Before that is implemented, the `esnext.string.at` must be the first
-            // In pure mode, the provider resolves the descriptor as a "pure" `esnext.string.at`
-            // and treats the compat-data of `esnext.string.at` as the compat-data of
-            // pure import `instance/at`. The first polyfill here should have the lowest corejs
-            // supported versions.
-            "esnext.string.at",
-            "es.string.at-alternative",
-            "es.array.at",
-        ]
-    ),
+    asIndexedPairs: define(null, [
+        "esnext.async-iterator.as-indexed-pairs",
+        ASYNC_ITERATOR_DEPENDENCIES,
+        "esnext.iterator.as-indexed-pairs",
+        ITERATOR_DEPENDENCIES,
+    ]),
+    at: define("instance/at", [
+        // TODO: We should introduce overloaded instance methods definition
+        // Before that is implemented, the `esnext.string.at` must be the first
+        // In pure mode, the provider resolves the descriptor as a "pure" `esnext.string.at`
+        // and treats the compat-data of `esnext.string.at` as the compat-data of
+        // pure import `instance/at`. The first polyfill here should have the lowest corejs
+        // supported versions.
+        "esnext.string.at",
+        "es.string.at-alternative",
+        "es.array.at",
+    ]),
     anchor: define(null, ["es.string.anchor"]),
     big: define(null, ["es.string.big"]),
     bind: define("instance/bind", ["es.function.bind"]),
@@ -749,124 +779,100 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
     description: define(null, ["es.symbol", "es.symbol.description"]),
     dotAll: define(null, ["es.regexp.dot-all"]),
-    drop: define(
-        "instance/drop",
-        [
-            "esnext.async-iterator.drop",
-            ASYNC_ITERATOR_DEPENDENCIES,
-            "esnext.iterator.drop",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
-    emplace: define(
-        "instance/emplace",
-        ["esnext.map.emplace", "esnext.weak-map.emplace",]
-    ),
+    drop: define(null, [
+        "esnext.async-iterator.drop",
+        ASYNC_ITERATOR_DEPENDENCIES,
+        "esnext.iterator.drop",
+        ITERATOR_DEPENDENCIES,
+    ]),
+    emplace: define("instance/emplace", [
+        "esnext.map.emplace",
+        "esnext.weak-map.emplace",
+    ]),
     endsWith: define("instance/ends-with", ["es.string.ends-with"]),
     entries: define("instance/entries", ARRAY_NATURE_ITERATORS_WITH_TAG),
-    every: define(
-        "instance/every",
-        [
-            "es.array.every",
-            "esnext.async-iterator.every",
-            // TODO: add async iterator dependencies when we support sub-dependencies
-            // esnext.async-iterator.every depends on es.promise
-            // but we don't want to pull es.promise when esnext.async-iterator is disabled
-            //
-            // ASYNC_ITERATOR_DEPENDENCIES
-            "esnext.iterator.every",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    every: define("instance/every", [
+        "es.array.every",
+        "esnext.async-iterator.every",
+        // TODO: add async iterator dependencies when we support sub-dependencies
+        // esnext.async-iterator.every depends on es.promise
+        // but we don't want to pull es.promise when esnext.async-iterator is disabled
+        //
+        // ASYNC_ITERATOR_DEPENDENCIES
+        "esnext.iterator.every",
+        ITERATOR_DEPENDENCIES,
+    ]),
     exec: define(null, ["es.regexp.exec"]),
     fill: define("instance/fill", ["es.array.fill"]),
-    filter: define(
-        "instance/filter",
-        [
-            "es.array.filter",
-            "esnext.async-iterator.filter",
-            "esnext.iterator.filter",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    filter: define("instance/filter", [
+        "es.array.filter",
+        "esnext.async-iterator.filter",
+        "esnext.iterator.filter",
+        ITERATOR_DEPENDENCIES,
+    ]),
     filterReject: define("instance/filterReject", ["esnext.array.filter-reject"]),
     finally: define(null, ["es.promise.finally", PROMISE_DEPENDENCIES]),
-    find: define(
-        "instance/find",
-        [
-            "es.array.find",
-            "esnext.async-iterator.find",
-            "esnext.iterator.find",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    find: define("instance/find", [
+        "es.array.find",
+        "esnext.async-iterator.find",
+        "esnext.iterator.find",
+        ITERATOR_DEPENDENCIES,
+    ]),
     findIndex: define("instance/find-index", ["es.array.find-index"]),
     findLast: define("instance/find-last", ["es.array.find-last"]),
-    findLastIndex: define("instance/find-last-index", ["es.array.find-last-index",]),
+    findLastIndex: define("instance/find-last-index", [
+        "es.array.find-last-index",
+    ]),
     fixed: define(null, ["es.string.fixed"]),
     flags: define("instance/flags", ["es.regexp.flags"]),
-    flatMap: define(
-        "instance/flat-map",
-        [
-            "es.array.flat-map",
-            "es.array.unscopables.flat-map",
-            "esnext.async-iterator.flat-map",
-            "esnext.iterator.flat-map",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
-    flat: define(
-        "instance/flat",
-        ["es.array.flat", "es.array.unscopables.flat"]
-    ),
-    getFloat16: define(
-        null,
-        ["esnext.data-view.get-float16", DATA_VIEW_DEPENDENCIES]
-    ),
-    getUint8Clamped: define(
-        null,
-        ["esnext.data-view.get-uint8-clamped", DATA_VIEW_DEPENDENCIES]
-    ),
+    flatMap: define("instance/flat-map", [
+        "es.array.flat-map",
+        "es.array.unscopables.flat-map",
+        "esnext.async-iterator.flat-map",
+        "esnext.iterator.flat-map",
+        ITERATOR_DEPENDENCIES,
+    ]),
+    flat: define("instance/flat", ["es.array.flat", "es.array.unscopables.flat"]),
+    getFloat16: define(null, [
+        "esnext.data-view.get-float16",
+        DATA_VIEW_DEPENDENCIES,
+    ]),
+    getUint8Clamped: define(null, [
+        "esnext.data-view.get-uint8-clamped",
+        DATA_VIEW_DEPENDENCIES,
+    ]),
     getYear: define(null, ["es.date.get-year"]),
     group: define("instance/group", ["esnext.array.group"]),
     groupBy: define("instance/group-by", ["esnext.array.group-by"]),
-    groupByToMap: define(
-        "instance/group-by-to-map",
-        [
-            "esnext.array.group-by-to-map",
-            "es.map",
-            "es.object.to-string",
-        ]
-    ),
-    groupToMap: define(
-        "instance/group-to-map",
-        ["esnext.array.group-to-map", "es.map", "es.object.to-string",]
-    ),
+    groupByToMap: define("instance/group-by-to-map", [
+        "esnext.array.group-by-to-map",
+        "es.map",
+        "es.object.to-string",
+    ]),
+    groupToMap: define("instance/group-to-map", [
+        "esnext.array.group-to-map",
+        "es.map",
+        "es.object.to-string",
+    ]),
     fontcolor: define(null, ["es.string.fontcolor"]),
     fontsize: define(null, ["es.string.fontsize"]),
-    forEach: define(
-        "instance/for-each",
-        [
-            "es.array.for-each",
-            "esnext.async-iterator.for-each",
-            "esnext.iterator.for-each",
-            ITERATOR_DEPENDENCIES,
-            "web.dom-collections.for-each",
-        ]
-    ),
-    includes: define(
-        "instance/includes",
-        ["es.array.includes", "es.string.includes",]
-    ),
-    indexed: define(
-        "instance/indexed",
-        [
-            "esnext.async-iterator.indexed",
-            ASYNC_ITERATOR_DEPENDENCIES,
-            "esnext.iterator.indexed",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    forEach: define("instance/for-each", [
+        "es.array.for-each",
+        "esnext.async-iterator.for-each",
+        "esnext.iterator.for-each",
+        ITERATOR_DEPENDENCIES,
+        "web.dom-collections.for-each",
+    ]),
+    includes: define("instance/includes", [
+        "es.array.includes",
+        "es.string.includes",
+    ]),
+    indexed: define(null, [
+        "esnext.async-iterator.indexed",
+        ASYNC_ITERATOR_DEPENDENCIES,
+        "esnext.iterator.indexed",
+        ITERATOR_DEPENDENCIES,
+    ]),
     indexOf: define("instance/index-of", ["es.array.index-of"]),
     isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
     italic: define(null, ["es.string.italics"]),
@@ -876,65 +882,53 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     lastIndexOf: define("instance/last-index-of", ["es.array.last-index-of"]),
     lastItem: define(null, ["esnext.array.last-item"]),
     link: define(null, ["es.string.link"]),
-    map: define(
-        "instance/map",
-        [
-            "es.array.map",
-            "esnext.async-iterator.map",
-            "esnext.iterator.map",
-        ]
-    ),
+    map: define("instance/map", [
+        "es.array.map",
+        "esnext.async-iterator.map",
+        "esnext.iterator.map",
+    ]),
     match: define(null, ["es.string.match", "es.regexp.exec"]),
-    matchAll: define(
-        "instance/match-all",
-        ["es.string.match-all", "es.regexp.exec",]
-    ),
+    matchAll: define("instance/match-all", [
+        "es.string.match-all",
+        "es.regexp.exec",
+    ]),
     name: define(null, ["es.function.name"]),
     padEnd: define("instance/pad-end", ["es.string.pad-end"]),
     padStart: define("instance/pad-start", ["es.string.pad-start"]),
     push: define("instance/push", ["es.array.push"]),
-    reduce: define(
-        "instance/reduce",
-        [
-            "es.array.reduce",
-            "esnext.async-iterator.reduce",
-            "esnext.iterator.reduce",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    reduce: define("instance/reduce", [
+        "es.array.reduce",
+        "esnext.async-iterator.reduce",
+        "esnext.iterator.reduce",
+        ITERATOR_DEPENDENCIES,
+    ]),
     reduceRight: define("instance/reduce-right", ["es.array.reduce-right"]),
     repeat: define("instance/repeat", ["es.string.repeat"]),
     replace: define(null, ["es.string.replace", "es.regexp.exec"]),
-    replaceAll: define(
-        "instance/replace-all",
-        [
-            "es.string.replace-all",
-            "es.string.replace",
-            "es.regexp.exec",
-        ]
-    ),
+    replaceAll: define("instance/replace-all", [
+        "es.string.replace-all",
+        "es.string.replace",
+        "es.regexp.exec",
+    ]),
     reverse: define("instance/reverse", ["es.array.reverse"]),
     search: define(null, ["es.string.search", "es.regexp.exec"]),
-    setFloat16: define(
-        null,
-        ["esnext.data-view.set-float16", DATA_VIEW_DEPENDENCIES]
-    ),
-    setUint8Clamped: define(
-        null,
-        ["esnext.data-view.set-uint8-clamped", DATA_VIEW_DEPENDENCIES]
-    ),
+    setFloat16: define(null, [
+        "esnext.data-view.set-float16",
+        DATA_VIEW_DEPENDENCIES,
+    ]),
+    setUint8Clamped: define(null, [
+        "esnext.data-view.set-uint8-clamped",
+        DATA_VIEW_DEPENDENCIES,
+    ]),
     setYear: define(null, ["es.date.set-year"]),
     slice: define("instance/slice", ["es.array.slice"]),
     small: define(null, ["es.string.small"]),
-    some: define(
-        "instance/some",
-        [
-            "es.array.some",
-            "esnext.async-iterator.some",
-            "esnext.iterator.some",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    some: define("instance/some", [
+        "es.array.some",
+        "esnext.async-iterator.some",
+        "esnext.iterator.some",
+        ITERATOR_DEPENDENCIES,
+    ]),
     sort: define("instance/sort", ["es.array.sort"]),
     splice: define("instance/splice", ["es.array.splice"]),
     split: define(null, ["es.string.split", "es.regexp.exec"]),
@@ -944,34 +938,25 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     sub: define(null, ["es.string.sub"]),
     substr: define(null, ["es.string.substr"]),
     sup: define(null, ["es.string.sup"]),
-    take: define(
-        "instance/take",
-        [
-            "esnext.async-iterator.take",
-            ASYNC_ITERATOR_DEPENDENCIES,
-            "esnext.iterator.take",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
+    take: define(null, [
+        "esnext.async-iterator.take",
+        ASYNC_ITERATOR_DEPENDENCIES,
+        "esnext.iterator.take",
+        ITERATOR_DEPENDENCIES,
+    ]),
     test: define(null, ["es.regexp.test", "es.regexp.exec"]),
-    toArray: define(
-        "instance/to-array",
-        [
-            "esnext.async-iterator.to-array",
-            ASYNC_ITERATOR_DEPENDENCIES,
-            "esnext.iterator.to-array",
-            ITERATOR_DEPENDENCIES,
-        ]
-    ),
-    toAsync: define(
-        null,
-        [
-            "esnext.iterator.to-async",
-            ITERATOR_DEPENDENCIES,
-            ASYNC_ITERATOR_DEPENDENCIES,
-            AsyncIteratorProblemMethods,
-        ]
-    ),
+    toArray: define(null, [
+        "esnext.async-iterator.to-array",
+        ASYNC_ITERATOR_DEPENDENCIES,
+        "esnext.iterator.to-array",
+        ITERATOR_DEPENDENCIES,
+    ]),
+    toAsync: define(null, [
+        "esnext.iterator.to-async",
+        ITERATOR_DEPENDENCIES,
+        ASYNC_ITERATOR_DEPENDENCIES,
+        ASYNC_ITERATOR_PROBLEM_METHODS,
+    ]),
     toExponential: define(null, ["es.number.to-exponential"]),
     toFixed: define(null, ["es.number.to-fixed"]),
     toGMTString: define(null, ["es.date.to-gmt-string"]),
@@ -979,20 +964,17 @@ pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>>
     toJSON: define(null, ["es.date.to-json", "web.url.to-json"]),
     toPrecision: define(null, ["es.number.to-precision"]),
     toReversed: define("instance/to-reversed", ["es.array.to-reversed"]),
-    toSorted: define(
-        "instance/to-sorted",
-        ["es.array.to-sorted", "es.array.sort",]
-    ),
+    toSorted: define("instance/to-sorted", [
+        "es.array.to-sorted",
+        "es.array.sort",
+    ]),
     toSpliced: define("instance/to-spliced", ["es.array.to-spliced"]),
-    toString: define(
-        null,
-        [
-            "es.object.to-string",
-            "es.error.to-string",
-            "es.date.to-string",
-            "es.regexp.to-string",
-        ]
-    ),
+    toString: define(null, [
+        "es.object.to-string",
+        "es.error.to-string",
+        "es.date.to-string",
+        "es.regexp.to-string",
+    ]),
     toWellFormed: define("instance/to-well-formed", ["es.string.to-well-formed"]),
     trim: define("instance/trim", ["es.string.trim"]),
     trimEnd: define("instance/trim-end", ["es.string.trim-end"]),
