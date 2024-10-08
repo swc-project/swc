@@ -89,7 +89,7 @@ struct PropNameFolder<'a> {
 }
 
 #[swc_trace]
-impl<'a> VisitMut for PropNameFolder<'a> {
+impl VisitMut for PropNameFolder<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, _: &mut Expr) {}

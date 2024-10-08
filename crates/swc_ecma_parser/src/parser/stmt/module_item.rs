@@ -879,7 +879,7 @@ impl IsDirective for ModuleItem {
     }
 }
 
-impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
+impl<I: Tokens> StmtLikeParser<'_, ModuleItem> for Parser<I> {
     fn handle_import_export(
         &mut self,
         top_level: bool,

@@ -2,8 +2,9 @@ use std::env;
 
 use crate::collections::AHashMap;
 
-/// Indexable key to the metadata context for a transform plugin, avoiding
-/// serialization & allocation to the host by using incremental number.
+/// Indexable key to the metadata context for a transform plugin.
+///
+/// Avoiding serialization & allocation to the host by using incremental number.
 /// TransformPluginMetadataContext does not implement Index trait, instead
 /// host does manual matching to corresponding value.
 #[derive(Copy, Clone)]

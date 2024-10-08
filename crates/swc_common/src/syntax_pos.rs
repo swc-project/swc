@@ -21,7 +21,9 @@ use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 mod analyze_source_file;
 pub mod hygiene;
 
-/// Spans represent a region of code, used for error reporting. Positions in
+/// Spans represent a region of code, used for error reporting.
+///
+/// Positions in
 /// spans are *absolute* positions from the beginning of the `source_map`, not
 /// positions relative to `SourceFile`s. Methods on the `SourceMap` can be used
 /// to relate spans back to the original source.
@@ -1154,7 +1156,8 @@ impl Sub for CharPos {
 // Loc, LocWithOpt, SourceFileAndLine, SourceFileAndBytePos
 //
 
-/// A source code location used for error reporting
+/// A source code location used for error reporting.
+///
 /// Note: This struct intentionally does not implement rkyv's archieve
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
@@ -1244,6 +1247,8 @@ pub struct LineCol {
     pub col: u32,
 }
 
+/// A struct to represent lines of a source file.
+///
 /// Note: This struct intentionally does not implement rkyv's archieve
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile

@@ -26,7 +26,6 @@ pub type PassFactory<'a> =
 ///
 ///
 /// Note: You should **not** use [resolver] by yourself.
-
 pub struct BabelLikeFixtureTest<'a> {
     input: &'a Path,
 

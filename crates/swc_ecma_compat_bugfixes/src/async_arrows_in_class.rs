@@ -5,6 +5,8 @@ use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, InjectVars};
 use swc_trace_macro::swc_trace;
 
+/// A bugfix pass for Safari 10.3.
+///
 /// Safari 10.3 had an issue where async arrow function expressions within any
 /// class method would throw. After an initial fix, any references to the
 /// instance via `this` within those methods would also throw. This is fixed by

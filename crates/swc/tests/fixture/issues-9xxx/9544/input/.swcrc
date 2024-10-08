@@ -1,0 +1,15 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+        },
+    },
+    "env": {
+        "targets": {
+            "chrome": "40"
+        },
+        "mode": "usage",
+        "coreJs": "3.22"
+    }
+}

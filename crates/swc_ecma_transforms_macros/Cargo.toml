@@ -17,4 +17,4 @@ proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 syn         = { workspace = true, features = ["fold", "parsing", "full"] }
 
-swc_macros_common = { version = "0.3.11", path = "../swc_macros_common" }
+swc_macros_common = { version = "0.3.14", path = "../swc_macros_common" }

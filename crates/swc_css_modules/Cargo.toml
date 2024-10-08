@@ -19,10 +19,10 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
 swc_atoms       = { version = "1.0.2", path = "../swc_atoms" }
-swc_common      = { version = "0.40.1", path = "../swc_common" }
+swc_common      = { version = "0.40.2", path = "../swc_common" }
 swc_css_ast     = { version = "0.147.0", path = "../swc_css_ast" }
-swc_css_codegen = { version = "0.158.0", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "0.157.0", path = "../swc_css_parser" }
+swc_css_codegen = { version = "0.158.1", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.157.1", path = "../swc_css_parser" }
 swc_css_visit   = { version = "0.146.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
@@ -30,4 +30,4 @@ indexmap   = { workspace = true, features = ["serde"] }
 serde_json = { workspace = true }
 
 swc_css_compat = { version = "0.34.0", path = "../swc_css_compat" }
-testing        = { version = "0.42.0", path = "../testing" }
+testing        = { version = "0.42.1", path = "../testing" }

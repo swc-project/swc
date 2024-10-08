@@ -101,7 +101,6 @@ fn base_tr_fixer(b: &mut Bencher) {
 // }
 
 /// This benchmark exists to know exact execution time of each pass.
-
 fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
 

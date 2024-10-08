@@ -6,6 +6,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
+/// A pass to add a /*#__PURE__#/ annotation to calls to known pure calls.
+///
 /// This pass adds a /*#__PURE__#/ annotation to calls to known pure top-level
 /// React methods, so that terser and other minifiers can safely remove them
 /// during dead code elimination.

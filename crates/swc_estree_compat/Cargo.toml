@@ -25,14 +25,14 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "1.0.2", path = "../swc_atoms" }
-swc_common = { version = "0.40.1", path = "../swc_common", features = [
+swc_common = { version = "0.40.2", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "0.138.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.152.2", path = "../swc_ecma_parser" }
+swc_ecma_utils = { version = "0.138.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.107.1", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "0.30.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.27.0", path = "../swc_node_comments/" }
 
@@ -41,11 +41,11 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "0.290.0", path = "../swc" }
-swc_ecma_ast        = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "0.152.1", path = "../swc_ecma_parser" }
+swc                 = { version = "0.290.1", path = "../swc" }
+swc_ecma_ast        = { version = "0.121.2", path = "../swc_ecma_ast" }
+swc_ecma_parser     = { version = "0.152.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.244.0", path = "../swc_ecma_transforms/" }
-testing             = { version = "0.42.0", path = "../testing" }
+testing             = { version = "0.42.1", path = "../testing" }
 walkdir             = { workspace = true }
 
 [[bench]]

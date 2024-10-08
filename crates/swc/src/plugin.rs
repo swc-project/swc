@@ -14,6 +14,7 @@ use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 /// A tuple represents a plugin.
+///
 /// First element is a resolvable name to the plugin, second is a JSON object
 /// that represents configuration option for those plugin.
 /// Type of plugin's configuration is up to each plugin - swc/core does not have

@@ -29,24 +29,24 @@ serde_json = { workspace = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "0.4.4", path = "../string_enum" }
-swc = { version = "0.290.0", path = "../swc" }
+swc = { version = "0.290.1", path = "../swc" }
 swc_atoms = { version = "1.0.2", path = "../swc_atoms" }
-swc_bundler = { version = "0.242.0", path = "../swc_bundler", features = [
+swc_bundler = { version = "0.242.1", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "0.40.1", path = "../swc_common", features = [
+swc_common = { version = "0.40.2", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.1", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.158.2", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.52.1", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.152.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.244.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.138.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "0.138.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.107.1", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }
 
-testing = { version = "0.42.0", path = "../testing" }
+testing = { version = "0.42.1", path = "../testing" }

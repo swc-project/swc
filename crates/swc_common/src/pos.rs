@@ -24,7 +24,7 @@ pub trait Spanned {
     }
 }
 
-impl<'a, T> Spanned for Cow<'a, T>
+impl<T> Spanned for Cow<'_, T>
 where
     T: Spanned + Clone,
 {
@@ -145,7 +145,7 @@ where
     }
 }
 
-impl<'a, S> Spanned for &'a S
+impl<S> Spanned for &S
 where
     S: ?Sized + Spanned,
 {

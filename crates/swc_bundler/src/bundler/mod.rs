@@ -141,7 +141,7 @@ where
     }
 
     pub(crate) fn is_external(&self, src: &JsWord) -> bool {
-        return self.config.external_modules.iter().any(|v| v == src);
+        self.config.external_modules.iter().any(|v| v == src)
     }
 
     ///

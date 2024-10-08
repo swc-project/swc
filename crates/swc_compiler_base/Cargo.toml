@@ -21,18 +21,18 @@ rustc-hash    = { workspace = true }
 serde         = { workspace = true, features = ["derive"] }
 serde_json    = { workspace = true }
 sourcemap     = { workspace = true }
-swc_allocator = { version = "0.1.9", path = "../swc_allocator", default-features = false }
+swc_allocator = { version = "0.1.10", path = "../swc_allocator", default-features = false }
 
 swc_atoms = { version = "1.0.2", path = "../swc_atoms" }
-swc_common = { version = "0.40.1", path = "../swc_common", features = [
+swc_common = { version = "0.40.2", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_config = { version = "0.1.13", path = "../swc_config" }
-swc_ecma_ast = { version = "0.121.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.1", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.209.0", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "0.152.1", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.107.0", path = "../swc_ecma_visit" }
+swc_config = { version = "0.1.15", path = "../swc_config" }
+swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.158.2", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "0.209.1", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "0.152.2", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.107.1", path = "../swc_ecma_visit" }
 swc_timer = { version = "0.27.0", path = "../swc_timer" }
 
   [dependencies.napi-derive]

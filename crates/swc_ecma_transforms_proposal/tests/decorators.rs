@@ -76,6 +76,7 @@ fn fixture_inner(input: PathBuf) {
         &output,
         FixtureTestConfig {
             allow_error: true,
+            module: Some(true),
             ..Default::default()
         },
     );

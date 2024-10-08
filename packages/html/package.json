@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.7.31-nightly-20241008.1",
+    "version": "1.7.31-nightly-20241008.2",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -22,18 +22,19 @@
     },
     "napi": {
         "binaryName": "swc-html",
-        "targets": [
-            "x86_64-apple-darwin",
-            "x86_64-pc-windows-msvc",
-            "x86_64-unknown-linux-gnu",
-            "x86_64-unknown-linux-musl",
-            "i686-pc-windows-msvc",
-            "armv7-unknown-linux-gnueabihf",
-            "aarch64-unknown-linux-gnu",
-            "aarch64-apple-darwin",
-            "aarch64-unknown-linux-musl",
-            "aarch64-pc-windows-msvc"
-        ]
+        "triples": {
+            "additional": [
+                "aarch64-apple-darwin",
+                "aarch64-unknown-linux-gnu",
+                "aarch64-unknown-linux-musl",
+                "aarch64-pc-windows-msvc",
+                "armv7-unknown-linux-gnueabihf",
+                "armv7-unknown-linux-musleabihf",
+                "x86_64-unknown-linux-musl",
+                "i686-pc-windows-msvc",
+                "riscv64gc-unknown-linux-gnu"
+            ]
+        }
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
@@ -44,8 +45,8 @@
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "build:ts": "tsc -d",
-        "build": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "build": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
         "test": "echo 'done!'",
         "version": "napi version --npm-dir scripts/npm"
     },

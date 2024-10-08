@@ -85,7 +85,7 @@ impl<N: Node> Node for Box<N> {
         (**self).emit_with(e)
     }
 }
-impl<'a, N: Node> Node for &'a N {
+impl<N: Node> Node for &N {
     #[inline]
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
@@ -139,7 +139,7 @@ fn replace_close_inline_script(raw: &str) -> Cow<str> {
     Cow::Owned(result)
 }
 
-impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
+impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,
@@ -2770,7 +2770,7 @@ where
 }
 
 /// Patterns
-impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
+impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,
@@ -2995,7 +2995,7 @@ where
 }
 
 /// Statements
-impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
+impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,
@@ -3653,7 +3653,7 @@ where
     }
 }
 
-impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
+impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,

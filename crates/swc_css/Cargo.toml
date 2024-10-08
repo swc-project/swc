@@ -23,11 +23,11 @@ prefixer = ["swc_css_prefixer"]
 
 [dependencies]
 swc_css_ast      = { version = "0.147.0", path = "../swc_css_ast" }
-swc_css_codegen  = { version = "0.158.0", path = "../swc_css_codegen" }
+swc_css_codegen  = { version = "0.158.1", path = "../swc_css_codegen" }
 swc_css_compat   = { version = "0.34.0", path = "../swc_css_compat", optional = true }
 swc_css_minifier = { version = "0.123.0", path = "../swc_css_minifier", optional = true }
 swc_css_modules  = { version = "0.36.0", path = "../swc_css_modules", optional = true }
-swc_css_parser   = { version = "0.157.0", path = "../swc_css_parser" }
+swc_css_parser   = { version = "0.157.1", path = "../swc_css_parser" }
 swc_css_prefixer = { version = "0.161.0", path = "../swc_css_prefixer", optional = true }
 swc_css_utils    = { version = "0.144.0", path = "../swc_css_utils/" }
 swc_css_visit    = { version = "0.146.0", path = "../swc_css_visit" }

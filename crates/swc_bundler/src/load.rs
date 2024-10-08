@@ -49,7 +49,7 @@ impl<T: ?Sized + Load> Load for Box<T> {
     }
 }
 
-impl<'a, T: ?Sized + Load> Load for &'a T {
+impl<T: ?Sized + Load> Load for &T {
     fn load(&self, file: &FileName) -> Result<ModuleData, Error> {
         (**self).load(file)
     }

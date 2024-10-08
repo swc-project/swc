@@ -43,7 +43,7 @@ impl<'w, I: XmlWriter> DerefMut for WithCtx<'_, 'w, I> {
     }
 }
 
-impl<'w, I: XmlWriter> Drop for WithCtx<'_, 'w, I> {
+impl<I: XmlWriter> Drop for WithCtx<'_, '_, I> {
     fn drop(&mut self) {
         self.inner.ctx = self.orig_ctx;
     }

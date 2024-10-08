@@ -59,12 +59,14 @@ fn esm_to_cjs(input: PathBuf) {
         &output,
         FixtureTestConfig {
             sourcemap: false,
+            module: Some(true),
             ..Default::default()
         },
     );
 }
 
 test!(
+    module,
     syntax(),
     |_| chain!(
         for_of(for_of::Config {

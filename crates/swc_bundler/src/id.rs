@@ -99,7 +99,7 @@ impl From<Ident> for Id {
     }
 }
 
-impl<'a> From<&'a Ident> for Id {
+impl From<&Ident> for Id {
     fn from(i: &Ident) -> Self {
         Id(i.sym.clone(), i.ctxt)
     }

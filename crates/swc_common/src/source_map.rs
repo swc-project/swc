@@ -8,14 +8,17 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! The SourceMap tracks all the source code used within a single crate, mapping
-//! from integer byte positions to the original source code location. Each bit
-//! of source parsed during crate parsing (typically files, in-memory strings,
-//! or various bits of macro expansion) cover a continuous range of bytes in the
-//! SourceMap and are represented by SourceFiles. Byte positions are stored in
-//! `spans` and used pervasively in the compiler. They are absolute positions
-//! within the SourceMap, which upon request can be converted to line and column
-//! information, source code snippets, etc.
+//! The SourceMap tracks all the source code used within a single crate.
+//!
+//! The mapping from integer byte positions to the original source code location
+//! is stored in `spans`.
+//!
+//! Each bit of source parsed during crate parsing (typically files, in-memory
+//! strings, or various bits of macro expansion) cover a continuous range of
+//! bytes in the SourceMap and are represented by SourceFiles. Byte positions
+//! are stored in `spans` and used pervasively in the compiler. They are
+//! absolute positions within the SourceMap, which upon request can be converted
+//! to line and column information, source code snippets, etc.
 use std::{
     cmp, env, fs,
     hash::Hash,

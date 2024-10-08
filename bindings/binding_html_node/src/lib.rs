@@ -694,10 +694,21 @@ fn minify_inner(
     })
 }
 
+fn to_string(code: Either<Buffer, String>) -> String {
+    match code {
+        Either::A(code) => String::from_utf8_lossy(code.as_ref()).to_string(),
+        Either::B(code) => code,
+    }
+}
+
 #[allow(unused)]
 #[napi]
-fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+fn minify(
+    code: Either<Buffer, String>,
+    opts: Buffer,
+    signal: Option<AbortSignal>,
+) -> AsyncTask<MinifyTask> {
+    let code = to_string(code);
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
     let task = MinifyTask {
@@ -712,11 +723,11 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 #[allow(unused)]
 #[napi]
 fn minify_fragment(
-    code: Buffer,
+    code: Either<Buffer, String>,
     opts: Buffer,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = to_string(code);
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
     let task = MinifyTask {
@@ -730,8 +741,8 @@ fn minify_fragment(
 
 #[allow(unused)]
 #[napi]
-pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    let code = String::from_utf8_lossy(code.as_ref());
+pub fn minify_sync(code: Either<Buffer, String>, opts: Buffer) -> napi::Result<TransformOutput> {
+    let code = to_string(code);
     let options = get_deserialized(opts)?;
 
     minify_inner(&code, options, false).convert_err()
@@ -739,8 +750,11 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
 #[allow(unused)]
 #[napi]
-pub fn minify_fragment_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    let code = String::from_utf8_lossy(code.as_ref());
+pub fn minify_fragment_sync(
+    code: Either<Buffer, String>,
+    opts: Buffer,
+) -> napi::Result<TransformOutput> {
+    let code = to_string(code);
     let options = get_deserialized(opts)?;
 
     minify_inner(&code, options, true).convert_err()
