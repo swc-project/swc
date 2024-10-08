@@ -9,6 +9,7 @@ use super::SimplifyExpr;
 fn fold(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
+        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
@@ -32,7 +33,6 @@ fn fold(src: &str, expected: &str) {
         },
         src,
         expected,
-        true,
     )
 }
 

@@ -12,7 +12,7 @@ use swc_ecma_transforms_module::{
     path::{ImportResolver, NodeImportResolver},
     rewriter::import_rewriter,
 };
-use swc_ecma_transforms_testing::test_module_fixture;
+use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -43,7 +43,7 @@ fn issue_4730() {
     let input_dir = dir.join("input");
     let output_dir = dir.join("output");
 
-    test_module_fixture(
+    test_fixture(
         Syntax::default(),
         &|_| {
             let mut paths = IndexMap::new();
@@ -81,7 +81,10 @@ fn issue_4730() {
         },
         &input_dir.join("src").join("index.js"),
         &output_dir.join("index.js"),
-        Default::default(),
+        FixtureTestConfig {
+            module: Some(true),
+            ..Default::default()
+        },
     );
 }
 
@@ -136,7 +139,7 @@ fn fixture(input_dir: PathBuf) {
         .canonicalize()
         .unwrap();
     dbg!(&base_dir);
-    test_module_fixture(
+    test_fixture(
         Syntax::default(),
         &|_| {
             let rules = config.paths.clone().into_iter().collect();
@@ -147,6 +150,9 @@ fn fixture(input_dir: PathBuf) {
         },
         &index_path,
         &output_dir.join("index.ts"),
-        Default::default(),
+        FixtureTestConfig {
+            module: Some(true),
+            ..Default::default()
+        },
     );
 }

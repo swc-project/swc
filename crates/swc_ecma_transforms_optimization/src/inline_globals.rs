@@ -225,6 +225,7 @@ mod tests {
                     as_folder(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
+                    None,
                     &v,
                 )
                 .unwrap();

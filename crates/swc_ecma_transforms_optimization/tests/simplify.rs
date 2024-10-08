@@ -19,6 +19,7 @@ use swc_ecma_transforms_typescript::strip;
 fn test(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
+        None,
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
@@ -35,7 +36,6 @@ fn test(src: &str, expected: &str) {
         },
         src,
         expected,
-        true,
     )
 }
 

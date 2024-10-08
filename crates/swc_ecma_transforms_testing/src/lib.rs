@@ -58,19 +58,6 @@ pub struct Tester<'a> {
     pub comments: Rc<SingleThreadedComments>,
 }
 
-/// Used to determine how src for a test should be parsed.
-#[derive(Debug, Clone, Copy)]
-pub enum SrcType {
-    /// Parsed using `parse_program`.
-    Program,
-
-    /// Parsed using `parse_module`.
-    Module,
-
-    /// Parsed using `parse_script`.
-    Script,
-}
-
 impl<'a> Tester<'a> {
     pub fn run<F, Ret>(op: F) -> Ret
     where
@@ -175,63 +162,27 @@ impl<'a> Tester<'a> {
         Ok(stmts.pop().unwrap())
     }
 
-    /// Applies transform using [SrcType] to determine the parsed AST type.
-    fn apply_transform_with<T: Fold>(
+    pub fn apply_transform<T: Fold>(
         &mut self,
         mut tr: T,
         name: &str,
         syntax: Syntax,
+        is_module: Option<bool>,
         src: &str,
-        src_type: SrcType,
     ) -> Result<Program, ()> {
         let program =
             self.with_parser(
                 name,
                 syntax,
                 src,
-                |parser: &mut Parser<Lexer>| match src_type {
-                    SrcType::Program => parser.parse_program(),
-                    SrcType::Module => parser.parse_module().map(Program::Module),
-                    SrcType::Script => parser.parse_script().map(Program::Script),
+                |parser: &mut Parser<Lexer>| match is_module {
+                    Some(true) => parser.parse_module().map(Program::Module),
+                    Some(false) => parser.parse_script().map(Program::Script),
+                    None => parser.parse_program(),
                 },
             )?;
 
         Ok(program.fold_with(&mut tr))
-    }
-
-    /// Applies transform, parsing the given src as a [Program].
-    pub fn apply_transform<T: Fold>(
-        &mut self,
-        tr: T,
-        name: &str,
-        syntax: Syntax,
-        src: &str,
-    ) -> Result<Program, ()> {
-        self.apply_transform_with(tr, name, syntax, src, SrcType::Program)
-    }
-
-    /// Same as [apply_transform][`Self::apply_transform`], but parses the given
-    /// src as a [Module][Program::Module].
-    pub fn apply_module_transform<T: Fold>(
-        &mut self,
-        tr: T,
-        name: &str,
-        syntax: Syntax,
-        src: &str,
-    ) -> Result<Program, ()> {
-        self.apply_transform_with(tr, name, syntax, src, SrcType::Module)
-    }
-
-    /// Same as [apply_transform][`Self::apply_transform`], but parses the given
-    /// src as a [Script][Program::Script].
-    pub fn apply_script_transform<T: Fold>(
-        &mut self,
-        tr: T,
-        name: &str,
-        syntax: Syntax,
-        src: &str,
-    ) -> Result<Program, ()> {
-        self.apply_transform_with(tr, name, syntax, src, SrcType::Script)
     }
 
     pub fn print(&mut self, program: &Program, comments: &Rc<SingleThreadedComments>) -> String {
@@ -295,8 +246,13 @@ where
 }
 
 #[track_caller]
-fn test_transform_with<F, P>(syntax: Syntax, src_type: SrcType, tr: F, input: &str, expected: &str)
-where
+pub fn test_transform<F, P>(
+    syntax: Syntax,
+    is_module: Option<bool>,
+    tr: F,
+    input: &str,
+    expected: &str,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -305,6 +261,7 @@ where
             as_folder(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
+            is_module,
             expected,
         )?;
 
@@ -313,7 +270,7 @@ where
         println!("----- Actual -----");
 
         let tr = make_tr(tr, tester);
-        let actual = tester.apply_transform_with(tr, "input.js", syntax, input, src_type)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -370,46 +327,16 @@ where
     });
 }
 
-/// Tests transform, parsing input as a [Program].
-#[track_caller]
-pub fn test_transform<F, P>(
-    syntax: Syntax,
-    tr: F,
-    input: &str,
-    expected: &str,
-    _always_ok_if_code_eq: bool,
-) where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_transform_with(syntax, SrcType::Program, tr, input, expected)
-}
-
-/// Same as [test_transform], but parses input as a [Module][Program::Module].
-#[track_caller]
-pub fn test_module_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str)
-where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_transform_with(syntax, SrcType::Module, tr, input, expected)
-}
-
-/// Same as [test_transform], but parses input as a [Script][Program::Script].
-#[track_caller]
-pub fn test_script_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str)
-where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_transform_with(syntax, SrcType::Script, tr, input, expected)
-}
-
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inline_input_output<F, P>(syntax: Syntax, tr: F, input: &str, output: &str)
-where
+pub fn test_inline_input_output<F, P>(
+    syntax: Syntax,
+    is_module: Option<bool>,
+    tr: F,
+    input: &str,
+    output: &str,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -418,7 +345,8 @@ where
     let expected = output;
 
     let expected_src = Tester::run(|tester| {
-        let expected_program = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
+        let expected_program =
+            tester.apply_transform(noop(), "expected.js", syntax, is_module, expected)?;
 
         let expected_src = tester.print(&expected_program, &Default::default());
 
@@ -438,7 +366,7 @@ where
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -472,11 +400,13 @@ where
     );
 }
 
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
 #[track_caller]
-fn test_inlined_transform_with<F, P>(
+pub fn test_inlined_transform<F, P>(
     test_name: &str,
     syntax: Syntax,
-    src_type: SrcType,
+    module: Option<bool>,
     tr: F,
     input: &str,
 ) where
@@ -497,45 +427,14 @@ fn test_inlined_transform_with<F, P>(
 
     test_fixture_inner(
         syntax,
-        src_type,
         Box::new(move |tester| Box::new(tr(tester))),
         input,
         &snapshot_dir.join(format!("{test_name}.js")),
-        Default::default(),
+        FixtureTestConfig {
+            module,
+            ..Default::default()
+        },
     )
-}
-
-/// NOT A PUBLIC API. DO NOT USE.
-#[doc(hidden)]
-#[track_caller]
-pub fn test_inlined_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_inlined_transform_with(test_name, syntax, SrcType::Program, tr, input)
-}
-
-/// NOT A PUBLIC API. DO NOT USE.
-#[doc(hidden)]
-#[track_caller]
-pub fn test_inlined_module_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_inlined_transform_with(test_name, syntax, SrcType::Module, tr, input)
-}
-
-/// NOT A PUBLIC API. DO NOT USE.
-#[doc(hidden)]
-#[track_caller]
-pub fn test_inlined_script_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester) -> P,
-    P: Fold,
-{
-    test_inlined_transform_with(test_name, syntax, SrcType::Script, tr, input)
 }
 
 /// NOT A PUBLIC API. DO NOT USE.
@@ -553,14 +452,14 @@ macro_rules! test_inline {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+            $crate::test_inline_input_output($syntax, None, $tr, $input, $output)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+            $crate::test_inline_input_output($syntax, None, $tr, $input, $output)
         }
     };
 }
@@ -585,7 +484,7 @@ test_inline!(
 #[test]
 #[should_panic]
 fn test_inline_should_fail() {
-    test_inline_input_output(Default::default(), |_| noop(), "class Foo {}", "");
+    test_inline_input_output(Default::default(), None, |_| noop(), "class Foo {}", "");
 }
 
 #[macro_export]
@@ -594,42 +493,48 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 
     (module, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_module_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, Some(true), $tr, $input)
         }
     };
 
     (script, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_script_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_script_transform(
+                stringify!($test_name),
+                $syntax,
+                Some(false),
+                $tr,
+                $input,
+            )
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, None, $tr, $input)
         }
     };
 }
 
 /// Execute `node` for `input` and ensure that it prints same output after
 /// transformation.
-pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
+pub fn compare_stdout<F, P>(syntax: Syntax, is_module: Option<bool>, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -637,7 +542,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let program = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let program = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -676,7 +581,8 @@ where
     })
 }
 
-fn exec_tr_with<F, P>(syntax: Syntax, src_type: SrcType, tr: F, input: &str)
+/// Execute `jest` after transpiling `input` using `tr`.
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, is_module: Option<bool>, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -684,17 +590,17 @@ where
     Tester::run(|tester| {
         let tr = make_tr(tr, tester);
 
-        let program = tester.apply_transform_with(
+        let program = tester.apply_transform(
             tr,
             "input.js",
             syntax,
+            is_module,
             &format!(
                 "it('should work', async function () {{
                     {}
                 }})",
                 input
             ),
-            src_type,
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -726,33 +632,6 @@ where
 
         exec_with_node_test_runner(&src).map(|_| {})
     })
-}
-
-/// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
-{
-    exec_tr_with(syntax, SrcType::Program, tr, input)
-}
-
-/// Same as [exec_tr], but parses input as a [Module][Program::Module].
-pub fn exec_module_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
-{
-    exec_tr_with(syntax, SrcType::Module, tr, input)
-}
-
-/// Same as [exec_tr], but parses input as a [Script][Program::Script].
-pub fn exec_script_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
-where
-    F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
-{
-    exec_tr_with(syntax, SrcType::Script, tr, input)
 }
 
 fn calc_hash(s: &str) -> String {
@@ -982,28 +861,13 @@ pub struct FixtureTestConfig {
     ///
     /// Defaults to false.
     pub allow_error: bool,
-}
 
-fn test_fixture_with<P>(
-    syntax: Syntax,
-    src_type: SrcType,
-    tr: &dyn Fn(&mut Tester) -> P,
-    input: &Path,
-    output: &Path,
-    config: FixtureTestConfig,
-) where
-    P: Fold,
-{
-    let input = fs::read_to_string(input).unwrap();
-
-    test_fixture_inner(
-        syntax,
-        src_type,
-        Box::new(|tester| Box::new(tr(tester))),
-        &input,
-        output,
-        config,
-    );
+    /// Determines what type of [Program] the source code is parsed as.
+    ///
+    /// - `Some(true)`: parsed as a [Program::Module]
+    /// - `Some(false)`: parsed as a [Program::Script]
+    /// - `None`: parsed as a [Program] (underlying type is auto-detected)
+    pub module: Option<bool>,
 }
 
 /// You can do `UPDATE=1 cargo test` to update fixtures.
@@ -1016,38 +880,19 @@ pub fn test_fixture<P>(
 ) where
     P: Fold,
 {
-    test_fixture_with(syntax, SrcType::Program, tr, input, output, config)
-}
+    let input = fs::read_to_string(input).unwrap();
 
-/// Same as [test_fixture] but parses input as a [Module][SrcType::Module].
-pub fn test_module_fixture<P>(
-    syntax: Syntax,
-    tr: &dyn Fn(&mut Tester) -> P,
-    input: &Path,
-    output: &Path,
-    config: FixtureTestConfig,
-) where
-    P: Fold,
-{
-    test_fixture_with(syntax, SrcType::Module, tr, input, output, config)
-}
-
-/// Same as [test_fixture] but parses input as a [Script][SrcType::Script].
-pub fn test_script_fixture<P>(
-    syntax: Syntax,
-    tr: &dyn Fn(&mut Tester) -> P,
-    input: &Path,
-    output: &Path,
-    config: FixtureTestConfig,
-) where
-    P: Fold,
-{
-    test_fixture_with(syntax, SrcType::Script, tr, input, output, config)
+    test_fixture_inner(
+        syntax,
+        Box::new(|tester| Box::new(tr(tester))),
+        &input,
+        output,
+        config,
+    );
 }
 
 fn test_fixture_inner<'a>(
     syntax: Syntax,
-    src_type: SrcType,
     tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Fold>>,
     input: &str,
     output: &Path,
@@ -1061,7 +906,7 @@ fn test_fixture_inner<'a>(
 
     let expected_src = Tester::run(|tester| {
         let expected_program =
-            tester.apply_transform_with(noop(), "expected.js", syntax, &expected, src_type)?;
+            tester.apply_transform(noop(), "expected.js", syntax, config.module, &expected)?;
 
         let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
@@ -1089,7 +934,7 @@ fn test_fixture_inner<'a>(
 
         eprintln!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual = tester.apply_transform_with(tr, "input.js", syntax, input, src_type)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, config.module, input)?;
 
         eprintln!("----- {} -----", Color::Green.paint("Comments"));
         eprintln!("{:?}", tester.comments);

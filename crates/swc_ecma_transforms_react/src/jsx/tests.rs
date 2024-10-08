@@ -13,9 +13,7 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
 };
-use swc_ecma_transforms_testing::{
-    parse_options, test, test_module_fixture, FixtureTestConfig, Tester,
-};
+use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
@@ -1054,7 +1052,7 @@ fn fixture(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_module_fixture(
+    test_fixture(
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
@@ -1067,6 +1065,7 @@ fn fixture(input: PathBuf) {
         &output,
         FixtureTestConfig {
             allow_error: true,
+            module: Some(true),
             ..Default::default()
         },
     );
@@ -1079,7 +1078,7 @@ fn integration(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_module_fixture(
+    test_fixture(
         Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
@@ -1092,6 +1091,7 @@ fn integration(input: PathBuf) {
         &output,
         FixtureTestConfig {
             allow_error: true,
+            module: Some(true),
             ..Default::default()
         },
     );
