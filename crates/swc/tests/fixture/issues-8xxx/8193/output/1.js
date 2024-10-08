@@ -1,3 +1,5 @@
+require("core-js/modules/es.object.create.js");
+require("core-js/modules/esnext.object.group-by.js");
 var data = [
     {
         name: 'a',
