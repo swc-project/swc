@@ -30,12 +30,12 @@ const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'s
     res
 }
 
-fn typed(name: &'static str) -> CoreJSPolyfillDescriptor {
-    let mut global = Vec::with_capacity(1 + TYPED_ARRAY_DEPENDENCIES.len());
-    global.push(name);
+fn typed(names: &'static [&'static str]) -> CoreJSPolyfillDescriptor {
+    let mut global = Vec::with_capacity(names.len() + TYPED_ARRAY_DEPENDENCIES.len());
+    global.extend_from_slice(names);
     global.extend_from_slice(TYPED_ARRAY_DEPENDENCIES);
 
-    descriptor(None, global.leak(), Some(name), &[])
+    descriptor(None, global.leak(), Some(names[0]), &[])
 }
 
 static ARRAY_NATURE_ITERATORS: &[&str] = &["es.array.iterator", "web.dom-collections.iterator"];
@@ -244,35 +244,26 @@ static DATA_VIEW_DEPENDENCIES: &[&str] =
     &concat2::<2>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
 
 pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
-  AsyncDisposableStack: define("async-disposable-stack", [
+  AsyncDisposableStack: define("async-disposable-stack/index", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
     "esnext.async-iterator.async-dispose",
     "esnext.iterator.dispose",
     PROMISE_DEPENDENCIES,
-    SuppressedERROR_DEPENDENCIES,
+    SUPPRESSED_ERROR_DEPENDENCIES,
   ]),
   AsyncIterator: define("async-iterator/index", ASYNC_ITERATOR_DEPENDENCIES),
   AggregateError: define("aggregate-error", [
     "es.aggregate-error",
     ERROR_DEPENDENCIES,
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
     "es.aggregate-error.cause",
   ]),
-  ArrayBuffer: define(null, [
-    "es.array-buffer.constructor",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-  ]),
-  DataView: define(null, [
-    "es.data-view",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-  ]),
+  ArrayBuffer: define(null, ARRAY_BUFFER_DEPENDENCIES),
   DataView: define(null, DATA_VIEW_DEPENDENCIES),
   Date: define(null, ["es.date.to-string"]),
-  DOMException: define("dom-exception", DOM_EXCEPTION_DEPENDENCIES),
-  DisposableStack: define("disposable-stack", [
+  DOMException: define("dom-exception/index", DOM_EXCEPTION_DEPENDENCIES),
+  DisposableStack: define("disposable-stack/index", [
     "esnext.disposable-stack.constructor",
     "es.object.to-string",
     "esnext.iterator.dispose",
@@ -286,7 +277,13 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   Int16Array: typed("es.typed-array.int16-array"),
   Int32Array: typed("es.typed-array.int32-array"),
   Iterator: define("iterator/index", ITERATOR_DEPENDENCIES),
-  Uint8Array: typed("es.typed-array.uint8-array"),
+  Uint8Array: typed(
+    "es.typed-array.uint8-array",
+    "esnext.uint8-array.set-from-base64",
+    "esnext.uint8-array.set-from-hex",
+    "esnext.uint8-array.to-base64",
+    "esnext.uint8-array.to-hex",
+  ),
   Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
   Uint16Array: typed("es.typed-array.uint16-array"),
   Uint32Array: typed("es.typed-array.uint32-array"),
@@ -315,7 +312,11 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   SyntaxError: define(null, ERROR_DEPENDENCIES),
   TypeError: define(null, ERROR_DEPENDENCIES),
   URIError: define(null, ERROR_DEPENDENCIES),
-  URL: define("url/index", ["web.url", URL_SEARCH_PARAMS_DEPENDENCIES]),
+  URL: define("url/index", [
+    "web.url",
+    "web.url.to-json",
+    URL_SEARCH_PARAMS_DEPENDENCIES,
+  ]),
   URLSearchParams: define(
     "url-search-params/index",
     URL_SEARCH_PARAMS_DEPENDENCIES
