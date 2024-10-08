@@ -2666,7 +2666,6 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
 /// Replace all `from` in `expr` with `to`.
 ///
 /// # Usage
-
 ///
 /// ```ignore
 /// replace_ident(&mut dec.expr, cls_name.to_id(), alias);
@@ -2952,7 +2951,6 @@ pub fn contains_top_level_await<V: VisitWith<TopLevelAwait>>(t: &V) -> bool {
 ///
 /// This visitor modifies [SyntaxContext] while preserving the symbol of
 /// [Ident]s.
-
 pub struct Remapper<'a> {
     vars: &'a FxHashMap<Id, SyntaxContext>,
 }

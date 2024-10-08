@@ -220,7 +220,7 @@ struct InnerConfig {
     top_level_mark: Mark,
 }
 
-impl Resolver<'_> {
+impl<'a> Resolver<'a> {
     #[cfg(test)]
     fn new(current: Scope<'a>, config: InnerConfig) -> Self {
         Resolver {

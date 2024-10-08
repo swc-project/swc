@@ -131,7 +131,7 @@ impl Radix {
             return;
         }
 
-        if call_expr.args.first().is_none() {
+        if call_expr.args.is_empty() {
             self.emit_report(call_expr.span, MISSING_PARAMS_MESSAGE, None);
 
             return;
