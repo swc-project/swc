@@ -91,7 +91,6 @@ fn transformation(t: &Tester) -> impl Fold {
 
 // transformation_declaration
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_declaration,
@@ -102,7 +101,6 @@ class A {}
 );
 // transformation_initialize_after_super_multiple
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_initialize_after_super_multiple,
@@ -136,7 +134,6 @@ export default @dec() class {}
 );
 // transformation_initialize_after_super_statement
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_initialize_after_super_statement,
@@ -214,7 +211,6 @@ expect(A).toBe(C);
 );
 // misc_method_name_not_shadow
 test!(
-    module,
     syntax(false),
     |t| tr(t),
     misc_method_name_not_shadow,
@@ -324,7 +320,6 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value
 test!(
-    module,
     syntax(false),
     |t| tr(t),
     duplicated_keys_computed_keys_same_value,
@@ -400,7 +395,6 @@ expect(log).toEqual(numsFrom0to9);
 );
 // transformation_initializer_after_super_bug_8808
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_initiailzer_after_super_bug_8808,
@@ -440,7 +434,6 @@ expect(A.prototype.method()).toBe(2);
 );
 // transformation_arguments
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_arguments,
@@ -539,7 +532,6 @@ expect(calls).toBe(1);
 // ordering
 // transformation_initialize_after_super_expression
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_initialize_after_super_expression,
@@ -911,7 +903,6 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 );
 // transformation_extends
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_extends,
@@ -923,7 +914,6 @@ test!(
 // finishers
 // transformation_extends_await
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_extends_await,
@@ -936,7 +926,6 @@ async function g() {
 );
 // transformation_extends_yield
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_extends_yield,
@@ -1103,7 +1092,6 @@ expect(i).toBe(2);
 );
 // transformation_initialize_after_super_bug_8931
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_initialize_after_super_bug_8931,
@@ -1330,7 +1318,6 @@ expect(Foo.prototype.bar).toBe(value2);
 );
 // transformation_expression
 test!(
-    module,
     syntax(false),
     |t| transformation(t),
     transformation_expression,
@@ -1367,7 +1354,6 @@ expect(A.method()).toBe(2);
 // element_descriptors
 // duplicated_keys_computed_keys_same_ast
 test!(
-    module,
     syntax(false),
     |t| tr(t),
     duplicated_keys_computed_keys_same_ast,
@@ -1517,7 +1503,6 @@ expect(desc.set()).toBe(2);
 // misc
 // transformation_extends_exec
 test_exec!(
-    module,
     syntax(false),
     |t| tr(t),
     transformation_extends_exec,
@@ -1564,7 +1549,6 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value_exec
 test_exec!(
-    module,
     syntax(false),
     |t| tr(t),
     duplicated_keys_computed_keys_same_value_exec,
@@ -3898,7 +3882,6 @@ eval: function () {
 );
 
 test!(
-    module,
     ts(),
     |_| decorators(Default::default()),
     issue_846_1,

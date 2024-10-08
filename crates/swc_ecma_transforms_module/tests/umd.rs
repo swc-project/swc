@@ -4,7 +4,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
-use swc_ecma_transforms_testing::{test_module_fixture, Tester};
+use swc_ecma_transforms_testing::{test_fixture, Tester};
 use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
@@ -58,7 +58,7 @@ fn esm_to_umd(input: PathBuf) {
         Err(..) => Default::default(),
     };
 
-    test_module_fixture(
+    test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
         &|tester| tr(tester, config.clone(), is_ts),
         &input,

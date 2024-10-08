@@ -202,7 +202,7 @@ impl VisitMut for InlineGlobals {
 #[cfg(test)]
 mod tests {
     use swc_ecma_transforms_testing::{test, Tester};
-    use swc_ecma_utils::{DropSpan, StmtOrModuleItem};
+    use swc_ecma_utils::DropSpan;
 
     use super::*;
 
@@ -220,7 +220,7 @@ mod tests {
                 (*v).into()
             };
 
-            let v = tester
+            let mut v = tester
                 .apply_transform(
                     as_folder(DropSpan),
                     "global.js",
@@ -228,14 +228,9 @@ mod tests {
                     &v,
                 )
                 .unwrap();
-
-            let v = match v {
-                Program::Module(mut m) => m.body.pop().and_then(|x| x.into_stmt().ok()),
-                Program::Script(mut s) => s.body.pop(),
-            };
-            assert!(v.is_some());
-            let v = match v.unwrap() {
-                Stmt::Expr(ExprStmt { expr, .. }) => *expr,
+            assert_eq!(v.body.len(), 1);
+            let v = match v.body.pop().unwrap() {
+                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => *expr,
                 _ => unreachable!(),
             };
 
