@@ -173,7 +173,7 @@ struct Bump<'a> {
     new_versions: &'a mut VersionMap,
 }
 
-impl<'a> Bump<'a> {
+impl Bump<'_> {
     fn is_breaking(&self, pkg_name: &str, change_type: Option<&ChangeType>) -> Result<bool> {
         let original_version = self
             .versions

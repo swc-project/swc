@@ -92,7 +92,6 @@ mod tests {
     #[test]
     #[should_panic = "You should perform this operation in the closure passed to `set` of \
                       better_scoped_tls::tests::TESTTLS"]
-
     fn panic_on_with() {
         TESTTLS.with(|s| {
             println!("S: {}", s);
