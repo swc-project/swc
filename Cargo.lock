@@ -4007,7 +4007,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.107.0"
+version = "0.108.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5022,7 +5022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.153.0"
+version = "0.154.0"
 dependencies = [
  "ansi_term",
  "anyhow",
