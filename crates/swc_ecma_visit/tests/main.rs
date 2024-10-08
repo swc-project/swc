@@ -7,7 +7,7 @@ fn should_visit_program() {
     struct Pass1<'a>(&'a mut usize);
     struct Pass2;
 
-    impl<'a> Visit for Pass1<'a> {
+    impl Visit for Pass1<'_> {
         fn visit_program(&mut self, _program: &Program) {
             *self.0 += 1;
         }
