@@ -384,7 +384,7 @@ impl Pure<'_> {
 
         if &*method.sym == "toPrecision" {
             // TODO: handle num.toPrecision(undefined)
-            if args.first().is_none() {
+            if args.is_empty() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 let value = num.value.to_js_string().into();
@@ -434,7 +434,7 @@ impl Pure<'_> {
 
         if &*method.sym == "toExponential" {
             // TODO: handle num.toExponential(undefined)
-            if args.first().is_none() {
+            if args.is_empty() {
                 let value = f64_to_exponential(num.value).into();
 
                 self.changed = true;

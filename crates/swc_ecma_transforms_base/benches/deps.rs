@@ -63,7 +63,6 @@ fn fold_empty(b: &mut Bencher) {
 }
 
 /// Optimized out
-
 fn fold_noop_impl_all(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
@@ -91,7 +90,6 @@ fn fold_noop_impl_all(b: &mut Bencher) {
 }
 
 /// Optimized out
-
 fn fold_noop_impl_vec(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());

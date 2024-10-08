@@ -220,6 +220,7 @@ struct InnerConfig {
     top_level_mark: Mark,
 }
 
+#[allow(clippy::needless_lifetimes)]
 impl<'a> Resolver<'a> {
     #[cfg(test)]
     fn new(current: Scope<'a>, config: InnerConfig) -> Self {
