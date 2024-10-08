@@ -1517,7 +1517,6 @@ expect(desc.set()).toBe(2);
 // misc
 // transformation_extends_exec
 test_exec!(
-    module,
     syntax(false),
     |t| tr(t),
     transformation_extends_exec,
@@ -1564,7 +1563,6 @@ expect(() => {
 );
 // duplicated_keys_computed_keys_same_value_exec
 test_exec!(
-    module,
     syntax(false),
     |t| tr(t),
     duplicated_keys_computed_keys_same_value_exec,
