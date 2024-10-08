@@ -218,7 +218,7 @@ static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.obj
 static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
     &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-fn typed_array_static_methods(base: &str) -> ObjectMap<CoreJSPolyfillDescriptor> {
+fn typed_array_static_methods(base: &str) -> Lazy<ObjectMap<CoreJSPolyfillDescriptor>> {
     lazy_map!(Map {
         from: define(
             null,
@@ -268,11 +268,11 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   ]),
   Error: define(null, ERROR_DEPENDENCIES),
   EvalError: define(null, ERROR_DEPENDENCIES),
-  Float32Array: typed("es.typed-array.float32-array"),
-  Float64Array: typed("es.typed-array.float64-array"),
-  Int8Array: typed("es.typed-array.int8-array"),
-  Int16Array: typed("es.typed-array.int16-array"),
-  Int32Array: typed("es.typed-array.int32-array"),
+  Float32Array: typed(&["es.typed-array.float32-array"]),
+  Float64Array: typed(&["es.typed-array.float64-array"]),
+  Int8Array: typed(&["es.typed-array.int8-array"]),
+  Int16Array: typed(&["es.typed-array.int16-array"]),
+  Int32Array: typed(&["es.typed-array.int32-array"]),
   Iterator: define("iterator/index", ITERATOR_DEPENDENCIES),
   Uint8Array: typed(&[
     "es.typed-array.uint8-array",
@@ -714,7 +714,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
     of: define(null, ["esnext.weak-set.of", WEAK_SET_DEPENDENCIES]),
   },
 
-  Int8Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int8-array"),
+  Int8Array: typed_array_static_methods("es.typed-array.int8-array"),
   Uint8Array: Map {
     fromBase64: define(null, [
       "esnext.uint8-array.from-base64",
@@ -724,17 +724,15 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
       "esnext.uint8-array.from-hex",
       TYPED_ARRAY_DEPENDENCIES,
     ]),
-    ...*TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint8-array"),
+    ...*typed_array_static_methods("es.typed-array.uint8-array"),
   },
-  Uint8ClampedArray: TYPED_ARRAY_STATIC_METHODS(
-    "es.typed-array.uint8-clamped-array",
-  ),
-  Int16Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int16-array"),
-  Uint16Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint16-array"),
-  Int32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.int32-array"),
-  Uint32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.uint32-array"),
-  Float32Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.float32-array"),
-  Float64Array: TYPED_ARRAY_STATIC_METHODS("es.typed-array.float64-array"),
+  Uint8ClampedArray: typed_array_static_methods(&["es.typed-array.uint8-clamped-array"]),
+  Int16Array: typed_array_static_methods(&["es.typed-array.int16-array"]),
+  Uint16Array: typed_array_static_methods(&["es.typed-array.uint16-array"]),
+  Int32Array: typed_array_static_methods(&["es.typed-array.int32-array"]),
+  Uint32Array: typed_array_static_methods(&["es.typed-array.uint32-array"]),
+  Float32Array: typed_array_static_methods(&["es.typed-array.float32-array"]),
+  Float64Array: typed_array_static_methods(&["es.typed-array.float64-array"]),
 
   WebAssembly: Map {
     CompileError: define(null, ERROR_DEPENDENCIES),
