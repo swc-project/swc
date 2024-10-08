@@ -215,23 +215,33 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-static TYPED_ARRAY_STATIC_METHODS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
-    from: define(null, ["es.typed-array.from"]),
-    fromAsync: define(
-        null,
-        [
-            "esnext.typed-array.from-async",
-            PROMISE_DEPENDENCIES_WITH_ITERATORS,
-        ]
-    ),
-    of: define(null, ["es.typed-array.of"]),
-});
+static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
+    &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-static DATA_VIEW_DEPENDENCIES: &[&str] = &[
-    "es.data-view",
-    "es.array-buffer.slice",
-    "es.object.to-string",
-];
+fn typed_array_static_methods(base: &str) -> ObjectMap<CoreJSPolyfillDescriptor> {
+    lazy_map!(Map {
+        from: define(
+            null,
+            &concat2::<3>(&["es.typed-array.from", base], TYPED_ARRAY_DEPENDENCIES)
+        ),
+        fromAsync: define(
+            null,
+            &concat2::<4>(&[
+                "esnext.typed-array.from-async",
+                base,
+                PROMISE_DEPENDENCIES_WITH_ITERATORS,
+                TYPED_ARRAY_DEPENDENCIES,
+            ])
+        ),
+        of: define(
+            null,
+            &concat2::<3>(&["es.typed-array.of", base], TYPED_ARRAY_DEPENDENCIES)
+        ),
+    })
+}
+
+static DATA_VIEW_DEPENDENCIES: &[&str] =
+    &concat2::<2>(&["es.data-view"], ARRAY_BUFFER_DEPENDENCIES);
 
 pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
