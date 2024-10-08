@@ -218,7 +218,7 @@ static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.obj
 static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
     &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-const fn typed_array_static_methods(
+fn typed_array_static_methods(
     base: &'static [&'static str],
 ) -> ObjectMap<CoreJSPolyfillDescriptor> {
     map!(Map {
@@ -716,7 +716,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
     of: define(null, ["esnext.weak-set.of", WEAK_SET_DEPENDENCIES]),
   },
 
-  Int8Array: typed_array_static_methods("es.typed-array.int8-array"),
+  Int8Array: typed_array_static_methods(&["es.typed-array.int8-array"]),
   Uint8Array: Map {
     fromBase64: define(null, [
       "esnext.uint8-array.from-base64",
