@@ -222,21 +222,18 @@ fn typed_array_static_methods(base: &str) -> ObjectMap<CoreJSPolyfillDescriptor>
     lazy_map!(Map {
         from: define(
             null,
-            &concat2::<3>(&["es.typed-array.from", base], TYPED_ARRAY_DEPENDENCIES)
+            ["es.typed-array.from", base, TYPED_ARRAY_DEPENDENCIES]
         ),
         fromAsync: define(
             null,
-            &concat2::<4>(&[
+            [
                 "esnext.typed-array.from-async",
                 base,
                 PROMISE_DEPENDENCIES_WITH_ITERATORS,
                 TYPED_ARRAY_DEPENDENCIES,
-            ])
+            ]
         ),
-        of: define(
-            null,
-            &concat2::<3>(&["es.typed-array.of", base], TYPED_ARRAY_DEPENDENCIES)
-        ),
+        of: define(null, ["es.typed-array.of", base, TYPED_ARRAY_DEPENDENCIES]),
     })
 }
 
@@ -277,13 +274,13 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
   Int16Array: typed("es.typed-array.int16-array"),
   Int32Array: typed("es.typed-array.int32-array"),
   Iterator: define("iterator/index", ITERATOR_DEPENDENCIES),
-  Uint8Array: typed(
+  Uint8Array: typed(&[
     "es.typed-array.uint8-array",
     "esnext.uint8-array.set-from-base64",
     "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
-  ),
+  ]),
   Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
   Uint16Array: typed("es.typed-array.uint16-array"),
   Uint32Array: typed("es.typed-array.uint32-array"),
