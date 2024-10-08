@@ -139,8 +139,6 @@ fn replace_close_inline_script(raw: &str) -> Cow<str> {
     Cow::Owned(result)
 }
 
-static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
-
 impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
@@ -1988,22 +1986,22 @@ where
             let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
             let span = node.span();
 
-            let mut last_offset_gen = 0;
-            let mut last_offset_origin = 0;
-            for ((offset_gen, _), mat) in v
-                .match_indices('\n')
-                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
-            {
-                self.wr
-                    .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-                self.wr
-                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
-                last_offset_gen = offset_gen + 1;
-                last_offset_origin = mat.end();
+            // Search for newline chars. We search only for `\n`, since both `\r` and
+            // `\r\n` are normalized to `\n` during parse. We exclude `\u2028` and
+            // `\u2029` for performance reasons, they're so uncommon that it's probably
+            // ok. It's also unclear how other sourcemap utilities handle them...
+            let mut last = 0;
+            for (i, _) in v.match_indices('\n') {
+                if i + 1 < v.len() {
+                    // We mark the start of each line, which happens directly after this newline
+                    // char unless this is the last char.
+                    self.wr.add_srcmap(span.lo + BytePos((i + 1) as u32))?;
+                }
+                self.wr.write_str_lit(DUMMY_SP, &v[last..=i])?;
+                last = i;
             }
-            self.wr
-                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-            self.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
+            self.wr.add_srcmap(span.lo + BytePos(last as u32))?;
+            self.wr.write_str_lit(DUMMY_SP, &v[last..])?;
             self.wr.add_srcmap(span.hi)?;
         } else {
             self.wr.write_str_lit(node.span(), &raw)?;
