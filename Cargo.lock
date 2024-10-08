@@ -4007,7 +4007,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.108.0"
+version = "0.109.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4729,7 +4729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.222.0"
+version = "0.222.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -4939,7 +4939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.213.0"
+version = "0.213.1"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.5.0",
@@ -5022,7 +5022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.154.0"
+version = "0.155.0"
 dependencies = [
  "ansi_term",
  "anyhow",

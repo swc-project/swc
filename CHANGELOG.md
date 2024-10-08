@@ -5,6 +5,9 @@
 
 
 
+- **(ci)** Fix target triples ([#9622](https://github.com/swc-project/swc/issues/9622)) ([f625035](https://github.com/swc-project/swc/commit/f625035f8a21eb6d2bc487669a534257f3ef7c7c))
+
+
 - **(es/minifier)** Compress consecutive return statements properly ([#9620](https://github.com/swc-project/swc/issues/9620)) ([8263da1](https://github.com/swc-project/swc/commit/8263da17664cc7cb5d49e1a8e9fbca8037fe991f))
 
 
@@ -20,7 +23,13 @@
 
 
 
+- **(es/preset-env)** Update preset-env data ([#9573](https://github.com/swc-project/swc/issues/9573)) ([9a11d34](https://github.com/swc-project/swc/commit/9a11d34ee569f64e8db02fc90beacbba0f2de0cf))
+
+
 - **(es/testing)** Parse test code as a `Program` instead of a `Module` ([#9264](https://github.com/swc-project/swc/issues/9264)) ([166b858](https://github.com/swc-project/swc/commit/166b8581c226b127f5d503cd21c22c0a3a8c675c))
+
+
+- **(es/testing)** Parse test code as a `Program` instead of a `Module` ([#9623](https://github.com/swc-project/swc/issues/9623)) ([bfea322](https://github.com/swc-project/swc/commit/bfea3223515e378c3ebe669f4a9012919f4f9547))
 
 ### Miscellaneous Tasks
 
@@ -1326,9 +1335,6 @@
 
 
 - **(es/compat)** Avoid reserved name for private method ([#8949](https://github.com/swc-project/swc/issues/8949)) ([7053bb1](https://github.com/swc-project/swc/commit/7053bb16ce19ba476760b7fe0b1627d1210d6e18))
-
-
-- **(es/minifier)** Abort inliner on mutation via property ([#8938](https://github.com/swc-project/swc/issues/8938)) ([257afc9](https://github.com/swc-project/swc/commit/257afc92c9b2a751935f8fdee1b84bc9222359b6))
 
 
 - **(es/minifier)** Don't invoke IIFE containing reserved words ([#8939](https://github.com/swc-project/swc/issues/8939)) ([5a3456c](https://github.com/swc-project/swc/commit/5a3456c254a686ceef343ce5f9ec67b3e4644138))
