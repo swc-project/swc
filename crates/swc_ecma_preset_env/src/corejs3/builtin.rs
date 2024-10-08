@@ -12,7 +12,12 @@ fn dynamic_concat(a: &[&'static str], b: &[&'static str]) -> &'static [&'static 
 }
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
-    assert!(N == a.len() + b.len());
+    assert!(
+        N == a.len() + b.len(),
+        "Expected to be {} but {}",
+        a.len() + b.len(),
+        N
+    );
 
     let mut res = [""; N];
     let mut idx = 0;
@@ -218,7 +223,7 @@ static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.obj
 static DECORATOR_METADATA_DEPENDENCIES: &[&str] =
     &["esnext.symbol.metadata", "esnext.function.metadata"];
 
-fn typed_array_static_methods(base: &str) -> Lazy<ObjectMap<CoreJSPolyfillDescriptor>> {
+fn typed_array_static_methods(base: &str) -> ObjectMap<CoreJSPolyfillDescriptor> {
     lazy_map!(Map {
         from: define(
             null,
@@ -281,9 +286,9 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
     "esnext.uint8-array.to-base64",
     "esnext.uint8-array.to-hex",
   ]),
-  Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
-  Uint16Array: typed("es.typed-array.uint16-array"),
-  Uint32Array: typed("es.typed-array.uint32-array"),
+  Uint8ClampedArray: typed(&["es.typed-array.uint8-clamped-array"]),
+  Uint16Array: typed(&["es.typed-array.uint16-array"]),
+  Uint32Array: typed(&["es.typed-array.uint32-array"]),
   Map: define("map/index", MAP_DEPENDENCIES),
   Number: define(null, ["es.number.constructor"]),
   Observable: define("observable/index", [
@@ -724,7 +729,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
       "esnext.uint8-array.from-hex",
       TYPED_ARRAY_DEPENDENCIES,
     ]),
-    ...*typed_array_static_methods("es.typed-array.uint8-array"),
+    typed_array_static_methods("es.typed-array.uint8-array"),
   },
   Uint8ClampedArray: typed_array_static_methods(&["es.typed-array.uint8-clamped-array"]),
   Int16Array: typed_array_static_methods(&["es.typed-array.int16-array"]),
