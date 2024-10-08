@@ -32,6 +32,8 @@ pub enum PluginError {
     Serialize(String),
 }
 
+/// A wrapper type for the internal representation of serialized data.
+///
 /// Wraps internal representation of serialized data for exchanging data between
 /// plugin to the host. Consumers should not rely on specific details of byte
 /// format struct contains: it is strict implementation detail which can

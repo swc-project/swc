@@ -1156,7 +1156,8 @@ impl Sub for CharPos {
 // Loc, LocWithOpt, SourceFileAndLine, SourceFileAndBytePos
 //
 
-/// A source code location used for error reporting
+/// A source code location used for error reporting.
+///
 /// Note: This struct intentionally does not implement rkyv's archieve
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
@@ -1246,6 +1247,8 @@ pub struct LineCol {
     pub col: u32,
 }
 
+/// A struct to represent lines of a source file.
+///
 /// Note: This struct intentionally does not implement rkyv's archieve
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
