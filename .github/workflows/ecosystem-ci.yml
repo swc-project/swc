@@ -67,22 +67,6 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
-      - run: |
-          curl -fsSL https://fnm.vercel.app/install | bash
-
-      - run: |
-          export PATH="/home/runner/.local/share/fnm:$PATH"
-          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
-
-          fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
-
-      - run: |
-          export PATH="/home/runner/.local/share/fnm:$PATH"
-          eval "$(fnm env --use-on-cd)"
-          echo $PATH
-          fnm use --install-if-missing 18
-          which node
-
       - run: corepack enable
       - run: yarn
       - run: yarn tsc
@@ -91,8 +75,6 @@ jobs:
       - id: ecosystem-ci-run
         working-directory: .github/swc-ecosystem-ci
         run: |
-          export PATH="/home/runner/.local/share/fnm:$PATH"
-          eval "$(fnm env --use-on-cd)"
           bash -r
           echo $PATH
           which node
