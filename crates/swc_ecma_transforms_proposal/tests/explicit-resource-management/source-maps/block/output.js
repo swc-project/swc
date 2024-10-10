@@ -1,7 +1,7 @@
-export default function fn() {}
 try {
   var _usingCtx = babelHelpers.usingCtx();
-  var x = _usingCtx.u(null);
+  const x = _usingCtx.u(fn());
+  doSomethingWith(x);
 } catch (_) {
   _usingCtx.e = _;
 } finally {
