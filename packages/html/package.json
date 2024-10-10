@@ -29,10 +29,8 @@
                 "aarch64-unknown-linux-musl",
                 "aarch64-pc-windows-msvc",
                 "armv7-unknown-linux-gnueabihf",
-                "armv7-unknown-linux-musleabihf",
                 "x86_64-unknown-linux-musl",
-                "i686-pc-windows-msvc",
-                "riscv64gc-unknown-linux-gnu"
+                "i686-pc-windows-msvc"
             ]
         }
     },
