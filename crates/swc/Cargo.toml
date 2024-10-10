@@ -77,7 +77,7 @@ swc_common = { version = "0.40.2", path = "../swc_common", features = [
 swc_compiler_base = { version = "0.24.0", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.15", path = "../swc_config" }
 swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.2", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.158.3", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.124.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "0.105.1", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "0.52.1", path = "../swc_ecma_loader", features = [
