@@ -18,6 +18,7 @@ use swc_ecma_usage_analyzer::{
     marks::Marks,
     util::is_global_var_with_pure_property_access,
 };
+use swc_ecma_utils::{Type, Value};
 use swc_ecma_visit::VisitWith;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
@@ -97,7 +98,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) used_in_cond: bool,
 
     pub(crate) var_kind: Option<VarDeclKind>,
-    pub(crate) var_initialized: bool,
+    pub(crate) var_initialized_type: Option<Value<Type>>,
 
     pub(crate) declared_as_catch_param: bool,
 
@@ -148,7 +149,7 @@ impl Default for VarUsageInfo {
             executed_multiple_time: Default::default(),
             used_in_cond: Default::default(),
             var_kind: Default::default(),
-            var_initialized: Default::default(),
+            var_initialized_type: Default::default(),
             declared_as_catch_param: Default::default(),
             no_side_effect_for_member_access: Default::default(),
             callee_count: Default::default(),
@@ -182,7 +183,9 @@ impl VarUsageInfo {
     }
 
     fn initialized(&self) -> bool {
-        self.var_initialized || self.declared_as_fn_param || self.declared_as_catch_param
+        self.var_initialized_type.is_some()
+            || self.declared_as_fn_param
+            || self.declared_as_catch_param
     }
 }
 
@@ -221,7 +224,8 @@ impl Storage for ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
                     let var_assigned = var_info.assign_count > 0
-                        || (var_info.var_initialized && !e.get().var_initialized);
+                        || (var_info.var_initialized_type.is_some()
+                            && e.get().var_initialized_type.is_none());
 
                     if var_info.assign_count > 0 {
                         if e.get().initialized() {
@@ -229,21 +233,24 @@ impl Storage for ProgramData {
                         }
                     }
 
-                    if var_info.var_initialized {
+                    if var_info.var_initialized_type.is_some() {
                         // If it is inited in some other child scope and also inited in current
                         // scope
-                        if e.get().var_initialized || e.get().ref_count > 0 {
+                        if e.get().var_initialized_type.is_some() || e.get().ref_count > 0 {
                             e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
-                            e.get_mut().var_initialized = true;
+                            e.get_mut().var_initialized_type = var_info.var_initialized_type;
                         }
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
-                        if !inited && e.get().var_initialized && var_info.ref_count > 0 {
-                            e.get_mut().var_initialized = false;
+                        if !inited
+                            && e.get().var_initialized_type.is_some()
+                            && var_info.ref_count > 0
+                        {
+                            e.get_mut().var_initialized_type = None;
                             e.get_mut().reassigned = true
                         }
                     }
@@ -342,9 +349,9 @@ impl Storage for ProgramData {
         e.ref_count += 1;
         e.usage_count += 1;
         // If it is inited in some child scope, but referenced in current scope
-        if !inited && e.var_initialized {
+        if !inited && e.var_initialized_type.is_some() {
             e.reassigned = true;
-            e.var_initialized = false;
+            e.var_initialized_type = None;
         }
 
         e.inline_prevented |= ctx.inline_prevented;
@@ -352,7 +359,7 @@ impl Storage for ProgramData {
         e.used_in_cond |= ctx.in_cond;
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool) {
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Option<Value<Type>>) {
         let e = self.vars.entry(i.clone()).or_default();
 
         let inited = self.initialized_vars.contains(&i);
@@ -366,7 +373,7 @@ impl Storage for ProgramData {
         if !is_op {
             self.initialized_vars.insert(i.clone());
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
-                e.var_initialized = true;
+                e.var_initialized_type = Some(ty.unwrap_or(Value::Unknown));
             } else {
                 e.reassigned = true
             }
@@ -406,7 +413,7 @@ impl Storage for ProgramData {
         &mut self,
         ctx: Ctx,
         i: &Ident,
-        has_init: bool,
+        init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
         // if cfg!(feature = "debug") {
@@ -417,8 +424,8 @@ impl Storage for ProgramData {
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
-        if has_init {
-            if v.declared || v.var_initialized || v.assign_count > 0 {
+        if init_type.is_some() {
+            if v.declared || v.var_initialized_type.is_some() || v.assign_count > 0 {
                 #[cfg(feature = "debug")]
                 {
                     tracing::trace!("declare_decl(`{}`): Already declared", i);
@@ -440,12 +447,12 @@ impl Storage for ProgramData {
             v.is_fn_local = false;
         }
 
-        v.var_initialized |= has_init;
+        v.var_initialized_type = init_type.or(v.var_initialized_type);
 
         v.declared_count += 1;
         v.declared = true;
         // not a VarDecl, thus always inited
-        if has_init || kind.is_none() {
+        if init_type.is_some() || kind.is_none() {
             self.initialized_vars.insert(i.to_id());
         }
         v.declared_as_catch_param |= ctx.in_catch_param;
