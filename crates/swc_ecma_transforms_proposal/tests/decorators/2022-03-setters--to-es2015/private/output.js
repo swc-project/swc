@@ -16,7 +16,7 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_call_a, _initProto] } = _apply_decs_2203_r(Foo, [
+    value: [_call_a, _initProto] = _apply_decs_2203_r(Foo, [
         [
             dec,
             4,
@@ -25,7 +25,7 @@ var __ = {
                 return this.value = v;
             }
         ]
-    ], [])
+    ], []).e
 };
 function set_a(v) {
     return _call_a(this, v);
