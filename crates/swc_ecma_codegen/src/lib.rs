@@ -1267,6 +1267,13 @@ where
         let need_post_space = if self.cfg.minify {
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
+            } else if node.op == op!("/") {
+                let span = node.right.span();
+
+                span.is_pure()
+                    || self
+                        .comments
+                        .map_or(false, |comments| comments.has_leading(node.right.span().lo))
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
