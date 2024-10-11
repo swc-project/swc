@@ -2483,7 +2483,7 @@ impl Optimizer<'_> {
                         .data
                         .vars
                         .get(&left_id.to_id())
-                        .and_then(|info| info.var_initialized_type);
+                        .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
                     };

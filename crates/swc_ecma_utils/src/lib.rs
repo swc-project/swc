@@ -31,6 +31,7 @@ use tracing::trace;
 pub use self::{
     factory::{ExprFactory, FunctionFactory, IntoIndirectCall},
     value::{
+        Merge,
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,
             Str as StringType, Symbol as SymbolType, Undefined as UndefinedType,

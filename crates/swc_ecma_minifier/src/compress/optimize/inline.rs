@@ -46,7 +46,7 @@ impl Optimizer<'_> {
 
         if let Some(usage) = self.data.vars.get(&ident.to_id()) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
-            if usage.var_initialized_type.is_none() {
+            if usage.merged_var_type.is_none() {
                 return;
             }
 
