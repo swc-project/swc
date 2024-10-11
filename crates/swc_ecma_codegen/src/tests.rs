@@ -962,6 +962,19 @@ fn issue_8491_2() {
     );
 }
 
+#[test]
+fn issue_9630() {
+    test_from_to_custom_config(
+        "console.log(1 / /* @__PURE__ */ something())",
+        "console.log(1/ /* @__PURE__ */something())",
+        Config {
+            minify: true,
+            ..Default::default()
+        },
+        Default::default(),
+    );
+}
+
 #[testing::fixture("tests/str-lits/**/*.txt")]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
