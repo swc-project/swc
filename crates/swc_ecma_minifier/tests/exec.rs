@@ -98,10 +98,6 @@ fn run(
     config: Option<&str>,
     mangle: Option<MangleOptions>,
 ) -> Option<Module> {
-    let _ = rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("rayon-{}", i + 1))
-        .build_global();
-
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
     let fm = cm.new_source_file(FileName::Anon.into(), input.into());
