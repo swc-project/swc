@@ -127,7 +127,7 @@ function foo() {
 }
 function _foo() {
     _foo = _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
+        return _ts_generator(this, function() {
             return [
                 2
             ];

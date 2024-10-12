@@ -52,7 +52,7 @@ class MuxAsyncIterator {
 }
 function emptyReader() {
     return {
-        read (_) {
+        read () {
             return Promise.resolve(null);
         }
     };
