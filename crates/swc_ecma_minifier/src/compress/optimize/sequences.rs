@@ -2479,7 +2479,7 @@ impl Optimizer<'_> {
                         _ => None,
                     };
 
-                    let init_type = self
+                    let var_type = self
                         .data
                         .vars
                         .get(&left_id.to_id())
@@ -2490,7 +2490,7 @@ impl Optimizer<'_> {
                     let b_type = b.right.get_type();
 
                     if let Some(a_op) = a_op {
-                        if can_drop_op_for(a_op, b.op, init_type, a_type, b_type) {
+                        if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
                             if b_left.to_id() == left_id.to_id() {
                                 if let Some(bin_op) = b.op.to_update() {
                                     report_change!(
@@ -2725,7 +2725,7 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
 fn can_drop_op_for(
     a: AssignOp,
     b: AssignOp,
-    init_type: Option<Value<Type>>,
+    var_type: Option<Value<Type>>,
     a_type: Value<Type>,
     b_type: Value<Type>,
 ) -> bool {
@@ -2737,7 +2737,7 @@ fn can_drop_op_for(
         if a == op!("+=")
             && a_type.is_known()
             && a_type == b_type
-            && (match init_type {
+            && (match var_type {
                 Some(ty) => a_type == ty,
                 None => true,
             })
