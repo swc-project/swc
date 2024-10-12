@@ -20,7 +20,7 @@ pub trait Storage: Sized + Default {
 
     fn report_usage(&mut self, ctx: Ctx, i: Id);
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Option<Value<Type>>);
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>);
 
     fn declare_decl(
         &mut self,

@@ -236,23 +236,22 @@ impl Storage for ProgramData {
                         // If it is inited in some other child scope and also inited in current
                         // scope
                         if e.get().var_initialized || e.get().ref_count > 0 {
-                            e.get_mut().merged_var_type.merge(var_info.merged_var_type);
                             e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
                             e.get_mut().var_initialized = true;
-                            e.get_mut().merged_var_type = var_info.merged_var_type;
                         }
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
                         if !inited && e.get().var_initialized && var_info.ref_count > 0 {
                             e.get_mut().var_initialized = false;
-                            e.get_mut().merged_var_type = None;
                             e.get_mut().reassigned = true
                         }
                     }
+
+                    e.get_mut().merged_var_type.merge(var_info.merged_var_type);
 
                     e.get_mut().ref_count += var_info.ref_count;
 
@@ -351,7 +350,6 @@ impl Storage for ProgramData {
         if !inited && e.var_initialized {
             e.reassigned = true;
             e.var_initialized = false;
-            e.merged_var_type = None;
         }
 
         e.inline_prevented |= ctx.inline_prevented;
@@ -359,26 +357,24 @@ impl Storage for ProgramData {
         e.used_in_cond |= ctx.in_cond;
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Option<Value<Type>>) {
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
         let e = self.vars.entry(i.clone()).or_default();
 
         let inited = self.initialized_vars.contains(&i);
 
         if e.assign_count > 0 || e.initialized() {
-            e.merged_var_type.merge(ty);
             e.reassigned = true
         }
 
+        e.merged_var_type.merge(Some(ty));
         e.assign_count += 1;
 
         if !is_op {
             self.initialized_vars.insert(i.clone());
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.var_initialized = true;
-                e.merged_var_type = Some(ty.unwrap_or(Value::Unknown));
             } else {
-                e.merged_var_type.merge(ty);
-                e.reassigned = true
+                e.reassigned = true;
             }
 
             if e.ref_count == 1 && e.used_above_decl {
@@ -437,7 +433,6 @@ impl Storage for ProgramData {
                 v.reassigned = true;
             }
 
-            v.merged_var_type.merge(init_type);
             v.assign_count += 1;
         }
 
@@ -452,7 +447,7 @@ impl Storage for ProgramData {
         }
 
         v.var_initialized |= init_type.is_some();
-        v.merged_var_type = init_type.or(v.merged_var_type);
+        v.merged_var_type.merge(init_type);
 
         v.declared_count += 1;
         v.declared = true;

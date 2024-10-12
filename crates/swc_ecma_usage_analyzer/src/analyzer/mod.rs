@@ -156,26 +156,22 @@ where
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
             // It's hard to determined the type of pat assignment
-            self.data.report_assign(self.ctx, id, is_read_modify, None)
+            self.data
+                .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
         }
 
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => {
                     self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, None)
+                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
                 }
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
         }
     }
 
-    fn report_assign_expr_if_ident(
-        &mut self,
-        e: Option<&Ident>,
-        is_op: bool,
-        ty: Option<Value<Type>>,
-    ) {
+    fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
             self.data.report_assign(self.ctx, i.to_id(), is_op, ty)
         }
@@ -277,14 +273,14 @@ where
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
                     self.data
-                        .report_assign(self.ctx, id, is_op_assign, Some(n.right.get_type()))
+                        .report_assign(self.ctx, id, is_op_assign, n.right.get_type())
                 }
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
-                    Some(n.right.get_type()),
+                    n.right.get_type(),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -1250,7 +1246,7 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
-        self.report_assign_expr_if_ident(n.arg.as_ident(), true, None);
+        self.report_assign_expr_if_ident(n.arg.as_ident(), true, Value::Known(Type::Num));
         self.mark_mutation_if_member(n.arg.as_member());
     }
 
