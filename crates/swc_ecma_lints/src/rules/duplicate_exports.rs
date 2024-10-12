@@ -1,4 +1,4 @@
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, mem};
 
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
@@ -82,7 +82,9 @@ impl Visit for DuplicateExports {
 
     fn visit_ts_module_decl(&mut self, d: &TsModuleDecl) {
         if !d.declare {
+            let old = mem::take(self);
             d.visit_children_with(self);
+            *self = old;
         }
     }
 
