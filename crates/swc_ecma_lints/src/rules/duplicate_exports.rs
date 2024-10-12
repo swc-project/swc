@@ -82,7 +82,7 @@ impl Visit for DuplicateExports {
 
     fn visit_ts_module_decl(&mut self, d: &TsModuleDecl) {
         if !d.declare {
-            let old = mem::replace(self, Default::default());
+            let old = mem::take(self);
             d.visit_children_with(self);
             *self = old;
         }
