@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.109.1"
+version = "0.109.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4377,7 +4377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.158.3"
+version = "0.158.4"
 dependencies = [
  "base64 0.21.7",
  "codspeed-criterion-compat",
@@ -4614,7 +4614,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.105.1"
+version = "0.105.2"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
@@ -4657,7 +4657,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.209.1"
+version = "0.209.2"
 dependencies = [
  "ansi_term",
  "anyhow",

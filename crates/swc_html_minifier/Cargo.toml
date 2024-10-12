@@ -33,10 +33,10 @@ swc_css_codegen = { version = "0.158.1", path = "../swc_css_codegen", optional =
 swc_css_minifier = { version = "0.123.0", path = "../swc_css_minifier", optional = true }
 swc_css_parser = { version = "0.157.1", path = "../swc_css_parser", optional = true }
 swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.3", path = "../swc_ecma_codegen", features = [
+swc_ecma_codegen = { version = "0.158.4", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "0.209.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.209.2", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "0.152.2", path = "../swc_ecma_parser" }

@@ -28,7 +28,7 @@ swc_ecma_visit            = { version = "0.107.1", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_ecma_codegen             = { version = "0.158.3", path = "../swc_ecma_codegen" }
+swc_ecma_codegen             = { version = "0.158.4", path = "../swc_ecma_codegen" }
 swc_ecma_parser              = { version = "0.152.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat   = { version = "0.176.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "0.184.1", path = "../swc_ecma_transforms_proposal" }
