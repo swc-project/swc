@@ -184,13 +184,13 @@ where
     fn declare_decl(
         &mut self,
         i: &Ident,
-        has_init: Option<Value<Type>>,
+        init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
         is_fn_decl: bool,
     ) -> &mut S::VarData {
         self.scope.add_declared_symbol(i);
 
-        let v = self.data.declare_decl(self.ctx, i, has_init, kind);
+        let v = self.data.declare_decl(self.ctx, i, init_type, kind);
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();

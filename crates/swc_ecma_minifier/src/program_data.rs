@@ -98,7 +98,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) used_in_cond: bool,
 
     pub(crate) var_kind: Option<VarDeclKind>,
-    /// The variable is initialized if this is not None
+    pub(crate) var_initialized: bool,
     pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) declared_as_catch_param: bool,
@@ -150,6 +150,7 @@ impl Default for VarUsageInfo {
             executed_multiple_time: Default::default(),
             used_in_cond: Default::default(),
             var_kind: Default::default(),
+            var_initialized: Default::default(),
             merged_var_type: Default::default(),
             declared_as_catch_param: Default::default(),
             no_side_effect_for_member_access: Default::default(),
@@ -184,7 +185,7 @@ impl VarUsageInfo {
     }
 
     fn initialized(&self) -> bool {
-        self.merged_var_type.is_some() || self.declared_as_fn_param || self.declared_as_catch_param
+        self.var_initialized || self.declared_as_fn_param || self.declared_as_catch_param
     }
 }
 
@@ -223,8 +224,7 @@ impl Storage for ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
                     let var_assigned = var_info.assign_count > 0
-                        || (var_info.merged_var_type.is_some()
-                            && e.get().merged_var_type.is_none());
+                        || (var_info.var_initialized && !e.get().var_initialized);
 
                     if var_info.assign_count > 0 {
                         if e.get().initialized() {
@@ -232,21 +232,23 @@ impl Storage for ProgramData {
                         }
                     }
 
-                    if var_info.merged_var_type.is_some() {
+                    if var_info.var_initialized {
                         // If it is inited in some other child scope and also inited in current
                         // scope
-                        if e.get().merged_var_type.is_some() || e.get().ref_count > 0 {
+                        if e.get().var_initialized || e.get().ref_count > 0 {
                             e.get_mut().merged_var_type.merge(var_info.merged_var_type);
                             e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
+                            e.get_mut().var_initialized = true;
                             e.get_mut().merged_var_type = var_info.merged_var_type;
                         }
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
-                        if !inited && e.get().merged_var_type.is_some() && var_info.ref_count > 0 {
+                        if !inited && e.get().var_initialized && var_info.ref_count > 0 {
+                            e.get_mut().var_initialized = false;
                             e.get_mut().merged_var_type = None;
                             e.get_mut().reassigned = true
                         }
@@ -346,8 +348,9 @@ impl Storage for ProgramData {
         e.ref_count += 1;
         e.usage_count += 1;
         // If it is inited in some child scope, but referenced in current scope
-        if !inited && e.merged_var_type.is_some() {
+        if !inited && e.var_initialized {
             e.reassigned = true;
+            e.var_initialized = false;
             e.merged_var_type = None;
         }
 
@@ -371,8 +374,10 @@ impl Storage for ProgramData {
         if !is_op {
             self.initialized_vars.insert(i.clone());
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
+                e.var_initialized = true;
                 e.merged_var_type = Some(ty.unwrap_or(Value::Unknown));
             } else {
+                e.merged_var_type.merge(ty);
                 e.reassigned = true
             }
 
@@ -423,7 +428,7 @@ impl Storage for ProgramData {
 
         // assigned or declared before this declaration
         if init_type.is_some() {
-            if v.declared || v.merged_var_type.is_some() || v.assign_count > 0 {
+            if v.declared || v.var_initialized || v.assign_count > 0 {
                 #[cfg(feature = "debug")]
                 {
                     tracing::trace!("declare_decl(`{}`): Already declared", i);
@@ -446,6 +451,7 @@ impl Storage for ProgramData {
             v.is_fn_local = false;
         }
 
+        v.var_initialized |= init_type.is_some();
         v.merged_var_type = init_type.or(v.merged_var_type);
 
         v.declared_count += 1;
