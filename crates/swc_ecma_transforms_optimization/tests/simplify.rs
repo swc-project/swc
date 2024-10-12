@@ -489,6 +489,24 @@ fn test_template_strings_known_methods() {
     test("x = parseFloat(`1.23`)", "x = 1.23");
 }
 
+#[test]
+fn test_redundant_params() {
+    // One or more parameters can be dropped
+    test("x = function(a, b) {}", "x = function() {}");
+    test(
+        "x = function(a, b, c, d) {f(b);}",
+        "x = function(a, b) {f(b);}",
+    );
+    test(
+        "x = function(a, b, c, d) {f(c);}",
+        "x = function(a, b, c) {f(c);}",
+    );
+
+    // No parameters can be dropped
+    test_same("x = function(a, b) {f(b);}");
+    test_same("x = function(a) {f(a);}");
+}
+
 test!(
     Syntax::Typescript(TsSyntax {
         decorators: true,

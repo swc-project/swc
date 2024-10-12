@@ -212,6 +212,7 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
+    in_param: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_class_id: Option<Id>,
@@ -518,10 +519,17 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_param(&mut self, param: &Param) {
+        let old_is_in_param = self.in_param;
+        self.in_param = true;
+        param.visit_children_with(self);
+        self.in_param = old_is_in_param;
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        if !self.in_var_decl {
+        if !self.in_var_decl && !self.in_param {
             if let Pat::Ident(i) = p {
                 self.add(i.to_id(), true);
             }
@@ -872,6 +880,35 @@ impl VisitMut for TreeShaker {
         self.in_fn = old_in_fn;
     }
 
+    fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
+        self.visit_mut_par(cpu_count() * 8, params);
+
+        // We iterate through trailing parameters until we either find a
+        // non-identifier parameter, or a parameter that can't be dropped.
+        let invalid_param_index = params.iter().rev().position(|param| {
+            let Some(id) = param.pat.as_ident() else {
+                // Non-identifier parameter
+                return true;
+            };
+
+            !self.can_drop_binding(id.to_id(), false)
+        });
+
+        match invalid_param_index {
+            None => {
+                // No invalid parameter found, we can remove all parameters.
+                params.clear();
+            }
+
+            Some(idx) if idx < params.len() - 1 => {
+                // Remove every parameter up to the invalid parameter.
+                params.truncate(params.len() - idx);
+            }
+
+            _ => {} // No change
+        }
+    }
+
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
         ss.retain(|s| {
             let local = match s {
@@ -908,6 +945,7 @@ impl VisitMut for TreeShaker {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
+                in_param: false,
                 scope: Default::default(),
                 data: &mut data,
                 cur_class_id: Default::default(),
@@ -971,6 +1009,7 @@ impl VisitMut for TreeShaker {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
+                in_param: false,
                 scope: Default::default(),
                 data: &mut data,
                 cur_class_id: Default::default(),
