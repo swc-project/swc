@@ -307,7 +307,9 @@ impl InternedGraph {
     }
 
     fn node(&self, name: &str) -> usize {
-        self.ix.get_index_of(name).expect("unknown node")
+        self.ix.get_index_of(name).unwrap_or_else(|| {
+            panic!("unknown node: {}", name);
+        })
     }
 }
 
