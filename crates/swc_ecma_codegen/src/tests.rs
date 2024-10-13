@@ -976,6 +976,7 @@ fn issue_9630() {
 }
 
 #[testing::fixture("tests/str-lits/**/*.txt")]
+#[cfg_attr(miri, ignore)]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
 }
