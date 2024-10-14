@@ -536,7 +536,7 @@ jobs:
           toolchain: "${{ steps.rustup-version.outputs.RUST_TOOLCHAIN }}"
           components: miri
 
-      - run: cargo miri test -p ${{ matrix.crate }} --no-fail-fast
+      - run: cargo miri test -p ${{ matrix.crate }} --no-fail-fast --features concurrent
         continue-on-error: true
         env:
           MIRIFLAGS: "-Zmiri-disable-isolation -Zmiri-tree-borrows"
