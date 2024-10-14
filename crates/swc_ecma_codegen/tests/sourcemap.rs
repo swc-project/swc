@@ -1,3 +1,5 @@
+#![cfg(not(miri))]
+
 use std::{fs::read_to_string, path::PathBuf};
 
 use base64::prelude::{Engine, BASE64_STANDARD};

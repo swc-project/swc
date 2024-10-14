@@ -1,3 +1,5 @@
+#![cfg(not(miri))]
+
 use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
@@ -976,7 +978,6 @@ fn issue_9630() {
 }
 
 #[testing::fixture("tests/str-lits/**/*.txt")]
-#[cfg_attr(miri, ignore)]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
 }
