@@ -2479,13 +2479,18 @@ impl Optimizer<'_> {
                         _ => None,
                     };
 
+                    let var_type = self
+                        .data
+                        .vars
+                        .get(&left_id.to_id())
+                        .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
                     };
                     let b_type = b.right.get_type();
 
                     if let Some(a_op) = a_op {
-                        if can_drop_op_for(a_op, b.op, a_type, b_type) {
+                        if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
                             if b_left.to_id() == left_id.to_id() {
                                 if let Some(bin_op) = b.op.to_update() {
                                     report_change!(
@@ -2717,13 +2722,26 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
 }
 
 /// This assumes `a.left.to_id() == b.left.to_id()`
-fn can_drop_op_for(a: AssignOp, b: AssignOp, a_type: Value<Type>, b_type: Value<Type>) -> bool {
+fn can_drop_op_for(
+    a: AssignOp,
+    b: AssignOp,
+    var_type: Option<Value<Type>>,
+    a_type: Value<Type>,
+    b_type: Value<Type>,
+) -> bool {
     if a == op!("=") {
         return true;
     }
 
     if a == b {
-        if a == op!("+=") && a_type.is_known() && a_type == b_type {
+        if a == op!("+=")
+            && a_type.is_known()
+            && a_type == b_type
+            && (match var_type {
+                Some(ty) => a_type == ty,
+                None => true,
+            })
+        {
             return true;
         }
 

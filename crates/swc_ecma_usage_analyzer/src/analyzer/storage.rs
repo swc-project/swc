@@ -1,6 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_utils::{Type, Value};
 
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
@@ -19,13 +20,13 @@ pub trait Storage: Sized + Default {
 
     fn report_usage(&mut self, ctx: Ctx, i: Id);
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool);
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>);
 
     fn declare_decl(
         &mut self,
         ctx: Ctx,
         i: &Ident,
-        has_init: bool,
+        init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
     ) -> &mut Self::VarData;
 
