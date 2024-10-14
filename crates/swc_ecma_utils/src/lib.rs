@@ -933,17 +933,10 @@ pub trait ExprExt {
                 op: op!(unary, "-"),
                 arg,
                 ..
-            }) if matches!(
-                &**arg,
-                Expr::Ident(Ident {
-                    sym,
-                    ctxt,
-                    ..
-                }) if &**sym == "Infinity" && *ctxt == ctx.unresolved_ctxt
-            ) =>
-            {
-                -f64::INFINITY
-            }
+            }) => match arg.cast_to_number(ctx) {
+                (Pure, Known(v)) => -v,
+                _ => return (MayBeImpure, Unknown),
+            },
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,
