@@ -117,6 +117,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         .unwrap_or_default();
 
     [
+        EsVersion::EsNext,
         EsVersion::Es2022,
         EsVersion::Es2021,
         EsVersion::Es2020,

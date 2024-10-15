@@ -1,119 +1,276 @@
 //// [usingDeclarations.1.ts]
-var N;
-using d1 = {
-    [Symbol.dispose] () {}
-}
-class C1 {
-    constructor(){
-        this.a = ()=>{
-            using d7 = {
-                [Symbol.dispose] () {}
-            }
-        };
-        using d8 = {
-            [Symbol.dispose] () {}
-        }
-    }
-    static{
-        using d9 = {
-            [Symbol.dispose] () {}
-        }
-    }
-    m() {
-        using d10 = {
-            [Symbol.dispose] () {}
-        }
-    }
-    get x() {
-        using d11 = {
-            [Symbol.dispose] () {}
-        }
-        return 0;
-    }
-    set x(v) {
-        using d12 = {
-            [Symbol.dispose] () {}
-        }
-    }
-    async am() {
-        using d13 = {
-            [Symbol.dispose] () {}
-        }
-        await null;
-    }
-    *g() {
-        using d14 = {
-            [Symbol.dispose] () {}
-        }
-        yield;
-    }
-    async *ag() {
-        using d15 = {
-            [Symbol.dispose] () {}
-        }
-        yield, await null;
-    }
-}
-!function(N) {
-    using d18 = {
-        [Symbol.dispose] () {}
-    }
-}(N || (N = {}));
-using d19 = {
-    [Symbol.dispose] () {}
-}
-switch(Math.random()){
-    case 0:
-        using d20 = {
-            [Symbol.dispose] () {}
-        }
-        break;
-    case 1:
-        using d21 = {
-            [Symbol.dispose] () {}
-        }
-}
-using d22 = {
-    [Symbol.dispose] () {}
-}
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    using d23 = {
+    var N, _usingCtx = _using_ctx();
+    _usingCtx.u({
         [Symbol.dispose] () {}
+    });
+    class C1 {
+        constructor(){
+            this.a = ()=>{
+                try {
+                    var _usingCtx = _using_ctx();
+                    _usingCtx.u({
+                        [Symbol.dispose] () {}
+                    });
+                } catch (_) {
+                    _usingCtx.e = _;
+                } finally{
+                    _usingCtx.d();
+                }
+            };
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                });
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        static{
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                });
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        m() {
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                });
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        get x() {
+            try {
+                var _usingCtx = _using_ctx();
+                return _usingCtx.u({
+                    [Symbol.dispose] () {}
+                }), 0;
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        set x(v) {
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                });
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        async am() {
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                }), await null;
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        *g() {
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                }), yield;
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
+        async *ag() {
+            try {
+                var _usingCtx = _using_ctx();
+                _usingCtx.u({
+                    [Symbol.dispose] () {}
+                }), yield, await null;
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                _usingCtx.d();
+            }
+        }
     }
-} catch  {
-    using d24 = {
-        [Symbol.dispose] () {}
+    !function(N) {
+        try {
+            var _usingCtx = _using_ctx();
+            _usingCtx.u({
+                [Symbol.dispose] () {}
+            });
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }(N || (N = {}));
+    try {
+        var _usingCtx1 = _using_ctx();
+        _usingCtx1.u({
+            [Symbol.dispose] () {}
+        });
+    } catch (_) {
+        _usingCtx1.e = _;
+    } finally{
+        _usingCtx1.d();
     }
+    switch(Math.random()){
+        case 0:
+            try {
+                var _usingCtx2 = _using_ctx();
+                _usingCtx2.u({
+                    [Symbol.dispose] () {}
+                });
+                break;
+            } catch (_) {
+                _usingCtx2.e = _;
+            } finally{
+                _usingCtx2.d();
+            }
+        case 1:
+            try {
+                var _usingCtx3 = _using_ctx();
+                _usingCtx3.u({
+                    [Symbol.dispose] () {}
+                });
+            } catch (_) {
+                _usingCtx3.e = _;
+            } finally{
+                _usingCtx3.d();
+            }
+    }
+    try {
+        var _usingCtx4 = _using_ctx();
+        _usingCtx4.u({
+            [Symbol.dispose] () {}
+        });
+    } catch (_) {
+        _usingCtx4.e = _;
+    } finally{
+        _usingCtx4.d();
+    }
+    try {
+        try {
+            var _usingCtx5 = _using_ctx();
+            _usingCtx5.u({
+                [Symbol.dispose] () {}
+            });
+        } catch (_) {
+            _usingCtx5.e = _;
+        } finally{
+            _usingCtx5.d();
+        }
+    } catch  {
+        try {
+            var _usingCtx6 = _using_ctx();
+            _usingCtx6.u({
+                [Symbol.dispose] () {}
+            });
+        } catch (_) {
+            _usingCtx6.e = _;
+        } finally{
+            _usingCtx6.d();
+        }
+    } finally{
+        try {
+            var _usingCtx7 = _using_ctx();
+            _usingCtx7.u({
+                [Symbol.dispose] () {}
+            });
+        } catch (_) {
+            _usingCtx7.e = _;
+        } finally{
+            _usingCtx7.d();
+        }
+    }
+    try {
+        var _usingCtx8 = _using_ctx();
+        _usingCtx8.u({
+            [Symbol.dispose] () {}
+        });
+    } catch (_) {
+        _usingCtx8.e = _;
+    } finally{
+        _usingCtx8.d();
+    }
+    for(;;)try {
+        var _usingCtx10 = _using_ctx();
+        _usingCtx10.u({
+            [Symbol.dispose] () {}
+        });
+        break;
+    } catch (_) {
+        _usingCtx10.e = _;
+    } finally{
+        _usingCtx10.d();
+    }
+    for(;;)try {
+        var _usingCtx11 = _using_ctx();
+        _usingCtx11.u({
+            [Symbol.dispose] () {}
+        });
+        break;
+    } catch (_) {
+        _usingCtx11.e = _;
+    } finally{
+        _usingCtx11.d();
+    }
+    for(;;)try {
+        var _usingCtx12 = _using_ctx();
+        _usingCtx12.u({
+            [Symbol.dispose] () {}
+        });
+        break;
+    } catch (_) {
+        _usingCtx12.e = _;
+    } finally{
+        _usingCtx12.d();
+    }
+    for(let x in {})try {
+        var _usingCtx13 = _using_ctx();
+        _usingCtx13.u({
+            [Symbol.dispose] () {}
+        });
+    } catch (_) {
+        _usingCtx13.e = _;
+    } finally{
+        _usingCtx13.d();
+    }
+    for (let x of [])try {
+        var _usingCtx14 = _using_ctx();
+        _usingCtx14.u({
+            [Symbol.dispose] () {}
+        });
+    } catch (_) {
+        _usingCtx14.e = _;
+    } finally{
+        _usingCtx14.d();
+    }
+} catch (_) {
+    _usingCtx.e = _;
 } finally{
-    using d25 = {
-        [Symbol.dispose] () {}
-    }
+    _usingCtx.d();
 }
-using d26 = {
-    [Symbol.dispose] () {}
-}
-for(;;){
-    using d28 = {
-        [Symbol.dispose] () {}
-    }
-    break;
-}
-for(;;){
-    using d29 = {
-        [Symbol.dispose] () {}
-    }
-    break;
-}
-for(;;){
-    using d30 = {
-        [Symbol.dispose] () {}
-    }
-    break;
-}
-for(let x in {})using d31 = {
-    [Symbol.dispose] () {}
-}
-for (let x of [])using d32 = {
-    [Symbol.dispose] () {}
-}
-export { };
