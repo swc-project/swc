@@ -29,7 +29,7 @@ swc_ecma_loader             = { version = "1.0.0", path = "../swc_ecma_loader", 
 swc_ecma_transforms_base    = { version = "1.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "1.0.0", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
-swc_ecma_utils              = { version = "1.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils              = { version = "1.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "1.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]

@@ -31,7 +31,7 @@ swc_common = { version = "1.0.0", path = "../swc_common", features = [
 ] }
 swc_ecma_ast = { version = "1.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "1.0.0", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "1.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "1.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "1.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "1.0.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "1.0.0", path = "../swc_node_comments/" }
@@ -41,7 +41,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "1.0.0", path = "../swc" }
+swc                 = { version = "1.0.1", path = "../swc" }
 swc_ecma_ast        = { version = "1.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "1.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "1.0.0", path = "../swc_ecma_transforms/" }
