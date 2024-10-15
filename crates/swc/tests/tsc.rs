@@ -231,10 +231,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                         EsVersion::Es2020,
                         EsVersion::Es2021,
                         EsVersion::Es2022,
+                        EsVersion::EsNext,
                     ]);
-                }
-                "esnext" => {
-                    versions.insert(EsVersion::latest());
                 }
                 "es6" | "es2015" => {
                     versions.insert(EsVersion::Es2015);
