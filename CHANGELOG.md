@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.36] - 2024-10-15
 
 ### Bug Fixes
 
@@ -1322,12 +1322,6 @@
 
 
 - **(es/minifier)** Mark usage in `TaggedTpl` as ref ([#8975](https://github.com/swc-project/swc/issues/8975)) ([a753c8d](https://github.com/swc-project/swc/commit/a753c8d1912940b142f8931dc700c19234b73308))
-
-### Features
-
-
-
-- **(es/codegen)** Add `to_code` ([#8968](https://github.com/swc-project/swc/issues/8968)) ([e80fd41](https://github.com/swc-project/swc/commit/e80fd41ea806f118ec9eeaa292f840c75aac3967))
 
 ### Testing
 
