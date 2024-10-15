@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_typescript_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.7.35"
+version     = "1.7.36-nightly-20241015.1"
 
 [lib]
 bench      = false
