@@ -113,14 +113,29 @@ macro_rules! tok {
     ("<<") => {
         crate::token::Token::BinOp(crate::token::BinOpToken::LShift)
     };
+    ("<=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::LtEq)
+    };
+    ("<<=") => {
+        crate::token::Token::AssignOp(crate::token::AssignOp::LShiftAssign)
+    };
     ('>') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Gt)
     };
     (">>") => {
         crate::token::Token::BinOp(crate::token::BinOpToken::RShift)
     };
+    (">>>") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::ZeroFillRShift)
+    };
     (">=") => {
         crate::token::Token::BinOp(crate::token::BinOpToken::GtEq)
+    };
+    (">>=") => {
+        crate::token::Token::AssignOp(crate::AssignOp::RShiftAssign)
+    };
+    (">>>=") => {
+        crate::token::Token::AssignOp(crate::AssignOp::ZeroFillRShiftAssign)
     };
 
     ("++") => {
