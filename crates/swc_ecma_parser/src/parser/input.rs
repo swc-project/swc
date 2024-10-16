@@ -458,7 +458,6 @@ impl<I: Tokens> Buffer<I> {
             span,
             had_line_break: cur.had_line_break,
         });
-        self.next = None;
     }
 
     #[inline]
