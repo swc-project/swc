@@ -781,6 +781,7 @@ impl Transform {
 
             FoldedDecl::Decl(
                 VarDecl {
+                    span,
                     kind: var_kind,
                     decls: vec![var_declarator],
                     ..Default::default()
