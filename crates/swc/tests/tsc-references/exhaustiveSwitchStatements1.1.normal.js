@@ -35,8 +35,8 @@ function f3(x) {
             throw new Error("Bad input");
     }
 }
-var // Repro from #11572
-E = /*#__PURE__*/ function(E) {
+// Repro from #11572
+var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     return E;
@@ -92,8 +92,8 @@ function areaWrapped(s) {
     }();
     return area;
 }
-var // Repro from #13241
-MyEnum = /*#__PURE__*/ function(MyEnum) {
+// Repro from #13241
+var MyEnum = /*#__PURE__*/ function(MyEnum) {
     MyEnum[MyEnum["A"] = 0] = "A";
     MyEnum[MyEnum["B"] = 1] = "B";
     return MyEnum;
@@ -133,8 +133,8 @@ function good2(e) {
             return "it was B";
     }
 }
-var // Repro from #18362
-Level = /*#__PURE__*/ function(Level) {
+// Repro from #18362
+var Level = /*#__PURE__*/ function(Level) {
     Level[Level["One"] = 0] = "One";
     Level[Level["Two"] = 1] = "Two";
     return Level;
@@ -192,8 +192,8 @@ function test4(value) {
     }
     return x;
 }
-var // Repro from #34661
-Animal = /*#__PURE__*/ function(Animal) {
+// Repro from #34661
+var Animal = /*#__PURE__*/ function(Animal) {
     Animal[Animal["DOG"] = 0] = "DOG";
     Animal[Animal["CAT"] = 1] = "CAT";
     return Animal;
