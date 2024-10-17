@@ -10,6 +10,7 @@ try {
     const d1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
+    ;
     function f() {
         const env = {
             stack: [],
@@ -590,8 +591,6 @@ try {
         }
     }
     var N;
-} catch (_) {
-    _usingCtx.e = _;
 } catch (e) {
     env.error = e;
     env.hasError = true;

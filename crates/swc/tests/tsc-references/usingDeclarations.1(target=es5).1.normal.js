@@ -88,6 +88,7 @@ try {
         return _ag.apply(this, arguments);
     };
     var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+    ;
     function _af() {
         _af = _async_to_generator(function() {
             var env, d3, e;
@@ -772,8 +773,6 @@ try {
         }
     }
     var N;
-} catch (_) {
-    _usingCtx.e = _;
 } catch (e) {
     env.error = e;
     env.hasError = true;
