@@ -137,7 +137,7 @@ macro_rules! impl_for_for_stmt {
                     ..Default::default()
                 },
             }));
-            
+
             for_stmt.visit_mut_children_with(self);
         }
     };
