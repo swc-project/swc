@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4969,7 +4969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "either",
  "rustc-hash",

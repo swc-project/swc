@@ -7,6 +7,9 @@
 
 - **(es/parser)** Correct `>` and `<` when exit type context ([#9653](https://github.com/swc-project/swc/issues/9653)) ([abffc07](https://github.com/swc-project/swc/commit/abffc073561b3ba3906aa0923ef3880e5e30d538))
 
+
+- **(es/proposal)** Use `tsc` version of explicit resource management ([#9585](https://github.com/swc-project/swc/issues/9585)) ([f735108](https://github.com/swc-project/swc/commit/f7351080174c61bad5950be9b30c75c4f17ebe3e))
+
 ### Miscellaneous Tasks
 
 
@@ -1327,9 +1330,6 @@
 
 
 - **(es/es2015)** Fix `typeof` comparions with `"object"` ([#8976](https://github.com/swc-project/swc/issues/8976)) ([51e0639](https://github.com/swc-project/swc/commit/51e0639ede63490bea9da7a4d8dbfdfe2185b169))
-
-
-- **(es/minifier)** Fix comparison of `-0.0` and `0` ([#8973](https://github.com/swc-project/swc/issues/8973)) ([2a43df4](https://github.com/swc-project/swc/commit/2a43df49848267ba68a320370e3a5818bf14478e))
 
 
 - **(es/minifier)** Mark usage in `TaggedTpl` as ref ([#8975](https://github.com/swc-project/swc/issues/8975)) ([a753c8d](https://github.com/swc-project/swc/commit/a753c8d1912940b142f8931dc700c19234b73308))
