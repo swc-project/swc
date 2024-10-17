@@ -1,32 +1,36 @@
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
+try {
+    function f() {
+        a;
+        B;
+    }
+    function h() {
+        b;
+        A;
+    }
+    doSomething();
+    let c = 2;
+    class A {
+    }
+    const x = _ts_add_disposable_resource(env, null, false);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
+} finally{
+    _ts_dispose_resources(env);
+}
 import { doSomething } from "somewhere";
 export * from "somewhere else";
 export * as ns from "somewhere else";
-function f() {
-  a;
-  B;
-}
-function h() {
-  b;
-  A;
-}
 export function g() {
-  c;
+    c;
 }
 export { f };
-export { b };
-export { B };
-try {
-  var _usingCtx = babelHelpers.usingCtx();
-  doSomething();
-  var {
-    b
-  } = {};
-  var c = 2;
-  var A = class {};
-  var B = class {};
-  var x = _usingCtx.u(null);
-} catch (_) {
-  _usingCtx.e = _;
-} finally {
-  _usingCtx.d();
+export let { b } = {};
+export class B {
 }

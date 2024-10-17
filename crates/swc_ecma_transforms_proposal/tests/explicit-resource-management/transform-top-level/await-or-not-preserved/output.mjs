@@ -1,10 +1,18 @@
-export { x, y };
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-  var _usingCtx = babelHelpers.usingCtx();
-  var x = _usingCtx.u(A);
-  var y = _usingCtx.a(B);
-} catch (_) {
-  _usingCtx.e = _;
-} finally {
-  await _usingCtx.d();
+    const x = _ts_add_disposable_resource(env, A, false);
+    ;
+    const y = _ts_add_disposable_resource(env, B, true);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
+} finally{
+    const result = _ts_dispose_resources(env);
+    if (result) await result;
 }
+export { x, y };

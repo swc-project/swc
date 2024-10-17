@@ -1,28 +1,50 @@
-try {
-  var _usingCtx = babelHelpers.usingCtx();
-  const x = _usingCtx.u(obj);
-  try {
-    var _usingCtx2 = babelHelpers.usingCtx();
-    const y = _usingCtx2.u(call(() => {
-      try {
-        var _usingCtx3 = babelHelpers.usingCtx();
-        const z = _usingCtx3.u(obj);
-        return z;
-      } catch (_) {
-        _usingCtx3.e = _;
-      } finally {
-        _usingCtx3.d();
-      }
-    }));
-    stmt;
-  } catch (_) {
-    _usingCtx2.e = _;
-  } finally {
-    _usingCtx2.d();
-  }
-  stmt;
-} catch (_) {
-  _usingCtx.e = _;
-} finally {
-  _usingCtx.d();
+{
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const x = _ts_add_disposable_resource(env, obj, false);
+        ;
+        {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const y = _ts_add_disposable_resource(env, call(()=>{
+                    const env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
+                    try {
+                        const z = _ts_add_disposable_resource(env, obj, false);
+                        ;
+                        return z;
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
+                    } finally{
+                        _ts_dispose_resources(env);
+                    }
+                }), false);
+                ;
+                stmt;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        }
+        stmt;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
 }

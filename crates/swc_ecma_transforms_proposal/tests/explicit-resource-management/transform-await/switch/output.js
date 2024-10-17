@@ -1,4 +1,4 @@
-function f() {
+async function f() {
     switch(v){
         case 0:
             const env = {
@@ -7,14 +7,15 @@ function f() {
                 hasError: false
             };
             try {
-                const x = _ts_add_disposable_resource(env, 0, false);
+                const x = _ts_add_disposable_resource(env, 0, true);
                 ;
                 break;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
             } finally{
-                _ts_dispose_resources(env);
+                const result = _ts_dispose_resources(env);
+                if (result) await result;
             }
         default:
             const env1 = {
@@ -23,15 +24,15 @@ function f() {
                 hasError: false
             };
             try {
-                const y = _ts_add_disposable_resource(env1, 1, false);
+                const y = _ts_add_disposable_resource(env1, 1, true);
                 ;
                 break;
             } catch (e) {
                 env1.error = e;
                 env1.hasError = true;
             } finally{
-                _ts_dispose_resources(env1);
+                const result = _ts_dispose_resources(env1);
+                if (result) await result;
             }
     }
-    ;
 }

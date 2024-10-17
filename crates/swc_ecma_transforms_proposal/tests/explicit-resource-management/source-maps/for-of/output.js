@@ -1,9 +1,18 @@
-for (const _x of it) try {
-  var _usingCtx = babelHelpers.usingCtx();
-  const x = _usingCtx.u(_x);
-  doSomethingWith(x);
-} catch (_) {
-  _usingCtx.e = _;
-} finally {
-  _usingCtx.d();
+for (const _ of it){
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const x = _ts_add_disposable_resource(env, _, false);
+        {
+            doSomethingWith(x);
+        }
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
 }

@@ -1,11 +1,17 @@
 function fn() {
-  try {
-    var _usingCtx = babelHelpers.usingCtx();
-    const x = _usingCtx.u(obj);
-    return doSomethingWith(x);
-  } catch (_) {
-    _usingCtx.e = _;
-  } finally {
-    _usingCtx.d();
-  }
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const x = _ts_add_disposable_resource(env, obj, false);
+        ;
+        return doSomethingWith(x);
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
 }

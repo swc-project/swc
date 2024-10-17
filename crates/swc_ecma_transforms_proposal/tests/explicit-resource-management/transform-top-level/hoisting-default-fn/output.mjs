@@ -1,9 +1,15 @@
-export default function fn() {}
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-  var _usingCtx = babelHelpers.usingCtx();
-  var x = _usingCtx.u(null);
-} catch (_) {
-  _usingCtx.e = _;
-} finally {
-  _usingCtx.d();
+    const x = _ts_add_disposable_resource(env, null, false);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
+} finally{
+    _ts_dispose_resources(env);
 }
+export default function fn() {}
