@@ -180,17 +180,68 @@ impl ExplicitResourceManagement {
             },
         };
 
+        let finally_block = if is_async {
+            // Code:
+            // const result_1 = _ts_dispose_resources(env_1);
+            // if (result_1)
+            //      await result_1;
+
+            let result = private_ident!("result");
+
+            let var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                kind: VarDeclKind::Const,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(result.clone().into()),
+                    init: Some(Box::new(
+                        Expr::Call(CallExpr {
+                            callee: helper!(ts, ts_dispose_resources),
+                            args: vec![env.clone().as_arg()],
+                            ..Default::default()
+                        })
+                        .into(),
+                    )),
+                    definite: false,
+                }],
+                ..Default::default()
+            })));
+            let if_stmt = Stmt::If(IfStmt {
+                span: DUMMY_SP,
+                test: Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                }))),
+                // Code:
+                //      await result_1;
+                cons: Stmt::Expr(ExprStmt {
+                    expr: Box::new(Expr::Await(AwaitExpr {
+                        arg: result.clone().into(),
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                })
+                .into(),
+                ..Default::default()
+            });
+
+            vec![var_decl, if_stmt]
+        } else {
+            // Code:
+            // _ts_dispose_resources(env_1);
+            vec![CallExpr {
+                callee: helper!(ts, ts_dispose_resources),
+                args: vec![env.clone().as_arg()],
+                ..Default::default()
+            }
+            .into_stmt()]
+        };
+
         let try_stmt = TryStmt {
             span: DUMMY_SP,
             block: try_block,
             handler: Some(catch_clause),
             finalizer: Some(BlockStmt {
-                stmts: vec![CallExpr {
-                    callee: helper!(ts, ts_dispose_resources),
-                    args: vec![env.clone().as_arg()],
-                    ..Default::default()
-                }
-                .into_stmt()],
+                stmts: finally_block,
                 ..Default::default()
             }),
         };
