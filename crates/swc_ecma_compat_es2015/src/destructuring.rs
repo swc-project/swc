@@ -137,6 +137,8 @@ macro_rules! impl_for_for_stmt {
                     ..Default::default()
                 },
             }));
+            
+            for_stmt.visit_mut_children_with(self);
         }
     };
 }
@@ -1321,4 +1323,24 @@ impl Check for DestructuringVisitor {
     fn should_handle(&self) -> bool {
         self.found
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_ecma_transforms_testing::test;
+
+    use super::*;
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| destructuring(Default::default()),
+        nested_for_of,
+        r#"
+            for (const [k1, v1] of Object.entries(o)){
+                for (const [k2, v2] of Object.entries(o)){
+                    console.log(k1, v1, k2, v2);
+                }
+            }        
+        "#
+    );
 }
