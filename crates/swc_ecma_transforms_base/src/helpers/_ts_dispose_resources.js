@@ -7,7 +7,7 @@ function _ts_dispose_resources(env) {
 
     return (_ts_dispose_resources = function _ts_dispose_resources(env) {
         function fail(e) {
-            env.error = env.hasError ? new SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+            env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
             env.hasError = true;
         }
         var r, s = 0;
