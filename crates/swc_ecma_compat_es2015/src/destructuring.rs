@@ -53,6 +53,8 @@ pub struct Config {
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, for_stmt: &mut $T) {
+            for_stmt.visit_mut_children_with(self);
+
             let (left, stmt) = match &mut for_stmt.left {
                 ForHead::VarDecl(var_decl) => {
                     let has_complex = var_decl.decls.iter().any(|d| match d.name {
@@ -137,8 +139,6 @@ macro_rules! impl_for_for_stmt {
                     ..Default::default()
                 },
             }));
-
-            for_stmt.visit_mut_children_with(self);
         }
     };
 }
