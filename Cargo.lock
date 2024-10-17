@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4701,7 +4701,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5046,7 +5046,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
