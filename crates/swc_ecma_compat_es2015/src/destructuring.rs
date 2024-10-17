@@ -53,6 +53,8 @@ pub struct Config {
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, for_stmt: &mut $T) {
+            for_stmt.visit_mut_children_with(self);
+
             let (left, stmt) = match &mut for_stmt.left {
                 ForHead::VarDecl(var_decl) => {
                     let has_complex = var_decl.decls.iter().any(|d| match d.name {
@@ -1321,4 +1323,24 @@ impl Check for DestructuringVisitor {
     fn should_handle(&self) -> bool {
         self.found
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_ecma_transforms_testing::test;
+
+    use super::*;
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| destructuring(Default::default()),
+        nested_for_of,
+        r#"
+            for (const [k1, v1] of Object.entries(o)){
+                for (const [k2, v2] of Object.entries(o)){
+                    console.log(k1, v1, k2, v2);
+                }
+            }        
+        "#
+    );
 }
