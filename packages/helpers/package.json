@@ -36,7 +36,7 @@
         "zx": "^7.2.1"
     },
     "dependencies": {
-        "tslib": "^2.7.0"
+        "tslib": "^2.8.0"
     },
     "exports": {
         "./package.json": "./package.json",
