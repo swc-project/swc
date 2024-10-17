@@ -1,19 +1,17 @@
-var _computedKey, _initStatic;
+var _initStatic;
 const dec = ()=>{};
-_computedKey = 'b';
-let _computedKey1 = _computedKey;
 class Foo {
     static a() {
         return this.value;
     }
-    static [_computedKey1]() {
+    static ['b']() {
         return this.value;
     }
 }
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_initStatic]  } = _apply_decs_2203_r(Foo, [
+        [_initStatic] = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 7,
@@ -22,9 +20,9 @@ var __ = {
             [
                 dec,
                 7,
-                _computedKey
+                'b'
             ]
-        ], []));
+        ], []).e;
         _initStatic(Foo);
     })()
 };
