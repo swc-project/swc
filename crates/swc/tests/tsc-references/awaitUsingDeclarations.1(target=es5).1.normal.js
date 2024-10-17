@@ -5,7 +5,13 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+var env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
     var af = function af() {
         return _af.apply(this, arguments);
@@ -13,8 +19,7 @@ try {
     var ag = function ag() {
         return _ag.apply(this, arguments);
     };
-    var _usingCtx = _using_ctx();
-    var d1 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+    var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
@@ -22,21 +27,28 @@ try {
                 ];
             });
         })();
-    }));
+    }), true);
+    ;
     function _af() {
         _af = _async_to_generator(function() {
-            var _usingCtx, d3, _;
+            var env, d3, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
                         _state.trys.push([
-                            0,
-                            2,
+                            1,
                             3,
-                            5
+                            4,
+                            7
                         ]);
-                        _usingCtx = _using_ctx();
-                        d3 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                        d3 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                             return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
@@ -44,35 +56,43 @@ try {
                                     ];
                                 });
                             })();
-                        }));
+                        }), true);
                         return [
                             4,
                             null
                         ];
-                    case 1:
+                    case 2:
                         _state.sent();
                         return [
                             3,
-                            5
-                        ];
-                    case 2:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
-                        return [
-                            3,
-                            5
+                            7
                         ];
                     case 3:
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
                         return [
-                            4,
-                            _usingCtx.d()
+                            3,
+                            7
                         ];
                     case 4:
+                        result = _ts_dispose_resources(env);
+                        if (!result) return [
+                            3,
+                            6
+                        ];
+                        return [
+                            4,
+                            result
+                        ];
+                    case 5:
                         _state.sent();
+                        _state.label = 6;
+                    case 6:
                         return [
                             7
                         ];
-                    case 5:
+                    case 7:
                         return [
                             2
                         ];
@@ -83,18 +103,24 @@ try {
     }
     function _ag() {
         _ag = _wrap_async_generator(function() {
-            var _usingCtx, d5, _;
+            var env, d5, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
                         _state.trys.push([
-                            0,
-                            3,
+                            1,
                             4,
-                            6
+                            5,
+                            8
                         ]);
-                        _usingCtx = _using_ctx();
-                        d5 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                        d5 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                             return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
@@ -102,40 +128,48 @@ try {
                                     ];
                                 });
                             })();
-                        }));
+                        }), true);
                         return [
                             4
                         ];
-                    case 1:
+                    case 2:
                         _state.sent();
                         return [
                             4,
                             _await_async_generator(null)
                         ];
-                    case 2:
+                    case 3:
                         _state.sent();
                         return [
                             3,
-                            6
-                        ];
-                    case 3:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
-                        return [
-                            3,
-                            6
+                            8
                         ];
                     case 4:
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
                         return [
-                            4,
-                            _await_async_generator(_usingCtx.d())
+                            3,
+                            8
                         ];
                     case 5:
+                        result = _ts_dispose_resources(env);
+                        if (!result) return [
+                            3,
+                            7
+                        ];
+                        return [
+                            4,
+                            _await_async_generator(result)
+                        ];
+                    case 6:
                         _state.sent();
+                        _state.label = 7;
+                    case 7:
                         return [
                             7
                         ];
-                    case 6:
+                    case 8:
                         return [
                             2
                         ];
@@ -146,18 +180,24 @@ try {
     }
     var a = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function() {
-            var _usingCtx, d6, _;
+            var env, d6, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
                         _state.trys.push([
-                            0,
                             1,
                             2,
-                            4
+                            3,
+                            6
                         ]);
-                        _usingCtx = _using_ctx();
-                        d6 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                        d6 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                             return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
@@ -165,29 +205,37 @@ try {
                                     ];
                                 });
                             })();
-                        }));
+                        }), true);
                         return [
                             3,
-                            4
-                        ];
-                    case 1:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
-                        return [
-                            3,
-                            4
+                            6
                         ];
                     case 2:
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
                         return [
-                            4,
-                            _usingCtx.d()
+                            3,
+                            6
                         ];
                     case 3:
+                        result = _ts_dispose_resources(env);
+                        if (!result) return [
+                            3,
+                            5
+                        ];
+                        return [
+                            4,
+                            result
+                        ];
+                    case 4:
                         _state.sent();
+                        _state.label = 5;
+                    case 5:
                         return [
                             7
                         ];
-                    case 4:
+                    case 6:
                         return [
                             2
                         ];
@@ -203,18 +251,24 @@ try {
         function C1() {
             _class_call_check(this, C1);
             this.a = /*#__PURE__*/ _async_to_generator(function() {
-                var _usingCtx, d7, _;
+                var env, d7, e, result;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
                             _state.trys.push([
-                                0,
                                 1,
                                 2,
-                                4
+                                3,
+                                6
                             ]);
-                            _usingCtx = _using_ctx();
-                            d7 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                            d7 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -222,29 +276,37 @@ try {
                                         ];
                                     });
                                 })();
-                            }));
+                            }), true);
                             return [
                                 3,
-                                4
-                            ];
-                        case 1:
-                            _ = _state.sent();
-                            _usingCtx.e = _;
-                            return [
-                                3,
-                                4
+                                6
                             ];
                         case 2:
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
                             return [
-                                4,
-                                _usingCtx.d()
+                                3,
+                                6
                             ];
                         case 3:
+                            result = _ts_dispose_resources(env);
+                            if (!result) return [
+                                3,
+                                5
+                            ];
+                            return [
+                                4,
+                                result
+                            ];
+                        case 4:
                             _state.sent();
+                            _state.label = 5;
+                        case 5:
                             return [
                                 7
                             ];
-                        case 4:
+                        case 6:
                             return [
                                 2
                             ];
@@ -255,18 +317,24 @@ try {
         var _proto = C1.prototype;
         _proto.am = function am() {
             return _async_to_generator(function() {
-                var _usingCtx, d13, _;
+                var env, d13, e, result;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
                             _state.trys.push([
-                                0,
-                                2,
+                                1,
                                 3,
-                                5
+                                4,
+                                7
                             ]);
-                            _usingCtx = _using_ctx();
-                            d13 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                            d13 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -274,35 +342,43 @@ try {
                                         ];
                                     });
                                 })();
-                            }));
+                            }), true);
                             return [
                                 4,
                                 null
                             ];
-                        case 1:
+                        case 2:
                             _state.sent();
                             return [
                                 3,
-                                5
-                            ];
-                        case 2:
-                            _ = _state.sent();
-                            _usingCtx.e = _;
-                            return [
-                                3,
-                                5
+                                7
                             ];
                         case 3:
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
                             return [
-                                4,
-                                _usingCtx.d()
+                                3,
+                                7
                             ];
                         case 4:
+                            result = _ts_dispose_resources(env);
+                            if (!result) return [
+                                3,
+                                6
+                            ];
+                            return [
+                                4,
+                                result
+                            ];
+                        case 5:
                             _state.sent();
+                            _state.label = 6;
+                        case 6:
                             return [
                                 7
                             ];
-                        case 5:
+                        case 7:
                             return [
                                 2
                             ];
@@ -312,18 +388,24 @@ try {
         };
         _proto.ag = function ag() {
             return _wrap_async_generator(function() {
-                var _usingCtx, d15, _;
+                var env, d15, e, result;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
                             _state.trys.push([
-                                0,
-                                3,
+                                1,
                                 4,
-                                6
+                                5,
+                                8
                             ]);
-                            _usingCtx = _using_ctx();
-                            d15 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+                            d15 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -331,40 +413,48 @@ try {
                                         ];
                                     });
                                 })();
-                            }));
+                            }), true);
                             return [
                                 4
                             ];
-                        case 1:
+                        case 2:
                             _state.sent();
                             return [
                                 4,
                                 _await_async_generator(null)
                             ];
-                        case 2:
+                        case 3:
                             _state.sent();
                             return [
                                 3,
-                                6
-                            ];
-                        case 3:
-                            _ = _state.sent();
-                            _usingCtx.e = _;
-                            return [
-                                3,
-                                6
+                                8
                             ];
                         case 4:
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
                             return [
-                                4,
-                                _await_async_generator(_usingCtx.d())
+                                3,
+                                8
                             ];
                         case 5:
+                            result = _ts_dispose_resources(env);
+                            if (!result) return [
+                                3,
+                                7
+                            ];
+                            return [
+                                4,
+                                _await_async_generator(result)
+                            ];
+                        case 6:
                             _state.sent();
+                            _state.label = 7;
+                        case 7:
                             return [
                                 7
                             ];
-                        case 6:
+                        case 8:
                             return [
                                 2
                             ];
@@ -375,9 +465,13 @@ try {
         return C1;
     }();
     {
+        var env1 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx1 = _using_ctx();
-            var d19 = _usingCtx1.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d19 = _ts_add_disposable_resource(env1, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -385,18 +479,25 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx1.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env1.error = e;
+            env1.hasError = true;
         } finally{
-            await _usingCtx1.d();
+            var result = _ts_dispose_resources(env1);
+            if (result) await result;
         }
     }
     switch(Math.random()){
         case 0:
+            var env2 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx2 = _using_ctx();
-                var d20 = _usingCtx2.a(_define_property({}, Symbol.asyncDispose, function() {
+                var d20 = _ts_add_disposable_resource(env2, _define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -404,17 +505,24 @@ try {
                             ];
                         });
                     })();
-                }));
+                }), true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx2.e = _;
+            } catch (e) {
+                env2.error = e;
+                env2.hasError = true;
             } finally{
-                await _usingCtx2.d();
+                var result1 = _ts_dispose_resources(env2);
+                if (result1) await result1;
             }
         case 1:
+            var env3 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx3 = _using_ctx();
-                var d21 = _usingCtx3.a(_define_property({}, Symbol.asyncDispose, function() {
+                var d21 = _ts_add_disposable_resource(env3, _define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -422,19 +530,26 @@ try {
                             ];
                         });
                     })();
-                }));
+                }), true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx3.e = _;
+            } catch (e) {
+                env3.error = e;
+                env3.hasError = true;
             } finally{
-                await _usingCtx3.d();
+                var result2 = _ts_dispose_resources(env3);
+                if (result2) await result2;
             }
     }
     if (true) switch(0){
         case 0:
+            var env4 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx4 = _using_ctx();
-                var d22 = _usingCtx4.a(_define_property({}, Symbol.asyncDispose, function() {
+                var d22 = _ts_add_disposable_resource(env4, _define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -442,18 +557,25 @@ try {
                             ];
                         });
                     })();
-                }));
+                }), true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx4.e = _;
+            } catch (e) {
+                env4.error = e;
+                env4.hasError = true;
             } finally{
-                await _usingCtx4.d();
+                var result3 = _ts_dispose_resources(env4);
+                if (result3) await result3;
             }
     }
     try {
+        var env5 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx5 = _using_ctx();
-            var d23 = _usingCtx5.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d23 = _ts_add_disposable_resource(env5, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -461,16 +583,23 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx5.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env5.error = e;
+            env5.hasError = true;
         } finally{
-            await _usingCtx5.d();
+            var result4 = _ts_dispose_resources(env5);
+            if (result4) await result4;
         }
     } catch (e) {
+        var env6 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx6 = _using_ctx();
-            var d24 = _usingCtx6.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d24 = _ts_add_disposable_resource(env6, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -478,16 +607,23 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx6.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env6.error = e;
+            env6.hasError = true;
         } finally{
-            await _usingCtx6.d();
+            var result5 = _ts_dispose_resources(env6);
+            if (result5) await result5;
         }
     } finally{
+        var env7 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx7 = _using_ctx();
-            var d25 = _usingCtx7.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d25 = _ts_add_disposable_resource(env7, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -495,17 +631,24 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx7.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env7.error = e;
+            env7.hasError = true;
         } finally{
-            await _usingCtx7.d();
+            var result6 = _ts_dispose_resources(env7);
+            if (result6) await result6;
         }
     }
     if (true) {
+        var env8 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx8 = _using_ctx();
-            var d26 = _usingCtx8.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d26 = _ts_add_disposable_resource(env8, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -513,16 +656,23 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx8.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env8.error = e;
+            env8.hasError = true;
         } finally{
-            await _usingCtx8.d();
+            var result7 = _ts_dispose_resources(env8);
+            if (result7) await result7;
         }
     } else {
+        var env9 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx9 = _using_ctx();
-            var d27 = _usingCtx9.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d27 = _ts_add_disposable_resource(env9, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -530,17 +680,24 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx9.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env9.error = e;
+            env9.hasError = true;
         } finally{
-            await _usingCtx9.d();
+            var result8 = _ts_dispose_resources(env9);
+            if (result8) await result8;
         }
     }
     while(true){
+        var env10 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx10 = _using_ctx();
-            var d28 = _usingCtx10.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d28 = _ts_add_disposable_resource(env10, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -548,18 +705,25 @@ try {
                         ];
                     });
                 })();
-            }));
+            }), true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx10.e = _;
+        } catch (e) {
+            env10.error = e;
+            env10.hasError = true;
         } finally{
-            await _usingCtx10.d();
+            var result9 = _ts_dispose_resources(env10);
+            if (result9) await result9;
         }
     }
     do {
+        var env11 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx11 = _using_ctx();
-            var d29 = _usingCtx11.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d29 = _ts_add_disposable_resource(env11, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -567,18 +731,25 @@ try {
                         ];
                     });
                 })();
-            }));
+            }), true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx11.e = _;
+        } catch (e) {
+            env11.error = e;
+            env11.hasError = true;
         } finally{
-            await _usingCtx11.d();
+            var result10 = _ts_dispose_resources(env11);
+            if (result10) await result10;
         }
     }while (true);
     for(;;){
+        var env12 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx12 = _using_ctx();
-            var d30 = _usingCtx12.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d30 = _ts_add_disposable_resource(env12, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -586,18 +757,25 @@ try {
                         ];
                     });
                 })();
-            }));
+            }), true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx12.e = _;
+        } catch (e) {
+            env12.error = e;
+            env12.hasError = true;
         } finally{
-            await _usingCtx12.d();
+            var result11 = _ts_dispose_resources(env12);
+            if (result11) await result11;
         }
     }
     for(var x in {}){
+        var env13 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx13 = _using_ctx();
-            var d31 = _usingCtx13.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d31 = _ts_add_disposable_resource(env13, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -605,18 +783,25 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx13.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env13.error = e;
+            env13.hasError = true;
         } finally{
-            await _usingCtx13.d();
+            var result12 = _ts_dispose_resources(env13);
+            if (result12) await result12;
         }
     }
     for(var _i = 0, _iter = []; _i < _iter.length; _i++){
         var x1 = _iter[_i];
+        var env14 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx14 = _using_ctx();
-            var d32 = _usingCtx14.a(_define_property({}, Symbol.asyncDispose, function() {
+            var d32 = _ts_add_disposable_resource(env14, _define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -624,16 +809,21 @@ try {
                         ];
                     });
                 })();
-            }));
-        } catch (_) {
-            _usingCtx14.e = _;
+            }), true);
+            ;
+        } catch (e) {
+            env14.error = e;
+            env14.hasError = true;
         } finally{
-            await _usingCtx14.d();
+            var result13 = _ts_dispose_resources(env14);
+            if (result13) await result13;
         }
     }
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    await _usingCtx.d();
+    var result14 = _ts_dispose_resources(env);
+    if (result14) await result14;
 }
 export { };

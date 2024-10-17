@@ -2,10 +2,15 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+var env = {
+    stack: [],
+    error: void 0,
+    hasError: !1
+};
 try {
-    var _usingCtx = _using_ctx();
-    _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+    _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
@@ -13,7 +18,7 @@ try {
                 ];
             });
         })();
-    })), _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
+    }), !0), _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
@@ -21,9 +26,10 @@ try {
                 ];
             });
         })();
-    }));
-} catch (_) {
-    _usingCtx.e = _;
+    }), !0);
+} catch (e) {
+    env.error = e, env.hasError = !0;
 } finally{
-    await _usingCtx.d();
+    var result = _ts_dispose_resources(env);
+    result && await result;
 }

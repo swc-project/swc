@@ -1,10 +1,18 @@
-export { x, y };
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var x = _usingCtx.u(A);
-    var y = _usingCtx.a(B);
-} catch (_) {
-    _usingCtx.e = _;
+    const x = _ts_add_disposable_resource(env, A, false);
+    ;
+    const y = _ts_add_disposable_resource(env, B, true);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    await _usingCtx.d();
+    const result = _ts_dispose_resources(env);
+    if (result) await result;
 }
+export { x, y };

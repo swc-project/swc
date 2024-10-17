@@ -9,7 +9,7 @@ use std::{
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom, AtomStore};
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::{AssignOp, BinaryOp};
+pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};

@@ -1,32 +1,50 @@
 {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx();
-        const x = _usingCtx.u(obj);
+        const x = _ts_add_disposable_resource(env, obj, false);
+        ;
         {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx1 = _using_ctx();
-                const y = _usingCtx1.u(call(()=>{
+                const y = _ts_add_disposable_resource(env, call(()=>{
+                    const env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
                     try {
-                        var _usingCtx = _using_ctx();
-                        const z = _usingCtx.u(obj);
+                        const z = _ts_add_disposable_resource(env, obj, false);
+                        ;
                         return z;
-                    } catch (_) {
-                        _usingCtx.e = _;
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
                     } finally{
-                        _usingCtx.d();
+                        _ts_dispose_resources(env);
                     }
-                }));
+                }), false);
+                ;
                 stmt;
-            } catch (_) {
-                _usingCtx1.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx1.d();
+                _ts_dispose_resources(env);
             }
         }
         stmt;
-    } catch (_) {
-        _usingCtx.e = _;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        _usingCtx.d();
+        _ts_dispose_resources(env);
     }
 }

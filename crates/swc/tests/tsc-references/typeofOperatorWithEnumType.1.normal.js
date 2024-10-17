@@ -24,8 +24,8 @@ typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM);
 typeof ENUM1 === "undefined" ? "undefined" : _type_of(ENUM1);
 _type_of(1);
 typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM), ENUM1;
-var // use typeof in type query
-z = /*#__PURE__*/ function(z) {
+// use typeof in type query
+var z = /*#__PURE__*/ function(z) {
     return z;
 }(z || {});
 z: typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM);

@@ -1,12 +1,9 @@
-import { doSomething } from "somewhere";
-export * from "somewhere else";
-export * as ns from "somewhere else";
-var _g;
-export { f };
-var _b;
-var _B;
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
     function f() {
         a;
         B;
@@ -15,25 +12,25 @@ try {
         b;
         A;
     }
-    function g() {
-        c;
-    }
-    _g = g;
     doSomething();
-    let { b } = {};
-    _b = b;
     let c = 2;
     class A {
     }
-    class B {
-    }
-    _B = B;
-    var x = _usingCtx.u(null);
-} catch (_) {
-    _usingCtx.e = _;
+    const x = _ts_add_disposable_resource(env, null, false);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
-export { _g as g };
-export { _b as b };
-export { _B as B };
+import { doSomething } from "somewhere";
+export * from "somewhere else";
+export * as ns from "somewhere else";
+export function g() {
+    c;
+}
+export { f };
+export let { b } = {};
+export class B {
+}

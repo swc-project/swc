@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_typescript"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "1.0.0"
+version       = "1.0.1"
 
 [lib]
 bench = false
@@ -29,9 +29,9 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
 swc_ecma_codegen             = { version = "1.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser              = { version = "1.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser              = { version = "1.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat   = { version = "1.0.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_proposal = { version = "1.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_proposal = { version = "1.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing  = { version = "1.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "1.0.0", path = "../testing" }
 

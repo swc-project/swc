@@ -6,23 +6,28 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "C", {
     enumerable: true,
     get: function() {
-        return _C;
+        return C;
     }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-const _using_ctx = require("@swc/helpers/_/_using_ctx");
-var _C;
+const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+const _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx._();
-    var before = _usingCtx.u(null);
-    class C {
-    }
-    _C = C;
+    const before = _ts_add_disposable_resource._(env, null, false);
+    ;
     C = _ts_decorate._([
         dec
     ], C);
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources._(env);
+}
+class C {
 }

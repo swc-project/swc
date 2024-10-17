@@ -1,7 +1,7 @@
 {
     "name": "@swc/helpers",
     "packageManager": "yarn@4.0.2",
-    "version": "0.5.13",
+    "version": "0.5.14",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -36,7 +36,7 @@
         "zx": "^7.2.1"
     },
     "dependencies": {
-        "tslib": "^2.7.0"
+        "tslib": "^2.8.0"
     },
     "exports": {
         "./package.json": "./package.json",

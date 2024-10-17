@@ -1,4 +1,5 @@
-var _using_ctx = require("@swc/helpers/_/_using_ctx");
+var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 class File {
     read() {
         return 'content';
@@ -8,16 +9,22 @@ class File {
     }
 }
 function main() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx._();
-        const file = _usingCtx.u(new File());
+        const file = _ts_add_disposable_resource._(env, new File(), false);
+        ;
         function readFile() {
             file.read();
         }
         readFile();
-    } catch (_) {
-        _usingCtx.e = _;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        _usingCtx.d();
+        _ts_dispose_resources._(env);
     }
 }

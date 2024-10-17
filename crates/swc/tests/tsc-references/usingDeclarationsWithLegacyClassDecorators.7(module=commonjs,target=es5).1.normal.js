@@ -5,9 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-var _using_ctx = require("@swc/helpers/_/_using_ctx");
+var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+var env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx._();
     var C = function C() {
         "use strict";
         _class_call_check._(this, C);
@@ -15,9 +20,11 @@ try {
     C = _ts_decorate._([
         dec
     ], C);
-    var after = _usingCtx.u(null);
-} catch (_) {
-    _usingCtx.e = _;
+    var after = _ts_add_disposable_resource._(env, null, false);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources._(env);
 }
