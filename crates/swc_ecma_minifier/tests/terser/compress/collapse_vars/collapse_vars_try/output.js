@@ -3,7 +3,7 @@ function f1() {
         return 1;
     } catch (ex) {
         return 2;
-    } finally {
+    } finally{
         return 3;
     }
 }
