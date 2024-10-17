@@ -1,4 +1,5 @@
 #![deny(warnings)]
+#![cfg(not(miri))]
 
 extern crate swc_malloc;
 
