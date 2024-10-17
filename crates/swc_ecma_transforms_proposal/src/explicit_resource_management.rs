@@ -152,7 +152,7 @@ impl ExplicitResourceManagement {
                         left: MemberExpr {
                             span: DUMMY_SP,
                             obj: Box::new(env.clone().into()),
-                            prop: MemberProp::Ident(quote_ident!("e")),
+                            prop: MemberProp::Ident(quote_ident!("error")),
                         }
                         .into(),
                         op: op!("="),
@@ -215,6 +215,10 @@ impl VisitMut for ExplicitResourceManagement {
         if let ForHead::UsingDecl(decl) = &mut n.left {
             let mut state = State::default();
 
+            for decl in &mut decl.decls {
+                let new_var = private_ident!("_value");
+                decl.init = Some(new_var.clone().into())
+            }
             let var_decl = handle_using_decl(decl, &mut state);
 
             let mut body = vec![*n.body.take()];
