@@ -178,7 +178,6 @@ impl Optimizer<'_> {
                 && v.usage_count == 0
                 && !v.reassigned
                 && v.property_mutation_count == 0
-                && !v.declared_as_catch_param
             {
                 self.changed = true;
                 report_change!(
