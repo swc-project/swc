@@ -207,10 +207,7 @@ impl ExplicitResourceManagement {
             })));
             let if_stmt = Stmt::If(IfStmt {
                 span: DUMMY_SP,
-                test: Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                }))),
+                test: result.clone().into(),
                 // Code:
                 //      await result_1;
                 cons: Stmt::Expr(ExprStmt {
