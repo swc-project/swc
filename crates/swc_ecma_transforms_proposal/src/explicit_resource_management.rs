@@ -193,14 +193,14 @@ impl ExplicitResourceManagement {
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(result.clone().into()),
-                    init: Some(Box::new(
-                        Expr::Call(CallExpr {
+                    init: Some(
+                        CallExpr {
                             callee: helper!(ts, ts_dispose_resources),
                             args: vec![env.clone().as_arg()],
                             ..Default::default()
-                        })
+                        }
                         .into(),
-                    )),
+                    ),
                     definite: false,
                 }],
                 ..Default::default()
