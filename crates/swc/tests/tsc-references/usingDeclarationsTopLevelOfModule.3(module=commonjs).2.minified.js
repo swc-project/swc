@@ -7,14 +7,18 @@ Object.defineProperty(exports, "__esModule", {
         return y;
     }
 });
-const _using_ctx = require("@swc/helpers/_/_using_ctx");
+const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), env = {
+    stack: [],
+    error: void 0,
+    hasError: !1
+};
 try {
-    var y, _usingCtx = _using_ctx._();
-    _usingCtx.u({
+    var y;
+    _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
-    });
-} catch (_) {
-    _usingCtx.e = _;
+    }, !1);
+} catch (e) {
+    env.error = e, env.hasError = !0;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources._(env);
 }

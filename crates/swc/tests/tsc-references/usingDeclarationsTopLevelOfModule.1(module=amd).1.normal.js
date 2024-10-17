@@ -2,8 +2,9 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/_/_using_ctx"
-], function(require, exports, _using_ctx) {
+    "@swc/helpers/_/_ts_add_disposable_resource",
+    "@swc/helpers/_/_ts_dispose_resources"
+], function(require, exports, _ts_add_disposable_resource, _ts_dispose_resources) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -19,32 +20,34 @@ define([
             return _default;
         },
         w: function() {
-            return _w;
+            return w;
         },
         x: function() {
-            return _x;
+            return x;
         },
         y: function() {
             return y;
         }
     });
-    var _x;
-    var _w;
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx._();
-        const x = 1;
-        _x = x;
-        var z = _usingCtx.u({
+        const z = _ts_add_disposable_resource._(env, {
             [Symbol.dispose] () {}
-        });
+        }, false);
+        ;
         const y = 2;
-        const w = 3;
-        _w = w;
-        var _default = 4;
         console.log(w, x, y, z);
-    } catch (_) {
-        _usingCtx.e = _;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        _usingCtx.d();
+        _ts_dispose_resources._(env);
     }
+    const x = 1;
+    const w = 3;
+    const _default = 4;
 });

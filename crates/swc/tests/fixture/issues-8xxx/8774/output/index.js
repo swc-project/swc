@@ -1,4 +1,5 @@
-var _using_ctx = require("@swc/helpers/_/_using_ctx");
+var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 const logClean = function() {
     return {
         [Symbol.dispose] () {
@@ -10,40 +11,61 @@ const logClean = function() {
     };
 };
 async function foo() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx._();
-        const a = _usingCtx.u(logClean());
-        const b = _usingCtx.a(logClean());
-        for (const a of [
+        const a = _ts_add_disposable_resource._(env, logClean(), false);
+        ;
+        const b = _ts_add_disposable_resource._(env, logClean(), true);
+        ;
+        for (const _ of [
             logClean(),
             logClean()
         ]){
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx1 = _using_ctx._();
+                const a = _ts_add_disposable_resource._(env, _, false);
                 {}
-            } catch (_) {
-                _usingCtx1.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx1.d();
+                _ts_dispose_resources._(env);
             }
         }
-        for (const a of [
+        for (const _ of [
             logClean(),
             logClean()
         ]){
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx2 = _using_ctx._();
+                const a = _ts_add_disposable_resource._(env, _, true);
                 {}
-            } catch (_) {
-                _usingCtx2.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx2.d();
+                const result = _ts_dispose_resources._(env);
+                if (result) await result;
             }
         }
-    } catch (_) {
-        _usingCtx.e = _;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        await _usingCtx.d();
+        const result = _ts_dispose_resources._(env);
+        if (result) await result;
     }
 }
 foo();

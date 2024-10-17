@@ -1,10 +1,17 @@
 //// [usingDeclarations.9.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-try {
-    var _usingCtx = _using_ctx();
-    _usingCtx.u(null);
-} catch (_) {
-    _usingCtx.e = _;
-} finally{
-    _usingCtx.d();
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+{
+    let env = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env, null, !1);
+    } catch (e) {
+        env.error = e, env.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env);
+    }
 }

@@ -1,267 +1,415 @@
 //// [awaitUsingDeclarations.1.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var d1 = _usingCtx.a({
+    const d1 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
-    });
+    }, true);
+    ;
     async function af() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            const d3 = _usingCtx.a({
+            const d3 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
+            }, true);
+            ;
             await null;
-        } catch (_) {
-            _usingCtx.e = _;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     async function* ag() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            const d5 = _usingCtx.a({
+            const d5 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
+            }, true);
+            ;
             yield;
             await null;
-        } catch (_) {
-            _usingCtx.e = _;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     const a = async ()=>{
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            const d6 = _usingCtx.a({
+            const d6 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     };
     class C1 {
         async am() {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                const d13 = _usingCtx.a({
+                const d13 = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
-                });
+                }, true);
+                ;
                 await null;
-            } catch (_) {
-                _usingCtx.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                await _usingCtx.d();
+                const result = _ts_dispose_resources(env);
+                if (result) await result;
             }
         }
         async *ag() {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                const d15 = _usingCtx.a({
+                const d15 = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
-                });
+                }, true);
+                ;
                 yield;
                 await null;
-            } catch (_) {
-                _usingCtx.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                await _usingCtx.d();
+                const result = _ts_dispose_resources(env);
+                if (result) await result;
             }
         }
         constructor(){
             this.a = async ()=>{
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
                 try {
-                    var _usingCtx = _using_ctx();
-                    const d7 = _usingCtx.a({
+                    const d7 = _ts_add_disposable_resource(env, {
                         async [Symbol.asyncDispose] () {}
-                    });
-                } catch (_) {
-                    _usingCtx.e = _;
+                    }, true);
+                    ;
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
                 } finally{
-                    await _usingCtx.d();
+                    const result = _ts_dispose_resources(env);
+                    if (result) await result;
                 }
             };
         }
     }
     {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx1 = _using_ctx();
-            const d19 = _usingCtx1.a({
+            const d19 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx1.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx1.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     switch(Math.random()){
         case 0:
+            const env1 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx2 = _using_ctx();
-                const d20 = _usingCtx2.a({
+                const d20 = _ts_add_disposable_resource(env1, {
                     async [Symbol.asyncDispose] () {}
-                });
+                }, true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx2.e = _;
+            } catch (e) {
+                env1.error = e;
+                env1.hasError = true;
             } finally{
-                await _usingCtx2.d();
+                const result = _ts_dispose_resources(env1);
+                if (result) await result;
             }
         case 1:
+            const env2 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx3 = _using_ctx();
-                const d21 = _usingCtx3.a({
+                const d21 = _ts_add_disposable_resource(env2, {
                     async [Symbol.asyncDispose] () {}
-                });
+                }, true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx3.e = _;
+            } catch (e) {
+                env2.error = e;
+                env2.hasError = true;
             } finally{
-                await _usingCtx3.d();
+                const result = _ts_dispose_resources(env2);
+                if (result) await result;
             }
     }
     if (true) switch(0){
         case 0:
+            const env3 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx4 = _using_ctx();
-                const d22 = _usingCtx4.a({
+                const d22 = _ts_add_disposable_resource(env3, {
                     async [Symbol.asyncDispose] () {}
-                });
+                }, true);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx4.e = _;
+            } catch (e) {
+                env3.error = e;
+                env3.hasError = true;
             } finally{
-                await _usingCtx4.d();
+                const result = _ts_dispose_resources(env3);
+                if (result) await result;
             }
     }
     try {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx5 = _using_ctx();
-            const d23 = _usingCtx5.a({
+            const d23 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx5.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx5.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     } catch  {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx6 = _using_ctx();
-            const d24 = _usingCtx6.a({
+            const d24 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx6.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx6.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     } finally{
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx7 = _using_ctx();
-            const d25 = _usingCtx7.a({
+            const d25 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx7.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx7.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     if (true) {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx8 = _using_ctx();
-            const d26 = _usingCtx8.a({
+            const d26 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx8.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx8.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     } else {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx9 = _using_ctx();
-            const d27 = _usingCtx9.a({
+            const d27 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx9.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx9.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     while(true){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx10 = _using_ctx();
-            const d28 = _usingCtx10.a({
+            const d28 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
+            }, true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx10.e = _;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx10.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     do {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx11 = _using_ctx();
-            const d29 = _usingCtx11.a({
+            const d29 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
+            }, true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx11.e = _;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx11.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }while (true)
     for(;;){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx12 = _using_ctx();
-            const d30 = _usingCtx12.a({
+            const d30 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
+            }, true);
+            ;
             break;
-        } catch (_) {
-            _usingCtx12.e = _;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx12.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     for(const x in {}){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx13 = _using_ctx();
-            const d31 = _usingCtx13.a({
+            const d31 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx13.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx13.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
     for (const x of []){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx14 = _using_ctx();
-            const d32 = _usingCtx14.a({
+            const d32 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
-            });
-        } catch (_) {
-            _usingCtx14.e = _;
+            }, true);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            await _usingCtx14.d();
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
         }
     }
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    await _usingCtx.d();
+    const result = _ts_dispose_resources(env);
+    if (result) await result;
 }
 export { };
