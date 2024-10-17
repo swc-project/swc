@@ -9,56 +9,75 @@ import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+var env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
     var f = function f() {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            var d2 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx.e = _;
+            var d2 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            _usingCtx.d();
+            _ts_dispose_resources(env);
         }
     };
     var af = function af() {
         return _af.apply(this, arguments);
     };
     var g = function g() {
-        var _usingCtx, d4, _;
+        var env, d4, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    _state.trys.push([
-                        0,
-                        2,
-                        3,
-                        4
-                    ]);
-                    _usingCtx = _using_ctx();
-                    d4 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                    return [
-                        4
-                    ];
+                    env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
+                    _state.label = 1;
                 case 1:
-                    _state.sent();
-                    return [
+                    _state.trys.push([
+                        1,
                         3,
+                        4,
+                        5
+                    ]);
+                    d4 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                    return [
                         4
                     ];
                 case 2:
-                    _ = _state.sent();
-                    _usingCtx.e = _;
+                    _state.sent();
                     return [
                         3,
-                        4
+                        5
                     ];
                 case 3:
-                    _usingCtx.d();
+                    e = _state.sent();
+                    env.error = e;
+                    env.hasError = true;
+                    return [
+                        3,
+                        5
+                    ];
+                case 4:
+                    _ts_dispose_resources(env);
                     return [
                         7
                     ];
-                case 4:
+                case 5:
                     return [
                         2
                     ];
@@ -68,76 +87,32 @@ try {
     var ag = function ag() {
         return _ag.apply(this, arguments);
     };
-    var _usingCtx = _using_ctx();
-    var d1 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+    var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+    ;
     function _af() {
         _af = _async_to_generator(function() {
-            var _usingCtx, d3, _;
+            var env, d3, e;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
                         _state.trys.push([
-                            0,
-                            2,
+                            1,
                             3,
-                            4
+                            4,
+                            5
                         ]);
-                        _usingCtx = _using_ctx();
-                        d3 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+                        d3 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
                         return [
                             4,
                             null
                         ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            3,
-                            4
-                        ];
-                    case 2:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
-                        return [
-                            3,
-                            4
-                        ];
-                    case 3:
-                        _usingCtx.d();
-                        return [
-                            7
-                        ];
-                    case 4:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return _af.apply(this, arguments);
-    }
-    function _ag() {
-        _ag = _wrap_async_generator(function() {
-            var _usingCtx, d5, _;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        _state.trys.push([
-                            0,
-                            3,
-                            4,
-                            5
-                        ]);
-                        _usingCtx = _using_ctx();
-                        d5 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                        return [
-                            4
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            4,
-                            _await_async_generator(null)
-                        ];
                     case 2:
                         _state.sent();
                         return [
@@ -145,14 +120,15 @@ try {
                             5
                         ];
                     case 3:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
                         return [
                             3,
                             5
                         ];
                     case 4:
-                        _usingCtx.d();
+                        _ts_dispose_resources(env);
                         return [
                             7
                         ];
@@ -163,16 +139,79 @@ try {
                 }
             });
         });
+        return _af.apply(this, arguments);
+    }
+    function _ag() {
+        _ag = _wrap_async_generator(function() {
+            var env, d5, e;
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
+                        _state.trys.push([
+                            1,
+                            4,
+                            5,
+                            6
+                        ]);
+                        d5 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                        return [
+                            4
+                        ];
+                    case 2:
+                        _state.sent();
+                        return [
+                            4,
+                            _await_async_generator(null)
+                        ];
+                    case 3:
+                        _state.sent();
+                        return [
+                            3,
+                            6
+                        ];
+                    case 4:
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
+                        return [
+                            3,
+                            6
+                        ];
+                    case 5:
+                        _ts_dispose_resources(env);
+                        return [
+                            7
+                        ];
+                    case 6:
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
         return _ag.apply(this, arguments);
     }
     var a = function() {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            var d6 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx.e = _;
+            var d6 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            _usingCtx.d();
+            _ts_dispose_resources(env);
         }
     };
     var C1 = /*#__PURE__*/ function() {
@@ -180,143 +219,77 @@ try {
         function C1() {
             _class_call_check(this, C1);
             this.a = function() {
+                var env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
                 try {
-                    var _usingCtx = _using_ctx();
-                    var d7 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                } catch (_) {
-                    _usingCtx.e = _;
+                    var d7 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                    ;
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
                 } finally{
-                    _usingCtx.d();
+                    _ts_dispose_resources(env);
                 }
             };
+            var env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                var d8 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-            } catch (_) {
-                _usingCtx.e = _;
+                var d8 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx.d();
+                _ts_dispose_resources(env);
             }
         }
         var _proto = C1.prototype;
         _proto.m = function m() {
+            var env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                var d10 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-            } catch (_) {
-                _usingCtx.e = _;
+                var d10 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx.d();
+                _ts_dispose_resources(env);
             }
         };
         _proto.am = function am() {
             return _async_to_generator(function() {
-                var _usingCtx, d13, _;
+                var env, d13, e;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
                             _state.trys.push([
-                                0,
-                                2,
+                                1,
                                 3,
-                                4
+                                4,
+                                5
                             ]);
-                            _usingCtx = _using_ctx();
-                            d13 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+                            d13 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
                             return [
                                 4,
                                 null
                             ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                3,
-                                4
-                            ];
-                        case 2:
-                            _ = _state.sent();
-                            _usingCtx.e = _;
-                            return [
-                                3,
-                                4
-                            ];
-                        case 3:
-                            _usingCtx.d();
-                            return [
-                                7
-                            ];
-                        case 4:
-                            return [
-                                2
-                            ];
-                    }
-                });
-            })();
-        };
-        _proto.g = function g() {
-            var _usingCtx, d14, _;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        _state.trys.push([
-                            0,
-                            2,
-                            3,
-                            4
-                        ]);
-                        _usingCtx = _using_ctx();
-                        d14 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                        return [
-                            4
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            3,
-                            4
-                        ];
-                    case 2:
-                        _ = _state.sent();
-                        _usingCtx.e = _;
-                        return [
-                            3,
-                            4
-                        ];
-                    case 3:
-                        _usingCtx.d();
-                        return [
-                            7
-                        ];
-                    case 4:
-                        return [
-                            2
-                        ];
-                }
-            });
-        };
-        _proto.ag = function ag() {
-            return _wrap_async_generator(function() {
-                var _usingCtx, d15, _;
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            _state.trys.push([
-                                0,
-                                3,
-                                4,
-                                5
-                            ]);
-                            _usingCtx = _using_ctx();
-                            d15 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                            return [
-                                4
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                4,
-                                _await_async_generator(null)
-                            ];
                         case 2:
                             _state.sent();
                             return [
@@ -324,14 +297,15 @@ try {
                                 5
                             ];
                         case 3:
-                            _ = _state.sent();
-                            _usingCtx.e = _;
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
                             return [
                                 3,
                                 5
                             ];
                         case 4:
-                            _usingCtx.d();
+                            _ts_dispose_resources(env);
                             return [
                                 7
                             ];
@@ -343,28 +317,144 @@ try {
                 });
             })();
         };
+        _proto.g = function g() {
+            var env, d14, e;
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        env = {
+                            stack: [],
+                            error: void 0,
+                            hasError: false
+                        };
+                        _state.label = 1;
+                    case 1:
+                        _state.trys.push([
+                            1,
+                            3,
+                            4,
+                            5
+                        ]);
+                        d14 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                        return [
+                            4
+                        ];
+                    case 2:
+                        _state.sent();
+                        return [
+                            3,
+                            5
+                        ];
+                    case 3:
+                        e = _state.sent();
+                        env.error = e;
+                        env.hasError = true;
+                        return [
+                            3,
+                            5
+                        ];
+                    case 4:
+                        _ts_dispose_resources(env);
+                        return [
+                            7
+                        ];
+                    case 5:
+                        return [
+                            2
+                        ];
+                }
+            });
+        };
+        _proto.ag = function ag() {
+            return _wrap_async_generator(function() {
+                var env, d15, e;
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
+                            _state.trys.push([
+                                1,
+                                4,
+                                5,
+                                6
+                            ]);
+                            d15 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                            return [
+                                4
+                            ];
+                        case 2:
+                            _state.sent();
+                            return [
+                                4,
+                                _await_async_generator(null)
+                            ];
+                        case 3:
+                            _state.sent();
+                            return [
+                                3,
+                                6
+                            ];
+                        case 4:
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
+                            return [
+                                3,
+                                6
+                            ];
+                        case 5:
+                            _ts_dispose_resources(env);
+                            return [
+                                7
+                            ];
+                        case 6:
+                            return [
+                                2
+                            ];
+                    }
+                });
+            })();
+        };
         _create_class(C1, [
             {
                 key: "x",
                 get: function get() {
+                    var env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
                     try {
-                        var _usingCtx = _using_ctx();
-                        var d11 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+                        var d11 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                        ;
                         return 0;
-                    } catch (_) {
-                        _usingCtx.e = _;
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
                     } finally{
-                        _usingCtx.d();
+                        _ts_dispose_resources(env);
                     }
                 },
                 set: function set(v) {
+                    var env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
                     try {
-                        var _usingCtx = _using_ctx();
-                        var d12 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-                    } catch (_) {
-                        _usingCtx.e = _;
+                        var d12 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                        ;
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
                     } finally{
-                        _usingCtx.d();
+                        _ts_dispose_resources(env);
                     }
                 }
             }
@@ -372,13 +462,19 @@ try {
         return C1;
     }();
     (function() {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            var d9 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx.e = _;
+            var d9 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            _usingCtx.d();
+            _ts_dispose_resources(env);
         }
     })();
     var C2 = /*#__PURE__*/ function(C1) {
@@ -387,14 +483,20 @@ try {
         function C2() {
             _class_call_check(this, C2);
             var _this;
+            var env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                var d16 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+                var d16 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
                 _this = _call_super(this, C2);
-            } catch (_) {
-                _usingCtx.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx.d();
+                _ts_dispose_resources(env);
             }
             return _assert_this_initialized(_this);
         }
@@ -406,178 +508,275 @@ try {
         function C3() {
             _class_call_check(this, C3);
             var _this;
+            var env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                var d17 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
+                var d17 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
                 _this = _call_super(this, C3), _this.y = 1;
-            } catch (_) {
-                _usingCtx.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx.d();
+                _ts_dispose_resources(env);
             }
             return _assert_this_initialized(_this);
         }
         return C3;
     }(C1);
     (function(N) {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx = _using_ctx();
-            var d18 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx.e = _;
+            var d18 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
         } finally{
-            _usingCtx.d();
+            _ts_dispose_resources(env);
         }
     })(N || (N = {}));
     {
+        var env1 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx1 = _using_ctx();
-            var d19 = _usingCtx1.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx1.e = _;
+            var d19 = _ts_add_disposable_resource(env1, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env1.error = e;
+            env1.hasError = true;
         } finally{
-            _usingCtx1.d();
+            _ts_dispose_resources(env1);
         }
     }
     switch(Math.random()){
         case 0:
+            var env2 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx2 = _using_ctx();
-                var d20 = _usingCtx2.u(_define_property({}, Symbol.dispose, function() {}));
+                var d20 = _ts_add_disposable_resource(env2, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx2.e = _;
+            } catch (e) {
+                env2.error = e;
+                env2.hasError = true;
             } finally{
-                _usingCtx2.d();
+                _ts_dispose_resources(env2);
             }
         case 1:
+            var env3 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx3 = _using_ctx();
-                var d21 = _usingCtx3.u(_define_property({}, Symbol.dispose, function() {}));
+                var d21 = _ts_add_disposable_resource(env3, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx3.e = _;
+            } catch (e) {
+                env3.error = e;
+                env3.hasError = true;
             } finally{
-                _usingCtx3.d();
+                _ts_dispose_resources(env3);
             }
     }
     if (true) switch(0){
         case 0:
+            var env4 = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx4 = _using_ctx();
-                var d22 = _usingCtx4.u(_define_property({}, Symbol.dispose, function() {}));
+                var d22 = _ts_add_disposable_resource(env4, _define_property({}, Symbol.dispose, function() {}), false);
+                ;
                 break;
-            } catch (_) {
-                _usingCtx4.e = _;
+            } catch (e) {
+                env4.error = e;
+                env4.hasError = true;
             } finally{
-                _usingCtx4.d();
+                _ts_dispose_resources(env4);
             }
     }
     try {
+        var env5 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx5 = _using_ctx();
-            var d23 = _usingCtx5.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx5.e = _;
+            var d23 = _ts_add_disposable_resource(env5, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env5.error = e;
+            env5.hasError = true;
         } finally{
-            _usingCtx5.d();
+            _ts_dispose_resources(env5);
         }
     } catch (e) {
+        var env6 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx6 = _using_ctx();
-            var d24 = _usingCtx6.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx6.e = _;
+            var d24 = _ts_add_disposable_resource(env6, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env6.error = e;
+            env6.hasError = true;
         } finally{
-            _usingCtx6.d();
+            _ts_dispose_resources(env6);
         }
     } finally{
+        var env7 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx7 = _using_ctx();
-            var d25 = _usingCtx7.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx7.e = _;
+            var d25 = _ts_add_disposable_resource(env7, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env7.error = e;
+            env7.hasError = true;
         } finally{
-            _usingCtx7.d();
+            _ts_dispose_resources(env7);
         }
     }
     if (true) {
+        var env8 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx8 = _using_ctx();
-            var d26 = _usingCtx8.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx8.e = _;
+            var d26 = _ts_add_disposable_resource(env8, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env8.error = e;
+            env8.hasError = true;
         } finally{
-            _usingCtx8.d();
+            _ts_dispose_resources(env8);
         }
     } else {
+        var env9 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx9 = _using_ctx();
-            var d27 = _usingCtx9.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx9.e = _;
+            var d27 = _ts_add_disposable_resource(env9, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env9.error = e;
+            env9.hasError = true;
         } finally{
-            _usingCtx9.d();
+            _ts_dispose_resources(env9);
         }
     }
     while(true){
+        var env10 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx10 = _using_ctx();
-            var d28 = _usingCtx10.u(_define_property({}, Symbol.dispose, function() {}));
+            var d28 = _ts_add_disposable_resource(env10, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
             break;
-        } catch (_) {
-            _usingCtx10.e = _;
+        } catch (e) {
+            env10.error = e;
+            env10.hasError = true;
         } finally{
-            _usingCtx10.d();
+            _ts_dispose_resources(env10);
         }
     }
     do {
+        var env11 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx11 = _using_ctx();
-            var d29 = _usingCtx11.u(_define_property({}, Symbol.dispose, function() {}));
+            var d29 = _ts_add_disposable_resource(env11, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
             break;
-        } catch (_) {
-            _usingCtx11.e = _;
+        } catch (e) {
+            env11.error = e;
+            env11.hasError = true;
         } finally{
-            _usingCtx11.d();
+            _ts_dispose_resources(env11);
         }
     }while (true);
     for(;;){
+        var env12 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx12 = _using_ctx();
-            var d30 = _usingCtx12.u(_define_property({}, Symbol.dispose, function() {}));
+            var d30 = _ts_add_disposable_resource(env12, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
             break;
-        } catch (_) {
-            _usingCtx12.e = _;
+        } catch (e) {
+            env12.error = e;
+            env12.hasError = true;
         } finally{
-            _usingCtx12.d();
+            _ts_dispose_resources(env12);
         }
     }
     for(var x in {}){
+        var env13 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx13 = _using_ctx();
-            var d31 = _usingCtx13.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx13.e = _;
+            var d31 = _ts_add_disposable_resource(env13, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env13.error = e;
+            env13.hasError = true;
         } finally{
-            _usingCtx13.d();
+            _ts_dispose_resources(env13);
         }
     }
     for(var _i = 0, _iter = []; _i < _iter.length; _i++){
         var x1 = _iter[_i];
+        var env14 = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
         try {
-            var _usingCtx14 = _using_ctx();
-            var d32 = _usingCtx14.u(_define_property({}, Symbol.dispose, function() {}));
-        } catch (_) {
-            _usingCtx14.e = _;
+            var d32 = _ts_add_disposable_resource(env14, _define_property({}, Symbol.dispose, function() {}), false);
+            ;
+        } catch (e) {
+            env14.error = e;
+            env14.hasError = true;
         } finally{
-            _usingCtx14.d();
+            _ts_dispose_resources(env14);
         }
     }
     var N;
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
 export { };

@@ -1,17 +1,22 @@
 //// [usingDeclarationsWithLegacyClassDecorators.5.ts]
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+let env = {
+    stack: [],
+    error: void 0,
+    hasError: !1
+};
 try {
-    var _usingCtx = _using_ctx();
-    _usingCtx.u(null);
+    _ts_add_disposable_resource(env, null, !1);
     class C {
     }
     C = _ts_decorate([
         dec
     ], C);
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e, env.hasError = !0;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
 export { C };

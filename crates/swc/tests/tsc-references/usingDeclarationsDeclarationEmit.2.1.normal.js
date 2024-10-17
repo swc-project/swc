@@ -1,16 +1,25 @@
 //// [usingDeclarationsDeclarationEmit.2.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var r1 = _usingCtx.u({
+    const r1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    });
-    var r2 = _usingCtx.a({
+    }, false);
+    ;
+    const r2 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
-    });
-} catch (_) {
-    _usingCtx.e = _;
+    }, true);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    await _usingCtx.d();
+    const result = _ts_dispose_resources(env);
+    if (result) await result;
 }
 export { };

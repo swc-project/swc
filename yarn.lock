@@ -4639,7 +4639,7 @@ __metadata:
     "@ast-grep/napi": "npm:^0.3.1"
     dprint: "npm:^0.35.3"
     magic-string: "npm:^0.30.0"
-    tslib: "npm:^2.7.0"
+    tslib: "npm:^2.8.0"
     zx: "npm:^7.2.1"
   languageName: unknown
   linkType: soft
@@ -16822,10 +16822,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.7.0":
-  version: 2.7.0
-  resolution: "tslib@npm:2.7.0"
-  checksum: 9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
+"tslib@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "tslib@npm:2.8.0"
+  checksum: 1bc7c43937477059b4d26f2dbde7e49ef0fb4f38f3014e0603eaea76d6a885742c8b1762af45949145e5e7408a736d20ded949da99dabc8ccba1fc5531d2d927
   languageName: node
   linkType: hard
 

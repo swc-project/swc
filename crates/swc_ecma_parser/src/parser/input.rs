@@ -414,6 +414,52 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
+    pub fn merge_lt_gt(&mut self) {
+        debug_assert!(
+            self.is(&tok!('<')) || self.is(&tok!('>')),
+            "parser should only call merge_lt_gt when encountering '<' or '>' token"
+        );
+
+        let span = self.cur_span();
+
+        if self.peek().is_none() {
+            return;
+        }
+
+        let next = self.next.as_ref().unwrap();
+
+        if span.hi != next.span.lo {
+            return;
+        }
+
+        let cur = self.cur.take().unwrap();
+        let next = self.next.take().unwrap();
+
+        let token = match (&cur.token, &next.token) {
+            (tok!('>'), tok!('>')) => tok!(">>"),
+            (tok!('>'), tok!('=')) => tok!(">="),
+            (tok!('>'), tok!(">>")) => tok!(">>>"),
+            (tok!('>'), tok!(">=")) => tok!(">>="),
+            (tok!('>'), tok!(">>=")) => tok!(">>>="),
+            (tok!('<'), tok!('<')) => tok!("<<"),
+            (tok!('<'), tok!('=')) => tok!("<="),
+            (tok!('<'), tok!("<=")) => tok!("<<="),
+
+            _ => {
+                self.cur = Some(cur);
+                self.next = Some(next);
+                return;
+            }
+        };
+        let span = span.with_hi(next.span.hi);
+
+        self.cur = Some(TokenAndSpan {
+            token,
+            span,
+            had_line_break: cur.had_line_break,
+        });
+    }
+
     #[inline]
     pub fn is(&mut self, expected: &Token) -> bool {
         match self.cur() {

@@ -1,14 +1,17 @@
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-var _Disposable;
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var Disposable = 1334;
-    _Disposable = Disposable;
-    var _disposable = _usingCtx.u(new Disposable());
+    const _disposable = _ts_add_disposable_resource(env, new Disposable(), false);
     console.log('ok');
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
-export { _Disposable as Disposable };
+export var Disposable = 1334;

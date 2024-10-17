@@ -1,11 +1,16 @@
-export { _default as default };
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var x = _usingCtx.u(null);
-    var _default = class {
-    };
-} catch (_) {
-    _usingCtx.e = _;
+    const x = _ts_add_disposable_resource(env, null, false);
+    ;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
+}
+export default class {
 }

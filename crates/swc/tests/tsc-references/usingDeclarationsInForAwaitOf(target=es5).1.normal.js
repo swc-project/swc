@@ -3,13 +3,14 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
     _main = _async_to_generator(function() {
-        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, d1, _usingCtx, err;
+        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, _, env, d1, err;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -39,14 +40,20 @@ function _main() {
                         5
                     ];
                     _value = _step.value;
-                    d1 = _value;
+                    _ = _value;
+                    env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
                     try {
-                        _usingCtx = _using_ctx();
+                        d1 = _ts_add_disposable_resource(env, _, false);
                         {}
-                    } catch (_) {
-                        _usingCtx.e = _;
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
                     } finally{
-                        _usingCtx.d();
+                        _ts_dispose_resources(env);
                     }
                     _state.label = 4;
                 case 4:

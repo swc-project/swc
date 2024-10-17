@@ -1,11 +1,17 @@
 {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx();
-        const x = _usingCtx.u(obj);
+        const x = _ts_add_disposable_resource(env, obj, false);
+        ;
         doSomethingWith(x);
-    } catch (_) {
-        _usingCtx.e = _;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        _usingCtx.d();
+        _ts_dispose_resources(env);
     }
 }

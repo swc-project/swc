@@ -1,4 +1,21 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Correct `>` and `<` when exit type context ([#9653](https://github.com/swc-project/swc/issues/9653)) ([abffc07](https://github.com/swc-project/swc/commit/abffc073561b3ba3906aa0923ef3880e5e30d538))
+
+
+- **(es/proposal)** Use `tsc` version of explicit resource management ([#9585](https://github.com/swc-project/swc/issues/9585)) ([f735108](https://github.com/swc-project/swc/commit/f7351080174c61bad5950be9b30c75c4f17ebe3e))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/typescript)** Improve enum comments and sourcemap ([#9652](https://github.com/swc-project/swc/issues/9652)) ([31fe3b6](https://github.com/swc-project/swc/commit/31fe3b6be151cbf63fe1ff06f922f814da105d08))
+
 ## [1.7.36] - 2024-10-15
 
 ### Bug Fixes
@@ -1312,22 +1329,13 @@
 
 
 
-- **(es/codegen)** Accept `&impl Node` instead of `impl Node` ([#8969](https://github.com/swc-project/swc/issues/8969)) ([a456799](https://github.com/swc-project/swc/commit/a4567998b0570fe7b657ce1361bd4e7c7d900999))
-
-
 - **(es/es2015)** Fix `typeof` comparions with `"object"` ([#8976](https://github.com/swc-project/swc/issues/8976)) ([51e0639](https://github.com/swc-project/swc/commit/51e0639ede63490bea9da7a4d8dbfdfe2185b169))
-
-
-- **(es/minifier)** Fix comparison of `-0.0` and `0` ([#8973](https://github.com/swc-project/swc/issues/8973)) ([2a43df4](https://github.com/swc-project/swc/commit/2a43df49848267ba68a320370e3a5818bf14478e))
 
 
 - **(es/minifier)** Mark usage in `TaggedTpl` as ref ([#8975](https://github.com/swc-project/swc/issues/8975)) ([a753c8d](https://github.com/swc-project/swc/commit/a753c8d1912940b142f8931dc700c19234b73308))
 
 ### Testing
 
-
-
-- **(es/decorators)** Add tests written by evanw ([#8967](https://github.com/swc-project/swc/issues/8967)) ([95472e4](https://github.com/swc-project/swc/commit/95472e4037dcfd85c96de92fad93c27bceee080e))
 
 
 - **(es/minifier)** Update the passing terser test list ([#8984](https://github.com/swc-project/swc/issues/8984)) ([c0dc5e4](https://github.com/swc-project/swc/commit/c0dc5e44ab5c2bbe904cd17f359d35834ca99e0f))
