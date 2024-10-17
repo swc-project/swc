@@ -2876,6 +2876,19 @@ impl VisitMut for Optimizer<'_> {
         n.finalizer.visit_mut_with(self);
     }
 
+    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
+        if self.options.ecma < EsVersion::Es2019 || !self.options.unused {
+            return;
+        }
+
+        if let Some(param) = &mut node.param {
+            self.take_pat_if_unused(param, None, false);
+            if param.is_invalid() {
+                node.param = None;
+            }
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let ctx = Ctx {
