@@ -17,4 +17,4 @@ bench = false
 mimalloc = { version = "0.1" }
 
 [target.'cfg(all(target_os = "linux", target_env = "gnu", any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
-tikv-jemallocator = { version = "0.5", features = ["disable_initial_exec_tls"] }
+tikv-jemallocator = { version = "0.6", features = ["disable_initial_exec_tls"] }
