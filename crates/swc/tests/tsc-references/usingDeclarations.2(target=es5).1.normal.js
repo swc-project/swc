@@ -1,13 +1,20 @@
 //// [usingDeclarations.2.ts]
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 {
+    var env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx();
-        var d1 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {})), d2 = _usingCtx.u(_define_property({}, Symbol.dispose, function() {}));
-    } catch (_) {
-        _usingCtx.e = _;
+        var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false), d2 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
+        ;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        _usingCtx.d();
+        _ts_dispose_resources(env);
     }
 }
