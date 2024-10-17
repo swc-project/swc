@@ -260,12 +260,51 @@ impl VisitMut for ExplicitResourceManagement {
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.visit_mut_children_with(self);
 
-        if let ForHead::UsingDecl(decl) = &mut n.left {
+        if let ForHead::UsingDecl(using) = &mut n.left {
             let mut state = State::default();
+            state.has_await |= using.is_await;
 
-            let var_decl = handle_using_decl(decl, &mut state);
+            let mut inner_var_decl = VarDecl {
+                kind: VarDeclKind::Const,
+                ..Default::default()
+            };
 
-            let mut body = vec![*n.body.take()];
+            for decl in &mut using.decls {
+                let new_var = private_ident!("_");
+
+                inner_var_decl.decls.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: decl.name.take(),
+                    init: Some(
+                        CallExpr {
+                            callee: helper!(ts, ts_add_disposable_resource),
+                            args: vec![
+                                state.env.clone().as_arg(),
+                                new_var.clone().as_arg(),
+                                using.is_await.as_arg(),
+                            ],
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
+                    definite: false,
+                });
+
+                decl.name = Pat::Ident(new_var.clone().into());
+            }
+
+            let var_decl = Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Const,
+                declare: false,
+                decls: using.decls.take(),
+                ..Default::default()
+            });
+
+            let mut body = vec![
+                Stmt::Decl(Decl::Var(Box::new(inner_var_decl))),
+                *n.body.take(),
+            ];
             self.wrap_with_try(state, &mut body);
 
             n.left = ForHead::VarDecl(var_decl);
