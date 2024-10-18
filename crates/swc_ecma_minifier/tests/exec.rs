@@ -1,4 +1,5 @@
 #![deny(warnings)]
+#![cfg(not(miri))]
 
 extern crate swc_malloc;
 
@@ -98,9 +99,12 @@ fn run(
     config: Option<&str>,
     mangle: Option<MangleOptions>,
 ) -> Option<Module> {
-    let _ = rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("rayon-{}", i + 1))
-        .build_global();
+    #[cfg(feature = "concurrent")]
+    {
+        let _ = rayon::ThreadPoolBuilder::new()
+            .thread_name(|i| format!("rayon-{}", i + 1))
+            .build_global();
+    }
 
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 

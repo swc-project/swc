@@ -1,3 +1,5 @@
+#![cfg(not(miri))]
+
 use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
