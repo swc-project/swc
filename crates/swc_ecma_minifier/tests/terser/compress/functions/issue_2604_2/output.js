@@ -1,5 +1,5 @@
 var a = "FAIL";
-(function () {
+(function() {
     try {
         throw 1;
     } catch (o) {

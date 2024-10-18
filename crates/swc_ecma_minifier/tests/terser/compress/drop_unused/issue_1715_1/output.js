@@ -2,9 +2,7 @@ var a = 1;
 function f() {
     try {
         x();
-    } catch (a) {
-        var a;
-    }
+    } catch (a) {}
 }
 f();
 console.log(a);
