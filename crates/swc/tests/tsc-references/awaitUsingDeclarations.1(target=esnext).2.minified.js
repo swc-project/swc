@@ -1,62 +1,241 @@
 //// [awaitUsingDeclarations.1.ts]
-await using d1 = {
-    async [Symbol.asyncDispose] () {}
-}
-await using d19 = {
-    async [Symbol.asyncDispose] () {}
-}
-switch(Math.random()){
-    case 0:
-        await using d20 = {
-            async [Symbol.asyncDispose] () {}
-        }
-        break;
-    case 1:
-        await using d21 = {
-            async [Symbol.asyncDispose] () {}
-        }
-}
-await using d22 = {
-    async [Symbol.asyncDispose] () {}
-}
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+let env = {
+    stack: [],
+    error: void 0,
+    hasError: !1
+};
 try {
-    await using d23 = {
+    _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
+    }, !0);
+    {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
     }
-} catch  {
-    await using d24 = {
-        async [Symbol.asyncDispose] () {}
+    switch(Math.random()){
+        case 0:
+            let env1 = {
+                stack: [],
+                error: void 0,
+                hasError: !1
+            };
+            try {
+                _ts_add_disposable_resource(env1, {
+                    async [Symbol.asyncDispose] () {}
+                }, !0);
+                break;
+            } catch (e) {
+                env1.error = e, env1.hasError = !0;
+            } finally{
+                let result = _ts_dispose_resources(env1);
+                result && await result;
+            }
+        case 1:
+            let env2 = {
+                stack: [],
+                error: void 0,
+                hasError: !1
+            };
+            try {
+                _ts_add_disposable_resource(env2, {
+                    async [Symbol.asyncDispose] () {}
+                }, !0);
+            } catch (e) {
+                env2.error = e, env2.hasError = !0;
+            } finally{
+                let result = _ts_dispose_resources(env2);
+                result && await result;
+            }
     }
+    {
+        let env3 = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env3, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env3.error = e, env3.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env3);
+            result && await result;
+        }
+    }
+    try {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    } catch  {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    } finally{
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    for(;;){
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+            break;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    for(;;){
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+            break;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    for(;;){
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+            break;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    for(let x in {}){
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+    for (let x of []){
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, !0);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            let result = _ts_dispose_resources(env);
+            result && await result;
+        }
+    }
+} catch (e) {
+    env.error = e, env.hasError = !0;
 } finally{
-    await using d25 = {
-        async [Symbol.asyncDispose] () {}
-    }
+    let result = _ts_dispose_resources(env);
+    result && await result;
 }
-await using d26 = {
-    async [Symbol.asyncDispose] () {}
-}
-for(;;){
-    await using d28 = {
-        async [Symbol.asyncDispose] () {}
-    }
-    break;
-}
-for(;;){
-    await using d29 = {
-        async [Symbol.asyncDispose] () {}
-    }
-    break;
-}
-for(;;){
-    await using d30 = {
-        async [Symbol.asyncDispose] () {}
-    }
-    break;
-}
-for(let x in {})await using d31 = {
-    async [Symbol.asyncDispose] () {}
-}
-for (let x of [])await using d32 = {
-    async [Symbol.asyncDispose] () {}
-}
-export { };

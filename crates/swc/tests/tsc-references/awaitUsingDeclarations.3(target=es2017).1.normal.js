@@ -1,16 +1,24 @@
 //// [awaitUsingDeclarations.3.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
     try {
-        var _usingCtx = _using_ctx();
-        const d1 = _usingCtx.a({
+        const d1 = _ts_add_disposable_resource(env, {
             async [Symbol.asyncDispose] () {}
-        }), d2 = _usingCtx.a(null), d3 = _usingCtx.a(undefined), d4 = _usingCtx.a({
+        }, true), d2 = _ts_add_disposable_resource(env, null, true), d3 = _ts_add_disposable_resource(env, undefined, true), d4 = _ts_add_disposable_resource(env, {
             [Symbol.dispose] () {}
-        });
-    } catch (_) {
-        _usingCtx.e = _;
+        }, true);
+        ;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
     } finally{
-        await _usingCtx.d();
+        const result = _ts_dispose_resources(env);
+        if (result) await result;
     }
 }export { };

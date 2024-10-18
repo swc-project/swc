@@ -1,11 +1,16 @@
 //// [usingDeclarationsWithLegacyClassDecorators.6.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-export { C as D };
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+var env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    var before = _usingCtx.u(null);
+    var before = _ts_add_disposable_resource(env, null, false);
+    ;
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
@@ -13,8 +18,10 @@ try {
     C = _ts_decorate([
         dec
     ], C);
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
+export { C as D };

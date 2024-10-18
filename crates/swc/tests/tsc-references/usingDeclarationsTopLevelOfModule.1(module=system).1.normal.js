@@ -1,37 +1,41 @@
 //// [usingDeclarationsTopLevelOfModule.1.ts]
 System.register([
-    "@swc/helpers/_/_using_ctx"
+    "@swc/helpers/_/_ts_add_disposable_resource",
+    "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     "use strict";
-    var _using_ctx, _x, _w;
-    _export({
-        x: void 0,
-        w: void 0
-    });
+    var _ts_add_disposable_resource, _ts_dispose_resources, env, x, w;
     return {
         setters: [
-            function(_using_ctx1) {
-                _using_ctx = _using_ctx1._;
+            function(_ts_add_disposable_resource1) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            },
+            function(_ts_dispose_resources1) {
+                _ts_dispose_resources = _ts_dispose_resources1._;
             }
         ],
         execute: function() {
+            env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
             try {
-                var _usingCtx = _using_ctx();
-                const x = 1;
-                _export("x", _x = x);
-                var z = _usingCtx.u({
+                const z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
-                });
+                }, false);
+                ;
                 const y = 2;
-                const w = 3;
-                _export("w", _w = w);
-                var _default = 4;
                 console.log(w, x, y, z);
-            } catch (_) {
-                _usingCtx.e = _;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
             } finally{
-                _usingCtx.d();
+                _ts_dispose_resources(env);
             }
+            _export("x", x = 1);
+            _export("w", w = 3);
+            _export("default", 4);
         }
     };
 });

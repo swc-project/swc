@@ -494,16 +494,16 @@ impl Optimizer<'_> {
         }
     }
 
-    fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
+    fn can_merge_stmt_as_if_return(&self, s: &Stmt, is_last: bool) -> bool {
         // if !res {
         //     trace!("Cannot merge: {}", dump(s));
         // }
 
         match s {
             Stmt::Expr(..) => true,
-            Stmt::Return(..) => true,
+            Stmt::Return(..) => is_last,
             Stmt::Block(s) => {
-                s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], false)
+                s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0], is_last)
             }
             Stmt::If(stmt) => {
                 matches!(&*stmt.cons, Stmt::Return(..))

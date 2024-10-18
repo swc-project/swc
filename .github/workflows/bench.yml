@@ -96,7 +96,7 @@ jobs:
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-codspeed@2.6.0
+          tool: cargo-codspeed@2.7.2
 
       - name: Build the benchmark target(s)
         run: cargo codspeed build --workspace --exclude swc_plugin_runner

@@ -1,6 +1,21 @@
 //// [usingDeclarations.3.ts]
-using d1 = {
-    [Symbol.dispose] () {}
-}, d2 = null, d3 = void 0, d4 = {
-    [Symbol.dispose] () {}
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+{
+    let env = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, !1), _ts_add_disposable_resource(env, null, !1), _ts_add_disposable_resource(env, void 0, !1), _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, !1);
+    } catch (e) {
+        env.error = e, env.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env);
+    }
 }

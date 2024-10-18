@@ -1267,6 +1267,13 @@ where
         let need_post_space = if self.cfg.minify {
             if is_kwd_op {
                 node.right.starts_with_alpha_num()
+            } else if node.op == op!("/") {
+                let span = node.right.span();
+
+                span.is_pure()
+                    || self
+                        .comments
+                        .map_or(false, |comments| comments.has_leading(node.right.span().lo))
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
@@ -1994,8 +2001,13 @@ where
                 .match_indices('\n')
                 .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
             {
-                self.wr
-                    .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                // If the string starts with a newline char, then adding a mark is redundant.
+                // This catches both "no newlines" and "newline after several chars".
+                if offset_gen != 0 {
+                    self.wr
+                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                }
+
                 self.wr
                     .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
                 last_offset_gen = offset_gen + 1;

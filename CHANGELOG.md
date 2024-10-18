@@ -5,7 +5,62 @@
 
 
 
+- **(es/parser)** Correct `>` and `<` when exit type context ([#9653](https://github.com/swc-project/swc/issues/9653)) ([abffc07](https://github.com/swc-project/swc/commit/abffc073561b3ba3906aa0923ef3880e5e30d538))
+
+
+- **(es/proposal)** Use `tsc` version of explicit resource management ([#9585](https://github.com/swc-project/swc/issues/9585)) ([f735108](https://github.com/swc-project/swc/commit/f7351080174c61bad5950be9b30c75c4f17ebe3e))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/typescript)** Improve enum comments and sourcemap ([#9652](https://github.com/swc-project/swc/issues/9652)) ([31fe3b6](https://github.com/swc-project/swc/commit/31fe3b6be151cbf63fe1ff06f922f814da105d08))
+
+## [1.7.36] - 2024-10-15
+
+### Bug Fixes
+
+
+
+- **(es)** Run esnext transforms on esnext target ([#9644](https://github.com/swc-project/swc/issues/9644)) ([8a19201](https://github.com/swc-project/swc/commit/8a192018247ad7ac253c2964038de5f626acb8c4))
+
+
+- **(es/codegen)** Emit space after div if rhs has leading comment ([#9631](https://github.com/swc-project/swc/issues/9631)) ([f2be26e](https://github.com/swc-project/swc/commit/f2be26efe090f5c1575f5bb9e4067f7ae531f11c))
+
+
+- **(es/lints)** Correct the false positive error of TS2309 ([#9635](https://github.com/swc-project/swc/issues/9635)) ([f74c1f3](https://github.com/swc-project/swc/commit/f74c1f3e5a117c22aa87a2754715066cb8dfe0fe))
+
+
+- **(es/minifier)** Only merge last if return ([#9633](https://github.com/swc-project/swc/issues/9633)) ([6f52949](https://github.com/swc-project/swc/commit/6f52949210ee2a71ed119cbcdf2db1842a2e63cb))
+
+
+- **(es/minifier)** Check type of assignment target before merging assignments ([#9617](https://github.com/swc-project/swc/issues/9617)) ([4436621](https://github.com/swc-project/swc/commit/44366215644f3fff2f897e509a56b36cb5e1f8a2))
+
+### Features
+
+
+
+- **(es)** Introduce `runPluginFirst` for Wasm plugins ([#9645](https://github.com/swc-project/swc/issues/9645)) ([3d3e434](https://github.com/swc-project/swc/commit/3d3e4340b33e124f551ee88b68bfaddb537a3c6a))
+
+
+- **(es/minifier)** Support unary negate in `cast_to_number` ([#9642](https://github.com/swc-project/swc/issues/9642)) ([88a2186](https://github.com/swc-project/swc/commit/88a2186ba419c98c73b997ca9ea90d7a8fd128e4))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update dependency magic-string to v0.30.12 ([#9634](https://github.com/swc-project/swc/issues/9634)) ([085bc19](https://github.com/swc-project/swc/commit/085bc191e46d4d46efc3d4a7cd5fc1240c8474dd))
+
+## [1.7.35] - 2024-10-10
+
+### Bug Fixes
+
+
+
 - **(ci)** Fix target triples ([#9622](https://github.com/swc-project/swc/issues/9622)) ([f625035](https://github.com/swc-project/swc/commit/f625035f8a21eb6d2bc487669a534257f3ef7c7c))
+
+
+- **(es/codegen)** Fix source map so it works with Sentry ([#9627](https://github.com/swc-project/swc/issues/9627)) ([9c90a73](https://github.com/swc-project/swc/commit/9c90a733691e9a15bc1c4182edabcefa8054e9d3))
 
 
 - **(es/minifier)** Compress consecutive return statements properly ([#9620](https://github.com/swc-project/swc/issues/9620)) ([8263da1](https://github.com/swc-project/swc/commit/8263da17664cc7cb5d49e1a8e9fbca8037fe991f))
@@ -1274,78 +1329,15 @@
 
 
 
-- **(es/codegen)** Accept `&impl Node` instead of `impl Node` ([#8969](https://github.com/swc-project/swc/issues/8969)) ([a456799](https://github.com/swc-project/swc/commit/a4567998b0570fe7b657ce1361bd4e7c7d900999))
-
-
 - **(es/es2015)** Fix `typeof` comparions with `"object"` ([#8976](https://github.com/swc-project/swc/issues/8976)) ([51e0639](https://github.com/swc-project/swc/commit/51e0639ede63490bea9da7a4d8dbfdfe2185b169))
 
 
-- **(es/minifier)** Add type check to `&` and `|` ([#8965](https://github.com/swc-project/swc/issues/8965)) ([545ec51](https://github.com/swc-project/swc/commit/545ec51b51643b8ef7908dbfceda09811f5fc087))
-
-
-- **(es/minifier)** Fix comparison of `-0.0` and `0` ([#8973](https://github.com/swc-project/swc/issues/8973)) ([2a43df4](https://github.com/swc-project/swc/commit/2a43df49848267ba68a320370e3a5818bf14478e))
-
-
 - **(es/minifier)** Mark usage in `TaggedTpl` as ref ([#8975](https://github.com/swc-project/swc/issues/8975)) ([a753c8d](https://github.com/swc-project/swc/commit/a753c8d1912940b142f8931dc700c19234b73308))
-
-### Features
-
-
-
-- **(es/codegen)** Add `to_code` ([#8968](https://github.com/swc-project/swc/issues/8968)) ([e80fd41](https://github.com/swc-project/swc/commit/e80fd41ea806f118ec9eeaa292f840c75aac3967))
-
-
-- **(plugin/runner)** Add description about wasi and file system ([#8963](https://github.com/swc-project/swc/issues/8963)) ([ced63a9](https://github.com/swc-project/swc/commit/ced63a973e48e542bc889675b2f2d4fb48abfb8d))
 
 ### Testing
 
 
 
-- **(es/decorators)** Add tests written by evanw ([#8967](https://github.com/swc-project/swc/issues/8967)) ([95472e4](https://github.com/swc-project/swc/commit/95472e4037dcfd85c96de92fad93c27bceee080e))
-
-
 - **(es/minifier)** Update the passing terser test list ([#8984](https://github.com/swc-project/swc/issues/8984)) ([c0dc5e4](https://github.com/swc-project/swc/commit/c0dc5e44ab5c2bbe904cd17f359d35834ca99e0f))
-
-## [1.5.8] - 2024-05-20
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Abort array property inliner if the array is used as a ref ([#8956](https://github.com/swc-project/swc/issues/8956)) ([255485e](https://github.com/swc-project/swc/commit/255485e373db506cf96448a76761113050b53c4d))
-
-
-- **(es/minifier)** Abort property hoisting on `eval` ([#8957](https://github.com/swc-project/swc/issues/8957)) ([02729f2](https://github.com/swc-project/swc/commit/02729f24d8d67ce598b530f84b4eb8a9c71cc45b))
-
-### Refactor
-
-
-
-- **(bindings)** Make `@swc/core` a subpackage ([#8625](https://github.com/swc-project/swc/issues/8625)) ([f960d52](https://github.com/swc-project/swc/commit/f960d52364e72fa7548cc8aaaf6367dfdf7b9a8f))
-
-## [1.5.7] - 2024-05-14
-
-### Documentation
-
-
-
-- **(es/typescript)** Fix example ([#8952](https://github.com/swc-project/swc/issues/8952)) ([ff60960](https://github.com/swc-project/swc/commit/ff60960afe3f2866e5c98f0414884fa93b5ab3f6))
-
-## [1.5.6] - 2024-05-14
-
-### Bug Fixes
-
-
-
-- **(es)** Allow input source map file to be omitted ([#8951](https://github.com/swc-project/swc/issues/8951)) ([606cb67](https://github.com/swc-project/swc/commit/606cb677c42dd43c24ba49ad0912998e33159560))
-
-
-- **(es/compat)** Avoid reserved name for private method ([#8949](https://github.com/swc-project/swc/issues/8949)) ([7053bb1](https://github.com/swc-project/swc/commit/7053bb16ce19ba476760b7fe0b1627d1210d6e18))
-
-
-- **(es/minifier)** Fix evaluation of `String.charCodeAt` ([#8946](https://github.com/swc-project/swc/issues/8946)) ([772c50f](https://github.com/swc-project/swc/commit/772c50fd7610768c43cf795b03dcae1d00f715d2))
-
-
-- **(es/minifier)** Abort seq inliner on `**` ([#8947](https://github.com/swc-project/swc/issues/8947)) ([3046d71](https://github.com/swc-project/swc/commit/3046d71daa77327e7b211cfdb641e3e6148bea5f))
 
 <!-- generated by git-cliff -->

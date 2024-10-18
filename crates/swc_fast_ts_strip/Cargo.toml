@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_fast_ts_strip"
 repository    = { workspace = true }
-version       = "0.12.0"
+version       = "1.0.0"
 
 
 [dependencies]
@@ -15,22 +15,22 @@ anyhow       = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 wasm-bindgen = { workspace = true, optional = true }
 
-swc_allocator = { version = "0.1.10", path = "../swc_allocator", default-features = false }
+swc_allocator = { version = "1.0.0", path = "../swc_allocator", default-features = false }
 
-swc_common = { version = "0.40.2", path = "../swc_common", features = [
+swc_common = { version = "1.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "0.121.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.158.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.152.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.150.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_typescript = { version = "0.203.1", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_visit = { version = "0.107.1", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "1.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "1.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "1.0.1", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "1.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_typescript = { version = "1.0.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_visit = { version = "1.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
-testing                   = { version = "0.42.1", path = "../testing" }
+testing                   = { version = "1.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

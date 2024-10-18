@@ -31,6 +31,7 @@ use tracing::trace;
 pub use self::{
     factory::{ExprFactory, FunctionFactory, IntoIndirectCall},
     value::{
+        Merge,
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,
             Str as StringType, Symbol as SymbolType, Undefined as UndefinedType,
@@ -932,17 +933,10 @@ pub trait ExprExt {
                 op: op!(unary, "-"),
                 arg,
                 ..
-            }) if matches!(
-                &**arg,
-                Expr::Ident(Ident {
-                    sym,
-                    ctxt,
-                    ..
-                }) if &**sym == "Infinity" && *ctxt == ctx.unresolved_ctxt
-            ) =>
-            {
-                -f64::INFINITY
-            }
+            }) => match arg.cast_to_number(ctx) {
+                (Pure, Known(v)) => -v,
+                _ => return (MayBeImpure, Unknown),
+            },
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
                 ref arg,

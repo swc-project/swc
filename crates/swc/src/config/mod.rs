@@ -74,9 +74,7 @@ use swc_ecma_visit::{Fold, VisitMutWith};
 
 pub use crate::plugin::PluginConfig;
 use crate::{
-    builder::{should_enable, PassBuilder},
-    dropped_comments_preserver::dropped_comments_preserver,
-    SwcImportResolver,
+    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver, SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -584,7 +582,7 @@ impl Options {
         let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
-        let plugin_transforms = {
+        let plugin_transforms: Box<dyn Fold> = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
@@ -645,13 +643,13 @@ impl Options {
                     }
                 }
 
-                crate::plugin::plugins(
+                Box::new(crate::plugin::plugins(
                     experimental.plugins,
                     transform_metadata_context,
                     comments.cloned(),
                     cm.clone(),
                     unresolved_mark,
-                )
+                ))
             }
 
             // Native runtime plugin target, based on assumption we have
@@ -665,26 +663,28 @@ impl Options {
                      skipped. Refer https://github.com/swc-project/swc/issues/3934 for the details.",
                 );
 
-                noop()
+                Box::new(noop())
             }
         };
 
         #[cfg(not(feature = "plugin"))]
-        let plugin_transforms = {
+        let plugin_transforms: Box<dyn Fold> = {
             if experimental.plugins.is_some() {
                 handler.warn(
                     "Plugin is not supported with current @swc/core. Plugin transform will be \
                      skipped.",
                 );
             }
-            noop()
+            Box::new(noop())
         };
+
+        let mut plugin_transforms = Some(plugin_transforms);
 
         let pass: Box<dyn Fold> = if experimental
             .disable_builtin_transforms_for_internal_testing
             .into_bool()
         {
-            Box::new(plugin_transforms)
+            plugin_transforms.unwrap()
         } else {
             let decorator_pass: Box<dyn Fold> =
                 match transform.decorator_version.unwrap_or_default() {
@@ -700,6 +700,11 @@ impl Options {
                 };
 
             Box::new(chain!(
+                if experimental.run_plugin_first.into_bool() {
+                    option_pass(plugin_transforms.take())
+                } else {
+                    Box::new(noop())
+                },
                 Optional::new(
                     lint_to_fold(swc_ecma_lints::rules::all(LintParams {
                         program: &program,
@@ -712,21 +717,14 @@ impl Options {
                     !disable_all_lints
                 ),
                 // Decorators may use type information
-                Optional::new(
-                    decorator_pass,
-                    should_enable(es_version, EsVersion::EsNext) && syntax.decorators()
-                ),
+                Optional::new(decorator_pass, syntax.decorators()),
                 Optional::new(
                     explicit_resource_management(),
-                    should_enable(es_version, EsVersion::EsNext)
-                        && syntax.explicit_resource_management()
+                    syntax.explicit_resource_management()
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
-                Optional::new(
-                    import_assertions(),
-                    should_enable(es_version, EsVersion::EsNext) && !keep_import_attributes
-                ),
+                Optional::new(import_assertions(), !keep_import_attributes),
                 Optional::new(
                     typescript::tsx::<Option<&dyn Comments>>(
                         cm.clone(),
@@ -757,7 +755,7 @@ impl Options {
                     ),
                     syntax.typescript()
                 ),
-                plugin_transforms,
+                option_pass(plugin_transforms.take()),
                 custom_before_pass(&program),
                 // handle jsx
                 Optional::new(
@@ -1233,6 +1231,9 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(default)]
+    pub run_plugin_first: BoolConfig<false>,
 
     #[serde(default)]
     pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
@@ -1759,4 +1760,11 @@ fn build_resolver(
     CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
     r
+}
+
+fn option_pass(pass: Option<Box<dyn Fold>>) -> Box<dyn Fold> {
+    match pass {
+        None => Box::new(noop()),
+        Some(pass) => pass,
+    }
 }

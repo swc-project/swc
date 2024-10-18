@@ -1,0 +1,25 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "module": {
+        "type": "es6"
+    },
+    "jsc": {
+        "target": "esnext",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "importAssertions": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true,
+            "useDefineForClassFields": true
+        },
+        "keepClassNames": true,
+        "experimental": {
+            "keepImportAttributes": true,
+            "emitAssertForImportAttributes": false
+        }
+    },
+    "minify": false
+}

@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.7.31-nightly-20241008.2",
+    "version": "1.7.36",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -27,19 +27,18 @@
     },
     "napi": {
         "binaryName": "swc",
-        "triples": {
-            "additional": [
-                "aarch64-apple-darwin",
-                "aarch64-unknown-linux-gnu",
-                "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc",
-                "armv7-unknown-linux-gnueabihf",
-                "armv7-unknown-linux-musleabihf",
-                "x86_64-unknown-linux-musl",
-                "i686-pc-windows-msvc",
-                "riscv64gc-unknown-linux-gnu"
-            ]
-        }
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",

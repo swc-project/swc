@@ -18,6 +18,7 @@ use swc_ecma_usage_analyzer::{
     marks::Marks,
     util::is_global_var_with_pure_property_access,
 };
+use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
@@ -98,6 +99,7 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) var_kind: Option<VarDeclKind>,
     pub(crate) var_initialized: bool,
+    pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) declared_as_catch_param: bool,
 
@@ -149,6 +151,7 @@ impl Default for VarUsageInfo {
             used_in_cond: Default::default(),
             var_kind: Default::default(),
             var_initialized: Default::default(),
+            merged_var_type: Default::default(),
             declared_as_catch_param: Default::default(),
             no_side_effect_for_member_access: Default::default(),
             callee_count: Default::default(),
@@ -247,6 +250,8 @@ impl Storage for ProgramData {
                             e.get_mut().reassigned = true
                         }
                     }
+
+                    e.get_mut().merged_var_type.merge(var_info.merged_var_type);
 
                     e.get_mut().ref_count += var_info.ref_count;
 
@@ -352,7 +357,7 @@ impl Storage for ProgramData {
         e.used_in_cond |= ctx.in_cond;
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool) {
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
         let e = self.vars.entry(i.clone()).or_default();
 
         let inited = self.initialized_vars.contains(&i);
@@ -361,6 +366,7 @@ impl Storage for ProgramData {
             e.reassigned = true
         }
 
+        e.merged_var_type.merge(Some(ty));
         e.assign_count += 1;
 
         if !is_op {
@@ -368,7 +374,7 @@ impl Storage for ProgramData {
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.var_initialized = true;
             } else {
-                e.reassigned = true
+                e.reassigned = true;
             }
 
             if e.ref_count == 1 && e.used_above_decl {
@@ -406,7 +412,7 @@ impl Storage for ProgramData {
         &mut self,
         ctx: Ctx,
         i: &Ident,
-        has_init: bool,
+        init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
         // if cfg!(feature = "debug") {
@@ -417,7 +423,7 @@ impl Storage for ProgramData {
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
-        if has_init {
+        if init_type.is_some() {
             if v.declared || v.var_initialized || v.assign_count > 0 {
                 #[cfg(feature = "debug")]
                 {
@@ -440,12 +446,13 @@ impl Storage for ProgramData {
             v.is_fn_local = false;
         }
 
-        v.var_initialized |= has_init;
+        v.var_initialized |= init_type.is_some();
+        v.merged_var_type.merge(init_type);
 
         v.declared_count += 1;
         v.declared = true;
         // not a VarDecl, thus always inited
-        if has_init || kind.is_none() {
+        if init_type.is_some() || kind.is_none() {
             self.initialized_vars.insert(i.to_id());
         }
         v.declared_as_catch_param |= ctx.in_catch_param;

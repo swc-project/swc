@@ -1,10 +1,12 @@
 //// [typeOfThisInStaticMembers11.ts]
-@foo
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 class C {
     static a = 1;
     static b = this.a + 1;
 }
-@foo
+C = _ts_decorate([
+    foo
+], C);
 class D extends C {
     static c = 2;
     static d = this.c + 1;
@@ -23,6 +25,9 @@ class D extends C {
         this.c = v + 1;
     }
 }
+D = _ts_decorate([
+    foo
+], D);
 class CC {
     static a = 1;
     static b = this.a + 1;

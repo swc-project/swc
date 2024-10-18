@@ -1,25 +1,25 @@
 //// [usingDeclarationsTopLevelOfModule.1.ts]
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-var _x;
-export { y };
-var _w;
-export { _default as default };
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+const env = {
+    stack: [],
+    error: void 0,
+    hasError: false
+};
 try {
-    var _usingCtx = _using_ctx();
-    const x = 1;
-    _x = x;
-    var z = _usingCtx.u({
+    const z = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    });
+    }, false);
+    ;
     const y = 2;
-    const w = 3;
-    _w = w;
-    var _default = 4;
     console.log(w, x, y, z);
-} catch (_) {
-    _usingCtx.e = _;
+} catch (e) {
+    env.error = e;
+    env.hasError = true;
 } finally{
-    _usingCtx.d();
+    _ts_dispose_resources(env);
 }
-export { _x as x };
-export { _w as w };
+export const x = 1;
+export { y };
+export const w = 3;
+export default 4;

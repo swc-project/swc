@@ -1,6 +1,6 @@
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -155,33 +155,38 @@ where
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
-            self.data.report_assign(self.ctx, id, is_read_modify)
+            // It's hard to determined the type of pat assignment
+            self.data
+                .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
         }
 
         if let Pat::Expr(e) = p {
             match &**e {
-                Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_read_modify),
+                Expr::Ident(i) => {
+                    self.data
+                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
+                }
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
         }
     }
 
-    fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool) {
+    fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            self.data.report_assign(self.ctx, i.to_id(), is_op)
+            self.data.report_assign(self.ctx, i.to_id(), is_op, ty)
         }
     }
 
     fn declare_decl(
         &mut self,
         i: &Ident,
-        has_init: bool,
+        init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
         is_fn_decl: bool,
     ) -> &mut S::VarData {
         self.scope.add_declared_symbol(i);
 
-        let v = self.data.declare_decl(self.ctx, i, has_init, kind);
+        let v = self.data.declare_decl(self.ctx, i, init_type, kind);
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();
@@ -267,13 +272,15 @@ where
         match &n.left {
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
-                    self.data.report_assign(self.ctx, id, is_op_assign)
+                    self.data
+                        .report_assign(self.ctx, id, is_op_assign, n.right.get_type())
                 }
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
+                    n.right.get_type(),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -516,7 +523,7 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        self.declare_decl(&n.ident, true, None, false);
+        self.declare_decl(&n.ident, Some(Value::Unknown), None, false);
 
         n.visit_children_with(self);
     }
@@ -526,7 +533,7 @@ where
         n.visit_children_with(self);
 
         if let Some(id) = &n.ident {
-            self.declare_decl(id, true, None, false);
+            self.declare_decl(id, Some(Value::Unknown), None, false);
         }
     }
 
@@ -681,7 +688,7 @@ where
             in_pat_of_param: false,
             in_catch_param: false,
             var_decl_kind_of_pat: None,
-            in_pat_of_var_decl_with_init: false,
+            in_pat_of_var_decl_with_init: None,
             ..self.ctx
         };
 
@@ -721,7 +728,8 @@ where
             in_decl_with_no_side_effect_for_member_access: true,
             ..self.ctx
         };
-        self.with_ctx(ctx).declare_decl(&n.ident, true, None, true);
+        self.with_ctx(ctx)
+            .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
         if n.function.body.is_empty() {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
@@ -889,15 +897,15 @@ where
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.declare_decl(&n.local, true, None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.declare_decl(&n.local, true, None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
-        self.declare_decl(&n.local, true, None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
@@ -907,7 +915,7 @@ where
             in_pat_of_param: false,
             in_catch_param: false,
             var_decl_kind_of_pat: None,
-            in_pat_of_var_decl_with_init: false,
+            in_pat_of_var_decl_with_init: None,
             ..self.ctx
         };
 
@@ -1238,7 +1246,7 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
-        self.report_assign_expr_if_ident(n.arg.as_ident(), true);
+        self.report_assign_expr_if_ident(n.arg.as_ident(), true, Value::Known(Type::Num));
         self.mark_mutation_if_member(n.arg.as_member());
     }
 
@@ -1278,7 +1286,7 @@ where
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
-                in_pat_of_var_decl_with_init: e.init.is_some(),
+                in_pat_of_var_decl_with_init: e.init.as_ref().map(|init| init.get_type()),
                 in_decl_with_no_side_effect_for_member_access: e
                     .init
                     .as_deref()

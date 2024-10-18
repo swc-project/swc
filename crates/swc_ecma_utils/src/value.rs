@@ -108,3 +108,18 @@ impl Not for Value<bool> {
         }
     }
 }
+
+pub trait Merge {
+    fn merge(&mut self, rhs: Self);
+}
+
+impl Merge for Option<Value<Type>> {
+    fn merge(&mut self, rhs: Self) {
+        *self = match (*self, rhs) {
+            (None, None) => None,
+            (None, Some(ty)) | (Some(ty), None) => Some(ty),
+            (Some(ty1), Some(ty2)) if ty1 == ty2 => Some(ty1),
+            _ => Some(Unknown),
+        }
+    }
+}
