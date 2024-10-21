@@ -602,6 +602,15 @@ fn issue_1203() {
 }
 
 #[test]
+fn issue_9663() {
+    let f = file("tests/projects/issue-9663/input.js").unwrap();
+    println!("{}", f);
+
+    assert!(f.contains("set = Reflect.set"));
+    assert!(!f.contains("function set1("));
+}
+
+#[test]
 fn codegen_1() {
     let f = file("tests/projects/codegen-1/input.js").unwrap();
     println!("{}", f);
