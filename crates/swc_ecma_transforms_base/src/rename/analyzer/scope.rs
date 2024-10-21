@@ -99,6 +99,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
+        preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
@@ -113,6 +114,7 @@ impl Scope {
             previous,
             reverse,
             queue,
+            preserved,
             preserved_symbols,
         );
 
@@ -122,6 +124,7 @@ impl Scope {
                 to,
                 &Default::default(),
                 reverse,
+                preserved,
                 preserved_symbols,
             );
         }
@@ -134,6 +137,7 @@ impl Scope {
         previous: &RenameMap,
         reverse: &mut ReverseMap,
         queue: Vec<Id>,
+        preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
@@ -141,7 +145,11 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
+            if preserved.contains(&id)
+                || to.get(&id).is_some()
+                || previous.get(&id).is_some()
+                || id.0 == "eval"
+            {
                 continue;
             }
 
