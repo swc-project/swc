@@ -1,12 +1,12 @@
 var _initClass;
 let _A;
 class A {
-    static {
-        ({ c: [_A, _initClass] } = _apply_decs_2203_r(this, [], [
+    static{
+        [_A, _initClass] = _apply_decs_2203_r(this, [], [
             dec
-        ]));
+        ]).c;
     }
-    static {
+    static{
         _initClass();
     }
 }
