@@ -1,4 +1,5 @@
 name: "Publish"
+run-name: "Publish ${{ inputs.version }}"
 
 env:
   CI: 1
