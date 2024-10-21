@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4441,7 +4441,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.5.0",
@@ -4657,7 +4657,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
