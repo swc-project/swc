@@ -191,6 +191,7 @@ where
                 &mut map,
                 &self.previous_cache,
                 &mut Default::default(),
+                &self.preserved,
                 &unresolved,
             );
         }
