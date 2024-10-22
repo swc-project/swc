@@ -156,6 +156,21 @@ passes of review and changes.
 Once the reviewer approves your pull request, a friendly bot picks it up
 and merges it into the SWC `main` branch.
 
+SWC uses changeset for changelog management with a bit of custom logic.
+A changeset for SWC looks like this:
+
+```markdown
+---
+swc_core: patch
+swc_ecma_transforms_base: patch
+---
+
+fix(es/renamer): Check `preserved` in normal renaming mode
+```
+
+You need to list the `crate names: patch | minor | major` in the front matter (`---` section).
+If you are not sure, you can skip it and the maintainer will help you.
+
 ## Contributing to the documentation
 
 The SWC documentation can be found at [`swc-project/website`](https://github.com/swc-project/website/tree/main/pages/docs).
