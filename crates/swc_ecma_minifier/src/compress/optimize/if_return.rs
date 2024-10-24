@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{StmtExt, StmtLike};
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -570,7 +570,7 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
 fn can_merge_as_if_return(s: &Stmt) -> bool {
     fn cost(s: &Stmt) -> Option<isize> {
         if let Stmt::Block(..) = s {
-            if !s.terminates() {
+            if !swc_ecma_utils::StmtExt::terminates(s) {
                 return None;
             }
         }

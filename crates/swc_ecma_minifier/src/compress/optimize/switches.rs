@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
+use swc_ecma_utils::{extract_var_ids, prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -55,7 +55,7 @@ impl Optimizer<'_> {
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(case.cons.extract_var_ids())
+                        var_ids.extend(extract_var_ids(&case.cons))
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -74,12 +74,12 @@ impl Optimizer<'_> {
 
         if let Some(exact) = exact {
             let exact_case = cases.last_mut().unwrap();
-            let mut terminate = exact_case.cons.terminates();
+            let mut terminate = exact_case.cons.iter().rev().any(|s| s.terminates());
             for case in stmt.cases[(exact + 1)..].iter_mut() {
                 if terminate {
-                    var_ids.extend(case.cons.extract_var_ids())
+                    var_ids.extend(extract_var_ids(&case.cons))
                 } else {
-                    terminate |= case.cons.terminates();
+                    terminate |= case.cons.iter().rev().any(|s| s.terminates());
                     exact_case.cons.extend(case.cons.take())
                 }
             }
@@ -90,7 +90,7 @@ impl Optimizer<'_> {
                     if case.test.is_some() {
                         true
                     } else {
-                        var_ids.extend(case.cons.extract_var_ids());
+                        var_ids.extend(extract_var_ids(&case.cons));
                         false
                     }
                 });
@@ -202,12 +202,16 @@ impl Optimizer<'_> {
         self.merge_cases_with_same_cons(cases);
 
         // last case with no empty body
-        let mut last = cases.len();
+        let mut last = 0;
 
         for (idx, case) in cases.iter_mut().enumerate().rev() {
             self.changed |= remove_last_break(&mut case.cons);
 
-            if !case.cons.is_empty() {
+            if case
+                .cons
+                .iter()
+                .any(|stmt| stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates())
+            {
                 last = idx + 1;
                 break;
             }
@@ -234,10 +238,18 @@ impl Optimizer<'_> {
         }
 
         if let Some(default) = default {
+            if cases.is_empty() {
+                return;
+            }
+
             let end = cases
                 .iter()
                 .skip(default)
-                .position(|case| !case.cons.is_empty())
+                .position(|case| {
+                    case.cons
+                        .iter()
+                        .any(|stmt| stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates())
+                })
                 .unwrap_or(0)
                 + default;
 
@@ -249,7 +261,10 @@ impl Optimizer<'_> {
                     .as_deref()
                     .map(|test| test.may_have_side_effects(&self.expr_ctx))
                     .unwrap_or(false)
-                    || (idx != end && !case.cons.is_empty())
+                    || (idx != end
+                        && case.cons.iter().any(|stmt| {
+                            stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates()
+                        }))
             });
 
             let start = start.map(|s| s + 1).unwrap_or(0);
@@ -292,7 +307,7 @@ impl Optimizer<'_> {
                     .map(|test| is_primitive(&self.expr_ctx, test).is_none())
                     .unwrap_or(false)
                     || !(cases[j].cons.is_empty()
-                        || cases[j].cons.terminates()
+                        || cases[j].cons.iter().rev().any(|s| s.terminates())
                         || j == cases.len() - 1);
 
                 if cases[j].cons.is_empty() {
@@ -419,7 +434,7 @@ impl Optimizer<'_> {
                     }
                     self.changed = true;
                     report_change!("switches: Turn two cases switch into if else");
-                    let terminate = first.cons.terminates();
+                    let terminate = first.cons.iter().rev().any(|s| s.terminates());
 
                     if terminate {
                         remove_last_break(&mut first.cons);
