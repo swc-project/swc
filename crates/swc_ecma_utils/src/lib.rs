@@ -514,9 +514,7 @@ pub trait StmtExt {
             Stmt::Decl(decl) => match decl {
                 Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class, in_strict),
                 Decl::Fn(_) => !in_strict,
-                Decl::Var(var_decl) if var_decl.kind == VarDeclKind::Var => {
-                    var_decl.decls.iter().any(|decl| decl.init.is_some())
-                }
+                Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
                 _ => false,
             },
             Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
