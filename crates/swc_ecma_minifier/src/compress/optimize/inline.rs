@@ -719,7 +719,7 @@ impl Optimizer<'_> {
                 })
             {
                 if let Decl::Class(ClassDecl { class, .. }) = decl {
-                    if class_has_side_effect(&self.expr_ctx, class) {
+                    if class_has_side_effect(&self.expr_ctx, class, self.ctx.in_strict) {
                         return;
                     }
                 }

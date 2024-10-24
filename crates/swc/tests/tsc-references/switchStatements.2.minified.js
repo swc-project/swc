@@ -25,7 +25,6 @@ switch((M || (M = {})).fn = function(x) {
     case void 0 === x ? "undefined" : _type_of(x):
     case void 0 === M ? "undefined" : _type_of(M):
     case M.fn(1):
-    default:
 }
 var x, M, C = function C() {
     _class_call_check(this, C);

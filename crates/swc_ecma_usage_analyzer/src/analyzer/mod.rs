@@ -1188,7 +1188,7 @@ where
             } else {
                 self.with_ctx(ctx).visit_in_cond(case);
             }
-            fallthrough = !case.cons.terminates()
+            fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
         }
     }
 
