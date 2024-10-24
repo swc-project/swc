@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "1.0.4"
+version = "1.0.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4657,7 +4657,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4820,7 +4820,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",

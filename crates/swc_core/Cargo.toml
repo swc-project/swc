@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "1.0.4"
+version       = "1.0.5"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -357,11 +357,11 @@ swc_ecma_ast                     = { optional = true, version = "1.0.0", path = 
 swc_ecma_codegen                 = { optional = true, version = "1.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "1.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "1.0.0", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "1.0.2", path = "../swc_ecma_minifier" }
+swc_ecma_minifier                = { optional = true, version = "1.0.3", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "1.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "1.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "1.0.0", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms_base         = { optional = true, version = "1.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { optional = true, version = "1.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "1.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module       = { optional = true, version = "1.0.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "1.0.0", path = "../swc_ecma_transforms_optimization" }
