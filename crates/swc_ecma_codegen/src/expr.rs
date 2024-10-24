@@ -65,6 +65,18 @@ mod tests {
         assert_min("2 >>> 2", "2>>>2");
         assert_min("foo in bar", "foo in bar");
         assert_min("foo instanceof Foo", "foo instanceof Foo");
+
+        assert_min("foo() in b", "foo()in b");
+        assert_min("typeof foo() in b", "typeof foo()in b");
+        assert_min("`` in b", "``in b");
+        assert_min("a?.foo() in b", "a?.foo()in b");
+        assert_min("++a[1] in b", "++a[1]in b");
+        assert_min("a++ in foo", "a++in foo");
+        assert_min("``+`` in b", "``+``in b");
+        assert_min("new Foo(a) in b", "new Foo(a)in b");
+
+        assert_min("new Foo() in b", "new Foo in b");
+        assert_min("++a in b", "++a in b");
     }
 
     #[test]
