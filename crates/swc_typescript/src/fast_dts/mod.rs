@@ -758,7 +758,7 @@ impl FastDts {
                     }
                 }
                 ClassMember::Method(method) => {
-                    let is_overload = method.function.body.is_none();
+                    let is_overload = method.function.body.is_none() && !method.is_abstract;
                     if !prev_is_overload || is_overload {
                         prev_is_overload = is_overload;
                         true
