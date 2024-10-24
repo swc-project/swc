@@ -1,2 +1,2 @@
-if (1 === id(123)) "no side effect";
+id(123);
 console.log("PASS");

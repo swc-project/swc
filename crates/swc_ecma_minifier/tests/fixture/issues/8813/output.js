@@ -13,7 +13,6 @@
     switch(x){
         case x:
         case y = "FAIL":
-        default:
     }
     console.log(y);
 })(), console.log("PASS 3"), console.log("PASS 4"), (()=>{
@@ -21,7 +20,6 @@
     switch('asdf'){
         case y = "PASS 5":
         case z = "PASS 5":
-        default:
     }
     console.log(y, z);
 })();
