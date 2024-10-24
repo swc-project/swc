@@ -219,6 +219,26 @@ fn dts_class_decl_prop_infer_test() {
 }
 
 #[test]
+fn dts_class_abstract_method_test() {
+    transform_dts_test(
+        r#"export abstract class Manager {
+    protected abstract A(): void;
+    protected B(): void {
+        console.log("B");
+    }
+    protected C(): void {
+        console.log("B");
+    }
+}"#,
+        r#"export declare abstract class Manager {
+    protected abstract A(): void;
+    protected B(): void;
+    protected C(): void;
+}"#,
+    );
+}
+
+#[test]
 fn dts_var_decl_test() {
     transform_dts_test(
         r#"export const foo: number = 42;"#,
