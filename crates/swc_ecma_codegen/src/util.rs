@@ -52,17 +52,36 @@ impl EndsWithAlphaNum for UsingDecl {
 
 impl EndsWithAlphaNum for Expr {
     fn ends_with_alpha_num(&self) -> bool {
-        !matches!(
-            self,
+        match self {
             Expr::Array(..)
-                | Expr::Object(..)
-                | Expr::Lit(Lit::Str(..))
-                | Expr::Paren(..)
-                | Expr::Member(MemberExpr {
-                    prop: MemberProp::Computed(..),
-                    ..
-                })
-        )
+            | Expr::Object(..)
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Paren(..)
+            | Expr::Member(MemberExpr {
+                prop: MemberProp::Computed(..),
+                ..
+            })
+            | Expr::Tpl(..)
+            | Expr::TaggedTpl(..)
+            | Expr::Call(..) => false,
+
+            Expr::Unary(n) => n.arg.ends_with_alpha_num(),
+
+            Expr::Update(n) => n.prefix && n.arg.ends_with_alpha_num(),
+
+            Expr::OptChain(n) => match n.base.as_ref() {
+                OptChainBase::Member(base) => base.prop.is_computed(),
+                OptChainBase::Call(_) => false,
+            },
+
+            Expr::Bin(n) => n.right.ends_with_alpha_num(),
+
+            Expr::New(NewExpr {
+                args: Some(args), ..
+            }) => args.is_empty(),
+
+            _ => true,
+        }
     }
 }
 
