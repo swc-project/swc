@@ -15,13 +15,13 @@ class Foo {
             }
         }, __ = {
             writable: true,
-            value: { e: [_init_bar] } = _apply_decs_2203_r(_Nested, [
+            value: [_init_bar] = _apply_decs_2203_r(_Nested, [
                 [
                     _dec,
                     0,
                     "bar"
                 ]
-            ], [])
+            ], []).e
         }, _Nested;
     }
     constructor(){

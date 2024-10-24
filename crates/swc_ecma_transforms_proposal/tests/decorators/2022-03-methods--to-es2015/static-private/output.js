@@ -12,7 +12,7 @@ var _a = {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_call_a, _initStatic] } = _apply_decs_2203_r(Foo, [
+        [_call_a, _initStatic] = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 7,
@@ -21,7 +21,7 @@ var __ = {
                     return this.value;
                 }
             ]
-        ], []));
+        ], []).e;
         _initStatic(Foo);
     })()
 };
