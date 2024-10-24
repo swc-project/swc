@@ -463,21 +463,21 @@ pub trait StmtExt {
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool;
 
-    fn may_have_side_effects(&self, ctx: &ExprCtx) -> bool {
+    fn may_have_side_effects(&self, ctx: &ExprCtx, in_strict: bool) -> bool {
         match self.as_stmt() {
             Stmt::Block(block_stmt) => block_stmt
                 .stmts
                 .iter()
-                .any(|stmt| stmt.may_have_side_effects(ctx)),
+                .any(|stmt| stmt.may_have_side_effects(ctx, in_strict)),
             Stmt::Empty(_) => false,
-            Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
+            Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx, in_strict),
             Stmt::If(if_stmt) => {
                 if_stmt.test.may_have_side_effects(ctx)
-                    || if_stmt.cons.may_have_side_effects(ctx)
+                    || if_stmt.cons.may_have_side_effects(ctx, in_strict)
                     || if_stmt
                         .alt
                         .as_ref()
-                        .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
+                        .map_or(false, |stmt| stmt.may_have_side_effects(ctx, in_strict))
             }
             Stmt::Switch(switch_stmt) => {
                 switch_stmt.discriminant.may_have_side_effects(ctx)
@@ -485,7 +485,10 @@ pub trait StmtExt {
                         case.test
                             .as_ref()
                             .map_or(false, |expr| expr.may_have_side_effects(ctx))
-                            || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
+                            || case
+                                .cons
+                                .iter()
+                                .any(|con| con.may_have_side_effects(ctx, in_strict))
                     })
             }
             Stmt::Try(try_stmt) => {
@@ -493,25 +496,24 @@ pub trait StmtExt {
                     .block
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(ctx))
+                    .any(|stmt| stmt.may_have_side_effects(ctx, in_strict))
                     || try_stmt.handler.as_ref().map_or(false, |handler| {
                         handler
                             .body
                             .stmts
                             .iter()
-                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                            .any(|stmt| stmt.may_have_side_effects(ctx, in_strict))
                     })
                     || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
                         finalizer
                             .stmts
                             .iter()
-                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                            .any(|stmt| stmt.may_have_side_effects(ctx, in_strict))
                     })
             }
             Stmt::Decl(decl) => match decl {
-                Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
-                // Assume FnDecl is hoisted in non-strict mode
-                Decl::Fn(_) => false,
+                Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class, in_strict),
+                Decl::Fn(_) => !in_strict,
                 Decl::Var(var_decl) if var_decl.kind == VarDeclKind::Var => {
                     var_decl.decls.iter().any(|decl| decl.init.is_some())
                 }
@@ -1423,7 +1425,8 @@ pub trait ExprExt {
             // Function expression does not have any side effect if it's not used.
             Expr::Fn(..) | Expr::Arrow(..) => false,
 
-            Expr::Class(c) => class_has_side_effect(ctx, &c.class),
+            // It's annoying to pass in_strict
+            Expr::Class(c) => class_has_side_effect(ctx, &c.class, false),
             Expr::Array(ArrayLit { elems, .. }) => elems
                 .iter()
                 .filter_map(|e| e.as_ref())
@@ -1588,7 +1591,7 @@ pub trait ExprExt {
     }
 }
 
-pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
+pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class, in_strict: bool) -> bool {
     if let Some(e) = &c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             return true;
@@ -1629,7 +1632,7 @@ pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
                 if s.body
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(expr_ctx))
+                    .any(|stmt| stmt.may_have_side_effects(expr_ctx, in_strict))
                 {
                     return true;
                 }

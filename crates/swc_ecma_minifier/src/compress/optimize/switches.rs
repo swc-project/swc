@@ -207,11 +207,9 @@ impl Optimizer<'_> {
         for (idx, case) in cases.iter_mut().enumerate().rev() {
             self.changed |= remove_last_break(&mut case.cons);
 
-            if case
-                .cons
-                .iter()
-                .any(|stmt| stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates())
-            {
+            if case.cons.iter().any(|stmt| {
+                stmt.may_have_side_effects(&self.expr_ctx, self.ctx.in_strict) || stmt.terminates()
+            }) {
                 last = idx + 1;
                 break;
             }
@@ -246,9 +244,10 @@ impl Optimizer<'_> {
                 .iter()
                 .skip(default)
                 .position(|case| {
-                    case.cons
-                        .iter()
-                        .any(|stmt| stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates())
+                    case.cons.iter().any(|stmt| {
+                        stmt.may_have_side_effects(&self.expr_ctx, self.ctx.in_strict)
+                            || stmt.terminates()
+                    })
                 })
                 .unwrap_or(0)
                 + default;
@@ -263,7 +262,8 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                     || (idx != end
                         && case.cons.iter().any(|stmt| {
-                            stmt.may_have_side_effects(&self.expr_ctx) || stmt.terminates()
+                            stmt.may_have_side_effects(&self.expr_ctx, self.ctx.in_strict)
+                                || stmt.terminates()
                         }))
             });
 
