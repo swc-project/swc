@@ -698,79 +698,85 @@ impl Options {
                 };
 
             Box::new((
-                if experimental.run_plugin_first.into_bool() {
-                    option_pass(plugin_transforms.take())
-                } else {
-                    Box::new(noop())
-                },
-                Optional::new(
-                    lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                        program: &program,
-                        lint_config: &lints,
-                        top_level_ctxt,
-                        unresolved_ctxt,
-                        es_version,
-                        source_map: cm.clone(),
-                    })),
-                    !disable_all_lints,
-                ),
-                // Decorators may use type information
-                Optional::new(decorator_pass, syntax.decorators()),
-                Optional::new(
-                    explicit_resource_management(),
-                    syntax.explicit_resource_management(),
+                (
+                    if experimental.run_plugin_first.into_bool() {
+                        plugin_transforms.take()
+                    } else {
+                        None
+                    },
+                    Optional::new(
+                        lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                            program: &program,
+                            lint_config: &lints,
+                            top_level_ctxt,
+                            unresolved_ctxt,
+                            es_version,
+                            source_map: cm.clone(),
+                        })),
+                        !disable_all_lints,
+                    ),
+                    // Decorators may use type information
+                    Optional::new(decorator_pass, syntax.decorators()),
+                    Optional::new(
+                        explicit_resource_management(),
+                        syntax.explicit_resource_management(),
+                    ),
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
-                Optional::new(import_assertions(), !keep_import_attributes),
-                Optional::new(
-                    typescript::tsx::<Option<&dyn Comments>>(
-                        cm.clone(),
-                        typescript::Config {
-                            import_export_assign_config,
-                            verbatim_module_syntax,
-                            ..Default::default()
-                        },
-                        typescript::TsxConfig {
-                            pragma: Some(
-                                transform
-                                    .react
-                                    .pragma
-                                    .clone()
-                                    .unwrap_or_else(default_pragma),
-                            ),
-                            pragma_frag: Some(
-                                transform
-                                    .react
-                                    .pragma_frag
-                                    .clone()
-                                    .unwrap_or_else(default_pragma_frag),
-                            ),
-                        },
-                        comments.map(|v| v as _),
-                        unresolved_mark,
-                        top_level_mark,
+                (
+                    Optional::new(import_assertions(), !keep_import_attributes),
+                    Optional::new(
+                        typescript::tsx::<Option<&dyn Comments>>(
+                            cm.clone(),
+                            typescript::Config {
+                                import_export_assign_config,
+                                verbatim_module_syntax,
+                                ..Default::default()
+                            },
+                            typescript::TsxConfig {
+                                pragma: Some(
+                                    transform
+                                        .react
+                                        .pragma
+                                        .clone()
+                                        .unwrap_or_else(default_pragma),
+                                ),
+                                pragma_frag: Some(
+                                    transform
+                                        .react
+                                        .pragma_frag
+                                        .clone()
+                                        .unwrap_or_else(default_pragma_frag),
+                                ),
+                            },
+                            comments.map(|v| v as _),
+                            unresolved_mark,
+                            top_level_mark,
+                        ),
+                        syntax.typescript(),
                     ),
-                    syntax.typescript(),
                 ),
-                option_pass(plugin_transforms.take()),
-                custom_before_pass(&program),
-                // handle jsx
-                Optional::new(
-                    react::react::<&dyn Comments>(
-                        cm.clone(),
-                        comments.map(|v| v as _),
-                        transform.react,
-                        top_level_mark,
-                        unresolved_mark,
+                (
+                    plugin_transforms.take(),
+                    custom_before_pass(&program),
+                    // handle jsx
+                    Optional::new(
+                        react::react::<&dyn Comments>(
+                            cm.clone(),
+                            comments.map(|v| v as _),
+                            transform.react,
+                            top_level_mark,
+                            unresolved_mark,
+                        ),
+                        syntax.jsx(),
                     ),
-                    syntax.jsx(),
-                ),
-                pass,
-                Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
-                Optional::new(
-                    dropped_comments_preserver(comments.cloned()),
-                    preserve_all_comments,
+                    pass,
+                    Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
+                    Optional::new(
+                        dropped_comments_preserver(comments.cloned()),
+                        preserve_all_comments,
+                    ),
                 ),
             ))
         };
@@ -1079,7 +1085,7 @@ impl Config {
 
 /// One `BuiltConfig` per a directory with swcrc
 #[non_exhaustive]
-pub struct BuiltInput<P: swc_ecma_visit::Fold> {
+pub struct BuiltInput<P: Pass> {
     pub program: Program,
     pub pass: P,
     pub syntax: Syntax,
@@ -1758,11 +1764,4 @@ fn build_resolver(
     CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
     r
-}
-
-fn option_pass(pass: Option<Box<dyn Pass>>) -> Box<dyn Pass> {
-    match pass {
-        None => Box::new(noop()),
-        Some(pass) => pass,
-    }
 }
