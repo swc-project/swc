@@ -20,18 +20,18 @@ pub trait Pass {
     fn process(&mut self, program: &mut Program);
 }
 
-pub fn folder<V>(pass: V) -> impl Pass
+pub fn from_fold<V>(pass: V) -> impl Pass
 where
     V: Fold,
 {
-    Folder { pass }
+    FoldPass { pass }
 }
 
-struct Folder<V> {
+struct FoldPass<V> {
     pass: V,
 }
 
-impl<V> Pass for Folder<V>
+impl<V> Pass for FoldPass<V>
 where
     V: Fold,
 {
@@ -40,18 +40,18 @@ where
     }
 }
 
-pub fn visit_mut<V>(pass: V) -> impl Pass
+pub fn from_visit_mut<V>(pass: V) -> impl Pass
 where
     V: VisitMut,
 {
-    VisitMutFolder { pass }
+    VisitMutPass { pass }
 }
 
-struct VisitMutFolder<V> {
+struct VisitMutPass<V> {
     pass: V,
 }
 
-impl<V> Pass for VisitMutFolder<V>
+impl<V> Pass for VisitMutPass<V>
 where
     V: VisitMut,
 {
@@ -64,14 +64,14 @@ pub fn visitor<V>(pass: V) -> impl Pass
 where
     V: Visit,
 {
-    Visitor { pass }
+    VisitorPass { pass }
 }
 
-struct Visitor<V> {
+struct VisitorPass<V> {
     pass: V,
 }
 
-impl<V> Pass for Visitor<V>
+impl<V> Pass for VisitorPass<V>
 where
     V: Visit,
 {
