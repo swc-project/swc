@@ -14,8 +14,14 @@ pub enum Program {
     Script(Script),
 }
 
+impl Take for Program {
+    fn dummy() -> Self {
+        Program::Script(Script::default())
+    }
+}
+
 #[ast_node("Module")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 pub struct Module {
     pub span: Span,
 
@@ -50,7 +56,7 @@ impl Take for Module {
 }
 
 #[ast_node("Script")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan, Default)]
 pub struct Script {
     pub span: Span,
 
