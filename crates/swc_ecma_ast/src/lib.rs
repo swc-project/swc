@@ -512,29 +512,6 @@ impl_pass_for_tuple!(
     [24, Y]
 );
 
-/// Chain multiple passes.
-///
-/// For compile time efficiency, this macro only supports up to 24 passes. You
-/// can nest `chain!` calls to chain more passes.
-#[macro_export]
-macro_rules! chain {
-    (
-        $(
-            $pass:expr
-        ),*
-    ) => {
-        ($($pass),*)
-    };
-
-    (
-        $(
-            $pass:expr,
-        )*
-    ) => {
-        ($($pass),*)
-    };
-}
-
 #[inline(always)]
 pub fn noop_pass() -> impl Pass {
     fn noop(_: &mut Program) {}
