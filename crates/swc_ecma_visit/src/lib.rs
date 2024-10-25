@@ -30,6 +30,7 @@ impl<V> Pass for FoldPass<V>
 where
     V: Fold,
 {
+    #[inline(always)]
     fn process(mut self, program: &mut Program) {
         program.map_with_mut(|p| p.fold_with(&mut self.pass));
     }
@@ -39,6 +40,7 @@ impl<V> Fold for FoldPass<V>
 where
     V: Fold,
 {
+    #[inline(always)]
     fn fold_program(&mut self, node: Program) -> Program {
         self.pass.fold_program(node)
     }
@@ -59,6 +61,7 @@ impl<V> Pass for VisitMutPass<V>
 where
     V: VisitMut,
 {
+    #[inline(always)]
     fn process(mut self, program: &mut Program) {
         program.visit_mut_with(&mut self.pass);
     }
@@ -68,6 +71,7 @@ impl<V> VisitMut for VisitMutPass<V>
 where
     V: VisitMut,
 {
+    #[inline(always)]
     fn visit_mut_program(&mut self, program: &mut Program) {
         self.pass.visit_mut_program(program);
     }
@@ -88,6 +92,7 @@ impl<V> Pass for VisitPass<V>
 where
     V: Visit,
 {
+    #[inline(always)]
     fn process(mut self, program: &mut Program) {
         program.visit_with(&mut self.pass);
     }
@@ -97,6 +102,7 @@ impl<V> Visit for VisitPass<V>
 where
     V: Visit,
 {
+    #[inline(always)]
     fn visit_program(&mut self, program: &Program) {
         self.pass.visit_program(program);
     }
