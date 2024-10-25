@@ -9,7 +9,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use self::config::BuiltConfig;
 pub use self::config::Config;
@@ -33,7 +33,7 @@ pub fn umd(
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
+) -> impl Pass {
     visit_mut_pass(Umd {
         config: config.build(cm.clone()),
         unresolved_mark,
