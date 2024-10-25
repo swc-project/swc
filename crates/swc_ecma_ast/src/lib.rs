@@ -173,6 +173,57 @@ macro_rules! impl_pass_for_tuple {
 }
 
 impl_pass_for_tuple!([0, A], [1, B]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F], [6, G]);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K]
+);
 
 #[macro_export]
 macro_rules! chain {
