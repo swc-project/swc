@@ -13,8 +13,8 @@ use pretty_assertions::assert_eq;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    chain, collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER,
-    input::StringInput, FromVariant, Mark,
+    collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, input::StringInput,
+    FromVariant, Mark,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -155,7 +155,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 fixer(None),
             );
 
-            let print = |m: &Module| {
+            let print = |m: &Program| {
                 let mut buf = Vec::new();
                 {
                     let mut emitter = Emitter {
@@ -170,7 +170,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         )),
                     };
 
-                    emitter.emit_module(m).expect("failed to emit module");
+                    emitter.emit_program(m).expect("failed to emit module");
                 }
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
@@ -193,7 +193,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             }
 
             let actual = helpers::HELPERS.set(&Default::default(), || {
-                HANDLER.set(&handler, || module.fold_with(&mut pass))
+                HANDLER.set(&handler, || Program::Module(module).apply(pass))
             });
 
             // debug mode?
@@ -256,13 +256,13 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     _ => Ordering::Equal,
                 });
 
-                m
+                Program::Module(m)
             };
 
             let expected_src = print(&expected);
 
-            if drop_span(actual.fold_with(&mut visit_mut_pass(Normalizer)))
-                == drop_span(expected.fold_with(&mut visit_mut_pass(Normalizer)))
+            if drop_span(actual.apply(&mut visit_mut_pass(Normalizer)))
+                == drop_span(expected.apply(&mut visit_mut_pass(Normalizer)))
             {
                 return Ok(());
             }

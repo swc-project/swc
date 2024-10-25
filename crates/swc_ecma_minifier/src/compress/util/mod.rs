@@ -2,14 +2,10 @@ use std::{cmp::Ordering, f64};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-#[cfg(feature = "debug")]
-use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-#[cfg(feature = "debug")]
-use swc_ecma_visit::{visit_mut_pass, FoldWith};
 
 #[cfg(feature = "debug")]
 use crate::debug::dump;

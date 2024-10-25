@@ -8,6 +8,7 @@
 use std::{fs, path::PathBuf};
 
 use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -19,7 +20,6 @@ use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_proposal::{decorators, decorators::Config};
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{strip, typescript};
-use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
     Syntax::Typescript(TsSyntax {

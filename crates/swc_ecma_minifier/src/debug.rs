@@ -95,7 +95,7 @@ pub(crate) fn invoke_module(module: &Module) {
             wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
-        emitter.emit_module(&module).unwrap();
+        emitter.emit_program(&module).unwrap();
     }
 
     let code = String::from_utf8(buf).unwrap();

@@ -5,13 +5,9 @@ use std::fmt::Debug;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
-#[cfg(debug_assertions)]
-use swc_ecma_visit::VisitWith;
 use swc_ecma_visit::{visit_mut_pass, FoldWith, VisitMut, VisitMutWith};
 
 use crate::debug::dump;
-#[cfg(debug_assertions)]
-use crate::debug::AssertValid;
 
 /// Indicates a unit of minifaction.
 pub(crate) trait CompileUnit:

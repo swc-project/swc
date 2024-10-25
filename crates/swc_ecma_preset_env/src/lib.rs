@@ -42,7 +42,7 @@ pub fn preset_env<C>(
     c: Config,
     assumptions: Assumptions,
     feature_set: &mut FeatureFlag,
-) -> impl Fold
+) -> impl Pass
 where
     C: Comments + Clone,
 {
