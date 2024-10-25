@@ -7,7 +7,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, visit_mut_obj_and_computed, VisitMut, VisitMutWith,
+    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
 use tracing::{debug, span, Level};
 
@@ -144,7 +144,7 @@ pub fn resolver(
     let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
 
-    from_visit_mut(Resolver {
+    visit_mut_pass(Resolver {
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,
         in_type: false,

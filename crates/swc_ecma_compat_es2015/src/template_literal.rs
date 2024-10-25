@@ -6,11 +6,11 @@ use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::{is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn template_literal(c: Config) -> impl Fold + VisitMut {
-    from_visit_mut(TemplateLiteral {
+    visit_mut_pass(TemplateLiteral {
         c,
         ..Default::default()
     })

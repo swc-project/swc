@@ -6,7 +6,7 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::{
-    from_visit_mut, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
+    visit_mut_obj_and_computed, visit_mut_pass, Fold, FoldWith, VisitMut, VisitMutWith,
 };
 use testing::{fixture, run_test2, NormalizedOutput};
 
@@ -78,7 +78,7 @@ fn test_resolver(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, Mark::new(), false),
-                from_visit_mut(TsHygiene { unresolved_mark }),
+                visit_mut_pass(TsHygiene { unresolved_mark }),
                 fixer(None)
             )
         },
@@ -98,7 +98,7 @@ fn test_ts_resolver(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, Mark::new(), true),
-                from_visit_mut(TsHygiene { unresolved_mark }),
+                visit_mut_pass(TsHygiene { unresolved_mark }),
                 fixer(None)
             )
         },

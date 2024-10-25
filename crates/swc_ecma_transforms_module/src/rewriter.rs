@@ -3,13 +3,13 @@ use std::sync::Arc;
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{from_visit_mut, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut, VisitMutWith};
 
 use crate::path::ImportResolver;
 
 /// Import rewriter, which rewrites imports as es modules.
 pub fn import_rewriter(base: FileName, resolver: Arc<dyn ImportResolver>) -> impl Fold + VisitMut {
-    from_visit_mut(Rewriter { base, resolver })
+    visit_mut_pass(Rewriter { base, resolver })
 }
 
 struct Rewriter {

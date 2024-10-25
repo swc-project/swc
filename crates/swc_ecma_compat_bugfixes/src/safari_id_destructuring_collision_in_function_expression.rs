@@ -4,11 +4,11 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
-    from_visit_mut(SafariIdDestructuringCollisionInFunctionExpression::default())
+    visit_mut_pass(SafariIdDestructuringCollisionInFunctionExpression::default())
 }
 
 #[derive(Default, Clone)]

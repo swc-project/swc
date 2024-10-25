@@ -6,7 +6,7 @@ use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -421,7 +421,7 @@ define_helpers!(Helpers {
 });
 
 pub fn inject_helpers(global_mark: Mark) -> impl Pass {
-    from_visit_mut(InjectHelpers {
+    visit_mut_pass(InjectHelpers {
         global_mark,
         helper_ctxt: None,
     })

@@ -19,7 +19,7 @@ use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
@@ -32,7 +32,7 @@ pub fn dce(
     config: Config,
     unresolved_mark: Mark,
 ) -> impl Fold + VisitMut + Repeated + CompilerPass {
-    from_visit_mut(TreeShaker {
+    visit_mut_pass(TreeShaker {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,

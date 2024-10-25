@@ -1,11 +1,11 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentUsageFinder;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn block_scoped_functions() -> impl Pass {
-    from_visit_mut(BlockScopedFns)
+    visit_mut_pass(BlockScopedFns)
 }
 
 #[derive(Clone, Copy)]

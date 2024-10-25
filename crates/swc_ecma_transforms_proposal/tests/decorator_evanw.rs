@@ -3,7 +3,7 @@ use std::{fs, path::PathBuf};
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
 use swc_ecma_transforms_testing::exec_tr;
-use swc_ecma_visit::from_visit_mut;
+use swc_ecma_visit::visit_mut_pass;
 
 const HELPERS: &str = r###"
 function assertEq(callback, expected) {
@@ -64,7 +64,7 @@ fn fixture(input: PathBuf) {
             auto_accessors: true,
             ..Default::default()
         }),
-        |_| from_visit_mut(decorator_2022_03()),
+        |_| visit_mut_pass(decorator_2022_03()),
         &code,
     );
 }

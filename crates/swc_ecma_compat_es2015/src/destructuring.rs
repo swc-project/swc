@@ -11,7 +11,7 @@ use swc_ecma_utils::{
     prop_name_to_expr, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 use swc_trace_macro::swc_trace;
@@ -38,7 +38,7 @@ use swc_trace_macro::swc_trace;
 ///     rest = _arr2.slice(2);
 /// ```
 pub fn destructuring(c: Config) -> impl Fold + VisitMut {
-    from_visit_mut(Destructuring { c })
+    visit_mut_pass(Destructuring { c })
 }
 
 struct Destructuring {

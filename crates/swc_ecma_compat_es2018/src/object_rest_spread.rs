@@ -1,6 +1,6 @@
 use serde::Deserialize;
 use swc_common::chain;
-use swc_ecma_visit::{from_visit_mut, Fold, VisitMut};
+use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut};
 
 use super::{object_rest::ObjectRest, object_spread::ObjectSpread};
 

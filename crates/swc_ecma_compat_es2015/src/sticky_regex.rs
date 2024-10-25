@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
@@ -19,7 +19,7 @@ use swc_trace_macro::swc_trace;
 /// new RegExp("o+", "y")
 /// ```
 pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
-    from_visit_mut(StickyRegex)
+    visit_mut_pass(StickyRegex)
 }
 
 struct StickyRegex;

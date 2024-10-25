@@ -1,7 +1,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
@@ -61,7 +61,7 @@ pub fn hygiene() -> impl Pass {
 pub fn hygiene_with_config(config: Config) -> impl 'static + Pass {
     chain!(
         renamer(config, HygieneRenamer),
-        from_visit_mut(HygieneRemover)
+        visit_mut_pass(HygieneRemover)
     )
 }
 

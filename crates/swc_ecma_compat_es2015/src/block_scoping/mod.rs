@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, Fold, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -35,7 +35,7 @@ mod vars;
 /// }
 /// ```
 pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
-    from_visit_mut(chain!(
+    visit_mut_pass(chain!(
         self::vars::block_scoped_vars(),
         BlockScoping {
             unresolved_mark,

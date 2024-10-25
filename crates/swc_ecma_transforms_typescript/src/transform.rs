@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
 
@@ -85,7 +85,7 @@ pub fn transform(
     verbatim_module_syntax: bool,
     native_class_properties: bool,
 ) -> impl Fold + VisitMut {
-    from_visit_mut(Transform {
+    visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         import_export_assign_config,

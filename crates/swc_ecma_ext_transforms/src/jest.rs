@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, StmtLike};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 static HOIST_METHODS: phf::Set<&str> = phf_set![
     "mock",
@@ -13,7 +13,7 @@ static HOIST_METHODS: phf::Set<&str> = phf_set![
 ];
 
 pub fn jest() -> impl Pass {
-    from_visit_mut(Jest::default())
+    visit_mut_pass(Jest::default())
 }
 
 #[derive(Default)]

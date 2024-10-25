@@ -8,7 +8,7 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(feature = "concurrent-renamer")]
@@ -60,7 +60,7 @@ pub fn rename(map: &RenameMap) -> impl '_ + Pass + VisitMut {
 }
 
 pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Pass + VisitMut {
-    from_visit_mut(Operator {
+    visit_mut_pass(Operator {
         rename: map,
         config,
         extra: Default::default(),
@@ -68,7 +68,7 @@ pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Pass + V
 }
 
 pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Pass + VisitMut {
-    from_visit_mut(Operator {
+    visit_mut_pass(Operator {
         rename: map,
         config,
         extra: Default::default(),
@@ -79,7 +79,7 @@ pub fn renamer<R>(config: Config, renamer: R) -> impl Pass + VisitMut
 where
     R: Renamer,
 {
-    from_visit_mut(RenamePass {
+    visit_mut_pass(RenamePass {
         config,
         renamer,
         preserved: Default::default(),

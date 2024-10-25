@@ -5,7 +5,7 @@ use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -13,7 +13,7 @@ use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith
 /// The pass will insert parenthesis as needed. In other words, it's
 /// okay to store `a * (b + c)` as `Bin { a * Bin { b + c } }`.
 pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass {
-    from_visit_mut(Fixer {
+    visit_mut_pass(Fixer {
         comments,
         ctx: Default::default(),
         span_map: Default::default(),
@@ -24,7 +24,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass {
 }
 
 pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass {
-    from_visit_mut(Fixer {
+    visit_mut_pass(Fixer {
         comments,
         ctx: Default::default(),
         span_map: Default::default(),

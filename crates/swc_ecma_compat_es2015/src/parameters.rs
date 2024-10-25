@@ -10,13 +10,13 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
 pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-    from_visit_mut(Params {
+    visit_mut_pass(Params {
         c,
         unresolved_ctxt,
         hoister: FnEnvHoister::new(unresolved_ctxt),

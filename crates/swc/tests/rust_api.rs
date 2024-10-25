@@ -6,7 +6,7 @@ use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::pass::noop;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 struct PanicOnVisit;
 
@@ -49,7 +49,7 @@ fn test_visit_mut() {
                 ..Default::default()
             },
             SingleThreadedComments::default(),
-            |_| from_visit_mut(PanicOnVisit),
+            |_| visit_mut_pass(PanicOnVisit),
             |_| noop(),
         );
 

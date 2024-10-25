@@ -3,7 +3,7 @@ use swc_common::{
     BytePos, Span, DUMMY_SP,
 };
 use swc_ecma_ast::{Module, Script};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 
 /// Preserves comments that would otherwise be dropped.
 ///
@@ -19,7 +19,7 @@ use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitM
 pub fn dropped_comments_preserver(
     comments: Option<SingleThreadedComments>,
 ) -> impl Fold + VisitMut {
-    from_visit_mut(DroppedCommentsPreserver {
+    visit_mut_pass(DroppedCommentsPreserver {
         comments,
         is_first_span: true,
         known_spans: Vec::new(),

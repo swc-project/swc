@@ -4,11 +4,11 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{alias_ident_for, prepend_stmt};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn logical_assignments() -> impl Fold + VisitMut {
-    from_visit_mut(Operators::default())
+    visit_mut_pass(Operators::default())
 }
 
 #[derive(Debug, Default)]

@@ -1,11 +1,11 @@
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut};
 use swc_trace_macro::swc_trace;
 
 pub fn export_namespace_from() -> impl Fold + VisitMut {
-    from_visit_mut(ExportNamespaceFrom)
+    visit_mut_pass(ExportNamespaceFrom)
 }
 
 struct ExportNamespaceFrom;

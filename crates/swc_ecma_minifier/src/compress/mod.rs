@@ -15,7 +15,7 @@ use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::{debug, error};
 
@@ -55,10 +55,10 @@ where
     };
 
     chain!(
-        from_visit_mut(compressor),
+        visit_mut_pass(compressor),
         Optional {
             enabled: options.evaluate || options.side_effects,
-            visitor: from_visit_mut(expr_simplifier(
+            visitor: visit_mut_pass(expr_simplifier(
                 marks.unresolved_mark,
                 ExprSimplifierConfig {}
             ))

@@ -25,7 +25,7 @@ use swc_ecma_transforms::{
     Assumptions,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub use self::transform_data::Feature;
 
@@ -340,7 +340,7 @@ where
 
     chain!(
         pass,
-        from_visit_mut(Polyfills {
+        visit_mut_pass(Polyfills {
             mode: c.mode,
             regenerator: should_enable!(Regenerator, true),
             corejs: c.core_js.unwrap_or(Version {

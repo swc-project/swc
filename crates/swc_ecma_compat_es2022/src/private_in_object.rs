@@ -12,12 +12,12 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::pass::JsPass;
 use swc_ecma_utils::{default_constructor, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// https://github.com/tc39/proposal-private-fields-in-in
 pub fn private_in_object() -> impl JsPass {
-    from_visit_mut(PrivateInObject::default())
+    visit_mut_pass(PrivateInObject::default())
 }
 
 #[derive(Debug)]

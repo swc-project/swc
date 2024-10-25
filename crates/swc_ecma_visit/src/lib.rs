@@ -46,7 +46,7 @@ where
     }
 }
 
-pub fn from_visit_mut<V>(pass: V) -> VisitMutPass<V>
+pub fn visit_mut_pass<V>(pass: V) -> VisitMutPass<V>
 where
     V: VisitMut,
 {

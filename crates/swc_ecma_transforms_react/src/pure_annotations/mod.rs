@@ -1,7 +1,7 @@
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, comments::Comments, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -16,7 +16,7 @@ pub fn pure_annotations<C>(comments: Option<C>) -> impl Fold + VisitMut
 where
     C: Comments,
 {
-    from_visit_mut(PureAnnotations {
+    visit_mut_pass(PureAnnotations {
         imports: Default::default(),
         comments,
     })

@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{private_ident, IdentUsageFinder};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-function-name`
@@ -23,7 +23,7 @@ use swc_trace_macro::swc_trace;
 /// var Foo = (class Foo {});
 /// ```
 pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
-    from_visit_mut(FnName)
+    visit_mut_pass(FnName)
 }
 
 #[derive(Clone, Copy)]

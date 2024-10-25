@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     StmtExt, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, trace};
 
@@ -26,7 +26,7 @@ mod tests;
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
 pub fn dead_branch_remover(unresolved_mark: Mark) -> impl RepeatedJsPass + VisitMut + 'static {
-    from_visit_mut(Remover {
+    visit_mut_pass(Remover {
         changed: false,
         normal_block: Default::default(),
         expr_ctx: ExprCtx {

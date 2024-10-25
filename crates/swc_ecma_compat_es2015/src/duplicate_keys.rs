@@ -3,11 +3,11 @@ use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_str;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn duplicate_keys() -> impl Fold + VisitMut {
-    from_visit_mut(DuplicateKeys)
+    visit_mut_pass(DuplicateKeys)
 }
 
 struct DuplicateKeys;

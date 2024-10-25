@@ -6,7 +6,7 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt,
 };
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, InjectVars, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, InjectVars, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5
@@ -58,7 +58,7 @@ use swc_trace_macro::swc_trace;
 /// console.log(bob.printFriends());
 /// ```
 pub fn arrow(unresolved_mark: Mark) -> impl Pass + VisitMut + InjectVars {
-    from_visit_mut(Arrow {
+    visit_mut_pass(Arrow {
         in_subclass: false,
         hoister: FnEnvHoister::new(SyntaxContext::empty().apply_mark(unresolved_mark)),
     })

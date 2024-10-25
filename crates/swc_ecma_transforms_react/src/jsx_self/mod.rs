@@ -2,7 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut};
 
 #[cfg(test)]
 mod tests;
@@ -11,7 +11,7 @@ mod tests;
 ///
 /// Add a __self prop to all JSX Elements
 pub fn jsx_self(dev: bool) -> impl Fold + VisitMut {
-    from_visit_mut(JsxSelf { dev })
+    visit_mut_pass(JsxSelf { dev })
 }
 
 #[derive(Clone, Copy)]

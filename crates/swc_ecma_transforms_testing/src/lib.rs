@@ -38,7 +38,7 @@ use swc_ecma_transforms_base::{
     pass::noop,
 };
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, FoldWith, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, FoldWith, VisitMut};
 use tempfile::tempdir_in;
 use testing::{
     assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
@@ -242,7 +242,7 @@ where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
 {
-    chain!(op(tester), from_visit_mut(RegeneratorHandler))
+    chain!(op(tester), visit_mut_pass(RegeneratorHandler))
 }
 
 #[track_caller]
@@ -258,7 +258,7 @@ pub fn test_transform<F, P>(
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            from_visit_mut(::swc_ecma_utils::DropSpan),
+            visit_mut_pass(::swc_ecma_utils::DropSpan),
             "output.js",
             syntax,
             is_module,
@@ -284,7 +284,7 @@ pub fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut from_visit_mut(::swc_ecma_utils::DropSpan))
+            .fold_with(&mut visit_mut_pass(::swc_ecma_utils::DropSpan))
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 

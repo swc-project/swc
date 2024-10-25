@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
-use swc_ecma_visit::{from_visit_mut, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, FoldWith, VisitMut, VisitMutWith};
 
 use crate::debug::dump;
 #[cfg(debug_assertions)]
@@ -55,7 +55,7 @@ impl CompileUnit for Module {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut from_visit_mut(DropSpan {})),
+                .fold_with(&mut visit_mut_pass(DropSpan {})),
             true,
         )
     }
@@ -84,7 +84,7 @@ impl CompileUnit for Script {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut from_visit_mut(DropSpan {})),
+                .fold_with(&mut visit_mut_pass(DropSpan {})),
             true,
         )
     }
@@ -113,7 +113,7 @@ impl CompileUnit for FnExpr {
                 .clone()
                 .fold_with(&mut fixer(None))
                 .fold_with(&mut hygiene())
-                .fold_with(&mut from_visit_mut(DropSpan {})),
+                .fold_with(&mut visit_mut_pass(DropSpan {})),
             true,
         )
     }

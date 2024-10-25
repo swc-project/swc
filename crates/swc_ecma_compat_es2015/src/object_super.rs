@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {
@@ -14,7 +14,7 @@ struct ObjectSuper {
 }
 
 pub fn object_super() -> impl Fold + VisitMut {
-    from_visit_mut(ObjectSuper {
+    visit_mut_pass(ObjectSuper {
         extra_vars: Vec::new(),
     })
 }

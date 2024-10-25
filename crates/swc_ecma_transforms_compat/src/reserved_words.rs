@@ -2,11 +2,11 @@ use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{
-    from_visit_mut, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, Fold, VisitMut, VisitMutWith,
 };
 
 pub fn reserved_words() -> impl 'static + Fold + VisitMut {
-    from_visit_mut(EsReservedWord)
+    visit_mut_pass(EsReservedWord)
 }
 
 #[derive(Clone, Copy)]

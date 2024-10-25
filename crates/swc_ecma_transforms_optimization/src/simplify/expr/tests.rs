@@ -2,7 +2,7 @@ use swc_common::{chain, Mark, SyntaxContext};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::from_visit_mut;
+use swc_ecma_visit::visit_mut_pass;
 
 use super::SimplifyExpr;
 

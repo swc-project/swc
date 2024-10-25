@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
-use swc_ecma_visit::{from_visit_mut, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 
 fn tr() -> impl Fold {
     let unresolved_mark = Mark::new();

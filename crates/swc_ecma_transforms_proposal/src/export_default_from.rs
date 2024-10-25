@@ -1,11 +1,11 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut};
 
 /// `@babel/plugin-proposal-export-default-from`
 pub fn export_default_from() -> impl Fold + VisitMut {
-    from_visit_mut(ExportDefaultFrom)
+    visit_mut_pass(ExportDefaultFrom)
 }
 
 struct ExportDefaultFrom;
