@@ -22,7 +22,7 @@ use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{visit_mut_pass, FoldWith, VisitMut};
+use swc_ecma_visit::{visit_mut_pass, VisitMut};
 use testing::{NormalizedOutput, Tester};
 
 /// options.json file
@@ -121,7 +121,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let mut pass = (
+            let pass = (
                 preset_env(
                     Mark::fresh(Mark::root()),
                     Some(SingleThreadedComments::default()),

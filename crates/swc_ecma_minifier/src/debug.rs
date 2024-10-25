@@ -9,7 +9,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 pub use swc_ecma_transforms_optimization::{debug_assert_valid, AssertValid};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 pub(crate) struct Debugger {}
@@ -186,7 +186,7 @@ pub(crate) fn invoke_script(script: &Script) {
             wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
-        emitter.emit_script(&script).unwrap();
+        emitter.emit_program(&script).unwrap();
     }
 
     let code = String::from_utf8(buf).unwrap();

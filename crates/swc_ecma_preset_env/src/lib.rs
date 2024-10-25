@@ -25,7 +25,7 @@ use swc_ecma_transforms::{
     Assumptions,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
-use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
 
 pub use self::transform_data::Feature;
 

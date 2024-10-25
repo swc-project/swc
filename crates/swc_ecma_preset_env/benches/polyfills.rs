@@ -4,7 +4,6 @@ use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
 use swc_ecma_transforms::helpers::{Helpers, HELPERS};
-use swc_ecma_visit::FoldWith;
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {

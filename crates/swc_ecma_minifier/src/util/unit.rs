@@ -5,7 +5,7 @@ use std::fmt::Debug;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{visit_mut_pass, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::debug::dump;
 
@@ -47,11 +47,10 @@ impl CompileUnit for Module {
             tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
 
         dump(
-            &self
-                .clone()
-                .fold_with(&mut fixer(None))
-                .fold_with(&mut hygiene())
-                .fold_with(&mut visit_mut_pass(DropSpan {})),
+            &Program::Module(self.clone())
+                .apply(fixer(None))
+                .apply(hygiene())
+                .apply(visit_mut_pass(DropSpan {})),
             true,
         )
     }
