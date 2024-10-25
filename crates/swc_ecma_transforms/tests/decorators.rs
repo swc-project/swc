@@ -7,7 +7,8 @@
 
 use std::{fs, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -36,7 +37,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr(_: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -48,7 +49,7 @@ fn tr(_: &Tester) -> impl Fold {
     )
 }
 
-fn ts_transform(t: &Tester) -> impl Fold {
+fn ts_transform(t: &Tester) -> impl Pass {
     simple_strip(
         t,
         Config {
@@ -58,7 +59,7 @@ fn ts_transform(t: &Tester) -> impl Fold {
     )
 }
 
-fn simple_strip(_: &Tester, config: Config) -> impl Fold {
+fn simple_strip(_: &Tester, config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -85,7 +86,7 @@ fn simple_strip(_: &Tester, config: Config) -> impl Fold {
 }
 
 /// Folder for `transformation_*` tests
-fn transformation(t: &Tester) -> impl Fold {
+fn transformation(t: &Tester) -> impl Pass {
     simple_strip(t, Default::default())
 }
 

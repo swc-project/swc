@@ -41,7 +41,7 @@ struct SystemJs {
     context_ident: Ident,
 }
 
-pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Fold {
+pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Pass {
     SystemJs {
         unresolved_mark,
         resolver,

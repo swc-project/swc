@@ -25,17 +25,18 @@ impl VisitMut for OptionalCatchBinding {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{chain, Mark};
+    use swc_common::Mark;
+    use swc_ecma_ast::{chain, Pass};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
-    use swc_ecma_visit::{visit_mut_pass, Fold};
+    use swc_ecma_visit::visit_mut_pass;
 
     use crate::optional_catch_binding::OptionalCatchBinding;
 
-    pub fn tr() -> impl Fold {
+    pub fn tr() -> impl Pass {
         chain!(
             resolver(Mark::new(), Mark::new(), false),
-            from_visit_mut(OptionalCatchBinding)
+            visit_mut_pass(OptionalCatchBinding)
         )
     }
 

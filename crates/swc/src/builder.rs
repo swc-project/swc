@@ -349,7 +349,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 feature_flag,
                 resolver,
             ),
-            from_visit_mut(MinifierPass {
+            visit_mut_pass(MinifierPass {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments,

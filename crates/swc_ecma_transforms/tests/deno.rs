@@ -4,7 +4,8 @@
 ))]
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, helpers::inject_helpers, hygiene, resolver};
 use swc_ecma_transforms_proposal::{

@@ -19,7 +19,7 @@ macro_rules! test_stmt {
                     resolver(unresolved_mark, top_level_mark, false),
                     paren_remover(None),
                     expr_simplifier(top_level_mark, Default::default()),
-                    from_visit_mut(super::Remover {
+                    visit_mut_pass(super::Remover {
                         changed: false,
                         normal_block: Default::default(),
                         expr_ctx: ExprCtx {

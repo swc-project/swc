@@ -20,7 +20,6 @@ use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::de::DeserializeOwned;
 use sha2::{Digest, Sha256};
 use swc_common::{
-    chain,
     comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     source_map::SourceMapGenConfig,
@@ -35,7 +34,6 @@ use swc_ecma_transforms_base::{
     fixer,
     helpers::{inject_helpers, HELPERS},
     hygiene,
-    pass::noop,
 };
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, FoldWith, VisitMut};
@@ -162,9 +160,9 @@ impl Tester<'_> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Fold>(
+    pub fn apply_transform<T: Pass>(
         &mut self,
-        mut tr: T,
+        tr: T,
         name: &str,
         syntax: Syntax,
         is_module: Option<bool>,
@@ -182,7 +180,7 @@ impl Tester<'_> {
                 },
             )?;
 
-        Ok(program.fold_with(&mut tr))
+        Ok(program.apply(tr))
     }
 
     pub fn print(&mut self, program: &Program, comments: &Rc<SingleThreadedComments>) -> String {
@@ -237,14 +235,6 @@ impl VisitMut for RegeneratorHandler {
     }
 }
 
-fn make_tr<F, P>(op: F, tester: &mut Tester<'_>) -> impl Fold
-where
-    F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
-{
-    chain!(op(tester), visit_mut_pass(RegeneratorHandler))
-}
-
 #[track_caller]
 pub fn test_transform<F, P>(
     syntax: Syntax,
@@ -254,11 +244,11 @@ pub fn test_transform<F, P>(
     expected: &str,
 ) where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold,
+    P: Pass,
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            visit_mut_pass(::swc_ecma_utils::DropSpan),
+            swc_ecma_utils::DropSpan,
             "output.js",
             syntax,
             is_module,
@@ -269,7 +259,7 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = make_tr(tr, tester);
+        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
         let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -284,9 +274,9 @@ pub fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut visit_mut_pass(::swc_ecma_utils::DropSpan))
-            .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+            .apply(::swc_ecma_utils::DropSpan)
+            .apply(hygiene::hygiene())
+            .apply(fixer::fixer(Some(&tester.comments)));
 
         println!("{:?}", tester.comments);
         println!("{:?}", expected_comments);
@@ -338,7 +328,7 @@ pub fn test_inline_input_output<F, P>(
     output: &str,
 ) where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold,
+    P: Pass,
 {
     let _logger = testing::init();
 
@@ -346,7 +336,7 @@ pub fn test_inline_input_output<F, P>(
 
     let expected_src = Tester::run(|tester| {
         let expected_program =
-            tester.apply_transform(noop(), "expected.js", syntax, is_module, expected)?;
+            tester.apply_transform(noop_pass(), "expected.js", syntax, is_module, expected)?;
 
         let expected_src = tester.print(&expected_program, &Default::default());
 
@@ -384,8 +374,8 @@ pub fn test_inline_input_output<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
+            .apply(crate::hygiene::hygiene())
+            .apply(crate::fixer::fixer(Some(&tester.comments)));
 
         let actual_src = tester.print(&actual, &Default::default());
 
@@ -411,7 +401,7 @@ pub fn test_inlined_transform<F, P>(
     input: &str,
 ) where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold,
+    P: Pass,
 {
     let loc = panic::Location::caller();
 
@@ -467,7 +457,7 @@ macro_rules! test_inline {
 test_inline!(
     ignore,
     Syntax::default(),
-    |_| noop(),
+    |_| noop_pass(),
     test_inline_ignored,
     "class Foo {}",
     "class Foo {}"
@@ -475,7 +465,7 @@ test_inline!(
 
 test_inline!(
     Syntax::default(),
-    |_| noop(),
+    |_| noop_pass(),
     test_inline_pass,
     "class Foo {}",
     "class Foo {}"
@@ -484,7 +474,13 @@ test_inline!(
 #[test]
 #[should_panic]
 fn test_inline_should_fail() {
-    test_inline_input_output(Default::default(), None, |_| noop(), "class Foo {}", "");
+    test_inline_input_output(
+        Default::default(),
+        None,
+        |_| noop_pass(),
+        "class Foo {}",
+        "",
+    );
 }
 
 #[macro_export]
@@ -537,10 +533,10 @@ macro_rules! test {
 pub fn compare_stdout<F, P>(syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
+    P: Pass,
 {
     Tester::run(|tester| {
-        let tr = make_tr(tr, tester);
+        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
 
         let program = tester.apply_transform(tr, "input.js", syntax, Some(true), input)?;
 
@@ -556,11 +552,11 @@ where
         }
 
         let mut program = program
-            .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+            .apply(hygiene::hygiene())
+            .apply(fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&program, &tester.comments.clone());
-        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        program = program.apply(inject_helpers(Mark::fresh(Mark::root())));
 
         let transformed_src = tester.print(&program, &tester.comments.clone());
 
@@ -585,10 +581,10 @@ where
 pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
+    P: Pass,
 {
     Tester::run(|tester| {
-        let tr = make_tr(tr, tester);
+        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
 
         let program = tester.apply_transform(
             tr,
@@ -614,11 +610,11 @@ where
         }
 
         let mut program = program
-            .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+            .apply(hygiene::hygiene())
+            .apply(fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&program, &tester.comments.clone());
-        program = program.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
+        program = program.apply(inject_helpers(Mark::fresh(Mark::root())));
 
         let src = tester.print(&program, &tester.comments.clone());
 
@@ -862,7 +858,7 @@ pub fn test_fixture<P>(
     output: &Path,
     config: FixtureTestConfig,
 ) where
-    P: Fold,
+    P: Pass,
 {
     let input = fs::read_to_string(input).unwrap();
 
@@ -877,7 +873,7 @@ pub fn test_fixture<P>(
 
 fn test_fixture_inner<'a>(
     syntax: Syntax,
-    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Fold>>,
+    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Pass>>,
     input: &str,
     output: &Path,
     config: FixtureTestConfig,
@@ -890,7 +886,7 @@ fn test_fixture_inner<'a>(
 
     let expected_src = Tester::run(|tester| {
         let expected_program =
-            tester.apply_transform(noop(), "expected.js", syntax, config.module, &expected)?;
+            tester.apply_transform(noop_pass(), "expected.js", syntax, config.module, &expected)?;
 
         let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
@@ -939,8 +935,8 @@ fn test_fixture_inner<'a>(
         }
 
         let actual = actual
-            .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
+            .apply(crate::hygiene::hygiene())
+            .apply(crate::fixer::fixer(Some(&tester.comments)));
 
         let actual_src = {
             let module = &actual;

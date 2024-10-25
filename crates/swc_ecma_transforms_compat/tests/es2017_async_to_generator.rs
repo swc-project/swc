@@ -38,7 +38,7 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -54,7 +54,7 @@ fn tr() -> impl Fold {
     )
 }
 
-fn with_resolver() -> impl Fold {
+fn with_resolver() -> impl Pass {
     let unresolved = Mark::new();
     let top_level = Mark::new();
     chain!(

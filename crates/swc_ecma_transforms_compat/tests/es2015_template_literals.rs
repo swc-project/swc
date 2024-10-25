@@ -7,7 +7,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr(config: template_literal::Config) -> impl Fold {
+fn tr(config: template_literal::Config) -> impl Pass {
     template_literal(config)
 }
 

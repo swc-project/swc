@@ -30,7 +30,7 @@ pub fn plugins(
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
-) -> impl Fold {
+) -> impl Pass {
     RustPlugins {
         plugins: configured_plugins,
         metadata_context,

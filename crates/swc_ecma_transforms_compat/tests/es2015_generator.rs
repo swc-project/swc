@@ -1,10 +1,10 @@
 #![allow(clippy::unit_arg)]
 
 use swc_common::{
-    chain,
     comments::{NoopComments, SingleThreadedComments},
     Mark,
 };
+use swc_ecma_ast::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -18,7 +18,7 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(_: ()) -> impl Fold {
+fn tr(_: ()) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     chain!(
@@ -27,7 +27,7 @@ fn tr(_: ()) -> impl Fold {
     )
 }
 
-fn tr_with_async() -> impl Fold {
+fn tr_with_async() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     chain!(

@@ -238,7 +238,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             r##"use swc_core::ecma::{
     ast::Program,
     transforms::testing::test_inline,
-    visit::{from_visit_mut, FoldWith, VisitMut},
+    visit::{visit_mut_pass, FoldWith, VisitMut},
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
@@ -267,7 +267,7 @@ impl VisitMut for TransformVisitor {
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
 pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    program.fold_with(&mut from_visit_mut(TransformVisitor))
+    program.fold_with(&mut visit_mut_pass(TransformVisitor))
 }
 
 // An example to test plugin transform.
@@ -276,7 +276,7 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 // unless explicitly required to do so.
 test_inline!(
     Default::default(),
-    |_| from_visit_mut(TransformVisitor),
+    |_| visit_mut_pass(TransformVisitor),
     boo,
     // Input codes
     r#"console.log("transform");"#,

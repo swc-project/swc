@@ -1,4 +1,5 @@
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{block_scoping, parameters, spread};
 use swc_ecma_transforms_testing::{test, test_exec};
@@ -8,7 +9,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 

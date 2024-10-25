@@ -20,7 +20,7 @@ use testing::NormalizedOutput;
 use super::*;
 use crate::{display_name, pure_annotations, react};
 
-fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
+fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
     let unresolved_mark = Mark::new();
 
     chain!(
@@ -61,7 +61,7 @@ fn true_by_default() -> bool {
     true
 }
 
-fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -85,7 +85,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     )
 }
 
-fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 

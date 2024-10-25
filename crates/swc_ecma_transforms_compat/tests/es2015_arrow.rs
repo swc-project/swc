@@ -1,12 +1,13 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_testing::{compare_stdout, test_fixture};
 use swc_ecma_visit::Fold;
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved = Mark::new();
     let global = Mark::new();
     chain!(resolver(unresolved, global, false), arrow(unresolved))

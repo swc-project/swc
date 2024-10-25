@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark, SyntaxContext};
-use swc_ecma_ast::{Ident, PropName, TsQualifiedName};
+use swc_common::{Mark, SyntaxContext};
+use swc_ecma_ast::{chain, Ident, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -12,7 +12,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
 use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, Fold, VisitMut, VisitMutWith};
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, Mark::new(), false),
@@ -674,7 +674,7 @@ fn fixture(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, Mark::new(), false),
                 block_scoping(unresolved_mark),
-                from_visit_mut(TsHygiene { unresolved_mark })
+                visit_mut_pass(TsHygiene { unresolved_mark })
             )
         },
         &input,

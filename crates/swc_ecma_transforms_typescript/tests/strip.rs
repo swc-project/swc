@@ -18,7 +18,7 @@ use swc_ecma_transforms_typescript::{
 };
 use swc_ecma_visit::Fold;
 
-fn tr(t: &mut Tester) -> impl Fold {
+fn tr(t: &mut Tester) -> impl Pass {
     tr_config(t, None, None, false)
 }
 
@@ -27,7 +27,7 @@ fn tr_config(
     config: Option<typescript::Config>,
     decorators_config: Option<decorators::Config>,
     use_define_for_class_fields: bool,
-) -> impl Fold {
+) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     let has_decorators = decorators_config.is_some();
@@ -54,7 +54,7 @@ fn tr_config(
     )
 }
 
-fn tsxr(t: &Tester) -> impl Fold {
+fn tsxr(t: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -82,7 +82,7 @@ fn tsxr(t: &Tester) -> impl Fold {
     )
 }
 
-fn properties(_: &Tester, loose: bool) -> impl Fold {
+fn properties(_: &Tester, loose: bool) -> impl Pass {
     let static_blocks_mark = Mark::new();
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();

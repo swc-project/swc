@@ -134,5 +134,5 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
 
     dbg!();
 
-    program.fold_with(&mut from_visit_mut(ConsoleOutputReplacer { metadata }))
+    program.fold_with(&mut visit_mut_pass(ConsoleOutputReplacer { metadata }))
 }

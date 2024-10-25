@@ -34,5 +34,5 @@ pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> P
         Program::Script(..) => {}
         Program::Module(..) => {}
     }
-    program.fold_with(&mut from_visit_mut(ConsoleOutputReplacer))
+    program.fold_with(&mut visit_mut_pass(ConsoleOutputReplacer))
 }

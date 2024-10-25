@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::{chain, Pass};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -16,11 +17,11 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(_: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Pass {
     classes(Default::default())
 }
 
-fn spec_tr(_: &Tester) -> impl Fold {
+fn spec_tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, Mark::new(), false),

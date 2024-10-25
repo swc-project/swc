@@ -18,7 +18,7 @@ fn fold(src: &str, expected: &str) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 paren_remover(None),
-                from_visit_mut(SimplifyExpr {
+                visit_mut_pass(SimplifyExpr {
                     expr_ctx: ExprCtx {
                         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
                         // This is hack

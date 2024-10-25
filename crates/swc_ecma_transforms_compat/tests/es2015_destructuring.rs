@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -19,7 +20,7 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     chain!(
         resolver(Mark::new(), Mark::new(), false),
         destructuring(Config { loose: true })

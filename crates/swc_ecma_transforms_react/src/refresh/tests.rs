@@ -5,7 +5,7 @@ use swc_ecma_transforms_testing::{test, Tester};
 use super::*;
 use crate::jsx;
 
-fn tr(t: &mut Tester) -> impl Fold {
+fn tr(t: &mut Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 

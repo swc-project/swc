@@ -3,7 +3,7 @@ use std::{iter, mem::take};
 use either::Either;
 use serde::Deserialize;
 use swc_common::{Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
+use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
@@ -54,7 +54,7 @@ mod legacy;
 ///   }
 /// }
 /// ```
-pub fn decorators(c: Config) -> impl Fold {
+pub fn decorators(c: Config) -> impl Pass {
     if c.legacy {
         Either::Left(visit_mut_pass(self::legacy::new(c.emit_metadata)))
     } else {
@@ -331,7 +331,7 @@ impl Decorators {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
                 let fn_name = $fn_name;
                 let method = $method;
-                let mut folder = swc_ecma_visit::from_visit_mut(SuperFieldAccessFolder {
+                let mut folder = SuperFieldAccessFolder {
                     class_name: &ident,
                     constructor_this_mark: None,
                     is_static: method.is_static,
@@ -343,9 +343,9 @@ impl Decorators {
                     constant_super: false,
                     super_class: &None,
                     in_pat: false,
-                });
+                };
 
-                let method = method.fold_with(&mut folder);
+                method.visit_mut_with(&mut folder);
 
                 //   kind: "method",
                 //   key: getKeyJ(),
