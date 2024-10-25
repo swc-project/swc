@@ -12,8 +12,7 @@ use swc_ecma_utils::{
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -41,7 +40,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn class_properties(config: Config, unresolved_mark: Mark) -> impl Pass {
     visit_mut_pass(ClassProperties {
         c: config,
         private: PrivateRecord::new(),
