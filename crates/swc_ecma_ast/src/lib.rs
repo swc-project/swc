@@ -125,9 +125,9 @@ macro_rules! chain {
             $pass:expr
         ),*
     ) => {
-        $crate::fn_pass(move |program| {
+        $crate::fn_pass(move |mut program| {
             $(
-                $pass.process(program);
+                program.mutate($pass);
             )*
         })
     };
@@ -137,9 +137,9 @@ macro_rules! chain {
             $pass:expr,
         )*
     ) => {
-        $crate::fn_pass(move |program| {
+        $crate::fn_pass(move |mut program| {
             $(
-                $pass.process(program);
+                program.mutate($pass);
             )*
         })
     };
