@@ -2,7 +2,7 @@
 #![allow(clippy::boxed_local)]
 
 use serde::Deserialize;
-use swc_common::chain;
+use swc_ecma_ast::chain;
 use swc_ecma_compat_common::regexp::{self, regexp};
 use swc_ecma_visit::Fold;
 
