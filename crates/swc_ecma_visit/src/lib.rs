@@ -15,7 +15,7 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
-pub fn from_fold<V>(pass: V) -> impl Pass
+pub fn from_fold<V>(pass: V) -> impl Pass + Fold
 where
     V: Fold,
 {
@@ -44,7 +44,7 @@ where
     }
 }
 
-pub fn from_visit_mut<V>(pass: V) -> impl Pass
+pub fn from_visit_mut<V>(pass: V) -> impl Pass + VisitMut
 where
     V: VisitMut,
 {
@@ -73,7 +73,7 @@ where
     }
 }
 
-pub fn visitor<V>(pass: V) -> impl Pass
+pub fn visitor<V>(pass: V) -> impl Pass + Visit
 where
     V: Visit,
 {
