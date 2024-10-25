@@ -15,14 +15,14 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
-pub fn from_fold<V>(pass: V) -> impl Pass + Fold
+pub fn from_fold<V>(pass: V) -> FoldPass<V>
 where
     V: Fold,
 {
     FoldPass { pass }
 }
 
-struct FoldPass<V> {
+pub struct FoldPass<V> {
     pass: V,
 }
 
@@ -44,14 +44,14 @@ where
     }
 }
 
-pub fn from_visit_mut<V>(pass: V) -> impl Pass + VisitMut
+pub fn from_visit_mut<V>(pass: V) -> VisitMutPass<V>
 where
     V: VisitMut,
 {
     VisitMutPass { pass }
 }
 
-struct VisitMutPass<V> {
+pub struct VisitMutPass<V> {
     pass: V,
 }
 
@@ -73,14 +73,14 @@ where
     }
 }
 
-pub fn visitor<V>(pass: V) -> impl Pass + Visit
+pub fn visitor<V>(pass: V) -> VisitPass<V>
 where
     V: Visit,
 {
     VisitPass { pass }
 }
 
-struct VisitPass<V> {
+pub struct VisitPass<V> {
     pass: V,
 }
 
