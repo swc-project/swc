@@ -12,7 +12,7 @@
 pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
@@ -128,6 +128,20 @@ where
     #[inline(always)]
     fn process(&mut self, program: &mut Program) {
         (**self).process(program);
+    }
+}
+
+impl<L, R> Pass for Either<L, R>
+where
+    L: Pass,
+    R: Pass,
+{
+    #[inline]
+    fn process(&mut self, program: &mut Program) {
+        match self {
+            Either::Left(l) => l.process(program),
+            Either::Right(r) => r.process(program),
+        }
     }
 }
 
