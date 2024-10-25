@@ -6,7 +6,7 @@ use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -420,8 +420,8 @@ define_helpers!(Helpers {
     using_ctx: (),
 });
 
-pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(InjectHelpers {
+pub fn inject_helpers(global_mark: Mark) -> impl Pass {
+    from_visit_mut(InjectHelpers {
         global_mark,
         helper_ctxt: None,
     })
@@ -631,7 +631,6 @@ impl VisitMut for Marker {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_visit::FoldWith;
     use testing::DebugUsingDisplay;
 
     use super::*;
@@ -643,7 +642,7 @@ mod tests {
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    as_folder(DropSpan),
+                    DropSpan,
                     "output.js",
                     Default::default(),
                     "import { _ as _throw } from \"@swc/helpers/_/_throw\";
@@ -655,9 +654,10 @@ _throw();",
 
                 let tr = as_folder(inject_helpers(Mark::new()));
                 let actual = tester
-                    .apply_transform(tr, "input.js", Default::default(), input)?
-                    .fold_with(&mut crate::hygiene::hygiene())
-                    .fold_with(&mut crate::fixer::fixer(None));
+                    .apply_transform(tr, "input.js", Default::default(), input)
+                    .map(Program::Module)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
 
                 if actual == expected {
                     return Ok(());
