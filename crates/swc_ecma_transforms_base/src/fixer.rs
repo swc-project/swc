@@ -5,7 +5,7 @@ use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -1178,7 +1178,6 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::pass::noop;
 
     fn run_test(from: &str, to: &str) {
         crate::tests::test_transform(
