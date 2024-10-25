@@ -102,6 +102,7 @@ mod typescript;
 pub trait Pass {
     fn process(&mut self, program: &mut Program);
 }
+
 /// Optional pass implementation.
 impl<P> Pass for Option<P>
 where
@@ -153,9 +154,27 @@ impl<P> Pass for swc_visit::Optional<P>
 where
     P: Pass,
 {
+    #[inline]
     fn process(&mut self, program: &mut Program) {
         if self.enabled {
             self.visitor.process(program);
+        }
+    }
+}
+
+impl<P> Pass for swc_visit::Repeat<P>
+where
+    P: Pass + swc_visit::Repeated,
+{
+    #[inline]
+    fn process(&mut self, program: &mut Program) {
+        loop {
+            self.pass.reset();
+            self.pass.process(program);
+
+            if !self.pass.changed() {
+                break;
+            }
         }
     }
 }
