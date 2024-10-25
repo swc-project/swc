@@ -3,7 +3,7 @@ use swc_ecma_transforms_testing::{test, test_exec};
 
 use super::*;
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     jsx_src(true, cm)
 }

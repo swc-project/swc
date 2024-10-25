@@ -1,6 +1,7 @@
 use std::{fs::File, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::chain;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
@@ -16,7 +17,7 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
+fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 

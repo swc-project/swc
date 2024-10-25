@@ -3,7 +3,7 @@ use swc_ecma_transforms_proposal::import_assertions;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     import_assertions()
 }
 

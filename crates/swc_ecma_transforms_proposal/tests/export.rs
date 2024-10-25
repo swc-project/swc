@@ -15,7 +15,7 @@ fn syntax_namespace() -> Syntax {
     Syntax::Es(Default::default())
 }
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     chain!(export_default_from(), export_namespace_from())
 }
 

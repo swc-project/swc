@@ -17,7 +17,7 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Fold {
+fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
