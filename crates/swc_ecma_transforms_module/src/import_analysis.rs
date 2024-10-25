@@ -3,15 +3,12 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitWith,
 };
 
 use crate::{module_decl_strip::LinkFlag, util::ImportInterop};
 
-pub fn import_analyzer(
-    import_interop: ImportInterop,
-    ignore_dynamic: bool,
-) -> impl Fold + VisitMut {
+pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> impl Pass {
     visit_mut_pass(ImportAnalyzer {
         import_interop,
         ignore_dynamic,
