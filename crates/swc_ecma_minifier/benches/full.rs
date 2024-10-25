@@ -74,7 +74,7 @@ fn run(src: &str) {
             .unwrap();
 
             let output = optimize(
-                program.into(),
+                program,
                 cm.clone(),
                 None,
                 None,
