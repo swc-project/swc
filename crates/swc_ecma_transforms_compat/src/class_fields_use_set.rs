@@ -83,7 +83,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitM
 ///     }
 /// }
 /// ```
-pub fn class_fields_use_set(pure_getters: bool) -> impl Fold + VisitMut {
+pub fn class_fields_use_set(pure_getters: bool) -> impl Pass {
     visit_mut_pass(ClassFieldsUseSet { pure_getters })
 }
 

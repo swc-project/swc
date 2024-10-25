@@ -11,11 +11,7 @@ use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-pub fn typescript(
-    config: Config,
-    unresolved_mark: Mark,
-    top_level_mark: Mark,
-) -> impl Fold + VisitMut {
+pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
     visit_mut_pass(TypeScript {
@@ -26,7 +22,7 @@ pub fn typescript(
     })
 }
 
-pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Fold + VisitMut {
+pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(Config::default(), unresolved_mark, top_level_mark)
 }
 

@@ -3,7 +3,7 @@ use swc_common::Mark;
 use swc_ecma_compat_es2022::optional_chaining_impl::optional_chaining_impl;
 use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut};
 
-pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Pass {
     visit_mut_pass(optional_chaining_impl(
         swc_ecma_compat_es2022::optional_chaining_impl::Config {
             no_document_all: c.no_document_all,
