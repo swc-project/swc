@@ -98,34 +98,3 @@ impl CompileUnit for Script {
         crate::debug::invoke_script(self);
     }
 }
-
-impl CompileUnit for FnExpr {
-    fn is_module() -> bool {
-        false
-    }
-
-    fn force_dump(&self) -> String {
-        let _noop_sub =
-            tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
-
-        dump(
-            &self
-                .clone()
-                .fold_with(&mut fixer(None))
-                .fold_with(&mut hygiene())
-                .fold_with(&mut visit_mut_pass(DropSpan {})),
-            true,
-        )
-    }
-
-    fn apply<V>(&mut self, visitor: &mut V)
-    where
-        V: VisitMut,
-    {
-        self.visit_mut_with(&mut *visitor);
-        #[cfg(debug_assertions)]
-        {
-            self.visit_with(&mut AssertValid);
-        }
-    }
-}
