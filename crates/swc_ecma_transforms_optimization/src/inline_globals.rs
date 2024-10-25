@@ -18,7 +18,7 @@ pub fn inline_globals(
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
-) -> impl Fold + VisitMut {
+) -> impl Pass {
     inline_globals2(envs, globals, Default::default(), typeofs)
 }
 
@@ -33,7 +33,7 @@ pub fn inline_globals2(
     globals: Lrc<AHashMap<JsWord, Expr>>,
     global_exprs: GlobalExprMap,
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
-) -> impl Fold + VisitMut {
+) -> impl Pass {
     visit_mut_pass(InlineGlobals {
         envs,
         globals,
