@@ -55,7 +55,7 @@ pub trait Renamer: Send + Sync {
 
 pub type RenameMap = FxHashMap<Id, Atom>;
 
-pub fn rename(map: &RenameMap) -> impl '_ + Fold + VisitMut {
+pub fn rename(map: &RenameMap) -> impl '_ + Pass + VisitMut {
     rename_with_config(map, Default::default())
 }
 

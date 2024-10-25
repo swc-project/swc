@@ -8,9 +8,9 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, Fold, FoldWith, Pass};
+use swc_ecma_visit::{Fold, FoldWith};
 
-use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config, pass::JsPass};
+use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -86,11 +86,11 @@ impl Tester<'_> {
 
     pub fn apply_transform<T: Pass>(
         &mut self,
-        mut tr: T,
+        tr: T,
         name: &str,
         syntax: Syntax,
         src: &str,
-    ) -> Result<Module, ()> {
+    ) -> Result<Program, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(name.into()).into(), src.into());
@@ -159,12 +159,7 @@ pub(crate) fn test_transform<F, P>(
     P: Pass,
 {
     crate::tests::Tester::run(|tester| {
-        let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan),
-            "output.js",
-            syntax,
-            expected,
-        )?;
+        let expected = tester.apply_transform(DropSpan, "output.js", syntax, expected)?;
 
         println!("----- Actual -----");
 
@@ -179,7 +174,7 @@ pub(crate) fn test_transform<F, P>(
             _ => {}
         }
 
-        let actual = Program::Module(actual)
+        let actual = actual
             .apply(hygiene_with_config(hygiene_config()))
             .apply(fixer(None))
             .apply(DropSpan);
