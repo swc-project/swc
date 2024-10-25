@@ -3,7 +3,7 @@
 
 use serde::Deserialize;
 use swc_common::{comments::Comments, Mark};
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 use swc_ecma_compat_common::regexp::{self, regexp};
 
 pub use self::{

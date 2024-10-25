@@ -4,7 +4,7 @@
 #![allow(rustc::untranslatable_diagnostic_trivial)]
 
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     display_name::display_name,
