@@ -23,7 +23,7 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
 
     let avalible_set = FeatureFlag::all();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, typescript),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         umd(

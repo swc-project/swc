@@ -104,7 +104,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 let mut done = false;
                 for factory in &mut factories {
                     if let Some(built) = factory(&builder, &name, options.clone()) {
-                        pass = Box::new(chain!(pass, built));
+                        pass = Box::new((pass, built));
                         done = true;
                         break;
                     }
@@ -115,7 +115,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 }
             }
 
-            pass = Box::new(chain!(pass, hygiene(), fixer(Some(&comments))));
+            pass = Box::new((pass, hygiene(), fixer(Some(&comments))));
 
             // Run pass
 

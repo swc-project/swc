@@ -23,7 +23,7 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
 
     let avalible_set = FeatureFlag::all();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         amd(
@@ -31,7 +31,7 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
             unresolved_mark,
             config,
             avalible_set,
-            Some(comments)
+            Some(comments),
         ),
     )
 }
@@ -75,7 +75,7 @@ fn esm_to_amd(input: PathBuf) {
 test!(
     module,
     syntax(),
-    |t| chain!(
+    |t| (
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()

@@ -56,27 +56,7 @@ fn fixture(input: PathBuf) {
                     "proposal-class-properties" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(
-                                pass,
-                                class_properties(
-                                    class_properties::Config {
-                                        set_public_fields: loose,
-                                        constant_super: loose,
-                                        no_document_all: loose,
-                                        private_as_properties: loose,
-                                        pure_getter: loose,
-                                        static_blocks_mark: Mark::new(),
-                                    },
-                                    unresolved_mark
-                                ),
-                            ));
-                        }
-                    }
-
-                    "proposal-private-methods" => {
-                        if !class_props {
-                            class_props = true;
-                            pass = Box::new(chain!(
+                            pass = Box::new((
                                 pass,
                                 class_properties(
                                     class_properties::Config {
@@ -88,13 +68,33 @@ fn fixture(input: PathBuf) {
                                         static_blocks_mark: Mark::new(),
                                     },
                                     unresolved_mark,
-                                )
+                                ),
+                            ));
+                        }
+                    }
+
+                    "proposal-private-methods" => {
+                        if !class_props {
+                            class_props = true;
+                            pass = Box::new((
+                                pass,
+                                class_properties(
+                                    class_properties::Config {
+                                        set_public_fields: loose,
+                                        constant_super: loose,
+                                        no_document_all: loose,
+                                        private_as_properties: loose,
+                                        pure_getter: loose,
+                                        static_blocks_mark: Mark::new(),
+                                    },
+                                    unresolved_mark,
+                                ),
                             ));
                         }
                     }
 
                     "transform-classes" => {
-                        pass = Box::new(chain!(pass, classes(Default::default())));
+                        pass = Box::new((pass, classes(Default::default())));
                     }
 
                     _ => {
@@ -103,7 +103,7 @@ fn fixture(input: PathBuf) {
                 }
             }
 
-            pass = Box::new(chain!(pass, private_in_object()));
+            pass = Box::new((pass, private_in_object()));
 
             pass
         },

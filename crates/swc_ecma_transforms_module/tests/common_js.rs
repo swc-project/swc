@@ -24,7 +24,7 @@ fn tr(config: common_js::Config, is_ts: bool) -> impl Pass {
 
     let available_set = FeatureFlag::all();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         common_js(Default::default(), unresolved_mark, config, available_set),
@@ -69,7 +69,7 @@ fn esm_to_cjs(input: PathBuf) {
 test!(
     module,
     syntax(),
-    |_| chain!(
+    |_| (
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()

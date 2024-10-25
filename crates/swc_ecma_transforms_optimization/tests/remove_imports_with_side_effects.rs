@@ -23,7 +23,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(resolver(Mark::new(), Mark::new(), false), tr()),
+            |_| (resolver(Mark::new(), Mark::new(), false), tr()),
             $name,
             $src
         );

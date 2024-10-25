@@ -12,7 +12,7 @@ pub mod nullish_coalescing;
 pub mod optional_chaining;
 
 pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
-    chain!(
+    (
         nullish_coalescing(config.nullish_coalescing),
         optional_chaining(config.optional_chaining, unresolved_mark),
         export_namespace_from(),

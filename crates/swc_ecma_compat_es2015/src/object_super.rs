@@ -497,7 +497,7 @@ mod tests {
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 object_super(),
                 shorthand(),
@@ -514,7 +514,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -531,7 +531,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -548,7 +548,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -573,7 +573,7 @@ mod tests {
             ..Default::default()
         }),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),

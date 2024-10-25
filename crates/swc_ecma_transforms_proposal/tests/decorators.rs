@@ -122,7 +122,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
 
     macro_rules! add {
         ($e:expr) => {{
-            pass = Box::new(chain!(pass, $e));
+            pass = Box::new((pass, $e));
         }};
     }
 

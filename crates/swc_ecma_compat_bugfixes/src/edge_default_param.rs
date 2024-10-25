@@ -70,9 +70,9 @@ mod tests {
     use super::*;
 
     fn tr() -> impl Pass {
-        chain!(
+        (
             resolver(Mark::new(), Mark::new(), false),
-            edge_default_param()
+            edge_default_param(),
         )
     }
 

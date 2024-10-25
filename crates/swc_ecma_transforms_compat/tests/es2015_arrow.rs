@@ -9,7 +9,7 @@ use swc_ecma_transforms_testing::{compare_stdout, test_fixture};
 fn tr() -> impl Pass {
     let unresolved = Mark::new();
     let global = Mark::new();
-    chain!(resolver(unresolved, global, false), arrow(unresolved))
+    (resolver(unresolved, global, false), arrow(unresolved))
 }
 
 compare_stdout!(
@@ -60,9 +60,9 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|_| {
             let unresolved_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
-                arrow(unresolved_mark)
+                arrow(unresolved_mark),
             )
         },
         &input,

@@ -17,9 +17,9 @@ fn syntax() -> Syntax {
 fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
-        system_js(Default::default(), unresolved_mark, config)
+        system_js(Default::default(), unresolved_mark, config),
     )
 }
 

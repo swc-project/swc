@@ -259,7 +259,7 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
+        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
         let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
@@ -536,7 +536,7 @@ where
     P: Pass,
 {
     Tester::run(|tester| {
-        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
+        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
 
         let program = tester.apply_transform(tr, "input.js", syntax, Some(true), input)?;
 
@@ -584,7 +584,7 @@ where
     P: Pass,
 {
     Tester::run(|tester| {
-        let tr = chain!(tr(tester), visit_mut_pass(RegeneratorHandler));
+        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
 
         let program = tester.apply_transform(
             tr,

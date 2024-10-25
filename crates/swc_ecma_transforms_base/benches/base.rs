@@ -52,7 +52,7 @@ fn hygiene(b: &mut Bencher) {
 }
 
 fn resolver_with_hygiene(b: &mut Bencher) {
-    tr!(b, || chain!(
+    tr!(b, || (
         swc_ecma_transforms_base::resolver(Mark::new(), Mark::new(), false),
         swc_ecma_transforms_base::hygiene::hygiene()
     ));

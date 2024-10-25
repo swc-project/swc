@@ -9,7 +9,7 @@ fn tr(t: &mut Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         refresh(
             true,
@@ -19,8 +19,8 @@ fn tr(t: &mut Tester) -> impl Pass {
             }),
             t.cm.clone(),
             Some(t.comments.clone()),
-            top_level_mark
-        )
+            top_level_mark,
+        ),
     )
 }
 
@@ -569,7 +569,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             refresh(
                 true,
@@ -579,14 +579,14 @@ test!(
                 }),
                 t.cm.clone(),
                 Some(t.comments.clone()),
-                top_level_mark
+                top_level_mark,
             ),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
                 top_level_mark,
-                unresolved_mark
+                unresolved_mark,
             ),
         )
     },
@@ -706,7 +706,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             refresh(
                 true,
@@ -717,8 +717,8 @@ test!(
                 }),
                 t.cm.clone(),
                 Some(t.comments.clone()),
-                top_level_mark
-            )
+                top_level_mark,
+            ),
         )
     },
     custom_identifier,

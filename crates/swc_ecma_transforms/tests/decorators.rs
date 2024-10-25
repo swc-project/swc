@@ -41,7 +41,7 @@ fn tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, true),
         decorators(Default::default()),
         class_fields_use_set(true),
@@ -63,7 +63,7 @@ fn simple_strip(_: &Tester, config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         decorators(config),
         resolver(unresolved_mark, top_level_mark, false),
         typescript(
@@ -72,7 +72,7 @@ fn simple_strip(_: &Tester, config: Config) -> impl Pass {
                 ..Default::default()
             },
             unresolved_mark,
-            top_level_mark
+            top_level_mark,
         ),
         class_fields_use_set(true),
         class_properties(
@@ -80,8 +80,8 @@ fn simple_strip(_: &Tester, config: Config) -> impl Pass {
                 set_public_fields: true,
                 ..Default::default()
             },
-            unresolved_mark
-        )
+            unresolved_mark,
+        ),
     )
 }
 
@@ -1636,7 +1636,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -1671,7 +1671,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -1705,7 +1705,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -1826,7 +1826,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -1859,7 +1859,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -1912,7 +1912,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2051,7 +2051,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2084,7 +2084,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2207,7 +2207,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2241,7 +2241,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2360,7 +2360,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2392,7 +2392,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2533,7 +2533,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2583,7 +2583,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2618,7 +2618,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2744,7 +2744,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2780,7 +2780,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2833,7 +2833,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -2968,7 +2968,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -3106,7 +3106,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -3243,7 +3243,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3278,7 +3278,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
@@ -3327,7 +3327,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3543,14 +3543,14 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
             }),
             class_properties(Default::default(), unresolved_mark),
-            classes(Default::default())
+            classes(Default::default()),
         )
     },
     decorators_legacy_interop_local_define_property,
@@ -3580,7 +3580,7 @@ fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
 
 test!(
     issue_395_syntax(),
-    |_| chain!(
+    |_| (
         decorators(Default::default()),
         common_js(
             Default::default(),
@@ -3609,7 +3609,7 @@ class Demo {
 
 test!(
     issue_395_syntax(),
-    |_| chain!(
+    |_| (
         decorators(Default::default()),
         common_js::common_js(
             Default::default(),
@@ -3643,7 +3643,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3681,7 +3681,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3725,14 +3725,14 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
             classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
-            })
+            }),
         )
     },
     function_name_object,
@@ -3765,14 +3765,14 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
             classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
-            })
+            }),
         )
     },
     function_name_export,
@@ -3809,7 +3809,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3837,7 +3837,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             decorators(decorators::Config {
                 legacy: true,
@@ -3875,14 +3875,14 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             function_name(),
             classes(Default::default()),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
-            })
+            }),
         )
     },
     function_name_eval,
@@ -3954,7 +3954,7 @@ fn fixture_exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 decorators(Config {
                     legacy: true,
@@ -3979,13 +3979,13 @@ fn legacy_only(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 decorators(Config {
                     legacy: true,
                     emit_metadata: false,
                     use_define_for_class_fields: false,
-                })
+                }),
             )
         },
         &input,
@@ -4004,13 +4004,13 @@ fn legacy_metadata(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
                     use_define_for_class_fields: false,
-                })
+                }),
             )
         },
         &input,

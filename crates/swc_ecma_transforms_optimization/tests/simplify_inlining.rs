@@ -25,7 +25,7 @@ macro_rules! to {
     ($name:ident, $src:expr) => {
         test!(
             Default::default(),
-            |_| chain!(
+            |_| (
                 resolver(Mark::new(), Mark::new(), false),
                 inlining(Default::default())
             ),
@@ -38,7 +38,7 @@ macro_rules! to {
         test!(
             ignore,
             Default::default(),
-            |_| chain!(
+            |_| (
                 resolver(Mark::new(), Mark::new(), false),
                 inlining(Default::default())
             ),
@@ -63,9 +63,9 @@ fn test(src: &str, expected: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                inlining(Default::default())
+                inlining(Default::default()),
             )
         },
         src,
@@ -2066,7 +2066,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
@@ -2074,9 +2074,9 @@ test!(
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     issue_1156_1,
@@ -2104,7 +2104,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
@@ -2112,9 +2112,9 @@ test!(
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     issue_1156_2,
@@ -2156,10 +2156,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     deno_8180_1,
@@ -2190,10 +2190,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     deno_8189_1,

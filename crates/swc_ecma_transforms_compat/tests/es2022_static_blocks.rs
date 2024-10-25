@@ -21,15 +21,15 @@ fn fixture(input: PathBuf) {
 
             let config = class_properties::Config::default();
             let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {
-                Box::new(chain!(
+                Box::new((
                     resolver(unresolved_mark, top_level_mark, false),
                     static_blocks(config.static_blocks_mark),
-                    class_properties(config, unresolved_mark)
+                    class_properties(config, unresolved_mark),
                 ))
             } else {
-                Box::new(chain!(
+                Box::new((
                     resolver(unresolved_mark, top_level_mark, false),
-                    static_blocks(config.static_blocks_mark)
+                    static_blocks(config.static_blocks_mark),
                 ))
             };
             pass

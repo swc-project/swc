@@ -13,10 +13,10 @@ mod safari_id_destructuring_collision_in_function_expression;
 mod template_literal_caching;
 
 pub fn bugfixes(unresolved_mark: Mark) -> impl Pass {
-    chain!(
+    (
         async_arrows_in_class(unresolved_mark),
         edge_default_param(),
         template_literal_caching(),
-        safari_id_destructuring_collision_in_function_expression()
+        safari_id_destructuring_collision_in_function_expression(),
     )
 }

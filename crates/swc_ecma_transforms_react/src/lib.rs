@@ -50,7 +50,7 @@ where
 
     let refresh_options = options.refresh.take();
 
-    chain!(
+    (
         jsx_src(development, cm.clone()),
         jsx_self(development),
         refresh(
@@ -58,14 +58,14 @@ where
             refresh_options.clone(),
             cm.clone(),
             comments.clone(),
-            top_level_mark
+            top_level_mark,
         ),
         jsx(
             cm.clone(),
             comments.clone(),
             options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
         pure_annotations(comments.clone()),

@@ -297,7 +297,7 @@ fn es3(b: &mut Bencher) {
 
 fn full_es2016(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        chain!(
+        (
             swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
@@ -309,7 +309,7 @@ fn full_es2016(b: &mut Bencher) {
 
 fn full_es2017(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        chain!(
+        (
             swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
@@ -320,7 +320,7 @@ fn full_es2017(b: &mut Bencher) {
 
 fn full_es2018(b: &mut Bencher) {
     run(b, |unresolved_mark| {
-        chain!(
+        (
             swc_ecma_transforms_compat::es2022(Default::default(), unresolved_mark),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),

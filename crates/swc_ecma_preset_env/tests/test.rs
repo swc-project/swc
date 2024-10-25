@@ -121,7 +121,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let mut pass = chain!(
+            let mut pass = (
                 preset_env(
                     Mark::fresh(Mark::root()),
                     Some(SingleThreadedComments::default()),
@@ -152,7 +152,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     Default::default(),
                     &mut Default::default(),
                 ),
-                fixer(None)
+                fixer(None),
             );
 
             let print = |m: &Module| {

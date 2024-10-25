@@ -15,7 +15,7 @@ fn fold(src: &str, expected: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 paren_remover(None),
                 visit_mut_pass(SimplifyExpr {
@@ -29,7 +29,7 @@ fn fold(src: &str, expected: &str) {
                     is_arg_of_update: false,
                     is_modifying: false,
                     in_callee: false,
-                })
+                }),
             )
         },
         src,

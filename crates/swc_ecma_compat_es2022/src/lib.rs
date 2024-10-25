@@ -15,7 +15,7 @@ pub mod private_in_object;
 pub mod static_blocks;
 
 pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
-    chain!(
+    (
         regexp(regexp::Config {
             dot_all_regex: true,
             has_indices: true,

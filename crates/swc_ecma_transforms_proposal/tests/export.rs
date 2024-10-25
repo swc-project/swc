@@ -16,7 +16,7 @@ fn syntax_namespace() -> Syntax {
 }
 
 fn tr() -> impl Pass {
-    chain!(export_default_from(), export_namespace_from())
+    (export_default_from(), export_namespace_from())
 }
 
 test!(

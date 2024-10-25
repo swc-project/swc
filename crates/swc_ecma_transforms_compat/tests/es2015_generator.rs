@@ -21,19 +21,19 @@ fn syntax() -> Syntax {
 fn tr(_: ()) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
-        generator(unresolved_mark, NoopComments)
+        generator(unresolved_mark, NoopComments),
     )
 }
 
 fn tr_with_async() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         async_to_generator(Default::default(), unresolved_mark),
-        generator(unresolved_mark, NoopComments)
+        generator(unresolved_mark, NoopComments),
     )
 }
 
@@ -910,13 +910,13 @@ test_exec!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        chain!(
+        (
             es2017(Default::default(), unresolved_mark),
             es2016(),
             es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -932,7 +932,7 @@ test_exec!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
             es2015::for_of(Default::default()),
             generator(unresolved_mark, t.comments.clone()),
@@ -1368,9 +1368,9 @@ test!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
-            es2015::<SingleThreadedComments>(mark, None, Default::default())
+            es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
     },
     issue_1799_2,
@@ -1385,7 +1385,7 @@ test!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
@@ -1405,7 +1405,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             es2022(Default::default(), unresolved_mark),
             es2021(),
@@ -1443,10 +1443,10 @@ test_exec!(
     Syntax::default(),
     |t| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
             es2015::for_of(Default::default()),
-            generator(mark, t.comments.clone())
+            generator(mark, t.comments.clone()),
         )
     },
     issue_1918_1,

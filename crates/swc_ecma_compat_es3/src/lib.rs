@@ -11,9 +11,9 @@ mod reserved_word;
 
 /// Make output es3-compatible.
 pub fn es3(preserve_import: bool) -> impl Pass {
-    chain!(
+    (
         property_literals(),
         member_expression_literals(),
-        reserved_words(preserve_import)
+        reserved_words(preserve_import),
     )
 }

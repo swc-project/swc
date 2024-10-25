@@ -14,7 +14,7 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|_| {
             let unresolved_mark = Mark::new();
-            chain!(resolver(unresolved_mark, Mark::new(), false), shorthand())
+            (resolver(unresolved_mark, Mark::new(), false), shorthand())
         },
         &input,
         &output,

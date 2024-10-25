@@ -34,9 +34,9 @@ mod tests {
     use crate::optional_catch_binding::OptionalCatchBinding;
 
     pub fn tr() -> impl Pass {
-        chain!(
+        (
             resolver(Mark::new(), Mark::new(), false),
-            visit_mut_pass(OptionalCatchBinding)
+            visit_mut_pass(OptionalCatchBinding),
         )
     }
 

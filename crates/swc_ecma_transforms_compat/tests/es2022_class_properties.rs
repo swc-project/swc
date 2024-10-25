@@ -24,7 +24,7 @@ fn tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         function_name(),
         class_properties(Default::default(), unresolved_mark),
@@ -114,7 +114,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             function_name(),
             class_properties(Default::default(), unresolved_mark),
@@ -1756,9 +1756,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_308,
@@ -1780,10 +1780,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            classes(Default::default())
+            classes(Default::default()),
         )
     },
     issue_342,
@@ -1804,10 +1804,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark)
+            block_scoping(unresolved_mark),
         )
     },
     issue_443,
@@ -1831,10 +1831,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     public_regression_t7364,
@@ -1867,10 +1867,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_regression_t6719,
@@ -1900,10 +1900,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_reevaluated,
@@ -1941,10 +1941,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_static,
@@ -1975,11 +1975,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_destructuring_object_pattern_1,
@@ -2002,10 +2002,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_static_inherited,
@@ -2050,9 +2050,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_destructuring_object_pattern_1_exec,
@@ -2085,10 +2085,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_static_undefined,
@@ -2115,11 +2115,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_destructuring_array_pattern,
@@ -2142,10 +2142,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_regression_t2983,
@@ -2168,11 +2168,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             async_to_generator(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark)
+            block_scoping(unresolved_mark),
         )
     },
     private_regression_t7364,
@@ -2205,11 +2205,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_destructuring_array_pattern_1,
@@ -2232,9 +2232,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     regression_8882_exec,
@@ -2271,9 +2271,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,),
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     regression_8882_exec_2,
@@ -2310,9 +2310,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_field_reinitialized,
@@ -2340,10 +2340,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_static_export,
@@ -2366,10 +2366,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            classes(Default::default())
+            classes(Default::default()),
         )
     },
     static_property_tdz_edgest_case,
@@ -2387,10 +2387,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            classes(Default::default())
+            classes(Default::default()),
         )
     },
     static_property_tdz_false_alarm,
@@ -2408,10 +2408,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            arrow(Mark::new())
+            arrow(Mark::new()),
         )
     },
     regression_6153,
@@ -2455,7 +2455,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
@@ -2572,9 +2572,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_optional_chain_call,
@@ -2595,9 +2595,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_optional_chain_member,
@@ -2618,11 +2618,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_canonical,
@@ -2658,9 +2658,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     regression_8882,
@@ -2696,11 +2696,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_destructuring_array_pattern_3,
@@ -2721,9 +2721,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     staic_private_destructuring_array_pattern,
@@ -2744,9 +2744,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     public_static_super_exec,
@@ -2777,11 +2777,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_destructuring_array_pattern_2,
@@ -2803,10 +2803,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_non_block_arrow_func,
@@ -2833,9 +2833,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     regression_8110,
@@ -2856,9 +2856,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     public_computed_without_block_exec,
@@ -2878,7 +2878,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             exponentiation(),
@@ -2902,10 +2902,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            classes(Default::default())
+            classes(Default::default()),
         )
     },
     static_property_tdz_general,
@@ -2924,10 +2924,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     public_native_classes,
@@ -2963,10 +2963,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_static_infer_name,
@@ -2985,9 +2985,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     regression_7951,
@@ -3008,10 +3008,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     private_native_classes,
@@ -3039,11 +3039,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     public_computed_without_block,
@@ -3060,9 +3060,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_destructuring_array_pattern_2_exec,
@@ -3093,11 +3093,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
-            block_scoping(Mark::new())
+            block_scoping(Mark::new()),
         )
     },
     public_static_super,
@@ -3122,9 +3122,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_destructuring_array_pattern_exec,
@@ -3154,9 +3154,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     private_destructuring_array_pattern_1_exec,
@@ -3188,9 +3188,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1306_1,
@@ -3215,9 +3215,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1306_2,
@@ -3242,9 +3242,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_1,
@@ -3265,9 +3265,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_2,
@@ -3368,9 +3368,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_3,
@@ -3405,9 +3405,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_4,
@@ -3435,9 +3435,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_5,
@@ -3457,9 +3457,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1333_6,
@@ -3479,9 +3479,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1660_1,
@@ -3496,9 +3496,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_3055_1,
@@ -3524,9 +3524,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_3618,
@@ -3546,10 +3546,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     issue_1694_1,
@@ -3571,10 +3571,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     issue_1694_2,
@@ -3596,10 +3596,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     issue_1702_1,
@@ -3629,9 +3629,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1711_1,
@@ -3655,9 +3655,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1742_1,
@@ -3687,10 +3687,10 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            template_literal(Default::default())
+            template_literal(Default::default()),
         )
     },
     issue_1742_2,
@@ -3720,9 +3720,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     new_target_in_class_prop,
@@ -3745,9 +3745,9 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     class_field_evalutaion_order,
@@ -3770,9 +3770,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1742_3,
@@ -3802,9 +3802,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1869_1,
@@ -3829,9 +3829,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_1869_2,
@@ -3855,9 +3855,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_2021_1,
@@ -3878,9 +3878,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_3229_1,
@@ -3902,9 +3902,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_3229_2,
@@ -3927,9 +3927,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_3368,
@@ -3955,9 +3955,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     nested_class_in_arrow,
@@ -3979,9 +3979,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_2481,
@@ -4001,9 +4001,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_4473,
@@ -4027,7 +4027,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4035,7 +4035,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     constant_super_complex_super,
@@ -4052,7 +4052,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4060,7 +4060,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     constant_super_field,
@@ -4078,7 +4078,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4086,7 +4086,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     private_optional_chain_member_loose,
@@ -4106,7 +4106,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4114,7 +4114,7 @@ test_exec!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     set_public_fields_initialization_order,
@@ -4166,7 +4166,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4174,7 +4174,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     set_public_fields_computed,
@@ -4213,15 +4213,15 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
-            )
+                unresolved_mark,
+            ),
         )
     },
     set_public_constructor_collision,
@@ -4246,7 +4246,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4254,7 +4254,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     set_public_static_undefined,
@@ -4271,7 +4271,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4279,7 +4279,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     private_as_properties_basic,
@@ -4316,7 +4316,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4324,7 +4324,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     private_as_properties_static,
@@ -4343,7 +4343,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4351,7 +4351,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     private_as_properties_getter_only,
@@ -4377,7 +4377,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4386,7 +4386,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     loose_update,
@@ -4447,9 +4447,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     set_only_getter,
@@ -4483,9 +4483,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     get_only_setter,
@@ -4510,7 +4510,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
@@ -4518,7 +4518,7 @@ test!(
                     ..Default::default()
                 },
                 unresolved_mark,
-            )
+            ),
         )
     },
     loose_keyword_method,
@@ -4552,9 +4552,9 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(Default::default(), unresolved_mark,)
+                class_properties(Default::default(), unresolved_mark),
             )
         },
         &src,
@@ -4569,9 +4569,9 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(Default::default(), unresolved_mark)
+                class_properties(Default::default(), unresolved_mark),
             )
         },
         &input,
@@ -4586,9 +4586,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark,)
+            class_properties(Default::default(), unresolved_mark),
         )
     },
     issue_6305,
@@ -4601,10 +4601,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-            optional_chaining(Default::default(), unresolved_mark)
+            optional_chaining(Default::default(), unresolved_mark),
         )
     },
     issue_8003,

@@ -169,9 +169,9 @@ mod tests {
     use super::*;
 
     fn tr() -> impl Pass {
-        chain!(
+        (
             resolver(Mark::new(), Mark::new(), false),
-            template_literal_caching()
+            template_literal_caching(),
         )
     }
 

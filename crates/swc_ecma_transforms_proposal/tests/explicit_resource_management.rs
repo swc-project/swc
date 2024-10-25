@@ -20,9 +20,9 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                explicit_resource_management()
+                explicit_resource_management(),
             )
         },
         &read_to_string(input).unwrap(),
@@ -50,9 +50,9 @@ fn run_fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                explicit_resource_management()
+                explicit_resource_management(),
             )
         },
         &input,

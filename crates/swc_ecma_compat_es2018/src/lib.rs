@@ -12,7 +12,7 @@ pub mod object_rest_spread;
 mod object_spread;
 
 pub fn es2018(c: Config) -> impl Pass {
-    chain!(
+    (
         regexp(regexp::Config {
             dot_all_regex: true,
             has_indices: false,
@@ -23,7 +23,7 @@ pub fn es2018(c: Config) -> impl Pass {
             unicode_regex: false,
             unicode_sets_regex: false,
         }),
-        object_rest_spread(c.object_rest_spread)
+        object_rest_spread(c.object_rest_spread),
     )
 }
 

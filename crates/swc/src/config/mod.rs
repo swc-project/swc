@@ -508,12 +508,12 @@ impl Options {
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-        let pass = chain!(
+        let pass = (
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
             simplifier_pass,
-            json_parse_pass
+            json_parse_pass,
         );
 
         let import_export_assign_config = match cfg.module {
@@ -699,7 +699,7 @@ impl Options {
                     DecoratorVersion::V202311 => todo!("2023-11 decorator"),
                 };
 
-            Box::new(chain!(
+            Box::new((
                 if experimental.run_plugin_first.into_bool() {
                     option_pass(plugin_transforms.take())
                 } else {
@@ -714,13 +714,13 @@ impl Options {
                         es_version,
                         source_map: cm.clone(),
                     })),
-                    !disable_all_lints
+                    !disable_all_lints,
                 ),
                 // Decorators may use type information
                 Optional::new(decorator_pass, syntax.decorators()),
                 Optional::new(
                     explicit_resource_management(),
-                    syntax.explicit_resource_management()
+                    syntax.explicit_resource_management(),
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
@@ -739,21 +739,21 @@ impl Options {
                                     .react
                                     .pragma
                                     .clone()
-                                    .unwrap_or_else(default_pragma)
+                                    .unwrap_or_else(default_pragma),
                             ),
                             pragma_frag: Some(
                                 transform
                                     .react
                                     .pragma_frag
                                     .clone()
-                                    .unwrap_or_else(default_pragma_frag)
+                                    .unwrap_or_else(default_pragma_frag),
                             ),
                         },
                         comments.map(|v| v as _),
                         unresolved_mark,
-                        top_level_mark
+                        top_level_mark,
                     ),
-                    syntax.typescript()
+                    syntax.typescript(),
                 ),
                 option_pass(plugin_transforms.take()),
                 custom_before_pass(&program),
@@ -764,15 +764,15 @@ impl Options {
                         comments.map(|v| v as _),
                         transform.react,
                         top_level_mark,
-                        unresolved_mark
+                        unresolved_mark,
                     ),
-                    syntax.jsx()
+                    syntax.jsx(),
                 ),
                 pass,
                 Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
                 Optional::new(
                     dropped_comments_preserver(comments.cloned()),
-                    preserve_all_comments
+                    preserve_all_comments,
                 ),
             ))
         };

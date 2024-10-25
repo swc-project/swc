@@ -39,7 +39,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
             "transform-new-target" => {}
 
             "proposal-class-properties" => {
-                pass = Box::new(chain!(
+                pass = Box::new((
                     pass,
                     class_properties(
                         class_properties::Config {
@@ -51,12 +51,12 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
                             pure_getter: loose,
                         },
                         unresolved_mark,
-                    )
+                    ),
                 ));
             }
 
             "transform-arrow-functions" => {
-                pass = Box::new(chain!(pass, arrow(Mark::new())));
+                pass = Box::new((pass, arrow(Mark::new())));
             }
 
             _ => {
@@ -65,7 +65,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
         }
     }
 
-    pass = Box::new(chain!(pass, new_target()));
+    pass = Box::new((pass, new_target()));
 
     pass
 }
@@ -111,7 +111,7 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(classes(Default::default()), new_target()),
+    |_| (classes(Default::default()), new_target()),
     issue_6259,
     r#"
 (() => {

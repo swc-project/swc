@@ -112,9 +112,9 @@ mod tests {
     use super::*;
 
     fn tr() -> impl Pass {
-        chain!(
+        (
             resolver(Mark::new(), Mark::new(), false),
-            safari_id_destructuring_collision_in_function_expression()
+            safari_id_destructuring_collision_in_function_expression(),
         )
     }
 
@@ -167,7 +167,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| chain!(tr(), HygieneTester),
+        |_| (tr(), HygieneTester),
         issue_4488_1,
         "
         export default function _type_of() {

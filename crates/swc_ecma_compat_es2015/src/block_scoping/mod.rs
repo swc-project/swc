@@ -35,14 +35,14 @@ mod vars;
 /// }
 /// ```
 pub fn block_scoping(unresolved_mark: Mark) -> impl Pass {
-    chain!(
+    (
         visit_mut_pass(self::vars::block_scoped_vars()),
         visit_mut_pass(BlockScoping {
             unresolved_mark,
             scope: Default::default(),
             vars: Vec::new(),
             var_decl_kind: VarDeclKind::Var,
-        })
+        }),
     )
 }
 

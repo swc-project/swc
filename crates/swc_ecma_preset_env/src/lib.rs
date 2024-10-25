@@ -82,16 +82,16 @@ where
             if c.debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }
-            chain!($prev, Optional::new($pass, enable))
+            ($prev, Optional::new($pass, enable))
         }};
     }
 
-    let pass = chain!(
+    let pass = (
         pass,
         Optional::new(
             class_fields_use_set(assumptions.pure_getters),
-            assumptions.set_public_class_fields
-        )
+            assumptions.set_public_class_fields,
+        ),
     );
 
     let pass = {
@@ -108,7 +108,7 @@ where
             || enable_unicode_property_regex
             || enable_unicode_regex;
 
-        chain!(
+        (
             pass,
             Optional::new(
                 regexp(regexp::Config {
@@ -123,8 +123,8 @@ where
                     unicode_regex: enable_unicode_regex,
                     unicode_sets_regex: enable_unicode_sets_regex,
                 }),
-                enable
-            )
+                enable,
+            ),
         )
     };
 
@@ -338,7 +338,7 @@ where
         println!("Targets: {:?}", targets);
     }
 
-    chain!(
+    (
         pass,
         visit_mut_pass(Polyfills {
             mode: c.mode,
@@ -346,14 +346,14 @@ where
             corejs: c.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
-                patch: 0
+                patch: 0,
             }),
             shipped_proposals: c.shipped_proposals,
             targets,
             includes: included_modules,
             excludes: excluded_modules,
             unresolved_mark,
-        })
+        }),
     )
 }
 

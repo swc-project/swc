@@ -36,7 +36,7 @@ fn tr_config(
         ..Default::default()
     });
 
-    chain!(
+    (
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
@@ -48,7 +48,7 @@ fn tr_config(
             None::<NoopComments>,
             Default::default(),
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
     )
@@ -58,7 +58,7 @@ fn tsxr(t: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         tsx(
             t.cm.clone(),
@@ -77,7 +77,7 @@ fn tsxr(t: &Tester) -> impl Pass {
             Some(t.comments.clone()),
             swc_ecma_transforms_react::Options::default(),
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
     )
 }
@@ -87,7 +87,7 @@ fn properties(_: &Tester, loose: bool) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         static_blocks(static_blocks_mark),
         class_properties(
@@ -96,8 +96,8 @@ fn properties(_: &Tester, loose: bool) -> impl Pass {
                 set_public_fields: loose,
                 ..Default::default()
             },
-            unresolved_mark
-        )
+            unresolved_mark,
+        ),
     )
 }
 
@@ -108,7 +108,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |t| chain!(tr(t), properties(t, true)),
+            |t| (tr(t), properties(t, true)),
             $name,
             $from
         );
@@ -140,14 +140,14 @@ test!(
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             tr(t),
             parameters(
                 parameters::Config {
-                    ignore_function_length: true
+                    ignore_function_length: true,
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
             destructuring(destructuring::Config { loose: false }),
             block_scoping(unresolved_mark),
@@ -558,7 +558,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |t| chain!(tr(t), properties(t, true)),
+    |t| (tr(t), properties(t, true)),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -569,7 +569,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |t| chain!(tr(t), properties(t, true)),
+    |t| (tr(t), properties(t, true)),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -612,7 +612,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |t| chain!(
+    |t| (
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -647,7 +647,7 @@ test_exec!(
         decorators: true,
         ..Default::default()
     }),
-    |t| chain!(
+    |t| (
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -1858,8 +1858,8 @@ test!(
             no_empty_export: true,
             ..Default::default()
         };
-        chain!(
-            Optional::new(decorators(Default::default()), false,),
+        (
+            Optional::new(decorators(Default::default()), false),
             resolver(unresolved_mark, top_level_mark, true),
             typescript(config, unresolved_mark, top_level_mark),
             async_to_generator(Default::default(), unresolved_mark),
@@ -1888,11 +1888,11 @@ test!(
             no_empty_export: true,
             ..Default::default()
         };
-        chain!(
-            Optional::new(decorators(Default::default()), false,),
+        (
+            Optional::new(decorators(Default::default()), false),
             resolver(unresolved_mark, top_level_mark, true),
             typescript(config, unresolved_mark, top_level_mark),
-            optional_chaining(Default::default(), unresolved_mark)
+            optional_chaining(Default::default(), unresolved_mark),
         )
     },
     issue_1149_1,
@@ -1903,7 +1903,7 @@ test!(
 
 test!(
     Syntax::Typescript(Default::default()),
-    |t| chain!(tr(t), nullish_coalescing(Default::default())),
+    |t| (tr(t), nullish_coalescing(Default::default())),
     issue_1123_1,
     r#"
     interface SuperSubmission {
@@ -2661,7 +2661,7 @@ fn exec(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|t| chain!(tr(t), properties(t, true)),
+        &|t| (tr(t), properties(t, true)),
         &input,
         &output,
         Default::default(),
@@ -2818,7 +2818,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             tsx(
                 t.cm.clone(),
@@ -2830,7 +2830,7 @@ test!(
                 t.comments.clone(),
                 unresolved_mark,
                 top_level_mark,
-            )
+            ),
         )
     },
     ts_jsx_bad_pragma,

@@ -23,14 +23,14 @@ use crate::{display_name, pure_annotations, react};
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
     let unresolved_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
             options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
         classes(Default::default()),
@@ -71,7 +71,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
@@ -81,7 +81,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
             unresolved_mark,
         ),
         display_name(),
-        pure_annotations(Some(t.comments.clone()))
+        pure_annotations(Some(t.comments.clone())),
     )
 }
 
@@ -95,14 +95,14 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         react(
             t.cm.clone(),
             Some(t.comments.clone()),
             options.options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
     )
@@ -413,7 +413,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(
+    |t| (
         tr(t, Default::default(), Mark::fresh(Mark::root())),
         property_literals(),
     ),
@@ -986,15 +986,15 @@ test!(
         let top_level_mark = Mark::fresh(Mark::root());
         let unresolved_mark = Mark::fresh(Mark::root());
 
-        chain!(
+        (
             classes(Default::default()),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
                 top_level_mark,
-                unresolved_mark
-            )
+                unresolved_mark,
+            ),
         )
     },
     regression_2775,
@@ -1028,15 +1028,15 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
                 top_level_mark,
-                unresolved_mark
-            )
+                unresolved_mark,
+            ),
         )
     },
     issue_4956,
@@ -1126,7 +1126,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         let top_level_mark = Mark::new();
         let unresolved_mark = Mark::new();
 
-        let script = script.fold_with(&mut chain!(
+        let script = script.fold_with(&mut (
             resolver(Mark::new(), top_level_mark, false),
             react(
                 tester.cm.clone(),
@@ -1136,7 +1136,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
                 unresolved_mark,
             ),
             hygiene::hygiene(),
-            fixer(Some(&tester.comments))
+            fixer(Some(&tester.comments)),
         ));
 
         let mut buf = Vec::new();

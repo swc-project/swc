@@ -24,13 +24,13 @@ fn test(src: &str, expected: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                Repeat::new(chain!(
+                Repeat::new((
                     expr_simplifier(unresolved_mark, Default::default()),
                     inlining::inlining(Default::default()),
                     dead_branch_remover(unresolved_mark),
-                    dce::dce(Default::default(), unresolved_mark)
+                    dce::dce(Default::default(), unresolved_mark),
                 )),
             )
         },
@@ -51,13 +51,13 @@ macro_rules! to {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
-                chain!(
+                (
                     resolver(unresolved_mark, top_level_mark, false),
-                    Repeat::new(chain!(
+                    Repeat::new((
                         expr_simplifier(unresolved_mark, Default::default()),
                         inlining::inlining(Default::default()),
                         dead_branch_remover(unresolved_mark),
-                        dce::dce(Default::default(), unresolved_mark)
+                        dce::dce(Default::default(), unresolved_mark),
                     )),
                 )
             },
@@ -498,7 +498,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
             class_properties(
@@ -506,10 +506,10 @@ test!(
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
             dce(Default::default(), unresolved_mark),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     issue_1156_1,
@@ -549,16 +549,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             decorators(Default::default()),
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
             class_properties(Default::default(), unresolved_mark),
-            Repeat::new(chain!(
+            Repeat::new((
                 expr_simplifier(unresolved_mark, Default::default()),
                 inlining::inlining(Default::default()),
                 dead_branch_remover(unresolved_mark),
-                dce::dce(Default::default(), unresolved_mark)
+                dce::dce(Default::default(), unresolved_mark),
             )),
             es2018(Default::default()),
             es2017(Default::default(), unresolved_mark),
@@ -566,7 +566,7 @@ test!(
             es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
             es3(true),
             import_analyzer(false.into(), false),
@@ -644,12 +644,12 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            Repeat::new(chain!(
+            Repeat::new((
                 inlining(Default::default()),
-                dead_branch_remover(unresolved_mark)
-            ))
+                dead_branch_remover(unresolved_mark),
+            )),
         )
     },
     issue_4173,

@@ -74,10 +74,10 @@ fn test_resolver(input: PathBuf) {
         || {
             let unresolved_mark = Mark::fresh(Mark::root());
 
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
                 visit_mut_pass(TsHygiene { unresolved_mark }),
-                fixer(None)
+                fixer(None),
             )
         },
     );
@@ -94,10 +94,10 @@ fn test_ts_resolver(input: PathBuf) {
         || {
             let unresolved_mark = Mark::fresh(Mark::root());
 
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), true),
                 visit_mut_pass(TsHygiene { unresolved_mark }),
-                fixer(None)
+                fixer(None),
             )
         },
     );

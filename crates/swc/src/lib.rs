@@ -708,7 +708,7 @@ impl Compiler {
 
             let after_pass = custom_after_pass(&config.program);
 
-            let config = config.with_pass(|pass| chain!(pass, after_pass));
+            let config = config.with_pass(|pass| (pass, after_pass));
 
             let orig = if config.source_maps.enabled() {
                 self.get_orig_src_map(

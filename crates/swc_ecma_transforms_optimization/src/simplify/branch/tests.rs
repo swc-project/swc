@@ -15,7 +15,7 @@ macro_rules! test_stmt {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
-                chain!(
+                (
                     resolver(unresolved_mark, top_level_mark, false),
                     paren_remover(None),
                     expr_simplifier(top_level_mark, Default::default()),
@@ -27,7 +27,7 @@ macro_rules! test_stmt {
                             // This is hack
                             is_unresolved_ref_safe: true,
                         },
-                    })
+                    }),
                 )
             },
             $l,

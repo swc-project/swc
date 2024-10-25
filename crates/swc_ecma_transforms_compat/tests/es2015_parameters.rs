@@ -20,7 +20,7 @@ fn tr(c: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         parameters(c, unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
@@ -138,7 +138,7 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |_| chain!(classes(Default::default()), tr(Default::default())),
+    |_| (classes(Default::default()), tr(Default::default())),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -167,7 +167,7 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |_| chain!(classes(Default::default()), tr(Default::default())),
+    |_| (classes(Default::default()), tr(Default::default())),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -476,7 +476,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             arrow(unresolved_mark),
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
@@ -722,7 +722,7 @@ function d(thing, ...args) {
 
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         tr(Default::default()),
         classes(Default::default()),
         spread(Default::default())
@@ -791,7 +791,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             async_to_generator(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
@@ -815,7 +815,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             async_to_generator(Default::default(), unresolved_mark),
             arrow(unresolved_mark),
@@ -838,7 +838,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -860,10 +860,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark)
+            block_scoping(unresolved_mark),
         )
     },
     parameters_regression_4333,
@@ -881,10 +881,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default())
+            destructuring(Default::default()),
         )
     },
     issue_760,
@@ -898,7 +898,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -916,7 +916,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -934,7 +934,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -952,7 +952,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -970,7 +970,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -1018,7 +1018,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -1038,7 +1038,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
         )
@@ -1286,9 +1286,9 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|_| {
             let unresolved_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
-                parameters(Default::default(), unresolved_mark)
+                parameters(Default::default(), unresolved_mark),
             )
         },
         &input,

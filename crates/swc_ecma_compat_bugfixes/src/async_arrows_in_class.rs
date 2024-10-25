@@ -114,9 +114,9 @@ mod tests {
 
     fn tr() -> impl Pass {
         let unresolved = Mark::new();
-        chain!(
+        (
             resolver(unresolved, Mark::new(), false),
-            async_arrows_in_class(unresolved)
+            async_arrows_in_class(unresolved),
         )
     }
 

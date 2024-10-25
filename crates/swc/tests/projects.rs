@@ -739,7 +739,7 @@ fn should_visit() {
 
             dbg!(config.syntax);
 
-            let config = config.with_pass(|pass| chain!(Panicking, pass));
+            let config = config.with_pass(|pass| (Panicking, pass));
 
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {

@@ -37,7 +37,7 @@ pub mod template_literal;
 mod typeof_symbol;
 
 fn exprs(unresolved_mark: Mark) -> impl Pass {
-    chain!(
+    (
         arrow(unresolved_mark),
         duplicate_keys(),
         sticky_regex(),
@@ -59,7 +59,7 @@ pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl 
 where
     C: Comments + Clone,
 {
-    chain!(
+    (
         regexp(regexp::Config {
             dot_all_regex: false,
             has_indices: false,
@@ -178,7 +178,7 @@ class HomePage extends React.Component {}
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| chain!(
+        |_| (
             block_scoped_functions(),
             resolver(Mark::new(), Mark::new(), false)
         ),
@@ -196,7 +196,7 @@ function foo(scope) {
 
     //     test!(
     //         ::swc_ecma_parser::Syntax::default(),
-    //         |_| chain!(
+    //         |_| (
     //             resolver(),
     //             class_properties(),
     //             // Optional::new(compat::es2018(), target <= EsVersion::Es2018),

@@ -54,15 +54,15 @@ where
         mode,
     };
 
-    chain!(
+    (
         visit_mut_pass(compressor),
         Optional {
             enabled: options.evaluate || options.side_effects,
             visitor: visit_mut_pass(expr_simplifier(
                 marks.unresolved_mark,
-                ExprSimplifierConfig {}
-            ))
-        }
+                ExprSimplifierConfig {},
+            )),
+        },
     )
 }
 
