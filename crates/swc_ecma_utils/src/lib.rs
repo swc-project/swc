@@ -22,7 +22,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed, Pass,
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
@@ -2400,6 +2400,13 @@ where
 }
 
 pub struct DropSpan;
+
+impl Pass for DropSpan {
+    fn process(mut self, program: &mut Program) {
+        program.visit_mut_with(&mut self);
+    }
+}
+
 impl VisitMut for DropSpan {
     fn visit_mut_span(&mut self, span: &mut Span) {
         *span = DUMMY_SP;
