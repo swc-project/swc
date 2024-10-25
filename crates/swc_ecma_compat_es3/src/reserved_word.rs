@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -19,7 +19,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitM
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-pub fn reserved_words(preserve_import: bool) -> impl VisitMut + Fold {
+pub fn reserved_words(preserve_import: bool) -> impl Pass {
     visit_mut_pass(ReservedWord { preserve_import })
 }
 struct ReservedWord {
