@@ -5,11 +5,11 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
-pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
+pub fn new_target() -> impl Pass {
     visit_mut_pass(NewTarget {
         ctx: Ctx::Constructor,
     })
