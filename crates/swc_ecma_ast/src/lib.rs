@@ -99,6 +99,18 @@ pub trait Pass {
     fn process(self, program: &mut Program);
 }
 
+/// Optional pass implementation.
+impl<P> Pass for Option<P>
+where
+    P: Pass,
+{
+    fn process(self, program: &mut Program) {
+        if let Some(pass) = self {
+            pass.process(program);
+        }
+    }
+}
+
 impl Program {
     #[inline(always)]
     pub fn mutate<P>(&mut self, pass: P)
