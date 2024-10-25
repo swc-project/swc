@@ -102,23 +102,6 @@ where
     }
 }
 
-pub fn from_fn(f: impl FnOnce(&mut Program)) -> impl Pass {
-    FnPass { f }
-}
-
-struct FnPass<F> {
-    f: F,
-}
-
-impl<F> Pass for FnPass<F>
-where
-    F: FnOnce(&mut Program),
-{
-    fn process(self, program: &mut Program) {
-        (self.f)(program);
-    }
-}
-
 impl<V> Fold for Repeat<V>
 where
     V: Fold + Repeated,

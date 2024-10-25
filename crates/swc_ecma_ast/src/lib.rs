@@ -118,6 +118,50 @@ impl Program {
     }
 }
 
+#[macro_export]
+macro_rules! chain {
+    (
+        $(
+            $pass:expr
+        ),*
+    ) => {
+        $crate::from_fn(move |program| {
+            $(
+                $pass.process(program);
+            )*
+        })
+    };
+
+    (
+        $(
+            $pass:expr,
+        )*
+    ) => {
+        $crate::from_fn(move |program| {
+            $(
+                $pass.process(program);
+            )*
+        })
+    };
+}
+
+pub fn from_fn(f: impl FnOnce(&mut Program)) -> impl Pass {
+    FnPass { f }
+}
+
+struct FnPass<F> {
+    f: F,
+}
+
+impl<F> Pass for FnPass<F>
+where
+    F: FnOnce(&mut Program),
+{
+    fn process(self, program: &mut Program) {
+        (self.f)(program);
+    }
+}
+
 /// Represents a invalid node.
 #[ast_node("Invalid")]
 #[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
