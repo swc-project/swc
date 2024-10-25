@@ -651,10 +651,9 @@ _throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = from_visit_mut(inject_helpers(Mark::new()));
+                let tr = inject_helpers(Mark::new());
                 let actual = tester
-                    .apply_transform(tr, "input.js", Default::default(), input)
-                    .map(Program::Module)?
+                    .apply_transform(tr, "input.js", Default::default(), input)?
                     .apply(crate::hygiene::hygiene())
                     .apply(crate::fixer::fixer(None));
 
@@ -704,7 +703,7 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "let _throw = null",
             "function _throw(e) {
