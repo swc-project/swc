@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 /// You don't have to bother to create appropriate parenthesis.
 /// The pass will insert parenthesis as needed. In other words, it's
 /// okay to store `a * (b + c)` as `Bin { a * Bin { b + c } }`.
-pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass {
+pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Fixer {
         comments,
         ctx: Default::default(),
@@ -23,7 +23,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass {
     })
 }
 
-pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass {
+pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Fixer {
         comments,
         ctx: Default::default(),

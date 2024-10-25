@@ -28,7 +28,7 @@ pub struct Config {
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
-pub fn hygiene() -> impl Pass {
+pub fn hygiene() -> impl Pass + VisitMut {
     hygiene_with_config(Default::default())
 }
 
