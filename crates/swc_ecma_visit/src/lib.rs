@@ -15,31 +15,6 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
-pub trait ProgramExt {
-    fn apply<P>(&mut self, pass: P)
-    where
-        P: Pass;
-}
-
-impl ProgramExt for Program {
-    #[inline(always)]
-    fn apply<P>(&mut self, pass: P)
-    where
-        P: Pass,
-    {
-        pass.process(self);
-    }
-}
-
-/// A map from the [Program] to the [Program].
-///
-/// This trait is used to implement transformations. The implementor may decide
-/// to implement [Fold] or [VisitMut] if the transform is fine to start from an
-/// arbitrary node.
-pub trait Pass {
-    fn process(self, program: &mut Program);
-}
-
 pub fn from_fold<V>(pass: V) -> impl Pass
 where
     V: Fold,

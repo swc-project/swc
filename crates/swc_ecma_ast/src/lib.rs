@@ -90,6 +90,25 @@ mod source_map;
 mod stmt;
 mod typescript;
 
+/// A map from the [Program] to the [Program].
+///
+/// This trait is used to implement transformations. The implementor may decide
+/// to implement [Fold] or [VisitMut] if the transform is fine to start from an
+/// arbitrary node.
+pub trait Pass {
+    fn process(self, program: &mut Program);
+}
+
+impl Program {
+    #[inline(always)]
+    pub fn apply<P>(&mut self, pass: P)
+    where
+        P: Pass,
+    {
+        pass.process(self);
+    }
+}
+
 /// Represents a invalid node.
 #[ast_node("Invalid")]
 #[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
