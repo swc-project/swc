@@ -634,7 +634,6 @@ mod tests {
     use testing::DebugUsingDisplay;
 
     use super::*;
-    use crate::pass::noop;
 
     #[test]
     fn external_helper() {
@@ -652,7 +651,7 @@ _throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = as_folder(inject_helpers(Mark::new()));
+                let tr = from_visit_mut(inject_helpers(Mark::new()));
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)
                     .map(Program::Module)?
