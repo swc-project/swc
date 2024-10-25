@@ -67,7 +67,7 @@ use swc_ecma_transforms_optimization::{
     GlobalExprMap,
 };
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::{Fold, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
@@ -229,9 +229,9 @@ impl Options {
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
-    ) -> Result<BuiltInput<Box<dyn 'a + Fold>>, Error>
+    ) -> Result<BuiltInput<Box<dyn 'a + Pass>>, Error>
     where
-        P: 'a + swc_ecma_visit::Fold,
+        P: 'a + Pass,
     {
         let mut cfg = self.config.clone();
 
@@ -1117,11 +1117,11 @@ pub struct BuiltInput<P: Pass> {
 
 impl<P> BuiltInput<P>
 where
-    P: swc_ecma_visit::Fold,
+    P: Pass,
 {
     pub fn with_pass<N>(self, map: impl FnOnce(P) -> N) -> BuiltInput<N>
     where
-        N: swc_ecma_visit::Fold,
+        N: Pass,
     {
         BuiltInput {
             program: self.program,
@@ -1332,7 +1332,7 @@ impl ModuleConfig {
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop()),
+                Resolver::Default => Box::new(noop_pass()),
                 Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(

@@ -37,7 +37,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
     resolver,
 };
-use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use testing::assert_eq;
 
 #[testing::fixture(
