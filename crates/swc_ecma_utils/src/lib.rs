@@ -22,7 +22,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed, Pass,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
