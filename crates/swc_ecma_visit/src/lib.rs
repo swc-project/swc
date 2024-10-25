@@ -80,10 +80,7 @@ where
     }
 }
 
-pub fn from_fn<V>(f: impl FnMut(&mut Program)) -> impl Pass
-where
-    V: Fold,
-{
+pub fn from_fn(f: impl FnMut(&mut Program)) -> impl Pass {
     FnPass { f }
 }
 
