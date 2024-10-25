@@ -125,7 +125,7 @@ macro_rules! chain {
             $pass:expr
         ),*
     ) => {
-        $crate::from_fn(move |program| {
+        $crate::fn_pass(move |program| {
             $(
                 $pass.process(program);
             )*
@@ -137,7 +137,7 @@ macro_rules! chain {
             $pass:expr,
         )*
     ) => {
-        $crate::from_fn(move |program| {
+        $crate::fn_pass(move |program| {
             $(
                 $pass.process(program);
             )*
@@ -145,7 +145,7 @@ macro_rules! chain {
     };
 }
 
-pub fn from_fn(f: impl FnOnce(&mut Program)) -> impl Pass {
+pub fn fn_pass(f: impl FnOnce(&mut Program)) -> impl Pass {
     FnPass { f }
 }
 
