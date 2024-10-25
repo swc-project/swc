@@ -1,7 +1,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{from_fn, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
@@ -59,10 +59,10 @@ pub fn hygiene() -> impl Pass {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Pass {
-    from_fn(move |program| {
-        renamer(config, HygieneRenamer).process(program);
-        program.visit_mut_with(&mut HygieneRemover);
-    })
+    chain!(
+        renamer(config, HygieneRenamer),
+        from_visit_mut(HygieneRemover)
+    )
 }
 
 struct HygieneRenamer;
