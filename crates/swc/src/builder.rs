@@ -7,7 +7,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::{EsVersion, Module, Script};
+use swc_ecma_ast::{EsVersion, Module, Pass, Script};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -75,9 +75,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         }
     }
 
-    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, swc_visit::AndThen<P, N>>
+    pub fn then<N>(self, next: N) -> PassBuilder<'a, 'b, (P, N)>
     where
-        N: swc_ecma_visit::Fold,
+        N: Pass,
     {
         let pass = (self.pass, next);
         PassBuilder {

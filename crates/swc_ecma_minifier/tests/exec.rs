@@ -139,7 +139,7 @@ fn run(
     let run_hygiene = mangle.is_none();
 
     let mut output = optimize(
-        program.into(),
+        program,
         cm,
         Some(&comments),
         None,
