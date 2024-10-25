@@ -4,7 +4,7 @@ use swc_ecma_transforms_optimization::const_modules;
 use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
-fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
+fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
     let mut m = HashMap::default();
 
     for (src, values) in sources {

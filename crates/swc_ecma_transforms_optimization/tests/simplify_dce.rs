@@ -8,7 +8,7 @@ use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     Repeat::new(dce(
         Config {
             top_level: true,
