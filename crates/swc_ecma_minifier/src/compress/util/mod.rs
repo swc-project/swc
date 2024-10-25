@@ -351,31 +351,10 @@ pub(crate) fn negate_cost(
             }
         })();
 
-        // Print more info while testing negate_cost
-        #[cfg(test)]
-        {
-            trace_op!(
-                "negation cost of `{}` = {}",
-                dump(&e.clone().fold_with(&mut visit_mut_pass(fixer(None))), true),
-                cost,
-            );
-        }
-
         cost
     }
 
     let cost = cost(expr_ctx, e, in_bool_ctx, None, is_ret_val_ignored);
-
-    trace_op!(
-        "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-        dump(
-            &e.clone().fold_with(&mut visit_mut_pass(fixer(None))),
-            false
-        ),
-        cost,
-        in_bool_ctx,
-        is_ret_val_ignored
-    );
 
     cost
 }

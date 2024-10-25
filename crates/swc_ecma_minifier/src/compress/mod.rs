@@ -79,7 +79,7 @@ struct Compressor<'a> {
 }
 
 impl CompilerPass for Compressor<'_> {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         "compressor".into()
     }
 }

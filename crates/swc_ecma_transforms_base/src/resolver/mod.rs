@@ -134,7 +134,7 @@ pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
-) -> impl 'static + Pass {
+) -> impl 'static + Pass + VisitMut {
     assert_ne!(
         unresolved_mark,
         Mark::root(),

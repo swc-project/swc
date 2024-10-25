@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, pass::Repeat, Mark};
+use swc_common::{pass::Repeat, Mark};
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
 use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut};
 
-fn remover(t: &Tester) -> impl VisitMut + Fold {
+fn remover(t: &Tester) -> impl Pass {
     visit_mut_pass(paren_remover(Some(
         Box::leak(Box::new(t.comments.clone())) as _
     )))
