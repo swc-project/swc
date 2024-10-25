@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, InjectVars, VisitMutWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, InjectVars, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Safari 10.3.
@@ -12,11 +12,11 @@ use swc_trace_macro::swc_trace;
 /// instance via `this` within those methods would also throw. This is fixed by
 /// converting arrow functions in class methods into equivalent function
 /// expressions. See https://bugs.webkit.org/show_bug.cgi?id=166879
-pub fn async_arrows_in_class(unresolved_mark: Mark) -> impl Fold {
-    AsyncArrowsInClass {
+pub fn async_arrows_in_class(unresolved_mark: Mark) -> impl Pass {
+    fold_pass(AsyncArrowsInClass {
         unresolved_mark,
         ..Default::default()
-    }
+    })
 }
 #[derive(Default, Clone)]
 struct AsyncArrowsInClass {

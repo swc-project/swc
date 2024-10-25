@@ -91,7 +91,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(unresolved_mark),
-        generator::generator(unresolved_mark, comments),
+        generator::generator(unresolved_mark, comments.clone()),
     )
 }
 
