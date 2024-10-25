@@ -9,12 +9,11 @@ use swc_ecma_utils::{
     alias_ident_for, member_expr, prepend_stmt, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
-pub fn spread(c: Config) -> impl Fold + VisitMut {
+pub fn spread(c: Config) -> impl Pass {
     visit_mut_pass(Spread {
         c,
         vars: Default::default(),
