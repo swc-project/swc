@@ -170,10 +170,9 @@ pub(crate) fn invoke_script(script: &Script) {
         return;
     }
 
-    let script = script
-        .clone()
-        .fold_with(&mut hygiene())
-        .fold_with(&mut fixer(None));
+    let script = Program::Script(script.clone())
+        .apply(hygiene())
+        .apply(fixer(None));
     let script = drop_span(script);
 
     let mut buf = Vec::new();
