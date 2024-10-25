@@ -145,6 +145,14 @@ macro_rules! chain {
     };
 }
 
+#[inline(always)]
+pub fn noop_pass() -> impl Pass {
+    fn noop(_: &mut Program) {}
+
+    fn_pass(noop)
+}
+
+#[inline(always)]
 pub fn fn_pass(f: impl FnOnce(&mut Program)) -> impl Pass {
     FnPass { f }
 }
