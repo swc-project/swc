@@ -15,7 +15,7 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
-pub fn from_fold<V>(pass: V) -> FoldPass<V>
+pub fn fold_pass<V>(pass: V) -> FoldPass<V>
 where
     V: Fold,
 {
