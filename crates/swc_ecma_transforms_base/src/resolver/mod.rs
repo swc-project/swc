@@ -7,7 +7,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    from_visit_mut, noop_visit_mut_type, visit_mut_obj_and_computed, VisitMut, VisitMutWith,
 };
 use tracing::{debug, span, Level};
 
@@ -134,7 +134,7 @@ pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
-) -> impl 'static + Fold + VisitMut {
+) -> impl 'static + Pass {
     assert_ne!(
         unresolved_mark,
         Mark::root(),
@@ -144,7 +144,7 @@ pub fn resolver(
     let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
 
-    as_folder(Resolver {
+    from_visit_mut(Resolver {
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,
         in_type: false,
