@@ -8,9 +8,9 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
-use swc_ecma_visit::{as_folder, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, Fold, FoldWith, Pass};
 
-use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
+use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config, pass::JsPass};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -84,7 +84,7 @@ impl Tester<'_> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Fold>(
+    pub fn apply_transform<T: Pass>(
         &mut self,
         mut tr: T,
         name: &str,
@@ -108,14 +108,12 @@ impl Tester<'_> {
             res?
         };
 
-        let module = module
-            .fold_with(&mut tr)
-            .fold_with(&mut as_folder(DropSpan {}));
+        let module = Program::Module(module).apply(tr).apply(DropSpan);
 
         Ok(module)
     }
 
-    pub fn print(&mut self, module: &Module) -> String {
+    pub fn print(&mut self, program: &Program) -> String {
         let mut buf = Vec::new();
         {
             let mut emitter = Emitter {
@@ -131,7 +129,7 @@ impl Tester<'_> {
             };
 
             // println!("Emitting: {:?}", module);
-            emitter.emit_module(module).unwrap();
+            emitter.emit_program(program).unwrap();
         }
 
         let s = String::from_utf8_lossy(&buf);
@@ -158,7 +156,7 @@ pub(crate) fn test_transform<F, P>(
     hygiene_config: impl FnOnce() -> crate::hygiene::Config,
 ) where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold,
+    P: Pass,
 {
     crate::tests::Tester::run(|tester| {
         let expected = tester.apply_transform(
