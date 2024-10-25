@@ -4,8 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -40,7 +39,7 @@ use swc_trace_macro::swc_trace;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties(c: Config) -> impl Fold {
+pub fn computed_properties(c: Config) -> impl Pass {
     visit_mut_pass(ComputedProps {
         c,
         ..Default::default()
