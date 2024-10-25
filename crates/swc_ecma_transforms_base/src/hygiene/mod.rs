@@ -1,7 +1,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{from_fn, noop_visit_mut_type, Pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_fn, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
