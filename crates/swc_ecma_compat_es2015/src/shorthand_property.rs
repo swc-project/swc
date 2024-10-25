@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 shorthand properties to ES5
@@ -38,7 +38,7 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// };
 /// ```
-pub fn shorthand() -> impl 'static + Fold + VisitMut {
+pub fn shorthand() -> impl Pass {
     visit_mut_pass(Shorthand)
 }
 
