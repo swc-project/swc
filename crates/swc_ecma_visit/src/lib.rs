@@ -17,7 +17,7 @@ mod generated;
 
 /// A map from the [Program] to the [Program]
 pub trait Pass {
-    fn process(&mut self, program: &mut Program);
+    fn process(self, program: &mut Program);
 }
 
 pub fn from_fold<V>(pass: V) -> impl Pass
@@ -35,7 +35,7 @@ impl<V> Pass for FoldPass<V>
 where
     V: Fold,
 {
-    fn process(&mut self, program: &mut Program) {
+    fn process(mut self, program: &mut Program) {
         program.map_with_mut(|p| p.fold_with(&mut self.pass));
     }
 }
@@ -55,7 +55,7 @@ impl<V> Pass for VisitMutPass<V>
 where
     V: VisitMut,
 {
-    fn process(&mut self, program: &mut Program) {
+    fn process(mut self, program: &mut Program) {
         program.visit_mut_with(&mut self.pass);
     }
 }
@@ -75,12 +75,12 @@ impl<V> Pass for VisitorPass<V>
 where
     V: Visit,
 {
-    fn process(&mut self, program: &mut Program) {
+    fn process(mut self, program: &mut Program) {
         program.visit_with(&mut self.pass);
     }
 }
 
-pub fn from_fn(f: impl FnMut(&mut Program)) -> impl Pass {
+pub fn from_fn(f: impl FnOnce(&mut Program)) -> impl Pass {
     FnPass { f }
 }
 
@@ -90,9 +90,9 @@ struct FnPass<F> {
 
 impl<F> Pass for FnPass<F>
 where
-    F: FnMut(&mut Program),
+    F: FnOnce(&mut Program),
 {
-    fn process(&mut self, program: &mut Program) {
+    fn process(self, program: &mut Program) {
         (self.f)(program);
     }
 }
