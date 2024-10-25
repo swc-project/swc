@@ -243,6 +243,33 @@ pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }
 
+impl<V> InjectVars for FoldPass<V>
+where
+    V: Fold + InjectVars,
+{
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.pass.take_vars()
+    }
+}
+
+impl<V> InjectVars for VisitMutPass<V>
+where
+    V: VisitMut + InjectVars,
+{
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.pass.take_vars()
+    }
+}
+
+impl<V> InjectVars for VisitPass<V>
+where
+    V: Visit + InjectVars,
+{
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.pass.take_vars()
+    }
+}
+
 /// Note: Ignoring more types is not considered as a breaking change.
 #[macro_export]
 macro_rules! noop_fold_type {
