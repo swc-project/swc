@@ -11,7 +11,7 @@ use super::*;
 fn parse(
     tester: &mut Tester,
     src: &str,
-) -> Result<(Module, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
+) -> Result<(Program, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
     let syntax = ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -69,8 +69,8 @@ fn run_test(input: &str, expected: &str) {
 
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
         let actual = actual
-            .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
-            .fold_with(&mut crate::react(
+            .apply(&mut resolver(unresolved_mark, top_level_mark, false))
+            .apply(&mut crate::react(
                 actual_sm.clone(),
                 Some(&actual_comments),
                 Default::default(),

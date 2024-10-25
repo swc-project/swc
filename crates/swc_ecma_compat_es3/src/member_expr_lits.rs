@@ -31,7 +31,7 @@ impl Fold for MemberExprLit {
     standard_only_fold!();
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let e = e.fold_children_with(self);
+        let e: MemberExpr = e.fold_children_with(self);
 
         if let MemberProp::Ident(i) = e.prop {
             if i.sym.is_reserved() || i.sym.is_reserved_in_strict_mode(true)
@@ -71,7 +71,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         basic,
         r#"obj["foo"] = "isValid";
 
@@ -82,14 +82,14 @@ obj["var"] = "isKeyword";"#,
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         issue_206,
         "const number = foo[bar1][baz1]"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         issue_211,
         "_query[idx]=$this.attr('data-ref');"
     );
