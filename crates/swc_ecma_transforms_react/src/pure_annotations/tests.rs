@@ -19,7 +19,7 @@ fn parse(
     let source_file = source_map.new_source_file(FileName::Anon.into(), src.into());
 
     let comments = Lrc::new(SingleThreadedComments::default());
-    let module = {
+    let program = {
         let mut p = Parser::new(syntax, StringInput::from(&*source_file), Some(&comments));
         let res = p
             .parse_module()
@@ -29,16 +29,16 @@ fn parse(
             e.into_diagnostic(tester.handler).emit()
         }
 
-        res?
+        Program::Module(res?)
     };
 
-    Ok((module, source_map, comments))
+    Ok((program, source_map, comments))
 }
 
 fn emit(
     source_map: Lrc<SourceMap>,
     comments: Lrc<SingleThreadedComments>,
-    program: &Module,
+    program: &Program,
 ) -> String {
     let mut src_map_buf = Vec::new();
     let mut buf = std::vec::Vec::new();
@@ -55,7 +55,7 @@ fn emit(
             cm: source_map,
             wr: writer,
         };
-        emitter.emit_module(program).unwrap();
+        emitter.emit_program(program).unwrap();
     }
 
     String::from_utf8(buf).unwrap()

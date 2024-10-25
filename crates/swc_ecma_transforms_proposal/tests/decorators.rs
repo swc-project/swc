@@ -6,7 +6,7 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};

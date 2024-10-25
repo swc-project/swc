@@ -107,6 +107,7 @@ mod tests {
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::{test, HygieneTester};
+    use swc_ecma_visit::fold_pass;
 
     use super::*;
 
@@ -166,7 +167,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| (tr(), HygieneTester),
+        |_| (tr(), fold_pass(HygieneTester)),
         issue_4488_1,
         "
         export default function _type_of() {
