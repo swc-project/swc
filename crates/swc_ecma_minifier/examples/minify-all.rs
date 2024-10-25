@@ -7,6 +7,7 @@ use std::{env, fs, path::PathBuf, time::Instant};
 use anyhow::Result;
 use rayon::prelude::*;
 use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap, GLOBALS};
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -17,7 +18,6 @@ use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
 };
-use swc_ecma_visit::FoldWith;
 use walkdir::WalkDir;
 
 fn main() {
@@ -48,18 +48,15 @@ fn main() {
                             .map_err(|err| {
                                 err.into_diagnostic(&handler).emit();
                             })
+                            .map(Program::Module)
                             .map(|module| {
-                                module.fold_with(&mut resolver(
-                                    unresolved_mark,
-                                    top_level_mark,
-                                    false,
-                                ))
+                                module.apply(&mut resolver(unresolved_mark, top_level_mark, false))
                             })
-                            .map(|module| module.fold_with(&mut paren_remover(None)))
+                            .map(|module| module.apply(&mut paren_remover(None)))
                             .unwrap();
 
                             let output = optimize(
-                                program.into(),
+                                program,
                                 cm.clone(),
                                 None,
                                 None,
@@ -76,10 +73,9 @@ fn main() {
                                     top_level_mark,
                                     mangle_name_cache: None,
                                 },
-                            )
-                            .expect_module();
+                            );
 
-                            let output = output.fold_with(&mut fixer(None));
+                            let output = output.apply(&mut fixer(None));
 
                             let code = print(cm.clone(), &[output], true);
 

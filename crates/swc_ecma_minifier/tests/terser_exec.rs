@@ -245,7 +245,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
         output.visit_mut_with(&mut hygiene());
 
-        let output = output.fold_with(&mut fixer(None));
+        let output = output.apply(&mut fixer(None));
 
         let end = Instant::now();
         tracing::info!(

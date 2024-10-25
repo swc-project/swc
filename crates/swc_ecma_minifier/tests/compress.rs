@@ -261,7 +261,7 @@ fn run(
             output.visit_mut_with(&mut hygiene())
         }
 
-        let output = output.fold_with(&mut fixer(None));
+        let output = output.apply(&mut fixer(None));
 
         let end = Instant::now();
         tracing::info!(
@@ -539,7 +539,7 @@ fn fixture(input: PathBuf) {
             let expected = parser.parse_program().map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })?;
-            let mut expected = expected.fold_with(&mut fixer(None));
+            let mut expected = expected.apply(&mut fixer(None));
             expected = drop_span(expected);
 
             match &mut expected {

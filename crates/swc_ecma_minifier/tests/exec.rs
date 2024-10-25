@@ -11,7 +11,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{Module, Program};
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
@@ -125,6 +125,7 @@ fn run(
     .map_err(|err| {
         err.into_diagnostic(handler).emit();
     })
+    .map(Program::Module)
     .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
 
     // Ignore parser errors.
