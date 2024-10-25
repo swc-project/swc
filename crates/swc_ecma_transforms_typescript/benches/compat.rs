@@ -1,10 +1,10 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Module, Pass, Program};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
-use swc_ecma_visit::{fold_pass, Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, Fold};
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
@@ -41,7 +41,7 @@ where
             let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
-                let mut tr = tr(unresolved_mark);
+                let tr = tr(unresolved_mark);
 
                 black_box(module.apply(tr));
             });

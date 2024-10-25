@@ -78,7 +78,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| PropertyLiteral,
+        |_| fold_pass(PropertyLiteral),
         babel_basic,
         r#"var foo = {
   // changed
@@ -95,7 +95,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| PropertyLiteral,
+        |_| fold_pass(PropertyLiteral),
         str_lit,
         r#"'use strict';
 var x = {

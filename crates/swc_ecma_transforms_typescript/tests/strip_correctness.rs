@@ -6,7 +6,6 @@ use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::FoldWith;
 
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
