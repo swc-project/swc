@@ -138,7 +138,7 @@ impl VisitMut for NewTarget {
 }
 
 impl CompilerPass for NewTarget {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("new-target")
     }
 }

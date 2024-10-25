@@ -6,10 +6,7 @@ use swc_common::{
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    pass::RepeatedJsPass,
-    perf::{cpu_count, Parallel, ParallelExt},
-};
+use swc_ecma_transforms_base::perf::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
     StmtExt, StmtLike, Value::Known,
@@ -25,7 +22,9 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover(unresolved_mark: Mark) -> impl RepeatedJsPass + VisitMut + 'static {
+pub fn dead_branch_remover(
+    unresolved_mark: Mark,
+) -> impl Repeated + Pass + CompilerPass + VisitMut + 'static {
     visit_mut_pass(Remover {
         changed: false,
         normal_block: Default::default(),
@@ -37,8 +36,8 @@ pub fn dead_branch_remover(unresolved_mark: Mark) -> impl RepeatedJsPass + Visit
 }
 
 impl CompilerPass for Remover {
-    fn name() -> Cow<'static, str> {
-        Cow::Borrowed("branch")
+    fn name(&self) -> Cow<'static, str> {
+        Cow::Borrowed("dead_branch_remover")
     }
 }
 

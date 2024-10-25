@@ -9,7 +9,6 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::ExprRefExt,
-    pass::RepeatedJsPass,
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
@@ -43,7 +42,7 @@ pub struct Config {}
 pub fn expr_simplifier(
     unresolved_mark: Mark,
     config: Config,
-) -> impl RepeatedJsPass + VisitMut + 'static {
+) -> impl Repeated + Pass + CompilerPass + VisitMut + 'static {
     visit_mut_pass(SimplifyExpr {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -82,7 +81,7 @@ struct SimplifyExpr {
 }
 
 impl CompilerPass for SimplifyExpr {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("simplify-expr")
     }
 }

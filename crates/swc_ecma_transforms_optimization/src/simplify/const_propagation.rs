@@ -2,10 +2,10 @@
 
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// This pass is kind of inliner, but it's far faster.
-pub fn constant_propagation() -> impl 'static + Fold + VisitMut {
+pub fn constant_propagation() -> impl 'static + Pass + VisitMut {
     visit_mut_pass(ConstPropagation::default())
 }
 

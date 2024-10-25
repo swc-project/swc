@@ -106,7 +106,7 @@ struct ClassData {
 }
 
 impl CompilerPass for PrivateInObject {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("private-in-object")
     }
 }
