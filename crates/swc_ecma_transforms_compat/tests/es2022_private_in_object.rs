@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 use swc_common::Mark;
-use swc_ecma_ast::chain;
+use swc_ecma_ast::{chain, Pass};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::classes,
@@ -37,7 +37,7 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let mut pass: Box<dyn Fold> =
+            let mut pass: Box<dyn Pass> =
                 Box::new(resolver(unresolved_mark, top_level_mark, false));
 
             let mut class_props = false;

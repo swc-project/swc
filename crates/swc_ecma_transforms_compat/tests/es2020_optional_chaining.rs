@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::Mark;
-use swc_ecma_ast::chain;
+use swc_ecma_ast::{chain, Pass};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -9,7 +9,6 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
-use swc_ecma_visit::Fold;
 
 fn tr(c: Config) -> impl Pass {
     let unresolved_mark = Mark::new();

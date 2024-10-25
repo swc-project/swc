@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::Mark;
-use swc_ecma_ast::chain;
+use swc_ecma_ast::{chain, Pass};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -14,7 +14,6 @@ use swc_ecma_transforms_compat::{
     es2018::object_rest_spread,
 };
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
