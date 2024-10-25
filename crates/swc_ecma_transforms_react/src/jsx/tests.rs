@@ -13,7 +13,6 @@ use swc_ecma_transforms_compat::{
     es3::property_literals,
 };
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
-use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
 use super::*;
@@ -1155,7 +1154,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_script(&script).unwrap();
+        emitter.emit_program(&script).unwrap();
 
         let s = String::from_utf8_lossy(&buf).to_string();
         assert!(NormalizedOutput::new_raw(s).compare_to_file(output).is_ok());

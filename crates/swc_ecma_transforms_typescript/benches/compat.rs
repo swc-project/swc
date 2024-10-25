@@ -68,7 +68,7 @@ fn base(b: &mut Bencher) {
             m
         }
     }
-    run(b, |_| Noop);
+    run(b, |_| fold_pass(Noop));
 }
 
 fn common_typescript(b: &mut Bencher) {

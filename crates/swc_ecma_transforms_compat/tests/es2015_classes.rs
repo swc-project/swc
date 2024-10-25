@@ -11,7 +11,6 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::default()

@@ -9,7 +9,6 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture, Tester};
-use swc_ecma_visit::Fold;
 
 fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
     let unresolved_mark = Mark::new();

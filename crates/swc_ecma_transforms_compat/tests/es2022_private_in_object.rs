@@ -9,7 +9,6 @@ use swc_ecma_transforms_compat::{
     es2022::{class_properties, private_in_object},
 };
 use swc_ecma_transforms_testing::{parse_options, test_fixture};
-use swc_ecma_visit::Fold;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]

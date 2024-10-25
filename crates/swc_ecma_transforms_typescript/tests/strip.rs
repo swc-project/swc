@@ -1859,7 +1859,6 @@ test!(
             ..Default::default()
         };
         (
-            Optional::new(decorators(Default::default()), false),
             resolver(unresolved_mark, top_level_mark, true),
             typescript(config, unresolved_mark, top_level_mark),
             async_to_generator(Default::default(), unresolved_mark),
