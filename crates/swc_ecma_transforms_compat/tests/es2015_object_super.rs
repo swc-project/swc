@@ -1,5 +1,5 @@
 use swc_common::Mark;
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{function_name, object_super, shorthand};
