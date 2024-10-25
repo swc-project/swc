@@ -14,7 +14,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitM
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
-pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
+pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Pass {
     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     visit_mut_pass(Params {
         c,
