@@ -53,9 +53,9 @@ fn babelify_only(b: &mut Bencher) {
             let top_level_mark = Mark::new();
 
             module
-                .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-                .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
-                .fold_with(&mut es2020(Default::default(), unresolved_mark))
+                .apply(&mut resolver(unresolved_mark, top_level_mark, true))
+                .apply(&mut typescript::strip(unresolved_mark, top_level_mark))
+                .apply(&mut es2020(Default::default(), unresolved_mark))
         });
 
         b.iter(|| {

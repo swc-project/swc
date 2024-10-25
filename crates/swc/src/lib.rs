@@ -950,7 +950,7 @@ impl Compiler {
         config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let program = config.program;
+            let mut program = config.program;
 
             if config.emit_isolated_dts && !config.syntax.typescript() {
                 handler.warn(
@@ -1000,7 +1000,7 @@ impl Compiler {
                 None
             };
 
-            let mut pass = config.pass;
+            let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
                 if let Some(dts_code) = dts_code {
                     emit(

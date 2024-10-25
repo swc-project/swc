@@ -15,7 +15,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Mark, DUMMY_SP,
 };
-use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
+use swc_ecma_ast::{noop_pass, EsVersion, Expr, Lit, Module, Program, Str};
 use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms::{
     helpers,
@@ -23,7 +23,6 @@ use swc_ecma_transforms::{
         inline_globals,
         simplify::{dead_branch_remover, expr_simplifier},
     },
-    pass::noop,
     react::jsx,
     resolver,
     typescript::typescript,
@@ -171,14 +170,14 @@ impl SwcLoader {
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
 
-                    program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-                    program.visit_mut_with(&mut typescript(
+                    program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
+                    program.mutate(&mut typescript(
                         Default::default(),
                         unresolved_mark,
                         top_level_mark,
                     ));
 
-                    program.visit_mut_with(&mut jsx(
+                    program.mutate(&mut jsx(
                         self.compiler.cm.clone(),
                         None::<NoopComments>,
                         Default::default(),
@@ -186,16 +185,15 @@ impl SwcLoader {
                         unresolved_mark,
                     ));
 
-                    program.visit_mut_with(&mut inline_globals(
+                    program.mutate(&mut inline_globals(
                         self.env_map(),
                         Default::default(),
                         Default::default(),
                     ));
 
-                    let program = program
-                        .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
+                    program.mutate(&mut expr_simplifier(unresolved_mark, Default::default()));
 
-                    program.fold_with(&mut dead_branch_remover(unresolved_mark))
+                    program.mutate(&mut dead_branch_remover(unresolved_mark))
                 })
             })
         } else {
@@ -248,7 +246,7 @@ impl SwcLoader {
                 },
                 &fm.name,
                 Some(&comments),
-                |_| noop(),
+                |_| noop_pass(),
             )?;
 
             tracing::trace!("JsLoader.load: loaded config");
@@ -265,18 +263,14 @@ impl SwcLoader {
                         let unresolved_mark = Mark::new();
                         let top_level_mark = Mark::new();
 
-                        program.visit_mut_with(&mut resolver(
-                            unresolved_mark,
-                            top_level_mark,
-                            false,
-                        ));
-                        program.visit_mut_with(&mut typescript(
+                        program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
+                        program.mutate(&mut typescript(
                             Default::default(),
                             unresolved_mark,
                             top_level_mark,
                         ));
 
-                        program.visit_mut_with(&mut jsx(
+                        program.mutate(&mut jsx(
                             self.compiler.cm.clone(),
                             None::<NoopComments>,
                             Default::default(),
@@ -284,17 +278,16 @@ impl SwcLoader {
                             unresolved_mark,
                         ));
 
-                        let program = program.fold_with(&mut inline_globals(
+                        program.mutate(&mut inline_globals(
                             self.env_map(),
                             Default::default(),
                             Default::default(),
                         ));
 
-                        let program = program
-                            .fold_with(&mut expr_simplifier(unresolved_mark, Default::default()));
-                        let program = program.fold_with(&mut dead_branch_remover(unresolved_mark));
+                        program.mutate(&mut expr_simplifier(unresolved_mark, Default::default()));
+                        program.mutate(&mut dead_branch_remover(unresolved_mark));
 
-                        program.fold_with(&mut pass)
+                        program.apply(pass)
                     })
                 })
             } else {
