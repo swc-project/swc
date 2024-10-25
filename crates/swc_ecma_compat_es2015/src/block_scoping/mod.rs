@@ -4,7 +4,6 @@ use indexmap::IndexMap;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{
-    chain,
     collections::{AHashMap, AHashSet},
     util::take::Take,
     Mark, Spanned, SyntaxContext, DUMMY_SP,
