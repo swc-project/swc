@@ -6,81 +6,14 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
-use std::{borrow::Cow, fmt::Debug};
+use std::fmt::Debug;
 
-use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_visit::{AndThen, Repeat, Repeated};
+use swc_visit::{Repeat, Repeated};
 
 pub use crate::generated::*;
 mod generated;
-
-impl<A, B> Fold for AndThen<A, B>
-where
-    A: Fold,
-
-    B: Fold,
-{
-    #[inline(always)]
-    fn fold_program(&mut self, n: Program) -> Program {
-        let n = self.first.fold_program(n);
-        self.second.fold_program(n)
-    }
-
-    #[inline(always)]
-    fn fold_module(&mut self, n: Module) -> Module {
-        let n = self.first.fold_module(n);
-        self.second.fold_module(n)
-    }
-
-    #[inline(always)]
-    fn fold_script(&mut self, n: Script) -> Script {
-        let n = self.first.fold_script(n);
-        self.second.fold_script(n)
-    }
-}
-
-impl<A, B> VisitMut for AndThen<A, B>
-where
-    A: VisitMut,
-    B: VisitMut,
-{
-    fn visit_mut_program(&mut self, n: &mut Program) {
-        self.first.visit_mut_program(n);
-        self.second.visit_mut_program(n);
-    }
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        self.first.visit_mut_module(n);
-        self.second.visit_mut_module(n)
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        self.first.visit_mut_script(n);
-        self.second.visit_mut_script(n)
-    }
-}
-
-impl<A, B> Visit for AndThen<A, B>
-where
-    A: Visit,
-    B: Visit,
-{
-    fn visit_program(&mut self, n: &Program) {
-        self.first.visit_program(n);
-        self.second.visit_program(n);
-    }
-
-    fn visit_module(&mut self, n: &Module) {
-        self.first.visit_module(n);
-        self.second.visit_module(n);
-    }
-
-    fn visit_script(&mut self, n: &Script) {
-        self.first.visit_script(n);
-        self.second.visit_script(n);
-    }
-}
 
 impl<V> Fold for Repeat<V>
 where
@@ -204,131 +137,6 @@ macro_rules! assert_eq_ignore_span {
 /// used to keep the variables.
 pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
-}
-
-impl<V> InjectVars for Folder<V>
-where
-    V: VisitMut + InjectVars,
-{
-    fn take_vars(&mut self) -> Vec<VarDeclarator> {
-        self.0.take_vars()
-    }
-}
-
-/// Wrap a [VisitMut] as a [Fold].
-///
-/// The returned folder only handles `fold_script` and `fold_module`, and
-/// typescript nodes are ignored. So if your visitor needs to handle typescript
-/// or low-level nodes, you should use [as_folder] instead.
-#[inline]
-pub fn as_folder<V>(v: V) -> Folder<V>
-where
-    V: VisitMut,
-{
-    Folder(v)
-}
-
-/// Wrap a [VisitMut] as a [Fold]
-#[derive(Debug, Clone, Copy)]
-pub struct Folder<V: VisitMut>(V);
-
-impl<V> Repeated for Folder<V>
-where
-    V: Repeated + VisitMut,
-{
-    fn changed(&self) -> bool {
-        self.0.changed()
-    }
-
-    fn reset(&mut self) {
-        self.0.reset();
-    }
-}
-
-impl<V> CompilerPass for Folder<V>
-where
-    V: VisitMut + CompilerPass,
-{
-    fn name() -> Cow<'static, str> {
-        V::name()
-    }
-}
-
-macro_rules! delegate {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, n: &mut $T) {
-            n.visit_mut_with(&mut self.0);
-        }
-    };
-}
-
-/// This only proxies subset of methods.
-impl<V> VisitMut for Folder<V>
-where
-    V: VisitMut,
-{
-    delegate!(visit_mut_ident, Ident);
-
-    delegate!(visit_mut_span, Span);
-
-    delegate!(visit_mut_expr, Expr);
-
-    delegate!(visit_mut_decl, Decl);
-
-    delegate!(visit_mut_stmt, Stmt);
-
-    delegate!(visit_mut_pat, Pat);
-
-    delegate!(visit_mut_ts_type, TsType);
-
-    delegate!(visit_mut_module, Module);
-
-    delegate!(visit_mut_script, Script);
-
-    delegate!(visit_mut_program, Program);
-}
-
-macro_rules! method {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, mut n: $T) -> $T {
-            n.visit_mut_with(&mut self.0);
-            n
-        }
-    };
-}
-
-impl<V> Fold for Folder<V>
-where
-    V: VisitMut,
-{
-    method!(fold_ident, Ident);
-
-    method!(fold_span, Span);
-
-    method!(fold_expr, Expr);
-
-    method!(fold_decl, Decl);
-
-    method!(fold_stmt, Stmt);
-
-    method!(fold_pat, Pat);
-
-    method!(fold_ts_type, TsType);
-
-    method!(fold_script, Script);
-
-    method!(fold_program, Program);
-
-    #[inline(always)]
-    fn fold_module(&mut self, mut n: Module) -> Module {
-        #[cfg(all(debug_assertions, feature = "debug"))]
-        let _tracing = {
-            let visitor_name = std::any::type_name::<V>();
-            tracing::span!(tracing::Level::INFO, "as_folder", visitor = visitor_name).entered()
-        };
-        n.visit_mut_with(&mut self.0);
-        n
-    }
 }
 
 /// Note: Ignoring more types is not considered as a breaking change.
