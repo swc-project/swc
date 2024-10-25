@@ -6,9 +6,9 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
-use std::fmt::Debug;
+use std::{borrow::Cow, fmt::Debug};
 
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{Repeat, Repeated};
 
@@ -59,6 +59,15 @@ where
     }
 }
 
+impl<V> CompilerPass for FoldPass<V>
+where
+    V: Fold + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
+    }
+}
+
 pub fn visit_mut_pass<V>(pass: V) -> VisitMutPass<V>
 where
     V: VisitMut,
@@ -103,6 +112,15 @@ where
     }
 }
 
+impl<V> CompilerPass for VisitMutPass<V>
+where
+    V: VisitMut + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
+    }
+}
+
 pub fn visit_pass<V>(pass: V) -> VisitPass<V>
 where
     V: Visit,
@@ -144,6 +162,15 @@ where
 
     fn reset(&mut self) {
         self.pass.reset();
+    }
+}
+
+impl<V> CompilerPass for VisitPass<V>
+where
+    V: Visit + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
     }
 }
 

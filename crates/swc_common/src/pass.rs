@@ -9,14 +9,14 @@ pub trait CompilerPass {
     ///
     /// - name should follow hyphen-case.
     /// - an implementation should return same name
-    fn name() -> Cow<'static, str>;
+    fn name(&self) -> Cow<'static, str>;
 }
 
 impl<V> CompilerPass for Repeat<V>
 where
     V: CompilerPass + Repeated,
 {
-    fn name() -> Cow<'static, str> {
-        Cow::Owned(format!("repeat({})", V::name()))
+    fn name(&self) -> Cow<'static, str> {
+        Cow::Owned(format!("repeat({})", self.pass.name()))
     }
 }
