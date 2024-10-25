@@ -1,10 +1,10 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_ast::{Module, Program};
+use swc_ecma_ast::{Module, Pass, Program};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
@@ -27,15 +27,15 @@ fn module(cm: Lrc<SourceMap>) -> Program {
 
 fn run<V>(b: &mut Bencher, tr: impl Fn(Mark) -> V)
 where
-    V: Fold,
+    V: Pass,
 {
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
         let unresolved_mark = Mark::fresh(Mark::root());
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
-            .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(unresolved_mark, top_level_mark));
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
@@ -43,7 +43,7 @@ where
             helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = tr(unresolved_mark);
 
-                black_box(module.fold_with(&mut tr));
+                black_box(module.apply(tr));
             });
         });
 
@@ -77,14 +77,14 @@ fn common_typescript(b: &mut Bencher) {
         let unresolved_mark = Mark::fresh(Mark::root());
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
-            .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-            .fold_with(&mut strip(unresolved_mark, top_level_mark));
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(strip(unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.fold_with(&mut strip(unresolved_mark, top_level_mark)));
+                black_box(module.apply(strip(unresolved_mark, top_level_mark)));
             });
         });
 
@@ -94,7 +94,7 @@ fn common_typescript(b: &mut Bencher) {
 
 fn common_reserved_word(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::reserved_words::reserved_words()
+        fold_pass(swc_ecma_transforms_compat::reserved_words::reserved_words())
     });
 }
 
