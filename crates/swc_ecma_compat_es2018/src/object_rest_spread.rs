@@ -1,20 +1,20 @@
 use serde::Deserialize;
-use swc_common::chain;
-use swc_ecma_visit::{visit_mut_pass, Fold, VisitMut};
+use swc_ecma_ast::{chain, Pass};
+use swc_ecma_visit::visit_mut_pass;
 
-use super::{object_rest::ObjectRest, object_spread::ObjectSpread};
+use crate::{object_rest::ObjectRest, object_spread::ObjectSpread};
 
 // TODO: currently swc behaves like babel with
 // `ignoreFunctionLength` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread(config: Config) -> impl Fold + VisitMut {
+pub fn object_rest_spread(config: Config) -> impl Pass {
     chain!(
-        from_visit_mut(ObjectRest {
+        visit_mut_pass(ObjectRest {
             config,
             ..Default::default()
         }),
-        from_visit_mut(ObjectSpread { config })
+        visit_mut_pass(ObjectSpread { config })
     )
 }
 
