@@ -951,3 +951,154 @@ macro_rules! visit_mut_obj_and_computed {
         }
     };
 }
+
+macro_rules! impl_traits_for_tuple {
+    (
+        [$idx:tt, $name:ident], $([$idx_rest:tt, $name_rest:ident]),*
+    ) => {
+        impl<$name, $($name_rest),*> VisitMut for ($name, $($name_rest),*)
+        where
+            $name: VisitMut,
+            $($name_rest: VisitMut),*
+        {
+
+            fn visit_mut_program(&mut self, program: &mut Program) {
+                self.$idx.visit_mut_program(program);
+
+                $(
+                    self.$idx_rest.visit_mut_program(program);
+                )*
+            }
+
+            fn visit_mut_module(&mut self, module: &mut Module) {
+                self.$idx.visit_mut_module(module);
+
+                $(
+                    self.$idx_rest.visit_mut_module(module);
+                )*
+            }
+
+            fn visit_mut_script(&mut self, script: &mut Script) {
+                self.$idx.visit_mut_script(script);
+
+                $(
+                    self.$idx_rest.visit_mut_script(script);
+                )*
+            }
+
+            fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+                self.$idx.visit_mut_stmt(stmt);
+
+                $(
+                    self.$idx_rest.visit_mut_stmt(stmt);
+                )*
+            }
+
+            fn visit_mut_expr(&mut self, expr: &mut Expr) {
+                self.$idx.visit_mut_expr(expr);
+
+                $(
+                    self.$idx_rest.visit_mut_expr(expr);
+                )*
+            }
+
+            fn visit_mut_pat(&mut self, pat: &mut Pat) {
+                self.$idx.visit_mut_pat(pat);
+
+                $(
+                    self.$idx_rest.visit_mut_pat(pat);
+                )*
+            }
+
+            fn visit_mut_assign_target(&mut self, target: &mut AssignTarget) {
+                self.$idx.visit_mut_assign_target(target);
+
+                $(
+                    self.$idx_rest.visit_mut_assign_target(target);
+                )*
+            }
+        }
+    };
+}
+
+impl_traits_for_tuple!([0, A], [1, B]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F], [6, G]);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L],
+    [12, M]
+);
