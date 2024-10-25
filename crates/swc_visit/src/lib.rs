@@ -129,39 +129,6 @@ pub trait Repeated {
     fn reset(&mut self);
 }
 
-/// A visitor which applies `A` and then `B`.
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-pub struct AndThen<A, B> {
-    pub first: A,
-    pub second: B,
-}
-
-/// Chains multiple visitor.
-#[macro_export]
-macro_rules! chain {
-    ($a:expr, $b:expr) => {{
-        use $crate::AndThen;
-
-        AndThen {
-            first: $a,
-            second: $b,
-        }
-    }};
-
-    ($a:expr, $b:expr,) => {
-        chain!($a, $b)
-    };
-
-    ($a:expr, $b:expr,  $($rest:tt)+) => {{
-        use $crate::AndThen;
-
-        AndThen{
-            first: $a,
-            second: chain!($b, $($rest)*),
-        }
-    }};
-}
-
 /// A visitor which applies `V` again and again if `V` modifies the node.
 ///
 /// # Note
@@ -196,21 +163,6 @@ where
 
     fn reset(&mut self) {
         self.pass.reset()
-    }
-}
-
-impl<A, B> Repeated for AndThen<A, B>
-where
-    A: Repeated,
-    B: Repeated,
-{
-    fn changed(&self) -> bool {
-        self.first.changed() || self.second.changed()
-    }
-
-    fn reset(&mut self) {
-        self.first.reset();
-        self.second.reset();
     }
 }
 
