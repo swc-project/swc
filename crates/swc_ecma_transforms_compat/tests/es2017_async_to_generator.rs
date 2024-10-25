@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark, Spanned};
+use swc_common::{Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -44,7 +44,7 @@ fn tr() -> impl Pass {
 
     (
         resolver(unresolved_mark, top_level_mark, false),
-        ParenRemover,
+        fold_pass(ParenRemover),
         arrow(unresolved_mark),
         parameters(Default::default(), unresolved_mark),
         destructuring(destructuring::Config { loose: false }),

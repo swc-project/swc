@@ -1,7 +1,7 @@
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::template_literal;
 use swc_ecma_transforms_testing::{test, test_exec};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()

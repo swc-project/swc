@@ -1,12 +1,12 @@
 use std::{fs::File, path::PathBuf};
 
 use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig, Tester};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()

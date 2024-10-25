@@ -4,6 +4,7 @@ use swc_common::{
     comments::{NoopComments, SingleThreadedComments},
     Mark,
 };
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -11,7 +12,6 @@ use swc_ecma_transforms_compat::{
     es2021, es2022,
 };
 use swc_ecma_transforms_testing::{test, test_exec};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::default()

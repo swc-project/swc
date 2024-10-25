@@ -1,13 +1,13 @@
 use std::{fs::File, path::PathBuf, rc::Rc};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::amd::{self, amd};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
