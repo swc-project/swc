@@ -60,21 +60,23 @@ where
     C: Comments + Clone,
 {
     (
-        regexp(regexp::Config {
-            dot_all_regex: false,
-            has_indices: false,
-            lookbehind_assertion: false,
-            named_capturing_groups_regex: false,
-            sticky_regex: true,
-            unicode_property_regex: false,
-            unicode_regex: true,
-            unicode_sets_regex: false,
-        }),
-        block_scoped_functions(),
-        template_literal(c.template_literal),
-        classes(c.classes),
-        new_target(),
-        spread(c.spread),
+        (
+            regexp(regexp::Config {
+                dot_all_regex: false,
+                has_indices: false,
+                lookbehind_assertion: false,
+                named_capturing_groups_regex: false,
+                sticky_regex: true,
+                unicode_property_regex: false,
+                unicode_regex: true,
+                unicode_sets_regex: false,
+            }),
+            block_scoped_functions(),
+            template_literal(c.template_literal),
+            classes(c.classes),
+            new_target(),
+            spread(c.spread),
+        ),
         // https://github.com/Microsoft/TypeScript/issues/5441
         if !c.typescript {
             Some(object_super())
@@ -87,11 +89,13 @@ where
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters, unresolved_mark),
-        exprs(unresolved_mark),
-        computed_properties(c.computed_props),
-        destructuring(c.destructuring),
-        block_scoping(unresolved_mark),
-        generator::generator(unresolved_mark, comments.clone()),
+        (
+            exprs(unresolved_mark),
+            computed_properties(c.computed_props),
+            destructuring(c.destructuring),
+            block_scoping(unresolved_mark),
+            generator::generator(unresolved_mark, comments.clone()),
+        ),
     )
 }
 
