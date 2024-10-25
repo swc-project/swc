@@ -17,12 +17,12 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
     globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
-) -> impl Fold {
+) -> impl Pass {
     visit_mut_pass(ConstModules {
         globals: globals
             .into_iter()
