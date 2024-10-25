@@ -4,7 +4,7 @@ use ansi_term::Color;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_ast::{chain, EsVersion, Pass, Program};
+use swc_ecma_ast::{EsVersion, Pass, Program};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{

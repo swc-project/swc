@@ -1,4 +1,3 @@
-use swc_ecma_ast::chain;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_compat::es2020::export_namespace_from;
 use swc_ecma_transforms_proposal::export_default_from;

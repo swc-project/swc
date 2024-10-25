@@ -5,7 +5,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_ecma_ast::chain;
 use swc_ecma_codegen::{Config, Emitter};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};

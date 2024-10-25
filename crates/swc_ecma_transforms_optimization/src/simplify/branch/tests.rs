@@ -1,5 +1,4 @@
 use swc_common::{Mark, SyntaxContext};
-use swc_ecma_ast::chain;
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::visit_mut_pass;

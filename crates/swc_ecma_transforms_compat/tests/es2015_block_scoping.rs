@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{Mark, SyntaxContext};
-use swc_ecma_ast::{chain, Ident, PropName, TsQualifiedName};
+use swc_ecma_ast::{Ident, Pass, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{

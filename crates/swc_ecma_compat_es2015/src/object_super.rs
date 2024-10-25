@@ -485,7 +485,6 @@ impl SuperReplacer {
 #[cfg(test)]
 mod tests {
     use swc_common::Mark;
-    use swc_ecma_ast::chain;
     use swc_ecma_parser::{EsSyntax, Syntax};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;

@@ -1,5 +1,4 @@
 use swc_common::Mark;
-use swc_ecma_ast::chain;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{block_scoping, parameters, spread};
 use swc_ecma_transforms_testing::{test, test_exec};

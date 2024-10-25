@@ -10,7 +10,9 @@ use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
     private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, ExprFactory,
 };
-use swc_ecma_visit::{fold_pass, noop_fold_type, visit_mut_pass, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{
+    fold_pass, noop_fold_type, visit_mut_pass, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
+};
 
 mod legacy;
 
@@ -330,7 +332,7 @@ impl Decorators {
         macro_rules! fold_method {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
                 let fn_name = $fn_name;
-                let method = $method;
+                let mut method = $method;
                 let mut folder = SuperFieldAccessFolder {
                     class_name: &ident,
                     constructor_this_mark: None,
