@@ -145,6 +145,17 @@ where
     }
 }
 
+impl<P> Pass for swc_visit::Optional<P>
+where
+    P: Pass,
+{
+    fn process(&mut self, program: &mut Program) {
+        if self.enabled {
+            self.visitor.process(program);
+        }
+    }
+}
+
 impl Program {
     #[inline(always)]
     pub fn mutate<P>(&mut self, mut pass: P)
