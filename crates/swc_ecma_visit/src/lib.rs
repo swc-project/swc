@@ -77,7 +77,7 @@ where
     }
 }
 
-pub fn visitor<V>(pass: V) -> VisitPass<V>
+pub fn visit_pass<V>(pass: V) -> VisitPass<V>
 where
     V: Visit,
 {
