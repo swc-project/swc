@@ -4,7 +4,6 @@ use swc_common::{
     comments::{NoopComments, SingleThreadedComments},
     Mark,
 };
-use swc_ecma_ast::chain;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -1250,6 +1249,7 @@ async function foo(a) {
 }
 
 foo(1)
+    .then((t) =>
     .then((t) => t(2))
     .then(console.log);
 "#

@@ -233,7 +233,7 @@ fn bench_cases(c: &mut Criterion) {
 criterion_group!(benches, bench_cases);
 criterion_main!(benches);
 
-fn noop_fold() -> impl Pass {
+fn noop_fold() -> impl Fold {
     struct Noop;
     impl Fold for Noop {}
     Noop

@@ -3,7 +3,7 @@ use swc_common::{
     pass::{CompilerPass, Repeat, Repeated},
     Mark,
 };
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     branch::dead_branch_remover,
