@@ -193,7 +193,9 @@ impl SwcLoader {
 
                     program.mutate(&mut expr_simplifier(unresolved_mark, Default::default()));
 
-                    program.mutate(&mut dead_branch_remover(unresolved_mark))
+                    program.mutate(&mut dead_branch_remover(unresolved_mark));
+
+                    program
                 })
             })
         } else {

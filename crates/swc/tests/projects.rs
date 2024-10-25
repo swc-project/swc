@@ -14,7 +14,6 @@ use swc::{
     try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
 use swc_common::{
-    chain,
     comments::{Comment, SingleThreadedComments},
     errors::{EmitterWriter, Handler, HANDLER},
     sync::Lrc,
@@ -24,11 +23,8 @@ use swc_compiler_base::{IsModule, PrintArgs};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_transforms::{
-    helpers::{self, Helpers},
-    pass::noop,
-};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_transforms::helpers::{self, Helpers};
+use swc_ecma_visit::Fold;
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 

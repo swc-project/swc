@@ -52,8 +52,8 @@ fn as_es(c: &swc::Compiler) -> Program {
     let top_level_mark = Mark::new();
 
     program
-        .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-        .fold_with(&mut typescript::strip(unresolved_mark, top_level_mark))
+        .apply(&mut resolver(unresolved_mark, top_level_mark, true))
+        .apply(&mut typescript::strip(unresolved_mark, top_level_mark))
 }
 
 fn base_tr_group(c: &mut Criterion) {
@@ -73,7 +73,7 @@ fn base_tr_fixer(b: &mut Bencher) {
             GLOBALS.set(&Default::default(), || {
                 let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
                 black_box(c.run_transform(&handler, true, || {
-                    module.clone().fold_with(&mut fixer(Some(c.comments())))
+                    module.clone().apply(&mut fixer(Some(c.comments())))
                 }))
             })
         });
