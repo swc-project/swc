@@ -100,6 +100,7 @@ pub trait Pass {
 }
 
 impl Program {
+    #[inline(always)]
     pub fn mutate<P>(&mut self, pass: P)
     where
         P: Pass,
