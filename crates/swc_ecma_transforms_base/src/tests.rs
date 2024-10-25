@@ -179,10 +179,10 @@ pub(crate) fn test_transform<F, P>(
             _ => {}
         }
 
-        let actual = actual
-            .fold_with(&mut hygiene_with_config(hygiene_config()))
-            .fold_with(&mut fixer(None))
-            .fold_with(&mut as_folder(DropSpan));
+        let actual = Program::Module(actual)
+            .apply(hygiene_with_config(hygiene_config()))
+            .apply(fixer(None))
+            .apply(DropSpan);
 
         if actual == expected {
             return Ok(());
