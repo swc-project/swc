@@ -58,7 +58,7 @@ pub fn hygiene() -> impl Pass + VisitMut {
 /// ## Third phase
 ///
 ///  At third phase, we rename all identifiers in the queue.
-pub fn hygiene_with_config(config: Config) -> impl 'static + Pass {
+pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
     (
         renamer(config, HygieneRenamer),
         visit_mut_pass(HygieneRemover),
