@@ -104,10 +104,21 @@ impl<P> Pass for Option<P>
 where
     P: Pass,
 {
+    #[inline(always)]
     fn process(self, program: &mut Program) {
         if let Some(pass) = self {
             pass.process(program);
         }
+    }
+}
+
+impl<P> Pass for Box<P>
+where
+    P: Pass,
+{
+    #[inline(always)]
+    fn process(self, program: &mut Program) {
+        (*self).process(program);
     }
 }
 
