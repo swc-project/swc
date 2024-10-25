@@ -24,7 +24,7 @@ use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::helpers::{self, Helpers};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{fold_pass, Fold};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -728,14 +728,14 @@ fn should_visit() {
                     },
                     &fm.name,
                     Some(&comments),
-                    |_| noop(),
+                    |_| noop_pass(),
                 )
                 .unwrap()
                 .unwrap();
 
             dbg!(config.syntax);
 
-            let config = config.with_pass(|pass| (Panicking, pass));
+            let config = config.with_pass(|pass| (fold_pass(Panicking), pass));
 
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
@@ -745,12 +745,12 @@ fn should_visit() {
                 c.comments().leading.retain(preserve_excl);
                 c.comments().trailing.retain(preserve_excl);
             }
-            let mut pass = config.pass;
+            let pass = config.pass;
             let program = config.program;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 HANDLER.set(&handler, || {
                     // Fold module
-                    program.fold_with(&mut pass)
+                    program.apply(pass)
                 })
             });
 
@@ -1068,7 +1068,7 @@ fn issue_6009() {
             // test parsing input
             let config = c
                 .parse_js_as_input(fm.clone(), None, &handler, &options, &fm.name, None, |_| {
-                    noop()
+                    noop_pass()
                 })
                 .unwrap();
 

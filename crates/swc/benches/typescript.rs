@@ -14,7 +14,6 @@ use swc_compiler_base::PrintArgs;
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, resolver, typescript};
-use swc_ecma_visit::FoldWith;
 
 static SOURCE: &str = include_str!("assets/Observable.ts");
 

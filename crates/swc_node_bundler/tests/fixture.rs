@@ -16,7 +16,6 @@ use swc_ecma_ast::{
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 use swc_ecma_transforms::fixer;
-use swc_ecma_visit::FoldWith;
 use swc_node_bundler::loaders::swc::SwcLoader;
 use testing::NormalizedOutput;
 

@@ -461,11 +461,11 @@ impl Options {
         };
 
         let json_parse_pass = {
-            if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
-                Some(json_parse(cfg.min_cost))
-            } else {
-                None
-            }
+            optimizer
+                .as_ref()
+                .and_then(|v| v.jsonify)
+                .as_ref()
+                .map(|cfg| json_parse(cfg.min_cost))
         };
 
         let simplifier_pass = {
@@ -496,11 +496,9 @@ impl Options {
         };
 
         let optimization = {
-            if let Some(opts) = optimizer.and_then(|o| o.globals) {
-                Some(opts.build(cm, handler))
-            } else {
-                None
-            }
+            optimizer
+                .and_then(|o| o.globals)
+                .map(|opts| opts.build(cm, handler))
         };
 
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);

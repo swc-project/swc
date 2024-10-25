@@ -27,7 +27,6 @@ use swc_ecma_transforms::{
     resolver,
     typescript::typescript,
 };
-use swc_ecma_visit::{FoldWith, VisitMutWith};
 
 use crate::loaders::json::load_json_as_module;
 
@@ -258,7 +257,7 @@ impl SwcLoader {
             // Note that we don't apply compat transform at loading phase.
             let program = if let Some(config) = config {
                 let mut program = config.program;
-                let mut pass = config.pass;
+                let pass = config.pass;
 
                 helpers::HELPERS.set(&helpers, || {
                     HANDLER.set(handler, || {
