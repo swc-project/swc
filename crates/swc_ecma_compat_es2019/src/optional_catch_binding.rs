@@ -1,11 +1,11 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct OptionalCatchBinding;
 
-pub fn optional_catch_binding() -> impl Fold + VisitMut {
+pub fn optional_catch_binding() -> impl Pass {
     visit_mut_pass(OptionalCatchBinding)
 }
 
