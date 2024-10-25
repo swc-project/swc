@@ -46,6 +46,19 @@ where
     }
 }
 
+impl<V> Repeated for FoldPass<V>
+where
+    V: Fold + Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset();
+    }
+}
+
 pub fn visit_mut_pass<V>(pass: V) -> VisitMutPass<V>
 where
     V: VisitMut,
@@ -77,6 +90,19 @@ where
     }
 }
 
+impl<V> Repeated for VisitMutPass<V>
+where
+    V: VisitMut + Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset();
+    }
+}
+
 pub fn visit_pass<V>(pass: V) -> VisitPass<V>
 where
     V: Visit,
@@ -105,6 +131,19 @@ where
     #[inline(always)]
     fn visit_program(&mut self, program: &Program) {
         self.pass.visit_program(program);
+    }
+}
+
+impl<V> Repeated for VisitPass<V>
+where
+    V: Visit + Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset();
     }
 }
 
