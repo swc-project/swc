@@ -95,7 +95,7 @@ mod typescript;
 /// This trait is used to implement transformations. The implementor may decide
 /// to implement [Fold] or [VisitMut] if the transform is fine to start from an
 /// arbitrary node.
-pub trait Pass {
+pub trait Pass: Sized {
     fn process(self, program: &mut Program);
 }
 
