@@ -2402,8 +2402,8 @@ where
 pub struct DropSpan;
 
 impl Pass for DropSpan {
-    fn process(mut self, program: &mut Program) {
-        program.visit_mut_with(&mut self);
+    fn process(&mut self, program: &mut Program) {
+        program.visit_mut_with(self);
     }
 }
 
