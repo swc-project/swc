@@ -1178,12 +1178,13 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use swc_ecma_ast::noop_pass;
 
     fn run_test(from: &str, to: &str) {
         crate::tests::test_transform(
             Default::default(),
             // test_transform has alreay included fixer
-            |_| noop(),
+            |_| noop_pass(),
             from,
             to,
             true,
