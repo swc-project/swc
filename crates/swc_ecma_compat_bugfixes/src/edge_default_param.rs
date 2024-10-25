@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Edge.
@@ -8,7 +8,7 @@ use swc_trace_macro::swc_trace;
 /// syntax. This fixes the only arguments-related bug in ES Modules-supporting
 /// browsers (Edge 16 & 17). Use this plugin instead of
 /// @babel/plugin-transform-parameters when targeting ES Modules.
-pub fn edge_default_param() -> impl Fold + VisitMut {
+pub fn edge_default_param() -> impl Pass {
     visit_mut_pass(EdgeDefaultParam::default())
 }
 #[derive(Default, Clone, Copy)]

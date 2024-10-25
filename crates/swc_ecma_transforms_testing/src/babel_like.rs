@@ -3,8 +3,8 @@ use std::{fs::read_to_string, path::Path};
 use ansi_term::Color;
 use serde::Deserialize;
 use serde_json::Value;
-use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_ast::{EsVersion, Program};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
+use swc_ecma_ast::{chain, EsVersion, Pass, Program};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{
@@ -14,13 +14,12 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
     resolver,
 };
-use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use testing::NormalizedOutput;
 
 use crate::{exec_with_node_test_runner, parse_options, stdout_of};
 
 pub type PassFactory<'a> =
-    Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>;
+    Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Pass>>>;
 
 /// These tests use `options.json`.
 ///
@@ -87,7 +86,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 comments: comments.clone(),
             };
 
-            let mut pass: Box<dyn Fold> = Box::new(resolver(
+            let mut pass: Box<dyn Pass> = Box::new(resolver(
                 builder.unresolved_mark,
                 builder.top_level_mark,
                 self.syntax.typescript(),
@@ -164,12 +163,12 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
             let helpers = Helpers::new(output_path.is_some());
             let (code_without_helper, output_program) = HELPERS.set(&helpers, || {
-                let mut p = input_program.fold_with(&mut *pass);
+                let mut p = input_program.apply(pass);
 
                 let code_without_helper = builder.print(&p);
 
                 if output_path.is_none() {
-                    p.visit_mut_with(&mut inject_helpers(builder.unresolved_mark))
+                    p.mutate(inject_helpers(builder.unresolved_mark))
                 }
 
                 (code_without_helper, p)

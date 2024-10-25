@@ -1,7 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 // Converts destructured parameters with default values to non-shorthand syntax.
@@ -19,8 +19,8 @@ use swc_trace_macro::swc_trace;
 //   Object``===Object``  // true, should be false.
 //
 // Benchmarks: https://jsperf.com/compiled-tagged-template-performance
-pub fn template_literal_caching() -> impl Fold {
-    TemplateLiteralCaching::default()
+pub fn template_literal_caching() -> impl Pass {
+    fold_pass(TemplateLiteralCaching::default())
 }
 #[derive(Default, Clone)]
 struct TemplateLiteralCaching {

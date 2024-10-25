@@ -60,7 +60,7 @@ pub fn hygiene() -> impl Pass {
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Pass {
     chain!(
-        renamer(config.clone(), HygieneRenamer),
+        renamer(config, HygieneRenamer),
         visit_mut_pass(HygieneRemover)
     )
 }
