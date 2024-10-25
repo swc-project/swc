@@ -10,7 +10,7 @@ use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
