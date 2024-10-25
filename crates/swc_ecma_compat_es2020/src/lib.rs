@@ -1,6 +1,6 @@
 use serde::Deserialize;
 use swc_common::Mark;
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     export_namespace_from::export_namespace_from, nullish_coalescing::nullish_coalescing,

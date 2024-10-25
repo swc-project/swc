@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 use swc_ecma_visit::visit_mut_pass;
 
 use crate::{object_rest::ObjectRest, object_spread::ObjectSpread};

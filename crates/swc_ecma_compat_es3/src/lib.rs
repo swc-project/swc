@@ -1,4 +1,4 @@
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     member_expr_lits::member_expression_literals, prop_lits::property_literals,

@@ -1,5 +1,5 @@
 use swc_common::Mark;
-use swc_ecma_ast::{chain, Pass};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     async_arrows_in_class::async_arrows_in_class, edge_default_param::edge_default_param,
