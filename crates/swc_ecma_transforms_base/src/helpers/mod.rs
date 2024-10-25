@@ -684,7 +684,7 @@ _throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "'use strict'",
             "'use strict'
@@ -738,7 +738,7 @@ let x = 4;",
             Default::default(),
             |_| {
                 enable_helper!(using_ctx);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "let _throw = null",
             r#"
