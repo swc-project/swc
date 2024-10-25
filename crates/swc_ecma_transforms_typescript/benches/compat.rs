@@ -94,7 +94,7 @@ fn common_typescript(b: &mut Bencher) {
 
 fn common_reserved_word(b: &mut Bencher) {
     run(b, |_| {
-        fold_pass(swc_ecma_transforms_compat::reserved_words::reserved_words())
+        swc_ecma_transforms_compat::reserved_words::reserved_words()
     });
 }
 

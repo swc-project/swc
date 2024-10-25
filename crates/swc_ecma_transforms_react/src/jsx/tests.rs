@@ -1125,7 +1125,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         let top_level_mark = Mark::new();
         let unresolved_mark = Mark::new();
 
-        let script = script.fold_with(&mut (
+        let script = Program::Script(script).apply((
             resolver(Mark::new(), top_level_mark, false),
             react(
                 tester.cm.clone(),

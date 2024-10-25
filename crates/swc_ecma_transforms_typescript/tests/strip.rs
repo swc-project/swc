@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, comments::NoopComments, pass::Optional, Mark};
+use swc_common::{comments::NoopComments, pass::Optional, Mark};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -16,7 +17,6 @@ use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
     tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
 };
-use swc_ecma_visit::Fold;
 
 fn tr(t: &mut Tester) -> impl Pass {
     tr_config(t, None, None, false)

@@ -101,8 +101,8 @@ fn identity(entry: PathBuf) {
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
                     Program::Module(p)
-                        .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-                        .fold_with(&mut typescript(
+                        .apply(resolver(unresolved_mark, top_level_mark, true))
+                        .apply(typescript(
                             typescript::Config {
                                 no_empty_export: true,
                                 ..Default::default()
@@ -110,8 +110,8 @@ fn identity(entry: PathBuf) {
                             unresolved_mark,
                             top_level_mark,
                         ))
-                        .fold_with(&mut hygiene())
-                        .fold_with(&mut fixer(None))
+                        .apply(hygiene())
+                        .apply(fixer(None))
                 })
                 .map_err(|e| {
                     eprintln!("failed to parse as typescript module");
