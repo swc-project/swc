@@ -2,7 +2,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::{Fold, FoldWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
 use super::*;
@@ -82,19 +82,21 @@ where
     F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Module, ()>,
 {
     crate::tests::Tester::run(|tester| {
-        let module = op(tester)?;
+        let mut module = Program::Module(op(tester)?);
 
         let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
         println!("----- Hygiene -----\n{}", hygiene_src);
 
-        let module = module.fold_with(&mut hygiene_with_config(config()));
+        hygiene_with_config(config()).process(&mut module);
 
         let actual = tester.print(&module);
 
         let expected = {
-            let expected = tester.with_parser("expected.js", Syntax::default(), expected, |p| {
-                p.parse_module()
-            })?;
+            let expected = tester
+                .with_parser("expected.js", Syntax::default(), expected, |p| {
+                    p.parse_module()
+                })
+                .map(Program::Module)?;
             tester.print(&expected)
         };
 
