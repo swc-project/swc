@@ -2,7 +2,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock {
@@ -10,7 +10,7 @@ struct ClassStaticBlock {
 }
 
 pub fn static_blocks(static_block_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(ClassStaticBlock { static_block_mark })
+    from_visit_mut(ClassStaticBlock { static_block_mark })
 }
 
 #[swc_trace]

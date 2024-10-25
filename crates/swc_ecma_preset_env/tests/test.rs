@@ -22,7 +22,7 @@ use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
+use swc_ecma_visit::{from_visit_mut, FoldWith, VisitMut};
 use testing::{NormalizedOutput, Tester};
 
 /// options.json file
@@ -261,8 +261,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
             let expected_src = print(&expected);
 
-            if drop_span(actual.fold_with(&mut as_folder(Normalizer)))
-                == drop_span(expected.fold_with(&mut as_folder(Normalizer)))
+            if drop_span(actual.fold_with(&mut from_visit_mut(Normalizer)))
+                == drop_span(expected.fold_with(&mut from_visit_mut(Normalizer)))
             {
                 return Ok(());
             }

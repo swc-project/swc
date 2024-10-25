@@ -15,7 +15,8 @@ use swc_ecma_utils::{
     ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 use crate::{
@@ -84,7 +85,7 @@ pub fn transform(
     verbatim_module_syntax: bool,
     native_class_properties: bool,
 ) -> impl Fold + VisitMut {
-    as_folder(Transform {
+    from_visit_mut(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         import_export_assign_config,

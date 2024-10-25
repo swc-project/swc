@@ -6,7 +6,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, Fold, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
@@ -18,7 +18,7 @@ pub fn typescript(
 ) -> impl Fold + VisitMut {
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
-    as_folder(TypeScript {
+    from_visit_mut(TypeScript {
         config,
         unresolved_mark,
         top_level_mark,
@@ -151,7 +151,7 @@ pub fn tsx<C>(
 where
     C: Comments,
 {
-    as_folder(TypeScriptReact {
+    from_visit_mut(TypeScriptReact {
         config,
         tsx_config,
         id_usage: Default::default(),

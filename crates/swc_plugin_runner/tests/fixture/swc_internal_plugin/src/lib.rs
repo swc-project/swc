@@ -29,7 +29,8 @@ impl VisitMut for ConsoleOutputReplacer {
                             span: DUMMY_SP,
                             value: JsWord::from("changed_via_plugin"),
                             raw: Some(Atom::from("\"changed_via_plugin\"")),
-                        }).into();
+                        })
+                        .into();
                     }
                 }
             }
@@ -133,5 +134,5 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
 
     dbg!();
 
-    program.fold_with(&mut as_folder(ConsoleOutputReplacer { metadata }))
+    program.fold_with(&mut from_visit_mut(ConsoleOutputReplacer { metadata }))
 }

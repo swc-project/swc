@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Transform to optimize performance of literals.
 ///
@@ -28,7 +28,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///
 /// See https://github.com/swc-project/swc/issues/409
 pub fn json_parse(min_cost: usize) -> impl Fold {
-    as_folder(JsonParse { min_cost })
+    from_visit_mut(JsonParse { min_cost })
 }
 
 struct JsonParse {

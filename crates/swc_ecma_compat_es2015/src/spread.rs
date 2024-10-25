@@ -9,12 +9,13 @@ use swc_ecma_utils::{
     alias_ident_for, member_expr, prepend_stmt, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
 pub fn spread(c: Config) -> impl Fold + VisitMut {
-    as_folder(Spread {
+    from_visit_mut(Spread {
         c,
         vars: Default::default(),
     })

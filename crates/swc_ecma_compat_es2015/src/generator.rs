@@ -17,7 +17,8 @@ use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use tracing::debug;
 
@@ -26,7 +27,7 @@ pub fn generator<C>(unresolved_mark: Mark, _comments: C) -> impl VisitMut + Fold
 where
     C: Comments,
 {
-    as_folder(Wrapper {
+    from_visit_mut(Wrapper {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }

@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
 use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
 /// expressions will be replaced with the value.
@@ -34,7 +34,7 @@ pub fn inline_globals2(
     global_exprs: GlobalExprMap,
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 ) -> impl Fold + VisitMut {
-    as_folder(InlineGlobals {
+    from_visit_mut(InlineGlobals {
         envs,
         globals,
         global_exprs,
@@ -222,7 +222,7 @@ mod tests {
 
             let v = tester
                 .apply_transform(
-                    as_folder(DropSpan),
+                    from_visit_mut(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     None,

@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
 use crate::debug::debug_assert_valid;
@@ -44,7 +44,7 @@ pub fn expr_simplifier(
     unresolved_mark: Mark,
     config: Config,
 ) -> impl RepeatedJsPass + VisitMut + 'static {
-    as_folder(SimplifyExpr {
+    from_visit_mut(SimplifyExpr {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,

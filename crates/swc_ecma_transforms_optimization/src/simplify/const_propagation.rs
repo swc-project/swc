@@ -2,11 +2,11 @@
 
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// This pass is kind of inliner, but it's far faster.
 pub fn constant_propagation() -> impl 'static + Fold + VisitMut {
-    as_folder(ConstPropagation::default())
+    from_visit_mut(ConstPropagation::default())
 }
 
 #[derive(Default)]

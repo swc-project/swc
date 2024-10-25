@@ -15,7 +15,8 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    from_visit_mut, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -28,7 +29,7 @@ mod constructor;
 mod prop_name;
 
 pub fn classes(config: Config) -> impl Fold + VisitMut {
-    as_folder(Classes {
+    from_visit_mut(Classes {
         in_strict: false,
         config,
 

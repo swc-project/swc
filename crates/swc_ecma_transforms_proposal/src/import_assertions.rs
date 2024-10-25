@@ -1,11 +1,11 @@
 use swc_ecma_ast::{ExportAll, ImportDecl, NamedExport};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Fold, VisitMut};
 
 #[deprecated(note = "Please use `import_assertions` instead")]
 pub use self::import_attributes as import_assertions;
 
 pub fn import_attributes() -> impl VisitMut + Fold {
-    as_folder(ImportAssertions)
+    from_visit_mut(ImportAssertions)
 }
 
 struct ImportAssertions;

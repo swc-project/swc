@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value};
 #[cfg(feature = "debug")]
-use swc_ecma_visit::{as_folder, FoldWith};
+use swc_ecma_visit::{from_visit_mut, FoldWith};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -356,7 +356,7 @@ pub(crate) fn negate_cost(
         {
             trace_op!(
                 "negation cost of `{}` = {}",
-                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),
+                dump(&e.clone().fold_with(&mut from_visit_mut(fixer(None))), true),
                 cost,
             );
         }
@@ -368,7 +368,10 @@ pub(crate) fn negate_cost(
 
     trace_op!(
         "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-        dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
+        dump(
+            &e.clone().fold_with(&mut from_visit_mut(fixer(None))),
+            false
+        ),
         cost,
         in_bool_ctx,
         is_ret_val_ignored

@@ -22,7 +22,7 @@ use swc_ecma_transforms::{
     pass::Optional,
     resolver, Assumptions,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::config::{GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
@@ -349,7 +349,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 feature_flag,
                 resolver,
             ),
-            as_folder(MinifierPass {
+            from_visit_mut(MinifierPass {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments,
