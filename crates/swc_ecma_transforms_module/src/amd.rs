@@ -13,7 +13,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
@@ -44,7 +44,7 @@ pub fn amd<C>(
     config: Config,
     available_features: FeatureFlag,
     comments: Option<C>,
-) -> impl Fold + VisitMut
+) -> impl Pass
 where
     C: Comments,
 {
