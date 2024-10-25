@@ -95,36 +95,45 @@ mod typescript;
 /// This trait is used to implement transformations. The implementor may decide
 /// to implement [Fold] or [VisitMut] if the transform is fine to start from an
 /// arbitrary node.
-pub trait Pass: Sized {
-    fn process(self, program: &mut Program);
+pub trait Pass {
+    fn process(&mut self, program: &mut Program);
 }
-
 /// Optional pass implementation.
 impl<P> Pass for Option<P>
 where
     P: Pass,
 {
     #[inline(always)]
-    fn process(self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program) {
         if let Some(pass) = self {
             pass.process(program);
         }
     }
 }
 
-impl<P> Pass for Box<P>
+impl<P: ?Sized> Pass for Box<P>
 where
     P: Pass,
 {
     #[inline(always)]
-    fn process(self, program: &mut Program) {
-        (*self).process(program);
+    fn process(&mut self, program: &mut Program) {
+        (**self).process(program);
+    }
+}
+
+impl<P: ?Sized> Pass for &'_ mut P
+where
+    P: Pass,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        (**self).process(program);
     }
 }
 
 impl Program {
     #[inline(always)]
-    pub fn mutate<P>(&mut self, pass: P)
+    pub fn mutate<P>(&mut self, mut pass: P)
     where
         P: Pass,
     {
@@ -132,7 +141,7 @@ impl Program {
     }
 
     #[inline(always)]
-    pub fn apply<P>(mut self, pass: P) -> Self
+    pub fn apply<P>(mut self, mut pass: P) -> Self
     where
         P: Pass,
     {
@@ -176,7 +185,7 @@ pub fn noop_pass() -> impl Pass {
 }
 
 #[inline(always)]
-pub fn fn_pass(f: impl FnOnce(&mut Program)) -> impl Pass {
+pub fn fn_pass(f: impl FnMut(&mut Program)) -> impl Pass {
     FnPass { f }
 }
 
@@ -186,9 +195,9 @@ struct FnPass<F> {
 
 impl<F> Pass for FnPass<F>
 where
-    F: FnOnce(&mut Program),
+    F: FnMut(&mut Program),
 {
-    fn process(self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program) {
         (self.f)(program);
     }
 }
