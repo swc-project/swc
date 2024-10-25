@@ -1,4 +1,4 @@
-use swc_common::{chain, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{NodeRef, Visit, VisitWith};
 
