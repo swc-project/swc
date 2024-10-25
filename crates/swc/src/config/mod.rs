@@ -7,7 +7,6 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
-use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -27,7 +26,7 @@ use swc_config::{
     config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
     merge::Merge,
 };
-use swc_ecma_ast::{EsVersion, Expr, Pass, Program};
+use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
@@ -474,12 +473,12 @@ impl Options {
                 match opts {
                     SimplifyOption::Bool(allow_simplify) => {
                         if *allow_simplify {
-                            Either::Left(simplifier(top_level_mark, Default::default()))
+                            Some(simplifier(top_level_mark, Default::default()))
                         } else {
-                            Either::Right(noop())
+                            None
                         }
                     }
-                    SimplifyOption::Json(cfg) => Either::Left(simplifier(
+                    SimplifyOption::Json(cfg) => Some(simplifier(
                         top_level_mark,
                         SimplifyConfig {
                             dce: DceConfig {
@@ -492,15 +491,15 @@ impl Options {
                     )),
                 }
             } else {
-                Either::Right(noop())
+                None
             }
         };
 
         let optimization = {
             if let Some(opts) = optimizer.and_then(|o| o.globals) {
-                Either::Left(opts.build(cm, handler))
+                Some(opts.build(cm, handler))
             } else {
-                Either::Right(noop())
+                None
             }
         };
 
@@ -581,7 +580,7 @@ impl Options {
         let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
-        let plugin_transforms: Box<dyn Fold> = {
+        let plugin_transforms: Box<dyn Pass> = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
@@ -667,25 +666,25 @@ impl Options {
         };
 
         #[cfg(not(feature = "plugin"))]
-        let plugin_transforms: Box<dyn Fold> = {
+        let plugin_transforms: Box<dyn Pass> = {
             if experimental.plugins.is_some() {
                 handler.warn(
                     "Plugin is not supported with current @swc/core. Plugin transform will be \
                      skipped.",
                 );
             }
-            Box::new(noop())
+            Box::new(noop_pass())
         };
 
         let mut plugin_transforms = Some(plugin_transforms);
 
-        let pass: Box<dyn Fold> = if experimental
+        let pass: Box<dyn Pass> = if experimental
             .disable_builtin_transforms_for_internal_testing
             .into_bool()
         {
             plugin_transforms.unwrap()
         } else {
-            let decorator_pass: Box<dyn Fold> =
+            let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
                         legacy: transform.legacy_decorator.into_bool(),
@@ -1761,7 +1760,7 @@ fn build_resolver(
     r
 }
 
-fn option_pass(pass: Option<Box<dyn Fold>>) -> Box<dyn Fold> {
+fn option_pass(pass: Option<Box<dyn Pass>>) -> Box<dyn Pass> {
     match pass {
         None => Box::new(noop()),
         Some(pass) => pass,

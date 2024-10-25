@@ -131,8 +131,8 @@ use once_cell::sync::Lazy;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap,
-    Spanned, GLOBALS,
+    comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
+    GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
@@ -148,7 +148,6 @@ use swc_ecma_transforms::{
     helpers::{self, Helpers},
     hygiene,
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
-    pass::noop,
     resolver,
 };
 use swc_ecma_transforms_base::fixer::paren_remover;

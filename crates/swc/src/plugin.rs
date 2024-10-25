@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use swc_ecma_ast::Pass;
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
 
 /// A tuple represents a plugin.
 ///
@@ -30,13 +30,13 @@ pub fn plugins(
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
 ) -> impl Pass {
-    RustPlugins {
+    fold_pass(RustPlugins {
         plugins: configured_plugins,
         metadata_context,
         comments,
         source_map,
         unresolved_mark,
-    }
+    })
 }
 
 struct RustPlugins {
