@@ -31,7 +31,7 @@ where
     V: Fold,
 {
     #[inline(always)]
-    fn process(mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program) {
         program.map_with_mut(|p| p.fold_with(&mut self.pass));
     }
 }
@@ -75,7 +75,7 @@ where
     V: VisitMut,
 {
     #[inline(always)]
-    fn process(mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program) {
         program.visit_mut_with(&mut self.pass);
     }
 }
@@ -119,7 +119,7 @@ where
     V: Visit,
 {
     #[inline(always)]
-    fn process(mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program) {
         program.visit_with(&mut self.pass);
     }
 }
