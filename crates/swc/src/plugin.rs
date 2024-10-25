@@ -7,10 +7,9 @@
 )]
 
 use serde::{Deserialize, Serialize};
+use swc_ecma_ast::Pass;
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
-#[cfg(not(any(feature = "plugin")))]
-use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 /// A tuple represents a plugin.

@@ -20,7 +20,6 @@ use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
 };
-use swc_ecma_visit::FoldWith;
 
 fn main() {
     let file = args().nth(1).expect("should provide a path to file");
@@ -49,7 +48,7 @@ fn main() {
         .unwrap();
 
         let output = optimize(
-            program.into(),
+            program,
             cm.clone(),
             None,
             None,
@@ -63,10 +62,9 @@ fn main() {
                 top_level_mark,
                 mangle_name_cache: None,
             },
-        )
-        .expect_module();
+        );
 
-        let output = output.fold_with(&mut fixer(None));
+        let output = output.apply(fixer(None));
 
         let code = print(cm, &[output], false);
 

@@ -595,7 +595,7 @@ fn fixture(input: PathBuf) {
                             err.into_diagnostic(&handler).emit();
                         })
                         .ok()?;
-                    let mut expected = expected.fold_with(&mut fixer(None));
+                    let mut expected = expected.apply(fixer(None));
                     expected = drop_span(expected);
                     match &mut expected {
                         Program::Module(m) => {

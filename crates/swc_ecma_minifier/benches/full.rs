@@ -7,6 +7,7 @@ use std::fs::read_to_string;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
 use swc_allocator::Allocator;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -69,7 +70,8 @@ fn run(src: &str) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)))
+            .map(Program::Module)
+            .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
             .unwrap();
 
             let output = optimize(
@@ -97,10 +99,9 @@ fn run(src: &str) {
                     top_level_mark,
                     mangle_name_cache: None,
                 },
-            )
-            .expect_module();
+            );
 
-            let output = output.fold_with(&mut fixer(None));
+            let output = output.apply(fixer(None));
 
             let code = print(cm, &[output], true);
 
