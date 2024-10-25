@@ -17,7 +17,6 @@ use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
-    chain,
     collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
@@ -28,7 +27,7 @@ use swc_config::{
     config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
     merge::Merge,
 };
-use swc_ecma_ast::{EsVersion, Expr, Program};
+use swc_ecma_ast::{EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
@@ -53,7 +52,6 @@ use swc_ecma_transforms::{
         EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
-    pass::{noop, Optional},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
         export_default_from, import_assertions,
@@ -71,6 +69,7 @@ use swc_ecma_transforms_optimization::{
 };
 use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::{Fold, VisitMutWith};
+use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
 use crate::{
@@ -464,9 +463,9 @@ impl Options {
 
         let json_parse_pass = {
             if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
-                Either::Left(json_parse(cfg.min_cost))
+                Some(json_parse(cfg.min_cost))
             } else {
-                Either::Right(noop())
+                None
             }
         };
 
@@ -1318,7 +1317,7 @@ impl ModuleConfig {
         unresolved_mark: Mark,
         available_features: FeatureFlag,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
+    ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
         } else {
@@ -1540,7 +1539,7 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
         type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {

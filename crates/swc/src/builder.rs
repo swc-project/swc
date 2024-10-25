@@ -26,7 +26,7 @@ use swc_visit::Optional;
 use crate::config::{GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
 /// Builder is used to create a high performance `Compiler`.
-pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
+pub struct PassBuilder<'a, 'b, P: Pass> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
     env: Option<swc_ecma_preset_env::Config>,
@@ -47,7 +47,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     regenerator: regenerator::Config,
 }
 
-impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
+impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     pub fn new(
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
@@ -125,15 +125,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     pub fn const_modules(
         self,
         globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
-    ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
+    ) -> PassBuilder<'a, 'b, (P, impl Pass)> {
         let cm = self.cm.clone();
         self.then(const_modules(cm, globals))
     }
 
-    pub fn inline_globals(
-        self,
-        c: GlobalPassOption,
-    ) -> PassBuilder<'a, 'b, impl swc_ecma_visit::Fold> {
+    pub fn inline_globals(self, c: GlobalPassOption) -> PassBuilder<'a, 'b, (P, impl Pass)> {
         let pass = c.build(self.cm, self.handler);
         self.then(pass)
     }
@@ -171,7 +168,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-    ) -> impl 'cmt + swc_ecma_visit::Fold
+    ) -> impl 'cmt + Pass
     where
         P: 'cmt,
     {

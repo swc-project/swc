@@ -2,8 +2,8 @@ use swc_common::{
     comments::{Comment, Comments, SingleThreadedComments},
     BytePos, Span, DUMMY_SP,
 };
-use swc_ecma_ast::{Module, Script};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_ast::{Module, Pass, Script};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// Preserves comments that would otherwise be dropped.
 ///
