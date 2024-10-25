@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, StmtLike};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Pass, VisitMut, VisitMutWith};
 
 static HOIST_METHODS: phf::Set<&str> = phf_set![
     "mock",
@@ -12,8 +12,8 @@ static HOIST_METHODS: phf::Set<&str> = phf_set![
     "deepUnmock"
 ];
 
-pub fn jest() -> impl Fold + VisitMut {
-    as_folder(Jest::default())
+pub fn jest() -> impl Pass {
+    from_visit_mut(Jest::default())
 }
 
 #[derive(Default)]
