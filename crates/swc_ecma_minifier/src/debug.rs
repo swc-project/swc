@@ -79,10 +79,9 @@ pub(crate) fn invoke_module(module: &Module) {
         return;
     }
 
-    let module = module
-        .clone()
-        .fold_with(&mut hygiene())
-        .fold_with(&mut fixer(None));
+    let module = Program::Module(module.clone())
+        .apply(hygiene())
+        .apply(fixer(None));
     let module = drop_span(module);
 
     let mut buf = Vec::new();

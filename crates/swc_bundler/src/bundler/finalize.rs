@@ -55,10 +55,10 @@ where
                         .swc_helpers
                         .lock();
 
-                    let module = bundle.module;
-
-                    bundle.module = HELPERS.set(&Helpers::from_data(swc_helpers), || {
-                        module.fold_with(&mut inject_helpers(unresolved_mark))
+                    HELPERS.set(&Helpers::from_data(swc_helpers), || {
+                        bundle
+                            .module
+                            .visit_mut_with(&mut inject_helpers(unresolved_mark));
                     });
                 }
 

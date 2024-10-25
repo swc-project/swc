@@ -420,7 +420,7 @@ define_helpers!(Helpers {
     using_ctx: (),
 });
 
-pub fn inject_helpers(global_mark: Mark) -> impl Pass {
+pub fn inject_helpers(global_mark: Mark) -> impl Pass + VisitMut {
     visit_mut_pass(InjectHelpers {
         global_mark,
         helper_ctxt: None,
