@@ -11,7 +11,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::{Module, Program};
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
@@ -26,7 +26,7 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
-use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use testing::DebugUsingDisplay;
 use tracing::{info, span, Level};
 
@@ -97,7 +97,7 @@ fn run(
     input: &str,
     config: Option<&str>,
     mangle: Option<MangleOptions>,
-) -> Option<Module> {
+) -> Option<Program> {
     let _ = rayon::ThreadPoolBuilder::new()
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
@@ -126,7 +126,7 @@ fn run(
         err.into_diagnostic(handler).emit();
     })
     .map(Program::Module)
-    .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
+    .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)));
 
     // Ignore parser errors.
     //
@@ -153,14 +153,13 @@ fn run(
             top_level_mark,
             mangle_name_cache: None,
         },
-    )
-    .expect_module();
+    );
 
     if run_hygiene {
         output.visit_mut_with(&mut hygiene());
     }
 
-    let output = output.fold_with(&mut fixer(None));
+    let output = output.apply(&mut fixer(None));
 
     Some(output)
 }

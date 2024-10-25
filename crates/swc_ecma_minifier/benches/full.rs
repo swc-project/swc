@@ -15,7 +15,6 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
-use swc_ecma_visit::FoldWith;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/minifier/libs");

@@ -5,8 +5,7 @@ use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
-    SourceMap,
+    comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Module, Script};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
@@ -19,10 +18,10 @@ use swc_ecma_transforms::{
     hygiene::{self, hygiene_with_config},
     modules::{self, path::ImportResolver},
     optimization::const_modules,
-    pass::Optional,
     resolver, Assumptions,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_visit::Optional;
 
 use crate::config::{GlobalPassOption, JsMinifyOptions, ModuleConfig};
 

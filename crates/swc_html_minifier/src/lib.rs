@@ -1935,10 +1935,8 @@ impl<C: MinifyCss> Minifier<'_, C> {
             );
         }
 
-        let left_program = swc_ecma_visit::FoldWith::fold_with(
-            left_program,
-            &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
-        );
+        let left_program =
+            left_program.apply(swc_ecma_transforms_base::fixer::fixer(Some(&comments)));
 
         let mut buf = Vec::new();
 
