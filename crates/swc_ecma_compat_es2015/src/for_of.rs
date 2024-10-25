@@ -11,7 +11,7 @@ use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`
@@ -48,7 +48,7 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// }
 /// ```
-pub fn for_of(c: Config) -> impl Fold + VisitMut {
+pub fn for_of(c: Config) -> impl Pass {
     visit_mut_pass(ForOf {
         c,
         top_level_vars: Default::default(),
