@@ -4,7 +4,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{visit_mut_pass, Fold, Visit, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, Visit, VisitMut, VisitMutWith};
 
 use self::{
     hook::HookRegister,
@@ -52,7 +52,7 @@ pub fn refresh<C: Comments>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
     global_mark: Mark,
-) -> impl Fold + VisitMut {
+) -> impl Pass {
     visit_mut_pass(Refresh {
         enable: dev && options.is_some(),
         cm,

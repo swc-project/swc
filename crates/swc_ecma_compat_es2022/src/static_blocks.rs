@@ -2,14 +2,14 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock {
     static_block_mark: Mark,
 }
 
-pub fn static_blocks(static_block_mark: Mark) -> impl Fold + VisitMut {
+pub fn static_blocks(static_block_mark: Mark) -> impl Pass {
     visit_mut_pass(ClassStaticBlock { static_block_mark })
 }
 
