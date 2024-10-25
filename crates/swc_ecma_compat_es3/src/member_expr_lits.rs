@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 /// babel: `transform-member-expression-literals`
@@ -20,8 +20,8 @@ use swc_trace_macro::swc_trace;
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
-pub fn member_expression_literals() -> impl Fold {
-    MemberExprLit
+pub fn member_expression_literals() -> impl Pass {
+    fold_pass(MemberExprLit)
 }
 #[derive(Default, Clone, Copy)]
 struct MemberExprLit;
