@@ -20,13 +20,3 @@ where
         Cow::Owned(format!("repeat({})", V::name()))
     }
 }
-
-impl<A, B> CompilerPass for AndThen<A, B>
-where
-    A: CompilerPass,
-    B: CompilerPass,
-{
-    fn name() -> Cow<'static, str> {
-        Cow::Owned(format!("{} -> {}", A::name(), B::name()))
-    }
-}
