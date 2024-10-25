@@ -150,6 +150,30 @@ impl Program {
     }
 }
 
+macro_rules! impl_pass_for_tuple {
+    (
+        [$idx:tt, $name:ident], $([$idx_rest:tt, $name_rest:ident]),*
+    ) => {
+        impl<$name, $($name_rest),*> Pass for ($name, $($name_rest),*)
+        where
+            $name: Pass,
+            $($name_rest: Pass),*
+        {
+            #[inline]
+            fn process(&mut self, program: &mut Program) {
+                self.$idx.process(program);
+
+                $(
+                    self.$idx_rest.process(program);
+                )*
+
+            }
+        }
+    };
+}
+
+impl_pass_for_tuple!([0, A], [1, B]);
+
 #[macro_export]
 macro_rules! chain {
     (
