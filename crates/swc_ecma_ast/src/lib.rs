@@ -100,12 +100,20 @@ pub trait Pass {
 }
 
 impl Program {
-    #[inline(always)]
-    pub fn apply<P>(&mut self, pass: P)
+    pub fn mutate<P>(&mut self, pass: P)
     where
         P: Pass,
     {
         pass.process(self);
+    }
+
+    #[inline(always)]
+    pub fn apply<P>(mut self, pass: P) -> Self
+    where
+        P: Pass,
+    {
+        pass.process(&mut self);
+        self
     }
 }
 
