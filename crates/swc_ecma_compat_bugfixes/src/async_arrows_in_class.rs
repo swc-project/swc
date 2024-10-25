@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, InjectVars};
+use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, InjectVars, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Safari 10.3.
@@ -45,7 +45,7 @@ impl Fold for AsyncArrowsInClass {
     }
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
-        let n = n.fold_children_with(self);
+        let mut n = n.fold_children_with(self);
         if !self.in_class_method {
             return n;
         }
@@ -54,7 +54,7 @@ impl Fold for AsyncArrowsInClass {
             Expr::Arrow(ref a) => {
                 if a.is_async {
                     let mut v = arrow(self.unresolved_mark);
-                    let n = n.fold_with(&mut v);
+                    n.visit_mut_with(&mut v);
                     self.vars.extend(v.take_vars());
                     n
                 } else {
