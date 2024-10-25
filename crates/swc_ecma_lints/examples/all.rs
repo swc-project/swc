@@ -3,7 +3,6 @@ use swc_ecma_ast::*;
 use swc_ecma_lints::{rule::Rule, rules::LintParams};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::VisitMutWith;
 
 fn main() {
     // testing::run_test creates Lrc<SourceMap> and `&Handler` for you
@@ -33,7 +32,7 @@ fn main() {
             let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
             let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+            program.mutate(resolver(unresolved_mark, top_level_mark, false));
 
             let mut rules = swc_ecma_lints::rules::all(LintParams {
                 program: &program,
