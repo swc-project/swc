@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
-use swc_ecma_ast::{CallExpr, Expr, Lit, Regex};
+use swc_ecma_ast::{CallExpr, Expr, Lit, Pass, Regex};
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, Pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{from_visit_mut, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub fn regexp(config: Config) -> impl Pass {
     from_visit_mut(RegExp { config })
