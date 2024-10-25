@@ -2,7 +2,7 @@
 
 #![deny(warnings)]
 
-use swc_common::{chain, pass::Repeat, Mark};
+use swc_common::{pass::Repeat, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};

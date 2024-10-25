@@ -9,7 +9,8 @@ pub use preset_env_base::{query::Targets, version::Version, BrowserData, Version
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    chain, collections::AHashSet, comments::Comments, FromVariant, Mark, SyntaxContext, DUMMY_SP,
+    collections::AHashSet, comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
@@ -21,7 +22,6 @@ use swc_ecma_transforms::{
         regexp::{self, regexp},
     },
     feature::FeatureFlag,
-    pass::{noop, Optional},
     Assumptions,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
@@ -53,7 +53,7 @@ where
     let (include, included_modules) = FeatureOrModule::split(c.include);
     let (exclude, excluded_modules) = FeatureOrModule::split(c.exclude);
 
-    let pass = noop();
+    let pass = noop_pass();
 
     macro_rules! should_enable {
         ($feature:ident, $default:expr) => {{

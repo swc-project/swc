@@ -1,13 +1,13 @@
 //! Copied from https://github.com/google/closure-compiler/blob/6ca3b62990064488074a1a8931b9e8dc39b148b3/test/com/google/javascript/jscomp/InlineVariablesTest.java
 
 use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
 fn simple_strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(
