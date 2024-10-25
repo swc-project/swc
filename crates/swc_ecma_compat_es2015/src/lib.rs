@@ -2,9 +2,9 @@
 #![allow(clippy::boxed_local)]
 
 use serde::Deserialize;
-use swc_common::{chain, comments::Comments, pass::Optional, Mark};
+use swc_common::{comments::Comments, Mark};
+use swc_ecma_ast::{chain, Pass};
 use swc_ecma_compat_common::regexp::{self, regexp};
-use swc_ecma_visit::Fold;
 
 pub use self::{
     arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
@@ -36,7 +36,7 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
-fn exprs(unresolved_mark: Mark) -> impl Fold {
+fn exprs(unresolved_mark: Mark) -> impl Pass {
     chain!(
         arrow(unresolved_mark),
         duplicate_keys(),
@@ -55,7 +55,7 @@ fn exprs(unresolved_mark: Mark) -> impl Fold {
 /// Used to generate `require` calls.
 /// See the documentation of [regenerator](self::regenerator::regenerator) for
 /// more details.
-pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Pass
 where
     C: Comments + Clone,
 {
@@ -76,7 +76,11 @@ where
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
-        Optional::new(object_super(), !c.typescript),
+        if !c.typescript {
+            Some(object_super())
+        } else {
+            None
+        },
         shorthand(),
         function_name(),
         for_of(c.for_of),
