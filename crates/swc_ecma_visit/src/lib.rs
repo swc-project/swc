@@ -15,7 +15,11 @@ use swc_visit::{Repeat, Repeated};
 pub use crate::generated::*;
 mod generated;
 
-/// A map from the [Program] to the [Program]
+/// A map from the [Program] to the [Program].
+///
+/// This trait is used to implement transformations. The implementor may decide
+/// to implement [Fold] or [VisitMut] if the transform is fine to start from an
+/// arbitrary node.
 pub trait Pass {
     fn process(self, program: &mut Program);
 }
@@ -40,6 +44,15 @@ where
     }
 }
 
+impl<V> Fold for FoldPass<V>
+where
+    V: Fold,
+{
+    fn fold_program(&mut self, node: Program) -> Program {
+        self.pass.fold_program(node)
+    }
+}
+
 pub fn from_visit_mut<V>(pass: V) -> impl Pass
 where
     V: VisitMut,
@@ -60,23 +73,41 @@ where
     }
 }
 
+impl<V> VisitMut for VisitMutPass<V>
+where
+    V: VisitMut,
+{
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        self.pass.visit_mut_program(program);
+    }
+}
+
 pub fn visitor<V>(pass: V) -> impl Pass
 where
     V: Visit,
 {
-    VisitorPass { pass }
+    VisitPass { pass }
 }
 
-struct VisitorPass<V> {
+struct VisitPass<V> {
     pass: V,
 }
 
-impl<V> Pass for VisitorPass<V>
+impl<V> Pass for VisitPass<V>
 where
     V: Visit,
 {
     fn process(mut self, program: &mut Program) {
         program.visit_with(&mut self.pass);
+    }
+}
+
+impl<V> Visit for VisitPass<V>
+where
+    V: Visit,
+{
+    fn visit_program(&mut self, program: &Program) {
+        self.pass.visit_program(program);
     }
 }
 
