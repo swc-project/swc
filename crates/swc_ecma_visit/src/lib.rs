@@ -8,12 +8,97 @@ pub extern crate swc_ecma_ast;
 
 use std::fmt::Debug;
 
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{Repeat, Repeated};
 
 pub use crate::generated::*;
 mod generated;
+
+/// A map from the [Program] to the [Program]
+pub trait Pass {
+    fn process(&mut self, program: &mut Program);
+}
+
+pub fn folder<V>(pass: V) -> impl Pass
+where
+    V: Fold,
+{
+    Folder { pass }
+}
+
+struct Folder<V> {
+    pass: V,
+}
+
+impl<V> Pass for Folder<V>
+where
+    V: Fold,
+{
+    fn process(&mut self, program: &mut Program) {
+        program.map_with_mut(|p| p.fold_with(&mut self.pass));
+    }
+}
+
+pub fn visit_mut<V>(pass: V) -> impl Pass
+where
+    V: VisitMut,
+{
+    VisitMutFolder { pass }
+}
+
+struct VisitMutFolder<V> {
+    pass: V,
+}
+
+impl<V> Pass for VisitMutFolder<V>
+where
+    V: VisitMut,
+{
+    fn process(&mut self, program: &mut Program) {
+        program.visit_mut_with(&mut self.pass);
+    }
+}
+
+pub fn visitor<V>(pass: V) -> impl Pass
+where
+    V: Visit,
+{
+    Visitor { pass }
+}
+
+struct Visitor<V> {
+    pass: V,
+}
+
+impl<V> Pass for Visitor<V>
+where
+    V: Visit,
+{
+    fn process(&mut self, program: &mut Program) {
+        program.visit_with(&mut self.pass);
+    }
+}
+
+pub fn from_fn<V>(f: impl FnMut(&mut Program)) -> impl Pass
+where
+    V: Fold,
+{
+    FnPass { f }
+}
+
+struct FnPass<F> {
+    f: F,
+}
+
+impl<F> Pass for FnPass<F>
+where
+    F: FnMut(&mut Program),
+{
+    fn process(&mut self, program: &mut Program) {
+        (self.f)(program);
+    }
+}
 
 impl<V> Fold for Repeat<V>
 where
