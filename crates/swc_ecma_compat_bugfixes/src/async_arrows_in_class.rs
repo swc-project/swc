@@ -106,13 +106,13 @@ impl Fold for AsyncArrowsInClass {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::chain;
+    use swc_ecma_ast::chain;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
     use super::*;
 
-    fn tr() -> impl Fold {
+    fn tr() -> impl Pass {
         let unresolved = Mark::new();
         chain!(
             resolver(unresolved, Mark::new(), false),
