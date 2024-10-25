@@ -2,10 +2,10 @@ use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, Fold, VisitMut, VisitMutWith,
+    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
 
-pub fn reserved_words() -> impl 'static + Fold + VisitMut {
+pub fn reserved_words() -> impl 'static + Pass + VisitMut {
     visit_mut_pass(EsReservedWord)
 }
 

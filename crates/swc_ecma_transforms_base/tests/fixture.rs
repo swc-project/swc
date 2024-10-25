@@ -1,13 +1,11 @@
 use std::path::{Path, PathBuf};
 
-use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
+use swc_common::{sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
-use swc_ecma_visit::{
-    visit_mut_obj_and_computed, visit_mut_pass, Fold, FoldWith, VisitMut, VisitMutWith,
-};
+use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
 use testing::{fixture, run_test2, NormalizedOutput};
 
 pub fn print(cm: Lrc<SourceMap>, program: &Program) -> String {
@@ -33,7 +31,7 @@ pub fn print(cm: Lrc<SourceMap>, program: &Program) -> String {
 fn run<F, P>(syntax: Syntax, input: &Path, op: F)
 where
     F: FnOnce() -> P,
-    P: Fold,
+    P: Pass,
 {
     let dir = input.parent().unwrap();
     let output = dir.join(format!(
@@ -53,7 +51,7 @@ where
 
         let mut folder = op();
 
-        let program = program.fold_with(&mut folder);
+        let program = program.apply(&mut folder);
 
         let actual = print(cm, &program);
         let actual = NormalizedOutput::from(actual);
