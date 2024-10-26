@@ -53,9 +53,7 @@ pub mod ecma {
     )]
     pub mod transforms {
         pub mod base {
-            pub use swc_ecma_transforms_base::{
-                assumptions::Assumptions, feature, fixer, helpers, hygiene, pass, perf, resolver,
-            };
+            pub use swc_ecma_transforms_base::*;
         }
         #[cfg(feature = "ecma_transforms_optimization")]
         #[cfg_attr(docsrs, doc(cfg(feature = "transforms_optimization")))]
