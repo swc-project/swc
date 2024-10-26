@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5514,7 +5514,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
