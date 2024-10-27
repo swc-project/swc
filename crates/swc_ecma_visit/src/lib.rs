@@ -1017,6 +1017,14 @@ macro_rules! impl_traits_for_tuple {
                     self.$idx_rest.visit_mut_assign_target(target);
                 )*
             }
+
+            fn visit_mut_ident(&mut self, ident: &mut Ident) {
+                self.$idx.visit_mut_ident(ident);
+
+                $(
+                    self.$idx_rest.visit_mut_ident(ident);
+                )*
+            }
         }
     };
 }
