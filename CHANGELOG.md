@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.7.40] - 2024-10-26
 
 ### Bug Fixes
 
@@ -16,11 +16,20 @@
 
 - **(es/renamer)** Check `preserved` in normal renaming mode ([#9666](https://github.com/swc-project/swc/issues/9666)) ([87b4e10](https://github.com/swc-project/swc/commit/87b4e10e5dbeb236ee5232d85d3176472fa4a9d0))
 
+
+- **(typescript)** Check whether the method is abstract when checking `is_overload` ([#9678](https://github.com/swc-project/swc/issues/9678)) ([78500af](https://github.com/swc-project/swc/commit/78500af546ea3c92f016c729e173c66fccbe46ed))
+
 ### Documentation
 
 
 
 - **(contributing)** Document changeset ([#9667](https://github.com/swc-project/swc/issues/9667)) ([602c667](https://github.com/swc-project/swc/commit/602c667b9d435fa9155345952379287cb11e59db))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update dependency swc-plugin-coverage-instrument to ^0.0.25 ([#9676](https://github.com/swc-project/swc/issues/9676)) ([b8d255b](https://github.com/swc-project/swc/commit/b8d255bf5aa65a5589331b0924269a23b3052137))
 
 ## [1.7.39] - 2024-10-22
 
