@@ -1249,7 +1249,6 @@ async function foo(a) {
 }
 
 foo(1)
-    .then((t) =>
     .then((t) => t(2))
     .then(console.log);
 "#
