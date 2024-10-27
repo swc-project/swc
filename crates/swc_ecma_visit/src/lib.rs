@@ -44,6 +44,46 @@ where
     fn fold_program(&mut self, node: Program) -> Program {
         self.pass.fold_program(node)
     }
+
+    #[inline(always)]
+    fn fold_module(&mut self, node: Module) -> Module {
+        self.pass.fold_module(node)
+    }
+
+    #[inline(always)]
+    fn fold_script(&mut self, node: Script) -> Script {
+        self.pass.fold_script(node)
+    }
+
+    #[inline(always)]
+    fn fold_stmt(&mut self, node: Stmt) -> Stmt {
+        self.pass.fold_stmt(node)
+    }
+
+    #[inline(always)]
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        self.pass.fold_module_item(item)
+    }
+
+    #[inline(always)]
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        self.pass.fold_expr(expr)
+    }
+
+    #[inline(always)]
+    fn fold_pat(&mut self, pat: Pat) -> Pat {
+        self.pass.fold_pat(pat)
+    }
+
+    #[inline(always)]
+    fn fold_assign_target(&mut self, target: AssignTarget) -> AssignTarget {
+        self.pass.fold_assign_target(target)
+    }
+
+    #[inline(always)]
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
+        self.pass.fold_ident(ident)
+    }
 }
 
 impl<V> Repeated for FoldPass<V>
@@ -97,6 +137,46 @@ where
     fn visit_mut_program(&mut self, program: &mut Program) {
         self.pass.visit_mut_program(program);
     }
+
+    #[inline(always)]
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.pass.visit_mut_module(module);
+    }
+
+    #[inline(always)]
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.pass.visit_mut_script(script);
+    }
+
+    #[inline(always)]
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
+        self.pass.visit_mut_module_item(item);
+    }
+
+    #[inline(always)]
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        self.pass.visit_mut_stmt(stmt);
+    }
+
+    #[inline(always)]
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        self.pass.visit_mut_expr(expr);
+    }
+
+    #[inline(always)]
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
+        self.pass.visit_mut_pat(pat);
+    }
+
+    #[inline(always)]
+    fn visit_mut_assign_target(&mut self, target: &mut AssignTarget) {
+        self.pass.visit_mut_assign_target(target);
+    }
+
+    #[inline(always)]
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        self.pass.visit_mut_ident(ident);
+    }
 }
 
 impl<V> Repeated for VisitMutPass<V>
@@ -139,16 +219,6 @@ where
     #[inline(always)]
     fn process(&mut self, program: &mut Program) {
         program.visit_with(&mut self.pass);
-    }
-}
-
-impl<V> Visit for VisitPass<V>
-where
-    V: Visit,
-{
-    #[inline(always)]
-    fn visit_program(&mut self, program: &Program) {
-        self.pass.visit_program(program);
     }
 }
 
