@@ -48,6 +48,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
         let expr_ctx = ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
             is_unresolved_ref_safe: false,
+            in_strict: false,
         };
 
         let real = {

@@ -116,7 +116,7 @@ impl Optimizer<'_> {
         // for stmt in stmts.iter_mut() {
         //     let ctx = Ctx {
         //         is_nested_if_return_merging: true,
-        //         ..self.ctx
+        //         ..self.ctx.clone()
         //     };
         //     self.with_ctx(ctx).merge_nested_if_returns(stmt, terminate);
         // }
@@ -396,7 +396,7 @@ impl Optimizer<'_> {
                         && seq
                             .exprs
                             .last()
-                            .map(|v| is_pure_undefined(&self.expr_ctx, v))
+                            .map(|v| is_pure_undefined(&self.ctx.expr_ctx, v))
                             .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);

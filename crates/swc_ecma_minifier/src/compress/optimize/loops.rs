@@ -65,7 +65,7 @@ impl Optimizer<'_> {
 
         match stmt {
             Stmt::While(w) => {
-                let (purity, val) = w.test.cast_to_bool(&self.expr_ctx);
+                let (purity, val) = w.test.cast_to_bool(&self.ctx.expr_ctx);
                 if let Known(false) = val {
                     if purity.is_pure() {
                         let changed = UnreachableHandler::preserve_vars(stmt);
@@ -86,7 +86,7 @@ impl Optimizer<'_> {
             }
             Stmt::For(f) => {
                 if let Some(test) = &mut f.test {
-                    let (purity, val) = test.cast_to_bool(&self.expr_ctx);
+                    let (purity, val) = test.cast_to_bool(&self.ctx.expr_ctx);
                     if let Known(false) = val {
                         let changed = UnreachableHandler::preserve_vars(&mut f.body);
                         self.changed |= changed;

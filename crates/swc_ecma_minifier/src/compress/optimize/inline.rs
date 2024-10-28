@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             if ref_count == 0 {
                 self.mode.store(ident.to_id(), &*init);
 
-                if init.may_have_side_effects(&self.expr_ctx) {
+                if init.may_have_side_effects(&self.ctx.expr_ctx) {
                     // TODO: Inline partially
                     return;
                 }
@@ -494,7 +494,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if init.may_have_side_effects(&self.expr_ctx) {
+                if init.may_have_side_effects(&self.ctx.expr_ctx) {
                     return;
                 }
 
@@ -531,13 +531,13 @@ impl Optimizer<'_> {
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. })
-                    if expr.size(self.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
                 {
                     return true
                 }
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
-                    if arg.size(self.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
                 {
                     return true
                 }
@@ -719,7 +719,7 @@ impl Optimizer<'_> {
                 })
             {
                 if let Decl::Class(ClassDecl { class, .. }) = decl {
-                    if class_has_side_effect(&self.expr_ctx, class, self.ctx.in_strict) {
+                    if class_has_side_effect(&self.ctx.expr_ctx, class) {
                         return;
                     }
                 }

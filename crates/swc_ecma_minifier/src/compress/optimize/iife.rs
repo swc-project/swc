@@ -293,7 +293,7 @@ impl Optimizer<'_> {
             let ctx = Ctx {
                 in_fn_like: true,
                 top_level: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {

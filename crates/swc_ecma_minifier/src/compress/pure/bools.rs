@@ -195,7 +195,7 @@ impl Pure<'_> {
 
         if delete.arg.may_have_side_effects(&ExprCtx {
             is_unresolved_ref_safe: true,
-            ..self.expr_ctx.clone()
+            ..self.expr_ctx
         }) {
             return;
         }

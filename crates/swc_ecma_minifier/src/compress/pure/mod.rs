@@ -59,6 +59,7 @@ pub(crate) fn pure_optimizer<'a>(
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
+            in_strict: options.module,
         },
         ctx: Default::default(),
         changed: Default::default(),

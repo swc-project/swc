@@ -70,18 +70,17 @@ pub(super) fn optimizer<'a>(
         "top_retain should not contain empty string"
     );
 
-    let mut ctx = Ctx::default();
-
-    if options.module {
-        ctx.in_strict = true
-    }
-
-    Optimizer {
-        marks,
+    let ctx = Ctx {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
+            in_strict: options.module,
         },
+        ..Ctx::default()
+    };
+
+    Optimizer {
+        marks,
         changed: false,
         options,
         mangle_options,
@@ -100,8 +99,10 @@ pub(super) fn optimizer<'a>(
 /// Syntactic context.
 ///
 /// This should not be modified directly. Use `.with_ctx()` instead.
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Debug, Default, Clone)]
 struct Ctx {
+    expr_ctx: ExprCtx,
+
     /// `true` if the [VarDecl] has const annotation.
     #[allow(dead_code)]
     has_const_ann: bool,
@@ -117,9 +118,6 @@ struct Ctx {
 
     var_kind: Option<VarDeclKind>,
 
-    /// `true` if we are in the strict mode. This will be set to `true` for
-    /// statements **after** `'use strict'`
-    in_strict: bool,
     /// `true` if we are try block. `true` means we cannot be sure about control
     /// flow.
     in_try_block: bool,
@@ -175,7 +173,7 @@ struct Ctx {
 }
 
 impl Ctx {
-    pub fn is_top_level_for_block_level_vars(self) -> bool {
+    pub fn is_top_level_for_block_level_vars(&self) -> bool {
         if !self.top_level {
             return false;
         }
@@ -186,14 +184,13 @@ impl Ctx {
         true
     }
 
-    pub fn in_top_level(self) -> bool {
+    pub fn in_top_level(&self) -> bool {
         self.top_level || !self.in_fn_like
     }
 }
 
 struct Optimizer<'a> {
     marks: Marks,
-    expr_ctx: ExprCtx,
 
     changed: bool,
     options: &'a CompressOptions,
@@ -378,11 +375,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        let ctx = Ctx { ..self.ctx };
+        self.with_ctx(self.ctx.clone()).inject_else(stmts);
 
-        self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).handle_stmt_likes(stmts, will_terminate);
+        self.with_ctx(self.ctx.clone())
+            .handle_stmt_likes(stmts, will_terminate);
 
         drop_invalid_stmts(stmts);
 
@@ -413,7 +409,7 @@ impl Optimizer<'_> {
         let append_stmts = self.append_stmts.take();
 
         {
-            let mut child_ctx = self.ctx;
+            let mut child_ctx = self.ctx.clone();
             let mut directive_count = 0;
 
             if !stmts.is_empty() {
@@ -424,7 +420,7 @@ impl Optimizer<'_> {
 
                         match &v.raw {
                             Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
-                                child_ctx.in_strict = true;
+                                child_ctx.expr_ctx.in_strict = true;
                             }
                             Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
                                 child_ctx.in_asm = true;
@@ -446,7 +442,7 @@ impl Optimizer<'_> {
                     // Don't set in_strict for directive itself.
                     stmt.visit_mut_with(self);
                 } else {
-                    let child_optimizer = &mut *self.with_ctx(child_ctx);
+                    let child_optimizer = &mut *self.with_ctx(child_ctx.clone());
                     stmt.visit_mut_with(child_optimizer);
                 }
 
@@ -722,7 +718,7 @@ impl Optimizer<'_> {
                 }
 
                 let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
+                    extract_class_side_effect(&self.ctx.expr_ctx, *cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new)
@@ -749,7 +745,7 @@ impl Optimizer<'_> {
                 let ctx = Ctx {
                     dont_use_negated_iife: self.ctx.dont_use_negated_iife
                         || self.options.side_effects,
-                    ..self.ctx
+                    ..self.ctx.clone()
                 };
                 let new_r = self.with_ctx(ctx).ignore_return_value(right);
 
@@ -938,7 +934,7 @@ impl Optimizer<'_> {
             }) if left.is_simple() && !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
                     if let SimpleAssignTarget::Member(m) = expr {
-                        if !m.obj.may_have_side_effects(&self.expr_ctx)
+                        if !m.obj.may_have_side_effects(&self.ctx.expr_ctx)
                             && (m.obj.is_object()
                                 || m.obj.is_fn_expr()
                                 || m.obj.is_arrow()
@@ -1213,17 +1209,17 @@ impl Optimizer<'_> {
                 let ctx = Ctx {
                     dont_use_negated_iife: self.ctx.dont_use_negated_iife
                         || self.options.side_effects,
-                    ..self.ctx
+                    ..self.ctx.clone()
                 };
 
                 let cons_span = cond.cons.span();
                 let alt_span = cond.alt.span();
                 let cons = self
-                    .with_ctx(ctx)
+                    .with_ctx(ctx.clone())
                     .ignore_return_value(&mut cond.cons)
                     .map(Box::new);
                 let alt = self
-                    .with_ctx(ctx)
+                    .with_ctx(ctx.clone())
                     .ignore_return_value(&mut cond.alt)
                     .map(Box::new);
 
@@ -1268,7 +1264,7 @@ impl Optimizer<'_> {
                         }
                         let ctx = Ctx {
                             dont_use_negated_iife: idx != 0,
-                            ..self.ctx
+                            ..self.ctx.clone()
                         };
                         self.with_ctx(ctx).ignore_return_value(expr)
                     })
@@ -1278,7 +1274,7 @@ impl Optimizer<'_> {
                     return exprs.pop().map(|v| *v);
                 } else {
                     let is_last_undefined =
-                        is_pure_undefined(&self.expr_ctx, exprs.last().unwrap());
+                        is_pure_undefined(&self.ctx.expr_ctx, exprs.last().unwrap());
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
@@ -1314,7 +1310,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Ident(id) if id.ctxt != self.expr_ctx.unresolved_ctxt => {
+            Expr::Ident(id) if id.ctxt != self.ctx.expr_ctx.unresolved_ctxt => {
                 report_change!("ignore_return_value: Dropping a declared ident {}", id);
                 self.changed = true;
                 return None;
@@ -1398,7 +1394,9 @@ impl Optimizer<'_> {
                             report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
-                        Stmt::Decl(Decl::Fn(..)) if allow_fn_decl && !self.ctx.in_strict => {
+                        Stmt::Decl(Decl::Fn(..))
+                            if allow_fn_decl && !self.ctx.expr_ctx.in_strict =>
+                        {
                             *s = bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
@@ -1508,7 +1506,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_param: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
 
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1555,7 +1553,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 is_lhs_of_assign: true,
                 is_exact_lhs_of_assign: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
@@ -1574,7 +1572,7 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Some(value) = &n.value {
-            if is_pure_undefined(&self.expr_ctx, value) {
+            if is_pure_undefined(&self.ctx.expr_ctx, value) {
                 n.value = None;
             }
         }
@@ -1585,7 +1583,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || n.op.may_short_circuit(),
-                ..self.ctx
+                ..self.ctx.clone()
             };
 
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1619,7 +1617,7 @@ impl VisitMut for Optimizer<'_> {
             in_block: true,
             scope: n.ctxt,
             in_param: false,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -1653,7 +1651,7 @@ impl VisitMut for Optimizer<'_> {
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
                 is_update_arg: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -1685,7 +1683,7 @@ impl VisitMut for Optimizer<'_> {
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
                 is_update_arg: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             // TODO: Prevent inline if callee is unknown.
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1703,16 +1701,19 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 dont_invoke_iife: true,
                 is_update_arg: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
         {
             let ctx = Ctx {
-                in_strict: true,
                 is_update_arg: false,
-                ..self.ctx
+                expr_ctx: ExprCtx {
+                    in_strict: true,
+                    ..self.ctx.clone().expr_ctx
+                },
+                ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -1760,7 +1761,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 executed_multiple_time: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
@@ -1774,7 +1775,7 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             is_exported: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -1782,7 +1783,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
         let ctx = Ctx {
             is_exported: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -1801,7 +1802,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             is_exported: false,
             is_callee: false,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         #[cfg(feature = "trace-ast")]
@@ -2095,7 +2096,7 @@ impl VisitMut for Optimizer<'_> {
             in_fn_like: true,
             is_lhs_of_assign: false,
             is_exact_lhs_of_assign: false,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -2119,7 +2120,7 @@ impl VisitMut for Optimizer<'_> {
             in_fn_like: true,
             is_lhs_of_assign: false,
             is_exact_lhs_of_assign: false,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -2132,7 +2133,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
                 is_exact_lhs_of_assign: n.left.is_pat(),
-                ..self.ctx
+                ..self.ctx.clone()
             };
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
@@ -2140,7 +2141,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 executed_multiple_time: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2154,7 +2155,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 in_var_decl_of_for_in_or_of_loop: true,
                 is_exact_lhs_of_assign: n.left.is_pat(),
-                ..self.ctx
+                ..self.ctx.clone()
             };
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
@@ -2162,7 +2163,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 executed_multiple_time: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2179,12 +2180,12 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             executed_multiple_time: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
-        s.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        self.with_ctx(ctx).optimize_init_of_for_stmt(s);
+        self.with_ctx(ctx.clone()).optimize_init_of_for_stmt(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2199,7 +2200,7 @@ impl VisitMut for Optimizer<'_> {
                 scope: n.ctxt,
                 top_level: false,
 
-                ..self.ctx
+                ..self.ctx.clone()
             };
             let optimizer = &mut *self.with_ctx(ctx);
 
@@ -2235,8 +2236,8 @@ impl VisitMut for Optimizer<'_> {
         }
 
         {
-            let ctx = self.ctx;
-            self.with_ctx(ctx).optimize_usage_of_arguments(n);
+            self.with_ctx(self.ctx.clone())
+                .optimize_usage_of_arguments(n);
         }
 
         self.ctx.in_asm = old_in_asm;
@@ -2257,12 +2258,12 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             in_cond: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
-        n.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.cons.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
+        n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
         self.negate_if_stmt(n);
 
@@ -2276,7 +2277,7 @@ impl VisitMut for Optimizer<'_> {
                 &n.body,
                 n.label.sym.clone(),
             ),
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2291,7 +2292,7 @@ impl VisitMut for Optimizer<'_> {
                 in_obj_of_non_computed_member: !n.prop.is_computed(),
                 is_exact_lhs_of_assign: false,
                 is_update_arg: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2300,7 +2301,7 @@ impl VisitMut for Optimizer<'_> {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 is_update_arg: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2325,7 +2326,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
@@ -2343,7 +2344,7 @@ impl VisitMut for Optimizer<'_> {
                 is_callee: true,
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2352,7 +2353,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2397,7 +2398,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             var_kind: None,
             in_param: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
         n.visit_mut_children_with(&mut *o);
@@ -2446,7 +2447,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_script(&mut self, s: &mut Script) {
         let ctx = Ctx {
             top_level: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -2467,7 +2468,7 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             dont_use_negated_iife: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
         let exprs = n
@@ -2480,7 +2481,7 @@ impl VisitMut for Optimizer<'_> {
                 let _span =
                     tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
 
-                expr.visit_mut_with(&mut *self.with_ctx(ctx));
+                expr.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
                 let is_injected_zero = match &**expr {
                     Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                     _ => false,
@@ -2541,7 +2542,7 @@ impl VisitMut for Optimizer<'_> {
             in_bang_arg: false,
             is_exported: false,
             in_obj_of_non_computed_member: false,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -2667,7 +2668,7 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.append_stmts.len(), append_len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
-            if is_pure_undefined(&self.expr_ctx, expr) {
+            if is_pure_undefined(&self.ctx.expr_ctx, expr) {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
@@ -2676,7 +2677,7 @@ impl VisitMut for Optimizer<'_> {
 
             if self.options.directives
                 && is_directive
-                && self.ctx.in_strict
+                && self.ctx.expr_ctx.in_strict
                 && match &**expr {
                     Expr::Lit(Lit::Str(Str { value, .. })) => *value == *"use strict",
                     _ => false,
@@ -2690,7 +2691,7 @@ impl VisitMut for Optimizer<'_> {
             if self.options.unused {
                 let can_be_removed = !is_directive
                     && !expr.is_ident()
-                    && !expr.may_have_side_effects(&self.expr_ctx);
+                    && !expr.may_have_side_effects(&self.ctx.expr_ctx);
 
                 if can_be_removed {
                     self.changed = true;
@@ -2807,7 +2808,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2832,7 +2833,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(&mut *self.with_ctx(Ctx {
             is_this_aware_callee: true,
-            ..self.ctx
+            ..self.ctx.clone()
         }));
 
         n.tpl.exprs.visit_mut_with(self);
@@ -2852,7 +2853,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_tpl_expr: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             let mut o = self.with_ctx(ctx);
             n.visit_mut_children_with(&mut *o);
@@ -2867,7 +2868,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
         let ctx = Ctx {
             in_try_block: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
         n.block.visit_mut_with(&mut *self.with_ctx(ctx));
 
@@ -2896,7 +2897,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             in_bang_arg: n.op == op!("!"),
             is_delete_arg: n.op == op!("delete"),
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2920,7 +2921,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let ctx = Ctx {
             is_update_arg: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2932,11 +2933,11 @@ impl VisitMut for Optimizer<'_> {
             is_update_arg: false,
             has_const_ann: false,
             var_kind: None,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
         for decl in n.decls.iter_mut() {
-            decl.init.visit_mut_with(&mut *self.with_ctx(ctx));
+            decl.init.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
         }
     }
 
@@ -2947,7 +2948,7 @@ impl VisitMut for Optimizer<'_> {
                 is_update_arg: false,
                 has_const_ann: self.has_const_ann(n.ctxt),
                 var_kind: Some(n.kind),
-                ..self.ctx
+                ..self.ctx.clone()
             };
 
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2956,7 +2957,7 @@ impl VisitMut for Optimizer<'_> {
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
                 if let Some(e) = &var.init {
-                    if is_pure_undefined(&self.expr_ctx, e) {
+                    if is_pure_undefined(&self.ctx.expr_ctx, e) {
                         self.changed = true;
                         report_change!(
                             "Dropping explicit initializer which evaluates to `undefined`"
@@ -3060,7 +3061,7 @@ impl VisitMut for Optimizer<'_> {
             for v in vars.iter_mut() {
                 if v.init
                     .as_deref()
-                    .map(|e| !e.is_ident() && !e.may_have_side_effects(&self.expr_ctx))
+                    .map(|e| !e.is_ident() && !e.may_have_side_effects(&self.ctx.expr_ctx))
                     .unwrap_or(true)
                 {
                     self.drop_unused_var_declarator(v, &mut None);
@@ -3179,7 +3180,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 executed_multiple_time: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
@@ -3192,7 +3193,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_with_stmt: true,
-                ..self.ctx
+                ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -3205,7 +3206,7 @@ impl VisitMut for Optimizer<'_> {
         if let Some(arg) = &mut n.arg {
             self.compress_undefined(arg);
 
-            if !n.delegate && is_pure_undefined(&self.expr_ctx, arg) {
+            if !n.delegate && is_pure_undefined(&self.ctx.expr_ctx, arg) {
                 n.arg = None;
             }
         }
