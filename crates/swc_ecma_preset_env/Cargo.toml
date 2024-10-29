@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_preset_env"
 repository    = { workspace = true }
-version       = "1.0.0"
+version       = "2.0.0"
 
 [lib]
 bench = false
@@ -32,11 +32,11 @@ string_enum = { version = "1.0.0", path = "../string_enum" }
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
 swc_common = { version = "1.0.0", path = "../swc_common" }
 swc_ecma_ast = { version = "1.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transforms = { version = "1.0.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_transforms = { version = "2.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "1.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "2.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "1.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
@@ -45,7 +45,7 @@ criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc_ecma_codegen = { version = "1.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "1.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser  = { version = "2.0.0", path = "../swc_ecma_parser" }
 testing          = { version = "1.0.0", path = "../testing" }
 
 [[bench]]

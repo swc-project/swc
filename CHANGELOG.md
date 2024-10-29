@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/minifier)** Optimize switch with side effect and termination tests ([#9677](https://github.com/swc-project/swc/issues/9677)) ([7344a63](https://github.com/swc-project/swc/commit/7344a638b55d483571ab4b35edf56f7088de792b))
+
+
+- **(es/parser)** Ability to get script's potential module errors ([#9682](https://github.com/swc-project/swc/issues/9682)) ([2bbd1e8](https://github.com/swc-project/swc/commit/2bbd1e8485ca7c152d408cc34cd51460467171a7))
+
 ## [1.7.40] - 2024-10-26
 
 ### Bug Fixes
