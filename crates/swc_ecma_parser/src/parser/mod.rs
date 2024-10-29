@@ -90,6 +90,10 @@ impl<I: Tokens> Parser<I> {
         self.input().take_errors()
     }
 
+    pub fn take_script_module_errors(&mut self) -> Vec<Error> {
+        self.input().take_script_module_errors()
+    }
+
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 

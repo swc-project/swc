@@ -317,6 +317,7 @@ fn illegal_language_mode_directive1() {
         },
     );
 }
+
 #[test]
 fn illegal_language_mode_directive2() {
     test_parser(
@@ -345,4 +346,26 @@ fn illegal_language_mode_directive2() {
 #[test]
 fn parse_non_strict_for_loop() {
     script("for (var v1 = 1 in v3) {}");
+}
+
+#[test]
+fn parse_program_take_script_module_errors() {
+    test_parser(r#"077;"#, Default::default(), |p| {
+        let program = p.parse_program()?;
+
+        assert_eq!(p.take_errors(), vec![]);
+        // will contain the script's potential module errors
+        assert_eq!(
+            p.take_script_module_errors(),
+            vec![Error::new(
+                Span {
+                    lo: BytePos(1),
+                    hi: BytePos(4),
+                },
+                crate::parser::SyntaxError::LegacyOctal
+            )]
+        );
+
+        Ok(program)
+    });
 }

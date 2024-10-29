@@ -49,6 +49,10 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn end_pos(&self) -> BytePos;
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    /// If the program was parsed as a script, this contains the module
+    /// errors should the program be identified as a module in the future.
+    fn take_script_module_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Clone)]
@@ -143,6 +147,10 @@ impl Tokens for TokensInput {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    fn take_script_module_errors(&mut self) -> Vec<Error> {
+        take(&mut self.module_errors.borrow_mut())
     }
 
     fn end_pos(&self) -> BytePos {
@@ -267,6 +275,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
+    }
+
+    fn take_script_module_errors(&mut self) -> Vec<Error> {
+        self.inner.take_script_module_errors()
     }
 
     fn end_pos(&self) -> BytePos {
