@@ -950,7 +950,7 @@ impl Compiler {
         config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let mut program = config.program;
+            let program = config.program;
 
             if config.emit_isolated_dts && !config.syntax.typescript() {
                 handler.warn(
@@ -979,12 +979,13 @@ impl Compiler {
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
                 let mut checker = FastDts::new(fm.name.clone());
-                let mut module = program.clone().expect_module();
+                let mut module = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
-                    program.mutate(import_rewriter(base, resolver));
+                    module.mutate(import_rewriter(base, resolver));
                 }
 
+                let mut module = module.expect_module();
                 let issues = checker.transform(&mut module);
 
                 for issue in issues {
