@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = { workspace = true }
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "2.0.0"
+version = "3.0.0"
 
 [lib]
 bench = false
@@ -27,33 +27,33 @@ serde_json = { workspace = true }
 
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
 swc_cached = { version = "1.0.0", path = "../swc_cached" }
-swc_common = { version = "1.0.0", path = "../swc_common" }
-swc_css_ast = { version = "1.0.0", path = "../swc_css_ast", optional = true }
-swc_css_codegen = { version = "1.0.0", path = "../swc_css_codegen", optional = true }
-swc_css_minifier = { version = "1.0.0", path = "../swc_css_minifier", optional = true }
-swc_css_parser = { version = "1.0.0", path = "../swc_css_parser", optional = true }
-swc_ecma_ast = { version = "1.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "1.0.0", path = "../swc_ecma_codegen", features = [
+swc_common = { version = "2.0.0", path = "../swc_common" }
+swc_css_ast = { version = "2.0.0", path = "../swc_css_ast", optional = true }
+swc_css_codegen = { version = "2.0.0", path = "../swc_css_codegen", optional = true }
+swc_css_minifier = { version = "2.0.0", path = "../swc_css_minifier", optional = true }
+swc_css_parser = { version = "2.0.0", path = "../swc_css_parser", optional = true }
+swc_ecma_ast = { version = "2.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "2.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "2.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "3.0.0", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "2.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "2.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "1.0.0", path = "../swc_ecma_visit" }
-swc_html_ast = { version = "1.0.0", path = "../swc_html_ast" }
-swc_html_codegen = { version = "1.0.0", path = "../swc_html_codegen" }
-swc_html_parser = { version = "1.0.0", path = "../swc_html_parser" }
-swc_html_utils = { version = "1.0.0", path = "../swc_html_utils" }
-swc_html_visit = { version = "1.0.0", path = "../swc_html_visit" }
+swc_ecma_parser = { version = "3.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "3.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "2.0.0", path = "../swc_ecma_visit" }
+swc_html_ast = { version = "2.0.0", path = "../swc_html_ast" }
+swc_html_codegen = { version = "2.0.0", path = "../swc_html_codegen" }
+swc_html_parser = { version = "2.0.0", path = "../swc_html_parser" }
+swc_html_utils = { version = "2.0.0", path = "../swc_html_utils" }
+swc_html_visit = { version = "2.0.0", path = "../swc_html_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
-testing    = { version = "1.0.0", path = "../testing" }
+testing    = { version = "2.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
