@@ -2860,7 +2860,6 @@ impl Generator {
     /// Builds the statements for the generator function body.
     fn build_stmts(&mut self) -> Vec<Stmt> {
         if let Some(ops) = self.operations.clone() {
-            dbg!(&ops);
             for (op_index, _) in ops.iter().enumerate() {
                 self.write_operation(op_index);
             }
