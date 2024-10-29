@@ -923,6 +923,18 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         if let JSXElementName::Ident(i) = node {
             if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
+                if cfg!(debug_assertions) && LOG {
+                    debug!("\t -> JSXElementName");
+                }
+
+                let ctxt = i.ctxt.apply_mark(self.config.unresolved_mark);
+
+                if cfg!(debug_assertions) && LOG {
+                    debug!("\t -> {:?}", ctxt);
+                }
+
+                i.ctxt = ctxt;
+
                 return;
             }
         }
