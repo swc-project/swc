@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark, SyntaxContext};
-use swc_ecma_ast::{Ident, PropName, TsQualifiedName};
+use swc_common::{Mark, SyntaxContext};
+use swc_ecma_ast::{Ident, Pass, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -10,13 +10,13 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
-use swc_ecma_visit::{as_folder, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, Mark::new(), false),
-        block_scoping(unresolved_mark)
+        block_scoping(unresolved_mark),
     )
 }
 
@@ -87,7 +87,7 @@ expect(functions[1]()).toBe(3);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(for_of(Default::default()), block_scoping(Mark::new())),
+    |_| (for_of(Default::default()), block_scoping(Mark::new())),
     issue_609_1,
     "let functions = [];
 for (let i of [1, 3, 5, 7, 9]) {
@@ -221,9 +221,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
         )
     },
     issue_1022_1,
@@ -240,9 +240,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
         )
     },
     issue_1022_2,
@@ -260,9 +260,9 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
         )
     },
     issue_1022_3,
@@ -310,9 +310,9 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
-            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
+            es2015::es2015(mark, Some(comments.clone()), Default::default()),
         )
     },
     issue_1036_2,
@@ -329,9 +329,9 @@ test_exec!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
-            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
+            es2015::es2015(mark, Some(comments.clone()), Default::default()),
         )
     },
     issue_1036_3,
@@ -420,9 +420,9 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::new();
-        chain!(
+        (
             resolver(mark, Mark::new(), false),
-            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
+            es2015::es2015(mark, Some(comments.clone()), Default::default()),
         )
     },
     arguments_loop,
@@ -457,9 +457,9 @@ compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             resolver(mark, Mark::new(), false),
-            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
+            es2015::es2015(mark, Some(comments.clone()), Default::default()),
         )
     },
     arguments_arrow,
@@ -638,9 +638,9 @@ fn exec(input: PathBuf) {
         Default::default(),
         |_| {
             let unresolved_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
-                block_scoping(unresolved_mark)
+                block_scoping(unresolved_mark),
             )
         },
         &input,
@@ -650,13 +650,13 @@ fn exec(input: PathBuf) {
         Default::default(),
         |t| {
             let unresolved_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
                 es2015(
                     unresolved_mark,
                     Some(t.comments.clone()),
-                    Default::default()
-                )
+                    Default::default(),
+                ),
             )
         },
         &input,
@@ -671,10 +671,10 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|_| {
             let unresolved_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, Mark::new(), false),
                 block_scoping(unresolved_mark),
-                as_folder(TsHygiene { unresolved_mark })
+                visit_mut_pass(TsHygiene { unresolved_mark }),
             )
         },
         &input,

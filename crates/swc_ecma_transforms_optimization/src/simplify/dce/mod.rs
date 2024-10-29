@@ -19,7 +19,7 @@ use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
@@ -30,8 +30,8 @@ use crate::debug_assert_valid;
 pub fn dce(
     config: Config,
     unresolved_mark: Mark,
-) -> impl Fold + VisitMut + Repeated + CompilerPass {
-    as_folder(TreeShaker {
+) -> impl Pass + VisitMut + Repeated + CompilerPass {
+    visit_mut_pass(TreeShaker {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
@@ -97,7 +97,7 @@ struct TreeShaker {
 }
 
 impl CompilerPass for TreeShaker {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("tree-shaker")
     }
 }

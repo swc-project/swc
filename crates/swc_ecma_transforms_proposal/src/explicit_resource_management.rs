@@ -5,10 +5,10 @@ use swc_ecma_utils::{
     private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
     StmtLike,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-pub fn explicit_resource_management() -> impl Fold + VisitMut {
-    as_folder(ExplicitResourceManagement::default())
+pub fn explicit_resource_management() -> impl Pass {
+    visit_mut_pass(ExplicitResourceManagement::default())
 }
 
 #[derive(Default)]

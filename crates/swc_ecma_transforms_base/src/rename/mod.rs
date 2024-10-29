@@ -7,7 +7,9 @@ use swc_atoms::Atom;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[cfg(feature = "concurrent-renamer")]
 use self::renamer_concurrent::{Send, Sync};
@@ -53,31 +55,31 @@ pub trait Renamer: Send + Sync {
 
 pub type RenameMap = FxHashMap<Id, Atom>;
 
-pub fn rename(map: &RenameMap) -> impl '_ + Fold + VisitMut {
+pub fn rename(map: &RenameMap) -> impl '_ + Pass + VisitMut {
     rename_with_config(map, Default::default())
 }
 
-pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Fold + VisitMut {
-    as_folder(Operator {
+pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Pass + VisitMut {
+    visit_mut_pass(Operator {
         rename: map,
         config,
         extra: Default::default(),
     })
 }
 
-pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
-    as_folder(Operator {
+pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Pass + VisitMut {
+    visit_mut_pass(Operator {
         rename: map,
         config,
         extra: Default::default(),
     })
 }
 
-pub fn renamer<R>(config: Config, renamer: R) -> impl Fold + VisitMut
+pub fn renamer<R>(config: Config, renamer: R) -> impl Pass + VisitMut
 where
     R: Renamer,
 {
-    as_folder(RenamePass {
+    visit_mut_pass(RenamePass {
         config,
         renamer,
         preserved: Default::default(),

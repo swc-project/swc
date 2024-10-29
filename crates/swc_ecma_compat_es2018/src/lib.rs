@@ -2,9 +2,8 @@
 #![allow(clippy::boxed_local)]
 
 use serde::Deserialize;
-use swc_common::chain;
+use swc_ecma_ast::Pass;
 use swc_ecma_compat_common::regexp::{self, regexp};
-use swc_ecma_visit::Fold;
 
 pub use self::object_rest_spread::object_rest_spread;
 
@@ -12,8 +11,8 @@ mod object_rest;
 pub mod object_rest_spread;
 mod object_spread;
 
-pub fn es2018(c: Config) -> impl Fold {
-    chain!(
+pub fn es2018(c: Config) -> impl Pass {
+    (
         regexp(regexp::Config {
             dot_all_regex: true,
             has_indices: false,
@@ -24,7 +23,7 @@ pub fn es2018(c: Config) -> impl Fold {
             unicode_regex: false,
             unicode_sets_regex: false,
         }),
-        object_rest_spread(c.object_rest_spread)
+        object_rest_spread(c.object_rest_spread),
     )
 }
 

@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resource_management;
@@ -19,9 +19,9 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                explicit_resource_management()
+                explicit_resource_management(),
             )
         },
         &read_to_string(input).unwrap(),
@@ -49,9 +49,9 @@ fn run_fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                explicit_resource_management()
+                explicit_resource_management(),
             )
         },
         &input,

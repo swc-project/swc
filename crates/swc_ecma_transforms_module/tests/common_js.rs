@@ -1,13 +1,13 @@
 use std::{fs::File, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
@@ -17,13 +17,13 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(config: common_js::Config, is_ts: bool) -> impl Fold {
+fn tr(config: common_js::Config, is_ts: bool) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
     let available_set = FeatureFlag::all();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         common_js(Default::default(), unresolved_mark, config, available_set),
@@ -68,7 +68,7 @@ fn esm_to_cjs(input: PathBuf) {
 test!(
     module,
     syntax(),
-    |_| chain!(
+    |_| (
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()

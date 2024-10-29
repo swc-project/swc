@@ -208,13 +208,15 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             let module = parser
                                 .parse_module()
                                 .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer(None)))
+                                .map(Program::Module)
+                                .map(|p| p.apply(fixer(None)))
                                 .map_err(|e| {
                                     e.into_diagnostic(handler).emit();
                                 })?;
                             let module2 = e_parser
                                 .parse_module()
                                 .map(normalize)
+                                .map(Program::Module)
                                 .map_err(|e| {
                                     e.into_diagnostic(handler).emit();
                                 })
@@ -222,20 +224,22 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             if module == module2 {
                                 return Ok(());
                             }
-                            emitter.emit_module(&module).unwrap();
-                            expected_emitter.emit_module(&module2).unwrap();
+                            emitter.emit_program(&module).unwrap();
+                            expected_emitter.emit_program(&module2).unwrap();
                         } else {
                             let script = parser
                                 .parse_script()
                                 .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer(None)))
+                                .map(Program::Script)
+                                .map(|p| p.apply(fixer(None)))
                                 .map_err(|e| {
                                     e.into_diagnostic(handler).emit();
                                 })?;
                             let script2 = e_parser
                                 .parse_script()
                                 .map(normalize)
-                                .map(|p| p.fold_with(&mut fixer(None)))
+                                .map(Program::Script)
+                                .map(|p| p.apply(fixer(None)))
                                 .map_err(|e| {
                                     e.into_diagnostic(handler).emit();
                                 })?;
@@ -243,8 +247,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             if script == script2 {
                                 return Ok(());
                             }
-                            emitter.emit_script(&script).unwrap();
-                            expected_emitter.emit_script(&script2).unwrap();
+                            emitter.emit_program(&script).unwrap();
+                            expected_emitter.emit_program(&script2).unwrap();
                         }
                     }
 

@@ -32,7 +32,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 #[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::*;
 
@@ -285,19 +285,19 @@ pub fn operate(
             let top_level_mark = Mark::new();
 
             HELPERS.set(&Helpers::new(false), || {
-                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, true));
+                program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
-                program.visit_mut_with(&mut typescript::typescript(
+                program.mutate(&mut typescript::typescript(
                     options.transform.unwrap_or_default(),
                     unresolved_mark,
                     top_level_mark,
                 ));
 
-                program.visit_mut_with(&mut inject_helpers(unresolved_mark));
+                program.mutate(&mut inject_helpers(unresolved_mark));
 
-                program.visit_mut_with(&mut hygiene());
+                program.mutate(&mut hygiene());
 
-                program.visit_mut_with(&mut fixer(Some(&comments)));
+                program.mutate(&mut fixer(Some(&comments)));
             });
 
             let mut src = std::vec::Vec::new();

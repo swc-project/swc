@@ -10,7 +10,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
 };
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMutWith};
 
 use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
 
@@ -37,13 +37,13 @@ where
                 bundle.module = self.optimize(bundle.module);
 
                 if !self.config.disable_hygiene {
-                    bundle.module = bundle.module.fold_with(&mut hygiene());
+                    bundle.module.visit_mut_with(&mut hygiene());
                 }
 
                 bundle.module = self.may_wrap_with_iife(bundle.module);
 
                 if !self.config.disable_fixer {
-                    bundle.module = bundle.module.fold_with(&mut fixer(None));
+                    bundle.module.visit_mut_with(&mut fixer(None));
                 }
 
                 {
@@ -55,10 +55,10 @@ where
                         .swc_helpers
                         .lock();
 
-                    let module = bundle.module;
-
-                    bundle.module = HELPERS.set(&Helpers::from_data(swc_helpers), || {
-                        module.fold_with(&mut inject_helpers(unresolved_mark))
+                    HELPERS.set(&Helpers::from_data(swc_helpers), || {
+                        bundle
+                            .module
+                            .visit_mut_with(&mut inject_helpers(unresolved_mark));
                     });
                 }
 

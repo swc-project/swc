@@ -14,7 +14,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use super::{export::Exports, helpers::Helpers, Bundler};
@@ -139,9 +139,8 @@ where
 
             data.module.visit_mut_with(&mut ClearMark);
 
-            let mut module =
-                data.module
-                    .fold_with(&mut resolver(self.unresolved_mark, local_mark, false));
+            data.module
+                .visit_mut_with(&mut resolver(self.unresolved_mark, local_mark, false));
 
             // {
             //     let code = self
@@ -158,7 +157,7 @@ where
             //     println!("Resolved:\n{}\n\n", code);
             // }
 
-            let imports = self.extract_import_info(file_name, &mut module, local_mark);
+            let imports = self.extract_import_info(file_name, &mut data.module, local_mark);
 
             // {
             //     let code = self
@@ -177,7 +176,7 @@ where
 
             let exports = self.extract_export_info(
                 file_name,
-                &mut module,
+                &mut data.module,
                 SyntaxContext::empty().apply_mark(export_mark),
             );
 
@@ -188,7 +187,7 @@ where
                     forced_es6: false,
                     found_other: false,
                 };
-                module.visit_with(&mut v);
+                data.module.visit_with(&mut v);
                 v.forced_es6 || !v.found_other
             };
 
@@ -200,13 +199,11 @@ where
             let (exports, reexport_files) = exports?;
             import_files.extend(reexport_files);
 
-            let module = Lrc::new(module);
-
             Ok((
                 TransformedModule {
                     id,
                     fm: data.fm,
-                    module,
+                    module: Lrc::new(data.module),
                     imports: Lrc::new(imports),
                     exports: Lrc::new(exports),
                     is_es6,

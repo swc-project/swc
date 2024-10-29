@@ -6,7 +6,8 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::{decorator_2022_03::decorator_2022_03, DecoratorVersion};
@@ -111,18 +112,18 @@ enum BabelPluginOption {
     Decorator { version: DecoratorVersion },
 }
 
-fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fold> {
+fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pass> {
     let options_json: BabelTestOptions =
         swc_ecma_transforms_testing::parse_options(input.parent().unwrap());
 
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut pass: Box<dyn Fold> = Box::new(resolver(unresolved_mark, top_level_mark, false));
+    let mut pass: Box<dyn Pass> = Box::new(resolver(unresolved_mark, top_level_mark, false));
 
     macro_rules! add {
         ($e:expr) => {{
-            pass = Box::new(chain!(pass, $e));
+            pass = Box::new((pass, $e));
         }};
     }
 

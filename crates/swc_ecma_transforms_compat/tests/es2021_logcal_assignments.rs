@@ -1,9 +1,9 @@
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2021;
 use swc_ecma_transforms_testing::{test, test_exec};
-use swc_ecma_visit::Fold;
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     es2021::logical_assignments()
 }
 

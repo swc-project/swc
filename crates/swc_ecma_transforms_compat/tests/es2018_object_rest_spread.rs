@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -8,13 +9,12 @@ use swc_ecma_transforms_compat::{
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(c: Config) -> impl Fold {
+fn tr(c: Config) -> impl Pass {
     object_rest_spread(c)
 }
 
@@ -165,7 +165,7 @@ export var [ dd, ee ] = ads;
 
 test!(
     syntax(),
-    |_| chain!(tr(Default::default()), spread(Default::default())),
+    |_| (tr(Default::default()), spread(Default::default())),
     rest_for_x,
     r#"
 // ForXStatement
@@ -2458,13 +2458,13 @@ test_exec!(
         //
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             tr(Default::default()),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -2485,7 +2485,7 @@ compare_stdout!(
         //
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             tr(Default::default()),
         )
@@ -2510,7 +2510,7 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 object_rest_spread(Default::default()),
             )

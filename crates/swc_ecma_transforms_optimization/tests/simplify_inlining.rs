@@ -1,15 +1,15 @@
 //! Copied from https://github.com/google/closure-compiler/blob/6ca3b62990064488074a1a8931b9e8dc39b148b3/test/com/google/javascript/jscomp/InlineVariablesTest.java
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
-fn simple_strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Fold {
+fn simple_strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(
         typescript::Config {
             no_empty_export: true,
@@ -24,7 +24,7 @@ macro_rules! to {
     ($name:ident, $src:expr) => {
         test!(
             Default::default(),
-            |_| chain!(
+            |_| (
                 resolver(Mark::new(), Mark::new(), false),
                 inlining(Default::default())
             ),
@@ -37,7 +37,7 @@ macro_rules! to {
         test!(
             ignore,
             Default::default(),
-            |_| chain!(
+            |_| (
                 resolver(Mark::new(), Mark::new(), false),
                 inlining(Default::default())
             ),
@@ -62,9 +62,9 @@ fn test(src: &str, expected: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
-                inlining(Default::default())
+                inlining(Default::default()),
             )
         },
         src,
@@ -2065,7 +2065,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
@@ -2073,9 +2073,9 @@ test!(
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     issue_1156_1,
@@ -2103,7 +2103,7 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
             class_properties(
@@ -2111,9 +2111,9 @@ test!(
                     set_public_fields: true,
                     ..Default::default()
                 },
-                unresolved_mark
+                unresolved_mark,
             ),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     issue_1156_2,
@@ -2155,10 +2155,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     deno_8180_1,
@@ -2189,10 +2189,10 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(unresolved_mark, top_level_mark),
-            inlining(Default::default())
+            inlining(Default::default()),
         )
     },
     deno_8189_1,

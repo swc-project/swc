@@ -6,7 +6,7 @@ use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, is_literal, is_simple_pure_expr,
     private_ident, prop_name_to_member_prop, ExprFactory, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// # What does this module do?
 ///
@@ -83,8 +83,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///     }
 /// }
 /// ```
-pub fn class_fields_use_set(pure_getters: bool) -> impl Fold + VisitMut {
-    as_folder(ClassFieldsUseSet { pure_getters })
+pub fn class_fields_use_set(pure_getters: bool) -> impl Pass {
+    visit_mut_pass(ClassFieldsUseSet { pure_getters })
 }
 
 #[derive(Debug)]

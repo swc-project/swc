@@ -17,7 +17,7 @@ use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_utils::{drop_span, prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -189,11 +189,11 @@ pub fn jsx<C>(
     options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Fold + VisitMut
+) -> impl Pass + VisitMut
 where
     C: Comments,
 {
-    as_folder(Jsx {
+    visit_mut_pass(Jsx {
         cm: cm.clone(),
         top_level_mark,
         unresolved_mark,

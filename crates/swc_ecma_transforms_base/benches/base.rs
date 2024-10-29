@@ -3,10 +3,10 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{chain, errors::HANDLER, FileName, Mark};
+use swc_common::{errors::HANDLER, FileName, Mark};
+use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;
-use swc_ecma_visit::FoldWith;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
@@ -24,11 +24,9 @@ macro_rules! tr {
                 );
                 let module = parser.parse_module().map_err(|_| ()).unwrap();
                 helpers::HELPERS.set(&Default::default(), || {
-                    let mut tr = $tr();
-
                     $b.iter(|| {
-                        let module = module.clone();
-                        black_box(module.fold_with(&mut tr))
+                        let module = Program::Module(module.clone());
+                        black_box(module.apply($tr()))
                     });
                     Ok(())
                 })
@@ -54,7 +52,7 @@ fn hygiene(b: &mut Bencher) {
 }
 
 fn resolver_with_hygiene(b: &mut Bencher) {
-    tr!(b, || chain!(
+    tr!(b, || (
         swc_ecma_transforms_base::resolver(Mark::new(), Mark::new(), false),
         swc_ecma_transforms_base::hygiene::hygiene()
     ));

@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold};
 
 use crate::{config::LintConfig, rule::Rule};
 
@@ -217,34 +216,25 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
     rules
 }
 
-pub fn lint_to_fold<R>(r: R) -> impl Fold
+pub fn lint_to_fold<R>(r: R) -> impl Pass
 where
     R: Rule,
 {
-    LintFolder(r)
+    LintPass(r)
 }
 
-struct LintFolder<R>(R)
+struct LintPass<R>(R)
 where
     R: Rule;
 
-impl<R> Fold for LintFolder<R>
+impl<R> Pass for LintPass<R>
 where
     R: Rule,
 {
-    noop_fold_type!();
-
-    #[inline(always)]
-    fn fold_module(&mut self, program: Module) -> Module {
-        self.0.lint_module(&program);
-
-        program
-    }
-
-    #[inline(always)]
-    fn fold_script(&mut self, program: Script) -> Script {
-        self.0.lint_script(&program);
-
-        program
+    fn process(&mut self, program: &mut Program) {
+        match program {
+            Program::Module(m) => self.0.lint_module(m),
+            Program::Script(s) => self.0.lint_script(s),
+        }
     }
 }

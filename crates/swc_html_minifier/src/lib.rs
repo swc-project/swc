@@ -1935,10 +1935,8 @@ impl<C: MinifyCss> Minifier<'_, C> {
             );
         }
 
-        let left_program = swc_ecma_visit::FoldWith::fold_with(
-            left_program,
-            &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
-        );
+        let left_program =
+            left_program.apply(swc_ecma_transforms_base::fixer::fixer(Some(&comments)));
 
         let mut buf = Vec::new();
 
@@ -2036,10 +2034,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
-        let program = swc_ecma_visit::FoldWith::fold_with(
-            program,
-            &mut swc_ecma_transforms_base::fixer::paren_remover(Some(&comments)),
-        );
+        let program = program.apply(swc_ecma_transforms_base::fixer::paren_remover(Some(
+            &comments,
+        )));
 
         let program = swc_ecma_minifier::optimize(
             program,
@@ -2059,10 +2056,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             },
         );
 
-        let program = swc_ecma_visit::FoldWith::fold_with(
-            program,
-            &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
-        );
+        let program = program.apply(swc_ecma_transforms_base::fixer::fixer(Some(&comments)));
 
         let mut buf = Vec::new();
 

@@ -7,6 +7,7 @@ use std::fs::read_to_string;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
 use swc_allocator::Allocator;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
+use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -14,7 +15,6 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
-use swc_ecma_visit::FoldWith;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/minifier/libs");
@@ -69,11 +69,12 @@ fn run(src: &str) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)))
+            .map(Program::Module)
+            .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
             .unwrap();
 
             let output = optimize(
-                program.into(),
+                program,
                 cm.clone(),
                 None,
                 None,
@@ -97,10 +98,9 @@ fn run(src: &str) {
                     top_level_mark,
                     mangle_name_cache: None,
                 },
-            )
-            .expect_module();
+            );
 
-            let output = output.fold_with(&mut fixer(None));
+            let output = output.apply(fixer(None));
 
             let code = print(cm, &[output], true);
 

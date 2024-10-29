@@ -1,14 +1,15 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, pass::Repeat, Mark};
+use swc_common::{pass::Repeat, Mark};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
-use swc_ecma_visit::{as_folder, Fold, VisitMut};
+use swc_ecma_visit::visit_mut_pass;
 
-fn remover(t: &Tester) -> impl VisitMut + Fold {
-    as_folder(paren_remover(Some(
+fn remover(t: &Tester) -> impl Pass {
+    visit_mut_pass(paren_remover(Some(
         Box::leak(Box::new(t.comments.clone())) as _
     )))
 }
@@ -25,7 +26,7 @@ fn dce_single_pass(input: PathBuf) {
         &|t| {
             let unresolved_mark = Mark::new();
 
-            chain!(remover(t), dce(Default::default(), unresolved_mark))
+            (remover(t), dce(Default::default(), unresolved_mark))
         },
         &input,
         &output,
@@ -43,9 +44,9 @@ fn dce_repeated(input: PathBuf) {
             ..Default::default()
         }),
         &|t| {
-            chain!(
+            (
                 remover(t),
-                Repeat::new(dce(Default::default(), Mark::new()))
+                Repeat::new(dce(Default::default(), Mark::new())),
             )
         },
         &input,
@@ -64,7 +65,7 @@ fn dce_jsx(input: PathBuf) {
             jsx: true,
             ..Default::default()
         }),
-        &|t| chain!(remover(t), dce(Default::default(), Mark::new())),
+        &|t| (remover(t), dce(Default::default(), Mark::new())),
         &input,
         &output,
         Default::default(),
@@ -80,9 +81,9 @@ fn expr(input: PathBuf) {
         &|t| {
             let top_level_mark = Mark::fresh(Mark::root());
 
-            chain!(
+            (
                 remover(t),
-                Repeat::new(expr_simplifier(top_level_mark, Default::default()))
+                Repeat::new(expr_simplifier(top_level_mark, Default::default())),
             )
         },
         &input,

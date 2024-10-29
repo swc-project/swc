@@ -6,7 +6,7 @@ use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -420,8 +420,8 @@ define_helpers!(Helpers {
     using_ctx: (),
 });
 
-pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(InjectHelpers {
+pub fn inject_helpers(global_mark: Mark) -> impl Pass + VisitMut {
+    visit_mut_pass(InjectHelpers {
         global_mark,
         helper_ctxt: None,
     })
@@ -631,11 +631,9 @@ impl VisitMut for Marker {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_visit::FoldWith;
     use testing::DebugUsingDisplay;
 
     use super::*;
-    use crate::pass::noop;
 
     #[test]
     fn external_helper() {
@@ -643,7 +641,7 @@ mod tests {
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
-                    as_folder(DropSpan),
+                    DropSpan,
                     "output.js",
                     Default::default(),
                     "import { _ as _throw } from \"@swc/helpers/_/_throw\";
@@ -653,11 +651,11 @@ _throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = as_folder(inject_helpers(Mark::new()));
+                let tr = inject_helpers(Mark::new());
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
-                    .fold_with(&mut crate::hygiene::hygiene())
-                    .fold_with(&mut crate::fixer::fixer(None));
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
 
                 if actual == expected {
                     return Ok(());
@@ -686,7 +684,7 @@ _throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "'use strict'",
             "'use strict'
@@ -705,7 +703,7 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "let _throw = null",
             "function _throw(e) {
@@ -722,7 +720,7 @@ let _throw1 = null;
     fn use_strict_abort() {
         crate::tests::test_transform(
             Default::default(),
-            |_| noop(),
+            |_| noop_pass(),
             "'use strict'
 
 let x = 4;",
@@ -740,7 +738,7 @@ let x = 4;",
             Default::default(),
             |_| {
                 enable_helper!(using_ctx);
-                as_folder(inject_helpers(Mark::new()))
+                inject_helpers(Mark::new())
             },
             "let _throw = null",
             r#"

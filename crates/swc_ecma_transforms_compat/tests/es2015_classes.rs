@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -10,19 +11,18 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(_: &Tester) -> impl Fold {
+fn tr(_: &Tester) -> impl Pass {
     classes(Default::default())
 }
 
-fn spec_tr(_: &Tester) -> impl Fold {
+fn spec_tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, Mark::new(), false),
         classes(Default::default()),
         spread(Default::default()),
@@ -318,7 +318,7 @@ expect(constructor).toBe(CustomElement);
 // regression_5817
 test!(
     syntax(),
-    |t| chain!(tr(t), arrow(Mark::new())),
+    |t| (tr(t), arrow(Mark::new())),
     regression_5817,
     r#"
 class A extends B {
@@ -2602,7 +2602,7 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         resolver(Mark::new(), Mark::new(), false),
         classes(Default::default())
     ),
@@ -2725,7 +2725,7 @@ class List extends Array {}
 // extend_builtins_imported_babel_plugin_transform_builtin_classes
 test_exec!(
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
     r#"
 // Imported from
@@ -3026,7 +3026,7 @@ expect(obj.test).toBe(3);
 // extend_builtins_spec
 test_exec!(
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_spec_exec,
     r#"
 class List extends Array {}
@@ -3158,7 +3158,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |t| chain!(tr(t), block_scoping(Mark::new())),
+    |t| (tr(t), block_scoping(Mark::new())),
     regression_t7010,
     r#"
 class Foo {
@@ -3414,7 +3414,7 @@ expect(obj.test).toBe(3);
 // extend_builtins_builtin_objects_throw_when_wrapped
 test_exec!(
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_builtin_objects_throw_when_wrapped_exec,
     r#"
 // JSON is wrapped because it starts with an uppercase letter, but it
@@ -3463,7 +3463,7 @@ test_exec!(
     // Just don't do this.
     ignore,
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_overwritten_null_exec,
     r#"
 var env = {
@@ -3484,7 +3484,7 @@ test_exec!(
     // Just don't do this. With is evil.
     ignore,
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     extend_builtins_super_called_exec,
     r#"
 var called = false;
@@ -3675,7 +3675,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             es2022::es2022(Default::default(), unresolved_mark),
             es2018::es2018(Default::default()),
@@ -3684,7 +3684,7 @@ test!(
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -3700,13 +3700,13 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -3744,13 +3744,13 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -3770,13 +3770,13 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -3799,10 +3799,10 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 class_properties(Default::default(), unresolved_mark),
-                classes(Default::default())
+                classes(Default::default()),
             )
         },
         &src,
@@ -3819,10 +3819,10 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 class_properties(Default::default(), unresolved_mark),
-                classes(Default::default())
+                classes(Default::default()),
             )
         },
         &input,
@@ -4078,7 +4078,7 @@ class Thing extends B {
 
 test!(
     syntax(),
-    |_| chain!(classes(Default::default()), block_scoping(Mark::new())),
+    |_| (classes(Default::default()), block_scoping(Mark::new())),
     issue_5102,
     r#"
 let C = class {}

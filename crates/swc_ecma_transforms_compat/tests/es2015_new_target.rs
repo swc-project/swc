@@ -1,20 +1,20 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use serde::Deserialize;
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes, new_target::new_target},
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture, Tester};
-use swc_ecma_visit::Fold;
 
-fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
+fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut pass: Box<dyn Fold> = Box::new(resolver(unresolved_mark, top_level_mark, true));
+    let mut pass: Box<dyn Pass> = Box::new(resolver(unresolved_mark, top_level_mark, true));
 
     for plugin in plugins {
         let (name, option) = match plugin {
@@ -38,7 +38,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
             "transform-new-target" => {}
 
             "proposal-class-properties" => {
-                pass = Box::new(chain!(
+                pass = Box::new((
                     pass,
                     class_properties(
                         class_properties::Config {
@@ -50,12 +50,12 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                             pure_getter: loose,
                         },
                         unresolved_mark,
-                    )
+                    ),
                 ));
             }
 
             "transform-arrow-functions" => {
-                pass = Box::new(chain!(pass, arrow(Mark::new())));
+                pass = Box::new((pass, arrow(Mark::new())));
             }
 
             _ => {
@@ -64,7 +64,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
         }
     }
 
-    pass = Box::new(chain!(pass, new_target()));
+    pass = Box::new((pass, new_target()));
 
     pass
 }
@@ -110,7 +110,7 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| chain!(classes(Default::default()), new_target()),
+    |_| (classes(Default::default()), new_target()),
     issue_6259,
     r#"
 (() => {

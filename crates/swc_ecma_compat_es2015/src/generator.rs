@@ -17,16 +17,16 @@ use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
-pub fn generator<C>(unresolved_mark: Mark, _comments: C) -> impl VisitMut + Fold
+pub fn generator<C>(unresolved_mark: Mark, _comments: C) -> impl Pass
 where
     C: Comments,
 {
-    as_folder(Wrapper {
+    visit_mut_pass(Wrapper {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }

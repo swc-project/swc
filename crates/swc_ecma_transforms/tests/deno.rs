@@ -4,7 +4,7 @@
 ))]
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, helpers::inject_helpers, hygiene, resolver};
 use swc_ecma_transforms_proposal::{
@@ -28,7 +28,7 @@ fn run_test(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, true),
                 decorator_2022_03(),
                 explicit_resource_management(),
@@ -44,7 +44,7 @@ fn run_test(input: PathBuf) {
                         ts_enum_is_mutable: true,
                     },
                     unresolved_mark,
-                    top_level_mark
+                    top_level_mark,
                 ),
                 fixer(None),
                 hygiene(),

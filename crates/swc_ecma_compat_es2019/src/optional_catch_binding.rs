@@ -1,12 +1,12 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct OptionalCatchBinding;
 
-pub fn optional_catch_binding() -> impl Fold + VisitMut {
-    as_folder(OptionalCatchBinding)
+pub fn optional_catch_binding() -> impl Pass {
+    visit_mut_pass(OptionalCatchBinding)
 }
 
 #[swc_trace]
@@ -25,17 +25,18 @@ impl VisitMut for OptionalCatchBinding {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{chain, Mark};
+    use swc_common::Mark;
+    use swc_ecma_ast::Pass;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
-    use swc_ecma_visit::{as_folder, Fold};
+    use swc_ecma_visit::visit_mut_pass;
 
     use crate::optional_catch_binding::OptionalCatchBinding;
 
-    pub fn tr() -> impl Fold {
-        chain!(
+    pub fn tr() -> impl Pass {
+        (
             resolver(Mark::new(), Mark::new(), false),
-            as_folder(OptionalCatchBinding)
+            visit_mut_pass(OptionalCatchBinding),
         )
     }
 

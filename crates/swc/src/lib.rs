@@ -131,12 +131,12 @@ use once_cell::sync::Lazy;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap,
-    Spanned, GLOBALS,
+    comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
+    GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::{to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -148,7 +148,6 @@ use swc_ecma_transforms::{
     helpers::{self, Helpers},
     hygiene,
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
-    pass::noop,
     resolver,
 };
 use swc_ecma_transforms_base::fixer::paren_remover;
@@ -590,9 +589,9 @@ impl Compiler {
         name: &FileName,
         comments: Option<&'a SingleThreadedComments>,
         before_pass: impl 'a + FnOnce(&Program) -> P,
-    ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
+    ) -> Result<Option<BuiltInput<impl 'a + Pass>>, Error>
     where
-        P: 'a + swc_ecma_visit::Fold,
+        P: 'a + Pass,
     {
         self.run(move || {
             let _timer = timer!("Compiler.parse");
@@ -684,8 +683,8 @@ impl Compiler {
         custom_after_pass: impl FnOnce(&Program) -> P2,
     ) -> Result<TransformOutput, Error>
     where
-        P1: swc_ecma_visit::Fold,
-        P2: swc_ecma_visit::Fold,
+        P1: Pass,
+        P2: Pass,
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| {
@@ -708,7 +707,7 @@ impl Compiler {
 
             let after_pass = custom_after_pass(&config.program);
 
-            let config = config.with_pass(|pass| chain!(pass, after_pass));
+            let config = config.with_pass(|pass| (pass, after_pass));
 
             let orig = if config.source_maps.enabled() {
                 self.get_orig_src_map(
@@ -742,8 +741,8 @@ impl Compiler {
             handler,
             opts,
             SingleThreadedComments::default(),
-            |_| noop(),
-            |_| noop(),
+            |_| noop_pass(),
+            |_| noop_pass(),
         )
     }
 
@@ -810,7 +809,7 @@ impl Compiler {
 
             let comments = SingleThreadedComments::default();
 
-            let program = self
+            let mut program = self
                 .parse_js(
                     fm.clone(),
                     handler,
@@ -858,14 +857,13 @@ impl Compiler {
 
             let is_mangler_enabled = min_opts.mangle.is_some();
 
-            let module = self.run_transform(handler, false, || {
-                let module = program.fold_with(&mut paren_remover(Some(&comments)));
+            program = self.run_transform(handler, false, || {
+                program.mutate(&mut paren_remover(Some(&comments)));
 
-                let module =
-                    module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+                program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
 
-                let mut module = swc_ecma_minifier::optimize(
-                    module,
+                let mut program = swc_ecma_minifier::optimize(
+                    program,
                     self.cm.clone(),
                     Some(&comments),
                     None,
@@ -878,9 +876,10 @@ impl Compiler {
                 );
 
                 if !is_mangler_enabled {
-                    module.visit_mut_with(&mut hygiene())
+                    program.visit_mut_with(&mut hygiene())
                 }
-                module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
+                program.mutate(&mut fixer(Some(&comments as &dyn Comments)));
+                program
             });
 
             let preserve_comments = opts
@@ -892,7 +891,7 @@ impl Compiler {
             swc_compiler_base::minify_file_comments(&comments, preserve_comments);
 
             self.print(
-                &module,
+                &program,
                 PrintArgs {
                     source_root: None,
                     source_file_name: Some(&fm.name.to_string()),
@@ -936,8 +935,8 @@ impl Compiler {
             handler,
             opts,
             SingleThreadedComments::default(),
-            |_| noop(),
-            |_| noop(),
+            |_| noop_pass(),
+            |_| noop_pass(),
         )
     }
 
@@ -948,7 +947,7 @@ impl Compiler {
         comments: SingleThreadedComments,
         fm: Arc<SourceFile>,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltInput<impl swc_ecma_visit::Fold>,
+        config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
@@ -980,12 +979,13 @@ impl Compiler {
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
                 let mut checker = FastDts::new(fm.name.clone());
-                let mut module = program.clone().expect_module();
+                let mut module = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
-                    module = module.fold_with(&mut import_rewriter(base, resolver));
+                    module.mutate(import_rewriter(base, resolver));
                 }
 
+                let mut module = module.expect_module();
                 let issues = checker.transform(&mut module);
 
                 for issue in issues {
@@ -1001,7 +1001,7 @@ impl Compiler {
                 None
             };
 
-            let mut pass = config.pass;
+            let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
                 if let Some(dts_code) = dts_code {
                     emit(
@@ -1013,7 +1013,7 @@ impl Compiler {
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                     HANDLER.set(handler, || {
                         // Fold module
-                        program.fold_with(&mut pass)
+                        program.apply(pass)
                     })
                 })
             });

@@ -13,8 +13,8 @@ use pretty_assertions::assert_eq;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    chain, collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER,
-    input::StringInput, FromVariant, Mark,
+    collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, input::StringInput,
+    FromVariant, Mark,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -22,7 +22,7 @@ use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
+use swc_ecma_visit::{visit_mut_pass, VisitMut};
 use testing::{NormalizedOutput, Tester};
 
 /// options.json file
@@ -121,7 +121,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
     Tester::new()
         .print_errors(|cm, handler| {
-            let mut pass = chain!(
+            let pass = (
                 preset_env(
                     Mark::fresh(Mark::root()),
                     Some(SingleThreadedComments::default()),
@@ -152,10 +152,10 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     Default::default(),
                     &mut Default::default(),
                 ),
-                fixer(None)
+                fixer(None),
             );
 
-            let print = |m: &Module| {
+            let print = |m: &Program| {
                 let mut buf = Vec::new();
                 {
                     let mut emitter = Emitter {
@@ -170,7 +170,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         )),
                     };
 
-                    emitter.emit_module(m).expect("failed to emit module");
+                    emitter.emit_program(m).expect("failed to emit module");
                 }
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
@@ -193,7 +193,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             }
 
             let actual = helpers::HELPERS.set(&Default::default(), || {
-                HANDLER.set(&handler, || module.fold_with(&mut pass))
+                HANDLER.set(&handler, || Program::Module(module).apply(pass))
             });
 
             // debug mode?
@@ -256,13 +256,13 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     _ => Ordering::Equal,
                 });
 
-                m
+                Program::Module(m)
             };
 
             let expected_src = print(&expected);
 
-            if drop_span(actual.fold_with(&mut as_folder(Normalizer)))
-                == drop_span(expected.fold_with(&mut as_folder(Normalizer)))
+            if drop_span(actual.apply(&mut visit_mut_pass(Normalizer)))
+                == drop_span(expected.apply(&mut visit_mut_pass(Normalizer)))
             {
                 return Ok(());
             }

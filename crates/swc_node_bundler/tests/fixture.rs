@@ -12,11 +12,10 @@ use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, EsVersion, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
-    MetaPropKind, PropName, Str,
+    MetaPropKind, Program, PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 use swc_ecma_transforms::fixer;
-use swc_ecma_visit::FoldWith;
 use swc_node_bundler::loaders::swc::SwcLoader;
 use testing::NormalizedOutput;
 
@@ -86,7 +85,7 @@ fn pass(input_dir: PathBuf) {
                     let comments = compiler.comments().clone();
                     let code = compiler
                         .print(
-                            &bundled.module.fold_with(&mut fixer(None)),
+                            &Program::Module(bundled.module).apply(&mut fixer(None)),
                             PrintArgs {
                                 comments: Some(&comments),
                                 codegen_config: swc_ecma_codegen::Config::default()

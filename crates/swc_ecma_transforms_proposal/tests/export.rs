@@ -1,9 +1,8 @@
-use swc_common::chain;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_compat::es2020::export_namespace_from;
 use swc_ecma_transforms_proposal::export_default_from;
 use swc_ecma_transforms_testing::test;
-use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
     Syntax::Es(EsSyntax {
@@ -15,8 +14,8 @@ fn syntax_namespace() -> Syntax {
     Syntax::Es(Default::default())
 }
 
-fn tr() -> impl Fold {
-    chain!(export_default_from(), export_namespace_from())
+fn tr() -> impl Pass {
+    (export_default_from(), export_namespace_from())
 }
 
 test!(

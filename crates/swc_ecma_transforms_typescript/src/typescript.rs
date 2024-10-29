@@ -6,19 +6,15 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-pub fn typescript(
-    config: Config,
-    unresolved_mark: Mark,
-    top_level_mark: Mark,
-) -> impl Fold + VisitMut {
+pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
-    as_folder(TypeScript {
+    visit_mut_pass(TypeScript {
         config,
         unresolved_mark,
         top_level_mark,
@@ -26,7 +22,7 @@ pub fn typescript(
     })
 }
 
-pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Fold + VisitMut {
+pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(Config::default(), unresolved_mark, top_level_mark)
 }
 
@@ -52,7 +48,7 @@ impl VisitMut for TypeScript {
 
         n.visit_mut_with(&mut StripType::default());
 
-        n.visit_mut_with(&mut transform(
+        n.mutate(transform(
             self.unresolved_mark,
             self.top_level_mark,
             self.config.import_export_assign_config,
@@ -147,11 +143,11 @@ pub fn tsx<C>(
     comments: C,
     unresolved_mark: Mark,
     top_level_mark: Mark,
-) -> impl Fold + VisitMut
+) -> impl Pass
 where
     C: Comments,
 {
-    as_folder(TypeScriptReact {
+    visit_mut_pass(TypeScriptReact {
         config,
         tsx_config,
         id_usage: Default::default(),

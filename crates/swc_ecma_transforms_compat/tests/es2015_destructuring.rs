@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -13,16 +14,15 @@ use swc_ecma_transforms_compat::{
     es2018::object_rest_spread,
 };
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr() -> impl Fold {
-    chain!(
+fn tr() -> impl Pass {
+    (
         resolver(Mark::new(), Mark::new(), false),
-        destructuring(Config { loose: true })
+        destructuring(Config { loose: true }),
     )
 }
 
@@ -91,7 +91,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -590,12 +590,12 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                Default::default(),
             ),
         )
     },
@@ -619,7 +619,7 @@ test!(
 // destructuring_function_key_with_object_rest_spread
 test_exec!(
     syntax(),
-    |_| chain!(
+    |_| (
         object_rest_spread(Default::default()),
         destructuring(Default::default())
     ),
@@ -650,7 +650,7 @@ function isBetween(x, a, b) {
 // destructuring_for_of
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         spread(Default::default()),
         destructuring(Default::default()),
         block_scoping(Mark::new()),
@@ -676,7 +676,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -700,7 +700,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -723,7 +723,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -754,7 +754,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -779,7 +779,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -807,7 +807,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -863,7 +863,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -894,7 +894,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -983,7 +983,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1020,7 +1020,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1061,7 +1061,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1085,7 +1085,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1130,7 +1130,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1154,7 +1154,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1179,7 +1179,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1206,7 +1206,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1226,7 +1226,7 @@ var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
 // destructuring_assignment_statement
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         destructuring(Default::default()),
         spread(Default::default()),
         block_scoping(Mark::new()),
@@ -1241,7 +1241,7 @@ test!(
 // destructuring_assignment_statement_loose
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         destructuring(Config { loose: true }),
         spread(Default::default()),
         block_scoping(Mark::new()),
@@ -1260,7 +1260,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1284,7 +1284,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1307,7 +1307,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
             spread(Default::default()),
@@ -1336,7 +1336,7 @@ const {
 // destructuring_number_key_with_object_rest_spread
 test_exec!(
     syntax(),
-    |_| chain!(
+    |_| (
         object_rest_spread(Default::default()),
         destructuring(Default::default())
     ),
@@ -1359,7 +1359,7 @@ expect(rest).toEqual({ 2: "b", 3: "c" });
 // destructuring_for_in
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         spread(Default::default()),
         destructuring(Default::default()),
         block_scoping(Mark::new()),
@@ -1381,7 +1381,7 @@ for ([name, value] in obj) {
 // destructuring_for_in_loose
 test!(
     syntax(),
-    |_| chain!(
+    |_| (
         spread(Default::default()),
         destructuring(Config { loose: true }),
         block_scoping(Mark::new()),
@@ -1407,7 +1407,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1430,7 +1430,7 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             spread(Default::default()),
             parameters(Default::default(), unresolved_mark),
@@ -1663,10 +1663,10 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 object_rest_spread(Default::default()),
-                destructuring(Default::default())
+                destructuring(Default::default()),
             )
         },
         &input,

@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
 };
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, VisitWith};
 
 use crate::{
     path::Resolver,
@@ -41,8 +41,8 @@ struct SystemJs {
     context_ident: Ident,
 }
 
-pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Fold {
-    SystemJs {
+pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> impl Pass {
+    fold_pass(SystemJs {
         unresolved_mark,
         resolver,
         config,
@@ -57,7 +57,7 @@ pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> i
         import_idents: Vec::new(),
         export_ident: private_ident!("_export"),
         context_ident: private_ident!("_context"),
-    }
+    })
 }
 
 struct ModuleItemMeta {

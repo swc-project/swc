@@ -1,6 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark, Spanned};
+use swc_common::{Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -38,28 +38,28 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
-        ParenRemover,
+        fold_pass(ParenRemover),
         arrow(unresolved_mark),
         parameters(Default::default(), unresolved_mark),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
         async_to_generator(Default::default(), unresolved_mark),
-        fixer(None)
+        fixer(None),
     )
 }
 
-fn with_resolver() -> impl Fold {
+fn with_resolver() -> impl Pass {
     let unresolved = Mark::new();
     let top_level = Mark::new();
-    chain!(
+    (
         resolver(unresolved, top_level, false),
-        async_to_generator(Default::default(), unresolved)
+        async_to_generator(Default::default(), unresolved),
     )
 }
 
@@ -412,7 +412,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |t| chain!(
+    |t| (
         tr(),
         es2015(
             Mark::fresh(Mark::root()),
@@ -480,13 +480,13 @@ test_exec!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
             es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
-            )
+                Default::default(),
+            ),
         )
     },
     issue_400_3,
@@ -506,7 +506,7 @@ return (new A()).print();"
 //// regression_7178
 //test!(
 //    syntax(),
-//    |_| chain!(jsx(), jsc_constant_elements(),
+//    |_| (jsx(), jsc_constant_elements(),
 // async_to_generator(Default::default()),),    regression_7178,
 //    r#"
 //const title = "Neem contact op";
@@ -586,9 +586,9 @@ test!(
     syntax(),
     |_| {
         let unresolved_mark = Mark::new();
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            arrow(unresolved_mark)
+            arrow(unresolved_mark),
         )
     },
     regression_t7194,
@@ -693,7 +693,7 @@ test!(
     syntax(),
     |_| {
         let unresolved_mark = Mark::new();
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
             //regenerator(),
             arrow(unresolved_mark),
@@ -793,7 +793,7 @@ var foo = async function bar() {
 //// async_to_generator_async_iife_with_regenerator_spec
 //test!(
 //    syntax(),
-//    |_| chain!(async_to_generator(Default::default()), arrow(),
+//    |_| (async_to_generator(Default::default()), arrow(),
 // regenerator(),),    async_to_generator_async_iife_with_regenerator_spec,
 //    r#"
 //(async function() { await 'ok' })();
@@ -924,7 +924,7 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             async_to_generator(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
@@ -1362,10 +1362,10 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     issue_1341_1_exec,
@@ -1406,10 +1406,10 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, true),
             class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new())
+            async_to_generator(Default::default(), Mark::new()),
         )
     },
     issue_1341_2_exec,
@@ -1464,9 +1464,9 @@ test_exec!(
     Syntax::default(),
     |t| {
         let mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), mark),
-            generator(mark, t.comments.clone())
+            generator(mark, t.comments.clone()),
         )
     },
     issue_1575_2,
@@ -1539,9 +1539,9 @@ test!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone())
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_1684_2,
@@ -1652,9 +1652,9 @@ test!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone())
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_2402_2,
@@ -1713,9 +1713,9 @@ test!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone())
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_2305_2,
@@ -1750,9 +1750,9 @@ test!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone())
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_2677_1,
@@ -1774,9 +1774,9 @@ test!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
-        chain!(
+        (
             async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone())
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_2677_2,
@@ -2112,10 +2112,10 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Default::default(), unresolved_mark),
-                async_to_generator(Default::default(), unresolved_mark)
+                async_to_generator(Default::default(), unresolved_mark),
             )
         },
         &input,
@@ -2131,13 +2131,13 @@ fn exec_regenerator(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(Default::default(), unresolved_mark),
                 async_to_generator(Default::default(), unresolved_mark),
                 es2015::for_of(Default::default()),
                 block_scoping(unresolved_mark),
-                generator(unresolved_mark, t.comments.clone())
+                generator(unresolved_mark, t.comments.clone()),
             )
         },
         &input,

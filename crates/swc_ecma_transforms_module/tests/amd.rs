@@ -1,13 +1,13 @@
 use std::{fs::File, path::PathBuf, rc::Rc};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
 use swc_ecma_transforms_module::amd::{self, amd};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
@@ -17,13 +17,13 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Fold {
+fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
     let avalible_set = FeatureFlag::all();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, is_ts),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         amd(
@@ -31,7 +31,7 @@ fn tr(config: amd::Config, is_ts: bool, comments: Rc<SingleThreadedComments>) ->
             unresolved_mark,
             config,
             avalible_set,
-            Some(comments)
+            Some(comments),
         ),
     )
 }
@@ -75,7 +75,7 @@ fn esm_to_amd(input: PathBuf) {
 test!(
     module,
     syntax(),
-    |t| chain!(
+    |t| (
         for_of(for_of::Config {
             assume_array: true,
             ..Default::default()

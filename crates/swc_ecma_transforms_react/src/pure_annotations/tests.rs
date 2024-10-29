@@ -4,14 +4,13 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::Tester;
-use swc_ecma_visit::FoldWith;
 
 use super::*;
 
 fn parse(
     tester: &mut Tester,
     src: &str,
-) -> Result<(Module, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
+) -> Result<(Program, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
     let syntax = ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
@@ -20,7 +19,7 @@ fn parse(
     let source_file = source_map.new_source_file(FileName::Anon.into(), src.into());
 
     let comments = Lrc::new(SingleThreadedComments::default());
-    let module = {
+    let program = {
         let mut p = Parser::new(syntax, StringInput::from(&*source_file), Some(&comments));
         let res = p
             .parse_module()
@@ -30,16 +29,16 @@ fn parse(
             e.into_diagnostic(tester.handler).emit()
         }
 
-        res?
+        Program::Module(res?)
     };
 
-    Ok((module, source_map, comments))
+    Ok((program, source_map, comments))
 }
 
 fn emit(
     source_map: Lrc<SourceMap>,
     comments: Lrc<SingleThreadedComments>,
-    program: &Module,
+    program: &Program,
 ) -> String {
     let mut src_map_buf = Vec::new();
     let mut buf = std::vec::Vec::new();
@@ -56,7 +55,7 @@ fn emit(
             cm: source_map,
             wr: writer,
         };
-        emitter.emit_module(program).unwrap();
+        emitter.emit_program(program).unwrap();
     }
 
     String::from_utf8(buf).unwrap()
@@ -69,8 +68,8 @@ fn run_test(input: &str, expected: &str) {
 
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
         let actual = actual
-            .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
-            .fold_with(&mut crate::react(
+            .apply(&mut resolver(unresolved_mark, top_level_mark, false))
+            .apply(&mut crate::react(
                 actual_sm.clone(),
                 Some(&actual_comments),
                 Default::default(),

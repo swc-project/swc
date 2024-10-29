@@ -3,14 +3,16 @@ use std::{iter, mem::take};
 use either::Either;
 use serde::Deserialize;
 use swc_common::{Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
+use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
     private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_fold_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{
+    fold_pass, noop_fold_type, visit_mut_pass, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
+};
 
 mod legacy;
 
@@ -54,17 +56,17 @@ mod legacy;
 ///   }
 /// }
 /// ```
-pub fn decorators(c: Config) -> impl Fold {
+pub fn decorators(c: Config) -> impl Pass {
     if c.legacy {
-        Either::Left(as_folder(self::legacy::new(c.emit_metadata)))
+        Either::Left(visit_mut_pass(self::legacy::new(c.emit_metadata)))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")
         }
-        Either::Right(Decorators {
+        Either::Right(fold_pass(Decorators {
             is_in_strict: false,
             vars: Default::default(),
-        })
+        }))
     }
 }
 
@@ -330,8 +332,8 @@ impl Decorators {
         macro_rules! fold_method {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
                 let fn_name = $fn_name;
-                let method = $method;
-                let mut folder = swc_ecma_visit::as_folder(SuperFieldAccessFolder {
+                let mut method = $method;
+                let mut folder = SuperFieldAccessFolder {
                     class_name: &ident,
                     constructor_this_mark: None,
                     is_static: method.is_static,
@@ -343,9 +345,9 @@ impl Decorators {
                     constant_super: false,
                     super_class: &None,
                     in_pat: false,
-                });
+                };
 
-                let method = method.fold_with(&mut folder);
+                method.visit_mut_with(&mut folder);
 
                 //   kind: "method",
                 //   key: getKeyJ(),

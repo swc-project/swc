@@ -4,7 +4,6 @@ use indexmap::IndexMap;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{
-    chain,
     collections::{AHashMap, AHashSet},
     util::take::Take,
     Mark, Spanned, SyntaxContext, DUMMY_SP,
@@ -16,7 +15,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
+    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -35,16 +34,16 @@ mod vars;
 ///    });
 /// }
 /// ```
-pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
-    as_folder(chain!(
-        self::vars::block_scoped_vars(),
-        BlockScoping {
+pub fn block_scoping(unresolved_mark: Mark) -> impl Pass {
+    (
+        visit_mut_pass(self::vars::block_scoped_vars()),
+        visit_mut_pass(BlockScoping {
             unresolved_mark,
             scope: Default::default(),
             vars: Vec::new(),
             var_decl_kind: VarDeclKind::Var,
-        }
-    ))
+        }),
+    )
 }
 
 type ScopeStack = SmallVec<[ScopeKind; 8]>;

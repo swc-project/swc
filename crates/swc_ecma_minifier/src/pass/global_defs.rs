@@ -28,7 +28,7 @@ struct GlobalDefs {
 }
 
 impl CompilerPass for GlobalDefs {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("global-defs")
     }
 }

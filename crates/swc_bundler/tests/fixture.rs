@@ -10,12 +10,11 @@ use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span};
 use swc_ecma_ast::{
     Bool, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
-    PropName, Str,
+    Program, PropName, Str,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_loader::NODE_BUILTINS;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
 use self::common::*;
@@ -62,7 +61,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                         };
 
                         emitter
-                            .emit_module(&bundled.module.fold_with(&mut fixer(None)))
+                            .emit_program(&Program::Module(bundled.module).apply(fixer(None)))
                             .unwrap();
                     }
 

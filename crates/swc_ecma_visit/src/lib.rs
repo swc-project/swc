@@ -8,77 +8,239 @@ pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, fmt::Debug};
 
-use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
+use swc_common::{pass::CompilerPass, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_visit::{AndThen, Repeat, Repeated};
+use swc_visit::{Repeat, Repeated};
 
 pub use crate::generated::*;
 mod generated;
 
-impl<A, B> Fold for AndThen<A, B>
+pub fn fold_pass<V>(pass: V) -> FoldPass<V>
 where
-    A: Fold,
+    V: Fold,
+{
+    FoldPass { pass }
+}
 
-    B: Fold,
+pub struct FoldPass<V> {
+    pass: V,
+}
+
+impl<V> Pass for FoldPass<V>
+where
+    V: Fold,
 {
     #[inline(always)]
-    fn fold_program(&mut self, n: Program) -> Program {
-        let n = self.first.fold_program(n);
-        self.second.fold_program(n)
-    }
-
-    #[inline(always)]
-    fn fold_module(&mut self, n: Module) -> Module {
-        let n = self.first.fold_module(n);
-        self.second.fold_module(n)
-    }
-
-    #[inline(always)]
-    fn fold_script(&mut self, n: Script) -> Script {
-        let n = self.first.fold_script(n);
-        self.second.fold_script(n)
+    fn process(&mut self, program: &mut Program) {
+        program.map_with_mut(|p| p.fold_with(&mut self.pass));
     }
 }
 
-impl<A, B> VisitMut for AndThen<A, B>
+impl<V> Fold for FoldPass<V>
 where
-    A: VisitMut,
-    B: VisitMut,
+    V: Fold,
 {
-    fn visit_mut_program(&mut self, n: &mut Program) {
-        self.first.visit_mut_program(n);
-        self.second.visit_mut_program(n);
+    #[inline(always)]
+    fn fold_program(&mut self, node: Program) -> Program {
+        self.pass.fold_program(node)
     }
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        self.first.visit_mut_module(n);
-        self.second.visit_mut_module(n)
+    #[inline(always)]
+    fn fold_module(&mut self, node: Module) -> Module {
+        self.pass.fold_module(node)
     }
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        self.first.visit_mut_script(n);
-        self.second.visit_mut_script(n)
+    #[inline(always)]
+    fn fold_script(&mut self, node: Script) -> Script {
+        self.pass.fold_script(node)
+    }
+
+    #[inline(always)]
+    fn fold_stmt(&mut self, node: Stmt) -> Stmt {
+        self.pass.fold_stmt(node)
+    }
+
+    #[inline(always)]
+    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+        self.pass.fold_module_item(item)
+    }
+
+    #[inline(always)]
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        self.pass.fold_expr(expr)
+    }
+
+    #[inline(always)]
+    fn fold_pat(&mut self, pat: Pat) -> Pat {
+        self.pass.fold_pat(pat)
+    }
+
+    #[inline(always)]
+    fn fold_assign_target(&mut self, target: AssignTarget) -> AssignTarget {
+        self.pass.fold_assign_target(target)
+    }
+
+    #[inline(always)]
+    fn fold_ident(&mut self, ident: Ident) -> Ident {
+        self.pass.fold_ident(ident)
     }
 }
 
-impl<A, B> Visit for AndThen<A, B>
+impl<V> Repeated for FoldPass<V>
 where
-    A: Visit,
-    B: Visit,
+    V: Fold + Repeated,
 {
-    fn visit_program(&mut self, n: &Program) {
-        self.first.visit_program(n);
-        self.second.visit_program(n);
+    fn changed(&self) -> bool {
+        self.pass.changed()
     }
 
-    fn visit_module(&mut self, n: &Module) {
-        self.first.visit_module(n);
-        self.second.visit_module(n);
+    fn reset(&mut self) {
+        self.pass.reset();
+    }
+}
+
+impl<V> CompilerPass for FoldPass<V>
+where
+    V: Fold + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
+    }
+}
+
+pub fn visit_mut_pass<V>(pass: V) -> VisitMutPass<V>
+where
+    V: VisitMut,
+{
+    VisitMutPass { pass }
+}
+
+pub struct VisitMutPass<V> {
+    pass: V,
+}
+
+impl<V> Pass for VisitMutPass<V>
+where
+    V: VisitMut,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        program.visit_mut_with(&mut self.pass);
+    }
+}
+
+impl<V> VisitMut for VisitMutPass<V>
+where
+    V: VisitMut,
+{
+    #[inline(always)]
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        self.pass.visit_mut_program(program);
     }
 
-    fn visit_script(&mut self, n: &Script) {
-        self.first.visit_script(n);
-        self.second.visit_script(n);
+    #[inline(always)]
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.pass.visit_mut_module(module);
+    }
+
+    #[inline(always)]
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.pass.visit_mut_script(script);
+    }
+
+    #[inline(always)]
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
+        self.pass.visit_mut_module_item(item);
+    }
+
+    #[inline(always)]
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        self.pass.visit_mut_stmt(stmt);
+    }
+
+    #[inline(always)]
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        self.pass.visit_mut_expr(expr);
+    }
+
+    #[inline(always)]
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
+        self.pass.visit_mut_pat(pat);
+    }
+
+    #[inline(always)]
+    fn visit_mut_assign_target(&mut self, target: &mut AssignTarget) {
+        self.pass.visit_mut_assign_target(target);
+    }
+
+    #[inline(always)]
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        self.pass.visit_mut_ident(ident);
+    }
+}
+
+impl<V> Repeated for VisitMutPass<V>
+where
+    V: VisitMut + Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset();
+    }
+}
+
+impl<V> CompilerPass for VisitMutPass<V>
+where
+    V: VisitMut + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
+    }
+}
+
+pub fn visit_pass<V>(pass: V) -> VisitPass<V>
+where
+    V: Visit,
+{
+    VisitPass { pass }
+}
+
+pub struct VisitPass<V> {
+    pass: V,
+}
+
+impl<V> Pass for VisitPass<V>
+where
+    V: Visit,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        program.visit_with(&mut self.pass);
+    }
+}
+
+impl<V> Repeated for VisitPass<V>
+where
+    V: Visit + Repeated,
+{
+    fn changed(&self) -> bool {
+        self.pass.changed()
+    }
+
+    fn reset(&mut self) {
+        self.pass.reset();
+    }
+}
+
+impl<V> CompilerPass for VisitPass<V>
+where
+    V: Visit + CompilerPass,
+{
+    fn name(&self) -> Cow<'static, str> {
+        self.pass.name()
     }
 }
 
@@ -206,128 +368,30 @@ pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }
 
-impl<V> InjectVars for Folder<V>
+impl<V> InjectVars for FoldPass<V>
+where
+    V: Fold + InjectVars,
+{
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.pass.take_vars()
+    }
+}
+
+impl<V> InjectVars for VisitMutPass<V>
 where
     V: VisitMut + InjectVars,
 {
     fn take_vars(&mut self) -> Vec<VarDeclarator> {
-        self.0.take_vars()
+        self.pass.take_vars()
     }
 }
 
-/// Wrap a [VisitMut] as a [Fold].
-///
-/// The returned folder only handles `fold_script` and `fold_module`, and
-/// typescript nodes are ignored. So if your visitor needs to handle typescript
-/// or low-level nodes, you should use [as_folder] instead.
-#[inline]
-pub fn as_folder<V>(v: V) -> Folder<V>
+impl<V> InjectVars for VisitPass<V>
 where
-    V: VisitMut,
+    V: Visit + InjectVars,
 {
-    Folder(v)
-}
-
-/// Wrap a [VisitMut] as a [Fold]
-#[derive(Debug, Clone, Copy)]
-pub struct Folder<V: VisitMut>(V);
-
-impl<V> Repeated for Folder<V>
-where
-    V: Repeated + VisitMut,
-{
-    fn changed(&self) -> bool {
-        self.0.changed()
-    }
-
-    fn reset(&mut self) {
-        self.0.reset();
-    }
-}
-
-impl<V> CompilerPass for Folder<V>
-where
-    V: VisitMut + CompilerPass,
-{
-    fn name() -> Cow<'static, str> {
-        V::name()
-    }
-}
-
-macro_rules! delegate {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, n: &mut $T) {
-            n.visit_mut_with(&mut self.0);
-        }
-    };
-}
-
-/// This only proxies subset of methods.
-impl<V> VisitMut for Folder<V>
-where
-    V: VisitMut,
-{
-    delegate!(visit_mut_ident, Ident);
-
-    delegate!(visit_mut_span, Span);
-
-    delegate!(visit_mut_expr, Expr);
-
-    delegate!(visit_mut_decl, Decl);
-
-    delegate!(visit_mut_stmt, Stmt);
-
-    delegate!(visit_mut_pat, Pat);
-
-    delegate!(visit_mut_ts_type, TsType);
-
-    delegate!(visit_mut_module, Module);
-
-    delegate!(visit_mut_script, Script);
-
-    delegate!(visit_mut_program, Program);
-}
-
-macro_rules! method {
-    ($name:ident, $T:ty) => {
-        fn $name(&mut self, mut n: $T) -> $T {
-            n.visit_mut_with(&mut self.0);
-            n
-        }
-    };
-}
-
-impl<V> Fold for Folder<V>
-where
-    V: VisitMut,
-{
-    method!(fold_ident, Ident);
-
-    method!(fold_span, Span);
-
-    method!(fold_expr, Expr);
-
-    method!(fold_decl, Decl);
-
-    method!(fold_stmt, Stmt);
-
-    method!(fold_pat, Pat);
-
-    method!(fold_ts_type, TsType);
-
-    method!(fold_script, Script);
-
-    method!(fold_program, Program);
-
-    #[inline(always)]
-    fn fold_module(&mut self, mut n: Module) -> Module {
-        #[cfg(all(debug_assertions, feature = "debug"))]
-        let _tracing = {
-            let visitor_name = std::any::type_name::<V>();
-            tracing::span!(tracing::Level::INFO, "as_folder", visitor = visitor_name).entered()
-        };
-        n.visit_mut_with(&mut self.0);
-        n
+    fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        self.pass.take_vars()
     }
 }
 
@@ -957,3 +1021,162 @@ macro_rules! visit_mut_obj_and_computed {
         }
     };
 }
+
+macro_rules! impl_traits_for_tuple {
+    (
+        [$idx:tt, $name:ident], $([$idx_rest:tt, $name_rest:ident]),*
+    ) => {
+        impl<$name, $($name_rest),*> VisitMut for ($name, $($name_rest),*)
+        where
+            $name: VisitMut,
+            $($name_rest: VisitMut),*
+        {
+
+            fn visit_mut_program(&mut self, program: &mut Program) {
+                self.$idx.visit_mut_program(program);
+
+                $(
+                    self.$idx_rest.visit_mut_program(program);
+                )*
+            }
+
+            fn visit_mut_module(&mut self, module: &mut Module) {
+                self.$idx.visit_mut_module(module);
+
+                $(
+                    self.$idx_rest.visit_mut_module(module);
+                )*
+            }
+
+            fn visit_mut_script(&mut self, script: &mut Script) {
+                self.$idx.visit_mut_script(script);
+
+                $(
+                    self.$idx_rest.visit_mut_script(script);
+                )*
+            }
+
+            fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+                self.$idx.visit_mut_stmt(stmt);
+
+                $(
+                    self.$idx_rest.visit_mut_stmt(stmt);
+                )*
+            }
+
+            fn visit_mut_expr(&mut self, expr: &mut Expr) {
+                self.$idx.visit_mut_expr(expr);
+
+                $(
+                    self.$idx_rest.visit_mut_expr(expr);
+                )*
+            }
+
+            fn visit_mut_pat(&mut self, pat: &mut Pat) {
+                self.$idx.visit_mut_pat(pat);
+
+                $(
+                    self.$idx_rest.visit_mut_pat(pat);
+                )*
+            }
+
+            fn visit_mut_assign_target(&mut self, target: &mut AssignTarget) {
+                self.$idx.visit_mut_assign_target(target);
+
+                $(
+                    self.$idx_rest.visit_mut_assign_target(target);
+                )*
+            }
+
+            fn visit_mut_ident(&mut self, ident: &mut Ident) {
+                self.$idx.visit_mut_ident(ident);
+
+                $(
+                    self.$idx_rest.visit_mut_ident(ident);
+                )*
+            }
+        }
+    };
+}
+
+impl_traits_for_tuple!([0, A], [1, B]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F]);
+impl_traits_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F], [6, G]);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L]
+);
+impl_traits_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L],
+    [12, M]
+);

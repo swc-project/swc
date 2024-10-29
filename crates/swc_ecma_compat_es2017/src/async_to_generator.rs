@@ -11,7 +11,7 @@ use swc_ecma_utils::{
     prepend_stmt, private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -35,8 +35,8 @@ use swc_trace_macro::swc_trace;
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(AsyncToGenerator {
+pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
+    visit_mut_pass(AsyncToGenerator {
         c,
         in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),

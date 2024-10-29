@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -8,14 +9,13 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
-use swc_ecma_visit::Fold;
 
-fn tr(c: Config) -> impl Fold {
+fn tr(c: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
-        optional_chaining(c, unresolved_mark)
+        optional_chaining(c, unresolved_mark),
     )
 }
 
@@ -257,7 +257,7 @@ fn exec(input: PathBuf) {
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 optional_chaining(
                     Config {
@@ -265,7 +265,7 @@ fn exec(input: PathBuf) {
                         ..Default::default()
                     },
                     Mark::new(),
-                )
+                ),
             )
         },
         &src,
@@ -281,16 +281,16 @@ fn fixture(input: PathBuf) {
         &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         ..Default::default()
                     },
-                    unresolved_mark
+                    unresolved_mark,
                 ),
-                optional_chaining(Default::default(), unresolved_mark)
+                optional_chaining(Default::default(), unresolved_mark),
             )
         },
         &input,
@@ -308,7 +308,7 @@ fn fixture_loose(input: PathBuf) {
         &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 class_properties(
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
@@ -318,7 +318,7 @@ fn fixture_loose(input: PathBuf) {
 
                         ..Default::default()
                     },
-                    unresolved_mark
+                    unresolved_mark,
                 ),
                 optional_chaining(
                     Config {
@@ -326,7 +326,7 @@ fn fixture_loose(input: PathBuf) {
                         pure_getter: true,
                     },
                     Mark::new(),
-                )
+                ),
             )
         },
         &input,

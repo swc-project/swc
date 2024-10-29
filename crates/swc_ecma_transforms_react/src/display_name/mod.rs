@@ -2,7 +2,7 @@ use std::ops::DerefMut;
 
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -10,8 +10,8 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Fold + VisitMut {
-    as_folder(DisplayName)
+pub fn display_name() -> impl Pass {
+    visit_mut_pass(DisplayName)
 }
 
 struct DisplayName;

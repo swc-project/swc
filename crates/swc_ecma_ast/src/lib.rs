@@ -12,7 +12,7 @@
 pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
@@ -89,6 +89,243 @@ mod prop;
 mod source_map;
 mod stmt;
 mod typescript;
+
+/// A map from the [Program] to the [Program].
+///
+/// This trait is used to implement transformations. The implementor may decide
+/// to implement [Fold] or [VisitMut] if the transform is fine to start from an
+/// arbitrary node.
+///
+/// Tuple of [Pass] implementations also implements [Pass], but it's limited to
+/// 12 items for fast compile time. If you have more passes, nest it like `(a,
+/// (b, c), (d, e))`
+pub trait Pass {
+    fn process(&mut self, program: &mut Program);
+}
+
+/// Optional pass implementation.
+impl<P> Pass for Option<P>
+where
+    P: Pass,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        if let Some(pass) = self {
+            pass.process(program);
+        }
+    }
+}
+
+impl<P: ?Sized> Pass for Box<P>
+where
+    P: Pass,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        (**self).process(program);
+    }
+}
+
+impl<P: ?Sized> Pass for &'_ mut P
+where
+    P: Pass,
+{
+    #[inline(always)]
+    fn process(&mut self, program: &mut Program) {
+        (**self).process(program);
+    }
+}
+
+impl<L, R> Pass for Either<L, R>
+where
+    L: Pass,
+    R: Pass,
+{
+    #[inline]
+    fn process(&mut self, program: &mut Program) {
+        match self {
+            Either::Left(l) => l.process(program),
+            Either::Right(r) => r.process(program),
+        }
+    }
+}
+
+impl<P> Pass for swc_visit::Optional<P>
+where
+    P: Pass,
+{
+    #[inline]
+    fn process(&mut self, program: &mut Program) {
+        if self.enabled {
+            self.visitor.process(program);
+        }
+    }
+}
+
+impl<P> Pass for swc_visit::Repeat<P>
+where
+    P: Pass + swc_visit::Repeated,
+{
+    #[inline]
+    fn process(&mut self, program: &mut Program) {
+        loop {
+            self.pass.reset();
+            self.pass.process(program);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+    }
+}
+
+impl Program {
+    #[inline(always)]
+    pub fn mutate<P>(&mut self, mut pass: P)
+    where
+        P: Pass,
+    {
+        pass.process(self);
+    }
+
+    #[inline(always)]
+    pub fn apply<P>(mut self, mut pass: P) -> Self
+    where
+        P: Pass,
+    {
+        pass.process(&mut self);
+        self
+    }
+}
+
+macro_rules! impl_pass_for_tuple {
+    (
+        [$idx:tt, $name:ident], $([$idx_rest:tt, $name_rest:ident]),*
+    ) => {
+        impl<$name, $($name_rest),*> Pass for ($name, $($name_rest),*)
+        where
+            $name: Pass,
+            $($name_rest: Pass),*
+        {
+            #[inline]
+            fn process(&mut self, program: &mut Program) {
+                self.$idx.process(program);
+
+                $(
+                    self.$idx_rest.process(program);
+                )*
+
+            }
+        }
+    };
+}
+
+impl_pass_for_tuple!([0, A], [1, B]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F]);
+impl_pass_for_tuple!([0, A], [1, B], [2, C], [3, D], [4, E], [5, F], [6, G]);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L]
+);
+impl_pass_for_tuple!(
+    [0, A],
+    [1, B],
+    [2, C],
+    [3, D],
+    [4, E],
+    [5, F],
+    [6, G],
+    [7, H],
+    [8, I],
+    [9, J],
+    [10, K],
+    [11, L],
+    [12, M]
+);
+
+#[inline(always)]
+pub fn noop_pass() -> impl Pass {
+    fn noop(_: &mut Program) {}
+
+    fn_pass(noop)
+}
+
+#[inline(always)]
+pub fn fn_pass(f: impl FnMut(&mut Program)) -> impl Pass {
+    FnPass { f }
+}
+
+struct FnPass<F> {
+    f: F,
+}
+
+impl<F> Pass for FnPass<F>
+where
+    F: FnMut(&mut Program),
+{
+    fn process(&mut self, program: &mut Program) {
+        (self.f)(program);
+    }
+}
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]

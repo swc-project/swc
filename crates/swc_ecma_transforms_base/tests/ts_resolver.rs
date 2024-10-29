@@ -6,7 +6,7 @@ use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 use testing::fixture;
 
 #[fixture("../swc_ecma_parser/tests/**/*.ts")]
@@ -34,7 +34,7 @@ fn no_empty(input: PathBuf) {
             Err(..) => return Ok(()),
         };
 
-        let module = module.fold_with(&mut resolver(Mark::new(), Mark::new(), true));
+        let module = Program::Module(module).apply(resolver(Mark::new(), Mark::new(), true));
 
         module.visit_with(&mut AssertNoEmptyCtxt);
 

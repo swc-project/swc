@@ -2,7 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 #[cfg(test)]
 mod tests;
@@ -10,8 +10,8 @@ mod tests;
 /// `@babel/plugin-transform-react-jsx-self`
 ///
 /// Add a __self prop to all JSX Elements
-pub fn jsx_self(dev: bool) -> impl Fold + VisitMut {
-    as_folder(JsxSelf { dev })
+pub fn jsx_self(dev: bool) -> impl Pass {
+    visit_mut_pass(JsxSelf { dev })
 }
 
 #[derive(Clone, Copy)]

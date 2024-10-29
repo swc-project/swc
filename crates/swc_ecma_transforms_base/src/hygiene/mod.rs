@@ -1,7 +1,7 @@
-use swc_common::{chain, Mark};
+use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
@@ -28,7 +28,7 @@ pub struct Config {
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
-pub fn hygiene() -> impl Fold + VisitMut + 'static {
+pub fn hygiene() -> impl Pass + VisitMut {
     hygiene_with_config(Default::default())
 }
 
@@ -58,8 +58,11 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 /// ## Third phase
 ///
 ///  At third phase, we rename all identifiers in the queue.
-pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    chain!(renamer(config, HygieneRenamer), as_folder(HygieneRemover))
+pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
+    (
+        renamer(config, HygieneRenamer),
+        visit_mut_pass(HygieneRemover),
+    )
 }
 
 struct HygieneRenamer;

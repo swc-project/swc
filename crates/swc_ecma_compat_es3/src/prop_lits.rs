@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 /// babel: `transform-property-literals`
@@ -30,8 +30,8 @@ use swc_trace_macro::swc_trace;
 ///   foo: 1
 /// };
 /// ```
-pub fn property_literals() -> impl Fold {
-    PropertyLiteral
+pub fn property_literals() -> impl Pass {
+    fold_pass(PropertyLiteral)
 }
 
 struct PropertyLiteral;
@@ -78,7 +78,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| PropertyLiteral,
+        |_| fold_pass(PropertyLiteral),
         babel_basic,
         r#"var foo = {
   // changed
@@ -95,7 +95,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| PropertyLiteral,
+        |_| fold_pass(PropertyLiteral),
         str_lit,
         r#"'use strict';
 var x = {

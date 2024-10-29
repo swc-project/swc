@@ -1,7 +1,7 @@
-use swc_common::{chain, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::as_folder;
+use swc_ecma_visit::visit_mut_pass;
 
 use super::super::expr_simplifier;
 
@@ -14,11 +14,11 @@ macro_rules! test_stmt {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
-                chain!(
+                (
                     resolver(unresolved_mark, top_level_mark, false),
                     paren_remover(None),
                     expr_simplifier(top_level_mark, Default::default()),
-                    as_folder(super::Remover {
+                    visit_mut_pass(super::Remover {
                         changed: false,
                         normal_block: Default::default(),
                         expr_ctx: ExprCtx {
@@ -27,7 +27,7 @@ macro_rules! test_stmt {
                             is_unresolved_ref_safe: true,
                             in_strict: false,
                         },
-                    })
+                    }),
                 )
             },
             $l,

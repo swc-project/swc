@@ -2466,6 +2466,13 @@ where
 }
 
 pub struct DropSpan;
+
+impl Pass for DropSpan {
+    fn process(&mut self, program: &mut Program) {
+        program.visit_mut_with(self);
+    }
+}
+
 impl VisitMut for DropSpan {
     fn visit_mut_span(&mut self, span: &mut Span) {
         *span = DUMMY_SP;

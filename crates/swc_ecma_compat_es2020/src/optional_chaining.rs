@@ -1,10 +1,11 @@
 use serde::Deserialize;
 use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_compat_es2022::optional_chaining_impl::optional_chaining_impl;
-use swc_ecma_visit::{as_folder, Fold, VisitMut};
+use swc_ecma_visit::visit_mut_pass;
 
-pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(optional_chaining_impl(
+pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Pass {
+    visit_mut_pass(optional_chaining_impl(
         swc_ecma_compat_es2022::optional_chaining_impl::Config {
             no_document_all: c.no_document_all,
             pure_getter: c.pure_getter,

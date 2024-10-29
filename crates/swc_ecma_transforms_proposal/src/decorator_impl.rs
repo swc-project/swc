@@ -10,12 +10,12 @@ use swc_ecma_utils::{
     is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
     stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::DecoratorVersion;
 
-pub(crate) fn decorator_impl(version: DecoratorVersion) -> impl VisitMut + Fold {
-    as_folder(DecoratorPass {
+pub(crate) fn decorator_impl(version: DecoratorVersion) -> impl Pass {
+    visit_mut_pass(DecoratorPass {
         version,
         ..Default::default()
     })

@@ -1,10 +1,10 @@
 use swc_common::util::take::Take;
-use swc_ecma_ast::{CallExpr, Expr, Lit, Regex};
+use swc_ecma_ast::{CallExpr, Expr, Lit, Pass, Regex};
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-pub fn regexp(config: Config) -> impl Fold + VisitMut {
-    as_folder(RegExp { config })
+pub fn regexp(config: Config) -> impl Pass {
+    visit_mut_pass(RegExp { config })
 }
 
 #[derive(Default, Clone, Copy)]

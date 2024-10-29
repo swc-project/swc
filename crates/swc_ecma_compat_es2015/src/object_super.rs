@@ -6,15 +6,15 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {
     extra_vars: Vec<Ident>,
 }
 
-pub fn object_super() -> impl Fold + VisitMut {
-    as_folder(ObjectSuper {
+pub fn object_super() -> impl Pass {
+    visit_mut_pass(ObjectSuper {
         extra_vars: Vec::new(),
     })
 }
@@ -484,7 +484,7 @@ impl SuperReplacer {
 }
 #[cfg(test)]
 mod tests {
-    use swc_common::{chain, Mark};
+    use swc_common::Mark;
     use swc_ecma_parser::{EsSyntax, Syntax};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
@@ -496,7 +496,7 @@ mod tests {
         |_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            chain!(
+            (
                 resolver(unresolved_mark, top_level_mark, false),
                 object_super(),
                 shorthand(),
@@ -513,7 +513,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -530,7 +530,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -547,7 +547,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),
@@ -572,7 +572,7 @@ mod tests {
             ..Default::default()
         }),
         |_| {
-            chain!(
+            (
                 resolver(Mark::new(), Mark::new(), false),
                 object_super(),
                 shorthand(),

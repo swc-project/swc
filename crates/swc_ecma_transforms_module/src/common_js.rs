@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
@@ -28,8 +28,8 @@ pub fn common_js(
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
-) -> impl Fold + VisitMut {
-    as_folder(Cjs {
+) -> impl Pass {
+    visit_mut_pass(Cjs {
         config,
         resolver,
         unresolved_mark,

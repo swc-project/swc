@@ -26,7 +26,6 @@ use swc_ecma_transforms_base::{
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;
-use swc_ecma_visit::FoldWith;
 
 pub struct Loader {
     pub cm: Lrc<SourceMap>,
@@ -135,21 +134,21 @@ impl Load for Loader {
 
         let module = HELPERS.set(&Helpers::new(false), || {
             Program::Module(module)
-                .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
-                .fold_with(&mut decorators(decorators::Config {
+                .apply(resolver(unresolved_mark, top_level_mark, false))
+                .apply(decorators(decorators::Config {
                     legacy: true,
                     emit_metadata: Default::default(),
                     use_define_for_class_fields: false,
                 }))
-                .fold_with(&mut strip(unresolved_mark, top_level_mark))
-                .fold_with(&mut react::<SingleThreadedComments>(
+                .apply(strip(unresolved_mark, top_level_mark))
+                .apply(react::<SingleThreadedComments>(
                     self.cm.clone(),
                     None,
                     Default::default(),
                     top_level_mark,
                     unresolved_mark,
                 ))
-                .fold_with(&mut inject_helpers(unresolved_mark))
+                .apply(inject_helpers(unresolved_mark))
                 .module()
                 .unwrap()
         });

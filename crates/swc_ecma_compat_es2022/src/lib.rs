@@ -1,8 +1,8 @@
 #![allow(clippy::vec_box)]
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_compat_common::regexp::{self, regexp};
-use swc_ecma_visit::Fold;
 
 pub use self::{
     class_properties::class_properties, private_in_object::private_in_object,
@@ -14,8 +14,8 @@ pub mod optional_chaining_impl;
 pub mod private_in_object;
 pub mod static_blocks;
 
-pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Fold {
-    chain!(
+pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
+    (
         regexp(regexp::Config {
             dot_all_regex: true,
             has_indices: true,

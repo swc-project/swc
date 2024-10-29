@@ -9,14 +9,13 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::ExprRefExt,
-    pass::RepeatedJsPass,
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
     is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
 
 use crate::debug::debug_assert_valid;
@@ -43,8 +42,8 @@ pub struct Config {}
 pub fn expr_simplifier(
     unresolved_mark: Mark,
     config: Config,
-) -> impl RepeatedJsPass + VisitMut + 'static {
-    as_folder(SimplifyExpr {
+) -> impl Repeated + Pass + CompilerPass + VisitMut + 'static {
+    visit_mut_pass(SimplifyExpr {
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
@@ -83,7 +82,7 @@ struct SimplifyExpr {
 }
 
 impl CompilerPass for SimplifyExpr {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("simplify-expr")
     }
 }

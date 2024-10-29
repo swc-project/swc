@@ -45,7 +45,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -261,7 +261,7 @@ fn run(
             output.visit_mut_with(&mut hygiene())
         }
 
-        let output = output.fold_with(&mut fixer(None));
+        let output = output.apply(&mut fixer(None));
 
         let end = Instant::now();
         tracing::info!(
@@ -539,7 +539,7 @@ fn fixture(input: PathBuf) {
             let expected = parser.parse_program().map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })?;
-            let mut expected = expected.fold_with(&mut fixer(None));
+            let mut expected = expected.apply(&mut fixer(None));
             expected = drop_span(expected);
 
             match &mut expected {
@@ -595,7 +595,7 @@ fn fixture(input: PathBuf) {
                             err.into_diagnostic(&handler).emit();
                         })
                         .ok()?;
-                    let mut expected = expected.fold_with(&mut fixer(None));
+                    let mut expected = expected.apply(fixer(None));
                     expected = drop_span(expected);
                     match &mut expected {
                         Program::Module(m) => {

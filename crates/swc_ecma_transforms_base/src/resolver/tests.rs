@@ -48,7 +48,7 @@ fn run_test_with_config<F, V>(
     config: impl FnOnce() -> crate::hygiene::Config,
 ) where
     F: FnOnce() -> V,
-    V: Fold,
+    V: Pass,
 {
     crate::tests::test_transform(syntax, |_| tr(), src, to, true, config);
 }

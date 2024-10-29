@@ -1,7 +1,7 @@
 use swc_common::pass::Repeat;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{const_propagation::constant_propagation, dce};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::VisitMutWith;
 
 use crate::{Bundler, Load, Resolve};
 
@@ -17,10 +17,10 @@ where
     pub(super) fn optimize(&self, mut node: Module) -> Module {
         self.run(|| {
             if !self.config.disable_inliner {
-                node = node.fold_with(&mut constant_propagation())
+                node.visit_mut_with(&mut constant_propagation())
             }
             if !self.config.disable_dce {
-                node = node.fold_with(&mut Repeat::new(dce::dce(
+                node.visit_mut_with(&mut Repeat::new(dce::dce(
                     dce::Config {
                         // TODO(kdy1): Apply mark to wrapped esms and use it at here.
                         module_mark: None,

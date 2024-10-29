@@ -184,7 +184,7 @@ fn do_work(
         let is_mangler_enabled = min_opts.mangle.is_some();
 
         let module = {
-            let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+            let module = module.apply(resolver(unresolved_mark, top_level_mark, false));
 
             let mut module = swc_core::ecma::minifier::optimize(
                 module,

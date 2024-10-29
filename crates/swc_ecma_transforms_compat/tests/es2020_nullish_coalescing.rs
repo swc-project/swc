@@ -1,9 +1,9 @@
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2020::nullish_coalescing::{nullish_coalescing, Config};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
-use swc_ecma_visit::Fold;
 
-fn tr(c: Config) -> impl Fold {
+fn tr(c: Config) -> impl Pass {
     nullish_coalescing(c)
 }
 

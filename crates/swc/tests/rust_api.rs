@@ -5,8 +5,7 @@ use swc::{
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_transforms::pass::noop;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 struct PanicOnVisit;
 
@@ -49,8 +48,8 @@ fn test_visit_mut() {
                 ..Default::default()
             },
             SingleThreadedComments::default(),
-            |_| as_folder(PanicOnVisit),
-            |_| noop(),
+            |_| visit_mut_pass(PanicOnVisit),
+            |_| noop_pass(),
         );
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
@@ -100,9 +99,9 @@ fn shopify_1_check_filename() {
             SingleThreadedComments::default(),
             |_| {
                 // Ensure comment API
-                noop()
+                noop_pass()
             },
-            |_| noop(),
+            |_| noop_pass(),
         );
 
         if res.is_err() {
@@ -184,8 +183,8 @@ fn shopify_2_same_opt() {
             &handler,
             &opts,
             SingleThreadedComments::default(),
-            |_| noop(),
-            |_| noop(),
+            |_| noop_pass(),
+            |_| noop_pass(),
         );
 
         if res.is_err() {
@@ -252,8 +251,8 @@ fn shopify_3_reduce_defaults() {
             &handler,
             &opts,
             SingleThreadedComments::default(),
-            |_| noop(),
-            |_| noop(),
+            |_| noop_pass(),
+            |_| noop_pass(),
         );
 
         if res.is_err() {
@@ -315,8 +314,8 @@ fn shopify_4_reduce_more() {
             &handler,
             &opts,
             SingleThreadedComments::default(),
-            |_| noop(),
-            |_| noop(),
+            |_| noop_pass(),
+            |_| noop_pass(),
         );
 
         if res.is_err() {

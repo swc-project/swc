@@ -9,7 +9,8 @@ pub use preset_env_base::{query::Targets, version::Version, BrowserData, Version
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    chain, collections::AHashSet, comments::Comments, FromVariant, Mark, SyntaxContext, DUMMY_SP,
+    collections::AHashSet, comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
@@ -21,11 +22,10 @@ use swc_ecma_transforms::{
         regexp::{self, regexp},
     },
     feature::FeatureFlag,
-    pass::{noop, Optional},
     Assumptions,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
-use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
 
 pub use self::transform_data::Feature;
 
@@ -42,7 +42,7 @@ pub fn preset_env<C>(
     c: Config,
     assumptions: Assumptions,
     feature_set: &mut FeatureFlag,
-) -> impl Fold
+) -> impl Pass
 where
     C: Comments + Clone,
 {
@@ -53,7 +53,7 @@ where
     let (include, included_modules) = FeatureOrModule::split(c.include);
     let (exclude, excluded_modules) = FeatureOrModule::split(c.exclude);
 
-    let pass = noop();
+    let pass = noop_pass();
 
     macro_rules! should_enable {
         ($feature:ident, $default:expr) => {{
@@ -82,16 +82,16 @@ where
             if c.debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }
-            chain!($prev, Optional::new($pass, enable))
+            ($prev, Optional::new($pass, enable))
         }};
     }
 
-    let pass = chain!(
+    let pass = (
         pass,
         Optional::new(
             class_fields_use_set(assumptions.pure_getters),
-            assumptions.set_public_class_fields
-        )
+            assumptions.set_public_class_fields,
+        ),
     );
 
     let pass = {
@@ -108,7 +108,7 @@ where
             || enable_unicode_property_regex
             || enable_unicode_regex;
 
-        chain!(
+        (
             pass,
             Optional::new(
                 regexp(regexp::Config {
@@ -123,8 +123,8 @@ where
                     unicode_regex: enable_unicode_regex,
                     unicode_sets_regex: enable_unicode_sets_regex,
                 }),
-                enable
-            )
+                enable,
+            ),
         )
     };
 
@@ -338,22 +338,22 @@ where
         println!("Targets: {:?}", targets);
     }
 
-    chain!(
+    (
         pass,
-        as_folder(Polyfills {
+        visit_mut_pass(Polyfills {
             mode: c.mode,
             regenerator: should_enable!(Regenerator, true),
             corejs: c.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
-                patch: 0
+                patch: 0,
             }),
             shipped_proposals: c.shipped_proposals,
             targets,
             includes: included_modules,
             excludes: excluded_modules,
             unresolved_mark,
-        })
+        }),
     )
 }
 

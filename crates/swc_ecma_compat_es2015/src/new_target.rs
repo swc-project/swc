@@ -5,12 +5,12 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
-pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
-    as_folder(NewTarget {
+pub fn new_target() -> impl Pass {
+    visit_mut_pass(NewTarget {
         ctx: Ctx::Constructor,
     })
 }
@@ -138,7 +138,7 @@ impl VisitMut for NewTarget {
 }
 
 impl CompilerPass for NewTarget {
-    fn name() -> Cow<'static, str> {
+    fn name(&self) -> Cow<'static, str> {
         Cow::Borrowed("new-target")
     }
 }

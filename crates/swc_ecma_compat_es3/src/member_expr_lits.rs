@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::{standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
 /// babel: `transform-member-expression-literals`
@@ -20,8 +20,8 @@ use swc_trace_macro::swc_trace;
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
-pub fn member_expression_literals() -> impl Fold {
-    MemberExprLit
+pub fn member_expression_literals() -> impl Pass {
+    fold_pass(MemberExprLit)
 }
 #[derive(Default, Clone, Copy)]
 struct MemberExprLit;
@@ -31,7 +31,7 @@ impl Fold for MemberExprLit {
     standard_only_fold!();
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let e = e.fold_children_with(self);
+        let e: MemberExpr = e.fold_children_with(self);
 
         if let MemberProp::Ident(i) = e.prop {
             if i.sym.is_reserved() || i.sym.is_reserved_in_strict_mode(true)
@@ -71,7 +71,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         basic,
         r#"obj["foo"] = "isValid";
 
@@ -82,14 +82,14 @@ obj["var"] = "isKeyword";"#,
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         issue_206,
         "const number = foo[bar1][baz1]"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| MemberExprLit,
+        |_| fold_pass(MemberExprLit),
         issue_211,
         "_query[idx]=$this.attr('data-ref');"
     );

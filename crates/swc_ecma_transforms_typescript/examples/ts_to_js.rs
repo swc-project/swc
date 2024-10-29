@@ -14,7 +14,6 @@ use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
-use swc_ecma_visit::FoldWith;
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -65,16 +64,16 @@ fn main() {
         // as it might produce runtime declarations.
 
         // Conduct identifier scope analysis
-        let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, true));
+        let module = module.apply(resolver(unresolved_mark, top_level_mark, true));
 
         // Remove typescript types
-        let module = module.fold_with(&mut strip(unresolved_mark, top_level_mark));
+        let module = module.apply(strip(unresolved_mark, top_level_mark));
 
         // Fix up any identifiers with the same name, but different contexts
-        let module = module.fold_with(&mut hygiene());
+        let module = module.apply(hygiene());
 
         // Ensure that we have enough parenthesis.
-        let program = module.fold_with(&mut fixer(Some(&comments)));
+        let program = module.apply(fixer(Some(&comments)));
 
         println!("{}", to_code_default(cm, Some(&comments), &program));
     })

@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-exponentiation-operator`
@@ -25,8 +25,8 @@ use swc_trace_macro::swc_trace;
 ///
 /// x = Math.pow(x, 3);
 /// ```
-pub fn exponentiation() -> impl Fold + VisitMut {
-    as_folder(Exponentiation::default())
+pub fn exponentiation() -> impl Pass {
+    visit_mut_pass(Exponentiation::default())
 }
 
 #[derive(Default)]

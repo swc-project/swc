@@ -1,9 +1,9 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, FileName, Mark};
+use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
 use swc_ecma_transforms::helpers::{Helpers, HELPERS};
-use swc_ecma_visit::FoldWith;
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {
@@ -28,7 +28,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
                 &mut Default::default(),
             );
 
-            b.iter(|| black_box(module.clone().fold_with(&mut folder)));
+            b.iter(|| black_box(Program::Module(module.clone()).apply(&mut folder)));
             Ok(())
         })
     });

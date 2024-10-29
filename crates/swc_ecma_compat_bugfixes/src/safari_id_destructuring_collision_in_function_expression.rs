@@ -4,11 +4,11 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
-    as_folder(SafariIdDestructuringCollisionInFunctionExpression::default())
+pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
+    visit_mut_pass(SafariIdDestructuringCollisionInFunctionExpression::default())
 }
 
 #[derive(Default, Clone)]
@@ -103,17 +103,18 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{chain, Mark};
+    use swc_common::Mark;
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::{test, HygieneTester};
+    use swc_ecma_visit::fold_pass;
 
     use super::*;
 
-    fn tr() -> impl Fold {
-        chain!(
+    fn tr() -> impl Pass {
+        (
             resolver(Mark::new(), Mark::new(), false),
-            safari_id_destructuring_collision_in_function_expression()
+            safari_id_destructuring_collision_in_function_expression(),
         )
     }
 
@@ -166,7 +167,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| chain!(tr(), HygieneTester),
+        |_| (tr(), fold_pass(HygieneTester)),
         issue_4488_1,
         "
         export default function _type_of() {

@@ -5,7 +5,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::chain;
 use swc_ecma_codegen::{Config, Emitter};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
@@ -14,23 +13,22 @@ use swc_ecma_transforms_compat::{
     es3::property_literals,
 };
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
-use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
 use super::*;
 use crate::{display_name, pure_annotations, react};
 
-fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
+fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
     let unresolved_mark = Mark::new();
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
             options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
         classes(Default::default()),
@@ -61,7 +59,7 @@ fn true_by_default() -> bool {
     true
 }
 
-fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -71,7 +69,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
@@ -81,11 +79,11 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
             unresolved_mark,
         ),
         display_name(),
-        pure_annotations(Some(t.comments.clone()))
+        pure_annotations(Some(t.comments.clone())),
     )
 }
 
-fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -95,14 +93,14 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
         react(
             t.cm.clone(),
             Some(t.comments.clone()),
             options.options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
     )
@@ -413,7 +411,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| chain!(
+    |t| (
         tr(t, Default::default(), Mark::fresh(Mark::root())),
         property_literals(),
     ),
@@ -986,15 +984,15 @@ test!(
         let top_level_mark = Mark::fresh(Mark::root());
         let unresolved_mark = Mark::fresh(Mark::root());
 
-        chain!(
+        (
             classes(Default::default()),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
                 top_level_mark,
-                unresolved_mark
-            )
+                unresolved_mark,
+            ),
         )
     },
     regression_2775,
@@ -1028,15 +1026,15 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        chain!(
+        (
             resolver(unresolved_mark, top_level_mark, false),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
                 top_level_mark,
-                unresolved_mark
-            )
+                unresolved_mark,
+            ),
         )
     },
     issue_4956,
@@ -1126,7 +1124,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         let top_level_mark = Mark::new();
         let unresolved_mark = Mark::new();
 
-        let script = script.fold_with(&mut chain!(
+        let script = Program::Script(script).apply((
             resolver(Mark::new(), top_level_mark, false),
             react(
                 tester.cm.clone(),
@@ -1136,7 +1134,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
                 unresolved_mark,
             ),
             hygiene::hygiene(),
-            fixer(Some(&tester.comments))
+            fixer(Some(&tester.comments)),
         ));
 
         let mut buf = Vec::new();
@@ -1156,7 +1154,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_script(&script).unwrap();
+        emitter.emit_program(&script).unwrap();
 
         let s = String::from_utf8_lossy(&buf).to_string();
         assert!(NormalizedOutput::new_raw(s).compare_to_file(output).is_ok());

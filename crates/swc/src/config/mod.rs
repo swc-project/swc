@@ -7,7 +7,6 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
-use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -17,7 +16,6 @@ use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
-    chain,
     collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
@@ -28,7 +26,7 @@ use swc_config::{
     config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
     merge::Merge,
 };
-use swc_ecma_ast::{EsVersion, Expr, Program};
+use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
@@ -53,7 +51,6 @@ use swc_ecma_transforms::{
         EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
-    pass::{noop, Optional},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
         export_default_from, import_assertions,
@@ -70,7 +67,8 @@ use swc_ecma_transforms_optimization::{
     GlobalExprMap,
 };
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::{Fold, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
+use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
 use crate::{
@@ -231,9 +229,9 @@ impl Options {
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
-    ) -> Result<BuiltInput<Box<dyn 'a + Fold>>, Error>
+    ) -> Result<BuiltInput<Box<dyn 'a + Pass>>, Error>
     where
-        P: 'a + swc_ecma_visit::Fold,
+        P: 'a + Pass,
     {
         let mut cfg = self.config.clone();
 
@@ -463,11 +461,11 @@ impl Options {
         };
 
         let json_parse_pass = {
-            if let Some(ref cfg) = optimizer.as_ref().and_then(|v| v.jsonify) {
-                Either::Left(json_parse(cfg.min_cost))
-            } else {
-                Either::Right(noop())
-            }
+            optimizer
+                .as_ref()
+                .and_then(|v| v.jsonify)
+                .as_ref()
+                .map(|cfg| json_parse(cfg.min_cost))
         };
 
         let simplifier_pass = {
@@ -475,12 +473,12 @@ impl Options {
                 match opts {
                     SimplifyOption::Bool(allow_simplify) => {
                         if *allow_simplify {
-                            Either::Left(simplifier(top_level_mark, Default::default()))
+                            Some(simplifier(top_level_mark, Default::default()))
                         } else {
-                            Either::Right(noop())
+                            None
                         }
                     }
-                    SimplifyOption::Json(cfg) => Either::Left(simplifier(
+                    SimplifyOption::Json(cfg) => Some(simplifier(
                         top_level_mark,
                         SimplifyConfig {
                             dce: DceConfig {
@@ -493,27 +491,25 @@ impl Options {
                     )),
                 }
             } else {
-                Either::Right(noop())
+                None
             }
         };
 
         let optimization = {
-            if let Some(opts) = optimizer.and_then(|o| o.globals) {
-                Either::Left(opts.build(cm, handler))
-            } else {
-                Either::Right(noop())
-            }
+            optimizer
+                .and_then(|o| o.globals)
+                .map(|opts| opts.build(cm, handler))
         };
 
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
-        let pass = chain!(
+        let pass = (
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
             simplifier_pass,
-            json_parse_pass
+            json_parse_pass,
         );
 
         let import_export_assign_config = match cfg.module {
@@ -582,7 +578,7 @@ impl Options {
         let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
-        let plugin_transforms: Box<dyn Fold> = {
+        let plugin_transforms: Box<dyn Pass> = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
@@ -668,25 +664,25 @@ impl Options {
         };
 
         #[cfg(not(feature = "plugin"))]
-        let plugin_transforms: Box<dyn Fold> = {
+        let plugin_transforms: Box<dyn Pass> = {
             if experimental.plugins.is_some() {
                 handler.warn(
                     "Plugin is not supported with current @swc/core. Plugin transform will be \
                      skipped.",
                 );
             }
-            Box::new(noop())
+            Box::new(noop_pass())
         };
 
         let mut plugin_transforms = Some(plugin_transforms);
 
-        let pass: Box<dyn Fold> = if experimental
+        let pass: Box<dyn Pass> = if experimental
             .disable_builtin_transforms_for_internal_testing
             .into_bool()
         {
             plugin_transforms.unwrap()
         } else {
-            let decorator_pass: Box<dyn Fold> =
+            let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
                         legacy: transform.legacy_decorator.into_bool(),
@@ -699,80 +695,86 @@ impl Options {
                     DecoratorVersion::V202311 => todo!("2023-11 decorator"),
                 };
 
-            Box::new(chain!(
-                if experimental.run_plugin_first.into_bool() {
-                    option_pass(plugin_transforms.take())
-                } else {
-                    Box::new(noop())
-                },
-                Optional::new(
-                    lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                        program: &program,
-                        lint_config: &lints,
-                        top_level_ctxt,
-                        unresolved_ctxt,
-                        es_version,
-                        source_map: cm.clone(),
-                    })),
-                    !disable_all_lints
-                ),
-                // Decorators may use type information
-                Optional::new(decorator_pass, syntax.decorators()),
-                Optional::new(
-                    explicit_resource_management(),
-                    syntax.explicit_resource_management()
+            Box::new((
+                (
+                    if experimental.run_plugin_first.into_bool() {
+                        plugin_transforms.take()
+                    } else {
+                        None
+                    },
+                    Optional::new(
+                        lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                            program: &program,
+                            lint_config: &lints,
+                            top_level_ctxt,
+                            unresolved_ctxt,
+                            es_version,
+                            source_map: cm.clone(),
+                        })),
+                        !disable_all_lints,
+                    ),
+                    // Decorators may use type information
+                    Optional::new(decorator_pass, syntax.decorators()),
+                    Optional::new(
+                        explicit_resource_management(),
+                        syntax.explicit_resource_management(),
+                    ),
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
-                Optional::new(import_assertions(), !keep_import_attributes),
-                Optional::new(
-                    typescript::tsx::<Option<&dyn Comments>>(
-                        cm.clone(),
-                        typescript::Config {
-                            import_export_assign_config,
-                            verbatim_module_syntax,
-                            ..Default::default()
-                        },
-                        typescript::TsxConfig {
-                            pragma: Some(
-                                transform
-                                    .react
-                                    .pragma
-                                    .clone()
-                                    .unwrap_or_else(default_pragma)
-                            ),
-                            pragma_frag: Some(
-                                transform
-                                    .react
-                                    .pragma_frag
-                                    .clone()
-                                    .unwrap_or_else(default_pragma_frag)
-                            ),
-                        },
-                        comments.map(|v| v as _),
-                        unresolved_mark,
-                        top_level_mark
+                (
+                    Optional::new(import_assertions(), !keep_import_attributes),
+                    Optional::new(
+                        typescript::tsx::<Option<&dyn Comments>>(
+                            cm.clone(),
+                            typescript::Config {
+                                import_export_assign_config,
+                                verbatim_module_syntax,
+                                ..Default::default()
+                            },
+                            typescript::TsxConfig {
+                                pragma: Some(
+                                    transform
+                                        .react
+                                        .pragma
+                                        .clone()
+                                        .unwrap_or_else(default_pragma),
+                                ),
+                                pragma_frag: Some(
+                                    transform
+                                        .react
+                                        .pragma_frag
+                                        .clone()
+                                        .unwrap_or_else(default_pragma_frag),
+                                ),
+                            },
+                            comments.map(|v| v as _),
+                            unresolved_mark,
+                            top_level_mark,
+                        ),
+                        syntax.typescript(),
                     ),
-                    syntax.typescript()
                 ),
-                option_pass(plugin_transforms.take()),
-                custom_before_pass(&program),
-                // handle jsx
-                Optional::new(
-                    react::react::<&dyn Comments>(
-                        cm.clone(),
-                        comments.map(|v| v as _),
-                        transform.react,
-                        top_level_mark,
-                        unresolved_mark
+                (
+                    plugin_transforms.take(),
+                    custom_before_pass(&program),
+                    // handle jsx
+                    Optional::new(
+                        react::react::<&dyn Comments>(
+                            cm.clone(),
+                            comments.map(|v| v as _),
+                            transform.react,
+                            top_level_mark,
+                            unresolved_mark,
+                        ),
+                        syntax.jsx(),
                     ),
-                    syntax.jsx()
-                ),
-                pass,
-                Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
-                Optional::new(
-                    dropped_comments_preserver(comments.cloned()),
-                    preserve_all_comments
+                    pass,
+                    Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
+                    Optional::new(
+                        dropped_comments_preserver(comments.cloned()),
+                        preserve_all_comments,
+                    ),
                 ),
             ))
         };
@@ -1081,7 +1083,7 @@ impl Config {
 
 /// One `BuiltConfig` per a directory with swcrc
 #[non_exhaustive]
-pub struct BuiltInput<P: swc_ecma_visit::Fold> {
+pub struct BuiltInput<P: Pass> {
     pub program: Program,
     pub pass: P,
     pub syntax: Syntax,
@@ -1113,11 +1115,11 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
 impl<P> BuiltInput<P>
 where
-    P: swc_ecma_visit::Fold,
+    P: Pass,
 {
     pub fn with_pass<N>(self, map: impl FnOnce(P) -> N) -> BuiltInput<N>
     where
-        N: swc_ecma_visit::Fold,
+        N: Pass,
     {
         BuiltInput {
             program: self.program,
@@ -1318,7 +1320,7 @@ impl ModuleConfig {
         unresolved_mark: Mark,
         available_features: FeatureFlag,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-    ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
+    ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
         } else {
@@ -1328,7 +1330,7 @@ impl ModuleConfig {
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop()),
+                Resolver::Default => Box::new(noop_pass()),
                 Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
@@ -1540,7 +1542,7 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Fold {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
         type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
@@ -1760,11 +1762,4 @@ fn build_resolver(
     CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
     r
-}
-
-fn option_pass(pass: Option<Box<dyn Fold>>) -> Box<dyn Fold> {
-    match pass {
-        None => Box::new(noop()),
-        Some(pass) => pass,
-    }
 }

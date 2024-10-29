@@ -3,8 +3,8 @@
 #![allow(clippy::arc_with_non_send_sync)]
 #![allow(rustc::untranslatable_diagnostic_trivial)]
 
-use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_visit::{Fold, VisitMut};
+use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
+use swc_ecma_ast::Pass;
 
 pub use self::{
     display_name::display_name,
@@ -41,7 +41,7 @@ pub fn react<C>(
     mut options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Fold + VisitMut
+) -> impl Pass
 where
     C: Comments + Clone,
 {
@@ -50,24 +50,24 @@ where
 
     let refresh_options = options.refresh.take();
 
-    chain!(
+    (
         jsx_src(development, cm.clone()),
         jsx_self(development),
         refresh(
             development,
-            refresh_options,
+            refresh_options.clone(),
             cm.clone(),
             comments.clone(),
-            top_level_mark
+            top_level_mark,
         ),
         jsx(
-            cm,
+            cm.clone(),
             comments.clone(),
             options,
             top_level_mark,
-            unresolved_mark
+            unresolved_mark,
         ),
         display_name(),
-        pure_annotations(comments),
+        pure_annotations(comments.clone()),
     )
 }

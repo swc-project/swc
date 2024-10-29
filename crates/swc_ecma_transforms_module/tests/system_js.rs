@@ -2,23 +2,23 @@
 
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::Mark;
+use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::system_js::{system_js, Config};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig, Tester};
-use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
-fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
+fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
-    chain!(
+    (
         resolver(unresolved_mark, top_level_mark, false),
-        system_js(Default::default(), unresolved_mark, config)
+        system_js(Default::default(), unresolved_mark, config),
     )
 }
 
