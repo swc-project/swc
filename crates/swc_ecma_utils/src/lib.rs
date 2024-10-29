@@ -434,6 +434,8 @@ pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
 }
 
 pub trait StmtExt {
+    fn as_stmt(&self) -> &Stmt;
+
     /// Extracts hoisted variables
     fn extract_var_ids(&self) -> Vec<Ident>;
 
@@ -460,9 +462,69 @@ pub trait StmtExt {
 
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool;
+
+    fn may_have_side_effects(&self, ctx: &ExprCtx) -> bool {
+        match self.as_stmt() {
+            Stmt::Block(block_stmt) => block_stmt
+                .stmts
+                .iter()
+                .any(|stmt| stmt.may_have_side_effects(ctx)),
+            Stmt::Empty(_) => false,
+            Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
+            Stmt::If(if_stmt) => {
+                if_stmt.test.may_have_side_effects(ctx)
+                    || if_stmt.cons.may_have_side_effects(ctx)
+                    || if_stmt
+                        .alt
+                        .as_ref()
+                        .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
+            }
+            Stmt::Switch(switch_stmt) => {
+                switch_stmt.discriminant.may_have_side_effects(ctx)
+                    || switch_stmt.cases.iter().any(|case| {
+                        case.test
+                            .as_ref()
+                            .map_or(false, |expr| expr.may_have_side_effects(ctx))
+                            || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
+                    })
+            }
+            Stmt::Try(try_stmt) => {
+                try_stmt
+                    .block
+                    .stmts
+                    .iter()
+                    .any(|stmt| stmt.may_have_side_effects(ctx))
+                    || try_stmt.handler.as_ref().map_or(false, |handler| {
+                        handler
+                            .body
+                            .stmts
+                            .iter()
+                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                    })
+                    || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
+                        finalizer
+                            .stmts
+                            .iter()
+                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                    })
+            }
+            Stmt::Decl(decl) => match decl {
+                Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
+                Decl::Fn(_) => !ctx.in_strict,
+                Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                _ => false,
+            },
+            Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
+            _ => true,
+        }
+    }
 }
 
 impl StmtExt for Stmt {
+    fn as_stmt(&self) -> &Stmt {
+        self
+    }
+
     fn extract_var_ids(&self) -> Vec<Ident> {
         extract_var_ids(self)
     }
@@ -470,7 +532,7 @@ impl StmtExt for Stmt {
     fn terminates(&self) -> bool {
         match self {
             Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
-            Stmt::Block(block) => block.stmts.terminates(),
+            Stmt::Block(block) => block.stmts.iter().rev().any(|s| s.terminates()),
             Stmt::If(IfStmt {
                 cons,
                 alt: Some(alt),
@@ -482,22 +544,16 @@ impl StmtExt for Stmt {
 }
 
 impl StmtExt for Box<Stmt> {
+    fn as_stmt(&self) -> &Stmt {
+        self
+    }
+
     fn extract_var_ids(&self) -> Vec<Ident> {
         extract_var_ids(&**self)
     }
 
     fn terminates(&self) -> bool {
         (**self).terminates()
-    }
-}
-
-impl StmtExt for Vec<Stmt> {
-    fn extract_var_ids(&self) -> Vec<Ident> {
-        extract_var_ids(self)
-    }
-
-    fn terminates(&self) -> bool {
-        self.iter().rev().any(|s| s.terminates())
     }
 }
 
@@ -541,7 +597,7 @@ impl Visit for Hoister {
     fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 
 pub struct ExprCtx {
     /// This [SyntaxContext] should be applied only to unresolved references.
@@ -553,6 +609,10 @@ pub struct ExprCtx {
 
     /// True for argument of `typeof`.
     pub is_unresolved_ref_safe: bool,
+
+    /// True if we are in the strict mode. This will be set to `true` for
+    /// statements **after** `'use strict'`
+    pub in_strict: bool,
 }
 
 /// Extension methods for [Expr].
@@ -1364,6 +1424,7 @@ pub trait ExprExt {
             // Function expression does not have any side effect if it's not used.
             Expr::Fn(..) | Expr::Arrow(..) => false,
 
+            // It's annoying to pass in_strict
             Expr::Class(c) => class_has_side_effect(ctx, &c.class),
             Expr::Array(ArrayLit { elems, .. }) => elems
                 .iter()
@@ -1567,7 +1628,11 @@ pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
                 }
             }
             ClassMember::StaticBlock(s) => {
-                if !s.body.stmts.is_empty() {
+                if s.body
+                    .stmts
+                    .iter()
+                    .any(|stmt| stmt.may_have_side_effects(expr_ctx))
+                {
                     return true;
                 }
             }
@@ -1577,6 +1642,7 @@ pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
 
     false
 }
+
 fn and(lt: Value<Type>, rt: Value<Type>) -> Value<Type> {
     if lt == rt {
         return lt;

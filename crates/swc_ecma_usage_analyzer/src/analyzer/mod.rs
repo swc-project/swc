@@ -35,6 +35,7 @@ where
             unresolved_ctxt: SyntaxContext::empty()
                 .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_default()),
             is_unresolved_ref_safe: false,
+            in_strict: false,
         },
         used_recursively: AHashMap::default(),
     };
@@ -1188,7 +1189,7 @@ where
             } else {
                 self.with_ctx(ctx).visit_in_cond(case);
             }
-            fallthrough = !case.cons.terminates()
+            fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
         }
     }
 

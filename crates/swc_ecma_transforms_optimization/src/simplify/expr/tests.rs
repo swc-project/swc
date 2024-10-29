@@ -22,6 +22,7 @@ fn fold(src: &str, expected: &str) {
                         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
                         // This is hack
                         is_unresolved_ref_safe: true,
+                        in_strict: false,
                     },
                     config: super::Config {},
                     changed: false,

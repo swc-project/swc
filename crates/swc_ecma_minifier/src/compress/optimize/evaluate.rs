@@ -163,7 +163,7 @@ impl Optimizer<'_> {
         //
 
         for arg in &*args {
-            if arg.spread.is_some() || arg.expr.may_have_side_effects(&self.expr_ctx) {
+            if arg.spread.is_some() || arg.expr.may_have_side_effects(&self.ctx.expr_ctx) {
                 return;
             }
         }
@@ -233,7 +233,7 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Known(char_code) = args[0].expr.as_pure_number(&self.expr_ctx) {
+                        if let Known(char_code) = args[0].expr.as_pure_number(&self.ctx.expr_ctx) {
                             let v = char_code.floor() as u32;
 
                             if let Some(v) = char::from_u32(v) {
@@ -341,7 +341,7 @@ impl Optimizer<'_> {
         }
 
         if let Expr::Call(..) = e {
-            if let Some(value) = eval_as_number(&self.expr_ctx, e) {
+            if let Some(value) = eval_as_number(&self.ctx.expr_ctx, e) {
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
@@ -367,8 +367,8 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("**"), .. }) => {
-                let l = bin.left.as_pure_number(&self.expr_ctx);
-                let r = bin.right.as_pure_number(&self.expr_ctx);
+                let l = bin.left.as_pure_number(&self.ctx.expr_ctx);
+                let r = bin.right.as_pure_number(&self.ctx.expr_ctx);
 
                 if let Known(l) = l {
                     if let Known(r) = r {
@@ -395,9 +395,9 @@ impl Optimizer<'_> {
             }
 
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
-                let ln = bin.left.as_pure_number(&self.expr_ctx);
+                let ln = bin.left.as_pure_number(&self.ctx.expr_ctx);
 
-                let rn = bin.right.as_pure_number(&self.expr_ctx);
+                let rn = bin.right.as_pure_number(&self.ctx.expr_ctx);
                 if let (Known(ln), Known(rn)) = (ln, rn) {
                     // Prefer `0/0` over NaN.
                     if ln == 0.0 && rn == 0.0 {
@@ -477,7 +477,7 @@ impl Optimizer<'_> {
             }
             // Remove rhs of lhs if possible.
 
-            let v = left.right.as_pure_bool(&self.expr_ctx);
+            let v = left.right.as_pure_bool(&self.ctx.expr_ctx);
             if let Known(v) = v {
                 // As we used as_pure_bool, we can drop it.
                 if v && e.op == op!("&&") {

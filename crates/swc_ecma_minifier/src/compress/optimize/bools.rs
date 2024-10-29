@@ -21,7 +21,12 @@ impl Optimizer<'_> {
         expr: &mut Expr,
         is_ret_val_ignored: bool,
     ) -> bool {
-        let cost = negate_cost(&self.expr_ctx, expr, is_ret_val_ignored, is_ret_val_ignored);
+        let cost = negate_cost(
+            &self.ctx.expr_ctx,
+            expr,
+            is_ret_val_ignored,
+            is_ret_val_ignored,
+        );
         if cost >= 0 {
             return false;
         }
@@ -72,11 +77,12 @@ impl Optimizer<'_> {
 
         let ctx = Ctx {
             in_bool_ctx: true,
-            ..self.ctx
+            ..self.ctx.clone()
         };
 
-        self.with_ctx(ctx).negate(&mut e.left, false);
-        self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
+        self.with_ctx(ctx.clone()).negate(&mut e.left, false);
+        self.with_ctx(ctx.clone())
+            .negate(&mut e.right, is_ret_val_ignored);
 
         dump_change_detail!("{} => {}", start, dump(&*e, false));
 

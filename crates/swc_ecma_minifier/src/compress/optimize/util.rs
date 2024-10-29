@@ -95,8 +95,7 @@ impl<'b> Optimizer<'b> {
             }
         }
 
-        let orig_ctx = self.ctx;
-        self.ctx = ctx;
+        let orig_ctx = std::mem::replace(&mut self.ctx, ctx);
         WithCtx {
             reducer: self,
             orig_ctx,
@@ -158,7 +157,7 @@ impl DerefMut for WithCtx<'_, '_> {
 
 impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
-        self.reducer.ctx = self.orig_ctx;
+        self.reducer.ctx = self.orig_ctx.clone();
     }
 }
 
