@@ -25,9 +25,11 @@ pub use swc_common::{
 };
 use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 #[doc(hidden)]
+pub use swc_ecma_ast::noop_pass;
+#[doc(hidden)]
 pub use swc_ecma_ast::{EsVersion, Program};
 #[doc(hidden)]
-pub use swc_ecma_transforms::{pass::noop, resolver};
+pub use swc_ecma_transforms::resolver;
 #[doc(hidden)]
 pub use swc_ecma_visit::VisitMutWith;
 #[doc(hidden)]
@@ -293,7 +295,7 @@ macro_rules! build_print {
 #[macro_export]
 macro_rules! build_transform_sync {
   ($(#[$m:meta])*) => {
-    build_transform_sync!($(#[$m])*, |_| $crate::wasm::noop(), |_| $crate::wasm::noop(), Default::default());
+    build_transform_sync!($(#[$m])*, |_| $crate::wasm::noop_pass(), |_| $crate::wasm::noop_pass(), Default::default());
   };
   ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr) => {
     build_transform_sync!($(#[$m])*, $before_pass, $after_pass, Default::default());
