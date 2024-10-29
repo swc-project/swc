@@ -37,7 +37,10 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
             fm,
             &handler,
             EsVersion::Es5,
-            Syntax::Typescript(Default::default()),
+            Syntax::Typescript(swc_ecma_parser::TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
             IsModule::Bool(true),
             Some(&comments),
         )
@@ -152,7 +155,7 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
                 let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
                 let fm = c.cm.new_source_file(
-                    FileName::Real("rxjs/src/internal/Observable.ts".into()).into(),
+                    FileName::Real("rxjs/src/internal/Observable.tsx".into()).into(),
                     SOURCE.to_string(),
                 );
                 let _ = c.process_js_file(fm, &handler, opts).unwrap();
@@ -171,7 +174,10 @@ fn full_group(c: &mut Criterion) {
                         config: Config {
                             jsc: JscConfig {
                                 target: Some($target),
-                                syntax: Some(Syntax::Typescript(Default::default())),
+                                syntax: Some(Syntax::Typescript(swc_ecma_parser::TsSyntax {
+                                    tsx: true,
+                                    ..Default::default()
+                                })),
                                 ..Default::default()
                             },
                             module: None,
@@ -185,7 +191,7 @@ fn full_group(c: &mut Criterion) {
         };
     }
 
-    compat!(es3, EsVersion::Es3);
+    // compat!(es3, EsVersion::Es3);
     compat!(es5, EsVersion::Es5);
     compat!(es2015, EsVersion::Es2015);
     compat!(es2016, EsVersion::Es2016);
