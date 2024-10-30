@@ -14,7 +14,9 @@ use regex::Regex;
 use serde::de::DeserializeOwned;
 use serde_json::from_str;
 use swc::{
-    config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, TransformConfig},
+    config::{
+        Config, JsMinifyOptions, JscConfig, JscExperimental, ModuleConfig, Options, TransformConfig,
+    },
     try_with_handler, Compiler,
 };
 use swc_common::{
@@ -401,6 +403,10 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 ..Default::default()
                             })
                             .into(),
+                            experimental: JscExperimental {
+                                disable_all_lints: false.into(),
+                                ..Default::default()
+                            },
                             ..Default::default()
                         },
                         module: Some(module.into()),
