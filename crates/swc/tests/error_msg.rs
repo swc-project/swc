@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
 use swc::{
-    config::{Config, IsModule, Options},
+    config::{Config, IsModule, JscConfig, JscExperimental, Options},
     try_with_handler, Compiler, HandlerOpts,
 };
 use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap, GLOBALS};
@@ -61,6 +61,13 @@ fn fixture(input: PathBuf) {
                     &Options {
                         config: Config {
                             is_module: Some(IsModule::Unknown),
+                            jsc: JscConfig {
+                                experimental: JscExperimental {
+                                    disable_all_lints: false.into(),
+                                    ..Default::default()
+                                },
+                                ..Default::default()
+                            },
                             ..Default::default()
                         },
                         swcrc: true,
