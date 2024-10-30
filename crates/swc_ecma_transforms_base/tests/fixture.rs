@@ -84,10 +84,12 @@ fn test_resolver(input: PathBuf) {
 }
 
 #[fixture("tests/ts-resolver/**/input.ts")]
+#[fixture("tests/ts-resolver/**/input.tsx")]
 fn test_ts_resolver(input: PathBuf) {
     run(
         Syntax::Typescript(TsSyntax {
             decorators: true,
+            tsx: input.extension().filter(|ext| *ext == "tsx").is_some(),
             ..Default::default()
         }),
         &input,

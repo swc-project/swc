@@ -920,6 +920,28 @@ impl VisitMut for Resolver<'_> {
         f.body.visit_mut_with(self);
     }
 
+    fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
+        if let JSXElementName::Ident(i) = node {
+            if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
+                if cfg!(debug_assertions) && LOG {
+                    debug!("\t -> JSXElementName");
+                }
+
+                let ctxt = i.ctxt.apply_mark(self.config.unresolved_mark);
+
+                if cfg!(debug_assertions) && LOG {
+                    debug!("\t -> {:?}", ctxt);
+                }
+
+                i.ctxt = ctxt;
+
+                return;
+            }
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.ctxt != SyntaxContext::empty() {
             return;
