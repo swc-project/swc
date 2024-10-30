@@ -25,7 +25,7 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
-swc_common = { version = "2.0.0", path = "../swc_common", features = [
+swc_common = { version = "2.0.1", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
@@ -41,7 +41,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "3.0.0", path = "../swc" }
+swc                 = { version = "3.0.1", path = "../swc" }
 swc_ecma_ast        = { version = "2.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "3.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "3.0.0", path = "../swc_ecma_transforms/" }

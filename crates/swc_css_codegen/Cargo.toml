@@ -19,13 +19,13 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
 swc_atoms              = { version = "2.0.0", path = "../swc_atoms" }
-swc_common             = { version = "2.0.0", path = "../swc_common" }
+swc_common             = { version = "2.0.1", path = "../swc_common" }
 swc_css_ast            = { version = "2.0.0", path = "../swc_css_ast" }
 swc_css_codegen_macros = { version = "1.0.0", path = "../swc_css_codegen_macros" }
 swc_css_utils          = { version = "2.0.0", path = "../swc_css_utils" }
 
 [dev-dependencies]
-swc_common = { version = "2.0.0", path = "../swc_common", features = [
+swc_common = { version = "2.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_css_parser = { version = "2.0.0", path = "../swc_css_parser" }

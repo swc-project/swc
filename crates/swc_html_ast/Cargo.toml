@@ -26,4 +26,4 @@ serde = { workspace = true, features = ["derive"], optional = true }
 
 string_enum = { version = "1.0.0", path = "../string_enum/" }
 swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }
-swc_common  = { version = "2.0.0", path = "../swc_common" }
+swc_common  = { version = "2.0.1", path = "../swc_common" }

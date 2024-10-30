@@ -54,7 +54,7 @@ tracing           = { workspace = true }
 
 swc_allocator = { version = "1.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
-swc_common = { version = "2.0.0", path = "../swc_common" }
+swc_common = { version = "2.0.1", path = "../swc_common" }
 swc_config = { version = "1.0.0", path = "../swc_config", features = [
   "sourcemap",
 ] }

@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/generator)** Fix code generation for `break` in nested while ([#9684](https://github.com/swc-project/swc/issues/9684)) ([65872af](https://github.com/swc-project/swc/commit/65872afaf151412be5f14820080325b920901bfb))
+
 ### Features
 
 
@@ -10,8 +16,17 @@
 
 - **(es/parser)** Ability to get script's potential module errors ([#9682](https://github.com/swc-project/swc/issues/9682)) ([2bbd1e8](https://github.com/swc-project/swc/commit/2bbd1e8485ca7c152d408cc34cd51460467171a7))
 
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update cargo (patch) ([#9607](https://github.com/swc-project/swc/issues/9607)) ([3597b0f](https://github.com/swc-project/swc/commit/3597b0f53d060b09b7e878e9c825321f053d189e))
+
 ### Performance
 
+
+
+- **(es)** Cache `current_dir()` system calls ([#9683](https://github.com/swc-project/swc/issues/9683)) ([7aab945](https://github.com/swc-project/swc/commit/7aab945a2199be06e20a35ec0d197fc817a48d9d))
 
 
 - **(visit)** Introduce `Pass` API and adjust visitor APIs for it ([#9680](https://github.com/swc-project/swc/issues/9680)) ([581aafb](https://github.com/swc-project/swc/commit/581aafb4dfbbcf9b834e3b578cad83fec452a062))

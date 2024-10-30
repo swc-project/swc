@@ -3850,7 +3850,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4442,7 +4442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.5.0",

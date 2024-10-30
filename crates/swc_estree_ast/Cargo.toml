@@ -27,4 +27,4 @@ serde_json = { workspace = true }
 
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
 swc_atoms         = { version = "2.0.0", path = "../swc_atoms" }
-swc_common        = { version = "2.0.0", path = "../swc_common" }
+swc_common        = { version = "2.0.1", path = "../swc_common" }

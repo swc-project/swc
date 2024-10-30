@@ -33,8 +33,8 @@ binding_wasm = [
 
 [dependencies]
 # Common deps for the SWC imports
-swc                 = { optional = true, version = "3.0.0", path = "../swc" }
-swc_common          = { optional = true, version = "2.0.0", path = "../swc_common" }
+swc                 = { optional = true, version = "3.0.1", path = "../swc" }
+swc_common          = { optional = true, version = "2.0.1", path = "../swc_common" }
 swc_ecma_ast        = { optional = true, version = "2.0.0", path = "../swc_ecma_ast" }
 swc_ecma_transforms = { optional = true, version = "3.0.0", path = "../swc_ecma_transforms" }
 swc_ecma_visit      = { optional = true, version = "2.0.0", path = "../swc_ecma_visit" }

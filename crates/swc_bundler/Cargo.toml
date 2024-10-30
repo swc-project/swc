@@ -38,7 +38,7 @@ relative-path = { workspace = true }
 tracing       = { workspace = true }
 
 swc_atoms                        = { version = "2.0.0", path = "../swc_atoms" }
-swc_common                       = { version = "2.0.0", path = "../swc_common" }
+swc_common                       = { version = "2.0.1", path = "../swc_common" }
 swc_ecma_ast                     = { version = "2.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { version = "2.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader                  = { version = "2.0.0", path = "../swc_ecma_loader" }
