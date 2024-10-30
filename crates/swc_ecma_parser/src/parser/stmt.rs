@@ -161,10 +161,20 @@ impl<'a, I: Tokens> Parser<I> {
         match cur!(self, true) {
             tok!("await") if include_decl => {
                 if peeked_is!(self, "using") {
+                    let eaten_await = Some(self.input.cur_pos());
                     assert_and_bump!(self, "await");
                     let v = self.parse_using_decl(start, true)?;
                     if let Some(v) = v {
                         return Ok(v.into());
+                    } else {
+                        let expr = self.parse_await_expr(eaten_await)?;
+                        let expr = self
+                            .include_in_expr(true)
+                            .parse_bin_op_recursively(expr, 0)?;
+                        eat!(self, ';');
+
+                        let span = span!(self, start);
+                        return Ok(ExprStmt { span, expr }.into());
                     }
                 }
             }
