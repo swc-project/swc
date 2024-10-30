@@ -638,6 +638,8 @@ export interface JscConfig {
 
         /**
          * Preserve `with` in imports and exports.
+         *
+         * @deprecated Use `keepImportAssertions` instead.
          */
         keepImportAttributes?: boolean;
 
@@ -683,6 +685,11 @@ export interface JscConfig {
          * Disable all lint rules.
          */
         disableAllLints?: boolean;
+
+        /**
+         * Keep import assertions.
+         */
+        keepImportAssertions?: boolean;
     };
 
     baseUrl?: string;
