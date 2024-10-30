@@ -1249,7 +1249,7 @@ pub struct JscExperimental {
     pub emit_isolated_dts: BoolConfig<false>,
 
     #[serde(default)]
-    pub disable_all_lints: BoolConfig<false>,
+    pub disable_all_lints: BoolConfig<true>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
