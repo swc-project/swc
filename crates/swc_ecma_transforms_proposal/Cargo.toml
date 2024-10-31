@@ -26,7 +26,7 @@ swc_atoms                   = { version = "2.0.0", path = "../swc_atoms" }
 swc_common                  = { version = "2.0.1", path = "../swc_common" }
 swc_ecma_ast                = { version = "2.0.0", path = "../swc_ecma_ast" }
 swc_ecma_loader             = { version = "2.0.0", path = "../swc_ecma_loader", optional = true }
-swc_ecma_transforms_base    = { version = "3.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base    = { version = "3.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "3.0.0", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "3.0.0", path = "../swc_ecma_utils" }
@@ -36,7 +36,7 @@ swc_ecma_visit              = { version = "2.0.0", path = "../swc_ecma_visit" }
 serde_json = { workspace = true }
 
 swc_ecma_codegen            = { version = "2.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser             = { version = "3.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "3.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat  = { version = "3.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "3.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "2.0.0", path = "../testing" }

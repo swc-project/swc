@@ -44,7 +44,7 @@ swc_ecma_compat_es2020      = { version = "3.0.0", path = "../swc_ecma_compat_es
 swc_ecma_compat_es2021      = { version = "3.0.0", path = "../swc_ecma_compat_es2021" }
 swc_ecma_compat_es2022      = { version = "3.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3         = { version = "3.0.0", path = "../swc_ecma_compat_es3" }
-swc_ecma_transforms_base    = { version = "3.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base    = { version = "3.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "3.0.0", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "3.0.0", path = "../swc_ecma_utils" }
@@ -54,6 +54,6 @@ swc_trace_macro             = { version = "2.0.0", path = "../swc_trace_macro" }
 [dev-dependencies]
 serde_json = { workspace = true }
 
-swc_ecma_parser             = { version = "3.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "3.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "3.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "2.0.0", path = "../testing" }

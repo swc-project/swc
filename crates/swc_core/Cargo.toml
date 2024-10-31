@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "3.0.1"
+version       = "3.0.2"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -339,7 +339,7 @@ once_cell = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "3.0.0", path = "../binding_macros" }
-swc                              = { optional = true, version = "3.0.1", path = "../swc" }
+swc                              = { optional = true, version = "3.0.2", path = "../swc" }
 swc_atoms                        = { optional = true, version = "2.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "3.0.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "1.0.0", path = "../swc_cached" }
@@ -358,10 +358,10 @@ swc_ecma_codegen                 = { optional = true, version = "2.0.0", path = 
 swc_ecma_lints                   = { optional = true, version = "3.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "2.0.0", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "3.0.0", path = "../swc_ecma_minifier" }
-swc_ecma_parser                  = { optional = true, version = "3.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser                  = { optional = true, version = "3.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "3.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "3.0.0", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms_base         = { optional = true, version = "3.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { optional = true, version = "3.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "3.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module       = { optional = true, version = "3.0.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "3.0.0", path = "../swc_ecma_transforms_optimization" }
