@@ -207,7 +207,7 @@ macro_rules! impl_pass_for_tuple {
             $name: Pass,
             $($name_rest: Pass),*
         {
-            #[inline]
+            #[inline(always)]
             fn process(&mut self, program: &mut Program) {
                 self.$idx.process(program);
 
