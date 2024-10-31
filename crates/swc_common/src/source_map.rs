@@ -319,7 +319,7 @@ impl SourceMap {
                 let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
                 let line = a + 1; // Line numbers start at 1
-                let linebpos = f.lines[a];
+                let linebpos = f.analyze().lines[a];
                 assert!(
                     pos >= linebpos,
                     "{}: bpos = {:?}; linebpos = {:?};",

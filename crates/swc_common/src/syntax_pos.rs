@@ -9,6 +9,7 @@ use std::{
     sync::atomic::AtomicU32,
 };
 
+use once_cell::sync::OnceCell;
 #[cfg(feature = "parking_lot")]
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
@@ -830,7 +831,7 @@ pub struct SourceFile {
     /// A hash of the filename, used for speeding up the incr. comp. hashing.
     pub name_hash: u128,
 
-    pub lazy: SourceFileLazy,
+    lazy: OnceCell<SourceFileAnalysis>,
 }
 
 #[cfg_attr(
@@ -840,7 +841,7 @@ pub struct SourceFile {
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[derive(Clone)]
-pub struct SourceFileLazy {
+pub struct SourceFileAnalysis {
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
     /// Locations of multi-byte characters in the source code
@@ -994,6 +995,18 @@ impl SourceFile {
     #[inline]
     pub fn contains(&self, byte_pos: BytePos) -> bool {
         byte_pos >= self.start_pos && byte_pos <= self.end_pos
+    }
+
+    pub fn analyze(&self) -> &SourceFileAnalysis {
+        self.lazy.get_or_init(|| {
+            let (lines, multibyte_chars, non_narrow_chars) =
+                analyze_source_file::analyze_source_file(&self.src[..], self.start_pos);
+            SourceFileAnalysis {
+                lines,
+                multibyte_chars,
+                non_narrow_chars,
+            }
+        })
     }
 }
 
