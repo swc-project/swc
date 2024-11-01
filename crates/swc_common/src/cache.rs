@@ -20,6 +20,12 @@ impl<T> CacheCell<T> {
     }
 }
 
+impl<T> From<T> for CacheCell<T> {
+    fn from(value: T) -> Self {
+        Self(OnceCell::from(value))
+    }
+}
+
 impl<T> Default for CacheCell<T> {
     fn default() -> Self {
         Self::new()
@@ -30,7 +36,10 @@ impl<T> Default for CacheCell<T> {
 mod rkyv_impl {
     use std::{hint::unreachable_unchecked, ptr};
 
-    use rkyv::{out_field, Archive, Archived, Resolver};
+    use rkyv::{
+        option::ArchivedOption, out_field, Archive, Archived, Deserialize, Fallible, Resolver,
+        Serialize,
+    };
 
     use super::*;
 
@@ -74,6 +83,32 @@ mod rkyv_impl {
                     let (fp, fo) = out_field!(out.1);
                     value.resolve(pos + fp, resolver, fo);
                 }
+            }
+        }
+    }
+
+    impl<T: Serialize<S>, S: Fallible + ?Sized> Serialize<S> for CacheCell<T> {
+        #[inline]
+        fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+            self.0
+                .get()
+                .map(|value| value.serialize(serializer))
+                .transpose()
+        }
+    }
+
+    impl<T: Archive, D: Fallible + ?Sized> Deserialize<CacheCell<T>, D> for ArchivedOption<T::Archived>
+    where
+        T::Archived: Deserialize<T, D>,
+    {
+        #[inline]
+        fn deserialize(&self, deserializer: &mut D) -> Result<CacheCell<T>, D::Error> {
+            match self {
+                ArchivedOption::Some(value) => {
+                    let v = value.deserialize(deserializer)?;
+                    Ok(CacheCell::from(v))
+                }
+                ArchivedOption::None => Ok(CacheCell::new()),
             }
         }
     }
