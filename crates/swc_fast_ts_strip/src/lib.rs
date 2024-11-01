@@ -555,6 +555,34 @@ impl Visit for TsStrip {
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        #[inline(always)]
+        fn is_new_line(c: char) -> bool {
+            matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}')
+        }
+
+        'type_params: {
+            if let Some(tp) = &n.type_params {
+                self.add_replacement(tp.span);
+
+                if !n.is_async {
+                    break 'type_params;
+                }
+
+                let slice = self.get_src_slice(tp.span);
+                if !slice.chars().any(is_new_line) {
+                    break 'type_params;
+                }
+
+                let l_paren = self.get_next_token(tp.span.hi);
+                debug_assert_eq!(l_paren.token, Token::LParen);
+                let l_paren_pos = l_paren.span.lo;
+                let l_lt_pos = tp.span.lo;
+
+                self.add_overwrite(l_paren_pos, b' ');
+                self.add_overwrite(l_lt_pos, b'(');
+            }
+        }
+
         if let Some(ret) = &n.return_type {
             self.add_replacement(ret.span);
 
@@ -565,10 +593,7 @@ impl Visit for TsStrip {
             let span = span(r_paren.span.lo, arrow.span.lo);
 
             let slice = self.get_src_slice(span);
-            if slice
-                .chars()
-                .any(|c| matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}'))
-            {
+            if slice.chars().any(is_new_line) {
                 self.add_replacement(r_paren.span);
 
                 // Instead of moving the arrow mark, we shift the right parenthesis to the next
@@ -597,7 +622,6 @@ impl Visit for TsStrip {
             }
         }
 
-        n.type_params.visit_with(self);
         n.params.visit_with(self);
         n.body.visit_with(self);
     }
