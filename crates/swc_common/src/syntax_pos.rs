@@ -9,7 +9,6 @@ use std::{
     sync::atomic::AtomicU32,
 };
 
-use once_cell::sync::OnceCell;
 #[cfg(feature = "parking_lot")]
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};

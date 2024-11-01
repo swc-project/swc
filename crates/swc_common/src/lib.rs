@@ -34,8 +34,6 @@
 #![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-use std::fmt::Debug;
-
 pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
