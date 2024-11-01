@@ -911,7 +911,7 @@ impl SourceFile {
             start_pos,
             end_pos: SmallPos::from_usize(end_pos),
             name_hash,
-            lazy: OnceCell::new(),
+            lazy: CacheCell::new(),
         }
     }
 
