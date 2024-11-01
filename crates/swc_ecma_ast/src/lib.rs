@@ -358,6 +358,8 @@ pub enum EsVersion {
     Es2020,
     Es2021,
     Es2022,
+    Es2023,
+    Es2024,
     EsNext,
 }
 
@@ -381,6 +383,8 @@ impl<'de> Deserialize<'de> for EsVersion {
             "es2020" => Ok(EsVersion::Es2020),
             "es2021" => Ok(EsVersion::Es2021),
             "es2022" => Ok(EsVersion::Es2022),
+            "es2023" => Ok(EsVersion::Es2023),
+            "es2024" => Ok(EsVersion::Es2024),
             "esnext" => Ok(EsVersion::EsNext),
             _ => Err(D::Error::custom(format!("Unknown ES version: {}", s))),
         }
