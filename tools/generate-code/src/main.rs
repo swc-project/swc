@@ -69,7 +69,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
         let ident = match type_def {
             Item::Struct(data) => &data.ident,
             Item::Enum(data) => &data.ident,
-            _ => return true,
+            _ => return false,
         };
 
         !excludes.contains(&ident.to_string())
