@@ -17,7 +17,7 @@ use url::Url;
 
 use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
+use crate::{cache::CacheCell, rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
 mod analyze_source_file;
 pub mod hygiene;
@@ -831,7 +831,7 @@ pub struct SourceFile {
     /// A hash of the filename, used for speeding up the incr. comp. hashing.
     pub name_hash: u128,
 
-    lazy: OnceCell<SourceFileAnalysis>,
+    lazy: CacheCell<SourceFileAnalysis>,
 }
 
 #[cfg_attr(
