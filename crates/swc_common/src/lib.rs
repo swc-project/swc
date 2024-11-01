@@ -51,14 +51,13 @@ pub use self::{
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,
 };
-#[doc(hidden)]
-pub mod private;
 
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned {
     const TYPE: &'static str;
 }
 
+pub mod cache;
 pub mod collections;
 pub mod comments;
 mod eq;
@@ -68,6 +67,8 @@ pub mod iter;
 pub mod pass;
 pub mod plugin;
 mod pos;
+#[doc(hidden)]
+pub mod private;
 mod rustc_data_structures;
 pub mod serializer;
 pub mod source_map;
