@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_estree_compat"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "3.0.0"
+version       = "4.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -25,27 +25,27 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
-swc_common = { version = "2.0.1", path = "../swc_common", features = [
+swc_common = { version = "3.0.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "2.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "3.0.1", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "3.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "2.0.0", path = "../swc_ecma_visit" }
-swc_estree_ast = { version = "2.0.0", path = "../swc_estree_ast" }
-swc_node_comments = { version = "2.0.0", path = "../swc_node_comments/" }
+swc_ecma_ast = { version = "3.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "4.0.0", path = "../swc_ecma_parser" }
+swc_ecma_utils = { version = "4.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "3.0.0", path = "../swc_ecma_visit" }
+swc_estree_ast = { version = "3.0.0", path = "../swc_estree_ast" }
+swc_node_comments = { version = "3.0.0", path = "../swc_node_comments/" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "3.0.2", path = "../swc" }
-swc_ecma_ast        = { version = "2.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "3.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "3.0.0", path = "../swc_ecma_transforms/" }
-testing             = { version = "2.0.0", path = "../testing" }
+swc                 = { version = "4.0.0", path = "../swc" }
+swc_ecma_ast        = { version = "3.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser     = { version = "4.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "4.0.0", path = "../swc_ecma_transforms/" }
+testing             = { version = "3.0.0", path = "../testing" }
 walkdir             = { workspace = true }
 
 [[bench]]
