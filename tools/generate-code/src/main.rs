@@ -115,7 +115,12 @@ fn test_ecmascript() {
     run_visitor_codegen(
         Path::new("../../crates/swc_ecma_ast"),
         Path::new("../../crates/swc_ecma_visit/src/generated.rs"),
-        &["Align64".into(), "EncodeBigInt".into(), "EsVersion".into()],
+        &[
+            "Align64".into(),
+            "EncodeBigInt".into(),
+            "EsVersion".into(),
+            "FnPass".into(),
+        ],
     )
     .unwrap();
 }
