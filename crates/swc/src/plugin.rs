@@ -55,7 +55,7 @@ impl RustPlugins {
             return Ok(n);
         }
 
-        if cfg!(feature = "disable-tokio-runtime-injection") {
+        if cfg!(feature = "manual-tokio-runtmie") {
             self.apply_inner(n)
         } else {
             let fut = async move { self.apply_inner(n) };

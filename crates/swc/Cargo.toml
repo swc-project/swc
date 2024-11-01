@@ -48,7 +48,7 @@ plugin_transform_host_native = [
   "swc_plugin_runner/plugin_transform_host_native",
 ]
 # Do not inject tokio runtime while running plugin transforms
-disable-tokio-runtime-injection = []
+manual-tokio-runtmie = []
 
 [dependencies]
 anyhow       = { workspace = true }
