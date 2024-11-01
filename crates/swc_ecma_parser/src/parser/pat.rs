@@ -22,11 +22,6 @@ impl<I: Tokens> Parser<I> {
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
             self.parse_binding_ident(disallow_let).map(Some)
-        if is!(self, BindingIdent)
-            || ((self.input.syntax().typescript() || self.input.syntax().flow())
-                && is!(self, "this"))
-        {
-            self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
         }
@@ -266,10 +261,6 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.syntax().flow() && is!(self, ':') {
-            self.consume_flow_type_ann()?;
-        }
-
         let pat = if eat!(self, '=') {
             // `=` cannot follow optional parameter.
             if opt {
@@ -321,9 +312,6 @@ impl<I: Tokens> Parser<I> {
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
-                } else if self.syntax().flow() && is!(self, ':') {
-                    self.consume_flow_type_ann()?;
-                    None
                 } else {
                     None
                 };
@@ -450,10 +438,6 @@ impl<I: Tokens> Parser<I> {
                     let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
                     Some(ty)
-                } else if self.input.syntax().flow() && is!(self, ':') {
-                    self.consume_flow_type_ann()?;
-
-                    None
                 } else {
                     None
                 };

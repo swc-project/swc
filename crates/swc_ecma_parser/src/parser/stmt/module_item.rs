@@ -1,5 +1,3 @@
-use swc_common::util::take::Take;
-
 use super::*;
 
 impl<I: Tokens> Parser<I> {
@@ -87,9 +85,7 @@ impl<I: Tokens> Parser<I> {
             if is!(self, BindingIdent) {
                 let mut local = self.parse_imported_default_binding()?;
 
-                if (self.input.syntax().typescript() || self.input.syntax().flow())
-                    && local.sym == "type"
-                {
+                if self.input.syntax().typescript() && local.sym == "type" {
                     if is_one_of!(self, '*', '{') {
                         type_only = true;
                         break 'import_maybe_ident;
@@ -222,11 +218,6 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as as as } from 'mod'`
                 if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
                     let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
-                if (self.syntax().typescript() || self.syntax().flow())
-                    && orig_name.sym == "type"
-                    && is!(self, IdentName)
-                {
-                    let possibly_orig_name = self.parse_ident_name()?;
                     if possibly_orig_name.sym == "as" {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
@@ -398,13 +389,6 @@ impl<I: Tokens> Parser<I> {
                     decl,
                 }
                 .into());
-            }
-        }
-
-        if self.input.syntax().flow() && is!(self, IdentName) {
-            // TODO: remove clone
-            if let Some(()) = self.consume_flow_export(start)? {
-                return Ok(ModuleDecl::dummy());
             }
         }
 
@@ -748,12 +732,6 @@ impl<I: Tokens> Parser<I> {
                 with,
             }
             .into());
-            return self.parse_reexports(
-                start,
-                type_only,
-                export_default,
-                ns_export_specifier_start,
-            );
         };
 
         Ok(ExportDecl {
@@ -761,166 +739,6 @@ impl<I: Tokens> Parser<I> {
             decl,
         }
         .into())
-    }
-
-    /// ```javascript
-    /// export foo, * as bar, { baz } from "mod"; // *
-    /// export      * as bar, { baz } from "mod"; // *
-    /// export foo,           { baz } from "mod"; // *
-    /// export foo, * as bar          from "mod"; // *
-    /// export foo                    from "mod"; // *
-    /// export      * as bar          from "mod"; //
-    /// export                { baz } from "mod"; //
-    /// export                { baz }           ; //
-    /// export      *                 from "mod"; //
-    /// ```
-    ///
-    /// export default
-    /// export foo
-    pub(crate) fn parse_reexports(
-        &mut self,
-        start: BytePos,
-        type_only: bool,
-        export_default: Option<Ident>,
-        ns_export_specifier_start: BytePos,
-    ) -> PResult<ModuleDecl> {
-        let default = match export_default {
-            Some(default) => Some(default),
-            None => {
-                if self.input.syntax().export_default_from() && is!(self, IdentName) {
-                    Some(self.parse_ident(false, false)?)
-                } else {
-                    None
-                }
-            }
-        };
-
-        if default.is_none() && is!(self, '*') && !peeked_is!(self, "as") {
-            assert_and_bump!(self, '*');
-
-            // improve error message for `export * from foo`
-            let (src, with) = self.parse_from_clause_and_semi()?;
-            return Ok(ModuleDecl::ExportAll(ExportAll {
-                span: span!(self, start),
-                src,
-                type_only,
-                with,
-            }));
-        }
-
-        let mut specifiers = vec![];
-
-        let mut has_default = false;
-        let mut has_ns = false;
-
-        if let Some(default) = default {
-            has_default = true;
-
-            specifiers.push(ExportSpecifier::Default(ExportDefaultSpecifier {
-                exported: default,
-            }))
-        }
-
-        // export foo, * as bar
-        //           ^
-        if !specifiers.is_empty() && is!(self, ',') && peeked_is!(self, '*') {
-            assert_and_bump!(self, ',');
-
-            has_ns = true;
-        }
-        // export     * as bar
-        //            ^
-        else if specifiers.is_empty() && is!(self, '*') {
-            has_ns = true;
-        }
-
-        if has_ns {
-            assert_and_bump!(self, '*');
-            expect!(self, "as");
-            let name = self.parse_module_export_name()?;
-            specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
-                span: span!(self, ns_export_specifier_start),
-                name,
-            }));
-        }
-
-        if has_default || has_ns {
-            if is!(self, "from") {
-                let (src, with) = self.parse_from_clause_and_semi()?;
-                return Ok(ModuleDecl::ExportNamed(NamedExport {
-                    span: span!(self, start),
-                    specifiers,
-                    src: Some(src),
-                    type_only,
-                    with,
-                }));
-            } else if !self.input.syntax().export_default_from() {
-                // emit error
-                expect!(self, "from");
-            }
-
-            expect!(self, ',');
-        }
-
-        expect!(self, '{');
-
-        while !eof!(self) && !is!(self, '}') {
-            let specifier = self.parse_named_export_specifier(type_only)?;
-            specifiers.push(ExportSpecifier::Named(specifier));
-
-            if is!(self, '}') {
-                break;
-            } else {
-                expect!(self, ',');
-            }
-        }
-        expect!(self, '}');
-
-        let opt = if is!(self, "from") {
-            Some(self.parse_from_clause_and_semi()?)
-        } else {
-            for s in &specifiers {
-                match s {
-                    ExportSpecifier::Default(default) => {
-                        self.emit_err(
-                            default.exported.span,
-                            SyntaxError::ExportExpectFrom(default.exported.sym.clone()),
-                        );
-                    }
-                    ExportSpecifier::Namespace(namespace) => {
-                        let export_name = match &namespace.name {
-                            ModuleExportName::Ident(i) => i.sym.clone(),
-                            ModuleExportName::Str(s) => s.value.clone(),
-                        };
-                        self.emit_err(namespace.span, SyntaxError::ExportExpectFrom(export_name));
-                    }
-                    ExportSpecifier::Named(named) => match &named.orig {
-                        ModuleExportName::Ident(id) if id.is_reserved() => {
-                            self.emit_err(id.span, SyntaxError::ExportExpectFrom(id.sym.clone()));
-                        }
-                        ModuleExportName::Str(s) => {
-                            self.emit_err(s.span, SyntaxError::ExportBindingIsString);
-                        }
-                        _ => {}
-                    },
-                }
-            }
-
-            eat!(self, ';');
-
-            None
-        };
-        let (src, with) = match opt {
-            Some(v) => (Some(v.0), v.1),
-            None => (None, None),
-        };
-        return Ok(ModuleDecl::ExportNamed(NamedExport {
-            span: span!(self, start),
-            specifiers,
-            src,
-            type_only,
-            with,
-        }));
     }
 
     fn parse_named_export_specifier(&mut self, type_only: bool) -> PResult<ExportNamedSpecifier> {
