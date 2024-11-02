@@ -180,13 +180,13 @@ where
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
@@ -488,7 +488,7 @@ where
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
@@ -523,7 +523,7 @@ where
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
@@ -532,7 +532,7 @@ where
         use std::mem::take;
 
         #[cfg(feature = "concurrent")]
-        if nodes.len() >= 8 * cpu_count() {
+        if nodes.len() >= 100 * cpu_count() {
             ::swc_common::GLOBALS.with(|globals| {
                 use rayon::prelude::*;
 
@@ -597,7 +597,7 @@ where
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
