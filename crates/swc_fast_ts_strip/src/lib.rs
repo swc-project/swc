@@ -726,7 +726,9 @@ impl Visit for TsStrip {
         //
         // `public in()`
         // `;      in()`
-        if (has_modifier && !n.is_static)
+        if has_modifier
+            && !n.is_static
+            && n.function.decorators.is_empty()
             && (n.key.is_computed()
                 || n.function.is_generator
                 || n.key
@@ -781,6 +783,7 @@ impl Visit for TsStrip {
         // `;       in`
         if !n.is_static
             && has_modifier
+            && n.decorators.is_empty()
             && (n.key.is_computed()
                 || n.key
                     .as_ident()
