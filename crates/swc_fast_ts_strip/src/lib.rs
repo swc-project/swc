@@ -718,6 +718,10 @@ impl Visit for TsStrip {
             self.strip_optional_mark(mark_index);
         }
 
+        // It's dangerous to strip TypeScript modifiers if the key is computed, a
+        // generator, or `in`/`instanceof` keyword. However, it is safe to do so
+        // if the key is preceded by a `static` keyword or decorators.
+        //
         // `public [foo]()`
         // `;      [foo]()`
         //
@@ -764,6 +768,7 @@ impl Visit for TsStrip {
             self.strip_definite_mark(mark_index);
         }
 
+        // It's dangerous to strip types if the key is `get`, `set`, or `static`.
         if n.value.is_none() {
             if let Some(key) = n.key.as_ident() {
                 if matches!(key.sym.as_ref(), "get" | "set" | "static") {
