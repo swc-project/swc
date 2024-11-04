@@ -19,6 +19,8 @@ use swc_ecma_ast::{
     TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
     ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module,
     ModuleDecl, ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName,
+    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, ModuleDecl,
+    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Program, Prop, PropName,
     PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType,
     TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature,
     TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
@@ -110,6 +112,9 @@ impl FastDts {
                     self.transform_module_stmt(stmt)
                 })
             }
+            Program::Script(script) => script
+                .body
+                .retain_mut(|stmt| self.transform_module_stmt(stmt)),
         }
 
         take(&mut self.diagnostics)
@@ -252,6 +257,11 @@ impl FastDts {
                             }
                             .into(),
                         )
+                    }
+                }
+                ModuleItem::Stmt(stmt) => {
+                    if self.transform_module_stmt(stmt) {
+                        new_items.push(item);
                     }
                 }
             }
