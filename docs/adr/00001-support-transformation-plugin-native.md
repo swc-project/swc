@@ -8,7 +8,7 @@ Technical Story: [Issue 2635](https://github.com/swc-project/swc/issues/2635) <!
 
 ## Context and Problem Statement
 
-SWC wants to support load, run plugins in the native binary for the custom transform behavior. SWC already have priliminary support to load plugins in its node.js JS bindings but it has known limitations.
+SWC wants to support load, run plugins in the native binary for the custom transform behavior. SWC already have preliminary support to load plugins in its node.js JS bindings but it has known limitations.
 
 ## Decision Drivers <!-- optional -->
 
