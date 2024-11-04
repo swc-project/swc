@@ -1,7 +1,7 @@
 #![warn(unused)]
 
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{op, Ident, MethodKind};
+use swc_ecma_ast::{op, Ident, IdentName, MethodKind};
 
 use crate::{
     error::SyntaxError,
@@ -388,7 +388,7 @@ where
     }
 
     /// Ported from babel
-    fn parse_flow_ident_to_type_ann(&mut self, ident: Ident) -> PResult<()> {
+    fn parse_flow_ident_to_type_ann(&mut self, ident: IdentName) -> PResult<()> {
         trace_cur!(self, parse_flow_ident_to_type_ann);
 
         match &*ident.sym {
@@ -405,7 +405,7 @@ where
     }
 
     /// Ported from babel
-    fn consume_flow_generic_type(&mut self, id: Ident) -> PResult<()> {
+    fn consume_flow_generic_type(&mut self, id: IdentName) -> PResult<()> {
         trace_cur!(self, consume_flow_generic_type);
 
         self.consume_flow_qualified_type_identifier(Some(id))?;
@@ -443,7 +443,7 @@ where
     }
 
     /// Ported from `flowParseQualifiedTypeIdentifier`
-    fn consume_flow_qualified_type_identifier(&mut self, id: Option<Ident>) -> PResult<()> {
+    fn consume_flow_qualified_type_identifier(&mut self, id: Option<IdentName>) -> PResult<()> {
         trace_cur!(self, consume_flow_qualified_type_identifier);
 
         if id.is_none() {
@@ -1279,7 +1279,7 @@ where
 
         if is_underscore {
             let node = self.parse_ident(false, false)?;
-            self.consume_flow_generic_type(node)
+            self.consume_flow_generic_type(node.into())
         } else {
             self.consume_flow_type()?;
 
