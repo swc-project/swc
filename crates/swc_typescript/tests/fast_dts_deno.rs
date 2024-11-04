@@ -239,6 +239,49 @@ fn dts_class_abstract_method_test() {
 }
 
 #[test]
+fn dts_class_params_initializers_test() {
+    transform_dts_test(
+        r#"export class Object {
+    constructor(
+        values: {},
+        {
+            a,
+            b,
+        }: {
+            a?: A;
+            b?: B;
+        } = {}
+    ) {}
+
+    method(
+        values: {},
+        {
+            a,
+            b,
+        }: {
+            a?: A;
+            b?: B;
+        } = {},
+        value = 1
+    ) {}
+}
+"#,
+        r#"export declare class Object {
+    constructor(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    });
+    method(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    }, value?: number);
+}"#,
+    );
+}
+
+#[test]
 fn dts_var_decl_test() {
     transform_dts_test(
         r#"export const foo: number = 42;"#,

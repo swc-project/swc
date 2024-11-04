@@ -3,12 +3,13 @@ use std::{mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
-    Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam,
-    TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody,
-    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
+    AssignPat, BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl,
+    ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl,
+    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName, PropOrSpread, Stmt,
+    TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement,
+    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
 
 use crate::diagnostic::{DtsIssue, SourceRange};
@@ -445,64 +446,7 @@ impl FastDts {
             Decl::Fn(fn_decl) => {
                 fn_decl.function.body = None;
                 fn_decl.declare = is_declare;
-
-                for param in &mut fn_decl.function.params {
-                    match &mut param.pat {
-                        Pat::Ident(ident) => {
-                            if ident.type_ann.is_none() {
-                                self.mark_diagnostic_any_fallback(ident.span());
-                                ident.type_ann = Some(any_type_ann());
-                            }
-                        }
-                        Pat::Assign(assign_pat) => {
-                            match &mut *assign_pat.left {
-                                Pat::Ident(ident) => {
-                                    if ident.type_ann.is_none() {
-                                        ident.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    ident.optional = true;
-                                    param.pat = ident.clone().into();
-                                }
-                                Pat::Array(arr_pat) => {
-                                    if arr_pat.type_ann.is_none() {
-                                        arr_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    arr_pat.optional = true;
-                                    param.pat = arr_pat.clone().into();
-                                }
-                                Pat::Object(obj_pat) => {
-                                    if obj_pat.type_ann.is_none() {
-                                        obj_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    obj_pat.optional = true;
-                                    param.pat = obj_pat.clone().into();
-                                }
-                                Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
-                            };
-                        }
-                        Pat::Array(_)
-                        | Pat::Rest(_)
-                        | Pat::Object(_)
-                        | Pat::Invalid(_)
-                        | Pat::Expr(_) => {}
-                    }
-                }
-
+                self.handle_func_params(&mut fn_decl.function.params);
                 Some(())
             }
             Decl::Var(var_decl) => {
@@ -781,6 +725,7 @@ impl FastDts {
             .filter_map(|member| match member {
                 ClassMember::Constructor(mut class_constructor) => {
                     class_constructor.body = None;
+                    self.handle_ts_param_props(&mut class_constructor.params);
                     Some(ClassMember::Constructor(class_constructor))
                 }
                 ClassMember::Method(mut method) => {
@@ -788,6 +733,7 @@ impl FastDts {
                     if method.kind == MethodKind::Setter {
                         method.function.return_type = None;
                     }
+                    self.handle_func_params(&mut method.function.params);
                     Some(ClassMember::Method(method))
                 }
                 ClassMember::ClassProp(mut prop) => {
@@ -819,6 +765,101 @@ impl FastDts {
             .collect();
 
         *body = new_body;
+    }
+
+    fn handle_ts_param_props(&mut self, param_props: &mut Vec<ParamOrTsParamProp>) {
+        for param in param_props {
+            match param {
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    match &mut param.param {
+                        TsParamPropParam::Ident(ident) => {
+                            self.handle_func_param_ident(ident);
+                        }
+                        TsParamPropParam::Assign(assign) => {
+                            if let Some(new_pat) = self.handle_func_param_assign(assign) {
+                                match new_pat {
+                                    Pat::Ident(new_ident) => {
+                                        param.param = TsParamPropParam::Ident(new_ident)
+                                    }
+                                    Pat::Assign(new_assign) => {
+                                        param.param = TsParamPropParam::Assign(new_assign)
+                                    }
+                                    Pat::Rest(_)
+                                    | Pat::Object(_)
+                                    | Pat::Array(_)
+                                    | Pat::Invalid(_)
+                                    | Pat::Expr(_) => {
+                                        // should never happen for parameter properties
+                                        unreachable!();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ParamOrTsParamProp::Param(param) => self.handle_func_param(param),
+            }
+        }
+    }
+
+    fn handle_func_params(&mut self, params: &mut Vec<Param>) {
+        for param in params {
+            self.handle_func_param(param);
+        }
+    }
+
+    fn handle_func_param(&mut self, param: &mut Param) {
+        match &mut param.pat {
+            Pat::Ident(ident) => {
+                self.handle_func_param_ident(ident);
+            }
+            Pat::Assign(assign_pat) => {
+                if let Some(new_pat) = self.handle_func_param_assign(assign_pat) {
+                    param.pat = new_pat;
+                }
+            }
+            Pat::Array(_) | Pat::Rest(_) | Pat::Object(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+        }
+    }
+
+    fn handle_func_param_ident(&mut self, ident: &mut BindingIdent) {
+        if ident.type_ann.is_none() {
+            self.mark_diagnostic_any_fallback(ident.span());
+            ident.type_ann = Some(any_type_ann());
+        }
+    }
+
+    fn handle_func_param_assign(&mut self, assign_pat: &mut AssignPat) -> Option<Pat> {
+        match &mut *assign_pat.left {
+            Pat::Ident(ident) => {
+                if ident.type_ann.is_none() {
+                    ident.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                ident.optional = true;
+                Some(Pat::Ident(ident.clone()))
+            }
+            Pat::Array(arr_pat) => {
+                if arr_pat.type_ann.is_none() {
+                    arr_pat.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                arr_pat.optional = true;
+                Some(Pat::Array(arr_pat.clone()))
+            }
+            Pat::Object(obj_pat) => {
+                if obj_pat.type_ann.is_none() {
+                    obj_pat.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                obj_pat.optional = true;
+                Some(Pat::Object(obj_pat.clone()))
+            }
+            Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => None,
+        }
     }
 
     fn pat_to_ts_fn_param(&mut self, pat: Pat) -> Option<TsFnParam> {
