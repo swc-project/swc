@@ -121,7 +121,7 @@ where
 {
     ::testing::run_test(false, |cm, handler| {
         if shift {
-            cm.new_source_file(FileName::Anon, "".into());
+            cm.new_source_file(FileName::Anon.into(), "".into());
         }
 
         let comments = SingleThreadedComments::default();
