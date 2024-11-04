@@ -4,8 +4,8 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, BindingIdent, ClassMember, ComputedPropName, Decl, DefaultDecl, ExportDecl,
-    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module,
-    ModuleDecl, ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName,
+    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, ModuleDecl,
+    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Program, Prop, PropName,
     PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType,
     TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature,
     TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
@@ -72,10 +72,17 @@ impl FastDts {
 }
 
 impl FastDts {
-    pub fn transform(&mut self, module: &mut Module) -> Vec<DtsIssue> {
+    pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
         self.is_top_level = true;
 
-        self.transform_module_items(&mut module.body);
+        match program {
+            Program::Module(module) => {
+                self.transform_module_items(&mut module.body);
+            }
+            Program::Script(script) => script
+                .body
+                .retain_mut(|stmt| self.transform_module_stmt(stmt)),
+        }
 
         take(&mut self.diagnostics)
     }
@@ -213,32 +220,36 @@ impl FastDts {
                         )
                     }
                 }
-
-                ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::TsEnum(_)
-                    | Decl::Class(_)
-                    | Decl::Fn(_)
-                    | Decl::Var(_)
-                    | Decl::TsModule(_) => {
-                        if let Some(()) = self.decl_to_type_decl(decl) {
-                            new_items.push(item);
-                        } else {
-                            self.mark_diagnostic_unable_to_infer(decl.span())
-                        }
-                    }
-
-                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => {
+                ModuleItem::Stmt(stmt) => {
+                    if self.transform_module_stmt(stmt) {
                         new_items.push(item);
                     }
-                },
-
-                ModuleItem::Stmt(..) => {}
+                }
             }
 
             prev_is_overload = is_overload;
         }
 
         *items = new_items;
+    }
+
+    fn transform_module_stmt(&mut self, stmt: &mut Stmt) -> bool {
+        let Stmt::Decl(ref mut decl) = stmt else {
+            return false;
+        };
+
+        match decl {
+            Decl::TsEnum(_) | Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) | Decl::TsModule(_) => {
+                if let Some(()) = self.decl_to_type_decl(decl) {
+                    true
+                } else {
+                    self.mark_diagnostic_unable_to_infer(decl.span());
+                    false
+                }
+            }
+
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => true,
+        }
     }
 
     fn expr_to_ts_type(

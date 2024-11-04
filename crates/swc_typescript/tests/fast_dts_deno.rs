@@ -2,7 +2,7 @@
 
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use swc_typescript::fast_dts::FastDts;
 
 #[track_caller]
@@ -15,7 +15,7 @@ fn transform_dts_test(source: &str, expected: &str) {
 
         let mut checker = FastDts::new(fm.name.clone());
 
-        let mut module = parse_file_as_module(
+        let mut program = parse_file_as_program(
             &fm,
             Syntax::Typescript(TsSyntax {
                 ..Default::default()
@@ -26,9 +26,9 @@ fn transform_dts_test(source: &str, expected: &str) {
         )
         .unwrap();
 
-        let _issues = checker.transform(&mut module);
+        let _issues = checker.transform(&mut program);
 
-        let code = to_code(&module);
+        let code = to_code(&program);
 
         assert_eq!(
             code.trim(),
