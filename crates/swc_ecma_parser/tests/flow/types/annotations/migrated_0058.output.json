@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "kind": "var",
       "declare": false,
       "declarations": [
@@ -20,31 +19,28 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 40,
-            "ctxt": 0
+            "end": 40
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
               "start": 5,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
                   "start": 6,
-                  "end": 7,
-                  "ctxt": 0
+                  "end": 7
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 6,
-                    "end": 7,
-                    "ctxt": 0
+                    "end": 7
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -59,8 +55,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 26,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
             "properties": [
               {
@@ -69,18 +64,15 @@
                   "type": "Identifier",
                   "span": {
                     "start": 28,
-                    "end": 29,
-                    "ctxt": 0
+                    "end": 29
                   },
-                  "value": "x",
-                  "optional": false
+                  "value": "x"
                 },
                 "value": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 31,
-                    "end": 38,
-                    "ctxt": 0
+                    "end": 38
                   },
                   "value": "hello",
                   "raw": "\"hello\""

@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
+      "ctxt": 0,
       "kind": "let",
       "declare": false,
       "declarations": [
@@ -20,36 +19,32 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
               "start": 5,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "elements": [
               {
                 "type": "RestElement",
                 "span": {
                   "start": 6,
-                  "end": 10,
-                  "ctxt": 0
+                  "end": 10
                 },
                 "rest": {
                   "start": 6,
-                  "end": 9,
-                  "ctxt": 0
+                  "end": 9
                 },
                 "argument": {
                   "type": "Identifier",
                   "span": {
                     "start": 9,
-                    "end": 10,
-                    "ctxt": 0
+                    "end": 10
                   },
+                  "ctxt": 0,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -60,9 +55,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 12,
-                  "end": 13,
-                  "ctxt": 0
+                  "end": 13
                 },
+                "ctxt": 0,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": null
@@ -75,8 +70,7 @@
             "type": "ArrayExpression",
             "span": {
               "start": 17,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "elements": []
           },

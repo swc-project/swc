@@ -2,24 +2,22 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 12,
-    "ctxt": 0
+    "end": 12
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
         "start": 1,
-        "end": 12,
-        "ctxt": 0
+        "end": 12
       },
       "label": {
         "type": "Identifier",
         "span": {
           "start": 1,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "declare",
         "optional": false
       },
@@ -27,15 +25,13 @@
         "type": "ExpressionStatement",
         "span": {
           "start": 10,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "expression": {
           "type": "NumericLiteral",
           "span": {
             "start": 10,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "value": 62.0,
           "raw": "62"

@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 36,
-    "ctxt": 0
+    "end": 36
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 1,
-        "end": 36,
-        "ctxt": 0
+        "end": 36
       },
       "decl": {
         "type": "FunctionExpression",
@@ -20,16 +18,16 @@
         "decorators": [],
         "span": {
           "start": 16,
-          "end": 36,
-          "ctxt": 0
+          "end": 36
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 34,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": true,

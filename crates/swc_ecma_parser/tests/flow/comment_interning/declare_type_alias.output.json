@@ -2,48 +2,43 @@
   "type": "Script",
   "span": {
     "start": 19,
-    "end": 667,
-    "ctxt": 0
+    "end": 667
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       }
     },
     {
       "type": "BlockStatement",
       "span": {
         "start": 159,
-        "end": 278,
-        "ctxt": 0
+        "end": 278
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]
@@ -52,24 +47,22 @@
       "type": "BlockStatement",
       "span": {
         "start": 280,
-        "end": 399,
-        "ctxt": 0
+        "end": 399
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]
@@ -78,24 +71,22 @@
       "type": "BlockStatement",
       "span": {
         "start": 401,
-        "end": 536,
-        "ctxt": 0
+        "end": 536
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]
@@ -104,24 +95,22 @@
       "type": "BlockStatement",
       "span": {
         "start": 538,
-        "end": 667,
-        "ctxt": 0
+        "end": 667
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]

@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
@@ -12,58 +11,52 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "X",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 13,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "AssignmentExpression",
             "span": {
               "start": 17,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
             "operator": "=",
             "left": {
               "type": "MemberExpression",
               "span": {
                 "start": 17,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "object": {
                 "type": "StringLiteral",
                 "span": {
                   "start": 17,
-                  "end": 20,
-                  "ctxt": 0
+                  "end": 20
                 },
                 "value": "y",
                 "raw": "\"y\""
@@ -72,16 +65,15 @@
                 "type": "Computed",
                 "span": {
                   "start": 23,
-                  "end": 33,
-                  "ctxt": 0
+                  "end": 33
                 },
                 "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 24,
-                    "end": 32,
-                    "ctxt": 0
+                    "end": 32
                   },
+                  "ctxt": 0,
                   "value": "computed",
                   "optional": false
                 }
@@ -91,8 +83,7 @@
               "type": "StringLiteral",
               "span": {
                 "start": 36,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
               "value": "z",
               "raw": "\"z\""

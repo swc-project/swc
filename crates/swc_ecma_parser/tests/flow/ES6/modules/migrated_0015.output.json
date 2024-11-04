@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 47,
-    "end": 93,
-    "ctxt": 0
+    "end": 93
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 47,
-        "end": 71,
-        "ctxt": 0
+        "end": 71
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 63,
-            "end": 66,
-            "ctxt": 0
+            "end": 66
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -30,16 +28,16 @@
         "decorators": [],
         "span": {
           "start": 54,
-          "end": 71,
-          "ctxt": 0
+          "end": 71
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 69,
-            "end": 71,
-            "ctxt": 0
+            "end": 71
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,
@@ -52,16 +50,14 @@
       "type": "EmptyStatement",
       "span": {
         "start": 71,
-        "end": 72,
-        "ctxt": 0
+        "end": 72
       }
     },
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 73,
-        "end": 92,
-        "ctxt": 0
+        "end": 92
       },
       "declaration": {
         "type": "ClassDeclaration",
@@ -69,18 +65,18 @@
           "type": "Identifier",
           "span": {
             "start": 86,
-            "end": 89,
-            "ctxt": 0
+            "end": 89
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
         "declare": false,
         "span": {
           "start": 80,
-          "end": 92,
-          "ctxt": 0
+          "end": 92
         },
+        "ctxt": 0,
         "decorators": [],
         "body": [],
         "superClass": null,
@@ -94,8 +90,7 @@
       "type": "EmptyStatement",
       "span": {
         "start": 92,
-        "end": 93,
-        "ctxt": 0
+        "end": 93
       }
     }
   ],

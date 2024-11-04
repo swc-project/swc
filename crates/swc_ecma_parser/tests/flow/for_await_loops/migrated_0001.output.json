@@ -2,48 +2,45 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 42,
-    "ctxt": 0
+    "end": 42
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 42,
-        "ctxt": 0
+        "end": 42
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 1,
-          "end": 42,
-          "ctxt": 0
+          "end": 42
         },
+        "ctxt": 0,
         "params": [],
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 13,
-            "end": 42,
-            "ctxt": 0
+            "end": 42
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "ForOfStatement",
               "span": {
                 "start": 15,
-                "end": 40,
-                "ctxt": 0
+                "end": 40
               },
               "await": true,
               "left": {
                 "type": "VariableDeclaration",
                 "span": {
                   "start": 26,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
+                "ctxt": 0,
                 "kind": "let",
                 "declare": false,
                 "declarations": [
@@ -51,16 +48,15 @@
                     "type": "VariableDeclarator",
                     "span": {
                       "start": 30,
-                      "end": 31,
-                      "ctxt": 0
+                      "end": 31
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
                         "start": 30,
-                        "end": 31,
-                        "ctxt": 0
+                        "end": 31
                       },
+                      "ctxt": 0,
                       "value": "x",
                       "optional": false,
                       "typeAnnotation": null
@@ -74,9 +70,9 @@
                 "type": "Identifier",
                 "span": {
                   "start": 35,
-                  "end": 36,
-                  "ctxt": 0
+                  "end": 36
                 },
+                "ctxt": 0,
                 "value": "e",
                 "optional": false
               },
@@ -84,9 +80,9 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 38,
-                  "end": 40,
-                  "ctxt": 0
+                  "end": 40
                 },
+                "ctxt": 0,
                 "stmts": []
               }
             }

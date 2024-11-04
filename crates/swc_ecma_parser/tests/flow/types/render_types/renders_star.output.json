@@ -2,136 +2,119 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 317,
-    "ctxt": 0
+    "end": 317
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 25,
-        "end": 26,
-        "ctxt": 0
+        "end": 26
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 27,
-        "end": 60,
-        "ctxt": 0
+        "end": 60
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 60,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 62,
-        "end": 97,
-        "ctxt": 0
+        "end": 97
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 97,
-        "end": 98,
-        "ctxt": 0
+        "end": 98
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 99,
-        "end": 128,
-        "ctxt": 0
+        "end": 128
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 128,
-        "end": 129,
-        "ctxt": 0
+        "end": 129
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 130,
-        "end": 173,
-        "ctxt": 0
+        "end": 173
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 173,
-        "end": 174,
-        "ctxt": 0
+        "end": 174
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 175,
-        "end": 207,
-        "ctxt": 0
+        "end": 207
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 207,
-        "end": 208,
-        "ctxt": 0
+        "end": 208
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 209,
-        "end": 260,
-        "ctxt": 0
+        "end": 260
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 260,
-        "end": 261,
-        "ctxt": 0
+        "end": 261
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 262,
-        "end": 316,
-        "ctxt": 0
+        "end": 316
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 316,
-        "end": 317,
-        "ctxt": 0
+        "end": 317
       }
     }
   ],

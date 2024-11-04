@@ -2,30 +2,26 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 16,
-    "ctxt": 0
+    "end": 16
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 16,
-        "ctxt": 0
+        "end": 16
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 16,
-          "ctxt": 0
+          "end": 16
         },
         "expression": {
           "type": "JSXElement",
           "span": {
             "start": 2,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
           "opening": {
             "type": "JSXOpeningElement",
@@ -33,16 +29,15 @@
               "type": "Identifier",
               "span": {
                 "start": 3,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
+              "ctxt": 0,
               "value": "div",
               "optional": false
             },
             "span": {
               "start": 2,
-              "end": 7,
-              "ctxt": 0
+              "end": 7
             },
             "attributes": [],
             "selfClosing": false,
@@ -53,15 +48,13 @@
               "type": "JSXExpressionContainer",
               "span": {
                 "start": 7,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
               "expression": {
                 "type": "JSXEmptyExpression",
                 "span": {
                   "start": 8,
-                  "end": 8,
-                  "ctxt": 0
+                  "end": 8
                 }
               }
             }
@@ -70,16 +63,15 @@
             "type": "JSXClosingElement",
             "span": {
               "start": 9,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
             "name": {
               "type": "Identifier",
               "span": {
                 "start": 11,
-                "end": 14,
-                "ctxt": 0
+                "end": 14
               },
+              "ctxt": 0,
               "value": "div",
               "optional": false
             }

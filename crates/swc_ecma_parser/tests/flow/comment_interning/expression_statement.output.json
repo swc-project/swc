@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 284,
-    "ctxt": 0
+    "end": 284
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 17,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "value": 1.0,
         "raw": "1"
@@ -28,15 +25,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 59,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 59,
-          "end": 60,
-          "ctxt": 0
+          "end": 60
         },
         "value": 2.0,
         "raw": "2"
@@ -46,15 +41,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 101,
-        "end": 103,
-        "ctxt": 0
+        "end": 103
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 101,
-          "end": 102,
-          "ctxt": 0
+          "end": 102
         },
         "value": 3.0,
         "raw": "3"
@@ -64,15 +57,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 120,
-        "end": 122,
-        "ctxt": 0
+        "end": 122
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 120,
-          "end": 121,
-          "ctxt": 0
+          "end": 121
         },
         "value": 3.0,
         "raw": "3"
@@ -82,23 +73,21 @@
       "type": "BlockStatement",
       "span": {
         "start": 146,
-        "end": 201,
-        "ctxt": 0
+        "end": 201
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "ExpressionStatement",
           "span": {
             "start": 150,
-            "end": 152,
-            "ctxt": 0
+            "end": 152
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
               "start": 150,
-              "end": 151,
-              "ctxt": 0
+              "end": 151
             },
             "value": 4.0,
             "raw": "4"
@@ -110,23 +99,21 @@
       "type": "BlockStatement",
       "span": {
         "start": 203,
-        "end": 280,
-        "ctxt": 0
+        "end": 280
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "ExpressionStatement",
           "span": {
             "start": 223,
-            "end": 224,
-            "ctxt": 0
+            "end": 224
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
               "start": 223,
-              "end": 224,
-              "ctxt": 0
+              "end": 224
             },
             "value": 5.0,
             "raw": "5"
@@ -136,15 +123,13 @@
           "type": "ExpressionStatement",
           "span": {
             "start": 259,
-            "end": 260,
-            "ctxt": 0
+            "end": 260
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
               "start": 259,
-              "end": 260,
-              "ctxt": 0
+              "end": 260
             },
             "value": 5.0,
             "raw": "5"
@@ -156,15 +141,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 282,
-        "end": 284,
-        "ctxt": 0
+        "end": 284
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 282,
-          "end": 283,
-          "ctxt": 0
+          "end": 283
         },
         "value": 6.0,
         "raw": "6"

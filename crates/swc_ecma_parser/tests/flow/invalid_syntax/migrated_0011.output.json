@@ -2,57 +2,50 @@
   "type": "Script",
   "span": {
     "start": 40,
-    "end": 61,
-    "ctxt": 0
+    "end": 61
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 40,
-        "end": 61,
-        "ctxt": 0
+        "end": 61
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 40,
-          "end": 61,
-          "ctxt": 0
+          "end": 61
         },
         "expression": {
           "type": "ObjectExpression",
           "span": {
             "start": 41,
-            "end": 60,
-            "ctxt": 0
+            "end": 60
           },
           "properties": [
             {
               "type": "GetterProperty",
               "span": {
                 "start": 43,
-                "end": 58,
-                "ctxt": 0
+                "end": 58
               },
               "key": {
                 "type": "Identifier",
                 "span": {
                   "start": 47,
-                  "end": 50,
-                  "ctxt": 0
+                  "end": 50
                 },
-                "value": "foo",
-                "optional": false
+                "value": "foo"
               },
               "typeAnnotation": null,
               "body": {
                 "type": "BlockStatement",
                 "span": {
                   "start": 56,
-                  "end": 58,
-                  "ctxt": 0
+                  "end": 58
                 },
+                "ctxt": 0,
                 "stmts": []
               }
             }

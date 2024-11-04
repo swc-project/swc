@@ -2,31 +2,55 @@
   "type": "Module",
   "span": {
     "start": 27,
-    "end": 49,
-    "ctxt": 0
+    "end": 49
   },
   "body": [
     {
-      "type": "ImportDeclaration",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "start": 27,
+        "end": 49
       },
-      "specifiers": [],
-      "source": {
-        "type": "StringLiteral",
+      "declaration": {
+        "type": "VariableDeclaration",
         "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
+          "start": 34,
+          "end": 49
         },
-        "value": "",
-        "raw": null
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+        "ctxt": 0,
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 40,
+              "end": 49
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 45
+              },
+              "ctxt": 0,
+              "value": "async",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 48,
+                "end": 49
+              },
+              "value": 5.0,
+              "raw": "5"
+            },
+            "definite": false
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

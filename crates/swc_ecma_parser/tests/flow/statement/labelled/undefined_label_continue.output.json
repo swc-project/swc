@@ -2,16 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "body": [
     {
       "type": "ForStatement",
       "span": {
         "start": 1,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "init": null,
       "test": null,
@@ -20,16 +18,15 @@
         "type": "ContinueStatement",
         "span": {
           "start": 10,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
         "label": {
           "type": "Identifier",
           "span": {
             "start": 19,
-            "end": 22,
-            "ctxt": 0
+            "end": 22
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         }

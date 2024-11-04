@@ -2,46 +2,41 @@
   "type": "Script",
   "span": {
     "start": 42,
-    "end": 72,
-    "ctxt": 0
+    "end": 72
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 42,
-        "end": 72,
-        "ctxt": 0
+        "end": 72
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 42,
-          "end": 72,
-          "ctxt": 0
+          "end": 72
         },
         "expression": {
           "type": "SequenceExpression",
           "span": {
             "start": 43,
-            "end": 71,
-            "ctxt": 0
+            "end": 71
           },
           "expressions": [
             {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 43,
-                "end": 56,
-                "ctxt": 0
+                "end": 56
               },
               "expression": {
                 "type": "Identifier",
                 "span": {
                   "start": 44,
-                  "end": 47,
-                  "ctxt": 0
+                  "end": 47
                 },
+                "ctxt": 0,
                 "value": "xxx",
                 "optional": false
               }
@@ -50,16 +45,15 @@
               "type": "ParenthesisExpression",
               "span": {
                 "start": 58,
-                "end": 71,
-                "ctxt": 0
+                "end": 71
               },
               "expression": {
                 "type": "Identifier",
                 "span": {
                   "start": 59,
-                  "end": 62,
-                  "ctxt": 0
+                  "end": 62
                 },
+                "ctxt": 0,
                 "value": "yyy",
                 "optional": false
               }

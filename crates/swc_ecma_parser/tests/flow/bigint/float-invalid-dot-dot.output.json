@@ -2,30 +2,26 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 6,
-    "ctxt": 0
+    "end": 6
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 6,
-        "ctxt": 0
+        "end": 6
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 1,
-          "end": 5,
-          "ctxt": 0
+          "end": 5
         },
         "object": {
           "type": "NumericLiteral",
           "span": {
             "start": 1,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
           "value": 1.0,
           "raw": "1."
@@ -34,11 +30,9 @@
           "type": "Identifier",
           "span": {
             "start": 4,
-            "end": 5,
-            "ctxt": 0
+            "end": 5
           },
-          "value": "n",
-          "optional": false
+          "value": "n"
         }
       }
     }

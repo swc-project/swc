@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
@@ -12,44 +11,34 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "B",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 13,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 13,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 14,
-                "end": 15,
-                "ctxt": 0
-              },
-              "value": "p",
-              "optional": false
-            }
+            "value": "p"
           },
           "value": null,
           "typeAnnotation": null,
@@ -65,26 +54,16 @@
           "type": "PrivateProperty",
           "span": {
             "start": 26,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 26,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 27,
-                "end": 28,
-                "ctxt": 0
-              },
-              "value": "q",
-              "optional": false
-            }
+            "value": "q"
           },
           "value": null,
           "typeAnnotation": null,
@@ -100,18 +79,15 @@
           "type": "ClassProperty",
           "span": {
             "start": 39,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 39,
-              "end": 40,
-              "ctxt": 0
+              "end": 40
             },
-            "value": "q",
-            "optional": false
+            "value": "q"
           },
           "value": null,
           "typeAnnotation": null,

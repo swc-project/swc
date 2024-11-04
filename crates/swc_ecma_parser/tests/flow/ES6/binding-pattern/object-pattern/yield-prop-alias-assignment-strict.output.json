@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 1,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "value": "use strict",
         "raw": "\"use strict\""
@@ -28,30 +25,26 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 15,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 15,
-          "end": 34,
-          "ctxt": 0
+          "end": 34
         },
         "expression": {
           "type": "AssignmentExpression",
           "span": {
             "start": 16,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "operator": "=",
           "left": {
             "type": "ObjectPattern",
             "span": {
               "start": 16,
-              "end": 28,
-              "ctxt": 0
+              "end": 28
             },
             "properties": [
               {
@@ -60,19 +53,17 @@
                   "type": "Identifier",
                   "span": {
                     "start": 18,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
-                  "value": "yield",
-                  "optional": false
+                  "value": "yield"
                 },
                 "value": {
                   "type": "Identifier",
                   "span": {
                     "start": 25,
-                    "end": 26,
-                    "ctxt": 0
+                    "end": 26
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -86,8 +77,7 @@
             "type": "ObjectExpression",
             "span": {
               "start": 31,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
             "properties": []
           }

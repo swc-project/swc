@@ -2,17 +2,16 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
+      "ctxt": 0,
       "kind": "const",
       "declare": false,
       "declarations": [
@@ -20,16 +19,15 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 7,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "id": {
             "type": "Identifier",
             "span": {
               "start": 7,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "value": "m",
             "optional": false,
             "typeAnnotation": null
@@ -38,15 +36,14 @@
             "type": "CallExpression",
             "span": {
               "start": 11,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
+            "ctxt": 0,
             "callee": {
               "type": "Import",
               "span": {
                 "start": 11,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "phase": "evaluation"
             },
@@ -57,17 +54,16 @@
                   "type": "BinaryExpression",
                   "span": {
                     "start": 18,
-                    "end": 23,
-                    "ctxt": 0
+                    "end": 23
                   },
                   "operator": "+",
                   "left": {
                     "type": "Identifier",
                     "span": {
                       "start": 18,
-                      "end": 19,
-                      "ctxt": 0
+                      "end": 19
                     },
+                    "ctxt": 0,
                     "value": "a",
                     "optional": false
                   },
@@ -75,9 +71,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 22,
-                      "end": 23,
-                      "ctxt": 0
+                      "end": 23
                     },
+                    "ctxt": 0,
                     "value": "b",
                     "optional": false
                   }

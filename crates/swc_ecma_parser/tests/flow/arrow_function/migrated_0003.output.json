@@ -2,54 +2,49 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 15,
-          "ctxt": 0
+          "end": 15
         },
         "expression": {
           "type": "ArrowFunctionExpression",
           "span": {
             "start": 2,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
+          "ctxt": 0,
           "params": [
             {
               "type": "ObjectPattern",
               "span": {
                 "start": 3,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
                     "start": 4,
-                    "end": 5,
-                    "ctxt": 0
+                    "end": 5
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 4,
-                      "end": 5,
-                      "ctxt": 0
+                      "end": 5
                     },
+                    "ctxt": 0,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -65,8 +60,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 11,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
             "value": 123.0,
             "raw": "123"

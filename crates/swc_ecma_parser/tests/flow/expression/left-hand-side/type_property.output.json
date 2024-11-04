@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 14,
-    "ctxt": 0
+    "end": 14
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "object": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
+          "ctxt": 0,
           "value": "universe",
           "optional": false
         },
@@ -34,11 +31,9 @@
           "type": "Identifier",
           "span": {
             "start": 10,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
-          "value": "type",
-          "optional": false
+          "value": "type"
         }
       }
     }

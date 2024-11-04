@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 40,
-    "ctxt": 0
+    "end": 40
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 1,
-        "end": 40,
-        "ctxt": 0
+        "end": 40
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 17,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
+          "ctxt": 0,
           "value": "foo",
           "optional": false
         },
@@ -30,24 +28,24 @@
         "decorators": [],
         "span": {
           "start": 8,
-          "end": 40,
-          "ctxt": 0
+          "end": 40
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 23,
-            "end": 40,
-            "ctxt": 0
+            "end": 40
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "VariableDeclaration",
               "span": {
                 "start": 25,
-                "end": 38,
-                "ctxt": 0
+                "end": 38
               },
+              "ctxt": 0,
               "kind": "var",
               "declare": false,
               "declarations": [
@@ -55,16 +53,15 @@
                   "type": "VariableDeclarator",
                   "span": {
                     "start": 29,
-                    "end": 37,
-                    "ctxt": 0
+                    "end": 37
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
                       "start": 29,
-                      "end": 32,
-                      "ctxt": 0
+                      "end": 32
                     },
+                    "ctxt": 0,
                     "value": "foo",
                     "optional": false,
                     "typeAnnotation": null
@@ -73,8 +70,7 @@
                     "type": "NumericLiteral",
                     "span": {
                       "start": 35,
-                      "end": 37,
-                      "ctxt": 0
+                      "end": 37
                     },
                     "value": 42.0,
                     "raw": "42"

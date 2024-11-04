@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 126,
-    "end": 163,
-    "ctxt": 0
+    "end": 163
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 126,
-        "end": 163,
-        "ctxt": 0
+        "end": 163
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 126,
-          "end": 162,
-          "ctxt": 0
+          "end": 162
         },
         "expression": {
           "type": "FunctionExpression",
@@ -27,38 +24,35 @@
           "decorators": [],
           "span": {
             "start": 127,
-            "end": 161,
-            "ctxt": 0
+            "end": 161
           },
+          "ctxt": 0,
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 139,
-              "end": 161,
-              "ctxt": 0
+              "end": 161
             },
+            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 141,
-                  "end": 159,
-                  "ctxt": 0
+                  "end": 159
                 },
                 "expression": {
                   "type": "SequenceExpression",
                   "span": {
                     "start": 141,
-                    "end": 158,
-                    "ctxt": 0
+                    "end": 158
                   },
                   "expressions": [
                     {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 141,
-                        "end": 142,
-                        "ctxt": 0
+                        "end": 142
                       },
                       "value": 0.0,
                       "raw": "0"
@@ -67,32 +61,29 @@
                       "type": "AssignmentExpression",
                       "span": {
                         "start": 144,
-                        "end": 158,
-                        "ctxt": 0
+                        "end": 158
                       },
                       "operator": "=",
                       "left": {
                         "type": "ObjectPattern",
                         "span": {
                           "start": 144,
-                          "end": 153,
-                          "ctxt": 0
+                          "end": 153
                         },
                         "properties": [
                           {
                             "type": "AssignmentPatternProperty",
                             "span": {
                               "start": 146,
-                              "end": 151,
-                              "ctxt": 0
+                              "end": 151
                             },
                             "key": {
                               "type": "Identifier",
                               "span": {
                                 "start": 146,
-                                "end": 151,
-                                "ctxt": 0
+                                "end": 151
                               },
+                              "ctxt": 0,
                               "value": "yield",
                               "optional": false,
                               "typeAnnotation": null
@@ -107,8 +98,7 @@
                         "type": "ObjectExpression",
                         "span": {
                           "start": 156,
-                          "end": 158,
-                          "ctxt": 0
+                          "end": 158
                         },
                         "properties": []
                       }

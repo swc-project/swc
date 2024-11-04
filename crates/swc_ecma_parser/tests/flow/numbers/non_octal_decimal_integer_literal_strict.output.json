@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 28,
-    "ctxt": 0
+    "end": 28
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 1,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "value": "use strict",
         "raw": "\"use strict\""
@@ -28,15 +25,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 15,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 15,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
         "value": 8.0,
         "raw": "08"
@@ -46,15 +41,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 19,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 19,
-          "end": 22,
-          "ctxt": 0
+          "end": 22
         },
         "value": 18.0,
         "raw": "018"
@@ -64,15 +57,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 24,
-        "end": 28,
-        "ctxt": 0
+        "end": 28
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 24,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
         "value": 88.0,
         "raw": "088"

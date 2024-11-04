@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 17,
-    "end": 243,
-    "ctxt": 0
+    "end": 243
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 17,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 17,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "value": 1.0,
         "raw": "1"
@@ -28,15 +25,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 53,
-        "end": 73,
-        "ctxt": 0
+        "end": 73
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 53,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "value": "a",
         "raw": "\"a\""
@@ -46,15 +41,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 92,
-        "end": 114,
-        "ctxt": 0
+        "end": 114
       },
       "expression": {
         "type": "BooleanLiteral",
         "span": {
           "start": 92,
-          "end": 96,
-          "ctxt": 0
+          "end": 96
         },
         "value": true
       }
@@ -63,15 +56,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 133,
-        "end": 155,
-        "ctxt": 0
+        "end": 155
       },
       "expression": {
         "type": "NullLiteral",
         "span": {
           "start": 133,
-          "end": 137,
-          "ctxt": 0
+          "end": 137
         }
       }
     },
@@ -79,15 +70,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 175,
-        "end": 200,
-        "ctxt": 0
+        "end": 200
       },
       "expression": {
         "type": "RegExpLiteral",
         "span": {
           "start": 175,
-          "end": 181,
-          "ctxt": 0
+          "end": 181
         },
         "pattern": "asdf",
         "flags": ""
@@ -97,15 +86,13 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 221,
-        "end": 243,
-        "ctxt": 0
+        "end": 243
       },
       "expression": {
         "type": "BigIntLiteral",
         "span": {
           "start": 221,
-          "end": 223,
-          "ctxt": 0
+          "end": 223
         },
         "value": [
           1,

@@ -2,48 +2,43 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 4,
-          "end": 10,
-          "ctxt": 0
+          "end": 10
         },
         "operator": ">",
         "left": {
           "type": "BinaryExpression",
           "span": {
             "start": 4,
-            "end": 6,
-            "ctxt": 0
+            "end": 6
           },
           "operator": "<",
           "left": {
             "type": "Invalid",
             "span": {
               "start": 4,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             }
           },
           "right": {
             "type": "Identifier",
             "span": {
               "start": 5,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
+            "ctxt": 0,
             "value": "T",
             "optional": false
           }
@@ -52,16 +47,15 @@
           "type": "ParenthesisExpression",
           "span": {
             "start": 7,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
+            "ctxt": 0,
             "value": "e",
             "optional": false
           }

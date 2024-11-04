@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "g",
         "optional": false
       },
@@ -23,46 +22,44 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 14,
-          "end": 38,
-          "ctxt": 0
+          "end": 38
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 18,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
             "expression": {
               "type": "ArrowFunctionExpression",
               "span": {
                 "start": 18,
-                "end": 35,
-                "ctxt": 0
+                "end": 35
               },
+              "ctxt": 0,
               "params": [
                 {
                   "type": "AssignmentPattern",
                   "span": {
                     "start": 19,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
                   "left": {
                     "type": "Identifier",
                     "span": {
                       "start": 19,
-                      "end": 20,
-                      "ctxt": 0
+                      "end": 20
                     },
+                    "ctxt": 0,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -71,9 +68,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 23,
-                      "end": 28,
-                      "ctxt": 0
+                      "end": 28
                     },
+                    "ctxt": 0,
                     "value": "yield",
                     "optional": false
                   }
@@ -83,9 +80,9 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 33,
-                  "end": 35,
-                  "ctxt": 0
+                  "end": 35
                 },
+                "ctxt": 0,
                 "stmts": []
               },
               "async": false,

@@ -2,24 +2,21 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 32,
-    "ctxt": 0
+    "end": 32
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 31,
-        "ctxt": 0
+        "end": 31
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 31,
-        "end": 32,
-        "ctxt": 0
+        "end": 32
       }
     }
   ],

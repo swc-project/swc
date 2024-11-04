@@ -2,32 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 21,
-    "ctxt": 0
+    "end": 21
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 21,
-        "ctxt": 0
+        "end": 21
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
           "start": 1,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
             "start": 1,
-            "end": 2,
-            "ctxt": 0
+            "end": 2
           },
+          "ctxt": 0,
           "value": "a",
           "optional": false,
           "typeAnnotation": null
@@ -39,16 +36,16 @@
           "decorators": [],
           "span": {
             "start": 3,
-            "end": 21,
-            "ctxt": 0
+            "end": 21
           },
+          "ctxt": 0,
           "body": {
             "type": "BlockStatement",
             "span": {
               "start": 19,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
+            "ctxt": 0,
             "stmts": []
           },
           "generator": false,

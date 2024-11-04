@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 205,
-    "ctxt": 0
+    "end": 205
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 21,
-          "ctxt": 0
+          "end": 21
         },
+        "ctxt": 0,
         "value": "leadingOnly",
         "optional": false
       },
@@ -23,24 +22,24 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 24,
-          "end": 52,
-          "ctxt": 0
+          "end": 52
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "BlockStatement",
             "span": {
               "start": 48,
-              "end": 50,
-              "ctxt": 0
+              "end": 50
             },
+            "ctxt": 0,
             "stmts": []
           }
         ]
@@ -56,9 +55,9 @@
         "type": "Identifier",
         "span": {
           "start": 63,
-          "end": 75,
-          "ctxt": 0
+          "end": 75
         },
+        "ctxt": 0,
         "value": "trailingOnly",
         "optional": false
       },
@@ -67,24 +66,24 @@
       "decorators": [],
       "span": {
         "start": 54,
-        "end": 107,
-        "ctxt": 0
+        "end": 107
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 78,
-          "end": 107,
-          "ctxt": 0
+          "end": 107
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "BlockStatement",
             "span": {
               "start": 84,
-              "end": 86,
-              "ctxt": 0
+              "end": 86
             },
+            "ctxt": 0,
             "stmts": []
           }
         ]
@@ -100,9 +99,9 @@
         "type": "Identifier",
         "span": {
           "start": 118,
-          "end": 136,
-          "ctxt": 0
+          "end": 136
         },
+        "ctxt": 0,
         "value": "leadingAndTrialing",
         "optional": false
       },
@@ -111,24 +110,24 @@
       "decorators": [],
       "span": {
         "start": 109,
-        "end": 182,
-        "ctxt": 0
+        "end": 182
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 139,
-          "end": 182,
-          "ctxt": 0
+          "end": 182
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "BlockStatement",
             "span": {
               "start": 163,
-              "end": 165,
-              "ctxt": 0
+              "end": 165
             },
+            "ctxt": 0,
             "stmts": []
           }
         ]
@@ -142,9 +141,9 @@
       "type": "BlockStatement",
       "span": {
         "start": 184,
-        "end": 205,
-        "ctxt": 0
+        "end": 205
       },
+      "ctxt": 0,
       "stmts": []
     }
   ],

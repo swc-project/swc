@@ -2,30 +2,26 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 18,
-    "ctxt": 0
+    "end": 18
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
         "expression": {
           "type": "JSXElement",
           "span": {
             "start": 2,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "opening": {
             "type": "JSXOpeningElement",
@@ -33,41 +29,36 @@
               "type": "Identifier",
               "span": {
                 "start": 3,
-                "end": 6,
-                "ctxt": 0
+                "end": 6
               },
+              "ctxt": 0,
               "value": "foo",
               "optional": false
             },
             "span": {
               "start": 2,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
             "attributes": [
               {
                 "type": "JSXAttribute",
                 "span": {
                   "start": 7,
-                  "end": 14,
-                  "ctxt": 0
+                  "end": 14
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
                     "start": 7,
-                    "end": 10,
-                    "ctxt": 0
+                    "end": 10
                   },
-                  "value": "bar",
-                  "optional": false
+                  "value": "bar"
                 },
                 "value": {
                   "type": "StringLiteral",
                   "span": {
                     "start": 11,
-                    "end": 14,
-                    "ctxt": 0
+                    "end": 14
                   },
                   "value": "}",
                   "raw": "\"}\""

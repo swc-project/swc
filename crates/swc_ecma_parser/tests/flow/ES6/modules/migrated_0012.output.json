@@ -2,53 +2,102 @@
   "type": "Module",
   "span": {
     "start": 47,
-    "end": 86,
-    "ctxt": 0
+    "end": 86
   },
   "body": [
     {
-      "type": "ImportDeclaration",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "start": 47,
+        "end": 66
       },
-      "specifiers": [],
-      "source": {
-        "type": "StringLiteral",
+      "declaration": {
+        "type": "VariableDeclaration",
         "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
+          "start": 54,
+          "end": 66
         },
-        "value": "",
-        "raw": null
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+        "ctxt": 0,
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 58,
+              "end": 65
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 61
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 64,
+                "end": 65
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      }
     },
     {
-      "type": "ImportDeclaration",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "start": 67,
+        "end": 86
       },
-      "specifiers": [],
-      "source": {
-        "type": "StringLiteral",
+      "declaration": {
+        "type": "VariableDeclaration",
         "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
+          "start": 74,
+          "end": 86
         },
-        "value": "",
-        "raw": null
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+        "ctxt": 0,
+        "kind": "let",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 78,
+              "end": 85
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 78,
+                "end": 81
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 84,
+                "end": 85
+              },
+              "value": 2.0,
+              "raw": "2"
+            },
+            "definite": false
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

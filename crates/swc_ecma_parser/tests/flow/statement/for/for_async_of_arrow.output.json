@@ -2,32 +2,30 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "ForStatement",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "init": {
         "type": "ArrowFunctionExpression",
         "span": {
           "start": 6,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         },
+        "ctxt": 0,
         "params": [
           {
             "type": "Identifier",
             "span": {
               "start": 12,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
+            "ctxt": 0,
             "value": "of",
             "optional": false,
             "typeAnnotation": null
@@ -37,9 +35,9 @@
           "type": "BlockStatement",
           "span": {
             "start": 18,
-            "end": 20,
-            "ctxt": 0
+            "end": 20
           },
+          "ctxt": 0,
           "stmts": []
         },
         "async": true,
@@ -53,8 +51,7 @@
         "type": "EmptyStatement",
         "span": {
           "start": 23,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         }
       }
     }

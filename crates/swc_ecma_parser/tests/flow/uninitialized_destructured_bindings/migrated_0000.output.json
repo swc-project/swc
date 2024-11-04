@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 23,
-    "ctxt": 0
+    "end": 23
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "x",
         "optional": false
       },
@@ -24,32 +23,29 @@
           "type": "Parameter",
           "span": {
             "start": 12,
-            "end": 19,
-            "ctxt": 0
+            "end": 19
           },
           "decorators": [],
           "pat": {
             "type": "ObjectPattern",
             "span": {
               "start": 12,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
                   "start": 14,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 14,
-                    "end": 17,
-                    "ctxt": 0
+                    "end": 17
                   },
+                  "ctxt": 0,
                   "value": "foo",
                   "optional": false,
                   "typeAnnotation": null
@@ -65,16 +61,16 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 21,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

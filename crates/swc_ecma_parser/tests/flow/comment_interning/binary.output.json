@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 27,
-    "end": 236,
-    "ctxt": 0
+    "end": 236
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 27,
-        "end": 115,
-        "ctxt": 0
+        "end": 115
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 27,
-          "end": 86,
-          "ctxt": 0
+          "end": 86
         },
         "operator": "+",
         "left": {
           "type": "NumericLiteral",
           "span": {
             "start": 27,
-            "end": 28,
-            "ctxt": 0
+            "end": 28
           },
           "value": 1.0,
           "raw": "1"
@@ -35,8 +31,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 85,
-            "end": 86,
-            "ctxt": 0
+            "end": 86
           },
           "value": 2.0,
           "raw": "2"
@@ -47,30 +42,26 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 145,
-        "end": 236,
-        "ctxt": 0
+        "end": 236
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 145,
-          "end": 206,
-          "ctxt": 0
+          "end": 206
         },
         "expression": {
           "type": "BinaryExpression",
           "span": {
             "start": 172,
-            "end": 177,
-            "ctxt": 0
+            "end": 177
           },
           "operator": "+",
           "left": {
             "type": "NumericLiteral",
             "span": {
               "start": 172,
-              "end": 173,
-              "ctxt": 0
+              "end": 173
             },
             "value": 1.0,
             "raw": "1"
@@ -79,8 +70,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 176,
-              "end": 177,
-              "ctxt": 0
+              "end": 177
             },
             "value": 2.0,
             "raw": "2"

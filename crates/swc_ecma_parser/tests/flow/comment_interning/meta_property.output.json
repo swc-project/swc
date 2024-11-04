@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 177,
-    "ctxt": 0
+    "end": 177
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
+        "ctxt": 0,
         "value": "test",
         "optional": false
       },
@@ -23,30 +22,28 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 177,
-        "ctxt": 0
+        "end": 177
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 17,
-          "end": 177,
-          "ctxt": 0
+          "end": 177
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
               "start": 36,
-              "end": 94,
-              "ctxt": 0
+              "end": 94
             },
             "expression": {
               "type": "MetaProperty",
               "span": {
                 "start": 36,
-                "end": 78,
-                "ctxt": 0
+                "end": 78
               },
               "kind": "new.target"
             }
@@ -55,22 +52,19 @@
             "type": "ExpressionStatement",
             "span": {
               "start": 115,
-              "end": 175,
-              "ctxt": 0
+              "end": 175
             },
             "expression": {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 115,
-                "end": 157,
-                "ctxt": 0
+                "end": 157
               },
               "expression": {
                 "type": "MetaProperty",
                 "span": {
                   "start": 131,
-                  "end": 141,
-                  "ctxt": 0
+                  "end": 141
                 },
                 "kind": "new.target"
               }

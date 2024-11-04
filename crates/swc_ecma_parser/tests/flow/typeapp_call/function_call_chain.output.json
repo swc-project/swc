@@ -2,47 +2,43 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 15,
-    "ctxt": 0
+    "end": 15
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 15,
-        "ctxt": 0
+        "end": 15
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "operator": ">",
         "left": {
           "type": "BinaryExpression",
           "span": {
             "start": 1,
-            "end": 10,
-            "ctxt": 0
+            "end": 10
           },
           "operator": "<",
           "left": {
             "type": "CallExpression",
             "span": {
               "start": 1,
-              "end": 8,
-              "ctxt": 0
+              "end": 8
             },
+            "ctxt": 0,
             "callee": {
               "type": "Identifier",
               "span": {
                 "start": 1,
-                "end": 2,
-                "ctxt": 0
+                "end": 2
               },
+              "ctxt": 0,
               "value": "f",
               "optional": false
             },
@@ -53,9 +49,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 6,
-                    "end": 7,
-                    "ctxt": 0
+                    "end": 7
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false
                 }
@@ -67,9 +63,9 @@
             "type": "Identifier",
             "span": {
               "start": 9,
-              "end": 10,
-              "ctxt": 0
+              "end": 10
             },
+            "ctxt": 0,
             "value": "U",
             "optional": false
           }
@@ -78,16 +74,15 @@
           "type": "ParenthesisExpression",
           "span": {
             "start": 11,
-            "end": 14,
-            "ctxt": 0
+            "end": 14
           },
           "expression": {
             "type": "Identifier",
             "span": {
               "start": 12,
-              "end": 13,
-              "ctxt": 0
+              "end": 13
             },
+            "ctxt": 0,
             "value": "y",
             "optional": false
           }

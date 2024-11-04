@@ -2,38 +2,34 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 14,
-    "ctxt": 0
+    "end": 14
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 14,
-        "ctxt": 0
+        "end": 14
       },
       "expression": {
         "type": "ArrayExpression",
         "span": {
           "start": 1,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
         "elements": [
           {
             "spread": {
               "start": 2,
-              "end": 5,
-              "ctxt": 0
+              "end": 5
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 5,
-                "end": 9,
-                "ctxt": 0
+                "end": 9
               },
+              "ctxt": 0,
               "value": "rest",
               "optional": false
             }
@@ -45,8 +41,7 @@
               "type": "NumericLiteral",
               "span": {
                 "start": 12,
-                "end": 13,
-                "ctxt": 0
+                "end": 13
               },
               "value": 1.0,
               "raw": "1"

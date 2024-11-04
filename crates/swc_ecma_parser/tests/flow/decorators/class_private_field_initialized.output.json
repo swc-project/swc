@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
-    "ctxt": 0
+    "end": 29
   },
   "body": [
     {
@@ -12,51 +11,40 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 29,
-        "ctxt": 0
+        "end": 29
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateProperty",
           "span": {
             "start": 13,
-            "end": 27,
-            "ctxt": 0
+            "end": 27
           },
+          "ctxt": 0,
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 18,
-              "end": 22,
-              "ctxt": 0
+              "end": 22
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 19,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "bar",
-              "optional": false
-            }
+            "value": "bar"
           },
           "value": {
             "type": "NumericLiteral",
             "span": {
               "start": 25,
-              "end": 26,
-              "ctxt": 0
+              "end": 26
             },
             "value": 1.0,
             "raw": "1"
@@ -68,16 +56,15 @@
               "type": "Decorator",
               "span": {
                 "start": 13,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "expression": {
                 "type": "Identifier",
                 "span": {
                   "start": 14,
-                  "end": 17,
-                  "ctxt": 0
+                  "end": 17
                 },
+                "ctxt": 0,
                 "value": "foo",
                 "optional": false
               }

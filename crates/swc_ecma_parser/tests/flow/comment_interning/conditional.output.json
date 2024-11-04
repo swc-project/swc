@@ -2,30 +2,26 @@
   "type": "Script",
   "span": {
     "start": 18,
-    "end": 210,
-    "ctxt": 0
+    "end": 210
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 18,
-        "end": 112,
-        "ctxt": 0
+        "end": 112
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
           "start": 18,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
         "test": {
           "type": "BooleanLiteral",
           "span": {
             "start": 18,
-            "end": 22,
-            "ctxt": 0
+            "end": 22
           },
           "value": true
         },
@@ -33,8 +29,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 58,
-            "end": 59,
-            "ctxt": 0
+            "end": 59
           },
           "value": 1.0,
           "raw": "1"
@@ -43,8 +38,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 94,
-            "end": 95,
-            "ctxt": 0
+            "end": 95
           },
           "value": 2.0,
           "raw": "2"
@@ -55,29 +49,25 @@
       "type": "ExpressionStatement",
       "span": {
         "start": 138,
-        "end": 210,
-        "ctxt": 0
+        "end": 210
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 138,
-          "end": 185,
-          "ctxt": 0
+          "end": 185
         },
         "expression": {
           "type": "ConditionalExpression",
           "span": {
             "start": 156,
-            "end": 168,
-            "ctxt": 0
+            "end": 168
           },
           "test": {
             "type": "BooleanLiteral",
             "span": {
               "start": 156,
-              "end": 160,
-              "ctxt": 0
+              "end": 160
             },
             "value": true
           },
@@ -85,8 +75,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 163,
-              "end": 164,
-              "ctxt": 0
+              "end": 164
             },
             "value": 1.0,
             "raw": "1"
@@ -95,8 +84,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 167,
-              "end": 168,
-              "ctxt": 0
+              "end": 168
             },
             "value": 2.0,
             "raw": "2"

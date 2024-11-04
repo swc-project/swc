@@ -2,31 +2,69 @@
   "type": "Module",
   "span": {
     "start": 27,
-    "end": 59,
-    "ctxt": 0
+    "end": 59
   },
   "body": [
     {
-      "type": "ImportDeclaration",
+      "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "start": 27,
+        "end": 59
       },
-      "specifiers": [],
-      "source": {
-        "type": "StringLiteral",
+      "declaration": {
+        "type": "VariableDeclaration",
         "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
+          "start": 34,
+          "end": 59
         },
-        "value": "",
-        "raw": null
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+        "ctxt": 0,
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 40,
+              "end": 59
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 43
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 46,
+                "end": 59
+              },
+              "ctxt": 0,
+              "params": [],
+              "body": {
+                "type": "Identifier",
+                "span": {
+                  "start": 58,
+                  "end": 59
+                },
+                "ctxt": 0,
+                "value": "y",
+                "optional": false
+              },
+              "async": true,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

@@ -2,88 +2,77 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 141,
-    "ctxt": 0
+    "end": 141
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 18,
-        "ctxt": 0
+        "end": 18
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 18,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 21,
-        "end": 51,
-        "ctxt": 0
+        "end": 51
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 51,
-        "end": 52,
-        "ctxt": 0
+        "end": 52
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 54,
-        "end": 85,
-        "ctxt": 0
+        "end": 85
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 85,
-        "end": 86,
-        "ctxt": 0
+        "end": 86
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 88,
-        "end": 116,
-        "ctxt": 0
+        "end": 116
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 116,
-        "end": 117,
-        "ctxt": 0
+        "end": 117
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 119,
-        "end": 140,
-        "ctxt": 0
+        "end": 140
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 140,
-        "end": 141,
-        "ctxt": 0
+        "end": 141
       }
     }
   ],

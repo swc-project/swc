@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 27,
-    "end": 54,
-    "ctxt": 0
+    "end": 54
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
         "start": 27,
-        "end": 54,
-        "ctxt": 0
+        "end": 54
       },
       "declaration": {
         "type": "FunctionDeclaration",
@@ -19,9 +17,9 @@
           "type": "Identifier",
           "span": {
             "start": 43,
-            "end": 48,
-            "ctxt": 0
+            "end": 48
           },
+          "ctxt": 0,
           "value": "async",
           "optional": false
         },
@@ -30,16 +28,16 @@
         "decorators": [],
         "span": {
           "start": 34,
-          "end": 54,
-          "ctxt": 0
+          "end": 54
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 51,
-            "end": 54,
-            "ctxt": 0
+            "end": 54
           },
+          "ctxt": 0,
           "stmts": []
         },
         "generator": false,

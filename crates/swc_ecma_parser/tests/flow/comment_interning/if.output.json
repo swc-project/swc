@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 16,
-    "end": 251,
-    "ctxt": 0
+    "end": 251
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
         "start": 16,
-        "end": 95,
-        "ctxt": 0
+        "end": 95
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 52,
-          "end": 56,
-          "ctxt": 0
+          "end": 56
         },
         "value": true
       },
@@ -26,9 +23,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 93,
-          "end": 95,
-          "ctxt": 0
+          "end": 95
         },
+        "ctxt": 0,
         "stmts": []
       },
       "alternate": null
@@ -37,15 +34,13 @@
       "type": "IfStatement",
       "span": {
         "start": 115,
-        "end": 174,
-        "ctxt": 0
+        "end": 174
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 119,
-          "end": 123,
-          "ctxt": 0
+          "end": 123
         },
         "value": true
       },
@@ -53,18 +48,18 @@
         "type": "BlockStatement",
         "span": {
           "start": 125,
-          "end": 128,
-          "ctxt": 0
+          "end": 128
         },
+        "ctxt": 0,
         "stmts": []
       },
       "alternate": {
         "type": "BlockStatement",
         "span": {
           "start": 171,
-          "end": 174,
-          "ctxt": 0
+          "end": 174
         },
+        "ctxt": 0,
         "stmts": []
       }
     },
@@ -72,15 +67,13 @@
       "type": "IfStatement",
       "span": {
         "start": 194,
-        "end": 251,
-        "ctxt": 0
+        "end": 251
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 198,
-          "end": 202,
-          "ctxt": 0
+          "end": 202
         },
         "value": true
       },
@@ -88,18 +81,18 @@
         "type": "BlockStatement",
         "span": {
           "start": 204,
-          "end": 206,
-          "ctxt": 0
+          "end": 206
         },
+        "ctxt": 0,
         "stmts": []
       },
       "alternate": {
         "type": "BlockStatement",
         "span": {
           "start": 249,
-          "end": 251,
-          "ctxt": 0
+          "end": 251
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

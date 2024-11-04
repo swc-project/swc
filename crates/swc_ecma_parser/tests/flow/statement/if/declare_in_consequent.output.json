@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 24,
-    "ctxt": 0
+    "end": 24
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
         "start": 1,
-        "end": 24,
-        "ctxt": 0
+        "end": 24
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 5,
-          "end": 9,
-          "ctxt": 0
+          "end": 9
         },
         "value": true
       },
@@ -26,24 +23,22 @@
         "type": "ExpressionStatement",
         "span": {
           "start": 11,
-          "end": 24,
-          "ctxt": 0
+          "end": 24
         },
         "expression": {
           "type": "AssignmentExpression",
           "span": {
             "start": 11,
-            "end": 23,
-            "ctxt": 0
+            "end": 23
           },
           "operator": "+=",
           "left": {
             "type": "Identifier",
             "span": {
               "start": 11,
-              "end": 18,
-              "ctxt": 0
+              "end": 18
             },
+            "ctxt": 0,
             "value": "declare",
             "optional": false,
             "typeAnnotation": null
@@ -52,8 +47,7 @@
             "type": "NumericLiteral",
             "span": {
               "start": 22,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "value": 4.0,
             "raw": "4"

@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 13,
-    "ctxt": 0
+    "end": 13
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 13,
-        "ctxt": 0
+        "end": 13
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 7,
-          "end": 12,
-          "ctxt": 0
+          "end": 12
         },
         "operator": "*",
         "left": {
           "type": "NumericLiteral",
           "span": {
             "start": 7,
-            "end": 9,
-            "ctxt": 0
+            "end": 9
           },
           "value": 10.0,
           "raw": "10"
@@ -35,8 +31,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 10,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
           "value": 20.0,
           "raw": "20"

@@ -2,40 +2,36 @@
   "type": "Script",
   "span": {
     "start": 22,
-    "end": 391,
-    "ctxt": 0
+    "end": 391
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 0,
-        "end": 0,
-        "ctxt": 0
+        "end": 0
       }
     },
     {
       "type": "BlockStatement",
       "span": {
         "start": 155,
-        "end": 282,
-        "ctxt": 0
+        "end": 282
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]
@@ -44,24 +40,22 @@
       "type": "BlockStatement",
       "span": {
         "start": 284,
-        "end": 391,
-        "ctxt": 0
+        "end": 391
       },
+      "ctxt": 0,
       "stmts": [
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         },
         {
           "type": "EmptyStatement",
           "span": {
             "start": 0,
-            "end": 0,
-            "ctxt": 0
+            "end": 0
           }
         }
       ]

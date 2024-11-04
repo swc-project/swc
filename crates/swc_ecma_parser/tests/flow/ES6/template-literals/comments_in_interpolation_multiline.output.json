@@ -2,31 +2,27 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 37,
-    "ctxt": 0
+    "end": 37
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 37,
-        "ctxt": 0
+        "end": 37
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
           "start": 1,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
         "expressions": [
           {
             "type": "StringLiteral",
             "span": {
               "start": 18,
-              "end": 23,
-              "ctxt": 0
+              "end": 23
             },
             "value": "bar",
             "raw": "\"bar\""
@@ -37,8 +33,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 2,
-              "end": 6,
-              "ctxt": 0
+              "end": 6
             },
             "tail": false,
             "cooked": "foo ",
@@ -48,8 +43,7 @@
             "type": "TemplateElement",
             "span": {
               "start": 32,
-              "end": 36,
-              "ctxt": 0
+              "end": 36
             },
             "tail": true,
             "cooked": " baz",

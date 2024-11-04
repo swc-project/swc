@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 75,
-    "ctxt": 0
+    "end": 75
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "Bar",
         "optional": false
       },
@@ -23,16 +22,16 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 75,
-        "ctxt": 0
+        "end": 75
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 16,
-          "end": 75,
-          "ctxt": 0
+          "end": 75
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ClassDeclaration",
@@ -40,33 +39,32 @@
               "type": "Identifier",
               "span": {
                 "start": 52,
-                "end": 55,
-                "ctxt": 0
+                "end": 55
               },
+              "ctxt": 0,
               "value": "Foo",
               "optional": false
             },
             "declare": false,
             "span": {
               "start": 18,
-              "end": 73,
-              "ctxt": 0
+              "end": 73
             },
+            "ctxt": 0,
             "decorators": [
               {
                 "type": "Decorator",
                 "span": {
                   "start": 18,
-                  "end": 31,
-                  "ctxt": 0
+                  "end": 31
                 },
                 "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 19,
-                    "end": 31,
-                    "ctxt": 0
+                    "end": 31
                   },
+                  "ctxt": 0,
                   "value": "myDecorator2",
                   "optional": false
                 }
@@ -75,16 +73,15 @@
                 "type": "Decorator",
                 "span": {
                   "start": 32,
-                  "end": 45,
-                  "ctxt": 0
+                  "end": 45
                 },
                 "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 33,
-                    "end": 45,
-                    "ctxt": 0
+                    "end": 45
                   },
+                  "ctxt": 0,
                   "value": "myDecorator1",
                   "optional": false
                 }
@@ -95,34 +92,31 @@
                 "type": "ClassMethod",
                 "span": {
                   "start": 58,
-                  "end": 71,
-                  "ctxt": 0
+                  "end": 71
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
                     "start": 58,
-                    "end": 66,
-                    "ctxt": 0
+                    "end": 66
                   },
-                  "value": "myMethod",
-                  "optional": false
+                  "value": "myMethod"
                 },
                 "function": {
                   "params": [],
                   "decorators": [],
                   "span": {
                     "start": 58,
-                    "end": 71,
-                    "ctxt": 0
+                    "end": 71
                   },
+                  "ctxt": 0,
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 69,
-                      "end": 71,
-                      "ctxt": 0
+                      "end": 71
                     },
+                    "ctxt": 0,
                     "stmts": []
                   },
                   "generator": false,

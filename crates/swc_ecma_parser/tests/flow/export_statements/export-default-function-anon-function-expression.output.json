@@ -2,16 +2,14 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 50,
-    "ctxt": 0
+    "end": 50
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
         "start": 1,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       },
       "decl": {
         "type": "FunctionExpression",
@@ -20,30 +18,28 @@
         "decorators": [],
         "span": {
           "start": 16,
-          "end": 50,
-          "ctxt": 0
+          "end": 50
         },
+        "ctxt": 0,
         "body": {
           "type": "BlockStatement",
           "span": {
             "start": 28,
-            "end": 50,
-            "ctxt": 0
+            "end": 50
           },
+          "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
               "span": {
                 "start": 30,
-                "end": 48,
-                "ctxt": 0
+                "end": 48
               },
               "expression": {
                 "type": "ParenthesisExpression",
                 "span": {
                   "start": 30,
-                  "end": 47,
-                  "ctxt": 0
+                  "end": 47
                 },
                 "expression": {
                   "type": "FunctionExpression",
@@ -52,16 +48,16 @@
                   "decorators": [],
                   "span": {
                     "start": 31,
-                    "end": 46,
-                    "ctxt": 0
+                    "end": 46
                   },
+                  "ctxt": 0,
                   "body": {
                     "type": "BlockStatement",
                     "span": {
                       "start": 43,
-                      "end": 46,
-                      "ctxt": 0
+                      "end": 46
                     },
+                    "ctxt": 0,
                     "stmts": []
                   },
                   "generator": false,

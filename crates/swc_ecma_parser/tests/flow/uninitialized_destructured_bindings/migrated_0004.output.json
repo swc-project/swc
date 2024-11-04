@@ -2,25 +2,23 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
-    "ctxt": 0
+    "end": 27
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 1,
-        "end": 27,
-        "ctxt": 0
+        "end": 27
       },
       "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
           "start": 6,
-          "end": 17,
-          "ctxt": 0
+          "end": 17
         },
+        "ctxt": 0,
         "kind": "let",
         "declare": false,
         "declarations": [
@@ -28,31 +26,28 @@
             "type": "VariableDeclarator",
             "span": {
               "start": 10,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
             "id": {
               "type": "ObjectPattern",
               "span": {
                 "start": 10,
-                "end": 17,
-                "ctxt": 0
+                "end": 17
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
                     "start": 12,
-                    "end": 15,
-                    "ctxt": 0
+                    "end": 15
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
                       "start": 12,
-                      "end": 15,
-                      "ctxt": 0
+                      "end": 15
                     },
+                    "ctxt": 0,
                     "value": "foo",
                     "optional": false,
                     "typeAnnotation": null
@@ -72,9 +67,9 @@
         "type": "Identifier",
         "span": {
           "start": 21,
-          "end": 23,
-          "ctxt": 0
+          "end": 23
         },
+        "ctxt": 0,
         "value": "xs",
         "optional": false
       },
@@ -82,9 +77,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 25,
-          "end": 27,
-          "ctxt": 0
+          "end": 27
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

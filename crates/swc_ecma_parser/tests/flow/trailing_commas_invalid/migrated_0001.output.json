@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 47,
-    "ctxt": 0
+    "end": 47
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
+        "ctxt": 0,
         "value": "foo",
         "optional": false
       },
@@ -24,17 +23,16 @@
           "type": "Parameter",
           "span": {
             "start": 14,
-            "end": 15,
-            "ctxt": 0
+            "end": 15
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 15,
-              "ctxt": 0
+              "end": 15
             },
+            "ctxt": 0,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -44,29 +42,26 @@
           "type": "Parameter",
           "span": {
             "start": 17,
-            "end": 21,
-            "ctxt": 0
+            "end": 21
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
               "start": 17,
-              "end": 21,
-              "ctxt": 0
+              "end": 21
             },
             "rest": {
               "start": 17,
-              "end": 20,
-              "ctxt": 0
+              "end": 20
             },
             "argument": {
               "type": "Identifier",
               "span": {
                 "start": 20,
-                "end": 21,
-                "ctxt": 0
+                "end": 21
               },
+              "ctxt": 0,
               "value": "b",
               "optional": false,
               "typeAnnotation": null
@@ -78,45 +73,43 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 47,
-        "ctxt": 0
+        "end": 47
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 24,
-          "end": 47,
-          "ctxt": 0
+          "end": 47
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
               "start": 26,
-              "end": 45,
-              "ctxt": 0
+              "end": 45
             },
             "argument": {
               "type": "CallExpression",
               "span": {
                 "start": 33,
-                "end": 44,
-                "ctxt": 0
+                "end": 44
               },
+              "ctxt": 0,
               "callee": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 33,
-                  "end": 41,
-                  "ctxt": 0
+                  "end": 41
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
                     "start": 33,
-                    "end": 34,
-                    "ctxt": 0
+                    "end": 34
                   },
+                  "ctxt": 0,
                   "value": "b",
                   "optional": false
                 },
@@ -124,11 +117,9 @@
                   "type": "Identifier",
                   "span": {
                     "start": 35,
-                    "end": 41,
-                    "ctxt": 0
+                    "end": 41
                   },
-                  "value": "concat",
-                  "optional": false
+                  "value": "concat"
                 }
               },
               "arguments": [
@@ -138,9 +129,9 @@
                     "type": "Identifier",
                     "span": {
                       "start": 42,
-                      "end": 43,
-                      "ctxt": 0
+                      "end": 43
                     },
+                    "ctxt": 0,
                     "value": "a",
                     "optional": false
                   }

@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 11,
-    "ctxt": 0
+    "end": 11
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 11,
-        "ctxt": 0
+        "end": 11
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
           "start": 1,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
         "value": 11259154.0,
         "raw": "0xAB_CD_12"

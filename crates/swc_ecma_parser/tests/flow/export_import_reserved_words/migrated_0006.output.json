@@ -2,32 +2,29 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 30,
-    "ctxt": 0
+    "end": 30
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
-        "ctxt": 0
+        "end": 30
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
             "start": 10,
-            "end": 17,
-            "ctxt": 0
+            "end": 17
           },
           "local": {
             "type": "Identifier",
             "span": {
               "start": 10,
-              "end": 17,
-              "ctxt": 0
+              "end": 17
             },
+            "ctxt": 0,
             "value": "default",
             "optional": false
           },
@@ -39,8 +36,7 @@
         "type": "StringLiteral",
         "span": {
           "start": 25,
-          "end": 30,
-          "ctxt": 0
+          "end": 30
         },
         "value": "foo",
         "raw": "\"foo\""

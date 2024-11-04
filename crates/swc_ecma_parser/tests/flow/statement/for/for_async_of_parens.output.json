@@ -2,32 +2,29 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
-    "ctxt": 0
+    "end": 20
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
         "start": 1,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       },
       "await": false,
       "left": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 6,
-          "end": 13,
-          "ctxt": 0
+          "end": 13
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 7,
-            "end": 12,
-            "ctxt": 0
+            "end": 12
           },
+          "ctxt": 0,
           "value": "async",
           "optional": false
         }
@@ -36,9 +33,9 @@
         "type": "Identifier",
         "span": {
           "start": 17,
-          "end": 18,
-          "ctxt": 0
+          "end": 18
         },
+        "ctxt": 0,
         "value": "y",
         "optional": false
       },
@@ -46,8 +43,7 @@
         "type": "EmptyStatement",
         "span": {
           "start": 19,
-          "end": 20,
-          "ctxt": 0
+          "end": 20
         }
       }
     }

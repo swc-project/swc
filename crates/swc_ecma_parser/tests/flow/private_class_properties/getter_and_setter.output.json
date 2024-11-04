@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
-    "ctxt": 0
+    "end": 41
   },
   "body": [
     {
@@ -12,60 +11,49 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
-        "ctxt": 0
+        "end": 41
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "PrivateMethod",
           "span": {
             "start": 13,
-            "end": 24,
-            "ctxt": 0
+            "end": 24
           },
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 17,
-              "end": 19,
-              "ctxt": 0
+              "end": 19
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "value": "m",
-              "optional": false
-            }
+            "value": "m"
           },
           "function": {
             "params": [],
             "decorators": [],
             "span": {
               "start": 13,
-              "end": 24,
-              "ctxt": 0
+              "end": 24
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 22,
-                "end": 24,
-                "ctxt": 0
+                "end": 24
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,
@@ -84,26 +72,15 @@
           "type": "PrivateMethod",
           "span": {
             "start": 27,
-            "end": 39,
-            "ctxt": 0
+            "end": 39
           },
           "key": {
             "type": "PrivateName",
             "span": {
               "start": 31,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 32,
-                "end": 33,
-                "ctxt": 0
-              },
-              "value": "m",
-              "optional": false
-            }
+            "value": "m"
           },
           "function": {
             "params": [
@@ -111,17 +88,16 @@
                 "type": "Parameter",
                 "span": {
                   "start": 34,
-                  "end": 35,
-                  "ctxt": 0
+                  "end": 35
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
                     "start": 34,
-                    "end": 35,
-                    "ctxt": 0
+                    "end": 35
                   },
+                  "ctxt": 0,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -131,16 +107,16 @@
             "decorators": [],
             "span": {
               "start": 27,
-              "end": 39,
-              "ctxt": 0
+              "end": 39
             },
+            "ctxt": 0,
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 37,
-                "end": 39,
-                "ctxt": 0
+                "end": 39
               },
+              "ctxt": 0,
               "stmts": []
             },
             "generator": false,

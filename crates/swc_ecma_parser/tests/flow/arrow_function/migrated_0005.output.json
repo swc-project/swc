@@ -2,31 +2,28 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 25,
-    "ctxt": 0
+    "end": 25
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 25,
-        "ctxt": 0
+        "end": 25
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 25,
-          "ctxt": 0
+          "end": 25
         },
         "expression": {
           "type": "Identifier",
           "span": {
             "start": 2,
-            "end": 3,
-            "ctxt": 0
+            "end": 3
           },
+          "ctxt": 0,
           "value": "x",
           "optional": false
         }

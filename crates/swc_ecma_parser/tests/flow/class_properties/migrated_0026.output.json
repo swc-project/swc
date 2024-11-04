@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 45,
-    "ctxt": 0
+    "end": 45
   },
   "body": [
     {
@@ -12,36 +11,33 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "X",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 45,
-        "ctxt": 0
+        "end": 45
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 13,
-            "end": 22,
-            "ctxt": 0
+            "end": 22
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": null,
           "typeAnnotation": null,
@@ -59,23 +55,21 @@
           "type": "ClassProperty",
           "span": {
             "start": 25,
-            "end": 43,
-            "ctxt": 0
+            "end": 43
           },
           "key": {
             "type": "Computed",
             "span": {
               "start": 25,
-              "end": 35,
-              "ctxt": 0
+              "end": 35
             },
             "expression": {
               "type": "Identifier",
               "span": {
                 "start": 26,
-                "end": 34,
-                "ctxt": 0
+                "end": 34
               },
+              "ctxt": 0,
               "value": "computed",
               "optional": false
             }

@@ -2,72 +2,63 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 94,
-    "ctxt": 0
+    "end": 94
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 22,
-        "ctxt": 0
+        "end": 22
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 22,
-        "end": 23,
-        "ctxt": 0
+        "end": 23
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 24,
-        "end": 49,
-        "ctxt": 0
+        "end": 49
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 49,
-        "end": 50,
-        "ctxt": 0
+        "end": 50
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 51,
-        "end": 74,
-        "ctxt": 0
+        "end": 74
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 74,
-        "end": 75,
-        "ctxt": 0
+        "end": 75
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 76,
-        "end": 93,
-        "ctxt": 0
+        "end": 93
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 93,
-        "end": 94,
-        "ctxt": 0
+        "end": 94
       }
     }
   ],

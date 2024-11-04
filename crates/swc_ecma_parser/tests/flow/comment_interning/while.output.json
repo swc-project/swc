@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 19,
-    "end": 104,
-    "ctxt": 0
+    "end": 104
   },
   "body": [
     {
       "type": "WhileStatement",
       "span": {
         "start": 19,
-        "end": 104,
-        "ctxt": 0
+        "end": 104
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
           "start": 61,
-          "end": 65,
-          "ctxt": 0
+          "end": 65
         },
         "value": true
       },
@@ -26,9 +23,9 @@
         "type": "BlockStatement",
         "span": {
           "start": 102,
-          "end": 104,
-          "ctxt": 0
+          "end": 104
         },
+        "ctxt": 0,
         "stmts": []
       }
     }

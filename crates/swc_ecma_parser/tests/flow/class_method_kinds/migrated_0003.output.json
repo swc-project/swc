@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 34,
-    "ctxt": 0
+    "end": 34
   },
   "body": [
     {
@@ -12,33 +11,32 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 11,
-          "ctxt": 0
+          "end": 11
         },
+        "ctxt": 0,
         "value": "Kind",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 34,
-        "ctxt": 0
+        "end": 34
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "Constructor",
           "span": {
             "start": 14,
-            "end": 32,
-            "ctxt": 0
+            "end": 32
           },
+          "ctxt": 0,
           "key": {
             "type": "StringLiteral",
             "span": {
               "start": 14,
-              "end": 27,
-              "ctxt": 0
+              "end": 27
             },
             "value": "constructor",
             "raw": "\"constructor\""
@@ -48,9 +46,9 @@
             "type": "BlockStatement",
             "span": {
               "start": 30,
-              "end": 32,
-              "ctxt": 0
+              "end": 32
             },
+            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,

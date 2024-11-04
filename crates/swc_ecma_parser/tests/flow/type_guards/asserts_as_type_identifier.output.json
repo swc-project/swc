@@ -2,40 +2,35 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 38,
-    "ctxt": 0
+    "end": 38
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 19,
-        "ctxt": 0
+        "end": 19
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 19,
-        "end": 20,
-        "ctxt": 0
+        "end": 20
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 21,
-        "end": 37,
-        "ctxt": 0
+        "end": 37
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
         "start": 37,
-        "end": 38,
-        "ctxt": 0
+        "end": 38
       }
     }
   ],

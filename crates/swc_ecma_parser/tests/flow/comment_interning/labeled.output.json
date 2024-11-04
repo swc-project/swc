@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 157,
-    "ctxt": 0
+    "end": 157
   },
   "body": [
     {
@@ -12,9 +11,9 @@
         "type": "Identifier",
         "span": {
           "start": 10,
-          "end": 14,
-          "ctxt": 0
+          "end": 14
         },
+        "ctxt": 0,
         "value": "test",
         "optional": false
       },
@@ -23,24 +22,24 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 157,
-        "ctxt": 0
+        "end": 157
       },
+      "ctxt": 0,
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 17,
-          "end": 157,
-          "ctxt": 0
+          "end": 157
         },
+        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
               "start": 23,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
+            "ctxt": 0,
             "kind": "var",
             "declare": false,
             "declarations": [
@@ -48,16 +47,15 @@
                 "type": "VariableDeclarator",
                 "span": {
                   "start": 27,
-                  "end": 32,
-                  "ctxt": 0
+                  "end": 32
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
                     "start": 27,
-                    "end": 28,
-                    "ctxt": 0
+                    "end": 28
                   },
+                  "ctxt": 0,
                   "value": "i",
                   "optional": false,
                   "typeAnnotation": null
@@ -66,8 +64,7 @@
                   "type": "NumericLiteral",
                   "span": {
                     "start": 31,
-                    "end": 32,
-                    "ctxt": 0
+                    "end": 32
                   },
                   "value": 0.0,
                   "raw": "0"
@@ -80,16 +77,15 @@
             "type": "LabeledStatement",
             "span": {
               "start": 93,
-              "end": 155,
-              "ctxt": 0
+              "end": 155
             },
             "label": {
               "type": "Identifier",
               "span": {
                 "start": 93,
-                "end": 96,
-                "ctxt": 0
+                "end": 96
               },
+              "ctxt": 0,
               "value": "foo",
               "optional": false
             },
@@ -97,8 +93,7 @@
               "type": "ForStatement",
               "span": {
                 "start": 123,
-                "end": 155,
-                "ctxt": 0
+                "end": 155
               },
               "init": null,
               "test": null,
@@ -107,32 +102,30 @@
                 "type": "BlockStatement",
                 "span": {
                   "start": 132,
-                  "end": 155,
-                  "ctxt": 0
+                  "end": 155
                 },
+                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
                     "span": {
                       "start": 142,
-                      "end": 149,
-                      "ctxt": 0
+                      "end": 149
                     },
                     "expression": {
                       "type": "AssignmentExpression",
                       "span": {
                         "start": 142,
-                        "end": 148,
-                        "ctxt": 0
+                        "end": 148
                       },
                       "operator": "+=",
                       "left": {
                         "type": "Identifier",
                         "span": {
                           "start": 142,
-                          "end": 143,
-                          "ctxt": 0
+                          "end": 143
                         },
+                        "ctxt": 0,
                         "value": "i",
                         "optional": false,
                         "typeAnnotation": null
@@ -141,8 +134,7 @@
                         "type": "NumericLiteral",
                         "span": {
                           "start": 147,
-                          "end": 148,
-                          "ctxt": 0
+                          "end": 148
                         },
                         "value": 1.0,
                         "raw": "1"

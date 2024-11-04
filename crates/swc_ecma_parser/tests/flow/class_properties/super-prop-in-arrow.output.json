@@ -2,8 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 35,
-    "ctxt": 0
+    "end": 35
   },
   "body": [
     {
@@ -12,69 +11,62 @@
         "type": "Identifier",
         "span": {
           "start": 7,
-          "end": 8,
-          "ctxt": 0
+          "end": 8
         },
+        "ctxt": 0,
         "value": "C",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 35,
-        "ctxt": 0
+        "end": 35
       },
+      "ctxt": 0,
       "decorators": [],
       "body": [
         {
           "type": "ClassProperty",
           "span": {
             "start": 13,
-            "end": 33,
-            "ctxt": 0
+            "end": 33
           },
           "key": {
             "type": "Identifier",
             "span": {
               "start": 13,
-              "end": 14,
-              "ctxt": 0
+              "end": 14
             },
-            "value": "x",
-            "optional": false
+            "value": "x"
           },
           "value": {
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 17,
-              "end": 33,
-              "ctxt": 0
+              "end": 33
             },
+            "ctxt": 0,
             "params": [],
             "body": {
               "type": "SuperPropExpression",
               "span": {
                 "start": 23,
-                "end": 33,
-                "ctxt": 0
+                "end": 33
               },
               "obj": {
                 "type": "Super",
                 "span": {
                   "start": 23,
-                  "end": 28,
-                  "ctxt": 0
+                  "end": 28
                 }
               },
               "property": {
                 "type": "Identifier",
                 "span": {
                   "start": 29,
-                  "end": 33,
-                  "ctxt": 0
+                  "end": 33
                 },
-                "value": "prop",
-                "optional": false
+                "value": "prop"
               }
             },
             "async": false,

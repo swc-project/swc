@@ -2,39 +2,34 @@
   "type": "Script",
   "span": {
     "start": 55,
-    "end": 75,
-    "ctxt": 0
+    "end": 75
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 55,
-        "end": 75,
-        "ctxt": 0
+        "end": 75
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
           "start": 55,
-          "end": 74,
-          "ctxt": 0
+          "end": 74
         },
         "operator": "+",
         "left": {
           "type": "BinaryExpression",
           "span": {
             "start": 55,
-            "end": 70,
-            "ctxt": 0
+            "end": 70
           },
           "operator": "+",
           "left": {
             "type": "NumericLiteral",
             "span": {
               "start": 55,
-              "end": 56,
-              "ctxt": 0
+              "end": 56
             },
             "value": 1.0,
             "raw": "1"
@@ -43,16 +38,14 @@
             "type": "BinaryExpression",
             "span": {
               "start": 59,
-              "end": 70,
-              "ctxt": 0
+              "end": 70
             },
             "operator": "**",
             "left": {
               "type": "NumericLiteral",
               "span": {
                 "start": 59,
-                "end": 60,
-                "ctxt": 0
+                "end": 60
               },
               "value": 2.0,
               "raw": "2"
@@ -61,16 +54,14 @@
               "type": "BinaryExpression",
               "span": {
                 "start": 64,
-                "end": 70,
-                "ctxt": 0
+                "end": 70
               },
               "operator": "**",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 64,
-                  "end": 65,
-                  "ctxt": 0
+                  "end": 65
                 },
                 "value": 3.0,
                 "raw": "3"
@@ -79,8 +70,7 @@
                 "type": "NumericLiteral",
                 "span": {
                   "start": 69,
-                  "end": 70,
-                  "ctxt": 0
+                  "end": 70
                 },
                 "value": 4.0,
                 "raw": "4"
@@ -92,8 +82,7 @@
           "type": "NumericLiteral",
           "span": {
             "start": 73,
-            "end": 74,
-            "ctxt": 0
+            "end": 74
           },
           "value": 5.0,
           "raw": "5"

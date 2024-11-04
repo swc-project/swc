@@ -2,23 +2,20 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 37,
-    "ctxt": 0
+    "end": 37
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
         "start": 1,
-        "end": 37,
-        "ctxt": 0
+        "end": 37
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
           "start": 1,
-          "end": 37,
-          "ctxt": 0
+          "end": 37
         },
         "expression": {
           "type": "ClassExpression",
@@ -26,17 +23,17 @@
             "type": "Identifier",
             "span": {
               "start": 8,
-              "end": 9,
-              "ctxt": 0
+              "end": 9
             },
+            "ctxt": 0,
             "value": "A",
             "optional": false
           },
           "span": {
             "start": 2,
-            "end": 36,
-            "ctxt": 0
+            "end": 36
           },
+          "ctxt": 0,
           "decorators": [],
           "body": [],
           "superClass": null,
