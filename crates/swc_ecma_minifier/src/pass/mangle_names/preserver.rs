@@ -7,12 +7,12 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::option::MangleOptions;
 
 /// Returns `(preserved, unresolved)`
-pub(crate) fn idents_to_preserve<N>(options: MangleOptions, marks: Marks, n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_to_preserve<N>(options: &MangleOptions, marks: Marks, n: &N) -> FxHashSet<Id>
 where
     N: for<'a> VisitWith<Preserver<'a>>,
 {
     let mut v = Preserver {
-        options: &options,
+        options,
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,

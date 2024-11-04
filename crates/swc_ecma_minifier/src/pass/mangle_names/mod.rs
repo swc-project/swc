@@ -18,7 +18,7 @@ mod private_name;
 
 pub(crate) fn mangle_names(
     program: &mut Program,
-    options: MangleOptions,
+    options: &MangleOptions,
     preserved: FxHashSet<Id>,
     chars: Base54Chars,
     top_level_mark: Mark,
@@ -48,6 +48,7 @@ pub(crate) fn mangle_names(
             keep_class_names: options.keep_class_names,
             top_level_mark,
             ignore_eval: options.eval,
+            preserved_symbols: options.reserved.iter().cloned().collect(),
             ..Default::default()
         },
         ManglingRenamer {

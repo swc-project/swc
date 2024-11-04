@@ -176,6 +176,12 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
+        if !self.config.preserved_symbols.is_empty() {
+            unresolved
+                .to_mut()
+                .extend(self.config.preserved_symbols.iter().cloned());
+        }
+
         if R::MANGLE {
             let cost = scope.rename_cost();
             scope.rename_in_mangle_mode(

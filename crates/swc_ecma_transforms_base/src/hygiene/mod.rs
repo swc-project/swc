@@ -1,3 +1,5 @@
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -24,6 +26,9 @@ pub struct Config {
 
     /// Mangle even if vars are visible to `eval` or `with`.
     pub ignore_eval: bool,
+
+    /// Used for preventing mangler from renaming variables to reserved names.
+    pub preserved_symbols: FxHashSet<Atom>,
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default

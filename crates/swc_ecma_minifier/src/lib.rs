@@ -230,7 +230,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let preserved = idents_to_preserve(mangle.clone(), marks, &n);
+        let preserved = idents_to_preserve(mangle, marks, &n);
 
         let chars = CharFreq::compute(
             &n,
@@ -241,7 +241,7 @@ pub fn optimize(
 
         mangle_names(
             &mut n,
-            mangle.clone(),
+            mangle,
             preserved,
             chars,
             extra.top_level_mark,
