@@ -10,6 +10,13 @@ use swc_ecma_ast::{
     TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement, TsTupleType, TsType,
     TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl,
     VarDeclKind, VarDeclarator,
+    AssignPat, BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl,
+    ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl,
+    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName, PropOrSpread, Stmt,
+    TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
+    TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement,
+    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
 
 use crate::diagnostic::{DtsIssue, SourceRange};
