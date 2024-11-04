@@ -282,6 +282,24 @@ fn dts_class_params_initializers_test() {
 }
 
 #[test]
+fn dts_class_properties_computed_test() {
+    transform_dts_test(
+        r#"export class Test {
+  [Symbol.for("nodejs.util.inspect.custom")]() {
+  }
+  ["string"]: string;
+  ["string2" as string]: string;
+  [1 as number]: string;
+}"#,
+        r#"export declare class Test {
+    "string": string;
+    "string2": string;
+    1: string;
+}"#,
+    );
+}
+
+#[test]
 fn dts_var_decl_test() {
     transform_dts_test(
         r#"export const foo: number = 42;"#,
