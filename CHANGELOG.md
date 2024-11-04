@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.8.0] - 2024-11-04
 
 ### Bug Fixes
 
