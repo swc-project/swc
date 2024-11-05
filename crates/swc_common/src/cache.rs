@@ -112,7 +112,7 @@ mod rkyv_impl {
         }
     }
 
-    #[cfg(test)]
+    #[cfg(all(test, feature = "plugin-rt"))]
     mod tests {
         use crate::{
             plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
