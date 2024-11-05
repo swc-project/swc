@@ -115,11 +115,8 @@ mod rkyv_impl {
     #[cfg(test)]
     mod tests {
         use crate::{
-            cache::CacheCell,
             plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-            source_map::SourceFileAnalysis,
-            sync::Lrc,
-            BytePos, FileName, SourceFile, SourceMap,
+            FileName, SourceFile, SourceMap,
         };
 
         static SRC: &str = "import {styled} from 'styled-components';
