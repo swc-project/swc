@@ -129,35 +129,34 @@ mod rkyv_impl {
     `";
 
         #[test]
-        fn test_rkyv_none() {
-            let a = CacheCell::<Lrc<SourceFile>>::new();
+        fn test_rkyv_source_file_none() {
+            let cm = SourceMap::default();
+            let sf = cm.new_source_file(FileName::Anon.into(), SRC.into());
 
-            let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(a))
+            let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(sf))
                 .expect("Should serialize");
             let b = bytes
-                .deserialize::<CacheCell<SourceFileAnalysis>>()
+                .deserialize::<Lrc<SourceFile>>()
                 .expect("Should deserialize")
                 .into_inner();
 
-            assert!(b.get().is_none());
+            assert!(b.lazy.get().is_none());
         }
 
         #[test]
-        fn test_rkyv_some() {
+        fn test_rkyv_source_file_some() {
             let cm = SourceMap::default();
             let sf = cm.new_source_file(FileName::Anon.into(), SRC.into());
-            sf.analyze();
+            let expected_lines = sf.analyze().clone();
 
-            let a = CacheCell::<Lrc<SourceFile>>::from(sf);
-
-            let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(a))
+            let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(sf))
                 .expect("Should serialize");
             let b = bytes
-                .deserialize::<CacheCell<SourceFileAnalysis>>()
+                .deserialize::<Lrc<SourceFile>>()
                 .expect("Should deserialize")
                 .into_inner();
 
-            assert_eq!(b.get().unwrap().lines, vec![BytePos(96)]);
+            assert_eq!(b.analyze().lines, expected_lines.lines);
         }
     }
 }

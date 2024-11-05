@@ -830,7 +830,7 @@ pub struct SourceFile {
     /// A hash of the filename, used for speeding up the incr. comp. hashing.
     pub name_hash: u128,
 
-    lazy: CacheCell<SourceFileAnalysis>,
+    pub(crate) lazy: CacheCell<SourceFileAnalysis>,
 }
 
 #[cfg_attr(
@@ -839,7 +839,7 @@ pub struct SourceFile {
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct SourceFileAnalysis {
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
