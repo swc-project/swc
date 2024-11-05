@@ -116,6 +116,7 @@ mod rkyv_impl {
     mod tests {
         use crate::{
             plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
+            sync::Lrc,
             FileName, SourceFile, SourceMap,
         };
 
