@@ -40,11 +40,17 @@ impl Visit for TypeUsageAnalyzer {
     }
 }
 
-pub struct TypeRemover<'a>(&'a TypeUsageAnalyzer);
+pub struct TypeRemover<'a> {
+    analyzer: &'a TypeUsageAnalyzer,
+    check_binding: bool,
+}
 
 impl<'a> TypeRemover<'a> {
-    pub fn new(type_usage_analyzer: &'a TypeUsageAnalyzer) -> Self {
-        Self(type_usage_analyzer)
+    pub fn new(analyzer: &'a TypeUsageAnalyzer, check_binding: bool) -> Self {
+        Self {
+            analyzer,
+            check_binding,
+        }
     }
 }
 
@@ -52,10 +58,10 @@ impl VisitMut for TypeRemover<'_> {
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         node.visit_mut_children_with(self);
         node.retain_mut(|node| match node {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) => {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) if self.check_binding => {
                 var_decl.decls.retain_mut(|decl| {
                     if let Some(ident) = decl.name.as_ident() {
-                        self.0.used_ids.contains(&ident.to_id())
+                        self.analyzer.used_ids.contains(&ident.to_id())
                     } else {
                         true
                     }
@@ -70,13 +76,13 @@ impl VisitMut for TypeRemover<'_> {
 
                 import_decl.specifiers.retain(|specifier| match specifier {
                     ImportSpecifier::Named(specifier) => {
-                        self.0.used_ids.contains(&specifier.local.to_id())
+                        self.analyzer.used_ids.contains(&specifier.local.to_id())
                     }
                     ImportSpecifier::Default(specifier) => {
-                        self.0.used_ids.contains(&specifier.local.to_id())
+                        self.analyzer.used_ids.contains(&specifier.local.to_id())
                     }
                     ImportSpecifier::Namespace(specifier) => {
-                        self.0.used_ids.contains(&specifier.local.to_id())
+                        self.analyzer.used_ids.contains(&specifier.local.to_id())
                     }
                 });
 

@@ -122,8 +122,11 @@ impl FastDts {
         }
 
         let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        module.visit_with(&mut type_usage_analyzer);
-        module.visit_mut_with(&mut TypeRemover::new(&type_usage_analyzer));
+        program.visit_with(&mut type_usage_analyzer);
+        program.visit_mut_with(&mut TypeRemover::new(
+            &type_usage_analyzer,
+            program.is_module(),
+        ));
 
         take(&mut self.diagnostics)
     }
