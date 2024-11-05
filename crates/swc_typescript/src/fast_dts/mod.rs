@@ -259,11 +259,6 @@ impl FastDts {
                         )
                     }
                 }
-                ModuleItem::Stmt(stmt) => {
-                    if self.transform_module_stmt(stmt) {
-                        new_items.push(item);
-                    }
-                }
             }
         }
 
