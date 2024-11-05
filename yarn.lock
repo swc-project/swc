@@ -4727,12 +4727,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@swc/plugin-jest@npm:^1.5.117":
-  version: 1.5.117
-  resolution: "@swc/plugin-jest@npm:1.5.117"
+"@swc/plugin-jest@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@swc/plugin-jest@npm:4.0.0"
   dependencies:
     "@swc/counter": "npm:^0.1.3"
-  checksum: 29f17d0479d04fca495991ffe900c504fe739424c44c4546e5e3dc202d47849e17cee0d35fef95fbc29bf378829768db25cb14521a6a52ff04b5b91b685e2145
+  checksum: ea9ae30df3dcdc5d9429b1bb24a1a3670624289e558db9ea6acdf201a81660d32ed5235f55d9b994e5436e2078e21125b889c3182f2a8674a897a255bc556a17
+  languageName: node
+  linkType: hard
+
+"@swc/plugin-styled-components@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@swc/plugin-styled-components@npm:4.0.0"
+  dependencies:
+    "@swc/counter": "npm:^0.1.3"
+  checksum: fba88c61fb87ec38c863656bbb1812fcdfbed7b02baa72b9f41f28d49dd4ae81c4e774aa8622ea6ea6bbbd0a769efa37444e9888bc666723bd43989d054a5bc9
   languageName: node
   linkType: hard
 
@@ -4760,7 +4769,8 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.13.0"
     "@babel/types": "npm:^7.14.0"
     "@swc/helpers": "workspace:^"
-    "@swc/plugin-jest": "npm:^1.5.117"
+    "@swc/plugin-jest": "npm:^4.0.0"
+    "@swc/plugin-styled-components": "npm:^4.0.0"
     "@taplo/cli": "npm:^0.5.2"
     "@types/jest": "npm:^29.5.11"
     "@types/node": "npm:^20.5.0"

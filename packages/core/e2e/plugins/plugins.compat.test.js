@@ -61,7 +61,7 @@ const inferBinaryName = () => {
     );
 };
 
-describe.skip("Published plugins", () => {
+describe("Published plugins", () => {
     const packageName = platformPackagesMap[platform][arch];
 
     if (!!packageName) {
@@ -81,6 +81,7 @@ describe.skip("Published plugins", () => {
                     experimental: {
                         plugins: [
                             ["@swc/plugin-jest", {}],
+                            ["@swc/plugin-styled-components", {}],
                             // Disabled because this plugin is broken
                             // ["swc-plugin-coverage-instrument", {}],
                         ],
