@@ -73,8 +73,7 @@ mod rkyv_impl {
                     let out = out.cast::<ArchivedOptionVariantSome<T::Archived>>();
                     ptr::addr_of_mut!((*out).0).write(ArchivedOptionTag::Some);
 
-                    let v = self.0.get();
-                    let value = if let Some(value) = v.as_ref() {
+                    let value = if let Some(value) = self.get() {
                         value
                     } else {
                         unreachable_unchecked();
