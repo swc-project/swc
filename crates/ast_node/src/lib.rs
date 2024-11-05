@@ -137,9 +137,7 @@ struct AddAttr;
 impl VisitMut for AddAttr {
     fn visit_field_mut(&mut self, f: &mut Field) {
         f.attrs
-            .push(parse_quote!(#[cfg_attr(feature = "__rkyv", omit_bounds)]));
-        f.attrs
-            .push(parse_quote!(#[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]));
+            .push(parse_quote!(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]));
     }
 }
 
@@ -204,14 +202,23 @@ pub fn ast_node(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
-                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(check_bytes(
-                    bound = "__C: rkyv::validation::ArchiveContext, <__C as rkyv::Fallible>::Error: std::error::Error"
-                )))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
-                #[cfg_attr(feature = "rkyv-impl", archive(
-                    bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer")
-                ))]
+                #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
+                )]
+                #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+                        __S::Error: rkyv::rancor::Source))
+                )]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    bytecheck(bounds(
+                        __C: rkyv::validation::ArchiveContext
+                    ))
+                )]
                 #[cfg_attr(
                     feature = "serde-impl",
                     serde(untagged)
@@ -267,14 +274,23 @@ pub fn ast_node(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
-                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(check_bytes(
-                    bound = "__C: rkyv::validation::ArchiveContext, <__C as rkyv::Fallible>::Error: std::error::Error"
-                )))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-                #[cfg_attr(feature = "rkyv-impl", archive(
-                    bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer")
-                ))]
+                #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
+                )]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    bytecheck(bounds(
+                        __C: rkyv::validation::ArchiveContext
+                    ))
+                )]
+                #[cfg_attr(feature = "rkyv-impl", repr(C))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+                        __S::Error: rkyv::rancor::Source))
+                )]
                 #serde_tag
                 #[cfg_attr(
                     feature = "serde-impl",
