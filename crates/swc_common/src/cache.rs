@@ -34,7 +34,7 @@ impl<T> Default for CacheCell<T> {
 
 #[cfg(feature = "rkyv-impl")]
 mod rkyv_impl {
-    use std::{hint::unreachable_unchecked, ptr};
+    use std::{default, fmt::Debug, hint::unreachable_unchecked, ptr};
 
     use rkyv::{
         option::ArchivedOption, out_field, Archive, Archived, Deserialize, Fallible, Resolver,
@@ -42,6 +42,12 @@ mod rkyv_impl {
     };
 
     use super::*;
+    use crate::{
+        plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
+        source_map::SourceFileAnalysis,
+        sync::Lrc,
+        BytePos, FileName, SourceFile, SourceMap,
+    };
 
     #[allow(dead_code)]
     #[repr(u8)]
@@ -58,12 +64,13 @@ mod rkyv_impl {
 
     impl<T> Archive for CacheCell<T>
     where
-        T: Archive,
+        T: Archive + Debug,
     {
         type Archived = Archived<Option<T>>;
         type Resolver = Resolver<Option<T>>;
 
         unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+            dbg!(&self.0);
             match resolver {
                 None => {
                     let out = out.cast::<ArchivedOptionVariantNone>();
@@ -81,14 +88,16 @@ mod rkyv_impl {
 
                     let (fp, fo) = out_field!(out.1);
                     value.resolve(pos + fp, resolver, fo);
+                    dbg!();
                 }
             }
         }
     }
 
-    impl<T: Serialize<S>, S: Fallible + ?Sized> Serialize<S> for CacheCell<T> {
+    impl<T: Serialize<S> + Debug, S: Fallible + ?Sized> Serialize<S> for CacheCell<T> {
         #[inline]
         fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+            dbg!(&self.0);
             self.0
                 .get()
                 .map(|value| value.serialize(serializer))
@@ -104,11 +113,51 @@ mod rkyv_impl {
         fn deserialize(&self, deserializer: &mut D) -> Result<CacheCell<T>, D::Error> {
             match self {
                 ArchivedOption::Some(value) => {
+                    dbg!();
                     let v = value.deserialize(deserializer)?;
+                    dbg!();
                     Ok(CacheCell::from(v))
                 }
                 ArchivedOption::None => Ok(CacheCell::new()),
             }
         }
+    }
+
+    static SRC: &str = "import {styled} from 'styled-components';
+
+const MyComponent = styled.div`
+	color: purple;
+`";
+
+    #[test]
+    fn test_rkyv_none() {
+        let a = CacheCell::<Lrc<SourceFile>>::new();
+
+        let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(a))
+            .expect("Should serialize");
+        let b = bytes
+            .deserialize::<CacheCell<SourceFileAnalysis>>()
+            .expect("Should deserialize")
+            .into_inner();
+
+        assert!(b.get().is_none());
+    }
+
+    #[test]
+    fn test_rkyv_some() {
+        let cm = SourceMap::default();
+        let sf = cm.new_source_file(FileName::Anon.into(), SRC.into());
+        sf.analyze();
+
+        let a = CacheCell::<Lrc<SourceFile>>::from(sf);
+
+        let bytes = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(a))
+            .expect("Should serialize");
+        let b = bytes
+            .deserialize::<CacheCell<SourceFileAnalysis>>()
+            .expect("Should deserialize")
+            .into_inner();
+
+        assert_eq!(b.get().unwrap().lines, vec![BytePos(96)]);
     }
 }
