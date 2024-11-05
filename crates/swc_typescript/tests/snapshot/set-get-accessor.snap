@@ -1,0 +1,22 @@
+```==================== .D.TS ====================
+
+declare class Cls {
+    get a();
+    set a();
+    get b(): string;
+    set b(v: any);
+    private get c();
+    private set c();
+}
+declare class ClsBad {
+    get a();
+    set a(v: any);
+}
+
+
+==================== Errors ====================
+[$DIR/tests/fixture/set-get-accessor.ts][115..116] unable to infer type, falling back to any type
+[$DIR/tests/fixture/set-get-accessor.ts][234..235] unable to infer type, falling back to any type
+
+
+```

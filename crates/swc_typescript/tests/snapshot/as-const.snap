@@ -1,0 +1,27 @@
+```==================== .D.TS ====================
+
+declare const F: {
+    readonly string;
+    readonly templateLiteral;
+    readonly number: 1.23;
+    readonly bigint;
+    readonly boolean: true;
+    readonly null: null;
+    readonly undefined;
+    readonly arrow: (a: string) => void;
+    readonly object: {
+        readonly a;
+        readonly b;
+    };
+    readonly array: readonly [any, {
+            readonly b;
+        }];
+};
+
+
+==================== Errors ====================
+[$DIR/tests/fixture/as-const.ts][163..191] unable to infer type from object property, skipping
+[$DIR/tests/fixture/as-const.ts][277..280] unable to infer type from expression or declaration
+
+
+```

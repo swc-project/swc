@@ -1,0 +1,26 @@
+```==================== .D.TS ====================
+
+declare const n: number;
+declare const s: string;
+declare const t: any;
+declare const b: boolean;
+declare let unaryA: any;
+declare const unaryB: any;
+declare const unaryC: any;
+declare const unaryD: any;
+declare const unaryE: {
+    readonly E;
+};
+declare const unaryF: readonly [];
+
+
+==================== Errors ====================
+[$DIR/tests/fixture/infer-expression.ts][77..78] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-expression.ts][129..135] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-expression.ts][149..155] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-expression.ts][205..211] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-expression.ts][227..233] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-expression.ts][301..307] unable to infer type from expression or declaration
+
+
+```

@@ -1,0 +1,51 @@
+```==================== .D.TS ====================
+
+export declare class Foo {
+    private constructor(a?: number);
+}
+export declare class Bar {
+    public constructor(a?: number);
+}
+export declare class Zoo {
+    foo<F>(f: F): F;
+}
+export declare abstract class Qux {
+    abstract foo(): void;
+    protected foo2?(): void;
+    bar(): void;
+    baz(): void;
+}
+export declare class Baz {
+    readonly prop1: string;
+    prop2: string;
+    private prop3: string;
+    private prop4(): void;
+    private static prop5: string;
+    private static prop6(): void;
+}
+export declare class Boo {
+    constructor(public readonly prop?: number, private readonly prop2?: number, readonly prop3?: number);
+}
+export declare class Bux {
+    private constructor(public readonly prop?: number, private readonly prop2?: number, readonly prop3?: number);
+}
+export declare class PrivateFieldsWithConstructorAssignments {
+    private second: number;
+    constructor(public first: number);
+}
+export declare class PrivateMethodClass {
+    private good(a: any): void;
+    private get goodGetter();
+}
+export declare class PublicMethodClass {
+    public bad(a: any): void;
+    public get badGetter();
+}
+
+
+==================== Errors ====================
+[$DIR/tests/fixture/class.ts][1161..1162] unable to infer type, falling back to any type
+[$DIR/tests/fixture/class.ts][1280..1281] unable to infer type, falling back to any type
+
+
+```

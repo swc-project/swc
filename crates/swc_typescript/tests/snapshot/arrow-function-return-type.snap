@@ -1,0 +1,9 @@
+```==================== .D.TS ====================
+
+declare function A();
+declare const B: () => any;
+declare const C: () => any;
+declare const D: () => any;
+declare const E: () => (() => void) | undefined;
+
+

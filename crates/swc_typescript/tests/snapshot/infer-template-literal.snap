@@ -1,0 +1,23 @@
+```==================== .D.TS ====================
+
+export declare const CSS_VARS_HELPER: any;
+export declare function g(func?: any): void;
+export declare const F: {
+    readonly a;
+    readonly b: readonly [];
+};
+export declare let GOOD: any;
+export declare const BAD: any;
+export declare let BAD2: any;
+
+
+==================== Errors ====================
+[$DIR/tests/fixture/infer-template-literal.ts][14..29] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-template-literal.ts][71..82] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-template-literal.ts][130..133] unable to infer type from expression or declaration
+[$DIR/tests/fixture/infer-template-literal.ts][158..162] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-template-literal.ts][196..199] unable to infer type, falling back to any type
+[$DIR/tests/fixture/infer-template-literal.ts][231..235] unable to infer type, falling back to any type
+
+
+```

@@ -1,0 +1,28 @@
+```==================== .D.TS ====================
+
+import "foo";
+declare module "foo" {
+    interface Foo {
+    }
+}
+declare global {
+    interface Bar {
+    }
+}
+type Y = 1;
+declare module "foo" {
+    interface Foo {
+        x: X;
+        y: Y;
+    }
+}
+declare namespace baz {
+    interface Baz {
+    }
+}
+declare namespace x {
+    interface Qux {
+    }
+}
+
+

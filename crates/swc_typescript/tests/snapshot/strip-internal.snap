@@ -1,0 +1,32 @@
+```==================== .D.TS ====================
+
+declare class StripInternalClass {
+    public test();
+}
+declare class StripInternalClassFields {
+    internalProperty: string;
+    internalMethod(): void;
+}
+declare function stripInternalFunction();
+export { stripInternalFunction, StripInternalClass, StripInternalClassFields };
+export declare function stripInternalExportedFunction();
+export declare const stripInternalExportedConst: string;
+export interface StripInternalExportedInterface {
+}
+export interface StripInternalInterfaceSignatures {
+    internalMethod(): void;
+    internalProperty: number;
+    new(): any;
+}
+export type StripInternalTypeSignatures = {
+    internalMethod(): void;
+    internalProperty: number;
+    new(): any;
+};
+export declare namespace StripInternalNamespaceInner {
+    export function internalFunction();
+}
+export declare namespace StripInternalNamespace {
+}
+
+

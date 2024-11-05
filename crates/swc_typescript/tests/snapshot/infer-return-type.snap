@@ -1,0 +1,10 @@
+```==================== .D.TS ====================
+
+declare function foo();
+declare function bar();
+declare function baz();
+declare function qux();
+declare function quux();
+declare function returnFunctionOrNothing();
+
+

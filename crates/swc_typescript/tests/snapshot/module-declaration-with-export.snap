@@ -1,0 +1,27 @@
+```==================== .D.TS ====================
+
+export declare namespace OnlyOneExport {
+    export const a: number;
+}
+export declare namespace TwoExports {
+    export const c: number;
+    export const a: typeof c;
+}
+export declare namespace OneExportReferencedANonExported {
+    export const a: typeof c;
+}
+declare module "OnlyOneExport" {
+    export const a: number;
+}
+declare module "TwoExports" {
+    export const c: number;
+    export const a: typeof c;
+}
+declare module "OneExportReferencedANonExported" {
+    export const a: typeof c;
+}
+declare global {
+    export const a: typeof c;
+}
+
+
