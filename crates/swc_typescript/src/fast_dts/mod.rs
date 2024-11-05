@@ -4,12 +4,12 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, BindingIdent, ClassMember, ComputedPropName, Decl, DefaultDecl, ExportDecl,
-    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, ModuleDecl,
-    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Program, Prop, PropName,
-    PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType,
-    TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature,
-    TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
+    ExportDefaultExpr, Expr, Ident, Lit, MethodKind, ModuleDecl, ModuleItem, OptChainBase, Param,
+    ParamOrTsParamProp, Pat, Program, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
+    TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement, TsTupleType, TsType,
+    TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl,
+    VarDeclKind, VarDeclarator,
 };
 
 use crate::diagnostic::{DtsIssue, SourceRange};
@@ -79,9 +79,24 @@ impl FastDts {
             Program::Module(module) => {
                 self.transform_module_items(&mut module.body);
             }
-            Program::Script(script) => script
-                .body
-                .retain_mut(|stmt| self.transform_module_stmt(stmt)),
+            Program::Script(script) => {
+                let mut last_function_name: Option<Atom> = None;
+                script.body.retain_mut(|stmt| {
+                    if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                return false;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
+                    }
+                    self.transform_module_stmt(stmt)
+                })
+            }
         }
 
         take(&mut self.diagnostics)
@@ -91,28 +106,10 @@ impl FastDts {
         let orig_items = take(items);
         let mut new_items = Vec::with_capacity(orig_items.len());
 
-        let mut prev_is_overload = false;
+        let mut last_function_name: Option<Atom> = None;
+        let mut is_export_default_function_overloads = false;
 
         for mut item in orig_items {
-            let is_overload = match &item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::Fn(FnDecl {
-                        function, declare, ..
-                    }) => !declare && function.body.is_none(),
-                    _ => false,
-                },
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl,
-                    ..
-                })) => {
-                    matches!(decl, DefaultDecl::Fn(FnExpr { function, .. }) if function.body.is_none())
-                }
-
-                _ => false,
-            };
-
             match &mut item {
                 // Keep all these
                 ModuleItem::ModuleDecl(
@@ -124,14 +121,39 @@ impl FastDts {
                     | ModuleDecl::ExportAll(_),
                 ) => new_items.push(item),
 
+                ModuleItem::Stmt(stmt) => {
+                    if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                continue;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
+                    }
+
+                    if self.transform_module_stmt(stmt) {
+                        new_items.push(item);
+                    }
+                }
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span, decl, ..
                 })) => {
-                    let should_keep = prev_is_overload && !is_overload;
-
-                    if should_keep {
-                        prev_is_overload = is_overload;
-                        continue;
+                    if let Some(fn_decl) = decl.as_fn_decl() {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                continue;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
                     }
 
                     if let Some(()) = self.decl_to_type_decl(decl) {
@@ -150,6 +172,17 @@ impl FastDts {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                    if let Some(fn_expr) = export.decl.as_fn_expr() {
+                        if is_export_default_function_overloads && fn_expr.function.body.is_some() {
+                            is_export_default_function_overloads = false;
+                            continue;
+                        } else {
+                            is_export_default_function_overloads = true;
+                        }
+                    } else {
+                        is_export_default_function_overloads = false;
+                    }
+
                     match &mut export.decl {
                         DefaultDecl::Class(class_expr) => {
                             self.class_body_to_type(&mut class_expr.class.body);
@@ -160,22 +193,10 @@ impl FastDts {
                         DefaultDecl::TsInterfaceDecl(_) => {}
                     };
 
-                    let should_keep = prev_is_overload && !is_overload;
-                    prev_is_overload = is_overload;
-                    if should_keep {
-                        continue;
-                    }
-
                     new_items.push(item);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
-                    let should_keep = prev_is_overload && !is_overload;
-                    prev_is_overload = is_overload;
-                    if should_keep {
-                        continue;
-                    }
-
                     let name = self.gen_unique_name();
                     let name_ident = Ident::new_no_ctxt(name, DUMMY_SP);
                     let type_ann = self
@@ -220,14 +241,7 @@ impl FastDts {
                         )
                     }
                 }
-                ModuleItem::Stmt(stmt) => {
-                    if self.transform_module_stmt(stmt) {
-                        new_items.push(item);
-                    }
-                }
             }
-
-            prev_is_overload = is_overload;
         }
 
         *items = new_items;
@@ -703,7 +717,8 @@ impl FastDts {
             .into_iter()
             .filter(|member| match member {
                 ClassMember::Constructor(class_constructor) => {
-                    let is_overload = class_constructor.body.is_none();
+                    let is_overload =
+                        class_constructor.body.is_none() && !class_constructor.is_optional;
                     if !prev_is_overload || is_overload {
                         prev_is_overload = is_overload;
                         true
@@ -713,7 +728,8 @@ impl FastDts {
                     }
                 }
                 ClassMember::Method(method) => {
-                    let is_overload = method.function.body.is_none() && !method.is_abstract;
+                    let is_overload = method.function.body.is_none()
+                        && !(method.is_abstract || method.is_optional);
                     if !prev_is_overload || is_overload {
                         prev_is_overload = is_overload;
                         true

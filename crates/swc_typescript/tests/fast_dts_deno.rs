@@ -183,6 +183,32 @@ fn dts_class_decl_overloads_test() {
     foo(arg: number);
 }"#,
     );
+
+    transform_dts_test(
+        r#"export abstract class Value {
+    protected body?(): string | undefined | Promise<string | undefined>;
+    protected footer(): string | undefined {
+        return "";
+    }
+}
+function overloadsNonExportDecl(args: string): void;
+function overloadsNonExportDecl(args: number): void;
+function overloadsNonExportDecl(args: any): void {}
+export { overloadsNonExportDecl };
+export default function defaultExport(args: string): void;
+export default function defaultExport(args: number): void;
+export default function defaultExport(args: any): void {}
+"#,
+        r#"export declare abstract class Value {
+    protected body?(): string | undefined | Promise<string | undefined>;
+    protected footer(): string | undefined;
+}
+declare function overloadsNonExportDecl(args: string): void;
+declare function overloadsNonExportDecl(args: number): void;
+export { overloadsNonExportDecl };
+export default function defaultExport(args: string): void;
+export default function defaultExport(args: number): void;"#,
+    );
 }
 
 #[test]
