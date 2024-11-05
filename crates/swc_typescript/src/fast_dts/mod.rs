@@ -26,8 +26,12 @@ use swc_ecma_ast::{
     TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
     TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
+use swc_ecma_visit::{VisitMutWith, VisitWith};
+use type_usage::{TypeRemover, TypeUsageAnalyzer};
 
 use crate::diagnostic::{DtsIssue, SourceRange};
+
+mod type_usage;
 
 /// TypeScript Isolated Declaration support.
 ///
@@ -116,6 +120,10 @@ impl FastDts {
                 .body
                 .retain_mut(|stmt| self.transform_module_stmt(stmt)),
         }
+
+        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
+        module.visit_with(&mut type_usage_analyzer);
+        module.visit_mut_with(&mut TypeRemover::new(&type_usage_analyzer));
 
         take(&mut self.diagnostics)
     }

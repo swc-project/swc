@@ -600,7 +600,6 @@ fn dts_default_export_all() {
 fn dts_imports() {
     transform_dts_test(
         r#"import { foo } from "bar";export const foobar = foo;"#,
-        r#"import { foo } from "bar";
-export declare const foobar: any;"#,
+        r#"export declare const foobar: any;"#,
     );
 }
