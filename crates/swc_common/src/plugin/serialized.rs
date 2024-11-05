@@ -66,7 +66,7 @@ impl PluginSerializedBytes {
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
-        rkyv::to_bytes::<_, 512>(t)
+        let bytes = rkyv::to_bytes::<_, 512>(t)
             .map(|field| PluginSerializedBytes { field })
             .map_err(|err| match err {
                 rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
@@ -76,7 +76,10 @@ impl PluginSerializedBytes {
                 rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
                     Error::msg("SharedSerializeMapError")
                 }
-            })
+            })?;
+
+        eprintln!("try_serialize: {:?}", bytes.field);
+        Ok(bytes)
     }
 
     /*
@@ -110,6 +113,8 @@ impl PluginSerializedBytes {
             + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
     {
         use anyhow::Context;
+
+        eprintln!("deserialize: {:?}", self.field);
 
         let archived = rkyv::check_archived_root::<VersionedSerializable<W>>(&self.field[..])
             .map_err(|err| {
