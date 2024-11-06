@@ -2,7 +2,7 @@
 
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use swc_typescript::fast_dts::FastDts;
 
 #[track_caller]
@@ -15,7 +15,7 @@ fn transform_dts_test(source: &str, expected: &str) {
 
         let mut checker = FastDts::new(fm.name.clone());
 
-        let mut module = parse_file_as_module(
+        let mut program = parse_file_as_program(
             &fm,
             Syntax::Typescript(TsSyntax {
                 ..Default::default()
@@ -26,9 +26,9 @@ fn transform_dts_test(source: &str, expected: &str) {
         )
         .unwrap();
 
-        let _issues = checker.transform(&mut module);
+        let _issues = checker.transform(&mut program);
 
-        let code = to_code(&module);
+        let code = to_code(&program);
 
         assert_eq!(
             code.trim(),
@@ -183,6 +183,32 @@ fn dts_class_decl_overloads_test() {
     foo(arg: number);
 }"#,
     );
+
+    transform_dts_test(
+        r#"export abstract class Value {
+    protected body?(): string | undefined | Promise<string | undefined>;
+    protected footer(): string | undefined {
+        return "";
+    }
+}
+function overloadsNonExportDecl(args: string): void;
+function overloadsNonExportDecl(args: number): void;
+function overloadsNonExportDecl(args: any): void {}
+export { overloadsNonExportDecl };
+export default function defaultExport(args: string): void;
+export default function defaultExport(args: number): void;
+export default function defaultExport(args: any): void {}
+"#,
+        r#"export declare abstract class Value {
+    protected body?(): string | undefined | Promise<string | undefined>;
+    protected footer(): string | undefined;
+}
+declare function overloadsNonExportDecl(args: string): void;
+declare function overloadsNonExportDecl(args: number): void;
+export { overloadsNonExportDecl };
+export default function defaultExport(args: string): void;
+export default function defaultExport(args: number): void;"#,
+    );
 }
 
 #[test]
@@ -234,6 +260,67 @@ fn dts_class_abstract_method_test() {
     protected abstract A(): void;
     protected B(): void;
     protected C(): void;
+}"#,
+    );
+}
+
+#[test]
+fn dts_class_params_initializers_test() {
+    transform_dts_test(
+        r#"export class Object {
+    constructor(
+        values: {},
+        {
+            a,
+            b,
+        }: {
+            a?: A;
+            b?: B;
+        } = {}
+    ) {}
+
+    method(
+        values: {},
+        {
+            a,
+            b,
+        }: {
+            a?: A;
+            b?: B;
+        } = {},
+        value = 1
+    ) {}
+}
+"#,
+        r#"export declare class Object {
+    constructor(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    });
+    method(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    }, value?: number);
+}"#,
+    );
+}
+
+#[test]
+fn dts_class_properties_computed_test() {
+    transform_dts_test(
+        r#"export class Test {
+  [Symbol.for("nodejs.util.inspect.custom")]() {
+  }
+  ["string"]: string;
+  ["string2" as string]: string;
+  [1 as number]: string;
+}"#,
+        r#"export declare class Test {
+    "string": string;
+    "string2": string;
+    1: string;
 }"#,
     );
 }

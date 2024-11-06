@@ -3,12 +3,13 @@ use std::{mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
-    Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam,
-    TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody,
-    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
+    AssignPat, BindingIdent, ClassMember, ComputedPropName, Decl, DefaultDecl, ExportDecl,
+    ExportDefaultExpr, Expr, Ident, Lit, MethodKind, ModuleDecl, ModuleItem, OptChainBase, Param,
+    ParamOrTsParamProp, Pat, Program, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
+    TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement, TsTupleType, TsType,
+    TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl,
+    VarDeclKind, VarDeclarator,
 };
 
 use crate::diagnostic::{DtsIssue, SourceRange};
@@ -71,10 +72,32 @@ impl FastDts {
 }
 
 impl FastDts {
-    pub fn transform(&mut self, module: &mut Module) -> Vec<DtsIssue> {
+    pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
         self.is_top_level = true;
 
-        self.transform_module_items(&mut module.body);
+        match program {
+            Program::Module(module) => {
+                self.transform_module_items(&mut module.body);
+            }
+            Program::Script(script) => {
+                let mut last_function_name: Option<Atom> = None;
+                script.body.retain_mut(|stmt| {
+                    if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                return false;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
+                    }
+                    self.transform_module_stmt(stmt)
+                })
+            }
+        }
 
         take(&mut self.diagnostics)
     }
@@ -83,28 +106,10 @@ impl FastDts {
         let orig_items = take(items);
         let mut new_items = Vec::with_capacity(orig_items.len());
 
-        let mut prev_is_overload = false;
+        let mut last_function_name: Option<Atom> = None;
+        let mut is_export_default_function_overloads = false;
 
         for mut item in orig_items {
-            let is_overload = match &item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::Fn(FnDecl {
-                        function, declare, ..
-                    }) => !declare && function.body.is_none(),
-                    _ => false,
-                },
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl,
-                    ..
-                })) => {
-                    matches!(decl, DefaultDecl::Fn(FnExpr { function, .. }) if function.body.is_none())
-                }
-
-                _ => false,
-            };
-
             match &mut item {
                 // Keep all these
                 ModuleItem::ModuleDecl(
@@ -116,14 +121,39 @@ impl FastDts {
                     | ModuleDecl::ExportAll(_),
                 ) => new_items.push(item),
 
+                ModuleItem::Stmt(stmt) => {
+                    if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                continue;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
+                    }
+
+                    if self.transform_module_stmt(stmt) {
+                        new_items.push(item);
+                    }
+                }
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span, decl, ..
                 })) => {
-                    let should_keep = prev_is_overload && !is_overload;
-
-                    if should_keep {
-                        prev_is_overload = is_overload;
-                        continue;
+                    if let Some(fn_decl) = decl.as_fn_decl() {
+                        if fn_decl.function.body.is_some() {
+                            if last_function_name
+                                .as_ref()
+                                .is_some_and(|last_name| last_name == &fn_decl.ident.sym)
+                            {
+                                continue;
+                            }
+                        } else {
+                            last_function_name = Some(fn_decl.ident.sym.clone());
+                        }
                     }
 
                     if let Some(()) = self.decl_to_type_decl(decl) {
@@ -142,6 +172,17 @@ impl FastDts {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                    if let Some(fn_expr) = export.decl.as_fn_expr() {
+                        if is_export_default_function_overloads && fn_expr.function.body.is_some() {
+                            is_export_default_function_overloads = false;
+                            continue;
+                        } else {
+                            is_export_default_function_overloads = true;
+                        }
+                    } else {
+                        is_export_default_function_overloads = false;
+                    }
+
                     match &mut export.decl {
                         DefaultDecl::Class(class_expr) => {
                             self.class_body_to_type(&mut class_expr.class.body);
@@ -152,22 +193,10 @@ impl FastDts {
                         DefaultDecl::TsInterfaceDecl(_) => {}
                     };
 
-                    let should_keep = prev_is_overload && !is_overload;
-                    prev_is_overload = is_overload;
-                    if should_keep {
-                        continue;
-                    }
-
                     new_items.push(item);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
-                    let should_keep = prev_is_overload && !is_overload;
-                    prev_is_overload = is_overload;
-                    if should_keep {
-                        continue;
-                    }
-
                     let name = self.gen_unique_name();
                     let name_ident = Ident::new_no_ctxt(name, DUMMY_SP);
                     let type_ann = self
@@ -212,32 +241,29 @@ impl FastDts {
                         )
                     }
                 }
-
-                ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
-                    Decl::TsEnum(_)
-                    | Decl::Class(_)
-                    | Decl::Fn(_)
-                    | Decl::Var(_)
-                    | Decl::TsModule(_) => {
-                        if let Some(()) = self.decl_to_type_decl(decl) {
-                            new_items.push(item);
-                        } else {
-                            self.mark_diagnostic_unable_to_infer(decl.span())
-                        }
-                    }
-
-                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => {
-                        new_items.push(item);
-                    }
-                },
-
-                ModuleItem::Stmt(..) => {}
             }
-
-            prev_is_overload = is_overload;
         }
 
         *items = new_items;
+    }
+
+    fn transform_module_stmt(&mut self, stmt: &mut Stmt) -> bool {
+        let Stmt::Decl(ref mut decl) = stmt else {
+            return false;
+        };
+
+        match decl {
+            Decl::TsEnum(_) | Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) | Decl::TsModule(_) => {
+                if let Some(()) = self.decl_to_type_decl(decl) {
+                    true
+                } else {
+                    self.mark_diagnostic_unable_to_infer(decl.span());
+                    false
+                }
+            }
+
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => true,
+        }
     }
 
     fn expr_to_ts_type(
@@ -445,64 +471,7 @@ impl FastDts {
             Decl::Fn(fn_decl) => {
                 fn_decl.function.body = None;
                 fn_decl.declare = is_declare;
-
-                for param in &mut fn_decl.function.params {
-                    match &mut param.pat {
-                        Pat::Ident(ident) => {
-                            if ident.type_ann.is_none() {
-                                self.mark_diagnostic_any_fallback(ident.span());
-                                ident.type_ann = Some(any_type_ann());
-                            }
-                        }
-                        Pat::Assign(assign_pat) => {
-                            match &mut *assign_pat.left {
-                                Pat::Ident(ident) => {
-                                    if ident.type_ann.is_none() {
-                                        ident.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    ident.optional = true;
-                                    param.pat = ident.clone().into();
-                                }
-                                Pat::Array(arr_pat) => {
-                                    if arr_pat.type_ann.is_none() {
-                                        arr_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    arr_pat.optional = true;
-                                    param.pat = arr_pat.clone().into();
-                                }
-                                Pat::Object(obj_pat) => {
-                                    if obj_pat.type_ann.is_none() {
-                                        obj_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right.take(),
-                                            false,
-                                            false,
-                                        );
-                                    }
-
-                                    obj_pat.optional = true;
-                                    param.pat = obj_pat.clone().into();
-                                }
-                                Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
-                            };
-                        }
-                        Pat::Array(_)
-                        | Pat::Rest(_)
-                        | Pat::Object(_)
-                        | Pat::Invalid(_)
-                        | Pat::Expr(_) => {}
-                    }
-                }
-
+                self.handle_func_params(&mut fn_decl.function.params);
                 Some(())
             }
             Decl::Var(var_decl) => {
@@ -748,7 +717,8 @@ impl FastDts {
             .into_iter()
             .filter(|member| match member {
                 ClassMember::Constructor(class_constructor) => {
-                    let is_overload = class_constructor.body.is_none();
+                    let is_overload =
+                        class_constructor.body.is_none() && !class_constructor.is_optional;
                     if !prev_is_overload || is_overload {
                         prev_is_overload = is_overload;
                         true
@@ -758,7 +728,8 @@ impl FastDts {
                     }
                 }
                 ClassMember::Method(method) => {
-                    let is_overload = method.function.body.is_none() && !method.is_abstract;
+                    let is_overload = method.function.body.is_none()
+                        && !(method.is_abstract || method.is_optional);
                     if !prev_is_overload || is_overload {
                         prev_is_overload = is_overload;
                         true
@@ -781,16 +752,30 @@ impl FastDts {
             .filter_map(|member| match member {
                 ClassMember::Constructor(mut class_constructor) => {
                     class_constructor.body = None;
+                    self.handle_ts_param_props(&mut class_constructor.params);
                     Some(ClassMember::Constructor(class_constructor))
                 }
                 ClassMember::Method(mut method) => {
+                    if let Some(new_prop_name) = valid_prop_name(&method.key) {
+                        method.key = new_prop_name;
+                    } else {
+                        return None;
+                    }
+
                     method.function.body = None;
                     if method.kind == MethodKind::Setter {
                         method.function.return_type = None;
                     }
+                    self.handle_func_params(&mut method.function.params);
                     Some(ClassMember::Method(method))
                 }
                 ClassMember::ClassProp(mut prop) => {
+                    if let Some(new_prop_name) = valid_prop_name(&prop.key) {
+                        prop.key = new_prop_name;
+                    } else {
+                        return None;
+                    }
+
                     if prop.type_ann.is_none() {
                         if let Some(value) = prop.value {
                             prop.type_ann = self
@@ -819,6 +804,101 @@ impl FastDts {
             .collect();
 
         *body = new_body;
+    }
+
+    fn handle_ts_param_props(&mut self, param_props: &mut Vec<ParamOrTsParamProp>) {
+        for param in param_props {
+            match param {
+                ParamOrTsParamProp::TsParamProp(param) => {
+                    match &mut param.param {
+                        TsParamPropParam::Ident(ident) => {
+                            self.handle_func_param_ident(ident);
+                        }
+                        TsParamPropParam::Assign(assign) => {
+                            if let Some(new_pat) = self.handle_func_param_assign(assign) {
+                                match new_pat {
+                                    Pat::Ident(new_ident) => {
+                                        param.param = TsParamPropParam::Ident(new_ident)
+                                    }
+                                    Pat::Assign(new_assign) => {
+                                        param.param = TsParamPropParam::Assign(new_assign)
+                                    }
+                                    Pat::Rest(_)
+                                    | Pat::Object(_)
+                                    | Pat::Array(_)
+                                    | Pat::Invalid(_)
+                                    | Pat::Expr(_) => {
+                                        // should never happen for parameter properties
+                                        unreachable!();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ParamOrTsParamProp::Param(param) => self.handle_func_param(param),
+            }
+        }
+    }
+
+    fn handle_func_params(&mut self, params: &mut Vec<Param>) {
+        for param in params {
+            self.handle_func_param(param);
+        }
+    }
+
+    fn handle_func_param(&mut self, param: &mut Param) {
+        match &mut param.pat {
+            Pat::Ident(ident) => {
+                self.handle_func_param_ident(ident);
+            }
+            Pat::Assign(assign_pat) => {
+                if let Some(new_pat) = self.handle_func_param_assign(assign_pat) {
+                    param.pat = new_pat;
+                }
+            }
+            Pat::Array(_) | Pat::Rest(_) | Pat::Object(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+        }
+    }
+
+    fn handle_func_param_ident(&mut self, ident: &mut BindingIdent) {
+        if ident.type_ann.is_none() {
+            self.mark_diagnostic_any_fallback(ident.span());
+            ident.type_ann = Some(any_type_ann());
+        }
+    }
+
+    fn handle_func_param_assign(&mut self, assign_pat: &mut AssignPat) -> Option<Pat> {
+        match &mut *assign_pat.left {
+            Pat::Ident(ident) => {
+                if ident.type_ann.is_none() {
+                    ident.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                ident.optional = true;
+                Some(Pat::Ident(ident.clone()))
+            }
+            Pat::Array(arr_pat) => {
+                if arr_pat.type_ann.is_none() {
+                    arr_pat.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                arr_pat.optional = true;
+                Some(Pat::Array(arr_pat.clone()))
+            }
+            Pat::Object(obj_pat) => {
+                if obj_pat.type_ann.is_none() {
+                    obj_pat.type_ann =
+                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                }
+
+                obj_pat.optional = true;
+                Some(Pat::Object(obj_pat.clone()))
+            }
+            Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => None,
+        }
     }
 
     fn pat_to_ts_fn_param(&mut self, pat: Pat) -> Option<TsFnParam> {
@@ -937,5 +1017,71 @@ fn maybe_lit_to_ts_type(lit: &Lit) -> Option<Box<TsType>> {
         Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
         Lit::Regex(_) => Some(regex_type()),
         Lit::JSXText(_) => None,
+    }
+}
+
+fn valid_prop_name(prop_name: &PropName) -> Option<PropName> {
+    fn prop_name_from_expr(expr: &Expr) -> Option<PropName> {
+        match expr {
+            Expr::Lit(e) => match &e {
+                Lit::Str(e) => Some(PropName::Str(e.clone())),
+                Lit::Num(e) => Some(PropName::Num(e.clone())),
+                Lit::BigInt(e) => Some(PropName::BigInt(e.clone())),
+                Lit::Bool(_) | Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
+            },
+            Expr::Tpl(e) => {
+                if e.quasis.is_empty() && e.exprs.len() == 1 {
+                    prop_name_from_expr(&e.exprs[0])
+                } else {
+                    None
+                }
+            }
+            Expr::Paren(e) => prop_name_from_expr(&e.expr),
+            Expr::TsTypeAssertion(e) => prop_name_from_expr(&e.expr),
+            Expr::TsConstAssertion(e) => prop_name_from_expr(&e.expr),
+            Expr::TsNonNull(e) => prop_name_from_expr(&e.expr),
+            Expr::TsAs(e) => prop_name_from_expr(&e.expr),
+            Expr::TsSatisfies(e) => prop_name_from_expr(&e.expr),
+            Expr::Ident(_) => Some(PropName::Computed(ComputedPropName {
+                span: expr.span(),
+                expr: Box::new(expr.clone()),
+            })),
+            Expr::TaggedTpl(_)
+            | Expr::This(_)
+            | Expr::Array(_)
+            | Expr::Object(_)
+            | Expr::Fn(_)
+            | Expr::Unary(_)
+            | Expr::Update(_)
+            | Expr::Bin(_)
+            | Expr::Assign(_)
+            | Expr::Member(_)
+            | Expr::SuperProp(_)
+            | Expr::Cond(_)
+            | Expr::Call(_)
+            | Expr::New(_)
+            | Expr::Seq(_)
+            | Expr::Arrow(_)
+            | Expr::Class(_)
+            | Expr::Yield(_)
+            | Expr::Await(_)
+            | Expr::MetaProp(_)
+            | Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::TsInstantiation(_)
+            | Expr::PrivateName(_)
+            | Expr::OptChain(_)
+            | Expr::Invalid(_) => None,
+        }
+    }
+
+    match prop_name {
+        PropName::Ident(_) | PropName::Str(_) | PropName::Num(_) | PropName::BigInt(_) => {
+            Some(prop_name.clone())
+        }
+        PropName::Computed(computed) => prop_name_from_expr(&computed.expr),
     }
 }

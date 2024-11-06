@@ -971,7 +971,7 @@ impl Compiler {
                 Default::default()
             };
 
-            let dts_code = if emit_dts && program.is_module() {
+            let dts_code = if emit_dts {
                 let (leading, trailing) = comments.borrow_all();
 
                 let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
@@ -979,14 +979,13 @@ impl Compiler {
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
                 let mut checker = FastDts::new(fm.name.clone());
-                let mut module = program.clone();
+                let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
-                    module.mutate(import_rewriter(base, resolver));
+                    program.mutate(import_rewriter(base, resolver));
                 }
 
-                let mut module = module.expect_module();
-                let issues = checker.transform(&mut module);
+                let issues = checker.transform(&mut program);
 
                 for issue in issues {
                     let range = issue.range();
@@ -995,7 +994,8 @@ impl Compiler {
                         .struct_span_err(range.span, &issue.to_string())
                         .emit();
                 }
-                let dts_code = to_code_with_comments(Some(&comments), &module);
+
+                let dts_code = to_code_with_comments(Some(&comments), &program);
                 Some(dts_code)
             } else {
                 None
