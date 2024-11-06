@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.0"
+version       = "5.0.1"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -354,7 +354,7 @@ swc_css_prefixer                 = { optional = true, version = "4.0.0", path = 
 swc_css_utils                    = { optional = true, version = "4.0.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "4.0.0", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "4.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { optional = true, version = "4.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen                 = { optional = true, version = "4.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "5.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "4.0.0", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "5.0.0", path = "../swc_ecma_minifier" }
