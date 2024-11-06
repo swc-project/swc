@@ -38,7 +38,7 @@ new_debug_unreachable = { workspace = true }
 phf                   = { workspace = true, features = ["macros"] }
 swc_atoms             = { version = "2.0.0", path = "../swc_atoms" }
 swc_common            = { version = "4.0.0", path = "../swc_common" }
-swc_ecma_ast          = { version = "4.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast          = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_visit        = { version = "4.0.0", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
@@ -51,7 +51,7 @@ serde_json        = { workspace = true }
 walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "4.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }

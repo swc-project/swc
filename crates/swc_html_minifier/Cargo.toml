@@ -28,11 +28,11 @@ serde_json = { workspace = true }
 swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
 swc_cached = { version = "1.0.0", path = "../swc_cached" }
 swc_common = { version = "4.0.0", path = "../swc_common" }
-swc_css_ast = { version = "4.0.0", path = "../swc_css_ast", optional = true }
+swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", optional = true }
 swc_css_codegen = { version = "4.0.0", path = "../swc_css_codegen", optional = true }
 swc_css_minifier = { version = "4.0.0", path = "../swc_css_minifier", optional = true }
 swc_css_parser = { version = "4.0.0", path = "../swc_css_parser", optional = true }
-swc_ecma_ast = { version = "4.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "4.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
@@ -42,7 +42,7 @@ swc_ecma_minifier = { version = "5.0.0", path = "../swc_ecma_minifier", features
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "5.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
-swc_html_ast = { version = "4.0.0", path = "../swc_html_ast" }
+swc_html_ast = { version = "4.0.1", path = "../swc_html_ast" }
 swc_html_codegen = { version = "4.0.0", path = "../swc_html_codegen" }
 swc_html_parser = { version = "4.0.0", path = "../swc_html_parser" }
 swc_html_utils = { version = "4.0.0", path = "../swc_html_utils" }

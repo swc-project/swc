@@ -344,7 +344,7 @@ swc_atoms                        = { optional = true, version = "2.0.0", path = 
 swc_bundler                      = { optional = true, version = "5.0.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "1.0.0", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "4.0.0", path = "../swc_common" }
-swc_css_ast                      = { optional = true, version = "4.0.0", path = "../swc_css_ast" }
+swc_css_ast                      = { optional = true, version = "4.0.1", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "4.0.0", path = "../swc_css_codegen" }
 swc_css_compat                   = { optional = true, version = "4.0.0", path = "../swc_css_compat" }
 swc_css_minifier                 = { optional = true, version = "4.0.0", path = "../swc_css_minifier" }
@@ -353,7 +353,7 @@ swc_css_parser                   = { optional = true, version = "4.0.0", path = 
 swc_css_prefixer                 = { optional = true, version = "4.0.0", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "4.0.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "4.0.0", path = "../swc_css_visit" }
-swc_ecma_ast                     = { optional = true, version = "4.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { optional = true, version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "4.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "5.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "4.0.0", path = "../swc_ecma_loader" }

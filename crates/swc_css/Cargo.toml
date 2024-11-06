@@ -22,7 +22,7 @@ modules  = ["swc_css_modules"]
 prefixer = ["swc_css_prefixer"]
 
 [dependencies]
-swc_css_ast      = { version = "4.0.0", path = "../swc_css_ast" }
+swc_css_ast      = { version = "4.0.1", path = "../swc_css_ast" }
 swc_css_codegen  = { version = "4.0.0", path = "../swc_css_codegen" }
 swc_css_compat   = { version = "4.0.0", path = "../swc_css_compat", optional = true }
 swc_css_minifier = { version = "4.0.0", path = "../swc_css_minifier", optional = true }

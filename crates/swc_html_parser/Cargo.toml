@@ -21,7 +21,7 @@ debug = []
 [dependencies]
 swc_atoms      = { version = "2.0.0", path = "../swc_atoms" }
 swc_common     = { version = "4.0.0", path = "../swc_common" }
-swc_html_ast   = { version = "4.0.0", path = "../swc_html_ast" }
+swc_html_ast   = { version = "4.0.1", path = "../swc_html_ast" }
 swc_html_utils = { version = "4.0.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
@@ -30,7 +30,7 @@ criterion                 = { workspace = true }
 serde                     = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_html_ast = { version = "4.0.0", path = "../swc_html_ast", features = [
+swc_html_ast = { version = "4.0.1", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
 swc_html_visit = { version = "4.0.0", path = "../swc_html_visit" }

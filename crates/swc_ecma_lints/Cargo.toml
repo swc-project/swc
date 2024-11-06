@@ -25,7 +25,7 @@ swc_common = { version = "4.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "1.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "4.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_utils = { version = "5.0.0", path = "../swc_ecma_utils" }

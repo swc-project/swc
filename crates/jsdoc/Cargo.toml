@@ -26,6 +26,6 @@ swc_common = { version = "4.0.0", path = "../swc_common" }
 anyhow  = { workspace = true }
 dashmap = { workspace = true }
 
-swc_ecma_ast    = { version = "4.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast    = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
 testing         = { version = "4.0.0", path = "../testing" }

@@ -58,7 +58,7 @@ swc_common = { version = "4.0.0", path = "../swc_common" }
 swc_config = { version = "1.0.0", path = "../swc_config", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "4.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_codegen = { version = "4.0.0", path = "../swc_ecma_codegen" }

@@ -21,13 +21,13 @@ debug = []
 [dependencies]
 swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }
 swc_common  = { version = "4.0.0", path = "../swc_common" }
-swc_xml_ast = { version = "4.0.0", path = "../swc_xml_ast" }
+swc_xml_ast = { version = "4.0.1", path = "../swc_xml_ast" }
 
 [dev-dependencies]
 serde      = { workspace = true }
 serde_json = { workspace = true }
 
-swc_xml_ast = { version = "4.0.0", path = "../swc_xml_ast", features = [
+swc_xml_ast = { version = "4.0.1", path = "../swc_xml_ast", features = [
   "serde-impl",
 ] }
 swc_xml_visit = { version = "4.0.0", path = "../swc_xml_visit" }
