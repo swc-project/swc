@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.9.1] - 2024-11-06
 
 ### Bug Fixes
 
@@ -1441,12 +1441,6 @@
 
 
 - **(es/resolver)** Fix hoisting of `const` and `let` ([#8987](https://github.com/swc-project/swc/issues/8987)) ([0d9ecf3](https://github.com/swc-project/swc/commit/0d9ecf39c1f452be1f2e583f72cebc6986a8088b))
-
-### Features
-
-
-
-- **(x)** Initialize project ([#8999](https://github.com/swc-project/swc/issues/8999)) ([da70ebe](https://github.com/swc-project/swc/commit/da70ebed692d734ac4c042cd6a67fee9da793731))
 
 ### Performance
 
