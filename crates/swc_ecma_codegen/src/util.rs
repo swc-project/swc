@@ -70,7 +70,7 @@ impl EndsWithAlphaNum for Expr {
             Expr::Update(n) => n.prefix && n.arg.ends_with_alpha_num(),
 
             Expr::OptChain(n) => match n.base.as_ref() {
-                OptChainBase::Member(base) => base.prop.is_computed(),
+                OptChainBase::Member(base) => !base.prop.is_computed(),
                 OptChainBase::Call(_) => false,
             },
 
