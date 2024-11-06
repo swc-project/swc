@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.9.0] - 2024-11-06
 
 ### Bug Fixes
 
@@ -1439,9 +1439,6 @@
 
 ### Features
 
-
-
-- **(es/minifier)** Detect TypeScript enum initialization pattern ([#8986](https://github.com/swc-project/swc/issues/8986)) ([cc8c155](https://github.com/swc-project/swc/commit/cc8c1550ddd8f45712039663487fe07b8dfa2599))
 
 
 - **(x)** Initialize project ([#8999](https://github.com/swc-project/swc/issues/8999)) ([da70ebe](https://github.com/swc-project/swc/commit/da70ebed692d734ac4c042cd6a67fee9da793731))
