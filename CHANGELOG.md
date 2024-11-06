@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es)** Fix typo in feature name ([#9721](https://github.com/swc-project/swc/issues/9721)) ([aff9de5](https://github.com/swc-project/swc/commit/aff9de5ea37d5d34d587b96b8044d08644936524))
+
 ## [1.9.1] - 2024-11-06
 
 ### Bug Fixes
@@ -1426,9 +1434,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Preserve unused special properties ([#9005](https://github.com/swc-project/swc/issues/9005)) ([e764ff6](https://github.com/swc-project/swc/commit/e764ff6f64d4e528a2af3e3ad7859ab3f8a2fe48))
 
 
 - **(es/minifier)** Fix comparison of `-0.0` ([#9012](https://github.com/swc-project/swc/issues/9012)) ([8a29577](https://github.com/swc-project/swc/commit/8a29577cc5bd3842d3bccfdbbffa45e4c9944d7f))
