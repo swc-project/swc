@@ -24,16 +24,16 @@ use crate::{typescript::TsTypeAnn, Expr};
     rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
         __S::Error: rkyv::rancor::Source))
 )]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(
     feature = "rkyv-impl",
     rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(
     feature = "rkyv-impl",
-    bytecheck(bounds(
-        __C: rkyv::validation::ArchiveContext
-    ))
+    rkyv(bytecheck(bounds(
+        __C: rkyv::validation::ArchiveContext,
+        __C::Error: rkyv::rancor::Source
+    )))
 )]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
