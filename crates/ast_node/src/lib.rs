@@ -274,16 +274,16 @@ pub fn ast_node(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
-                #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
                 )]
                 #[cfg_attr(
                     feature = "rkyv-impl",
-                    bytecheck(bounds(
-                        __C: rkyv::validation::ArchiveContext
-                    ))
+                    rkyv(bytecheck(bounds(
+                        __C: rkyv::validation::ArchiveContext,
+                        __C::Error: rkyv::rancor::Source
+                    )))
                 )]
                 #[cfg_attr(feature = "rkyv-impl", repr(C))]
                 #[cfg_attr(
