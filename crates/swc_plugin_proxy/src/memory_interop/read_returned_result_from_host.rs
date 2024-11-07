@@ -7,7 +7,6 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
     feature = "__rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "__rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "__rkyv", repr(C))]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
