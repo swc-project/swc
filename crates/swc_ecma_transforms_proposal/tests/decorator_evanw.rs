@@ -63,8 +63,7 @@ fn fixture(input: PathBuf) {
             auto_accessors: true,
             ..Default::default()
         }),
-        |_| decorator_2022_03(),
-        |_| as_folder(decorator_2023_11()),
+        |_| decorator_2023_11(),
         &code,
     );
 }
