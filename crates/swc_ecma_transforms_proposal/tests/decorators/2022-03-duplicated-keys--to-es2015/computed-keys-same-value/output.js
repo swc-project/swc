@@ -13,18 +13,15 @@ class Foo {
         _initProto(this);
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_initProto] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            2,
-            _computedKey
-        ],
-        [
-            dec,
-            2,
-            _computedKey1
-        ]
-    ], [])
-};
+({ e: [_initProto] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        2,
+        _computedKey
+    ],
+    [
+        dec,
+        2,
+        _computedKey1
+    ]
+], []));

@@ -21,33 +21,30 @@ class Foo {
         });
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            1,
-            "a",
-            function() {
-                return _class_private_field_get(this, ___a_1);
-            },
-            function(_v) {
-                _class_private_field_set(this, ___a_1, _v);
-            }
-        ],
-        [
-            dec,
-            1,
-            "b",
-            function() {
-                return _class_private_field_get(this, ___b_2);
-            },
-            function(_v) {
-                _class_private_field_set(this, ___b_2, _v);
-            }
-        ]
-    ], [])
-};
+({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        1,
+        "a",
+        function() {
+            return _class_private_field_get(this, ___a_1);
+        },
+        function(_v) {
+            _class_private_field_set(this, ___a_1, _v);
+        }
+    ],
+    [
+        dec,
+        1,
+        "b",
+        function() {
+            return _class_private_field_get(this, ___b_2);
+        },
+        function(_v) {
+            _class_private_field_set(this, ___b_2, _v);
+        }
+    ]
+], []));
 function get_a() {
     return _get___a(this);
 }

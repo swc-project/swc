@@ -14,19 +14,16 @@ class Foo {
         _initProto(this);
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_call_a, _initProto] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            2,
-            "a",
-            function() {
-                return this.value;
-            }
-        ]
-    ], [])
-};
+({ e: [_call_a, _initProto] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        2,
+        "a",
+        function() {
+            return this.value;
+        }
+    ]
+], []));
 function get_a() {
     return _call_a;
 }

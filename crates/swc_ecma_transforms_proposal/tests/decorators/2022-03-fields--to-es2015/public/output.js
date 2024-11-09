@@ -9,23 +9,20 @@ class Foo {
         _define_property(this, _computedKey1, _init__computedKey(this, 456));
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_init_a, _init_b, _init__computedKey] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            0,
-            "a"
-        ],
-        [
-            dec,
-            0,
-            "b"
-        ],
-        [
-            dec,
-            0,
-            _computedKey
-        ]
-    ], [])
-};
+({ e: [_init_a, _init_b, _init__computedKey] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        0,
+        "a"
+    ],
+    [
+        dec,
+        0,
+        "b"
+    ],
+    [
+        dec,
+        0,
+        _computedKey
+    ]
+], []));

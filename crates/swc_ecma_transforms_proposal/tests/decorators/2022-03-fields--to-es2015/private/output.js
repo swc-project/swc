@@ -13,30 +13,27 @@ class Foo {
         });
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_init_a, _init_b] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            0,
-            "a",
-            function() {
-                return _class_private_field_get(this, _a);
-            },
-            function(value) {
-                _class_private_field_set(this, _a, value);
-            }
-        ],
-        [
-            dec,
-            0,
-            "b",
-            function() {
-                return _class_private_field_get(this, _b);
-            },
-            function(value) {
-                _class_private_field_set(this, _b, value);
-            }
-        ]
-    ], [])
-};
+({ e: [_init_a, _init_b] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        0,
+        "a",
+        function() {
+            return _class_private_field_get(this, _a);
+        },
+        function(value) {
+            _class_private_field_set(this, _a, value);
+        }
+    ],
+    [
+        dec,
+        0,
+        "b",
+        function() {
+            return _class_private_field_get(this, _b);
+        },
+        function(value) {
+            _class_private_field_set(this, _b, value);
+        }
+    ]
+], []));

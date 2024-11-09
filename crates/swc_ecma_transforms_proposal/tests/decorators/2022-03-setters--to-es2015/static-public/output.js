@@ -10,22 +10,19 @@ class Foo {
         return this.value = v;
     }
 }
-var __ = {
-    writable: true,
-    value: (()=>{
-        ({ e: [_initStatic]  } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                9,
-                "a"
-            ],
-            [
-                dec,
-                9,
-                _computedKey
-            ]
-        ], []));
-        _initStatic(Foo);
-    })()
-};
+(()=>{
+    ({ e: [_initStatic] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            9,
+            "a"
+        ],
+        [
+            dec,
+            9,
+            _computedKey
+        ]
+    ], []));
+    _initStatic(Foo);
+})();
 _define_property(Foo, "value", 1);

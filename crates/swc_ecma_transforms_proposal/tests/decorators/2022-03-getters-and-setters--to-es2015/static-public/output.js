@@ -16,32 +16,29 @@ class Foo {
         this.value = v;
     }
 }
-var __ = {
-    writable: true,
-    value: (()=>{
-        ({ e: [_initStatic]  } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                8,
-                "a"
-            ],
-            [
-                dec,
-                9,
-                "a"
-            ],
-            [
-                dec,
-                8,
-                _computedKey
-            ],
-            [
-                dec,
-                9,
-                _computedKey1
-            ]
-        ], []));
-        _initStatic(Foo);
-    })()
-};
+(()=>{
+    ({ e: [_initStatic] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            8,
+            "a"
+        ],
+        [
+            dec,
+            9,
+            "a"
+        ],
+        [
+            dec,
+            8,
+            _computedKey
+        ],
+        [
+            dec,
+            9,
+            _computedKey1
+        ]
+    ], []));
+    _initStatic(Foo);
+})();
 _define_property(Foo, "value", 1);
