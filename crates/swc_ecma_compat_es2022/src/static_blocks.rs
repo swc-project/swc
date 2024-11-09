@@ -1,16 +1,14 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-struct ClassStaticBlock {
-    static_block_mark: Mark,
-}
+struct ClassStaticBlock;
 
-pub fn static_blocks(static_block_mark: Mark) -> impl Pass {
-    visit_mut_pass(ClassStaticBlock { static_block_mark })
+pub fn static_blocks() -> impl Pass {
+    visit_mut_pass(ClassStaticBlock)
 }
 
 #[swc_trace]
@@ -31,17 +29,11 @@ impl ClassStaticBlock {
             static_block.body.stmts = stmts;
 
             let expr = CallExpr {
-                span: DUMMY_SP,
                 callee: ArrowExpr {
-                    span: DUMMY_SP,
-                    params: Vec::new(),
-                    is_async: false,
-                    is_generator: false,
                     body: Box::new(BlockStmtOrExpr::BlockStmt(static_block.body)),
                     ..Default::default()
                 }
                 .as_callee(),
-                args: Vec::new(),
                 ..Default::default()
             }
             .into();
@@ -52,19 +44,12 @@ impl ClassStaticBlock {
         PrivateProp {
             span,
             is_static: true,
-            is_optional: false,
-            is_override: false,
-            readonly: false,
-            type_ann: None,
-            decorators: Vec::new(),
-            accessibility: None,
             key: PrivateName {
                 span: DUMMY_SP,
                 name: private_id,
             },
             value,
-            definite: false,
-            ctxt: SyntaxContext::empty().apply_mark(self.static_block_mark),
+            ..Default::default()
         }
     }
 }

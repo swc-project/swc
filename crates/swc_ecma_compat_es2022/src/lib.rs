@@ -26,7 +26,7 @@ pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
             unicode_regex: false,
             unicode_sets_regex: false,
         }),
-        static_blocks(config.class_properties.static_blocks_mark),
+        static_blocks(),
         class_properties(config.class_properties, unresolved_mark),
         private_in_object(),
     )

@@ -215,7 +215,6 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                                 constant_super: assumptions.constant_super,
                                 set_public_fields: assumptions.set_public_class_fields,
                                 no_document_all: assumptions.no_document_all,
-                                static_blocks_mark: Mark::new(),
                                 pure_getter: assumptions.pure_getters,
                             },
                         },

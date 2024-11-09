@@ -56,7 +56,6 @@ pub struct Config {
     pub constant_super: bool,
     pub no_document_all: bool,
     pub pure_getter: bool,
-    pub static_blocks_mark: Mark,
 }
 
 impl Default for Config {
@@ -67,7 +66,6 @@ impl Default for Config {
             constant_super: false,
             no_document_all: false,
             pure_getter: false,
-            static_blocks_mark: Mark::new(),
         }
     }
 }
@@ -734,7 +732,8 @@ impl ClassProperties {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
+                    // Hack: dummy span is mark for generated private names.
+                    if prop.is_static && prop.key.span.is_dummy() {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;

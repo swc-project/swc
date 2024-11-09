@@ -133,12 +133,8 @@ where
     // ES2022
     // static block needs to be placed before class property
     // because it transforms into private static property
-    let static_blocks_mark = Mark::new();
-    let pass = add!(
-        pass,
-        ClassStaticBlock,
-        es2022::static_blocks(static_blocks_mark)
-    );
+
+    let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
     let pass = add!(
         pass,
         ClassProperties,
@@ -148,7 +144,6 @@ where
                 set_public_fields: loose || assumptions.set_public_class_fields,
                 constant_super: loose || assumptions.constant_super,
                 no_document_all: loose || assumptions.no_document_all,
-                static_blocks_mark,
                 pure_getter: loose || assumptions.pure_getters,
             },
             unresolved_mark

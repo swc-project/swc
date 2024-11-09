@@ -46,7 +46,6 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
                             set_public_fields: loose,
                             private_as_properties: loose,
                             no_document_all: loose,
-                            static_blocks_mark: Mark::new(),
                             pure_getter: loose,
                         },
                         unresolved_mark,
