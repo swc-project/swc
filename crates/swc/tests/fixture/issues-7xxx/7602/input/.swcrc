@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "minify": {
+            "format": {
+                "inline_script": true
+            }
+        }
+    }
+}
