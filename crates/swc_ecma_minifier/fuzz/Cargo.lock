@@ -79,23 +79,12 @@ checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 
 [[package]]
 name = "ast_node"
-version = "0.9.9"
+version = "2.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
  "syn 2.0.72",
-]
-
-[[package]]
-name = "atty"
-version = "0.2.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
-dependencies = [
- "hermit-abi",
- "libc",
- "winapi",
 ]
 
 [[package]]
@@ -115,7 +104,7 @@ dependencies = [
 
 [[package]]
 name = "better_scoped_tls"
-version = "0.1.1"
+version = "1.0.0"
 dependencies = [
  "scoped-tls",
 ]
@@ -323,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "from_variant"
-version = "0.1.9"
+version = "2.0.0"
 dependencies = [
  "proc-macro2",
  "swc_macros_common",
@@ -399,9 +388,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "0.2.10"
+version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96274be293b8877e61974a607105d09c84caebe9620b47774aa8a6b942042dd4"
+checksum = "dae404c0c5d4e95d4858876ab02eecd6a196bb8caa42050dfa809938833fc412"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -488,13 +477,12 @@ checksum = "55edcf6c0bb319052dea84732cf99db461780fd5e8d3eb46ab6ff312ab31f197"
 
 [[package]]
 name = "libfuzzer-sys"
-version = "0.4.7"
+version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a96cfd5557eb82f2b83fed4955246c988d331975a002961b07c81584d107e7f7"
+checksum = "9b9569d2f74e257076d8c6bfa73fb505b46b851e51ddaecc825944aa3bed17fa"
 dependencies = [
  "arbitrary",
  "cc",
- "once_cell",
 ]
 
 [[package]]
@@ -1014,9 +1002,9 @@ checksum = "f67ad224767faa3c7d8b6d91985b78e70a1324408abcb1cfcc2be4c06bc06043"
 
 [[package]]
 name = "sourcemap"
-version = "8.0.1"
+version = "9.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "208d40b9e8cad9f93613778ea295ed8f3c2b1824217c6cfc7219d3f6f45b96d4"
+checksum = "86721155737d89818020dc35713595c6e7b21016073c101e6590c47ca58c2d16"
 dependencies = [
  "base64-simd",
  "bitvec",
@@ -1058,7 +1046,7 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "string_enum"
-version = "0.4.4"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1068,7 +1056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "0.1.8"
+version = "1.0.0"
 dependencies = [
  "bumpalo",
  "hashbrown 0.14.5",
@@ -1079,7 +1067,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.6.7"
+version = "2.0.0"
 dependencies = [
  "hstr",
  "once_cell",
@@ -1089,7 +1077,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cached"
-version = "0.3.20"
+version = "1.0.0"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -1101,11 +1089,10 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.36.1"
+version = "4.0.0"
 dependencies = [
  "arbitrary",
  "ast_node",
- "atty",
  "better_scoped_tls",
  "cfg-if",
  "either",
@@ -1129,7 +1116,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.14"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "indexmap 2.2.6",
@@ -1142,7 +1129,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config_macro"
-version = "0.1.4"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1152,7 +1139,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.117.2"
+version = "4.0.1"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -1164,16 +1151,18 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
+ "swc_visit",
  "unicode-id-start",
 ]
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.154.2"
+version = "4.0.2"
 dependencies = [
  "memchr",
  "num-bigint",
  "once_cell",
+ "regex",
  "serde",
  "sourcemap",
  "swc_allocator",
@@ -1186,7 +1175,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "0.7.6"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1196,7 +1185,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.200.2"
+version = "5.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.2.6",
@@ -1245,7 +1234,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.148.1"
+version = "5.0.0"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -1265,7 +1254,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.25.0"
+version = "4.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1276,7 +1265,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.143.2"
+version = "5.0.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1297,7 +1286,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_macros"
-version = "0.5.5"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1307,7 +1296,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.204.2"
+version = "5.0.0"
 dependencies = [
  "dashmap",
  "indexmap 2.2.6",
@@ -1329,7 +1318,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.29.1"
+version = "5.0.0"
 dependencies = [
  "indexmap 2.2.6",
  "rustc-hash",
@@ -1344,7 +1333,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.133.2"
+version = "5.0.0"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",
@@ -1361,7 +1350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.103.3"
+version = "4.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -1374,7 +1363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_eq_ignore_macros"
-version = "0.1.4"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1383,7 +1372,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.20.0"
+version = "5.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -1394,7 +1383,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "0.24.0"
+version = "5.0.0"
 dependencies = [
  "indexmap 2.2.6",
  "petgraph",
@@ -1404,7 +1393,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.12"
+version = "1.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1413,16 +1402,17 @@ dependencies = [
 
 [[package]]
 name = "swc_timer"
-version = "0.24.0"
+version = "1.0.0"
 dependencies = [
  "tracing",
 ]
 
 [[package]]
 name = "swc_visit"
-version = "0.6.0"
+version = "2.0.0"
 dependencies = [
  "either",
+ "new_debug_unreachable",
 ]
 
 [[package]]
@@ -1464,7 +1454,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.38.0"
+version = "4.0.0"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
@@ -1483,7 +1473,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.14"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "glob",
