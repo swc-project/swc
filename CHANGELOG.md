@@ -1442,9 +1442,6 @@
 
 
 
-- **(es/minifier)** Fix comparison of `-0.0` ([#9012](https://github.com/swc-project/swc/issues/9012)) ([8a29577](https://github.com/swc-project/swc/commit/8a29577cc5bd3842d3bccfdbbffa45e4c9944d7f))
-
-
 - **(es/minifier)** Do not index a string with a surrogate pair ([#9013](https://github.com/swc-project/swc/issues/9013)) ([2879a4d](https://github.com/swc-project/swc/commit/2879a4d42b18e7e9d6bc12119a799c6a8c95e108))
 
 
