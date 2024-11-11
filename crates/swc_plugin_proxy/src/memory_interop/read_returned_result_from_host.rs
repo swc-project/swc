@@ -91,8 +91,16 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>
-        + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
+    R::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
+    for<'a> R::Archived: bytecheck::CheckBytes<
+        rancor::Strategy<
+            rkyv::validation::Validator<
+                rkyv::validation::archive::ArchiveValidator<'a>,
+                rkyv::validation::shared::SharedValidator,
+            >,
+            rancor::Error,
+        >,
+    >,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
