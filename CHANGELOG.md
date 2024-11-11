@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.9.2] - 2024-11-11
 
 ### Bug Fixes
 
@@ -1440,9 +1440,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Do not index a string with a surrogate pair ([#9013](https://github.com/swc-project/swc/issues/9013)) ([2879a4d](https://github.com/swc-project/swc/commit/2879a4d42b18e7e9d6bc12119a799c6a8c95e108))
 
 
 - **(es/minifier)** Fix evaluation of `-0` as a string ([#9011](https://github.com/swc-project/swc/issues/9011)) ([9f8e24a](https://github.com/swc-project/swc/commit/9f8e24a76c00b8f4470aadf22f071a60f409a13d))
