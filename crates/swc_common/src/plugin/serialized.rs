@@ -126,7 +126,7 @@ impl PluginSerializedBytes {
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Portable,
-        W::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, Error>>,
+        W::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
         for<'a> W::Archived: bytecheck::CheckBytes<
             rancor::Strategy<
                 rkyv::validation::Validator<
