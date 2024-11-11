@@ -34,10 +34,11 @@ impl<T> Default for CacheCell<T> {
 
 #[cfg(feature = "rkyv-impl")]
 mod rkyv_impl {
-    use std::{hint::unreachable_unchecked, ptr};
+    use std::hint::unreachable_unchecked;
 
+    use rancor::Fallible;
     use rkyv::{
-        option::ArchivedOption, out_field, Archive, Archived, Deserialize, Fallible, Resolver,
+        munge::munge, option::ArchivedOption, traits::NoUndef, Archive, Deserialize, Place,
         Serialize,
     };
 
@@ -50,66 +51,66 @@ mod rkyv_impl {
         Some,
     }
 
+    // SAFETY: `ArchivedOptionTag` is `repr(u8)` and so always consists of a single
+    // well-defined byte.
+    unsafe impl NoUndef for ArchivedOptionTag {}
+
     #[repr(C)]
     struct ArchivedOptionVariantNone(ArchivedOptionTag);
 
     #[repr(C)]
     struct ArchivedOptionVariantSome<T>(ArchivedOptionTag, T);
 
-    impl<T> Archive for CacheCell<T>
-    where
-        T: Archive,
-    {
-        type Archived = Archived<Option<T>>;
-        type Resolver = Resolver<Option<T>>;
+    impl<T: Archive> Archive for CacheCell<T> {
+        type Archived = ArchivedOption<T::Archived>;
+        type Resolver = Option<T::Resolver>;
 
-        unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        fn resolve(&self, resolver: Self::Resolver, out: Place<Self::Archived>) {
             match resolver {
                 None => {
-                    let out = out.cast::<ArchivedOptionVariantNone>();
-                    ptr::addr_of_mut!((*out).0).write(ArchivedOptionTag::None);
+                    let out = unsafe { out.cast_unchecked::<ArchivedOptionVariantNone>() };
+                    munge!(let ArchivedOptionVariantNone(tag) = out);
+                    tag.write(ArchivedOptionTag::None);
                 }
                 Some(resolver) => {
-                    let out = out.cast::<ArchivedOptionVariantSome<T::Archived>>();
-                    ptr::addr_of_mut!((*out).0).write(ArchivedOptionTag::Some);
+                    let out =
+                        unsafe { out.cast_unchecked::<ArchivedOptionVariantSome<T::Archived>>() };
+                    munge!(let ArchivedOptionVariantSome(tag, out_value) = out);
+                    tag.write(ArchivedOptionTag::Some);
 
-                    let v = self.0.get();
-                    let value = if let Some(value) = v.as_ref() {
+                    let value = if let Some(value) = self.get() {
                         value
                     } else {
-                        unreachable_unchecked();
+                        unsafe {
+                            unreachable_unchecked();
+                        }
                     };
 
-                    let (fp, fo) = out_field!(out.1);
-                    value.resolve(pos + fp, resolver, fo);
+                    value.resolve(resolver, out_value);
                 }
             }
         }
     }
 
     impl<T: Serialize<S>, S: Fallible + ?Sized> Serialize<S> for CacheCell<T> {
-        #[inline]
         fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-            self.0
-                .get()
+            self.get()
                 .map(|value| value.serialize(serializer))
                 .transpose()
         }
     }
 
-    impl<T: Archive, D: Fallible + ?Sized> Deserialize<CacheCell<T>, D> for ArchivedOption<T::Archived>
+    impl<T, D> Deserialize<CacheCell<T>, D> for ArchivedOption<T::Archived>
     where
+        T: Archive,
         T::Archived: Deserialize<T, D>,
+        D: Fallible + ?Sized,
     {
-        #[inline]
         fn deserialize(&self, deserializer: &mut D) -> Result<CacheCell<T>, D::Error> {
-            match self {
-                ArchivedOption::Some(value) => {
-                    let v = value.deserialize(deserializer)?;
-                    Ok(CacheCell::from(v))
-                }
-                ArchivedOption::None => Ok(CacheCell::new()),
-            }
+            Ok(match self {
+                ArchivedOption::Some(value) => CacheCell::from(value.deserialize(deserializer)?),
+                ArchivedOption::None => CacheCell::new(),
+            })
         }
     }
 }
