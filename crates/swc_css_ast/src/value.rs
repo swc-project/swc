@@ -121,11 +121,10 @@ impl EqIgnoreSpan for Str {
 )]
 #[cfg_attr(
     feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -398,11 +397,10 @@ pub struct Ratio {
 )]
 #[cfg_attr(
     feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 pub enum BinOp {
     /// `+`
     Add,
@@ -505,11 +503,10 @@ pub struct CalcOperator {
 )]
 #[cfg_attr(
     feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
 )]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum CalcOperatorType {
     /// `+`
     Add,

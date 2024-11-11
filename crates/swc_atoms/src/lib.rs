@@ -28,7 +28,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 /// See [tendril] for more details.
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
 
@@ -199,17 +199,14 @@ impl rkyv::Archive for Atom {
     type Resolver = rkyv::string::StringResolver;
 
     #[allow(clippy::unit_arg)]
-    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::string::ArchivedString::resolve_from_str(self, resolver, out)
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
     }
 }
 
 /// NOT A PUBLIC API
 #[cfg(feature = "rkyv-impl")]
-impl<S: rancor::Fallible + rkyv::ser::Writer + ?Sized> rkyv::Serialize<S> for Atom
-where
-    <S as rancor::Fallible>::Error: rancor::Source,
-{
+impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         String::serialize(&self.to_string(), serializer)
     }
@@ -219,9 +216,9 @@ where
 #[cfg(feature = "rkyv-impl")]
 impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
-    D: ?Sized + rancor::Fallible,
+    D: ?Sized + rkyv::Fallible,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
+    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
