@@ -23,13 +23,11 @@ pub struct DocumentFragment {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-//#[cfg_attr(
-//    feature = "rkyv",
-//    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
-// rkyv::ser::Serializer"))
-//)]
-#[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+)]
 pub enum DocumentMode {
     /// `no-quirks`
     NoQuirks,
@@ -78,13 +76,11 @@ impl EqIgnoreSpan for DocumentType {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-//#[cfg_attr(
-//    feature = "rkyv",
-//    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
-// rkyv::ser::Serializer"))
-//)]
-#[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+)]
 pub enum Namespace {
     /// `http://www.w3.org/1999/xhtml`
     HTML,
