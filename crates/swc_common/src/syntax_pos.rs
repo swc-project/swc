@@ -835,22 +835,6 @@ pub struct SourceFile {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-#[derive(Clone)]
-pub struct SourceFileAnalysis {
-    /// Locations of lines beginnings in the source code
-    pub lines: Vec<BytePos>,
-    /// Locations of multi-byte characters in the source code
-    pub multibyte_chars: Vec<MultiByteChar>,
-    /// Width of characters that are not narrow in the source code
-    pub non_narrow_chars: Vec<NonNarrowChar>,
-}
-
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
@@ -861,8 +845,6 @@ pub struct SourceFileAnalysis {
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
-    /// A hash of the filename, used for speeding up the incr. comp. hashing.
-    pub name_hash: u128,
 }
 
 impl fmt::Debug for SourceFile {
