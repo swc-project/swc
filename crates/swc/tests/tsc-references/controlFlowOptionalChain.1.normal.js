@@ -2,20 +2,20 @@
 // assignments in shortcutting chain
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var _o4_x, _o4_x1, _o5_x_y_z, _o5_x, _o5_x1, _o5_x2, _o5_x_y_z1, _o5_x3, _arr_i;
+var _o, _o1, _o2, _o3, _f, _o21, _o22, _o31, _o32, _o4_x, _o4_x1, _o5_x_y_z, _o5_x, _o5_x1, _o5_x2, _o5_x_y_z1, _o5_x3, _o6, _o61, _arr_i;
 var a;
-o === null || o === void 0 ? void 0 : o[a = 1];
+(_o = o) === null || _o === void 0 ? void 0 : _o[a = 1];
 a.toString();
 var b;
-o === null || o === void 0 ? void 0 : o.x[b = 1];
+(_o1 = o) === null || _o1 === void 0 ? void 0 : _o1.x[b = 1];
 b.toString();
 var c;
-o === null || o === void 0 ? void 0 : o(c = 1);
+(_o2 = o) === null || _o2 === void 0 ? void 0 : _o2(c = 1);
 c.toString();
 var d;
-o === null || o === void 0 ? void 0 : o.x(d = 1);
+(_o3 = o) === null || _o3 === void 0 ? void 0 : _o3.x(d = 1);
 d.toString();
-if (f === null || f === void 0 ? void 0 : f(x)) {
+if ((_f = f) === null || _f === void 0 ? void 0 : _f(x)) {
     x; // number
     f; // (x: any) => x is number
     f(x);
@@ -27,32 +27,36 @@ if (f === null || f === void 0 ? void 0 : f(x)) {
 x;
 f;
 f(x);
-if (o2 === null || o2 === void 0 ? void 0 : o2.f(x)) {
+if ((_o21 = o2) === null || _o21 === void 0 ? void 0 : _o21.f(x)) {
+    var _o23, _o24;
     x; // number
     o2.f; // (x: any) => x is number
-    o2 === null || o2 === void 0 ? void 0 : o2.f;
-    o2 === null || o2 === void 0 ? void 0 : o2.f(x);
+    (_o23 = o2) === null || _o23 === void 0 ? void 0 : _o23.f;
+    (_o24 = o2) === null || _o24 === void 0 ? void 0 : _o24.f(x);
 } else {
+    var _o25;
     x;
     o2;
-    o2 === null || o2 === void 0 ? void 0 : o2.f;
+    (_o25 = o2) === null || _o25 === void 0 ? void 0 : _o25.f;
     o2.f;
 }
 x;
 o2;
-o2 === null || o2 === void 0 ? void 0 : o2.f;
+(_o22 = o2) === null || _o22 === void 0 ? void 0 : _o22.f;
 o2.f;
-if ((o3 === null || o3 === void 0 ? void 0 : o3.x) === 1) {
+if (((_o31 = o3) === null || _o31 === void 0 ? void 0 : _o31.x) === 1) {
+    var _o33;
     o3;
     o3.x;
-    o3 === null || o3 === void 0 ? void 0 : o3.x;
+    (_o33 = o3) === null || _o33 === void 0 ? void 0 : _o33.x;
 } else {
+    var _o34;
     o3;
-    o3 === null || o3 === void 0 ? void 0 : o3.x;
+    (_o34 = o3) === null || _o34 === void 0 ? void 0 : _o34.x;
     o3.x;
 }
 o3;
-o3 === null || o3 === void 0 ? void 0 : o3.x;
+(_o32 = o3) === null || _o32 === void 0 ? void 0 : _o32.x;
 o3.x;
 if ((_o4_x = o4.x) === null || _o4_x === void 0 ? void 0 : _o4_x.y) {
     var _o4_x2;
@@ -92,33 +96,38 @@ o5.x;
 (_o5_x3 = o5.x) === null || _o5_x3 === void 0 ? void 0 : (_o5_x_y_z1 = _o5_x3.y.z) === null || _o5_x_y_z1 === void 0 ? void 0 : _o5_x_y_z1.w;
 o5.x.y;
 o5.x.y.z.w;
-if (o6 === null || o6 === void 0 ? void 0 : o6.f()) {
+if ((_o6 = o6) === null || _o6 === void 0 ? void 0 : _o6.f()) {
     o6; // Derived
     o6.f;
 } else {
+    var _o62;
     o6;
-    o6 === null || o6 === void 0 ? void 0 : o6.f;
+    (_o62 = o6) === null || _o62 === void 0 ? void 0 : _o62.f;
     o6.f;
 }
 o6;
-o6 === null || o6 === void 0 ? void 0 : o6.f;
+(_o61 = o6) === null || _o61 === void 0 ? void 0 : _o61.f;
 o6.f;
 function f01(x1) {
     if (!!true) {
-        isString === null || isString === void 0 ? void 0 : isString(x1);
+        var _isString;
+        (_isString = isString) === null || _isString === void 0 ? void 0 : _isString(x1);
         x1;
     }
     if (!!true) {
-        maybeIsString === null || maybeIsString === void 0 ? void 0 : maybeIsString(x1);
+        var _maybeIsString;
+        (_maybeIsString = maybeIsString) === null || _maybeIsString === void 0 ? void 0 : _maybeIsString(x1);
         x1;
     }
     if (!!true) {
+        var _maybeIsString1;
         isDefined(maybeIsString);
-        maybeIsString === null || maybeIsString === void 0 ? void 0 : maybeIsString(x1);
+        (_maybeIsString1 = maybeIsString) === null || _maybeIsString1 === void 0 ? void 0 : _maybeIsString1(x1);
         x1;
     }
     if (!!true) {
-        maybeNever === null || maybeNever === void 0 ? void 0 : maybeNever();
+        var _maybeNever;
+        (_maybeNever = maybeNever) === null || _maybeNever === void 0 ? void 0 : _maybeNever();
         x1;
     }
 }

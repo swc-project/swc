@@ -1498,6 +1498,10 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
+        if decl.declare {
+            return;
+        }
+
         let old_kind = self.decl_kind;
         self.decl_kind = decl.kind.into();
         decl.decls.visit_mut_with(self);
@@ -1854,6 +1858,10 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
+        if node.declare {
+            return;
+        }
+
         if self.in_block {
             match node.kind {
                 VarDeclKind::Const | VarDeclKind::Let => return,
