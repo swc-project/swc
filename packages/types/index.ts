@@ -109,7 +109,7 @@ export interface JsFormatOptions {
      * Currently noop.
      * @alias inline_script
      */
-    inlineScript?: number;
+    inlineScript?: boolean;
 
     /**
      * Currently noop.
@@ -349,7 +349,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions {}
+export interface TerserManglePropertiesOptions { }
 
 /**
  * Programmatic options.
@@ -1175,7 +1175,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern {}
+export interface MatchPattern { }
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1407,7 +1407,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan {}
+interface ExpressionBase extends Node, HasSpan { }
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";

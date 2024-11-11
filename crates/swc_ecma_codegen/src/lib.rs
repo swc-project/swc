@@ -657,6 +657,7 @@ where
         if &*node.value == "use strict"
             && node.raw.is_some()
             && node.raw.as_ref().unwrap().contains('\\')
+            && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
         {
             self.wr
                 .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
@@ -670,7 +671,9 @@ where
 
         if !self.cfg.minify {
             if let Some(raw) = &node.raw {
-                if !self.cfg.ascii_only || raw.is_ascii() {
+                if (!self.cfg.ascii_only || raw.is_ascii())
+                    && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
+                {
                     self.wr.write_str_lit(DUMMY_SP, raw)?;
                     return Ok(());
                 }
