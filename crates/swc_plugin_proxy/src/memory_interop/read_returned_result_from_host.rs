@@ -91,7 +91,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
+    R::Archived: rkyv::Deserialize<R, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
     for<'a> R::Archived: bytecheck::CheckBytes<
         rancor::Strategy<
             rkyv::validation::Validator<
