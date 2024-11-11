@@ -1,26 +1,29 @@
 use std::{alloc, cmp};
 
+use rancor::Fallible;
 use rkyv::{
     boxed::{ArchivedBox, BoxResolver},
-    Archive, ArchivePointee, ArchiveUnsized, Deserialize, DeserializeUnsized, Fallible, Serialize,
-    SerializeUnsized,
+    traits::ArchivePointee,
+    Archive, ArchiveUnsized, Deserialize, DeserializeUnsized, Place, Serialize, SerializeUnsized,
 };
 
 use super::Box;
 
 impl<T: ArchiveUnsized + ?Sized> Archive for Box<T> {
     type Archived = ArchivedBox<T::Archived>;
-    type Resolver = BoxResolver<T::MetadataResolver>;
+    type Resolver = BoxResolver;
 
     #[inline]
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        ArchivedBox::resolve_from_ref(self.as_ref(), pos, resolver, out);
+    fn resolve(&self, resolver: Self::Resolver, out: Place<Self::Archived>) {
+        ArchivedBox::resolve_from_ref(self.as_ref(), resolver, out);
     }
 }
 
 impl<T: SerializeUnsized<S> + ?Sized, S: Fallible + ?Sized> Serialize<S> for Box<T> {
-    #[inline]
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+    fn serialize(
+        &self,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, <S as rancor::Fallible>::Error> {
         ArchivedBox::serialize_from_ref(self.as_ref(), serializer)
     }
 }
@@ -31,13 +34,12 @@ where
     T::Archived: DeserializeUnsized<T, D>,
     D: Fallible + ?Sized,
 {
-    #[inline]
-    fn deserialize(&self, deserializer: &mut D) -> Result<Box<T>, D::Error> {
+    fn deserialize(&self, deserializer: &mut D) -> Result<Box<T>, <D as rancor::Fallible>::Error> {
         unsafe {
             let data_address = self
                 .get()
                 .deserialize_unsized(deserializer, |layout| alloc::alloc(layout))?;
-            let metadata = self.get().deserialize_metadata(deserializer)?;
+            let metadata = self.get().deserialize_metadata();
             let ptr = ptr_meta::from_raw_parts_mut(data_address, metadata);
             Ok(Box::from_raw(ptr))
         }
