@@ -12,7 +12,7 @@ pub struct Context {
 
 impl Context {
     fn locate_line_col(&self, loc: LineCol) -> BytePos {
-        if let Some(&line_start) = self.fm.lines.get(loc.line) {
+        if let Some(&line_start) = self.fm.analyze().lines.get(loc.line) {
             line_start + BytePos(loc.column as _)
         } else {
             BytePos(0)
