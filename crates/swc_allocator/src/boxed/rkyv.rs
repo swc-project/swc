@@ -1,9 +1,9 @@
 use std::{alloc, cmp};
 
-use rancor::Fallible;
+use rancor::{Fallible, ResultExt, Source};
 use rkyv::{
     boxed::{ArchivedBox, BoxResolver},
-    traits::ArchivePointee,
+    traits::{ArchivePointee, LayoutRaw},
     Archive, ArchiveUnsized, Deserialize, DeserializeUnsized, Place, Serialize, SerializeUnsized,
 };
 
@@ -30,19 +30,26 @@ impl<T: SerializeUnsized<S> + ?Sized, S: Fallible + ?Sized> Serialize<S> for Box
 
 impl<T, D> Deserialize<Box<T>, D> for ArchivedBox<T::Archived>
 where
-    T: ArchiveUnsized + ?Sized,
+    T: ArchiveUnsized + LayoutRaw + ?Sized,
     T::Archived: DeserializeUnsized<T, D>,
     D: Fallible + ?Sized,
+    D::Error: Source,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Box<T>, <D as rancor::Fallible>::Error> {
+    fn deserialize(&self, deserializer: &mut D) -> Result<Box<T>, D::Error> {
+        let metadata = self.get().deserialize_metadata();
+        let layout = T::layout_raw(metadata).into_error()?;
+        let data_address = if layout.size() > 0 {
+            unsafe { alloc::alloc(layout) }
+        } else {
+            polyfill::dangling(&layout).as_ptr()
+        };
+
+        let out = ptr_meta::from_raw_parts_mut(data_address.cast(), metadata);
+
         unsafe {
-            let data_address = self
-                .get()
-                .deserialize_unsized(deserializer, |layout| alloc::alloc(layout))?;
-            let metadata = self.get().deserialize_metadata();
-            let ptr = ptr_meta::from_raw_parts_mut(data_address, metadata);
-            Ok(Box::from_raw(ptr))
+            self.get().deserialize_unsized(deserializer, out)?;
         }
+        unsafe { Ok(Box::from_raw(out)) }
     }
 }
 
@@ -57,5 +64,21 @@ impl<T: ArchivePointee + PartialOrd<U> + ?Sized, U: ?Sized> PartialOrd<Box<U>> f
     #[inline]
     fn partial_cmp(&self, other: &Box<U>) -> Option<cmp::Ordering> {
         self.get().partial_cmp(other.as_ref())
+    }
+}
+
+mod polyfill {
+
+    use core::{alloc::Layout, ptr::NonNull};
+
+    pub fn dangling(layout: &Layout) -> NonNull<u8> {
+        #[cfg(miri)]
+        {
+            layout.dangling()
+        }
+        #[cfg(not(miri))]
+        unsafe {
+            NonNull::new_unchecked(layout.align() as *mut u8)
+        }
     }
 }
