@@ -1498,6 +1498,10 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
+        if decl.declare {
+            return;
+        }
+
         let old_kind = self.decl_kind;
         self.decl_kind = decl.kind.into();
         decl.decls.visit_mut_with(self);
