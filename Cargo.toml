@@ -38,9 +38,8 @@ resolver = "2"
 
   [workspace.dependencies]
   # bytecheck version should be in sync with rkyv version. Do not bump individually.
-  bytecheck = "0.8.0"
-  rancor    = "0.1.0"
-  rkyv      = "0.8.8"
+  bytecheck = "0.6.10"
+  rkyv      = "=0.7.45"
 
 
   Inflector                 = "0.11.4"
@@ -104,7 +103,7 @@ resolver = "2"
   phf                       = "0.11.2"
   pretty_assertions         = "1.3"
   proc-macro2               = "1.0.24"
-  ptr_meta                  = "0.3.0"
+  ptr_meta                  = "0.1.4"
   quote                     = "1.0.7"
   radix_fmt                 = "1.0.0"
   rayon                     = "1.7.0"
@@ -143,12 +142,12 @@ resolver = "2"
   unicode-width             = "0.1.4"
   url                       = "2.4.0"
   vergen                    = { version = "9.0.0", default-features = false }
-  virtual-fs                = { version = "0.19.0", default-features = false }
+  virtual-fs                = { version = "0.16.0", default-features = false }
   walkdir                   = "2.4.0"
   wasm-bindgen              = "0.2.91"
   wasm-bindgen-futures      = "0.4.41"
-  wasmer                    = { version = "5.0.1", default-features = false }
-  wasmer-wasix              = { version = "0.31.0", default-features = false }
+  wasmer                    = { version = "4.3.7", default-features = false }
+  wasmer-wasix              = { version = "0.27.0", default-features = false }
 
 [profile.release]
 lto = true

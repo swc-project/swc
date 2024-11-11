@@ -449,13 +449,12 @@ pub struct MediaFeatureBoolean {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-//#[cfg_attr(
-//    feature = "rkyv",
-//    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
-// rkyv::ser::Serializer"))
-//)]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+)]
 pub enum MediaFeatureRangeComparison {
     /// `<`
     Lt,
@@ -776,13 +775,12 @@ pub struct SizeFeatureBoolean {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-//#[cfg_attr(
-//    feature = "rkyv",
-//    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
-// rkyv::ser::Serializer"))
-//)]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+)]
 pub enum SizeFeatureRangeComparison {
     /// `<`
     Lt,
