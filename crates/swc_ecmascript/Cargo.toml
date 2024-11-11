@@ -39,7 +39,7 @@ typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
 swc_ecma_ast        = { version = "4.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "4.0.1", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_codegen    = { version = "4.0.2", path = "../swc_ecma_codegen", optional = true }
 swc_ecma_minifier   = { version = "5.0.0", path = "../swc_ecma_minifier", optional = true }
 swc_ecma_parser     = { version = "5.0.0", path = "../swc_ecma_parser", optional = true, default-features = false }
 swc_ecma_preset_env = { version = "5.0.0", path = "../swc_ecma_preset_env", optional = true }
