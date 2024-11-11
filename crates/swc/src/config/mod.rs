@@ -532,10 +532,11 @@ impl Options {
             }
         });
 
-        let codegen_inline_script = js_minify
-            .as_ref()
-            .map(|v| v.format.inline_script)
-            .unwrap_or(true);
+        // inline_script defaults to true, but it's case only if minify is enabled.
+        // This is because minifier API is compatible with Terser, and Terser
+        // defaults to true, while by default swc itself doesn't enable
+        // inline_script by default.
+        let codegen_inline_script = js_minify.as_ref().map_or(false, |v| v.format.inline_script);
 
         let preamble = if !cfg.jsc.output.preamble.is_empty() {
             cfg.jsc.output.preamble
