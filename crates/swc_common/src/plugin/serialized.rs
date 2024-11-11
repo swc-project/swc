@@ -124,9 +124,10 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive + rkyv::Portable,
-        W: rkyv::Deserialize<VersionedSerializable<W>, rancor::Strategy<rkyv::de::Pool, Error>>,
-        for<'a> W: bytecheck::CheckBytes<
+        W: rkyv::Archive,
+        W::Archived: rkyv::Portable,
+        W::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, Error>>,
+        for<'a> W::Archived: bytecheck::CheckBytes<
             rancor::Strategy<
                 rkyv::validation::Validator<
                     rkyv::validation::archive::ArchiveValidator<'a>,
@@ -138,12 +139,15 @@ impl PluginSerializedBytes {
     {
         use anyhow::Context;
 
-        let archived = rkyv::access::<W, rancor::Error>(&self.field[..]).map_err(|err| {
-            anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
-        })?;
+        let archived =
+            rkyv::access::<W::Archived, rancor::Error>(&self.field[..]).map_err(|err| {
+                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
+            })?;
 
-        rkyv::deserialize(archived)
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+        let deserialized = rkyv::deserialize(archived)
+            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))?;
+
+        Ok(VersionedSerializable(deserialized))
     }
 
     /*
