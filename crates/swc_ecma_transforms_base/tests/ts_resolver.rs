@@ -103,4 +103,12 @@ impl Visit for AssertNoEmptyCtxt {
     fn visit_ts_tuple_element(&mut self, n: &TsTupleElement) {
         n.ty.visit_with(self);
     }
+
+    fn visit_var_decl(&mut self, node: &VarDecl) {
+        if node.declare {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
 }
