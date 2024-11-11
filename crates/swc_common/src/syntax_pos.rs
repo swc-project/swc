@@ -16,7 +16,7 @@ use url::Url;
 
 use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
+use crate::{cache::CacheCell, rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
 mod analyze_source_file;
 pub mod hygiene;
@@ -825,14 +825,26 @@ pub struct SourceFile {
     pub start_pos: BytePos,
     /// The end position of this source in the `SourceMap`
     pub end_pos: BytePos,
+    /// A hash of the filename, used for speeding up the incr. comp. hashing.
+    pub name_hash: u128,
+
+    lazy: CacheCell<SourceFileAnalysis>,
+}
+
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[derive(Clone)]
+pub struct SourceFileAnalysis {
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
     /// Locations of multi-byte characters in the source code
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
-    /// A hash of the filename, used for speeding up the incr. comp. hashing.
-    pub name_hash: u128,
 }
 
 #[cfg_attr(
@@ -904,9 +916,6 @@ impl SourceFile {
         };
         let end_pos = start_pos.to_usize() + src.len();
 
-        let (lines, multibyte_chars, non_narrow_chars) =
-            analyze_source_file::analyze_source_file(&src[..], start_pos);
-
         SourceFile {
             name,
             name_was_remapped,
@@ -916,17 +925,16 @@ impl SourceFile {
             src_hash,
             start_pos,
             end_pos: SmallPos::from_usize(end_pos),
-            lines,
-            multibyte_chars,
-            non_narrow_chars,
             name_hash,
+            lazy: CacheCell::new(),
         }
     }
 
     /// Return the BytePos of the beginning of the current line.
     pub fn line_begin_pos(&self, pos: BytePos) -> BytePos {
         let line_index = self.lookup_line(pos).unwrap();
-        self.lines[line_index]
+        let analysis = self.analyze();
+        analysis.lines[line_index]
     }
 
     /// Get a line from the list of pre-computed line-beginnings.
@@ -944,7 +952,8 @@ impl SourceFile {
         }
 
         let begin = {
-            let line = self.lines.get(line_number)?;
+            let analysis = self.analyze();
+            let line = analysis.lines.get(line_number)?;
             let begin: BytePos = *line - self.start_pos;
             begin.to_usize()
         };
@@ -961,7 +970,8 @@ impl SourceFile {
     }
 
     pub fn count_lines(&self) -> usize {
-        self.lines.len()
+        let analysis = self.analyze();
+        analysis.lines.len()
     }
 
     /// Find the line containing the given position. The return value is the
@@ -969,12 +979,13 @@ impl SourceFile {
     /// number. If the `source_file` is empty or the position is located before
     /// the first line, `None` is returned.
     pub fn lookup_line(&self, pos: BytePos) -> Option<usize> {
-        if self.lines.is_empty() {
+        let analysis = self.analyze();
+        if analysis.lines.is_empty() {
             return None;
         }
 
-        let line_index = lookup_line(&self.lines[..], pos);
-        assert!(line_index < self.lines.len() as isize);
+        let line_index = lookup_line(&analysis.lines, pos);
+        assert!(line_index < analysis.lines.len() as isize);
         if line_index >= 0 {
             Some(line_index as usize)
         } else {
@@ -987,17 +998,31 @@ impl SourceFile {
             return (self.start_pos, self.end_pos);
         }
 
-        assert!(line_index < self.lines.len());
-        if line_index == (self.lines.len() - 1) {
-            (self.lines[line_index], self.end_pos)
+        let analysis = self.analyze();
+
+        assert!(line_index < analysis.lines.len());
+        if line_index == (analysis.lines.len() - 1) {
+            (analysis.lines[line_index], self.end_pos)
         } else {
-            (self.lines[line_index], self.lines[line_index + 1])
+            (analysis.lines[line_index], analysis.lines[line_index + 1])
         }
     }
 
     #[inline]
     pub fn contains(&self, byte_pos: BytePos) -> bool {
         byte_pos >= self.start_pos && byte_pos <= self.end_pos
+    }
+
+    pub fn analyze(&self) -> &SourceFileAnalysis {
+        self.lazy.get_or_init(|| {
+            let (lines, multibyte_chars, non_narrow_chars) =
+                analyze_source_file::analyze_source_file(&self.src[..], self.start_pos);
+            SourceFileAnalysis {
+                lines,
+                multibyte_chars,
+                non_narrow_chars,
+            }
+        })
     }
 }
 
