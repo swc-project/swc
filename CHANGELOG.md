@@ -1,11 +1,17 @@
 # Changelog
-## [unreleased]
+## [1.9.2] - 2024-11-11
 
 ### Bug Fixes
 
 
 
 - **(es)** Fix typo in feature name ([#9721](https://github.com/swc-project/swc/issues/9721)) ([aff9de5](https://github.com/swc-project/swc/commit/aff9de5ea37d5d34d587b96b8044d08644936524))
+
+### Features
+
+
+
+- **(es/codegen)** Implement proper `inline_script` support ([#9729](https://github.com/swc-project/swc/issues/9729)) ([e732a36](https://github.com/swc-project/swc/commit/e732a36373f0959a0653dc51a863230a9b3d8982))
 
 ## [1.9.1] - 2024-11-06
 
@@ -1436,16 +1442,7 @@
 
 
 
-- **(es/minifier)** Fix comparison of `-0.0` ([#9012](https://github.com/swc-project/swc/issues/9012)) ([8a29577](https://github.com/swc-project/swc/commit/8a29577cc5bd3842d3bccfdbbffa45e4c9944d7f))
-
-
-- **(es/minifier)** Do not index a string with a surrogate pair ([#9013](https://github.com/swc-project/swc/issues/9013)) ([2879a4d](https://github.com/swc-project/swc/commit/2879a4d42b18e7e9d6bc12119a799c6a8c95e108))
-
-
 - **(es/minifier)** Fix evaluation of `-0` as a string ([#9011](https://github.com/swc-project/swc/issues/9011)) ([9f8e24a](https://github.com/swc-project/swc/commit/9f8e24a76c00b8f4470aadf22f071a60f409a13d))
-
-
-- **(es/resolver)** Fix hoisting of `const` and `let` ([#8987](https://github.com/swc-project/swc/issues/8987)) ([0d9ecf3](https://github.com/swc-project/swc/commit/0d9ecf39c1f452be1f2e583f72cebc6986a8088b))
 
 ### Performance
 

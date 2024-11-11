@@ -532,6 +532,12 @@ impl Options {
             }
         });
 
+        // inline_script defaults to true, but it's case only if minify is enabled.
+        // This is because minifier API is compatible with Terser, and Terser
+        // defaults to true, while by default swc itself doesn't enable
+        // inline_script by default.
+        let codegen_inline_script = js_minify.as_ref().map_or(false, |v| v.format.inline_script);
+
         let preamble = if !cfg.jsc.output.preamble.is_empty() {
             cfg.jsc.output.preamble
         } else {
@@ -800,6 +806,7 @@ impl Options {
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
+            codegen_inline_script,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
             resolver,
         })
@@ -1110,6 +1117,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub output: JscOutputConfig,
     pub emit_assert_for_import_attributes: bool,
+    pub codegen_inline_script: bool,
 
     pub emit_isolated_dts: bool,
     pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
@@ -1142,6 +1150,7 @@ where
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
+            codegen_inline_script: self.codegen_inline_script,
             emit_isolated_dts: self.emit_isolated_dts,
             resolver: self.resolver,
         }

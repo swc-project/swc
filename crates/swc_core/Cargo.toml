@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.2"
+version       = "5.0.3"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -339,7 +339,7 @@ once_cell = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "5.0.0", path = "../binding_macros" }
-swc                              = { optional = true, version = "5.0.1", path = "../swc" }
+swc                              = { optional = true, version = "5.0.2", path = "../swc" }
 swc_atoms                        = { optional = true, version = "2.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "5.0.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "1.0.0", path = "../swc_cached" }
@@ -354,7 +354,7 @@ swc_css_prefixer                 = { optional = true, version = "4.0.0", path = 
 swc_css_utils                    = { optional = true, version = "4.0.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "4.0.0", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "4.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { optional = true, version = "4.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen                 = { optional = true, version = "4.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "5.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "4.0.0", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "5.0.0", path = "../swc_ecma_minifier" }

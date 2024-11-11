@@ -19,19 +19,24 @@ pub struct Tuple(#[span] HasSpan, usize, usize);
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+    feature = "rkyv-impl",
+    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+        __S::Error: rkyv::rancor::Source))
 )]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(
     feature = "rkyv-impl",
-    archive_attr(check_bytes(bound = "__C: rkyv::validation::ArchiveContext, <__C as \
-                                      rkyv::Fallible>::Error: std::error::Error"))
+    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
 )]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    bytecheck(bounds(
+        __C: rkyv::validation::ArchiveContext
+    ))
+)]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct HasSpan {
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 }
 

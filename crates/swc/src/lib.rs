@@ -909,7 +909,8 @@ impl Compiler {
                         .with_ascii_only(opts.format.ascii_only)
                         .with_emit_assert_for_import_attributes(
                             opts.format.emit_assert_for_import_attributes,
-                        ),
+                        )
+                        .with_inline_script(opts.format.inline_script),
                     output: None,
                 },
             )
@@ -1047,7 +1048,8 @@ impl Compiler {
                         )
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
-                        ),
+                        )
+                        .with_inline_script(config.codegen_inline_script),
                     output: if output.is_empty() {
                         None
                     } else {

@@ -12,7 +12,7 @@ bench = false
 
 [features]
 __rkyv    = []
-rkyv-impl = ["__rkyv", "rkyv"]
+rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
 
 __plugin_mode = []
 __plugin_rt   = []
@@ -22,8 +22,10 @@ plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { workspace = true, features = ["validation"], optional = true }
-tracing = { workspace = true }
+bytecheck = { workspace = true, optional = true }
+rancor    = { workspace = true, optional = true }
+rkyv      = { workspace = true, optional = true }
+tracing   = { workspace = true }
 
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
 swc_common        = { version = "4.0.0", path = "../swc_common" }
