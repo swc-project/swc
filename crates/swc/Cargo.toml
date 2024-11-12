@@ -99,7 +99,7 @@ swc_ecma_transforms = { version = "5.0.0", path = "../swc_ecma_transforms", feat
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "5.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "5.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "5.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "5.0.0", path = "../swc_ecma_utils" }
