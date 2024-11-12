@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, source_map::PLACEHOLDER_SP, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -45,7 +45,7 @@ impl ClassStaticBlock {
             span,
             is_static: true,
             key: PrivateName {
-                span: DUMMY_SP,
+                span: PLACEHOLDER_SP,
                 name: private_id,
             },
             value,

@@ -85,9 +85,16 @@ pub const DUMMY_SP: Span = Span {
     hi: BytePos::DUMMY,
 };
 
+/// PURE span, will emit `/* #__PURE__ */` comment in codegen.
 pub const PURE_SP: Span = Span {
     lo: BytePos::PURE,
     hi: BytePos::PURE,
+};
+
+/// Used for some special cases. e.g. mark the generated AST.
+pub const PLACEHOLDER_SP: Span = Span {
+    lo: BytePos::PLACEHOLDER,
+    hi: BytePos::PLACEHOLDER,
 };
 
 pub struct Globals {
@@ -404,6 +411,11 @@ impl Span {
     #[inline]
     pub fn is_pure(self) -> bool {
         self.lo.is_pure()
+    }
+
+    #[inline]
+    pub fn is_placeholder(self) -> bool {
+        self.lo.is_placeholder()
     }
 
     /// Returns `true` if this is a dummy span with any hygienic context.
@@ -1048,6 +1060,10 @@ impl BytePos {
     /// Dummy position. This is reserved for synthesized spans.
     pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
+    /// Placeholders, commonly used where names are required, but the names are
+    /// not referenced elsewhere.
+    pub const PLACEHOLDER: Self = BytePos(u32::MAX - 2);
+    /// Reserved for PURE comments. e.g. `/* #__PURE__ */`
     pub const PURE: Self = BytePos(u32::MAX - 1);
     /// Synthesized, but should be stored in a source map.
     pub const SYNTHESIZED: Self = BytePos(u32::MAX);
@@ -1064,6 +1080,10 @@ impl BytePos {
 
     pub const fn is_pure(self) -> bool {
         self.0 == Self::PURE.0
+    }
+
+    pub const fn is_placeholder(self) -> bool {
+        self.0 == Self::PLACEHOLDER.0
     }
 
     /// Returns `true`` if this is explicitly synthesized or has relevant input

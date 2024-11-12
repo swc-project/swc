@@ -720,8 +720,7 @@ impl ClassProperties {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    // Hack: dummy span is mark for generated private names.
-                    if prop.is_static && prop.key.span.is_dummy() {
+                    if prop.is_static && prop.key.span.is_placeholder() {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;
