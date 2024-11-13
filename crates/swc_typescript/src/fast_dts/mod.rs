@@ -33,6 +33,7 @@ pub struct FastDts {
     filename: Arc<FileName>,
     diagnostics: Vec<DtsIssue>,
     id_counter: u32,
+    is_top_level: bool,
     // TODO: strip_internal: bool,
 }
 
@@ -43,6 +44,7 @@ impl FastDts {
             filename,
             diagnostics: Vec::new(),
             id_counter: 0,
+            is_top_level: true,
         }
     }
 

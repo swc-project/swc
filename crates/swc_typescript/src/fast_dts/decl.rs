@@ -5,14 +5,21 @@ use super::{any_type_ann, type_ann, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_decl(&mut self, decl: &mut Decl) {
-        // let is_declare = self.is_top_level;
-        let is_declare = true;
+        let is_declare = self.is_top_level;
         match decl {
             Decl::Class(class_decl) => {
+                if class_decl.declare {
+                    return;
+                }
+
                 class_decl.declare = is_declare;
                 self.transform_class(&mut class_decl.class);
             }
             Decl::Fn(fn_decl) => {
+                if fn_decl.declare {
+                    return;
+                }
+
                 fn_decl.declare = is_declare;
                 self.transform_fn(&mut fn_decl.function);
             }
@@ -81,8 +88,8 @@ impl FastDts {
     }
 
     pub(crate) fn transform_ts_namespace_decl(&mut self, body: &mut TsNamespaceBody) {
-        // let original_is_top_level = self.is_top_level;
-        // self.is_top_level = false;
+        let original_is_top_level = self.is_top_level;
+        self.is_top_level = false;
         match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
                 self.transform_module_items(&mut ts_module_block.body);
@@ -91,6 +98,6 @@ impl FastDts {
                 self.transform_ts_namespace_decl(&mut ts_ns.body)
             }
         };
-        // self.is_top_level = original_is_top_level;
+        self.is_top_level = original_is_top_level;
     }
 }
