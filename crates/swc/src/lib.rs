@@ -989,10 +989,8 @@ impl Compiler {
                 let issues = checker.transform(&mut program);
 
                 for issue in issues {
-                    let range = issue.range();
-
                     handler
-                        .struct_span_err(range.span, &issue.to_string())
+                        .struct_span_err(issue.range.span, &issue.message)
                         .emit();
                 }
 
