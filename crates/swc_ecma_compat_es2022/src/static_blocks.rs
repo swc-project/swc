@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, source_map::PLACEHOLDER_SP, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, source_map::PLACEHOLDER_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
