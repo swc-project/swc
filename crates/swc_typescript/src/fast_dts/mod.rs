@@ -3,28 +3,6 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    AssignPat, BindingIdent, ClassMember, ComputedPropName, Decl, DefaultDecl, ExportDecl,
-    ExportDefaultExpr, Expr, Ident, Lit, MethodKind, ModuleDecl, ModuleItem, OptChainBase, Param,
-    ParamOrTsParamProp, Pat, Program, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
-    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
-    TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement, TsTupleType, TsType,
-    TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl,
-    VarDeclKind, VarDeclarator,
-    AssignPat, BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl,
-    ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl,
-    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName, PropOrSpread, Stmt,
-    TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
-    TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature, TsTupleElement,
-    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
-    TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
-    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module,
-    ModuleDecl, ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Prop, PropName,
-    ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, ModuleDecl,
-    ModuleItem, OptChainBase, Param, ParamOrTsParamProp, Pat, Program, Prop, PropName,
-    PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType,
-    TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody, TsParamPropParam, TsPropertySignature,
-    TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
     BindingIdent, ComputedPropName, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem,
     OptChainBase, Pat, Program, PropName, TsEntityName, TsKeywordType, TsKeywordTypeKind, TsLit,
     TsLitType, TsTupleElement, TsType, TsTypeAnn, TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
@@ -97,9 +75,6 @@ impl FastDts {
                     self.transform_decl(stmt.as_mut_decl().unwrap());
                 }
             }
-            Program::Script(script) => script
-                .body
-                .retain_mut(|stmt| self.transform_module_stmt(stmt)),
         }
 
         // 2. Remove unused imports and decls
