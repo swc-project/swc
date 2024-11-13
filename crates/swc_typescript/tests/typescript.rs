@@ -38,9 +38,7 @@ fn fixture(input: PathBuf) {
             for issue in issues {
                 error_messages += format!(
                     "[{}][{:?}] {}\n",
-                    issue.range().filename,
-                    issue.range().span,
-                    issue
+                    issue.range.filename, issue.range.span, issue.message
                 )
                 .as_str();
             }

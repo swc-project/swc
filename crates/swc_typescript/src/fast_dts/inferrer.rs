@@ -126,9 +126,9 @@ impl FastDts {
             }
             Expr::Lit(lit) => {
                 if as_const {
-                    maybe_lit_to_ts_type_const(&lit)
+                    maybe_lit_to_ts_type_const(lit)
                 } else {
-                    maybe_lit_to_ts_type(&lit)
+                    maybe_lit_to_ts_type(lit)
                 }
             }
             Expr::TsConstAssertion(ts_const) => {

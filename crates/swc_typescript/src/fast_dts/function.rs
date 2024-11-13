@@ -144,7 +144,7 @@ impl FastDts {
                 if let Some(fn_expr) = export.decl.as_fn_expr() {
                     if is_export_default_function_overloads && fn_expr.function.body.is_some() {
                         is_export_default_function_overloads = false;
-                        return false;
+                        false
                     } else {
                         is_export_default_function_overloads = true;
                         true
