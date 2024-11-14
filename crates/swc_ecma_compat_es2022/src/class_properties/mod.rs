@@ -49,27 +49,13 @@ pub fn class_properties(config: Config, unresolved_mark: Mark) -> impl Pass {
     })
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 pub struct Config {
     pub private_as_properties: bool,
     pub set_public_fields: bool,
     pub constant_super: bool,
     pub no_document_all: bool,
     pub pure_getter: bool,
-    pub static_blocks_mark: Mark,
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Self {
-            private_as_properties: false,
-            set_public_fields: false,
-            constant_super: false,
-            no_document_all: false,
-            pure_getter: false,
-            static_blocks_mark: Mark::new(),
-        }
-    }
 }
 
 struct ClassProperties {
@@ -734,7 +720,7 @@ impl ClassProperties {
 
                     let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-                    if prop.is_static && prop.ctxt.has_mark(self.c.static_blocks_mark) {
+                    if prop.is_static && prop.key.span.is_placeholder() {
                         let init = MemberInit::StaticBlock(value);
                         extra_inits.push(init);
                         continue;

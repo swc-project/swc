@@ -22,29 +22,26 @@ class Foo {
         _class_static_private_field_spec_set(this, Foo, ____private_computedKey_3, _v);
     }
 }
-var __ = {
-    writable: true,
-    value: (()=>{
-        ({ e: [_init_a, _init_b, _init_computedKey, _initStatic] } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                6,
-                "a"
-            ],
-            [
-                dec,
-                6,
-                "b"
-            ],
-            [
-                dec,
-                6,
-                _computedKey
-            ]
-        ], []));
-        _initStatic(Foo);
-    })()
-};
+(()=>{
+    ({ e: [_init_a, _init_b, _init_computedKey, _initStatic] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            6,
+            "a"
+        ],
+        [
+            dec,
+            6,
+            "b"
+        ],
+        [
+            dec,
+            6,
+            _computedKey
+        ]
+    ], []));
+    _initStatic(Foo);
+})();
 var ____private_a_1 = {
     writable: true,
     value: _init_a(Foo)

@@ -11,19 +11,13 @@ class C {
         _define_property(this, "m", _init_m(this));
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_init_m], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
-        [
-            memberDec,
-            0,
-            "m"
-        ]
-    ], [
-        classDec
-    ])
-};
-var __2 = {
-    writable: true,
-    value: _initClass()
-};
+({ e: [_init_m], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
+    [
+        memberDec,
+        0,
+        "m"
+    ]
+], [
+    classDec
+]));
+_initClass();

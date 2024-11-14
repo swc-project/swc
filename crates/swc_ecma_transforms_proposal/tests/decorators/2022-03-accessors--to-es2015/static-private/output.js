@@ -10,36 +10,33 @@ var _b = {
     get: get_b,
     set: set_b
 };
-var __ = {
-    writable: true,
-    value: (()=>{
-        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic] } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                6,
-                "a",
-                function() {
-                    return _class_static_private_field_spec_get(this, Foo, ___a_1);
-                },
-                function(_v) {
-                    _class_static_private_field_spec_set(this, Foo, ___a_1, _v);
-                }
-            ],
-            [
-                dec,
-                6,
-                "b",
-                function() {
-                    return _class_static_private_field_spec_get(this, Foo, ___b_2);
-                },
-                function(_v) {
-                    _class_static_private_field_spec_set(this, Foo, ___b_2, _v);
-                }
-            ]
-        ], []));
-        _initStatic(Foo);
-    })()
-};
+(()=>{
+    ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            6,
+            "a",
+            function() {
+                return _class_static_private_field_spec_get(this, Foo, ___a_1);
+            },
+            function(_v) {
+                _class_static_private_field_spec_set(this, Foo, ___a_1, _v);
+            }
+        ],
+        [
+            dec,
+            6,
+            "b",
+            function() {
+                return _class_static_private_field_spec_get(this, Foo, ___b_2);
+            },
+            function(_v) {
+                _class_static_private_field_spec_set(this, Foo, ___b_2, _v);
+            }
+        ]
+    ], []));
+    _initStatic(Foo);
+})();
 var ___a_1 = {
     writable: true,
     value: _init_a(Foo)

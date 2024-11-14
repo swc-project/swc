@@ -278,7 +278,7 @@ impl DecoratorPass {
                 }
             },
             _ => {
-                let key_ident = private_ident!("_computedKey");
+                let key_ident = private_ident!(name.span(), "_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: key_ident.clone().into(),

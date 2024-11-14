@@ -12,19 +12,13 @@ class C {
         _initProto(this);
     }
 }
-var __ = {
-    writable: true,
-    value: { e: [_initProto], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
-        [
-            memberDec,
-            2,
-            "m"
-        ]
-    ], [
-        classDec
-    ])
-};
-var __2 = {
-    writable: true,
-    value: _initClass()
-};
+({ e: [_initProto], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
+    [
+        memberDec,
+        2,
+        "m"
+    ]
+], [
+    classDec
+]));
+_initClass();

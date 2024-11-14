@@ -22,13 +22,13 @@ fn fixture(input: PathBuf) {
             let pass: Box<dyn Pass> = if input.to_string_lossy().contains("class-properties") {
                 Box::new((
                     resolver(unresolved_mark, top_level_mark, false),
-                    static_blocks(config.static_blocks_mark),
+                    static_blocks(),
                     class_properties(config, unresolved_mark),
                 ))
             } else {
                 Box::new((
                     resolver(unresolved_mark, top_level_mark, false),
-                    static_blocks(config.static_blocks_mark),
+                    static_blocks(),
                 ))
             };
             pass
