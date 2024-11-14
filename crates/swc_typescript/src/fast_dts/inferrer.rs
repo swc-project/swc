@@ -2,7 +2,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, Expr, Ident, Lit, Pat, Prop, PropName, PropOrSpread, TsFnOrConstructorType,
     TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsPropertySignature, TsTupleElement,
-    TsTupleType, TsType, TsTypeElement, TsTypeLit,
+    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
 };
 
 use super::{

@@ -1,11 +1,14 @@
+use std::mem;
+
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    AssignPat, BindingIdent, Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param,
-    ParamOrTsParamProp, Pat, Script, Stmt, TsParamPropParam,
+    Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, ParamOrTsParamProp, Pat,
+    Script, Stmt, TsKeywordType, TsKeywordTypeKind, TsParamPropParam, TsType,
+    TsUnionOrIntersectionType, TsUnionType,
 };
 
-use super::FastDts;
+use super::{any_type_ann, type_ann, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_fn(&mut self, func: &mut Function) {
@@ -23,64 +26,116 @@ impl FastDts {
         }
     }
 
-    pub(crate) fn transform_fn_params(&mut self, params: &mut Vec<Param>) {
-        for param in params {
-            self.transform_fn_param(param);
-        }
-    }
-
-    pub(crate) fn transform_fn_param(&mut self, param: &mut Param) {
-        match &mut param.pat {
-            Pat::Ident(ident) => {
-                self.handle_func_param_ident(ident);
+    pub(crate) fn transform_fn_params(&mut self, params: &mut [Param]) {
+        // If there is required param after current param.
+        let mut is_required = false;
+        for param in params.iter_mut().rev() {
+            self.transform_fn_param(param, is_required);
+            is_required |= match &param.pat {
+                Pat::Ident(binding_ident) => !binding_ident.optional,
+                Pat::Array(array_pat) => !array_pat.optional,
+                Pat::Object(object_pat) => !object_pat.optional,
+                Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) | Pat::Rest(_) => false,
             }
-            Pat::Assign(assign_pat) => {
-                if let Some(new_pat) = self.handle_func_param_assign(assign_pat) {
-                    param.pat = new_pat;
-                }
+        }
+    }
+
+    pub(crate) fn transform_fn_param(&mut self, param: &mut Param, is_required: bool) {
+        if let Pat::Assign(assign_pat) = &mut param.pat {
+            if assign_pat
+                .left
+                .as_array()
+                .map(|array_pat| array_pat.type_ann.is_none())
+                .unwrap_or(false)
+                || assign_pat
+                    .left
+                    .as_object()
+                    .map(|object_pat| object_pat.type_ann.is_none())
+                    .unwrap_or(false)
+            {
+                self.parameter_must_have_explicit_type(param.span);
+                return;
             }
-            Pat::Array(_) | Pat::Rest(_) | Pat::Object(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
         }
-    }
 
-    pub(crate) fn handle_func_param_ident(&mut self, ident: &mut BindingIdent) {
-        if ident.type_ann.is_none() {
-            // self.mark_diagnostic_any_fallback(ident.span());
-            // ident.type_ann = Some(any_type_ann());
-        }
-    }
-
-    pub(crate) fn handle_func_param_assign(&mut self, assign_pat: &mut AssignPat) -> Option<Pat> {
-        match &mut *assign_pat.left {
+        let type_ann = match &mut param.pat {
             Pat::Ident(ident) => {
                 if ident.type_ann.is_none() {
-                    ident.type_ann =
-                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                    self.parameter_must_have_explicit_type(param.span);
                 }
-
-                ident.optional = true;
-                Some(Pat::Ident(ident.clone()))
+                &mut ident.type_ann
             }
             Pat::Array(arr_pat) => {
                 if arr_pat.type_ann.is_none() {
-                    arr_pat.type_ann =
-                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                    self.parameter_must_have_explicit_type(param.span);
                 }
-
-                arr_pat.optional = true;
-                Some(Pat::Array(arr_pat.clone()))
+                &mut arr_pat.type_ann
             }
             Pat::Object(obj_pat) => {
                 if obj_pat.type_ann.is_none() {
-                    obj_pat.type_ann =
-                        self.infer_expr_fallback_any(assign_pat.right.take(), false, false);
+                    self.parameter_must_have_explicit_type(param.span);
                 }
-
-                obj_pat.optional = true;
-                Some(Pat::Object(obj_pat.clone()))
+                &mut obj_pat.type_ann
             }
-            Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => None,
+            Pat::Assign(assign_pat) => {
+                // We can only infer types from the right expr of assign pat
+                let left_type_ann = match assign_pat.left.as_mut() {
+                    Pat::Ident(ident) => {
+                        ident.optional |= !is_required;
+                        &mut ident.type_ann
+                    }
+                    Pat::Array(array_pat) => {
+                        array_pat.optional |= !is_required;
+                        &mut array_pat.type_ann
+                    }
+                    Pat::Object(object_pat) => {
+                        object_pat.optional |= !is_required;
+                        &mut object_pat.type_ann
+                    }
+                    // These are illegal
+                    Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
+                };
+
+                if left_type_ann.is_none() {
+                    *left_type_ann = self
+                        .infer_type_from_expr(&assign_pat.right, false, false)
+                        .map(type_ann)
+                        .or_else(|| {
+                            self.parameter_must_have_explicit_type(param.span);
+                            Some(any_type_ann())
+                        });
+                }
+                left_type_ann
+            }
+            Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => &mut None,
+        };
+
+        if let Some(type_ann) = type_ann {
+            if is_required {
+                if type_ann.type_ann.is_ts_type_ref() {
+                    self.implicitly_adding_undefined_to_type(param.span);
+                } else if !is_maybe_undefined(&type_ann.type_ann) {
+                    type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
+                        TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                            span: DUMMY_SP,
+                            types: vec![
+                                type_ann.type_ann.clone(),
+                                Box::new(TsType::TsKeywordType(TsKeywordType {
+                                    span: DUMMY_SP,
+                                    kind: TsKeywordTypeKind::TsUndefinedKeyword,
+                                })),
+                            ],
+                        }),
+                    ))
+                }
+            }
         }
+
+        let pat = mem::take(&mut param.pat);
+        param.pat = match pat {
+            Pat::Assign(assign_pat) => *assign_pat.left,
+            _ => pat,
+        };
     }
 
     pub(crate) fn handle_ts_param_props(&mut self, param_props: &mut Vec<ParamOrTsParamProp>) {
@@ -89,31 +144,35 @@ impl FastDts {
                 ParamOrTsParamProp::TsParamProp(param) => {
                     match &mut param.param {
                         TsParamPropParam::Ident(ident) => {
-                            self.handle_func_param_ident(ident);
+                            // self.handle_func_param_ident(ident);
                         }
                         TsParamPropParam::Assign(assign) => {
-                            if let Some(new_pat) = self.handle_func_param_assign(assign) {
-                                match new_pat {
-                                    Pat::Ident(new_ident) => {
-                                        param.param = TsParamPropParam::Ident(new_ident)
-                                    }
-                                    Pat::Assign(new_assign) => {
-                                        param.param = TsParamPropParam::Assign(new_assign)
-                                    }
-                                    Pat::Rest(_)
-                                    | Pat::Object(_)
-                                    | Pat::Array(_)
-                                    | Pat::Invalid(_)
-                                    | Pat::Expr(_) => {
-                                        // should never happen for parameter properties
-                                        unreachable!();
-                                    }
-                                }
-                            }
+                            // if let Some(new_pat) =
+                            // self.transform_fn_param_pat(assign) {
+                            //     match new_pat {
+                            //         Pat::Ident(new_ident) => {
+                            //             param.param =
+                            // TsParamPropParam::Ident(new_ident)
+                            //         }
+                            //         Pat::Assign(new_assign) => {
+                            //             param.param =
+                            // TsParamPropParam::Assign(new_assign)
+                            //         }
+                            //         Pat::Rest(_)
+                            //         | Pat::Object(_)
+                            //         | Pat::Array(_)
+                            //         | Pat::Invalid(_)
+                            //         | Pat::Expr(_) => {
+                            //             // should never happen for parameter
+                            // properties
+                            //             unreachable!();
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                 }
-                ParamOrTsParamProp::Param(param) => self.transform_fn_param(param),
+                ParamOrTsParamProp::Param(_param) => todo!(),
             }
         }
     }
@@ -175,5 +234,20 @@ impl FastDts {
             }
             true
         });
+    }
+}
+
+pub fn is_maybe_undefined(ts_type: &TsType) -> bool {
+    match ts_type {
+        TsType::TsKeywordType(keyword_type) => matches!(
+            keyword_type.kind,
+            TsKeywordTypeKind::TsAnyKeyword
+                | TsKeywordTypeKind::TsUndefinedKeyword
+                | TsKeywordTypeKind::TsUnknownKeyword
+        ),
+        TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(union_type)) => {
+            union_type.types.iter().any(|ty| is_maybe_undefined(&ty))
+        }
+        _ => false,
     }
 }

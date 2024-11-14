@@ -292,20 +292,6 @@ impl FastDts {
         }
     }
 
-    fn infer_expr_fallback_any(
-        &mut self,
-        expr: Box<Expr>,
-        as_const: bool,
-        as_readonly: bool,
-    ) -> Option<Box<TsTypeAnn>> {
-        if let Some(ts_type) = self.infer_type_from_expr(&expr, as_const, as_readonly) {
-            Some(type_ann(ts_type))
-        } else {
-            // self.mark_diagnostic_any_fallback(span);
-            Some(any_type_ann())
-        }
-    }
-
     fn gen_unique_name(&mut self, name: &str) -> Atom {
         self.id_counter += 1;
         format!("{name}_{}", self.id_counter).into()
