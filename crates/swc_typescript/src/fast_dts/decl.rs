@@ -1,7 +1,9 @@
 use swc_common::Spanned;
-use swc_ecma_ast::{Decl, DefaultDecl, Pat, TsNamespaceBody};
+use swc_ecma_ast::{
+    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
+};
 
-use super::{any_type_ann, type_ann, FastDts};
+use super::{any_type_ann, type_ann, util::PatExt, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_decl(&mut self, decl: &mut Decl) {
@@ -23,38 +25,18 @@ impl FastDts {
                 fn_decl.declare = is_declare;
                 self.transform_fn(&mut fn_decl.function);
             }
-            Decl::Var(_) | Decl::Using(_) => {
-                let decls = match decl {
-                    Decl::Var(var_decl) => {
-                        var_decl.declare = is_declare;
-                        &mut var_decl.decls
-                    }
-                    Decl::Using(using_decl) => &mut using_decl.decls,
-                    _ => todo!(),
-                };
+            Decl::Var(var) => {
+                if var.declare {
+                    return;
+                }
 
-                for decl in decls.iter_mut() {
-                    if let Pat::Ident(ident) = &mut decl.name {
-                        if ident.type_ann.is_some() {
-                            decl.init = None;
-                            continue;
-                        }
-
-                        let ts_type = decl
-                            .init
-                            .take()
-                            .and_then(|init| self.infer_type_from_expr(&init, false, true))
-                            .map(type_ann)
-                            .or_else(|| {
-                                self.variable_must_have_explicit_type(ident.span());
-                                Some(any_type_ann())
-                            });
-                        ident.type_ann = ts_type;
-                    } else {
-                        self.binding_element_export(decl.name.span());
-                    }
-
-                    decl.init = None;
+                for decl in var.decls.iter_mut() {
+                    self.transform_variables_declarator(var.kind, decl);
+                }
+            }
+            Decl::Using(using) => {
+                for decl in using.decls.iter_mut() {
+                    self.transform_variables_declarator(VarDeclKind::Const, decl);
                 }
             }
             Decl::TsEnum(ts_enum) => {
@@ -71,17 +53,51 @@ impl FastDts {
         }
     }
 
+    pub(crate) fn transform_variables_declarator(
+        &mut self,
+        kind: VarDeclKind,
+        decl: &mut VarDeclarator,
+    ) {
+        let pat = match &decl.name {
+            Pat::Assign(assign_pat) => &assign_pat.left,
+            _ => &decl.name,
+        };
+
+        if matches!(pat, Pat::Array(_) | Pat::Object(_)) {
+            self.binding_element_export(decl.name.span());
+            return;
+        }
+
+        if pat.get_type_ann().is_none() {
+            if let Some(init) = &decl.init {
+                if kind == VarDeclKind::Const && !Self::need_to_infer_type_from_expression(init) {
+                    if let Some(tpl) = init.as_tpl() {
+                        decl.init = self
+                            .tpl_to_string(tpl)
+                            .map(|s| Box::new(Expr::Lit(Lit::Str(s))));
+                    }
+                } else if kind != VarDeclKind::Const || !init.is_tpl() {
+                    decl.name
+                        .set_type_ann(self.infer_type_from_expr(init, false, false).map(type_ann));
+                }
+            }
+
+            if decl.init.is_none() && decl.name.get_type_ann().is_none() {
+                decl.name.set_type_ann(Some(any_type_ann()));
+                if !decl.init.as_ref().is_some_and(|init| init.is_fn_expr()) {
+                    self.variable_must_have_explicit_type(decl.name.span());
+                }
+            }
+        }
+    }
+
     pub(crate) fn transform_default_decl(&mut self, decl: &mut DefaultDecl) {
         match decl {
             DefaultDecl::Class(class_expr) => {
                 self.transform_class(&mut class_expr.class);
             }
             DefaultDecl::Fn(fn_expr) => {
-                fn_expr.function.body = None;
-                if fn_expr.function.return_type.is_none() {
-                    // self.mark_diagnostic(DtsIssueKind::FunctionExplicitType,
-                    // fn_expr.span());
-                }
+                self.transform_fn(&mut fn_expr.function);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         };

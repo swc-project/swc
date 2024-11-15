@@ -3,6 +3,7 @@ use swc_ecma_ast::{
     BindingIdent, Expr, Function, Ident, Lit, Pat, Prop, PropName, PropOrSpread,
     TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
     TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
+    UnaryExpr, UnaryOp,
 };
 
 use super::{
@@ -259,5 +260,23 @@ impl FastDts {
     ) -> Option<Box<TsTypeAnn>> {
         // TODO: infer from function body
         Some(any_type_ann())
+    }
+
+    pub(crate) fn need_to_infer_type_from_expression(expr: &Expr) -> bool {
+        match expr {
+            Expr::Lit(lit) => !(lit.is_str() || lit.is_num() || lit.is_big_int()),
+            Expr::Tpl(tpl) => !tpl.exprs.is_empty(),
+            Expr::Unary(unary) => !Self::can_infer_unary_expr(unary),
+            _ => true,
+        }
+    }
+
+    pub(crate) fn can_infer_unary_expr(unary: &UnaryExpr) -> bool {
+        let is_arithmetic = matches!(unary.op, UnaryOp::Plus | UnaryOp::Minus);
+        let is_number_lit = match unary.arg.as_ref() {
+            Expr::Lit(lit) => lit.is_num() || lit.is_big_int(),
+            _ => false,
+        };
+        is_arithmetic && is_number_lit
     }
 }

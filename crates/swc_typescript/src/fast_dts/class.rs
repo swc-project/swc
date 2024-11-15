@@ -4,10 +4,10 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
     ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsKeywordType, TsKeywordTypeKind,
-    TsParamProp, TsParamPropParam, TsType, TsTypeAnn, UnaryOp,
+    TsParamProp, TsParamPropParam, TsType, TsTypeAnn,
 };
 
-use super::{type_ann, FastDts};
+use super::{type_ann, util::PatExt, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
@@ -156,30 +156,12 @@ impl FastDts {
                             } else {
                                 method.function.params.truncate(1);
                                 let param = method.function.params.first_mut().unwrap();
-                                let static_name = static_name(&method.key);
+                                let static_name = Self::static_name(&method.key);
 
                                 if let Some(type_ann) = static_name
                                     .and_then(|name| setter_getter_annotations.get(name.as_ref()))
                                 {
-                                    let pat = match &mut param.pat {
-                                        Pat::Assign(assign_pat) => assign_pat.left.as_mut(),
-                                        _ => &mut param.pat,
-                                    };
-                                    match pat {
-                                        Pat::Ident(binding_ident) => {
-                                            binding_ident.type_ann = Some(type_ann.clone());
-                                        }
-                                        Pat::Array(array_pat) => {
-                                            array_pat.type_ann = Some(type_ann.clone());
-                                        }
-                                        Pat::Object(object_pat) => {
-                                            object_pat.type_ann = Some(type_ann.clone());
-                                        }
-                                        Pat::Assign(_)
-                                        | Pat::Rest(_)
-                                        | Pat::Invalid(_)
-                                        | Pat::Expr(_) => {}
-                                    }
+                                    param.pat.set_type_ann(Some(type_ann.clone()));
                                 }
                             }
                         }
@@ -392,7 +374,15 @@ impl FastDts {
             if prop.type_ann.is_none() {
                 if let Some(value) = prop.value.as_ref() {
                     if prop.readonly {
-                        todo!()
+                        if Self::need_to_infer_type_from_expression(value) {
+                            prop.type_ann = self
+                                .transform_expr_to_ts_type(value)
+                                .map(|ty| type_ann(Box::new(ty)));
+                        } else if let Some(tpl) = value.as_tpl() {
+                            prop.value = self
+                                .tpl_to_string(tpl)
+                                .map(|s| Box::new(Expr::Lit(Lit::Str(s))));
+                        }
                     } else {
                         prop.type_ann =
                             self.infer_type_from_expr(value, false, false).map(type_ann);
@@ -439,12 +429,13 @@ impl FastDts {
                 || (method
                     .key
                     .as_computed()
-                    .map_or(false, |computed| is_literal(&computed.expr)))
+                    .map_or(false, |computed| Self::is_literal(&computed.expr)))
             {
                 continue;
             }
 
-            let Some(static_name) = static_name(&method.key).map(|name| name.to_string()) else {
+            let Some(static_name) = Self::static_name(&method.key).map(|name| name.to_string())
+            else {
                 continue;
             };
 
@@ -464,19 +455,8 @@ impl FastDts {
                         continue;
                     };
 
-                    let pat = match &first_param.pat {
-                        Pat::Assign(assign_pat) => &assign_pat.left,
-                        _ => &first_param.pat,
-                    };
-
-                    if let Some(type_ann) = match pat {
-                        Pat::Ident(binding_ident) => binding_ident.type_ann.clone(),
-                        Pat::Array(array_pat) => array_pat.type_ann.clone(),
-                        Pat::Rest(rest_pat) => rest_pat.type_ann.clone(),
-                        Pat::Object(object_pat) => object_pat.type_ann.clone(),
-                        Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
-                    } {
-                        annotations.insert(static_name, type_ann);
+                    if let Some(type_ann) = first_param.pat.get_type_ann() {
+                        annotations.insert(static_name, type_ann.clone());
                     }
                 }
                 _ => continue,
@@ -488,7 +468,7 @@ impl FastDts {
 
     pub(crate) fn report_property_key(&mut self, key: &PropName) -> bool {
         if let Some(computed) = key.as_computed() {
-            let is_literal = is_literal(&computed.expr);
+            let is_literal = Self::is_literal(&computed.expr);
             if !is_literal {
                 self.computed_property_name(key.span());
             }
@@ -496,45 +476,30 @@ impl FastDts {
         }
         false
     }
-}
 
-pub fn static_name(prop_name: &PropName) -> Option<Cow<str>> {
-    match prop_name {
-        PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
-        PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
-        PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
-        PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
-        PropName::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-            Expr::Lit(lit) => match lit {
-                Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
-                Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
-                Lit::Null(_) => Some(Cow::Borrowed("null")),
-                Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
-                Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
-                Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
-                Lit::JSXText(_) => None,
+    pub(crate) fn static_name(prop_name: &PropName) -> Option<Cow<str>> {
+        match prop_name {
+            PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
+            PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
+            PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
+            PropName::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
+                Expr::Lit(lit) => match lit {
+                    Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+                    Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
+                    Lit::Null(_) => Some(Cow::Borrowed("null")),
+                    Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
+                    Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
+                    Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
+                    Lit::JSXText(_) => None,
+                },
+                Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
+                    .quasis
+                    .first()
+                    .and_then(|e| e.cooked.as_ref())
+                    .map(|atom| Cow::Borrowed(atom.as_str())),
+                _ => None,
             },
-            Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
-                .quasis
-                .first()
-                .and_then(|e| e.cooked.as_ref())
-                .map(|atom| Cow::Borrowed(atom.as_str())),
-            _ => None,
-        },
-    }
-}
-
-pub fn is_literal(expr: &Expr) -> bool {
-    match expr {
-        Expr::Lit(_) => true,
-        Expr::Unary(unary) => {
-            let is_arithmetic = matches!(unary.op, UnaryOp::Plus | UnaryOp::Minus);
-            let is_number_lit = match unary.arg.as_ref() {
-                Expr::Lit(lit) => lit.is_num() || lit.is_big_int(),
-                _ => false,
-            };
-            is_arithmetic && is_number_lit
         }
-        _ => false,
     }
 }

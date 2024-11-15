@@ -20,6 +20,7 @@ mod function;
 mod inferrer;
 mod type_usage;
 mod types;
+mod util;
 
 /// TypeScript Isolated Declaration support.
 ///
