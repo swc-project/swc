@@ -3,9 +3,9 @@ use std::mem;
 use swc_atoms::Atom;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, ParamOrTsParamProp, Pat,
-    Script, Stmt, TsKeywordType, TsKeywordTypeKind, TsParamPropParam, TsType,
-    TsUnionOrIntersectionType, TsUnionType,
+    AssignPat, Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, Pat, Script,
+    Stmt, TsKeywordType, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType,
+    TsUnionType,
 };
 
 use super::{any_type_ann, type_ann, FastDts};
@@ -22,7 +22,7 @@ impl FastDts {
 
     pub(crate) fn transform_fn_return_type(&self, func: &mut Function) {
         if func.return_type.is_none() && !func.is_async && !func.is_generator {
-            // TODO: infer from function body
+            func.return_type = self.infer_function_return_type(func);
         }
     }
 
@@ -41,23 +41,15 @@ impl FastDts {
     }
 
     pub(crate) fn transform_fn_param(&mut self, param: &mut Param, is_required: bool) {
+        // 1. Check assign pat type
         if let Pat::Assign(assign_pat) = &mut param.pat {
-            if assign_pat
-                .left
-                .as_array()
-                .map(|array_pat| array_pat.type_ann.is_none())
-                .unwrap_or(false)
-                || assign_pat
-                    .left
-                    .as_object()
-                    .map(|object_pat| object_pat.type_ann.is_none())
-                    .unwrap_or(false)
-            {
+            if self.check_assign_pat_param(assign_pat) {
                 self.parameter_must_have_explicit_type(param.span);
                 return;
             }
         }
 
+        // 2. Infer type annotation
         let type_ann = match &mut param.pat {
             Pat::Ident(ident) => {
                 if ident.type_ann.is_none() {
@@ -78,59 +70,28 @@ impl FastDts {
                 &mut obj_pat.type_ann
             }
             Pat::Assign(assign_pat) => {
-                // We can only infer types from the right expr of assign pat
-                let left_type_ann = match assign_pat.left.as_mut() {
-                    Pat::Ident(ident) => {
-                        ident.optional |= !is_required;
-                        &mut ident.type_ann
-                    }
-                    Pat::Array(array_pat) => {
-                        array_pat.optional |= !is_required;
-                        &mut array_pat.type_ann
-                    }
-                    Pat::Object(object_pat) => {
-                        object_pat.optional |= !is_required;
-                        &mut object_pat.type_ann
-                    }
-                    // These are illegal
-                    Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
-                };
-
-                if left_type_ann.is_none() {
-                    *left_type_ann = self
-                        .infer_type_from_expr(&assign_pat.right, false, false)
-                        .map(type_ann)
-                        .or_else(|| {
-                            self.parameter_must_have_explicit_type(param.span);
-                            Some(any_type_ann())
-                        });
+                if !self.transform_assign_pat(assign_pat, is_required) {
+                    self.parameter_must_have_explicit_type(param.span);
                 }
-                left_type_ann
+
+                match assign_pat.left.as_mut() {
+                    Pat::Ident(ident) => &mut ident.type_ann,
+                    Pat::Array(array_pat) => &mut array_pat.type_ann,
+                    Pat::Object(object_pat) => &mut object_pat.type_ann,
+                    Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
+                }
             }
             Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => &mut None,
         };
 
+        // 3. Add undefined type if needed
         if let Some(type_ann) = type_ann {
-            if is_required {
-                if type_ann.type_ann.is_ts_type_ref() {
-                    self.implicitly_adding_undefined_to_type(param.span);
-                } else if !is_maybe_undefined(&type_ann.type_ann) {
-                    type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
-                        TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                            span: DUMMY_SP,
-                            types: vec![
-                                type_ann.type_ann.clone(),
-                                Box::new(TsType::TsKeywordType(TsKeywordType {
-                                    span: DUMMY_SP,
-                                    kind: TsKeywordTypeKind::TsUndefinedKeyword,
-                                })),
-                            ],
-                        }),
-                    ))
-                }
+            if is_required && self.add_undefined_type_for_param(type_ann) {
+                self.implicitly_adding_undefined_to_type(param.span);
             }
         }
 
+        // 4. Flat param pat
         let pat = mem::take(&mut param.pat);
         param.pat = match pat {
             Pat::Assign(assign_pat) => *assign_pat.left,
@@ -138,43 +99,76 @@ impl FastDts {
         };
     }
 
-    pub(crate) fn handle_ts_param_props(&mut self, param_props: &mut Vec<ParamOrTsParamProp>) {
-        for param in param_props {
-            match param {
-                ParamOrTsParamProp::TsParamProp(param) => {
-                    match &mut param.param {
-                        TsParamPropParam::Ident(ident) => {
-                            // self.handle_func_param_ident(ident);
-                        }
-                        TsParamPropParam::Assign(assign) => {
-                            // if let Some(new_pat) =
-                            // self.transform_fn_param_pat(assign) {
-                            //     match new_pat {
-                            //         Pat::Ident(new_ident) => {
-                            //             param.param =
-                            // TsParamPropParam::Ident(new_ident)
-                            //         }
-                            //         Pat::Assign(new_assign) => {
-                            //             param.param =
-                            // TsParamPropParam::Assign(new_assign)
-                            //         }
-                            //         Pat::Rest(_)
-                            //         | Pat::Object(_)
-                            //         | Pat::Array(_)
-                            //         | Pat::Invalid(_)
-                            //         | Pat::Expr(_) => {
-                            //             // should never happen for parameter
-                            // properties
-                            //             unreachable!();
-                            //         }
-                            //     }
-                            // }
-                        }
-                    }
-                }
-                ParamOrTsParamProp::Param(_param) => todo!(),
+    pub(crate) fn transform_assign_pat(
+        &mut self,
+        assign_pat: &mut AssignPat,
+        is_required: bool,
+    ) -> bool {
+        // We can only infer types from the right expr of assign pat
+        let left_type_ann = match assign_pat.left.as_mut() {
+            Pat::Ident(ident) => {
+                ident.optional |= !is_required;
+                &mut ident.type_ann
             }
+            Pat::Array(array_pat) => {
+                array_pat.optional |= !is_required;
+                &mut array_pat.type_ann
+            }
+            Pat::Object(object_pat) => {
+                object_pat.optional |= !is_required;
+                &mut object_pat.type_ann
+            }
+            // These are illegal
+            Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return true,
+        };
+
+        let mut has_expclicit_type = true;
+        if left_type_ann.is_none() {
+            *left_type_ann = self
+                .infer_type_from_expr(&assign_pat.right, false, false)
+                .map(type_ann)
+                .or_else(|| {
+                    has_expclicit_type = false;
+                    Some(any_type_ann())
+                });
         }
+        has_expclicit_type
+    }
+
+    pub(crate) fn check_assign_pat_param(&mut self, assign_pat: &AssignPat) -> bool {
+        assign_pat
+            .left
+            .as_array()
+            .map(|array_pat| array_pat.type_ann.is_none())
+            .unwrap_or(false)
+            || assign_pat
+                .left
+                .as_object()
+                .map(|object_pat| object_pat.type_ann.is_none())
+                .unwrap_or(false)
+    }
+
+    pub(crate) fn add_undefined_type_for_param(&mut self, type_ann: &mut TsTypeAnn) -> bool {
+        if type_ann.type_ann.is_ts_type_ref() {
+            return true;
+        }
+
+        if !is_maybe_undefined(&type_ann.type_ann) {
+            type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
+                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    span: DUMMY_SP,
+                    types: vec![
+                        type_ann.type_ann.clone(),
+                        Box::new(TsType::TsKeywordType(TsKeywordType {
+                            span: DUMMY_SP,
+                            kind: TsKeywordTypeKind::TsUndefinedKeyword,
+                        })),
+                    ],
+                }),
+            ))
+        }
+
+        false
     }
 
     pub(crate) fn remove_module_function_overloads(module: &mut Module) {
@@ -246,7 +240,7 @@ pub fn is_maybe_undefined(ts_type: &TsType) -> bool {
                 | TsKeywordTypeKind::TsUnknownKeyword
         ),
         TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsUnionType(union_type)) => {
-            union_type.types.iter().any(|ty| is_maybe_undefined(&ty))
+            union_type.types.iter().any(|ty| is_maybe_undefined(ty))
         }
         _ => false,
     }

@@ -1,8 +1,8 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, Expr, Ident, Lit, Pat, Prop, PropName, PropOrSpread, TsFnOrConstructorType,
-    TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsPropertySignature, TsTupleElement,
-    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
+    BindingIdent, Expr, Function, Ident, Lit, Pat, Prop, PropName, PropOrSpread,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
+    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
 };
 
 use super::{
@@ -251,5 +251,13 @@ impl FastDts {
             // a parse error here.
             Pat::Invalid(_) => None,
         }
+    }
+
+    pub(crate) fn infer_function_return_type(
+        &self,
+        _function: &Function,
+    ) -> Option<Box<TsTypeAnn>> {
+        // TODO: infer from function body
+        Some(any_type_ann())
     }
 }

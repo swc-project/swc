@@ -3,10 +3,10 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ComputedPropName, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem,
-    OptChainBase, Pat, Program, PropName, TsEntityName, TsKeywordType, TsKeywordTypeKind, TsLit,
-    TsLitType, TsTupleElement, TsType, TsTypeAnn, TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
-    VarDecl, VarDeclKind, VarDeclarator,
+    BindingIdent, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem, OptChainBase, Pat,
+    Program, TsEntityName, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsTupleElement,
+    TsType, TsTypeAnn, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind,
+    VarDeclarator,
 };
 use swc_ecma_visit::{VisitMutWith, VisitWith};
 use type_usage::{TypeRemover, TypeUsageAnalyzer};
@@ -19,6 +19,7 @@ mod r#enum;
 mod function;
 mod inferrer;
 mod type_usage;
+mod types;
 
 /// TypeScript Isolated Declaration support.
 ///
@@ -372,71 +373,5 @@ fn maybe_lit_to_ts_type(lit: &Lit) -> Option<Box<TsType>> {
         Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
         Lit::Regex(_) => Some(regex_type()),
         Lit::JSXText(_) => None,
-    }
-}
-
-fn valid_prop_name(prop_name: &PropName) -> Option<PropName> {
-    fn prop_name_from_expr(expr: &Expr) -> Option<PropName> {
-        match expr {
-            Expr::Lit(e) => match &e {
-                Lit::Str(e) => Some(PropName::Str(e.clone())),
-                Lit::Num(e) => Some(PropName::Num(e.clone())),
-                Lit::BigInt(e) => Some(PropName::BigInt(e.clone())),
-                Lit::Bool(_) | Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
-            },
-            Expr::Tpl(e) => {
-                if e.quasis.is_empty() && e.exprs.len() == 1 {
-                    prop_name_from_expr(&e.exprs[0])
-                } else {
-                    None
-                }
-            }
-            Expr::Paren(e) => prop_name_from_expr(&e.expr),
-            Expr::TsTypeAssertion(e) => prop_name_from_expr(&e.expr),
-            Expr::TsConstAssertion(e) => prop_name_from_expr(&e.expr),
-            Expr::TsNonNull(e) => prop_name_from_expr(&e.expr),
-            Expr::TsAs(e) => prop_name_from_expr(&e.expr),
-            Expr::TsSatisfies(e) => prop_name_from_expr(&e.expr),
-            Expr::Ident(_) => Some(PropName::Computed(ComputedPropName {
-                span: expr.span(),
-                expr: Box::new(expr.clone()),
-            })),
-            Expr::TaggedTpl(_)
-            | Expr::This(_)
-            | Expr::Array(_)
-            | Expr::Object(_)
-            | Expr::Fn(_)
-            | Expr::Unary(_)
-            | Expr::Update(_)
-            | Expr::Bin(_)
-            | Expr::Assign(_)
-            | Expr::Member(_)
-            | Expr::SuperProp(_)
-            | Expr::Cond(_)
-            | Expr::Call(_)
-            | Expr::New(_)
-            | Expr::Seq(_)
-            | Expr::Arrow(_)
-            | Expr::Class(_)
-            | Expr::Yield(_)
-            | Expr::Await(_)
-            | Expr::MetaProp(_)
-            | Expr::JSXMember(_)
-            | Expr::JSXNamespacedName(_)
-            | Expr::JSXEmpty(_)
-            | Expr::JSXElement(_)
-            | Expr::JSXFragment(_)
-            | Expr::TsInstantiation(_)
-            | Expr::PrivateName(_)
-            | Expr::OptChain(_)
-            | Expr::Invalid(_) => None,
-        }
-    }
-
-    match prop_name {
-        PropName::Ident(_) | PropName::Str(_) | PropName::Num(_) | PropName::BigInt(_) => {
-            Some(prop_name.clone())
-        }
-        PropName::Computed(computed) => prop_name_from_expr(&computed.expr),
     }
 }
