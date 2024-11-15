@@ -41,9 +41,7 @@ impl FastDts {
             }
         }
 
-        // let setter_getter_annotations =
-        // self.collect_getter_or_setter_annotations(class);
-        let setter_getter_annotations: HashMap<Cow<str>, Box<TsTypeAnn>> = HashMap::new();
+        let setter_getter_annotations = self.collect_getter_or_setter_annotations(class);
         let mut is_function_overloads = false;
         let mut has_private_key = false;
         let body = class.body.take();
@@ -161,7 +159,7 @@ impl FastDts {
                                 let static_name = static_name(&method.key);
 
                                 if let Some(type_ann) = static_name
-                                    .and_then(|name| setter_getter_annotations.get(&name))
+                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
                                 {
                                     let pat = match &mut param.pat {
                                         Pat::Assign(assign_pat) => assign_pat.left.as_mut(),
@@ -425,10 +423,10 @@ impl FastDts {
         }
     }
 
-    pub(crate) fn collect_getter_or_setter_annotations<'a>(
+    pub(crate) fn collect_getter_or_setter_annotations(
         &self,
-        class: &'a Class,
-    ) -> HashMap<Cow<'a, str>, Box<TsTypeAnn>> {
+        class: &Class,
+    ) -> HashMap<String, Box<TsTypeAnn>> {
         let mut annotations = HashMap::new();
         for member in &class.body {
             let ClassMember::Method(method) = member else {
@@ -446,7 +444,7 @@ impl FastDts {
                 continue;
             }
 
-            let Some(static_name) = static_name(&method.key) else {
+            let Some(static_name) = static_name(&method.key).map(|name| name.to_string()) else {
                 continue;
             };
 
@@ -471,13 +469,13 @@ impl FastDts {
                         _ => &first_param.pat,
                     };
 
-                    if let Some(type_ann) = (match pat {
+                    if let Some(type_ann) = match pat {
                         Pat::Ident(binding_ident) => binding_ident.type_ann.clone(),
                         Pat::Array(array_pat) => array_pat.type_ann.clone(),
                         Pat::Rest(rest_pat) => rest_pat.type_ann.clone(),
                         Pat::Object(object_pat) => object_pat.type_ann.clone(),
                         Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
-                    }) {
+                    } {
                         annotations.insert(static_name, type_ann);
                     }
                 }
@@ -535,7 +533,7 @@ pub fn is_literal(expr: &Expr) -> bool {
                 Expr::Lit(lit) => lit.is_num() || lit.is_big_int(),
                 _ => false,
             };
-            return is_arithmetic && is_number_lit;
+            is_arithmetic && is_number_lit
         }
         _ => false,
     }
