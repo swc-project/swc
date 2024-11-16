@@ -22,7 +22,7 @@ sha2       = { workspace = true }
 sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
-swc_common = { version = "4.0.0", path = "../swc_common", features = [
+swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }

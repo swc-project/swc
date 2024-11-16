@@ -23,7 +23,7 @@ serde_json         = { workspace = true }
 tracing            = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_common = { version = "4.0.0", path = "../swc_common", features = [
+swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "tty-emitter",
 ] }
 swc_error_reporters = { version = "5.0.0", path = "../swc_error_reporters" }

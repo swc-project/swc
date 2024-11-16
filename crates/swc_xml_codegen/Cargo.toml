@@ -21,12 +21,12 @@ bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
 
 swc_atoms              = { version = "2.0.0", path = "../swc_atoms" }
-swc_common             = { version = "4.0.0", path = "../swc_common" }
+swc_common             = { version = "4.0.1", path = "../swc_common" }
 swc_xml_ast            = { version = "4.0.1", path = "../swc_xml_ast" }
 swc_xml_codegen_macros = { version = "1.0.0", path = "../swc_xml_codegen_macros" }
 
 [dev-dependencies]
-swc_common = { version = "4.0.0", path = "../swc_common", features = [
+swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_xml_parser = { version = "4.0.0", path = "../swc_xml_parser" }

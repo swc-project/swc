@@ -63,7 +63,7 @@ virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
-swc_common = { version = "4.0.0", path = "../swc_common", features = [
+swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", optional = true }

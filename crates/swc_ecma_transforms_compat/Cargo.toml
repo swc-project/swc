@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_compat"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.0"
+version       = "6.0.0"
 
 [lib]
 bench = false
@@ -30,7 +30,7 @@ smallvec   = { workspace = true }
 tracing    = { workspace = true }
 
 swc_atoms                   = { version = "2.0.0", path = "../swc_atoms" }
-swc_common                  = { version = "4.0.0", path = "../swc_common" }
+swc_common                  = { version = "4.0.1", path = "../swc_common" }
 swc_config                  = { version = "1.0.0", path = "../swc_config" }
 swc_ecma_ast                = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_compat_bugfixes    = { version = "5.0.0", path = "../swc_ecma_compat_bugfixes" }
@@ -40,9 +40,9 @@ swc_ecma_compat_es2016      = { version = "5.0.0", path = "../swc_ecma_compat_es
 swc_ecma_compat_es2017      = { version = "5.0.0", path = "../swc_ecma_compat_es2017" }
 swc_ecma_compat_es2018      = { version = "5.0.0", path = "../swc_ecma_compat_es2018" }
 swc_ecma_compat_es2019      = { version = "5.0.0", path = "../swc_ecma_compat_es2019" }
-swc_ecma_compat_es2020      = { version = "5.0.0", path = "../swc_ecma_compat_es2020" }
+swc_ecma_compat_es2020      = { version = "6.0.0", path = "../swc_ecma_compat_es2020" }
 swc_ecma_compat_es2021      = { version = "5.0.0", path = "../swc_ecma_compat_es2021" }
-swc_ecma_compat_es2022      = { version = "5.0.0", path = "../swc_ecma_compat_es2022" }
+swc_ecma_compat_es2022      = { version = "6.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3         = { version = "5.0.0", path = "../swc_ecma_compat_es3" }
 swc_ecma_transforms_base    = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "5.0.0", path = "../swc_ecma_transforms_classes" }

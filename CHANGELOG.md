@@ -20,6 +20,9 @@
 
 
 
+- **(bindings/node)** Format `binding.js` ([#9738](https://github.com/swc-project/swc/issues/9738)) ([9f8c14f](https://github.com/swc-project/swc/commit/9f8c14f5f81ca66609fe2fbfdac4c970240702e4))
+
+
 - **(deps)** Update cargo (patch) ([#9724](https://github.com/swc-project/swc/issues/9724)) ([da37439](https://github.com/swc-project/swc/commit/da37439d6b6aae31e2b21690476d93f12dc87bd3))
 
 ### Performance
@@ -30,6 +33,9 @@
 
 ### Refactor
 
+
+
+- **(es/compat)** Use special span instead of passing `static_blocks_mark` ([#9725](https://github.com/swc-project/swc/issues/9725)) ([6ad0735](https://github.com/swc-project/swc/commit/6ad0735033b405c04e53c1e3c7ec56db4b8fcf93))
 
 
 - Delay Wasm-plugin breaking changes ([#9735](https://github.com/swc-project/swc/issues/9735)) ([92faf5b](https://github.com/swc-project/swc/commit/92faf5b15df2ef5954f1a07c7376c04558efe181))
@@ -1446,12 +1452,6 @@
 - **(es/minifier)** Fix typescript enum detection ([#9031](https://github.com/swc-project/swc/issues/9031)) ([6669343](https://github.com/swc-project/swc/commit/6669343b4aaaaca5cb4f4ee5753f86aea71974b1))
 
 ## [1.5.26] - 2024-06-10
-
-### Bug Fixes
-
-
-
-- **(es/es2015)** Remove needless `unreachable!` ([#9021](https://github.com/swc-project/swc/issues/9021)) ([555e71c](https://github.com/swc-project/swc/commit/555e71cfd5dddfec35c8a694b50d6a08ab89ae3c))
 
 ### Features
 

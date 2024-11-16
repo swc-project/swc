@@ -21,7 +21,7 @@ thiserror   = { workspace = true }
 
 swc_atoms     = { version = "2.0.0", path = "../swc_atoms" }
 swc_cached    = { version = "1.0.0", path = "../swc_cached" }
-swc_common    = { version = "4.0.0", path = "../swc_common" }
+swc_common    = { version = "4.0.1", path = "../swc_common" }
 swc_css_ast   = { version = "4.0.1", path = "../swc_css_ast" }
 swc_css_visit = { version = "4.0.0", path = "../swc_css_visit" }
 

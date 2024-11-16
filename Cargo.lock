@@ -321,7 +321,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3850,7 +3850,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "5.0.2"
+version = "6.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4007,7 +4007,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "ahash 0.8.11",
  "anyhow",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "5.0.4"
+version = "6.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4539,7 +4539,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4571,7 +4571,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4730,7 +4730,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -4796,7 +4796,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4861,7 +4861,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.5.0",
@@ -5120,7 +5120,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5371,7 +5371,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",

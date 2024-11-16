@@ -27,7 +27,7 @@ tracing    = { workspace = true }
 
 swc_allocator           = { version = "1.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms               = { version = "2.0.0", path = "../swc_atoms" }
-swc_common              = { version = "4.0.0", path = "../swc_common" }
+swc_common              = { version = "4.0.1", path = "../swc_common" }
 swc_ecma_ast            = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "1.0.0", path = "../swc_ecma_codegen_macros" }
 
@@ -38,7 +38,7 @@ criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
 swc_allocator = { version = "1.0.0", path = "../swc_allocator" }
-swc_common = { version = "4.0.0", path = "../swc_common", features = [
+swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
