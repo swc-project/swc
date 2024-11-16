@@ -78,7 +78,7 @@ impl FastDts {
                     }
                 } else if kind != VarDeclKind::Const || !init.is_tpl() {
                     decl.name
-                        .set_type_ann(self.infer_type_from_expr(init, false, false).map(type_ann));
+                        .set_type_ann(self.infer_type_from_expr(init).map(type_ann));
                 }
             }
 

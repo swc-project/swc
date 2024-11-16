@@ -3,11 +3,11 @@ use std::{borrow::Cow, collections::HashMap};
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
-    ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsKeywordType, TsKeywordTypeKind,
-    TsParamProp, TsParamPropParam, TsType, TsTypeAnn,
+    ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsKeywordTypeKind, TsParamProp,
+    TsParamPropParam, TsTypeAnn,
 };
 
-use super::{type_ann, util::PatExt, FastDts};
+use super::{ts_keyword_type, type_ann, util::PatExt, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
@@ -103,11 +103,8 @@ impl FastDts {
                             }) {
                                 if method.kind == MethodKind::Getter {
                                     method.function.params = Vec::new();
-                                    method.function.return_type = Some(type_ann(Box::new(
-                                        TsType::TsKeywordType(TsKeywordType {
-                                            span: DUMMY_SP,
-                                            kind: TsKeywordTypeKind::TsVoidKeyword,
-                                        }),
+                                    method.function.return_type = Some(type_ann(ts_keyword_type(
+                                        TsKeywordTypeKind::TsVoidKeyword,
                                     )));
                                 }
                                 method.function.decorators.clear();
@@ -375,17 +372,14 @@ impl FastDts {
                 if let Some(value) = prop.value.as_ref() {
                     if prop.readonly {
                         if Self::need_to_infer_type_from_expression(value) {
-                            prop.type_ann = self
-                                .transform_expr_to_ts_type(value)
-                                .map(|ty| type_ann(Box::new(ty)));
+                            prop.type_ann = self.transform_expr_to_ts_type(value).map(type_ann);
                         } else if let Some(tpl) = value.as_tpl() {
                             prop.value = self
                                 .tpl_to_string(tpl)
                                 .map(|s| Box::new(Expr::Lit(Lit::Str(s))));
                         }
                     } else {
-                        prop.type_ann =
-                            self.infer_type_from_expr(value, false, false).map(type_ann);
+                        prop.type_ann = self.infer_type_from_expr(value).map(type_ann);
                     }
                 }
             }
@@ -414,7 +408,7 @@ impl FastDts {
     }
 
     pub(crate) fn collect_getter_or_setter_annotations(
-        &self,
+        &mut self,
         class: &Class,
     ) -> HashMap<String, Box<TsTypeAnn>> {
         let mut annotations = HashMap::new();

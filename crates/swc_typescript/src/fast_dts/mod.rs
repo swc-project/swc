@@ -4,9 +4,8 @@ use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem, OptChainBase, Pat,
-    Program, TsEntityName, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsTupleElement,
-    TsType, TsTypeAnn, TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind,
-    VarDeclarator,
+    Program, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsType, TsTypeAnn, VarDecl,
+    VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::{VisitMutWith, VisitWith};
 use type_usage::{TypeRemover, TypeUsageAnalyzer};
@@ -120,9 +119,7 @@ impl FastDts {
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
-                    let type_ann = self
-                        .infer_type_from_expr(&export.expr, false, true)
-                        .map(type_ann);
+                    let type_ann = self.infer_type_from_expr(&export.expr).map(type_ann);
 
                     if type_ann.is_none() {
                         self.default_export_inferred(export.expr.span());
@@ -311,30 +308,6 @@ fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
     })
 }
 
-fn type_ref(name: Atom) -> TsTypeRef {
-    TsTypeRef {
-        span: DUMMY_SP,
-        type_name: TsEntityName::Ident(Ident::new_no_ctxt(name, DUMMY_SP)),
-        type_params: None,
-    }
-}
-
-fn ts_readonly(ann: Box<TsType>) -> Box<TsType> {
-    Box::new(TsType::TsTypeOperator(TsTypeOperator {
-        span: DUMMY_SP,
-        op: TsTypeOperatorOp::ReadOnly,
-        type_ann: ann,
-    }))
-}
-
-fn ts_tuple_element(ts_type: Box<TsType>) -> TsTupleElement {
-    TsTupleElement {
-        label: None,
-        span: DUMMY_SP,
-        ty: ts_type,
-    }
-}
-
 fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
     Box::new(TsType::TsKeywordType(TsKeywordType {
         span: DUMMY_SP,
@@ -344,35 +317,7 @@ fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
 
 fn ts_lit_type(lit: TsLit) -> Box<TsType> {
     Box::new(TsType::TsLitType(TsLitType {
-        lit,
         span: DUMMY_SP,
+        lit,
     }))
-}
-
-fn regex_type() -> Box<TsType> {
-    Box::new(TsType::TsTypeRef(type_ref("RegExp".into())))
-}
-
-fn maybe_lit_to_ts_type_const(lit: &Lit) -> Option<Box<TsType>> {
-    match lit {
-        Lit::Str(lit_str) => Some(ts_lit_type(TsLit::Str(lit_str.clone()))),
-        Lit::Bool(lit_bool) => Some(ts_lit_type(TsLit::Bool(*lit_bool))),
-        Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
-        Lit::Num(lit_num) => Some(ts_lit_type(TsLit::Number(lit_num.clone()))),
-        Lit::BigInt(lit_bigint) => Some(ts_lit_type(TsLit::BigInt(lit_bigint.clone()))),
-        Lit::Regex(_) => Some(regex_type()),
-        Lit::JSXText(_) => None,
-    }
-}
-
-fn maybe_lit_to_ts_type(lit: &Lit) -> Option<Box<TsType>> {
-    match lit {
-        Lit::Str(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
-        Lit::Bool(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBooleanKeyword)),
-        Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
-        Lit::Num(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNumberKeyword)),
-        Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
-        Lit::Regex(_) => Some(regex_type()),
-        Lit::JSXText(_) => None,
-    }
 }

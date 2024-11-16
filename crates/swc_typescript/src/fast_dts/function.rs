@@ -4,11 +4,10 @@ use swc_atoms::Atom;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, Pat, Script,
-    Stmt, TsKeywordType, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType,
-    TsUnionType,
+    Stmt, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
 };
 
-use super::{any_type_ann, type_ann, FastDts};
+use super::{any_type_ann, ts_keyword_type, type_ann, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_fn(&mut self, func: &mut Function) {
@@ -20,7 +19,7 @@ impl FastDts {
         func.body = None
     }
 
-    pub(crate) fn transform_fn_return_type(&self, func: &mut Function) {
+    pub(crate) fn transform_fn_return_type(&mut self, func: &mut Function) {
         if func.return_type.is_none() && !func.is_async && !func.is_generator {
             func.return_type = self.infer_function_return_type(func);
         }
@@ -125,7 +124,7 @@ impl FastDts {
         let mut has_expclicit_type = true;
         if left_type_ann.is_none() {
             *left_type_ann = self
-                .infer_type_from_expr(&assign_pat.right, false, false)
+                .infer_type_from_expr(&assign_pat.right)
                 .map(type_ann)
                 .or_else(|| {
                     has_expclicit_type = false;
@@ -159,10 +158,7 @@ impl FastDts {
                     span: DUMMY_SP,
                     types: vec![
                         type_ann.type_ann.clone(),
-                        Box::new(TsType::TsKeywordType(TsKeywordType {
-                            span: DUMMY_SP,
-                            kind: TsKeywordTypeKind::TsUndefinedKeyword,
-                        })),
+                        ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
                     ],
                 }),
             ))
