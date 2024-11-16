@@ -52,3 +52,4 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
           cargo mono publish --no-verify
+          (cd bindings && cargo mono publish --no-verify)
