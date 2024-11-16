@@ -165,7 +165,7 @@ lto = true
 serde = "1"
 swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
 
-# .cargo/config defines few alias to build plugin.
+# .cargo/config.toml defines few alias to build plugin.
 # cargo build-wasi generates wasm-wasi32 binary
 # cargo build-wasm32 generates wasm32-unknown-unknown binary.
 "#,
@@ -185,11 +185,11 @@ swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
             PluginTargetType::Wasm32Wasi => "build-wasi",
         };
 
-        // Create cargo config for build target
+        // Create `.cargo/config.toml` file for build target
         let cargo_config_path = path.join(".cargo");
         create_dir_all(&cargo_config_path).context("`create_dir_all` failed")?;
         fs::write(
-            cargo_config_path.join("config"),
+            cargo_config_path.join("config.toml"),
             r#"# These command aliases are not final, may change
 [alias]
 # Alias to build actual plugin binary for the specified target.
