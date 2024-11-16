@@ -381,6 +381,7 @@ impl FastDts {
                     if prop.readonly {
                         if Self::need_to_infer_type_from_expression(value) {
                             prop.type_ann = self.transform_expr_to_ts_type(value).map(type_ann);
+                            prop.value = None;
                         } else if let Some(tpl) = value.as_tpl() {
                             prop.value = self
                                 .tpl_to_string(tpl)
@@ -388,13 +389,19 @@ impl FastDts {
                         }
                     } else {
                         prop.type_ann = self.infer_type_from_expr(value).map(type_ann);
+                        prop.value = None;
                     }
                 }
+            } else {
+                prop.value = None;
             }
 
             if prop.type_ann.is_none() && prop.value.is_none() {
                 self.property_must_have_explicit_type(prop.key.span());
             }
+        } else {
+            prop.type_ann = None;
+            prop.value = None;
         }
 
         prop.declare = false;

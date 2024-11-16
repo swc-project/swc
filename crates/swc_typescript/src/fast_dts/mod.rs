@@ -118,6 +118,11 @@ impl FastDts {
                     new_items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                    if export.expr.is_ident() {
+                        new_items.push(item);
+                        continue;
+                    }
+
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
                     let type_ann = self.infer_type_from_expr(&export.expr).map(type_ann);
 

@@ -3,7 +3,7 @@ use swc_ecma_ast::{
     ArrayLit, ArrowExpr, Expr, Function, Lit, ObjectLit, Param, Pat, Prop, PropName, PropOrSpread,
     Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
     TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeElement,
-    TsTypeLit,
+    TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
 };
 
 use super::{
@@ -217,6 +217,11 @@ impl FastDts {
         let mut elements = Vec::new();
         for elem in &array.elems {
             let Some(elem) = elem else {
+                elements.push(TsTupleElement {
+                    span: DUMMY_SP,
+                    label: None,
+                    ty: ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword),
+                });
                 continue;
             };
 
@@ -236,9 +241,13 @@ impl FastDts {
             }
         }
 
-        Some(Box::new(TsType::TsTupleType(TsTupleType {
+        Some(Box::new(TsType::TsTypeOperator(TsTypeOperator {
             span: DUMMY_SP,
-            elem_types: elements,
+            op: TsTypeOperatorOp::ReadOnly,
+            type_ann: Box::new(TsType::TsTupleType(TsTupleType {
+                span: DUMMY_SP,
+                elem_types: elements,
+            })),
         })))
     }
 

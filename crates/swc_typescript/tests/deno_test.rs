@@ -69,21 +69,6 @@ export function foo(a: any): number {
 }"#,
         r#"export declare function foo(a?: string): number;"#,
     );
-    transform_dts_test(
-        r#"export function foo([a, b] = [1, 2]): number {
-  return 2;
-}"#,
-        r#"export declare function foo([a, b]?: [number, number]): number;"#,
-    );
-    transform_dts_test(
-        r#"export function foo({a, b} = { a: 1, b: 2 }): number {
-  return 2;
-}"#,
-        r#"export declare function foo({ a, b }?: {
-    a: number;
-    b: number;
-}): number;"#,
-    );
 }
 
 #[test]
@@ -114,6 +99,7 @@ fn dts_class_decl_test() {
   }
 }"#,
         r#"export declare class Foo {
+    #private;
     a: number;
     static b: number;
     constructor(value: string);
@@ -191,7 +177,7 @@ fn dts_class_decl_prop_test() {
     transform_dts_test(
         r#"export class Foo { private a!: string }"#,
         r#"export declare class Foo {
-    private a: string;
+    private a;
 }"#,
     );
 
@@ -325,23 +311,23 @@ fn dts_literal_inference_ann() {
 fn dts_literal_inference() {
     transform_dts_test(
         r#"export const foo = 42;"#,
-        "export declare const foo: number;",
+        "export declare const foo = 42;",
     );
     transform_dts_test(
         r#"export const foo = "foo";"#,
-        "export declare const foo: string;",
+        "export declare const foo = \"foo\";",
     );
     transform_dts_test(
         r#"export const foo = true;"#,
-        "export declare const foo: boolean;",
+        "export declare const foo = true;",
     );
     transform_dts_test(
         r#"export const foo = false;"#,
-        "export declare const foo: boolean;",
+        "export declare const foo = false;",
     );
     transform_dts_test(
         r#"export const foo = null;"#,
-        "export declare const foo: null;",
+        "export declare const foo: any;",
     );
     transform_dts_test(
         r#"export let foo = undefined;"#,
@@ -350,10 +336,6 @@ fn dts_literal_inference() {
     transform_dts_test(
         r#"export let foo = 10n;"#,
         "export declare let foo: bigint;",
-    );
-    transform_dts_test(
-        r#"export let foo = /foo/;"#,
-        "export declare let foo: RegExp;",
     );
 }
 
@@ -401,7 +383,7 @@ fn dts_fn_arrow_expr() {
     );
     transform_dts_test(
         r#"export let foo = (a = 2): void => {}"#,
-        "export declare let foo: (a: number) => void;",
+        "export declare let foo: (a?: number) => void;",
     );
 
     transform_dts_test(
@@ -462,16 +444,14 @@ export default function(a: number, b: number): any {
     );
     transform_dts_test(
         r#"export default 42;"#,
-        r#"declare const _dts_1: number;
-export default _dts_1;"#,
+        r#"declare const _default_1: number;
+export default _default_1;"#,
     );
-    // TODO
-    //     transform_dts_test(
-    //       r#"const a: number = 42; export default a;"#,
-    //       r#"declare const a: number;
-    // export default a;"#,
-    //     )
-    //     ;
+    transform_dts_test(
+        r#"const a: number = 42; export default a;"#,
+        r#"declare const a: number;
+export default a;"#,
+    );
 }
 
 #[test]

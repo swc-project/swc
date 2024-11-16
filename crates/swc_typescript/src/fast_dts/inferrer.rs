@@ -14,10 +14,9 @@ impl FastDts {
             Expr::Lit(lit) => match lit {
                 Lit::Str(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
                 Lit::Bool(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBooleanKeyword)),
-                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
                 Lit::Num(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNumberKeyword)),
                 Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
-                Lit::Regex(_) | Lit::JSXText(_) => None,
+                Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
             },
             Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(&fn_expr.function),
             Expr::Arrow(arrow_expr) => self.transform_arrow_expr_to_ts_type(arrow_expr),
@@ -82,7 +81,7 @@ impl FastDts {
 
     pub(crate) fn need_to_infer_type_from_expression(expr: &Expr) -> bool {
         match expr {
-            Expr::Lit(lit) => !(lit.is_str() || lit.is_num() || lit.is_big_int()),
+            Expr::Lit(lit) => !(lit.is_str() || lit.is_num() || lit.is_big_int() || lit.is_bool()),
             Expr::Tpl(tpl) => !tpl.exprs.is_empty(),
             Expr::Unary(unary) => !Self::can_infer_unary_expr(unary),
             _ => true,

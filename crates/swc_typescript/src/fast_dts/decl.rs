@@ -81,6 +81,8 @@ impl FastDts {
                         init = self
                             .tpl_to_string(tpl)
                             .map(|s| Box::new(Expr::Lit(Lit::Str(s))));
+                    } else {
+                        init = Some(init_expr.clone());
                     }
                 } else if kind != VarDeclKind::Const || !init_expr.is_tpl() {
                     binding_type = self.infer_type_from_expr(init_expr).map(type_ann);
@@ -96,7 +98,9 @@ impl FastDts {
         }
 
         decl.init = init;
-        decl.name.set_type_ann(binding_type);
+        if binding_type.is_some() {
+            decl.name.set_type_ann(binding_type);
+        }
     }
 
     pub(crate) fn transform_default_decl(&mut self, decl: &mut DefaultDecl) {
