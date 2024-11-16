@@ -29,13 +29,13 @@ impl FastDts {
         // If there is required param after current param.
         let mut is_required = false;
         for param in params.iter_mut().rev() {
-            self.transform_fn_param(param, is_required);
             is_required |= match &param.pat {
                 Pat::Ident(binding_ident) => !binding_ident.optional,
                 Pat::Array(array_pat) => !array_pat.optional,
                 Pat::Object(object_pat) => !object_pat.optional,
                 Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) | Pat::Rest(_) => false,
-            }
+            };
+            self.transform_fn_param(param, is_required);
         }
     }
 
@@ -49,43 +49,49 @@ impl FastDts {
         }
 
         // 2. Infer type annotation
-        let type_ann = match &mut param.pat {
+        let (type_ann, should_add_undefined) = match &mut param.pat {
             Pat::Ident(ident) => {
                 if ident.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                &mut ident.type_ann
+                let is_none = ident.type_ann.is_none();
+                (ident.type_ann.as_mut(), is_none)
             }
             Pat::Array(arr_pat) => {
                 if arr_pat.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                &mut arr_pat.type_ann
+                let is_none = arr_pat.type_ann.is_none();
+                (arr_pat.type_ann.as_mut(), is_none)
             }
             Pat::Object(obj_pat) => {
                 if obj_pat.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                &mut obj_pat.type_ann
+                let is_none = obj_pat.type_ann.is_none();
+                (obj_pat.type_ann.as_mut(), is_none)
             }
             Pat::Assign(assign_pat) => {
                 if !self.transform_assign_pat(assign_pat, is_required) {
                     self.parameter_must_have_explicit_type(param.span);
                 }
 
-                match assign_pat.left.as_mut() {
-                    Pat::Ident(ident) => &mut ident.type_ann,
-                    Pat::Array(array_pat) => &mut array_pat.type_ann,
-                    Pat::Object(object_pat) => &mut object_pat.type_ann,
-                    Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
-                }
+                (
+                    match assign_pat.left.as_mut() {
+                        Pat::Ident(ident) => ident.type_ann.as_mut(),
+                        Pat::Array(array_pat) => array_pat.type_ann.as_mut(),
+                        Pat::Object(object_pat) => object_pat.type_ann.as_mut(),
+                        Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
+                    },
+                    true,
+                )
             }
-            Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => &mut None,
+            Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => (None, false),
         };
 
         // 3. Add undefined type if needed
         if let Some(type_ann) = type_ann {
-            if is_required && self.add_undefined_type_for_param(type_ann) {
+            if is_required && should_add_undefined && self.add_undefined_type_for_param(type_ann) {
                 self.implicitly_adding_undefined_to_type(param.span);
             }
         }

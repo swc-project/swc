@@ -243,17 +243,17 @@ impl FastDts {
     ) -> Vec<ClassMember> {
         let mut is_required = false;
         let mut private_properties = Vec::new();
-        for param in params {
+        for param in params.iter_mut().rev() {
             match param {
                 ParamOrTsParamProp::TsParamProp(ts_param_prop) => {
+                    is_required |= match &ts_param_prop.param {
+                        TsParamPropParam::Ident(binding_ident) => !binding_ident.optional,
+                        TsParamPropParam::Assign(_) => false,
+                    };
                     if let Some(private_prop) =
                         self.transform_constructor_ts_param(ts_param_prop, is_required)
                     {
                         private_properties.push(private_prop);
-                    }
-                    is_required |= match &ts_param_prop.param {
-                        TsParamPropParam::Ident(binding_ident) => !binding_ident.optional,
-                        TsParamPropParam::Assign(_) => false,
                     }
                 }
                 ParamOrTsParamProp::Param(param) => {
@@ -267,6 +267,7 @@ impl FastDts {
                 }
             }
         }
+        private_properties.reverse();
         private_properties
     }
 
@@ -285,30 +286,37 @@ impl FastDts {
         }
 
         // 2. Infer type annotation
-        let type_ann = match &mut ts_param_prop.param {
+        let (type_ann, should_add_undefined) = match &mut ts_param_prop.param {
             TsParamPropParam::Ident(binding_ident) => {
                 if binding_ident.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(ts_param_prop.span);
                 }
-                &mut binding_ident.type_ann
+
+                let is_none = binding_ident.type_ann.is_none();
+                (&mut binding_ident.type_ann, is_none)
             }
             TsParamPropParam::Assign(assign_pat) => {
                 if !self.transform_assign_pat(assign_pat, is_required) {
                     self.parameter_must_have_explicit_type(ts_param_prop.span);
                 }
 
-                match assign_pat.left.as_mut() {
-                    Pat::Ident(ident) => &mut ident.type_ann,
-                    Pat::Array(array_pat) => &mut array_pat.type_ann,
-                    Pat::Object(object_pat) => &mut object_pat.type_ann,
-                    Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return None,
-                }
+                (
+                    match assign_pat.left.as_mut() {
+                        Pat::Ident(ident) => &mut ident.type_ann,
+                        Pat::Array(array_pat) => &mut array_pat.type_ann,
+                        Pat::Object(object_pat) => &mut object_pat.type_ann,
+                        Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => {
+                            return None
+                        }
+                    },
+                    true,
+                )
             }
         };
 
         // 3. Add undefined type if needed
         if let Some(type_ann) = type_ann {
-            if is_required && self.add_undefined_type_for_param(type_ann) {
+            if is_required && should_add_undefined && self.add_undefined_type_for_param(type_ann) {
                 self.implicitly_adding_undefined_to_type(ts_param_prop.span);
             }
         }

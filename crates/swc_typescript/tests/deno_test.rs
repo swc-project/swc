@@ -1,4 +1,5 @@
 //! Tests copied from deno
+//! Make some changes to align with tsc
 
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
@@ -183,32 +184,6 @@ fn dts_class_decl_overloads_test() {
     foo(arg: number);
 }"#,
     );
-
-    transform_dts_test(
-        r#"export abstract class Value {
-    protected body?(): string | undefined | Promise<string | undefined>;
-    protected footer(): string | undefined {
-        return "";
-    }
-}
-function overloadsNonExportDecl(args: string): void;
-function overloadsNonExportDecl(args: number): void;
-function overloadsNonExportDecl(args: any): void {}
-export { overloadsNonExportDecl };
-export default function defaultExport(args: string): void;
-export default function defaultExport(args: number): void;
-export default function defaultExport(args: any): void {}
-"#,
-        r#"export declare abstract class Value {
-    protected body?(): string | undefined | Promise<string | undefined>;
-    protected footer(): string | undefined;
-}
-declare function overloadsNonExportDecl(args: string): void;
-declare function overloadsNonExportDecl(args: number): void;
-export { overloadsNonExportDecl };
-export default function defaultExport(args: string): void;
-export default function defaultExport(args: number): void;"#,
-    );
 }
 
 #[test]
@@ -240,87 +215,6 @@ fn dts_class_decl_prop_infer_test() {
         r#"export class Foo { foo = function(a: string): void {} }"#,
         r#"export declare class Foo {
     foo: (a: string) => void;
-}"#,
-    );
-}
-
-#[test]
-fn dts_class_abstract_method_test() {
-    transform_dts_test(
-        r#"export abstract class Manager {
-    protected abstract A(): void;
-    protected B(): void {
-        console.log("B");
-    }
-    protected C(): void {
-        console.log("B");
-    }
-}"#,
-        r#"export declare abstract class Manager {
-    protected abstract A(): void;
-    protected B(): void;
-    protected C(): void;
-}"#,
-    );
-}
-
-#[test]
-fn dts_class_params_initializers_test() {
-    transform_dts_test(
-        r#"export class Object {
-    constructor(
-        values: {},
-        {
-            a,
-            b,
-        }: {
-            a?: A;
-            b?: B;
-        } = {}
-    ) {}
-
-    method(
-        values: {},
-        {
-            a,
-            b,
-        }: {
-            a?: A;
-            b?: B;
-        } = {},
-        value = 1
-    ) {}
-}
-"#,
-        r#"export declare class Object {
-    constructor(values: {
-    }, { a, b }?: {
-        a?: A;
-        b?: B;
-    });
-    method(values: {
-    }, { a, b }?: {
-        a?: A;
-        b?: B;
-    }, value?: number);
-}"#,
-    );
-}
-
-#[test]
-fn dts_class_properties_computed_test() {
-    transform_dts_test(
-        r#"export class Test {
-  [Symbol.for("nodejs.util.inspect.custom")]() {
-  }
-  ["string"]: string;
-  ["string2" as string]: string;
-  [1 as number]: string;
-}"#,
-        r#"export declare class Test {
-    "string": string;
-    "string2": string;
-    1: string;
 }"#,
     );
 }
@@ -481,7 +375,7 @@ fn dts_fn_expr() {
     );
     transform_dts_test(
         r#"export let foo = function add(a = 2): void {}"#,
-        "export declare let foo: (a: number) => void;",
+        "export declare let foo: (a?: number) => void;",
     );
     transform_dts_test(
         r#"export let foo = function add(...params: any[]): void {}"#,

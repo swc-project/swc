@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_typescript::fast_dts::FastDts;
 use testing::NormalizedOutput;
 
-#[testing::fixture("tests/fixture/*.ts")]
+#[testing::fixture("tests/**/*.ts")]
 fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load test case");
@@ -37,7 +37,7 @@ fn fixture(input: PathBuf) {
             let mut error_messages = String::new();
             for issue in issues {
                 error_messages += format!(
-                    "[{}][{:?}] {}\n",
+                    "{}({:?}) {}\n",
                     issue.range.filename, issue.range.span, issue.message
                 )
                 .as_str();
@@ -49,9 +49,6 @@ fn fixture(input: PathBuf) {
         }
 
         let output_path = input.with_extension("snap");
-        let output_path = PathBuf::from("tests")
-            .join("snapshot")
-            .join(output_path.file_name().unwrap());
 
         NormalizedOutput::from(output)
             .compare_to_file(output_path)

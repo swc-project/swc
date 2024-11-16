@@ -30,6 +30,7 @@ impl FastDts {
                     return;
                 }
 
+                var.declare = is_declare;
                 for decl in var.decls.iter_mut() {
                     self.transform_variables_declarator(var.kind, decl);
                 }
@@ -68,27 +69,34 @@ impl FastDts {
             return;
         }
 
+        let mut binding_type = None;
+        let mut init = None;
+
         if pat.get_type_ann().is_none() {
-            if let Some(init) = &decl.init {
-                if kind == VarDeclKind::Const && !Self::need_to_infer_type_from_expression(init) {
-                    if let Some(tpl) = init.as_tpl() {
-                        decl.init = self
+            if let Some(init_expr) = &decl.init {
+                if kind == VarDeclKind::Const
+                    && !Self::need_to_infer_type_from_expression(init_expr)
+                {
+                    if let Some(tpl) = init_expr.as_tpl() {
+                        init = self
                             .tpl_to_string(tpl)
                             .map(|s| Box::new(Expr::Lit(Lit::Str(s))));
                     }
-                } else if kind != VarDeclKind::Const || !init.is_tpl() {
-                    decl.name
-                        .set_type_ann(self.infer_type_from_expr(init).map(type_ann));
+                } else if kind != VarDeclKind::Const || !init_expr.is_tpl() {
+                    binding_type = self.infer_type_from_expr(init_expr).map(type_ann);
                 }
             }
 
-            if decl.init.is_none() && decl.name.get_type_ann().is_none() {
-                decl.name.set_type_ann(Some(any_type_ann()));
+            if init.is_none() && binding_type.is_none() {
+                binding_type = Some(any_type_ann());
                 if !decl.init.as_ref().is_some_and(|init| init.is_fn_expr()) {
                     self.variable_must_have_explicit_type(decl.name.span());
                 }
             }
         }
+
+        decl.init = init;
+        decl.name.set_type_ann(binding_type);
     }
 
     pub(crate) fn transform_default_decl(&mut self, decl: &mut DefaultDecl) {
