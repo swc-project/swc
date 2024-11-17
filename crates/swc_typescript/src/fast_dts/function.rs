@@ -1,10 +1,10 @@
 use std::mem;
 
 use swc_atoms::Atom;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    AssignPat, Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, Pat, Script,
-    Stmt, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
+    AssignPat, Decl, ExportDecl, Function, Ident, Module, ModuleDecl, ModuleItem, Param, Pat,
+    Script, Stmt, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{
@@ -14,10 +14,13 @@ use super::{
 };
 
 impl FastDts {
-    pub(crate) fn transform_fn(&mut self, func: &mut Function) {
+    pub(crate) fn transform_fn(&mut self, func: &mut Function, ident: Option<&Ident>) {
         self.transform_fn_return_type(func);
         if func.return_type.is_none() {
-            self.function_must_have_explicit_return_type(func.span());
+            self.function_must_have_explicit_return_type(ident.map_or_else(
+                || Span::new(func.span_lo(), func.body.span_lo()),
+                |ident| ident.span,
+            ));
         }
         self.transform_fn_params(&mut func.params);
         func.body = None

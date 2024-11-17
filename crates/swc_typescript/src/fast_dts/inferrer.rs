@@ -18,7 +18,10 @@ impl FastDts {
                 Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
                 Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
             },
-            Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(&fn_expr.function),
+            Expr::Tpl(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
+            Expr::Fn(fn_expr) => {
+                self.transform_fn_to_ts_type(&fn_expr.function, fn_expr.ident.as_ref())
+            }
             Expr::Arrow(arrow_expr) => self.transform_arrow_expr_to_ts_type(arrow_expr),
             Expr::Array(arr) => {
                 self.array_inferred(arr.span);
@@ -112,7 +115,13 @@ impl ReturnTypeInferrer {
         stmts.visit_children_with(&mut visitor);
 
         let expr = visitor.return_expr??;
-        let mut expr_type = transformer.infer_type_from_expr(&expr)?;
+        let Some(mut expr_type) = transformer.infer_type_from_expr(&expr) else {
+            return if expr.is_fn_expr() || expr.is_arrow() {
+                Some(ts_keyword_type(TsKeywordTypeKind::TsUnknownKeyword))
+            } else {
+                None
+            };
+        };
 
         if let Some((ref_name, is_value)) = match expr_type.as_ref() {
             TsType::TsTypeRef(type_ref) => Some((type_ref.type_name.as_ident()?, false)),

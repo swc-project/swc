@@ -1,7 +1,7 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, Expr, Function, Lit, ObjectLit, Param, Pat, Prop, PropName, PropOrSpread,
-    Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
+    ArrayLit, ArrowExpr, Expr, Function, Ident, Lit, ObjectLit, Param, Pat, Prop, PropName,
+    PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
     TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeElement,
     TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
 };
@@ -32,7 +32,9 @@ impl FastDts {
             }
             Expr::Array(array) => self.transform_array_to_ts_type(array),
             Expr::Object(obj) => self.transform_object_to_ts_type(obj, true),
-            Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(&fn_expr.function),
+            Expr::Fn(fn_expr) => {
+                self.transform_fn_to_ts_type(&fn_expr.function, fn_expr.ident.as_ref())
+            }
             Expr::Arrow(arrow) => self.transform_arrow_expr_to_ts_type(arrow),
             Expr::TsConstAssertion(assertion) => self.transform_expr_to_ts_type(&assertion.expr),
             Expr::TsAs(ts_as) => Some(ts_as.type_ann.clone()),
@@ -40,10 +42,17 @@ impl FastDts {
         }
     }
 
-    pub(crate) fn transform_fn_to_ts_type(&mut self, function: &Function) -> Option<Box<TsType>> {
+    pub(crate) fn transform_fn_to_ts_type(
+        &mut self,
+        function: &Function,
+        ident: Option<&Ident>,
+    ) -> Option<Box<TsType>> {
         let return_type = self.infer_function_return_type(function);
         if return_type.is_none() {
-            self.function_must_have_explicit_return_type(function.span());
+            self.function_must_have_explicit_return_type(ident.map_or_else(
+                || Span::new(function.span_lo(), function.body.span_lo()),
+                |ident| ident.span,
+            ));
         }
 
         return_type.map(|return_type| {
@@ -64,7 +73,10 @@ impl FastDts {
     ) -> Option<Box<TsType>> {
         let return_type = self.infer_arrow_return_type(arrow);
         if return_type.is_none() {
-            self.function_must_have_explicit_return_type(arrow.span());
+            self.function_must_have_explicit_return_type(Span::new(
+                arrow.span_lo(),
+                arrow.body.span_lo() + BytePos(1),
+            ));
         }
 
         return_type.map(|return_type| {

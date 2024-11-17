@@ -1,7 +1,6 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, Expr, Lit, ModuleDecl, ModuleItem, Pat, Stmt, TsNamespaceBody, VarDeclKind,
-    VarDeclarator,
+    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
 };
 
 use super::{
@@ -28,7 +27,7 @@ impl FastDts {
                 }
 
                 fn_decl.declare = is_declare;
-                self.transform_fn(&mut fn_decl.function);
+                self.transform_fn(&mut fn_decl.function, Some(&fn_decl.ident));
             }
             Decl::Var(var) => {
                 if var.declare {
@@ -96,7 +95,11 @@ impl FastDts {
 
             if init.is_none() && binding_type.is_none() {
                 binding_type = Some(any_type_ann());
-                if !decl.init.as_ref().is_some_and(|init| init.is_fn_expr()) {
+                if !decl
+                    .init
+                    .as_ref()
+                    .is_some_and(|init| init.is_fn_expr() || init.is_arrow())
+                {
                     self.variable_must_have_explicit_type(decl.name.span());
                 }
             }
@@ -114,7 +117,7 @@ impl FastDts {
                 self.transform_class(&mut class_expr.class);
             }
             DefaultDecl::Fn(fn_expr) => {
-                self.transform_fn(&mut fn_expr.function);
+                self.transform_fn(&mut fn_expr.function, fn_expr.ident.as_ref());
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         };
