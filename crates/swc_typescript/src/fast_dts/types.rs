@@ -7,7 +7,10 @@ use swc_ecma_ast::{
 };
 
 use super::{
-    inferrer::ReturnTypeInferrer, ts_keyword_type, ts_lit_type, type_ann, util::PatExt, FastDts,
+    inferrer::ReturnTypeInferrer,
+    type_ann,
+    util::{ts_keyword_type, ts_lit_type, PatExt},
+    FastDts,
 };
 
 impl FastDts {

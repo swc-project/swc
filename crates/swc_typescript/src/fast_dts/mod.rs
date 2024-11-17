@@ -4,11 +4,11 @@ use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem, OptChainBase, Pat,
-    Program, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsType, TsTypeAnn, VarDecl,
-    VarDeclKind, VarDeclarator,
+    Program, Stmt, TsLit, TsModuleBlock, TsType, VarDecl, VarDeclKind, VarDeclarator,
 };
-use swc_ecma_visit::{VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
 use type_usage::{TypeRemover, TypeUsageAnalyzer};
+use util::type_ann;
 
 use crate::diagnostic::{DtsIssue, SourceRange};
 
@@ -87,6 +87,9 @@ impl FastDts {
             &type_usage_analyzer,
             program.is_module(),
         ));
+
+        // 3. Strip export in ts module block
+        program.visit_mut_with(&mut StripExportKeyword);
 
         take(&mut self.diagnostics)
     }
@@ -302,27 +305,14 @@ impl FastDts {
     }
 }
 
-fn any_type_ann() -> Box<TsTypeAnn> {
-    type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
-}
+struct StripExportKeyword;
 
-fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
-    Box::new(TsTypeAnn {
-        span: DUMMY_SP,
-        type_ann: ts_type,
-    })
-}
-
-fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
-    Box::new(TsType::TsKeywordType(TsKeywordType {
-        span: DUMMY_SP,
-        kind,
-    }))
-}
-
-fn ts_lit_type(lit: TsLit) -> Box<TsType> {
-    Box::new(TsType::TsLitType(TsLitType {
-        span: DUMMY_SP,
-        lit,
-    }))
+impl VisitMut for StripExportKeyword {
+    fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
+        for module_item in node.body.iter_mut() {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = module_item {
+                *module_item = ModuleItem::Stmt(Stmt::Decl(export_decl.decl.clone()));
+            }
+        }
+    }
 }

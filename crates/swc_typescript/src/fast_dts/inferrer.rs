@@ -6,7 +6,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
-use super::{ts_keyword_type, type_ann, FastDts};
+use super::{type_ann, util::ts_keyword_type, FastDts};
 
 impl FastDts {
     pub(crate) fn infer_type_from_expr(&mut self, e: &Expr) -> Option<Box<TsType>> {

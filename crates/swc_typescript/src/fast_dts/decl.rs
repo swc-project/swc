@@ -1,9 +1,14 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
+    Decl, DefaultDecl, Expr, Lit, ModuleDecl, ModuleItem, Pat, Stmt, TsNamespaceBody, VarDeclKind,
+    VarDeclarator,
 };
 
-use super::{any_type_ann, type_ann, util::PatExt, FastDts};
+use super::{
+    type_ann,
+    util::{any_type_ann, PatExt},
+    FastDts,
+};
 
 impl FastDts {
     pub(crate) fn transform_decl(&mut self, decl: &mut Decl) {
@@ -120,6 +125,9 @@ impl FastDts {
         self.is_top_level = false;
         match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
+                ts_module_block
+                    .body
+                    .retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
                 self.transform_module_items(&mut ts_module_block.body);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => {

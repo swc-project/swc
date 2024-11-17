@@ -7,7 +7,11 @@ use swc_ecma_ast::{
     TsParamPropParam, TsTypeAnn,
 };
 
-use super::{ts_keyword_type, type_ann, util::PatExt, FastDts};
+use super::{
+    type_ann,
+    util::{ts_keyword_type, PatExt},
+    FastDts,
+};
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {

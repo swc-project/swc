@@ -7,7 +7,11 @@ use swc_ecma_ast::{
     Stmt, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
 };
 
-use super::{any_type_ann, ts_keyword_type, type_ann, FastDts};
+use super::{
+    type_ann,
+    util::{any_type_ann, ts_keyword_type},
+    FastDts,
+};
 
 impl FastDts {
     pub(crate) fn transform_fn(&mut self, func: &mut Function) {
