@@ -22,6 +22,8 @@ impl FastDts {
             );
         }
         self.transform_fn_params(&mut func.params);
+        func.is_async = false;
+        func.is_generator = false;
         func.body = None
     }
 

@@ -1,0 +1,21 @@
+```==================== .D.TS ====================
+
+declare function asyncFunctionGood(): Promise<number>;
+declare const asyncFunctionGoo2: () => Promise<number>;
+declare class AsyncClassGood {
+    method(): number;
+}
+declare function asyncFunction();
+declare const asyncFunction2: any;
+declare class AsyncClassBad {
+    method();
+}
+
+
+==================== Errors ====================
+async-function.ts(309..322) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+async-function.ts(366..379) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+async-function.ts(439..445) TS9008: Method must have an explicit return type annotation with --isolatedDeclarations.
+
+
+```
