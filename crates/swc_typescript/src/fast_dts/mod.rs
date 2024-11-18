@@ -3,8 +3,8 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ExportDefaultExpr, Expr, Ident, Lit, ModuleDecl, ModuleItem, OptChainBase, Pat,
-    Program, Stmt, TsLit, TsModuleBlock, TsType, VarDecl, VarDeclKind, VarDeclarator,
+    BindingIdent, ExportDefaultExpr, Ident, ModuleDecl, ModuleItem, Pat, Program, Stmt,
+    TsModuleBlock, VarDecl, VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
 use type_usage::{TypeRemover, TypeUsageAnalyzer};
@@ -164,139 +164,6 @@ impl FastDts {
         }
 
         *items = new_items;
-    }
-
-    // Support for expressions is limited in enums,
-    // see https://www.typescriptlang.org/docs/handbook/enums.html
-    fn valid_enum_init_expr(&mut self, expr: &Expr) -> bool {
-        match expr {
-            Expr::Bin(bin_expr) => {
-                if !self.valid_enum_init_expr(&bin_expr.left) {
-                    false
-                } else {
-                    self.valid_enum_init_expr(&bin_expr.right)
-                }
-            }
-
-            Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
-            Expr::OptChain(opt_expr) => match &*opt_expr.base {
-                OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&member_expr.clone().into())
-                }
-                OptChainBase::Call(_) => false,
-            },
-            // TS does infer the type of identifiers
-            Expr::Ident(_) => true,
-            Expr::Lit(lit) => match lit {
-                Lit::Num(_) | Lit::Str(_) => true,
-                Lit::Bool(_) | Lit::Null(_) | Lit::BigInt(_) | Lit::Regex(_) | Lit::JSXText(_) => {
-                    false
-                }
-            },
-            Expr::Tpl(tpl_expr) => {
-                for expr in &tpl_expr.exprs {
-                    if !self.valid_enum_init_expr(expr) {
-                        return false;
-                    }
-                }
-                true
-            }
-
-            Expr::Paren(paren_expr) => self.valid_enum_init_expr(&paren_expr.expr),
-
-            Expr::TsTypeAssertion(ts_ass) => {
-                // Only assertions to number are allowed for computed
-                // enum members.
-                match &*ts_ass.type_ann {
-                    TsType::TsLitType(ts_lit) => match ts_lit.lit {
-                        TsLit::Number(_) => true,
-                        TsLit::Str(_) | TsLit::Bool(_) | TsLit::BigInt(_) | TsLit::Tpl(_) => false,
-                    },
-                    TsType::TsKeywordType(_)
-                    | TsType::TsThisType(_)
-                    | TsType::TsFnOrConstructorType(_)
-                    | TsType::TsTypeRef(_)
-                    | TsType::TsTypeQuery(_)
-                    | TsType::TsTypeLit(_)
-                    | TsType::TsArrayType(_)
-                    | TsType::TsTupleType(_)
-                    | TsType::TsOptionalType(_)
-                    | TsType::TsRestType(_)
-                    | TsType::TsUnionOrIntersectionType(_)
-                    | TsType::TsConditionalType(_)
-                    | TsType::TsInferType(_)
-                    | TsType::TsParenthesizedType(_)
-                    | TsType::TsTypeOperator(_)
-                    | TsType::TsIndexedAccessType(_)
-                    | TsType::TsMappedType(_)
-                    | TsType::TsTypePredicate(_)
-                    | TsType::TsImportType(_) => false,
-                }
-            }
-
-            Expr::TsAs(ts_as) => self.valid_enum_ts_type(&ts_as.type_ann),
-
-            // These are not valid as enum member initializer and
-            // TS will throw a type error. For declaration generation
-            // they will be dropped in TS so we do that too.
-            Expr::TsInstantiation(_)
-            | Expr::Call(_)
-            | Expr::Update(_)
-            | Expr::PrivateName(_)
-            | Expr::TsSatisfies(_)
-            | Expr::TsNonNull(_)
-            | Expr::TsConstAssertion(_)
-            | Expr::Cond(_)
-            | Expr::Seq(_)
-            | Expr::TaggedTpl(_)
-            | Expr::Object(_)
-            | Expr::Array(_)
-            | Expr::Arrow(_)
-            | Expr::Class(_)
-            | Expr::Await(_)
-            | Expr::MetaProp(_)
-            | Expr::New(_)
-            | Expr::JSXMember(_)
-            | Expr::JSXNamespacedName(_)
-            | Expr::JSXEmpty(_)
-            | Expr::JSXElement(_)
-            | Expr::JSXFragment(_)
-            | Expr::Unary(_)
-            | Expr::Assign(_)
-            | Expr::Yield(_)
-            | Expr::SuperProp(_)
-            | Expr::Fn(_)
-            | Expr::This(_)
-            | Expr::Invalid(_) => false,
-        }
-    }
-
-    fn valid_enum_ts_type(&mut self, ts_type: &TsType) -> bool {
-        match ts_type {
-            TsType::TsLitType(ts_lit) => match ts_lit.lit {
-                TsLit::Number(_) => true,
-                TsLit::Str(_) | TsLit::Bool(_) | TsLit::BigInt(_) | TsLit::Tpl(_) => false,
-            },
-            TsType::TsKeywordType(_)
-            | TsType::TsThisType(_)
-            | TsType::TsFnOrConstructorType(_)
-            | TsType::TsTypeRef(_)
-            | TsType::TsTypeQuery(_)
-            | TsType::TsTypeLit(_)
-            | TsType::TsArrayType(_)
-            | TsType::TsTupleType(_)
-            | TsType::TsOptionalType(_)
-            | TsType::TsRestType(_)
-            | TsType::TsUnionOrIntersectionType(_)
-            | TsType::TsConditionalType(_)
-            | TsType::TsInferType(_)
-            | TsType::TsParenthesizedType(_)
-            | TsType::TsTypeOperator(_)
-            | TsType::TsIndexedAccessType(_)
-            | TsType::TsMappedType(_)
-            | TsType::TsTypePredicate(_)
-            | TsType::TsImportType(_) => false,
-        }
     }
 
     fn gen_unique_name(&mut self, name: &str) -> Atom {

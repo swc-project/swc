@@ -405,11 +405,11 @@ fn dts_type_export() {
 fn dts_enum_export() {
     transform_dts_test(
         r#"export enum Foo { A, B }"#,
-        "export declare enum Foo {\n    A,\n    B\n}",
+        "export declare enum Foo {\n    A = 0,\n    B = 1\n}",
     );
     transform_dts_test(
         r#"export const enum Foo { A, B }"#,
-        "export declare const enum Foo {\n    A,\n    B\n}",
+        "export declare const enum Foo {\n    A = 0,\n    B = 1\n}",
     );
 
     transform_dts_test(
