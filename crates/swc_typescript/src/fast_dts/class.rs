@@ -3,15 +3,11 @@ use std::{borrow::Cow, collections::HashMap};
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
-    ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsKeywordTypeKind, TsParamProp,
-    TsParamPropParam, TsTypeAnn,
+    ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsParamProp, TsParamPropParam,
+    TsTypeAnn,
 };
 
-use super::{
-    type_ann,
-    util::{ts_keyword_type, PatExt},
-    FastDts,
-};
+use super::{type_ann, util::PatExt, FastDts};
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
@@ -75,10 +71,6 @@ impl FastDts {
                         .is_some_and(|accessibility| accessibility == Accessibility::Private)
                     {
                         constructor.params.clear();
-                        constructor.body = None;
-                        constructor.accessibility =
-                            self.transform_accessibility(constructor.accessibility);
-                        continue;
                     }
 
                     constructor.body = None;
@@ -101,16 +93,36 @@ impl FastDts {
 
                     // Transform parameters
                     match method.kind {
-                        MethodKind::Method | MethodKind::Getter => {
+                        MethodKind::Method => {
                             if method.accessibility.is_some_and(|accessibility| {
                                 accessibility == Accessibility::Private
                             }) {
-                                if method.kind == MethodKind::Getter {
-                                    method.function.params = Vec::new();
-                                    method.function.return_type = Some(type_ann(ts_keyword_type(
-                                        TsKeywordTypeKind::TsVoidKeyword,
-                                    )));
-                                }
+                                class.body.push(ClassMember::ClassProp(ClassProp {
+                                    span: DUMMY_SP,
+                                    key: method.key.clone(),
+                                    value: None,
+                                    type_ann: None,
+                                    is_static: method.is_static,
+                                    decorators: Vec::new(),
+                                    accessibility: self
+                                        .transform_accessibility(method.accessibility),
+                                    is_abstract: method.is_abstract,
+                                    is_optional: method.is_optional,
+                                    is_override: false,
+                                    readonly: false,
+                                    declare: false,
+                                    definite: false,
+                                }));
+                                continue;
+                            }
+                            self.transform_fn_params(&mut method.function.params);
+                        }
+                        MethodKind::Getter => {
+                            if method.accessibility.is_some_and(|accessibility| {
+                                accessibility == Accessibility::Private
+                            }) {
+                                method.function.params.clear();
+                                method.function.return_type = None;
                                 method.function.decorators.clear();
                                 method.function.body = None;
                                 method.function.is_generator = false;
@@ -170,13 +182,12 @@ impl FastDts {
 
                     // Transform return
                     match method.kind {
-                        MethodKind::Method => {
+                        MethodKind::Method | MethodKind::Getter => {
                             self.transform_fn_return_type(&mut method.function);
                             if method.function.return_type.is_none() {
                                 self.method_must_have_explicit_return_type(method.key.span());
                             }
                         }
-                        MethodKind::Getter => {}
                         MethodKind::Setter => method.function.return_type = None,
                     }
 
@@ -259,6 +270,8 @@ impl FastDts {
                     {
                         private_properties.push(private_prop);
                     }
+                    ts_param_prop.readonly = false;
+                    ts_param_prop.accessibility = None;
                 }
                 ParamOrTsParamProp::Param(param) => {
                     self.transform_fn_param(param, is_required);
