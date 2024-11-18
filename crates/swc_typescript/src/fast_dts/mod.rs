@@ -3,8 +3,8 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ExportDefaultExpr, Ident, ModuleDecl, ModuleItem, Pat, Program, Stmt,
-    TsModuleBlock, VarDecl, VarDeclKind, VarDeclarator,
+    BindingIdent, ExportDefaultExpr, Ident, ModuleDecl, ModuleItem, NamedExport, Pat, Program,
+    Stmt, TsModuleBlock, VarDecl, VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
 use type_usage::{TypeRemover, TypeUsageAnalyzer};
@@ -91,12 +91,42 @@ impl FastDts {
         // 3. Strip export in ts module block
         program.visit_mut_with(&mut StripExportKeyword);
 
+        // 4. Add empty export mark if there's any declaration that is used but not
+        // exported to keep its privacy.
+        if let Some(module) = program.as_mut_module() {
+            let mut has_non_exported_stmt = false;
+            let mut has_export = false;
+            for item in &module.body {
+                match item {
+                    ModuleItem::Stmt(_) => has_non_exported_stmt = true,
+                    ModuleItem::ModuleDecl(
+                        ModuleDecl::ExportDefaultDecl(_)
+                        | ModuleDecl::ExportDefaultExpr(_)
+                        | ModuleDecl::ExportNamed(_),
+                    ) => has_export = true,
+                    _ => {}
+                }
+            }
+            if module.body.is_empty() || (has_non_exported_stmt && !has_export) {
+                module
+                    .body
+                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            span: DUMMY_SP,
+                            specifiers: Vec::new(),
+                            src: None,
+                            type_only: false,
+                            with: None,
+                        },
+                    )));
+            }
+        }
+
         take(&mut self.diagnostics)
     }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let orig_items = take(items);
-        let mut new_items = Vec::with_capacity(orig_items.len());
 
         for mut item in orig_items {
             match &mut item {
@@ -104,25 +134,26 @@ impl FastDts {
                     ModuleDecl::Import(..)
                     | ModuleDecl::TsImportEquals(_)
                     | ModuleDecl::TsNamespaceExport(_)
-                    | ModuleDecl::TsExportAssignment(_)
-                    | ModuleDecl::ExportNamed(_)
-                    | ModuleDecl::ExportAll(_),
-                ) => new_items.push(item),
+                    | ModuleDecl::TsExportAssignment(_),
+                ) => items.push(item),
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(_) | ModuleDecl::ExportAll(_)) => {
+                    items.push(item);
+                }
                 ModuleItem::Stmt(stmt) => {
                     self.transform_decl(stmt.as_mut_decl().unwrap());
-                    new_items.push(item);
+                    items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(expor_decl)) => {
                     self.transform_decl(&mut expor_decl.decl);
-                    new_items.push(item);
+                    items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                     self.transform_default_decl(&mut export.decl);
-                    new_items.push(item);
+                    items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
                     if export.expr.is_ident() {
-                        new_items.push(item);
+                        items.push(item);
                         continue;
                     }
 
@@ -133,7 +164,7 @@ impl FastDts {
                         self.default_export_inferred(export.expr.span());
                     }
 
-                    new_items.push(
+                    items.push(
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Const,
@@ -152,7 +183,7 @@ impl FastDts {
                         .into(),
                     );
 
-                    new_items.push(
+                    items.push(
                         ExportDefaultExpr {
                             span: export.span,
                             expr: name_ident.into(),
@@ -162,8 +193,6 @@ impl FastDts {
                 }
             }
         }
-
-        *items = new_items;
     }
 
     fn gen_unique_name(&mut self, name: &str) -> Atom {
