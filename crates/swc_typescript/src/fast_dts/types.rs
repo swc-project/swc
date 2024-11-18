@@ -1,9 +1,9 @@
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, Expr, Function, Ident, Lit, ObjectLit, Param, Pat, Prop, PropName,
-    PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
+    ArrayLit, ArrowExpr, Expr, Function, Lit, ObjectLit, Param, Pat, Prop, PropName, PropOrSpread,
+    Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
     TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeElement,
-    TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
 };
 
 use super::{
@@ -16,10 +16,13 @@ use super::{
 impl FastDts {
     pub(crate) fn transform_expr_to_ts_type(&mut self, expr: &Expr) -> Option<Box<TsType>> {
         match expr {
+            Expr::Ident(ident) if ident.sym == "undefined" => {
+                Some(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
+            }
             Expr::Lit(lit) => match lit {
                 Lit::Str(string) => Some(ts_lit_type(TsLit::Str(string.clone()))),
                 Lit::Bool(b) => Some(ts_lit_type(TsLit::Bool(*b))),
-                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
+                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword)),
                 Lit::Num(number) => Some(ts_lit_type(TsLit::Number(number.clone()))),
                 Lit::BigInt(big_int) => Some(ts_lit_type(TsLit::BigInt(big_int.clone()))),
                 Lit::Regex(_) | Lit::JSXText(_) => None,
@@ -28,13 +31,28 @@ impl FastDts {
                 .tpl_to_string(tpl)
                 .map(|string| ts_lit_type(TsLit::Str(string))),
             Expr::Unary(unary) if Self::can_infer_unary_expr(unary) => {
-                self.infer_type_from_expr(&unary.arg)
+                let mut expr = self.transform_expr_to_ts_type(&unary.arg)?;
+                if unary.op == UnaryOp::Minus {
+                    match &mut expr.as_mut_ts_lit_type()?.lit {
+                        TsLit::Number(number) => {
+                            number.value = -number.value;
+                            number.raw = None;
+                        }
+                        TsLit::BigInt(big_int) => {
+                            *big_int.value = -*big_int.value.clone();
+                            big_int.raw = None;
+                        }
+                        _ => {}
+                    }
+                };
+                Some(expr)
             }
             Expr::Array(array) => self.transform_array_to_ts_type(array),
             Expr::Object(obj) => self.transform_object_to_ts_type(obj, true),
-            Expr::Fn(fn_expr) => {
-                self.transform_fn_to_ts_type(&fn_expr.function, fn_expr.ident.as_ref())
-            }
+            Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(
+                &fn_expr.function,
+                fn_expr.ident.as_ref().map(|ident| ident.span),
+            ),
             Expr::Arrow(arrow) => self.transform_arrow_expr_to_ts_type(arrow),
             Expr::TsConstAssertion(assertion) => self.transform_expr_to_ts_type(&assertion.expr),
             Expr::TsAs(ts_as) => Some(ts_as.type_ann.clone()),
@@ -45,14 +63,14 @@ impl FastDts {
     pub(crate) fn transform_fn_to_ts_type(
         &mut self,
         function: &Function,
-        ident: Option<&Ident>,
+        ident_span: Option<Span>,
     ) -> Option<Box<TsType>> {
         let return_type = self.infer_function_return_type(function);
         if return_type.is_none() {
-            self.function_must_have_explicit_return_type(ident.map_or_else(
-                || Span::new(function.span_lo(), function.body.span_lo()),
-                |ident| ident.span,
-            ));
+            self.function_must_have_explicit_return_type(
+                ident_span
+                    .unwrap_or_else(|| Span::new(function.span_lo(), function.body.span_lo())),
+            );
         }
 
         return_type.map(|return_type| {
@@ -202,17 +220,35 @@ impl FastDts {
                             continue;
                         }
 
-                        let return_type = self.infer_function_return_type(&method.function);
-                        let (key, computed) = self.transform_property_name_to_expr(&method.key);
-                        members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
-                            span: DUMMY_SP,
-                            key: Box::new(key),
-                            computed,
-                            optional: false,
-                            params: self.transform_fn_params_to_ts_type(&method.function.params),
-                            type_ann: return_type,
-                            type_params: method.function.type_params.clone(),
-                        }));
+                        if is_const {
+                            let (key, computed) = self.transform_property_name_to_expr(&method.key);
+                            members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
+                                span: DUMMY_SP,
+                                readonly: is_const,
+                                key: Box::new(key),
+                                computed,
+                                optional: false,
+                                type_ann: self
+                                    .transform_fn_to_ts_type(
+                                        &method.function,
+                                        Some(method.key.span()),
+                                    )
+                                    .map(type_ann),
+                            }));
+                        } else {
+                            let return_type = self.infer_function_return_type(&method.function);
+                            let (key, computed) = self.transform_property_name_to_expr(&method.key);
+                            members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
+                                span: DUMMY_SP,
+                                key: Box::new(key),
+                                computed,
+                                optional: false,
+                                params: self
+                                    .transform_fn_params_to_ts_type(&method.function.params),
+                                type_ann: return_type,
+                                type_params: method.function.type_params.clone(),
+                            }));
+                        }
                     }
                     Prop::Assign(_) => {}
                 },

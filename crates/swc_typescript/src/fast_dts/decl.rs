@@ -27,7 +27,7 @@ impl FastDts {
                 }
 
                 fn_decl.declare = is_declare;
-                self.transform_fn(&mut fn_decl.function, Some(&fn_decl.ident));
+                self.transform_fn(&mut fn_decl.function, Some(fn_decl.ident.span));
             }
             Decl::Var(var) => {
                 if var.declare {
@@ -117,7 +117,10 @@ impl FastDts {
                 self.transform_class(&mut class_expr.class);
             }
             DefaultDecl::Fn(fn_expr) => {
-                self.transform_fn(&mut fn_expr.function, fn_expr.ident.as_ref());
+                self.transform_fn(
+                    &mut fn_expr.function,
+                    fn_expr.ident.as_ref().map(|ident| ident.span),
+                );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         };

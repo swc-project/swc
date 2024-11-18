@@ -1,0 +1,16 @@
+```==================== .D.TS ====================
+
+declare function A(): unknown;
+declare const B: any;
+declare const C: any;
+declare const D: () => string;
+declare const E: () => (() => void) | undefined;
+
+
+==================== Errors ====================
+arrow-function-return-type.ts(25..32) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+arrow-function-return-type.ts(64..71) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+arrow-function-return-type.ts(95..107) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+
+
+```

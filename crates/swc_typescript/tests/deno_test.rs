@@ -272,7 +272,7 @@ fn dts_as_const() {
     readonly bool: true;
     readonly bool2: false;
     readonly num: 42;
-    readonly nullish: null;
+    readonly nullish: any;
 };"#,
     );
 

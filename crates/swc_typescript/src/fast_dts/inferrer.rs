@@ -19,9 +19,10 @@ impl FastDts {
                 Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
             },
             Expr::Tpl(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
-            Expr::Fn(fn_expr) => {
-                self.transform_fn_to_ts_type(&fn_expr.function, fn_expr.ident.as_ref())
-            }
+            Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(
+                &fn_expr.function,
+                fn_expr.ident.as_ref().map(|ident| ident.span),
+            ),
             Expr::Arrow(arrow_expr) => self.transform_arrow_expr_to_ts_type(arrow_expr),
             Expr::Array(arr) => {
                 self.array_inferred(arr.span);
