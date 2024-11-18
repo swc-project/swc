@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
 use swc_ecma_ast::{
-    Decl, ExportDefaultExpr, Id, ImportSpecifier, ModuleDecl, ModuleExportName, ModuleItem,
-    NamedExport, Stmt, TsEntityName,
+    Class, Decl, ExportDefaultExpr, Id, ImportSpecifier, ModuleDecl, ModuleExportName, ModuleItem,
+    NamedExport, Stmt, TsEntityName, TsExprWithTypeArgs,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -12,6 +12,24 @@ pub struct TypeUsageAnalyzer {
 }
 
 impl Visit for TypeUsageAnalyzer {
+    fn visit_class(&mut self, node: &Class) {
+        if let Some(super_class) = &node.super_class {
+            // TODO:
+            if let Some(ident) = super_class.as_ident() {
+                self.used_ids.insert(ident.to_id());
+            }
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
+        // TODO:
+        if let Some(ident) = node.expr.as_ident() {
+            self.used_ids.insert(ident.to_id());
+        }
+        node.visit_children_with(self);
+    }
+
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
         match node {
             TsEntityName::TsQualifiedName(ts_qualified_name) => {
