@@ -5,6 +5,9 @@
 
 
 
+- **(es/plugin)** Migrate `swc plugin new` to use `.cargo/config.toml` ([#9740](https://github.com/swc-project/swc/issues/9740)) ([4ffb21e](https://github.com/swc-project/swc/commit/4ffb21ebe6e40f85f8b7f78cd29b10965fe035b1))
+
+
 - **(es/resolver)** Ignore `VarDecl` with `declare: true` ([#9734](https://github.com/swc-project/swc/issues/9734)) ([aa0f784](https://github.com/swc-project/swc/commit/aa0f784c7d38d106e65e6aae1f0a318f575a0f09))
 
 ### Features
@@ -1464,9 +1467,6 @@
 
 
 - **(es/renamer)** Workaround a bug of Safari ([#9029](https://github.com/swc-project/swc/issues/9029)) ([54ac992](https://github.com/swc-project/swc/commit/54ac992781fa5a619ee1bcb9f097c3915276d9a3))
-
-
-- **(es/transforms)** Add experimental output API for transforms ([#9000](https://github.com/swc-project/swc/issues/9000)) ([6fa79be](https://github.com/swc-project/swc/commit/6fa79be0814a6e4dc5d7f61fb3bead3c13920a9d))
 
 
 - **(es/transforms)** Add an API for returning metadata to JS ([#9022](https://github.com/swc-project/swc/issues/9022)) ([6ce112c](https://github.com/swc-project/swc/commit/6ce112cfebc9be87df7d6e532a67a1af43cc0038))
