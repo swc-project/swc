@@ -1,3 +1,5 @@
+import { Assumptions } from "./assumptions";
+
 export interface Plugin {
     (module: Program): Program;
 }
@@ -349,7 +351,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions { }
+export interface TerserManglePropertiesOptions {}
 
 /**
  * Programmatic options.
@@ -608,6 +610,7 @@ export interface EnvConfig {
 }
 
 export interface JscConfig {
+    assumptions?: Assumptions;
     loose?: boolean;
 
     /**
@@ -1175,7 +1178,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern { }
+export interface MatchPattern {}
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1407,7 +1410,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan { }
+interface ExpressionBase extends Node, HasSpan {}
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";
