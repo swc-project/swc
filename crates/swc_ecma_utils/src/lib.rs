@@ -2231,10 +2231,11 @@ pub fn default_constructor(has_super: bool) -> Constructor {
     default_constructor_with_span(has_super, DUMMY_SP)
 }
 
+/// `super_call_span` should be the span of the class definition
+/// Use value of [`Class::span`].
 pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> Constructor {
     trace!(has_super = has_super, "Creating a default constructor");
-
-    let span = DUMMY_SP;
+    let super_call_span = super_call_span.with_hi(super_call_span.lo);
 
     Constructor {
         span: DUMMY_SP,
@@ -2242,7 +2243,7 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
-                span,
+                span: DUMMY_SP,
                 decorators: Vec::new(),
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
@@ -2257,10 +2258,8 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         body: Some(BlockStmt {
             stmts: if has_super {
                 vec![CallExpr {
-                    span: DUMMY_SP,
-                    callee: Callee::Super(Super {
-                        span: super_call_span,
-                    }),
+                    span: super_call_span,
+                    callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
                         expr: Box::new(Expr::Ident(quote_ident!("args").into())),
