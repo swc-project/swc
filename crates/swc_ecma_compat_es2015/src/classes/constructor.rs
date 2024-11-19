@@ -1,10 +1,10 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
-use swc_ecma_utils::{default_constructor, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 use tracing::debug;
@@ -12,13 +12,15 @@ use tracing::debug;
 use super::Config;
 
 pub(super) fn fold_constructor(
+    class_span: Span,
     constructor: Option<Constructor>,
     class_name: &Ident,
     class_super_name: &Option<Ident>,
     config: Config,
 ) -> FnDecl {
     let is_derived = class_super_name.is_some();
-    let mut constructor = constructor.unwrap_or_else(|| default_constructor(is_derived));
+    let mut constructor =
+        constructor.unwrap_or_else(|| default_constructor_with_span(is_derived, class_span));
 
     // Black magic to detect injected constructor.
     let is_constructor_default = constructor.span.is_dummy();

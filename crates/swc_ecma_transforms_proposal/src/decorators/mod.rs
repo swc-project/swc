@@ -7,7 +7,7 @@ use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
+    alias_ident_for, constructor::inject_after_super, default_constructor_with_span, prepend_stmt,
     private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, ExprFactory,
 };
 use swc_ecma_visit::{
@@ -316,7 +316,8 @@ impl Decorators {
                     ClassMember::Constructor(c)
                 }
                 None => {
-                    let mut c = default_constructor(super_class_ident.is_some());
+                    let mut c =
+                        default_constructor_with_span(super_class_ident.is_some(), class.span);
 
                     c.body
                         .as_mut()
