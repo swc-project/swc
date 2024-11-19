@@ -1539,7 +1539,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
         {
             defs.push(parse_quote!(
                 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-                #[cfg_attr(feature = "serde-impl")]
+                #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
                 pub enum AstParentKind {
                     #(#kind_enum_members),*
                 }
