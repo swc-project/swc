@@ -16,14 +16,15 @@ version       = "4.0.0"
 bench = false
 
 [features]
-debug   = []
-default = []
-path    = []
+debug      = []
+default    = []
+path       = []
+serde-impl = ["serde"]
 
 [dependencies]
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true, features = ["serde"] }
-serde                 = { workspace = true, optional = true }
+serde                 = { workspace = true, optional = true, features = ["derive"] }
 tracing               = { workspace = true }
 
 swc_atoms    = { version = "2.0.0", path = "../swc_atoms" }
