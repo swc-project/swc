@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "loose": true,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true,
+    "env": {
+        "targets": "node >= 8"
+    }
+}

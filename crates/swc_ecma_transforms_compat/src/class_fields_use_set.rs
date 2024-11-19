@@ -1,10 +1,11 @@
 use std::mem;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, is_literal, is_simple_pure_expr,
-    private_ident, prop_name_to_member_prop, ExprFactory, ModuleItemLike, StmtLike,
+    constructor::inject_after_super, default_constructor_with_span, is_literal,
+    is_simple_pure_expr, private_ident, prop_name_to_member_prop, ExprFactory, ModuleItemLike,
+    StmtLike,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -107,8 +108,8 @@ impl VisitMut for ClassFieldsUseSet {
         // visit inner classes first
         n.visit_mut_children_with(self);
 
-        let mut fields_handler = FieldsHandler {
-            has_super: n.super_class.is_some(),
+        let mut fields_handler: FieldsHandler = FieldsHandler {
+            super_call_span: n.super_class.as_ref().map(|_| n.span),
         };
 
         n.body.visit_mut_with(&mut fields_handler);
@@ -160,7 +161,7 @@ impl ClassFieldsUseSet {
 
 #[derive(Debug)]
 struct FieldsHandler {
-    has_super: bool,
+    super_call_span: Option<Span>,
 }
 
 impl VisitMut for FieldsHandler {
@@ -253,7 +254,10 @@ impl VisitMut for FieldsHandler {
         if let Some(c) = n.iter_mut().find_map(|m| m.as_mut_constructor()) {
             inject_after_super(c, constructor_inits.take());
         } else {
-            let mut c = default_constructor(self.has_super);
+            let mut c = default_constructor_with_span(
+                self.super_call_span.is_some(),
+                self.super_call_span.span(),
+            );
             inject_after_super(&mut c, constructor_inits.take());
             n.push(c.into());
         }

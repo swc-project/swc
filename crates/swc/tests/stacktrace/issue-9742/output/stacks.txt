@@ -1,0 +1,9 @@
+$DIR/tests/stacktrace/issue-9742/input/index.js:3
+        throw new Error('foo')
+        ^
+
+
+Error: foo
+    at constructor ($DIR/tests/stacktrace/issue-9742/input/index.js:3:15)
+    at Parent ($DIR/tests/stacktrace/issue-9742/input/index.js:7:1)
+    at Object.<anonymous> ($DIR/tests/stacktrace/issue-9742/input/index.js:11:1)

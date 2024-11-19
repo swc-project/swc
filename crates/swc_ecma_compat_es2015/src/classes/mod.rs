@@ -548,7 +548,14 @@ impl Classes {
 
         // constructor
         stmts.push(
-            fold_constructor(constructor, &class_name, &super_class_ident, self.config).into(),
+            fold_constructor(
+                class.span,
+                constructor,
+                &class_name,
+                &super_class_ident,
+                self.config,
+            )
+            .into(),
         );
 
         // convert class methods
