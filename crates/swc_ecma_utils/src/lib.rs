@@ -2226,7 +2226,12 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
     }
 }
 
+#[deprecated(note = "Use default_constructor_with_span instead")]
 pub fn default_constructor(has_super: bool) -> Constructor {
+    default_constructor_with_span(has_super, DUMMY_SP)
+}
+
+pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> Constructor {
     trace!(has_super = has_super, "Creating a default constructor");
 
     let span = DUMMY_SP;
@@ -2253,7 +2258,9 @@ pub fn default_constructor(has_super: bool) -> Constructor {
             stmts: if has_super {
                 vec![CallExpr {
                     span: DUMMY_SP,
-                    callee: Callee::Super(Super { span: DUMMY_SP }),
+                    callee: Callee::Super(Super {
+                        span: super_call_span,
+                    }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
                         expr: Box::new(Expr::Ident(quote_ident!("args").into())),
