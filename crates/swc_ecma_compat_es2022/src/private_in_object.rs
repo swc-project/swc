@@ -9,7 +9,9 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{default_constructor, prepend_stmt, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -174,7 +176,9 @@ impl VisitMut for PrivateInObject {
             if !has_constructor {
                 let has_super = n.super_class.is_some();
                 n.body
-                    .push(ClassMember::Constructor(default_constructor(has_super)));
+                    .push(ClassMember::Constructor(default_constructor_with_span(
+                        has_super, n.span,
+                    )));
             }
 
             for m in &mut n.body {

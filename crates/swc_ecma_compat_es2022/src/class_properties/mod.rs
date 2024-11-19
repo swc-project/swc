@@ -1,15 +1,15 @@
 use swc_common::{
-    collections::AHashMap, errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Spanned,
-    SyntaxContext, DUMMY_SP,
+    collections::AHashMap, errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    is_literal, prepend_stmt, private_ident, quote_ident, replace_ident, ExprFactory,
-    ModuleItemLike, StmtLike,
+    alias_ident_for, alias_if_required, constructor::inject_after_super,
+    default_constructor_with_span, is_literal, prepend_stmt, private_ident, quote_ident,
+    replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -938,7 +938,8 @@ impl ClassProperties {
             }
         }
 
-        let constructor = self.process_constructor(constructor, has_super, constructor_inits);
+        let constructor =
+            self.process_constructor(class.span, constructor, has_super, constructor_inits);
         if let Some(c) = constructor {
             members.push(ClassMember::Constructor(c));
         }
@@ -1015,6 +1016,7 @@ impl ClassProperties {
     #[allow(clippy::vec_box)]
     fn process_constructor(
         &mut self,
+        class_span: Span,
         constructor: Option<Constructor>,
         has_super: bool,
         constructor_exprs: MemberInitRecord,
@@ -1023,7 +1025,7 @@ impl ClassProperties {
             if constructor_exprs.record.is_empty() {
                 None
             } else {
-                Some(default_constructor(has_super))
+                Some(default_constructor_with_span(has_super, class_span))
             }
         });
 
