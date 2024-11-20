@@ -10661,7 +10661,7 @@ pub mod fields {
         Token,
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-    #[cfg_attr(feature = "serde-impl")]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum AstParentKind {
         Attribute(AttributeField),
         AttributeToken(AttributeTokenField),
