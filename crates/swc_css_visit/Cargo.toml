@@ -16,11 +16,12 @@ version       = "4.0.0"
 bench = false
 
 [features]
-default = ["serde"]
-path    = []
+default    = ["serde"]
+path       = []
+serde-impl = ["serde"]
 
 [dependencies]
-serde = { workspace = true, optional = true }
+serde = { workspace = true, optional = true, features = ["derive"] }
 
 swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }
 swc_common  = { version = "4.0.1", path = "../swc_common" }
