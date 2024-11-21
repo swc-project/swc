@@ -10833,6 +10833,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum AttributeField {
         #[doc = "Represents [`Attribute::span`]"]
         Span,
@@ -10857,6 +10858,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum AttributeTokenField {
         #[doc = "Represents [`AttributeToken::span`]"]
         Span,
@@ -10876,6 +10878,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum ChildField {
         #[doc = "Represents [`Child::DocumentType`]"]
         DocumentType,
@@ -10894,6 +10897,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum CommentField {
         #[doc = "Represents [`Comment::span`]"]
         Span,
@@ -10914,6 +10918,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum DocumentField {
         #[doc = "Represents [`Document::span`]"]
         Span,
@@ -10934,6 +10939,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum DocumentFragmentField {
         #[doc = "Represents [`DocumentFragment::span`]"]
         Span,
@@ -10947,6 +10953,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum DocumentModeField {
         #[doc = "Represents [`DocumentMode::NoQuirks`]"]
         NoQuirks,
@@ -10963,6 +10970,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum DocumentTypeField {
         #[doc = "Represents [`DocumentType::span`]"]
         Span,
@@ -10991,6 +10999,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum ElementField {
         #[doc = "Represents [`Element::span`]"]
         Span,
@@ -11014,6 +11023,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum NamespaceField {
         #[doc = "Represents [`Namespace::HTML`]"]
         Html,
@@ -11035,6 +11045,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum RawField {
         #[doc = "Represents [`Raw::Same`]"]
         Same,
@@ -11049,6 +11060,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum TextField {
         #[doc = "Represents [`Text::span`]"]
         Span,
@@ -11064,6 +11076,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum TokenField {
         #[doc = "Represents [`Token::Doctype`]"]
         Doctype,
@@ -11086,6 +11099,7 @@ pub mod fields {
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum TokenAndSpanField {
         #[doc = "Represents [`TokenAndSpan::span`]"]
         Span,
