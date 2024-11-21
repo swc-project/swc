@@ -16,6 +16,10 @@
         "registry": "https://registry.npmjs.org/",
         "access": "public"
     },
+    "files": [
+        "*.js",
+        "*.d.ts"
+    ],
     "keywords": [
         "swc",
         "types"
