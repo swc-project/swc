@@ -1,0 +1,14 @@
+```==================== .D.TS ====================
+
+export declare class Test {
+    ["string"]: string;
+}
+
+
+==================== Errors ====================
+class-properties-computed.ts(25..67) TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+class-properties-computed.ts(101..122) TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+class-properties-computed.ts(136..149) TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+
+
+```

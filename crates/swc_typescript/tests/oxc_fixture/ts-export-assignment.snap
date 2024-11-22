@@ -1,0 +1,7 @@
+```==================== .D.TS ====================
+
+declare const Res = 0;
+declare const _default_1: () => typeof Res;
+export = _default_1
+
+

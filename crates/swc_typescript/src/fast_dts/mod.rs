@@ -10,8 +10,8 @@ use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, FnDecl, FnExpr, Id, Ident, ImportSpecifier,
-    ModuleDecl, ModuleItem, NamedExport, Pat, Program, Script, Stmt, VarDecl, VarDeclKind,
-    VarDeclarator,
+    ModuleDecl, ModuleItem, NamedExport, Pat, Program, Script, Stmt, TsExportAssignment, VarDecl,
+    VarDeclKind, VarDeclarator,
 };
 use swc_ecma_visit::VisitWith;
 use type_usage::TypeUsageAnalyzer;
@@ -129,7 +129,8 @@ impl FastDts {
                 ModuleItem::ModuleDecl(
                     ModuleDecl::ExportDefaultDecl(_)
                     | ModuleDecl::ExportDefaultExpr(_)
-                    | ModuleDecl::ExportNamed(_),
+                    | ModuleDecl::ExportNamed(_)
+                    | ModuleDecl::TsExportAssignment(_),
                 ) => has_export = true,
                 _ => {}
             }
@@ -175,8 +176,7 @@ impl FastDts {
                 ModuleItem::ModuleDecl(
                     ModuleDecl::Import(..)
                     | ModuleDecl::TsImportEquals(_)
-                    | ModuleDecl::TsNamespaceExport(_)
-                    | ModuleDecl::TsExportAssignment(_),
+                    | ModuleDecl::TsNamespaceExport(_),
                 ) => items.push(item),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(_) | ModuleDecl::ExportAll(_)) => {
                     items.push(item);
@@ -195,18 +195,30 @@ impl FastDts {
                     self.transform_default_decl(&mut export.decl);
                     items.push(item);
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
-                    if export.expr.is_ident() {
+                ModuleItem::ModuleDecl(
+                    ModuleDecl::ExportDefaultExpr(_) | ModuleDecl::TsExportAssignment(_),
+                ) => {
+                    let expr = match &item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                            &export.expr
+                        }
+                        ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
+                            &export.expr
+                        }
+                        _ => unreachable!(),
+                    };
+
+                    if expr.is_ident() {
                         items.push(item);
                         continue;
                     }
 
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
-                    let type_ann = self.infer_type_from_expr(&export.expr).map(type_ann);
+                    let type_ann = self.infer_type_from_expr(expr).map(type_ann);
                     self.analyzer.add_generated_id(name_ident.to_id());
 
                     if type_ann.is_none() {
-                        self.default_export_inferred(export.expr.span());
+                        self.default_export_inferred(expr.span());
                     }
 
                     items.push(
@@ -228,13 +240,25 @@ impl FastDts {
                         .into(),
                     );
 
-                    items.push(
-                        ExportDefaultExpr {
-                            span: export.span,
-                            expr: name_ident.into(),
-                        }
-                        .into(),
-                    )
+                    match &item {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => items
+                            .push(
+                                ExportDefaultExpr {
+                                    span: export.span,
+                                    expr: name_ident.into(),
+                                }
+                                .into(),
+                            ),
+                        ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => items
+                            .push(
+                                TsExportAssignment {
+                                    span: export.span,
+                                    expr: name_ident.into(),
+                                }
+                                .into(),
+                            ),
+                        _ => unreachable!(),
+                    };
                 }
             }
         }
