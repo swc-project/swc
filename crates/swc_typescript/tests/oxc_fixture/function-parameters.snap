@@ -1,0 +1,30 @@
+```==================== .D.TS ====================
+
+export declare function fnDeclGood(p?: T, rParam?: string): void;
+export declare function fnDeclGood2(p?: T, rParam?: number): void;
+export declare function fooGood([a, b]?: any[]): number;
+export declare const fooGood2: ({ a, b }?: object) => number;
+export declare function fooGood3({ a = x, b: [{ c = y }] }: object): void;
+export declare function fnDeclBad<T>(p: T, rParam: T, r2: T): void;
+export declare function fnDeclBad2<T>(p: T, r2: T): void;
+export declare function fnDeclBad3<T>(p: T, rParam?: T, r2: T): void;
+export declare function fooBad([a, b] = [
+    1,
+    2
+]): number;
+export declare const fooBad2: () => number;
+export declare function withAny(a: any, b: string): void;
+export declare function withUnknown(a: unknown, b: string): void;
+export declare function withTypeAssertion(a?: any): void;
+
+
+==================== Errors ====================
+function-parameters.ts(448..462) TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+function-parameters.ts(437..446) TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+function-parameters.ts(511..520) TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+function-parameters.ts(569..578) TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+function-parameters.ts(633..648) TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+function-parameters.ts(699..722) TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+
+
+```

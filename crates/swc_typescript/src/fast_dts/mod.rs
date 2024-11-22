@@ -72,13 +72,17 @@ impl FastDts {
 impl FastDts {
     pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
         match program {
-            Program::Module(module) => self.transform_module_body(&mut module.body),
+            Program::Module(module) => self.transform_module_body(&mut module.body, false),
             Program::Script(script) => self.transform_script(script),
         }
         take(&mut self.diagnostics)
     }
 
-    fn transform_module_body(&mut self, items: &mut Vec<ModuleItem>) {
+    fn transform_module_body(
+        &mut self,
+        items: &mut Vec<ModuleItem>,
+        in_global_or_lit_module: bool,
+    ) {
         // 1. Collect usage
         // let mut type_usage_analyzer = TypeUsageAnalyzer::default();
         items.visit_with(&mut self.analyzer);
@@ -92,7 +96,7 @@ impl FastDts {
         items.retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
 
         // 4. Remove unused imports and decls
-        self.remove_ununsed(items);
+        self.remove_ununsed(items, in_global_or_lit_module);
 
         // 5. Add empty export mark if there's any declaration that is used but not
         // exported to keep its privacy.
@@ -375,20 +379,48 @@ impl FastDts {
         }
     }
 
-    fn remove_ununsed(&self, items: &mut Vec<ModuleItem>) {
+    fn remove_ununsed(&self, items: &mut Vec<ModuleItem>, in_global_or_lit_module: bool) {
         let used_ids = self.analyzer.used_ids();
         items.retain_mut(|node| match node {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) => {
-                var_decl.decls.retain(|decl| {
-                    if let Some(ident) = decl.name.as_ident() {
-                        used_ids.contains(&ident.to_id())
-                    } else {
-                        true
-                    }
-                });
-
-                !var_decl.decls.is_empty()
-            }
+            ModuleItem::Stmt(Stmt::Decl(decl)) if !in_global_or_lit_module => match decl {
+                Decl::Class(class_decl) => used_ids.contains(&class_decl.ident.to_id()),
+                Decl::Fn(fn_decl) => used_ids.contains(&fn_decl.ident.to_id()),
+                Decl::Var(var_decl) => {
+                    var_decl.decls.retain(|decl| {
+                        if let Some(ident) = decl.name.as_ident() {
+                            used_ids.contains(&ident.to_id())
+                        } else {
+                            true
+                        }
+                    });
+                    !var_decl.decls.is_empty()
+                }
+                Decl::Using(using_decl) => {
+                    using_decl.decls.retain(|decl| {
+                        if let Some(ident) = decl.name.as_ident() {
+                            used_ids.contains(&ident.to_id())
+                        } else {
+                            true
+                        }
+                    });
+                    !using_decl.decls.is_empty()
+                }
+                Decl::TsInterface(ts_interface_decl) => {
+                    used_ids.contains(&ts_interface_decl.id.to_id())
+                }
+                Decl::TsTypeAlias(ts_type_alias_decl) => {
+                    used_ids.contains(&ts_type_alias_decl.id.to_id())
+                }
+                Decl::TsEnum(_) => true,
+                Decl::TsModule(ts_module_decl) => {
+                    ts_module_decl.global
+                        || ts_module_decl.id.is_str()
+                        || ts_module_decl
+                            .id
+                            .as_ident()
+                            .map_or(true, |ident| used_ids.contains(&ident.to_id()))
+                }
+            },
             ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
                 if import_decl.specifiers.is_empty() {
                     return true;

@@ -79,7 +79,9 @@ impl FastDts {
                     return;
                 }
 
-                if check_binding
+                if !ts_module.global
+                    && !ts_module.id.is_str()
+                    && check_binding
                     && ts_module.id.as_ident().map_or(false, |ident| {
                         !self.analyzer.used_ids().contains(&ident.to_id())
                     })
@@ -89,7 +91,7 @@ impl FastDts {
 
                 ts_module.declare = is_declare;
                 if let Some(body) = ts_module.body.as_mut() {
-                    self.transform_ts_namespace_decl(body, ts_module.global);
+                    self.transform_ts_namespace_decl(body, ts_module.global, ts_module.id.is_str());
                 }
             }
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
@@ -168,12 +170,13 @@ impl FastDts {
         &mut self,
         body: &mut TsNamespaceBody,
         is_global: bool,
+        is_lit_module: bool,
     ) {
         let original_is_top_level = self.is_top_level;
         self.is_top_level = false;
         match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                self.transform_module_body(&mut ts_module_block.body);
+                self.transform_module_body(&mut ts_module_block.body, is_global || is_lit_module);
                 if !is_global {
                     for item in &mut ts_module_block.body {
                         if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item {
@@ -183,7 +186,7 @@ impl FastDts {
                 }
             }
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => {
-                self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global)
+                self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global, false)
             }
         };
         self.is_top_level = original_is_top_level;
