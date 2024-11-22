@@ -30,4 +30,4 @@ swc_css_modules  = { version = "4.0.0", path = "../swc_css_modules", optional = 
 swc_css_parser   = { version = "4.0.0", path = "../swc_css_parser" }
 swc_css_prefixer = { version = "4.0.0", path = "../swc_css_prefixer", optional = true }
 swc_css_utils    = { version = "4.0.0", path = "../swc_css_utils/" }
-swc_css_visit    = { version = "4.0.0", path = "../swc_css_visit" }
+swc_css_visit    = { version = "4.0.1", path = "../swc_css_visit" }

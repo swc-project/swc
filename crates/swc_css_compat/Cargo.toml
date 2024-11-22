@@ -22,7 +22,7 @@ swc_atoms     = { version = "2.0.0", path = "../swc_atoms" }
 swc_common    = { version = "4.0.1", path = "../swc_common" }
 swc_css_ast   = { version = "4.0.1", path = "../swc_css_ast" }
 swc_css_utils = { version = "4.0.0", path = "../swc_css_utils/" }
-swc_css_visit = { version = "4.0.0", path = "../swc_css_visit" }
+swc_css_visit = { version = "4.0.1", path = "../swc_css_visit" }
 
 [dev-dependencies]
 swc_css_codegen = { version = "4.0.0", path = "../swc_css_codegen" }

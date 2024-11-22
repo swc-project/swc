@@ -30,5 +30,5 @@ swc_common = { version = "4.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_xml_parser = { version = "4.0.0", path = "../swc_xml_parser" }
-swc_xml_visit = { version = "4.0.0", path = "../swc_xml_visit" }
+swc_xml_visit = { version = "4.0.1", path = "../swc_xml_visit" }
 testing = { version = "4.0.0", path = "../testing" }

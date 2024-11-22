@@ -21,8 +21,8 @@ swc_common                = { version = "4.0.1", path = "../swc_common" }
 swc_ecma_ast              = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_transforms_base  = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "5.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_utils            = { version = "5.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit            = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils            = { version = "5.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit            = { version = "4.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
@@ -30,8 +30,8 @@ criterion                 = { workspace = true }
 
 swc_ecma_codegen             = { version = "4.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser              = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_compat   = { version = "6.0.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_proposal = { version = "5.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_compat   = { version = "6.0.1", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_proposal = { version = "5.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing  = { version = "5.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "4.0.0", path = "../testing" }
 

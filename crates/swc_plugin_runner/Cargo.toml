@@ -88,7 +88,7 @@ swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_loader = { version = "4.0.0", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "4.0.0", path = "../testing" }
 tokio = { workspace = true, features = ["rt"] }

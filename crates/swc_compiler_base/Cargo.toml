@@ -32,7 +32,7 @@ swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "5.0.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
   [dependencies.napi-derive]

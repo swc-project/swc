@@ -36,8 +36,8 @@ swc_ecma_transforms = { version = "6.0.0", path = "../swc_ecma_transforms", feat
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "5.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "5.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }

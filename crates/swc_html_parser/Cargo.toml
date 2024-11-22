@@ -33,7 +33,7 @@ serde_json                = { workspace = true }
 swc_html_ast = { version = "4.0.1", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
-swc_html_visit = { version = "4.0.0", path = "../swc_html_visit" }
+swc_html_visit = { version = "4.0.1", path = "../swc_html_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "4.0.0", path = "../testing" }
 

@@ -38,6 +38,6 @@ swc_ecma_minifier = { version = "5.0.0", path = "../swc_ecma_minifier", features
 ] }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "5.0.0", path = "../swc_error_reporters" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }

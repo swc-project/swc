@@ -31,7 +31,7 @@ serde_json                = { workspace = true }
 swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", features = [
   "serde-impl",
 ] }
-swc_css_visit = { version = "4.0.0", path = "../swc_css_visit" }
+swc_css_visit = { version = "4.0.1", path = "../swc_css_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "4.0.0", path = "../testing" }
 

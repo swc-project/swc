@@ -42,8 +42,8 @@ swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "4.0.0", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "6.0.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "5.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "5.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 
 [dev-dependencies]

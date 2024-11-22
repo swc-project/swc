@@ -25,7 +25,7 @@ swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_typescript = { version = "5.0.0", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }

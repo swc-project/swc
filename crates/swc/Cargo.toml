@@ -100,10 +100,10 @@ swc_ecma_transforms = { version = "6.0.0", path = "../swc_ecma_transforms", feat
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "6.0.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_compat = { version = "6.0.1", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "5.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "5.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "4.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "5.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "5.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "4.0.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "4.0.0", path = "../swc_plugin_proxy", optional = true }
