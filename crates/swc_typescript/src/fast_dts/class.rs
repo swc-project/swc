@@ -182,10 +182,21 @@ impl FastDts {
 
                     // Transform return
                     match method.kind {
-                        MethodKind::Method | MethodKind::Getter => {
+                        MethodKind::Method => {
                             self.transform_fn_return_type(&mut method.function);
                             if method.function.return_type.is_none() {
                                 self.method_must_have_explicit_return_type(method.key.span());
+                            }
+                        }
+                        MethodKind::Getter => {
+                            self.transform_fn_return_type(&mut method.function);
+                            if method.function.return_type.is_none() {
+                                method.function.return_type = Self::static_name(&method.key)
+                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
+                                    .cloned();
+                            }
+                            if method.function.return_type.is_none() {
+                                self.accessor_must_have_explicit_return_type(method.key.span());
                             }
                         }
                         MethodKind::Setter => method.function.return_type = None,

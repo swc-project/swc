@@ -1,0 +1,21 @@
+```==================== .D.TS ====================
+
+declare class Cls {
+    get a(): number;
+    set a(value);
+    get b(): string;
+    set b(v: string);
+    private get c();
+    private set c(value);
+}
+declare class ClsBad {
+    get a();
+    set a(v);
+}
+
+
+==================== Errors ====================
+set-get-accessor.ts(204..205) TS9009: At least one accessor must have an explicit return type annotation with --isolatedDeclarations.
+
+
+```
