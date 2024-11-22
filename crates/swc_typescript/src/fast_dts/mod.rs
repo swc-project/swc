@@ -42,6 +42,7 @@ pub struct FastDts {
     diagnostics: Vec<DtsIssue>,
     id_counter: u32,
     is_top_level: bool,
+    analyzer: TypeUsageAnalyzer,
     // TODO: strip_internal: bool,
 }
 
@@ -53,6 +54,7 @@ impl FastDts {
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,
+            analyzer: TypeUsageAnalyzer::default(),
         }
     }
 
@@ -77,20 +79,20 @@ impl FastDts {
     }
 
     fn transform_module_body(&mut self, items: &mut Vec<ModuleItem>) {
-        // 1. Transform.
+        // 1. Collect usage
+        // let mut type_usage_analyzer = TypeUsageAnalyzer::default();
+        items.visit_with(&mut self.analyzer);
+
+        // 2. Transform.
         Self::remove_function_overloads_in_module(items);
         self.transform_module_items(items);
 
-        // 2. Collect usage
-        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        items.visit_with(&mut type_usage_analyzer);
-
         // 3. Report error for expando function and remove statements.
-        self.report_error_for_expando_function_in_module(items, type_usage_analyzer.used_ids());
+        self.report_error_for_expando_function_in_module(items);
         items.retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
 
         // 4. Remove unused imports and decls
-        self.remove_ununsed(items, type_usage_analyzer.used_ids());
+        self.remove_ununsed(items);
 
         // 5. Add empty export mark if there's any declaration that is used but not
         // exported to keep its privacy.
@@ -125,23 +127,20 @@ impl FastDts {
     }
 
     fn transform_script(&mut self, script: &mut Script) {
-        // 1. Transform.
+        // 1. Collect usage
+        // let mut type_usage_analyzer = TypeUsageAnalyzer::default();
+        script.visit_with(&mut self.analyzer);
+
+        // 2. Transform.
         Self::remove_function_overloads_in_script(script);
         for stmt in script.body.iter_mut() {
             if let Some(decl) = stmt.as_mut_decl() {
-                self.transform_decl(decl);
+                self.transform_decl(decl, false);
             }
         }
 
-        // 2. Collect usage
-        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        script.visit_with(&mut type_usage_analyzer);
-
         // 3. Report error for expando function and remove statements.
-        self.report_error_for_expando_function_in_script(
-            &script.body,
-            type_usage_analyzer.used_ids(),
-        );
+        self.report_error_for_expando_function_in_script(&script.body);
         script.body.retain(|stmt| stmt.is_decl());
     }
 
@@ -161,12 +160,12 @@ impl FastDts {
                 }
                 ModuleItem::Stmt(stmt) => {
                     if let Some(decl) = stmt.as_mut_decl() {
-                        self.transform_decl(decl);
+                        self.transform_decl(decl, true);
                     }
                     items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(expor_decl)) => {
-                    self.transform_decl(&mut expor_decl.decl);
+                    self.transform_decl(&mut expor_decl.decl, false);
                     items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
@@ -181,6 +180,7 @@ impl FastDts {
 
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
                     let type_ann = self.infer_type_from_expr(&export.expr).map(type_ann);
+                    self.analyzer.add_generated_id(name_ident.to_id());
 
                     if type_ann.is_none() {
                         self.default_export_inferred(export.expr.span());
@@ -217,13 +217,11 @@ impl FastDts {
         }
     }
 
-    fn report_error_for_expando_function_in_module(
-        &mut self,
-        items: &[ModuleItem],
-        used_ids: &HashSet<Id>,
-    ) {
+    fn report_error_for_expando_function_in_module(&mut self, items: &[ModuleItem]) {
+        // TODO: Avoid clone
+        let used_ids = self.analyzer.used_ids().clone();
         let mut assignable_properties_for_namespace = HashMap::<&str, HashSet<Atom>>::new();
-        let mut collector = ExpandoFunctionCollector::new(used_ids);
+        let mut collector = ExpandoFunctionCollector::new(&used_ids);
 
         for item in items {
             let decl = match item {
@@ -343,12 +341,10 @@ impl FastDts {
         }
     }
 
-    fn report_error_for_expando_function_in_script(
-        &mut self,
-        stmts: &[Stmt],
-        used_ids: &HashSet<Id>,
-    ) {
-        let mut collector = ExpandoFunctionCollector::new(used_ids);
+    fn report_error_for_expando_function_in_script(&mut self, stmts: &[Stmt]) {
+        // TODO: Avoid clone
+        let used_ids = self.analyzer.used_ids().clone();
+        let mut collector = ExpandoFunctionCollector::new(&used_ids);
         for stmt in stmts {
             match stmt {
                 Stmt::Decl(decl) => match decl {
@@ -379,7 +375,8 @@ impl FastDts {
         }
     }
 
-    fn remove_ununsed(&self, items: &mut Vec<ModuleItem>, used_ids: &HashSet<Id>) {
+    fn remove_ununsed(&self, items: &mut Vec<ModuleItem>) {
+        let used_ids = self.analyzer.used_ids();
         items.retain_mut(|node| match node {
             ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) => {
                 var_decl.decls.retain(|decl| {

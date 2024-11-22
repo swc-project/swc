@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
 use swc_ecma_ast::{
-    Class, ExportDefaultExpr, Id, ModuleExportName, ModuleItem, NamedExport, Script, TsEntityName,
-    TsExprWithTypeArgs, TsModuleDecl,
+    Class, ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem, NamedExport, Script,
+    TsEntityName, TsExprWithTypeArgs,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -15,12 +15,15 @@ impl TypeUsageAnalyzer {
     pub fn used_ids(&self) -> &HashSet<Id> {
         &self.used_ids
     }
+
+    pub fn add_generated_id(&mut self, id: Id) {
+        self.used_ids.insert(id);
+    }
 }
 
 impl Visit for TypeUsageAnalyzer {
     fn visit_class(&mut self, node: &Class) {
         if let Some(super_class) = &node.super_class {
-            // TODO:
             if let Some(ident) = super_class.as_ident() {
                 self.used_ids.insert(ident.to_id());
             }
@@ -29,7 +32,6 @@ impl Visit for TypeUsageAnalyzer {
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
-        // TODO:
         if let Some(ident) = node.expr.as_ident() {
             self.used_ids.insert(ident.to_id());
         }
@@ -63,13 +65,19 @@ impl Visit for TypeUsageAnalyzer {
         }
     }
 
-    fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
-        // Don't visit its body
-        node.id.visit_with(self);
+    fn visit_function(&mut self, node: &Function) {
+        // Skip body
+        node.params.visit_with(self);
+        node.decorators.visit_with(self);
+        node.span.visit_with(self);
+        node.ctxt.visit_with(self);
+        node.type_params.visit_with(self);
+        node.return_type.visit_with(self);
     }
 
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
         for item in node {
+            // Skip statements
             if item.as_stmt().map_or(false, |stmt| !stmt.is_decl()) {
                 continue;
             }
@@ -79,6 +87,7 @@ impl Visit for TypeUsageAnalyzer {
 
     fn visit_script(&mut self, node: &Script) {
         for stmt in &node.body {
+            // Skip statements
             if !stmt.is_decl() {
                 continue;
             }

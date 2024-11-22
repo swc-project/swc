@@ -11,11 +11,15 @@ use super::{
 };
 
 impl FastDts {
-    pub(crate) fn transform_decl(&mut self, decl: &mut Decl) {
+    pub(crate) fn transform_decl(&mut self, decl: &mut Decl, check_binding: bool) {
         let is_declare = self.is_top_level;
         match decl {
             Decl::Class(class_decl) => {
                 if class_decl.declare {
+                    return;
+                }
+
+                if check_binding && !self.analyzer.used_ids().contains(&class_decl.ident.to_id()) {
                     return;
                 }
 
@@ -24,6 +28,10 @@ impl FastDts {
             }
             Decl::Fn(fn_decl) => {
                 if fn_decl.declare {
+                    return;
+                }
+
+                if check_binding && !self.analyzer.used_ids().contains(&fn_decl.ident.to_id()) {
                     return;
                 }
 
@@ -37,20 +45,45 @@ impl FastDts {
 
                 var.declare = is_declare;
                 for decl in var.decls.iter_mut() {
+                    if check_binding
+                        && decl.name.as_ident().map_or(false, |ident| {
+                            !self.analyzer.used_ids().contains(&ident.to_id())
+                        })
+                    {
+                        return;
+                    }
                     self.transform_variables_declarator(var.kind, decl);
                 }
             }
             Decl::Using(using) => {
                 for decl in using.decls.iter_mut() {
+                    if check_binding
+                        && decl.name.as_ident().map_or(false, |ident| {
+                            !self.analyzer.used_ids().contains(&ident.to_id())
+                        })
+                    {
+                        return;
+                    }
                     self.transform_variables_declarator(VarDeclKind::Const, decl);
                 }
             }
             Decl::TsEnum(ts_enum) => {
                 ts_enum.declare = is_declare;
+                if check_binding && !self.analyzer.used_ids().contains(&ts_enum.id.to_id()) {
+                    return;
+                }
                 self.transform_enum(ts_enum.as_mut());
             }
             Decl::TsModule(ts_module) => {
                 if ts_module.declare {
+                    return;
+                }
+
+                if check_binding
+                    && ts_module.id.as_ident().map_or(false, |ident| {
+                        !self.analyzer.used_ids().contains(&ident.to_id())
+                    })
+                {
                     return;
                 }
 

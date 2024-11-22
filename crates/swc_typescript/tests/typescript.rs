@@ -22,7 +22,7 @@ fn fixture(input: PathBuf) {
             &mut Vec::new(),
         )
         .map_err(|err| err.into_diagnostic(&handler).emit())
-        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false)))
+        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, true)))
         .map(|program| program.apply(paren_remover(None)))
         .unwrap();
 
