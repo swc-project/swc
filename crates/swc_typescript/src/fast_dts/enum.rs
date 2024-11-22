@@ -1,6 +1,6 @@
 use core::f64;
-use std::collections::HashMap;
 
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
@@ -20,7 +20,7 @@ enum ConstantValue {
 impl FastDts {
     pub(crate) fn transform_enum(&mut self, decl: &mut TsEnumDecl) {
         let mut prev_init_value = Some(ConstantValue::Number(-1.0));
-        let mut prev_members = HashMap::new();
+        let mut prev_members = FxHashMap::default();
         for member in &mut decl.members {
             let value = if let Some(init_expr) = &member.init {
                 let computed_value = self.evaluate(init_expr, &decl.id.sym, &prev_members);
@@ -86,7 +86,7 @@ impl FastDts {
         &self,
         expr: &Expr,
         enum_name: &Atom,
-        prev_members: &HashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         match expr {
             Expr::Lit(lit) => match lit {
@@ -134,7 +134,7 @@ impl FastDts {
         &self,
         expr: &UnaryExpr,
         enum_name: &Atom,
-        prev_members: &HashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         let value = self.evaluate(&expr.arg, enum_name, prev_members)?;
         let value = match value {
@@ -163,7 +163,7 @@ impl FastDts {
         &self,
         expr: &BinExpr,
         enum_name: &Atom,
-        prev_members: &HashMap<Atom, ConstantValue>,
+        prev_members: &FxHashMap<Atom, ConstantValue>,
     ) -> Option<ConstantValue> {
         let left = self.evaluate(&expr.left, enum_name, prev_members)?;
         let right = self.evaluate(&expr.right, enum_name, prev_members)?;

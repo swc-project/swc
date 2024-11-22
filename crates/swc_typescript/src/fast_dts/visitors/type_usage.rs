@@ -1,5 +1,4 @@
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use swc_common::{BytePos, Spanned};
 use swc_ecma_ast::{
     Class, Decl, ExportDecl, ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem,
@@ -8,17 +7,17 @@ use swc_ecma_ast::{
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub struct TypeUsageAnalyzer<'a> {
-    used_ids: HashSet<Id>,
-    internal_annotations: Option<&'a HashSet<BytePos>>,
+    used_ids: FxHashSet<Id>,
+    internal_annotations: Option<&'a FxHashSet<BytePos>>,
 }
 
 impl TypeUsageAnalyzer<'_> {
     pub fn analyze(
         program: &Program,
-        internal_annotations: Option<&HashSet<BytePos>>,
-    ) -> HashSet<Id> {
+        internal_annotations: Option<&FxHashSet<BytePos>>,
+    ) -> FxHashSet<Id> {
         let mut analyzer = TypeUsageAnalyzer {
-            used_ids: HashSet::new(),
+            used_ids: FxHashSet::default(),
             internal_annotations,
         };
         program.visit_with(&mut analyzer);

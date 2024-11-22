@@ -9,7 +9,8 @@ repository    = { workspace = true }
 version       = "4.0.0"
 
 [dependencies]
-thiserror = { workspace = true }
+rustc-hash = { workspace = true }
+thiserror  = { workspace = true }
 
 swc_atoms      = { version = "2.0.0", path = "../swc_atoms" }
 swc_common     = { version = "4.0.1", path = "../swc_common" }

@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
@@ -474,8 +473,8 @@ impl FastDts {
     pub(crate) fn collect_getter_or_setter_annotations(
         &mut self,
         class: &Class,
-    ) -> HashMap<String, Box<TsTypeAnn>> {
-        let mut annotations = HashMap::new();
+    ) -> FxHashMap<String, Box<TsTypeAnn>> {
+        let mut annotations = FxHashMap::default();
         for member in &class.body {
             let ClassMember::Method(method) = member else {
                 continue;

@@ -1,15 +1,14 @@
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use swc_common::{BytePos, Spanned};
 use swc_ecma_ast::TsTypeElement;
 use swc_ecma_visit::VisitMut;
 
 pub struct InternalAnnotationTransformer<'a> {
-    internal_annotations: &'a HashSet<BytePos>,
+    internal_annotations: &'a FxHashSet<BytePos>,
 }
 
 impl<'a> InternalAnnotationTransformer<'a> {
-    pub fn new(internal_annotations: &'a HashSet<BytePos>) -> Self {
+    pub fn new(internal_annotations: &'a FxHashSet<BytePos>) -> Self {
         Self {
             internal_annotations,
         }

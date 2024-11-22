@@ -1,19 +1,18 @@
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_ecma_ast::{FnDecl, FnExpr, Id, VarDecl};
 
 use super::ast_ext::PatExt;
 
 pub(crate) struct ExpandoFunctionCollector<'a> {
-    declared_function_names: HashSet<Atom>,
-    used_ids: &'a HashSet<Id>,
+    declared_function_names: FxHashSet<Atom>,
+    used_ids: &'a FxHashSet<Id>,
 }
 
 impl<'a> ExpandoFunctionCollector<'a> {
-    pub(crate) fn new(used_ids: &'a HashSet<Id>) -> Self {
+    pub(crate) fn new(used_ids: &'a FxHashSet<Id>) -> Self {
         Self {
-            declared_function_names: HashSet::new(),
+            declared_function_names: FxHashSet::default(),
             used_ids,
         }
     }

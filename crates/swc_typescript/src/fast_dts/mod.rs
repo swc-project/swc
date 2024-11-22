@@ -1,10 +1,6 @@
-use std::{
-    borrow::Cow,
-    collections::{HashMap, HashSet},
-    mem::take,
-    sync::Arc,
-};
+use std::{borrow::Cow, mem::take, sync::Arc};
 
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
     comments::SingleThreadedComments, util::take::Take, BytePos, FileName, Span, Spanned, DUMMY_SP,
@@ -46,13 +42,13 @@ pub struct FastDts {
     // states
     id_counter: u32,
     is_top_level: bool,
-    used_ids: HashSet<Id>,
-    internal_annotations: Option<HashSet<BytePos>>,
+    used_ids: FxHashSet<Id>,
+    internal_annotations: Option<FxHashSet<BytePos>>,
 }
 
 #[derive(Debug, Default)]
 pub struct FastDtsOptions {
-    pub internal_annotations: Option<HashSet<BytePos>>,
+    pub internal_annotations: Option<FxHashSet<BytePos>>,
 }
 
 /// Diagnostics
@@ -64,7 +60,7 @@ impl FastDts {
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,
-            used_ids: HashSet::new(),
+            used_ids: FxHashSet::default(),
             internal_annotations,
         }
     }
@@ -291,7 +287,7 @@ impl FastDts {
 
     fn report_error_for_expando_function_in_module(&mut self, items: &[ModuleItem]) {
         let used_ids = self.used_ids.clone();
-        let mut assignable_properties_for_namespace = HashMap::<&str, HashSet<Atom>>::new();
+        let mut assignable_properties_for_namespace = FxHashMap::<&str, FxHashSet<Atom>>::default();
         let mut collector = ExpandoFunctionCollector::new(&used_ids);
 
         for item in items {
@@ -527,8 +523,8 @@ impl FastDts {
         false
     }
 
-    pub fn get_internal_annotations(comments: &SingleThreadedComments) -> HashSet<BytePos> {
-        let mut internal_annotations = HashSet::new();
+    pub fn get_internal_annotations(comments: &SingleThreadedComments) -> FxHashSet<BytePos> {
+        let mut internal_annotations = FxHashSet::default();
         let (leading, _) = comments.borrow_all();
         for (pos, comment) in leading.iter() {
             let has_internal_annotation = comment
