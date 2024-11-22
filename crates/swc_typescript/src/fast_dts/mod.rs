@@ -1,14 +1,21 @@
-use std::{borrow::Cow, mem::take, sync::Arc};
+use std::{
+    borrow::Cow,
+    collections::{HashMap, HashSet},
+    mem::take,
+    sync::Arc,
+};
 
+use pass::type_usage;
 use swc_atoms::Atom;
 use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    BindingIdent, ExportDefaultExpr, Ident, ModuleDecl, ModuleItem, NamedExport, Pat, Program,
-    Stmt, TsModuleBlock, VarDecl, VarDeclKind, VarDeclarator,
+    BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, FnDecl, FnExpr, Id, Ident, ImportSpecifier,
+    ModuleDecl, ModuleItem, NamedExport, Pat, Program, Script, Stmt, VarDecl, VarDeclKind,
+    VarDeclarator,
 };
-use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
-use type_usage::{TypeRemover, TypeUsageAnalyzer};
-use util::type_ann;
+use swc_ecma_visit::VisitWith;
+use type_usage::TypeUsageAnalyzer;
+use util::{type_ann, PatExt};
 
 use crate::diagnostic::{DtsIssue, SourceRange};
 
@@ -17,7 +24,7 @@ mod decl;
 mod r#enum;
 mod function;
 mod inferrer;
-mod type_usage;
+mod pass;
 mod types;
 mod util;
 
@@ -62,67 +69,80 @@ impl FastDts {
 
 impl FastDts {
     pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
-        // 1. Transform. We only keep decls.
         match program {
-            Program::Module(module) => {
-                module
-                    .body
-                    .retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
-                Self::remove_module_function_overloads(module);
-                self.transform_module_items(&mut module.body);
-            }
-            Program::Script(script) => {
-                script.body.retain(|stmt| stmt.is_decl());
-                Self::remove_script_function_overloads(script);
-                for stmt in script.body.iter_mut() {
-                    self.transform_decl(stmt.as_mut_decl().unwrap());
-                }
-            }
+            Program::Module(module) => self.transform_module_body(&mut module.body),
+            Program::Script(script) => self.transform_script(script),
         }
-
-        // 2. Remove unused imports and decls
-        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        program.visit_with(&mut type_usage_analyzer);
-        program.visit_mut_with(&mut TypeRemover::new(
-            &type_usage_analyzer,
-            program.is_module(),
-        ));
-
-        // 3. Strip export in ts module block
-        program.visit_mut_with(&mut StripExportKeyword);
-
-        // 4. Add empty export mark if there's any declaration that is used but not
-        // exported to keep its privacy.
-        if let Some(module) = program.as_mut_module() {
-            let mut has_non_exported_stmt = false;
-            let mut has_export = false;
-            for item in &module.body {
-                match item {
-                    ModuleItem::Stmt(_) => has_non_exported_stmt = true,
-                    ModuleItem::ModuleDecl(
-                        ModuleDecl::ExportDefaultDecl(_)
-                        | ModuleDecl::ExportDefaultExpr(_)
-                        | ModuleDecl::ExportNamed(_),
-                    ) => has_export = true,
-                    _ => {}
-                }
-            }
-            if module.body.is_empty() || (has_non_exported_stmt && !has_export) {
-                module
-                    .body
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport {
-                            span: DUMMY_SP,
-                            specifiers: Vec::new(),
-                            src: None,
-                            type_only: false,
-                            with: None,
-                        },
-                    )));
-            }
-        }
-
         take(&mut self.diagnostics)
+    }
+
+    fn transform_module_body(&mut self, items: &mut Vec<ModuleItem>) {
+        // 1. Transform.
+        Self::remove_function_overloads_in_module(items);
+        self.transform_module_items(items);
+
+        // 2. Collect usage
+        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
+        items.visit_with(&mut type_usage_analyzer);
+
+        // 3. Report error for expando function and remove statements.
+        self.report_error_for_expando_function_in_module(items, type_usage_analyzer.used_ids());
+        items.retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
+
+        // 4. Remove unused imports and decls
+        self.remove_ununsed(items, type_usage_analyzer.used_ids());
+
+        // 5. Add empty export mark if there's any declaration that is used but not
+        // exported to keep its privacy.
+        let mut has_non_exported_stmt = false;
+        let mut has_export = false;
+        for item in items.iter_mut() {
+            match item {
+                ModuleItem::Stmt(stmt) => {
+                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) {
+                        has_non_exported_stmt = true;
+                    }
+                }
+                ModuleItem::ModuleDecl(
+                    ModuleDecl::ExportDefaultDecl(_)
+                    | ModuleDecl::ExportDefaultExpr(_)
+                    | ModuleDecl::ExportNamed(_),
+                ) => has_export = true,
+                _ => {}
+            }
+        }
+        if items.is_empty() || (has_non_exported_stmt && !has_export) {
+            items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: Vec::new(),
+                    src: None,
+                    type_only: false,
+                    with: None,
+                },
+            )));
+        }
+    }
+
+    fn transform_script(&mut self, script: &mut Script) {
+        // 1. Transform.
+        Self::remove_function_overloads_in_script(script);
+        for stmt in script.body.iter_mut() {
+            if let Some(decl) = stmt.as_mut_decl() {
+                self.transform_decl(decl);
+            }
+        }
+
+        // 2. Collect usage
+        let mut type_usage_analyzer = TypeUsageAnalyzer::default();
+        script.visit_with(&mut type_usage_analyzer);
+
+        // 3. Report error for expando function and remove statements.
+        self.report_error_for_expando_function_in_script(
+            &script.body,
+            type_usage_analyzer.used_ids(),
+        );
+        script.body.retain(|stmt| stmt.is_decl());
     }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -140,7 +160,9 @@ impl FastDts {
                     items.push(item);
                 }
                 ModuleItem::Stmt(stmt) => {
-                    self.transform_decl(stmt.as_mut_decl().unwrap());
+                    if let Some(decl) = stmt.as_mut_decl() {
+                        self.transform_decl(decl);
+                    }
                     items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(expor_decl)) => {
@@ -195,20 +217,254 @@ impl FastDts {
         }
     }
 
+    fn report_error_for_expando_function_in_module(
+        &mut self,
+        items: &[ModuleItem],
+        used_ids: &HashSet<Id>,
+    ) {
+        let mut assignable_properties_for_namespace = HashMap::<&str, HashSet<Atom>>::new();
+        let mut collector = ExpandoFunctionCollector::new(used_ids);
+
+        for item in items {
+            let decl = match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
+                    if let Some(ts_module) = export_decl.decl.as_ts_module() {
+                        ts_module
+                    } else {
+                        continue;
+                    }
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) => ts_module,
+                _ => continue,
+            };
+
+            let (Some(name), Some(block)) = (
+                decl.id.as_ident(),
+                decl.body
+                    .as_ref()
+                    .and_then(|body| body.as_ts_module_block()),
+            ) else {
+                continue;
+            };
+
+            for item in &block.body {
+                // Note that all the module blocks have been transformed
+                let Some(decl) = item.as_stmt().and_then(|stmt| stmt.as_decl()) else {
+                    continue;
+                };
+
+                match &decl {
+                    Decl::Class(class_decl) => {
+                        assignable_properties_for_namespace
+                            .entry(name.sym.as_str())
+                            .or_default()
+                            .insert(class_decl.ident.sym.clone());
+                    }
+                    Decl::Fn(fn_decl) => {
+                        assignable_properties_for_namespace
+                            .entry(name.sym.as_str())
+                            .or_default()
+                            .insert(fn_decl.ident.sym.clone());
+                    }
+                    Decl::Var(var_decl) => {
+                        for decl in &var_decl.decls {
+                            if let Some(ident) = decl.name.as_ident() {
+                                assignable_properties_for_namespace
+                                    .entry(name.sym.as_str())
+                                    .or_default()
+                                    .insert(ident.sym.clone());
+                            }
+                        }
+                    }
+                    Decl::Using(using_decl) => {
+                        for decl in &using_decl.decls {
+                            if let Some(ident) = decl.name.as_ident() {
+                                assignable_properties_for_namespace
+                                    .entry(name.sym.as_str())
+                                    .or_default()
+                                    .insert(ident.sym.clone());
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        for item in items {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
+                    match &export_decl.decl {
+                        Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, false),
+                        Decl::Var(var_decl) => collector.add_var_decl(var_decl, false),
+                        _ => (),
+                    }
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_decl)) => {
+                    if let DefaultDecl::Fn(fn_expr) = &export_decl.decl {
+                        collector.add_fn_expr(fn_expr)
+                    }
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(_export_named)) => {
+                    // TODO: may be function
+                }
+                ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
+                    Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, true),
+                    Decl::Var(var_decl) => collector.add_var_decl(var_decl, true),
+                    _ => (),
+                },
+                ModuleItem::Stmt(Stmt::Expr(expr_stmt)) => {
+                    let Some(assign_expr) = expr_stmt.expr.as_assign() else {
+                        continue;
+                    };
+                    let Some(member_expr) = assign_expr
+                        .left
+                        .as_simple()
+                        .and_then(|simple| simple.as_member())
+                    else {
+                        continue;
+                    };
+
+                    if let Some(ident) = member_expr.obj.as_ident() {
+                        if collector.contains(&ident.sym)
+                            && !assignable_properties_for_namespace
+                                .get(ident.sym.as_str())
+                                .map_or(false, |properties| {
+                                    Self::static_member_prop(&member_expr.prop)
+                                        .map_or(false, |name| properties.contains(name))
+                                })
+                        {
+                            self.function_with_assigning_properties(member_expr.span);
+                        }
+                    }
+                }
+                _ => (),
+            }
+        }
+    }
+
+    fn report_error_for_expando_function_in_script(
+        &mut self,
+        stmts: &[Stmt],
+        used_ids: &HashSet<Id>,
+    ) {
+        let mut collector = ExpandoFunctionCollector::new(used_ids);
+        for stmt in stmts {
+            match stmt {
+                Stmt::Decl(decl) => match decl {
+                    Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, true),
+                    Decl::Var(var_decl) => collector.add_var_decl(var_decl, true),
+                    _ => (),
+                },
+                Stmt::Expr(expr_stmt) => {
+                    let Some(assign_expr) = expr_stmt.expr.as_assign() else {
+                        continue;
+                    };
+                    let Some(member_expr) = assign_expr
+                        .left
+                        .as_simple()
+                        .and_then(|simple| simple.as_member())
+                    else {
+                        continue;
+                    };
+
+                    if let Some(ident) = member_expr.obj.as_ident() {
+                        if collector.contains(&ident.sym) {
+                            self.function_with_assigning_properties(member_expr.span);
+                        }
+                    }
+                }
+                _ => (),
+            }
+        }
+    }
+
+    fn remove_ununsed(&self, items: &mut Vec<ModuleItem>, used_ids: &HashSet<Id>) {
+        items.retain_mut(|node| match node {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) => {
+                var_decl.decls.retain(|decl| {
+                    if let Some(ident) = decl.name.as_ident() {
+                        used_ids.contains(&ident.to_id())
+                    } else {
+                        true
+                    }
+                });
+
+                !var_decl.decls.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                if import_decl.specifiers.is_empty() {
+                    return true;
+                }
+
+                import_decl.specifiers.retain(|specifier| match specifier {
+                    ImportSpecifier::Named(specifier) => {
+                        used_ids.contains(&specifier.local.to_id())
+                    }
+                    ImportSpecifier::Default(specifier) => {
+                        used_ids.contains(&specifier.local.to_id())
+                    }
+                    ImportSpecifier::Namespace(specifier) => {
+                        used_ids.contains(&specifier.local.to_id())
+                    }
+                });
+
+                !import_decl.specifiers.is_empty()
+            }
+            _ => true,
+        });
+    }
+
     fn gen_unique_name(&mut self, name: &str) -> Atom {
         self.id_counter += 1;
         format!("{name}_{}", self.id_counter).into()
     }
 }
 
-struct StripExportKeyword;
+struct ExpandoFunctionCollector<'a> {
+    declared_function_names: HashSet<Atom>,
+    used_ids: &'a HashSet<Id>,
+}
 
-impl VisitMut for StripExportKeyword {
-    fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        for module_item in node.body.iter_mut() {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = module_item {
-                *module_item = ModuleItem::Stmt(Stmt::Decl(export_decl.decl.clone()));
+impl<'a> ExpandoFunctionCollector<'a> {
+    fn new(used_ids: &'a HashSet<Id>) -> Self {
+        Self {
+            declared_function_names: HashSet::new(),
+            used_ids,
+        }
+    }
+
+    fn add_fn_expr(&mut self, fn_expr: &FnExpr) {
+        if let Some(ident) = fn_expr.ident.as_ref() {
+            self.declared_function_names.insert(ident.sym.clone());
+        }
+    }
+
+    fn add_fn_decl(&mut self, fn_decl: &FnDecl, check_binding: bool) {
+        if !check_binding || self.used_ids.contains(&fn_decl.ident.to_id()) {
+            self.declared_function_names
+                .insert(fn_decl.ident.sym.clone());
+        }
+    }
+
+    fn add_var_decl(&mut self, var_decl: &VarDecl, check_binding: bool) {
+        for decl in &var_decl.decls {
+            if decl
+                .name
+                .get_type_ann()
+                .as_ref()
+                .is_some_and(|type_ann| type_ann.type_ann.is_ts_fn_or_constructor_type())
+            {
+                if let Some(name) = decl.name.as_ident() {
+                    if !check_binding || self.used_ids.contains(&name.to_id()) {
+                        self.declared_function_names.insert(name.sym.clone());
+                    }
+                }
             }
         }
+    }
+
+    fn contains(&self, name: &Atom) -> bool {
+        self.declared_function_names.contains(name)
     }
 }

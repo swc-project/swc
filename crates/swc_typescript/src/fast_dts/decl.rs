@@ -1,6 +1,7 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
+    Decl, DefaultDecl, Expr, Lit, ModuleDecl, ModuleItem, Pat, Stmt, TsNamespaceBody, VarDeclKind,
+    VarDeclarator,
 };
 
 use super::{
@@ -49,9 +50,13 @@ impl FastDts {
                 self.transform_enum(ts_enum.as_mut());
             }
             Decl::TsModule(ts_module) => {
+                if ts_module.declare {
+                    return;
+                }
+
                 ts_module.declare = is_declare;
                 if let Some(body) = ts_module.body.as_mut() {
-                    self.transform_ts_namespace_decl(body);
+                    self.transform_ts_namespace_decl(body, ts_module.global);
                 }
             }
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
@@ -126,18 +131,26 @@ impl FastDts {
         };
     }
 
-    pub(crate) fn transform_ts_namespace_decl(&mut self, body: &mut TsNamespaceBody) {
+    pub(crate) fn transform_ts_namespace_decl(
+        &mut self,
+        body: &mut TsNamespaceBody,
+        is_global: bool,
+    ) {
         let original_is_top_level = self.is_top_level;
         self.is_top_level = false;
         match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                ts_module_block
-                    .body
-                    .retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
-                self.transform_module_items(&mut ts_module_block.body);
+                self.transform_module_body(&mut ts_module_block.body);
+                if !is_global {
+                    for item in &mut ts_module_block.body {
+                        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item {
+                            *item = ModuleItem::Stmt(Stmt::Decl(export_decl.decl.clone()));
+                        }
+                    }
+                }
             }
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => {
-                self.transform_ts_namespace_decl(&mut ts_ns.body)
+                self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global)
             }
         };
         self.is_top_level = original_is_top_level;

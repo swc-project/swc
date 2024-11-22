@@ -120,20 +120,7 @@ impl FastDts {
             Expr::Member(member) => {
                 let ident = member.obj.as_ident()?;
                 if &ident.sym == enum_name {
-                    let name = match &member.prop {
-                        MemberProp::Ident(ident_name) => &ident_name.sym,
-                        MemberProp::Computed(computed_prop_name) => {
-                            match computed_prop_name.expr.as_ref() {
-                                Expr::Lit(Lit::Str(s)) => &s.value,
-                                Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
-                                    &tpl.quasis[0].raw
-                                }
-                                _ => return None,
-                            }
-                        }
-                        MemberProp::PrivateName(_) => return None,
-                    };
-
+                    let name = Self::static_member_prop(&member.prop)?;
                     prev_members.get(name).cloned()
                 } else {
                     None
@@ -226,5 +213,19 @@ impl FastDts {
             _ => None,
         }
         .map(|number| ConstantValue::Number(number.into()))
+    }
+
+    pub fn static_member_prop(prop: &MemberProp) -> Option<&Atom> {
+        match prop {
+            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
+            MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
+                Expr::Lit(Lit::Str(s)) => Some(&s.value),
+                Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
+                    Some(&tpl.quasis[0].raw)
+                }
+                _ => None,
+            },
+            MemberProp::PrivateName(_) => None,
+        }
     }
 }

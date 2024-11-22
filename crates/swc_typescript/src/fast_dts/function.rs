@@ -3,8 +3,8 @@ use std::mem;
 use swc_atoms::Atom;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    AssignPat, Decl, ExportDecl, Function, Module, ModuleDecl, ModuleItem, Param, Pat, Script,
-    Stmt, TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
+    AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, Param, Pat, Script, Stmt,
+    TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{
@@ -181,11 +181,11 @@ impl FastDts {
         false
     }
 
-    pub(crate) fn remove_module_function_overloads(module: &mut Module) {
+    pub(crate) fn remove_function_overloads_in_module(items: &mut Vec<ModuleItem>) {
         let mut last_function_name: Option<Atom> = None;
         let mut is_export_default_function_overloads = false;
 
-        module.body.retain(|item| match item {
+        items.retain(|item| match item {
             ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl)))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Fn(fn_decl),
@@ -221,7 +221,7 @@ impl FastDts {
         });
     }
 
-    pub(crate) fn remove_script_function_overloads(script: &mut Script) {
+    pub(crate) fn remove_function_overloads_in_script(script: &mut Script) {
         let mut last_function_name: Option<Atom> = None;
         script.body.retain(|stmt| {
             if let Some(fn_decl) = stmt.as_decl().and_then(|decl| decl.as_fn_decl()) {
