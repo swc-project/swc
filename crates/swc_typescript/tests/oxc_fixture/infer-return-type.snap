@@ -1,0 +1,15 @@
+```==================== .D.TS ====================
+
+declare function foo(): number;
+declare function bar(): number | undefined;
+declare function baz();
+declare function qux(): string;
+declare function quux(): string;
+declare function returnFunctionOrNothing(): (() => number) | undefined;
+
+
+==================== Errors ====================
+infer-return-type.ts(167..170) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+
+
+```

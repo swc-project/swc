@@ -1,7 +1,6 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, Expr, Lit, ModuleDecl, ModuleItem, Pat, Stmt, TsNamespaceBody, VarDeclKind,
-    VarDeclarator,
+    Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
 };
 
 use super::{
@@ -91,7 +90,10 @@ impl FastDts {
 
                 ts_module.declare = is_declare;
                 if let Some(body) = ts_module.body.as_mut() {
-                    self.transform_ts_namespace_decl(body, ts_module.global, ts_module.id.is_str());
+                    self.transform_ts_namespace_decl(
+                        body,
+                        ts_module.global || ts_module.id.is_str(),
+                    );
                 }
             }
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
@@ -169,24 +171,16 @@ impl FastDts {
     pub(crate) fn transform_ts_namespace_decl(
         &mut self,
         body: &mut TsNamespaceBody,
-        is_global: bool,
-        is_lit_module: bool,
+        in_global_or_lit_module: bool,
     ) {
         let original_is_top_level = self.is_top_level;
         self.is_top_level = false;
         match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                self.transform_module_body(&mut ts_module_block.body, is_global || is_lit_module);
-                if !is_global {
-                    for item in &mut ts_module_block.body {
-                        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item {
-                            *item = ModuleItem::Stmt(Stmt::Decl(export_decl.decl.clone()));
-                        }
-                    }
-                }
+                self.transform_module_body(&mut ts_module_block.body, in_global_or_lit_module);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => {
-                self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global, false)
+                self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global)
             }
         };
         self.is_top_level = original_is_top_level;

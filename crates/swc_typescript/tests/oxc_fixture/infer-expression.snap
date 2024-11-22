@@ -1,0 +1,24 @@
+```==================== .D.TS ====================
+
+declare const n = 0;
+declare const s = "";
+declare const t = "";
+declare const b = true;
+declare let unaryA: number;
+declare const unaryB = -1_2n;
+declare const unaryC: any;
+declare const unaryD: any;
+declare const unaryE: {
+    readonly E;
+};
+declare const unaryF: readonly [];
+
+
+==================== Errors ====================
+infer-expression.ts(205..211) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+infer-expression.ts(227..233) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+infer-expression.ts(268..274) TS9013: Expression type can't be inferred with --isolatedDeclarations.
+infer-expression.ts(301..307) TS9013: Expression type can't be inferred with --isolatedDeclarations.
+
+
+```

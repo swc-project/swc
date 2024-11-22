@@ -91,14 +91,31 @@ impl FastDts {
         Self::remove_function_overloads_in_module(items);
         self.transform_module_items(items);
 
-        // 3. Report error for expando function and remove statements.
+        // 3. Strip export keywords in ts module blocks
+        for item in items.iter_mut() {
+            if let Some(Stmt::Decl(Decl::TsModule(ts_module))) = item.as_mut_stmt() {
+                if ts_module.global || !ts_module.id.is_str() {
+                    continue;
+                }
+
+                if let Some(body) = ts_module
+                    .body
+                    .as_mut()
+                    .and_then(|body| body.as_mut_ts_module_block())
+                {
+                    self.strip_export(&mut body.body);
+                }
+            }
+        }
+
+        // 4. Report error for expando function and remove statements.
         self.report_error_for_expando_function_in_module(items);
         items.retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
 
-        // 4. Remove unused imports and decls
+        // 5. Remove unused imports and decls
         self.remove_ununsed(items, in_global_or_lit_module);
 
-        // 5. Add empty export mark if there's any declaration that is used but not
+        // 6. Add empty export mark if there's any declaration that is used but not
         // exported to keep its privacy.
         let mut has_non_exported_stmt = false;
         let mut has_export = false;
@@ -127,6 +144,8 @@ impl FastDts {
                     with: None,
                 },
             )));
+        } else if !self.is_top_level {
+            self.strip_export(items);
         }
     }
 
@@ -375,6 +394,14 @@ impl FastDts {
                     }
                 }
                 _ => (),
+            }
+        }
+    }
+
+    fn strip_export(&self, items: &mut Vec<ModuleItem>) {
+        for item in items {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = item {
+                *item = ModuleItem::Stmt(Stmt::Decl(export_decl.decl.clone()));
             }
         }
     }

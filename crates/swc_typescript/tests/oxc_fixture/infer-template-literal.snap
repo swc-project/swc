@@ -1,0 +1,19 @@
+```==================== .D.TS ====================
+
+export declare const CSS_VARS_HELPER = "useCssVars";
+export declare function g(func?: string): void;
+export declare const F: {
+    readonly a: "a";
+    readonly b: readonly ["b"];
+};
+export declare let GOOD: string;
+export declare const BAD: any;
+export declare let BAD2: any;
+
+
+==================== Errors ====================
+infer-template-literal.ts(196..199) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+infer-template-literal.ts(231..235) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+
+
+```

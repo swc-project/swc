@@ -1,0 +1,18 @@
+```==================== .D.TS ====================
+
+declare function generatorGood(): Generator<number>;
+declare class GeneratorClassGood {
+    method(): Generator<number>;
+}
+declare function generatorBad();
+declare class GeneratorClassBad {
+    method();
+}
+
+
+==================== Errors ====================
+generator.ts(234..246) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+generator.ts(308..314) TS9008: Method must have an explicit return type annotation with --isolatedDeclarations.
+
+
+```
