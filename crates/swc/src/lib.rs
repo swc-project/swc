@@ -979,7 +979,7 @@ impl Compiler {
                 let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
-                let mut checker = FastDts::new(fm.name.clone());
+                let mut checker = FastDts::new(fm.name.clone(), Default::default());
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {

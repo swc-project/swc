@@ -2,10 +2,12 @@ use swc_common::Spanned;
 use swc_ecma_ast::{
     Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
 };
+use swc_ecma_visit::VisitMutWith;
 
 use super::{
     type_ann,
     util::{any_type_ann, PatExt},
+    visitors::internal_annotation::InternalAnnotationTransformer,
     FastDts,
 };
 
@@ -18,7 +20,7 @@ impl FastDts {
                     return;
                 }
 
-                if check_binding && !self.analyzer.used_ids().contains(&class_decl.ident.to_id()) {
+                if check_binding && !self.used_ids.contains(&class_decl.ident.to_id()) {
                     return;
                 }
 
@@ -30,7 +32,7 @@ impl FastDts {
                     return;
                 }
 
-                if check_binding && !self.analyzer.used_ids().contains(&fn_decl.ident.to_id()) {
+                if check_binding && !self.used_ids.contains(&fn_decl.ident.to_id()) {
                     return;
                 }
 
@@ -45,9 +47,10 @@ impl FastDts {
                 var.declare = is_declare;
                 for decl in var.decls.iter_mut() {
                     if check_binding
-                        && decl.name.as_ident().map_or(false, |ident| {
-                            !self.analyzer.used_ids().contains(&ident.to_id())
-                        })
+                        && decl
+                            .name
+                            .as_ident()
+                            .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
                     {
                         return;
                     }
@@ -57,9 +60,10 @@ impl FastDts {
             Decl::Using(using) => {
                 for decl in using.decls.iter_mut() {
                     if check_binding
-                        && decl.name.as_ident().map_or(false, |ident| {
-                            !self.analyzer.used_ids().contains(&ident.to_id())
-                        })
+                        && decl
+                            .name
+                            .as_ident()
+                            .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
                     {
                         return;
                     }
@@ -68,7 +72,7 @@ impl FastDts {
             }
             Decl::TsEnum(ts_enum) => {
                 ts_enum.declare = is_declare;
-                if check_binding && !self.analyzer.used_ids().contains(&ts_enum.id.to_id()) {
+                if check_binding && !self.used_ids.contains(&ts_enum.id.to_id()) {
                     return;
                 }
                 self.transform_enum(ts_enum.as_mut());
@@ -81,9 +85,10 @@ impl FastDts {
                 if !ts_module.global
                     && !ts_module.id.is_str()
                     && check_binding
-                    && ts_module.id.as_ident().map_or(false, |ident| {
-                        !self.analyzer.used_ids().contains(&ident.to_id())
-                    })
+                    && ts_module
+                        .id
+                        .as_ident()
+                        .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
                 {
                     return;
                 }
@@ -96,7 +101,13 @@ impl FastDts {
                     );
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {
+                if let Some(internal_annotations) = self.internal_annotations.as_ref() {
+                    decl.visit_mut_children_with(&mut InternalAnnotationTransformer::new(
+                        internal_annotations,
+                    ))
+                }
+            }
         }
     }
 
@@ -113,7 +124,7 @@ impl FastDts {
 
         if matches!(pat, Pat::Array(_) | Pat::Object(_)) {
             pat.bound_names(&mut |ident| {
-                if !check_binding || self.analyzer.used_ids().contains(&ident.to_id()) {
+                if !check_binding || self.used_ids.contains(&ident.to_id()) {
                     self.binding_element_export(ident.span);
                 }
             });

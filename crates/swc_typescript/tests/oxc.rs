@@ -1,10 +1,10 @@
 use std::path::PathBuf;
 
-use swc_common::Mark;
+use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_codegen::to_code_with_comments;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
-use swc_typescript::fast_dts::FastDts;
+use swc_typescript::fast_dts::{FastDts, FastDtsOptions};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/**/*.ts")]
@@ -14,11 +14,12 @@ fn fixture(input: PathBuf) {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        let comments = SingleThreadedComments::default();
         let mut program = parse_file_as_program(
             &fm,
             Syntax::Typescript(Default::default()),
             Default::default(),
-            None,
+            Some(&comments),
             &mut Vec::new(),
         )
         .map_err(|err| err.into_diagnostic(&handler).emit())
@@ -26,7 +27,13 @@ fn fixture(input: PathBuf) {
         .map(|program| program.apply(paren_remover(None)))
         .unwrap();
 
-        let mut checker = FastDts::new(fm.name.clone());
+        let internal_annotations = FastDts::get_internal_annotations(&comments);
+        let mut checker = FastDts::new(
+            fm.name.clone(),
+            FastDtsOptions {
+                internal_annotations: Some(internal_annotations),
+            },
+        );
         let issues = checker.transform(&mut program);
         let dts_code = to_code_with_comments(None, &program);
 

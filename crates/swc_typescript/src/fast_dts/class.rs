@@ -49,6 +49,9 @@ impl FastDts {
         for mut member in body {
             match &mut member {
                 ClassMember::Constructor(constructor) => {
+                    if self.has_internal_annotation(constructor.span_lo()) {
+                        continue;
+                    }
                     if !(constructor.is_optional) && constructor.body.is_none() {
                         is_function_overloads = true;
                     } else if is_function_overloads {
@@ -79,6 +82,9 @@ impl FastDts {
                     class.body.push(member);
                 }
                 ClassMember::Method(method) => {
+                    if self.has_internal_annotation(method.span_lo()) {
+                        continue;
+                    }
                     if !(method.is_abstract || method.is_optional) && method.function.body.is_none()
                     {
                         is_function_overloads = true;
@@ -209,6 +215,9 @@ impl FastDts {
                     class.body.push(member);
                 }
                 ClassMember::ClassProp(prop) => {
+                    if self.has_internal_annotation(prop.span_lo()) {
+                        continue;
+                    }
                     if self.report_property_key(&prop.key) {
                         continue;
                     }
@@ -219,10 +228,16 @@ impl FastDts {
                 ClassMember::PrivateMethod(_) | ClassMember::PrivateProp(_) => {
                     has_private_key = true;
                 }
-                ClassMember::TsIndexSignature(_) => {
+                ClassMember::TsIndexSignature(ts_index_signature) => {
+                    if self.has_internal_annotation(ts_index_signature.span_lo()) {
+                        continue;
+                    }
                     class.body.push(member);
                 }
                 ClassMember::AutoAccessor(auto_accessor) => {
+                    if self.has_internal_annotation(auto_accessor.span_lo()) {
+                        continue;
+                    }
                     let Key::Public(prop_name) = &auto_accessor.key else {
                         has_private_key = true;
                         continue;

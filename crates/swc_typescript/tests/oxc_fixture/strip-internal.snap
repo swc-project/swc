@@ -1,0 +1,14 @@
+```==================== .D.TS ====================
+
+declare class StripInternalClassFields {
+}
+export { stripInternalFunction, StripInternalClass, StripInternalClassFields };
+export interface StripInternalInterfaceSignatures {
+}
+export type StripInternalTypeSignatures = {
+};
+export declare namespace StripInternalNamespaceInner {
+    export { };
+}
+
+

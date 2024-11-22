@@ -5,17 +5,18 @@ use std::{
     sync::Arc,
 };
 
-use pass::type_usage;
 use swc_atoms::Atom;
-use swc_common::{FileName, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::{
-    BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, FnDecl, FnExpr, Id, Ident, ImportSpecifier,
-    ModuleDecl, ModuleItem, NamedExport, Pat, Program, Script, Stmt, TsExportAssignment, VarDecl,
-    VarDeclKind, VarDeclarator,
+use swc_common::{
+    comments::SingleThreadedComments, util::take::Take, BytePos, FileName, Span, Spanned, DUMMY_SP,
 };
-use swc_ecma_visit::VisitWith;
+use swc_ecma_ast::{
+    BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, Id, Ident, ImportSpecifier, ModuleDecl,
+    ModuleItem, NamedExport, Pat, Program, Script, Stmt, TsExportAssignment, VarDecl, VarDeclKind,
+    VarDeclarator,
+};
 use type_usage::TypeUsageAnalyzer;
-use util::{type_ann, PatExt};
+use util::{type_ann, ExpandoFunctionCollector};
+use visitors::type_usage;
 
 use crate::diagnostic::{DtsIssue, SourceRange};
 
@@ -24,9 +25,9 @@ mod decl;
 mod r#enum;
 mod function;
 mod inferrer;
-mod pass;
 mod types;
 mod util;
+mod visitors;
 
 /// TypeScript Isolated Declaration support.
 ///
@@ -40,21 +41,29 @@ mod util;
 pub struct FastDts {
     filename: Arc<FileName>,
     diagnostics: Vec<DtsIssue>,
+    // states
     id_counter: u32,
     is_top_level: bool,
-    analyzer: TypeUsageAnalyzer,
-    // TODO: strip_internal: bool,
+    used_ids: HashSet<Id>,
+    internal_annotations: Option<HashSet<BytePos>>,
+}
+
+#[derive(Debug, Default)]
+pub struct FastDtsOptions {
+    pub internal_annotations: Option<HashSet<BytePos>>,
 }
 
 /// Diagnostics
 impl FastDts {
-    pub fn new(filename: Arc<FileName>) -> Self {
+    pub fn new(filename: Arc<FileName>, options: FastDtsOptions) -> Self {
+        let internal_annotations = options.internal_annotations;
         Self {
             filename,
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,
-            analyzer: TypeUsageAnalyzer::default(),
+            used_ids: HashSet::new(),
+            internal_annotations,
         }
     }
 
@@ -71,6 +80,10 @@ impl FastDts {
 
 impl FastDts {
     pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
+        self.used_ids.extend(TypeUsageAnalyzer::analyze(
+            program,
+            self.internal_annotations.as_ref(),
+        ));
         match program {
             Program::Module(module) => self.transform_module_body(&mut module.body, false),
             Program::Script(script) => self.transform_script(script),
@@ -83,15 +96,11 @@ impl FastDts {
         items: &mut Vec<ModuleItem>,
         in_global_or_lit_module: bool,
     ) {
-        // 1. Collect usage
-        // let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        items.visit_with(&mut self.analyzer);
-
-        // 2. Transform.
+        // 1. Transform.
         Self::remove_function_overloads_in_module(items);
         self.transform_module_items(items);
 
-        // 3. Strip export keywords in ts module blocks
+        // 2. Strip export keywords in ts module blocks
         for item in items.iter_mut() {
             if let Some(Stmt::Decl(Decl::TsModule(ts_module))) = item.as_mut_stmt() {
                 if ts_module.global || !ts_module.id.is_str() {
@@ -108,14 +117,18 @@ impl FastDts {
             }
         }
 
-        // 4. Report error for expando function and remove statements.
+        // 3. Report error for expando function and remove statements.
         self.report_error_for_expando_function_in_module(items);
-        items.retain(|item| item.as_stmt().map(|stmt| stmt.is_decl()).unwrap_or(true));
+        items.retain(|item| {
+            item.as_stmt()
+                .map(|stmt| stmt.is_decl() && !self.has_internal_annotation(stmt.span_lo()))
+                .unwrap_or(true)
+        });
 
-        // 5. Remove unused imports and decls
+        // 4. Remove unused imports and decls
         self.remove_ununsed(items, in_global_or_lit_module);
 
-        // 6. Add empty export mark if there's any declaration that is used but not
+        // 5. Add empty export mark if there's any declaration that is used but not
         // exported to keep its privacy.
         let mut has_non_exported_stmt = false;
         let mut has_export = false;
@@ -151,21 +164,24 @@ impl FastDts {
     }
 
     fn transform_script(&mut self, script: &mut Script) {
-        // 1. Collect usage
-        // let mut type_usage_analyzer = TypeUsageAnalyzer::default();
-        script.visit_with(&mut self.analyzer);
-
-        // 2. Transform.
+        // 1. Transform.
         Self::remove_function_overloads_in_script(script);
-        for stmt in script.body.iter_mut() {
+        let body = script.body.take();
+        for mut stmt in body {
+            if self.has_internal_annotation(stmt.span_lo()) {
+                continue;
+            }
             if let Some(decl) = stmt.as_mut_decl() {
                 self.transform_decl(decl, false);
             }
+            script.body.push(stmt);
         }
 
-        // 3. Report error for expando function and remove statements.
+        // 2. Report error for expando function and remove statements.
         self.report_error_for_expando_function_in_script(&script.body);
-        script.body.retain(|stmt| stmt.is_decl());
+        script
+            .body
+            .retain(|stmt| stmt.is_decl() && !self.has_internal_annotation(stmt.span_lo()));
     }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -182,12 +198,19 @@ impl FastDts {
                     items.push(item);
                 }
                 ModuleItem::Stmt(stmt) => {
+                    if self.has_internal_annotation(stmt.span_lo()) {
+                        continue;
+                    }
+
                     if let Some(decl) = stmt.as_mut_decl() {
                         self.transform_decl(decl, true);
                     }
                     items.push(item);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(expor_decl)) => {
+                    if self.has_internal_annotation(expor_decl.span_lo()) {
+                        continue;
+                    }
                     self.transform_decl(&mut expor_decl.decl, false);
                     items.push(item);
                 }
@@ -215,7 +238,7 @@ impl FastDts {
 
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
                     let type_ann = self.infer_type_from_expr(expr).map(type_ann);
-                    self.analyzer.add_generated_id(name_ident.to_id());
+                    self.used_ids.insert(name_ident.to_id());
 
                     if type_ann.is_none() {
                         self.default_export_inferred(expr.span());
@@ -266,7 +289,7 @@ impl FastDts {
 
     fn report_error_for_expando_function_in_module(&mut self, items: &[ModuleItem]) {
         // TODO: Avoid clone
-        let used_ids = self.analyzer.used_ids().clone();
+        let used_ids = self.used_ids.clone();
         let mut assignable_properties_for_namespace = HashMap::<&str, HashSet<Atom>>::new();
         let mut collector = ExpandoFunctionCollector::new(&used_ids);
 
@@ -390,7 +413,7 @@ impl FastDts {
 
     fn report_error_for_expando_function_in_script(&mut self, stmts: &[Stmt]) {
         // TODO: Avoid clone
-        let used_ids = self.analyzer.used_ids().clone();
+        let used_ids = self.used_ids.clone();
         let mut collector = ExpandoFunctionCollector::new(&used_ids);
         for stmt in stmts {
             match stmt {
@@ -431,7 +454,7 @@ impl FastDts {
     }
 
     fn remove_ununsed(&self, items: &mut Vec<ModuleItem>, in_global_or_lit_module: bool) {
-        let used_ids = self.analyzer.used_ids();
+        let used_ids = &self.used_ids;
         items.retain_mut(|node| match node {
             ModuleItem::Stmt(Stmt::Decl(decl)) if !in_global_or_lit_module => match decl {
                 Decl::Class(class_decl) => used_ids.contains(&class_decl.ident.to_id()),
@@ -495,56 +518,29 @@ impl FastDts {
         });
     }
 
+    pub fn has_internal_annotation(&self, pos: BytePos) -> bool {
+        if let Some(internal_annotations) = &self.internal_annotations {
+            return internal_annotations.contains(&pos);
+        }
+        false
+    }
+
+    pub fn get_internal_annotations(comments: &SingleThreadedComments) -> HashSet<BytePos> {
+        let mut internal_annotations = HashSet::new();
+        let (leading, _) = comments.borrow_all();
+        for (pos, comment) in leading.iter() {
+            let has_internal_annotation = comment
+                .iter()
+                .any(|comment| comment.text.contains("@internal"));
+            if has_internal_annotation {
+                internal_annotations.insert(*pos);
+            }
+        }
+        internal_annotations
+    }
+
     fn gen_unique_name(&mut self, name: &str) -> Atom {
         self.id_counter += 1;
         format!("{name}_{}", self.id_counter).into()
-    }
-}
-
-struct ExpandoFunctionCollector<'a> {
-    declared_function_names: HashSet<Atom>,
-    used_ids: &'a HashSet<Id>,
-}
-
-impl<'a> ExpandoFunctionCollector<'a> {
-    fn new(used_ids: &'a HashSet<Id>) -> Self {
-        Self {
-            declared_function_names: HashSet::new(),
-            used_ids,
-        }
-    }
-
-    fn add_fn_expr(&mut self, fn_expr: &FnExpr) {
-        if let Some(ident) = fn_expr.ident.as_ref() {
-            self.declared_function_names.insert(ident.sym.clone());
-        }
-    }
-
-    fn add_fn_decl(&mut self, fn_decl: &FnDecl, check_binding: bool) {
-        if !check_binding || self.used_ids.contains(&fn_decl.ident.to_id()) {
-            self.declared_function_names
-                .insert(fn_decl.ident.sym.clone());
-        }
-    }
-
-    fn add_var_decl(&mut self, var_decl: &VarDecl, check_binding: bool) {
-        for decl in &var_decl.decls {
-            if decl
-                .name
-                .get_type_ann()
-                .as_ref()
-                .is_some_and(|type_ann| type_ann.type_ann.is_ts_fn_or_constructor_type())
-            {
-                if let Some(name) = decl.name.as_ident() {
-                    if !check_binding || self.used_ids.contains(&name.to_id()) {
-                        self.declared_function_names.insert(name.sym.clone());
-                    }
-                }
-            }
-        }
-    }
-
-    fn contains(&self, name: &Atom) -> bool {
-        self.declared_function_names.contains(name)
     }
 }

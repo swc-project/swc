@@ -1,7 +1,10 @@
+use std::collections::HashSet;
+
+use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    BindingIdent, ObjectPatProp, Pat, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsType,
-    TsTypeAnn,
+    BindingIdent, FnDecl, FnExpr, Id, ObjectPatProp, Pat, TsKeywordType, TsKeywordTypeKind, TsLit,
+    TsLitType, TsType, TsTypeAnn, VarDecl,
 };
 
 pub trait PatExt {
@@ -90,4 +93,52 @@ pub fn ts_lit_type(lit: TsLit) -> Box<TsType> {
         span: DUMMY_SP,
         lit,
     }))
+}
+
+pub(crate) struct ExpandoFunctionCollector<'a> {
+    declared_function_names: HashSet<Atom>,
+    used_ids: &'a HashSet<Id>,
+}
+
+impl<'a> ExpandoFunctionCollector<'a> {
+    pub(crate) fn new(used_ids: &'a HashSet<Id>) -> Self {
+        Self {
+            declared_function_names: HashSet::new(),
+            used_ids,
+        }
+    }
+
+    pub(crate) fn add_fn_expr(&mut self, fn_expr: &FnExpr) {
+        if let Some(ident) = fn_expr.ident.as_ref() {
+            self.declared_function_names.insert(ident.sym.clone());
+        }
+    }
+
+    pub(crate) fn add_fn_decl(&mut self, fn_decl: &FnDecl, check_binding: bool) {
+        if !check_binding || self.used_ids.contains(&fn_decl.ident.to_id()) {
+            self.declared_function_names
+                .insert(fn_decl.ident.sym.clone());
+        }
+    }
+
+    pub(crate) fn add_var_decl(&mut self, var_decl: &VarDecl, check_binding: bool) {
+        for decl in &var_decl.decls {
+            if decl
+                .name
+                .get_type_ann()
+                .as_ref()
+                .is_some_and(|type_ann| type_ann.type_ann.is_ts_fn_or_constructor_type())
+            {
+                if let Some(name) = decl.name.as_ident() {
+                    if !check_binding || self.used_ids.contains(&name.to_id()) {
+                        self.declared_function_names.insert(name.sym.clone());
+                    }
+                }
+            }
+        }
+    }
+
+    pub(crate) fn contains(&self, name: &Atom) -> bool {
+        self.declared_function_names.contains(name)
+    }
 }

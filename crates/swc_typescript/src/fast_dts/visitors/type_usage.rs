@@ -1,27 +1,32 @@
 use std::collections::HashSet;
 
+use swc_common::{BytePos, Spanned};
 use swc_ecma_ast::{
     Class, Decl, ExportDecl, ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem,
-    NamedExport, Script, TsEntityName, TsExprWithTypeArgs,
+    NamedExport, Program, Script, TsEntityName, TsExprWithTypeArgs,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
-#[derive(Default)]
-pub struct TypeUsageAnalyzer {
+pub struct TypeUsageAnalyzer<'a> {
     used_ids: HashSet<Id>,
+    internal_annotations: Option<&'a HashSet<BytePos>>,
 }
 
-impl TypeUsageAnalyzer {
-    pub fn used_ids(&self) -> &HashSet<Id> {
-        &self.used_ids
-    }
-
-    pub fn add_generated_id(&mut self, id: Id) {
-        self.used_ids.insert(id);
+impl TypeUsageAnalyzer<'_> {
+    pub fn analyze(
+        program: &Program,
+        internal_annotations: Option<&HashSet<BytePos>>,
+    ) -> HashSet<Id> {
+        let mut analyzer = TypeUsageAnalyzer {
+            used_ids: HashSet::new(),
+            internal_annotations,
+        };
+        program.visit_with(&mut analyzer);
+        analyzer.used_ids
     }
 }
 
-impl Visit for TypeUsageAnalyzer {
+impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_class(&mut self, node: &Class) {
         if let Some(super_class) = &node.super_class {
             if let Some(ident) = super_class.as_ident() {
@@ -121,7 +126,14 @@ impl Visit for TypeUsageAnalyzer {
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
         for item in node {
             // Skip statements
-            if item.as_stmt().map_or(false, |stmt| !stmt.is_decl()) {
+            if item.as_stmt().map_or(false, |stmt| {
+                !stmt.is_decl()
+                    || self
+                        .internal_annotations
+                        .map_or(false, |internal_annotations| {
+                            internal_annotations.contains(&stmt.span_lo())
+                        })
+            }) {
                 continue;
             }
             item.visit_children_with(self);
@@ -131,7 +143,13 @@ impl Visit for TypeUsageAnalyzer {
     fn visit_script(&mut self, node: &Script) {
         for stmt in &node.body {
             // Skip statements
-            if !stmt.is_decl() {
+            if !stmt.is_decl()
+                || self
+                    .internal_annotations
+                    .map_or(false, |internal_annotations| {
+                        internal_annotations.contains(&stmt.span_lo())
+                    })
+            {
                 continue;
             }
             stmt.visit_children_with(self);

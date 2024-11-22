@@ -14,7 +14,7 @@ fn transform_dts_test(source: &str, expected: &str) {
             source.to_string(),
         );
 
-        let mut checker = FastDts::new(fm.name.clone());
+        let mut checker = FastDts::new(fm.name.clone(), Default::default());
 
         let mut program = parse_file_as_program(
             &fm,
