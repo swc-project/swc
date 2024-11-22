@@ -9,7 +9,10 @@ use swc_ecma_ast::{
 use super::{
     inferrer::ReturnTypeInferrer,
     type_ann,
-    util::{ts_keyword_type, ts_lit_type, PatExt},
+    util::{
+        ast_ext::PatExt,
+        types::{ts_keyword_type, ts_lit_type},
+    },
     FastDts,
 };
 

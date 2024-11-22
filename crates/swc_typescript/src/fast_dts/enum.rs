@@ -4,12 +4,12 @@ use std::collections::HashMap;
 use swc_atoms::Atom;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
-    BinExpr, BinaryOp, Expr, Ident, Lit, MemberProp, Number, Str, TsEnumDecl, TsEnumMemberId,
-    UnaryExpr, UnaryOp,
+    BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
+    UnaryOp,
 };
 use swc_ecma_utils::number::JsNumber;
 
-use super::FastDts;
+use super::{util::ast_ext::MemberPropExt, FastDts};
 
 #[derive(Debug, Clone)]
 enum ConstantValue {
@@ -120,7 +120,7 @@ impl FastDts {
             Expr::Member(member) => {
                 let ident = member.obj.as_ident()?;
                 if &ident.sym == enum_name {
-                    let name = Self::static_member_prop(&member.prop)?;
+                    let name = member.prop.static_name()?;
                     prev_members.get(name).cloned()
                 } else {
                     None
@@ -213,19 +213,5 @@ impl FastDts {
             _ => None,
         }
         .map(|number| ConstantValue::Number(number.into()))
-    }
-
-    pub fn static_member_prop(prop: &MemberProp) -> Option<&Atom> {
-        match prop {
-            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
-            MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(Lit::Str(s)) => Some(&s.value),
-                Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
-                    Some(&tpl.quasis[0].raw)
-                }
-                _ => None,
-            },
-            MemberProp::PrivateName(_) => None,
-        }
     }
 }

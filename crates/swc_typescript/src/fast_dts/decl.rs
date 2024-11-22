@@ -6,7 +6,7 @@ use swc_ecma_visit::VisitMutWith;
 
 use super::{
     type_ann,
-    util::{any_type_ann, PatExt},
+    util::{ast_ext::PatExt, types::any_type_ann},
     visitors::internal_annotation::InternalAnnotationTransformer,
     FastDts,
 };

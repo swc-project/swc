@@ -15,7 +15,9 @@ use swc_ecma_ast::{
     VarDeclarator,
 };
 use type_usage::TypeUsageAnalyzer;
-use util::{type_ann, ExpandoFunctionCollector};
+use util::{
+    ast_ext::MemberPropExt, expando_function_collector::ExpandoFunctionCollector, types::type_ann,
+};
 use visitors::type_usage;
 
 use crate::diagnostic::{DtsIssue, SourceRange};
@@ -288,7 +290,6 @@ impl FastDts {
     }
 
     fn report_error_for_expando_function_in_module(&mut self, items: &[ModuleItem]) {
-        // TODO: Avoid clone
         let used_ids = self.used_ids.clone();
         let mut assignable_properties_for_namespace = HashMap::<&str, HashSet<Atom>>::new();
         let mut collector = ExpandoFunctionCollector::new(&used_ids);
@@ -398,7 +399,9 @@ impl FastDts {
                             && !assignable_properties_for_namespace
                                 .get(ident.sym.as_str())
                                 .map_or(false, |properties| {
-                                    Self::static_member_prop(&member_expr.prop)
+                                    member_expr
+                                        .prop
+                                        .static_name()
                                         .map_or(false, |name| properties.contains(name))
                                 })
                         {
@@ -412,7 +415,6 @@ impl FastDts {
     }
 
     fn report_error_for_expando_function_in_script(&mut self, stmts: &[Stmt]) {
-        // TODO: Avoid clone
         let used_ids = self.used_ids.clone();
         let mut collector = ExpandoFunctionCollector::new(&used_ids);
         for stmt in stmts {

@@ -1,11 +1,7 @@
-use std::collections::HashSet;
+use std::borrow::Cow;
 
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::{
-    BindingIdent, FnDecl, FnExpr, Id, ObjectPatProp, Pat, TsKeywordType, TsKeywordTypeKind, TsLit,
-    TsLitType, TsType, TsTypeAnn, VarDecl,
-};
+use swc_ecma_ast::{BindingIdent, Expr, Lit, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn};
 
 pub trait PatExt {
     fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
@@ -70,75 +66,54 @@ impl PatExt for Pat {
     }
 }
 
-pub fn any_type_ann() -> Box<TsTypeAnn> {
-    type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
+pub trait PropNameExit {
+    fn static_name(&self) -> Option<Cow<str>>;
 }
 
-pub fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
-    Box::new(TsTypeAnn {
-        span: DUMMY_SP,
-        type_ann: ts_type,
-    })
-}
-
-pub fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
-    Box::new(TsType::TsKeywordType(TsKeywordType {
-        span: DUMMY_SP,
-        kind,
-    }))
-}
-
-pub fn ts_lit_type(lit: TsLit) -> Box<TsType> {
-    Box::new(TsType::TsLitType(TsLitType {
-        span: DUMMY_SP,
-        lit,
-    }))
-}
-
-pub(crate) struct ExpandoFunctionCollector<'a> {
-    declared_function_names: HashSet<Atom>,
-    used_ids: &'a HashSet<Id>,
-}
-
-impl<'a> ExpandoFunctionCollector<'a> {
-    pub(crate) fn new(used_ids: &'a HashSet<Id>) -> Self {
-        Self {
-            declared_function_names: HashSet::new(),
-            used_ids,
+impl PropNameExit for PropName {
+    fn static_name(&self) -> Option<Cow<str>> {
+        match self {
+            PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
+            PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
+            PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
+            PropName::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
+                Expr::Lit(lit) => match lit {
+                    Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+                    Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
+                    Lit::Null(_) => Some(Cow::Borrowed("null")),
+                    Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
+                    Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
+                    Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
+                    Lit::JSXText(_) => None,
+                },
+                Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
+                    .quasis
+                    .first()
+                    .and_then(|e| e.cooked.as_ref())
+                    .map(|atom| Cow::Borrowed(atom.as_str())),
+                _ => None,
+            },
         }
     }
+}
 
-    pub(crate) fn add_fn_expr(&mut self, fn_expr: &FnExpr) {
-        if let Some(ident) = fn_expr.ident.as_ref() {
-            self.declared_function_names.insert(ident.sym.clone());
-        }
-    }
+pub trait MemberPropExt {
+    fn static_name(&self) -> Option<&Atom>;
+}
 
-    pub(crate) fn add_fn_decl(&mut self, fn_decl: &FnDecl, check_binding: bool) {
-        if !check_binding || self.used_ids.contains(&fn_decl.ident.to_id()) {
-            self.declared_function_names
-                .insert(fn_decl.ident.sym.clone());
-        }
-    }
-
-    pub(crate) fn add_var_decl(&mut self, var_decl: &VarDecl, check_binding: bool) {
-        for decl in &var_decl.decls {
-            if decl
-                .name
-                .get_type_ann()
-                .as_ref()
-                .is_some_and(|type_ann| type_ann.type_ann.is_ts_fn_or_constructor_type())
-            {
-                if let Some(name) = decl.name.as_ident() {
-                    if !check_binding || self.used_ids.contains(&name.to_id()) {
-                        self.declared_function_names.insert(name.sym.clone());
-                    }
+impl MemberPropExt for MemberProp {
+    fn static_name(&self) -> Option<&Atom> {
+        match self {
+            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
+            MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
+                Expr::Lit(Lit::Str(s)) => Some(&s.value),
+                Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
+                    Some(&tpl.quasis[0].raw)
                 }
-            }
+                _ => None,
+            },
+            MemberProp::PrivateName(_) => None,
         }
-    }
-
-    pub(crate) fn contains(&self, name: &Atom) -> bool {
-        self.declared_function_names.contains(name)
     }
 }

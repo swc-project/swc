@@ -9,7 +9,7 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::{any_type_ann, ts_keyword_type},
+    util::types::{any_type_ann, ts_keyword_type},
     FastDts,
 };
 
@@ -241,7 +241,7 @@ impl FastDts {
     }
 }
 
-pub fn is_maybe_undefined(ts_type: &TsType) -> bool {
+fn is_maybe_undefined(ts_type: &TsType) -> bool {
     match ts_type {
         TsType::TsKeywordType(keyword_type) => matches!(
             keyword_type.kind,

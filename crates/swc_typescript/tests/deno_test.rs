@@ -283,7 +283,6 @@ fn dts_as_const() {
 };"#,
     );
 
-    // TODO: Requires type resolving
     transform_dts_test(
         r#"export const foo = { bar } as const;"#,
         r#"export declare const foo: {
@@ -419,8 +418,6 @@ fn dts_enum_export() {
     B = "bar"
 }"#,
     );
-
-    // TODO: Enum rules https://www.typescriptlang.org/docs/handbook/enums.html
 }
 
 #[test]

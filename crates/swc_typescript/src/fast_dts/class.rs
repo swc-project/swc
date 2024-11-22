@@ -1,4 +1,4 @@
-use std::{borrow::Cow, collections::HashMap};
+use std::collections::HashMap;
 
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
@@ -7,7 +7,11 @@ use swc_ecma_ast::{
     TsTypeAnn,
 };
 
-use super::{type_ann, util::PatExt, FastDts};
+use super::{
+    type_ann,
+    util::ast_ext::{PatExt, PropNameExit},
+    FastDts,
+};
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
@@ -175,7 +179,7 @@ impl FastDts {
                             } else {
                                 method.function.params.truncate(1);
                                 let param = method.function.params.first_mut().unwrap();
-                                let static_name = Self::static_name(&method.key);
+                                let static_name = method.key.static_name();
 
                                 if let Some(type_ann) = static_name
                                     .and_then(|name| setter_getter_annotations.get(name.as_ref()))
@@ -197,7 +201,9 @@ impl FastDts {
                         MethodKind::Getter => {
                             self.transform_fn_return_type(&mut method.function);
                             if method.function.return_type.is_none() {
-                                method.function.return_type = Self::static_name(&method.key)
+                                method.function.return_type = method
+                                    .key
+                                    .static_name()
                                     .and_then(|name| setter_getter_annotations.get(name.as_ref()))
                                     .cloned();
                             }
@@ -486,8 +492,7 @@ impl FastDts {
                 continue;
             }
 
-            let Some(static_name) = Self::static_name(&method.key).map(|name| name.to_string())
-            else {
+            let Some(static_name) = method.key.static_name().map(|name| name.to_string()) else {
                 continue;
             };
 
@@ -527,31 +532,5 @@ impl FastDts {
             return !is_literal;
         }
         false
-    }
-
-    pub(crate) fn static_name(prop_name: &PropName) -> Option<Cow<str>> {
-        match prop_name {
-            PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
-            PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
-            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
-            PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
-            PropName::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(lit) => match lit {
-                    Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
-                    Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
-                    Lit::Null(_) => Some(Cow::Borrowed("null")),
-                    Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
-                    Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
-                    Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
-                    Lit::JSXText(_) => None,
-                },
-                Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
-                    .quasis
-                    .first()
-                    .and_then(|e| e.cooked.as_ref())
-                    .map(|atom| Cow::Borrowed(atom.as_str())),
-                _ => None,
-            },
-        }
     }
 }
