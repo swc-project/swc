@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
 use swc_ecma_ast::{
-    Class, ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem, NamedExport, Script,
-    TsEntityName, TsExprWithTypeArgs,
+    Class, Decl, ExportDecl, ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem,
+    NamedExport, Script, TsEntityName, TsExprWithTypeArgs,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -47,6 +47,7 @@ impl Visit for TypeUsageAnalyzer {
                 self.used_ids.insert(ident.to_id());
             }
         };
+        node.visit_children_with(self);
     }
 
     fn visit_named_export(&mut self, node: &NamedExport) {
@@ -57,12 +58,54 @@ impl Visit for TypeUsageAnalyzer {
                 }
             }
         }
+        node.visit_children_with(self);
+    }
+
+    fn visit_export_decl(&mut self, node: &ExportDecl) {
+        match &node.decl {
+            Decl::Class(class_decl) => {
+                self.used_ids.insert(class_decl.ident.to_id());
+            }
+            Decl::Fn(fn_decl) => {
+                self.used_ids.insert(fn_decl.ident.to_id());
+            }
+            Decl::Var(var_decl) => {
+                for decl in &var_decl.decls {
+                    if let Some(name) = decl.name.as_ident() {
+                        self.used_ids.insert(name.to_id());
+                    }
+                }
+            }
+            Decl::Using(using_decl) => {
+                for decl in &using_decl.decls {
+                    if let Some(name) = decl.name.as_ident() {
+                        self.used_ids.insert(name.to_id());
+                    }
+                }
+            }
+            Decl::TsInterface(ts_interface_decl) => {
+                self.used_ids.insert(ts_interface_decl.id.to_id());
+            }
+            Decl::TsTypeAlias(ts_type_alias_decl) => {
+                self.used_ids.insert(ts_type_alias_decl.id.to_id());
+            }
+            Decl::TsEnum(ts_enum_decl) => {
+                self.used_ids.insert(ts_enum_decl.id.to_id());
+            }
+            Decl::TsModule(ts_module_decl) => {
+                if let Some(name) = ts_module_decl.id.as_ident() {
+                    self.used_ids.insert(name.to_id());
+                }
+            }
+        };
+        node.visit_children_with(self);
     }
 
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         if let Some(ident) = node.expr.as_ident() {
             self.used_ids.insert(ident.to_id());
         }
+        node.visit_children_with(self);
     }
 
     fn visit_function(&mut self, node: &Function) {

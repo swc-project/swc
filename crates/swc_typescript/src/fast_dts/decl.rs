@@ -51,7 +51,7 @@ impl FastDts {
                     {
                         return;
                     }
-                    self.transform_variables_declarator(var.kind, decl);
+                    self.transform_variables_declarator(var.kind, decl, check_binding);
                 }
             }
             Decl::Using(using) => {
@@ -63,7 +63,7 @@ impl FastDts {
                     {
                         return;
                     }
-                    self.transform_variables_declarator(VarDeclKind::Const, decl);
+                    self.transform_variables_declarator(VarDeclKind::Const, decl, check_binding);
                 }
             }
             Decl::TsEnum(ts_enum) => {
@@ -104,6 +104,7 @@ impl FastDts {
         &mut self,
         kind: VarDeclKind,
         decl: &mut VarDeclarator,
+        check_binding: bool,
     ) {
         let pat = match &decl.name {
             Pat::Assign(assign_pat) => &assign_pat.left,
@@ -111,7 +112,11 @@ impl FastDts {
         };
 
         if matches!(pat, Pat::Array(_) | Pat::Object(_)) {
-            self.binding_element_export(decl.name.span());
+            pat.bound_names(&mut |ident| {
+                if !check_binding || self.analyzer.used_ids().contains(&ident.to_id()) {
+                    self.binding_element_export(ident.span);
+                }
+            });
             return;
         }
 

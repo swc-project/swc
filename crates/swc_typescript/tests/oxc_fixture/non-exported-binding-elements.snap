@@ -1,0 +1,31 @@
+```==================== .D.TS ====================
+
+declare const [A, B] = [
+    1,
+    2,
+    3
+];
+export declare function foo(): number;
+declare const { c, d } = {
+    c: 1,
+    d: 2
+};
+declare const [e] = [
+    4
+];
+export { c, d, e };
+export declare const { f, g } = {
+    f: 5,
+    g: 6
+};
+
+
+==================== Errors ====================
+non-exported-binding-elements.ts(108..109) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+non-exported-binding-elements.ts(111..112) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+non-exported-binding-elements.ts(141..142) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+non-exported-binding-elements.ts(187..188) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+non-exported-binding-elements.ts(190..191) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+
+
+```
