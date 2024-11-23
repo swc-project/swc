@@ -7,7 +7,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     Class, Decl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, Function, Id, Ident,
-    ModuleExportName, ModuleItem, NamedExport, Program, Script, TsEntityName, TsExportAssignment,
+    ModuleExportName, ModuleItem, NamedExport, TsEntityName, TsExportAssignment,
     TsExprWithTypeArgs,
 };
 use swc_ecma_visit::{Visit, VisitWith};
@@ -23,7 +23,7 @@ pub struct TypeUsageAnalyzer<'a> {
 
 impl TypeUsageAnalyzer<'_> {
     pub fn analyze(
-        program: &Program,
+        module_items: &Vec<ModuleItem>,
         internal_annotations: Option<&FxHashSet<BytePos>>,
     ) -> FxHashSet<Id> {
         // Create a fake entry
@@ -37,7 +37,7 @@ impl TypeUsageAnalyzer<'_> {
             source: None,
             internal_annotations,
         };
-        program.visit_with(&mut analyzer);
+        module_items.visit_with(&mut analyzer);
 
         // Reachability
         let mut used_ids = FxHashSet::default();
@@ -236,22 +236,6 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 continue;
             }
             item.visit_children_with(self);
-        }
-    }
-
-    fn visit_script(&mut self, node: &Script) {
-        for stmt in &node.body {
-            // Skip statements
-            if !stmt.is_decl()
-                || self
-                    .internal_annotations
-                    .map_or(false, |internal_annotations| {
-                        internal_annotations.contains(&stmt.span_lo())
-                    })
-            {
-                continue;
-            }
-            stmt.visit_children_with(self);
         }
     }
 }

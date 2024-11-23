@@ -78,10 +78,6 @@ impl FastDts {
 
 impl FastDts {
     pub fn transform(&mut self, program: &mut Program) -> Vec<DtsIssue> {
-        self.used_ids.extend(TypeUsageAnalyzer::analyze(
-            program,
-            self.internal_annotations.as_ref(),
-        ));
         match program {
             Program::Module(module) => self.transform_module_body(&mut module.body, false),
             Program::Script(script) => self.transform_script(script),
@@ -94,11 +90,17 @@ impl FastDts {
         items: &mut Vec<ModuleItem>,
         in_global_or_lit_module: bool,
     ) {
-        // 1. Transform.
+        // 1. Analyze usage
+        self.used_ids.extend(TypeUsageAnalyzer::analyze(
+            items,
+            self.internal_annotations.as_ref(),
+        ));
+
+        // 2. Transform.
         Self::remove_function_overloads_in_module(items);
         self.transform_module_items(items);
 
-        // 2. Strip export keywords in ts module blocks
+        // 3. Strip export keywords in ts module blocks
         for item in items.iter_mut() {
             if let Some(Stmt::Decl(Decl::TsModule(ts_module))) = item.as_mut_stmt() {
                 if ts_module.global || !ts_module.id.is_str() {
@@ -115,7 +117,7 @@ impl FastDts {
             }
         }
 
-        // 3. Report error for expando function and remove statements.
+        // 4. Report error for expando function and remove statements.
         self.report_error_for_expando_function_in_module(items);
         items.retain(|item| {
             item.as_stmt()
@@ -123,10 +125,10 @@ impl FastDts {
                 .unwrap_or(true)
         });
 
-        // 4. Remove unused imports and decls
+        // 5. Remove unused imports and decls
         self.remove_ununsed(items, in_global_or_lit_module);
 
-        // 5. Add empty export mark if there's any declaration that is used but not
+        // 6. Add empty export mark if there's any declaration that is used but not
         // exported to keep its privacy.
         let mut has_non_exported_stmt = false;
         let mut has_export = false;
@@ -416,8 +418,8 @@ impl FastDts {
         for stmt in stmts {
             match stmt {
                 Stmt::Decl(decl) => match decl {
-                    Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, true),
-                    Decl::Var(var_decl) => collector.add_var_decl(var_decl, true),
+                    Decl::Fn(fn_decl) => collector.add_fn_decl(fn_decl, false),
+                    Decl::Var(var_decl) => collector.add_var_decl(var_decl, false),
                     _ => (),
                 },
                 Stmt::Expr(expr_stmt) => {
