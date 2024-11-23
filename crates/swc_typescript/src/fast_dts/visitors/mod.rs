@@ -1,2 +1,2 @@
-pub mod internal_annotation;
-pub mod type_usage;
+pub(crate) mod internal_annotation;
+pub(crate) mod type_usage;

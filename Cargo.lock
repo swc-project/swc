@@ -5517,6 +5517,7 @@ dependencies = [
 name = "swc_typescript"
 version = "4.0.0"
 dependencies = [
+ "petgraph",
  "rustc-hash",
  "swc_atoms",
  "swc_common",

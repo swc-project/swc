@@ -9,6 +9,7 @@ repository    = { workspace = true }
 version       = "4.0.0"
 
 [dependencies]
+petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 thiserror  = { workspace = true }
 
