@@ -485,7 +485,7 @@ impl FastDts {
                 Decl::TsTypeAlias(ts_type_alias_decl) => {
                     used_ids.contains(&ts_type_alias_decl.id.to_id())
                 }
-                Decl::TsEnum(_) => true,
+                Decl::TsEnum(ts_enum) => used_ids.contains(&ts_enum.id.to_id()),
                 Decl::TsModule(ts_module_decl) => {
                     ts_module_decl.global
                         || ts_module_decl.id.is_str()
@@ -513,6 +513,9 @@ impl FastDts {
                 });
 
                 !import_decl.specifiers.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals)) => {
+                used_ids.contains(&ts_import_equals.id.to_id())
             }
             _ => true,
         });
