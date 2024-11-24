@@ -107,7 +107,7 @@ impl FastDts {
                                 accessibility == Accessibility::Private
                             }) {
                                 class.body.push(ClassMember::ClassProp(ClassProp {
-                                    span: DUMMY_SP,
+                                    span: method.span,
                                     key: method.key.clone(),
                                     value: None,
                                     type_ann: None,

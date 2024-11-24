@@ -1,9 +1,12 @@
 ```==================== .D.TS ====================
 
+// Correct
 declare function generatorGood(): Generator<number>;
 declare class GeneratorClassGood {
     method(): Generator<number>;
 }
+// Need to explicit return type for async functions
+// Incorrect
 declare function generatorBad();
 declare class GeneratorClassBad {
     method();
@@ -11,8 +14,20 @@ declare class GeneratorClassBad {
 
 
 ==================== Errors ====================
-generator.ts(234..246) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
-generator.ts(308..314) TS9008: Method must have an explicit return type annotation with --isolatedDeclarations.
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/generator.ts:15:1]
+ 14 | // Incorrect
+ 15 | function *generatorBad() {
+    :           ^^^^^^^^^^^^
+ 16 |   yield 50;
+    `----
+  x TS9008: Method must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/generator.ts:21:1]
+ 20 | class GeneratorClassBad {
+ 21 |   *method() {
+    :    ^^^^^^
+ 22 |     yield 50;
+    `----
 
 
 ```

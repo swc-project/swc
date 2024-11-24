@@ -16,12 +16,12 @@ export declare abstract class Qux {
     baz(): void;
 }
 export declare class Baz {
-    readonly prop1 = "some string";
-    prop2: string;
-    private prop3;
-    private prop4;
-    private static prop5;
-    private static prop6;
+    /** Just a comment */ readonly prop1 = "some string";
+    /** Just a comment */ prop2: string;
+    /** Just a comment */ private prop3;
+    /** Just a comment */ private prop4;
+    /** Just a comment */ private static prop5;
+    /** Just a comment */ private static prop6;
 }
 export declare class Boo {
     readonly prop: number;
@@ -53,7 +53,13 @@ export declare class PublicMethodClass {
 
 
 ==================== Errors ====================
-class.ts(1280..1281) TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/class.ts:67:1]
+ 66 | export class PublicMethodClass {
+ 67 |   public bad(a): void {}
+    :              ^
+ 68 |   public get badGetter() {
+    `----
 
 
 ```

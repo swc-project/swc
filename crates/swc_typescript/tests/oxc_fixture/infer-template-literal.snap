@@ -12,8 +12,18 @@ export declare let BAD2: any;
 
 
 ==================== Errors ====================
-infer-template-literal.ts(196..199) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
-infer-template-literal.ts(231..235) TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-template-literal.ts:12:1]
+ 11 | 
+ 12 | export const BAD = `useCssV${v}ars`
+    :              ^^^
+    `----
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-template-literal.ts:14:1]
+ 13 | 
+ 14 | export let BAD2 = `useCssV${v}ars` as const
+    :            ^^^^
+    `----
 
 
 ```

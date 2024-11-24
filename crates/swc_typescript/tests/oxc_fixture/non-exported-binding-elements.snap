@@ -1,11 +1,13 @@
 ```==================== .D.TS ====================
 
+// Correct
 declare const [A, B] = [
     1,
     2,
     3
 ];
 export declare function foo(): number;
+// Incorrect
 declare const { c, d } = {
     c: 1,
     d: 2
@@ -21,11 +23,39 @@ export declare const { f, g } = {
 
 
 ==================== Errors ====================
-non-exported-binding-elements.ts(108..109) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
-non-exported-binding-elements.ts(111..112) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
-non-exported-binding-elements.ts(141..142) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
-non-exported-binding-elements.ts(187..188) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
-non-exported-binding-elements.ts(190..191) TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:8:1]
+ 7 | // Incorrect
+ 8 | const { c, d } = { c: 1, d: 2 };
+   :         ^
+ 9 | const [ e ] = [4];
+   `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:8:1]
+ 7 | // Incorrect
+ 8 | const { c, d } = { c: 1, d: 2 };
+   :            ^
+ 9 | const [ e ] = [4];
+   `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:9:1]
+  8 | const { c, d } = { c: 1, d: 2 };
+  9 | const [ e ] = [4];
+    :         ^
+ 10 | export { c, d, e }
+    `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:12:1]
+ 11 | 
+ 12 | export const { f, g } = { f: 5, g: 6 };
+    :                ^
+    `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:12:1]
+ 11 | 
+ 12 | export const { f, g } = { f: 5, g: 6 };
+    :                   ^
+    `----
 
 
 ```

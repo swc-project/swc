@@ -8,9 +8,25 @@ declare const E: () => (() => void) | undefined;
 
 
 ==================== Errors ====================
-arrow-function-return-type.ts(25..32) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
-arrow-function-return-type.ts(64..71) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
-arrow-function-return-type.ts(95..107) TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:2:1]
+ 1 | function A() {
+ 2 |   return () => {
+   :          ^^^^^^^
+ 3 |     return C;
+   `----
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:7:1]
+ 6 | 
+ 7 | const B = () => { return B };
+   :           ^^^^^^^
+   `----
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:9:1]
+ 8 | 
+ 9 | const C = function () {}
+   :           ^^^^^^^^^^^^
+   `----
 
 
 ```
