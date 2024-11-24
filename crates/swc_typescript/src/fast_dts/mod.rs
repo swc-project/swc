@@ -464,7 +464,7 @@ impl FastDts {
                         if let Some(ident) = decl.name.as_ident() {
                             used_ids.contains(&ident.to_id())
                         } else {
-                            true
+                            false
                         }
                     });
                     !var_decl.decls.is_empty()
@@ -474,7 +474,7 @@ impl FastDts {
                         if let Some(ident) = decl.name.as_ident() {
                             used_ids.contains(&ident.to_id())
                         } else {
-                            true
+                            false
                         }
                     });
                     !using_decl.decls.is_empty()
