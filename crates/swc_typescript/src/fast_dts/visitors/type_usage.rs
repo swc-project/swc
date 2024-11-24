@@ -6,9 +6,9 @@ use petgraph::{
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    Class, Decl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, Function, Id, Ident,
-    ModuleExportName, ModuleItem, NamedExport, TsEntityName, TsExportAssignment,
-    TsExprWithTypeArgs,
+    Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr, Function, Id,
+    Ident, ModuleExportName, ModuleItem, NamedExport, TsEntityName, TsExportAssignment,
+    TsExprWithTypeArgs, TsPropertySignature, TsTypeElement,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -17,6 +17,8 @@ pub struct TypeUsageAnalyzer<'a> {
     nodes: FxHashMap<Id, NodeIndex>,
     // Global scope + nested ts module block scope
     scope_entries: Vec<NodeIndex>,
+    // We will only consider referred nodes and ignore binding nodes
+    references: FxHashSet<NodeIndex>,
     source: Option<NodeIndex>,
     internal_annotations: Option<&'a FxHashSet<BytePos>>,
 }
@@ -34,19 +36,22 @@ impl TypeUsageAnalyzer<'_> {
             graph,
             nodes: FxHashMap::default(),
             scope_entries: vec![entry],
+            references: FxHashSet::default(),
             source: None,
             internal_annotations,
         };
         module_items.visit_with(&mut analyzer);
 
         // Reachability
-        let mut used_ids = FxHashSet::default();
+        let mut used_refs = FxHashSet::default();
         let mut bfs = Bfs::new(&analyzer.graph, entry);
         bfs.next(&analyzer.graph);
         while let Some(node_id) = bfs.next(&analyzer.graph) {
-            used_ids.insert(analyzer.graph[node_id].clone());
+            if analyzer.references.contains(&node_id) {
+                used_refs.insert(analyzer.graph[node_id].clone());
+            }
         }
-        used_ids
+        used_refs
     }
 
     pub fn with_source<F: FnMut(&mut TypeUsageAnalyzer)>(
@@ -63,7 +68,7 @@ impl TypeUsageAnalyzer<'_> {
     }
 
     pub fn with_source_ident<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, ident: &Ident, f: F) {
-        self.add_reference(ident.to_id());
+        self.add_edge(ident.to_id(), false);
         let id = *self
             .nodes
             .entry(ident.to_id())
@@ -71,30 +76,38 @@ impl TypeUsageAnalyzer<'_> {
         self.with_source(Some(id), f);
     }
 
-    pub fn add_reference(&mut self, reference: Id) {
+    pub fn add_edge(&mut self, reference: Id, is_ref: bool) {
         if let Some(source) = self.source {
-            let target_id = self
+            let target_id = *self
                 .nodes
                 .entry(reference.clone())
                 .or_insert_with(|| self.graph.add_node(reference));
-            self.graph.add_edge(source, *target_id, ());
+            self.graph.add_edge(source, target_id, ());
+            if is_ref {
+                self.references.insert(target_id);
+            }
         }
+    }
+
+    fn has_internal_annotation(&self, pos: BytePos) -> bool {
+        if let Some(internal_annotations) = &self.internal_annotations {
+            return internal_annotations.contains(&pos);
+        }
+        false
     }
 }
 
 impl Visit for TypeUsageAnalyzer<'_> {
-    fn visit_class(&mut self, node: &Class) {
-        if let Some(super_class) = &node.super_class {
-            if let Some(ident) = super_class.as_ident() {
-                self.add_reference(ident.to_id());
-            }
+    fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
+        if let Some(ident) = node.key.as_ident() {
+            self.add_edge(ident.to_id(), true);
         }
         node.visit_children_with(self);
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
         if let Some(ident) = node.expr.as_ident() {
-            self.add_reference(ident.to_id());
+            self.add_edge(ident.to_id(), true);
         }
         node.visit_children_with(self);
     }
@@ -105,7 +118,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 ts_qualified_name.left.visit_with(self);
             }
             TsEntityName::Ident(ident) => {
-                self.add_reference(ident.to_id());
+                self.add_edge(ident.to_id(), true);
             }
         };
     }
@@ -161,7 +174,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 } else if let Some(ident) = ts_module_decl.id.as_ident() {
                     // Push a new scope and set current scope to None, which indicates that
                     // non-exported elements in ts module block are unreachable
-                    self.add_reference(ident.to_id());
+                    self.add_edge(ident.to_id(), false);
                     let id = *self
                         .nodes
                         .entry(ident.to_id())
@@ -187,7 +200,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
             for specifier in &node.specifiers {
                 if let Some(name) = specifier.as_named() {
                     if let ModuleExportName::Ident(ident) = &name.orig {
-                        this.add_reference(ident.to_id());
+                        this.add_edge(ident.to_id(), true);
                     }
                 }
             }
@@ -203,7 +216,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         self.with_source(self.source, |this| {
             if let Some(ident) = node.expr.as_ident() {
-                this.add_reference(ident.to_id());
+                this.add_edge(ident.to_id(), true);
             }
             node.visit_children_with(this);
         });
@@ -218,21 +231,40 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_function(&mut self, node: &Function) {
         // Skip body
         node.params.visit_with(self);
+        node.decorators.visit_with(self);
         node.type_params.visit_with(self);
         node.return_type.visit_with(self);
     }
 
+    fn visit_class(&mut self, node: &Class) {
+        if let Some(super_class) = &node.super_class {
+            if let Some(ident) = super_class.as_ident() {
+                self.add_edge(ident.to_id(), true);
+            }
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_member(&mut self, node: &ClassMember) {
+        if self.has_internal_annotation(node.span_lo()) {
+            return;
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_ts_type_element(&mut self, node: &TsTypeElement) {
+        if self.has_internal_annotation(node.span_lo()) {
+            return;
+        }
+        node.visit_children_with(self);
+    }
+
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
         for item in node {
-            // Skip statements
-            if item.as_stmt().map_or(false, |stmt| {
-                !stmt.is_decl()
-                    || self
-                        .internal_annotations
-                        .map_or(false, |internal_annotations| {
-                            internal_annotations.contains(&stmt.span_lo())
-                        })
-            }) {
+            // Skip statements and internals
+            if item.as_stmt().map_or(false, |stmt| !stmt.is_decl())
+                || self.has_internal_annotation(item.span_lo())
+            {
                 continue;
             }
             item.visit_children_with(self);

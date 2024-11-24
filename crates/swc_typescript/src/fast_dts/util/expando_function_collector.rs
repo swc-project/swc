@@ -6,14 +6,14 @@ use super::ast_ext::PatExt;
 
 pub(crate) struct ExpandoFunctionCollector<'a> {
     declared_function_names: FxHashSet<Atom>,
-    used_ids: &'a FxHashSet<Id>,
+    used_refs: &'a FxHashSet<Id>,
 }
 
 impl<'a> ExpandoFunctionCollector<'a> {
-    pub(crate) fn new(used_ids: &'a FxHashSet<Id>) -> Self {
+    pub(crate) fn new(used_refs: &'a FxHashSet<Id>) -> Self {
         Self {
             declared_function_names: FxHashSet::default(),
-            used_ids,
+            used_refs,
         }
     }
 
@@ -24,7 +24,7 @@ impl<'a> ExpandoFunctionCollector<'a> {
     }
 
     pub(crate) fn add_fn_decl(&mut self, fn_decl: &FnDecl, check_binding: bool) {
-        if !check_binding || self.used_ids.contains(&fn_decl.ident.to_id()) {
+        if !check_binding || self.used_refs.contains(&fn_decl.ident.to_id()) {
             self.declared_function_names
                 .insert(fn_decl.ident.sym.clone());
         }
@@ -39,7 +39,7 @@ impl<'a> ExpandoFunctionCollector<'a> {
                 .is_some_and(|type_ann| type_ann.type_ann.is_ts_fn_or_constructor_type())
             {
                 if let Some(name) = decl.name.as_ident() {
-                    if !check_binding || self.used_ids.contains(&name.to_id()) {
+                    if !check_binding || self.used_refs.contains(&name.to_id()) {
                         self.declared_function_names.insert(name.sym.clone());
                     }
                 }

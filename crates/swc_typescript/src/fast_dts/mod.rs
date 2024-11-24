@@ -42,7 +42,7 @@ pub struct FastDts {
     // states
     id_counter: u32,
     is_top_level: bool,
-    used_ids: FxHashSet<Id>,
+    used_refs: FxHashSet<Id>,
     internal_annotations: Option<FxHashSet<BytePos>>,
 }
 
@@ -60,7 +60,7 @@ impl FastDts {
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,
-            used_ids: FxHashSet::default(),
+            used_refs: FxHashSet::default(),
             internal_annotations,
         }
     }
@@ -91,7 +91,7 @@ impl FastDts {
         in_global_or_lit_module: bool,
     ) {
         // 1. Analyze usage
-        self.used_ids.extend(TypeUsageAnalyzer::analyze(
+        self.used_refs.extend(TypeUsageAnalyzer::analyze(
             items,
             self.internal_annotations.as_ref(),
         ));
@@ -238,7 +238,7 @@ impl FastDts {
 
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
                     let type_ann = self.infer_type_from_expr(expr).map(type_ann);
-                    self.used_ids.insert(name_ident.to_id());
+                    self.used_refs.insert(name_ident.to_id());
 
                     if type_ann.is_none() {
                         self.default_export_inferred(expr.span());
@@ -288,9 +288,9 @@ impl FastDts {
     }
 
     fn report_error_for_expando_function_in_module(&mut self, items: &[ModuleItem]) {
-        let used_ids = self.used_ids.clone();
+        let used_refs = self.used_refs.clone();
         let mut assignable_properties_for_namespace = FxHashMap::<&str, FxHashSet<Atom>>::default();
-        let mut collector = ExpandoFunctionCollector::new(&used_ids);
+        let mut collector = ExpandoFunctionCollector::new(&used_refs);
 
         for item in items {
             let decl = match item {
@@ -413,8 +413,8 @@ impl FastDts {
     }
 
     fn report_error_for_expando_function_in_script(&mut self, stmts: &[Stmt]) {
-        let used_ids = self.used_ids.clone();
-        let mut collector = ExpandoFunctionCollector::new(&used_ids);
+        let used_refs = self.used_refs.clone();
+        let mut collector = ExpandoFunctionCollector::new(&used_refs);
         for stmt in stmts {
             match stmt {
                 Stmt::Decl(decl) => match decl {
@@ -454,15 +454,15 @@ impl FastDts {
     }
 
     fn remove_ununsed(&self, items: &mut Vec<ModuleItem>, in_global_or_lit_module: bool) {
-        let used_ids = &self.used_ids;
+        let used_refs = &self.used_refs;
         items.retain_mut(|node| match node {
             ModuleItem::Stmt(Stmt::Decl(decl)) if !in_global_or_lit_module => match decl {
-                Decl::Class(class_decl) => used_ids.contains(&class_decl.ident.to_id()),
-                Decl::Fn(fn_decl) => used_ids.contains(&fn_decl.ident.to_id()),
+                Decl::Class(class_decl) => used_refs.contains(&class_decl.ident.to_id()),
+                Decl::Fn(fn_decl) => used_refs.contains(&fn_decl.ident.to_id()),
                 Decl::Var(var_decl) => {
                     var_decl.decls.retain(|decl| {
                         if let Some(ident) = decl.name.as_ident() {
-                            used_ids.contains(&ident.to_id())
+                            used_refs.contains(&ident.to_id())
                         } else {
                             false
                         }
@@ -472,7 +472,7 @@ impl FastDts {
                 Decl::Using(using_decl) => {
                     using_decl.decls.retain(|decl| {
                         if let Some(ident) = decl.name.as_ident() {
-                            used_ids.contains(&ident.to_id())
+                            used_refs.contains(&ident.to_id())
                         } else {
                             false
                         }
@@ -480,19 +480,19 @@ impl FastDts {
                     !using_decl.decls.is_empty()
                 }
                 Decl::TsInterface(ts_interface_decl) => {
-                    used_ids.contains(&ts_interface_decl.id.to_id())
+                    used_refs.contains(&ts_interface_decl.id.to_id())
                 }
                 Decl::TsTypeAlias(ts_type_alias_decl) => {
-                    used_ids.contains(&ts_type_alias_decl.id.to_id())
+                    used_refs.contains(&ts_type_alias_decl.id.to_id())
                 }
-                Decl::TsEnum(ts_enum) => used_ids.contains(&ts_enum.id.to_id()),
+                Decl::TsEnum(ts_enum) => used_refs.contains(&ts_enum.id.to_id()),
                 Decl::TsModule(ts_module_decl) => {
                     ts_module_decl.global
                         || ts_module_decl.id.is_str()
                         || ts_module_decl
                             .id
                             .as_ident()
-                            .map_or(true, |ident| used_ids.contains(&ident.to_id()))
+                            .map_or(true, |ident| used_refs.contains(&ident.to_id()))
                 }
             },
             ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
@@ -502,20 +502,20 @@ impl FastDts {
 
                 import_decl.specifiers.retain(|specifier| match specifier {
                     ImportSpecifier::Named(specifier) => {
-                        used_ids.contains(&specifier.local.to_id())
+                        used_refs.contains(&specifier.local.to_id())
                     }
                     ImportSpecifier::Default(specifier) => {
-                        used_ids.contains(&specifier.local.to_id())
+                        used_refs.contains(&specifier.local.to_id())
                     }
                     ImportSpecifier::Namespace(specifier) => {
-                        used_ids.contains(&specifier.local.to_id())
+                        used_refs.contains(&specifier.local.to_id())
                     }
                 });
 
                 !import_decl.specifiers.is_empty()
             }
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals)) => {
-                used_ids.contains(&ts_import_equals.id.to_id())
+                used_refs.contains(&ts_import_equals.id.to_id())
             }
             _ => true,
         });

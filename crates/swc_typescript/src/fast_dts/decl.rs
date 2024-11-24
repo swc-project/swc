@@ -20,7 +20,7 @@ impl FastDts {
                     return;
                 }
 
-                if check_binding && !self.used_ids.contains(&class_decl.ident.to_id()) {
+                if check_binding && !self.used_refs.contains(&class_decl.ident.to_id()) {
                     return;
                 }
 
@@ -32,7 +32,7 @@ impl FastDts {
                     return;
                 }
 
-                if check_binding && !self.used_ids.contains(&fn_decl.ident.to_id()) {
+                if check_binding && !self.used_refs.contains(&fn_decl.ident.to_id()) {
                     return;
                 }
 
@@ -50,7 +50,7 @@ impl FastDts {
                         && decl
                             .name
                             .as_ident()
-                            .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
+                            .map_or(false, |ident| !self.used_refs.contains(&ident.to_id()))
                     {
                         return;
                     }
@@ -63,7 +63,7 @@ impl FastDts {
                         && decl
                             .name
                             .as_ident()
-                            .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
+                            .map_or(false, |ident| !self.used_refs.contains(&ident.to_id()))
                     {
                         return;
                     }
@@ -72,7 +72,7 @@ impl FastDts {
             }
             Decl::TsEnum(ts_enum) => {
                 ts_enum.declare = is_declare;
-                if check_binding && !self.used_ids.contains(&ts_enum.id.to_id()) {
+                if check_binding && !self.used_refs.contains(&ts_enum.id.to_id()) {
                     return;
                 }
                 self.transform_enum(ts_enum.as_mut());
@@ -88,7 +88,7 @@ impl FastDts {
                     && ts_module
                         .id
                         .as_ident()
-                        .map_or(false, |ident| !self.used_ids.contains(&ident.to_id()))
+                        .map_or(false, |ident| !self.used_refs.contains(&ident.to_id()))
                 {
                     return;
                 }
@@ -124,7 +124,7 @@ impl FastDts {
 
         if matches!(pat, Pat::Array(_) | Pat::Object(_)) {
             pat.bound_names(&mut |ident| {
-                if !check_binding || self.used_ids.contains(&ident.to_id()) {
+                if !check_binding || self.used_refs.contains(&ident.to_id()) {
                     self.binding_element_export(ident.span);
                 }
             });
