@@ -36,7 +36,7 @@ swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "5.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "5.0.1", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
