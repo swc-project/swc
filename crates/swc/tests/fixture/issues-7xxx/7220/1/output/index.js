@@ -14,8 +14,7 @@ var TestClass = /*#__PURE__*/ function() {
     "use strict";
     function TestClass() {
         _class_call_check(this, TestClass);
-        _define_property(this, "calls", []);
-        _initProto(this);
+        _define_property(this, "calls", (_initProto(this), []));
     }
     _create_class(TestClass, [
         {

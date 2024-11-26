@@ -51,7 +51,6 @@ struct ClassState {
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
-    is_init_proto_called: bool,
 
     init_static: Option<Ident>,
     init_static_args: Vec<Option<ExprOrSpread>>,
@@ -718,10 +717,10 @@ impl DecoratorPass {
             }
         }
         body.visit_mut_with(self);
-        c.visit_mut_with(self);
         c.ident = preserved_class_name.clone();
         replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
         c.class.body.extend(body);
+        c.visit_mut_with(self);
         c.class.body.push(ClassMember::StaticBlock(StaticBlock {
             span: DUMMY_SP,
             body: BlockStmt {
@@ -814,23 +813,52 @@ impl VisitMut for DecoratorPass {
 
         n.visit_mut_children_with(self);
 
-        if !self.state.is_init_proto_called {
-            if let Some(init_proto) = self.state.init_proto.clone() {
+        self.consume_inits();
+
+        if let Some(init_proto) = self.state.init_proto.clone() {
+            let init_proto_expr = CallExpr {
+                span: DUMMY_SP,
+                callee: init_proto.clone().as_callee(),
+                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                ..Default::default()
+            };
+            let mut proto_inited = false;
+            for member in n.body.iter_mut() {
+                if let ClassMember::ClassProp(prop) = member {
+                    if prop.is_static {
+                        continue;
+                    }
+                    if let Some(value) = prop.value.clone() {
+                        prop.value = Some(Expr::from_exprs(vec![
+                            init_proto_expr.clone().into(),
+                            value,
+                        ]));
+
+                        proto_inited = true;
+                        break;
+                    }
+                } else if let ClassMember::PrivateProp(prop) = member {
+                    if prop.is_static {
+                        continue;
+                    }
+                    if let Some(value) = prop.value.clone() {
+                        prop.value = Some(Expr::from_exprs(vec![
+                            init_proto_expr.clone().into(),
+                            value,
+                        ]));
+
+                        proto_inited = true;
+                        break;
+                    }
+                }
+            }
+
+            if !proto_inited {
                 let c = self.ensure_constructor(n);
 
-                inject_after_super(
-                    c,
-                    vec![Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: init_proto.as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        ..Default::default()
-                    }))],
-                )
+                inject_after_super(c, vec![Box::new(init_proto_expr.into())])
             }
         }
-
-        self.consume_inits();
 
         if !self.state.extra_stmts.is_empty() {
             n.body.insert(
@@ -847,7 +875,6 @@ impl VisitMut for DecoratorPass {
         }
 
         self.state.init_proto = None;
-        self.state.is_init_proto_called = false;
 
         self.state.extra_stmts = old_stmts;
     }
@@ -1045,29 +1072,6 @@ impl VisitMut for DecoratorPass {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            let init_proto =
-                                if self.state.is_init_proto_called || accessor.is_static {
-                                    None
-                                } else {
-                                    self.state.is_init_proto_called = true;
-
-                                    let init_proto = self
-                                        .state
-                                        .init_proto
-                                        .get_or_insert_with(|| private_ident!("_initProto"))
-                                        .clone();
-
-                                    Some(
-                                        CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: init_proto.clone().as_callee(),
-                                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                            ..Default::default()
-                                        }
-                                        .into(),
-                                    )
-                                };
-
                             let init_call = CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.clone().as_callee(),
@@ -1078,9 +1082,7 @@ impl VisitMut for DecoratorPass {
                             }
                             .into();
 
-                            Some(Expr::from_exprs(
-                                init_proto.into_iter().chain(once(init_call)).collect(),
-                            ))
+                            Some(init_call)
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
