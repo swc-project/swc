@@ -813,8 +813,6 @@ impl VisitMut for DecoratorPass {
 
         n.visit_mut_children_with(self);
 
-        self.consume_inits();
-
         if let Some(init_proto) = self.state.init_proto.clone() {
             let init_proto_expr = CallExpr {
                 span: DUMMY_SP,
@@ -859,6 +857,8 @@ impl VisitMut for DecoratorPass {
                 inject_after_super(c, vec![Box::new(init_proto_expr.into())])
             }
         }
+
+        self.consume_inits();
 
         if !self.state.extra_stmts.is_empty() {
             n.body.insert(
