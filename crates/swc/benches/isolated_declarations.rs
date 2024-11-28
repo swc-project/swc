@@ -17,7 +17,7 @@ fn bench_isolated_declarations(criterion: &mut Criterion) {
         let fm =
             c.cm.load_file(Path::new("benches/assets/vue-id.ts"))
                 .unwrap();
-        b.iter_with_large_drop(|| {
+        b.iter(|| {
             GLOBALS.set(&Default::default(), || {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
