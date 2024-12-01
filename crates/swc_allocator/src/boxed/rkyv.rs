@@ -1,46 +1,55 @@
 use std::{alloc, cmp};
 
+use rancor::{Fallible, ResultExt, Source};
 use rkyv::{
     boxed::{ArchivedBox, BoxResolver},
-    Archive, ArchivePointee, ArchiveUnsized, Deserialize, DeserializeUnsized, Fallible, Serialize,
-    SerializeUnsized,
+    traits::{ArchivePointee, LayoutRaw},
+    Archive, ArchiveUnsized, Deserialize, DeserializeUnsized, Place, Serialize, SerializeUnsized,
 };
 
 use super::Box;
 
 impl<T: ArchiveUnsized + ?Sized> Archive for Box<T> {
     type Archived = ArchivedBox<T::Archived>;
-    type Resolver = BoxResolver<T::MetadataResolver>;
+    type Resolver = BoxResolver;
 
     #[inline]
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        ArchivedBox::resolve_from_ref(self.as_ref(), pos, resolver, out);
+    fn resolve(&self, resolver: Self::Resolver, out: Place<Self::Archived>) {
+        ArchivedBox::resolve_from_ref(self.as_ref(), resolver, out);
     }
 }
 
 impl<T: SerializeUnsized<S> + ?Sized, S: Fallible + ?Sized> Serialize<S> for Box<T> {
-    #[inline]
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+    fn serialize(
+        &self,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, <S as rancor::Fallible>::Error> {
         ArchivedBox::serialize_from_ref(self.as_ref(), serializer)
     }
 }
 
 impl<T, D> Deserialize<Box<T>, D> for ArchivedBox<T::Archived>
 where
-    T: ArchiveUnsized + ?Sized,
+    T: ArchiveUnsized + LayoutRaw + ?Sized,
     T::Archived: DeserializeUnsized<T, D>,
     D: Fallible + ?Sized,
+    D::Error: Source,
 {
-    #[inline]
     fn deserialize(&self, deserializer: &mut D) -> Result<Box<T>, D::Error> {
+        let metadata = self.get().deserialize_metadata();
+        let layout = T::layout_raw(metadata).into_error()?;
+        let data_address = if layout.size() > 0 {
+            unsafe { alloc::alloc(layout) }
+        } else {
+            polyfill::dangling(&layout).as_ptr()
+        };
+
+        let out = ptr_meta::from_raw_parts_mut(data_address.cast(), metadata);
+
         unsafe {
-            let data_address = self
-                .get()
-                .deserialize_unsized(deserializer, |layout| alloc::alloc(layout))?;
-            let metadata = self.get().deserialize_metadata(deserializer)?;
-            let ptr = ptr_meta::from_raw_parts_mut(data_address, metadata);
-            Ok(Box::from_raw(ptr))
+            self.get().deserialize_unsized(deserializer, out)?;
         }
+        unsafe { Ok(Box::from_raw(out)) }
     }
 }
 
@@ -55,5 +64,21 @@ impl<T: ArchivePointee + PartialOrd<U> + ?Sized, U: ?Sized> PartialOrd<Box<U>> f
     #[inline]
     fn partial_cmp(&self, other: &Box<U>) -> Option<cmp::Ordering> {
         self.get().partial_cmp(other.as_ref())
+    }
+}
+
+mod polyfill {
+
+    use core::{alloc::Layout, ptr::NonNull};
+
+    pub fn dangling(layout: &Layout) -> NonNull<u8> {
+        #[cfg(miri)]
+        {
+            layout.dangling()
+        }
+        #[cfg(not(miri))]
+        unsafe {
+            NonNull::new_unchecked(layout.align() as *mut u8)
+        }
     }
 }

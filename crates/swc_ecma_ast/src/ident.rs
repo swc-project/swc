@@ -20,26 +20,30 @@ use crate::{typescript::TsTypeAnn, Expr};
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+    feature = "rkyv-impl",
+    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+        __S::Error: rkyv::rancor::Source))
 )]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 #[cfg_attr(
     feature = "rkyv-impl",
-    archive_attr(check_bytes(bound = "__C: rkyv::validation::ArchiveContext, <__C as \
-                                      rkyv::Fallible>::Error: std::error::Error"))
+    rkyv(deserialize_bounds(__D::Error: rkyv::rancor::Source))
 )]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    rkyv(bytecheck(bounds(
+        __C: rkyv::validation::ArchiveContext,
+        __C::Error: rkyv::rancor::Source
+    )))
+)]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub id: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    #[cfg_attr(feature = "__rkyv", archive_attr(omit_bounds))]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -165,10 +169,10 @@ bridge_from!(BindingIdent, Ident, Id);
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default)]
 pub struct Ident {
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
@@ -382,7 +386,7 @@ impl Ident {
 #[derive(Eq, Hash, Default, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct IdentName {
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]

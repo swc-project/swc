@@ -31,8 +31,8 @@ impl Take for TokenAndSpan {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct UrlKeyValue(pub Atom, pub Atom);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
@@ -40,11 +40,12 @@ pub struct UrlKeyValue(pub Atom, pub Atom);
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
+#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv", repr(u32))]
 #[cfg_attr(
     feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+        __S::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub enum NumberType {
@@ -59,8 +60,8 @@ pub enum NumberType {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(C)))]
+#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub struct DimensionToken {
     pub value: f64,
@@ -78,11 +79,12 @@ pub struct DimensionToken {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
+#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv", repr(u32))]
 #[cfg_attr(
     feature = "rkyv",
-    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace + rkyv::ser::Serializer"))
+    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
+        __S::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Token {
