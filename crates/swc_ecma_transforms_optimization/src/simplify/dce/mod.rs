@@ -520,10 +520,10 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_param(&mut self, param: &Param) {
-        let old_is_in_param = self.in_param;
+        let old_in_param = self.in_param;
         self.in_param = true;
         param.visit_children_with(self);
-        self.in_param = old_is_in_param;
+        self.in_param = old_in_param;
     }
 
     fn visit_pat(&mut self, p: &Pat) {
