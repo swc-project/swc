@@ -341,7 +341,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -4192,7 +4192,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4351,7 +4351,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4411,7 +4411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "6.0.0"
+version = "7.0.0"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -4460,7 +4460,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5720,7 +5720,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
