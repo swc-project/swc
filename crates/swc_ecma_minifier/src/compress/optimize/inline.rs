@@ -789,6 +789,10 @@ impl Optimizer<'_> {
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
+        if self.ctx.is_exact_lhs_of_assign {
+            return;
+        }
+
         match e {
             Expr::Member(me) => {
                 if let MemberProp::Computed(prop) = &mut me.prop {
