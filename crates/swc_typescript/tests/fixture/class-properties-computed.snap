@@ -1,0 +1,32 @@
+```==================== .D.TS ====================
+
+export declare class Test {
+    ["string"]: string;
+}
+
+
+==================== Errors ====================
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/class-properties-computed.ts:2:1]
+ 1 | export class Test {
+ 2 |     [Symbol.for("nodejs.util.inspect.custom")]() {}
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     ["string"]: string;
+   `----
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/class-properties-computed.ts:4:1]
+ 3 |     ["string"]: string;
+ 4 |     ["string2" as string]: string;
+   :     ^^^^^^^^^^^^^^^^^^^^^
+ 5 |     [1 as number]: string;
+   `----
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/class-properties-computed.ts:5:1]
+ 4 |     ["string2" as string]: string;
+ 5 |     [1 as number]: string;
+   :     ^^^^^^^^^^^^^
+ 6 | }
+   `----
+
+
+```

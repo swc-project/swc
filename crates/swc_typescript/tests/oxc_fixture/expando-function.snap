@@ -1,0 +1,47 @@
+```==================== .D.TS ====================
+
+export declare function foo(): void;
+export declare const bar: () => void;
+export declare namespace NS {
+    const goo: () => void;
+}
+export declare namespace foo {
+    let baz: number;
+}
+declare function qux(): void;
+declare namespace qux {
+    let woo: number;
+}
+export default qux;
+
+
+==================== Errors ====================
+  x TS9023: Assigning properties to functions without declaring them is not supported with --isolatedDeclarations. Add an explicit declaration for the properties assigned to this function.
+    ,-[$DIR/tests/oxc_fixture/expando-function.ts:10:1]
+  9 |   export const goo = (): void => {}
+ 10 |   goo.length = 10
+    :   ^^^^^^^^^^
+ 11 | }
+    `----
+  x TS9023: Assigning properties to functions without declaring them is not supported with --isolatedDeclarations. Add an explicit declaration for the properties assigned to this function.
+   ,-[$DIR/tests/oxc_fixture/expando-function.ts:2:1]
+ 1 | export function foo(): void {}
+ 2 | foo.apply = () => {}
+   : ^^^^^^^^^
+   `----
+  x TS9023: Assigning properties to functions without declaring them is not supported with --isolatedDeclarations. Add an explicit declaration for the properties assigned to this function.
+   ,-[$DIR/tests/oxc_fixture/expando-function.ts:5:1]
+ 4 | export const bar = (): void => {}
+ 5 | bar.call = () => {}
+   : ^^^^^^^^
+   `----
+  x TS9023: Assigning properties to functions without declaring them is not supported with --isolatedDeclarations. Add an explicit declaration for the properties assigned to this function.
+    ,-[$DIR/tests/oxc_fixture/expando-function.ts:19:1]
+ 18 | 
+ 19 | foo.bar = 42;
+    : ^^^^^^^
+ 20 | foo.baz = 100;
+    `----
+
+
+```

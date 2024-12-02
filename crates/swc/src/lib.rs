@@ -979,7 +979,7 @@ impl Compiler {
                 let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
-                let mut checker = FastDts::new(fm.name.clone());
+                let mut checker = FastDts::new(fm.name.clone(), Default::default());
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
@@ -989,10 +989,8 @@ impl Compiler {
                 let issues = checker.transform(&mut program);
 
                 for issue in issues {
-                    let range = issue.range();
-
                     handler
-                        .struct_span_err(range.span, &issue.to_string())
+                        .struct_span_err(issue.range.span, &issue.message)
                         .emit();
                 }
 

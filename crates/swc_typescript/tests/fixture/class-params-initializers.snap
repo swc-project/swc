@@ -1,0 +1,27 @@
+```==================== .D.TS ====================
+
+export declare class Object {
+    constructor(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    });
+    method(values: {
+    }, { a, b }?: {
+        a?: A;
+        b?: B;
+    }, value?: number);
+}
+
+
+==================== Errors ====================
+  x TS9008: Method must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/class-params-initializers.ts:13:1]
+ 12 | 
+ 13 |     method(
+    :     ^^^^^^
+ 14 |         values: {},
+    `----
+
+
+```

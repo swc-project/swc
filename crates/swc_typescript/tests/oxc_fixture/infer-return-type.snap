@@ -1,0 +1,25 @@
+```==================== .D.TS ====================
+
+declare function foo(): number;
+// inferred type is number
+declare function bar(): number | undefined;
+// inferred type is number | undefined
+declare function baz();
+// We can't infer return type if there are multiple return statements with different types
+declare function qux(): string;
+declare function quux(): string;
+// Inferred type is string
+declare function returnFunctionOrNothing(): (() => number) | undefined;
+
+
+==================== Errors ====================
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-return-type.ts:14:1]
+ 13 | 
+ 14 | function baz() {
+    :          ^^^
+ 15 |  if (a) {
+    `----
+
+
+```

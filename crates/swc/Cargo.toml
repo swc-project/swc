@@ -166,3 +166,8 @@ name    = "oxc"
 [[bench]]
 harness = false
 name    = "typescript"
+
+
+[[bench]]
+harness = false
+name    = "isolated_declarations"

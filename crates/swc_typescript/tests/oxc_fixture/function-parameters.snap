@@ -1,0 +1,67 @@
+```==================== .D.TS ====================
+
+// Correct
+export declare function fnDeclGood(p?: T, rParam?: string): void;
+export declare function fnDeclGood2(p?: T, rParam?: number): void;
+export declare function fooGood([a, b]?: any[]): number;
+export declare const fooGood2: ({ a, b }?: object) => number;
+export declare function fooGood3({ a = x, b: [{ c = y }] }: object): void;
+// Incorrect
+export declare function fnDeclBad<T>(p: T, rParam: T, r2: T): void;
+export declare function fnDeclBad2<T>(p: T, r2: T): void;
+export declare function fnDeclBad3<T>(p: T, rParam?: T, r2: T): void;
+export declare function fooBad([a, b] = [
+    1,
+    2
+]): number;
+export declare const fooBad2: () => number;
+export declare function withAny(a: any, b: string): void;
+export declare function withUnknown(a: unknown, b: string): void;
+export declare function withTypeAssertion(a?: any): void;
+
+
+==================== Errors ====================
+  x TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:18:1]
+ 17 | // Incorrect
+ 18 | export function fnDeclBad<T>(p: T = [], rParam: T = "", r2: T): void { }
+    :                                         ^^^^^^^^^^^^^^
+ 19 | export function fnDeclBad2<T>(p: T = [], r2: T): void { }
+    `----
+  x TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:18:1]
+ 17 | // Incorrect
+ 18 | export function fnDeclBad<T>(p: T = [], rParam: T = "", r2: T): void { }
+    :                              ^^^^^^^^^
+ 19 | export function fnDeclBad2<T>(p: T = [], r2: T): void { }
+    `----
+  x TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:19:1]
+ 18 | export function fnDeclBad<T>(p: T = [], rParam: T = "", r2: T): void { }
+ 19 | export function fnDeclBad2<T>(p: T = [], r2: T): void { }
+    :                               ^^^^^^^^^
+ 20 | export function fnDeclBad3<T>(p: T = [], rParam?: T, r2: T): void { }
+    `----
+  x TS9025: Declaration emit for this parameter requires implicitly adding undefined to it's type. This is not supported with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:20:1]
+ 19 | export function fnDeclBad2<T>(p: T = [], r2: T): void { }
+ 20 | export function fnDeclBad3<T>(p: T = [], rParam?: T, r2: T): void { }
+    :                               ^^^^^^^^^
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:22:1]
+ 21 | 
+ 22 | export function fooBad([a, b] = [1, 2]): number {
+    :                        ^^^^^^^^^^^^^^^
+ 23 |   return 2;
+    `----
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/function-parameters.ts:26:1]
+ 25 | 
+ 26 | export const fooBad2 = ({a, b} = { a: 1, b: 2 }): number => {
+    :                         ^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |   return 2;
+    `----
+
+
+```

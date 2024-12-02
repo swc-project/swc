@@ -1,0 +1,10 @@
+```==================== .D.TS ====================
+
+export declare const foo1 = 1;
+export declare var foo2: number;
+export declare enum Foo3 {
+    A = "foo",
+    B = "bar"
+}
+
+

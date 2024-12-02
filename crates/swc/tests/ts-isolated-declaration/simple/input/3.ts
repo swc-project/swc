@@ -1,1 +1,0 @@
-export enum Foo { A = "foo", B = "bar" }

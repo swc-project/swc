@@ -1,0 +1,32 @@
+```==================== .D.TS ====================
+
+declare function A(): unknown;
+declare const B: any;
+declare const C: any;
+declare const D: () => string;
+declare const E: () => (() => void) | undefined;
+
+
+==================== Errors ====================
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:2:1]
+ 1 | function A() {
+ 2 |   return () => {
+   :          ^^^^^^^
+ 3 |     return C;
+   `----
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:7:1]
+ 6 | 
+ 7 | const B = () => { return B };
+   :           ^^^^^^^
+   `----
+  x TS9007: Function must have an explicit return type annotation with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/arrow-function-return-type.ts:9:1]
+ 8 | 
+ 9 | const C = function () {}
+   :           ^^^^^^^^^^^^
+   `----
+
+
+```

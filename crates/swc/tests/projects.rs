@@ -784,7 +784,7 @@ fn fixture(input_dir: PathBuf) {
     tests(input_dir, Some(IsModule::Unknown));
 }
 
-#[testing::fixture("tests/ts-isolated-declaration/**/input/")]
+#[testing::fixture("tests/typescript/**/input/")]
 fn ts_id(input_dir: PathBuf) {
     tests(input_dir, Some(IsModule::Bool(true)));
 }

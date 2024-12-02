@@ -1,0 +1,48 @@
+```==================== .D.TS ====================
+
+// Correct
+export declare function foo(): number;
+export { c, d, e };
+export declare const { f, g } = {
+    f: 5,
+    g: 6
+};
+
+
+==================== Errors ====================
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:8:1]
+ 7 | // Incorrect
+ 8 | const { c, d } = { c: 1, d: 2 };
+   :         ^
+ 9 | const [ e ] = [4];
+   `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+   ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:8:1]
+ 7 | // Incorrect
+ 8 | const { c, d } = { c: 1, d: 2 };
+   :            ^
+ 9 | const [ e ] = [4];
+   `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:9:1]
+  8 | const { c, d } = { c: 1, d: 2 };
+  9 | const [ e ] = [4];
+    :         ^
+ 10 | export { c, d, e }
+    `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:12:1]
+ 11 | 
+ 12 | export const { f, g } = { f: 5, g: 6 };
+    :                ^
+    `----
+  x TS9019: Binding elements can't be exported directly with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/non-exported-binding-elements.ts:12:1]
+ 11 | 
+ 12 | export const { f, g } = { f: 5, g: 6 };
+    :                   ^
+    `----
+
+
+```
