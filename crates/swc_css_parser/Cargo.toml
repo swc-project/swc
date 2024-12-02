@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.0"
+version       = "5.0.0"
 
 [lib]
 bench = false
@@ -19,21 +19,21 @@ debug = []
 lexical = { workspace = true }
 serde   = { workspace = true }
 
-swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }
-swc_common  = { version = "4.0.1", path = "../swc_common" }
-swc_css_ast = { version = "4.0.1", path = "../swc_css_ast" }
+swc_atoms   = { version = "3.0.0", path = "../swc_atoms" }
+swc_common  = { version = "5.0.0", path = "../swc_common" }
+swc_css_ast = { version = "5.0.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", features = [
+swc_css_ast = { version = "5.0.0", path = "../swc_css_ast", features = [
   "serde-impl",
 ] }
-swc_css_visit = { version = "4.0.1", path = "../swc_css_visit" }
+swc_css_visit = { version = "5.0.0", path = "../swc_css_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
-testing = { version = "4.0.0", path = "../testing" }
+testing = { version = "5.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css_visit"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.1"
+version       = "5.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -23,7 +23,7 @@ serde-impl = ["serde"]
 [dependencies]
 serde = { workspace = true, optional = true, features = ["derive"] }
 
-swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }
-swc_common  = { version = "4.0.1", path = "../swc_common" }
-swc_css_ast = { version = "4.0.1", path = "../swc_css_ast" }
+swc_atoms   = { version = "3.0.0", path = "../swc_atoms" }
+swc_common  = { version = "5.0.0", path = "../swc_common" }
+swc_css_ast = { version = "5.0.0", path = "../swc_css_ast" }
 swc_visit   = { version = "2.0.0", path = "../swc_visit" }

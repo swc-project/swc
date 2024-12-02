@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.1"
+version       = "6.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -52,22 +52,22 @@ serde_json        = { workspace = true }
 tracing           = { workspace = true }
 
 
-swc_allocator = { version = "1.0.0", path = "../swc_allocator", default-features = false }
-swc_atoms = { version = "2.0.0", path = "../swc_atoms" }
-swc_common = { version = "4.0.1", path = "../swc_common" }
+swc_allocator = { version = "2.0.0", path = "../swc_allocator", default-features = false }
+swc_atoms = { version = "3.0.0", path = "../swc_atoms" }
+swc_common = { version = "5.0.0", path = "../swc_common" }
 swc_config = { version = "1.0.0", path = "../swc_config", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "5.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "5.0.0", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils = { version = "5.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
+swc_ecma_codegen = { version = "5.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "6.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "6.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "6.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_usage_analyzer = { version = "6.0.0", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils = { version = "6.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
 [dev-dependencies]
@@ -78,10 +78,10 @@ pretty_assertions = { workspace = true }
 walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_allocator             = { version = "1.0.0", path = "../swc_allocator" }
-swc_ecma_testing          = { version = "4.0.0", path = "../swc_ecma_testing" }
+swc_allocator             = { version = "2.0.0", path = "../swc_allocator" }
+swc_ecma_testing          = { version = "5.0.0", path = "../swc_ecma_testing" }
 swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
-testing                   = { version = "4.0.0", path = "../testing" }
+testing                   = { version = "5.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

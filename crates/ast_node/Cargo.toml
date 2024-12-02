@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "ast_node"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "2.0.0"
+version       = "3.0.0"
 
 [lib]
 bench      = false
