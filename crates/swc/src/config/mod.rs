@@ -802,7 +802,11 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: JscOutputConfig { charset, preamble },
+            output: JscOutputConfig {
+                charset,
+                preamble,
+                preserve_annotations: cfg.jsc.output.preserve_annotations,
+            },
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
@@ -1144,9 +1148,9 @@ where
             output_path: self.output_path,
             source_root: self.source_root,
             source_file_name: self.source_file_name,
+            comments: self.comments,
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
-            comments: self.comments,
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
@@ -1212,6 +1216,9 @@ pub struct JscOutputConfig {
 
     #[serde(default)]
     pub preamble: String,
+
+    #[serde(default)]
+    pub preserve_annotations: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
