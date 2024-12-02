@@ -620,7 +620,7 @@ impl VisitMut for Marker {
                 return;
             }
 
-            if !i.sym.starts_with("__") {
+            if !(i.sym.starts_with("__") && i.sym.starts_with("_ts_")) {
                 self.decls.insert(i.sym.clone(), self.decl_ctxt);
             }
         }
