@@ -7,9 +7,9 @@ require("preact/jsx-runtime"), require("preact");
 var props = {
     answer: 42
 };
-/*#__PURE__*/ _object_spread_props._(_object_spread._({}, props), {
+_object_spread_props._(_object_spread._({}, props), {
     children: "text"
-}), /*#__PURE__*/ _object_spread_props._(_object_spread._({}, props), {
+}), _object_spread_props._(_object_spread._({}, props), {
     key: "bar"
 });
 //// [react.tsx]
@@ -21,8 +21,8 @@ require("react/jsx-runtime"), require("react"), require("./preact");
 var props2 = {
     answer: 42
 };
-/*#__PURE__*/ _object_spread_props._(_object_spread._({}, props2), {
+_object_spread_props._(_object_spread._({}, props2), {
     children: "text"
-}), /*#__PURE__*/ _object_spread_props._(_object_spread._({}, props2), {
+}), _object_spread_props._(_object_spread._({}, props2), {
     key: "bar"
 });
