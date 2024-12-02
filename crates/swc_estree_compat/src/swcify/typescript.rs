@@ -23,7 +23,7 @@ impl Swcify for TSTypeParameterInstantiation {
 }
 
 impl Swcify for FlowType {
-    type Output = !;
+    type Output = Never;
 
     fn swcify(self, _: &Context) -> Self::Output {
         unreachable!("swc does not support flow types")
