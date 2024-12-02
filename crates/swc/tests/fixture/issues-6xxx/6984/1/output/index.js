@@ -17,7 +17,7 @@ var App = /*#__PURE__*/ function(_React_Component) {
             key: "render",
             value: function render() {
                 console.log(this.props);
-                return /*#__PURE__*/ React.createElement("div", null, "134");
+                return React.createElement("div", null, "134");
             }
         }
     ]);

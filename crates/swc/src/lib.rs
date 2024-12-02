@@ -888,7 +888,11 @@ impl Compiler {
                 .clone()
                 .into_inner()
                 .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            swc_compiler_base::minify_file_comments(&comments, preserve_comments);
+            swc_compiler_base::minify_file_comments(
+                &comments,
+                preserve_comments,
+                opts.format.preserve_annotations,
+            );
 
             self.print(
                 &program,
@@ -1018,7 +1022,11 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                swc_compiler_base::minify_file_comments(comments, config.preserve_comments);
+                swc_compiler_base::minify_file_comments(
+                    comments,
+                    config.preserve_comments,
+                    config.output.preserve_annotations.into_bool(),
+                );
             }
 
             self.print(

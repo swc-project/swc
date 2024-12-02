@@ -7,7 +7,7 @@ export var Empty = /*#__PURE__*/ function(_React_Component) {
         return _class_call_check(this, Empty), _call_super(this, Empty, arguments);
     }
     return _inherits(Empty, _React_Component), Empty.prototype.render = function() {
-        return /*#__PURE__*/ React.createElement("div", null, "Hello");
+        return React.createElement("div", null, "Hello");
     }, Empty;
 }(React.Component);
-/*#__PURE__*/ obj;
+obj;
