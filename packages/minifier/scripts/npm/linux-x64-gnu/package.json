@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-linux-x64-gnu",
-  "version": "1.9.3",
+  "version": "1.10.0-nightly-20241202.1",
   "os": [
     "linux"
   ],
