@@ -131,7 +131,7 @@ impl SourceCode for MietteSourceCode<'_> {
         }
 
         let loc = self.0.lookup_char_pos(span.lo());
-        let line_count = loc.file.lines.len();
+        let line_count = loc.file.analyze().lines.len();
 
         let name = if self.1.skip_filename {
             None

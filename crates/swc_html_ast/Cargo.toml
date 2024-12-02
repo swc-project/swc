@@ -15,14 +15,21 @@ version = "4.0.1"
 bench = false
 
 [features]
-__rkyv     = []
-rkyv-impl  = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+__rkyv = []
+rkyv-impl = [
+  "__rkyv",
+  "rkyv",
+  "swc_atoms/rkyv-impl",
+  "swc_common/rkyv-impl",
+  "bytecheck",
+]
 serde-impl = ["serde"]
 
 [dependencies]
-is-macro = { workspace = true }
-rkyv = { workspace = true, features = ["validation"], optional = true }
-serde = { workspace = true, features = ["derive"], optional = true }
+bytecheck = { workspace = true, optional = true }
+is-macro  = { workspace = true }
+rkyv      = { workspace = true, optional = true }
+serde     = { workspace = true, features = ["derive"], optional = true }
 
 string_enum = { version = "1.0.0", path = "../string_enum/" }
 swc_atoms   = { version = "2.0.0", path = "../swc_atoms" }

@@ -7,8 +7,7 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
     feature = "__rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(feature = "__rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "__rkyv", archive_attr(repr(C)))]
+#[cfg_attr(feature = "__rkyv", repr(C))]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
@@ -92,8 +91,16 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>
-        + for<'a> rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>,
+    R::Archived: rkyv::Deserialize<R, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
+    for<'a> R::Archived: bytecheck::CheckBytes<
+        rancor::Strategy<
+            rkyv::validation::Validator<
+                rkyv::validation::archive::ArchiveValidator<'a>,
+                rkyv::validation::shared::SharedValidator,
+            >,
+            rancor::Error,
+        >,
+    >,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
