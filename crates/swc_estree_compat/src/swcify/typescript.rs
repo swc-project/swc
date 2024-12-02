@@ -9,7 +9,7 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::swcify::Swcify;
+use crate::{swcify::Swcify, Never};
 
 impl Swcify for TSTypeParameterInstantiation {
     type Output = TsTypeParamInstantiation;
