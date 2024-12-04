@@ -1,6 +1,6 @@
 {
   "name": "@swc/html-linux-x64-musl",
-  "version": "1.10.0-nightly-20241204.2",
+  "version": "1.10.0",
   "os": [
     "linux"
   ],
