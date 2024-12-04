@@ -1482,9 +1482,6 @@
 - **(ci)** Make publish action upload cli artifacts ([#9040](https://github.com/swc-project/swc/issues/9040)) ([3337bb2](https://github.com/swc-project/swc/commit/3337bb26f9b00352c3f03c625f1429ee15ebc070))
 
 
-- **(es/codegen)** Emit named type in mapped types ([#9038](https://github.com/swc-project/swc/issues/9038)) ([91e92ec](https://github.com/swc-project/swc/commit/91e92ececab33c2258eeb659803da9a549e7591a))
-
-
 - **(xtask)** Fix `nightly` action ([#9042](https://github.com/swc-project/swc/issues/9042)) ([733dcc6](https://github.com/swc-project/swc/commit/733dcc6b83e77a2571a3fee307a73fc0c17bd44c))
 
 ### Performance
