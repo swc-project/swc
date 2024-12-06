@@ -11,6 +11,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::{
     path::{ImportResolver, NodeImportResolver},
     rewriter::import_rewriter,
+    util::default_js_ext,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use testing::run_test2;
@@ -106,6 +107,7 @@ fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPath
         swc_ecma_transforms_module::path::Config {
             base_dir: Some(base_dir),
             resolve_fully: true,
+            file_extension: default_js_ext(),
         },
     )
 }
