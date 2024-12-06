@@ -210,7 +210,7 @@ where
                 }
             } else if is_resolved_as_index
                 && is_resolved_as_js
-                && orig_filename != format!("index{}", self.config.file_extension)
+                && orig_filename != format!("index.{}", self.config.file_extension)
             {
                 // Import: `./foo`
                 // Resolved: `./foo/index.js`
