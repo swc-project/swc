@@ -1627,13 +1627,13 @@ impl VisitMut for Hoister<'_, '_> {
 
         let params: Vec<Id> = find_pat_ids(&c.param);
 
+        let orig = self.catch_param_decls.clone();
+
         self.catch_param_decls
             .extend(params.into_iter().map(|v| v.0));
 
         self.in_catch_body = true;
         c.body.visit_mut_with(self);
-
-        let orig = self.catch_param_decls.clone();
 
         // let mut excluded = find_ids::<_, Id>(&c.body);
 
