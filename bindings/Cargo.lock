@@ -249,7 +249,7 @@ dependencies = [
  "bitflags 2.6.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -283,7 +283,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.10.0"
+version = "1.10.1-nightly-20241209.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -323,9 +323,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "8.0.0"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d1b7524fab0aaadc23b733591666808f4997343d55153fc2e36821fcf24ec83"
+checksum = "31b38d593e6063831cdd0c66d97c5eb6db001e2b9356cb73f1f38ef834150179"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -370,7 +370,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.10.0"
+version = "1.10.1-nightly-20241209.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -383,7 +383,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.10.0"
+version = "1.10.1-nightly-20241209.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -1030,7 +1030,7 @@ dependencies = [
  "cssparser-macros",
  "dtoa-short",
  "itoa",
- "phf 0.10.1",
+ "phf 0.11.2",
  "smallvec",
 ]
 
@@ -2747,9 +2747,7 @@ version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fabbf1ead8a5bcbc20f5f8b939ee3f5b0f6f281b6ad3468b84656b658b455259"
 dependencies = [
- "phf_macros 0.10.0",
  "phf_shared 0.10.0",
- "proc-macro-hack",
 ]
 
 [[package]]
@@ -2758,7 +2756,7 @@ version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ade2d8b8f33c7333b51bcf0428d37e217e9f32192ae4772156f65063b8ce03dc"
 dependencies = [
- "phf_macros 0.11.2",
+ "phf_macros",
  "phf_shared 0.11.2",
 ]
 
@@ -2790,20 +2788,6 @@ checksum = "48e4cc64c2ad9ebe670cb8fd69dd50ae301650392e81c05f9bfcb2d5bdbc24b0"
 dependencies = [
  "phf_shared 0.11.2",
  "rand",
-]
-
-[[package]]
-name = "phf_macros"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58fdf3184dd560f160dd73922bea2d5cd6e8f064bf4b13110abd81b03697b4e0"
-dependencies = [
- "phf_generator 0.10.0",
- "phf_shared 0.10.0",
- "proc-macro-hack",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -2979,12 +2963,6 @@ dependencies = [
  "quote",
  "syn 2.0.90",
 ]
-
-[[package]]
-name = "proc-macro-hack"
-version = "0.5.20+deprecated"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc375e1527247fe1a97d8b7156678dfe7c1af2fc075c9a4db3690ecd2a148068"
 
 [[package]]
 name = "proc-macro2"
@@ -3881,9 +3859,9 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "8.0.0"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aeb37e912f0cf5bfd34914dd8ec423f26319c4a1a6cde0a46da93e2edf84c2f0"
+checksum = "a8ded6be21206da7fb30e245d72373346d72fe095b75354a413b1d2b6bfda0b7"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -4010,7 +3988,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.451"
+version = "0.91.452"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -4018,9 +3996,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "8.0.0"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a1a9d7be5ef63517ef8a296c422a2b687dd2ccaee058a5bdf2de14892000de4"
+checksum = "af34191cec5e16e42d277f48e8363e3d07fac937b8644bf11762a0d6ea2f89be"
 dependencies = [
  "anyhow",
  "clap",
@@ -4129,9 +4107,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "8.0.1"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "324e9dc1ddc05bb3ccef6b7541177a4bf7ae25ccaee65832a45a8c20a968ed80"
+checksum = "858b072245574ffc0925ab9f5ae5c94ea1f5dda6824a291607e99603f65bab21"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4616,9 +4594,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "7.0.0"
+version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f52837356f13d3ce29524b113d735332826d98b45fcc78a1e1b58a708d9d2981"
+checksum = "39ac4bd1620798c38f767417f9b364b87fd2505a9e748d6b1d7549f155a0aa96"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -4641,9 +4619,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "7.0.0"
+version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85be851a12e79e29bb4a60175a57de46219d71e662b13b67d5fa97d41a000116"
+checksum = "dccedb5a1e52795e132615a3ca01e2adb8fc9214ee75c258f8a3124a9b42c47e"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4661,9 +4639,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "6.0.1"
+version = "6.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2409f9c896f99481d9f609de89c7786ccd0dba008650a4116f1aef7a58926422"
+checksum = "f31557485025a2fd1f833d63601c53010857e45633f44bcc87510f3578bde0c5"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -4748,9 +4726,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "6.0.0"
+version = "7.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ccf19161b0ca21fc60f296fa936bfe9ce5d1c5cfe3bd70514af3ae616fc0a58"
+checksum = "5480053dfa9b7ae34c6d5cdaa33bee3d7dfd33a259cabe9122806f36625912c1"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5125,9 +5103,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "8.0.0"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a565cb9da54fefb85afe3f737db1e0ecdf85e14ff446de4424fba65d6dc23c99"
+checksum = "de9aeeff47f13948455c893942411ccc9037c1e9cd51b528dd9590001fc166fb"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
