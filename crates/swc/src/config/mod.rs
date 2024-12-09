@@ -1405,7 +1405,7 @@ impl ModuleConfig {
                 build_resolver(
                     base_url,
                     paths,
-                    config.resolve_fully,
+                    config.config.resolve_fully,
                     &config.config.out_file_extension,
                 )
             }
@@ -1430,7 +1430,7 @@ impl ModuleConfig {
             Some(ModuleConfig::SystemJs(config)) => build_resolver(
                 base_url,
                 paths,
-                config.resolve_fully,
+                config.config.resolve_fully,
                 &config.config.out_file_extension,
             ),
         };

@@ -25,8 +25,6 @@ pub mod umd;
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EsModuleConfig {
-    #[serde(default)]
-    pub resolve_fully: bool,
     #[serde(flatten, default)]
     pub config: Config,
 }

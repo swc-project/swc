@@ -20,9 +20,6 @@ pub struct Config {
     #[serde(default)]
     pub allow_top_level_this: bool,
 
-    #[serde(default)]
-    pub resolve_fully: bool,
-
     #[serde(flatten, default)]
     pub config: InnerConfig,
 }
