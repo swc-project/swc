@@ -166,7 +166,9 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
-        let _log = init();
+        // This makes miri slow
+        let _log: Option<tracing::subscriber::DefaultGuard> =
+            if cfg!(miri) { None } else { Some(init()) };
 
         let (handler, errors) =
             self::string_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
