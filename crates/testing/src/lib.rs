@@ -39,16 +39,20 @@ mod string_errors;
 pub fn init() -> tracing::subscriber::DefaultGuard {
     let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "debug".to_string());
 
-    let logger = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
-        .with_test_writer()
-        .pretty()
-        .finish();
-
-    tracing::subscriber::set_default(logger)
+    if cfg!(miri) {
+        tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::new())
+    } else {
+        // This makes miri slow
+        let logger = tracing_subscriber::FmtSubscriber::builder()
+            .without_time()
+            .with_target(false)
+            .with_ansi(true)
+            .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
+            .with_test_writer()
+            .pretty()
+            .finish();
+        tracing::subscriber::set_default(logger)
+    }
 }
 
 pub fn find_executable(name: &str) -> Option<PathBuf> {
@@ -166,9 +170,7 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
-        // This makes miri slow
-        let _log: Option<tracing::subscriber::DefaultGuard> =
-            if cfg!(miri) { None } else { Some(init()) };
+        let _log = init();
 
         let (handler, errors) =
             self::string_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
