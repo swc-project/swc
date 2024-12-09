@@ -48,7 +48,7 @@ use swc_ecma_transforms::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
         rewriter::import_rewriter,
-        EsModuleConfig,
+        util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
@@ -1400,22 +1400,39 @@ impl ModuleConfig {
 
         let base_url = base_url.to_path_buf();
         let resolver = match config {
-            None => build_resolver(base_url, paths, false),
+            None => build_resolver(base_url, paths, false, &util::Config::default_js_ext()),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
+                build_resolver(
+                    base_url,
+                    paths,
+                    config.config.resolve_fully,
+                    &config.config.out_file_extension,
+                )
             }
-            Some(ModuleConfig::CommonJs(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
-            }
-            Some(ModuleConfig::Umd(config)) => {
-                build_resolver(base_url, paths, config.config.resolve_fully)
-            }
-            Some(ModuleConfig::Amd(config)) => {
-                build_resolver(base_url, paths, config.config.resolve_fully)
-            }
-            Some(ModuleConfig::SystemJs(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
-            }
+            Some(ModuleConfig::CommonJs(config)) => build_resolver(
+                base_url,
+                paths,
+                config.resolve_fully,
+                &config.out_file_extension,
+            ),
+            Some(ModuleConfig::Umd(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
+            Some(ModuleConfig::Amd(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
+            Some(ModuleConfig::SystemJs(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
         };
 
         Some((base, resolver))
@@ -1733,6 +1750,7 @@ fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,
     resolve_fully: bool,
+    file_extension: &str,
 ) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
@@ -1772,6 +1790,7 @@ fn build_resolver(
             swc_ecma_transforms::modules::path::Config {
                 base_dir: Some(base_url.clone()),
                 resolve_fully,
+                file_extension: file_extension.to_owned(),
             },
         );
         Arc::new(r)

@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "dynamicImport": true,
+        },
+        "target": "es2020",
+        "baseUrl": ".",
+        "paths": {
+            "@print/c": ["./packages/c/src/index.js"],
+        },
+        "externalHelpers": true,
+    },
+    "module": {
+        "type": "nodenext",
+        "resolveFully": true,
+        // This should say "resolve this fully to .mjs".
+        // Normally should be paired with --out-file-extension in the cli
+        "outFileExtension": "mjs",
+    },
+}
