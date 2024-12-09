@@ -47,12 +47,14 @@ pub struct Config {
     #[serde(default)]
     pub resolve_fully: bool,
 
-    #[serde(default = "default_js_ext")]
+    #[serde(default = "Config::default_js_ext")]
     pub out_file_extension: String,
 }
 
-pub fn default_js_ext() -> String {
-    "js".to_string()
+impl Config {
+    pub fn default_js_ext() -> String {
+        "js".to_string()
+    }
 }
 
 impl Default for Config {

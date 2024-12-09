@@ -48,7 +48,7 @@ use swc_ecma_transforms::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
         rewriter::import_rewriter,
-        EsModuleConfig,
+        util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
@@ -1400,7 +1400,7 @@ impl ModuleConfig {
 
         let base_url = base_url.to_path_buf();
         let resolver = match config {
-            None => build_resolver(base_url, paths, false, &"js".to_string()),
+            None => build_resolver(base_url, paths, false, &util::Config::default_js_ext()),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
                 build_resolver(
                     base_url,
@@ -1750,7 +1750,7 @@ fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,
     resolve_fully: bool,
-    file_extension: &String,
+    file_extension: &str,
 ) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);

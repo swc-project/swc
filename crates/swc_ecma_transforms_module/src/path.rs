@@ -17,8 +17,6 @@ use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use tracing::{debug, info, warn, Level};
 
-use crate::util::default_js_ext;
-
 #[derive(Default)]
 pub enum Resolver {
     Real {
@@ -108,7 +106,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Config {
         Config {
-            file_extension: default_js_ext(),
+            file_extension: crate::util::Config::default_js_ext(),
             resolve_fully: bool::default(),
             base_dir: Option::default(),
         }
