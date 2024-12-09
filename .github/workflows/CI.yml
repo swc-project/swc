@@ -501,8 +501,8 @@ jobs:
           - string_enum
           - swc
           - swc_bundler
-          # - swc_ecma_codegen
-          # - swc_ecma_minifier
+          - swc_ecma_codegen
+          - swc_ecma_minifier
     steps:
       - uses: actions/checkout@v4
         with:
