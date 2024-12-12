@@ -845,6 +845,11 @@ where
         keyword!("import");
         punct!("(");
         emit!(n.arg);
+        if let Some(with) = &n.with {
+            punct!(",");
+            formatting_space!();
+            emit!(with);
+        }
         punct!(")");
 
         if let Some(n) = &n.qualifier {

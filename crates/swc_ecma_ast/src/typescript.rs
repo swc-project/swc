@@ -16,7 +16,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
     class::Decorator,
-    expr::Expr,
+    expr::{Expr, ObjectLit},
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
@@ -546,6 +546,8 @@ pub struct TsImportType {
     pub qualifier: Option<TsEntityName>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub with: Option<Box<ObjectLit>>,
 }
 
 #[ast_node("TsTypeLiteral")]
