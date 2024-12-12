@@ -318,15 +318,14 @@ impl<I: Tokens> Parser<I> {
 
         // the "assert" keyword is deprecated and this syntax is niche, so
         // don't support it
-        let with =
-            if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
-                match *self.parse_object::<Box<Expr>>()? {
-                    Expr::Object(v) => Some(Box::new(v)),
-                    _ => unreachable!(),
-                }
-            } else {
-                None
-            };
+        let with = if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
+            match *self.parse_object::<Box<Expr>>()? {
+                Expr::Object(v) => Some(Box::new(v)),
+                _ => unreachable!(),
+            }
+        } else {
+            None
+        };
 
         expect!(self, ')');
 
