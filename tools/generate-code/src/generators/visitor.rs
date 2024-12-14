@@ -8,7 +8,7 @@ use syn::{
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,
 };
 
-pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
+pub fn generate(crate_root: &Path, node_types: &[&Item]) -> File {
     let mut output = File {
         shebang: None,
         attrs: Vec::new(),
@@ -50,7 +50,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     ));
 
     output.items.push(parse_quote!(
-        use #crate_name::*;
+        use #crate_root::*;
     ));
 
     output.items.push(parse_quote!(
@@ -87,7 +87,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
         #[cfg(any(docsrs, feature = "path"))]
         pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
     ));
-    output.items.extend(define_fields(crate_name, node_types));
+    output.items.extend(define_fields(crate_root, node_types));
 
     output
 }
@@ -1294,7 +1294,7 @@ fn to_iter(e: TokenStream, ty: &Type, node_names: &[Ident]) -> Option<Expr> {
     }
 }
 
-fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
+fn define_fields(crate_root: &Path, node_types: &[&Item]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut kind_enum_members = Vec::new();
     let mut parent_enum_members = Vec::new();
@@ -1331,7 +1331,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
         let mut defs = Vec::<Item>::new();
 
         defs.push(parse_quote!(
-            use #crate_name::*;
+            use #crate_root::*;
         ));
 
         defs.push(parse_quote!(

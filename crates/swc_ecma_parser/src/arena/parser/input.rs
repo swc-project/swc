@@ -19,7 +19,7 @@ pub(crate) struct Buffer<I: Tokens> {
     next: Option<TokenAndSpan>,
 }
 
-impl<'a, I: Tokens> Parser<'a, I> {
+impl<I: Tokens> Parser<'_, I> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
     }
