@@ -9,6 +9,7 @@ use std::{
     sync::atomic::AtomicU32,
 };
 
+use ast_node_arena::CloneIn;
 #[cfg(feature = "parking_lot")]
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
@@ -31,7 +32,7 @@ pub mod hygiene;
 /// able to use many of the functions on spans in `source_map` and you cannot
 /// assume that the length of the `span = hi - lo`; there may be space in the
 /// `BytePos` range between files.
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
+#[derive(Clone, CloneIn, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)

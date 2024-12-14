@@ -27,6 +27,7 @@ bumpalo = { workspace = true, features = [
   "allocator-api2",
 ] }
 hashbrown = { workspace = true }
+num-bigint = { workspace = true }
 ptr_meta = { workspace = true }
 rancor = { workspace = true, optional = true }
 rkyv = { workspace = true, optional = true }

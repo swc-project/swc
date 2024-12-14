@@ -57,6 +57,7 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned {
     const TYPE: &'static str;
 }
 
+pub mod arena;
 pub mod cache;
 pub mod collections;
 pub mod comments;

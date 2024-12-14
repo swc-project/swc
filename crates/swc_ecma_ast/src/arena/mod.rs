@@ -1,18 +1,12 @@
-#![cfg_attr(docsrs, feature(doc_cfg))]
-#![deny(unreachable_patterns)]
-#![deny(missing_copy_implementations)]
-#![deny(trivial_casts)]
-#![deny(trivial_numeric_casts)]
-#![deny(unreachable_pub)]
-#![deny(clippy::all)]
-#![allow(clippy::enum_variant_names)]
-#![allow(clippy::clone_on_copy)]
-#![recursion_limit = "1024"]
-
 pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
+use swc_allocator::arena::{Allocator, Box};
+use swc_common::{
+    arena::{ast_node, Take},
+    pass::Either,
+    EqIgnoreSpan, Span,
+};
 
 pub use self::{
     class::{
@@ -29,7 +23,6 @@ pub use self::{
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
-    list::ListFormat,
     lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
@@ -38,7 +31,6 @@ pub use self::{
         ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
         ImportStarAsSpecifier, ModuleDecl, ModuleExportName, NamedExport,
     },
-    operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{
         ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
     },
@@ -46,7 +38,6 @@ pub use self::{
         AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName,
         SetterProp,
     },
-    source_map::{SourceMapperExt, SpanExt},
     stmt::{
         BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
         ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt,
@@ -70,24 +61,23 @@ pub use self::{
         TsUnionType,
     },
 };
+pub use super::{
+    list::ListFormat,
+    operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
+    source_map::{SourceMapperExt, SpanExt},
+};
 
-#[macro_use]
-mod macros;
-pub mod arena;
 mod class;
 mod decl;
 mod expr;
 mod function;
 mod ident;
 mod jsx;
-mod list;
 mod lit;
 mod module;
 mod module_decl;
-mod operators;
 mod pat;
 mod prop;
-mod source_map;
 mod stmt;
 mod typescript;
 
@@ -100,50 +90,50 @@ mod typescript;
 /// Tuple of [Pass] implementations also implements [Pass], but it's limited to
 /// 12 items for fast compile time. If you have more passes, nest it like `(a,
 /// (b, c), (d, e))`
-pub trait Pass {
-    fn process(&mut self, program: &mut Program);
+pub trait Pass<'a> {
+    fn process(&mut self, program: &mut Program<'a>);
 }
 
 /// Optional pass implementation.
-impl<P> Pass for Option<P>
+impl<'a, P> Pass<'a> for Option<P>
 where
-    P: Pass,
+    P: Pass<'a>,
 {
     #[inline(always)]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         if let Some(pass) = self {
             pass.process(program);
         }
     }
 }
 
-impl<P: ?Sized> Pass for Box<P>
+impl<'a, P: ?Sized> Pass<'a> for Box<'a, P>
 where
-    P: Pass,
+    P: Pass<'a>,
 {
     #[inline(always)]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         (**self).process(program);
     }
 }
 
-impl<P: ?Sized> Pass for &'_ mut P
+impl<'a, P: ?Sized> Pass<'a> for &'_ mut P
 where
-    P: Pass,
+    P: Pass<'a>,
 {
     #[inline(always)]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         (**self).process(program);
     }
 }
 
-impl<L, R> Pass for Either<L, R>
+impl<'a, L, R> Pass<'a> for Either<L, R>
 where
-    L: Pass,
-    R: Pass,
+    L: Pass<'a>,
+    R: Pass<'a>,
 {
     #[inline]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         match self {
             Either::Left(l) => l.process(program),
             Either::Right(r) => r.process(program),
@@ -151,24 +141,24 @@ where
     }
 }
 
-impl<P> Pass for swc_visit::Optional<P>
+impl<'a, P> Pass<'a> for swc_visit::Optional<P>
 where
-    P: Pass,
+    P: Pass<'a>,
 {
     #[inline]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         if self.enabled {
             self.visitor.process(program);
         }
     }
 }
 
-impl<P> Pass for swc_visit::Repeat<P>
+impl<'a, P> Pass<'a> for swc_visit::Repeat<P>
 where
-    P: Pass + swc_visit::Repeated,
+    P: Pass<'a> + swc_visit::Repeated,
 {
     #[inline]
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         loop {
             self.pass.reset();
             self.pass.process(program);
@@ -180,11 +170,11 @@ where
     }
 }
 
-impl Program {
+impl<'a> Program<'a> {
     #[inline(always)]
     pub fn mutate<P>(&mut self, mut pass: P)
     where
-        P: Pass,
+        P: Pass<'a>,
     {
         pass.process(self);
     }
@@ -192,7 +182,7 @@ impl Program {
     #[inline(always)]
     pub fn apply<P>(mut self, mut pass: P) -> Self
     where
-        P: Pass,
+        P: Pass<'a>,
     {
         pass.process(&mut self);
         self
@@ -203,13 +193,13 @@ macro_rules! impl_pass_for_tuple {
     (
         [$idx:tt, $name:ident], $([$idx_rest:tt, $name_rest:ident]),*
     ) => {
-        impl<$name, $($name_rest),*> Pass for ($name, $($name_rest),*)
+        impl<'a, $name, $($name_rest),*> Pass<'a> for ($name, $($name_rest),*)
         where
-            $name: Pass,
-            $($name_rest: Pass),*
+            $name: Pass<'a>,
+            $($name_rest: Pass<'a>),*
         {
             #[inline]
-            fn process(&mut self, program: &mut Program) {
+            fn process(&mut self, program: &mut Program<'a>) {
                 self.$idx.process(program);
 
                 $(
@@ -304,14 +294,14 @@ impl_pass_for_tuple!(
 );
 
 #[inline(always)]
-pub fn noop_pass() -> impl Pass {
-    fn noop(_: &mut Program) {}
+pub fn noop_pass<'a>() -> impl Pass<'a> {
+    fn noop(_: &mut Program<'_>) {}
 
     fn_pass(noop)
 }
 
 #[inline(always)]
-pub fn fn_pass(f: impl FnMut(&mut Program)) -> impl Pass {
+pub fn fn_pass<'a>(f: impl FnMut(&mut Program<'a>)) -> impl Pass<'a> {
     FnPass { f }
 }
 
@@ -319,82 +309,26 @@ struct FnPass<F> {
     f: F,
 }
 
-impl<F> Pass for FnPass<F>
+impl<'a, F> Pass<'a> for FnPass<F>
 where
-    F: FnMut(&mut Program),
+    F: FnMut(&mut Program<'a>),
 {
-    fn process(&mut self, program: &mut Program) {
+    fn process(&mut self, program: &mut Program<'a>) {
         (self.f)(program);
     }
 }
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Default, Hash, Copy, Clone, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
 }
 
-impl Take for Invalid {
-    fn dummy() -> Self {
+impl<'a> Take<'a> for Invalid {
+    fn dummy(_: &'a Allocator) -> Self {
         Invalid::default()
-    }
-}
-
-/// Note: This type implements `Serailize` and `Deserialize` if `serde` is
-/// enabled, instead of requiring `serde-impl` feature.
-#[derive(Debug, Default, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "serde", derive(Serialize))]
-#[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
-pub enum EsVersion {
-    Es3,
-    #[default]
-    Es5,
-    Es2015,
-    Es2016,
-    Es2017,
-    Es2018,
-    Es2019,
-    Es2020,
-    Es2021,
-    Es2022,
-    Es2023,
-    Es2024,
-    EsNext,
-}
-
-#[cfg(feature = "serde")]
-impl<'de> Deserialize<'de> for EsVersion {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use serde::de::Error;
-
-        let s = String::deserialize(deserializer)?;
-        match s.to_lowercase().as_str() {
-            "es3" => Ok(EsVersion::Es3),
-            "es5" => Ok(EsVersion::Es5),
-            "es2015" | "es6" => Ok(EsVersion::Es2015),
-            "es2016" => Ok(EsVersion::Es2016),
-            "es2017" => Ok(EsVersion::Es2017),
-            "es2018" => Ok(EsVersion::Es2018),
-            "es2019" => Ok(EsVersion::Es2019),
-            "es2020" => Ok(EsVersion::Es2020),
-            "es2021" => Ok(EsVersion::Es2021),
-            "es2022" => Ok(EsVersion::Es2022),
-            "es2023" => Ok(EsVersion::Es2023),
-            "es2024" => Ok(EsVersion::Es2024),
-            "esnext" => Ok(EsVersion::EsNext),
-            _ => Err(D::Error::custom(format!("Unknown ES version: {}", s))),
-        }
-    }
-}
-
-impl EsVersion {
-    pub const fn latest() -> Self {
-        EsVersion::EsNext
     }
 }
 
@@ -449,7 +383,6 @@ pub use self::{
         ArchivedImportStarAsSpecifier, ArchivedModuleDecl, ArchivedModuleExportName,
         ArchivedNamedExport,
     },
-    operators::{ArchivedAssignOp, ArchivedBinaryOp, ArchivedUnaryOp, ArchivedUpdateOp},
     pat::{
         ArchivedArrayPat, ArchivedAssignPat, ArchivedAssignPatProp, ArchivedKeyValuePatProp,
         ArchivedObjectPat, ArchivedObjectPatProp, ArchivedPat, ArchivedRestPat,
@@ -492,3 +425,6 @@ pub use self::{
         ArchivedTsUnionOrIntersectionType, ArchivedTsUnionType,
     },
 };
+#[cfg(feature = "rkyv-impl")]
+#[doc(hidden)]
+pub use super::operators::{ArchivedAssignOp, ArchivedBinaryOp, ArchivedUnaryOp, ArchivedUpdateOp};

@@ -20,6 +20,7 @@ use std::{
 
 use once_cell::sync::Lazy;
 use serde::Serializer;
+use swc_allocator::arena::CloneIn;
 
 pub use self::{atom as js_word, Atom as JsWord};
 
@@ -31,6 +32,14 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
+
+impl<'a> CloneIn<'a> for Atom {
+    type Cloned = Atom;
+
+    fn clone_in(&self, _: &'a swc_allocator::arena::Allocator) -> Self::Cloned {
+        self.clone()
+    }
+}
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
