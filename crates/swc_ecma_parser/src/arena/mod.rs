@@ -1,4 +1,3 @@
-use parser::Parser;
 use swc_allocator::arena::Allocator;
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::{arena::*, EsVersion};
@@ -6,6 +5,8 @@ use swc_ecma_ast::{arena::*, EsVersion};
 use crate::{error::Error, lexer::Lexer, PResult, Syntax};
 
 pub mod parser;
+pub use parser::Parser;
+
 pub fn with_file_parser<'a, T>(
     allocator: &'a Allocator,
     fm: &SourceFile,

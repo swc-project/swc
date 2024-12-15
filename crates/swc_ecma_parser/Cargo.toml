@@ -76,3 +76,7 @@ name    = "lexer"
 [[bench]]
 harness = false
 name    = "parser"
+
+[[bench]]
+harness = false
+name    = "arena_compare"
