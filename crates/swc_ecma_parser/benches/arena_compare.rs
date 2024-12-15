@@ -1,18 +1,21 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_allocator::arena::Allocator;
 use swc_common::{FileName, Span, DUMMY_SP};
-use swc_ecma_parser::{StringInput, Syntax};
+use swc_ecma_parser::{StringInput, Syntax, TsSyntax};
 
-static SOURCE: &str = include_str!("files/typescript.js");
+static SOURCE: &str = include_str!("files/cal.com.tsx");
 
 fn bench_cases(b: &mut Criterion) {
+    let syntax = Syntax::Typescript(TsSyntax {
+        tsx: true,
+        ..Default::default()
+    });
     let _ = ::testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
-
         b.bench_function("es/parser/origin", |b| {
             b.iter(|| {
                 let mut parser =
-                    swc_ecma_parser::Parser::new(Syntax::default(), StringInput::from(&*fm), None);
+                    swc_ecma_parser::Parser::new(syntax, StringInput::from(&*fm), None);
                 let module = parser.parse_module().map_err(|_| ()).unwrap();
                 black_box(module);
             });
@@ -23,7 +26,7 @@ fn bench_cases(b: &mut Criterion) {
             b.iter(|| {
                 let mut parser = swc_ecma_parser::arena::Parser::new(
                     &allocator,
-                    Syntax::default(),
+                    syntax,
                     StringInput::from(&*fm),
                     None,
                 );
@@ -41,8 +44,7 @@ fn bench_cases(b: &mut Criterion) {
                 }
             }
 
-            let mut parser =
-                swc_ecma_parser::Parser::new(Syntax::default(), StringInput::from(&*fm), None);
+            let mut parser = swc_ecma_parser::Parser::new(syntax, StringInput::from(&*fm), None);
             let mut module = parser.parse_module().map_err(|_| ()).unwrap();
 
             b.iter(|| {
@@ -61,7 +63,7 @@ fn bench_cases(b: &mut Criterion) {
             let allocator = Allocator::default();
             let mut parser = swc_ecma_parser::arena::Parser::new(
                 &allocator,
-                Syntax::default(),
+                syntax,
                 StringInput::from(&*fm),
                 None,
             );
