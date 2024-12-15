@@ -2889,84 +2889,118 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 #[cfg(test)]
 mod tests {
     use swc_allocator::arena::Allocator;
-    use swc_common::DUMMY_SP;
-    use swc_ecma_ast::*;
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_common::{SyntaxContext, DUMMY_SP};
+    use swc_ecma_ast::{op, EsVersion};
+    use swc_ecma_visit::assert_eq_ignore_span_arena;
 
-    use crate::{lexer::Lexer, test_parser, token::*, Capturing, Parser, Syntax};
+    use super::*;
+    use crate::{arena::parser::test_parser, lexer::Lexer, token::BinOpToken, Capturing};
 
     #[test]
     fn issue_708_1() {
+        let alloc = Allocator::default();
         let actual = test_parser(
+            &alloc,
             "type test = -1;",
             Syntax::Typescript(Default::default()),
             |p| p.parse_module(),
         );
 
-        let expected = Module {
-            span: DUMMY_SP,
-            shebang: None,
-            body: {
-                let first = TsTypeAliasDecl {
+        let mut body = Vec::new_in(&alloc);
+        body.push(ModuleItem::Stmt(Stmt::Decl(Box::new_in(
+            Decl::TsTypeAlias(Box::new_in(
+                TsTypeAliasDecl {
                     span: DUMMY_SP,
                     declare: false,
                     id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
                     type_params: None,
-                    type_ann: self.ast(TsType::TsLitType(TsLitType {
-                        span: DUMMY_SP,
-                        lit: TsLit::Number(Number {
+                    type_ann: TsType::TsLitType(Box::new_in(
+                        TsLitType {
                             span: DUMMY_SP,
-                            value: -1.0,
-                            raw: Some("-1".into()),
-                        }),
-                    })),
-                }
-                .into();
-                vec![first]
-            },
+                            lit: TsLit::Number(Box::new_in(
+                                Number {
+                                    span: DUMMY_SP,
+                                    value: -1.0,
+                                    raw: Some("-1".into()),
+                                },
+                                &alloc,
+                            )),
+                        },
+                        &alloc,
+                    )),
+                },
+                &alloc,
+            )),
+            &alloc,
+        ))));
+        let expected = Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body,
         };
 
-        assert_eq_ignore_span!(actual, expected);
+        assert_eq_ignore_span_arena!(actual, expected);
     }
 
     #[test]
     fn issue_708_2() {
+        let alloc = Allocator::default();
         let actual = test_parser(
+            &alloc,
             "const t = -1;",
             Syntax::Typescript(Default::default()),
             |p| p.parse_module(),
         );
 
-        let expected = Module {
+        let mut decls = Vec::new_in(&alloc);
+        decls.push(VarDeclarator {
             span: DUMMY_SP,
-            shebang: None,
-            body: {
-                let second = VarDecl {
+            name: Pat::Ident(Box::new_in(
+                Ident::new_no_ctxt("t".into(), DUMMY_SP).into(),
+                &alloc,
+            )),
+            init: Some(Expr::Unary(Box::new_in(
+                UnaryExpr {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
-                        init: Some(self.ast(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!(unary, "-"),
-                            arg: self.ast(Expr::Lit(Lit::Num(Number {
+                    op: op!(unary, "-"),
+                    arg: Expr::Lit(Box::new_in(
+                        Lit::Num(Box::new_in(
+                            Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
                                 raw: Some("1".into()),
-                            }))),
-                        }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }
-                .into();
-                vec![second]
-            },
+                            },
+                            &alloc,
+                        )),
+                        &alloc,
+                    )),
+                },
+                &alloc,
+            ))),
+            definite: false,
+        });
+
+        let mut body = Vec::new_in(&alloc);
+        body.push(ModuleItem::Stmt(Stmt::Decl(Box::new_in(
+            Decl::Var(Box::new_in(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls,
+                    ctxt: SyntaxContext::empty(),
+                },
+                &alloc,
+            )),
+            &alloc,
+        ))));
+        let expected = Module {
+            span: DUMMY_SP,
+            shebang: None,
+            body,
         };
 
-        assert_eq_ignore_span!(actual, expected);
+        assert_eq_ignore_span_arena!(actual, expected);
     }
 
     #[test]
@@ -2983,12 +3017,15 @@ mod tests {
                 );
                 let lexer = Capturing::new(lexer);
                 let allocator = Allocator::default();
-                let mut parser = Parser::new_from(lexer, &allocator);
+                let mut parser = Parser::new_from(&allocator, lexer);
                 parser
                     .parse_typescript_module()
                     .map_err(|e| e.into_diagnostic(handler).emit())?;
-                let tokens: Vec<TokenAndSpan> = parser.input().take();
-                let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
+                let tokens = parser.input().take();
+                let tokens = tokens
+                    .into_iter()
+                    .map(|t| t.token)
+                    .collect::<std::vec::Vec<_>>();
                 assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
                 Ok(())
             },
@@ -3007,11 +3044,11 @@ mod tests {
             );
             let lexer = Capturing::new(lexer);
             let allocator = Allocator::default();
-            let mut parser = Parser::new_from(lexer, &allocator);
+            let mut parser = Parser::new_from(&allocator, lexer);
             parser
                 .parse_typescript_module()
                 .map_err(|e| e.into_diagnostic(handler).emit())?;
-            let tokens: Vec<TokenAndSpan> = parser.input().take();
+            let tokens = parser.input().take();
             let token = &tokens[10];
             assert_eq!(
                 token.token,

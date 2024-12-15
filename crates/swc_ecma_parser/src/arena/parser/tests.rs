@@ -3,24 +3,24 @@ use swc_common::comments::SingleThreadedComments;
 use super::*;
 use crate::EsSyntax;
 
-fn program(src: &'static str) -> Program {
-    test_parser(src, Default::default(), |p| p.parse_program())
+fn program<'a>(alloc: &'a Allocator, src: &'static str) -> Program<'a> {
+    test_parser(alloc, src, Default::default(), |p| p.parse_program())
 }
 
 /// Assert that Parser.parse_program returns [Program::Module].
-fn module(src: &'static str) -> Module {
-    program(src).expect_module()
+fn module<'a>(alloc: &'a Allocator, src: &'static str) -> Module<'a> {
+    program(alloc, src).expect_module().into_inner()
 }
 
 /// Assert that Parser.parse_program returns [Program::Script].
-fn script(src: &'static str) -> Script {
-    program(src).expect_script()
+fn script<'a>(alloc: &'a Allocator, src: &'static str) -> Script<'a> {
+    program(alloc, src).expect_script().into_inner()
 }
 
 /// Assert that Parser.parse_program returns [Program::Module] and has errors.
 #[track_caller]
-fn assert_module_error(src: &'static str) -> Module {
-    test_parser(src, Default::default(), |p| {
+fn assert_module_error<'a>(alloc: &'a Allocator, src: &'static str) -> Module<'a> {
+    test_parser(alloc, src, Default::default(), |p| {
         let program = p.parse_program()?;
 
         let errors = p.take_errors();
@@ -28,32 +28,37 @@ fn assert_module_error(src: &'static str) -> Module {
 
         let module = program.expect_module();
 
-        Ok(module)
+        Ok(module.into_inner())
     })
 }
 
 #[test]
 fn parse_program_module_01() {
-    module("import 'foo';");
-    module("export const a = 1;");
+    let alloc = Allocator::default();
+    module(&alloc, "import 'foo';");
+    module(&alloc, "export const a = 1;");
 }
 
 #[test]
 fn parse_program_script_01() {
-    script("let a = 5;");
-    script("function foo() {}");
-    script("const a = 00176;");
+    let alloc = Allocator::default();
+    script(&alloc, "let a = 5;");
+    script(&alloc, "function foo() {}");
+    script(&alloc, "const a = 00176;");
 }
 
 #[test]
 fn parse_program_module_02() {
+    let alloc = Allocator::default();
     module(
+        &alloc,
         "
         function foo() {}
         export default foo;
         ",
     );
     module(
+        &alloc,
         "
         export function foo() {}
         export default foo;
@@ -63,7 +68,9 @@ fn parse_program_module_02() {
 
 #[test]
 fn parse_program_module_error_01() {
+    let alloc = Allocator::default();
     assert_module_error(
+        &alloc,
         "
         const a = 01234;
         export default a;
@@ -73,7 +80,9 @@ fn parse_program_module_error_01() {
 
 #[test]
 fn issue_1813() {
+    let alloc = Allocator::default();
     test_parser(
+        &alloc,
         "\\u{cccccccccsccccccQcXt[uc(~).const[uctor().const[uctor())tbr())",
         Default::default(),
         |p| {
@@ -86,9 +95,10 @@ fn issue_1813() {
 
 #[test]
 fn parse_module_export_named_span() {
-    let m = module("export function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {
-        assert_eq!(span.lo, BytePos(1));
+    let alloc = Allocator::default();
+    let m = module(&alloc, "export function foo() {}");
+    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) = &m.body[0] {
+        assert_eq!(export_decl.span.lo, BytePos(1));
     } else {
         panic!("expected ExportDecl");
     }
@@ -96,13 +106,11 @@ fn parse_module_export_named_span() {
 
 #[test]
 fn parse_module_export_default_fn_span() {
-    let m = module("export default function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
-    })) = &m.body[0]
-    {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(33));
+    let alloc = Allocator::default();
+    let m = module(&alloc, "export default function foo() {}");
+    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default_decl)) = &m.body[0] {
+        assert_eq!(export_default_decl.span.lo, BytePos(1));
+        assert_eq!(export_default_decl.span.hi, BytePos(33));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -110,13 +118,11 @@ fn parse_module_export_default_fn_span() {
 
 #[test]
 fn parse_module_export_default_async_fn_span() {
-    let m = module("export default async function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
-    })) = &m.body[0]
-    {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(39));
+    let alloc = Allocator::default();
+    let m = module(&alloc, "export default async function foo() {}");
+    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default_decl)) = &m.body[0] {
+        assert_eq!(export_default_decl.span.lo, BytePos(1));
+        assert_eq!(export_default_decl.span.hi, BytePos(39));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -124,13 +130,11 @@ fn parse_module_export_default_async_fn_span() {
 
 #[test]
 fn parse_module_export_default_class_span() {
-    let m = module("export default class Foo {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
-    })) = &m.body[0]
-    {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(28));
+    let alloc = Allocator::default();
+    let m = module(&alloc, "export default class Foo {}");
+    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(decl)) = &m.body[0] {
+        assert_eq!(decl.span.lo, BytePos(1));
+        assert_eq!(decl.span.hi, BytePos(28));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -145,9 +149,14 @@ fn issue_1878() {
         let s = "
             // test
         ";
-        let _ = super::test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
-            p.parse_typescript_module()
-        });
+        let alloc = Allocator::default();
+        let _ = super::test_parser_comment(
+            &alloc,
+            &c,
+            s,
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_typescript_module(),
+        );
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
@@ -162,9 +171,14 @@ fn issue_1878() {
         let s = "#!/foo/bar
             // test
         ";
-        let _ = super::test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
-            p.parse_typescript_module()
-        });
+        let alloc = Allocator::default();
+        let _ = super::test_parser_comment(
+            &alloc,
+            &c,
+            s,
+            Syntax::Typescript(Default::default()),
+            |p| p.parse_typescript_module(),
+        );
 
         let (leading, trailing) = c.take_all();
         assert!(leading.borrow().is_empty());
@@ -182,7 +196,9 @@ fn issue_2264_1() {
             /* 2 */
         </Switch>
     ";
+    let alloc = Allocator::default();
     let _ = super::test_parser_comment(
+        &alloc,
         &c,
         s,
         Syntax::Typescript(TsSyntax {
@@ -206,7 +222,9 @@ fn issue_2264_2() {
             /* 2 */
         </Switch>
     ";
+    let alloc = Allocator::default();
     let _ = super::test_parser_comment(
+        &alloc,
         &c,
         s,
         Syntax::Es(EsSyntax {
@@ -225,7 +243,9 @@ fn issue_2264_2() {
 fn issue_2264_3() {
     let c = SingleThreadedComments::default();
     let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";
+    let alloc = Allocator::default();
     let _ = super::test_parser_comment(
+        &alloc,
         &c,
         s,
         Syntax::Typescript(TsSyntax {
@@ -252,7 +272,9 @@ fn issue_2339_1() {
             test;
         };
     ";
+    let alloc = Allocator::default();
     let _ = super::test_parser_comment(
+        &alloc,
         &c,
         s,
         Syntax::Typescript(TsSyntax {
@@ -270,7 +292,8 @@ fn issue_2339_1() {
 
 #[test]
 fn issue_2853_1() {
-    test_parser("const a = \"\\0a\";", Default::default(), |p| {
+    let alloc = Allocator::default();
+    test_parser(&alloc, "const a = \"\\0a\";", Default::default(), |p| {
         let program = p.parse_program()?;
 
         let errors = p.take_errors();
@@ -283,19 +306,27 @@ fn issue_2853_1() {
 
 #[test]
 fn issue_2853_2() {
-    test_parser("const a = \"\u{0000}a\";", Default::default(), |p| {
-        let program = p.parse_program()?;
+    let alloc = Allocator::default();
+    test_parser(
+        &alloc,
+        "const a = \"\u{0000}a\";",
+        Default::default(),
+        |p| {
+            let program = p.parse_program()?;
 
-        let errors = p.take_errors();
-        assert_eq!(errors, Vec::new());
+            let errors = p.take_errors();
+            assert_eq!(errors, Vec::new());
 
-        Ok(program)
-    });
+            Ok(program)
+        },
+    );
 }
 
 #[test]
 fn illegal_language_mode_directive1() {
+    let alloc = Allocator::default();
     test_parser(
+        &alloc,
         r#"function f(a = 0) { "use strict"; }"#,
         Default::default(),
         |p| {
@@ -309,7 +340,7 @@ fn illegal_language_mode_directive1() {
                         lo: BytePos(21),
                         hi: BytePos(34),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -320,7 +351,9 @@ fn illegal_language_mode_directive1() {
 
 #[test]
 fn illegal_language_mode_directive2() {
+    let alloc = Allocator::default();
     test_parser(
+        &alloc,
         r#"let f = (a = 0) => { "use strict"; }"#,
         Default::default(),
         |p| {
@@ -334,7 +367,7 @@ fn illegal_language_mode_directive2() {
                         lo: BytePos(22),
                         hi: BytePos(35),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -345,12 +378,14 @@ fn illegal_language_mode_directive2() {
 
 #[test]
 fn parse_non_strict_for_loop() {
-    script("for (var v1 = 1 in v3) {}");
+    let alloc = Allocator::default();
+    script(&alloc, "for (var v1 = 1 in v3) {}");
 }
 
 #[test]
 fn parse_program_take_script_module_errors() {
-    test_parser(r#"077;"#, Default::default(), |p| {
+    let alloc = Allocator::default();
+    test_parser(&alloc, r#"077;"#, Default::default(), |p| {
         let program = p.parse_program()?;
 
         assert_eq!(p.take_errors(), vec![]);
@@ -362,7 +397,7 @@ fn parse_program_take_script_module_errors() {
                     lo: BytePos(1),
                     hi: BytePos(4),
                 },
-                crate::parser::SyntaxError::LegacyOctal
+                SyntaxError::LegacyOctal
             )]
         );
 

@@ -2,7 +2,7 @@ use swc_allocator::arena::{Allocator, Box, Vec};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{arena::*, EsVersion};
 
-use super::{stmt::IsDirective, Parser, State};
+use super::{Parser, State};
 use crate::{error::SyntaxError, lexer::TokenContext, token::Token, Context, PResult, Tokens};
 
 /// Parser for function expression and function declaration.
@@ -1778,39 +1778,51 @@ struct MakeMethodArgs<'a> {
 #[allow(unused)]
 mod tests {
 
-    use swc_common::DUMMY_SP as span;
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_common::{SyntaxContext, DUMMY_SP as span};
+    use swc_ecma_visit::assert_eq_ignore_span_arena;
 
     use super::*;
     use crate::{arena::parser::test_parser, Syntax};
 
-    fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
+    fn lhs<'a>(alloc: &'a Allocator, s: &'static str) -> Expr<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_lhs_expr())
     }
 
-    fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| p.parse_expr())
+    fn expr<'a>(alloc: &'a Allocator, s: &'static str) -> Expr<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_expr())
     }
 
     #[test]
     fn class_expr() {
-        assert_eq_ignore_span!(
-            expr("(class extends a {})"),
-            Box::new(Expr::Paren(ParenExpr {
-                span,
-                expr: Box::new(Expr::Class(ClassExpr {
-                    ident: None,
-                    class: Box::new(Class {
-                        decorators: Vec::new_in(self.alloc),
-                        span,
-                        body: Vec::new_in(self.alloc),
-                        super_class: Some(expr("a")),
-                        implements: Vec::new_in(self.alloc),
-                        is_abstract: false,
-                        ..Default::default()
-                    }),
-                })),
-            }))
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            expr(&alloc, "(class extends a {})"),
+            Expr::Paren(Box::new_in(
+                ParenExpr {
+                    span,
+                    expr: Expr::Class(Box::new_in(
+                        ClassExpr {
+                            ident: None,
+                            class: Box::new_in(
+                                Class {
+                                    decorators: Vec::new_in(&alloc),
+                                    span,
+                                    body: Vec::new_in(&alloc),
+                                    super_class: Some(expr(&alloc, "a")),
+                                    implements: Vec::new_in(&alloc),
+                                    is_abstract: false,
+                                    ctxt: SyntaxContext::empty(),
+                                    super_type_params: None,
+                                    type_params: None
+                                },
+                                &alloc
+                            ),
+                        },
+                        &alloc
+                    )),
+                },
+                &alloc
+            ))
         );
     }
 }

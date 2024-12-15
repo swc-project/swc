@@ -922,17 +922,18 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
 #[cfg(test)]
 mod tests {
+    use swc_allocator::vec;
     use swc_common::DUMMY_SP as span;
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_ecma_visit::assert_eq_ignore_span_arena;
 
     use super::*;
 
-    fn array_pat(s: &'static str) -> Pat<'static> {
-        test_parser(s, Syntax::default(), |p| p.parse_array_binding_pat())
+    fn array_pat<'a>(alloc: &'a Allocator, s: &'static str) -> Pat<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_array_binding_pat())
     }
 
-    fn object_pat(s: &'static str) -> Pat<'static> {
-        test_parser(s, Syntax::default(), |p| {
+    fn object_pat<'a>(alloc: &'a Allocator, s: &'static str) -> Pat<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| {
             p.parse_binding_pat_or_ident(false)
         })
     }
@@ -945,297 +946,391 @@ mod tests {
         IdentName::new(s.into(), span)
     }
 
-    fn rest() -> Option<Pat<'static>> {
-        Some(
+    fn rest(alloc: &Allocator) -> Option<Pat<'_>> {
+        Some(Pat::Rest(Box::new_in(
             RestPat {
                 span,
                 dot3_token: span,
                 type_ann: None,
-                arg: ident("tail").into(),
-            }
-            .into(),
-        )
+                arg: Pat::Ident(Box::new_in(ident("tail").into(), alloc)),
+            },
+            alloc,
+        )))
     }
 
     #[test]
     fn array_pat_simple() {
-        assert_eq_ignore_span!(
-            array_pat("[a, [b], [c]]"),
-            Pat::Array(ArrayPat {
+        let alloc = Allocator::default();
+        let mut elems = Vec::new_in(&alloc);
+        elems.push(Some(Pat::Ident(Box::new_in(ident("a").into(), &alloc))));
+        elems.push(Some(Pat::Array(Box::new_in(
+            ArrayPat {
                 span,
                 optional: false,
-                elems: vec![
-                    Some(Pat::Ident(ident("a").into())),
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b").into()))],
-                        type_ann: None
-                    })),
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c").into()))],
-                        type_ann: None
-                    }))
-                ],
-                type_ann: None
-            })
+                elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("b").into(), &alloc)))],
+                type_ann: None,
+            },
+            &alloc,
+        ))));
+        elems.push(Some(Pat::Array(Box::new_in(
+            ArrayPat {
+                span,
+                optional: false,
+                elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("c").into(), &alloc)))],
+                type_ann: None,
+            },
+            &alloc,
+        ))));
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[a, [b], [c]]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems,
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_pat_empty_start() {
-        assert_eq_ignore_span!(
-            array_pat("[, a, [b], [c]]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![
-                    None,
-                    Some(Pat::Ident(ident("a").into())),
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b").into()))],
-                        type_ann: None
-                    })),
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c").into()))],
-                        type_ann: None
-                    }))
-                ],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[, a, [b], [c]]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc;
+                        None,
+                        Some(Pat::Ident(Box::new_in(ident("a").into(), &alloc))),
+                        Some(Pat::Array(Box::new_in(
+                            ArrayPat {
+                            span,
+                            optional: false,
+                            elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("b").into(), &alloc)))],
+                            type_ann: None
+                        }
+                            , &alloc))),
+                        Some(Pat::Array(Box::new_in(
+                            ArrayPat {
+                            span,
+                            optional: false,
+                            elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("c").into(), &alloc)))],
+                            type_ann: None
+                        }
+                            , &alloc)))
+                    ],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_pat_empty() {
-        assert_eq_ignore_span!(
-            array_pat("[a, , [b], [c]]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![
-                    Some(Pat::Ident(ident("a").into())),
-                    None,
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("b").into()))],
-                        type_ann: None
-                    })),
-                    Some(Pat::Array(ArrayPat {
-                        span,
-                        optional: false,
-                        elems: vec![Some(Pat::Ident(ident("c").into()))],
-                        type_ann: None
-                    }))
-                ],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[a, , [b], [c]]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc;
+                        Some(Pat::Ident(Box::new_in(ident("a").into(), &alloc))),
+                        None,
+                        Some(Pat::Array(Box::new_in(ArrayPat {
+                            span,
+                            optional: false,
+                            elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("b").into(), &alloc)))],
+                            type_ann: None
+                        }, &alloc))),
+                        Some(Pat::Array(Box::new_in(
+                            ArrayPat {
+                            span,
+                            optional: false,
+                            elems: vec![in &alloc; Some(Pat::Ident(Box::new_in(ident("c").into(), &alloc)))],
+                            type_ann: None
+                        }
+                            , &alloc)))
+                    ],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_binding_pattern_tail() {
-        assert_eq_ignore_span!(
-            array_pat("[...tail]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![rest()],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[...tail]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc; rest(&alloc)],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_binding_pattern_assign() {
-        assert_eq_ignore_span!(
-            array_pat("[,a=1,]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![
-                    None,
-                    Some(Pat::Assign(AssignPat {
-                        span,
-                        left: Box::new(Pat::Ident(ident("a").into())),
-                        right: Box::new(Expr::Lit(Lit::Num(Number {
-                            span,
-                            value: 1.0,
-                            raw: Some("1".into())
-                        })))
-                    }))
-                ],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[,a=1,]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc;None,
+                                                            Some(Pat::Assign(Box::new_in(
+                                        AssignPat {
+                                                                span,
+                                                                left: Pat::Ident(Box::new_in(ident("a").into(), &alloc)),
+                                                                right: Expr::Lit(Box::new_in(Lit::Num(Box::new_in(
+                    Number {
+                                                                    span,
+                                                                    value: 1.0,
+                                                                    raw: Some("1".into())
+                                                                }
+                                                                    , &alloc)), &alloc))
+                                                            }
+                                                                , &alloc)))
+                                                        ],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_binding_pattern_tail_with_elems() {
-        assert_eq_ignore_span!(
-            array_pat("[,,,...tail]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![None, None, None, rest()],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[,,,...tail]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc; None, None, None, rest(&alloc)],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn array_binding_pattern_tail_inside_tail() {
-        assert_eq_ignore_span!(
-            array_pat("[,,,...[...tail]]"),
-            Pat::Array(ArrayPat {
-                span,
-                optional: false,
-                elems: vec![
-                    None,
-                    None,
-                    None,
-                    Some(Pat::Rest(RestPat {
-                        span,
-                        dot3_token: span,
-                        type_ann: None,
-                        arg: Box::new(Pat::Array(ArrayPat {
-                            span,
-                            optional: false,
-                            elems: vec![rest()],
-                            type_ann: None
-                        }))
-                    }))
-                ],
-                type_ann: None
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            array_pat(&alloc, "[,,,...[...tail]]"),
+            Pat::Array(Box::new_in(
+                ArrayPat {
+                    span,
+                    optional: false,
+                    elems: vec![in &alloc;
+                                        None,
+                                        None,
+                                        None,
+                                        Some(Pat::Rest(Box::new_in(
+                    RestPat {
+                                            span,
+                                            dot3_token: span,
+                                            type_ann: None,
+                                            arg: Pat::Array(Box::new_in(
+                                                ArrayPat {
+                                                span,
+                                                optional: false,
+                                                elems: vec![in &alloc; rest(&alloc)],
+                                                type_ann: None
+                                            }
+                                                , &alloc))
+                                        }
+                                            , &alloc)))
+                                    ],
+                    type_ann: None
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn object_binding_pattern_tail() {
-        assert_eq_ignore_span!(
-            object_pat("{...obj}"),
-            Pat::Object(ObjectPat {
-                span,
-                type_ann: None,
-                optional: false,
-                props: vec![ObjectPatProp::Rest(RestPat {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            object_pat(&alloc, "{...obj}"),
+            Pat::Object(Box::new_in(
+                ObjectPat {
+                    span,
+                    type_ann: None,
+                    optional: false,
+                    props: vec![in &alloc; ObjectPatProp::Rest(Box::new_in(
+                    RestPat {
                     span,
                     dot3_token: span,
                     type_ann: None,
-                    arg: Box::new(Pat::Ident(ident("obj").into()))
-                })]
-            })
+                    arg: Pat::Ident(Box::new_in(ident("obj").into(), &alloc))
+                }
+                    , &alloc))]
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn object_binding_pattern_with_prop() {
-        assert_eq_ignore_span!(
-            object_pat("{prop = 10 }"),
-            Pat::Object(ObjectPat {
-                span,
-                type_ann: None,
-                optional: false,
-                props: vec![ObjectPatProp::Assign(AssignPatProp {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            object_pat(&alloc, "{prop = 10 }"),
+            Pat::Object(Box::new_in(
+                ObjectPat {
+                    span,
+                    type_ann: None,
+                    optional: false,
+                    props: vec![in &alloc; ObjectPatProp::Assign(Box::new_in(
+                    AssignPatProp {
                     span,
                     key: ident("prop").into(),
-                    value: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                    value: Some(Expr::Lit(Box::new_in(Lit::Num(Box::new_in(
+Number {
                         span,
                         value: 10.0,
                         raw: Some("10".into())
-                    }))))
-                })]
-            })
+                    }
+                        , &alloc)), &alloc)))
+                }
+                    , &alloc))]
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn object_binding_pattern_with_prop_and_label() {
-        fn prop(key: PropName, assign_name: &str, expr: Expr) -> PropOrSpread<'static> {
-            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key,
-                value: AssignExpr {
-                    span,
-                    op: AssignOp::Assign,
-                    left: ident(assign_name).into(),
-                    right: Box::new(expr),
-                }
-                .into(),
-            })))
+        fn prop<'a>(
+            alloc: &'a Allocator,
+            key: PropName<'a>,
+            assign_name: &str,
+            expr: Expr<'a>,
+        ) -> PropOrSpread<'a> {
+            PropOrSpread::Prop(Box::new_in(
+                Prop::KeyValue(Box::new_in(
+                    KeyValueProp {
+                        key,
+                        value: Expr::Assign(Box::new_in(
+                            AssignExpr {
+                                span,
+                                op: AssignOp::Assign,
+                                left: AssignTarget::Simple(SimpleAssignTarget::Ident(Box::new_in(
+                                    ident(assign_name).into(),
+                                    alloc,
+                                ))),
+                                right: expr,
+                            },
+                            alloc,
+                        )),
+                    },
+                    alloc,
+                )),
+                alloc,
+            ))
         }
 
-        assert_eq_ignore_span!(
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
             object_pat(
+                &alloc,
                 "{obj = {$: num = 10, '': sym = '', \" \": quote = \" \", _: under = [...tail],}}"
             ),
-            Pat::Object(ObjectPat {
-                span,
-                type_ann: None,
-                optional: false,
-                props: vec![ObjectPatProp::Assign(AssignPatProp {
+            Pat::Object(Box::new_in(
+                ObjectPat {
+                    span,
+                    type_ann: None,
+                    optional: false,
+                    props: vec![in &alloc; ObjectPatProp::Assign(Box::new_in(
+AssignPatProp {
                     span,
                     key: ident("obj").into(),
-                    value: Some(Box::new(Expr::Object(ObjectLit {
+                    value: Some(Expr::Object(Box::new_in(ObjectLit {
                         span,
-                        props: vec![
+                        props: vec![in &alloc;
                             prop(
-                                PropName::Ident(ident_name("$")),
+                                &alloc,
+                                PropName::Ident(Box::new_in(ident_name("$"), &alloc)),
                                 "num",
-                                Expr::Lit(Lit::Num(Number {
+                                Expr::Lit(Box::new_in(Lit::Num(Box::new_in(
+Number {
                                     span,
                                     value: 10.0,
                                     raw: Some("10".into())
-                                }))
+                                }
+                                    , &alloc)), &alloc))
                             ),
                             prop(
-                                PropName::Str(Str {
+                                &alloc,
+                                PropName::Str(Box::new_in(Str {
                                     span,
                                     value: "".into(),
                                     raw: Some("''".into()),
-                                }),
+                                }, &alloc)),
                                 "sym",
-                                Expr::Lit(Lit::Str(Str {
+                                Expr::Lit(Box::new_in(Lit::Str(Box::new_in(Str {
                                     span,
                                     value: "".into(),
                                     raw: Some("''".into()),
-                                }))
+                                }, &alloc)), &alloc))
                             ),
                             prop(
-                                PropName::Str(Str {
+                                &alloc,
+                                PropName::Str(Box::new_in(Str {
                                     span,
                                     value: " ".into(),
                                     raw: Some("\" \"".into()),
-                                }),
+                                }, &alloc)),
                                 "quote",
-                                Expr::Lit(Lit::Str(Str {
+                                Expr::Lit(Box::new_in(Lit::Str(Box::new_in(
+Str {
                                     span,
                                     value: " ".into(),
                                     raw: Some("\" \"".into()),
-                                }))
+                                }
+                                    , &alloc)), &alloc))
                             ),
                             prop(
-                                PropName::Ident(ident_name("_")),
+                                &alloc,
+                                PropName::Ident(Box::new_in(ident_name("_"), &alloc)),
                                 "under",
-                                Expr::Array(ArrayLit {
+                                Expr::Array(Box::new_in(
+                                    ArrayLit {
                                     span,
-                                    elems: vec![Some(ExprOrSpread {
+                                    elems: vec![in &alloc; Some(ExprOrSpread {
                                         spread: Some(span),
-                                        expr: Box::new(Expr::Ident(ident("tail")))
+                                        expr: Expr::Ident(Box::new_in(ident("tail"), &alloc))
                                     })]
-                                })
+                                }
+                                    , &alloc))
                             ),
                         ]
-                    })))
-                })]
-            })
+                    }, &alloc)))
+                }
+                    , &alloc))]
+                },
+                &alloc
+            ))
         );
     }
 }

@@ -400,39 +400,48 @@ impl<'a, I: Tokens> Parser<'a, I> {
 
 #[cfg(test)]
 mod tests {
+    use swc_allocator::arena::{Allocator, Box};
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::{arena::*, op};
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_ecma_visit::assert_eq_ignore_span_arena;
 
     use crate::{arena::parser::test_parser, Syntax};
 
-    fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| p.parse_bin_expr())
+    fn bin<'a>(alloc: &'a Allocator, s: &'static str) -> Expr<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_bin_expr())
     }
 
     #[test]
     fn simple() {
-        assert_eq_ignore_span!(
-            bin("5 + 4 * 7"),
-            Box::new(Expr::Bin(BinExpr {
-                span,
-                op: op!(bin, "+"),
-                left: bin("5"),
-                right: bin("4 * 7"),
-            }))
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            bin(&alloc, "5 + 4 * 7"),
+            Expr::Bin(Box::new_in(
+                BinExpr {
+                    span,
+                    op: op!(bin, "+"),
+                    left: bin(&alloc, "5"),
+                    right: bin(&alloc, "4 * 7"),
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn same_prec() {
-        assert_eq_ignore_span!(
-            bin("5 + 4 + 7"),
-            Box::new(Expr::Bin(BinExpr {
-                span,
-                op: op!(bin, "+"),
-                left: bin("5 + 4"),
-                right: bin("7"),
-            }))
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            bin(&alloc, "5 + 4 + 7"),
+            Expr::Bin(Box::new_in(
+                BinExpr {
+                    span,
+                    op: op!(bin, "+"),
+                    left: bin(&alloc, "5 + 4"),
+                    right: bin(&alloc, "7"),
+                },
+                &alloc
+            ))
         );
     }
 }

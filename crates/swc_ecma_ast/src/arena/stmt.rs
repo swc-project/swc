@@ -1,6 +1,9 @@
 use is_macro::Is;
 use swc_allocator::arena::{Box, Vec};
-use swc_common::{arena::ast_node, arena::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    arena::{ast_node, Take},
+    EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP,
+};
 
 use super::{
     decl::{Decl, VarDecl},
@@ -142,17 +145,16 @@ pub enum Stmt<'a> {
 // );
 
 impl Stmt<'_> {
-    //     pub fn is_use_strict(&self) -> bool {
-    //         match self {
-    //             Stmt::Expr(expr) => match *expr.expr {
-    //                 Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-    //                     matches!(raw, Some(value) if value == "\"use strict\"" ||
-    // value == "'use strict'")                 }
-    //                 _ => false,
-    //             },
-    //             _ => false,
-    //         }
-    //     }
+    pub fn is_use_strict(&self) -> bool {
+        self.as_expr()
+            .map(|expr| &expr.expr)
+            .and_then(|expr| expr.as_lit())
+            .and_then(|lit| lit.as_str())
+            .and_then(|s| s.raw.as_ref())
+            .map_or(false, |value| {
+                value == "\"use strict\"" || value == "'use strict'"
+            })
+    }
 
     /// Returns true if the statement does not prevent the directives below
     /// `self` from being directives.

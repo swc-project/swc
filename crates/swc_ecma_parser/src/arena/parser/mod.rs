@@ -271,14 +271,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
 }
 
 #[cfg(test)]
-pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
+pub fn test_parser<'a, F, Ret>(alloc: &'a Allocator, s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: for<'a> FnOnce(&mut Parser<'a, Lexer>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<'a, Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let allocator = Allocator::default();
         let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
-        let mut p = Parser::new_from(&allocator, lexer);
+        let mut p = Parser::new_from(alloc, lexer);
         let ret = f(&mut p);
         let mut error = false;
 
@@ -299,14 +298,19 @@ where
 }
 
 #[cfg(test)]
-pub fn test_parser_comment<F, Ret>(c: &dyn Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
+pub fn test_parser_comment<'a, F, Ret>(
+    alloc: &'a Allocator,
+    c: &dyn Comments,
+    s: &'static str,
+    syntax: Syntax,
+    f: F,
+) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<'a, Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let allocator = Allocator::default();
         let lexer = Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
-        let mut p = Parser::new_from(&allocator, lexer);
+        let mut p = Parser::new_from(alloc, lexer);
         let ret = f(&mut p);
 
         for err in p.take_errors() {
@@ -325,12 +329,13 @@ where
 {
     b.bytes = s.len() as u64;
 
+    let mut allocator = Allocator::default();
     let _ = crate::with_test_sess(s, |handler, input| {
         b.iter(|| {
-            let allocator = Allocator::default();
             let lexer = Lexer::new(syntax, Default::default(), input.clone(), None);
             let _ = f(&mut Parser::new_from(&allocator, lexer))
                 .map_err(|err| err.into_diagnostic(handler).emit());
+            allocator.reset();
         });
 
         Ok(())

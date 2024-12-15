@@ -1,10 +1,16 @@
+use swc_allocator::{
+    arena::{Allocator, Box, Vec},
+    vec,
+};
 use swc_common::DUMMY_SP as span;
-use swc_ecma_visit::assert_eq_ignore_span;
+use swc_ecma_ast::arena::*;
+use swc_ecma_visit::assert_eq_ignore_span_arena;
 
-use super::*;
+use crate::arena::parser::test_parser;
 
-fn jsx(src: &'static str) -> Box<Expr> {
+fn jsx<'a>(alloc: &'a Allocator, src: &'static str) -> Expr<'a> {
     test_parser(
+        alloc,
         src,
         crate::Syntax::Es(crate::EsSyntax {
             jsx: true,
@@ -16,102 +22,143 @@ fn jsx(src: &'static str) -> Box<Expr> {
 
 #[test]
 fn self_closing_01() {
-    assert_eq_ignore_span!(
-        jsx("<a />"),
-        Box::new(Expr::JSXElement(Box::new(JSXElement {
-            span,
-            opening: JSXOpeningElement {
+    let alloc = Allocator::default();
+    assert_eq_ignore_span_arena!(
+        jsx(&alloc, "<a />"),
+        Expr::JSXElement(Box::new_in(
+            JSXElement {
                 span,
-                name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
-                self_closing: true,
-                attrs: Vec::new(),
-                type_args: None,
+                opening: JSXOpeningElement {
+                    span,
+                    name: JSXElementName::Ident(Box::new_in(
+                        Ident::new_no_ctxt("a".into(), span),
+                        &alloc
+                    )),
+                    self_closing: true,
+                    attrs: Vec::new_in(&alloc),
+                    type_args: None,
+                },
+                children: Vec::new_in(&alloc),
+                closing: None,
             },
-            children: Vec::new(),
-            closing: None,
-        })))
+            &alloc
+        ))
     );
 }
 
 #[test]
 fn normal_01() {
-    assert_eq_ignore_span!(
-        jsx("<a>foo</a>"),
-        Box::new(Expr::JSXElement(Box::new(JSXElement {
-            span,
-            opening: JSXOpeningElement {
+    let alloc = Allocator::default();
+    assert_eq_ignore_span_arena!(
+        jsx(&alloc, "<a>foo</a>"),
+        Expr::JSXElement(Box::new_in(
+            JSXElement {
                 span,
-                name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
-                self_closing: false,
-                attrs: Vec::new(),
-                type_args: None,
-            },
-            children: vec![JSXElementChild::JSXText(JSXText {
+                opening: JSXOpeningElement {
+                    span,
+                    name: JSXElementName::Ident(Box::new_in(
+                        Ident::new_no_ctxt("a".into(), span),
+                        &alloc
+                    )),
+                    self_closing: false,
+                    attrs: Vec::new_in(&alloc),
+                    type_args: None,
+                },
+                children: vec![in &alloc; JSXElementChild::JSXText(Box::new_in(JSXText {
                 span,
                 raw: "foo".into(),
                 value: "foo".into(),
-            })],
-            closing: Some(JSXClosingElement {
-                span,
-                name: JSXElementName::Ident(Ident::new_no_ctxt("a".into(), span)),
-            })
-        })))
+            }, &alloc))],
+                closing: Some(JSXClosingElement {
+                    span,
+                    name: JSXElementName::Ident(Box::new_in(
+                        Ident::new_no_ctxt("a".into(), span),
+                        &alloc
+                    )),
+                })
+            },
+            &alloc
+        ))
     );
 }
 
 #[test]
 fn escape_in_attr() {
-    assert_eq_ignore_span!(
-        jsx(r#"<div id="w &lt; w" />;"#),
-        Box::new(Expr::JSXElement(Box::new(JSXElement {
-            span,
-            opening: JSXOpeningElement {
+    let alloc = Allocator::default();
+    assert_eq_ignore_span_arena!(
+        jsx(&alloc, r#"<div id="w &lt; w" />;"#),
+        Expr::JSXElement(Box::new_in(
+            JSXElement {
                 span,
-                attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                opening: JSXOpeningElement {
                     span,
-                    name: JSXAttrName::Ident(IdentName::new("id".into(), span)),
-                    value: Some(JSXAttrValue::Lit(Lit::Str(Str {
+                    attrs: vec![in &alloc; JSXAttrOrSpread::JSXAttr(Box::new_in(
+                    JSXAttr {
+                    span,
+                    name: JSXAttrName::Ident(Box::new_in(IdentName::new("id".into(), span), &alloc)),
+                    value: Some(JSXAttrValue::Lit(Box::new_in(Lit::Str(Box::new_in(
+Str {
                         span,
                         value: "w < w".into(),
                         raw: Some("\"w &lt; w\"".into()),
-                    }))),
-                })],
-                name: JSXElementName::Ident(Ident::new_no_ctxt("div".into(), span)),
-                self_closing: true,
-                type_args: None,
+                    }
+                        , &alloc)), &alloc))),
+                }
+                    , &alloc))],
+                    name: JSXElementName::Ident(Box::new_in(
+                        Ident::new_no_ctxt("div".into(), span),
+                        &alloc
+                    )),
+                    self_closing: true,
+                    type_args: None,
+                },
+                children: Vec::new_in(&alloc),
+                closing: None
             },
-            children: Vec::new(),
-            closing: None
-        })))
+            &alloc
+        ))
     );
 }
 
 #[test]
 fn issue_584() {
-    assert_eq_ignore_span!(
-        jsx(r#"<test other={4} />;"#),
-        Box::new(Expr::JSXElement(Box::new(JSXElement {
-            span,
-            opening: JSXOpeningElement {
+    let alloc = Allocator::default();
+    assert_eq_ignore_span_arena!(
+        jsx(&alloc, r#"<test other={4} />;"#),
+        Expr::JSXElement(Box::new_in(
+            JSXElement {
                 span,
-                name: JSXElementName::Ident(Ident::new_no_ctxt("test".into(), span)),
-                attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
+                opening: JSXOpeningElement {
                     span,
-                    name: JSXAttrName::Ident(IdentName::new("other".into(), span)),
-                    value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+                    name: JSXElementName::Ident(Box::new_in(
+                        Ident::new_no_ctxt("test".into(), span),
+                        &alloc
+                    )),
+                    attrs: vec![in &alloc; JSXAttrOrSpread::JSXAttr(Box::new_in(
+                    JSXAttr {
+                    span,
+                    name: JSXAttrName::Ident(Box::new_in(IdentName::new("other".into(), span), &alloc)),
+                    value: Some(JSXAttrValue::JSXExprContainer(Box::new_in(
+JSXExprContainer {
                         span,
-                        expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
+                        expr: JSXExpr::Expr(Expr::Lit(Box::new_in(Lit::Num(Box::new_in(
+                            Number {
                             span,
                             value: 4.0,
                             raw: Some("4".into())
-                        }))))
-                    })),
-                })],
-                self_closing: true,
-                type_args: None,
+                        }
+                            , &alloc)), &alloc)))
+                    }
+                        , &alloc))),
+                }
+                    , &alloc))],
+                    self_closing: true,
+                    type_args: None,
+                },
+                children: Vec::new_in(&alloc),
+                closing: None
             },
-            children: Vec::new(),
-            closing: None
-        })))
+            &alloc
+        ))
     );
 }

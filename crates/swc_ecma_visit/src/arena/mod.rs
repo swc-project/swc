@@ -343,6 +343,25 @@ impl Fold<'_> for SpanRemover {
     }
 }
 
+#[macro_export]
+macro_rules! assert_eq_ignore_span_arena {
+    ($l:expr, $r:expr) => {{
+        use swc_ecma_visit::arena::FoldWith;
+        let l = $l.fold_with(&mut swc_ecma_visit::arena::span_remover());
+        let r = $r.fold_with(&mut swc_ecma_visit::arena::span_remover());
+
+        assert_eq!(l, r);
+    }};
+
+    ($l:expr, $r:expr, $($tts:tt)*) => {{
+        use swc_ecma_visit::arena::FoldWith;
+        let l = $l.fold_with(&mut swc_ecma_visit::arena::span_remover());
+        let r = $r.fold_with(&mut swc_ecma_visit::arena::span_remover());
+
+        assert_eq!(l, r, $($tts)*);
+    }};
+}
+
 /// Implemented for passes which inject variables.
 ///
 /// If a pass depends on other pass which injects variables, this trait can be

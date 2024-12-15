@@ -1446,8 +1446,7 @@ enum TempForHead<'a> {
 pub(crate) trait IsDirective<'a> {
     fn as_ref(&self) -> Option<&Stmt<'a>>;
     fn is_use_strict(&self) -> bool {
-        // self.as_ref().map_or(false, Stmt::is_use_strict)
-        self.as_ref().map_or(false, |_| false)
+        self.as_ref().map_or(false, Stmt::is_use_strict)
     }
 }
 
@@ -1520,145 +1519,184 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt<'a>> for Parser<'a, I> {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
-    use swc_ecma_visit::assert_eq_ignore_span;
+    use swc_allocator::{arena::Allocator, vec};
+    use swc_common::{comments::SingleThreadedComments, SyntaxContext, DUMMY_SP as span};
+    use swc_ecma_visit::assert_eq_ignore_span_arena;
 
     use super::*;
-    use crate::{EsSyntax, Syntax};
+    use crate::{
+        arena::parser::{test_parser, test_parser_comment},
+        EsSyntax, Syntax,
+    };
 
-    fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
+    fn stmt<'a>(alloc: &'a Allocator, s: &'static str) -> Stmt<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_stmt(true))
     }
 
-    fn module_item(s: &'static str) -> ModuleItem {
-        test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
+    fn module_item<'a>(alloc: &'a Allocator, s: &'static str) -> ModuleItem<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| {
+            p.parse_stmt_like(true, true)
+        })
     }
-    fn expr(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| p.parse_expr())
+    fn expr<'a>(alloc: &'a Allocator, s: &'static str) -> Expr<'a> {
+        test_parser(alloc, s, Syntax::default(), |p| p.parse_expr())
     }
 
     #[test]
     fn expr_stmt() {
-        assert_eq_ignore_span!(
-            stmt("a + b + c"),
-            Stmt::Expr(ExprStmt {
-                span,
-                expr: expr("a + b + c")
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "a + b + c"),
+            Stmt::Expr(Box::new_in(
+                ExprStmt {
+                    span,
+                    expr: expr(&alloc, "a + b + c")
+                },
+                &alloc
+            ))
         )
     }
 
     #[test]
     fn catch_rest_pat() {
-        assert_eq_ignore_span!(
-            stmt("try {} catch({ ...a34 }) {}"),
-            Stmt::Try(
-                self.ast(TryStmt {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "try {} catch({ ...a34 }) {}"),
+            Stmt::Try(Box::new_in(
+                TryStmt {
                     span,
                     block: BlockStmt {
                         span,
-                        ..Default::default()
+                        stmts: vec![in &alloc],
+                        ctxt: SyntaxContext::default(),
                     },
                     handler: Some(CatchClause {
                         span,
-                        param: Pat::Object(ObjectPat {
-                            span,
-                            optional: false,
-                            props: vec![ObjectPatProp::Rest(RestPat {
+                        param: Some(Pat::Object(Box::new_in(
+                            ObjectPat {
+                                span,
+                                optional: false,
+                                props: vec![in &alloc; ObjectPatProp::Rest(Box::new_in(
+RestPat {
                                 span,
                                 dot3_token: span,
-                                arg: self
-                                    .ast(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
+                                arg: Pat::Ident(Box::new_in(Ident::new_no_ctxt("a34".into(), span).into(), &alloc)),
                                 type_ann: None
-                            })],
-                            type_ann: None,
-                        })
-                        .into(),
+                            }
+                                , &alloc))],
+                                type_ann: None,
+                            },
+                            &alloc
+                        ))),
                         body: BlockStmt {
                             span,
-                            ..Default::default()
+                            stmts: vec![in &alloc],
+                            ctxt: SyntaxContext::default(),
                         }
                     }),
                     finalizer: None
-                })
-            )
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn throw_this() {
-        assert_eq_ignore_span!(
-            stmt("throw this"),
-            Stmt::Throw(ThrowStmt {
-                span,
-                arg: expr("this"),
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "throw this"),
+            Stmt::Throw(Box::new_in(
+                ThrowStmt {
+                    span,
+                    arg: expr(&alloc, "this"),
+                },
+                &alloc
+            ))
         )
     }
 
     #[test]
     fn await_for_of() {
-        assert_eq_ignore_span!(
-            stmt("for await (const a of b) ;"),
-            Stmt::ForOf(ForOfStmt {
-                span,
-                is_await: true,
-                left: ForHead::VarDecl(self.ast(VarDecl {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "for await (const a of b) ;"),
+            Stmt::ForOf(Box::new_in(
+                ForOfStmt {
                     span,
-                    kind: VarDeclKind::Const,
-                    decls: vec![VarDeclarator {
-                        span,
-                        init: None,
-                        name: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                })),
-                right: self.ast(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
-
-                body: self.ast(Stmt::Empty(EmptyStmt { span })),
-            })
+                    is_await: true,
+                    left: ForHead::VarDecl(Box::new_in(
+                        VarDecl {
+                            span,
+                            kind: VarDeclKind::Const,
+                            decls: vec![in &alloc; VarDeclarator {
+                                span,
+                                init: None,
+                                name: Pat::Ident(Box::new_in(Ident::new_no_ctxt("a".into(), span).into(), &alloc)),
+                                definite: false,
+                            }],
+                            ctxt: SyntaxContext::default(),
+                            declare: false,
+                        },
+                        &alloc
+                    )),
+                    right: Expr::Ident(Box::new_in(Ident::new_no_ctxt("b".into(), span), &alloc)),
+                    body: Stmt::Empty(Box::new_in(EmptyStmt { span }, &alloc)),
+                },
+                &alloc
+            ))
         )
     }
 
     #[test]
     fn no_empty_without_semi() {
-        assert_eq_ignore_span!(
-            stmt("(function foo() { return 1 })"),
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "(function foo() { return 1 })"),
             stmt(
+                &alloc,
                 "(function foo () {
                 return 1
             })"
             )
         );
 
-        assert_eq_ignore_span!(
-            stmt("{ 1; }"),
-            Stmt::Block(BlockStmt {
-                span,
-                stmts: vec![stmt("1")],
-                ..Default::default()
-            })
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "{ 1; }"),
+            Stmt::Block(Box::new_in(
+                BlockStmt {
+                    span,
+                    stmts: vec![in &alloc; stmt(&alloc, "1")],
+                    ctxt: SyntaxContext::default(),
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn if_else() {
-        assert_eq_ignore_span!(
-            stmt("if (a) b; else c"),
-            Stmt::If(IfStmt {
-                span,
-                test: expr("a"),
-                cons: self.ast(stmt("b;")),
-                alt: Some(self.ast(stmt("c"))),
-            })
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            stmt(&alloc, "if (a) b; else c"),
+            Stmt::If(Box::new_in(
+                IfStmt {
+                    span,
+                    test: expr(&alloc, "a"),
+                    cons: stmt(&alloc, "b;"),
+                    alt: Some(stmt(&alloc, "c")),
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn class_decorator() {
-        assert_eq_ignore_span!(
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
             test_parser(
+                &alloc,
                 "
             @decorator
             @dec2
@@ -1670,27 +1708,39 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true),
             ),
-            Stmt::Decl(Decl::Class(ClassDecl {
-                ident: Ident::new_no_ctxt("Foo".into(), span),
-                class: self.ast(Class {
-                    span,
-                    decorators: vec![
-                        Decorator {
-                            span,
-                            expr: expr("decorator")
-                        },
-                        Decorator {
-                            span,
-                            expr: expr("dec2")
-                        }
-                    ],
-                    super_class: None,
-                    body: Vec::new_in(self.alloc),
-                    is_abstract: false,
-                    ..Default::default()
-                }),
-                declare: false,
-            }))
+            Stmt::Decl(Box::new_in(
+                Decl::Class(Box::new_in(
+                    ClassDecl {
+                        ident: Ident::new_no_ctxt("Foo".into(), span),
+                        class: Box::new_in(
+                            Class {
+                                span,
+                                decorators: vec![in &alloc;
+                                    Decorator {
+                                        span,
+                                        expr: expr(&alloc, "decorator")
+                                    },
+                                    Decorator {
+                                        span,
+                                        expr: expr(&alloc, "dec2")
+                                    }
+                                ],
+                                super_class: None,
+                                body: Vec::new_in(&alloc),
+                                is_abstract: false,
+                                ctxt: SyntaxContext::default(),
+                                implements: Vec::new_in(&alloc),
+                                super_type_params: None,
+                                type_params: None
+                            },
+                            &alloc
+                        ),
+                        declare: false,
+                    },
+                    &alloc
+                )),
+                &alloc
+            ))
         );
     }
 
@@ -1707,7 +1757,9 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'))
 
 "#;
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 jsx: true,
@@ -1726,7 +1778,9 @@ function App() {
 }
 
 export default App"#;
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 jsx: true,
@@ -1739,7 +1793,9 @@ export default App"#;
     #[test]
     fn export_default() {
         let src = "export v, { x, y as w } from 'mod';";
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1752,7 +1808,9 @@ export default App"#;
     #[test]
     fn export_default_2() {
         let src = "export foo from 'bar';";
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1765,7 +1823,9 @@ export default App"#;
     #[test]
     fn export_default_3() {
         let src = "export default from 'bar';";
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1778,7 +1838,9 @@ export default App"#;
     #[test]
     fn export_default_4() {
         let src = "export default, {foo} from 'bar';";
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1791,24 +1853,35 @@ export default App"#;
     #[test]
     fn shebang_01() {
         let src = "#!/usr/bin/env node";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn shebang_02() {
         let src = "#!/usr/bin/env node
 let x = 4";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn empty() {
-        test_parser("", Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, "", Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn issue_226() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "export * as Foo from 'bar';",
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1821,7 +1894,9 @@ let x = 4";
     #[test]
     #[should_panic(expected = "Expected 'from', got ','")]
     fn issue_4369_1() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             r#"export * as foo, { bar } from "mod""#,
             Syntax::Es(EsSyntax {
                 export_default_from: false,
@@ -1833,7 +1908,9 @@ let x = 4";
 
     #[test]
     fn issue_4369_2() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             r#"export foo, * as bar, { baz } from "mod""#,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1845,7 +1922,9 @@ let x = 4";
 
     #[test]
     fn issue_4369_3() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             r#"export foo, * as bar from "mod""#,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1857,7 +1936,9 @@ let x = 4";
 
     #[test]
     fn issue_4369_4() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             r#"export * as bar, { baz } from "mod""#,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1869,7 +1950,9 @@ let x = 4";
 
     #[test]
     fn issue_4369_5() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             r#"export foo, { baz } from "mod""#,
             Syntax::Es(EsSyntax {
                 export_default_from: true,
@@ -1881,7 +1964,9 @@ let x = 4";
 
     #[test]
     fn issue_257_var() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "
 export default function waitUntil(callback, options = {}) {
   var timeout = 'timeout' in options ? options.timeout : 1000;
@@ -1893,7 +1978,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_257_let() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "
 export default function waitUntil(callback, options = {}) {
   let timeout = 'timeout' in options ? options.timeout : 1000;
@@ -1905,7 +1992,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_269() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             ";(function() {})(window, window.lib || (window.lib = {}))",
             Default::default(),
             |p| p.parse_module(),
@@ -1914,7 +2003,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_319_2() {
+        let alloc = Allocator::default();
         module_item(
+            &alloc,
             "export default obj({
     async f() {
         await g();
@@ -1925,14 +2016,20 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_340_fn() {
-        test_parser("export default function(){};", Default::default(), |p| {
-            p.parse_module()
-        });
+        let alloc = Allocator::default();
+        test_parser(
+            &alloc,
+            "export default function(){};",
+            Default::default(),
+            |p| p.parse_module(),
+        );
     }
 
     #[test]
     fn issue_340_async_fn() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "export default async function(){};",
             Default::default(),
             |p| p.parse_module(),
@@ -1941,21 +2038,31 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_340_generator_fn() {
-        test_parser("export default function*(){};", Default::default(), |p| {
-            p.parse_module()
-        });
+        let alloc = Allocator::default();
+        test_parser(
+            &alloc,
+            "export default function*(){};",
+            Default::default(),
+            |p| p.parse_module(),
+        );
     }
 
     #[test]
     fn issue_340_class() {
-        test_parser("export default class {};", Default::default(), |p| {
-            p.parse_module()
-        });
+        let alloc = Allocator::default();
+        test_parser(
+            &alloc,
+            "export default class {};",
+            Default::default(),
+            |p| p.parse_module(),
+        );
     }
 
     #[test]
     fn issue_360() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "var IS_IE11 = !global.ActiveXObject && 'ActiveXObject' in global;",
             Default::default(),
             |p| p.parse_module(),
@@ -1964,7 +2071,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_380_1() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "import(filePath).then(bar => {})",
             Syntax::Es(Default::default()),
             |p| p.parse_module(),
@@ -1973,7 +2082,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_380_2() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "class Foo {
                 componentDidMount() {
                     const filePath = '../foo/bar'
@@ -1987,7 +2098,9 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn issue_411() {
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             "try {
 } catch {}",
             Syntax::Es(Default::default()),
@@ -1997,7 +2110,8 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     fn top_level_await() {
-        test_parser("await foo", Syntax::Es(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, "await foo", Syntax::Es(Default::default()), |p| {
             p.parse_module()
         });
     }
@@ -2012,7 +2126,8 @@ export default function waitUntil(callback, options = {}) {
     } = Object.create(null);
 }
 ";
-        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        let _ = test_parser_comment(&alloc, &c, s, Syntax::Typescript(Default::default()), |p| {
             p.parse_typescript_module()
         });
 
@@ -2032,7 +2147,8 @@ export default function waitUntil(callback, options = {}) {
   both?: StringBuffer
 ) => void;";
 
-        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        let _ = test_parser_comment(&alloc, &c, s, Syntax::Typescript(Default::default()), |p| {
             p.parse_typescript_module()
         });
 
@@ -2053,8 +2169,8 @@ export default function waitUntil(callback, options = {}) {
   __filename: string,
   __dirname: string
 ) => void;";
-
-        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        let _ = test_parser_comment(&alloc, &c, s, Syntax::Typescript(Default::default()), |p| {
             p.parse_typescript_module()
         });
 
@@ -2070,8 +2186,8 @@ export default function waitUntil(callback, options = {}) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: (module: Module, filename: string) => any;
   } = Object.create(null);";
-
-        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        let _ = test_parser_comment(&alloc, &c, s, Syntax::Typescript(Default::default()), |p| {
             p.parse_typescript_module()
         });
 
@@ -2079,266 +2195,361 @@ export default function waitUntil(callback, options = {}) {
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
     }
-    fn parse_for_head(str: &'static str) -> TempForHead {
-        test_parser(str, Syntax::default(), |p| p.parse_for_head())
+    fn parse_for_head<'a>(alloc: &'a Allocator, str: &'static str) -> TempForHead<'a> {
+        test_parser(alloc, str, Syntax::default(), |p| p.parse_for_head())
     }
 
     #[test]
     fn for_array_binding_pattern() {
-        match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
-            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+        let alloc = Allocator::default();
+        match parse_for_head(&alloc, "let [, , t] = simple_array; t < 10; t++") {
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span_arena!(
                 v,
-                VarDeclOrExpr::VarDecl(self.ast(VarDecl {
-                    span,
-                    declare: false,
-                    kind: VarDeclKind::Let,
-                    decls: vec![VarDeclarator {
+                VarDeclOrExpr::VarDecl(Box::new_in(
+                    VarDecl {
                         span,
-                        name: Pat::Array(ArrayPat {
+                        declare: false,
+                        kind: VarDeclKind::Let,
+                        decls: vec![in &alloc; VarDeclarator {
                             span,
-                            type_ann: None,
-                            optional: false,
-                            elems: vec![
-                                None,
-                                None,
-                                Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
-                            ]
-                        }),
-                        init: Some(
-                            self.ast(Expr::Ident(Ident::new_no_ctxt("simple_array".into(), span)))
-                        ),
-                        definite: false
-                    }],
-                    ..Default::default()
-                }))
+                            name: Pat::Array(Box::new_in(
+                                ArrayPat {
+                                span,
+                                type_ann: None,
+                                optional: false,
+                                elems: vec![in &alloc;
+                                    None,
+                                    None,
+                                    Some(Pat::Ident(Box::new_in(Ident::new_no_ctxt("t".into(), span).into(), &alloc)))
+                                ]
+                            }
+                                , &alloc)),
+                            init: Some(
+                                Expr::Ident(Box::new_in(Ident::new_no_ctxt("simple_array".into(), span), &alloc))
+                            ),
+                            definite: false
+                        }],
+                        ctxt: SyntaxContext::default(),
+                    },
+                    &alloc
+                ))
             ),
             _ => unreachable!(),
-        }
+        };
     }
     #[test]
     fn for_object_binding_pattern() {
-        match parse_for_head("let {num} = obj; num < 11; num++") {
-            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+        let alloc = Allocator::default();
+        match parse_for_head(&alloc, "let {num} = obj; num < 11; num++") {
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span_arena!(
                 v,
-                VarDeclOrExpr::VarDecl(self.ast(VarDecl {
-                    span,
-                    kind: VarDeclKind::Let,
-                    decls: vec![VarDeclarator {
+                VarDeclOrExpr::VarDecl(Box::new_in(
+                    VarDecl {
                         span,
-                        name: Pat::Object(ObjectPat {
-                            optional: false,
-                            type_ann: None,
-                            span,
-                            props: vec![ObjectPatProp::Assign(AssignPatProp {
-                                span,
-                                key: Ident::new_no_ctxt("num".into(), span).into(),
-                                value: None
-                            })]
-                        }),
-                        init: Some(self.ast(Expr::Ident(Ident::new_no_ctxt("obj".into(), span)))),
-                        definite: false
-                    }],
-                    ..Default::default()
-                }))
+                        kind: VarDeclKind::Let,
+                        decls: vec![in &alloc; VarDeclarator {
+                                                span,
+                                                name: Pat::Object(Box::new_in(
+                        ObjectPat {
+                                                    optional: false,
+                                                    type_ann: None,
+                                                    span,
+                                                    props: vec![in &alloc; ObjectPatProp::Assign(Box::new_in(
+                        AssignPatProp {
+                                                        span,
+                                                        key: Ident::new_no_ctxt("num".into(), span).into(),
+                                                        value: None
+                                                    }
+                                                        , &alloc))]
+                                                }
+                                                    , &alloc)),
+                                                init: Some(Expr::Ident(Box::new_in(Ident::new_no_ctxt("obj".into(), span), &alloc))),
+                                                definite: false
+                                            }],
+                        ctxt: SyntaxContext::default(),
+                        declare: false,
+                    },
+                    &alloc
+                ))
             ),
             _ => unreachable!(),
-        }
+        };
     }
 
     #[test]
     #[should_panic(expected = "'import.meta' cannot be used outside of module code.")]
     fn import_meta_in_script() {
         let src = "const foo = import.meta.url;";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     fn import_meta_in_program() {
         let src = "const foo = import.meta.url;";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_program()
+        });
     }
 
     #[test]
     #[should_panic(expected = "'import', and 'export' cannot be used outside of module code")]
     fn import_statement_in_script() {
         let src = "import 'foo';";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     #[should_panic(expected = "top level await is only allowed in module")]
     fn top_level_await_in_script() {
         let src = "await promise";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     fn top_level_await_in_program() {
         let src = "await promise";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_program()
+        });
     }
 
     #[test]
     fn for_of_head_lhs_async_dot() {
         let src = "for (async.x of [1]) ;";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn for_head_init_async_of() {
         let src = "for (async of => {}; i < 10; ++i) { ++counter; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_module() {
         let src = "function foo (p) { await p; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_program() {
         let src = "function foo (p) { await p; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_program()
+        });
     }
 
     #[test]
     #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_in_nested_async_function_in_module() {
         let src = "async function foo () { function bar(x = await) {} }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn await_in_nested_async_function_in_script() {
         let src = "async function foo () { function bar(x = await) {} }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     fn await_in_nested_async_function_in_program() {
         let src = "async function foo () { function bar(x = await) {} }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_program()
+        });
     }
 
     #[test]
     #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_param_ident_in_module() {
         let src = "function foo (x = await) { }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn await_as_param_ident_in_script() {
         let src = "function foo (x = await) { }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_ident_in_module() {
         let src = "let await = 1";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn await_as_ident_in_script() {
         let src = "let await = 1";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_ident_in_async() {
         let src = "async function foo() { let await = 1; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     fn top_level_await_in_block() {
         let src = "if (true) { await promise; }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     fn class_static_blocks() {
         let src = "class Foo { static { 1 + 1; } }";
-        assert_eq_ignore_span!(
-            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            self.ast(Expr::Class(ClassExpr {
-                ident: Some(Ident {
-                    span,
-                    sym: "Foo".into(),
-                    ..Default::default()
-                }),
-                class: self.ast(Class {
-                    span,
-                    decorators: Vec::new_in(self.alloc),
-                    super_class: None,
-                    type_params: None,
-                    super_type_params: None,
-                    is_abstract: false,
-                    implements: Vec::new_in(self.alloc),
-                    body: vec!(ClassMember::StaticBlock(StaticBlock {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            test_parser(&alloc, src, Syntax::Es(Default::default()), |p| p
+                .parse_expr()),
+            Expr::Class(Box::new_in(
+                ClassExpr {
+                    ident: Some(Ident {
+                        span,
+                        sym: "Foo".into(),
+                        ..Default::default()
+                    }),
+                    class: Box::new_in(
+                        Class {
+                            span,
+                            decorators: Vec::new_in(&alloc),
+                            super_class: None,
+                            type_params: None,
+                            super_type_params: None,
+                            is_abstract: false,
+                            implements: Vec::new_in(&alloc),
+                            body: vec![in &alloc; ClassMember::StaticBlock(Box::new_in(
+StaticBlock {
                         span,
                         body: BlockStmt {
                             span,
-                            stmts: vec!(stmt("1 + 1;")),
-                            ..Default::default()
+                            stmts: vec![in &alloc; stmt(&alloc, "1 + 1;") ],
+                            ctxt: SyntaxContext::default(),
                         }
-                    })),
-                    ..Default::default()
-                })
-            }))
+                    }
+                        , &alloc)) ],
+                            ctxt: SyntaxContext::default(),
+                        },
+                        &alloc
+                    )
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn multiple_class_static_blocks() {
         let src = "class Foo { static { 1 + 1; } static { 1 + 1; } }";
-        assert_eq_ignore_span!(
-            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            self.ast(Expr::Class(ClassExpr {
-                ident: Some(Ident {
-                    span,
-                    sym: "Foo".into(),
-                    ..Default::default()
-                }),
-                class: self.ast(Class {
-                    span,
-                    decorators: Vec::new_in(self.alloc),
-                    super_class: None,
-                    is_abstract: false,
-                    body: vec!(
-                        ClassMember::StaticBlock(StaticBlock {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            test_parser(&alloc, src, Syntax::Es(Default::default()), |p| p
+                .parse_expr()),
+            Expr::Class(Box::new_in(
+                ClassExpr {
+                    ident: Some(Ident {
+                        span,
+                        sym: "Foo".into(),
+                        ..Default::default()
+                    }),
+                    class: Box::new_in(
+                        Class {
                             span,
-                            body: BlockStmt {
-                                span,
-                                stmts: vec!(stmt("1 + 1;")),
-                                ..Default::default()
-                            },
-                        }),
-                        ClassMember::StaticBlock(StaticBlock {
-                            span,
-                            body: BlockStmt {
-                                span,
-                                stmts: vec!(stmt("1 + 1;")),
-                                ..Default::default()
-                            },
-                        })
-                    ),
-                    ..Default::default()
-                })
-            }))
+                            decorators: Vec::new_in(&alloc),
+                            super_class: None,
+                            is_abstract: false,
+                            body: vec![in &alloc;
+                                                            ClassMember::StaticBlock(Box::new_in(StaticBlock {
+                                                                span,
+                                                                body: BlockStmt {
+                                                                    span,
+                                                                    stmts: vec![in &alloc; stmt(&alloc, "1 + 1;") ],
+                                                                    ctxt: SyntaxContext::default(),
+                                                                },
+                                                            }, &alloc)),
+                                                            ClassMember::StaticBlock(Box::new_in(
+                            StaticBlock {
+                                                                span,
+                                                                body: BlockStmt {
+                                                                    span,
+                                                                    stmts: vec![in &alloc; stmt(&alloc, "1 + 1;") ],
+                                                                    ctxt: SyntaxContext::default(),
+                                                                },
+                                                            }
+                                                                , &alloc))
+                                                        ],
+                            ctxt: SyntaxContext::default(),
+                            implements: Vec::new_in(&alloc),
+                            super_type_params: None,
+                            type_params: None,
+                        },
+                        &alloc
+                    )
+                },
+                &alloc
+            ))
         );
     }
 
@@ -2350,28 +2561,44 @@ export default function waitUntil(callback, options = {}) {
                 1 + 1;
             }
         }";
-        assert_eq_ignore_span!(
-            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            self.ast(Expr::Class(ClassExpr {
-                ident: Some(Ident {
-                    span,
-                    sym: "Foo".into(),
-                    ..Default::default()
-                }),
-                class: self.ast(Class {
-                    span,
-                    is_abstract: false,
-                    body: vec!(ClassMember::StaticBlock(StaticBlock {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            test_parser(&alloc, src, Syntax::Es(Default::default()), |p| p
+                .parse_expr()),
+            Expr::Class(Box::new_in(
+                ClassExpr {
+                    ident: Some(Ident {
+                        span,
+                        sym: "Foo".into(),
+                        optional: false,
+                        ctxt: SyntaxContext::default(),
+                    }),
+                    class: Box::new_in(
+                        Class {
+                            span,
+                            is_abstract: false,
+                            body: vec![in &alloc; ClassMember::StaticBlock(Box::new_in(
+                                StaticBlock {
                         span,
                         body: BlockStmt {
                             span,
-                            stmts: vec!(stmt("1 + 1;")),
-                            ..Default::default()
+                            stmts: vec![in &alloc; stmt(&alloc, "1 + 1;") ],
+                            ctxt: SyntaxContext::default(),
                         }
-                    })),
-                    ..Default::default()
-                })
-            }))
+                    }
+                                , &alloc)) ],
+                            ctxt: SyntaxContext::default(),
+                            decorators: Vec::new_in(&alloc),
+                            implements: Vec::new_in(&alloc),
+                            super_class: None,
+                            super_type_params: None,
+                            type_params: None,
+                        },
+                        &alloc
+                    )
+                },
+                &alloc
+            ))
         );
     }
 
@@ -2381,35 +2608,52 @@ export default function waitUntil(callback, options = {}) {
             static
             {}
         }";
-        assert_eq_ignore_span!(
-            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
-            self.ast(Expr::Class(ClassExpr {
-                ident: Some(Ident {
-                    span,
-                    sym: "Foo".into(),
-                    ..Default::default()
-                }),
-                class: self.ast(Class {
-                    span,
-                    is_abstract: false,
-                    body: vec!(ClassMember::StaticBlock(StaticBlock {
+        let alloc = Allocator::default();
+        assert_eq_ignore_span_arena!(
+            test_parser(&alloc, src, Syntax::Es(Default::default()), |p| p
+                .parse_expr()),
+            Expr::Class(Box::new_in(
+                ClassExpr {
+                    ident: Some(Ident {
                         span,
-                        body: BlockStmt {
+                        sym: "Foo".into(),
+                        ctxt: SyntaxContext::default(),
+                        optional: false,
+                    }),
+                    class: Box::new_in(
+                        Class {
                             span,
-                            stmts: Vec::new_in(self.alloc),
-                            ..Default::default()
+                            is_abstract: false,
+                            body: vec![in &alloc; ClassMember::StaticBlock(Box::new_in(
+                            StaticBlock {
+                            span,
+                            body: BlockStmt {
+                                span,
+                                stmts: Vec::new_in(&alloc),
+                                ctxt: SyntaxContext::default(),
+                            }
                         }
-                    })),
-                    ..Default::default()
-                })
-            }))
+                            , &alloc)) ],
+                            ctxt: SyntaxContext::default(),
+                            decorators: Vec::new_in(&alloc),
+                            implements: Vec::new_in(&alloc),
+                            super_class: None,
+                            super_type_params: None,
+                            type_params: None,
+                        },
+                        &alloc
+                    )
+                },
+                &alloc
+            ))
         );
     }
 
     #[test]
     fn class_static_blocks_in_ts() {
         let src = "class Foo { static { 1 + 1 }; }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2422,7 +2666,8 @@ export default function waitUntil(callback, options = {}) {
                 1 + 1;
             }
         }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2433,7 +2678,8 @@ export default function waitUntil(callback, options = {}) {
             static
             {}
         }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2446,7 +2692,10 @@ export default function waitUntil(callback, options = {}) {
                 var await = 'bar';
             }
         }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_expr()
+        });
     }
 
     #[test]
@@ -2463,7 +2712,10 @@ export default function waitUntil(callback, options = {}) {
                 }
             }
         }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_expr()
+        });
     }
 
     #[test]
@@ -2475,14 +2727,18 @@ export default function waitUntil(callback, options = {}) {
                 }
             }
         }";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_expr()
+        });
     }
 
     #[test]
     #[should_panic(expected = "Modifiers cannot appear here")]
     fn class_static_blocks_in_ts_with_invalid_modifier_01() {
         let src = "class Foo { abstract static { 1 + 1 }; }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2491,7 +2747,8 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "Modifiers cannot appear here")]
     fn class_static_blocks_in_ts_with_invalid_modifier_02() {
         let src = "class Foo { static static { 1 + 1 }; }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2500,7 +2757,8 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "Modifiers cannot appear here")]
     fn class_static_blocks_in_ts_with_invalid_modifier_03() {
         let src = "class Foo { declare static { 1 + 1 }; }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2509,7 +2767,8 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "Modifiers cannot appear here")]
     fn class_static_blocks_in_ts_with_invalid_modifier_04() {
         let src = "class Foo { private static { 1 + 1 }; }";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
     }
@@ -2518,13 +2777,18 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "Trailing comma is disallowed inside import(...) arguments")]
     fn error_for_trailing_comma_inside_dynamic_import() {
         let src = "import('foo',)";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_expr()
+        });
     }
 
     #[test]
     fn no_error_for_trailing_comma_inside_dynamic_import_with_import_assertions() {
         let src = "import('foo',)";
+        let alloc = Allocator::default();
         test_parser(
+            &alloc,
             src,
             Syntax::Es(EsSyntax {
                 import_attributes: true,
@@ -2537,7 +2801,8 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn type_only_star_exports_with_name() {
         let src = "export type * as bar from 'mod'";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_module()
         });
     }
@@ -2545,7 +2810,8 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn type_only_star_exports_without_name() {
         let src = "export type * from 'mod'";
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_module()
         });
     }
@@ -2554,7 +2820,10 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "A string literal cannot be used as an imported binding.")]
     fn error_for_string_literal_is_import_binding() {
         let src = "import { \"str\" } from \"mod\"";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
@@ -2563,7 +2832,10 @@ export default function waitUntil(callback, options = {}) {
     )]
     fn error_for_string_literal_is_export_binding() {
         let src = "export { 'foo' };";
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
@@ -2573,7 +2845,8 @@ export default function waitUntil(callback, options = {}) {
 "use strict";
 const foo;"#;
 
-        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Typescript(Default::default()), |p| {
             p.parse_script()
         });
     }
@@ -2585,76 +2858,79 @@ const foo;"#;
 "use strict";
 const foo;"#;
 
-        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Syntax::Es(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
     fn issue_5557_expr_follow_class() {
         let src = "foo * class {} / bar;";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_5722_class_keyword_in_tpl() {
         let src = "console.log(`${toStr({class: fn})}`)";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt() {
         let src = "try { await; } catch { console.log('caught'); }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt_1() {
         let src = "try { await, await; } catch { console.log('caught'); }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt_2() {
         let src = "function test() { await; }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt_3() {
         let src = "function test() { await, await; }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt_4() {
         let src = "function test() { [await]; }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6301_await_expr_stmt_5() {
         let src = "function test() { (await); }";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6322() {
         let src = "for ( ; { } / 1 ; ) ;";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 
     #[test]
     fn issue_6323() {
         let src = "let x = 0 < { } / 0 ;";
-
-        test_parser(src, Default::default(), |p| p.parse_script());
+        let alloc = Allocator::default();
+        test_parser(&alloc, src, Default::default(), |p| p.parse_script());
     }
 }

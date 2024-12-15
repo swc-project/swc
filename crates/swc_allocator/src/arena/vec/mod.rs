@@ -167,3 +167,63 @@ impl<T> AsRef<[T]> for Vec<'_, T> {
         self.0.as_ref()
     }
 }
+
+/// Creates a [`Vec`] containing the arguments.
+///
+/// `vec!` allows `Vec`s to be defined with the same syntax as array
+/// expressions. There are two forms of this macro:
+///
+/// - Create a [`Vec`] containing a given list of elements:
+///
+/// ```
+/// use bumpalo::Bump;
+///
+/// let b = Bump::new();
+/// let v = bumpalo::vec![in &b; 1, 2, 3];
+/// assert_eq!(v, [1, 2, 3]);
+/// ```
+///
+/// - Create a [`Vec`] from a given element and size:
+///
+/// ```
+/// use bumpalo::Bump;
+///
+/// let b = Bump::new();
+/// let v = bumpalo::vec![in &b; 1; 3];
+/// assert_eq!(v, [1, 1, 1]);
+/// ```
+///
+/// Note that unlike array expressions, this syntax supports all elements
+/// which implement [`Clone`] and the number of elements doesn't have to be
+/// a constant.
+///
+/// This will use `clone` to duplicate an expression, so one should be careful
+/// using this with types having a non-standard `Clone` implementation. For
+/// example, `bumpalo::vec![in &bump; Rc::new(1); 5]` will create a vector of
+/// five references to the same boxed integer value, not five references
+/// pointing to independently boxed integers.
+///
+/// [`Vec`]: collections/vec/struct.Vec.html
+/// [`Clone`]: https://doc.rust-lang.org/std/clone/trait.Clone.html
+#[macro_export]
+macro_rules! vec {
+    (in $alloc:expr; $elem:expr; $n:expr) => {{
+        let n = $n;
+        let mut v = swc_allocator::arena::Vec::with_capacity_in(n, $alloc);
+        if n > 0 {
+            let elem = $elem;
+            for _ in 0..n - 1 {
+                v.push(elem.clone());
+            }
+            v.push(elem);
+        }
+        v
+    }};
+    (in $alloc:expr) => { swc_allocator::arena::Vec::new_in($alloc) };
+    (in $alloc:expr; $($x:expr),*) => {{
+        let mut v = swc_allocator::arena::Vec::new_in($alloc);
+        $( v.push($x); )*
+        v
+    }};
+    (in $alloc:expr; $($x:expr,)*) => (swc_allocator::vec![in $alloc; $($x),*])
+}
