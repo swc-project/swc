@@ -11,7 +11,6 @@ try {
             console.log("disposed");
         }
     }, false);
-    ;
 } catch (e) {
     env.error = e;
     env.hasError = true;

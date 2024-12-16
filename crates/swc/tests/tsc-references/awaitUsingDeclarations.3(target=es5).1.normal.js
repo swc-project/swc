@@ -20,7 +20,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
                 });
             })();
         }), true), d2 = _ts_add_disposable_resource(env, null, true), d3 = _ts_add_disposable_resource(env, undefined, true), d4 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

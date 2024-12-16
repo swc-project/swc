@@ -141,7 +141,7 @@ resolver = "2"
   unicode-id                = "0.3"
   unicode-id-start          = "1.2.0"
   unicode-width             = "0.1.4"
-  url                       = "2.4.0"
+  url                       = "2.5.4"
   vergen                    = { version = "9.0.0", default-features = false }
   virtual-fs                = { version = "0.19.0", default-features = false }
   walkdir                   = "2.4.0"

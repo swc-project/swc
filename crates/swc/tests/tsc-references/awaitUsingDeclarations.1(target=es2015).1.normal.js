@@ -15,7 +15,6 @@ try {
             return _async_to_generator(function*() {})();
         }
     }, true);
-    ;
     function af() {
         return _af.apply(this, arguments);
     }
@@ -32,7 +31,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
                 yield null;
             } catch (e) {
                 env.error = e;
@@ -60,7 +58,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
                 yield;
                 yield _await_async_generator(null);
             } catch (e) {
@@ -86,7 +83,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
@@ -113,7 +109,6 @@ try {
                             return _async_to_generator(function*() {})();
                         }
                     }, true);
-                    ;
                     yield null;
                 } catch (e) {
                     env.error = e;
@@ -137,7 +132,6 @@ try {
                             return _async_to_generator(function*() {})();
                         }
                     }, true);
-                    ;
                     yield;
                     yield _await_async_generator(null);
                 } catch (e) {
@@ -162,7 +156,6 @@ try {
                             return _async_to_generator(function*() {})();
                         }
                     }, true);
-                    ;
                 } catch (e) {
                     env.error = e;
                     env.hasError = true;
@@ -185,7 +178,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -207,7 +199,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env1.error = e;
@@ -228,7 +219,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env2.error = e;
@@ -251,7 +241,6 @@ try {
                         return _async_to_generator(function*() {})();
                     }
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env3.error = e;
@@ -273,7 +262,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -293,7 +281,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -313,7 +300,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -334,7 +320,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -354,7 +339,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -375,7 +359,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -397,7 +380,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -419,7 +401,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -441,7 +422,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -462,7 +442,6 @@ try {
                     return _async_to_generator(function*() {})();
                 }
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;

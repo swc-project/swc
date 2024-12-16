@@ -10,7 +10,6 @@ var env = {
 };
 try {
     var before = _ts_add_disposable_resource(env, null, false);
-    ;
     C = _ts_decorate([
         dec
     ], C);

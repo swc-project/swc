@@ -10,11 +10,9 @@ try {
     const r1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
-    ;
     const r2 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
     }, true);
-    ;
 } catch (e) {
     env.error = e;
     env.hasError = true;

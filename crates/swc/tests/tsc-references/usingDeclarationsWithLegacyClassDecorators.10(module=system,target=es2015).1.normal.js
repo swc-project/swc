@@ -30,7 +30,6 @@ System.register([
                     dec
                 ], _class));
                 const after = _ts_add_disposable_resource(env, null, false);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
