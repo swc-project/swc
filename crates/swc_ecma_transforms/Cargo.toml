@@ -51,6 +51,6 @@ sourcemap         = { workspace = true }
 tempfile          = { workspace = true }
 
 swc_ecma_codegen            = { version = "5.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser             = { version = "6.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "6.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "6.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "5.0.0", path = "../testing" }
