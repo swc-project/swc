@@ -1,3 +1,7 @@
+/// References:
+/// <https://github.com/oxc-project/oxc/blob/main/tasks/ast_tools/src/derives/clone_in.rs>
+///
+/// The original code is MIT licensed.
 use quote::{format_ident, quote};
 use swc_macros_common::prelude::*;
 use syn::{parse_quote, DeriveInput, GenericParam, Ident, ItemImpl};

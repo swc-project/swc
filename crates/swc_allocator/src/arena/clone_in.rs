@@ -1,3 +1,7 @@
+/// References:
+/// <https://github.com/oxc-project/oxc/blob/main/crates/oxc_allocator/src/clone_in.rs>
+///
+/// The original code is MIT licensed.
 use std::cell::Cell;
 
 use super::{Allocator, Box, Vec};
