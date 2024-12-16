@@ -18,7 +18,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
                 return _async_to_generator(function*() {})();
             }
         }, true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

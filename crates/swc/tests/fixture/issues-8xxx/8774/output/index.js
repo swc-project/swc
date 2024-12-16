@@ -18,9 +18,7 @@ async function foo() {
     };
     try {
         const a = _ts_add_disposable_resource._(env, logClean(), false);
-        ;
         const b = _ts_add_disposable_resource._(env, logClean(), true);
-        ;
         for (const _ of [
             logClean(),
             logClean()

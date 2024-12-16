@@ -19,7 +19,6 @@ const env = {
 };
 try {
     const before = _ts_add_disposable_resource._(env, null, false);
-    ;
     C = _ts_decorate._([
         dec
     ], C);

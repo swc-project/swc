@@ -37,7 +37,6 @@ System.register([
                     dec
                 ], C));
                 var after = _ts_add_disposable_resource(env, null, false);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;

@@ -13,7 +13,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
         }, true), d2 = _ts_add_disposable_resource(env, {
             async [Symbol.asyncDispose] () {}
         }, true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

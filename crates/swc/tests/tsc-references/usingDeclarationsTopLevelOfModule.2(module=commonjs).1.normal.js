@@ -11,7 +11,6 @@ try {
     const z = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
     }, false);
-    ;
     const y = 2;
     console.log(y, z);
 } catch (e) {

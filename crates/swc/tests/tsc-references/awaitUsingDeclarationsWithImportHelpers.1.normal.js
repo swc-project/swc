@@ -9,7 +9,6 @@ async function f() {
     };
     try {
         const a = _ts_add_disposable_resource(env, null, true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;
