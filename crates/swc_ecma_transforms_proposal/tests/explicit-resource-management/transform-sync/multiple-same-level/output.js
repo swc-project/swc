@@ -7,13 +7,10 @@
     try {
         stmt;
         const x = _ts_add_disposable_resource(env, obj, false);
-        ;
         stmt;
         const y = _ts_add_disposable_resource(env, obj, false), z = _ts_add_disposable_resource(env, obj, false);
-        ;
         stmt;
         const w = _ts_add_disposable_resource(env, obj, false);
-        ;
         doSomethingWith(x, z);
     } catch (e) {
         env.error = e;

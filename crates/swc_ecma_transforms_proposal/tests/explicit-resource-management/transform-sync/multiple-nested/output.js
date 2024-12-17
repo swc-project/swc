@@ -6,7 +6,6 @@
     };
     try {
         const x = _ts_add_disposable_resource(env, obj, false);
-        ;
         {
             const env = {
                 stack: [],
@@ -22,7 +21,6 @@
                     };
                     try {
                         const z = _ts_add_disposable_resource(env, obj, false);
-                        ;
                         return z;
                     } catch (e) {
                         env.error = e;
@@ -31,7 +29,6 @@
                         _ts_dispose_resources(env);
                     }
                 }), false);
-                ;
                 stmt;
             } catch (e) {
                 env.error = e;
