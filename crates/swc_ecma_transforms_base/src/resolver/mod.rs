@@ -5,7 +5,7 @@ use swc_common::{
     Mark, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default, PatExt};
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
@@ -535,15 +535,13 @@ impl VisitMut for Resolver<'_> {
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
             {
-                let params = e
-                    .params
-                    .iter()
-                    .filter(|p| !p.is_rest())
-                    .flat_map(find_pat_ids)
-                    .collect::<Vec<Id>>();
-
-                for id in params {
-                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                for p in e.params.iter().filter(|p| !p.is_rest()) {
+                    p.bound_names(&mut |ident| {
+                        child
+                            .current
+                            .declared_symbols
+                            .insert(ident.sym.clone(), DeclKind::Param);
+                    });
                 }
             }
             e.params.visit_mut_with(child);
@@ -718,18 +716,17 @@ impl VisitMut for Resolver<'_> {
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
             {
-                let params = c
+                for p in c
                     .params
                     .iter()
-                    .filter(|p| match p {
-                        ParamOrTsParamProp::TsParamProp(_) => false,
-                        ParamOrTsParamProp::Param(p) => !p.pat.is_rest(),
-                    })
-                    .flat_map(find_pat_ids)
-                    .collect::<Vec<Id>>();
-
-                for id in params {
-                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                    .filter_map(|p| p.as_param().filter(|p| !p.pat.is_rest()))
+                {
+                    p.pat.bound_names(&mut |ident| {
+                        child
+                            .current
+                            .declared_symbols
+                            .insert(ident.sym.clone(), DeclKind::Param);
+                    });
                 }
             }
             c.params.visit_mut_with(child);
