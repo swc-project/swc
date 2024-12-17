@@ -6,7 +6,7 @@ use swc_common::{
     Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory, PatExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
@@ -138,11 +138,13 @@ impl VisitMut for ModuleDeclStrip {
             }
 
             Decl::Var(v) => {
-                self.export.extend(
-                    find_pat_ids::<_, Ident>(&v.decls)
-                        .into_iter()
-                        .map(|id| (id.sym.clone(), ExportItem::new((id.span, id.ctxt), id))),
-                );
+                v.bound_names(&mut |ident| {
+                    let id = &ident.id;
+                    self.export.insert(
+                        id.sym.clone(),
+                        ExportItem::new((id.span, id.ctxt), id.clone()),
+                    );
+                });
             }
             _ => {}
         };
