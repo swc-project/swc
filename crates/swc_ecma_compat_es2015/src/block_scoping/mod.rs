@@ -11,8 +11,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
-    ExprFactory, StmtLike,
+    function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str, ExprFactory,
+    PatExt, StmtLike,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
@@ -640,7 +640,13 @@ fn find_lexical_vars(node: &VarDecl) -> Vec<Id> {
         return Vec::new();
     }
 
-    find_pat_ids(&node.decls)
+    let mut res = vec![];
+
+    node.bound_names(&mut |id| {
+        res.push(id.to_id());
+    });
+
+    res
 }
 
 struct FlowHelper<'a> {
@@ -697,11 +703,9 @@ impl VisitMut for FlowHelper<'_> {
                 }
             }
             AssignTarget::Pat(p) => {
-                let ids: Vec<Id> = find_pat_ids(p);
-
-                for id in ids {
-                    self.check(id);
-                }
+                p.bound_names(&mut |ident| {
+                    self.check(ident.id.to_id());
+                });
             }
         }
 

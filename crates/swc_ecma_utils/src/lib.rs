@@ -3347,25 +3347,43 @@ impl PatExt for Pat {
     fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
         match self {
             Pat::Ident(binding_ident) => f(binding_ident),
-            Pat::Array(array_pat) => {
-                for pat in array_pat.elems.iter().flatten() {
-                    pat.bound_names(f);
-                }
-            }
+            Pat::Array(array_pat) => array_pat.bound_names(f),
             Pat::Rest(rest_pat) => rest_pat.arg.bound_names(f),
-            Pat::Object(object_pat) => {
-                for pat in &object_pat.props {
-                    match pat {
-                        ObjectPatProp::KeyValue(key_value_pat_prop) => {
-                            key_value_pat_prop.value.bound_names(f)
-                        }
-                        ObjectPatProp::Assign(assign_pat_prop) => f(&assign_pat_prop.key),
-                        ObjectPatProp::Rest(rest_pat) => rest_pat.arg.bound_names(f),
-                    }
-                }
-            }
+            Pat::Object(object_pat) => object_pat.bound_names(f),
             Pat::Assign(assign_pat) => assign_pat.left.bound_names(f),
             Pat::Invalid(_) | Pat::Expr(_) => todo!(),
+        }
+    }
+}
+
+impl PatExt for ArrayPat {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        for pat in self.elems.iter().flatten() {
+            pat.bound_names(f);
+        }
+    }
+}
+
+impl PatExt for ObjectPat {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        for pat in &self.props {
+            match pat {
+                ObjectPatProp::KeyValue(key_value_pat_prop) => {
+                    key_value_pat_prop.value.bound_names(f)
+                }
+                ObjectPatProp::Assign(assign_pat_prop) => f(&assign_pat_prop.key),
+                ObjectPatProp::Rest(rest_pat) => rest_pat.arg.bound_names(f),
+            }
+        }
+    }
+}
+
+impl PatExt for AssignTargetPat {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        match self {
+            AssignTargetPat::Array(array_pat) => array_pat.bound_names(f),
+            AssignTargetPat::Object(object_pat) => object_pat.bound_names(f),
+            AssignTargetPat::Invalid(..) => unreachable!(),
         }
     }
 }
