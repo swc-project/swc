@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use swc_atoms::Atom;
-use swc_ecma_ast::{BindingIdent, Expr, Lit, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn};
+use swc_ecma_ast::{Expr, Lit, MemberProp, Pat, PropName, TsTypeAnn};
 
 pub trait PatExt {
     fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
