@@ -9,8 +9,8 @@ use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, find_pat_ids, is_literal, private_ident, quote_ident,
-    var::VarCollector, ExprFactory, StmtLike,
+    alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
+    ExprFactory, PatExt, StmtLike,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -515,8 +515,11 @@ impl ObjectRest {
         }
 
         if let Pat::Object(..) | Pat::Array(..) = decl.name {
-            let ids: Vec<Id> = find_pat_ids(&decl.name);
-            if ids.is_empty() {
+            let mut found = false;
+            decl.name.bound_names(&mut |_| {
+                found = true;
+            });
+            if !found {
                 return;
             }
         }
