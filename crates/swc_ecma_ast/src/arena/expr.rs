@@ -1604,8 +1604,7 @@ impl<'a> SimpleAssignTarget<'a> {
 pub struct OptChainExpr<'a> {
     pub span: Span,
     pub optional: bool,
-    /// This is boxed to reduce the type size of [Expr].
-    pub base: Box<'a, OptChainBase<'a>>,
+    pub base: OptChainBase<'a>,
 }
 
 #[ast_node]

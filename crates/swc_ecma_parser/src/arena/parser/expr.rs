@@ -1210,13 +1210,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             return Ok(Some((
                                 Expr::OptChain(p.ast(OptChainExpr {
                                     span: span!(p, start),
-                                    base: p.ast(OptChainBase::Call(p.ast(OptCall {
+                                    base: OptChainBase::Call(p.ast(OptCall {
                                         span: span!(p, start),
                                         callee: obj.expect_expr(),
                                         type_args: Some(type_args),
                                         args,
                                         ctxt: Default::default(),
-                                    }))),
+                                    })),
                                     optional: false,
                                 })),
                                 true,
@@ -1348,7 +1348,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             Expr::OptChain(self.ast(OptChainExpr {
                                 span,
                                 optional: question_dot_token.is_some(),
-                                base: self.ast(OptChainBase::Member(self.ast(expr))),
+                                base: OptChainBase::Member(self.ast(expr)),
                             }))
                         } else {
                             Expr::Member(self.ast(expr))
@@ -1395,13 +1395,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                         Expr::OptChain(self.ast(OptChainExpr {
                             span,
                             optional: question_dot_token.is_some(),
-                            base: self.ast(OptChainBase::Call(self.ast(OptCall {
+                            base: OptChainBase::Call(self.ast(OptCall {
                                 span: span!(self, start),
                                 callee,
                                 args,
                                 type_args,
                                 ctxt: Default::default(),
-                            }))),
+                            })),
                         })),
                         true,
                     )),
@@ -1506,7 +1506,7 @@ impl<'a, I: Tokens> Parser<'a, I> {
                             Expr::OptChain(self.ast(OptChainExpr {
                                 span: span!(self, start),
                                 optional: question_dot_token.is_some(),
-                                base: self.ast(OptChainBase::Member(self.ast(expr))),
+                                base: OptChainBase::Member(self.ast(expr)),
                             }))
                         } else {
                             Expr::Member(self.ast(expr))
@@ -1668,13 +1668,13 @@ impl<'a, I: Tokens> Parser<'a, I> {
                 Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => {
                     Expr::OptChain(self.ast(OptChainExpr {
                         span: span!(self, start),
-                        base: self.ast(OptChainBase::Call(self.ast(OptCall {
+                        base: OptChainBase::Call(self.ast(OptCall {
                             span: span!(self, start),
                             callee: e,
                             args,
                             type_args,
                             ctxt: SyntaxContext::default(),
-                        }))),
+                        })),
                         optional: false,
                     }))
                 }
