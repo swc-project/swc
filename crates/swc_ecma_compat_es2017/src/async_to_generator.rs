@@ -1,4 +1,4 @@
-use std::{iter, mem};
+use std::{collections::HashMap, iter, mem};
 
 use serde::Deserialize;
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -6,9 +6,9 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_this_expr, find_pat_ids,
+    contains_this_expr,
     function::{init_this, FnEnvHoister, FnWrapperResult, FunctionWrapper},
-    prepend_stmt, private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
+    prepend_stmt, private_ident, quote_ident, ExprFactory, PatExt, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -475,11 +475,14 @@ impl Actual {
 #[tracing::instrument(level = "info", skip_all)]
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
     {
-        let param_ids: Vec<Id> = find_pat_ids(&expr.function.params);
-        let mapping = param_ids
-            .into_iter()
-            .map(|id| (id, SyntaxContext::empty().apply_mark(Mark::new())))
-            .collect();
+        let mut mapping = HashMap::default();
+        let params = &*expr.function.params;
+        params.bound_names(&mut |ident| {
+            mapping.insert(
+                ident.to_id(),
+                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+            );
+        });
 
         expr.function.visit_mut_with(&mut Remapper::new(&mapping));
     }

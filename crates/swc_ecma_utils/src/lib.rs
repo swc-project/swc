@@ -3378,6 +3378,21 @@ impl PatExt for VarDecl {
     }
 }
 
+impl PatExt for Param {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        self.pat.bound_names(f);
+    }
+}
+
+// Vec of Param
+impl PatExt for &[Param] {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        for param in *self {
+            param.bound_names(f);
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
     use swc_common::{input::StringInput, BytePos};
