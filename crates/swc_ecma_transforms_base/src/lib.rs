@@ -8,6 +8,7 @@ pub mod ext;
 pub mod fixer;
 #[macro_use]
 pub mod hygiene;
+pub mod arena;
 pub mod assumptions;
 pub mod feature;
 pub mod helpers;

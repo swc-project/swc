@@ -108,15 +108,15 @@ pub struct ClassDecl<'a> {
     pub class: Box<'a, Class<'a>>,
 }
 
-// impl Take for ClassDecl {
-//     fn dummy() -> Self {
-//         ClassDecl {
-//             ident: Take::dummy(),
-//             declare: Default::default(),
-//             class: Take::dummy(),
-//         }
-//     }
-// }
+impl<'a> Take<'a> for ClassDecl<'a> {
+    fn dummy(alloc: &'a swc_allocator::arena::Allocator) -> Self {
+        Self {
+            ident: Ident::default(),
+            declare: false,
+            class: Box::new_in(Class::dummy(alloc), alloc),
+        }
+    }
+}
 
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -135,11 +135,17 @@ pub struct VarDecl<'a> {
     pub decls: Vec<'a, VarDeclarator<'a>>,
 }
 
-// impl Take for VarDecl {
-//     fn dummy() -> Self {
-//         Default::default()
-//     }
-// }
+impl<'a> Take<'a> for VarDecl<'a> {
+    fn dummy(alloc: &'a swc_allocator::arena::Allocator) -> Self {
+        Self {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::default(),
+            kind: VarDeclKind::default(),
+            declare: false,
+            decls: Vec::new_in(alloc),
+        }
+    }
+}
 
 #[derive(
     StringEnum, Clone, CloneIn, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default,

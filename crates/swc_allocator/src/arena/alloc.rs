@@ -3,7 +3,7 @@ use std::ops::{Deref, DerefMut};
 use bumpalo::Bump;
 
 /// The actual storage for [FastAlloc].
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Allocator {
     alloc: Bump,
 }

@@ -49,13 +49,21 @@ pub struct Class<'a> {
     pub implements: Vec<'a, TsExprWithTypeArgs<'a>>,
 }
 
-// impl Take for Class {
-//     fn dummy() -> Self {
-//         Class {
-//             ..Default::default()
-//         }
-//     }
-// }
+impl<'a> Take<'a> for Class<'a> {
+    fn dummy(alloc: &'a swc_allocator::arena::Allocator) -> Self {
+        Class {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::default(),
+            decorators: Vec::new_in(alloc),
+            body: Vec::new_in(alloc),
+            super_class: None,
+            is_abstract: false,
+            type_params: None,
+            super_type_params: None,
+            implements: Vec::new_in(alloc),
+        }
+    }
+}
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

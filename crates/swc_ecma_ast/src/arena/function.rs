@@ -44,13 +44,21 @@ pub struct Function<'a> {
     pub return_type: Option<Box<'a, TsTypeAnn<'a>>>,
 }
 
-// impl Take for Function {
-//     fn dummy() -> Self {
-//         Function {
-//             ..Default::default()
-//         }
-//     }
-// }
+impl<'a> Take<'a> for Function<'a> {
+    fn dummy(alloc: &'a swc_allocator::arena::Allocator) -> Self {
+        Self {
+            params: Vec::new_in(alloc),
+            decorators: Vec::new_in(alloc),
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::default(),
+            body: None,
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        }
+    }
+}
 
 #[ast_node("Parameter")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
