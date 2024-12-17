@@ -3339,6 +3339,45 @@ where
     }
 }
 
+pub trait PatExt {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F);
+}
+
+impl PatExt for Pat {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        match self {
+            Pat::Ident(binding_ident) => f(binding_ident),
+            Pat::Array(array_pat) => {
+                for pat in array_pat.elems.iter().flatten() {
+                    pat.bound_names(f);
+                }
+            }
+            Pat::Rest(rest_pat) => rest_pat.arg.bound_names(f),
+            Pat::Object(object_pat) => {
+                for pat in &object_pat.props {
+                    match pat {
+                        ObjectPatProp::KeyValue(key_value_pat_prop) => {
+                            key_value_pat_prop.value.bound_names(f)
+                        }
+                        ObjectPatProp::Assign(assign_pat_prop) => f(&assign_pat_prop.key),
+                        ObjectPatProp::Rest(rest_pat) => rest_pat.arg.bound_names(f),
+                    }
+                }
+            }
+            Pat::Assign(assign_pat) => assign_pat.left.bound_names(f),
+            Pat::Invalid(_) | Pat::Expr(_) => todo!(),
+        }
+    }
+}
+
+impl PatExt for VarDecl {
+    fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F) {
+        for decl in &self.decls {
+            decl.name.bound_names(f);
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
     use swc_common::{input::StringInput, BytePos};

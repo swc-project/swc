@@ -10,9 +10,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, find_pat_ids, ident::IdentLike, is_literal,
-    member_expr, private_ident, quote_ident, quote_str, stack_size::maybe_grow_default,
-    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
+    alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
+    private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, PatExt,
+    QueryRef, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -160,13 +160,10 @@ impl Visit for Transform {
         node.visit_children_with(self);
 
         match &node.decl {
-            Decl::Var(var_decl) => {
-                self.exported_binding.extend({
-                    find_pat_ids(&var_decl.decls)
-                        .into_iter()
-                        .zip(iter::repeat(self.namespace_id.clone()))
-                });
-            }
+            Decl::Var(var_decl) => var_decl.bound_names(&mut |ident| {
+                self.exported_binding
+                    .insert(ident.to_id(), self.namespace_id.clone());
+            }),
             Decl::TsEnum(ts_enum_decl) => {
                 self.exported_binding
                     .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());

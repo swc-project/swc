@@ -2,6 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::{
     Decl, DefaultDecl, Expr, Lit, Pat, TsNamespaceBody, VarDeclKind, VarDeclarator,
 };
+use swc_ecma_utils::PatExt as _;
 use swc_ecma_visit::VisitMutWith;
 
 use super::{
