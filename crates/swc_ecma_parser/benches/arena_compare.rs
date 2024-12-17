@@ -1,4 +1,6 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+extern crate swc_malloc;
+
+use criterion::{criterion_group, criterion_main, Criterion};
 use swc_allocator::arena::Allocator;
 use swc_common::{FileName, Span, DUMMY_SP};
 use swc_ecma_parser::{StringInput, Syntax, TsSyntax};
@@ -16,8 +18,7 @@ fn bench_cases(b: &mut Criterion) {
             b.iter(|| {
                 let mut parser =
                     swc_ecma_parser::Parser::new(syntax, StringInput::from(&*fm), None);
-                let module = parser.parse_module().map_err(|_| ()).unwrap();
-                black_box(module);
+                parser.parse_module().map_err(|_| ()).unwrap();
             });
         });
 
@@ -30,8 +31,7 @@ fn bench_cases(b: &mut Criterion) {
                     StringInput::from(&*fm),
                     None,
                 );
-                let module = parser.parse_module().map_err(|_| ()).unwrap();
-                black_box(module);
+                parser.parse_module().map_err(|_| ()).unwrap();
                 allocator.reset();
             });
         });
