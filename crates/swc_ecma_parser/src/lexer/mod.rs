@@ -822,7 +822,7 @@ impl Lexer<'_> {
                             let s = unsafe {
                                 // Safety: start and end are valid position because we got them from
                                 // `self.input`
-                                l.input.slice()[slice_start..start]
+                                l.input.slice(slice_start, start)
                             };
                             buf.push_str(s);
                             unsafe {
@@ -880,7 +880,7 @@ impl Lexer<'_> {
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
-                    l.input.slice()[slice_start..end]
+                    l.input.slice(slice_start, end)
                 };
                 let s = unsafe {
                     // Safety: We don't use 'static. We just bypass the lifetime check.
@@ -892,7 +892,7 @@ impl Lexer<'_> {
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
-                    l.input.slice()[slice_start..end]
+                    l.input.slice(slice_start, end)
                 };
                 buf.push_str(s);
 
