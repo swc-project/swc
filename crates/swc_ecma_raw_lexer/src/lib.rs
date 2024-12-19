@@ -5,6 +5,8 @@ use swc_common::{input::StringInput, BytePos};
 pub struct RawBuffer<'a> {
     lexer: logos::Lexer<'a, RawToken>,
     pos: BytePos,
+    orig_str: &'a str,
+    start_pos: BytePos,
 }
 
 impl<'a> RawBuffer<'a> {
@@ -12,6 +14,8 @@ impl<'a> RawBuffer<'a> {
         Self {
             lexer: logos::Lexer::new(input.as_str()),
             pos: input.start_pos(),
+            orig_str: input.as_str(),
+            start_pos: input.start_pos(),
         }
     }
 
@@ -21,6 +25,24 @@ impl<'a> RawBuffer<'a> {
 
     pub fn cur(&self) -> Result<Option<RawToken>, LexError> {
         self.lexer.clone().next().transpose()
+    }
+
+    /// # Safety
+    ///
+    ///  - `start` and `end` must be within the bounds of `self.orig_str`
+    pub unsafe fn slice(&self, start: BytePos, end: BytePos) -> &str {
+        let lo = start.0 - self.start_pos.0;
+        let hi = end.0 - self.start_pos.0;
+
+        self.orig_str.get_unchecked(lo as usize..hi as usize)
+    }
+
+    /// # Safety
+    ///
+    /// - `n` must be equal or smaller than  lefting length of `self.orig_str`
+    pub unsafe fn bump(&mut self, n: usize) {
+        self.lexer.bump(n);
+        self.pos = self.pos + BytePos(n as u32);
     }
 }
 
