@@ -295,6 +295,12 @@ pub enum RawToken {
 
     #[token("-->", priority = 3)]
     LegacyCommentClose,
+
+    #[token("<<<<<", priority = 3)]
+    LConflictMarker,
+
+    #[token(">>>>>", priority = 3)]
+    RConflictMarker,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]

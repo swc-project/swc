@@ -191,18 +191,6 @@ impl<'a> Lexer<'a> {
 
             _ => {}
         }
-
-        match handler {
-            Some(handler) => handler(self),
-            None => {
-                let start = self.input.cur_pos();
-                self.input.bump(1);
-                self.error_span(
-                    pos_span(start),
-                    SyntaxError::UnexpectedChar { c: byte as _ },
-                )
-            }
-        }
     }
 
     /// Read a token given `.`.
@@ -1126,7 +1114,7 @@ impl Lexer<'_> {
                     cooked.push_str(unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
-                        self.input.slice()[cooked_slice_start..last_pos]
+                        self.input.slice(cooked_slice_start, last_pos)
                     });
                 }
             }};
