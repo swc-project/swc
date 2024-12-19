@@ -504,10 +504,10 @@ impl<'a> Lexer<'a> {
             self.input.bump(1);
         }
 
-        Ok(Some(if self.input.eat_byte(b'=') {
+        Ok(Some(if self.input.eat(RawToken::AssignOp)? {
             // "=="
 
-            if self.input.eat_byte(b'=') {
+            if self.input.eat(RawToken::AssignOp)? {
                 if c == b'!' {
                     Token::BinOp(BinOpToken::NotEqEq)
                 } else {
