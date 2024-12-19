@@ -9,6 +9,11 @@ pub struct RawBuffer<'a> {
     start_pos: BytePos,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct TokenState {
+    pub had_line_break: bool,
+}
+
 impl<'a> RawBuffer<'a> {
     pub fn new(input: StringInput<'a>) -> Self {
         Self {
@@ -78,7 +83,7 @@ impl Iterator for RawBuffer<'_> {
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
-#[logos(error = LexError)]
+#[logos(error = LexError, extras = TokenState)]
 pub enum RawToken {
     #[token("=>", priority = 3)]
     Arrow,
@@ -301,6 +306,12 @@ pub enum RawToken {
 
     #[token(">>>>>", priority = 3)]
     RConflictMarker,
+}
+
+impl RawToken {
+    pub fn is_line_terminator(&self) -> bool {
+        matches!(self, RawToken::NewLine)
+    }
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
