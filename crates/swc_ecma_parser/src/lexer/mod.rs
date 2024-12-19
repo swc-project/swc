@@ -578,7 +578,7 @@ impl Lexer<'_> {
         };
 
         // '<<', '>>'
-        if self.input.cur() == Some(c) {
+        if self.input.cur()? == Some(c) {
             self.bump();
             op = if c == '<' {
                 BinOpToken::LShift
@@ -587,13 +587,13 @@ impl Lexer<'_> {
             };
 
             //'>>>'
-            if c == '>' && self.input.cur() == Some(c) {
+            if c == '>' && self.input.cur()? == Some(c) {
                 self.bump();
                 op = BinOpToken::ZeroFillRShift;
             }
         }
 
-        let token = if self.input.eat(b'=') {
+        let token = if self.input.eat(RawToken::AssignOp)? {
             match op {
                 BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
                 BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),

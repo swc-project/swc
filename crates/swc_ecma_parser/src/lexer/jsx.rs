@@ -151,7 +151,7 @@ impl Lexer<'_> {
         let mut s = SmartString::<LazyCompact>::default();
 
         let c = self.input.cur()?;
-        debug_assert_eq!(c, Some('&'));
+        debug_assert_eq!(c, Some(RawToken::BitAndOp));
         unsafe {
             // Safety: cur() was Some('&')
             self.input.bump(1);
