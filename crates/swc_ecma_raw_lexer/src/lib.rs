@@ -1,6 +1,7 @@
 use logos::Logos;
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
+#[logos(error = LexError)]
 pub enum RawToken {
     #[token("=>", priority = 3)]
     Arrow,
@@ -207,4 +208,10 @@ pub enum RawToken {
 
     #[regex(r"\P{ID_Start}\P{ID_Continue}*")]
     Ident,
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub enum LexError {
+    #[default]
+    UnexpectedEof,
 }
