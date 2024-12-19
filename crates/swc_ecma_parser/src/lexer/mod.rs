@@ -945,7 +945,7 @@ impl Lexer<'_> {
 
                         unsafe {
                             // Safety: cur is quote
-                            l.input.bump();
+                            l.input.bump(1);
                         }
 
                         let end = l.input.cur_pos();
@@ -989,7 +989,7 @@ impl Lexer<'_> {
 
                     unsafe {
                         // Safety: cur is a ascii character
-                        l.input.bump();
+                        l.input.bump(1);
                     }
                     continue;
                 }
@@ -1001,7 +1001,7 @@ impl Lexer<'_> {
                         }
                         unsafe {
                             // Safety: cur is Some(c)
-                            l.input.bump();
+                            l.input.bump(1);
                         }
                     }
                     None => break,
