@@ -1,6 +1,6 @@
 use logos::Logos;
 
-#[derive(Logos, Debug, Clone, Copy, PartialEq)]
+#[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RawToken {
     #[token("=>", priority = 3)]
     Arrow,
