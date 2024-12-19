@@ -5340,6 +5340,7 @@ name = "swc_ecma_raw_lexer"
 version = "0.1.0"
 dependencies = [
  "logos",
+ "swc_common",
 ]
 
 [[package]]
