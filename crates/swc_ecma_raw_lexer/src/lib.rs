@@ -12,6 +12,7 @@ pub struct RawBuffer<'a> {
     pos: BytePos,
     orig_str: &'a str,
     start_pos: BytePos,
+    end_pos: BytePos,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -26,6 +27,7 @@ impl<'a> RawBuffer<'a> {
             pos: input.start_pos(),
             orig_str: input.as_str(),
             start_pos: input.start_pos(),
+            end_pos: input.end_pos(),
         }
     }
 
@@ -76,6 +78,17 @@ impl<'a> RawBuffer<'a> {
         } else {
             Ok(false)
         }
+    }
+
+    /// # Safety
+    ///
+    /// - `pos` must be within the bounds of `self.orig_str`
+    pub unsafe fn reset_to(&mut self, pos: BytePos) {
+        let lo = pos.0 - self.start_pos.0;
+        let hi = self.end_pos.0 - self.start_pos.0;
+
+        self.lexer = logos::Lexer::new(self.orig_str.get_unchecked(lo as usize..hi as usize));
+        self.pos = pos;
     }
 }
 
