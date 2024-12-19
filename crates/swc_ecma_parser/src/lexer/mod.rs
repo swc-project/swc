@@ -7,7 +7,7 @@ use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
-use swc_ecma_raw_lexer::RawBuffer;
+use swc_ecma_raw_lexer::{RawBuffer, RawToken};
 
 use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
@@ -183,7 +183,7 @@ impl<'a> Lexer<'a> {
             Some(handler) => handler(self),
             None => {
                 let start = self.cur_pos();
-                self.input.bump_bytes(1);
+                self.input.bump(1);
                 self.error_span(
                     pos_span(start),
                     SyntaxError::UnexpectedChar { c: byte as _ },
@@ -250,49 +250,6 @@ impl<'a> Lexer<'a> {
         }
 
         Ok(tok!('.'))
-    }
-
-    /// Read a token given `?`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_question_mark(&mut self) -> LexResult<Token> {
-        match self.input.peek() {
-            Some('?') => {
-                unsafe {
-                    // Safety: peek() was some
-                    self.input.bump(2);
-                }
-                if self.input.cur() == Some('=') {
-                    unsafe {
-                        // Safety: cur() was some
-                        self.input.bump(1);
-                    }
-
-                    return Ok(tok!("??="));
-                }
-                Ok(tok!("??"))
-            }
-            _ => {
-                unsafe {
-                    // Safety: peek() is callable only if cur() is Some
-                    self.input.bump(1);
-                }
-                Ok(tok!('?'))
-            }
-        }
-    }
-
-    /// Read a token given `:`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_colon(&mut self) -> LexResult<Token> {
-        unsafe {
-            // Safety: cur() is Some(':')
-            self.input.bump(1);
-        }
-        Ok(tok!(':'))
     }
 
     /// Read a token given `0`.
@@ -451,7 +408,7 @@ impl<'a> Lexer<'a> {
             '\r' => {
                 self.bump(); // remove '\r'
 
-                self.eat(b'\n');
+                self.input.eat(RawToken::NewLine);
 
                 return Ok(None);
             }
