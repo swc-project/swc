@@ -1,3 +1,8 @@
+//! This package is considered internal and should not be used by external
+//! crates.
+//!
+//! It may updated without proper semver.
+
 use logos::Logos;
 use swc_common::{input::StringInput, BytePos};
 
