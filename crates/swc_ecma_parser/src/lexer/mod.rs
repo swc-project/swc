@@ -899,9 +899,9 @@ impl Lexer<'_> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
-        debug_assert!(self.input.cur() == Some('\'') || self.input.cur() == Some('"'));
+        debug_assert!(self.input.cur()? == Some('\'') || self.input.cur()? == Some('"'));
         let start = self.input.cur_pos();
-        let quote = self.input.cur().unwrap() as u8;
+        let quote = self.input.cur()?.unwrap() as u8;
 
         self.bump(); // '"'
 
