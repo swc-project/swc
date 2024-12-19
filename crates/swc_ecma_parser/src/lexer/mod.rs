@@ -172,6 +172,7 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
+        let start = self.input.cur_pos();
         let cur = match self.input.cur()? {
             Some(cur) => cur,
             None => return Ok(None),
@@ -179,13 +180,27 @@ impl<'a> Lexer<'a> {
 
         match cur {
             RawToken::LegacyCommentOpen => {
-                let start = self.input.cur_pos();
-
                 // XML style comment. `<!--`
                 self.skip_line_comment(3);
                 self.skip_space::<true>();
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
+                return self.read_token();
+            }
+
+            RawToken::LConflictMarker | RawToken::RConflictMarker
+                if self.had_line_break_before_last() =>
+            {
+                // All conflict markers consist of the same character repeated seven times.
+                // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
+                // <<<<<<<
+                //   ^
+                // >>>>>>>
+                //    ^
+
+                self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
+                self.skip_line_comment(5);
+                self.skip_space::<true>();
                 return self.read_token();
             }
 
@@ -541,81 +556,6 @@ impl<'a> Lexer<'a> {
 }
 
 impl Lexer<'_> {
-    #[inline(never)]
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.input.cur() == Some('<') || self.input.cur() == Some('>'));
-
-        let had_line_break_before_last = self.had_line_break_before_last();
-        let start = self.input.cur_pos();
-        let c = self.input.cur().unwrap();
-        self.bump();
-
-        if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type
-        {
-            if c == '<' {
-                return Ok(Some(tok!('<')));
-            } else if c == '>' {
-                return Ok(Some(tok!('>')));
-            }
-        }
-
-        let mut op = if c == '<' {
-            BinOpToken::Lt
-        } else {
-            BinOpToken::Gt
-        };
-
-        // '<<', '>>'
-        if self.input.cur()? == Some(c) {
-            self.bump();
-            op = if c == '<' {
-                BinOpToken::LShift
-            } else {
-                BinOpToken::RShift
-            };
-
-            //'>>>'
-            if c == '>' && self.input.cur()? == Some(c) {
-                self.bump();
-                op = BinOpToken::ZeroFillRShift;
-            }
-        }
-
-        let token = if self.input.eat(RawToken::AssignOp)? {
-            match op {
-                BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
-                BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
-                BinOpToken::LShift => Token::AssignOp(AssignOp::LShiftAssign),
-                BinOpToken::RShift => Token::AssignOp(AssignOp::RShiftAssign),
-                BinOpToken::ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
-                _ => unreachable!(),
-            }
-        } else {
-            Token::BinOp(op)
-        };
-
-        // All conflict markers consist of the same character repeated seven times.
-        // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
-        // <<<<<<<
-        //   ^
-        // >>>>>>>
-        //    ^
-        if had_line_break_before_last
-            && match op {
-                BinOpToken::LShift if self.is_str("<<<<< ") => true,
-                BinOpToken::ZeroFillRShift if self.is_str(">>>> ") => true,
-                _ => false,
-            }
-        {
-            self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
-            self.skip_line_comment(5);
-            self.skip_space::<true>();
-            return self.read_token();
-        }
-
-        Ok(Some(token))
-    }
-
     /// This can be used if there's no keyword starting with the first
     /// character.
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
