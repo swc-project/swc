@@ -3,7 +3,7 @@
 //!
 //! It may updated without proper semver.
 
-use logos::Logos;
+use logos::{Lexer, Logos, Skip};
 use swc_common::{input::StringInput, BytePos};
 
 #[derive(Debug, Clone)]
@@ -317,8 +317,8 @@ pub enum RawToken {
     #[regex(r"\P{ID_Start}\P{ID_Continue}*")]
     Ident,
 
-    #[token("\r", priority = 3)]
-    #[token("\n", priority = 3)]
+    #[token("\r", priority = 3, callback = newline_callback)]
+    #[token("\n", priority = 3, callback = newline_callback)]
     NewLine,
 
     #[token("<!--", priority = 3)]
@@ -332,6 +332,11 @@ pub enum RawToken {
 
     #[token(">>>>>", priority = 3)]
     RConflictMarker,
+}
+
+fn newline_callback(l: &mut Lexer<RawToken>) -> Skip {
+    l.extras.had_line_break = true;
+    Skip
 }
 
 impl RawToken {
