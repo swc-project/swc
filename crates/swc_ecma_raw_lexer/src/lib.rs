@@ -14,6 +14,22 @@ impl<'a> RawBuffer<'a> {
             pos: input.start_pos(),
         }
     }
+
+    pub fn cur_pos(&self) -> BytePos {
+        self.pos
+    }
+
+    pub fn cur(&self) -> Result<Option<RawToken>, LexError> {
+        self.lexer.clone().next().transpose()
+    }
+}
+
+impl Iterator for RawBuffer<'_> {
+    type Item = Result<RawToken, LexError>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.lexer.next()
+    }
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
