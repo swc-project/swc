@@ -27,6 +27,14 @@ impl<'a> RawBuffer<'a> {
         self.lexer.clone().next().transpose()
     }
 
+    pub fn peek(&self) -> Result<Option<RawToken>, LexError> {
+        self.lexer.clone().nth(1).transpose()
+    }
+
+    pub fn peek_ahead(&self) -> Result<Option<RawToken>, LexError> {
+        self.lexer.clone().nth(2).transpose()
+    }
+
     /// # Safety
     ///
     ///  - `start` and `end` must be within the bounds of `self.orig_str`
