@@ -1,19 +1,18 @@
 use logos::Logos;
+use swc_common::{input::StringInput, BytePos};
 
 #[derive(Debug, Clone)]
-pub struct RawBuffer<'a>(logos::Lexer<'a, RawToken>);
-
-impl std::ops::DerefMut for RawBuffer<'_> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
+pub struct RawBuffer<'a> {
+    lexer: logos::Lexer<'a, RawToken>,
+    pos: BytePos,
 }
 
-impl<'a> std::ops::Deref for RawBuffer<'a> {
-    type Target = logos::Lexer<'a, RawToken>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
+impl<'a> RawBuffer<'a> {
+    pub fn new(input: StringInput<'a>) -> Self {
+        Self {
+            lexer: logos::Lexer::new(input.as_str()),
+            pos: input.start_pos(),
+        }
     }
 }
 
