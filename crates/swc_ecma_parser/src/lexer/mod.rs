@@ -1139,7 +1139,7 @@ impl Lexer<'_> {
                     let s = unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
-                        self.input.slice()[cooked_slice_start..last_pos]
+                        self.input.slice(cooked_slice_start, last_pos)
                     };
 
                     Ok(self.atoms.atom(s))
@@ -1154,7 +1154,7 @@ impl Lexer<'_> {
                 let raw = unsafe {
                     // Safety: Both of start and last_pos are valid position because we got them
                     // from `self.input`
-                    self.input.slice()[raw_slice_start..end]
+                    self.input.slice(raw_slice_start, end)
                 };
                 return Ok(Token::Template {
                     cooked,
