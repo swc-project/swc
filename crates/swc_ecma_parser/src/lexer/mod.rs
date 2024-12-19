@@ -197,7 +197,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some('#')
-            self.input.bump(); // '#'
+            self.input.bump(1); // '#'
         }
 
         // `#` can also be a part of shebangs, however they should have been
@@ -220,7 +220,7 @@ impl<'a> Lexer<'a> {
             None => {
                 unsafe {
                     // Safety: cur() is Some(',')
-                    self.input.bump();
+                    self.input.bump(1);
                 }
                 return Ok(tok!('.'));
             }

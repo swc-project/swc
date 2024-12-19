@@ -38,7 +38,7 @@ impl Lexer<'_> {
     pub(super) fn bump(&mut self) {
         unsafe {
             // Safety: Actually this is not safe but this is an internal method.
-            self.input.bump()
+            self.input.bump(1)
         }
     }
 

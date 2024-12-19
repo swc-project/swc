@@ -477,7 +477,7 @@ impl Lexer<'_> {
                 // Ignore this _ character
                 unsafe {
                     // Safety: cur() returns Some(c) where c is a valid char
-                    self.input.bump();
+                    self.input.bump(1);
                 }
 
                 continue;

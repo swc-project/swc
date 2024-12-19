@@ -36,7 +36,7 @@ impl Lexer<'_> {
                         if cur == '<' && self.state.is_expr_allowed {
                             unsafe {
                                 // Safety: cur() was Some('<')
-                                self.input.bump();
+                                self.input.bump(1);
                             }
                             return Ok(Some(Token::JSXTagStart));
                         }
@@ -77,7 +77,7 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('>')
-                        self.input.bump()
+                        self.input.bump(1)
                     }
                 }
                 '}' => {
@@ -118,7 +118,7 @@ impl Lexer<'_> {
                     } else {
                         unsafe {
                             // Safety: cur() was Some(c)
-                            self.input.bump()
+                            self.input.bump(1)
                         }
                     }
                 }
@@ -153,7 +153,7 @@ impl Lexer<'_> {
         debug_assert_eq!(c, Some('&'));
         unsafe {
             // Safety: cur() was Some('&')
-            self.input.bump();
+            self.input.bump(1);
         }
 
         let start_pos = self.input.cur_pos();
@@ -165,7 +165,7 @@ impl Lexer<'_> {
             };
             unsafe {
                 // Safety: cur() was Some(c)
-                self.input.bump();
+                self.input.bump(1);
             }
 
             if c == ';' {
@@ -208,13 +208,13 @@ impl Lexer<'_> {
         let ch = self.input.cur().unwrap();
         unsafe {
             // Safety: cur() was Some(ch)
-            self.input.bump();
+            self.input.bump(1);
         }
 
         let out = if ch == '\r' && self.input.cur() == Some('\n') {
             unsafe {
                 // Safety: cur() was Some('\n')
-                self.input.bump();
+                self.input.bump(1);
             }
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
@@ -234,7 +234,7 @@ impl Lexer<'_> {
 
         unsafe {
             // Safety: cur() was Some(quote)
-            self.input.bump(); // `quote`
+            self.input.bump(1); // `quote`
         }
 
         let mut out = String::new();
@@ -306,7 +306,7 @@ impl Lexer<'_> {
             } else {
                 unsafe {
                     // Safety: cur() was Some(ch)
-                    self.input.bump();
+                    self.input.bump(1);
                 }
             }
         }
@@ -338,7 +338,7 @@ impl Lexer<'_> {
         if self.input.peek_ahead().is_some() {
             unsafe {
                 // Safety: We called peek_ahead() which means cur() was Some
-                self.input.bump();
+                self.input.bump(1);
             }
         }
 
