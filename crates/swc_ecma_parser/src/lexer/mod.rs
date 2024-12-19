@@ -559,7 +559,11 @@ impl Lexer<'_> {
         }
 
         // XML style comment. `<!--`
-        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
+        if c == '<'
+            && self.is(b'!')
+            && self.input.peek() == Some('-')
+            && self.input.peek_ahead() == Some('-')
+        {
             self.skip_line_comment(3);
             self.skip_space::<true>();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
@@ -1129,7 +1133,7 @@ impl Lexer<'_> {
         }
 
         while let Some(c) = self.input.cur() {
-            if c == '`' || (c == '$' && self.peek() == Some('{')) {
+            if c == '`' || (c == '$' && self.input.peek() == Some('{')) {
                 if start == self.input.cur_pos() && self.state.last_was_tpl_element() {
                     if c == '$' {
                         self.bump();
@@ -1193,7 +1197,7 @@ impl Lexer<'_> {
 
                 consume_cooked!();
 
-                let c = if c == '\r' && self.peek() == Some('\n') {
+                let c = if c == '\r' && self.input.peek() == Some('\n') {
                     self.bump(); // '\r'
                     '\n'
                 } else {
