@@ -31,6 +31,14 @@ impl<'a> RawBuffer<'a> {
         }
     }
 
+    pub const fn start_pos(&self) -> BytePos {
+        self.start_pos
+    }
+
+    pub const fn end_pos(&self) -> BytePos {
+        self.end_pos
+    }
+
     pub fn cur_pos(&self) -> BytePos {
         self.pos
     }
