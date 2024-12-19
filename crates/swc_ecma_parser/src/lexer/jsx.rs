@@ -89,13 +89,13 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('}')
-                        self.input.bump()
+                        self.input.bump(1)
                     }
                 }
                 '&' => {
                     value.push_str(unsafe {
                         // Safety: We already checked for the range
-                        self.input.slice(chunk_start, cur_pos)
+                        self.input.slice()[chunk_start..cur_pos]
                     });
 
                     let jsx_entity = self.read_jsx_entity()?;

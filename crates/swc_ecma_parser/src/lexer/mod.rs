@@ -8,12 +8,7 @@ use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
-use self::{
-    comments_buffer::CommentsBuffer,
-    state::State,
-    table::{ByteHandler, BYTE_HANDLERS},
-    util::*,
-};
+use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
@@ -30,7 +25,6 @@ pub mod input;
 mod jsx;
 mod number;
 mod state;
-mod table;
 #[cfg(test)]
 mod tests;
 pub mod util;
@@ -248,7 +242,7 @@ impl<'a> Lexer<'a> {
             unsafe {
                 // Safety: peek() was Some
 
-                self.input.bump(2); `..`
+                self.input.bump(2); // `..`
             }
 
             return Ok(tok!("..."));
@@ -266,13 +260,12 @@ impl<'a> Lexer<'a> {
             Some('?') => {
                 unsafe {
                     // Safety: peek() was some
-                    self.input.bump();
-                    self.input.bump();
+                    self.input.bump(2);
                 }
                 if self.input.cur() == Some('=') {
                     unsafe {
                         // Safety: cur() was some
-                        self.input.bump();
+                        self.input.bump(1);
                     }
 
                     return Ok(tok!("??="));
@@ -282,7 +275,7 @@ impl<'a> Lexer<'a> {
             _ => {
                 unsafe {
                     // Safety: peek() is callable only if cur() is Some
-                    self.input.bump();
+                    self.input.bump(1);
                 }
                 Ok(tok!('?'))
             }
@@ -296,7 +289,7 @@ impl<'a> Lexer<'a> {
     fn read_token_colon(&mut self) -> LexResult<Token> {
         unsafe {
             // Safety: cur() is Some(':')
-            self.input.bump();
+            self.input.bump(1);
         }
         Ok(tok!(':'))
     }
@@ -336,7 +329,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c as char)
-            self.input.bump();
+            self.input.bump(1);
         }
         let token = if c == b'&' {
             BinOpToken::BitAnd
@@ -357,13 +350,13 @@ impl<'a> Lexer<'a> {
         if self.input.cur() == Some(c as char) {
             unsafe {
                 // Safety: cur() is Some(c)
-                self.input.bump();
+                self.input.bump(1);
             }
 
             if self.input.cur() == Some('=') {
                 unsafe {
                     // Safety: cur() is Some('=')
-                    self.input.bump();
+                    self.input.bump(1);
                 }
                 return Ok(Token::AssignOp(match token {
                     BinOpToken::BitAnd => op!("&&="),
@@ -400,7 +393,7 @@ impl<'a> Lexer<'a> {
         let is_mul = c == b'*';
         unsafe {
             // Safety: cur() is Some(c)
-            self.input.bump(1   );
+            self.input.bump(1);
         }
         let mut token = if is_mul {
             Token::BinOp(BinOpToken::Mul)
@@ -546,7 +539,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input.bump(1       );
+            self.input.bump(1);
         }
 
         Ok(Some(vec![c.into()]))
