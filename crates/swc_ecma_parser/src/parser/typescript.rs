@@ -968,6 +968,11 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input.syntax().typescript());
 
+        // Check for import types first
+        if is!(self, "import") {
+            return self.parse_ts_import_type().map(TsType::from).map(Box::new);
+        }
+
         if self.is_ts_start_of_fn_type()? {
             return self
                 .parse_ts_fn_or_constructor_type(true)
