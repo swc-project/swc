@@ -9,6 +9,7 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::Ident;
+use swc_ecma_raw_lexer::RawToken;
 use tracing::warn;
 
 use super::{comments_buffer::BufferedComment, whitespace::SkipWhitespace, Char, LexResult, Lexer};
@@ -224,7 +225,7 @@ impl Lexer<'_> {
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        while let Some(c) = self.input.cur() {
+        while let Some(c) = self.input.cur()? {
             if was_star && c == '/' {
                 debug_assert_eq!(self.input.cur(), Some('/'));
                 self.bump(); // '/'
@@ -233,7 +234,7 @@ impl Lexer<'_> {
 
                 self.skip_space::<false>();
 
-                if self.input.is_byte(b';') {
+                if self.input.eat(RawToken::Semi)? {
                     is_for_next = false;
                 }
 

@@ -172,12 +172,25 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let byte = match self.input.next() {
-            Some(v) => v,
+        let cur = match self.input.cur()? {
+            Some(cur) => cur,
             None => return Ok(None),
         };
 
-        let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
+        match cur {
+            RawToken::LegacyCommentOpen => {
+                let start = self.input.cur_pos();
+
+                // XML style comment. `<!--`
+                self.skip_line_comment(3);
+                self.skip_space::<true>();
+                self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
+
+                return self.read_token();
+            }
+
+            _ => {}
+        }
 
         match handler {
             Some(handler) => handler(self),
@@ -556,19 +569,6 @@ impl Lexer<'_> {
             } else if c == '>' {
                 return Ok(Some(tok!('>')));
             }
-        }
-
-        // XML style comment. `<!--`
-        if c == '<'
-            && self.is(b'!')
-            && self.input.peek() == Some('-')
-            && self.input.peek_ahead() == Some('-')
-        {
-            self.skip_line_comment(3);
-            self.skip_space::<true>();
-            self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
-
-            return self.read_token();
         }
 
         let mut op = if c == '<' {

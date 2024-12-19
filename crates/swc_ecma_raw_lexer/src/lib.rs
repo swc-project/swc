@@ -289,6 +289,12 @@ pub enum RawToken {
     #[token("\r", priority = 3)]
     #[token("\n", priority = 3)]
     NewLine,
+
+    #[token("<!--", priority = 3)]
+    LegacyCommentOpen,
+
+    #[token("-->", priority = 3)]
+    LegacyCommentClose,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
