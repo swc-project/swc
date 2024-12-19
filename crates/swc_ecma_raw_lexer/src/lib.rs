@@ -57,9 +57,10 @@ impl<'a> RawBuffer<'a> {
         let cur = self.cur()?;
 
         if cur == Some(token) {
+            let len = self.lexer.span().len();
             unsafe {
                 // Safety: cur() was Some(token)
-                self.bump(1);
+                self.bump(len);
             }
             Ok(true)
         } else {
