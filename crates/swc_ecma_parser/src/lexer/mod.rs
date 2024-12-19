@@ -594,7 +594,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
+            self.input.bump(1);
         }
 
         Ok(Some(if self.input.eat_byte(b'=') {
@@ -821,7 +821,7 @@ impl Lexer<'_> {
                             let s = unsafe {
                                 // Safety: start and end are valid position because we got them from
                                 // `self.input`
-                                l.input.slice(slice_start, start)
+                                l.input.slice()[slice_start..start]
                             };
                             buf.push_str(s);
                             unsafe {
@@ -879,7 +879,7 @@ impl Lexer<'_> {
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
-                    l.input.slice(slice_start, end)
+                    l.input.slice()[slice_start..end]
                 };
                 let s = unsafe {
                     // Safety: We don't use 'static. We just bypass the lifetime check.
@@ -891,7 +891,7 @@ impl Lexer<'_> {
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
-                    l.input.slice(slice_start, end)
+                    l.input.slice()[slice_start..end]
                 };
                 buf.push_str(s);
 
@@ -1208,10 +1208,8 @@ impl Lexer<'_> {
             return Ok(None);
         }
         unsafe {
-            // Safety: cur() is Some('#')
-            self.input.bump();
-            // Safety: cur() is Some('!')
-            self.input.bump();
+            // Safety: "#!"
+            self.input.bump(2);
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
         Ok(Some(self.atoms.atom(s)))
@@ -1231,7 +1229,7 @@ impl Lexer<'_> {
                     cooked.push_str(unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
+                        self.input.slice()[cooked_slice_start..last_pos]
                     });
                 }
             }};
@@ -1256,7 +1254,7 @@ impl Lexer<'_> {
                     let s = unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
+                        self.input.slice()[cooked_slice_start..last_pos]
                     };
 
                     Ok(self.atoms.atom(s))
@@ -1271,7 +1269,7 @@ impl Lexer<'_> {
                 let raw = unsafe {
                     // Safety: Both of start and last_pos are valid position because we got them
                     // from `self.input`
-                    self.input.slice(raw_slice_start, end)
+                    self.input.slice()[raw_slice_start..end]
                 };
                 return Ok(Token::Template {
                     cooked,
