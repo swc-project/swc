@@ -23,7 +23,10 @@ impl Lexer<'_> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
-                RawToken::LtOp if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
+                RawToken::LtOp
+                    if self.had_line_break_before_last()
+                        && self.input.peek()? == Some(RawToken::LConflictMarker) =>
+                {
                     let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);
@@ -336,7 +339,7 @@ impl Lexer<'_> {
 
         // it might be at the end of the file when
         // the string literal is unterminated
-        if self.input.peek_ahead().is_some() {
+        if self.input.peek_ahead()?.is_some() {
             unsafe {
                 // Safety: We called peek_ahead() which means cur() was Some
                 self.input.bump(1);

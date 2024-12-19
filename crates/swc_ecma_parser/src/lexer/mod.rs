@@ -191,6 +191,8 @@ impl<'a> Lexer<'a> {
             RawToken::LConflictMarker | RawToken::RConflictMarker
                 if self.had_line_break_before_last() =>
             {
+                let start = self.input.cur_pos();
+
                 // All conflict markers consist of the same character repeated seven times.
                 // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
                 // <<<<<<<
