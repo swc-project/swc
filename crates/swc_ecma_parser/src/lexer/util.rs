@@ -148,9 +148,9 @@ impl Lexer<'_> {
 
     #[inline(never)]
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
         self.input.bump_bytes(start_skip);
-        let slice_start = self.cur_pos();
+        let slice_start = self.input.cur_pos();
 
         // foo // comment for foo
         // bar
@@ -171,7 +171,7 @@ impl Lexer<'_> {
             });
 
         self.input.bump_bytes(idx);
-        let end = self.cur_pos();
+        let end = self.input.cur_pos();
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = unsafe {
@@ -204,15 +204,15 @@ impl Lexer<'_> {
     /// Expects current char to be '/' and next char to be '*'.
     #[inline(never)]
     pub(super) fn skip_block_comment(&mut self) {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.input.cur(), Some('/'));
         debug_assert_eq!(self.peek(), Some('*'));
 
         self.input.bump_bytes(2);
 
         // jsdoc
-        let slice_start = self.cur_pos();
+        let slice_start = self.input.cur_pos();
         let mut was_star = if self.input.is_byte(b'*') {
             self.bump();
             true
@@ -222,12 +222,12 @@ impl Lexer<'_> {
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur() {
             if was_star && c == '/' {
-                debug_assert_eq!(self.cur(), Some('/'));
+                debug_assert_eq!(self.input.cur(), Some('/'));
                 self.bump(); // '/'
 
-                let end = self.cur_pos();
+                let end = self.input.cur_pos();
 
                 self.skip_space::<false>();
 

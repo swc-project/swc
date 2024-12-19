@@ -290,7 +290,7 @@ impl Lexer<'_> {
                 return self.read_jsx_token();
             }
 
-            let c = self.cur();
+            let c = self.input.cur();
             if let Some(c) = c {
                 if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                     || self.state.context.current() == Some(TokenContext::JSXClosingTag)
@@ -350,7 +350,7 @@ impl Iterator for Lexer<'_> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
+        let mut start = self.input.cur_pos();
 
         let res = self.next_token(&mut start);
 
@@ -676,7 +676,7 @@ impl TokenContexts {
         is_expr_allowed: bool,
     ) -> bool {
         if let Some(TokenType::Colon) = prev {
-            match self.current() {
+            match self.input.current() {
                 Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
@@ -711,14 +711,14 @@ impl TokenContexts {
             Some(TokenType::LBrace) => {
                 // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
                 // <Blah blah={function (): void {}} />
-                if self.current() == Some(TokenContext::BraceExpr) {
+                if self.input.current() == Some(TokenContext::BraceExpr) {
                     let len = self.len();
                     if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
                         return true;
                     }
                 }
 
-                return self.current() == Some(TokenContext::BraceStmt);
+                return self.input.current() == Some(TokenContext::BraceStmt);
             }
 
             // `class C<T> { ... }`

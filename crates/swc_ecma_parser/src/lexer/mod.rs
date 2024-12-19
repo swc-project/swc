@@ -182,7 +182,7 @@ impl<'a> Lexer<'a> {
         match handler {
             Some(handler) => handler(self),
             None => {
-                let start = self.cur_pos();
+                let start = self.input.cur_pos();
                 self.input.bump(1);
                 self.error_span(
                     pos_span(start),
@@ -194,7 +194,7 @@ impl<'a> Lexer<'a> {
 
     /// `#`
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.input.cur().is_some());
 
         unsafe {
             // Safety: cur() is Some('#')
@@ -204,7 +204,7 @@ impl<'a> Lexer<'a> {
         // `#` can also be a part of shebangs, however they should have been
         // handled by `read_shebang()`
         debug_assert!(
-            !self.input.is_at_start() || self.cur() != Some('!'),
+            !self.input.is_at_start() || self.input.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
         Ok(Some(Token::Hash))
@@ -283,7 +283,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         unsafe {
             // Safety: cur() is Some(c as char)
@@ -343,50 +343,17 @@ impl<'a> Lexer<'a> {
         Ok(Token::BinOp(token))
     }
 
-    /// Read a token given `*` or `%`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
-        let is_mul = c == b'*';
-        unsafe {
-            // Safety: cur() is Some(c)
-            self.input.bump(1);
-        }
-        let mut token = if is_mul {
-            Token::BinOp(BinOpToken::Mul)
-        } else {
-            Token::BinOp(BinOpToken::Mod)
-        };
-
-        // check for **
-        if is_mul && self.input.eat_byte(b'*') {
-            token = Token::BinOp(BinOpToken::Exp)
-        }
-
-        if self.input.eat_byte(b'=') {
-            token = match token {
-                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
-                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
-                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
-                _ => unreachable!(),
-            }
-        }
-
-        Ok(token)
-    }
-
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
-        debug_assert_eq!(self.cur(), Some('\\'));
+        debug_assert_eq!(self.input.cur(), Some('\\'));
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         self.bump(); // '\'
 
-        let c = match self.cur() {
+        let c = match self.input.cur()? {
             Some(c) => c,
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };
@@ -444,7 +411,7 @@ impl<'a> Lexer<'a> {
                 self.bump();
 
                 let first_c = if c == '0' {
-                    match self.cur() {
+                    match self.input.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some(vec!['\u{0000}'.into()])),
@@ -464,7 +431,7 @@ impl<'a> Lexer<'a> {
 
                 macro_rules! one {
                     ($check:expr) => {{
-                        let cur = self.cur();
+                        let cur = self.input.cur();
 
                         match cur.and_then(|c| c.to_digit(8)) {
                             Some(v) => {
@@ -504,7 +471,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         unsafe {
             // Safety: cur() is Some(c), if this method is called.
@@ -547,7 +514,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
         unsafe {
@@ -593,7 +560,7 @@ impl<'a> Lexer<'a> {
 impl Lexer<'_> {
     #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.input.cur(), Some('/'));
 
         // Divide operator
         self.bump();
@@ -607,11 +574,11 @@ impl Lexer<'_> {
 
     #[inline(never)]
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
+        debug_assert!(self.input.cur() == Some('<') || self.input.cur() == Some('>'));
 
         let had_line_break_before_last = self.had_line_break_before_last();
-        let start = self.cur_pos();
-        let c = self.cur().unwrap();
+        let start = self.input.cur_pos();
+        let c = self.input.cur().unwrap();
         self.bump();
 
         if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type
@@ -639,7 +606,7 @@ impl Lexer<'_> {
         };
 
         // '<<', '>>'
-        if self.cur() == Some(c) {
+        if self.input.cur() == Some(c) {
             self.bump();
             op = if c == '<' {
                 BinOpToken::LShift
@@ -648,7 +615,7 @@ impl Lexer<'_> {
             };
 
             //'>>>'
-            if c == '>' && self.cur() == Some(c) {
+            if c == '>' && self.input.cur() == Some(c) {
                 self.bump();
                 op = BinOpToken::ZeroFillRShift;
             }
@@ -692,7 +659,7 @@ impl Lexer<'_> {
     /// This can be used if there's no keyword starting with the first
     /// character.
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.input.cur().is_some());
 
         let (word, _) = self
             .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
@@ -706,9 +673,9 @@ impl Lexer<'_> {
         &mut self,
         convert: &dyn Fn(&str) -> Option<Word>,
     ) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.input.cur().is_some());
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
         let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
             if can_be_known {
                 if let Some(word) = convert(s) {
@@ -740,10 +707,10 @@ impl Lexer<'_> {
     where
         F: for<'any> FnOnce(&'any mut Lexer<'_>, &str, bool, bool) -> Ret,
     {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.input.cur().is_some());
         let mut first = true;
         let mut can_be_keyword = true;
-        let mut slice_start = self.cur_pos();
+        let mut slice_start = self.input.cur_pos();
         let mut has_escape = false;
 
         self.with_buf(|l, buf| {
@@ -861,7 +828,7 @@ impl Lexer<'_> {
     }
 
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
-        debug_assert_eq!(self.cur(), Some('u'));
+        debug_assert_eq!(self.input.cur(), Some('u'));
 
         let mut chars = Vec::new();
         let mut is_curly = false;
@@ -878,7 +845,7 @@ impl Lexer<'_> {
                 if 0x0010_ffff >= val {
                     char::from_u32(val)
                 } else {
-                    let start = self.cur_pos();
+                    let start = self.input.cur_pos();
 
                     self.error(
                         start,
@@ -893,7 +860,7 @@ impl Lexer<'_> {
                 }
             }
             _ => {
-                let start = self.cur_pos();
+                let start = self.input.cur_pos();
 
                 self.error(
                     start,
@@ -960,9 +927,9 @@ impl Lexer<'_> {
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
-        let start = self.cur_pos();
-        let quote = self.cur().unwrap() as u8;
+        debug_assert!(self.input.cur() == Some('\'') || self.input.cur() == Some('"'));
+        let start = self.input.cur_pos();
+        let quote = self.input.cur().unwrap() as u8;
 
         self.bump(); // '"'
 
@@ -1092,9 +1059,9 @@ impl Lexer<'_> {
             self.input.reset_to(start);
         }
 
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.input.cur(), Some('/'));
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         self.bump();
 
@@ -1145,9 +1112,9 @@ impl Lexer<'_> {
 
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
-        // let flags_start = self.cur_pos();
+        // let flags_start = self.input.cur_pos();
         let flags = {
-            match self.cur() {
+            match self.input.cur() {
                 Some(c) if c.is_ident_start() => self
                     .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
                     .map(Some),
@@ -1174,7 +1141,7 @@ impl Lexer<'_> {
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let mut cooked = Ok(String::new());
         let mut cooked_slice_start = start;
@@ -1183,7 +1150,7 @@ impl Lexer<'_> {
         macro_rules! consume_cooked {
             () => {{
                 if let Ok(cooked) = &mut cooked {
-                    let last_pos = self.cur_pos();
+                    let last_pos = self.input.cur_pos();
                     cooked.push_str(unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
@@ -1193,9 +1160,9 @@ impl Lexer<'_> {
             }};
         }
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
+                if start == self.input.cur_pos() && self.state.last_was_tpl_element() {
                     if c == '$' {
                         self.bump();
                         self.bump();
@@ -1208,7 +1175,7 @@ impl Lexer<'_> {
 
                 // If we don't have any escape
                 let cooked = if cooked_slice_start == raw_slice_start {
-                    let last_pos = self.cur_pos();
+                    let last_pos = self.input.cur_pos();
                     let s = unsafe {
                         // Safety: Both of start and last_pos are valid position because we got them
                         // from `self.input`
@@ -1252,7 +1219,7 @@ impl Lexer<'_> {
                     }
                 }
 
-                cooked_slice_start = self.cur_pos();
+                cooked_slice_start = self.input.cur_pos();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
@@ -1276,7 +1243,7 @@ impl Lexer<'_> {
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
-                cooked_slice_start = self.cur_pos();
+                cooked_slice_start = self.input.cur_pos();
             } else {
                 self.bump();
             }

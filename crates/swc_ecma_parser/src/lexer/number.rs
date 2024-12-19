@@ -33,29 +33,29 @@ impl Lexer<'_> {
         &mut self,
         starts_with_dot: bool,
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.input.cur().is_some());
 
         if starts_with_dot {
             debug_assert_eq!(
-                self.cur(),
+                self.input.cur(),
                 Some('.'),
                 "read_number(starts_with_dot = true) expects current char to be '.'"
             );
         }
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let val = if starts_with_dot {
             // first char is '.'
             0f64
         } else {
-            let starts_with_zero = self.cur().unwrap() == '0';
+            let starts_with_zero = self.input.cur().unwrap() == '0';
 
             // Use read_number_no_dot to support long numbers.
             let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
 
             if self.eat(b'n') {
-                let end = self.cur_pos();
+                let end = self.input.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
                     self.input.slice(start, end)
@@ -80,7 +80,7 @@ impl Lexer<'_> {
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
-                        let end = self.cur_pos();
+                        let end = self.input.cur_pos();
                         let raw = unsafe {
                             // Safety: We got both start and end position from `self.input`
                             self.input.slice(start, end)
@@ -115,7 +115,7 @@ impl Lexer<'_> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
-                            let end = self.cur_pos();
+                            let end = self.input.cur_pos();
                             let raw = unsafe {
                                 // Safety: We got both start and end position from `self.input`
                                 self.input.slice(start, end)
@@ -140,19 +140,19 @@ impl Lexer<'_> {
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
-        if self.cur() == Some('.') {
+        if self.input.cur() == Some('.') {
             self.bump();
 
             if starts_with_dot {
-                debug_assert!(self.cur().is_some());
-                debug_assert!(self.cur().unwrap().is_ascii_digit());
+                debug_assert!(self.input.cur().is_some());
+                debug_assert!(self.input.cur().unwrap().is_ascii_digit());
             }
 
             // Read numbers after dot
             self.read_int::<10>(0)?;
 
             val = {
-                let end = self.cur_pos();
+                let end = self.input.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
                     self.input.slice(start, end)
@@ -175,14 +175,14 @@ impl Lexer<'_> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        match self.cur() {
+        match self.input.cur() {
             Some('e') | Some('E') => {
                 self.bump();
 
-                let next = match self.cur() {
+                let next = match self.input.cur() {
                     Some(next) => next,
                     None => {
-                        let pos = self.cur_pos();
+                        let pos = self.input.cur_pos();
                         self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
                     }
                 };
@@ -204,7 +204,7 @@ impl Lexer<'_> {
                         0.0
                     }
                 } else {
-                    let end = self.cur_pos();
+                    let end = self.input.cur_pos();
                     let raw = unsafe {
                         // Safety: We got both start and end position from `self.input`
                         self.input.slice(start, end)
@@ -224,7 +224,7 @@ impl Lexer<'_> {
 
         self.ensure_not_ident()?;
 
-        let end = self.cur_pos();
+        let end = self.input.cur_pos();
         let raw_str = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input.slice(start, end)
@@ -241,9 +241,9 @@ impl Lexer<'_> {
             "radix should be one of 2, 8, 16, but got {}",
             RADIX
         );
-        debug_assert_eq!(self.cur(), Some('0'));
+        debug_assert_eq!(self.input.cur(), Some('0'));
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         self.bump();
 
@@ -259,7 +259,7 @@ impl Lexer<'_> {
         let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
 
         if self.eat(b'n') {
-            let end = self.cur_pos();
+            let end = self.input.cur_pos();
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`
                 self.input.slice(start, end)
@@ -273,7 +273,7 @@ impl Lexer<'_> {
 
         self.ensure_not_ident()?;
 
-        let end = self.cur_pos();
+        let end = self.input.cur_pos();
         let raw = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input.slice(start, end)
@@ -290,7 +290,7 @@ impl Lexer<'_> {
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             RADIX
         );
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let mut read_any = false;
 
@@ -321,7 +321,7 @@ impl Lexer<'_> {
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             RADIX
         );
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
 
         let mut non_octal = false;
         let mut read_any = false;
@@ -343,7 +343,7 @@ impl Lexer<'_> {
             self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
         }
 
-        let end = self.cur_pos();
+        let end = self.input.cur_pos();
         let raw = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input.slice(start, end)
@@ -359,9 +359,9 @@ impl Lexer<'_> {
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match self.cur() {
+        match self.input.cur() {
             Some(c) if c.is_ident_start() => {
-                let span = pos_span(self.cur_pos());
+                let span = pos_span(self.input.cur_pos());
                 self.error_span(span, SyntaxError::IdentAfterNum)?
             }
             _ => Ok(()),
@@ -435,14 +435,18 @@ impl Lexer<'_> {
         );
 
         if cfg!(feature = "debug") {
-            trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
+            trace!(
+                "read_digits(radix = {}), cur = {:?}",
+                RADIX,
+                self.input.cur()
+            );
         }
 
-        let start = self.cur_pos();
+        let start = self.input.cur_pos();
         let mut total: Ret = Default::default();
         let mut prev = None;
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input.cur() {
             if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
