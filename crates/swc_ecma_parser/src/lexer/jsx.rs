@@ -172,7 +172,7 @@ impl Lexer<'_> {
                 self.input.bump(1);
             }
 
-            if c == ';' {
+            if c == RawToken::Semi {
                 if let Some(stripped) = s.strip_prefix('#') {
                     if stripped.starts_with('x') {
                         if is_hex(&s[2..]) {

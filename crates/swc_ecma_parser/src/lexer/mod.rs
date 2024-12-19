@@ -257,7 +257,7 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Token> {
-        let next = self.input.peek();
+        let next = self.input.peek()?;
 
         let bigint = match next {
             Some('x') | Some('X') => self.read_radix_number::<16>(),

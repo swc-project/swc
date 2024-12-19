@@ -11,7 +11,6 @@ use super::{
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
 };
@@ -290,7 +289,7 @@ impl Lexer<'_> {
                 return self.read_jsx_token();
             }
 
-            let c = self.input.cur();
+            let c = self.input.cur()?;
             if let Some(c) = c {
                 if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                     || self.state.context.current() == Some(TokenContext::JSXClosingTag)
@@ -676,7 +675,7 @@ impl TokenContexts {
         is_expr_allowed: bool,
     ) -> bool {
         if let Some(TokenType::Colon) = prev {
-            match self.input.current() {
+            match self.current() {
                 Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
                 //     ^ ^
@@ -711,14 +710,14 @@ impl TokenContexts {
             Some(TokenType::LBrace) => {
                 // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
                 // <Blah blah={function (): void {}} />
-                if self.input.current() == Some(TokenContext::BraceExpr) {
+                if self.current() == Some(TokenContext::BraceExpr) {
                     let len = self.len();
                     if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
                         return true;
                     }
                 }
 
-                return self.input.current() == Some(TokenContext::BraceStmt);
+                return self.current() == Some(TokenContext::BraceStmt);
             }
 
             // `class C<T> { ... }`
