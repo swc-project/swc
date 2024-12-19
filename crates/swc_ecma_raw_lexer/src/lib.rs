@@ -1,5 +1,22 @@
 use logos::Logos;
 
+#[derive(Debug, Clone)]
+pub struct RawBuffer<'a>(logos::Lexer<'a, RawToken>);
+
+impl std::ops::DerefMut for RawBuffer<'_> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl<'a> std::ops::Deref for RawBuffer<'a> {
+    type Target = logos::Lexer<'a, RawToken>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(error = LexError)]
 pub enum RawToken {
