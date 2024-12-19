@@ -179,7 +179,7 @@ pub enum RawToken {
     Num,
     BigInt,
 
-    #[token("#!", priority = 3)]
+    #[token("#![^ \n\r\t]*", priority = 3)]
     Shebang,
 
     #[token("null", priority = 3)]
