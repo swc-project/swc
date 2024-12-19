@@ -400,7 +400,7 @@ impl<'a> Lexer<'a> {
         let is_mul = c == b'*';
         unsafe {
             // Safety: cur() is Some(c)
-            self.input.bump();
+            self.input.bump(1   );
         }
         let mut token = if is_mul {
             Token::BinOp(BinOpToken::Mul)
@@ -546,7 +546,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
+            self.input.bump(1       );
         }
 
         Ok(Some(vec![c.into()]))
@@ -557,14 +557,14 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c), if this method is called.
-            self.input.bump();
+            self.input.bump(1);
         }
 
         // '++', '--'
         Ok(Some(if self.input.cur() == Some(c as char) {
             unsafe {
                 // Safety: cur() is Some(c)
-                self.input.bump();
+                self.input.bump(1);
             }
 
             // Handle -->

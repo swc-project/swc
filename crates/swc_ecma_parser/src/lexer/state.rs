@@ -6,7 +6,7 @@ use tracing::trace;
 
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
+    Context, Lexer,
 };
 use crate::{
     error::{Error, SyntaxError},
@@ -302,7 +302,7 @@ impl Lexer<'_> {
                     if c == '>' {
                         unsafe {
                             // Safety: cur() is Some('>')
-                            self.input.bump();
+                            self.input.bump(1);
                         }
                         return Ok(Some(Token::JSXTagEnd));
                     }
@@ -320,7 +320,7 @@ impl Lexer<'_> {
 
                     unsafe {
                         // Safety: cur() is Some('<')
-                        self.input.bump();
+                        self.input.bump(1);
                     }
 
                     if had_line_break_before_last && self.is_str("<<<<<< ") {
