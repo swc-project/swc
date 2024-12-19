@@ -317,9 +317,18 @@ pub enum RawToken {
     #[regex(r"\P{ID_Start}\P{ID_Continue}*")]
     Ident,
 
-    #[token("\r", priority = 3, callback = newline_callback)]
-    #[token("\n", priority = 3, callback = newline_callback)]
+    #[token("\r", priority = 5, callback = newline_callback)]
+    #[token("\n", priority = 5, callback = newline_callback)]
     NewLine,
+
+    #[regex(r"[ \t]+", priority = 3)]
+    Whitespace,
+
+    #[regex(r"//.*", priority = 3)]
+    LineComment,
+
+    #[regex(r"/\*.*\*/", priority = 3)]
+    BlockComment,
 
     #[token("<!--", priority = 3)]
     LegacyCommentOpen,
