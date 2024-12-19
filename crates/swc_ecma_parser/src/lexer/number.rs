@@ -247,7 +247,7 @@ impl Lexer<'_> {
 
         self.bump();
 
-        match self.input.cur() {
+        match self.input.cur()? {
             Some(..) => {
                 self.bump();
             }

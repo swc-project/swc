@@ -12,7 +12,7 @@ impl Lexer<'_> {
         let mut value = String::new();
 
         loop {
-            let cur = match self.input.cur() {
+            let cur = match self.input.cur()? {
                 Some(c) => c,
                 None => {
                     let start = self.state.start;
@@ -95,7 +95,7 @@ impl Lexer<'_> {
                 '&' => {
                     value.push_str(unsafe {
                         // Safety: We already checked for the range
-                        self.input.slice()[chunk_start..cur_pos]
+                        self.input.slice(chunk_start, cur_pos)
                     });
 
                     let jsx_entity = self.read_jsx_entity()?;
@@ -159,7 +159,7 @@ impl Lexer<'_> {
         let start_pos = self.input.cur_pos();
 
         for _ in 0..10 {
-            let c = match self.input.cur() {
+            let c = match self.input.cur()? {
                 Some(c) => c,
                 None => break,
             };
@@ -241,7 +241,7 @@ impl Lexer<'_> {
         let mut chunk_start = self.input.cur_pos();
 
         loop {
-            let ch = match self.input.cur() {
+            let ch = match self.input.cur()? {
                 Some(c) => c,
                 None => {
                     let start = self.state.start;
@@ -362,8 +362,8 @@ impl Lexer<'_> {
     /// by isIdentifierStart in readToken.
     pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
-        debug_assert!(self.input.cur().is_some());
-        debug_assert!(self.input.cur().unwrap().is_ident_start());
+        debug_assert!(self.input.cur()?.is_some());
+        debug_assert!(self.input.cur()?.unwrap().is_ident_start());
 
         let mut first = true;
         let slice = self.input.uncons_while(|c| {

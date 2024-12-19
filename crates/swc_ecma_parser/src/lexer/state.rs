@@ -266,7 +266,7 @@ impl Lexer<'_> {
             *start = self.input.cur_pos();
         };
 
-        match self.input.cur() {
+        match self.input.cur()? {
             Some(..) => {}
             // End of input.
             None => {
