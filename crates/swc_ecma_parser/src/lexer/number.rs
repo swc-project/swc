@@ -54,7 +54,7 @@ impl Lexer<'_> {
             // Use read_number_no_dot to support long numbers.
             let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
 
-            if self.eat(b'n') {
+            if self.input.eat(b'n') {
                 let end = self.input.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
@@ -258,7 +258,7 @@ impl Lexer<'_> {
 
         let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
 
-        if self.eat(b'n') {
+        if self.input.eat(b'n') {
             let end = self.input.cur_pos();
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`

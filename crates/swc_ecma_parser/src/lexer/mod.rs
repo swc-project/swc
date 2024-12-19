@@ -468,7 +468,7 @@ impl<'a> Lexer<'a> {
             }
 
             // Handle -->
-            if self.state.had_line_break && c == b'-' && self.eat(b'>') {
+            if self.state.had_line_break && c == b'-' && self.input.eat(b'>') {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
                 self.skip_space::<true>();
@@ -547,7 +547,7 @@ impl Lexer<'_> {
         // Divide operator
         self.bump();
 
-        Ok(Some(if self.eat(b'=') {
+        Ok(Some(if self.input.eat(b'=') {
             tok!("/=")
         } else {
             tok!('/')
@@ -603,7 +603,7 @@ impl Lexer<'_> {
             }
         }
 
-        let token = if self.eat(b'=') {
+        let token = if self.input.eat(b'=') {
             match op {
                 BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
                 BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
@@ -817,7 +817,7 @@ impl Lexer<'_> {
 
         self.bump(); // 'u'
 
-        if self.eat(b'{') {
+        if self.input.eat(b'{') {
             is_curly = true;
         }
 
@@ -900,7 +900,7 @@ impl Lexer<'_> {
             }
         }
 
-        if is_curly && !self.eat(b'}') {
+        if is_curly && !self.input.eat(b'}') {
             self.error(state, SyntaxError::InvalidUnicodeEscape)?
         }
 
