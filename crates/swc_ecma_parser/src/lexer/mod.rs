@@ -198,7 +198,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_token_dot(&mut self) -> LexResult<Token> {
         // Check for eof
-        let next = match self.input.peek() {
+        let next = match self.input.peek()? {
             Some(next) => next,
             None => {
                 unsafe {
@@ -880,7 +880,7 @@ impl Lexer<'_> {
                     chars.push(Char::from('}'));
                 } else {
                     for _ in 0..4 {
-                        if let Some(c) = self.input.cur() {
+                        if let Some(c) = self.input.cur()? {
                             self.bump();
 
                             chars.push(Char::from(c));
@@ -984,7 +984,7 @@ impl Lexer<'_> {
                     continue;
                 }
 
-                match l.input.cur() {
+                match l.input.cur()? {
                     Some(c) => {
                         if c.is_line_break() {
                             break;
