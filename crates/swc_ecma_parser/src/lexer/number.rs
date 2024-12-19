@@ -33,7 +33,7 @@ impl Lexer<'_> {
         &mut self,
         starts_with_dot: bool,
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
-        debug_assert!(self.input.cur().is_some());
+        debug_assert!(self.input.cur()?.is_some());
 
         if starts_with_dot {
             debug_assert_eq!(
@@ -144,7 +144,7 @@ impl Lexer<'_> {
             self.bump();
 
             if starts_with_dot {
-                debug_assert!(self.input.cur().is_some());
+                debug_assert!(self.input.cur()?.is_some());
                 debug_assert!(self.input.cur().unwrap().is_ascii_digit());
             }
 

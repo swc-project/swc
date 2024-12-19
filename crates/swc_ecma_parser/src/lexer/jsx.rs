@@ -150,7 +150,7 @@ impl Lexer<'_> {
 
         let mut s = SmartString::<LazyCompact>::default();
 
-        let c = self.input.cur();
+        let c = self.input.cur()?;
         debug_assert_eq!(c, Some('&'));
         unsafe {
             // Safety: cur() was Some('&')

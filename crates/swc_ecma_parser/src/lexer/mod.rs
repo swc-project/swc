@@ -192,24 +192,6 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.input.cur().is_some());
-
-        unsafe {
-            // Safety: cur() is Some('#')
-            self.input.bump(1); // '#'
-        }
-
-        // `#` can also be a part of shebangs, however they should have been
-        // handled by `read_shebang()`
-        debug_assert!(
-            !self.input.is_at_start() || self.input.cur() != Some('!'),
-            "#! should have already been handled by read_shebang()"
-        );
-        Ok(Some(Token::Hash))
-    }
-
     /// Read a token given `.`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
@@ -659,7 +641,7 @@ impl Lexer<'_> {
     /// This can be used if there's no keyword starting with the first
     /// character.
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
-        debug_assert!(self.input.cur().is_some());
+        debug_assert!(self.input.cur()?.is_some());
 
         let (word, _) = self
             .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
@@ -673,7 +655,7 @@ impl Lexer<'_> {
         &mut self,
         convert: &dyn Fn(&str) -> Option<Word>,
     ) -> LexResult<Option<Token>> {
-        debug_assert!(self.input.cur().is_some());
+        debug_assert!(self.input.cur()?.is_some());
 
         let start = self.input.cur_pos();
         let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
@@ -707,7 +689,7 @@ impl Lexer<'_> {
     where
         F: for<'any> FnOnce(&'any mut Lexer<'_>, &str, bool, bool) -> Ret,
     {
-        debug_assert!(self.input.cur().is_some());
+        debug_assert!(self.input.cur()?.is_some());
         let mut first = true;
         let mut can_be_keyword = true;
         let mut slice_start = self.input.cur_pos();
