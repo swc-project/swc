@@ -393,7 +393,7 @@ impl<'a> Lexer<'a> {
                 self.bump();
 
                 let first_c = if c == '0' {
-                    match self.input.cur() {
+                    match self.input.cur()? {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some(vec!['\u{0000}'.into()])),
@@ -540,20 +540,6 @@ impl<'a> Lexer<'a> {
 }
 
 impl Lexer<'_> {
-    #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.input.cur(), Some('/'));
-
-        // Divide operator
-        self.bump();
-
-        Ok(Some(if self.input.eat(b'=') {
-            tok!("/=")
-        } else {
-            tok!('/')
-        }))
-    }
-
     #[inline(never)]
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.input.cur() == Some('<') || self.input.cur() == Some('>'));
