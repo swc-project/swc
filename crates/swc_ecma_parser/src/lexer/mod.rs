@@ -121,7 +121,7 @@ pub struct Lexer<'a> {
     comments_buffer: Option<CommentsBuffer>,
 
     pub(crate) ctx: Context,
-    input: StringInput<'a>,
+    input: logos::Lexer<'a, RawToken>,
     start_pos: BytePos,
 
     state: State,
