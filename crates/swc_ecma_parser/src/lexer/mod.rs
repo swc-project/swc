@@ -241,15 +241,14 @@ impl<'a> Lexer<'a> {
         unsafe {
             // Safety: cur() is Some
             // 1st `.`
-            self.input.bump();
+            self.input.bump(1);
         }
 
         if next == '.' && self.input.peek() == Some('.') {
             unsafe {
                 // Safety: peek() was Some
 
-                self.input.bump(); // 2nd `.`
-                self.input.bump(); // 3rd `.`
+                self.input.bump(2); `..`
             }
 
             return Ok(tok!("..."));
