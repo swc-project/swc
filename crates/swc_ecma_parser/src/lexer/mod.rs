@@ -716,7 +716,7 @@ impl Lexer<'_> {
                     if c == b'\\' {
                         first = false;
                         has_escape = true;
-                        let start = l.cur_pos();
+                        let start = l.input.cur_pos();
                         l.bump();
 
                         if !l.is(b'u') {
@@ -755,7 +755,7 @@ impl Lexer<'_> {
                             buf.extend(c);
                         }
 
-                        slice_start = l.cur_pos();
+                        slice_start = l.input.cur_pos();
                         continue;
                     }
 
@@ -778,7 +778,7 @@ impl Lexer<'_> {
                 break;
             }
 
-            let end = l.cur_pos();
+            let end = l.input.cur_pos();
 
             let value = if !has_escape {
                 // Fast path: raw slice is enough if there's no escape.
@@ -922,7 +922,7 @@ impl Lexer<'_> {
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
                     if c == quote {
-                        let value_end = l.cur_pos();
+                        let value_end = l.input.cur_pos();
 
                         let value = if !has_escape {
                             let s = unsafe {
@@ -948,7 +948,7 @@ impl Lexer<'_> {
                             l.input.bump();
                         }
 
-                        let end = l.cur_pos();
+                        let end = l.input.cur_pos();
 
                         let raw = unsafe {
                             // Safety: start and end are valid position because we got them from
@@ -964,7 +964,7 @@ impl Lexer<'_> {
                         has_escape = true;
 
                         {
-                            let end = l.cur_pos();
+                            let end = l.input.cur_pos();
                             let s = unsafe {
                                 // Safety: start and end are valid position because we got them from
                                 // `self.input`
@@ -979,7 +979,7 @@ impl Lexer<'_> {
                             }
                         }
 
-                        slice_start = l.cur_pos();
+                        slice_start = l.input.cur_pos();
                         continue;
                     }
 
@@ -1009,7 +1009,7 @@ impl Lexer<'_> {
             }
 
             {
-                let end = l.cur_pos();
+                let end = l.input.cur_pos();
                 let s = unsafe {
                     // Safety: start and end are valid position because we got them from
                     // `self.input`
@@ -1020,7 +1020,7 @@ impl Lexer<'_> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            let end = l.cur_pos();
+            let end = l.input.cur_pos();
 
             let raw = unsafe {
                 // Safety: start and end are valid position because we got them from
@@ -1050,7 +1050,7 @@ impl Lexer<'_> {
         let (mut escaped, mut in_class) = (false, false);
 
         let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
+            while let Some(c) = l.input.cur() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_terminator() {
