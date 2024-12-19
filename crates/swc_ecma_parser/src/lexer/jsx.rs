@@ -1,5 +1,6 @@
 use either::Either;
 use smartstring::{LazyCompact, SmartString};
+use swc_ecma_raw_lexer::RawToken;
 
 use super::*;
 
@@ -22,7 +23,7 @@ impl Lexer<'_> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
-                '<' if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
+                RawToken::LtOp if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
                     let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);
@@ -30,10 +31,10 @@ impl Lexer<'_> {
                     self.skip_space::<true>();
                     return self.read_token();
                 }
-                '<' | '{' => {
+                RawToken::LtOp | RawToken::LBrace => {
                     //
                     if cur_pos == self.state.start {
-                        if cur == '<' && self.state.is_expr_allowed {
+                        if cur == RawToken::LtOp && self.state.is_expr_allowed {
                             unsafe {
                                 // Safety: cur() was Some('<')
                                 self.input.bump(1);
@@ -68,7 +69,7 @@ impl Lexer<'_> {
 
                     return Ok(Some(Token::JSXText { raw, value }));
                 }
-                '>' => {
+                RawToken::GtOp => {
                     self.emit_error(
                         cur_pos,
                         SyntaxError::UnexpectedTokenWithSuggestions {
@@ -80,7 +81,7 @@ impl Lexer<'_> {
                         self.input.bump(1)
                     }
                 }
-                '}' => {
+                RawToken::RBrace => {
                     self.emit_error(
                         cur_pos,
                         SyntaxError::UnexpectedTokenWithSuggestions {
@@ -92,7 +93,7 @@ impl Lexer<'_> {
                         self.input.bump(1)
                     }
                 }
-                '&' => {
+                RawToken::BitAndOp => {
                     value.push_str(unsafe {
                         // Safety: We already checked for the range
                         self.input.slice(chunk_start, cur_pos)
