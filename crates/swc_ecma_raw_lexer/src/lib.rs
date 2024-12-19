@@ -52,6 +52,20 @@ impl<'a> RawBuffer<'a> {
         self.lexer.bump(n);
         self.pos = self.pos + BytePos(n as u32);
     }
+
+    pub fn eat(&mut self, token: RawToken) -> Result<bool, LexError> {
+        let cur = self.cur()?;
+
+        if cur == Some(token) {
+            unsafe {
+                // Safety: cur() was Some(token)
+                self.bump(1);
+            }
+            Ok(true)
+        } else {
+            Ok(false)
+        }
+    }
 }
 
 impl Iterator for RawBuffer<'_> {
@@ -270,6 +284,10 @@ pub enum RawToken {
 
     #[regex(r"\P{ID_Start}\P{ID_Continue}*")]
     Ident,
+
+    #[token("\r", priority = 3)]
+    #[token("\n", priority = 3)]
+    NewLine,
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
