@@ -246,100 +246,101 @@ impl Lexer<'_> {
     }
 
     fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
-        if let Some(start) = self.state.next_regexp {
-            return Ok(Some(self.read_regexp(start)?));
-        }
+        // if let Some(start) = self.state.next_regexp {
+        //     return Ok(Some(self.read_regexp(start)?));
+        // }
 
-        if self.state.is_first {
-            if let Some(shebang) = self.read_shebang()? {
-                return Ok(Some(Token::Shebang(shebang)));
-            }
-        }
+        // if self.state.is_first {
+        //     if let Some(shebang) = self.read_shebang()? {
+        //         return Ok(Some(Token::Shebang(shebang)));
+        //     }
+        // }
 
-        self.state.had_line_break = self.state.is_first;
-        self.state.is_first = false;
+        // self.state.had_line_break = self.state.is_first;
+        // self.state.is_first = false;
 
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
+        // // skip spaces before getting next character, if we are allowed to.
+        // if self.state.can_skip_space() {
+        //     self.skip_space::<true>();
+        //     *start = self.input.cur_pos();
+        // };
 
-        match self.input.cur()? {
-            Some(..) => {}
-            // End of input.
-            None => {
-                self.consume_pending_comments();
+        // match self.input.cur()? {
+        //     Some(..) => {}
+        //     // End of input.
+        //     None => {
+        //         self.consume_pending_comments();
 
-                return Ok(None);
-            }
-        };
+        //         return Ok(None);
+        //     }
+        // };
 
-        // println!(
-        //     "\tContext: ({:?}) {:?}",
-        //     self.input.cur().unwrap(),
-        //     self.state.context.0
-        // );
+        // // println!(
+        // //     "\tContext: ({:?}) {:?}",
+        // //     self.input.cur().unwrap(),
+        // //     self.state.context.0
+        // // );
 
-        self.state.start = *start;
+        // self.state.start = *start;
 
-        if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
-            //jsx
-            if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
-            }
+        // if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
+        //     //jsx
+        //     if self.state.context.current() == Some(TokenContext::JSXExpr) {
+        //         return self.read_jsx_token();
+        //     }
 
-            let c = self.input.cur()?;
-            if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-                {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
-                    }
+        //     let c = self.input.cur()?;
+        //     if let Some(c) = c {
+        //         if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+        //             || self.state.context.current() == Some(TokenContext::JSXClosingTag)
+        //         {
+        //             if c.is_ident_start() {
+        //                 return self.read_jsx_word().map(Some);
+        //             }
 
-                    if c == '>' {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump(1);
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
+        //             if c == '>' {
+        //                 unsafe {
+        //                     // Safety: cur() is Some('>')
+        //                     self.input.bump(1);
+        //                 }
+        //                 return Ok(Some(Token::JSXTagEnd));
+        //             }
 
-                    if (c == '\'' || c == '"')
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str(c).map(Some);
-                    }
-                }
+        //             if (c == '\'' || c == '"')
+        //                 && self.state.context.current() ==
+        // Some(TokenContext::JSXOpeningTag)             {
+        //                 return self.read_jsx_str(c).map(Some);
+        //             }
+        //         }
 
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
-                    let had_line_break_before_last = self.had_line_break_before_last();
-                    let cur_pos = self.input.cur_pos();
+        //         if c == '<' && self.state.is_expr_allowed && self.input.peek() !=
+        // Some('!') {             let had_line_break_before_last =
+        // self.had_line_break_before_last();             let cur_pos =
+        // self.input.cur_pos();
 
-                    unsafe {
-                        // Safety: cur() is Some('<')
-                        self.input.bump(1);
-                    }
+        //             unsafe {
+        //                 // Safety: cur() is Some('<')
+        //                 self.input.bump(1);
+        //             }
 
-                    if had_line_break_before_last && self.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
+        //             if had_line_break_before_last && self.is_str("<<<<<< ") {
+        //                 let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
-                        self.emit_error_span(span, SyntaxError::TS1185);
-                        self.skip_line_comment(6);
-                        self.skip_space::<true>();
-                        return self.read_token();
-                    }
+        //                 self.emit_error_span(span, SyntaxError::TS1185);
+        //                 self.skip_line_comment(6);
+        //                 self.skip_space::<true>();
+        //                 return self.read_token();
+        //             }
 
-                    return Ok(Some(Token::JSXTagStart));
-                }
-            }
-        }
+        //             return Ok(Some(Token::JSXTagStart));
+        //         }
+        //     }
+        // }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
+        // if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+        //     let start = self.state.tpl_start;
+        //     return self.read_tmpl_token(start).map(Some);
+        // }
 
         self.read_token()
     }
@@ -371,7 +372,7 @@ impl Iterator for Lexer<'_> {
             }
 
             self.state.update(start, token.kind());
-            self.state.prev_hi = self.last_pos();
+            self.state.prev_hi = self.input.cur_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
 

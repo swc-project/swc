@@ -5,384 +5,389 @@ use swc_ecma_raw_lexer::RawToken;
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.syntax.jsx());
+    // pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    //     debug_assert!(self.syntax.jsx());
 
-        let start = self.input.cur_pos();
-        let mut chunk_start = self.input.cur_pos();
-        let mut value = String::new();
+    //     let start = self.input.cur_pos();
+    //     let mut chunk_start = self.input.cur_pos();
+    //     let mut value = String::new();
 
-        loop {
-            let cur = match self.input.cur()? {
-                Some(c) => c,
-                None => {
-                    let start = self.state.start;
-                    self.error(start, SyntaxError::UnterminatedJSXContents)?
-                }
-            };
-            let cur_pos = self.input.cur_pos();
+    //     loop {
+    //         let cur = match self.input.cur()? {
+    //             Some(c) => c,
+    //             None => {
+    //                 let start = self.state.start;
+    //                 self.error(start, SyntaxError::UnterminatedJSXContents)?
+    //             }
+    //         };
+    //         let cur_pos = self.input.cur_pos();
 
-            match cur {
-                RawToken::LtOp
-                    if self.had_line_break_before_last()
-                        && self.input.peek()? == Some(RawToken::LConflictMarker) =>
-                {
-                    let span = Span::new(cur_pos, cur_pos + BytePos(7));
+    //         match cur {
+    //             RawToken::LtOp
+    //                 if self.had_line_break_before_last()
+    //                     && self.input.peek()? == Some(RawToken::LConflictMarker)
+    // =>             {
+    //                 let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
-                    self.emit_error_span(span, SyntaxError::TS1185);
-                    self.skip_line_comment(6);
-                    self.skip_space::<true>();
-                    return self.read_token();
-                }
-                RawToken::LtOp | RawToken::LBrace => {
-                    //
-                    if cur_pos == self.state.start {
-                        if cur == RawToken::LtOp && self.state.is_expr_allowed {
-                            unsafe {
-                                // Safety: cur() was Some('<')
-                                self.input.bump(1);
-                            }
-                            return Ok(Some(Token::JSXTagStart));
-                        }
-                        return self.read_token();
-                    }
+    //                 self.emit_error_span(span, SyntaxError::TS1185);
+    //                 self.skip_line_comment(6);
+    //                 self.skip_space::<true>();
+    //                 return self.read_token();
+    //             }
+    //             RawToken::LtOp | RawToken::LBrace => {
+    //                 //
+    //                 if cur_pos == self.state.start {
+    //                     if cur == RawToken::LtOp && self.state.is_expr_allowed {
+    //                         unsafe {
+    //                             // Safety: cur() was Some('<')
+    //                             self.input.bump(1);
+    //                         }
+    //                         return Ok(Some(Token::JSXTagStart));
+    //                     }
+    //                     return self.read_token();
+    //                 }
 
-                    let value = if value.is_empty() {
-                        // Fast path: We don't need to allocate extra buffer for value
-                        let s = unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
-                        };
-                        self.atoms.atom(s)
-                    } else {
-                        value.push_str(unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
-                        });
-                        self.atoms.atom(value)
-                    };
+    //                 let value = if value.is_empty() {
+    //                     // Fast path: We don't need to allocate extra buffer for
+    // value                     let s = unsafe {
+    //                         // Safety: We already checked for the range
+    //                         self.input.slice(chunk_start, cur_pos)
+    //                     };
+    //                     self.atoms.atom(s)
+    //                 } else {
+    //                     value.push_str(unsafe {
+    //                         // Safety: We already checked for the range
+    //                         self.input.slice(chunk_start, cur_pos)
+    //                     });
+    //                     self.atoms.atom(value)
+    //                 };
 
-                    let raw = {
-                        let s = unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(start, cur_pos)
-                        };
-                        self.atoms.atom(s)
-                    };
+    //                 let raw = {
+    //                     let s = unsafe {
+    //                         // Safety: We already checked for the range
+    //                         self.input.slice(start, cur_pos)
+    //                     };
+    //                     self.atoms.atom(s)
+    //                 };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
-                }
-                RawToken::GtOp => {
-                    self.emit_error(
-                        cur_pos,
-                        SyntaxError::UnexpectedTokenWithSuggestions {
-                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
-                        },
-                    );
-                    unsafe {
-                        // Safety: cur() was Some('>')
-                        self.input.bump(1)
-                    }
-                }
-                RawToken::RBrace => {
-                    self.emit_error(
-                        cur_pos,
-                        SyntaxError::UnexpectedTokenWithSuggestions {
-                            candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
-                        },
-                    );
-                    unsafe {
-                        // Safety: cur() was Some('}')
-                        self.input.bump(1)
-                    }
-                }
-                RawToken::BitAndOp => {
-                    value.push_str(unsafe {
-                        // Safety: We already checked for the range
-                        self.input.slice(chunk_start, cur_pos)
-                    });
+    //                 return Ok(Some(Token::JSXText { raw, value }));
+    //             }
+    //             RawToken::GtOp => {
+    //                 self.emit_error(
+    //                     cur_pos,
+    //                     SyntaxError::UnexpectedTokenWithSuggestions {
+    //                         candidate_list: vec!["`{'>'}`", "`&gt;`"],
+    //                     },
+    //                 );
+    //                 unsafe {
+    //                     // Safety: cur() was Some('>')
+    //                     self.input.bump(1)
+    //                 }
+    //             }
+    //             RawToken::RBrace => {
+    //                 self.emit_error(
+    //                     cur_pos,
+    //                     SyntaxError::UnexpectedTokenWithSuggestions {
+    //                         candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+    //                     },
+    //                 );
+    //                 unsafe {
+    //                     // Safety: cur() was Some('}')
+    //                     self.input.bump(1)
+    //                 }
+    //             }
+    //             RawToken::BitAndOp => {
+    //                 value.push_str(unsafe {
+    //                     // Safety: We already checked for the range
+    //                     self.input.slice(chunk_start, cur_pos)
+    //                 });
 
-                    let jsx_entity = self.read_jsx_entity()?;
+    //                 let jsx_entity = self.read_jsx_entity()?;
 
-                    value.push(jsx_entity.0);
-                    chunk_start = self.input.cur_pos();
-                }
+    //                 value.push(jsx_entity.0);
+    //                 chunk_start = self.input.cur_pos();
+    //             }
 
-                _ => {
-                    if cur.is_line_terminator() {
-                        value.push_str(unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
-                        });
-                        match self.read_jsx_new_line(true)? {
-                            Either::Left(s) => value.push_str(s),
-                            Either::Right(c) => value.push(c),
-                        }
-                        chunk_start = self.input.cur_pos();
-                    } else {
-                        unsafe {
-                            // Safety: cur() was Some(c)
-                            self.input.bump(1)
-                        }
-                    }
-                }
-            }
-        }
-    }
+    //             _ => {
+    //                 if cur.is_line_terminator() {
+    //                     value.push_str(unsafe {
+    //                         // Safety: We already checked for the range
+    //                         self.input.slice(chunk_start, cur_pos)
+    //                     });
+    //                     match self.read_jsx_new_line(true)? {
+    //                         Either::Left(s) => value.push_str(s),
+    //                         Either::Right(c) => value.push(c),
+    //                     }
+    //                     chunk_start = self.input.cur_pos();
+    //                 } else {
+    //                     unsafe {
+    //                         // Safety: cur() was Some(c)
+    //                         self.input.bump(1)
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-    pub(super) fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
-        debug_assert!(self.syntax.jsx());
+    // pub(super) fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
+    //     debug_assert!(self.syntax.jsx());
 
-        fn from_code(s: &str, radix: u32) -> LexResult<char> {
-            // TODO(kdy1): unwrap -> Err
-            let c = char::from_u32(
-                u32::from_str_radix(s, radix).expect("failed to parse string as number"),
-            )
-            .expect("failed to parse number as char");
+    //     fn from_code(s: &str, radix: u32) -> LexResult<char> {
+    //         // TODO(kdy1): unwrap -> Err
+    //         let c = char::from_u32(
+    //             u32::from_str_radix(s, radix).expect("failed to parse string as
+    // number"),         )
+    //         .expect("failed to parse number as char");
 
-            Ok(c)
-        }
+    //         Ok(c)
+    //     }
 
-        fn is_hex(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_hexdigit())
-        }
+    //     fn is_hex(s: &str) -> bool {
+    //         s.chars().all(|c| c.is_ascii_hexdigit())
+    //     }
 
-        fn is_dec(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_digit())
-        }
+    //     fn is_dec(s: &str) -> bool {
+    //         s.chars().all(|c| c.is_ascii_digit())
+    //     }
 
-        let mut s = SmartString::<LazyCompact>::default();
+    //     let mut s = SmartString::<LazyCompact>::default();
 
-        let c = self.input.cur()?;
-        debug_assert_eq!(c, Some(RawToken::BitAndOp));
-        unsafe {
-            // Safety: cur() was Some('&')
-            self.input.bump(1);
-        }
+    //     let c = self.input.cur()?;
+    //     debug_assert_eq!(c, Some(RawToken::BitAndOp));
+    //     unsafe {
+    //         // Safety: cur() was Some('&')
+    //         self.input.bump(1);
+    //     }
 
-        let start_pos = self.input.cur_pos();
+    //     let start_pos = self.input.cur_pos();
 
-        for _ in 0..10 {
-            let c = match self.input.cur()? {
-                Some(c) => c,
-                None => break,
-            };
-            unsafe {
-                // Safety: cur() was Some(c)
-                self.input.bump(1);
-            }
+    //     for _ in 0..10 {
+    //         let c = match self.input.cur()? {
+    //             Some(c) => c,
+    //             None => break,
+    //         };
+    //         unsafe {
+    //             // Safety: cur() was Some(c)
+    //             self.input.bump(1);
+    //         }
 
-            if c == RawToken::Semi {
-                if let Some(stripped) = s.strip_prefix('#') {
-                    if stripped.starts_with('x') {
-                        if is_hex(&s[2..]) {
-                            let value = from_code(&s[2..], 16)?;
+    //         if c == RawToken::Semi {
+    //             if let Some(stripped) = s.strip_prefix('#') {
+    //                 if stripped.starts_with('x') {
+    //                     if is_hex(&s[2..]) {
+    //                         let value = from_code(&s[2..], 16)?;
 
-                            return Ok((value, format!("&{};", s)));
-                        }
-                    } else if is_dec(stripped) {
-                        let value = from_code(stripped, 10)?;
+    //                         return Ok((value, format!("&{};", s)));
+    //                     }
+    //                 } else if is_dec(stripped) {
+    //                     let value = from_code(stripped, 10)?;
 
-                        return Ok((value, format!("&{};", s)));
-                    }
-                } else if let Some(entity) = xhtml(&s) {
-                    return Ok((entity, format!("&{};", s)));
-                }
+    //                     return Ok((value, format!("&{};", s)));
+    //                 }
+    //             } else if let Some(entity) = xhtml(&s) {
+    //                 return Ok((entity, format!("&{};", s)));
+    //             }
 
-                break;
-            }
+    //             break;
+    //         }
 
-            s.push(c)
-        }
+    //         s.push(c)
+    //     }
 
-        unsafe {
-            // Safety: start_pos is a valid position because we got it from self.input
-            self.input.reset_to(start_pos);
-        }
+    //     unsafe {
+    //         // Safety: start_pos is a valid position because we got it from
+    // self.input         self.input.reset_to(start_pos);
+    //     }
 
-        Ok(('&', "&".to_string()))
-    }
+    //     Ok(('&', "&".to_string()))
+    // }
 
-    pub(super) fn read_jsx_new_line(
-        &mut self,
-        normalize_crlf: bool,
-    ) -> LexResult<Either<&'static str, char>> {
-        debug_assert!(self.syntax.jsx());
+    // pub(super) fn read_jsx_new_line(
+    //     &mut self,
+    //     normalize_crlf: bool,
+    // ) -> LexResult<Either<&'static str, char>> {
+    //     todo!()
+    //     // debug_assert!(self.syntax.jsx());
 
-        let ch = self.input.cur().unwrap();
-        unsafe {
-            // Safety: cur() was Some(ch)
-            self.input.bump(1);
-        }
+    //     // let ch = self.input.cur().unwrap();
+    //     // unsafe {
+    //     //     // Safety: cur() was Some(ch)
+    //     //     self.input.bump(1);
+    //     // }
 
-        let out = if ch == '\r' && self.input.cur() == Some('\n') {
-            unsafe {
-                // Safety: cur() was Some('\n')
-                self.input.bump(1);
-            }
-            Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
-        } else {
-            Either::Right(ch)
-        };
-        let cur_pos = self.input.cur_pos();
-        self.state.cur_line += 1;
-        self.state.line_start = cur_pos;
+    //     // let out = if ch == '\r' && self.input.cur() == Some('\n') {
+    //     //     unsafe {
+    //     //         // Safety: cur() was Some('\n')
+    //     //         self.input.bump(1);
+    //     //     }
+    //     //     Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
+    //     // } else {
+    //     //     Either::Right(ch)
+    //     // };
+    //     // let cur_pos = self.input.cur_pos();
+    //     // self.state.cur_line += 1;
+    //     // self.state.line_start = cur_pos;
 
-        Ok(out)
-    }
+    //     // Ok(out)
+    // }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
-        debug_assert!(self.syntax.jsx());
+    // pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
+    //     todo!();
 
-        let start = self.input.cur_pos();
+    //     // debug_assert!(self.syntax.jsx());
 
-        unsafe {
-            // Safety: cur() was Some(quote)
-            self.input.bump(1); // `quote`
-        }
+    //     // let start = self.input.cur_pos();
 
-        let mut out = String::new();
-        let mut chunk_start = self.input.cur_pos();
+    //     // unsafe {
+    //     //     // Safety: cur() was Some(quote)
+    //     //     self.input.bump(1); // `quote`
+    //     // }
 
-        loop {
-            let ch = match self.input.cur()? {
-                Some(c) => c,
-                None => {
-                    let start = self.state.start;
-                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
-                    break;
-                }
-            };
+    //     // let mut out = String::new();
+    //     // let mut chunk_start = self.input.cur_pos();
 
-            let cur_pos = self.input.cur_pos();
+    //     // loop {
+    //     //     let ch = match self.input.cur()? {
+    //     //         Some(c) => c,
+    //     //         None => {
+    //     //             let start = self.state.start;
+    //     //             self.emit_error(start, SyntaxError::UnterminatedStrLit);
+    //     //             break;
+    //     //         }
+    //     //     };
 
-            if ch == '\\' {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
+    //     //     let cur_pos = self.input.cur_pos();
 
-                out.push_str(value);
-                out.push('\\');
+    //     //     if ch == '\\' {
+    //     //         let value = unsafe {
+    //     //             // Safety: We already checked for the range
+    //     //             self.input.slice(chunk_start, cur_pos)
+    //     //         };
 
-                self.bump();
+    //     //         out.push_str(value);
+    //     //         out.push('\\');
 
-                chunk_start = self.input.cur_pos();
+    //     //         self.bump();
 
-                continue;
-            }
+    //     //         chunk_start = self.input.cur_pos();
 
-            if ch == quote {
-                break;
-            }
+    //     //         continue;
+    //     //     }
 
-            if ch == '&' {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
+    //     //     if ch == quote {
+    //     //         break;
+    //     //     }
 
-                out.push_str(value);
+    //     //     if ch == '&' {
+    //     //         let value = unsafe {
+    //     //             // Safety: We already checked for the range
+    //     //             self.input.slice(chunk_start, cur_pos)
+    //     //         };
 
-                let jsx_entity = self.read_jsx_entity()?;
+    //     //         out.push_str(value);
 
-                out.push(jsx_entity.0);
+    //     //         let jsx_entity = self.read_jsx_entity()?;
 
-                chunk_start = self.input.cur_pos();
-            } else if ch.is_line_terminator() {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
+    //     //         out.push(jsx_entity.0);
 
-                out.push_str(value);
+    //     //         chunk_start = self.input.cur_pos();
+    //     //     } else if ch.is_line_terminator() {
+    //     //         let value = unsafe {
+    //     //             // Safety: We already checked for the range
+    //     //             self.input.slice(chunk_start, cur_pos)
+    //     //         };
 
-                match self.read_jsx_new_line(false)? {
-                    Either::Left(s) => {
-                        out.push_str(s);
-                    }
-                    Either::Right(c) => {
-                        out.push(c);
-                    }
-                }
+    //     //         out.push_str(value);
 
-                chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
-            } else {
-                unsafe {
-                    // Safety: cur() was Some(ch)
-                    self.input.bump(1);
-                }
-            }
-        }
+    //     //         match self.read_jsx_new_line(false)? {
+    //     //             Either::Left(s) => {
+    //     //                 out.push_str(s);
+    //     //             }
+    //     //             Either::Right(c) => {
+    //     //                 out.push(c);
+    //     //             }
+    //     //         }
 
-        let value = if out.is_empty() {
-            // Fast path: We don't need to allocate
+    //     //         chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
+    //     //     } else {
+    //     //         unsafe {
+    //     //             // Safety: cur() was Some(ch)
+    //     //             self.input.bump(1);
+    //     //         }
+    //     //     }
+    //     // }
 
-            let cur_pos = self.input.cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input.slice(chunk_start, cur_pos)
-            };
+    //     // let value = if out.is_empty() {
+    //     //     // Fast path: We don't need to allocate
 
-            self.atoms.atom(value)
-        } else {
-            let cur_pos = self.input.cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input.slice(chunk_start, cur_pos)
-            };
+    //     //     let cur_pos = self.input.cur_pos();
+    //     //     let value = unsafe {
+    //     //         // Safety: We already checked for the range
+    //     //         self.input.slice(chunk_start, cur_pos)
+    //     //     };
 
-            out.push_str(value);
+    //     //     self.atoms.atom(value)
+    //     // } else {
+    //     //     let cur_pos = self.input.cur_pos();
+    //     //     let value = unsafe {
+    //     //         // Safety: We already checked for the range
+    //     //         self.input.slice(chunk_start, cur_pos)
+    //     //     };
 
-            self.atoms.atom(out)
-        };
+    //     //     out.push_str(value);
 
-        // it might be at the end of the file when
-        // the string literal is unterminated
-        if self.input.peek_ahead()?.is_some() {
-            unsafe {
-                // Safety: We called peek_ahead() which means cur() was Some
-                self.input.bump(1);
-            }
-        }
+    //     //     self.atoms.atom(out)
+    //     // };
 
-        let end = self.input.cur_pos();
-        let raw = unsafe {
-            // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input.slice(start, end)
-        };
+    //     // // it might be at the end of the file when
+    //     // // the string literal is unterminated
+    //     // if self.input.peek_ahead()?.is_some() {
+    //     //     unsafe {
+    //     //         // Safety: We called peek_ahead() which means cur() was Some
+    //     //         self.input.bump(1);
+    //     //     }
+    //     // }
 
-        Ok(Token::Str {
-            value,
-            raw: self.atoms.atom(raw),
-        })
-    }
+    //     // let end = self.input.cur_pos();
+    //     // let raw = unsafe {
+    //     //     // Safety: Both of `start` and `end` are generated from
+    //     // `cur_pos()`     self.input.slice(start, end)
+    //     // };
 
-    /// Read a JSX identifier (valid tag or attribute name).
-    ///
-    /// Optimized version since JSX identifiers can"t contain
-    /// escape characters and so can be read as single slice.
-    /// Also assumes that first character was already checked
-    /// by isIdentifierStart in readToken.
-    pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
-        debug_assert!(self.syntax.jsx());
-        debug_assert!(self.input.cur()?.is_some());
-        debug_assert!(self.input.cur()?.unwrap().is_ident_start());
+    //     // Ok(Token::Str {
+    //     //     value,
+    //     //     raw: self.atoms.atom(raw),
+    //     // })
+    // }
 
-        let mut first = true;
-        let slice = self.input.uncons_while(|c| {
-            if first {
-                first = false;
-                c.is_ident_start()
-            } else {
-                c.is_ident_part() || c == '-'
-            }
-        });
+    // /// Read a JSX identifier (valid tag or attribute name).
+    // ///
+    // /// Optimized version since JSX identifiers can"t contain
+    // /// escape characters and so can be read as single slice.
+    // /// Also assumes that first character was already checked
+    // /// by isIdentifierStart in readToken.
+    // pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
+    //     todo!()
 
-        Ok(Token::JSXName {
-            name: self.atoms.atom(slice),
-        })
-    }
+    //     // debug_assert!(self.syntax.jsx());
+    //     // debug_assert!(self.input.cur()?.is_some());
+    //     // debug_assert!(self.input.cur()?.unwrap().is_ident_start());
+
+    //     // let mut first = true;
+    //     // let slice = self.input.uncons_while(|c| {
+    //     //     if first {
+    //     //         first = false;
+    //     //         c.is_ident_start()
+    //     //     } else {
+    //     //         c.is_ident_part() || c == '-'
+    //     //     }
+    //     // });
+
+    //     // Ok(Token::JSXName {
+    //     //     name: self.atoms.atom(slice),
+    //     // })
+    // }
 }
 
 macro_rules! xhtml {
