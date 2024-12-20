@@ -259,7 +259,6 @@ impl<'a> Lexer<'a> {
                 value: {
                     let s = self.input.cur_slice();
                     let s = s.strip_suffix("n").unwrap_or(s);
-                    dbg!(s);
 
                     s.parse().map(Box::new).unwrap()
                 },
