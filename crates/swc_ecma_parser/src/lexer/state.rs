@@ -322,11 +322,11 @@ impl Lexer<'_> {
                         self.input.bump(1);
                     }
 
-                    if had_line_break_before_last && self.is_str("<<<<<< ") {
+                    if had_line_break_before_last && self.input.is_str("<<<<<< ") {
                         let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                         self.emit_error_span(span, SyntaxError::TS1185);
-                        self.skip_line_comment(6);
+                        self.input.next().transpose()?;
                         self.skip_space::<true>();
                         return self.read_token();
                     }
