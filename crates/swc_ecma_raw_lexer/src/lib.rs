@@ -185,7 +185,7 @@ pub enum RawToken {
     Tilde,
 
     #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#)]
-    #[regex(r#"'([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*'"#)]
+    #[regex(r#"'([^'\\]|\\['\\bnfrt]|u[a-fA-F0-9]{4})*'"#)]
     Str,
 
     #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
@@ -326,7 +326,7 @@ pub enum RawToken {
     #[token("??=")]
     NullishAssignOp,
 
-    #[regex(r"\p{ID_Start}\p{ID_Continue}*")]
+    #[regex(r"[\p{ID_Start}_$][\p{ID_Continue}_$]*")]
     Ident,
 
     #[token("\r", priority = 5, callback = newline_callback)]
