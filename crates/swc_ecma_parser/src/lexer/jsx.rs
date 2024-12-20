@@ -30,7 +30,9 @@ impl Lexer<'_> {
                     let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);
-                    self.skip_line_comment(6);
+                    // Bump conflict marker
+                    self.input.next().transpose()?;
+
                     self.skip_space::<true>();
                     return self.read_token();
                 }
