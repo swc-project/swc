@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
-use swc_common::{BytePos, Span};
+use swc_common::BytePos;
 use swc_ecma_raw_lexer::RawToken;
 use tracing::trace;
 
@@ -10,7 +10,7 @@ use super::{
     Context, Lexer,
 };
 use crate::{
-    error::{Error, SyntaxError},
+    error::Error,
     input::Tokens,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
