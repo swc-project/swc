@@ -261,12 +261,6 @@ pub enum RawToken {
     #[token("&")]
     BitAndOp,
 
-    #[token("in")]
-    In,
-
-    #[token("instanceof")]
-    InstanceOf,
-
     #[token("**")]
     ExpOp,
 
@@ -354,6 +348,239 @@ pub enum RawToken {
 
     #[token(">>>>>")]
     RConflictMarker,
+
+    #[token("await")]
+    Await,
+
+    #[token("break")]
+    Break,
+
+    #[token("case")]
+    Case,
+
+    #[token("catch")]
+    Catch,
+
+    #[token("continue")]
+    Continue,
+
+    #[token("debugger")]
+    Debugger,
+
+    #[token("default")]
+    Default_,
+
+    #[token("do")]
+    Do,
+
+    #[token("else")]
+    Else,
+
+    #[token("finally")]
+    Finally,
+
+    #[token("for")]
+    For,
+
+    #[token("function")]
+    Function,
+
+    #[token("if")]
+    If,
+
+    #[token("return")]
+    Return,
+
+    #[token("switch")]
+    Switch,
+
+    #[token("throw")]
+    Throw,
+
+    #[token("try")]
+    Try,
+
+    #[token("var")]
+    Var,
+
+    #[token("let")]
+    Let,
+
+    #[token("const")]
+    Const,
+
+    #[token("while")]
+    While,
+
+    #[token("with")]
+    With,
+
+    #[token("new")]
+    New,
+
+    #[token("this")]
+    This,
+
+    #[token("super")]
+    Super,
+
+    #[token("class")]
+    Class,
+
+    #[token("extends")]
+    Extends,
+
+    #[token("export")]
+    Export,
+
+    #[token("import")]
+    Import,
+
+    #[token("yield")]
+    Yield,
+
+    #[token("in")]
+    In,
+
+    #[token("instanceof")]
+    InstanceOf,
+
+    #[token("typeof")]
+    TypeOf,
+
+    #[token("void")]
+    Void,
+
+    #[token("delete")]
+    Delete,
+
+    #[token("abstract")]
+    Abstract,
+
+    #[token("as")]
+    As,
+
+    #[token("async")]
+    Async,
+
+    #[token("from")]
+    From,
+
+    #[token("of")]
+    Of,
+
+    #[token("type")]
+    Type,
+
+    #[token("global")]
+    Global,
+
+    #[token("static")]
+    Static,
+
+    #[token("using")]
+    Using,
+
+    #[token("readonly")]
+    Readonly,
+
+    #[token("unique")]
+    Unique,
+
+    #[token("keyof")]
+    Keyof,
+
+    #[token("declare")]
+    Declare,
+
+    #[token("enum")]
+    Enum,
+
+    #[token("is")]
+    Is,
+
+    #[token("infer")]
+    Infer,
+
+    Symbol,
+
+    #[token("undefined")]
+    Undefined,
+
+    #[token("interface")]
+    Interface,
+
+    #[token("implements")]
+    Implements,
+
+    #[token("asserts")]
+    Asserts,
+
+    #[token("require")]
+    Require,
+
+    #[token("get")]
+    Get,
+
+    #[token("set")]
+    Set,
+
+    #[token("any")]
+    Any,
+
+    #[token("intrinsic")]
+    Intrinsic,
+
+    #[token("unknown")]
+    Unknown,
+
+    #[token("string")]
+    String,
+
+    #[token("object")]
+    Object,
+
+    #[token("number")]
+    Number,
+
+    #[token("bigint")]
+    Bigint,
+
+    #[token("boolean")]
+    Boolean,
+
+    #[token("never")]
+    Never,
+
+    #[token("assert")]
+    Assert,
+
+    #[token("namespace")]
+    Namespace,
+
+    #[token("accessor")]
+    Accessor,
+
+    #[token("meta")]
+    Meta,
+
+    #[token("target")]
+    Target,
+
+    #[token("satisfies")]
+    Satisfies,
+
+    #[token("package")]
+    Package,
+
+    #[token("protected")]
+    Protected,
+
+    #[token("private")]
+    Private,
+
+    #[token("public")]
+    Public,
 }
 
 fn newline_callback(l: &mut Lexer<RawToken>) -> Skip {
