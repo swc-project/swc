@@ -1,10 +1,12 @@
 //! This package is considered internal and should not be used by external
 //! crates.
 //!
-//! It may updated without proper semver.
+//! It may updated without proper semver bump.
 
 use logos::{Lexer, Logos, Skip};
 use swc_common::{input::StringInput, BytePos};
+
+pub mod jsx;
 
 #[derive(Debug, Clone)]
 pub struct RawBuffer<'a> {
