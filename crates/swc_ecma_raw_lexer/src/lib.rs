@@ -178,9 +178,13 @@ pub enum RawToken {
     #[token("~", priority = 3)]
     Tilde,
 
+    #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#)]
     Str,
-    Regex,
+
+    #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
     Num,
+
+    #[regex(r#"0x[a-fA-F0-9]+n?"#)]
     BigInt,
 
     #[token("#![^ \n\r\t]*", priority = 3)]
