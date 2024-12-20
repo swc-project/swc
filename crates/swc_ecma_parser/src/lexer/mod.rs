@@ -592,49 +592,6 @@ impl<'a> Lexer<'a> {
 
         Ok(Some(vec![c.into()]))
     }
-
-    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
-        let start = self.input.cur_pos();
-        let had_line_break_before_last = self.had_line_break_before_last();
-
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input.bump(1);
-        }
-
-        Ok(Some(if self.input.eat(RawToken::AssignOp)? {
-            // "=="
-
-            if self.input.eat(RawToken::AssignOp)? {
-                if c == b'!' {
-                    Token::BinOp(BinOpToken::NotEqEq)
-                } else {
-                    // =======
-                    //    ^
-                    if had_line_break_before_last && self.is_str("====") {
-                        self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
-                        self.skip_line_comment(4);
-                        self.skip_space::<true>();
-                        return self.read_token();
-                    }
-
-                    Token::BinOp(BinOpToken::EqEqEq)
-                }
-            } else if c == b'!' {
-                Token::BinOp(BinOpToken::NotEq)
-            } else {
-                Token::BinOp(BinOpToken::EqEq)
-            }
-        } else if c == b'=' && self.input.eat_byte(b'>') {
-            // "=>"
-
-            Token::Arrow
-        } else if c == b'!' {
-            Token::Bang
-        } else {
-            Token::AssignOp(AssignOp::Assign)
-        }))
-    }
 }
 
 impl Lexer<'_> {
