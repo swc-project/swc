@@ -243,7 +243,13 @@ impl<'a> Lexer<'a> {
                 raw: self.atoms.atom(self.input.cur_slice()),
             },
             RawToken::BigInt => Token::BigInt {
-                value: self.input.cur_slice().parse().map(Box::new).unwrap(),
+                value: {
+                    let s = self.input.cur_slice();
+                    let s = s.strip_suffix("n").unwrap_or(s);
+                    // dbg!(s);
+
+                    s.parse().map(Box::new).unwrap()
+                },
                 raw: self.atoms.atom(self.input.cur_slice()),
             },
             RawToken::Shebang => Token::Shebang(self.atoms.atom(self.input.cur_slice())),

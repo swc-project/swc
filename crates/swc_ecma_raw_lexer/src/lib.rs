@@ -105,7 +105,7 @@ impl Iterator for RawBuffer<'_> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let item = self.lexer.next()?;
-        dbg!(&item);
+        // dbg!(&item);
         let item = match item {
             Ok(item) => item,
             Err(e) => return Some(Err(e)),
