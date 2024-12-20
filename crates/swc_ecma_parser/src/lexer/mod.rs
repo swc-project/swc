@@ -180,7 +180,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(match cur {
             RawToken::LegacyCommentOpen => {
                 // XML style comment. `<!--`
-                self.skip_line_comment(3);
+                self.input.next().transpose()?;
                 self.skip_space::<true>();
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
@@ -421,48 +421,6 @@ impl<'a> Lexer<'a> {
             RawToken::Private => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private))),
             RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
         }))
-    }
-
-    /// Read a token given `.`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_dot(&mut self) -> LexResult<Token> {
-        // Check for eof
-        let next = match self.input.peek()? {
-            Some(next) => next,
-            None => {
-                unsafe {
-                    // Safety: cur() is Some(',')
-                    self.input.bump(1);
-                }
-                return Ok(tok!('.'));
-            }
-        };
-        if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Token::Num { value, raw },
-                Right((value, raw)) => Token::BigInt { value, raw },
-            });
-        }
-
-        unsafe {
-            // Safety: cur() is Some
-            // 1st `.`
-            self.input.bump(1);
-        }
-
-        if next == '.' && self.input.peek() == Some('.') {
-            unsafe {
-                // Safety: peek() was Some
-
-                self.input.bump(2); // `..`
-            }
-
-            return Ok(tok!("..."));
-        }
-
-        Ok(tok!('.'))
     }
 
     /// Read an escaped character for string literal.

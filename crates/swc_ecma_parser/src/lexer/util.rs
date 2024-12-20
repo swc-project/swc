@@ -21,7 +21,7 @@ use crate::{
 
 impl Lexer<'_> {
     pub(super) fn span(&self, start: BytePos) -> Span {
-        let end = self.last_pos();
+        let end = self.input.cur_pos();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).
