@@ -804,13 +804,8 @@ fn size_of_error() {
     assert_eq!(std::mem::size_of::<Error>(), 8);
 }
 
-impl From<swc_ecma_raw_lexer::LexError> for Error {
-    fn from(e: swc_ecma_raw_lexer::LexError) -> Self {
-        Self::new(
-            DUMMY_SP,
-            match e {
-                swc_ecma_raw_lexer::LexError::UnexepectedCharacter => SyntaxError::UnexpectedToken,
-            },
-        )
+impl From<swc_ecma_raw_lexer::UnknownChar> for Error {
+    fn from(_: swc_ecma_raw_lexer::UnknownChar) -> Self {
+        Self::new(DUMMY_SP, SyntaxError::UnexpectedToken)
     }
 }

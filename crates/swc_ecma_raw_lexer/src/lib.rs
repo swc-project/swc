@@ -45,15 +45,15 @@ impl<'a> RawBuffer<'a> {
         self.pos
     }
 
-    pub fn cur(&self) -> Result<Option<RawToken>, LexError> {
+    pub fn cur(&self) -> Result<Option<RawToken>, UnknownChar> {
         self.lexer.clone().next().transpose()
     }
 
-    pub fn peek(&self) -> Result<Option<RawToken>, LexError> {
+    pub fn peek(&self) -> Result<Option<RawToken>, UnknownChar> {
         self.lexer.clone().nth(1).transpose()
     }
 
-    pub fn peek_ahead(&self) -> Result<Option<RawToken>, LexError> {
+    pub fn peek_ahead(&self) -> Result<Option<RawToken>, UnknownChar> {
         self.lexer.clone().nth(2).transpose()
     }
 
@@ -79,7 +79,7 @@ impl<'a> RawBuffer<'a> {
         self.pos = self.pos + BytePos(n as u32);
     }
 
-    pub fn eat(&mut self, token: RawToken) -> Result<bool, LexError> {
+    pub fn eat(&mut self, token: RawToken) -> Result<bool, UnknownChar> {
         let cur = self.cur()?;
 
         if cur == Some(token) {
@@ -103,7 +103,7 @@ impl<'a> RawBuffer<'a> {
 }
 
 impl Iterator for RawBuffer<'_> {
-    type Item = Result<RawToken, LexError>;
+    type Item = Result<RawToken, UnknownChar>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let item = self.lexer.next()?;
@@ -121,7 +121,7 @@ impl Iterator for RawBuffer<'_> {
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
-#[logos(error = LexError, extras = TokenState)]
+#[logos(error = UnknownChar, extras = TokenState)]
 pub enum RawToken {
     #[token("=>")]
     Arrow,
@@ -605,7 +605,4 @@ impl RawToken {
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-pub enum LexError {
-    #[default]
-    UnexepectedCharacter,
-}
+pub struct UnknownChar;
