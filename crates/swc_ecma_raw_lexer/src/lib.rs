@@ -192,10 +192,10 @@ pub enum RawToken {
     )]
     Str,
 
-    #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
-    #[regex(r"-?0[xX][a-fA-F0-9]+")]
-    #[regex(r"-?0[oO][0-7]+")]
-    #[regex(r"-?0[bB][01]+")]
+    #[regex(r"(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
+    #[regex(r"0[xX][a-fA-F0-9]+")]
+    #[regex(r"0[oO][0-7]+")]
+    #[regex(r"0[bB][01]+")]
     Num,
 
     #[regex(r#"[0-9]+n?"#, priority = 7)]
