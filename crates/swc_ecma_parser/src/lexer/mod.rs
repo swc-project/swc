@@ -466,31 +466,6 @@ impl<'a> Lexer<'a> {
         Ok(tok!('.'))
     }
 
-    /// Read a token given `0`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_zero(&mut self) -> LexResult<Token> {
-        let next = self.input.peek()?;
-
-        let bigint = match next {
-            Some('x') | Some('X') => self.read_radix_number::<16>(),
-            Some('o') | Some('O') => self.read_radix_number::<8>(),
-            Some('b') | Some('B') => self.read_radix_number::<2>(),
-            _ => {
-                return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Token::Num { value, raw },
-                    Right((value, raw)) => Token::BigInt { value, raw },
-                });
-            }
-        };
-
-        bigint.map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
-        })
-    }
-
     /// Read a token given `|` or `&`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
