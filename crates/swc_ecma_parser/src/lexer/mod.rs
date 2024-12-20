@@ -255,6 +255,15 @@ impl<'a> Lexer<'a> {
                     raw: self.atoms.atom(self.input.cur_slice()),
                 }
             }
+            RawToken::LegacyOctalNum => {
+                let s = self.input.cur_slice();
+                let value = usize::from_str_radix(s, 8).unwrap() as f64;
+
+                Token::Num {
+                    value,
+                    raw: self.atoms.atom(s),
+                }
+            }
             RawToken::BigInt => Token::BigInt {
                 value: {
                     let s = self.input.cur_slice();

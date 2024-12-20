@@ -198,6 +198,9 @@ pub enum RawToken {
     #[regex(r"0[bB][01]+")]
     Num,
 
+    #[regex(r#"0[0-7]+"#)]
+    LegacyOctalNum,
+
     #[regex(r#"[0-9]+n"#)]
     BigInt,
 
