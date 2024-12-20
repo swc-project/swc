@@ -105,7 +105,7 @@ impl Iterator for RawBuffer<'_> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let item = self.lexer.next()?;
-        // dbg!(&item);
+        dbg!(&item, self.cur_slice());
         let item = match item {
             Ok(item) => item,
             Err(e) => return Some(Err(e)),
@@ -185,6 +185,7 @@ pub enum RawToken {
     Tilde,
 
     #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#)]
+    #[regex(r#"'([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*'"#)]
     Str,
 
     #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
