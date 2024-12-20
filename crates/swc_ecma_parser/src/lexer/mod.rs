@@ -682,50 +682,6 @@ impl<'a> Lexer<'a> {
 }
 
 impl Lexer<'_> {
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_ident_unknown(&mut self) -> LexResult<Token> {
-        debug_assert!(self.input.cur()?.is_some());
-
-        let (word, _) = self
-            .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
-
-        Ok(Word(word))
-    }
-
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_word_with(
-        &mut self,
-        convert: &dyn Fn(&str) -> Option<Word>,
-    ) -> LexResult<Option<Token>> {
-        debug_assert!(self.input.cur()?.is_some());
-
-        let start = self.input.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
-            if can_be_known {
-                if let Some(word) = convert(s) {
-                    return word;
-                }
-            }
-
-            Word::Ident(IdentLike::Other(l.atoms.atom(s)))
-        })?;
-
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
-        } else {
-            Ok(Some(Token::Word(word)))
-        }
-    }
-
     /// This method is optimized for texts without escape sequences.
     ///
     /// `convert(text, has_escape, can_be_keyword)`
