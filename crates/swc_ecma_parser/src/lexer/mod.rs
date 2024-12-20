@@ -29,7 +29,6 @@ mod state;
 #[cfg(test)]
 mod tests;
 pub mod util;
-mod whitespace;
 
 pub(crate) type LexResult<T> = Result<T, Error>;
 

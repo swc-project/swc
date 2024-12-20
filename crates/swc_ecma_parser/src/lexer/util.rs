@@ -12,7 +12,7 @@ use swc_ecma_ast::Ident;
 use swc_ecma_raw_lexer::RawToken;
 use tracing::warn;
 
-use super::{comments_buffer::BufferedComment, whitespace::SkipWhitespace, Char, LexResult, Lexer};
+use super::{comments_buffer::BufferedComment, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
