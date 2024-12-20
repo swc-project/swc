@@ -16,7 +16,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, IdentLike, Token, Word},
+    token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, Word},
     Context, Syntax,
 };
 
@@ -178,7 +178,7 @@ impl<'a> Lexer<'a> {
             None => return Ok(None),
         };
 
-        match cur {
+        Ok(Some(match cur {
             RawToken::LegacyCommentOpen => {
                 // XML style comment. `<!--`
                 self.skip_line_comment(3);
@@ -329,9 +329,99 @@ impl<'a> Lexer<'a> {
                 self.skip_space::<true>();
                 return self.read_token();
             }
-
-            _ => {}
-        }
+            RawToken::Await => Token::Word(Word::Keyword(Keyword::Await)),
+            RawToken::Break => Token::Word(Word::Keyword(Keyword::Break)),
+            RawToken::Case => Token::Word(Word::Keyword(Keyword::Case)),
+            RawToken::Catch => Token::Word(Word::Keyword(Keyword::Catch)),
+            RawToken::Continue => Token::Word(Word::Keyword(Keyword::Continue)),
+            RawToken::Debugger => Token::Word(Word::Keyword(Keyword::Debugger)),
+            RawToken::Default_ => Token::Word(Word::Keyword(Keyword::Default_)),
+            RawToken::Do => Token::Word(Word::Keyword(Keyword::Do)),
+            RawToken::Else => Token::Word(Word::Keyword(Keyword::Else)),
+            RawToken::Finally => Token::Word(Word::Keyword(Keyword::Finally)),
+            RawToken::For => Token::Word(Word::Keyword(Keyword::For)),
+            RawToken::Function => Token::Word(Word::Keyword(Keyword::Function)),
+            RawToken::If => Token::Word(Word::Keyword(Keyword::If)),
+            RawToken::Return => Token::Word(Word::Keyword(Keyword::Return)),
+            RawToken::Switch => Token::Word(Word::Keyword(Keyword::Switch)),
+            RawToken::Throw => Token::Word(Word::Keyword(Keyword::Throw)),
+            RawToken::Try => Token::Word(Word::Keyword(Keyword::Try)),
+            RawToken::Var => Token::Word(Word::Keyword(Keyword::Var)),
+            RawToken::Let => Token::Word(Word::Keyword(Keyword::Let)),
+            RawToken::Const => Token::Word(Word::Keyword(Keyword::Const)),
+            RawToken::While => Token::Word(Word::Keyword(Keyword::While)),
+            RawToken::With => Token::Word(Word::Keyword(Keyword::With)),
+            RawToken::New => Token::Word(Word::Keyword(Keyword::New)),
+            RawToken::This => Token::Word(Word::Keyword(Keyword::This)),
+            RawToken::Super => Token::Word(Word::Keyword(Keyword::Super)),
+            RawToken::Class => Token::Word(Word::Keyword(Keyword::Class)),
+            RawToken::Extends => Token::Word(Word::Keyword(Keyword::Extends)),
+            RawToken::Export => Token::Word(Word::Keyword(Keyword::Export)),
+            RawToken::Import => Token::Word(Word::Keyword(Keyword::Import)),
+            RawToken::Yield => Token::Word(Word::Keyword(Keyword::Yield)),
+            RawToken::In => Token::Word(Word::Keyword(Keyword::In)),
+            RawToken::InstanceOf => Token::Word(Word::Keyword(Keyword::InstanceOf)),
+            RawToken::TypeOf => Token::Word(Word::Keyword(Keyword::TypeOf)),
+            RawToken::Void => Token::Word(Word::Keyword(Keyword::Void)),
+            RawToken::Delete => Token::Word(Word::Keyword(Keyword::Delete)),
+            RawToken::Abstract => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract))),
+            RawToken::As => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As))),
+            RawToken::Async => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async))),
+            RawToken::From => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::From))),
+            RawToken::Of => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of))),
+            RawToken::Type => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Type))),
+            RawToken::Global => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Global))),
+            RawToken::Static => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static))),
+            RawToken::Using => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Using))),
+            RawToken::Readonly => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly))),
+            RawToken::Unique => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique))),
+            RawToken::Keyof => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Keyof))),
+            RawToken::Declare => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare))),
+            RawToken::Enum => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum))),
+            RawToken::Is => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is))),
+            RawToken::Infer => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer))),
+            RawToken::Symbol => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Symbol))),
+            RawToken::Undefined => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Undefined)))
+            }
+            RawToken::Interface => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
+            }
+            RawToken::Implements => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
+            }
+            RawToken::Asserts => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts))),
+            RawToken::Require => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Require))),
+            RawToken::Get => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Get))),
+            RawToken::Set => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Set))),
+            RawToken::Any => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any))),
+            RawToken::Intrinsic => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Intrinsic)))
+            }
+            RawToken::Unknown => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unknown))),
+            RawToken::String => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::String))),
+            RawToken::Object => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Object))),
+            RawToken::Number => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Number))),
+            RawToken::Bigint => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Bigint))),
+            RawToken::Boolean => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Boolean))),
+            RawToken::Never => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Never))),
+            RawToken::Assert => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Assert))),
+            RawToken::Namespace => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace)))
+            }
+            RawToken::Accessor => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Accessor))),
+            RawToken::Meta => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Meta))),
+            RawToken::Target => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Target))),
+            RawToken::Satisfies => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
+            }
+            RawToken::Package => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package))),
+            RawToken::Protected => {
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
+            }
+            RawToken::Private => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private))),
+            RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
+        }))
     }
 
     /// Read a token given `.`.
