@@ -2,6 +2,7 @@ use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
 use swc_common::{BytePos, Span};
+use swc_ecma_raw_lexer::RawToken;
 use tracing::trace;
 
 use super::{
@@ -294,11 +295,13 @@ impl Lexer<'_> {
                 if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                     || self.state.context.current() == Some(TokenContext::JSXClosingTag)
                 {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
+                    if c == RawToken::Ident {
+                        return Ok(Some(Token::JSXName {
+                            name: self.atoms.atom(self.input.cur_slice()),
+                        }));
                     }
 
-                    if c == '>' {
+                    if c == RawToken::GtOp {
                         unsafe {
                             // Safety: cur() is Some('>')
                             self.input.bump(1);
@@ -306,29 +309,23 @@ impl Lexer<'_> {
                         return Ok(Some(Token::JSXTagEnd));
                     }
 
-                    if (c == '\'' || c == '"')
+                    if (c == RawToken::Str)
                         && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                     {
-                        return self.read_jsx_str(c).map(Some);
+                        return self.read_jsx_str().map(Some);
                     }
                 }
 
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
+                if c == RawToken::LtOp
+                    && self.state.is_expr_allowed
+                    && self.input.peek()? != Some(RawToken::Bang)
+                {
                     let had_line_break_before_last = self.had_line_break_before_last();
                     let cur_pos = self.input.cur_pos();
 
                     unsafe {
                         // Safety: cur() is Some('<')
                         self.input.bump(1);
-                    }
-
-                    if had_line_break_before_last && self.input.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
-
-                        self.emit_error_span(span, SyntaxError::TS1185);
-                        self.input.next().transpose()?;
-                        self.skip_space::<true>();
-                        return self.read_token();
                     }
 
                     return Ok(Some(Token::JSXTagStart));
@@ -371,7 +368,7 @@ impl Iterator for Lexer<'_> {
             }
 
             self.state.update(start, token.kind());
-            self.state.prev_hi = self.last_pos();
+            self.state.prev_hi = self.input.cur_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
 
