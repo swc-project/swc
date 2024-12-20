@@ -274,8 +274,6 @@ impl<'a> Lexer<'a> {
                 raw: self.atoms.atom(self.input.cur_slice()),
             },
 
-            RawToken::Regex => Token::Regex(self.atoms.atom(self.input.cur_slice()), "".into()),
-
             RawToken::Shebang => Token::Shebang(self.atoms.atom(self.input.cur_slice())),
 
             RawToken::Null => Token::Word(Word::Null),

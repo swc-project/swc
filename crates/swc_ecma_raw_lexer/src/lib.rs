@@ -184,12 +184,8 @@ pub enum RawToken {
     #[token("~")]
     Tilde,
 
-    #[regex(
-        r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4}|0[xX][a-fA-F0-9]+|0[oO][0-7]+|0[bB][01]+)*""#
-    )]
-    #[regex(
-        r#"'([^'\\]|\\['\\bnfrt]|u[a-fA-F0-9]{4}|0[xX][a-fA-F0-9]+|0[oO][0-7]+|0[bB][01]+)*'"#
-    )]
+    #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4}|[xX][a-fA-F0-9]+|[oO][0-7]+|[bB][01]+)*""#)]
+    #[regex(r#"'([^'\\]|\\['\\bnfrt]|u[a-fA-F0-9]{4}|[xX][a-fA-F0-9]+|[oO][0-7]+|[bB][01]+)*'"#)]
     Str,
 
     #[regex(r"(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
@@ -203,9 +199,6 @@ pub enum RawToken {
 
     #[regex(r#"[0-9]+n"#)]
     BigInt,
-
-    #[regex(r#"/[^/\n\r\t]*/[gimuy]*"#, priority = 7)]
-    Regex,
 
     #[token("#![^ \n\r\t]*")]
     Shebang,
@@ -336,7 +329,7 @@ pub enum RawToken {
     #[token("??=")]
     NullishAssignOp,
 
-    #[regex(r"[\p{ID_Start}_$][\p{ID_Continue}_$]*")]
+    #[regex(r"([\p{ID_Start}_$]|\\u[a-fA-F0-9]{4})([\p{ID_Continue}_$]|\\u[a-fA-F0-9]{4})*")]
     Ident,
 
     #[token("\r", priority = 5, callback = newline_callback)]
