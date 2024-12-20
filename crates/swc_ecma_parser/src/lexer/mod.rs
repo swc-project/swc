@@ -238,15 +238,28 @@ impl<'a> Lexer<'a> {
                 value: self.atoms.atom(self.input.cur_slice()),
                 raw: self.atoms.atom(self.input.cur_slice()),
             },
-            RawToken::Num => Token::Num {
-                value: self.input.cur_slice().parse().unwrap(),
-                raw: self.atoms.atom(self.input.cur_slice()),
-            },
+            RawToken::Num => {
+                let s = self.input.cur_slice();
+                let value = if let Some(s) = s.strip_prefix("0x").or_else(|| s.strip_prefix("0X")) {
+                    usize::from_str_radix(s, 16).unwrap() as f64
+                } else if let Some(s) = s.strip_prefix("0o").or_else(|| s.strip_prefix("0O")) {
+                    usize::from_str_radix(s, 8).unwrap() as f64
+                } else if let Some(s) = s.strip_prefix("0b").or_else(|| s.strip_prefix("0B")) {
+                    usize::from_str_radix(s, 2).unwrap() as f64
+                } else {
+                    s.parse::<f64>().unwrap()
+                };
+
+                Token::Num {
+                    value,
+                    raw: self.atoms.atom(self.input.cur_slice()),
+                }
+            }
             RawToken::BigInt => Token::BigInt {
                 value: {
                     let s = self.input.cur_slice();
                     let s = s.strip_suffix("n").unwrap_or(s);
-                    // dbg!(s);
+                    dbg!(s);
 
                     s.parse().map(Box::new).unwrap()
                 },
