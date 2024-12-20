@@ -65,6 +65,10 @@ impl<'a> RawBuffer<'a> {
         self.orig_str.get_unchecked(lo as usize..hi as usize)
     }
 
+    pub fn cur_slice(&self) -> &str {
+        &self.lexer.slice()
+    }
+
     /// # Safety
     ///
     /// - `n` must be equal or smaller than  lefting length of `self.orig_str`
@@ -314,7 +318,7 @@ pub enum RawToken {
     #[token("??=", priority = 3)]
     NullishAssignOp,
 
-    #[regex(r"\P{ID_Start}\P{ID_Continue}*")]
+    #[regex(r"\p{ID_Start}\p{ID_Continue}*")]
     Ident,
 
     #[token("\r", priority = 5, callback = newline_callback)]
@@ -357,5 +361,5 @@ impl RawToken {
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub enum LexError {
     #[default]
-    UnexpectedEof,
+    UnexepectedCharacter,
 }
