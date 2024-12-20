@@ -105,6 +105,7 @@ impl Iterator for RawBuffer<'_> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let item = self.lexer.next()?;
+        dbg!(&item);
         let item = match item {
             Ok(item) => item,
             Err(e) => return Some(Err(e)),
@@ -331,10 +332,10 @@ pub enum RawToken {
     #[regex(r"[ \t]+")]
     Whitespace,
 
-    #[regex(r"//.*")]
+    #[regex(r"//[^\n]*")]
     LineComment,
 
-    #[regex(r"/\*.*\*/")]
+    #[regex(r"/\*(?:[^*]|\*[^/])*\*/")]
     BlockComment,
 
     #[token("<!--")]
