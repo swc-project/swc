@@ -839,14 +839,14 @@ impl Lexer<'_> {
         // here (don't ask).
         // let flags_start = self.input.cur_pos();
         let flags = {
-            match self.input.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
-                    .map(Some),
-                _ => Ok(None),
+            if self.input.cur()? == Some(RawToken::Ident) {
+                let s = self.input.cur_slice();
+                self.input.next().transpose()?;
+                Some(self.atoms.atom(s))
+            } else {
+                None
             }
-        }?
-        .map(|(value, _)| value)
+        }
         .unwrap_or_default();
 
         Ok(Token::Regex(content, flags))
