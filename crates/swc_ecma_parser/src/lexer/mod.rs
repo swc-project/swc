@@ -593,49 +593,6 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
-        let start = self.input.cur_pos();
-
-        unsafe {
-            // Safety: cur() is Some(c), if this method is called.
-            self.input.bump(1);
-        }
-
-        // '++', '--'
-        Ok(Some(if self.input.cur() == Some(c as char) {
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input.bump(1);
-            }
-
-            // Handle -->
-            if self.state.had_line_break && c == b'-' && self.input.eat(b'>') {
-                self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
-                self.skip_line_comment(0);
-                self.skip_space::<true>();
-                return self.read_token();
-            }
-
-            if c == b'+' {
-                Token::PlusPlus
-            } else {
-                Token::MinusMinus
-            }
-        } else if self.input.eat_byte(b'=') {
-            Token::AssignOp(if c == b'+' {
-                AssignOp::AddAssign
-            } else {
-                AssignOp::SubAssign
-            })
-        } else {
-            Token::BinOp(if c == b'+' {
-                BinOpToken::Add
-            } else {
-                BinOpToken::Sub
-            })
-        }))
-    }
-
     fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
         let start = self.input.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
