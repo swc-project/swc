@@ -184,8 +184,12 @@ pub enum RawToken {
     #[token("~")]
     Tilde,
 
-    #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#)]
-    #[regex(r#"'([^'\\]|\\['\\bnfrt]|u[a-fA-F0-9]{4})*'"#)]
+    #[regex(
+        r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4}|0[xX][a-fA-F0-9]+|0[oO][0-7]+|0[bB][01]+)*""#
+    )]
+    #[regex(
+        r#"'([^'\\]|\\['\\bnfrt]|u[a-fA-F0-9]{4}|0[xX][a-fA-F0-9]+|0[oO][0-7]+|0[bB][01]+)*'"#
+    )]
     Str,
 
     #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
@@ -196,6 +200,9 @@ pub enum RawToken {
 
     #[regex(r#"[0-9]+n?"#, priority = 7)]
     BigInt,
+
+    #[regex(r#"/[^/\n\r\t]*/[gimuy]*"#, priority = 7)]
+    Regex,
 
     #[token("#![^ \n\r\t]*")]
     Shebang,
