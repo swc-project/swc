@@ -66,7 +66,7 @@ impl<'a> RawBuffer<'a> {
     }
 
     pub fn cur_slice(&self) -> &str {
-        &self.lexer.slice()
+        self.lexer.slice()
     }
 
     /// # Safety
@@ -81,11 +81,7 @@ impl<'a> RawBuffer<'a> {
         let cur = self.cur()?;
 
         if cur == Some(token) {
-            let len = self.lexer.span().len();
-            unsafe {
-                // Safety: cur() was Some(token)
-                self.bump(len);
-            }
+            self.next();
             Ok(true)
         } else {
             Ok(false)
@@ -108,74 +104,83 @@ impl Iterator for RawBuffer<'_> {
     type Item = Result<RawToken, LexError>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.lexer.next()
+        let item = self.lexer.next()?;
+        let item = match item {
+            Ok(item) => item,
+            Err(e) => return Some(Err(e)),
+        };
+
+        let len = self.lexer.span().len();
+        self.pos = self.pos + BytePos(len as u32);
+
+        Some(Ok(item))
     }
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 #[logos(error = LexError, extras = TokenState)]
 pub enum RawToken {
-    #[token("=>", priority = 3)]
+    #[token("=>")]
     Arrow,
 
-    #[token("#", priority = 3)]
+    #[token("#")]
     Hash,
 
-    #[token("@", priority = 3)]
+    #[token("@")]
     At,
 
-    #[token(".", priority = 3)]
+    #[token(".")]
     Dot,
 
-    #[token("...", priority = 3)]
+    #[token("...")]
     DotDotDot,
 
-    #[token("!", priority = 3)]
+    #[token("!")]
     Bang,
 
-    #[token("(", priority = 3)]
+    #[token("(")]
     LParen,
 
-    #[token(")", priority = 3)]
+    #[token(")")]
     RParen,
 
-    #[token("[", priority = 3)]
+    #[token("[")]
     LBracket,
 
-    #[token("]", priority = 3)]
+    #[token("]")]
     RBracket,
 
-    #[token("{", priority = 3)]
+    #[token("{")]
     LBrace,
 
-    #[token("}", priority = 3)]
+    #[token("}")]
     RBrace,
 
-    #[token(";", priority = 3)]
+    #[token(";")]
     Semi,
 
-    #[token(",", priority = 3)]
+    #[token(",")]
     Comma,
 
-    #[token(":", priority = 3)]
+    #[token(":")]
     Colon,
 
-    #[token("`", priority = 3)]
+    #[token("`")]
     BackQuote,
 
-    #[token("${", priority = 3)]
+    #[token("${")]
     DollarLBrace,
 
-    #[token("?", priority = 3)]
+    #[token("?")]
     QuestionMark,
 
-    #[token("++", priority = 3)]
+    #[token("++")]
     PlusPlus,
 
-    #[token("--", priority = 3)]
+    #[token("--")]
     MinusMinus,
 
-    #[token("~", priority = 3)]
+    #[token("~")]
     Tilde,
 
     #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#)]
@@ -187,139 +192,139 @@ pub enum RawToken {
     #[regex(r#"0x[a-fA-F0-9]+n?"#)]
     BigInt,
 
-    #[token("#![^ \n\r\t]*", priority = 3)]
+    #[token("#![^ \n\r\t]*")]
     Shebang,
 
-    #[token("null", priority = 3)]
+    #[token("null")]
     Null,
 
-    #[token("true", priority = 3)]
+    #[token("true")]
     True,
 
-    #[token("false", priority = 3)]
+    #[token("false")]
     False,
 
-    #[token("==", priority = 3)]
+    #[token("==")]
     EqEqOp,
 
-    #[token("!=", priority = 3)]
+    #[token("!=")]
     NotEqOp,
 
-    #[token("===", priority = 3)]
+    #[token("===")]
     EqEqEqOp,
 
-    #[token("!==", priority = 3)]
+    #[token("!==")]
     NotEqEqOp,
 
-    #[token("<", priority = 3)]
+    #[token("<")]
     LtOp,
 
-    #[token("<=", priority = 3)]
+    #[token("<=")]
     LtEqOp,
 
-    #[token(">", priority = 3)]
+    #[token(">")]
     GtOp,
 
-    #[token(">=", priority = 3)]
+    #[token(">=")]
     GtEqOp,
 
-    #[token("<<", priority = 3)]
+    #[token("<<")]
     LShiftOp,
 
-    #[token(">>", priority = 3)]
+    #[token(">>")]
     RShiftOp,
 
-    #[token(">>>", priority = 3)]
+    #[token(">>>")]
     ZeroFillRShiftOp,
 
-    #[token("+", priority = 3)]
+    #[token("+")]
     AddOp,
 
-    #[token("-", priority = 3)]
+    #[token("-")]
     SubOp,
 
-    #[token("*", priority = 3)]
+    #[token("*")]
     MulOp,
 
-    #[token("/", priority = 3)]
+    #[token("/")]
     DivOp,
 
-    #[token("%", priority = 3)]
+    #[token("%")]
     ModOp,
 
-    #[token("|", priority = 3)]
+    #[token("|")]
     BitOrOp,
 
-    #[token("^", priority = 3)]
+    #[token("^")]
     BitXorOp,
 
-    #[token("&", priority = 3)]
+    #[token("&")]
     BitAndOp,
 
-    #[token("in", priority = 3)]
+    #[token("in")]
     In,
 
-    #[token("instanceof", priority = 3)]
+    #[token("instanceof")]
     InstanceOf,
 
-    #[token("**", priority = 3)]
+    #[token("**")]
     ExpOp,
 
-    #[token("||", priority = 3)]
+    #[token("||")]
     LogicalOrOp,
 
-    #[token("&&", priority = 3)]
+    #[token("&&")]
     LogicalAndOp,
 
     #[token("??")]
     NullishCoalescingOp,
 
-    #[token("=", priority = 3)]
+    #[token("=")]
     AssignOp,
 
-    #[token("+=", priority = 3)]
+    #[token("+=")]
     AddAssignOp,
 
-    #[token("-=", priority = 3)]
+    #[token("-=")]
     SubAssignOp,
 
-    #[token("*=", priority = 3)]
+    #[token("*=")]
     MulAssignOp,
 
-    #[token("/=", priority = 3)]
+    #[token("/=")]
     DivAssignOp,
 
-    #[token("%=", priority = 3)]
+    #[token("%=")]
     ModAssignOp,
 
-    #[token("<<=", priority = 3)]
+    #[token("<<=")]
     LShiftAssignOp,
 
-    #[token(">>=", priority = 3)]
+    #[token(">>=")]
     RShiftAssignOp,
 
-    #[token(">>>=", priority = 3)]
+    #[token(">>>=")]
     ZeroFillRShiftAssignOp,
 
-    #[token("|=", priority = 3)]
+    #[token("|=")]
     BitOrAssignOp,
 
-    #[token("^=", priority = 3)]
+    #[token("^=")]
     BitXorAssignOp,
 
-    #[token("&=", priority = 3)]
+    #[token("&=")]
     BitAndAssignOp,
 
-    #[token("**=", priority = 3)]
+    #[token("**=")]
     ExpAssignOp,
 
-    #[token("&&=", priority = 3)]
+    #[token("&&=")]
     AndAssignOp,
 
-    #[token("||=", priority = 3)]
+    #[token("||=")]
     OrAssignOp,
 
-    #[token("??=", priority = 3)]
+    #[token("??=")]
     NullishAssignOp,
 
     #[regex(r"\p{ID_Start}\p{ID_Continue}*")]
@@ -329,25 +334,25 @@ pub enum RawToken {
     #[token("\n", priority = 5, callback = newline_callback)]
     NewLine,
 
-    #[regex(r"[ \t]+", priority = 3)]
+    #[regex(r"[ \t]+")]
     Whitespace,
 
-    #[regex(r"//.*", priority = 3)]
+    #[regex(r"//.*")]
     LineComment,
 
-    #[regex(r"/\*.*\*/", priority = 3)]
+    #[regex(r"/\*.*\*/")]
     BlockComment,
 
-    #[token("<!--", priority = 3)]
+    #[token("<!--")]
     LegacyCommentOpen,
 
-    #[token("-->", priority = 3)]
+    #[token("-->")]
     LegacyCommentClose,
 
-    #[token("<<<<<", priority = 3)]
+    #[token("<<<<<")]
     LConflictMarker,
 
-    #[token(">>>>>", priority = 3)]
+    #[token(">>>>>")]
     RConflictMarker,
 }
 
