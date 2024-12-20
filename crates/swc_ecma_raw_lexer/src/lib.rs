@@ -193,7 +193,7 @@ pub enum RawToken {
     #[regex(r#"0[bB][01]+"#)]
     Num,
 
-    #[regex(r#"0x[a-fA-F0-9]+n?"#, priority = 7)]
+    #[regex(r#"[0-9]+n?"#, priority = 7)]
     BigInt,
 
     #[token("#![^ \n\r\t]*")]
