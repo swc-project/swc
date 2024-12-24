@@ -3,7 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::{atom, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
@@ -311,7 +311,7 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == "arguments" {
+        if id.0 == atom!("arguments") {
             self.scope.found_arguemnts = true;
         }
 
