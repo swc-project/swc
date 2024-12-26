@@ -60,6 +60,7 @@ where
 
                         let visitor = nodes
                             .into_par_iter()
+                            .with_min_len(threshold)
                             .map(|node| {
                                 let helpers = Helpers::from_data(helpers);
 
@@ -121,6 +122,7 @@ where
 
                         let visitor = nodes
                             .into_par_iter()
+                            .with_min_len(threshold)
                             .map(|node| {
                                 let helpers = Helpers::from_data(helpers);
                                 GLOBALS.set(globals, || {
@@ -181,6 +183,7 @@ where
                     HANDLER.with(|handler| {
                         nodes
                             .into_par_iter()
+                            .with_min_len(threshold)
                             .map(|node| {
                                 let helpers = Helpers::from_data(helpers);
                                 GLOBALS.set(globals, || {
