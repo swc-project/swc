@@ -46,6 +46,7 @@ pub fn bench_files(c: &mut Criterion) {
     bench_file("typescript");
     bench_file("victory");
     bench_file("vue");
+    bench_file("rspack");
 }
 
 criterion_group!(files, bench_files);
