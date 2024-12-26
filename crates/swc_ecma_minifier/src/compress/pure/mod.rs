@@ -169,15 +169,16 @@ impl Pure<'_> {
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
         let mut changed = false;
-        if !cfg!(target_arch = "wasm32")
-            && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
-            && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
-        {
+        if !cfg!(target_arch = "wasm32") && (!cfg!(feature = "debug") || !cfg!(debug_assertions)) {
             #[cfg(feature = "concurrent")]
             {
                 GLOBALS.with(|globals| {
                     changed = nodes
                         .par_iter_mut()
+                        .with_min_len(
+                            (*crate::HEAVY_TASK_PARALLELS)
+                                * (f32::log2(self.ctx.par_depth as f32).floor() as usize),
+                        )
                         .map(|node| {
                             GLOBALS.set(globals, || {
                                 let mut v = Pure {
