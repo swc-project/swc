@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit semicolon after using declarations ([#9816](https://github.com/swc-project/swc/issues/9816)) ([556d924](https://github.com/swc-project/swc/commit/556d924cf53c2d3a7577bbfbb2b467d41834c23e))
+
 ## [1.10.2] - 2024-12-26
 
 ### Bug Fixes
@@ -1479,9 +1487,6 @@
 
 
 - **(es/lints)** Avoid needless allocations in `no-dupe-args` ([#9041](https://github.com/swc-project/swc/issues/9041)) ([e560198](https://github.com/swc-project/swc/commit/e5601989a1fa699c3d4f7f120bd14f946eee01fa))
-
-
-- **(es/parser)** Do not track `raw` by hand ([#9047](https://github.com/swc-project/swc/issues/9047)) ([60fe5f0](https://github.com/swc-project/swc/commit/60fe5f0effdcc45f0cfd363fd0ff4e6f4dba5b33))
 
 
 - **(es/parser)** Reduce allocations for `raw` while lexing numbers ([#9056](https://github.com/swc-project/swc/issues/9056)) ([bc8ec62](https://github.com/swc-project/swc/commit/bc8ec625ecee8a077fe84de371c490be14a1a033))
