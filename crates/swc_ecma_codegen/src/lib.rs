@@ -4280,21 +4280,22 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                 if c.is_ascii() {
                     buf.push(c);
                 } else if c > '\u{FFFF}' {
+                    if !ascii_only {
+                        buf.push(c);
+                    }
                     // if we've got this far the char isn't reserved and if the callee has specified
                     // we should output unicode for non-ascii chars then we have
                     // to make sure we output unicode that is safe for the target
                     // Es5 does not support code point escapes and so surrograte formula must be
                     // used
-                    if target <= EsVersion::Es5 {
+                    else if target <= EsVersion::Es5 {
                         // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
                         let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
-                    } else if ascii_only {
-                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     } else {
-                        buf.push(c);
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     }
                 } else if ascii_only {
                     let _ = write!(buf, "\\u{:04X}", c as u16);
