@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "target": "esnext",
+        "parser": {
+            "syntax": "ecmascript",
+            "explicitResourceManagement": true
+        }
+    },
+}

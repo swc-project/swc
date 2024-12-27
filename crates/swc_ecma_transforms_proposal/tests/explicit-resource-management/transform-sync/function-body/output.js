@@ -6,7 +6,6 @@ function fn() {
     };
     try {
         const x = _ts_add_disposable_resource(env, obj, false);
-        ;
         return doSomethingWith(x);
     } catch (e) {
         env.error = e;

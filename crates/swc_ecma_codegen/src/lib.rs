@@ -3045,6 +3045,10 @@ where
                 emit!(e);
                 semi!();
             }
+            Stmt::Decl(e @ Decl::Using(..)) => {
+                emit!(e);
+                semi!();
+            }
             Stmt::Decl(ref e) => emit!(e),
         }
         if self.comments.is_some() {

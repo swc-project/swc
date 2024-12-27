@@ -6,11 +6,8 @@
     };
     try {
         const a = _ts_add_disposable_resource(env, 1, false);
-        ;
         const b = _ts_add_disposable_resource(env, 2, true);
-        ;
         const c = _ts_add_disposable_resource(env, 3, false);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

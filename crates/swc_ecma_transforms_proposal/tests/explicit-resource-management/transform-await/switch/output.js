@@ -8,7 +8,6 @@ async function f() {
             };
             try {
                 const x = _ts_add_disposable_resource(env, 0, true);
-                ;
                 break;
             } catch (e) {
                 env.error = e;
@@ -25,7 +24,6 @@ async function f() {
             };
             try {
                 const y = _ts_add_disposable_resource(env1, 1, true);
-                ;
                 break;
             } catch (e) {
                 env1.error = e;
