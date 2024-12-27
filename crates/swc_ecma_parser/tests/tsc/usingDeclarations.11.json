@@ -79,7 +79,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 141,
-                  "end": 156
+                  "end": 155
                 },
                 "isAwait": false,
                 "decls": [
@@ -110,6 +110,13 @@
                     "definite": false
                   }
                 ]
+              },
+              {
+                "type": "EmptyStatement",
+                "span": {
+                  "start": 155,
+                  "end": 156
+                }
               },
               {
                 "type": "ExpressionStatement",
@@ -228,7 +235,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 248,
-                  "end": 263
+                  "end": 262
                 },
                 "isAwait": false,
                 "decls": [
@@ -259,6 +266,13 @@
                     "definite": false
                   }
                 ]
+              },
+              {
+                "type": "EmptyStatement",
+                "span": {
+                  "start": 262,
+                  "end": 263
+                }
               }
             ]
           },
@@ -363,7 +377,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 332,
-                  "end": 347
+                  "end": 346
                 },
                 "isAwait": false,
                 "decls": [
@@ -394,6 +408,13 @@
                     "definite": false
                   }
                 ]
+              },
+              {
+                "type": "EmptyStatement",
+                "span": {
+                  "start": 346,
+                  "end": 347
+                }
               },
               {
                 "type": "ExpressionStatement",
@@ -525,7 +546,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 438,
-                  "end": 453
+                  "end": 452
                 },
                 "isAwait": false,
                 "decls": [
@@ -556,6 +577,13 @@
                     "definite": false
                   }
                 ]
+              },
+              {
+                "type": "EmptyStatement",
+                "span": {
+                  "start": 452,
+                  "end": 453
+                }
               },
               {
                 "type": "ExpressionStatement",
@@ -721,7 +749,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 555,
-                  "end": 570
+                  "end": 569
                 },
                 "isAwait": false,
                 "decls": [
@@ -752,6 +780,13 @@
                     "definite": false
                   }
                 ]
+              },
+              {
+                "type": "EmptyStatement",
+                "span": {
+                  "start": 569,
+                  "end": 570
+                }
               },
               {
                 "type": "ExpressionStatement",

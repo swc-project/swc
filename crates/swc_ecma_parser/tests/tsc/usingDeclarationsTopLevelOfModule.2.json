@@ -9,7 +9,7 @@
       "type": "UsingDeclaration",
       "span": {
         "start": 118,
-        "end": 154
+        "end": 153
       },
       "isAwait": false,
       "decls": [
@@ -97,6 +97,13 @@
           "definite": false
         }
       ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 153,
+        "end": 154
+      }
     },
     {
       "type": "VariableDeclaration",

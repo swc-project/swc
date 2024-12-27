@@ -66,7 +66,7 @@
       "type": "UsingDeclaration",
       "span": {
         "start": 119,
-        "end": 173
+        "end": 172
       },
       "isAwait": false,
       "decls": [
@@ -176,10 +176,17 @@
       ]
     },
     {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 172,
+        "end": 173
+      }
+    },
+    {
       "type": "UsingDeclaration",
       "span": {
         "start": 175,
-        "end": 247
+        "end": 246
       },
       "isAwait": false,
       "decls": [
@@ -323,10 +330,17 @@
       ]
     },
     {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 246,
+        "end": 247
+      }
+    },
+    {
       "type": "UsingDeclaration",
       "span": {
         "start": 249,
-        "end": 308
+        "end": 307
       },
       "isAwait": false,
       "decls": [
@@ -454,10 +468,17 @@
       ]
     },
     {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 307,
+        "end": 308
+      }
+    },
+    {
       "type": "UsingDeclaration",
       "span": {
         "start": 310,
-        "end": 387
+        "end": 386
       },
       "isAwait": false,
       "decls": [
@@ -617,6 +638,13 @@
           "definite": false
         }
       ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 386,
+        "end": 387
+      }
     }
   ],
   "interpreter": null

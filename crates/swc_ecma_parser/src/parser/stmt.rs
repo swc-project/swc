@@ -839,8 +839,6 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        eat!(self, ';');
-
         Ok(Some(Box::new(UsingDecl {
             span: span!(self, start),
             is_await,
