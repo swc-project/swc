@@ -46,7 +46,7 @@ impl Default for Config {
         Self {
             target: EsVersion::latest(),
             minify: false,
-            ascii_only: false,
+            ascii_only: true,
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
             inline_script: false,
