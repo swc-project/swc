@@ -7,7 +7,6 @@ class A {
         };
         try {
             const x = _ts_add_disposable_resource(env, y, false);
-            ;
             doSomethingWith(x);
         } catch (e) {
             env.error = e;

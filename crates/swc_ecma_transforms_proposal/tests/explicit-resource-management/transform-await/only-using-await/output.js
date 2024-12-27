@@ -6,10 +6,8 @@
     };
     try {
         const x = _ts_add_disposable_resource(env, obj, true);
-        ;
         stmt;
         const y = _ts_add_disposable_resource(env, obj, true), z = _ts_add_disposable_resource(env, obj, true);
-        ;
         doSomethingWith(x, y);
     } catch (e) {
         env.error = e;
