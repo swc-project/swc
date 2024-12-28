@@ -102,6 +102,10 @@ impl<'a> RawBuffer<'a> {
         }
     }
 
+    pub fn is_ascii(&self, c: u8) -> bool {
+        self.cur_char() == Some(c as char)
+    }
+
     pub fn eat_ascii(&mut self, c: u8) -> bool {
         let cur = self.cur_char();
 
