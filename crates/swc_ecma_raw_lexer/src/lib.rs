@@ -92,14 +92,11 @@ impl<'a> RawBuffer<'a> {
             return "";
         };
 
-        let s = unsafe { self.lexer.source().get_unchecked(span) };
-
-        dbg!(self.cur());
-        dbg!(self.lexer.span());
-
-        dbg!(s);
-
-        s
+        unsafe {
+            // Safety: `span` is within the bounds of `self.lexer` because we get it from
+            // `self.lexer.next()`
+            self.lexer.source().get_unchecked(span)
+        }
     }
 
     /// # Safety
@@ -156,16 +153,8 @@ impl Iterator for RawBuffer<'_> {
     type Item = Result<RawToken, UnknownChar>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let len = self.lexer.span().len();
-        self.pos = self.pos + BytePos(len as u32);
-
-        dbg!(self.lexer.span().len());
-        self.cur_slice();
-
-        let (previous_token, _) = self.lexer.next()?;
-        dbg!(&previous_token);
-        dbg!(self.lexer.span().len());
-        self.cur_slice();
+        let (previous_token, span) = self.lexer.next()?;
+        self.pos = self.pos + BytePos(span.len() as u32);
 
         let item = match previous_token {
             Ok(item) => item,
