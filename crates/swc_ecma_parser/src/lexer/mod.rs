@@ -8,7 +8,7 @@ use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{AssignOp, EsVersion};
 use swc_ecma_raw_lexer::{RawBuffer, RawToken};
 
-use self::{comments_buffer::CommentsBuffer, state::State};
+use self::{comments_buffer::CommentsBuffer, state::State, util::CharExt};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
@@ -430,7 +430,7 @@ impl<'a> Lexer<'a> {
 
         self.bump(); // '\'
 
-        let c = match self.input.cur()? {
+        let c = match self.input.cur_char() {
             Some(c) => c,
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };
@@ -488,7 +488,7 @@ impl<'a> Lexer<'a> {
                 self.bump();
 
                 let first_c = if c == '0' {
-                    match self.input.cur()? {
+                    match self.input.cur_char() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
                         _ => return Ok(Some(vec!['\u{0000}'.into()])),
@@ -508,7 +508,7 @@ impl<'a> Lexer<'a> {
 
                 macro_rules! one {
                     ($check:expr) => {{
-                        let cur = self.input.cur();
+                        let cur = self.input.cur_char();
 
                         match cur.and_then(|c| c.to_digit(8)) {
                             Some(v) => {
@@ -550,14 +550,14 @@ impl<'a> Lexer<'a> {
 
 impl Lexer<'_> {
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
-        debug_assert_eq!(self.input.cur(), Some('u'));
+        debug_assert_eq!(self.input.cur_char(), Some('u'));
 
         let mut chars = Vec::new();
         let mut is_curly = false;
 
         self.bump(); // 'u'
 
-        if self.input.eat(b'{') {
+        if self.input.eat_ascii(b'{') {
             is_curly = true;
         }
 
@@ -614,7 +614,7 @@ impl Lexer<'_> {
                     chars.push(Char::from('{'));
 
                     for _ in 0..6 {
-                        if let Some(c) = self.input.cur() {
+                        if let Some(c) = self.input.cur_char() {
                             if c == '}' {
                                 break;
                             }
@@ -630,7 +630,7 @@ impl Lexer<'_> {
                     chars.push(Char::from('}'));
                 } else {
                     for _ in 0..4 {
-                        if let Some(c) = self.input.cur()? {
+                        if let Some(c) = self.input.cur_char() {
                             self.bump();
 
                             chars.push(Char::from(c));
@@ -640,7 +640,7 @@ impl Lexer<'_> {
             }
         }
 
-        if is_curly && !self.input.eat(b'}') {
+        if is_curly && !self.input.eat_ascii(b'}') {
             self.error(state, SyntaxError::InvalidUnicodeEscape)?
         }
 
@@ -654,7 +654,7 @@ impl Lexer<'_> {
             self.input.reset_to(start);
         }
 
-        debug_assert_eq!(self.input.cur(), Some('/'));
+        debug_assert_eq!(self.input.cur_char(), Some('/'));
 
         let start = self.input.cur_pos();
 
@@ -663,7 +663,7 @@ impl Lexer<'_> {
         let (mut escaped, mut in_class) = (false, false);
 
         let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.input.cur() {
+            while let Some(c) = l.input.cur_char() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_terminator() {
@@ -694,7 +694,7 @@ impl Lexer<'_> {
         })?;
 
         // input is terminated without following `/`
-        if !self.is(b'/') {
+        if !self.input.is_ascii(b'/') {
             let span = self.span(start);
 
             return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
@@ -710,9 +710,9 @@ impl Lexer<'_> {
         // let flags_start = self.input.cur_pos();
         let flags = {
             if self.input.cur()? == Some(RawToken::Ident) {
-                let s = self.input.cur_slice();
+                let s = self.atoms.atom(self.input.cur_slice());
                 self.input.next().transpose()?;
-                Some(self.atoms.atom(s))
+                Some(s)
             } else {
                 None
             }
