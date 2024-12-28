@@ -80,6 +80,7 @@ impl<'a> RawBuffer<'a> {
     }
 
     pub fn cur_slice(&self) -> &str {
+        dbg!(self.lexer.span());
         self.lexer.slice()
     }
 
@@ -136,15 +137,19 @@ impl Iterator for RawBuffer<'_> {
     type Item = Result<RawToken, UnknownChar>;
 
     fn next(&mut self) -> Option<Self::Item> {
+        let len = self.lexer.span().len();
+        self.pos = self.pos + BytePos(len as u32);
+
+        dbg!(self.pos);
+        dbg!(self.lexer.span());
+        dbg!(self.cur_slice());
+
         let item = self.lexer.next()?;
-        dbg!(&item, self.cur_slice());
+        dbg!(&item);
         let item = match item {
             Ok(item) => item,
             Err(e) => return Some(Err(e)),
         };
-
-        let len = self.lexer.span().len();
-        self.pos = self.pos + BytePos(len as u32);
 
         Some(Ok(item))
     }
