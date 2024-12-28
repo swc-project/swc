@@ -165,7 +165,7 @@ impl Lexer<'_> {
         let start_pos = self.input.cur_pos();
 
         for _ in 0..10 {
-            let c = match self.input.cur()? {
+            let c = match self.input.cur_char() {
                 Some(c) => c,
                 None => break,
             };
@@ -174,7 +174,7 @@ impl Lexer<'_> {
                 self.input.bump(1);
             }
 
-            if c == RawToken::Semi {
+            if c == ';' {
                 if let Some(stripped) = s.strip_prefix('#') {
                     if stripped.starts_with('x') {
                         if is_hex(&s[2..]) {
@@ -211,13 +211,13 @@ impl Lexer<'_> {
     ) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax.jsx());
 
-        let ch = self.input.cur().unwrap();
+        let ch = self.input.cur_char().unwrap();
         unsafe {
             // Safety: cur() was Some(ch)
             self.input.bump(1);
         }
 
-        let out = if ch == '\r' && self.input.cur() == Some('\n') {
+        let out = if ch == '\r' && self.input.cur_char() == Some('\n') {
             unsafe {
                 // Safety: cur() was Some('\n')
                 self.input.bump(1);
@@ -238,81 +238,10 @@ impl Lexer<'_> {
 
         let start = self.input.cur_pos();
 
-        let mut out = String::new();
-        let mut chunk_start = self.input.cur_pos();
+        let chunk_start = self.input.cur_pos();
 
-        loop {
-            let ch = match self.input.cur()? {
-                Some(c) => c,
-                None => {
-                    let start = self.state.start;
-                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
-                    break;
-                }
-            };
-
-            let cur_pos = self.input.cur_pos();
-
-            if ch == '\\' {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
-
-                out.push_str(value);
-                out.push('\\');
-
-                self.bump();
-
-                chunk_start = self.input.cur_pos();
-
-                continue;
-            }
-
-            if ch == quote {
-                break;
-            }
-
-            if ch == '&' {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
-
-                out.push_str(value);
-
-                let jsx_entity = self.read_jsx_entity()?;
-
-                out.push(jsx_entity.0);
-
-                chunk_start = self.input.cur_pos();
-            } else if ch.is_line_terminator() {
-                let value = unsafe {
-                    // Safety: We already checked for the range
-                    self.input.slice(chunk_start, cur_pos)
-                };
-
-                out.push_str(value);
-
-                match self.read_jsx_new_line(false)? {
-                    Either::Left(s) => {
-                        out.push_str(s);
-                    }
-                    Either::Right(c) => {
-                        out.push(c);
-                    }
-                }
-
-                chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
-            } else {
-                unsafe {
-                    // Safety: cur() was Some(ch)
-                    self.input.bump(1);
-                }
-            }
-        }
-
-        let value = if out.is_empty() {
+        // TODO(kdy1): Use proper string calculation
+        let value = {
             // Fast path: We don't need to allocate
 
             let cur_pos = self.input.cur_pos();
@@ -322,16 +251,6 @@ impl Lexer<'_> {
             };
 
             self.atoms.atom(value)
-        } else {
-            let cur_pos = self.input.cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input.slice(chunk_start, cur_pos)
-            };
-
-            out.push_str(value);
-
-            self.atoms.atom(out)
         };
 
         // it might be at the end of the file when

@@ -1,15 +1,14 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
-use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
-use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
+use swc_ecma_ast::{AssignOp, EsVersion};
 use swc_ecma_raw_lexer::{RawBuffer, RawToken};
 
-use self::{comments_buffer::CommentsBuffer, state::State, util::*};
+use self::{comments_buffer::CommentsBuffer, state::State};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
