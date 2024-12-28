@@ -102,6 +102,20 @@ impl<'a> RawBuffer<'a> {
         }
     }
 
+    pub fn eat_char(&mut self, c: char) -> Result<bool, UnknownChar> {
+        let cur = self.cur_char();
+
+        if cur == Some(c) {
+            unsafe {
+                // Safety: We already checked for the current char
+                self.bump(c.len_utf8());
+            }
+            Ok(true)
+        } else {
+            Ok(false)
+        }
+    }
+
     /// # Safety
     ///
     /// - `pos` must be within the bounds of `self.orig_str`
