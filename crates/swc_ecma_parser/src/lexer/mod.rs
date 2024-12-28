@@ -177,7 +177,7 @@ impl<'a> Lexer<'a> {
         };
 
         Ok(Some(match cur {
-            RawToken::LegacyCommentOpen => {
+            RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
                 self.input.next().transpose()?;
                 self.skip_space::<true>();
@@ -317,8 +317,6 @@ impl<'a> Lexer<'a> {
             }
             RawToken::LineComment
             | RawToken::BlockComment
-            | RawToken::LegacyCommentOpen
-            | RawToken::LegacyCommentClose
             | RawToken::LConflictMarker
             | RawToken::RConflictMarker => {
                 self.input.next().transpose()?;

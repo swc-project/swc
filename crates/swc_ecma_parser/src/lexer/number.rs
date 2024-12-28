@@ -359,7 +359,7 @@ impl Lexer<'_> {
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match self.input.cur() {
+        match self.input.cur_char() {
             Some(c) if c.is_ident_start() => {
                 let span = pos_span(self.input.cur_pos());
                 self.error_span(span, SyntaxError::IdentAfterNum)?
@@ -469,7 +469,7 @@ impl Lexer<'_> {
                     }
                 };
 
-                let next = self.input.peek();
+                let next = self.input.peek_char();
 
                 if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
                     self.emit_error(
