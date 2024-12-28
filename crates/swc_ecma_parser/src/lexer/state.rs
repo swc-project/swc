@@ -260,11 +260,11 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space::<true>()?;
-            *start = self.input.cur_pos();
-        };
+        // // skip spaces before getting next character, if we are allowed to.
+        // if self.state.can_skip_space() {
+        //     self.skip_space::<true>()?;
+        //     *start = self.input.cur_pos();
+        // };
 
         match self.input.cur()? {
             Some(..) => {}

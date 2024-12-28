@@ -129,7 +129,7 @@ lto = true
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
 
-# debug = true
+debug = true
 # opt-level = 'z'
 
 [profile.bench]
