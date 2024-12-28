@@ -321,9 +321,7 @@ impl<'a> Lexer<'a> {
             | RawToken::LegacyCommentClose
             | RawToken::LConflictMarker
             | RawToken::RConflictMarker => {
-                // self.skip_line_comment(0);
-                // self.skip_space::<true>();
-                self.skip_line_comment(5);
+                self.input.next().transpose()?;
                 self.skip_space::<true>();
                 return self.read_token();
             }
@@ -426,7 +424,7 @@ impl<'a> Lexer<'a> {
     ///
     /// In template literal, we should preserve raw string.
     fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
-        debug_assert_eq!(self.input.cur(), Some('\\'));
+        debug_assert_eq!(self.input.cur_char(), Some('\\'));
 
         let start = self.input.cur_pos();
 
