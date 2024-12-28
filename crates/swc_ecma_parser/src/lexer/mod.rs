@@ -180,7 +180,7 @@ impl<'a> Lexer<'a> {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
                 self.input.next().transpose()?;
-                self.skip_space::<true>();
+                self.skip_space::<true>()?;
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
                 return self.read_token();
@@ -264,7 +264,10 @@ impl<'a> Lexer<'a> {
                 raw: self.atoms.atom(self.input.cur_slice()),
             },
 
-            RawToken::Shebang => Token::Shebang(self.atoms.atom(self.input.cur_slice())),
+            RawToken::Shebang => {
+                self.emit_error(start, SyntaxError::UnexpectedToken);
+                return self.read_token();
+            }
 
             RawToken::Null => Token::Word(Word::Null),
             RawToken::True => Token::Word(Word::True),

@@ -33,7 +33,7 @@ impl Lexer<'_> {
                     // Bump conflict marker
                     self.input.next().transpose()?;
 
-                    self.skip_space::<true>();
+                    self.skip_space::<true>()?;
                     return self.read_token();
                 }
                 RawToken::LtOp | RawToken::LBrace => {
