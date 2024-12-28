@@ -722,15 +722,11 @@ impl Lexer<'_> {
 
     #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if self.input.cur_char() != Some('#') || self.input.peek_char() != Some('!') {
+        if !self.input.eat(RawToken::Shebang)? {
             return Ok(None);
         }
-        unsafe {
-            // Safety: "#!"
-            self.input.bump(2);
-        }
-        let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(self.atoms.atom(s)))
+
+        Ok(Some(self.atoms.atom(self.input.cur_slice())))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
