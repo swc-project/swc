@@ -176,6 +176,8 @@ impl<'a> Lexer<'a> {
             None => return Ok(None),
         };
 
+        dbg!(&cur);
+
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
