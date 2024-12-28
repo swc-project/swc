@@ -49,16 +49,24 @@ impl<'a> RawBuffer<'a> {
         self.lexer.clone().next().transpose()
     }
 
-    pub fn cur_char(&self) -> Option<char> {
-        self.lexer.remainder().chars().next()
-    }
-
     pub fn peek(&self) -> Result<Option<RawToken>, UnknownChar> {
         self.lexer.clone().nth(1).transpose()
     }
 
     pub fn peek_ahead(&self) -> Result<Option<RawToken>, UnknownChar> {
         self.lexer.clone().nth(2).transpose()
+    }
+
+    pub fn cur_char(&self) -> Option<char> {
+        self.lexer.remainder().chars().next()
+    }
+
+    pub fn peek_char(&self) -> Option<char> {
+        self.lexer.remainder().chars().nth(1)
+    }
+
+    pub fn peek_ahead_char(&self) -> Option<char> {
+        self.lexer.remainder().chars().nth(2)
     }
 
     /// # Safety
