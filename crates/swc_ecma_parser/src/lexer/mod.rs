@@ -266,6 +266,7 @@ impl<'a> Lexer<'a> {
 
             RawToken::Shebang => {
                 self.emit_error(start, SyntaxError::UnexpectedToken);
+                self.input.next().transpose()?;
                 return self.read_token();
             }
 
@@ -315,6 +316,7 @@ impl<'a> Lexer<'a> {
                 self.atoms.atom(self.input.cur_slice())
             }))),
             RawToken::NewLine | RawToken::Whitespace => {
+                self.input.next().transpose()?;
                 // self.skip_space::<true>();
                 return self.read_token();
             }
@@ -323,7 +325,7 @@ impl<'a> Lexer<'a> {
             | RawToken::LConflictMarker
             | RawToken::RConflictMarker => {
                 self.input.next().transpose()?;
-                self.skip_space::<true>();
+                self.skip_space::<true>()?;
                 return self.read_token();
             }
             RawToken::Await => Token::Word(Word::Keyword(Keyword::Await)),
