@@ -727,7 +727,7 @@ impl Lexer<'_> {
 
     #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
+        if self.input.cur_char() != Some('#') || self.input.peek_char() != Some('!') {
             return Ok(None);
         }
         unsafe {
