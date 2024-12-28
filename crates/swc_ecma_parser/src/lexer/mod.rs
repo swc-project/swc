@@ -176,7 +176,7 @@ impl<'a> Lexer<'a> {
             None => return Ok(None),
         };
 
-        Ok(Some(match cur {
+        let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
                 self.input.next().transpose()?;
@@ -420,7 +420,11 @@ impl<'a> Lexer<'a> {
             }
             RawToken::Private => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private))),
             RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
-        }))
+        };
+
+        self.input.next().transpose()?;
+
+        Ok(Some(token))
     }
 
     /// Read an escaped character for string literal.
