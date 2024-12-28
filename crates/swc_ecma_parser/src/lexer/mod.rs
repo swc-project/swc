@@ -176,7 +176,7 @@ impl<'a> Lexer<'a> {
             None => return Ok(None),
         };
 
-        dbg!(&cur, self.input.cur_pos(), self.input.cur_slice());
+        dbg!(&cur, start, self.input.cur_slice());
 
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
