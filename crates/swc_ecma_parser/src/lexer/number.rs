@@ -37,7 +37,7 @@ impl Lexer<'_> {
 
         if starts_with_dot {
             debug_assert_eq!(
-                self.input.cur(),
+                self.input.cur_char(),
                 Some('.'),
                 "read_number(starts_with_dot = true) expects current char to be '.'"
             );
@@ -49,12 +49,12 @@ impl Lexer<'_> {
             // first char is '.'
             0f64
         } else {
-            let starts_with_zero = self.input.cur().unwrap() == '0';
+            let starts_with_zero = self.input.cur_char() == Some('0');
 
             // Use read_number_no_dot to support long numbers.
             let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
 
-            if self.input.eat(b'n') {
+            if self.input.eat_ascii(b'n') {
                 let end = self.input.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
@@ -77,7 +77,7 @@ impl Lexer<'_> {
                     // e.g. `0` is decimal (so it can be part of float)
                     //
                     // e.g. `000` is octal
-                    if start.0 != self.last_pos().0 - 1 {
+                    if start.0 != self.input.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
                         let end = self.input.cur_pos();
@@ -140,12 +140,12 @@ impl Lexer<'_> {
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
-        if self.input.cur() == Some('.') {
+        if self.input.cur_char() == Some('.') {
             self.bump();
 
             if starts_with_dot {
-                debug_assert!(self.input.cur()?.is_some());
-                debug_assert!(self.input.cur().unwrap().is_ascii_digit());
+                debug_assert!(self.input.cur_char()?.is_some());
+                debug_assert!(self.input.cur_char().unwrap().is_ascii_digit());
             }
 
             // Read numbers after dot
@@ -541,7 +541,7 @@ mod tests {
                 None,
             );
             let ret = f(&mut l);
-            assert_eq!(l.input.cur(), None);
+            assert_eq!(l.input.cur_char(), None);
             Ok(ret)
         })
         .unwrap()

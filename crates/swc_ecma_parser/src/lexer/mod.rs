@@ -755,8 +755,8 @@ impl Lexer<'_> {
             }};
         }
 
-        while let Some(c) = self.input.cur() {
-            if c == '`' || (c == '$' && self.input.peek() == Some('{')) {
+        while let Some(c) = self.input.cur_char() {
+            if c == '`' || (c == '$' && self.input.peek_char() == Some('{')) {
                 if start == self.input.cur_pos() && self.state.last_was_tpl_element() {
                     if c == '$' {
                         self.bump();
@@ -820,7 +820,7 @@ impl Lexer<'_> {
 
                 consume_cooked!();
 
-                let c = if c == '\r' && self.input.peek() == Some('\n') {
+                let c = if c == '\r' && self.input.peek_char() == Some('\n') {
                     self.bump(); // '\r'
                     '\n'
                 } else {
