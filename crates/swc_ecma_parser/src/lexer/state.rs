@@ -320,9 +320,6 @@ impl Lexer<'_> {
                     && self.state.is_expr_allowed
                     && self.input.peek()? != Some(RawToken::Bang)
                 {
-                    let had_line_break_before_last = self.had_line_break_before_last();
-                    let cur_pos = self.input.cur_pos();
-
                     unsafe {
                         // Safety: cur() is Some('<')
                         self.input.bump(1);

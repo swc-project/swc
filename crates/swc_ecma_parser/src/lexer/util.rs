@@ -114,7 +114,7 @@ impl Lexer<'_> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> Result<()> {
+    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
         match self.input.cur()? {
             Some(RawToken::Whitespace | RawToken::NewLine) => {
                 self.input.next().transpose()?;
@@ -128,6 +128,8 @@ impl Lexer<'_> {
             ) if LEX_COMMENTS => {
                 self.input.next().transpose()?;
             }
+
+            _ => {}
         }
 
         Ok(())

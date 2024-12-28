@@ -77,7 +77,7 @@ impl Lexer<'_> {
                     // e.g. `0` is decimal (so it can be part of float)
                     //
                     // e.g. `000` is octal
-                    if start.0 != self.input.last_pos().0 - 1 {
+                    if start.0 != self.input.cur_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
 
                         let end = self.input.cur_pos();
@@ -144,7 +144,7 @@ impl Lexer<'_> {
             self.bump();
 
             if starts_with_dot {
-                debug_assert!(self.input.cur_char()?.is_some());
+                debug_assert!(self.input.cur_char().is_some());
                 debug_assert!(self.input.cur_char().unwrap().is_ascii_digit());
             }
 
@@ -175,11 +175,11 @@ impl Lexer<'_> {
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        match self.input.cur() {
+        match self.input.cur_char() {
             Some('e') | Some('E') => {
                 self.bump();
 
-                let next = match self.input.cur() {
+                let next = match self.input.cur_char() {
                     Some(next) => next,
                     None => {
                         let pos = self.input.cur_pos();
@@ -241,7 +241,7 @@ impl Lexer<'_> {
             "radix should be one of 2, 8, 16, but got {}",
             RADIX
         );
-        debug_assert_eq!(self.input.cur(), Some('0'));
+        debug_assert_eq!(self.input.cur_char(), Some('0'));
 
         let start = self.input.cur_pos();
 
@@ -258,7 +258,7 @@ impl Lexer<'_> {
 
         let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
 
-        if self.input.eat(b'n') {
+        if self.input.eat_ascii(b'n') {
             let end = self.input.cur_pos();
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`
@@ -446,7 +446,7 @@ impl Lexer<'_> {
         let mut total: Ret = Default::default();
         let mut prev = None;
 
-        while let Some(c) = self.input.cur() {
+        while let Some(c) = self.input.cur_char() {
             if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
