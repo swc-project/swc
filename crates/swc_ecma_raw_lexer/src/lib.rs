@@ -81,7 +81,7 @@ impl<'a> RawBuffer<'a> {
 
     pub fn cur_slice(&self) -> &str {
         dbg!(self.lexer.span());
-        self.lexer.slice()
+        dbg!(self.lexer.slice())
     }
 
     /// # Safety
@@ -140,13 +140,15 @@ impl Iterator for RawBuffer<'_> {
         let len = self.lexer.span().len();
         self.pos = self.pos + BytePos(len as u32);
 
-        dbg!(self.pos);
-        dbg!(self.lexer.span());
-        dbg!(self.cur_slice());
+        dbg!(self.lexer.span().len());
+        self.cur_slice();
 
-        let item = self.lexer.next()?;
-        dbg!(&item);
-        let item = match item {
+        let previous_token = self.lexer.next()?;
+        dbg!(&previous_token);
+        dbg!(self.lexer.span().len());
+        self.cur_slice();
+
+        let item = match previous_token {
             Ok(item) => item,
             Err(e) => return Some(Err(e)),
         };

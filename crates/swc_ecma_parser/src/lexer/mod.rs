@@ -425,7 +425,7 @@ impl<'a> Lexer<'a> {
             RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
         };
 
-        self.input.next().transpose()?;
+        dbg!(self.input.next().transpose()?);
 
         Ok(Some(token))
     }

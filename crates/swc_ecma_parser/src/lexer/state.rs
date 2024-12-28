@@ -262,7 +262,7 @@ impl Lexer<'_> {
 
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
-            self.skip_space::<true>();
+            self.skip_space::<true>()?;
             *start = self.input.cur_pos();
         };
 
