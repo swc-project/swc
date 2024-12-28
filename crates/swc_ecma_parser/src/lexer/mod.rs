@@ -175,6 +175,7 @@ impl<'a> Lexer<'a> {
             Some(cur) => cur,
             None => return Ok(None),
         };
+        dbg!(&cur);
 
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
@@ -237,7 +238,9 @@ impl<'a> Lexer<'a> {
                 } else if let Some(s) = s.strip_prefix("0b").or_else(|| s.strip_prefix("0B")) {
                     usize::from_str_radix(s, 2).unwrap() as f64
                 } else {
-                    s.parse::<f64>().unwrap()
+                    s.parse::<f64>().unwrap_or_else(|_| {
+                        panic!("failed to parse number: {}", s);
+                    })
                 };
 
                 Token::Num {
