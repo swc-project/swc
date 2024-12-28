@@ -3,18 +3,26 @@
 //!
 //! It may updated without proper semver bump.
 
+use std::fmt::Debug;
+
 use logos::{Lexer, Logos, Skip};
 use swc_common::{input::StringInput, BytePos};
 
 pub mod jsx;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct RawBuffer<'a> {
-    lexer: logos::Lexer<'a, RawToken>,
+    lexer: logos::SpannedIter<'a, RawToken>,
     pos: BytePos,
     orig_str: &'a str,
     start_pos: BytePos,
     end_pos: BytePos,
+}
+
+impl Debug for RawBuffer<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "RawBuffer {{ pos: {:?} }}", self.pos)
+    }
 }
 
 #[derive(Debug, Clone, Default)]
@@ -25,7 +33,7 @@ pub struct TokenState {
 impl<'a> RawBuffer<'a> {
     pub fn new(input: StringInput<'a>) -> Self {
         Self {
-            lexer: logos::Lexer::new(input.as_str()),
+            lexer: logos::Lexer::new(input.as_str()).spanned(),
             pos: input.start_pos(),
             orig_str: input.as_str(),
             start_pos: input.start_pos(),
@@ -46,15 +54,15 @@ impl<'a> RawBuffer<'a> {
     }
 
     pub fn cur(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().next().transpose()
+        self.lexer.clone().next().map(|(t, _)| t).transpose()
     }
 
     pub fn peek(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().nth(1).transpose()
+        self.lexer.clone().nth(1).map(|(t, _)| t).transpose()
     }
 
     pub fn peek_ahead(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().nth(2).transpose()
+        self.lexer.clone().nth(2).map(|(t, _)| t).transpose()
     }
 
     pub fn cur_char(&self) -> Option<char> {
@@ -80,8 +88,18 @@ impl<'a> RawBuffer<'a> {
     }
 
     pub fn cur_slice(&self) -> &str {
+        let Some((_, span)) = self.lexer.clone().next() else {
+            return "";
+        };
+
+        let s = unsafe { self.lexer.source().get_unchecked(span) };
+
+        dbg!(self.cur());
         dbg!(self.lexer.span());
-        dbg!(self.lexer.slice())
+
+        dbg!(s);
+
+        s
     }
 
     /// # Safety
@@ -128,7 +146,8 @@ impl<'a> RawBuffer<'a> {
         let lo = pos.0 - self.start_pos.0;
         let hi = self.end_pos.0 - self.start_pos.0;
 
-        self.lexer = logos::Lexer::new(self.orig_str.get_unchecked(lo as usize..hi as usize));
+        self.lexer =
+            logos::Lexer::new(self.orig_str.get_unchecked(lo as usize..hi as usize)).spanned();
         self.pos = pos;
     }
 }
@@ -143,7 +162,7 @@ impl Iterator for RawBuffer<'_> {
         dbg!(self.lexer.span().len());
         self.cur_slice();
 
-        let previous_token = self.lexer.next()?;
+        let (previous_token, _) = self.lexer.next()?;
         dbg!(&previous_token);
         dbg!(self.lexer.span().len());
         self.cur_slice();
