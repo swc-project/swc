@@ -8,11 +8,15 @@ use std::fmt::Debug;
 use logos::{Lexer, Logos, Skip};
 use swc_common::{input::StringInput, BytePos};
 
+use crate::peek::{peek_nth, PeekNth};
+
 pub mod jsx;
+mod peek;
+mod size_hint;
 
 #[derive(Clone)]
 pub struct RawBuffer<'a> {
-    lexer: logos::SpannedIter<'a, RawToken>,
+    lexer: PeekNth<logos::SpannedIter<'a, RawToken>>,
     pos: BytePos,
     orig_str: &'a str,
     start_pos: BytePos,
@@ -33,7 +37,7 @@ pub struct TokenState {
 impl<'a> RawBuffer<'a> {
     pub fn new(input: StringInput<'a>) -> Self {
         Self {
-            lexer: logos::Lexer::new(input.as_str()).spanned(),
+            lexer: peek_nth(logos::Lexer::new(input.as_str()).spanned()),
             pos: input.start_pos(),
             orig_str: input.as_str(),
             start_pos: input.start_pos(),
@@ -53,28 +57,34 @@ impl<'a> RawBuffer<'a> {
         self.pos
     }
 
-    pub fn cur(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().next().map(|(t, _)| t).transpose()
+    pub fn cur(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+        self.lexer.peek().map(|(t, _)| *t).transpose()
     }
 
-    pub fn peek(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().nth(1).map(|(t, _)| t).transpose()
+    pub fn peek(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+        self.lexer.peek_nth(1).map(|(t, _)| *t).transpose()
     }
 
-    pub fn peek_ahead(&self) -> Result<Option<RawToken>, UnknownChar> {
-        self.lexer.clone().nth(2).map(|(t, _)| t).transpose()
+    pub fn peek_ahead(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+        self.lexer.peek_nth(2).map(|(t, _)| *t).transpose()
     }
 
-    pub fn cur_char(&self) -> Option<char> {
-        self.lexer.remainder().chars().next()
+    pub fn cur_char(&mut self) -> Option<char> {
+        self.reset_peeked();
+
+        self.lexer.inner_mut().remainder().chars().next()
     }
 
-    pub fn peek_char(&self) -> Option<char> {
-        self.lexer.remainder().chars().nth(1)
+    pub fn peek_char(&mut self) -> Option<char> {
+        self.reset_peeked();
+
+        self.lexer.inner_mut().remainder().chars().nth(1)
     }
 
-    pub fn peek_ahead_char(&self) -> Option<char> {
-        self.lexer.remainder().chars().nth(2)
+    pub fn peek_ahead_char(&mut self) -> Option<char> {
+        self.reset_peeked();
+
+        self.lexer.inner_mut().remainder().chars().nth(2)
     }
 
     /// # Safety
@@ -87,15 +97,16 @@ impl<'a> RawBuffer<'a> {
         self.orig_str.get_unchecked(lo as usize..hi as usize)
     }
 
-    pub fn cur_slice(&self) -> &str {
-        let Some((_, span)) = self.lexer.clone().next() else {
+    pub fn cur_slice(&mut self) -> &str {
+        let Some((_, span)) = self.lexer.peek() else {
             return "";
         };
+        let span = span.clone();
 
         unsafe {
             // Safety: `span` is within the bounds of `self.lexer` because we get it from
             // `self.lexer.next()`
-            self.lexer.source().get_unchecked(span)
+            self.lexer.inner_mut().source().get_unchecked(span)
         }
     }
 
@@ -103,7 +114,9 @@ impl<'a> RawBuffer<'a> {
     ///
     /// - `n` must be equal or smaller than  lefting length of `self.orig_str`
     pub unsafe fn bump(&mut self, n: usize) {
-        self.lexer.bump(n);
+        self.reset_peeked();
+
+        self.lexer.inner_mut().bump(n);
         self.pos = self.pos + BytePos(n as u32);
     }
 
@@ -118,7 +131,7 @@ impl<'a> RawBuffer<'a> {
         }
     }
 
-    pub fn is_ascii(&self, c: u8) -> bool {
+    pub fn is_ascii(&mut self, c: u8) -> bool {
         self.cur_char() == Some(c as char)
     }
 
@@ -143,9 +156,17 @@ impl<'a> RawBuffer<'a> {
         let lo = pos.0 - self.start_pos.0;
         let hi = self.end_pos.0 - self.start_pos.0;
 
-        self.lexer =
-            logos::Lexer::new(self.orig_str.get_unchecked(lo as usize..hi as usize)).spanned();
+        let source = self.orig_str.get_unchecked(lo as usize..hi as usize);
+
+        self.lexer = peek_nth(logos::Lexer::new(source).spanned());
         self.pos = pos;
+    }
+
+    fn reset_peeked(&mut self) {
+        unsafe {
+            // Safety: We already checked for the current char
+            self.reset_to(self.pos);
+        }
     }
 }
 
