@@ -175,7 +175,6 @@ impl<'a> Lexer<'a> {
             Some(cur) => cur,
             None => return Ok(None),
         };
-        dbg!(&cur);
 
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
@@ -425,7 +424,7 @@ impl<'a> Lexer<'a> {
             RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
         };
 
-        dbg!(self.input.next().transpose()?);
+        self.input.next().transpose()?;
 
         Ok(Some(token))
     }
