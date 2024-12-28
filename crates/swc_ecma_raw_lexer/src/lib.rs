@@ -102,17 +102,17 @@ impl<'a> RawBuffer<'a> {
         }
     }
 
-    pub fn eat_char(&mut self, c: char) -> Result<bool, UnknownChar> {
+    pub fn eat_ascii(&mut self, c: u8) -> bool {
         let cur = self.cur_char();
 
-        if cur == Some(c) {
+        if cur == Some(c as char) {
             unsafe {
                 // Safety: We already checked for the current char
-                self.bump(c.len_utf8());
+                self.bump(1);
             }
-            Ok(true)
+            true
         } else {
-            Ok(false)
+            false
         }
     }
 
