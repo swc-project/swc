@@ -130,5 +130,13 @@ describe("transform", () => {
                 })
             ).rejects.toMatchSnapshot();
         });
+
+        it("should not emit 'Caused by: failed to parse'", async () => {
+            await expect(
+                swc.transform("function foo() { await Promise.resolve(1); }", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
     });
 });

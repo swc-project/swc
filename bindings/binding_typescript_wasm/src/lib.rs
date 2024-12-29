@@ -53,5 +53,5 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 }
 
 pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
-    format!("{:?}", err).into()
+    format!("{}", err).into()
 }
