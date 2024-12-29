@@ -136,7 +136,7 @@ describe("transform", () => {
                 swc.transform("function foo() { await Promise.resolve(1); }", {
                     mode: "strip-only",
                 })
-            ).rejects.not.toMatchSnapshot();
+            ).rejects.toMatchSnapshot();
         });
     });
 });
