@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix minification of `framer-motion` by checking `cons.termniates()` ([#9818](https://github.com/swc-project/swc/issues/9818)) ([512c91f](https://github.com/swc-project/swc/commit/512c91fb6253f131f5d3e409427694e87cf7c873))
+
+
+- **(typescript)** Fix wrong check for super class ([#9822](https://github.com/swc-project/swc/issues/9822)) ([2307a4d](https://github.com/swc-project/swc/commit/2307a4d4d3def405c4a04726272e14d998880abb))
+
 ## [1.10.4] - 2024-12-30
 
 ### Bug Fixes
@@ -1486,9 +1497,6 @@
 
 ### Features
 
-
-
-- **(common)** Use `SourceMap::adjust_mappings` ([#9052](https://github.com/swc-project/swc/issues/9052)) ([eda2e45](https://github.com/swc-project/swc/commit/eda2e456915cf1c0bfc8e4e833bcd2b9c6c36a41))
 
 
 - **(es/ast)** Add more utilities ([#9054](https://github.com/swc-project/swc/issues/9054)) ([ab226dc](https://github.com/swc-project/swc/commit/ab226dcfb7abea0b14430697c53c0002bd823866))

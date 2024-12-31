@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "5.0.1"
 
 [dependencies]
 petgraph   = { workspace = true }

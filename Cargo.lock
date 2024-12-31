@@ -4602,7 +4602,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "9.0.3"
+version = "9.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5148,7 +5148,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "6.0.1"
+version = "6.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6008,7 +6008,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "5.0.0"
+version = "5.0.1"
 dependencies = [
  "petgraph",
  "rustc-hash",
