@@ -188,9 +188,7 @@ impl<'a> Lexer<'a> {
                 return self.read_token(start);
             }
 
-            RawToken::LConflictMarker | RawToken::RConflictMarker
-                if self.had_line_break_before_last() =>
-            {
+            RawToken::LConflictMarker | RawToken::RConflictMarker => {
                 // All conflict markers consist of the same character repeated seven times.
                 // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
                 // <<<<<<<
@@ -199,8 +197,8 @@ impl<'a> Lexer<'a> {
                 //    ^
 
                 self.emit_error_span(fixed_len_span(*start, 7), SyntaxError::TS1185);
-                // self.skip_line_comment(5);
-                // self.skip_space::<true>();
+                let _ = self.input.next();
+
                 *start = self.input.cur_pos();
                 return self.read_token(start);
             }
@@ -326,10 +324,7 @@ impl<'a> Lexer<'a> {
                 *start = self.input.cur_pos();
                 return self.read_token(start);
             }
-            RawToken::LineComment
-            | RawToken::BlockComment
-            | RawToken::LConflictMarker
-            | RawToken::RConflictMarker => {
+            RawToken::LineComment | RawToken::BlockComment => {
                 self.input.next().transpose()?;
                 // self.skip_space::<true>()?;
 
