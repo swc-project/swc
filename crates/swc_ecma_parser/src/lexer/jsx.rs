@@ -5,10 +5,9 @@ use swc_ecma_raw_lexer::RawToken;
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self, start: &mut BytePos) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
-        let start = self.input.cur_pos();
         let mut chunk_start = self.input.cur_pos();
         let mut value = String::new();
 
@@ -34,7 +33,8 @@ impl Lexer<'_> {
                     self.input.next().transpose()?;
 
                     self.skip_space::<true>()?;
-                    return self.read_token();
+                    *start = self.input.cur_pos();
+                    return self.read_token(start);
                 }
                 RawToken::LtOp | RawToken::LBrace => {
                     //
@@ -46,7 +46,8 @@ impl Lexer<'_> {
                             }
                             return Ok(Some(Token::JSXTagStart));
                         }
-                        return self.read_token();
+                        *start = self.input.cur_pos();
+                        return self.read_token(start);
                     }
 
                     let value = if value.is_empty() {
@@ -67,7 +68,7 @@ impl Lexer<'_> {
                     let raw = {
                         let s = unsafe {
                             // Safety: We already checked for the range
-                            self.input.slice(start, cur_pos)
+                            self.input.slice(*start, cur_pos)
                         };
                         self.atoms.atom(s)
                     };

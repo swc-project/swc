@@ -169,30 +169,28 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let start = self.input.cur_pos();
+    fn read_token(&mut self, start: &mut BytePos) -> LexResult<Option<Token>> {
         let cur = match self.input.cur()? {
             Some(cur) => cur,
             None => return Ok(None),
         };
 
-        dbg!(&cur, start, self.input.cur_slice());
+        dbg!(&cur, *start, self.input.cur_slice());
 
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
                 self.input.next().transpose()?;
                 self.skip_space::<true>()?;
-                self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
+                self.emit_module_mode_error(*start, SyntaxError::LegacyCommentInModule);
 
-                return self.read_token();
+                *start = self.input.cur_pos();
+                return self.read_token(start);
             }
 
             RawToken::LConflictMarker | RawToken::RConflictMarker
                 if self.had_line_break_before_last() =>
             {
-                let start = self.input.cur_pos();
-
                 // All conflict markers consist of the same character repeated seven times.
                 // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
                 // <<<<<<<
@@ -200,10 +198,11 @@ impl<'a> Lexer<'a> {
                 // >>>>>>>
                 //    ^
 
-                self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
+                self.emit_error_span(fixed_len_span(*start, 7), SyntaxError::TS1185);
                 // self.skip_line_comment(5);
                 // self.skip_space::<true>();
-                return self.read_token();
+                *start = self.input.cur_pos();
+                return self.read_token(start);
             }
             RawToken::Arrow => Token::Arrow,
             RawToken::Hash => Token::Hash,
@@ -269,9 +268,10 @@ impl<'a> Lexer<'a> {
             },
 
             RawToken::Shebang => {
-                self.emit_error(start, SyntaxError::UnexpectedToken);
+                self.emit_error(*start, SyntaxError::UnexpectedToken);
                 self.input.next().transpose()?;
-                return self.read_token();
+
+                return self.read_token(start);
             }
 
             RawToken::Null => Token::Word(Word::Null),
@@ -322,7 +322,9 @@ impl<'a> Lexer<'a> {
             RawToken::NewLine | RawToken::Whitespace => {
                 self.input.next().transpose()?;
                 // self.skip_space::<true>();
-                return self.read_token();
+
+                *start = self.input.cur_pos();
+                return self.read_token(start);
             }
             RawToken::LineComment
             | RawToken::BlockComment
@@ -330,7 +332,9 @@ impl<'a> Lexer<'a> {
             | RawToken::RConflictMarker => {
                 self.input.next().transpose()?;
                 self.skip_space::<true>()?;
-                return self.read_token();
+
+                *start = self.input.cur_pos();
+                return self.read_token(start);
             }
             RawToken::Await => Token::Word(Word::Keyword(Keyword::Await)),
             RawToken::Break => Token::Word(Word::Keyword(Keyword::Break)),

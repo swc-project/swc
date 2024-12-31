@@ -287,7 +287,7 @@ impl Lexer<'_> {
         if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
+                return self.read_jsx_token(start);
             }
 
             let c = self.input.cur()?;
@@ -335,7 +335,7 @@ impl Lexer<'_> {
             return self.read_tmpl_token(start).map(Some);
         }
 
-        self.read_token()
+        self.read_token(start)
     }
 }
 
