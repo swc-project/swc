@@ -419,10 +419,10 @@ pub enum RawToken {
     #[token("-->")]
     LegacyCommentClose,
 
-    #[token("<<<<<")]
+    #[token("<<<<<<<")]
     LConflictMarker,
 
-    #[token(">>>>>")]
+    #[token(">>>>>>>")]
     RConflictMarker,
 
     #[token("await")]
