@@ -2,12 +2,13 @@ use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_codegen::to_code_with_comments;
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_typescript::fast_dts::{FastDts, FastDtsOptions};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/**/*.ts")]
+#[testing::fixture("tests/**/*.tsx")]
 fn fixture(input: PathBuf) {
     let mut dts_code = String::new();
     let res = testing::run_test2(false, |cm, handler| {
@@ -18,7 +19,10 @@ fn fixture(input: PathBuf) {
         let comments = SingleThreadedComments::default();
         let mut program = parse_file_as_program(
             &fm,
-            Syntax::Typescript(Default::default()),
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
             Default::default(),
             Some(&comments),
             &mut Vec::new(),
