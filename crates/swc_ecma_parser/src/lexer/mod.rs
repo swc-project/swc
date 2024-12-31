@@ -467,7 +467,7 @@ impl<'a> Lexer<'a> {
             '\r' => {
                 self.bump(); // remove '\r'
 
-                self.input.eat(RawToken::NewLine);
+                self.input.eat(RawToken::NewLine)?;
 
                 return Ok(None);
             }
