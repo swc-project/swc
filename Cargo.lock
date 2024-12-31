@@ -1945,9 +1945,9 @@ dependencies = [
 
 [[package]]
 name = "hstr"
-version = "0.2.12"
+version = "0.2.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dae404c0c5d4e95d4858876ab02eecd6a196bb8caa42050dfa809938833fc412"
+checksum = "1ddb0a5bb453eee36a8a2e1f08b7938ac9e2f62dc464007af7b328d551eca6b9"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
