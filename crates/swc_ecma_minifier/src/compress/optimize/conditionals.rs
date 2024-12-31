@@ -121,7 +121,9 @@ impl Optimizer<'_> {
                     (
                         Some(Stmt::If(l @ IfStmt { alt: None, .. })),
                         Some(Stmt::If(r @ IfStmt { alt: None, .. })),
-                    ) => SyntaxContext::within_ignored_ctxt(|| l.cons.eq_ignore_span(&r.cons)),
+                    ) => SyntaxContext::within_ignored_ctxt(|| {
+                        l.cons.eq_ignore_span(&r.cons) && l.cons.terminates()
+                    }),
                     _ => false,
                 });
         if !has_work {
