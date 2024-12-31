@@ -134,32 +134,39 @@ where
         I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        GLOBALS.with(|globals| {
-            use rayon::prelude::*;
+        if nodes.len() >= threshold {
+            GLOBALS.with(|globals| {
+                use rayon::prelude::*;
 
-            let visitor = nodes
-                .into_par_iter()
-                .with_min_len(threshold)
-                .enumerate()
-                .map(|(idx, node)| {
-                    GLOBALS.set(globals, || {
-                        let mut visitor = Parallel::create(&*self);
-                        op(&mut visitor, idx, node);
+                let visitor = nodes
+                    .into_par_iter()
+                    .enumerate()
+                    .map(|(idx, node)| {
+                        GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            op(&mut visitor, idx, node);
 
-                        visitor
+                            visitor
+                        })
                     })
-                })
-                .reduce(
-                    || Parallel::create(&*self),
-                    |mut a, b| {
-                        Parallel::merge(&mut a, b);
+                    .reduce(
+                        || Parallel::create(&*self),
+                        |mut a, b| {
+                            Parallel::merge(&mut a, b);
 
-                        a
-                    },
-                );
+                            a
+                        },
+                    );
 
-            Parallel::merge(self, visitor);
-        });
+                Parallel::merge(self, visitor);
+            });
+
+            return;
+        }
+
+        for (idx, n) in nodes.into_iter().enumerate() {
+            op(self, idx, n);
+        }
     }
 }
 
