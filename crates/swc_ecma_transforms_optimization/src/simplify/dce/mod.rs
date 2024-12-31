@@ -127,9 +127,9 @@ impl Data {
     }
 
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
-        let from = self.node(&from);
-        let to = self.node(&to);
+    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
+        let from = self.node(from);
+        let to = self.node(to);
 
         match self.graph.edge_weight_mut(from, to) {
             Some(info) => {
@@ -335,8 +335,7 @@ impl Analyzer<'_> {
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    self.data
-                        .add_dep_edge(component.clone(), id.clone(), assign)
+                    self.data.add_dep_edge(component, &id, assign);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
