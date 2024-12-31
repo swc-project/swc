@@ -33,7 +33,7 @@ impl FastDts {
                             }
                             _ => {}
                         }
-                        break object.is_ident();
+                        break !object.is_ident();
                     }
                 }
                 _ => true,
