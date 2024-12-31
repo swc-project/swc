@@ -331,7 +331,7 @@ impl<'a> Lexer<'a> {
             | RawToken::LConflictMarker
             | RawToken::RConflictMarker => {
                 self.input.next().transpose()?;
-                self.skip_space::<true>()?;
+                // self.skip_space::<true>()?;
 
                 *start = self.input.cur_pos();
                 return self.read_token(start);
