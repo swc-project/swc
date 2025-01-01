@@ -665,7 +665,7 @@ impl VisitMut for TreeShaker {
 
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
-            if self.can_drop_assignment_to(unsafe { fast_id_from_ident(&id) }, false)
+            if self.can_drop_assignment_to(unsafe { fast_id_from_ident(id) }, false)
                 && !n.right.may_have_side_effects(&self.expr_ctx)
             {
                 self.changed = true;
@@ -978,7 +978,7 @@ impl VisitMut for TreeShaker {
             if cnt != 0
                 && v.decls.iter().all(|vd| match &vd.name {
                     Pat::Ident(i) => self.can_drop_binding(
-                        unsafe { fast_id_from_ident(&i) },
+                        unsafe { fast_id_from_ident(i) },
                         v.kind == VarDeclKind::Var,
                     ),
                     _ => false,
