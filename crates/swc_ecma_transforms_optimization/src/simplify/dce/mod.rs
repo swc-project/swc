@@ -93,7 +93,7 @@ struct TreeShaker {
 
     data: Arc<Data>,
 
-    bindings: Arc<AHashSet<Id>>,
+    bindings: Arc<AHashSet<FastId>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -104,7 +104,7 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    used_names: AHashMap<Id, VarInfo>,
+    used_names: AHashMap<FastId, VarInfo>,
 
     /// Variable usage graph
     ///
@@ -114,11 +114,11 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, ARandomState>,
+    graph_ix: IndexSet<FastId, ARandomState>,
 }
 
 impl Data {
-    fn node(&mut self, id: &Id) -> u32 {
+    fn node(&mut self, id: &FastId) -> u32 {
         self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
             self.graph_ix.insert_full(id.clone());
@@ -127,7 +127,7 @@ impl Data {
     }
 
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
+    fn add_dep_edge(&mut self, from: &FastId, to: &FastId, assign: bool) {
         let from = self.node(from);
         let to = self.node(to);
 
@@ -214,8 +214,8 @@ struct Analyzer<'a> {
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
-    cur_class_id: Option<Id>,
-    cur_fn_id: Option<Id>,
+    cur_class_id: Option<FastId>,
+    cur_fn_id: Option<FastId>,
 }
 
 #[derive(Debug, Default)]
@@ -223,16 +223,16 @@ struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
 
-    bindings_affected_by_eval: AHashSet<Id>,
+    bindings_affected_by_eval: AHashSet<FastId>,
     found_direct_eval: bool,
 
     found_arguemnts: bool,
-    bindings_affected_by_arguements: Vec<Id>,
+    bindings_affected_by_arguements: Vec<FastId>,
 
     /// Used to construct a graph.
     ///
     /// This includes all bindings to current node.
-    ast_path: Vec<Id>,
+    ast_path: Vec<FastId>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -248,7 +248,7 @@ impl Default for ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, ids: Vec<FastId>, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
@@ -310,7 +310,7 @@ impl Analyzer<'_> {
     }
 
     /// Mark `id` as used
-    fn add(&mut self, id: Id, assign: bool) {
+    fn add(&mut self, id: FastId, assign: bool) {
         if id.0 == atom!("arguments") {
             self.scope.found_arguemnts = true;
         }
@@ -370,18 +370,18 @@ impl Visit for Analyzer<'_> {
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         n.visit_children_with(self);
 
-        self.add(n.key.to_id(), true);
+        self.add(unsafe { fast_id_from_ident(&n.key) }, true);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(vec![unsafe { fast_id_from_ident(&n.ident) }], |v| {
             let old = v.cur_class_id.take();
-            v.cur_class_id = Some(n.ident.to_id());
+            v.cur_class_id = Some(unsafe { fast_id_from_ident(&n.ident) });
             n.visit_children_with(v);
             v.cur_class_id = old;
 
             if !n.class.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(unsafe { fast_id_from_ident(&n.ident) }, false);
             }
         })
     }
@@ -391,21 +391,21 @@ impl Visit for Analyzer<'_> {
 
         if !n.class.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.add(i.to_id(), false);
+                self.add(unsafe { fast_id_from_ident(i) }, false);
             }
         }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         if let ModuleExportName::Ident(orig) = &n.orig {
-            self.add(orig.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(orig) }, false);
         }
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         let name = match &n.decl {
-            Decl::Class(c) => vec![c.ident.to_id()],
-            Decl::Fn(f) => vec![f.ident.to_id()],
+            Decl::Class(c) => vec![unsafe { fast_id_from_ident(&c.ident) }],
+            Decl::Fn(f) => vec![unsafe { fast_id_from_ident(&f.ident) }],
             Decl::Var(v) => v
                 .decls
                 .iter()
@@ -427,7 +427,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
 
         self.in_var_decl = old_in_var_decl;
@@ -437,7 +437,7 @@ impl Visit for Analyzer<'_> {
         match n.op {
             op!("=") => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), true);
+                    self.add(unsafe { fast_id_from_ident(i) }, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
@@ -445,8 +445,8 @@ impl Visit for Analyzer<'_> {
             }
             _ => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), false);
-                    self.add(i.to_id(), true);
+                    self.add(unsafe { fast_id_from_ident(i) }, false);
+                    self.add(unsafe { fast_id_from_ident(i) }, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
@@ -459,7 +459,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let JSXElementName::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -467,7 +467,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let JSXObject::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -496,14 +496,14 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(vec![unsafe { fast_id_from_ident(&n.ident) }], |v| {
             let old = v.cur_fn_id.take();
-            v.cur_fn_id = Some(n.ident.to_id());
+            v.cur_fn_id = Some(unsafe { fast_id_from_ident(&n.ident) });
             n.visit_children_with(v);
             v.cur_fn_id = old;
 
             if !n.function.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(unsafe { fast_id_from_ident(&n.ident) }, false);
             }
         })
     }
@@ -513,7 +513,7 @@ impl Visit for Analyzer<'_> {
 
         if !n.function.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.add(i.to_id(), false);
+                self.add(unsafe { fast_id_from_ident(i) }, false);
             }
         }
     }
@@ -523,7 +523,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.to_id(), true);
+                self.add(unsafe { fast_id_from_ident(i) }, true);
             }
         }
     }
@@ -532,7 +532,7 @@ impl Visit for Analyzer<'_> {
         p.visit_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -603,7 +603,7 @@ impl TreeShaker {
         });
     }
 
-    fn can_drop_binding(&self, name: Id, is_var: bool) -> bool {
+    fn can_drop_binding(&self, name: FastId, is_var: bool) -> bool {
         if !self.config.top_level {
             if is_var {
                 if !self.in_fn {
@@ -624,7 +624,7 @@ impl TreeShaker {
         }
     }
 
-    fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
+    fn can_drop_assignment_to(&self, name: FastId, is_var: bool) -> bool {
         if !self.config.top_level {
             if is_var {
                 if !self.in_fn {
@@ -665,7 +665,7 @@ impl VisitMut for TreeShaker {
 
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
-            if self.can_drop_assignment_to(id.to_id(), false)
+            if self.can_drop_assignment_to(unsafe { fast_id_from_ident(&id) }, false)
                 && !n.right.may_have_side_effects(&self.expr_ctx)
             {
                 self.changed = true;
@@ -688,7 +688,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id(), true) {
+                if self.can_drop_binding(unsafe { fast_id_from_ident(&f.ident) }, true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
 
@@ -696,7 +696,7 @@ impl VisitMut for TreeShaker {
                 }
             }
             Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id(), false)
+                if self.can_drop_binding(unsafe { fast_id_from_ident(&c.ident) }, false)
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => {
@@ -852,7 +852,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Namespace(l) => &l.local,
             };
 
-            if self.can_drop_binding(local.to_id(), false) {
+            if self.can_drop_binding(unsafe { fast_id_from_ident(local) }, false) {
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -977,7 +977,10 @@ impl VisitMut for TreeShaker {
             // If all name is droppable, do so.
             if cnt != 0
                 && v.decls.iter().all(|vd| match &vd.name {
-                    Pat::Ident(i) => self.can_drop_binding(i.to_id(), v.kind == VarDeclKind::Var),
+                    Pat::Ident(i) => self.can_drop_binding(
+                        unsafe { fast_id_from_ident(&i) },
+                        v.kind == VarDeclKind::Var,
+                    ),
                     _ => false,
                 })
             {
@@ -1061,7 +1064,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(
+                    unsafe { fast_id_from_ident(i) },
+                    self.var_decl_kind == Some(VarDeclKind::Var),
+                )
             {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
