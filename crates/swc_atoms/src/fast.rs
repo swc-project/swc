@@ -23,6 +23,7 @@ impl FastAtom {
     ///    [FastAtom]
     ///  - Use [FastAtom] only for short-lived operations where all [Atom] is
     ///    stored in AST and ensure that the AST is not dropped.
+    #[inline]
     pub unsafe fn new(atom: &Atom) -> Self {
         Self(ManuallyDrop::new(transmute_copy(atom)))
     }
@@ -31,18 +32,21 @@ impl FastAtom {
 impl Deref for FastAtom {
     type Target = Atom;
 
+    #[inline]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
 impl Clone for FastAtom {
+    #[inline]
     fn clone(&self) -> Self {
         unsafe { Self::new(&self.0) }
     }
 }
 
 impl PartialEq<Atom> for FastAtom {
+    #[inline]
     fn eq(&self, other: &Atom) -> bool {
         *self.0 == *other
     }
