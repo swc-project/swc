@@ -480,6 +480,15 @@ pub unsafe fn fast_id(id: &Id) -> FastId {
     (FastAtom::new(&id.0), id.1)
 }
 
+/// This is extremely unsafe so don't use it unless you know what you are doing.
+///
+/// # Safety
+///
+/// See [`FastAtom::new`] for constraints.
+pub unsafe fn fast_id_from_ident(id: &Ident) -> FastId {
+    (FastAtom::new(&id.sym), id.ctxt)
+}
+
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
 

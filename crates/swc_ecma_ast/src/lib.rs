@@ -22,7 +22,10 @@ pub use self::{
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::*,
     function::{Function, Param, ParamOrTsParamProp},
-    ident::{fast_id, BindingIdent, EsReserved, FastId, Id, Ident, IdentName, PrivateName},
+    ident::{
+        fast_id, fast_id_from_ident, BindingIdent, EsReserved, FastId, Id, Ident, IdentName,
+        PrivateName,
+    },
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
         JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
