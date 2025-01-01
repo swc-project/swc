@@ -469,6 +469,9 @@ impl From<IdentName> for BindingIdent {
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
 pub type FastId = (FastAtom, SyntaxContext);
 
 /// This is extremely unsafe so don't use it unless you know what you are doing.
@@ -476,6 +479,9 @@ pub type FastId = (FastAtom, SyntaxContext);
 /// # Safety
 ///
 /// See [`FastAtom::new`] for constraints.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
 pub unsafe fn fast_id(id: &Id) -> FastId {
     (FastAtom::new(&id.0), id.1)
 }
@@ -485,6 +491,9 @@ pub unsafe fn fast_id(id: &Id) -> FastId {
 /// # Safety
 ///
 /// See [`FastAtom::new`] for constraints.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
 pub unsafe fn fast_id_from_ident(id: &Ident) -> FastId {
     (FastAtom::new(&id.sym), id.ctxt)
 }
