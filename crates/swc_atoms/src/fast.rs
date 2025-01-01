@@ -9,6 +9,7 @@ use crate::Atom;
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FastAtom(ManuallyDrop<Atom>);
 
 impl FastAtom {
