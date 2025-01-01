@@ -93,7 +93,7 @@ struct TreeShaker {
 
     data: Arc<Data>,
 
-    bindings: Arc<AHashSet<Id>>,
+    bindings: Arc<AHashSet<FastId>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -376,9 +376,9 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(vec![unsafe { fast_id(&n.ident.to_id()) }], |v| {
             let old = v.cur_class_id.take();
-            v.cur_class_id = Some(n.ident.to_id());
+            v.cur_class_id = Some(unsafe { fast_id(&n.ident.to_id()) });
             n.visit_children_with(v);
             v.cur_class_id = old;
 
@@ -498,9 +498,9 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(vec![unsafe { fast_id(&n.ident.to_id()) }], |v| {
             let old = v.cur_fn_id.take();
-            v.cur_fn_id = Some(n.ident.to_id());
+            v.cur_fn_id = Some(unsafe { fast_id(&n.ident.to_id()) });
             n.visit_children_with(v);
             v.cur_fn_id = old;
 
@@ -606,6 +606,7 @@ impl TreeShaker {
     }
 
     fn can_drop_binding(&self, name: Id, is_var: bool) -> bool {
+        let name = unsafe { fast_id(&name) };
         if !self.config.top_level {
             if is_var {
                 if !self.in_fn {
@@ -626,7 +627,7 @@ impl TreeShaker {
         }
     }
 
-    fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
+    fn can_drop_assignment_to(&self, name: FastId, is_var: bool) -> bool {
         if !self.config.top_level {
             if is_var {
                 if !self.in_fn {
@@ -667,7 +668,7 @@ impl VisitMut for TreeShaker {
 
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
-            if self.can_drop_assignment_to(id.to_id(), false)
+            if self.can_drop_assignment_to(unsafe { fast_id(&id.to_id()) }, false)
                 && !n.right.may_have_side_effects(&self.expr_ctx)
             {
                 self.changed = true;
