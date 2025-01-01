@@ -23,6 +23,8 @@ use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
 
+pub mod fast;
+
 /// Clone-on-write string.
 ///
 ///
