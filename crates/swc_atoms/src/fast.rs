@@ -15,6 +15,13 @@ impl FastAtom {
     /// # Safety
     ///
     ///  - You should ensure that the passed `atom` is not freed.
+    ///
+    /// Some simple solutions to ensure this are
+    ///
+    ///  - Collect all [Atom] and store them somewhere while you are using
+    ///    [FastAtom]
+    ///  - Use [FastAtom] only for short-lived operations where all [Atom] is
+    ///    stored in AST and ensure that the AST is not dropped.
     pub unsafe fn new(atom: &Atom) -> Self {
         Self(ManuallyDrop::new(transmute_copy(atom)))
     }
