@@ -1,4 +1,5 @@
 use std::{
+    fmt::Display,
     mem::{transmute_copy, ManuallyDrop},
     ops::Deref,
 };
@@ -14,6 +15,12 @@ use crate::Atom;
 /// future without a semver bump.**
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FastAtom(ManuallyDrop<Atom>);
+
+impl Display for FastAtom {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", &*self.0)
+    }
+}
 
 impl FastAtom {
     /// # Safety
