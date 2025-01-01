@@ -104,7 +104,7 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    used_names: AHashMap<Id, VarInfo>,
+    used_names: AHashMap<FastId, VarInfo>,
 
     /// Variable usage graph
     ///
@@ -114,11 +114,11 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, ARandomState>,
+    graph_ix: IndexSet<FastId, ARandomState>,
 }
 
 impl Data {
-    fn node(&mut self, id: &Id) -> u32 {
+    fn node(&mut self, id: &FastId) -> u32 {
         self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
             self.graph_ix.insert_full(id.clone());
@@ -127,7 +127,7 @@ impl Data {
     }
 
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
+    fn add_dep_edge(&mut self, from: &FastId, to: &FastId, assign: bool) {
         let from = self.node(from);
         let to = self.node(to);
 
@@ -214,8 +214,8 @@ struct Analyzer<'a> {
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
-    cur_class_id: Option<Id>,
-    cur_fn_id: Option<Id>,
+    cur_class_id: Option<FastId>,
+    cur_fn_id: Option<FastId>,
 }
 
 #[derive(Debug, Default)]
@@ -223,16 +223,16 @@ struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
 
-    bindings_affected_by_eval: AHashSet<Id>,
+    bindings_affected_by_eval: AHashSet<FastId>,
     found_direct_eval: bool,
 
     found_arguemnts: bool,
-    bindings_affected_by_arguements: Vec<Id>,
+    bindings_affected_by_arguements: Vec<FastId>,
 
     /// Used to construct a graph.
     ///
     /// This includes all bindings to current node.
-    ast_path: Vec<Id>,
+    ast_path: Vec<FastId>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -248,7 +248,7 @@ impl Default for ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, ids: Vec<FastId>, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
@@ -311,6 +311,8 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
+        let id = unsafe { fast_id(&id) };
+
         if id.0 == atom!("arguments") {
             self.scope.found_arguemnts = true;
         }
