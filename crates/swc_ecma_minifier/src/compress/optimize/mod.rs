@@ -223,34 +223,34 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<FastId, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
+    hoisted_props: Box<FxHashMap<(FastId, JsWord), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<FastId, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<FastId, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<FastId, Box<Expr>>,
+    vars_for_inlining: FxHashMap<FastId, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: FxHashSet<FastId>,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
-        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    fn has_pending_inline_for(&self, id: FastId) -> bool {
+        self.lits.contains_key(&id) || self.vars_for_inlining.contains_key(&id)
     }
 
     /// Returns true if something is changed.
@@ -967,7 +967,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old = unsafe { fast_id_from_ident(i) };
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
@@ -1830,7 +1830,7 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old = unsafe { fast_id_from_ident(i) };
 
                     self.store_var_for_inlining(i, right, false);
 
@@ -2417,7 +2417,10 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if self.vars.has_pending_inline_for(&i.to_id()) {
+            if self
+                .vars
+                .has_pending_inline_for(unsafe { fast_id_from_ident(i) })
+            {
                 let mut e: Expr = i.clone().into();
                 e.visit_mut_with(self);
 

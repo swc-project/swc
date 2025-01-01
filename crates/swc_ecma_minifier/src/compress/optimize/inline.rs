@@ -123,7 +123,7 @@ impl Optimizer<'_> {
                         );
                         self.vars
                             .lits_for_array_access
-                            .insert(ident.to_id(), Box::new(init.clone()));
+                            .insert(unsafe { fast_id_from_ident(ident) }, Box::new(init.clone()));
                     }
                 }
             }
@@ -233,9 +233,10 @@ impl Optimizer<'_> {
                             if ref_count == 1 || s.value.len() <= 3 {
                                 true
                             } else {
-                                self.vars
-                                    .lits_for_cmp
-                                    .insert(ident.to_id(), init.clone().into());
+                                self.vars.lits_for_cmp.insert(
+                                    unsafe { fast_id_from_ident(ident) },
+                                    init.clone().into(),
+                                );
                                 false
                             }
                         }
@@ -311,7 +312,9 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.take().into());
+                    self.vars
+                        .lits
+                        .insert(unsafe { fast_id_from_ident(ident) }, init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -325,7 +328,9 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.clone().into());
+                    self.vars
+                        .lits
+                        .insert(unsafe { fast_id_from_ident(ident) }, init.clone().into());
                 }
             }
 
@@ -506,7 +511,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.take().to_id(), init.take().into());
+                    .insert(unsafe { fast_id_from_ident(ident) }, init.take().into());
             }
         }
     }
@@ -685,7 +690,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.to_id(),
+                                unsafe { fast_id_from_ident(&i) },
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -780,7 +785,9 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.to_id(), e);
+                self.vars
+                    .vars_for_inlining
+                    .insert(unsafe { fast_id_from_ident(&i) }, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -798,7 +805,10 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
+                            let new = self
+                                .vars
+                                .lits_for_array_access
+                                .get(&unsafe { fast_id_from_ident(obj) });
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -817,14 +827,14 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
+                let id = unsafe { fast_id_from_ident(i) };
                 if let Some(mut value) = self
                     .vars
                     .lits
                     .get(&id)
                     .or_else(|| {
                         if self.ctx.is_callee {
-                            self.vars.simple_functions.get(&i.to_id())
+                            self.vars.simple_functions.get(&id)
                         } else {
                             None
                         }
@@ -872,7 +882,11 @@ impl Optimizer<'_> {
                 }
 
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self
+                    .vars
+                    .vars_for_inlining
+                    .get(&unsafe { fast_id_from_ident(i) })
+                {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
                         return;
                     }
@@ -884,7 +898,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                if let Some(value) = self
+                    .vars
+                    .vars_for_inlining
+                    .remove(&unsafe { fast_id_from_ident(i) })
+                {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 

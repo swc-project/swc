@@ -221,7 +221,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.to_id(), arg.clone());
+                                vars.insert(unsafe { fast_id_from_ident(&param.id) }, arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -236,7 +236,10 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), Expr::undefined(param.span()));
+                            vars.insert(
+                                unsafe { fast_id_from_ident(&param.id) },
+                                Expr::undefined(param.span()),
+                            );
                         }
                     }
 
@@ -265,7 +268,7 @@ impl Optimizer<'_> {
                                 }
 
                                 vars.insert(
-                                    param_id.to_id(),
+                                    unsafe { fast_id_from_ident(param_id) },
                                     ArrayLit {
                                         span: param_id.span,
                                         elems: e
@@ -406,8 +409,11 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
-    where
+    pub(super) fn inline_vars_in_node<N>(
+        &mut self,
+        n: &mut N,
+        mut vars: FxHashMap<FastId, Box<Expr>>,
+    ) where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
         trace_op!("inline: inline_vars_in_node");
@@ -790,7 +796,10 @@ impl Optimizer<'_> {
                         match &decl.name {
                             Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
+                                if self
+                                    .vars
+                                    .has_pending_inline_for(unsafe { fast_id_from_ident(&id.id) })
+                                {
                                     log_abort!(
                                         "iife: [x] Cannot inline because pending inline of `{}`",
                                         id.id
@@ -883,7 +892,9 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars.vars_for_inlining.insert(param.to_id(), arg);
+                        self.vars
+                            .vars_for_inlining
+                            .insert(unsafe { fast_id_from_ident(param) }, arg);
                         continue;
                     }
 

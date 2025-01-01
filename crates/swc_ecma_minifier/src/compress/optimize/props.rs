@@ -166,7 +166,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .hoisted_props
-                    .insert((name.to_id(), key), new_var_name);
+                    .insert((unsafe { fast_id_from_ident(&name.id) }, key), new_var_name);
 
                 new_vars.push(new_var);
             }
@@ -201,7 +201,7 @@ impl Optimizer<'_> {
             if let Some(value) = self
                 .vars
                 .hoisted_props
-                .get(&(obj.to_id(), sym.clone()))
+                .get(&(unsafe { fast_id_from_ident(obj) }, sym.clone()))
                 .cloned()
             {
                 report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);

@@ -2555,7 +2555,9 @@ impl Optimizer<'_> {
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
-            self.vars.removed.insert(left_id.to_id());
+            self.vars
+                .removed
+                .insert(unsafe { fast_id_from_ident(&left_id) });
         }
 
         dump_change_detail!("sequences: {}", dump(&*b, false));
