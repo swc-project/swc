@@ -5,7 +5,7 @@ use std::{
 };
 
 use phf::phf_set;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::{fast::FastAtom, js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -463,6 +463,21 @@ impl From<IdentName> for BindingIdent {
             ..Default::default()
         }
     }
+}
+
+/// FastId is a wrapper around [Id] that does not allocate, but extermely
+/// unsafe.
+///
+/// Do not use this unless you know what you are doing.
+pub type FastId = (FastAtom, SyntaxContext);
+
+/// This is extremely unsafe so don't use it unless you know what you are doing.
+///
+/// # Safety
+///
+/// See [`FastAtom::new`] for constraints.
+pub unsafe fn fast_id(id: &Id) -> FastId {
+    (FastAtom::new(&id.0), id.1)
 }
 
 /// See [Ident] for documentation.
