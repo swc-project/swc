@@ -9,7 +9,7 @@ use crate::Atom;
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FastAtom(ManuallyDrop<Atom>);
 
 impl FastAtom {
@@ -33,6 +33,12 @@ impl Deref for FastAtom {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+impl Clone for FastAtom {
+    fn clone(&self) -> Self {
+        unsafe { Self::new(&self.0) }
     }
 }
 
