@@ -310,9 +310,7 @@ impl Analyzer<'_> {
     }
 
     /// Mark `id` as used
-    fn add(&mut self, id: Id, assign: bool) {
-        let id = unsafe { fast_id(&id) };
-
+    fn add(&mut self, id: FastId, assign: bool) {
         if id.0 == atom!("arguments") {
             self.scope.found_arguemnts = true;
         }
@@ -372,18 +370,18 @@ impl Visit for Analyzer<'_> {
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         n.visit_children_with(self);
 
-        self.add(n.key.to_id(), true);
+        self.add(unsafe { fast_id_from_ident(&n.key) }, true);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        self.with_ast_path(vec![unsafe { fast_id(&n.ident.to_id()) }], |v| {
+        self.with_ast_path(vec![unsafe { fast_id_from_ident(&n.ident) }], |v| {
             let old = v.cur_class_id.take();
-            v.cur_class_id = Some(unsafe { fast_id(&n.ident.to_id()) });
+            v.cur_class_id = Some(unsafe { fast_id_from_ident(&n.ident) });
             n.visit_children_with(v);
             v.cur_class_id = old;
 
             if !n.class.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(unsafe { fast_id_from_ident(&n.ident) }, false);
             }
         })
     }
@@ -393,21 +391,21 @@ impl Visit for Analyzer<'_> {
 
         if !n.class.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.add(i.to_id(), false);
+                self.add(unsafe { fast_id_from_ident(i) }, false);
             }
         }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         if let ModuleExportName::Ident(orig) = &n.orig {
-            self.add(orig.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(orig) }, false);
         }
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         let name = match &n.decl {
-            Decl::Class(c) => vec![c.ident.to_id()],
-            Decl::Fn(f) => vec![f.ident.to_id()],
+            Decl::Class(c) => vec![unsafe { fast_id_from_ident(&c.ident) }],
+            Decl::Fn(f) => vec![unsafe { fast_id_from_ident(&f.ident) }],
             Decl::Var(v) => v
                 .decls
                 .iter()
@@ -429,7 +427,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
 
         self.in_var_decl = old_in_var_decl;
@@ -439,7 +437,7 @@ impl Visit for Analyzer<'_> {
         match n.op {
             op!("=") => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), true);
+                    self.add(unsafe { fast_id_from_ident(i) }, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
@@ -447,8 +445,8 @@ impl Visit for Analyzer<'_> {
             }
             _ => {
                 if let Some(i) = n.left.as_ident() {
-                    self.add(i.to_id(), false);
-                    self.add(i.to_id(), true);
+                    self.add(unsafe { fast_id_from_ident(i) }, false);
+                    self.add(unsafe { fast_id_from_ident(i) }, true);
                     n.right.visit_with(self);
                 } else {
                     n.visit_children_with(self);
@@ -461,7 +459,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let JSXElementName::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -469,7 +467,7 @@ impl Visit for Analyzer<'_> {
         e.visit_children_with(self);
 
         if let JSXObject::Ident(i) = e {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -498,14 +496,14 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![unsafe { fast_id(&n.ident.to_id()) }], |v| {
+        self.with_ast_path(vec![unsafe { fast_id_from_ident(&n.ident) }], |v| {
             let old = v.cur_fn_id.take();
-            v.cur_fn_id = Some(unsafe { fast_id(&n.ident.to_id()) });
+            v.cur_fn_id = Some(unsafe { fast_id_from_ident(&n.ident) });
             n.visit_children_with(v);
             v.cur_fn_id = old;
 
             if !n.function.decorators.is_empty() {
-                v.add(n.ident.to_id(), false);
+                v.add(unsafe { fast_id_from_ident(&n.ident) }, false);
             }
         })
     }
@@ -515,7 +513,7 @@ impl Visit for Analyzer<'_> {
 
         if !n.function.decorators.is_empty() {
             if let Some(i) = &n.ident {
-                self.add(i.to_id(), false);
+                self.add(unsafe { fast_id_from_ident(i) }, false);
             }
         }
     }
@@ -525,7 +523,7 @@ impl Visit for Analyzer<'_> {
 
         if !self.in_var_decl {
             if let Pat::Ident(i) = p {
-                self.add(i.to_id(), true);
+                self.add(unsafe { fast_id_from_ident(i) }, true);
             }
         }
     }
@@ -534,7 +532,7 @@ impl Visit for Analyzer<'_> {
         p.visit_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            self.add(i.to_id(), false);
+            self.add(unsafe { fast_id_from_ident(i) }, false);
         }
     }
 
@@ -605,8 +603,7 @@ impl TreeShaker {
         });
     }
 
-    fn can_drop_binding(&self, name: Id, is_var: bool) -> bool {
-        let name = unsafe { fast_id(&name) };
+    fn can_drop_binding(&self, name: FastId, is_var: bool) -> bool {
         if !self.config.top_level {
             if is_var {
                 if !self.in_fn {
@@ -668,7 +665,7 @@ impl VisitMut for TreeShaker {
 
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
-            if self.can_drop_assignment_to(unsafe { fast_id(&id.to_id()) }, false)
+            if self.can_drop_assignment_to(unsafe { fast_id_from_ident(&id) }, false)
                 && !n.right.may_have_side_effects(&self.expr_ctx)
             {
                 self.changed = true;
@@ -691,7 +688,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id(), true) {
+                if self.can_drop_binding(unsafe { fast_id_from_ident(&f.ident) }, true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
 
@@ -699,7 +696,7 @@ impl VisitMut for TreeShaker {
                 }
             }
             Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id(), false)
+                if self.can_drop_binding(unsafe { fast_id_from_ident(&c.ident) }, false)
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => {
@@ -855,7 +852,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Namespace(l) => &l.local,
             };
 
-            if self.can_drop_binding(local.to_id(), false) {
+            if self.can_drop_binding(unsafe { fast_id_from_ident(local) }, false) {
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -980,7 +977,10 @@ impl VisitMut for TreeShaker {
             // If all name is droppable, do so.
             if cnt != 0
                 && v.decls.iter().all(|vd| match &vd.name {
-                    Pat::Ident(i) => self.can_drop_binding(i.to_id(), v.kind == VarDeclKind::Var),
+                    Pat::Ident(i) => self.can_drop_binding(
+                        unsafe { fast_id_from_ident(&i) },
+                        v.kind == VarDeclKind::Var,
+                    ),
                     _ => false,
                 })
             {
@@ -1064,7 +1064,10 @@ impl VisitMut for TreeShaker {
             };
 
             if can_drop
-                && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+                && self.can_drop_binding(
+                    unsafe { fast_id_from_ident(i) },
+                    self.var_decl_kind == Some(VarDeclKind::Var),
+                )
             {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
