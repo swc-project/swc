@@ -465,7 +465,7 @@ impl From<IdentName> for BindingIdent {
     }
 }
 
-/// FastId is a wrapper around [Id] that does not allocate, but extermely
+/// FastId is a wrapper around [Id] that does not allocate, but extremely
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.

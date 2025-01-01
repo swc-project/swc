@@ -5,7 +5,7 @@ use std::{
 
 use crate::Atom;
 
-/// FastAtom is a wrapper around [Atom] that does not allocate, but extermely
+/// FastAtom is a wrapper around [Atom] that does not allocate, but extremely
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.
