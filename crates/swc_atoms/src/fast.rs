@@ -35,3 +35,9 @@ impl Deref for FastAtom {
         &self.0
     }
 }
+
+impl PartialEq<Atom> for FastAtom {
+    fn eq(&self, other: &Atom) -> bool {
+        *self.0 == *other
+    }
+}
