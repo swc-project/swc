@@ -10,5 +10,8 @@ repository    = { workspace = true }
 version       = "0.1.0"
 
 [dependencies]
-logos = "0.15.0"
+logos      = { workspace = true }
 swc_common = { version = "5.0.0", path = "../swc_common" }
+
+[dev-dependencies]
+regex = { workspace = true }
