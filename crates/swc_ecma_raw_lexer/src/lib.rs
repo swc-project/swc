@@ -5,7 +5,7 @@
 
 use std::fmt::Debug;
 
-use logos::{Lexer, Logos};
+use logos::{Lexer, Logos, Skip};
 use swc_common::{input::StringInput, BytePos};
 
 use crate::{
@@ -416,8 +416,7 @@ pub enum RawToken {
     #[regex(r"([\p{XID_Start}_$]|\\u[a-fA-F0-9]{4})([\p{XID_Continue}_$]|\\u[a-fA-F0-9]{4})*")]
     Ident,
 
-    #[token("\r", priority = 5, callback = newline_callback)]
-    #[token("\n", priority = 5, callback = newline_callback)]
+    #[regex("[\n|\r]+", priority = 5, callback = newline_callback)]
     NewLine,
 
     #[regex(r"[ \t]+")]
