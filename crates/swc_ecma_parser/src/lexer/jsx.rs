@@ -234,22 +234,11 @@ impl Lexer<'_> {
     pub(super) fn read_jsx_str(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
-        let start = self.input.cur_pos();
+        let s = self.input.cur_slice();
+        let value = &s[1..s.len() - 1];
 
-        let chunk_start = self.input.cur_pos();
-
-        // TODO(kdy1): Use proper string calculation
-        let value = {
-            // Fast path: We don't need to allocate
-
-            let cur_pos = self.input.cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input.slice(chunk_start, cur_pos)
-            };
-
-            self.atoms.atom(value)
-        };
+        let raw = self.atoms.atom(s);
+        let value = self.atoms.atom(value);
 
         // it might be at the end of the file when
         // the string literal is unterminated
@@ -257,16 +246,7 @@ impl Lexer<'_> {
             let _ = self.input.next();
         }
 
-        let end = self.input.cur_pos();
-        let raw = unsafe {
-            // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input.slice(start, end)
-        };
-
-        Ok(Token::Str {
-            value,
-            raw: self.atoms.atom(raw),
-        })
+        Ok(Token::Str { value, raw })
     }
 }
 
