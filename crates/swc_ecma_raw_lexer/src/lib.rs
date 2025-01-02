@@ -5,14 +5,18 @@
 
 use std::fmt::Debug;
 
-use logos::{Lexer, Logos, Skip};
+use logos::{Lexer, Logos};
 use swc_common::{input::StringInput, BytePos};
 
-use crate::peek::{peek_nth, PeekNth};
+use crate::{
+    peek::{peek_nth, PeekNth},
+    string::{consume_str_double_quote, consume_str_single_quote},
+};
 
 pub mod jsx;
 mod peek;
 mod size_hint;
+mod string;
 
 #[derive(Clone)]
 pub struct RawBuffer<'a> {
@@ -254,8 +258,8 @@ pub enum RawToken {
     #[token("~")]
     Tilde,
 
-    #[regex(r#""([^"\\]|\\["\\bnfrt\n]|u[a-fA-F0-9]{4}|[xX][a-fA-F0-9]{0,2}|[oO][0-7]+|0[0-7]*|[bB][01]+)*""#)]
-    #[regex(r#"'([^'\\]|\\['\\bnfrt\n]|u[a-fA-F0-9]{4}|[xX][a-fA-F0-9]{0,2}|[oO][0-7]+|0[0-7]*|[bB][01]+)*'"#)]
+    #[token("'", callback = consume_str_single_quote)]
+    #[token("\"", callback = consume_str_double_quote)]
     Str,
 
     #[regex(r"(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?")]
