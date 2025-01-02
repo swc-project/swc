@@ -293,7 +293,7 @@ pub enum SyntaxError {
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
 
-    UnexpectedToken,
+    UnexpectedCharFromLexer,
 }
 
 impl SyntaxError {
@@ -760,7 +760,7 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
-            SyntaxError::UnexpectedToken => "Unexpected token".into(),
+            SyntaxError::UnexpectedCharFromLexer => "Unexpected character".into(),
         }
     }
 }
@@ -806,6 +806,6 @@ fn size_of_error() {
 
 impl From<swc_ecma_raw_lexer::UnknownChar> for Error {
     fn from(_: swc_ecma_raw_lexer::UnknownChar) -> Self {
-        Self::new(DUMMY_SP, SyntaxError::UnexpectedToken)
+        Self::new(DUMMY_SP, SyntaxError::UnexpectedCharFromLexer)
     }
 }

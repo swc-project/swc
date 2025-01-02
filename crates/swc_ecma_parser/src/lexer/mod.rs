@@ -271,7 +271,7 @@ impl<'a> Lexer<'a> {
             },
 
             RawToken::Shebang => {
-                self.emit_error(*start, SyntaxError::UnexpectedToken);
+                self.emit_error(*start, SyntaxError::UnexpectedCharFromLexer);
                 self.input.next().transpose()?;
 
                 return self.read_token(start);

@@ -269,7 +269,10 @@ impl Lexer<'_> {
         let c = match self.input.cur() {
             Err(..) => {
                 let _ = self.input.next();
-                return Err(Error::new(self.span(*start), SyntaxError::UnexpectedToken));
+                return Err(Error::new(
+                    self.span(*start),
+                    SyntaxError::UnexpectedCharFromLexer,
+                ));
             }
             Ok(Some(v)) => v,
             // End of input.
