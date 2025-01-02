@@ -17,7 +17,7 @@ fn test_str_1() {
 #[test]
 fn test_str_escape_single_char() {
     assert_str(r#""hello\nworld""#);
-    assert_str(r#"'hello\nworld'""#);
+    assert_str(r#"'hello\nworld'"#);
 }
 
 #[test]
