@@ -14,13 +14,10 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) -> Result<(), 
     let remainder = lex.remainder();
     let total_len = remainder.len();
 
-    dbg!(&remainder);
-
     let mut str_lexer = Lexer::<StrContent>::new(remainder);
     let mut terminated = false;
 
     while let Some(Ok(token)) = str_lexer.next() {
-        dbg!(&token);
         if token == stop_token {
             terminated = true;
             break;
