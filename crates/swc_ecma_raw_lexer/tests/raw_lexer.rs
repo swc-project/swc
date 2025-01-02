@@ -45,3 +45,9 @@ fn test_str_escape_zero_octal() {
 fn test_str_escape_unicode() {
     assert_str(r#""use\u2028strict""#);
 }
+
+#[test]
+fn test_str_escape_escape() {
+    assert_str(r#"'\\\\'"#);
+    assert_str(r#""\\\\""#);
+}
