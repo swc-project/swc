@@ -170,8 +170,12 @@ impl<'a> RawBuffer<'a> {
 
     fn reset_peeked(&mut self) {
         unsafe {
+            let lo = self.pos.0 - self.start_pos.0;
+
             // Safety: We already checked for the current char
-            self.reset_to(self.pos);
+            let source = self.orig_str.get_unchecked(lo as usize..);
+
+            self.lexer = peek_nth(logos::Lexer::new(source).spanned());
         }
     }
 }
