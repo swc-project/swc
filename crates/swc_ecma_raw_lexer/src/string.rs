@@ -11,12 +11,12 @@ pub fn consume_str_double_quote(lex: &mut Lexer<RawToken>) -> Result<(), LogosEr
 }
 
 fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) -> Result<(), LogosError> {
-    let text = lex.remainder();
-    let total_len = text.len();
+    let remainder = lex.remainder();
+    let total_len = remainder.len();
 
-    dbg!(&text);
+    dbg!(&remainder);
 
-    let mut str_lexer = Lexer::<StrContent>::new(text);
+    let mut str_lexer = Lexer::<StrContent>::new(remainder);
     let mut terminated = false;
 
     while let Some(Ok(token)) = str_lexer.next() {
