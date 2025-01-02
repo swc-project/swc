@@ -34,10 +34,7 @@ impl Lexer<'_> {
 
     #[inline(always)]
     pub(super) fn bump(&mut self) {
-        unsafe {
-            // Safety: Actually this is not safe but this is an internal method.
-            self.input.bump(1)
-        }
+        self.input.next();
     }
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
