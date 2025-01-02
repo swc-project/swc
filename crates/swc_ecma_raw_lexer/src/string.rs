@@ -29,7 +29,11 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 enum StrContent {
-    #[regex(r#"[^'"]"#)]
+    #[token("\\n")]
+    #[regex(r#"\\["'\\bfnrtv]"#, priority = 100)]
+    Escape,
+
+    #[regex(r#"[^'"]+"#)]
     Normal,
 
     #[regex(r#"'"#)]
@@ -37,4 +41,36 @@ enum StrContent {
 
     #[regex(r#"""#)]
     DoubleQuote,
+}
+
+#[cfg(test)]
+mod tests {
+    use logos::Lexer;
+
+    use super::StrContent;
+
+    fn assert_str(text: &str, expected: &[StrContent]) {
+        dbg!(text);
+        dbg!(expected);
+
+        let actual = Lexer::<StrContent>::new(text)
+            .map(|v| v.unwrap())
+            .collect::<Vec<_>>();
+
+        assert_eq!(expected.len(), actual.len() - 1);
+        assert_eq!(expected, &actual[..expected.len()]);
+
+        assert!(matches!(
+            actual.last(),
+            Some(StrContent::SingleQuote | StrContent::DoubleQuote)
+        ));
+    }
+
+    #[test]
+    fn escape_newline() {
+        assert_str(
+            "hello\\nworld",
+            &[StrContent::Normal, StrContent::Escape, StrContent::Normal],
+        );
+    }
 }
