@@ -278,8 +278,8 @@ impl Lexer<'_> {
                 return Ok(None);
             }
         };
-        // dbg!(&c, start.0, self.input.cur_slice());
-        // dbg!(&self.state.context.current());
+        dbg!(&c, start.0, self.input.cur_slice());
+        dbg!(&self.state.context.current());
 
         // println!(
         //     "\tContext: ({:?}) {:?}",
