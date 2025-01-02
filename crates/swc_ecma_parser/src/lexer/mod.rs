@@ -168,13 +168,17 @@ impl<'a> Lexer<'a> {
         op(self, &mut buf)
     }
 
-    /// babel: `getTokenFromCode`
-    fn read_token(&mut self, start: &mut BytePos) -> LexResult<Option<Token>> {
+    fn try_read_token(&mut self, start: &mut BytePos) -> LexResult<Option<Token>> {
         let cur = match self.cur()? {
             Some(cur) => cur,
             None => return Ok(None),
         };
 
+        self.read_token(cur, start)
+    }
+
+    /// babel: `getTokenFromCode`
+    fn read_token(&mut self, cur: RawToken, start: &mut BytePos) -> LexResult<Option<Token>> {
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
@@ -271,7 +275,7 @@ impl<'a> Lexer<'a> {
                 self.emit_error(*start, SyntaxError::UnexpectedCharFromLexer);
                 self.input.next();
 
-                return self.read_token(start);
+                return self.try_read_token(start);
             }
 
             RawToken::Null => Token::Word(Word::Null),

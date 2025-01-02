@@ -10,7 +10,7 @@ use super::{
     Context, Lexer,
 };
 use crate::{
-    error::{Error, SyntaxError},
+    error::Error,
     input::Tokens,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
@@ -278,8 +278,8 @@ impl Lexer<'_> {
                 return Ok(None);
             }
         };
-        dbg!(&c, start.0, self.input.cur_slice());
-        dbg!(&self.state.context.current());
+        // dbg!(&c, start.0, self.input.cur_slice());
+        // dbg!(&self.state.context.current());
 
         // println!(
         //     "\tContext: ({:?}) {:?}",
@@ -323,7 +323,7 @@ impl Lexer<'_> {
             }
         }
 
-        self.read_token(start)
+        self.read_token(c, start)
     }
 }
 

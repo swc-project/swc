@@ -30,20 +30,17 @@ impl Lexer<'_> {
                     self.input.next();
 
                     *start = self.input.cur_pos();
-                    return self.read_token(start);
+                    return self.try_read_token(start);
                 }
                 RawToken::LtOp | RawToken::LBrace => {
                     //
                     if cur_pos == self.state.start {
                         if cur == RawToken::LtOp && self.state.is_expr_allowed {
-                            unsafe {
-                                // Safety: cur() was Some('<')
-                                self.input.bump(1);
-                            }
+                            self.input.next();
                             return Ok(Some(Token::JSXTagStart));
                         }
                         *start = self.input.cur_pos();
-                        return self.read_token(start);
+                        return self.try_read_token(start);
                     }
 
                     let value = if value.is_empty() {
