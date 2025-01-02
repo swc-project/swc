@@ -555,10 +555,7 @@ impl<'a> Lexer<'a> {
             _ => c,
         };
 
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input.bump(1);
-        }
+        self.bump();
 
         Ok(Some(vec![c.into()]))
     }
