@@ -254,10 +254,7 @@ impl Lexer<'_> {
         // it might be at the end of the file when
         // the string literal is unterminated
         if self.input.peek_ahead()?.is_some() {
-            unsafe {
-                // Safety: We called peek_ahead() which means cur() was Some
-                self.input.bump(1);
-            }
+            let _ = self.input.next();
         }
 
         let end = self.input.cur_pos();
