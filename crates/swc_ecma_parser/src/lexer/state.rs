@@ -10,7 +10,7 @@ use super::{
     Context, Lexer,
 };
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     input::Tokens,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
@@ -266,10 +266,14 @@ impl Lexer<'_> {
         //     *start = self.input.cur_pos();
         // };
 
-        let c = match self.input.cur()? {
-            Some(v) => v,
+        let c = match self.input.cur() {
+            Err(..) => {
+                let _ = self.input.next();
+                return Err(Error::new(self.span(*start), SyntaxError::UnexpectedToken));
+            }
+            Ok(Some(v)) => v,
             // End of input.
-            None => {
+            Ok(None) => {
                 self.consume_pending_comments();
 
                 return Ok(None);
@@ -284,6 +288,8 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
+        dbg!(&c);
+        dbg!(&self.state.context.current());
         if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
