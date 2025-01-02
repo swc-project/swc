@@ -120,14 +120,16 @@ impl<'a> RawBuffer<'a> {
         self.pos = self.pos + BytePos(n as u32);
     }
 
-    pub fn eat(&mut self, token: RawToken) -> Result<bool, UnknownChar> {
-        let cur = self.cur()?;
+    pub fn eat(&mut self, token: RawToken) -> bool {
+        let Ok(Some(cur)) = self.cur() else {
+            return false;
+        };
 
-        if cur == Some(token) {
+        if cur == token {
             self.next();
-            Ok(true)
+            true
         } else {
-            Ok(false)
+            false
         }
     }
 

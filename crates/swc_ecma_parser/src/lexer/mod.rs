@@ -467,7 +467,7 @@ impl<'a> Lexer<'a> {
             '\r' => {
                 self.bump(); // remove '\r'
 
-                self.input.eat(RawToken::NewLine)?;
+                self.input.eat(RawToken::NewLine);
 
                 return Ok(None);
             }
@@ -739,7 +739,7 @@ impl Lexer<'_> {
 
     #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if !self.input.eat(RawToken::Shebang)? {
+        if !self.input.eat(RawToken::Shebang) {
             return Ok(None);
         }
 
