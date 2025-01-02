@@ -300,10 +300,7 @@ impl Lexer<'_> {
                 }
 
                 if c == RawToken::GtOp {
-                    unsafe {
-                        // Safety: cur() is Some('>')
-                        self.input.bump(1);
-                    }
+                    let _ = self.input.next();
                     return Ok(Some(Token::JSXTagEnd));
                 }
 
