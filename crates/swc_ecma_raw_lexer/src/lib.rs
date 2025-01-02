@@ -399,7 +399,7 @@ pub enum RawToken {
     #[token("??=")]
     NullishAssignOp,
 
-    #[regex(r"([\p{ID_Start}_$]|\\u[a-fA-F0-9]{4})([\p{ID_Continue}_$]|\\u[a-fA-F0-9]{4})*")]
+    #[regex(r"([\p{XID_Start}_$]|\\u[a-fA-F0-9]{4})([\p{XID_Continue}_$]|\\u[a-fA-F0-9]{4})*")]
     Ident,
 
     #[token("\r", priority = 5, callback = newline_callback)]
