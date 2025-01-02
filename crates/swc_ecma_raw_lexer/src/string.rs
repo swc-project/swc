@@ -2,12 +2,12 @@ use logos::{Lexer, Logos};
 
 use crate::{LogosError, RawToken};
 
-pub fn consume_str_single_quote(lex: &mut Lexer<RawToken>) {
-    consume_str(lex, StrContent::SingleQuote);
+pub fn consume_str_single_quote(lex: &mut Lexer<RawToken>) -> Result<(), LogosError> {
+    consume_str(lex, StrContent::SingleQuote)
 }
 
-pub fn consume_str_double_quote(lex: &mut Lexer<RawToken>) {
-    consume_str(lex, StrContent::DoubleQuote);
+pub fn consume_str_double_quote(lex: &mut Lexer<RawToken>) -> Result<(), LogosError> {
+    consume_str(lex, StrContent::DoubleQuote)
 }
 
 fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) -> Result<(), LogosError> {
