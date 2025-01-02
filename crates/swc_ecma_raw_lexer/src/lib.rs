@@ -145,10 +145,7 @@ impl<'a> RawBuffer<'a> {
         let cur = self.cur_char();
 
         if cur == Some(c as char) {
-            unsafe {
-                // Safety: We already checked for the current char
-                self.bump(1);
-            }
+            self.next();
             true
         } else {
             false
