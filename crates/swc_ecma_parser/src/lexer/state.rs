@@ -316,14 +316,8 @@ impl Lexer<'_> {
                 }
             }
 
-            if c == RawToken::LtOp
-                && self.state.is_expr_allowed
-                && self.input.peek() != Ok(Some(RawToken::Bang))
-            {
-                unsafe {
-                    // Safety: cur() is Some('<')
-                    self.input.bump(1);
-                }
+            if c == RawToken::LtOp && self.state.is_expr_allowed {
+                self.input.next();
 
                 return Ok(Some(Token::JSXTagStart));
             }
