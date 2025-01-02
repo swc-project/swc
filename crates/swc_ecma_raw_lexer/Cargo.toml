@@ -10,8 +10,9 @@ repository    = { workspace = true }
 version       = "0.1.0"
 
 [dependencies]
-logos      = { workspace = true }
-swc_common = { version = "5.0.0", path = "../swc_common" }
+logos                 = { workspace = true }
+new_debug_unreachable = { workspace = true }
+swc_common            = { version = "5.0.0", path = "../swc_common" }
 
 [dev-dependencies]
 regex = { workspace = true }
