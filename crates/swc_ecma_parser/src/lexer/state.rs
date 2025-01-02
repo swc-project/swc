@@ -283,6 +283,7 @@ impl Lexer<'_> {
             }
         };
         dbg!(&c, start.0, self.input.cur_slice());
+        dbg!(&self.state.context.current());
 
         // println!(
         //     "\tContext: ({:?}) {:?}",
@@ -292,8 +293,6 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
-        dbg!(&c);
-        dbg!(&self.state.context.current());
         if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
