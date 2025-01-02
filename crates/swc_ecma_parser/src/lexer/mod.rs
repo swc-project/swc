@@ -223,10 +223,15 @@ impl<'a> Lexer<'a> {
             RawToken::PlusPlus => Token::PlusPlus,
             RawToken::MinusMinus => Token::MinusMinus,
             RawToken::Tilde => Token::Tilde,
-            RawToken::Str => Token::Str {
-                value: self.atoms.atom(self.input.cur_slice()),
-                raw: self.atoms.atom(self.input.cur_slice()),
-            },
+            RawToken::Str => {
+                let s = self.input.cur_slice();
+                let value = &s[1..s.len() - 1];
+
+                Token::Str {
+                    value: self.atoms.atom(value),
+                    raw: self.atoms.atom(s),
+                }
+            }
             RawToken::Num => {
                 let s = self.input.cur_slice();
                 let value = if let Some(s) = s.strip_prefix("0x").or_else(|| s.strip_prefix("0X")) {
