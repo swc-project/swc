@@ -29,11 +29,13 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
 enum StrContent {
-    #[token("\\n")]
     #[regex(r#"\\["'\\bfnrtv]"#, priority = 100)]
+    #[regex(r#"\\0[0-7]*"#, priority = 100)]
+    #[regex(r#"\\x[0-9a-fA-F]{2}"#, priority = 100)]
+    #[regex(r#"\\u[0-9a-fA-F]{4}"#, priority = 100)]
     Escape,
 
-    #[regex(r#"[^'"]+"#)]
+    #[regex(r#"[^'"\\]+"#)]
     Normal,
 
     #[regex(r#"'"#)]
@@ -46,6 +48,7 @@ enum StrContent {
 #[cfg(test)]
 mod tests {
     use logos::Lexer;
+    use pretty_assertions::assert_eq;
 
     use super::StrContent;
 
@@ -57,7 +60,9 @@ mod tests {
             .map(|v| v.unwrap())
             .collect::<Vec<_>>();
 
-        assert_eq!(expected.len(), actual.len() - 1);
+        // Actual contains the last quote
+
+        assert_eq!(expected.len() + 1, actual.len());
         assert_eq!(expected, &actual[..expected.len()]);
 
         assert!(matches!(
@@ -69,7 +74,7 @@ mod tests {
     #[test]
     fn escape_newline() {
         assert_str(
-            "hello\\nworld",
+            "hello\\nworld'",
             &[StrContent::Normal, StrContent::Escape, StrContent::Normal],
         );
     }
