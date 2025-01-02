@@ -24,7 +24,6 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
 
     let left_len = str_lexer.remainder().len();
     let consumed = total_len - left_len;
-    dbg!(consumed);
     lex.bump(consumed);
 }
 
