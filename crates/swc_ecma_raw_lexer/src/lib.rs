@@ -74,9 +74,15 @@ impl<'a> RawBuffer<'a> {
     }
 
     pub fn cur_char(&mut self) -> Option<char> {
-        self.reset_peeked();
+        let lo = self.pos.0 - self.start_pos.0;
 
-        self.lexer.inner_mut().remainder().chars().next()
+        let source = unsafe {
+            // Safety: self.pos is always within the bounds of `self.orig_str` and it's
+            // always at the char boundary
+            self.orig_str.get_unchecked(lo as usize..)
+        };
+
+        source.chars().next()
     }
 
     pub fn peek_char(&mut self) -> Option<char> {
