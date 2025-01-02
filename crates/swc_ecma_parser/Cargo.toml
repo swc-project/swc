@@ -26,7 +26,7 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 either                = { workspace = true }
-logos                 = "0.15.0"
+logos                 = { workspace = true }
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true }
 num-traits            = { workspace = true }
