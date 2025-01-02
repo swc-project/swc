@@ -17,6 +17,7 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
     let mut str_lexer = Lexer::<StrContent>::new(&text[1..]);
 
     while let Some(Ok(token)) = str_lexer.next() {
+        dbg!(&token);
         if token == stop_token {
             break;
         }
@@ -72,10 +73,20 @@ mod tests {
     }
 
     #[test]
-    fn escape_newline() {
+    fn test_newline() {
         assert_str(
             "hello\\nworld'",
             &[StrContent::Normal, StrContent::Escape, StrContent::Normal],
         );
+    }
+
+    #[test]
+    fn test_escape() {
+        assert_str(r#"\\''"#, &[StrContent::Escape, StrContent::Normal]);
+    }
+
+    #[test]
+    fn test_escape_escape() {
+        assert_str(r#"\\\\'"#, &[StrContent::Escape, StrContent::Normal]);
     }
 }
