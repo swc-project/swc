@@ -15,4 +15,5 @@ new_debug_unreachable = { workspace = true }
 swc_common            = { version = "5.0.0", path = "../swc_common" }
 
 [dev-dependencies]
-regex = { workspace = true }
+pretty_assertions = { workspace = true }
+regex             = { workspace = true }
