@@ -269,17 +269,10 @@ impl Lexer<'_> {
             return self.read_tmpl_token(start).map(Some);
         }
 
-        let c = match self.input.cur() {
-            Err(..) => {
-                let _ = self.input.next();
-                return Err(Error::new(
-                    self.span(*start),
-                    SyntaxError::UnexpectedCharFromLexer,
-                ));
-            }
-            Ok(Some(v)) => v,
+        let c = match self.cur()? {
+            Some(v) => v,
             // End of input.
-            Ok(None) => {
+            None => {
                 self.consume_pending_comments();
 
                 return Ok(None);
@@ -325,7 +318,7 @@ impl Lexer<'_> {
 
             if c == RawToken::LtOp
                 && self.state.is_expr_allowed
-                && self.input.peek()? != Some(RawToken::Bang)
+                && self.input.peek() != Ok(Some(RawToken::Bang))
             {
                 unsafe {
                     // Safety: cur() is Some('<')

@@ -12,7 +12,7 @@ impl Lexer<'_> {
         let mut value = String::new();
 
         loop {
-            let cur = match self.input.cur()? {
+            let cur = match self.cur()? {
                 Some(c) => c,
                 None => {
                     let start = self.state.start;
@@ -27,9 +27,8 @@ impl Lexer<'_> {
 
                     self.emit_error_span(span, SyntaxError::TS1185);
                     // Bump conflict marker
-                    self.input.next().transpose()?;
+                    self.input.next();
 
-                    self.skip_space::<true>()?;
                     *start = self.input.cur_pos();
                     return self.read_token(start);
                 }
@@ -153,7 +152,7 @@ impl Lexer<'_> {
 
         let mut s = SmartString::<LazyCompact>::default();
 
-        let c = self.input.cur()?;
+        let c = self.cur()?;
         debug_assert_eq!(c, Some(RawToken::BitAndOp));
         unsafe {
             // Safety: cur() was Some('&')
@@ -242,7 +241,7 @@ impl Lexer<'_> {
 
         // it might be at the end of the file when
         // the string literal is unterminated
-        if self.input.peek_ahead()?.is_some() {
+        if matches!(self.input.peek_ahead(), Ok(Some(..))) {
             let _ = self.input.next();
         }
 

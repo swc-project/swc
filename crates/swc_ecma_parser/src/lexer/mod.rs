@@ -170,7 +170,7 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self, start: &mut BytePos) -> LexResult<Option<Token>> {
-        let cur = match self.input.cur()? {
+        let cur = match self.cur()? {
             Some(cur) => cur,
             None => return Ok(None),
         };
@@ -178,8 +178,7 @@ impl<'a> Lexer<'a> {
         let token = match cur {
             RawToken::LegacyCommentOpen | RawToken::LegacyCommentClose => {
                 // XML style comment. `<!--`
-                self.input.next().transpose()?;
-                self.skip_space::<true>()?;
+                self.input.next();
                 self.emit_module_mode_error(*start, SyntaxError::LegacyCommentInModule);
 
                 *start = self.input.cur_pos();
@@ -270,7 +269,7 @@ impl<'a> Lexer<'a> {
 
             RawToken::Shebang => {
                 self.emit_error(*start, SyntaxError::UnexpectedCharFromLexer);
-                self.input.next().transpose()?;
+                self.input.next();
 
                 return self.read_token(start);
             }
@@ -722,9 +721,9 @@ impl Lexer<'_> {
         // here (don't ask).
         // let flags_start = self.input.cur_pos();
         let flags = {
-            if self.input.cur()? == Some(RawToken::Ident) {
-                let s = self.atoms.atom(self.input.cur_slice());
-                self.input.next().transpose()?;
+            if self.cur()? == Some(RawToken::Ident) {
+                let s: Atom = self.atoms.atom(self.input.cur_slice());
+                self.input.next();
                 Some(s)
             } else {
                 None
@@ -870,6 +869,21 @@ impl Lexer<'_> {
     #[inline]
     pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
         self.state.next_regexp = start;
+    }
+
+    #[inline(never)]
+    fn cur(&mut self) -> LexResult<Option<RawToken>> {
+        match self.input.cur() {
+            Err(..) => {
+                let start = self.input.cur_pos();
+                let _ = self.input.next();
+                Err(Error::new(
+                    self.span(start),
+                    SyntaxError::UnexpectedCharFromLexer,
+                ))
+            }
+            Ok(v) => Ok(v),
+        }
     }
 }
 

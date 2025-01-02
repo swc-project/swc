@@ -110,31 +110,6 @@ impl Lexer<'_> {
         self.add_module_mode_error(err);
     }
 
-    /// Skip comments or whitespaces.
-    ///
-    /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
-        match self.input.cur()? {
-            Some(RawToken::Whitespace | RawToken::NewLine) => {
-                self.input.next().transpose()?;
-            }
-
-            Some(
-                RawToken::LineComment
-                | RawToken::BlockComment
-                | RawToken::LegacyCommentOpen
-                | RawToken::LegacyCommentClose,
-            ) if LEX_COMMENTS => {
-                self.input.next().transpose()?;
-            }
-
-            _ => {}
-        }
-
-        Ok(())
-    }
-
     #[inline(never)]
     fn store_comment(
         &mut self,

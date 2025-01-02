@@ -5,8 +5,9 @@ use std::{borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
-    Span, Spanned, DUMMY_SP,
+    Span, Spanned,
 };
+use swc_ecma_raw_lexer::LogosError;
 
 use crate::token::Token;
 
@@ -804,8 +805,11 @@ fn size_of_error() {
     assert_eq!(std::mem::size_of::<Error>(), 8);
 }
 
-impl From<swc_ecma_raw_lexer::UnknownChar> for Error {
-    fn from(_: swc_ecma_raw_lexer::UnknownChar) -> Self {
-        Self::new(DUMMY_SP, SyntaxError::UnexpectedCharFromLexer)
+impl From<LogosError> for SyntaxError {
+    fn from(e: LogosError) -> Self {
+        match e {
+            LogosError::UnterminatedStr => SyntaxError::UnterminatedStrLit,
+            LogosError::UnknownChar => SyntaxError::UnexpectedCharFromLexer,
+        }
     }
 }
