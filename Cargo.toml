@@ -58,6 +58,7 @@ resolver = "2"
   jsonc-parser              = "0.21.0"
   lazy_static               = "1.4.0"
   lexical                   = "6.1.0"
+  logos                     = "0.15.0"
   lru                       = "0.10.0"
   memchr                    = "2.6.1"
   miette                    = "7.2.0"
@@ -122,7 +123,6 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "5.0.1", default-features = false }
   wasmer-wasix              = { version = "0.31.0", default-features = false }
-logos = "0.15.0"
 
 [profile.release]
 lto = true
