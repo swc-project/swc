@@ -14,10 +14,9 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
     let text = lex.remainder();
     let total_len = text.len();
 
-    let mut str_lexer = Lexer::<StrContent>::new(&text[1..]);
+    let mut str_lexer = Lexer::<StrContent>::new(text);
 
     while let Some(Ok(token)) = str_lexer.next() {
-        dbg!(&token);
         if token == stop_token {
             break;
         }
@@ -61,6 +60,13 @@ mod tests {
             .map(|v| v.unwrap())
             .collect::<Vec<_>>();
 
+        let mut lexer = Lexer::<StrContent>::new(text);
+
+        while let Some(Ok(token)) = lexer.next() {
+            dbg!(&token);
+            dbg!(lexer.slice());
+        }
+
         // Actual contains the last quote
 
         assert_eq!(expected.len() + 1, actual.len());
@@ -82,11 +88,11 @@ mod tests {
 
     #[test]
     fn test_escape() {
-        assert_str(r#"\\''"#, &[StrContent::Escape, StrContent::Normal]);
+        assert_str(r#"\''"#, &[StrContent::Escape]);
     }
 
     #[test]
     fn test_escape_escape() {
-        assert_str(r#"\\\\'"#, &[StrContent::Escape, StrContent::Normal]);
+        assert_str(r#"\\'"#, &[StrContent::Escape]);
     }
 }
