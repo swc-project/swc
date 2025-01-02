@@ -264,6 +264,11 @@ impl Lexer<'_> {
     }
 
     pub(super) fn read_any_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
+        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+            let start = self.state.tpl_start;
+            return self.read_tmpl_token(start).map(Some);
+        }
+
         let c = match self.input.cur() {
             Err(..) => {
                 let _ = self.input.next();
@@ -329,11 +334,6 @@ impl Lexer<'_> {
 
                 return Ok(Some(Token::JSXTagStart));
             }
-        }
-
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
         }
 
         self.read_token(start)
