@@ -75,10 +75,7 @@ impl Lexer<'_> {
                             candidate_list: vec!["`{'>'}`", "`&gt;`"],
                         },
                     );
-                    unsafe {
-                        // Safety: cur() was Some('>')
-                        self.input.bump(1)
-                    }
+                    self.input.next();
                 }
                 RawToken::RBrace => {
                     self.emit_error(
@@ -87,10 +84,7 @@ impl Lexer<'_> {
                             candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                         },
                     );
-                    unsafe {
-                        // Safety: cur() was Some('}')
-                        self.input.bump(1)
-                    }
+                    self.input.next();
                 }
                 RawToken::BitAndOp => {
                     value.push_str(unsafe {
@@ -116,10 +110,7 @@ impl Lexer<'_> {
                         }
                         chunk_start = self.input.cur_pos();
                     } else {
-                        unsafe {
-                            // Safety: cur() was Some(c)
-                            self.input.bump(1)
-                        }
+                        self.input.next();
                     }
                 }
             }
@@ -206,16 +197,10 @@ impl Lexer<'_> {
         debug_assert!(self.syntax.jsx());
 
         let ch = self.input.cur_char().unwrap();
-        unsafe {
-            // Safety: cur() was Some(ch)
-            self.input.bump(1);
-        }
+        self.input.next();
 
         let out = if ch == '\r' && self.input.cur_char() == Some('\n') {
-            unsafe {
-                // Safety: cur() was Some('\n')
-                self.input.bump(1);
-            }
+            self.input.next();
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
             Either::Right(ch)
