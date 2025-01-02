@@ -323,14 +323,14 @@ impl<'a> Lexer<'a> {
                 self.atoms.atom(self.input.cur_slice())
             }))),
             RawToken::NewLine | RawToken::Whitespace => {
-                self.input.next().transpose()?;
+                let _ = self.input.next();
                 // self.skip_space::<true>();
 
                 *start = self.input.cur_pos();
                 return self.read_token(start);
             }
             RawToken::LineComment | RawToken::BlockComment => {
-                self.input.next().transpose()?;
+                let _ = self.input.next();
                 // self.skip_space::<true>()?;
 
                 *start = self.input.cur_pos();
