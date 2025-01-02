@@ -5341,6 +5341,7 @@ version = "0.1.0"
 dependencies = [
  "logos",
  "new_debug_unreachable",
+ "pretty_assertions",
  "regex",
  "swc_common",
 ]
