@@ -22,10 +22,7 @@ impl Lexer<'_> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
-                RawToken::LtOp
-                    if self.had_line_break_before_last()
-                        && self.input.peek()? == Some(RawToken::LConflictMarker) =>
-                {
+                RawToken::ConflictMarker => {
                     let span = Span::new(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);

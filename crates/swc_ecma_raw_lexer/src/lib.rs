@@ -420,10 +420,10 @@ pub enum RawToken {
     LegacyCommentClose,
 
     #[token("<<<<<<<")]
-    LConflictMarker,
-
     #[token(">>>>>>>")]
-    RConflictMarker,
+    #[token("=======")]
+    #[token("|||||||")]
+    ConflictMarker,
 
     #[token("await")]
     Await,

@@ -188,7 +188,7 @@ impl<'a> Lexer<'a> {
                 return self.read_token(start);
             }
 
-            RawToken::LConflictMarker | RawToken::RConflictMarker => {
+            RawToken::ConflictMarker => {
                 // All conflict markers consist of the same character repeated seven times.
                 // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
                 // <<<<<<<
