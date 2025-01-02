@@ -44,6 +44,7 @@ enum StrContent {
     #[regex(r#"\\0[0-7]*"#, priority = 100)]
     #[regex(r#"\\x[0-9a-fA-F]{2}"#, priority = 100)]
     #[regex(r#"\\u[0-9a-fA-F]{4}"#, priority = 100)]
+    #[regex(r#"\\[^'"\\]+"#)]
     Escape,
 
     #[regex(r#"[^'"\\]+"#)]
