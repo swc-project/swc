@@ -266,8 +266,8 @@ impl Lexer<'_> {
         //     *start = self.input.cur_pos();
         // };
 
-        match self.input.cur()? {
-            Some(..) => {}
+        let c = match self.input.cur()? {
+            Some(v) => v,
             // End of input.
             None => {
                 self.consume_pending_comments();
@@ -290,43 +290,40 @@ impl Lexer<'_> {
                 return self.read_jsx_token(start);
             }
 
-            let c = self.input.cur()?;
-            if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-                {
-                    if c == RawToken::Ident {
-                        return Ok(Some(Token::JSXName {
-                            name: self.atoms.atom(self.input.cur_slice()),
-                        }));
-                    }
-
-                    if c == RawToken::GtOp {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump(1);
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
-
-                    if (c == RawToken::Str)
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str().map(Some);
-                    }
+            if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                || self.state.context.current() == Some(TokenContext::JSXClosingTag)
+            {
+                if c == RawToken::Ident {
+                    let name = self.atoms.atom(self.input.cur_slice());
+                    let _ = self.input.next();
+                    return Ok(Some(Token::JSXName { name }));
                 }
 
-                if c == RawToken::LtOp
-                    && self.state.is_expr_allowed
-                    && self.input.peek()? != Some(RawToken::Bang)
-                {
+                if c == RawToken::GtOp {
                     unsafe {
-                        // Safety: cur() is Some('<')
+                        // Safety: cur() is Some('>')
                         self.input.bump(1);
                     }
-
-                    return Ok(Some(Token::JSXTagStart));
+                    return Ok(Some(Token::JSXTagEnd));
                 }
+
+                if (c == RawToken::Str)
+                    && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                {
+                    return self.read_jsx_str().map(Some);
+                }
+            }
+
+            if c == RawToken::LtOp
+                && self.state.is_expr_allowed
+                && self.input.peek()? != Some(RawToken::Bang)
+            {
+                unsafe {
+                    // Safety: cur() is Some('<')
+                    self.input.bump(1);
+                }
+
+                return Ok(Some(Token::JSXTagStart));
             }
         }
 
