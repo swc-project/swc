@@ -1,21 +1,27 @@
 use logos::Logos;
 use swc_ecma_raw_lexer::RawToken;
 
-const INNER_REGEX: &str =
-    r#"([^"\\]|\\["\\bnfrt\n]|u[a-fA-F0-9]{4}|[xX][a-fA-F0-9]{0,2}|[oO][0-7]+|0[0-7]*|[bB][01]+)*"#;
-
 fn assert_str(s: &str) {
     println!("String input: `{s}`");
-    {
-        let s = &s[1..s.len() - 1];
-        let regex = regex::Regex::new(INNER_REGEX).unwrap();
-
-        assert!(regex.is_match(s));
-    }
 
     let mut tokens = RawToken::lexer(s);
 
     assert_eq!(tokens.next(), Some(Ok(RawToken::Str)));
+    assert_eq!(tokens.next(), None);
+
+    println!("Done")
+}
+
+fn assert_strs(s: &str) {
+    println!("String input: `{s}`");
+
+    let mut tokens = RawToken::lexer(s);
+
+    while let Some(Ok(token)) = tokens.next() {
+        assert_eq!(token, RawToken::Str);
+        assert_eq!(tokens.next(), Some(Ok(RawToken::Semi)));
+    }
+
     assert_eq!(tokens.next(), None);
 }
 
@@ -50,4 +56,6 @@ fn test_str_escape_unicode() {
 fn test_str_escape_escape() {
     assert_str(r#"'\\\\'"#);
     assert_str(r#""\\\\""#);
+
+    assert_strs(r#"'\\\\';"\\\\";"#);
 }
