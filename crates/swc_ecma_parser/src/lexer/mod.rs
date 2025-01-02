@@ -183,7 +183,7 @@ impl<'a> Lexer<'a> {
                 self.emit_module_mode_error(*start, SyntaxError::LegacyCommentInModule);
 
                 *start = self.input.cur_pos();
-                return self.read_token(start);
+                return self.read_any_token(start);
             }
 
             RawToken::ConflictMarker => {
@@ -198,7 +198,7 @@ impl<'a> Lexer<'a> {
                 let _ = self.input.next();
 
                 *start = self.input.cur_pos();
-                return self.read_token(start);
+                return self.read_any_token(start);
             }
             RawToken::Arrow => Token::Arrow,
             RawToken::Hash => Token::Hash,
@@ -325,14 +325,14 @@ impl<'a> Lexer<'a> {
                 // self.skip_space::<true>();
 
                 *start = self.input.cur_pos();
-                return self.read_token(start);
+                return self.read_any_token(start);
             }
             RawToken::LineComment | RawToken::BlockComment => {
                 let _ = self.input.next();
                 // self.skip_space::<true>()?;
 
                 *start = self.input.cur_pos();
-                return self.read_token(start);
+                return self.read_any_token(start);
             }
             RawToken::Await => Token::Word(Word::Keyword(Keyword::Await)),
             RawToken::Break => Token::Word(Word::Keyword(Keyword::Break)),

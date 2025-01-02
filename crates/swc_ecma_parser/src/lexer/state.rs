@@ -260,12 +260,10 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        // // skip spaces before getting next character, if we are allowed to.
-        // if self.state.can_skip_space() {
-        //     self.skip_space::<true>()?;
-        //     *start = self.input.cur_pos();
-        // };
+        self.read_any_token(start)
+    }
 
+    pub(super) fn read_any_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
         let c = match self.input.cur() {
             Err(..) => {
                 let _ = self.input.next();
