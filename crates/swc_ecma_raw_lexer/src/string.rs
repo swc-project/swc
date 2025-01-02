@@ -1,6 +1,6 @@
 use logos::{Lexer, Logos};
 
-use crate::RawToken;
+use crate::{LogosError, RawToken};
 
 pub fn consume_str_single_quote(lex: &mut Lexer<RawToken>) {
     consume_str(lex, StrContent::SingleQuote);
@@ -10,14 +10,19 @@ pub fn consume_str_double_quote(lex: &mut Lexer<RawToken>) {
     consume_str(lex, StrContent::DoubleQuote);
 }
 
-fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
+fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) -> Result<(), LogosError> {
     let text = lex.remainder();
     let total_len = text.len();
 
+    dbg!(&text);
+
     let mut str_lexer = Lexer::<StrContent>::new(text);
+    let mut terminated = false;
 
     while let Some(Ok(token)) = str_lexer.next() {
+        dbg!(&token);
         if token == stop_token {
+            terminated = true;
             break;
         }
     }
@@ -25,6 +30,12 @@ fn consume_str(lex: &mut Lexer<RawToken>, stop_token: StrContent) {
     let left_len = str_lexer.remainder().len();
     let consumed = total_len - left_len;
     lex.bump(consumed);
+
+    if !terminated {
+        return Err(LogosError::UnterminatedStr);
+    }
+
+    Ok(())
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]

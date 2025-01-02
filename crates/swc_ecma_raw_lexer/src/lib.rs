@@ -61,15 +61,15 @@ impl<'a> RawBuffer<'a> {
         self.pos
     }
 
-    pub fn cur(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+    pub fn cur(&mut self) -> Result<Option<RawToken>, LogosError> {
         self.lexer.peek().map(|(t, _)| *t).transpose()
     }
 
-    pub fn peek(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+    pub fn peek(&mut self) -> Result<Option<RawToken>, LogosError> {
         self.lexer.peek_nth(1).map(|(t, _)| *t).transpose()
     }
 
-    pub fn peek_ahead(&mut self) -> Result<Option<RawToken>, UnknownChar> {
+    pub fn peek_ahead(&mut self) -> Result<Option<RawToken>, LogosError> {
         self.lexer.peek_nth(2).map(|(t, _)| *t).transpose()
     }
 
@@ -177,7 +177,7 @@ impl<'a> RawBuffer<'a> {
 }
 
 impl Iterator for RawBuffer<'_> {
-    type Item = Result<RawToken, UnknownChar>;
+    type Item = Result<RawToken, LogosError>;
 
     fn next(&mut self) -> Option<Self::Item> {
         let (previous_token, span) = self.lexer.next()?;
@@ -193,7 +193,7 @@ impl Iterator for RawBuffer<'_> {
 }
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
-#[logos(error = UnknownChar, extras = TokenState)]
+#[logos(error = LogosError, extras = TokenState)]
 pub enum RawToken {
     #[token("=>")]
     Arrow,
@@ -676,4 +676,8 @@ impl RawToken {
 }
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-pub struct UnknownChar;
+pub enum LogosError {
+    #[default]
+    UnknownChar,
+    UnterminatedStr,
+}

@@ -1,7 +1,7 @@
 use logos::Logos;
 
-use crate::UnknownChar;
+use crate::LogosError;
 
 #[derive(Logos, Debug, Clone, Copy, PartialEq, Eq)]
-#[logos(error = UnknownChar)]
+#[logos(error = LogosError)]
 pub enum JsxToken {}
