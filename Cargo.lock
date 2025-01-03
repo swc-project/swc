@@ -5322,6 +5322,7 @@ version = "6.0.2"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
+ "chili",
  "codspeed-criterion-compat",
  "criterion",
  "indexmap 2.5.0",
