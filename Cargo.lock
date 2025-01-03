@@ -603,6 +603,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cc9a2cd1dfcbaf58c5a8552616ee811323cc614ffa612857b0ff610b5335b0e"
 
 [[package]]
+name = "chili"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ec8817e1dba91d731205d28b7375fdc8cd6625dacd432a8fc9650a6cdc1bb13"
+
+[[package]]
 name = "chrono"
 version = "0.4.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5154,6 +5160,7 @@ dependencies = [
  "anyhow",
  "arrayvec",
  "backtrace",
+ "chili",
  "codspeed-criterion-compat",
  "criterion",
  "indexmap 2.5.0",
