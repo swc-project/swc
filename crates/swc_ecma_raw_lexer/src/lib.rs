@@ -18,6 +18,7 @@ mod peek;
 mod size_hint;
 mod string;
 
+/// A lexer that can be used to create [RawToken].
 #[derive(Clone)]
 pub struct RawLexer<'a> {
     lexer: PeekNth<logos::SpannedIter<'a, RawToken>>,
