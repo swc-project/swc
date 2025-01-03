@@ -435,6 +435,9 @@ impl<'a> Lexer<'a> {
             RawToken::Public => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
         };
 
+        // We skip whitespace tokens and newline tokens, so we need to update the
+        // start position.
+        *start = self.input.update_cur_pos();
         let _ = self.input.next();
 
         Ok(Some(token))

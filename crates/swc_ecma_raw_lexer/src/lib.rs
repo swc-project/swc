@@ -63,6 +63,12 @@ impl<'a> RawBuffer<'a> {
         self.pos
     }
 
+    pub fn update_cur_pos(&mut self) -> BytePos {
+        let span = self.lexer.peek().map(|v| v.1.clone()).unwrap_or_default();
+        self.pos = self.base_pos + BytePos(span.start as u32);
+        self.pos
+    }
+
     pub fn cur(&mut self) -> Result<Option<RawToken>, LogosError> {
         self.lexer.peek().map(|(t, _)| *t).transpose()
     }
