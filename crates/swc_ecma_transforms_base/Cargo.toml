@@ -19,6 +19,7 @@ concurrent-renamer = ["rayon"]
 [dependencies]
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
 bitflags          = { workspace = true }
+chili             = { workspace = true }
 indexmap          = { workspace = true }
 once_cell         = { workspace = true }
 phf               = { workspace = true, features = ["macros"] }
