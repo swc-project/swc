@@ -32,10 +32,22 @@ swc_ecma_utils = { version = "6.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen         = { version = "5.0.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "6.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "6.0.2", path = "../swc_ecma_transforms_base" }
-testing                  = { version = "5.0.0", path = "../testing" }
+anyhow                    = { workspace = true }
+codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
+pretty_assertions         = { workspace = true }
+swc_ecma_codegen          = { version = "5.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_parser           = { version = "6.0.1", path = "../swc_ecma_parser" }
+swc_ecma_testing          = { version = "5.0.0", path = "../swc_ecma_testing" }
+swc_ecma_transforms_base  = { version = "6.0.2", path = "../swc_ecma_transforms_base" }
+swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
+testing                   = { version = "5.0.0", path = "../testing" }
+walkdir                   = { workspace = true }
 
 [features]
 non_critical_lints = []
+
+
+[[bench]]
+harness = false
+name    = "all"
