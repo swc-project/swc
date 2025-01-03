@@ -5107,9 +5107,13 @@ dependencies = [
 name = "swc_ecma_lints"
 version = "6.0.0"
 dependencies = [
+ "anyhow",
  "auto_impl",
+ "codspeed-criterion-compat",
+ "criterion",
  "dashmap 5.5.3",
  "parking_lot",
+ "pretty_assertions",
  "rayon",
  "regex",
  "serde",
@@ -5119,10 +5123,13 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
+ "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_malloc",
  "testing",
+ "walkdir",
 ]
 
 [[package]]
