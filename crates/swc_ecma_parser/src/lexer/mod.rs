@@ -671,7 +671,7 @@ impl Lexer<'_> {
             self.input.reset_to(start);
         }
 
-        debug_assert_eq!(self.input.cur_char(), Some('/'));
+        debug_assert_eq!(self.cur()?, Some(RawToken::DivOp));
 
         let start = self.input.cur_pos();
 
