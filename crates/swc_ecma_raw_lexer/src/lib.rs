@@ -683,7 +683,9 @@ fn newline_callback(l: &mut Lexer<RawToken>) {
     l.extras.had_line_break = true;
 }
 
-fn whitespace_callback(_: &mut Lexer<RawToken>) {}
+fn whitespace_callback(_: &mut Lexer<RawToken>) -> Skip {
+    Skip
+}
 
 impl RawToken {
     pub fn is_line_terminator(&self) -> bool {
