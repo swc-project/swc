@@ -320,6 +320,10 @@ impl<'a> Lexer<'a> {
             RawToken::AndAssignOp => Token::AssignOp(AssignOp::AndAssign),
             RawToken::OrAssignOp => Token::AssignOp(AssignOp::OrAssign),
             RawToken::NullishAssignOp => Token::AssignOp(AssignOp::NullishAssign),
+
+            RawToken::JsxTagStart => Token::JSXTagStart,
+            RawToken::JsxTagEnd => Token::JSXTagEnd,
+
             RawToken::Ident => Token::Word(Word::Ident(IdentLike::Other({
                 self.atoms.atom(self.input.cur_slice())
             }))),

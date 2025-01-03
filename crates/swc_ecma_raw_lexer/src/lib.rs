@@ -418,6 +418,11 @@ pub enum RawToken {
     #[token("??=")]
     NullishAssignOp,
 
+    /// TODO: Move jsx lexing to RawLexer
+    JsxTagStart,
+    /// TODO: Move jsx lexing to RawLexer
+    JsxTagEnd,
+
     #[regex(r"([\p{XID_Start}_$]|\\u[a-fA-F0-9]{4})([\p{XID_Continue}_$]|\\u[a-fA-F0-9]{4})*")]
     Ident,
 
