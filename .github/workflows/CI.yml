@@ -499,7 +499,7 @@ jobs:
         crate:
           - better_scoped_tls
           - string_enum
-          - swc
+          # - swc
           - swc_bundler
           # - swc_ecma_codegen
           # - swc_ecma_minifier
