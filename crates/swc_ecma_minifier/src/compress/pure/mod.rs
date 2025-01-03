@@ -172,31 +172,9 @@ impl Pure<'_> {
         if !cfg!(target_arch = "wasm32") && (!cfg!(feature = "debug") || !cfg!(debug_assertions)) {
             #[cfg(feature = "concurrent")]
             {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .par_iter_mut()
-                        .with_min_len(
-                            (*crate::HEAVY_TASK_PARALLELS)
-                                * (f32::log2(self.ctx.par_depth as f32).floor() as usize),
-                        )
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|| false, |a, b| a || b);
-                })
+                changed = self.join_par(&mut chili::Scope::global(), nodes);
+                self.changed |= changed;
+                return;
             }
 
             #[cfg(not(feature = "concurrent"))]
@@ -245,6 +223,51 @@ impl Pure<'_> {
                 .unwrap_or(false);
         }
         self.changed |= changed;
+    }
+
+    fn join_par<N>(&mut self, scope: &mut chili::Scope, nodes: &mut [N]) -> bool
+    where
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+    {
+        let len = nodes.len();
+
+        if len == 0 {
+            return false;
+        }
+        if len == 1 {
+            nodes[0].visit_mut_with(self);
+            return self.changed;
+        }
+
+        let (a, b) = nodes.split_at_mut(len / 2);
+
+        GLOBALS.with(|globals| {
+            let mut v1 = Pure {
+                expr_ctx: self.expr_ctx.clone(),
+                ctx: Ctx {
+                    par_depth: self.ctx.par_depth + 1,
+                    ..self.ctx
+                },
+                changed: false,
+                ..*self
+            };
+            let mut v2 = Pure {
+                expr_ctx: self.expr_ctx.clone(),
+                ctx: Ctx {
+                    par_depth: self.ctx.par_depth + 1,
+                    ..self.ctx
+                },
+                changed: false,
+                ..*self
+            };
+
+            let (ar, br) = scope.join(
+                |scope| GLOBALS.set(globals, || v1.join_par(scope, a)),
+                |scope| GLOBALS.set(globals, || v2.join_par(scope, b)),
+            );
+
+            ar || br
+        })
     }
 }
 
