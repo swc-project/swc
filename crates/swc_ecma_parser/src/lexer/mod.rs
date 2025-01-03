@@ -6,7 +6,7 @@ use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{AssignOp, EsVersion};
-use swc_ecma_raw_lexer::{RawBuffer, RawToken};
+use swc_ecma_raw_lexer::{RawLexer, RawToken};
 
 use self::{comments_buffer::CommentsBuffer, state::State, util::CharExt};
 pub use self::{
@@ -114,7 +114,7 @@ pub struct Lexer<'a> {
     comments_buffer: Option<CommentsBuffer>,
 
     pub(crate) ctx: Context,
-    input: RawBuffer<'a>,
+    input: RawLexer<'a>,
     start_pos: BytePos,
 
     state: State,
@@ -144,7 +144,7 @@ impl<'a> Lexer<'a> {
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
-            input: RawBuffer::new(input),
+            input: RawLexer::new(input),
             start_pos,
             state: State::new(syntax, start_pos),
             syntax,

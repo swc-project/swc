@@ -19,7 +19,7 @@ mod size_hint;
 mod string;
 
 #[derive(Clone)]
-pub struct RawBuffer<'a> {
+pub struct RawLexer<'a> {
     lexer: PeekNth<logos::SpannedIter<'a, RawToken>>,
     base_pos: BytePos,
     pos: BytePos,
@@ -28,7 +28,7 @@ pub struct RawBuffer<'a> {
     end_pos: BytePos,
 }
 
-impl Debug for RawBuffer<'_> {
+impl Debug for RawLexer<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RawBuffer {{ pos: {:?} }}", self.pos)
     }
@@ -39,7 +39,7 @@ pub struct TokenState {
     pub had_line_break: bool,
 }
 
-impl<'a> RawBuffer<'a> {
+impl<'a> RawLexer<'a> {
     pub fn new(input: StringInput<'a>) -> Self {
         Self {
             lexer: peek_nth(logos::Lexer::new(input.as_str()).spanned()),
@@ -197,7 +197,7 @@ impl<'a> RawBuffer<'a> {
     }
 }
 
-impl Iterator for RawBuffer<'_> {
+impl Iterator for RawLexer<'_> {
     type Item = Result<RawToken, LogosError>;
 
     fn next(&mut self) -> Option<Self::Item> {
