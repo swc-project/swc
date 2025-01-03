@@ -684,8 +684,9 @@ pub enum RawToken {
     Public,
 }
 
-fn newline_callback(l: &mut Lexer<RawToken>) {
+fn newline_callback(l: &mut Lexer<RawToken>) -> Skip {
     l.extras.had_line_break = true;
+    Skip
 }
 
 fn whitespace_callback(_: &mut Lexer<RawToken>) -> Skip {
