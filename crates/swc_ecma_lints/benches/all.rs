@@ -3,7 +3,11 @@ extern crate swc_malloc;
 use std::fs::read_to_string;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
-use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceMap, SyntaxContext};
+use swc_common::{
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{config::LintConfig, rule::Rule, rules::LintParams};
 use swc_ecma_parser::parse_file_as_module;
@@ -19,34 +23,43 @@ pub fn bench_files(c: &mut Criterion) {
             let src =
                 read_to_string(format!("../swc_ecma_minifier/benches/full/{}.js", name)).unwrap();
 
-            let cm = Lrc::new(SourceMap::default());
-            let handler = Handler::with_tty_emitter(
-                swc_common::errors::ColorConfig::Always,
-                true,
-                false,
-                Some(cm.clone()),
-            );
+            let globals = Globals::default();
+            GLOBALS.set(&globals, || {
+                let cm = Lrc::new(SourceMap::default());
+                let handler = Handler::with_tty_emitter(
+                    swc_common::errors::ColorConfig::Always,
+                    true,
+                    false,
+                    Some(cm.clone()),
+                );
 
-            let fm = cm.new_source_file(FileName::Anon.into(), src);
+                let fm = cm.new_source_file(FileName::Anon.into(), src);
 
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
+                let unresolved_mark = Mark::new();
+                let top_level_mark = Mark::new();
 
-            let program = parse_file_as_module(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut Vec::new(),
-            )
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(Program::Module)
-            .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
-            .unwrap();
+                let program = parse_file_as_module(
+                    &fm,
+                    Default::default(),
+                    Default::default(),
+                    None,
+                    &mut Vec::new(),
+                )
+                .map_err(|err| {
+                    err.into_diagnostic(&handler).emit();
+                })
+                .map(Program::Module)
+                .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
+                .unwrap();
 
-            b.iter(|| run(cm.clone(), program.clone(), unresolved_mark, top_level_mark))
+                b.iter(|| {
+                    GLOBALS.set(&globals, || {
+                        HANDLER.set(&handler, || {
+                            run(cm.clone(), program.clone(), unresolved_mark, top_level_mark)
+                        });
+                    });
+                });
+            });
         });
     };
 
