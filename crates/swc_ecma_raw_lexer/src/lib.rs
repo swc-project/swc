@@ -21,6 +21,7 @@ mod string;
 #[derive(Clone)]
 pub struct RawBuffer<'a> {
     lexer: PeekNth<logos::SpannedIter<'a, RawToken>>,
+    base_pos: BytePos,
     pos: BytePos,
     orig_str: &'a str,
     start_pos: BytePos,
@@ -42,6 +43,7 @@ impl<'a> RawBuffer<'a> {
     pub fn new(input: StringInput<'a>) -> Self {
         Self {
             lexer: peek_nth(logos::Lexer::new(input.as_str()).spanned()),
+            base_pos: input.start_pos(),
             pos: input.start_pos(),
             orig_str: input.as_str(),
             start_pos: input.start_pos(),
@@ -127,7 +129,9 @@ impl<'a> RawBuffer<'a> {
         self.reset_peeked();
 
         self.lexer.inner_mut().bump(n);
-        self.pos = self.pos + BytePos(n as u32);
+        if let Some((_, span)) = self.lexer.peek() {
+            self.pos = self.base_pos + BytePos(span.start as u32);
+        }
     }
 
     pub fn eat(&mut self, token: RawToken) -> bool {
@@ -171,6 +175,7 @@ impl<'a> RawBuffer<'a> {
         let source = self.orig_str.get_unchecked(lo as usize..hi as usize);
 
         self.lexer = peek_nth(logos::Lexer::new(source).spanned());
+        self.base_pos = pos;
         self.pos = pos;
     }
 
@@ -191,7 +196,7 @@ impl Iterator for RawBuffer<'_> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let (previous_token, span) = self.lexer.next()?;
-        self.pos = self.pos + BytePos(span.len() as u32);
+        self.pos = self.base_pos + BytePos(span.start as u32);
 
         let item = match previous_token {
             Ok(item) => item,
@@ -419,7 +424,7 @@ pub enum RawToken {
     #[regex("[\n|\r]+", priority = 5, callback = newline_callback)]
     NewLine,
 
-    #[regex(r"[ \t]+")]
+    #[regex(r"[ \t]+", callback = whitespace_callback)]
     Whitespace,
 
     #[regex(r"//[^\n]*")]
@@ -677,6 +682,8 @@ pub enum RawToken {
 fn newline_callback(l: &mut Lexer<RawToken>) {
     l.extras.had_line_break = true;
 }
+
+fn whitespace_callback(_: &mut Lexer<RawToken>) {}
 
 impl RawToken {
     pub fn is_line_terminator(&self) -> bool {
