@@ -69,6 +69,7 @@ swc_ecma_usage_analyzer = { version = "6.0.0", path = "../swc_ecma_usage_analyze
 swc_ecma_utils = { version = "6.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
+chili = { workspace = true }
 
 [dev-dependencies]
 ansi_term         = { workspace = true }
