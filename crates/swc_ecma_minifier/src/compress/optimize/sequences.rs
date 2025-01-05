@@ -2737,7 +2737,7 @@ impl MergeSequenceCache {
     fn is_top_retain(&mut self, optimizer: &Optimizer, a: &Mergable, node_id: usize) -> bool {
         *self.top_retain_cache[node_id].get_or_insert_with(|| {
             if let Mergable::Drop = a {
-                return false;
+                return true;
             }
 
             if let Some(a_id) = a.id() {
@@ -2745,11 +2745,11 @@ impl MergeSequenceCache {
                     || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
                         && !optimizer.may_remove_ident(&Ident::from(a_id)))
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            true
+            false
         })
     }
 }
