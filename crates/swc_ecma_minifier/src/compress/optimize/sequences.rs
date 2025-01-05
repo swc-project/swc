@@ -825,7 +825,7 @@ impl Optimizer<'_> {
             )
         };
 
-        let mut ident_usages = IdentUsageCache::new(exprs.len());
+        let mut merge_seq_cache = MergeSequenceCache::new(exprs.len());
 
         loop {
             let mut did_work = false;
@@ -853,7 +853,7 @@ impl Optimizer<'_> {
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
-                                            if ident_usages.is_ident_used_by(
+                                            if merge_seq_cache.is_ident_used_by(
                                                 &an.to_id(),
                                                 b_init,
                                                 b_idx,
@@ -919,7 +919,9 @@ impl Optimizer<'_> {
                     match b {
                         Mergable::Var(b) => match b.init.as_deref_mut() {
                             Some(b) => {
-                                if self.merge_sequential_expr(a, b)? {
+                                if !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                    && self.merge_sequential_expr(a, b)?
+                                {
                                     did_work = true;
                                     break;
                                 }
@@ -927,7 +929,9 @@ impl Optimizer<'_> {
                             None => continue,
                         },
                         Mergable::Expr(b) => {
-                            if self.merge_sequential_expr(a, b)? {
+                            if !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                && self.merge_sequential_expr(a, b)?
+                            {
                                 did_work = true;
                                 break;
                             }
@@ -991,7 +995,7 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a1.last_mut().unwrap().id() {
-                                if ident_usages.is_ident_used_by(&id, &**e2, b_idx) {
+                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -1003,7 +1007,7 @@ impl Optimizer<'_> {
 
                             if let Some(id) = a1.last_mut().unwrap().id() {
                                 // TODO(kdy1): Optimize
-                                if ident_usages.is_ident_used_by(&id, &**e2, b_idx) {
+                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -1537,10 +1541,6 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        if let Mergable::Drop = a {
-            return Ok(false);
-        }
-
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
@@ -1561,16 +1561,6 @@ impl Optimizer<'_> {
                 .entered(),
             )
         };
-
-        // Respect top_retain
-        if let Some(a_id) = a.id() {
-            if a_id.0 == "arguments"
-                || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                    && !self.may_remove_ident(&Ident::from(a_id)))
-            {
-                return Ok(false);
-            }
-        }
 
         match &*b {
             Expr::Arrow(..)
@@ -2721,14 +2711,16 @@ impl Mergable<'_> {
 }
 
 #[derive(Debug, Default)]
-struct IdentUsageCache {
-    cache: Vec<Option<FxHashSet<Id>>>,
+struct MergeSequenceCache {
+    ident_usage_cache: Vec<Option<FxHashSet<Id>>>,
+    top_retain_cache: Vec<Option<bool>>,
 }
 
-impl IdentUsageCache {
+impl MergeSequenceCache {
     fn new(cap: usize) -> Self {
         Self {
-            cache: vec![None; cap],
+            ident_usage_cache: vec![None; cap],
+            top_retain_cache: vec![None; cap],
         }
     }
 
@@ -2738,8 +2730,27 @@ impl IdentUsageCache {
         node: &N,
         node_id: usize,
     ) -> bool {
-        let idents = self.cache[node_id].get_or_insert_with(|| idents_used_by(node));
+        let idents = self.ident_usage_cache[node_id].get_or_insert_with(|| idents_used_by(node));
         idents.contains(ident)
+    }
+
+    fn is_top_retain(&mut self, optimizer: &Optimizer, a: &Mergable, node_id: usize) -> bool {
+        *self.top_retain_cache[node_id].get_or_insert_with(|| {
+            if let Mergable::Drop = a {
+                return false;
+            }
+
+            if let Some(a_id) = a.id() {
+                if a_id.0 == "arguments"
+                    || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
+                        && !optimizer.may_remove_ident(&Ident::from(a_id)))
+                {
+                    return false;
+                }
+            }
+
+            true
+        })
     }
 }
 
