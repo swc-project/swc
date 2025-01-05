@@ -831,15 +831,15 @@ impl Optimizer<'_> {
             let mut did_work = false;
 
             for a_idx in 0..exprs.len() {
-                for b_idx in a_idx..exprs.len() {
-                    let (a1, a2) = exprs.split_at_mut(a_idx);
+                for b_idx in (a_idx + 1)..exprs.len() {
+                    let (a1, a2) = exprs.split_at_mut(a_idx + 1);
 
                     if a1.is_empty() || a2.is_empty() {
                         break;
                     }
 
                     let a = a1.last_mut().unwrap();
-                    let b = &mut a2[b_idx - a_idx];
+                    let b = &mut a2[b_idx - a_idx - 1];
 
                     if self.options.unused && self.options.sequences() {
                         if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut *b) {
@@ -994,7 +994,7 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            if let Some(id) = a1.last_mut().unwrap().id() {
+                            if let Some(id) = a.id() {
                                 if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
@@ -1005,7 +1005,7 @@ impl Optimizer<'_> {
                                 break;
                             }
 
-                            if let Some(id) = a1.last_mut().unwrap().id() {
+                            if let Some(id) = a.id() {
                                 // TODO(kdy1): Optimize
                                 if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
