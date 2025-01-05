@@ -1,5 +1,6 @@
 use std::{iter::once, mem::take};
 
+use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -23,7 +24,10 @@ use crate::{
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    util::{
+        idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
+        ModuleItemExt,
+    },
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -821,22 +825,24 @@ impl Optimizer<'_> {
             )
         };
 
+        let mut ident_usages = IdentUsageCache::new(exprs.len());
+
         loop {
             let mut did_work = false;
 
-            for idx in 0..exprs.len() {
-                for j in idx..exprs.len() {
-                    let (a1, a2) = exprs.split_at_mut(idx);
+            for a_idx in 0..exprs.len() {
+                for b_idx in a_idx..exprs.len() {
+                    let (a1, a2) = exprs.split_at_mut(a_idx);
 
                     if a1.is_empty() || a2.is_empty() {
                         break;
                     }
 
                     let a = a1.last_mut().unwrap();
+                    let b = &mut a2[b_idx - a_idx];
 
                     if self.options.unused && self.options.sequences() {
-                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx])
-                        {
+                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut *b) {
                             // We try dropping variable assignments first.
 
                             // Currently, we only drop variable declarations if they have the same
@@ -847,7 +853,11 @@ impl Optimizer<'_> {
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
-                                            if IdentUsageFinder::find(&an.to_id(), b_init) {
+                                            if ident_usages.is_ident_used_by(
+                                                &an.to_id(),
+                                                b_init,
+                                                b_idx,
+                                            ) {
                                                 log_abort!(
                                                     "We can't duplicated binding because \
                                                      initializer uses the previous declaration of \
@@ -906,7 +916,7 @@ impl Optimizer<'_> {
 
                     // Merge sequentially
 
-                    match &mut a2[j - idx] {
+                    match b {
                         Mergable::Var(b) => match b.init.as_deref_mut() {
                             Some(b) => {
                                 if self.merge_sequential_expr(a, b)? {
@@ -972,7 +982,7 @@ impl Optimizer<'_> {
                         _ => {}
                     }
 
-                    match &a2[j - idx] {
+                    match b {
                         Mergable::Var(e2) => {
                             if let Some(e2) = &e2.init {
                                 if !self.is_skippable_for_seq(Some(a), e2) {
@@ -981,7 +991,7 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a1.last_mut().unwrap().id() {
-                                if IdentUsageFinder::find(&id, &**e2) {
+                                if ident_usages.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -993,7 +1003,7 @@ impl Optimizer<'_> {
 
                             if let Some(id) = a1.last_mut().unwrap().id() {
                                 // TODO(kdy1): Optimize
-                                if IdentUsageFinder::find(&id, &**e2) {
+                                if ident_usages.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -2707,6 +2717,29 @@ impl Mergable<'_> {
             Mergable::FnDecl(f) => Some(f.ident.to_id()),
             Mergable::Drop => None,
         }
+    }
+}
+
+#[derive(Debug, Default)]
+struct IdentUsageCache {
+    cache: Vec<Option<FxHashSet<Id>>>,
+}
+
+impl IdentUsageCache {
+    fn new(cap: usize) -> Self {
+        Self {
+            cache: vec![None; cap],
+        }
+    }
+
+    fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
+        &mut self,
+        ident: &Id,
+        node: &N,
+        node_id: usize,
+    ) -> bool {
+        let idents = self.cache[node_id].get_or_insert_with(|| idents_used_by(node));
+        idents.contains(ident)
     }
 }
 
