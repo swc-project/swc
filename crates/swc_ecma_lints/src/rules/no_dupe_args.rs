@@ -118,13 +118,13 @@ impl Visit for NoDupeArgs {
     }
 
     fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_with(v);
         });
     }
 
     fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
-        self.maybe_par(cpu_count() * 8, exprs, |v, expr| {
+        self.maybe_par(cpu_count(), exprs, |v, expr| {
             expr.visit_with(v);
         });
     }
@@ -136,25 +136,25 @@ impl Visit for NoDupeArgs {
     }
 
     fn visit_module_items(&mut self, items: &[ModuleItem]) {
-        self.maybe_par(cpu_count() * 8, items, |v, item| {
+        self.maybe_par(cpu_count(), items, |v, item| {
             item.visit_with(v);
         });
     }
 
     fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_with(v);
         });
     }
 
     fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_with(v);
         });
     }
 
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        self.maybe_par(cpu_count() * 8, stmts, |v, stmt| {
+        self.maybe_par(cpu_count(), stmts, |v, stmt| {
             stmt.visit_with(v);
         });
     }
