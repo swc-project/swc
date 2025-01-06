@@ -32,9 +32,9 @@ stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
-swc_atoms                        = { version = "3.0.0", path = "../swc_atoms" }
+swc_atoms                        = { version = "3.0.1", path = "../swc_atoms" }
 swc_common                       = { version = "5.0.0", path = "../swc_common" }
-swc_ecma_ast                     = { version = "5.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { version = "5.0.1", path = "../swc_ecma_ast" }
 swc_ecma_transforms_base         = { version = "6.0.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { version = "7.0.0", path = "../swc_ecma_transforms_compat", optional = true }
 swc_ecma_transforms_module       = { version = "7.0.0", path = "../swc_ecma_transforms_module", optional = true }
@@ -42,7 +42,7 @@ swc_ecma_transforms_optimization = { version = "6.0.0", path = "../swc_ecma_tran
 swc_ecma_transforms_proposal     = { version = "6.0.0", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "6.0.0", path = "../swc_ecma_transforms_react", optional = true }
 swc_ecma_transforms_typescript   = { version = "6.0.0", path = "../swc_ecma_transforms_typescript", optional = true }
-swc_ecma_utils                   = { version = "6.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils                   = { version = "6.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "5.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]

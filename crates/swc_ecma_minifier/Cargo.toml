@@ -53,12 +53,12 @@ tracing           = { workspace = true }
 
 
 swc_allocator = { version = "2.0.0", path = "../swc_allocator", default-features = false }
-swc_atoms = { version = "3.0.0", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.1", path = "../swc_atoms" }
 swc_common = { version = "5.0.0", path = "../swc_common" }
 swc_config = { version = "1.0.0", path = "../swc_config", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "5.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_codegen = { version = "5.0.1", path = "../swc_ecma_codegen" }
@@ -66,7 +66,7 @@ swc_ecma_parser = { version = "6.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "6.0.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "6.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "6.0.0", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils = { version = "6.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "6.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 

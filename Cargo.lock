@@ -4340,7 +4340,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "9.0.1"
+version = "9.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4430,7 +4430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.0",
@@ -4608,7 +4608,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "9.0.4"
+version = "9.0.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4852,7 +4852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "5.0.0"
+version = "5.0.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5111,7 +5111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5588,7 +5588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "indexmap 2.5.0",
  "num_cpus",
