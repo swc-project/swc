@@ -6,11 +6,13 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_parallel"
 repository  = { workspace = true }
-version     = "0.1.0"
+version     = "1.0.0"
 
 [features]
+default = ["parallel"]
 # Make it really parallel
-parallel = []
+parallel = ["chili"]
 
 [dependencies]
-chili = { workspace = true }
+chili     = { workspace = true, optional = true }
+once_cell = { workspace = true }
