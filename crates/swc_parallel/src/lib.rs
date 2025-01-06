@@ -109,6 +109,7 @@ where
     RA: Send,
     RB: Send,
 {
+    #[cfg(feature = "parallel")]
     let (ra, rb) = scope.0.join(
         |scope| {
             let scope = Scope(unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) });
@@ -120,6 +121,12 @@ where
 
             oper_b(scope)
         },
+    );
+
+    #[cfg(not(feature = "parallel"))]
+    let (ra, rb) = (
+        oper_a(Scope(std::marker::PhantomData)),
+        oper_b(Scope(std::marker::PhantomData)),
     );
 
     (ra, rb)
