@@ -33,12 +33,16 @@ where
         |scope| {
             let scope = Scope(unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) });
             SCOPE.set(Some(scope));
-            oper_a()
+            let ret = oper_a();
+            SCOPE.set(None);
+            ret
         },
         |scope| {
             let scope = Scope(unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) });
             SCOPE.set(Some(scope));
-            oper_b()
+            let ret = oper_b();
+            SCOPE.set(None);
+            ret
         },
     );
 
