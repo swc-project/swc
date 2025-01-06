@@ -1,1 +1,1 @@
-
+struct Global(chili::Scope);
