@@ -18,6 +18,24 @@ pub trait Rule: Debug + Send + Sync {
     fn lint_script(&mut self, program: &Script);
 }
 
+trait LintNode<R: Rule> {
+    fn lint(&self, rule: &mut R);
+}
+
+impl<R: Rule> LintNode<R> for Module {
+    #[inline]
+    fn lint(&self, rule: &mut R) {
+        rule.lint_module(self);
+    }
+}
+
+impl<R: Rule> LintNode<R> for Script {
+    #[inline]
+    fn lint(&self, rule: &mut R) {
+        rule.lint_script(self);
+    }
+}
+
 macro_rules! for_vec {
     ($name:ident, $program:ident, $s:expr) => {{
         if $s.is_empty() {
