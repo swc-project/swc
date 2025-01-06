@@ -987,11 +987,11 @@ impl Optimizer<'_> {
                                 if !self.is_skippable_for_seq(Some(a), e2) {
                                     break;
                                 }
-                            }
 
-                            if let Some(id) = a.id() {
-                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
-                                    break;
+                                if let Some(id) = a.id() {
+                                    if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                                        break;
+                                    }
                                 }
                             }
                         }
