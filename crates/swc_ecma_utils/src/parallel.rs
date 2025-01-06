@@ -154,6 +154,16 @@ pub trait ParallelExt: Parallel {
     fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
         I: IntoItems,
+        F: Send + Sync + Fn(&mut Self, usize, I::Elem),
+    {
+        self.maybe_par_idx_raw(threshold, nodes.into_items(), &op)
+    }
+
+    /// If you don't have a special reason, use [`ParallelExt::maybe_par`] or
+    /// [`ParallelExt::maybe_par_idx`] instead.
+    fn maybe_par_idx_raw<I, F>(&mut self, threshold: usize, nodes: I, op: &F)
+    where
+        I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem);
 }
 
@@ -162,13 +172,11 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    fn maybe_par_idx_raw<I, F>(&mut self, threshold: usize, nodes: I, op: &F)
     where
-        I: IntoItems,
+        I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        let nodes = nodes.into_items();
-
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 let len = nodes.len();
@@ -182,13 +190,12 @@ where
                 }
 
                 let (na, nb) = nodes.split_at(len / 2);
-                let call = |v: &mut Self, idx: usize, node: I::Elem| op(v, idx, node);
 
                 let (va, vb) = join(
                     || {
                         GLOBALS.set(globals, || {
                             let mut visitor = Parallel::create(&*self);
-                            visitor.maybe_par_idx(threshold, na, call);
+                            visitor.maybe_par_idx_raw(threshold, na, op);
 
                             visitor
                         })
@@ -196,7 +203,7 @@ where
                     || {
                         GLOBALS.set(globals, || {
                             let mut visitor = Parallel::create(&*self);
-                            visitor.maybe_par_idx(threshold, nb, call);
+                            visitor.maybe_par_idx_raw(threshold, nb, op);
 
                             visitor
                         })
@@ -221,13 +228,11 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn maybe_par_idx<I, F>(&mut self, _threshold: usize, nodes: I, op: F)
+    fn maybe_par_idx_raw<I, F>(&mut self, _threshold: usize, nodes: I, op: &F)
     where
-        I: IntoItems,
+        I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        let nodes = nodes.into_items();
-
         for (idx, n) in nodes.into_iter().enumerate() {
             op(self, idx, n);
         }
