@@ -44,16 +44,7 @@ fn join_lint_rules<N: LintNode<R>, R: Rule>(rules: &mut [R], program: &N) -> Vec
     if len == 0 {
         return vec![];
     }
-    if len == 1 {
-        let emitter = Capturing::default();
-        {
-            let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
-            HANDLER.set(&handler, || {
-                program.lint(&mut rules[0]);
-            });
-        }
-        return Arc::try_unwrap(emitter.errors).unwrap().into_inner();
-    }
+    if len == 1 {}
 
     let (ra, rb) = rules.split_at_mut(len / 2);
 
@@ -79,7 +70,16 @@ fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
             program.lint(rule);
         }
     } else {
-        let errors = join_lint_rules(rules, program);
+        let emitter = Capturing::default();
+        {
+            let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
+            HANDLER.set(&handler, || {
+                for rule in rules {
+                    program.lint(rule);
+                }
+            });
+        }
+        let errors = Arc::try_unwrap(emitter.errors).unwrap().into_inner();
 
         HANDLER.with(|handler| {
             for error in errors {
