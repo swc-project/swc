@@ -5197,6 +5197,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
+ "swc_parallel",
  "swc_timer",
  "testing",
  "tracing",
@@ -5346,6 +5347,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
+ "swc_parallel",
  "testing",
  "tracing",
 ]
