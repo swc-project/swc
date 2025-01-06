@@ -2,17 +2,28 @@ use std::collections::hash_map::Entry;
 
 use swc_common::{collections::AHashMap, errors::HANDLER};
 use swc_ecma_ast::*;
-use swc_ecma_utils::for_each_binding_ident;
+use swc_ecma_utils::{
+    for_each_binding_ident,
+    parallel::{cpu_count, Parallel, ParallelExt},
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
 
 pub fn no_dupe_args() -> Box<dyn Rule> {
-    visitor_rule(NoDupeArgs::default())
+    visitor_rule(NoDupeArgs)
 }
 
 #[derive(Debug, Default)]
-struct NoDupeArgs {}
+struct NoDupeArgs;
+
+impl Parallel for NoDupeArgs {
+    fn create(&self) -> Self {
+        Self
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
 
 #[cold]
 fn error(first: &BindingIdent, second: &BindingIdent) {
@@ -93,6 +104,24 @@ macro_rules! check {
 
 impl Visit for NoDupeArgs {
     noop_visit_type!();
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(cpu_count() * 8, exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
+
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        self.maybe_par(cpu_count() * 8, items, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(cpu_count() * 8, stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
+    }
 
     fn visit_function(&mut self, f: &Function) {
         check!(&f.params);
