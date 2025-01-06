@@ -18,7 +18,7 @@ pub trait Rule: Debug + Send + Sync {
     fn lint_script(&mut self, program: &Script);
 }
 
-trait LintNode<R: Rule> {
+trait LintNode<R: Rule>: Send + Sync {
     fn lint(&self, rule: &mut R);
 }
 
@@ -36,42 +36,37 @@ impl<R: Rule> LintNode<R> for Script {
     }
 }
 
-macro_rules! for_vec {
-    ($name:ident, $program:ident, $s:expr) => {{
-        if $s.is_empty() {
-            return;
+fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
+    if rules.is_empty() {
+        return;
+    }
+
+    if cfg!(target_arch = "wasm32") {
+        for rule in rules {
+            program.lint(rule);
         }
-
-        let program = $program;
-        if cfg!(target_arch = "wasm32") {
-            for rule in $s {
-                rule.$name(program);
-            }
-        } else {
-            let errors = $s
-                .par_iter_mut()
-                .flat_map(|rule| {
-                    let emitter = Capturing::default();
-                    {
-                        let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
-                        HANDLER.set(&handler, || {
-                            rule.$name(program);
-                        });
-                    }
-
-                    let errors = Arc::try_unwrap(emitter.errors).unwrap().into_inner();
-
-                    errors
-                })
-                .collect::<Vec<_>>();
-
-            HANDLER.with(|handler| {
-                for error in errors {
-                    DiagnosticBuilder::new_diagnostic(&handler, error).emit();
+    } else {
+        let errors = rules
+            .par_iter_mut()
+            .flat_map(|rule| {
+                let emitter = Capturing::default();
+                {
+                    let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
+                    HANDLER.set(&handler, || {
+                        program.lint(rule);
+                    });
                 }
-            });
-        }
-    }};
+
+                Arc::try_unwrap(emitter.errors).unwrap().into_inner()
+            })
+            .collect::<Vec<_>>();
+
+        HANDLER.with(|handler| {
+            for error in errors {
+                DiagnosticBuilder::new_diagnostic(handler, error).emit();
+            }
+        });
+    }
 }
 
 /// This preserves the order of errors.
@@ -80,11 +75,11 @@ where
     R: Rule,
 {
     fn lint_module(&mut self, program: &Module) {
-        for_vec!(lint_module, program, self)
+        lint_rules(self, program)
     }
 
     fn lint_script(&mut self, program: &Script) {
-        for_vec!(lint_script, program, self)
+        lint_rules(self, program)
     }
 }
 

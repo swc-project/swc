@@ -91,7 +91,7 @@ criterion_main!(files);
 
 fn run(cm: Lrc<SourceMap>, program: &mut Program, unresolved_mark: Mark, top_level_mark: Mark) {
     let rules = swc_ecma_lints::rules::all(LintParams {
-        program: &program,
+        program,
         lint_config: &LintConfig::default(),
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
@@ -102,17 +102,4 @@ fn run(cm: Lrc<SourceMap>, program: &mut Program, unresolved_mark: Mark, top_lev
     let pass = black_box(lint_pass(rules));
 
     program.mutate(pass)
-}
-
-struct Visitors(Vec<Box<dyn Rule>>);
-
-impl Visit for Visitors {
-    fn visit_program(&mut self, program: &Program) {
-        for rule in self.0.iter_mut() {
-            match program {
-                Program::Module(module) => rule.lint_module(module),
-                Program::Script(script) => rule.lint_script(script),
-            }
-        }
-    }
 }
