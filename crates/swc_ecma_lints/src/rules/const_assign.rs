@@ -2,21 +2,61 @@ use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use crate::rule::{visitor_rule, Rule};
+use crate::rule::Rule;
 
 pub fn const_assign() -> Box<dyn Rule> {
-    visitor_rule(ConstAssign::default())
+    Box::new(ConstAssignRule)
 }
 
-#[derive(Debug, Default)]
-struct ConstAssign {
-    const_vars: AHashMap<Id, Span>,
-    import_binding: AHashMap<Id, Span>,
+#[derive(Debug)]
+struct ConstAssignRule;
+
+impl Rule for ConstAssignRule {
+    fn lint_module(&mut self, program: &Module) {
+        let mut const_vars = AHashMap::default();
+        let mut import_binding = AHashMap::default();
+
+        program.visit_children_with(&mut Collector {
+            const_vars: &mut const_vars,
+            import_binding: &mut import_binding,
+            var_decl_kind: None,
+        });
+
+        program.visit_children_with(&mut ConstAssign {
+            const_vars: &const_vars,
+            import_binding: &import_binding,
+            is_pat_decl: false,
+        });
+    }
+
+    fn lint_script(&mut self, program: &Script) {
+        let mut const_vars = AHashMap::default();
+        let mut import_binding = AHashMap::default();
+
+        program.visit_children_with(&mut Collector {
+            const_vars: &mut const_vars,
+            // I don't believe that import stmt exists in Script
+            // But it's ok. Let's pass it in.
+            import_binding: &mut import_binding,
+            var_decl_kind: None,
+        });
+
+        program.visit_children_with(&mut ConstAssign {
+            const_vars: &const_vars,
+            import_binding: &import_binding,
+            is_pat_decl: false,
+        });
+    }
+}
+
+struct ConstAssign<'a> {
+    const_vars: &'a AHashMap<Id, Span>,
+    import_binding: &'a AHashMap<Id, Span>,
 
     is_pat_decl: bool,
 }
 
-impl ConstAssign {
+impl ConstAssign<'_> {
     fn check(&mut self, id: &Ident) {
         if self.is_pat_decl {
             return;
@@ -51,18 +91,8 @@ impl ConstAssign {
     }
 }
 
-impl Visit for ConstAssign {
+impl Visit for ConstAssign<'_> {
     noop_visit_type!();
-
-    fn visit_module(&mut self, program: &Module) {
-        program.visit_children_with(&mut Collector {
-            const_vars: &mut self.const_vars,
-            import_binding: &mut self.import_binding,
-            var_decl_kind: None,
-        });
-
-        program.visit_children_with(self);
-    }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         self.check(&Ident::from(n));
@@ -74,18 +104,6 @@ impl Visit for ConstAssign {
         if let Expr::Ident(ident) = &*n.arg {
             self.check(ident);
         }
-    }
-
-    fn visit_script(&mut self, program: &Script) {
-        program.visit_children_with(&mut Collector {
-            const_vars: &mut self.const_vars,
-            // I don't believe that import stmt exists in Script
-            // But it's ok. Let's pass it in.
-            import_binding: &mut self.import_binding,
-            var_decl_kind: None,
-        });
-
-        program.visit_children_with(self);
     }
 
     fn visit_var_declarator(&mut self, var_declarator: &VarDeclarator) {
