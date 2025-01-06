@@ -5602,6 +5602,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_parallel",
  "testing",
  "tracing",
  "unicode-id",
