@@ -3,9 +3,11 @@
  1 | module aModuleKeywordNamespace { }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
+  help: Unsupported syntax
   x TypeScript namespace declaration is not supported in strip-only mode
    ,-[3:1]
  2 | 
  3 | export module aModuleKeywordExportedNamespace { }
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
+  help: Unsupported syntax

@@ -5,3 +5,4 @@
    :                        ^^^^^^^^^^^^^^^^^^
  4 |         console.log(3)
    `----
+  help: Unsupported syntax

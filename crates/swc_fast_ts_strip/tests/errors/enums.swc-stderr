@@ -3,9 +3,11 @@
  1 | enum Foo { }
    : ^^^^^^^^^^^^
    `----
+  help: Unsupported syntax
   x TypeScript enum is not supported in strip-only mode
    ,-[3:1]
  2 | 
  3 | export enum Bar { }
    :        ^^^^^^^^^^^^
    `----
+  help: Unsupported syntax
