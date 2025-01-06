@@ -49,7 +49,9 @@ fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
         {
             let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
             HANDLER.set(&handler, || {
-                program.lint(&mut rules[0]);
+                for rule in rules {
+                    program.lint(rule);
+                }
             });
         }
         let errors = Arc::try_unwrap(emitter.errors).unwrap().into_inner();
