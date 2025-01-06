@@ -40,13 +40,20 @@ impl<'a> MaybeScope<'a> {
         #[cfg(feature = "parallel")]
         let scope: &mut chili::Scope = match &mut self.0 {
             ScopeLike::Scope(scope) => unsafe {
+                // Safety: chili Scope will be alive until the end of the function, because it's
+                // contract of 'a lifetime in the type.
                 transmute::<&mut chili::Scope, &mut chili::Scope>(&mut scope.0)
             },
             #[cfg(feature = "parallel")]
             ScopeLike::Global(global_scope) => {
+                // Initialize global scope lazily, and only once.
                 let scope = global_scope.get_or_insert_with(|| chili::Scope::global());
 
-                unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) }
+                unsafe {
+                    // Safety: Global scope is not dropped until the end of the program, and no one
+                    // can access this **instance** of the global scope in the same time.
+                    transmute::<&mut chili::Scope, &mut chili::Scope>(scope)
+                }
             }
         };
 
@@ -78,26 +85,41 @@ where
         static SCOPE: RefCell<Option<MaybeScope<'static>>> = Default::default();
     }
 
+    struct RemoveScopeGuard;
+
+    impl Drop for RemoveScopeGuard {
+        fn drop(&mut self) {
+            SCOPE.set(None);
+        }
+    }
+
     let mut scope = SCOPE.take().unwrap_or_default();
 
     let (ra, rb) = join_maybe_scoped(
         &mut scope,
         |scope| {
-            let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let scope = unsafe {
+                // Safety: inner scope cannot outlive the outer scope
+                transmute::<Scope, Scope>(scope)
+            };
+            let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
-            let ret = oper_a();
-            SCOPE.set(None);
-            ret
+
+            oper_a()
         },
         |scope| {
-            let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let scope = unsafe {
+                // Safety: inner scope cannot outlive the outer scope
+                transmute::<Scope, Scope>(scope)
+            };
+            let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
-            let ret = oper_b();
-            SCOPE.set(None);
-            ret
+
+            oper_b()
         },
     );
 
+    // In case of panic, we does not restore the scope so it will be None.
     SCOPE.set(Some(scope));
 
     (ra, rb)
@@ -129,12 +151,20 @@ where
     #[cfg(feature = "parallel")]
     let (ra, rb) = scope.0.join(
         |scope| {
-            let scope = Scope(unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) });
+            let scope = Scope(unsafe {
+                // Safety: This can be dangerous if the user do transmute on the scope, but it's
+                // not our fault if the user uses transmute.
+                transmute::<&mut chili::Scope, &mut chili::Scope>(scope)
+            });
 
             oper_a(scope)
         },
         |scope| {
-            let scope = Scope(unsafe { transmute::<&mut chili::Scope, &mut chili::Scope>(scope) });
+            let scope = Scope(unsafe {
+                // Safety: This can be dangerous if the user do transmute on the scope, but it's
+                // not our fault if the user uses transmute.
+                transmute::<&mut chili::Scope, &mut chili::Scope>(scope)
+            });
 
             oper_b(scope)
         },
