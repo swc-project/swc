@@ -1,37 +1,9 @@
 [workspace]
-members = [
-  "xtask",
-  "crates/swc_allocator",
-  "crates/swc_core",
-  "crates/swc_cli_impl",
-  "crates/dbg-swc",
-  "crates/jsdoc",
-  "crates/binding_macros",
-  "crates/swc_css",
-  "crates/swc_css_lints",
-  "crates/swc_css_prefixer",
-  "crates/swc_ecmascript",
-  "crates/swc_ecma_lints",
-  "crates/swc_ecma_quote",
-  "crates/swc_estree_compat",
-  "crates/swc_html",
-  "crates/swc_plugin",
-  "crates/swc_plugin_macro",
-  "crates/swc_plugin_runner",
-  "crates/swc_plugin_testing",
-  "crates/swc_plugin_proxy",
-  "crates/swc_timer",
-  "crates/swc_xml",
-  "crates/swc_x_optimizer",
-  "crates/swc_transform_common",
-  "crates/swc_typescript",
-  "crates/swc_fast_ts_strip",
-  "tools/generate-code",
-  "tools/swc-releaser",
-]
+members  = ["xtask", "crates/*", "tools/generate-code", "tools/swc-releaser"]
 resolver = "2"
 
   [workspace.package]
+  edition    = "2021"
   license    = "Apache-2.0"
   repository = "https://github.com/swc-project/swc.git"
 

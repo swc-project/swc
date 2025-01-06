@@ -2,9 +2,9 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "JsDoc parser writen in rust"
 documentation = "https://rustdoc.swc.rs/jsdoc/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
 version       = "5.0.0"

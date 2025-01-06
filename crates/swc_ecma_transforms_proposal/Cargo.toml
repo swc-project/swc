@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "rust port of babel and closure compiler."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_proposal/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_ecma_transforms_proposal"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "6.0.0"
 
 [lib]

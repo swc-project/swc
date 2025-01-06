@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "ES2015 compatibility transforms"
 documentation = "https://rustdoc.swc.rs/swc_ecma_compat_es2015/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_ecma_compat_es2015"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "6.0.0"
 
 
