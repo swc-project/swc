@@ -2,7 +2,10 @@ use std::{fmt::Debug, sync::Arc};
 
 use auto_impl::auto_impl;
 use parking_lot::Mutex;
-use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
+use swc_common::{
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
+    GLOBALS,
+};
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_parallel::join;
@@ -54,10 +57,12 @@ fn join_lint_rules<N: LintNode<R>, R: Rule>(rules: &mut [R], program: &N) -> Vec
 
     let (ra, rb) = rules.split_at_mut(len / 2);
 
-    let (mut da, db) = join(
-        || join_lint_rules(ra, program),
-        || join_lint_rules(rb, program),
-    );
+    let (mut da, db) = GLOBALS.with(|globals| {
+        join(
+            || GLOBALS.set(globals, || join_lint_rules(ra, program)),
+            || GLOBALS.set(globals, || join_lint_rules(rb, program)),
+        )
+    });
 
     da.extend(db);
 
