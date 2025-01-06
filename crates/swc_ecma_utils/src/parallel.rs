@@ -5,6 +5,17 @@ use swc_common::GLOBALS;
 use swc_ecma_ast::*;
 use swc_parallel::join;
 
+use self::private::Sealed;
+
+mod private {
+    pub trait Sealed {}
+
+    impl<T> Sealed for Vec<T> {}
+    impl<T> Sealed for &mut Vec<T> {}
+    impl<T> Sealed for &mut [T] {}
+    impl<T> Sealed for &[T] {}
+}
+
 static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
 
 pub fn cpu_count() -> usize {
@@ -25,17 +36,40 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
     fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
 }
 
-mod private {
-    pub trait Sealed {}
+pub trait IntoItems: Sealed {
+    type Elem;
+    type Items: Items<Elem = Self::Elem>;
 
-    impl<T> Sealed for Vec<T> {}
-    impl<T> Sealed for &mut [T] {}
-    impl<T> Sealed for &[T] {}
+    fn into_items(self) -> Self::Items;
+}
+
+impl<T, I> IntoItems for I
+where
+    I: Items<Elem = T>,
+{
+    type Elem = T;
+    type Items = I;
+
+    fn into_items(self) -> Self::Items {
+        self
+    }
+}
+
+impl<'a, T> IntoItems for &'a mut Vec<T>
+where
+    T: Send + Sync,
+{
+    type Elem = &'a mut T;
+    type Items = &'a mut [T];
+
+    fn into_items(self) -> Self::Items {
+        self
+    }
 }
 
 /// This is considered as a private type and it's NOT A PUBLIC API.
 #[allow(clippy::len_without_is_empty)]
-pub trait Items: Sized + IntoIterator<Item = Self::Elem> + Send + private::Sealed {
+pub trait Items: Sized + IntoIterator<Item = Self::Elem> + Send + Sealed {
     type Elem: Send + Sync;
 
     fn len(&self) -> usize;
@@ -106,7 +140,7 @@ pub trait ParallelExt: Parallel {
     /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
     fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
-        I: Items,
+        I: IntoItems,
         F: Send + Sync + Fn(&mut Self, I::Elem),
     {
         self.maybe_par_idx(threshold, nodes, |v, _, n| op(v, n))
@@ -119,7 +153,7 @@ pub trait ParallelExt: Parallel {
     /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
     fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
-        I: Items,
+        I: IntoItems,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem);
 }
 
@@ -130,9 +164,11 @@ where
 {
     fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
-        I: Items,
+        I: IntoItems,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
+        let nodes = nodes.into_items();
+
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 let len = nodes.len();
@@ -187,9 +223,11 @@ where
 {
     fn maybe_par_idx<I, F>(&mut self, _threshold: usize, nodes: I, op: F)
     where
-        I: Items,
+        I: IntoItems,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
+        let nodes = nodes.into_items();
+
         for (idx, n) in nodes.into_iter().enumerate() {
             op(self, idx, n);
         }
