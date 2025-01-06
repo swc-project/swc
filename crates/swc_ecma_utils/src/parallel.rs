@@ -94,7 +94,7 @@ where
 {
     type Elem = &'a mut T;
     #[cfg(feature = "concurrent")]
-    type SplitItems = Self;
+    type SplitItems = &'a mut [T];
 
     fn len(&self) -> usize {
         <[T]>::len(self)
@@ -114,7 +114,7 @@ where
 {
     type Elem = &'a T;
     #[cfg(feature = "concurrent")]
-    type SplitItems = Self;
+    type SplitItems = &'a [T];
 
     fn len(&self) -> usize {
         <[T]>::len(self)
