@@ -13,6 +13,7 @@ use swc_ecma_ast::*;
 use swc_visit::{Repeat, Repeated};
 
 pub use crate::generated::*;
+pub mod arena;
 mod generated;
 
 pub fn fold_pass<V>(pass: V) -> FoldPass<V>

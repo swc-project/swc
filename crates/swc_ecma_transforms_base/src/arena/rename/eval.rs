@@ -1,0 +1,72 @@
+use swc_ecma_ast::arena::*;
+use swc_ecma_utils::stack_size::maybe_grow_default;
+use swc_ecma_visit::{
+    arena::{Visit, VisitWith},
+    noop_visit_type_arena, visit_obj_and_computed, visit_obj_and_computed_arena,
+};
+
+pub(crate) fn contains_eval<'a, N>(node: &N, include_with: bool) -> bool
+where
+    N: VisitWith<'a, EvalFinder>,
+{
+    let mut v = EvalFinder {
+        found: false,
+        include_with,
+    };
+
+    node.visit_with(&mut v);
+    v.found
+}
+
+pub(crate) struct EvalFinder {
+    found: bool,
+    include_with: bool,
+}
+
+impl Visit<'_> for EvalFinder {
+    noop_visit_type_arena!();
+
+    visit_obj_and_computed_arena!();
+
+    fn visit_callee(&mut self, c: &Callee) {
+        c.visit_children_with(self);
+
+        if let Callee::Expr(e) = c {
+            if e.is_ident_ref_to("eval") {
+                self.found = true
+            }
+        }
+    }
+
+    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier) {}
+
+    fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
+
+    fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
+
+    fn visit_expr(&mut self, n: &Expr) {
+        maybe_grow_default(|| n.visit_children_with(self));
+    }
+
+    fn visit_named_export(&mut self, e: &NamedExport) {
+        if e.src.is_some() {
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_prop_name(&mut self, p: &PropName) {
+        if let PropName::Computed(n) = p {
+            n.visit_with(self);
+        }
+    }
+
+    fn visit_with_stmt(&mut self, s: &WithStmt) {
+        if self.include_with {
+            self.found = true;
+        } else {
+            s.visit_children_with(self);
+        }
+    }
+}

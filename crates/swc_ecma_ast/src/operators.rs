@@ -1,7 +1,9 @@
 use string_enum::StringEnum;
-use swc_common::EqIgnoreSpan;
+use swc_common::{arena::CloneIn, EqIgnoreSpan};
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(
+    StringEnum, Clone, CloneIn, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default,
+)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -113,7 +115,9 @@ impl BinaryOp {
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(
+    StringEnum, Clone, CloneIn, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default,
+)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -189,7 +193,9 @@ impl AssignOp {
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(
+    StringEnum, Clone, CloneIn, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default,
+)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -205,7 +211,9 @@ pub enum UpdateOp {
     MinusMinus,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default)]
+#[derive(
+    StringEnum, Clone, CloneIn, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan, Default,
+)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),

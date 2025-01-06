@@ -16,3 +16,4 @@ path = []
 [dependencies]
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
+swc_allocator         = { version = "2.0.0", path = "../swc_allocator" }

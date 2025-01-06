@@ -59,6 +59,7 @@ unicode-width         = { workspace = true }
 url                   = { workspace = true }
 
 ast_node             = { version = "3.0.0", path = "../ast_node" }
+ast_node_arena       = { version = "3.0.0", path = "../ast_node_arena" }
 better_scoped_tls    = { version = "1.0.0", path = "../better_scoped_tls" }
 from_variant         = { version = "2.0.0", path = "../from_variant" }
 swc_allocator        = { version = "2.0.0", path = "../swc_allocator", default-features = false }

@@ -141,6 +141,7 @@ pub type JscTarget = EsVersion;
 mod macros;
 #[macro_use]
 pub mod token;
+pub mod arena;
 pub mod error;
 pub mod lexer;
 mod parser;

@@ -56,6 +56,7 @@ mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
 pub use node_ignore_span::NodeIgnoringSpan;
+pub mod arena;
 
 // TODO: remove
 pub struct ThisVisitor {

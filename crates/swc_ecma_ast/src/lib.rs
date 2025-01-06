@@ -76,6 +76,7 @@ pub use self::{
 
 #[macro_use]
 mod macros;
+pub mod arena;
 mod class;
 mod decl;
 mod expr;

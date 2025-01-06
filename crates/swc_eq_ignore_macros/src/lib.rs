@@ -62,15 +62,28 @@ impl Deriver {
         let trait_name = &self.trait_name;
         let ty = &input.ident;
         let method_name = &self.method_name;
-        quote!(
-            #[automatically_derived]
-            impl ::swc_common::#trait_name for #ty {
-                #[allow(non_snake_case)]
-                fn #method_name(&self, other: &Self) -> bool {
-                    #body
+        let has_lifetime = input.generics.lifetimes().count() > 0;
+        if has_lifetime {
+            quote!(
+                #[automatically_derived]
+                impl ::swc_common::#trait_name for #ty<'_> {
+                    #[allow(non_snake_case)]
+                    fn #method_name(&self, other: &Self) -> bool {
+                        #body
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            quote!(
+                #[automatically_derived]
+                impl ::swc_common::#trait_name for #ty {
+                    #[allow(non_snake_case)]
+                    fn #method_name(&self, other: &Self) -> bool {
+                        #body
+                    }
+                }
+            )
+        }
         .into()
     }
 

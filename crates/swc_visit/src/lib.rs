@@ -96,6 +96,7 @@ use std::ops::{Deref, DerefMut};
 
 pub use either::Either;
 
+pub mod arena;
 pub mod util;
 
 /// Visit all children nodes. This converts `VisitAll` to `Visit`. The type
