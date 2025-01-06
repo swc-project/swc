@@ -9,6 +9,7 @@ repository  = { workspace = true }
 version     = "0.1.0"
 
 [features]
+default = ["parallel"]
 # Make it really parallel
 parallel = ["chili"]
 
