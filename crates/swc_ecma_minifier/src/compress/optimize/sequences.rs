@@ -915,6 +915,7 @@ impl Optimizer<'_> {
                                     && self.merge_sequential_expr(a, b)?
                                 {
                                     changed = true;
+                                    merge_seq_cache.invalidate(b_idx);
                                     break;
                                 }
                             }
@@ -925,6 +926,7 @@ impl Optimizer<'_> {
                                 && self.merge_sequential_expr(a, b)?
                             {
                                 changed = true;
+                                merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
                         }
@@ -932,6 +934,7 @@ impl Optimizer<'_> {
                         Mergable::Drop => {
                             if self.drop_mergable_seq(a)? {
                                 changed = true;
+                                merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
                         }
@@ -998,7 +1001,6 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a.id() {
-                                // TODO(kdy1): Optimize
                                 if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
@@ -2724,6 +2726,10 @@ impl MergeSequenceCache {
     ) -> bool {
         let idents = self.ident_usage_cache[node_id].get_or_insert_with(|| idents_used_by(node));
         idents.contains(ident)
+    }
+
+    fn invalidate(&mut self, node_id: usize) {
+        self.ident_usage_cache[node_id] = None;
     }
 
     fn is_top_retain(&mut self, optimizer: &Optimizer, a: &Mergable, node_id: usize) -> bool {
