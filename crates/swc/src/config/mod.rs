@@ -30,7 +30,7 @@ use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
-    rules::{lint_to_fold, LintParams},
+    rules::{lint_pass, LintParams},
 };
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -709,7 +709,7 @@ impl Options {
                         None
                     },
                     Optional::new(
-                        lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                        lint_pass(swc_ecma_lints::rules::all(LintParams {
                             program: &program,
                             lint_config: &lints,
                             top_level_ctxt,
