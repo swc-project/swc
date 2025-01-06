@@ -21,6 +21,7 @@ impl<'a> From<Scope<'a>> for MaybeScope<'a> {
 }
 
 impl<'a> MaybeScope<'a> {
+    #[allow(clippy::redundant_closure)]
     pub fn with<F, R>(&mut self, f: F) -> R
     where
         F: FnOnce(Scope<'a>) -> R,
