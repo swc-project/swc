@@ -5,7 +5,6 @@ use parking_lot::Mutex;
 use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
-use swc_parallel::join;
 
 /// A lint rule.
 ///
