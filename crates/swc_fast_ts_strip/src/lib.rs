@@ -171,10 +171,10 @@ pub fn operate(
     let mut program = match program {
         Ok(program) => program,
         Err(err) => {
-            err.into_diagnostic(handler).note("INVALID_SYNTAX").emit();
+            err.into_diagnostic(handler).help("INVALID_SYNTAX").emit();
 
             for e in errors {
-                e.into_diagnostic(handler).note("Invalid syntax").emit();
+                e.into_diagnostic(handler).help("Invalid syntax").emit();
             }
 
             return Err(anyhow::anyhow!("failed to parse"));
@@ -183,7 +183,7 @@ pub fn operate(
 
     if !errors.is_empty() {
         for e in errors {
-            e.into_diagnostic(handler).note("Invalid syntax").emit();
+            e.into_diagnostic(handler).help("Invalid syntax").emit();
         }
 
         return Err(anyhow::anyhow!("failed to parse"));
@@ -1033,7 +1033,7 @@ impl Visit for TsStrip {
                     n.span,
                     "TypeScript export assignment is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1051,7 +1051,7 @@ impl Visit for TsStrip {
                     n.span,
                     "TypeScript import equals declaration is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1073,7 +1073,7 @@ impl Visit for TsStrip {
                     e.span,
                     "TypeScript enum is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1085,7 +1085,7 @@ impl Visit for TsStrip {
                     n.span(),
                     "TypeScript namespace declaration is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1097,7 +1097,7 @@ impl Visit for TsStrip {
                     n.span(),
                     "TypeScript module declaration is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1115,7 +1115,7 @@ impl Visit for TsStrip {
                     n.span(),
                     "TypeScript parameter property is not supported in strip-only mode",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
     }
@@ -1157,7 +1157,7 @@ impl Visit for TsStrip {
                     "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
                      type strip mode. Instead, use the 'as' syntax: `expr as T`.",
                 )
-                .note("Unsupported syntax")
+                .help("Unsupported syntax")
                 .emit();
         });
 
