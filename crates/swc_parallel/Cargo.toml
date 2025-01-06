@@ -14,4 +14,5 @@ default = ["parallel"]
 parallel = ["chili"]
 
 [dependencies]
-chili = { workspace = true, optional = true }
+chili     = { workspace = true, optional = true }
+once_cell = { workspace = true }
