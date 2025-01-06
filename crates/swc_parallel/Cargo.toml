@@ -10,7 +10,7 @@ version     = "0.1.0"
 
 [features]
 # Make it really parallel
-parallel = []
+parallel = ["chili"]
 
 [dependencies]
-chili = { workspace = true }
+chili = { workspace = true, optional = true }
