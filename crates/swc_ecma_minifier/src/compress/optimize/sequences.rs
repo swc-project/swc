@@ -8,8 +8,7 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, IdentUsageFinder, StmtLike,
-    Type, Value,
+    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -826,18 +825,11 @@ impl Optimizer<'_> {
         };
 
         let mut merge_seq_cache = MergeSequenceCache::new(exprs.len());
-
         loop {
-            let mut did_work = false;
-
-            for a_idx in 0..exprs.len() {
+            let mut changed = false;
+            for a_idx in 0..exprs.len().saturating_sub(1) {
                 for b_idx in (a_idx + 1)..exprs.len() {
                     let (a1, a2) = exprs.split_at_mut(a_idx + 1);
-
-                    if a1.is_empty() || a2.is_empty() {
-                        break;
-                    }
-
                     let a = a1.last_mut().unwrap();
                     let b = &mut a2[b_idx - a_idx - 1];
 
@@ -876,7 +868,7 @@ impl Optimizer<'_> {
                                                      a same name"
                                                 );
                                                 av.name.take();
-                                                continue;
+                                                break;
                                             } else {
                                                 self.changed = true;
                                                 report_change!(
@@ -885,7 +877,7 @@ impl Optimizer<'_> {
                                                     an.id
                                                 );
                                                 av.name.take();
-                                                continue;
+                                                break;
                                             }
                                         }
                                         None => {
@@ -906,7 +898,7 @@ impl Optimizer<'_> {
                                                  declaration as they have the same name"
                                             );
                                             av.name.take();
-                                            continue;
+                                            break;
                                         }
                                     }
                                 }
@@ -922,7 +914,7 @@ impl Optimizer<'_> {
                                 if !merge_seq_cache.is_top_retain(self, a, a_idx)
                                     && self.merge_sequential_expr(a, b)?
                                 {
-                                    did_work = true;
+                                    changed = true;
                                     break;
                                 }
                             }
@@ -932,14 +924,14 @@ impl Optimizer<'_> {
                             if !merge_seq_cache.is_top_retain(self, a, a_idx)
                                 && self.merge_sequential_expr(a, b)?
                             {
-                                did_work = true;
+                                changed = true;
                                 break;
                             }
                         }
                         Mergable::FnDecl(..) => continue,
                         Mergable::Drop => {
                             if self.drop_mergable_seq(a)? {
-                                did_work = true;
+                                changed = true;
                                 break;
                             }
                         }
@@ -1033,7 +1025,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !did_work {
+            if !changed {
                 break;
             }
         }
@@ -1801,7 +1793,7 @@ impl Optimizer<'_> {
 
                 if !self.is_skippable_for_seq(Some(a), &b_left.id.clone().into()) {
                     // Let's be safe
-                    if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                    if is_ident_used_by(b_left.to_id(), &b_assign.right) {
                         return Ok(false);
                     }
 
@@ -1817,7 +1809,7 @@ impl Optimizer<'_> {
                     return Ok(false);
                 }
 
-                if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                if is_ident_used_by(b_left.to_id(), &b_assign.right) {
                     return Err(());
                 }
 
