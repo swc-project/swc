@@ -16,7 +16,6 @@ bench = false
 auto_impl   = { workspace = true }
 dashmap     = { workspace = true }
 parking_lot = { workspace = true }
-rayon       = { workspace = true }
 regex       = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
@@ -30,6 +29,7 @@ swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_utils = { version = "6.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
+swc_parallel = { version = "1.0.0", path = "../swc_parallel", default-features = false }
 
 [dev-dependencies]
 anyhow                    = { workspace = true }
