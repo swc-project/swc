@@ -5120,7 +5120,6 @@ dependencies = [
  "dashmap 5.5.3",
  "parking_lot",
  "pretty_assertions",
- "rayon",
  "regex",
  "serde",
  "swc_atoms",
@@ -5134,6 +5133,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
+ "swc_parallel",
  "testing",
  "walkdir",
 ]
