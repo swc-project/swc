@@ -78,23 +78,31 @@ where
         static SCOPE: RefCell<Option<MaybeScope<'static>>> = Default::default();
     }
 
+    struct RemoveScopeGuard;
+
+    impl Drop for RemoveScopeGuard {
+        fn drop(&mut self) {
+            SCOPE.set(None);
+        }
+    }
+
     let mut scope = SCOPE.take().unwrap_or_default();
 
     let (ra, rb) = join_maybe_scoped(
         &mut scope,
         |scope| {
             let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
-            let ret = oper_a();
-            SCOPE.set(None);
-            ret
+
+            oper_a()
         },
         |scope| {
             let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
-            let ret = oper_b();
-            SCOPE.set(None);
-            ret
+
+            oper_b()
         },
     );
 
