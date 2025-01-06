@@ -27,15 +27,15 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
 /// This is considered as a private type and it's NOT A PUBLIC API.
 #[cfg(feature = "concurrent")]
 #[allow(clippy::len_without_is_empty)]
-pub trait Items:
-    rayon::iter::IntoParallelIterator<Iter = Self::ParIter> + IntoIterator<Item = Self::Elem>
-{
+pub trait Items: IntoIterator<Item = Self::Elem> {
     type Elem: Send + Sync;
-
-    type ParIter: rayon::iter::ParallelIterator<Item = Self::Elem>
-        + rayon::iter::IndexedParallelIterator;
+    #[cfg(feature = "concurrent")]
+    type SplitItems: Items<Elem = Self::Elem>;
 
     fn len(&self) -> usize;
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(self, idx: usize) -> (Self::SplitItems, Self::SplitItems);
 }
 
 /// This is considered as a private type and it's NOT A PUBLIC API.
@@ -53,10 +53,17 @@ where
 {
     type Elem = T;
     #[cfg(feature = "concurrent")]
-    type ParIter = rayon::vec::IntoIter<T>;
+    type SplitItems = Vec<T>;
 
     fn len(&self) -> usize {
         Vec::len(self)
+    }
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(mut self, at: usize) -> (Self, Self) {
+        let b = self.split_off(at);
+
+        (self, b)
     }
 }
 
@@ -66,10 +73,17 @@ where
 {
     type Elem = &'a mut T;
     #[cfg(feature = "concurrent")]
-    type ParIter = rayon::slice::IterMut<'a, T>;
+    type SplitItems = &'a mut [T];
 
     fn len(&self) -> usize {
         Vec::len(self)
+    }
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
+        let (a, b) = self.split_at_mut(at);
+
+        (a, b)
     }
 }
 
@@ -79,10 +93,17 @@ where
 {
     type Elem = &'a mut T;
     #[cfg(feature = "concurrent")]
-    type ParIter = rayon::slice::IterMut<'a, T>;
+    type SplitItems = Self;
 
     fn len(&self) -> usize {
         <[T]>::len(self)
+    }
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
+        let (a, b) = self.split_at_mut(at);
+
+        (a, b)
     }
 }
 
@@ -92,10 +113,17 @@ where
 {
     type Elem = &'a T;
     #[cfg(feature = "concurrent")]
-    type ParIter = rayon::slice::Iter<'a, T>;
+    type SplitItems = Self;
 
     fn len(&self) -> usize {
         <[T]>::len(self)
+    }
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
+        let (a, b) = self.split_at(at);
+
+        (a, b)
     }
 }
 
@@ -137,6 +165,18 @@ where
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 use rayon::prelude::*;
+
+                let len = nodes.len();
+                if len == 0 {
+                    return;
+                }
+
+                if len == 1 {
+                    op(self, 0, nodes.into_iter().next().unwrap());
+                    return;
+                }
+
+                let (na, nb) = nodes.split_at(len / 2);
 
                 let visitor = nodes
                     .into_par_iter()
