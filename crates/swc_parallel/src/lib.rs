@@ -91,14 +91,20 @@ where
     let (ra, rb) = join_maybe_scoped(
         &mut scope,
         |scope| {
-            let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let scope = unsafe {
+                // Safety: inner scope cannot outlive the outer scope
+                transmute::<Scope, Scope>(scope)
+            };
             let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
 
             oper_a()
         },
         |scope| {
-            let scope = unsafe { transmute::<Scope, Scope>(scope) };
+            let scope = unsafe {
+                // Safety: inner scope cannot outlive the outer scope
+                transmute::<Scope, Scope>(scope)
+            };
             let _guard = RemoveScopeGuard;
             SCOPE.set(Some(MaybeScope(ScopeLike::Scope(scope))));
 
@@ -106,6 +112,7 @@ where
         },
     );
 
+    // In case of panic, we does not restore the scope so it will be None.
     SCOPE.set(Some(scope));
 
     (ra, rb)
