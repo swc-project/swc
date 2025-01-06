@@ -25,27 +25,23 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
     fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
 }
 
-/// This is considered as a private type and it's NOT A PUBLIC API.
-#[cfg(feature = "concurrent")]
-#[allow(clippy::len_without_is_empty)]
-pub trait Items: IntoIterator<Item = Self::Elem> {
-    type Elem: Send + Sync;
-    #[cfg(feature = "concurrent")]
-    type SplitItems: Items<Elem = Self::Elem> + Send;
+mod private {
+    pub trait Sealed {}
 
-    fn len(&self) -> usize;
-
-    #[cfg(feature = "concurrent")]
-    fn split_at(self, idx: usize) -> (Self::SplitItems, Self::SplitItems);
+    impl<T> Sealed for Vec<T> {}
+    impl<T> Sealed for &mut [T] {}
+    impl<T> Sealed for &[T] {}
 }
 
 /// This is considered as a private type and it's NOT A PUBLIC API.
-#[cfg(not(feature = "concurrent"))]
 #[allow(clippy::len_without_is_empty)]
-pub trait Items: IntoIterator<Item = Self::Elem> {
+pub trait Items: Sized + IntoIterator<Item = Self::Elem> + Send + private::Sealed {
     type Elem: Send + Sync;
 
     fn len(&self) -> usize;
+
+    #[cfg(feature = "concurrent")]
+    fn split_at(self, idx: usize) -> (Self, Self);
 }
 
 impl<T> Items for Vec<T>
@@ -53,8 +49,6 @@ where
     T: Send + Sync,
 {
     type Elem = T;
-    #[cfg(feature = "concurrent")]
-    type SplitItems = Vec<T>;
 
     fn len(&self) -> usize {
         Vec::len(self)
@@ -68,40 +62,18 @@ where
     }
 }
 
-impl<'a, T> Items for &'a mut Vec<T>
-where
-    T: Send + Sync,
-{
-    type Elem = &'a mut T;
-    #[cfg(feature = "concurrent")]
-    type SplitItems = &'a mut [T];
-
-    fn len(&self) -> usize {
-        Vec::len(self)
-    }
-
-    #[cfg(feature = "concurrent")]
-    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
-        let (a, b) = self.split_at_mut(at);
-
-        (a, b)
-    }
-}
-
 impl<'a, T> Items for &'a mut [T]
 where
     T: Send + Sync,
 {
     type Elem = &'a mut T;
-    #[cfg(feature = "concurrent")]
-    type SplitItems = &'a mut [T];
 
     fn len(&self) -> usize {
         <[T]>::len(self)
     }
 
     #[cfg(feature = "concurrent")]
-    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
+    fn split_at(self, at: usize) -> (Self, Self) {
         let (a, b) = self.split_at_mut(at);
 
         (a, b)
@@ -113,15 +85,13 @@ where
     T: Send + Sync,
 {
     type Elem = &'a T;
-    #[cfg(feature = "concurrent")]
-    type SplitItems = &'a [T];
 
     fn len(&self) -> usize {
         <[T]>::len(self)
     }
 
     #[cfg(feature = "concurrent")]
-    fn split_at(self, at: usize) -> (Self::SplitItems, Self::SplitItems) {
+    fn split_at(self, at: usize) -> (Self, Self) {
         let (a, b) = self.split_at(at);
 
         (a, b)
