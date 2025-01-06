@@ -1219,31 +1219,31 @@ impl VisitMut for Remover {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() , n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() , n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() , n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() , n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() , n, |v, n| {
             n.visit_mut_with(v);
         })
     }
@@ -1261,7 +1261,7 @@ impl Remover {
 
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
-        self.maybe_par(cpu_count() * 8, &mut *stmts, |visitor, stmt| {
+        self.maybe_par(cpu_count() , &mut *stmts, |visitor, stmt| {
             visitor.normal_block = true;
             stmt.visit_mut_with(visitor);
         });
