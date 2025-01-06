@@ -171,10 +171,10 @@ pub fn operate(
     let mut program = match program {
         Ok(program) => program,
         Err(err) => {
-            err.into_diagnostic(handler).emit();
+            err.into_diagnostic(handler).note("INVALID_SYNTAX").emit();
 
             for e in errors {
-                e.into_diagnostic(handler).emit();
+                e.into_diagnostic(handler).note("INVALID_SYNTAX").emit();
             }
 
             return Err(anyhow::anyhow!("failed to parse"));
@@ -183,7 +183,7 @@ pub fn operate(
 
     if !errors.is_empty() {
         for e in errors {
-            e.into_diagnostic(handler).emit();
+            e.into_diagnostic(handler).note("INVALID_SYNTAX").emit();
         }
 
         return Err(anyhow::anyhow!("failed to parse"));
