@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Base crate for the 'swc' crate. This is not a public API."
 documentation = "https://rustdoc.swc.rs/swc_compiler_base/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_compiler_base"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "7.0.0"
 
 [features]

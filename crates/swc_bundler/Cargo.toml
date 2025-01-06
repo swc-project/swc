@@ -4,11 +4,11 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build         = "build.rs"
 description   = "Very fast ecmascript bundler"
 documentation = "https://rustdoc.swc.rs/swc_bundler/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_bundler"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "6.0.0"
 
   [package.metadata.docs.rs]

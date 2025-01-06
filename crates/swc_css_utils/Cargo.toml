@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Port of stylis"
 documentation = "https://rustdoc.swc.rs/swc_css_utils/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_css_utils"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "5.0.0"
 
 [lib]

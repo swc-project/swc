@@ -2,10 +2,10 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Runner for swc plugins. This crate is INTERNAL crate and used by swc itself."
 documentation = "https://rustdoc.swc.rs/swc_plugin_runner/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_plugin_runner"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "5.0.0"
 
 [lib]
