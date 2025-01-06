@@ -603,12 +603,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cc9a2cd1dfcbaf58c5a8552616ee811323cc614ffa612857b0ff610b5335b0e"
 
 [[package]]
-name = "chili"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e72f874459a658df39dd1d99f7f62a9c421792efc26eaae8d497ae5d2e816a62"
-
-[[package]]
 name = "chrono"
 version = "0.4.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5115,7 +5109,6 @@ version = "6.0.0"
 dependencies = [
  "anyhow",
  "auto_impl",
- "chili",
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
