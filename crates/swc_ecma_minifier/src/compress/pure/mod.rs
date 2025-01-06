@@ -1,5 +1,8 @@
 #![allow(clippy::needless_update)]
 
+use std::mem::transmute;
+
+use chili::Scope;
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
@@ -63,6 +66,7 @@ pub(crate) fn pure_optimizer<'a>(
         },
         ctx: Default::default(),
         changed: Default::default(),
+        scope: None,
     }
 }
 
@@ -74,6 +78,8 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
+
+    scope: Option<&'a mut chili::Scope<'a>>,
 }
 
 impl Repeated for Pure<'_> {
@@ -172,7 +178,7 @@ impl Pure<'_> {
         if !cfg!(target_arch = "wasm32") && (!cfg!(feature = "debug") || !cfg!(debug_assertions)) {
             #[cfg(feature = "concurrent")]
             {
-                changed = self.join_par(&mut chili::Scope::global(), nodes);
+                changed = self.join_par(nodes);
                 self.changed |= changed;
                 return;
             }
@@ -213,6 +219,7 @@ impl Pure<'_> {
                             ..self.ctx
                         },
                         changed: false,
+                        scope: None,
                         ..*self
                     };
                     node.visit_mut_with(&mut v);
@@ -225,7 +232,7 @@ impl Pure<'_> {
         self.changed |= changed;
     }
 
-    fn join_par<N>(&mut self, scope: &mut chili::Scope, nodes: &mut [N]) -> bool
+    fn join_par<N>(&mut self, nodes: &mut [N]) -> bool
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
@@ -238,32 +245,46 @@ impl Pure<'_> {
             nodes[0].visit_mut_with(self);
             return self.changed;
         }
+        let scope: &mut Scope = match &mut self.scope {
+            Some(scope) => scope,
+            None => &mut chili::Scope::global(),
+        };
 
         let (a, b) = nodes.split_at_mut(len / 2);
 
         GLOBALS.with(|globals| {
-            let mut v1 = Pure {
-                expr_ctx: self.expr_ctx.clone(),
-                ctx: Ctx {
-                    par_depth: self.ctx.par_depth + 1,
-                    ..self.ctx
-                },
-                changed: false,
-                ..*self
-            };
-            let mut v2 = Pure {
-                expr_ctx: self.expr_ctx.clone(),
-                ctx: Ctx {
-                    par_depth: self.ctx.par_depth + 1,
-                    ..self.ctx
-                },
-                changed: false,
-                ..*self
-            };
-
             let (ar, br) = scope.join(
-                |scope| GLOBALS.set(globals, || v1.join_par(scope, a)),
-                |scope| GLOBALS.set(globals, || v2.join_par(scope, b)),
+                |scope| {
+                    GLOBALS.set(globals, || {
+                        let mut v1 = Pure {
+                            expr_ctx: self.expr_ctx.clone(),
+                            ctx: Ctx {
+                                par_depth: self.ctx.par_depth + 1,
+                                ..self.ctx
+                            },
+                            changed: false,
+                            scope: Some(unsafe { transmute::<&mut Scope, &mut Scope>(scope) }),
+                            ..*self
+                        };
+                        v1.join_par(a)
+                    })
+                },
+                |scope| {
+                    GLOBALS.set(globals, || {
+                        let mut v2 = Pure {
+                            expr_ctx: self.expr_ctx.clone(),
+                            ctx: Ctx {
+                                par_depth: self.ctx.par_depth + 1,
+                                ..self.ctx
+                            },
+                            changed: false,
+                            scope: Some(unsafe { transmute::<&mut Scope, &mut Scope>(scope) }),
+                            ..*self
+                        };
+
+                        v2.join_par(b)
+                    })
+                },
             );
 
             ar || br
