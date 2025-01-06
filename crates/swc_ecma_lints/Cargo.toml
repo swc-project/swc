@@ -14,6 +14,7 @@ bench = false
 
 [dependencies]
 auto_impl   = { workspace = true }
+chili       = "=0.2.0"
 dashmap     = { workspace = true }
 parking_lot = { workspace = true }
 rayon       = { workspace = true }
