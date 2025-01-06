@@ -3,6 +3,8 @@ use std::sync::Arc;
 use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 
+#[deprecated = "Use lint_pass instead"]
+pub use self::lint_pass as lint_to_fold;
 use crate::{config::LintConfig, rule::Rule};
 
 mod const_assign;
@@ -216,7 +218,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
     rules
 }
 
-pub fn lint_to_fold<R>(r: R) -> impl Pass
+pub fn lint_pass<R>(r: R) -> impl Pass
 where
     R: Rule,
 {
