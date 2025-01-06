@@ -3,6 +3,7 @@
 use once_cell::sync::Lazy;
 use swc_common::GLOBALS;
 use swc_ecma_ast::*;
+use swc_parallel::join;
 
 static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
 
@@ -30,7 +31,7 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
 pub trait Items: IntoIterator<Item = Self::Elem> {
     type Elem: Send + Sync;
     #[cfg(feature = "concurrent")]
-    type SplitItems: Items<Elem = Self::Elem>;
+    type SplitItems: Items<Elem = Self::Elem> + Send;
 
     fn len(&self) -> usize;
 
@@ -164,8 +165,6 @@ where
     {
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
-                use rayon::prelude::*;
-
                 let len = nodes.len();
                 if len == 0 {
                     return;
@@ -177,28 +176,29 @@ where
                 }
 
                 let (na, nb) = nodes.split_at(len / 2);
+                let call = |v: &mut Self, idx: usize, node: I::Elem| op(v, idx, node);
 
-                let visitor = nodes
-                    .into_par_iter()
-                    .enumerate()
-                    .map(|(idx, node)| {
+                let (va, vb) = join(
+                    || {
                         GLOBALS.set(globals, || {
                             let mut visitor = Parallel::create(&*self);
-                            op(&mut visitor, idx, node);
+                            visitor.maybe_par_idx(threshold, na, call);
 
                             visitor
                         })
-                    })
-                    .reduce(
-                        || Parallel::create(&*self),
-                        |mut a, b| {
-                            Parallel::merge(&mut a, b);
+                    },
+                    || {
+                        GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            visitor.maybe_par_idx(threshold, nb, call);
 
-                            a
-                        },
-                    );
+                            visitor
+                        })
+                    },
+                );
 
-                Parallel::merge(self, visitor);
+                Parallel::merge(self, va);
+                Parallel::merge(self, vb);
             });
 
             return;
