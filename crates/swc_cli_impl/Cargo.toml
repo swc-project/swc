@@ -1,11 +1,11 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Commandline for SWC (Internal crate with implementation)"
-edition     = "2021"
+edition     = { workspace = true }
 include     = ["Cargo.toml", "src/**/*.rs"]
-license     = "Apache-2.0"
+license     = { workspace = true }
 name        = "swc_cli_impl"
-repository  = "https://github.com/swc-project/swc.git"
+repository  = { workspace = true }
 version     = "9.0.0"
 
 [[bin]]

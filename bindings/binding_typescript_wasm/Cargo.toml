@@ -1,11 +1,11 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "wasm module for swc"
-edition     = "2021"
-license     = "Apache-2.0"
+edition     = { workspace = true }
+license     = { workspace = true }
 name        = "binding_typescript_wasm"
 publish     = false
-repository  = "https://github.com/swc-project/swc.git"
+repository  = { workspace = true }
 version     = "1.10.4"
 
 [lib]

@@ -1,11 +1,16 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Cross-module optimizer built on SWC"
+description = "Linter for the swc project"
 edition     = { workspace = true }
+include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
-name        = "swc_x_optimizer"
+name        = "swc_parallel"
 repository  = { workspace = true }
 version     = "0.1.0"
 
+[features]
+# Make it really parallel
+parallel = []
 
 [dependencies]
+chili = { workspace = true }
