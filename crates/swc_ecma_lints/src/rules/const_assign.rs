@@ -1,5 +1,6 @@
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
+use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::Rule;
@@ -49,11 +50,20 @@ impl Rule for ConstAssignRule {
     }
 }
 
+#[derive(Clone, Copy)]
 struct ConstAssign<'a> {
     const_vars: &'a AHashMap<Id, Span>,
     import_binding: &'a AHashMap<Id, Span>,
 
     is_pat_decl: bool,
+}
+
+impl Parallel for ConstAssign<'_> {
+    fn create(&self) -> Self {
+        *self
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl ConstAssign<'_> {
@@ -96,6 +106,24 @@ impl Visit for ConstAssign<'_> {
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         self.check(&Ident::from(n));
+    }
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(cpu_count() * 8, exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
+
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        self.maybe_par(cpu_count() * 8, items, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(cpu_count() * 8, stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
