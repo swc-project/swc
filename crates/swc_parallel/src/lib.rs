@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "parallel"), allow(unused_variables))]
+
 use std::{cell::RefCell, mem::transmute};
 
 #[derive(Default)]
@@ -5,12 +7,21 @@ pub struct MaybeScope<'a>(ScopeLike<'a>);
 
 enum ScopeLike<'a> {
     Scope(Scope<'a>),
+    #[cfg(feature = "parallel")]
     Global(Option<chili::Scope<'a>>),
 }
 
 impl Default for ScopeLike<'_> {
     fn default() -> Self {
-        ScopeLike::Global(None)
+        #[cfg(feature = "parallel")]
+        {
+            ScopeLike::Global(None)
+        }
+
+        #[cfg(not(feature = "parallel"))]
+        {
+            ScopeLike::Scope(Scope(std::marker::PhantomData))
+        }
     }
 }
 
@@ -26,10 +37,12 @@ impl<'a> MaybeScope<'a> {
     where
         F: FnOnce(Scope<'a>) -> R,
     {
+        #[cfg(feature = "parallel")]
         let scope: &mut chili::Scope = match &mut self.0 {
             ScopeLike::Scope(scope) => unsafe {
                 transmute::<&mut chili::Scope, &mut chili::Scope>(&mut scope.0)
             },
+            #[cfg(feature = "parallel")]
             ScopeLike::Global(global_scope) => {
                 let scope = global_scope.get_or_insert_with(|| chili::Scope::global());
 
@@ -37,7 +50,11 @@ impl<'a> MaybeScope<'a> {
             }
         };
 
+        #[cfg(feature = "parallel")]
         let scope = Scope(scope);
+
+        #[cfg(not(feature = "parallel"))]
+        let scope = Scope(std::marker::PhantomData);
 
         f(scope)
     }
