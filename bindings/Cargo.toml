@@ -10,6 +10,9 @@ members = [
 ]
 resolver = "2"
 
+  [workspace.package]
+  edition = "2021"
+
   [workspace.dependencies]
   anyhow               = "1.0.86"
   backtrace            = "0.3"
