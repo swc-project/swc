@@ -11,12 +11,10 @@ use swc_common::{
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
-    rule::Rule,
     rules::{lint_pass, LintParams},
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::Visit;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/lints/libs");
