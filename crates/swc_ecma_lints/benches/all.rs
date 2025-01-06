@@ -9,10 +9,14 @@ use swc_common::{
     FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_lints::{config::LintConfig, rule::Rule, rules::LintParams};
+use swc_ecma_lints::{
+    config::LintConfig,
+    rule::Rule,
+    rules::{lint_pass, LintParams},
+};
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::Visit;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/lints/libs");
@@ -55,7 +59,12 @@ pub fn bench_files(c: &mut Criterion) {
                 b.iter(|| {
                     GLOBALS.set(&globals, || {
                         HANDLER.set(&handler, || {
-                            run(cm.clone(), program.clone(), unresolved_mark, top_level_mark)
+                            run(
+                                cm.clone(),
+                                &mut program.clone(),
+                                unresolved_mark,
+                                top_level_mark,
+                            )
                         });
                     });
                 });
@@ -80,7 +89,7 @@ pub fn bench_files(c: &mut Criterion) {
 criterion_group!(files, bench_files);
 criterion_main!(files);
 
-fn run(cm: Lrc<SourceMap>, program: Program, unresolved_mark: Mark, top_level_mark: Mark) {
+fn run(cm: Lrc<SourceMap>, program: &mut Program, unresolved_mark: Mark, top_level_mark: Mark) {
     let rules = swc_ecma_lints::rules::all(LintParams {
         program: &program,
         lint_config: &LintConfig::default(),
@@ -90,9 +99,9 @@ fn run(cm: Lrc<SourceMap>, program: Program, unresolved_mark: Mark, top_level_ma
         source_map: cm.clone(),
     });
 
-    let mut visitor = black_box(Visitors(rules));
+    let pass = black_box(lint_pass(rules));
 
-    program.visit_with(&mut visitor);
+    program.mutate(pass)
 }
 
 struct Visitors(Vec<Box<dyn Rule>>);
