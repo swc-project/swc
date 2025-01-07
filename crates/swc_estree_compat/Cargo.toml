@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_estree_compat"
 repository    = { workspace = true }
-version       = "6.0.0"
+version       = "7.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -24,14 +24,14 @@ copyless   = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
-swc_atoms = { version = "3.0.1", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.2", path = "../swc_atoms" }
 swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
 swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "6.0.1", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "6.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "7.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "5.0.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "5.0.0", path = "../swc_node_comments/" }
@@ -41,10 +41,10 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "9.0.2", path = "../swc" }
+swc                 = { version = "10.0.0", path = "../swc" }
 swc_ecma_ast        = { version = "5.0.1", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "6.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "8.0.0", path = "../swc_ecma_transforms/" }
+swc_ecma_transforms = { version = "9.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "5.0.0", path = "../testing" }
 walkdir             = { workspace = true }
 
