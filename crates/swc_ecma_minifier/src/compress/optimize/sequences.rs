@@ -845,11 +845,7 @@ impl Optimizer<'_> {
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
-                                            if merge_seq_cache.is_ident_used_by(
-                                                &an.to_id(),
-                                                b_init,
-                                                b_idx,
-                                            ) {
+                                            if is_ident_used_by(an.to_id(), b_init) {
                                                 log_abort!(
                                                     "We can't duplicated binding because \
                                                      initializer uses the previous declaration of \
@@ -994,11 +990,11 @@ impl Optimizer<'_> {
                                 if !self.is_skippable_for_seq(Some(a), e2) {
                                     break;
                                 }
+                            }
 
-                                if let Some(id) = a.id() {
-                                    if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
-                                        break;
-                                    }
+                            if let Some(id) = a.id() {
+                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                                    break;
                                 }
                             }
                         }
