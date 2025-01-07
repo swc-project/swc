@@ -861,6 +861,8 @@ impl Optimizer<'_> {
                                             if let Some(a_init) = av.init.take() {
                                                 let b_seq = b_init.force_seq();
                                                 b_seq.exprs.insert(0, a_init);
+                                                merge_seq_cache.invalidate(a_idx);
+                                                merge_seq_cache.invalidate(b_idx);
 
                                                 self.changed = true;
                                                 report_change!(
@@ -892,6 +894,8 @@ impl Optimizer<'_> {
                                             //
                                             // prints 5
                                             bv.init = av.init.take();
+                                            merge_seq_cache.invalidate(a_idx);
+                                            merge_seq_cache.invalidate(b_idx);
                                             self.changed = true;
                                             report_change!(
                                                 "Moving initializer to the next variable \
@@ -915,6 +919,7 @@ impl Optimizer<'_> {
                                     && self.merge_sequential_expr(a, b)?
                                 {
                                     changed = true;
+                                    merge_seq_cache.invalidate(a_idx);
                                     merge_seq_cache.invalidate(b_idx);
                                     break;
                                 }
@@ -926,6 +931,7 @@ impl Optimizer<'_> {
                                 && self.merge_sequential_expr(a, b)?
                             {
                                 changed = true;
+                                merge_seq_cache.invalidate(a_idx);
                                 merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
@@ -934,6 +940,7 @@ impl Optimizer<'_> {
                         Mergable::Drop => {
                             if self.drop_mergable_seq(a)? {
                                 changed = true;
+                                merge_seq_cache.invalidate(a_idx);
                                 merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
