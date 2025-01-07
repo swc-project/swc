@@ -65,6 +65,13 @@ impl<'a> RawLexer<'a> {
         self.pos
     }
 
+    pub fn cur_hi(&mut self) -> BytePos {
+        let span = self.lexer.peek().map(|v| v.1.clone()).unwrap_or_default();
+
+        // +1 because hi is exclusive
+        self.pos + BytePos(span.len() as u32 + 1)
+    }
+
     pub fn update_cur_pos(&mut self) -> BytePos {
         let span = self.lexer.peek().map(|v| v.1.clone()).unwrap_or_default();
         self.pos = self.base_pos + BytePos(span.start as u32);

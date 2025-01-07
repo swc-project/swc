@@ -9,7 +9,6 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::Ident;
-use swc_ecma_raw_lexer::RawToken;
 use tracing::warn;
 
 use super::{comments_buffer::BufferedComment, Char, LexResult, Lexer};
@@ -20,8 +19,8 @@ use crate::{
 };
 
 impl Lexer<'_> {
-    pub(super) fn span(&self, start: BytePos) -> Span {
-        let end = self.input.cur_pos();
+    pub(super) fn span(&mut self, start: BytePos) -> Span {
+        let end = self.input.cur_hi();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).
