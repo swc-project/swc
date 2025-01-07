@@ -183,19 +183,19 @@ impl VisitMut for InlineGlobals {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
+        self.visit_mut_par(cpu_count(), n);
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
+        self.visit_mut_par(cpu_count(), n);
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
+        self.visit_mut_par(cpu_count(), n);
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
+        self.visit_mut_par(cpu_count(), n);
     }
 }
 

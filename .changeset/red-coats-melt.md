@@ -1,6 +1,6 @@
 ---
 swc_core: patch
-swc_ecma_utils: patch
+swc_ecma_utils: major
 swc_ecma_lints: patch
 ---
 
