@@ -674,53 +674,12 @@ impl Lexer<'_> {
             self.input.reset_to(start);
         }
 
-        debug_assert_eq!(self.cur()?, Some(RawToken::DivOp));
-
-        let start = self.input.cur_pos();
-
-        self.bump();
-
-        let (mut escaped, mut in_class) = (false, false);
-
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.input.cur_char() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    let span = l.span(start);
-
-                    return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
-                }
-
-                if escaped {
-                    escaped = false;
-                } else {
-                    match c {
-                        '[' => in_class = true,
-                        ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
-                        '/' if !in_class => break,
-                        _ => {}
-                    }
-
-                    escaped = c == '\\';
-                }
-
-                l.bump();
-                buf.push(c);
-            }
-
-            Ok(l.atoms.atom(&**buf))
+        let content = self.input.read_regexp().map_err(|err| {
+            let start = self.input.cur_pos();
+            let _ = self.input.next();
+            Error::new(self.span(start), SyntaxError::from(err))
         })?;
-
-        // input is terminated without following `/`
-        if !self.input.is_ascii(b'/') {
-            let span = self.span(start);
-
-            return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
-        }
-
-        self.bump(); // '/'
+        let content = self.atoms.atom(content);
 
         // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
         // sequence." TODO: check for escape
@@ -882,13 +841,10 @@ impl Lexer<'_> {
     #[inline(never)]
     fn cur(&mut self) -> LexResult<Option<RawToken>> {
         match self.input.cur() {
-            Err(..) => {
+            Err(err) => {
                 let start = self.input.cur_pos();
                 let _ = self.input.next();
-                Err(Error::new(
-                    self.span(start),
-                    SyntaxError::UnexpectedCharFromLexer,
-                ))
+                Err(Error::new(self.span(start), SyntaxError::from(err)))
             }
             Ok(v) => Ok(v),
         }
