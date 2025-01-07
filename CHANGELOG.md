@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.10.6] - 2025-01-07
 
 ### Performance
 
@@ -1513,12 +1513,6 @@
 - **(es/parser)** Rename `EsConfig` and `TsConfig` ([#9094](https://github.com/swc-project/swc/issues/9094)) ([5520b23](https://github.com/swc-project/swc/commit/5520b236dd40fdd579c99cb6d66eef094cabc3fc))
 
 ## [1.6.3] - 2024-06-19
-
-### Bug Fixes
-
-
-
-- **(es/decorators)** Reduce the number of sourcemap mappings ([#9074](https://github.com/swc-project/swc/issues/9074)) ([cfe3ba3](https://github.com/swc-project/swc/commit/cfe3ba306dc709149c496f67dbb7f35dc4f86819))
 
 ### Performance
 
