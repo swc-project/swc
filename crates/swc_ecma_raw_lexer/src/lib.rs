@@ -15,6 +15,7 @@ use crate::{
 
 pub mod jsx;
 mod peek;
+mod regexp;
 mod size_hint;
 mod string;
 
@@ -196,9 +197,6 @@ impl<'a> RawLexer<'a> {
             self.lexer = peek_nth(logos::Lexer::new(source).spanned());
         }
     }
-
-    /// Current token must be [`RawToken::DivOp`]
-    pub fn read_regexp(&mut self) -> Result<&'a str, LogosError> {}
 }
 
 impl Iterator for RawLexer<'_> {

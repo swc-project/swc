@@ -52,6 +52,10 @@ where
     pub fn inner_mut(&mut self) -> &mut I {
         &mut self.iter
     }
+
+    pub fn inner(&self) -> &I {
+        &self.iter
+    }
 }
 
 impl<I> Iterator for PeekNth<I>
