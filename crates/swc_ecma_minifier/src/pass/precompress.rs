@@ -1,10 +1,12 @@
+#![allow(unused)]
+
 use std::vec::Vec;
 
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::HEAVY_TASK_PARALLELS;
+use crate::CPU_COUNT;
 
 /// Optimizer invoked before invoking compressor.
 ///
@@ -30,37 +32,37 @@ impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+        self.maybe_par(*CPU_COUNT, n, |v, n| {
             n.visit_mut_with(v);
         });
     }

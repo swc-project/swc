@@ -56,7 +56,6 @@ use crate::{
     pass::{
         global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
         merge_exports::merge_exports, postcompress::postcompress_optimizer,
-        precompress::precompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -123,12 +122,12 @@ pub fn optimize(
         }
     }
 
-    if let Some(_options) = &options.compress {
-        let _timer = timer!("precompress");
+    // if let Some(_options) = &options.compress {
+    //     let _timer = timer!("precompress");
 
-        n.visit_mut_with(&mut precompress_optimizer());
-        debug_assert_valid(&n);
-    }
+    //     n.visit_mut_with(&mut precompress_optimizer());
+    //     debug_assert_valid(&n);
+    // }
 
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
