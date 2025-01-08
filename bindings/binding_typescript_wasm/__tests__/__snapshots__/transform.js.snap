@@ -3,8 +3,7 @@
 exports[`transform in strip-only mode should not emit 'Caused by: failed to parse' 1`] = `
 {
   "code": "InvalidSyntax",
-  "message": "
-  x await isn't allowed in non-async function
+  "message": "  x await isn't allowed in non-async function
    ,----
  1 | function foo() { await Promise.resolve(1); }
    :                        ^^^^^^^
@@ -36,6 +35,32 @@ exports[`transform in strip-only mode should remove declare enum 3`] = `
                       
                      ",
   "map": undefined,
+}
+`;
+
+exports[`transform in strip-only mode should report correct error for syntax error 1`] = `
+{
+  "code": "InvalidSyntax",
+  "message": "  x Expected ';', '}' or <eof>
+   ,----
+ 1 | function foo() { invalid syntax }
+   :                  ^^^|^^^ ^^^^^^
+   :                     \`-- This is the expression part of an expression statement
+   \`----
+",
+}
+`;
+
+exports[`transform in strip-only mode should report correct error for unsupported syntax 1`] = `
+{
+  "code": "UnsupportedSyntax",
+  "message": "  x TypeScript enum is not supported in strip-only mode
+   ,-[1:1]
+ 1 | ,-> enum Foo {
+ 2 | |                       a, b    
+ 3 | \`->                     }
+   \`----
+",
 }
 `;
 
@@ -93,33 +118,39 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
-"
-  x TypeScript namespace declaration is not supported in strip-only mode
+{
+  "code": "UnsupportedSyntax",
+  "message": "  x TypeScript namespace declaration is not supported in strip-only mode
    ,----
  1 | module foo {}
    : ^^^^^^^^^^^^^
    \`----
-"
+",
+}
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a namespace 1`] = `
-"
-  x TypeScript namespace declaration is not supported in strip-only mode
+{
+  "code": "UnsupportedSyntax",
+  "message": "  x TypeScript namespace declaration is not supported in strip-only mode
    ,----
  1 | namespace Foo {}
    : ^^^^^^^^^^^^^^^^
    \`----
-"
+",
+}
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
-"
-  x TypeScript enum is not supported in strip-only mode
+{
+  "code": "UnsupportedSyntax",
+  "message": "  x TypeScript enum is not supported in strip-only mode
    ,----
  1 | enum Foo {}
    : ^^^^^^^^^^^
    \`----
-"
+",
+}
 `;
 
 exports[`transform should strip types 1`] = `
