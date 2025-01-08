@@ -153,7 +153,7 @@ impl std::error::Error for TsError {
 }
 
 #[non_exhaustive]
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Copy, Serialize)]
 pub enum ErrorCode {
     InvalidSyntax,
     UnsupportedSyntax,
