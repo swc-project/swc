@@ -1,14 +1,19 @@
-
-
-(function () {
+(() => {
+    "use strict";
     class Element { }
-    class PointElement extends Element {
-        static id = 'point';
-        constructor(cfg) {
-            super();
-        }
-    }
 
-    console.log('Done')
 
+    // var chart_elements = /*#__PURE__*/ Object.freeze({
+    // PointElement: PointElement
+    // });
+
+    var chart_elements = /*#__PURE__*/(null && (Object.freeze({
+        Element: Element
+    })));
+
+    const registerables = null && ([
+        chart_elements,
+        chart_plugins
+    ]);
 })()
+    ;
