@@ -1,5 +1,6 @@
 use std::{iter::once, mem::take};
 
+use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -7,8 +8,7 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, IdentUsageFinder, StmtLike,
-    Type, Value,
+    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -23,7 +23,10 @@ use crate::{
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    util::{
+        idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
+        ModuleItemExt,
+    },
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -821,22 +824,17 @@ impl Optimizer<'_> {
             )
         };
 
+        let mut merge_seq_cache = MergeSequenceCache::new(exprs.len());
         loop {
-            let mut did_work = false;
-
-            for idx in 0..exprs.len() {
-                for j in idx..exprs.len() {
-                    let (a1, a2) = exprs.split_at_mut(idx);
-
-                    if a1.is_empty() || a2.is_empty() {
-                        break;
-                    }
-
+            let mut changed = false;
+            for a_idx in 0..exprs.len().saturating_sub(1) {
+                for b_idx in (a_idx + 1)..exprs.len() {
+                    let (a1, a2) = exprs.split_at_mut(a_idx + 1);
                     let a = a1.last_mut().unwrap();
+                    let b = &mut a2[b_idx - a_idx - 1];
 
                     if self.options.unused && self.options.sequences() {
-                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx])
-                        {
+                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut *b) {
                             // We try dropping variable assignments first.
 
                             // Currently, we only drop variable declarations if they have the same
@@ -847,7 +845,7 @@ impl Optimizer<'_> {
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
-                                            if IdentUsageFinder::find(&an.to_id(), b_init) {
+                                            if is_ident_used_by(an.to_id(), b_init) {
                                                 log_abort!(
                                                     "We can't duplicated binding because \
                                                      initializer uses the previous declaration of \
@@ -859,6 +857,8 @@ impl Optimizer<'_> {
                                             if let Some(a_init) = av.init.take() {
                                                 let b_seq = b_init.force_seq();
                                                 b_seq.exprs.insert(0, a_init);
+                                                merge_seq_cache.invalidate(a_idx);
+                                                merge_seq_cache.invalidate(b_idx);
 
                                                 self.changed = true;
                                                 report_change!(
@@ -866,7 +866,7 @@ impl Optimizer<'_> {
                                                      a same name"
                                                 );
                                                 av.name.take();
-                                                continue;
+                                                break;
                                             } else {
                                                 self.changed = true;
                                                 report_change!(
@@ -875,7 +875,7 @@ impl Optimizer<'_> {
                                                     an.id
                                                 );
                                                 av.name.take();
-                                                continue;
+                                                break;
                                             }
                                         }
                                         None => {
@@ -890,13 +890,15 @@ impl Optimizer<'_> {
                                             //
                                             // prints 5
                                             bv.init = av.init.take();
+                                            merge_seq_cache.invalidate(a_idx);
+                                            merge_seq_cache.invalidate(b_idx);
                                             self.changed = true;
                                             report_change!(
                                                 "Moving initializer to the next variable \
                                                  declaration as they have the same name"
                                             );
                                             av.name.take();
-                                            continue;
+                                            break;
                                         }
                                     }
                                 }
@@ -906,26 +908,36 @@ impl Optimizer<'_> {
 
                     // Merge sequentially
 
-                    match &mut a2[j - idx] {
+                    match b {
                         Mergable::Var(b) => match b.init.as_deref_mut() {
                             Some(b) => {
-                                if self.merge_sequential_expr(a, b)? {
-                                    did_work = true;
+                                if !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                    && self.merge_sequential_expr(a, b)?
+                                {
+                                    changed = true;
+                                    merge_seq_cache.invalidate(a_idx);
+                                    merge_seq_cache.invalidate(b_idx);
                                     break;
                                 }
                             }
                             None => continue,
                         },
                         Mergable::Expr(b) => {
-                            if self.merge_sequential_expr(a, b)? {
-                                did_work = true;
+                            if !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                && self.merge_sequential_expr(a, b)?
+                            {
+                                changed = true;
+                                merge_seq_cache.invalidate(a_idx);
+                                merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
                         }
                         Mergable::FnDecl(..) => continue,
                         Mergable::Drop => {
                             if self.drop_mergable_seq(a)? {
-                                did_work = true;
+                                changed = true;
+                                merge_seq_cache.invalidate(a_idx);
+                                merge_seq_cache.invalidate(b_idx);
                                 break;
                             }
                         }
@@ -972,7 +984,7 @@ impl Optimizer<'_> {
                         _ => {}
                     }
 
-                    match &a2[j - idx] {
+                    match b {
                         Mergable::Var(e2) => {
                             if let Some(e2) = &e2.init {
                                 if !self.is_skippable_for_seq(Some(a), e2) {
@@ -980,8 +992,8 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            if let Some(id) = a1.last_mut().unwrap().id() {
-                                if IdentUsageFinder::find(&id, &**e2) {
+                            if let Some(id) = a.id() {
+                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -991,9 +1003,8 @@ impl Optimizer<'_> {
                                 break;
                             }
 
-                            if let Some(id) = a1.last_mut().unwrap().id() {
-                                // TODO(kdy1): Optimize
-                                if IdentUsageFinder::find(&id, &**e2) {
+                            if let Some(id) = a.id() {
+                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -1019,7 +1030,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !did_work {
+            if !changed {
                 break;
             }
         }
@@ -1527,10 +1538,6 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        if let Mergable::Drop = a {
-            return Ok(false);
-        }
-
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
@@ -1551,16 +1558,6 @@ impl Optimizer<'_> {
                 .entered(),
             )
         };
-
-        // Respect top_retain
-        if let Some(a_id) = a.id() {
-            if a_id.0 == "arguments"
-                || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                    && !self.may_remove_ident(&Ident::from(a_id)))
-            {
-                return Ok(false);
-            }
-        }
 
         match &*b {
             Expr::Arrow(..)
@@ -1801,7 +1798,7 @@ impl Optimizer<'_> {
 
                 if !self.is_skippable_for_seq(Some(a), &b_left.id.clone().into()) {
                     // Let's be safe
-                    if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                    if is_ident_used_by(b_left.to_id(), &b_assign.right) {
                         return Ok(false);
                     }
 
@@ -1817,7 +1814,7 @@ impl Optimizer<'_> {
                     return Ok(false);
                 }
 
-                if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                if is_ident_used_by(b_left.to_id(), &b_assign.right) {
                     return Err(());
                 }
 
@@ -2707,6 +2704,54 @@ impl Mergable<'_> {
             Mergable::FnDecl(f) => Some(f.ident.to_id()),
             Mergable::Drop => None,
         }
+    }
+}
+
+#[derive(Debug, Default)]
+struct MergeSequenceCache {
+    ident_usage_cache: Vec<Option<FxHashSet<Id>>>,
+    top_retain_cache: Vec<Option<bool>>,
+}
+
+impl MergeSequenceCache {
+    fn new(cap: usize) -> Self {
+        Self {
+            ident_usage_cache: vec![None; cap],
+            top_retain_cache: vec![None; cap],
+        }
+    }
+
+    fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
+        &mut self,
+        ident: &Id,
+        node: &N,
+        node_id: usize,
+    ) -> bool {
+        let idents = self.ident_usage_cache[node_id].get_or_insert_with(|| idents_used_by(node));
+        idents.contains(ident)
+    }
+
+    fn invalidate(&mut self, node_id: usize) {
+        self.ident_usage_cache[node_id] = None;
+    }
+
+    fn is_top_retain(&mut self, optimizer: &Optimizer, a: &Mergable, node_id: usize) -> bool {
+        *self.top_retain_cache[node_id].get_or_insert_with(|| {
+            if let Mergable::Drop = a {
+                return true;
+            }
+
+            if let Some(a_id) = a.id() {
+                if a_id.0 == "arguments"
+                    || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
+                        && !optimizer.may_remove_ident(&Ident::from(a_id)))
+                {
+                    return true;
+                }
+            }
+
+            false
+        })
     }
 }
 
