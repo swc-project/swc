@@ -8,4 +8,7 @@
             super();
         }
     }
+
+    console.log('Done')
+
 })()

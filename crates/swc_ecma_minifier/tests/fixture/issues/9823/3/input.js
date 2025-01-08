@@ -2,4 +2,6 @@
     function foo() {
 
     }
+
+    console.log('Done')
 })()
