@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, fmt::Display, rc::Rc};
 
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
@@ -140,12 +140,30 @@ pub struct TsError {
     pub code: ErrorCode,
 }
 
+impl std::fmt::Display for TsError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "[{}] {}", self.code, self.message)
+    }
+}
+
+impl std::error::Error for TsError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        None
+    }
+}
+
 #[non_exhaustive]
 #[derive(Debug, Serialize)]
 pub enum ErrorCode {
-    Invalid,
-    Unsupported,
+    InvalidSyntax,
+    UnsupportedSyntax,
     Unknown,
+}
+
+impl Display for ErrorCode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }
 
 impl From<anyhow::Error> for TsError {
@@ -202,7 +220,7 @@ pub fn operate(
 
             return Err(TsError {
                 message: "Syntax error".to_string(),
-                code: ErrorCode::Invalid,
+                code: ErrorCode::InvalidSyntax,
             });
         }
     };
@@ -214,7 +232,7 @@ pub fn operate(
 
         return Err(TsError {
             message: "Syntax error".to_string(),
-            code: ErrorCode::Invalid,
+            code: ErrorCode::InvalidSyntax,
         });
     }
 
