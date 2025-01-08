@@ -1,3 +1,5 @@
-function foo() {
+(function () {
+    function foo() {
 
-}
+    }
+})()

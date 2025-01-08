@@ -1,1 +1,5 @@
-class Element { }
+
+
+(function () {
+    class Element { }
+})()
