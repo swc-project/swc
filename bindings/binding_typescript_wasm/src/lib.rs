@@ -1,7 +1,7 @@
 use anyhow::Error;
 use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
-use swc_fast_ts_strip::{Options, TransformOutput};
+use swc_fast_ts_strip::{Options, TransformOutput, TsError};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{
     future_to_promise,
@@ -48,10 +48,16 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
             color: ColorConfig::Never,
             skip_filename: true,
         },
-        |handler| swc_fast_ts_strip::operate(&cm, handler, input, options),
+        |handler| {
+            swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
+        },
     )
 }
 
 pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
+    if let Some(ts_error) = err.downcast_ref::<TsError>() {
+        return Err(anyhow::Error::new(ts_error));
+    }
+
     format!("{}", err).into()
 }
