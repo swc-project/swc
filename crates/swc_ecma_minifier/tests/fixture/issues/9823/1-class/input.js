@@ -20,5 +20,7 @@
         chart_elements,
         chart_plugins,
     ]);
+
+    console.log('Done 1')
 })()
     ;
