@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transform in strip-only mode should not emit 'Caused by: failed to parse' 1`] = `
-"
+{
+  "code": "InvalidSyntax",
+  "message": "
   x await isn't allowed in non-async function
    ,----
  1 | function foo() { await Promise.resolve(1); }
    :                        ^^^^^^^
    \`----
-  help: Invalid syntax
-"
+",
+}
 `;
 
 exports[`transform in strip-only mode should remove declare enum 1`] = `
@@ -97,7 +99,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
  1 | module foo {}
    : ^^^^^^^^^^^^^
    \`----
-  help: Unsupported syntax
 "
 `;
 
@@ -108,7 +109,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
  1 | namespace Foo {}
    : ^^^^^^^^^^^^^^^^
    \`----
-  help: Unsupported syntax
 "
 `;
 
@@ -119,7 +119,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
  1 | enum Foo {}
    : ^^^^^^^^^^^
    \`----
-  help: Unsupported syntax
 "
 `;
 
