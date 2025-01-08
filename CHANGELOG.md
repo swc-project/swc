@@ -1,4 +1,12 @@
 # Changelog
+## [1.10.6] - 2025-01-07
+
+### Performance
+
+
+
+- **(es/minifier)** Speed up `merge_sequences_in_exprs` by caching computation ([#9843](https://github.com/swc-project/swc/issues/9843)) ([6e5632f](https://github.com/swc-project/swc/commit/6e5632fa413c73ea5e1393a0b28b93d4000a3ac1))
+
 ## [1.10.5] - 2025-01-07
 
 ### Bug Fixes
@@ -1506,20 +1514,8 @@
 
 ## [1.6.3] - 2024-06-19
 
-### Bug Fixes
-
-
-
-- **(css/minifier)** Don't tranform rotate deg ([#9072](https://github.com/swc-project/swc/issues/9072)) ([8d37dae](https://github.com/swc-project/swc/commit/8d37daedf10cbf5fa7ac8ceeb4192ddd6241e310))
-
-
-- **(es/decorators)** Reduce the number of sourcemap mappings ([#9074](https://github.com/swc-project/swc/issues/9074)) ([cfe3ba3](https://github.com/swc-project/swc/commit/cfe3ba306dc709149c496f67dbb7f35dc4f86819))
-
 ### Performance
 
-
-
-- **(common)** Use `Chars` in `StringInput` ([#9073](https://github.com/swc-project/swc/issues/9073)) ([7698eaa](https://github.com/swc-project/swc/commit/7698eaa006d2951df0e0e0cb5680fe531d64dcf4))
 
 
 - **(es/lexer)** Optimize lexer ([#9075](https://github.com/swc-project/swc/issues/9075)) ([6426928](https://github.com/swc-project/swc/commit/6426928b912baa6573b902d7d3c85bcd49b2e823))
