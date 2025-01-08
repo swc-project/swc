@@ -247,6 +247,12 @@ pub fn operate(
             // Strip typescript types
             let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
             program.visit_with(&mut ts_strip);
+            if handler.has_errors() {
+                return Err(TsError {
+                    message: "Unsupported syntax".to_string(),
+                    code: ErrorCode::UnsupportedSyntax,
+                });
+            }
 
             let replacements = ts_strip.replacements;
             let overwrites = ts_strip.overwrites;
