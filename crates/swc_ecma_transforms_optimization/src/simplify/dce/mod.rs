@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, ParVisitMut, Parallel},
 };
 use swc_ecma_utils::{
-    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -655,6 +655,24 @@ impl TreeShaker {
                 .map(|v| v.usage == 0)
                 .unwrap_or_default()
     }
+
+    /// Drops RHS from `null && foo`
+    fn optimize_bin_expr(&mut self, n: &mut Expr) {
+        let Expr::Bin(b) = n else {
+            return;
+        };
+
+        if b.op == op!("&&") && b.left.as_pure_bool(&self.expr_ctx) == Known(false) {
+            *n = *b.left.take();
+            self.changed = true;
+            return;
+        }
+
+        if b.op == op!("||") && b.left.as_pure_bool(&self.expr_ctx) == Known(true) {
+            *n = *b.left.take();
+            self.changed = true;
+        }
+    }
 }
 
 impl VisitMut for TreeShaker {
@@ -760,6 +778,8 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
+
+        self.optimize_bin_expr(n);
 
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
