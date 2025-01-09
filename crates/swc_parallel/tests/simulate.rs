@@ -50,6 +50,30 @@ fn case_3_early_exit_of_entry() {
     }
 }
 
+#[test]
+fn case_4_explode() {
+    let threads = 100;
+    let mut handles = vec![];
+
+    for _ in 0..threads {
+        handles.push(thread::spawn(move || {
+            sleep(Duration::from_secs(1));
+
+            for _ in 0..10 {
+                spawn_work();
+            }
+        }));
+    }
+}
+
+fn spawn_work() {
+    let _handle = thread::spawn(move || {
+        sleep(Duration::from_secs(1));
+
+        sum_in_parallel(10000)
+    });
+}
+
 fn sum_in_parallel(to: usize) {
     let items = (0..to).into_iter().collect::<Vec<_>>();
 
