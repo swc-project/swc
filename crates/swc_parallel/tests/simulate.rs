@@ -22,61 +22,69 @@ impl Parallel for Context {
 
 #[test]
 fn case_1_single_thread() {
-    sum_in_parallel(10000);
+    STATE.set(&State::default(), || {
+        sum_in_parallel(10000);
+    });
 }
 
 #[test]
 fn case_2_wait_for() {
-    let threads = 100;
-    let mut handles = vec![];
+    STATE.set(&State::default(), || {
+        let threads = 100;
+        let mut handles = vec![];
 
-    for _ in 0..threads {
-        handles.push(thread::spawn(move || sum_in_parallel(10000)));
-    }
+        for _ in 0..threads {
+            handles.push(thread::spawn(move || sum_in_parallel(10000)));
+        }
 
-    sleep(Duration::from_secs(1));
+        sleep(Duration::from_secs(1));
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+        for handle in handles {
+            handle.join().unwrap();
+        }
+    });
 }
 
 #[test]
 fn case_3_early_exit_of_entry() {
-    let threads = 100;
-    let mut handles = vec![];
+    STATE.set(&State::default(), || {
+        let threads = 100;
+        let mut handles = vec![];
 
-    for _ in 0..threads {
-        handles.push(thread::spawn(move || {
-            sleep(Duration::from_secs(1));
+        for _ in 0..threads {
+            handles.push(thread::spawn(move || {
+                sleep(Duration::from_secs(1));
 
-            sum_in_parallel(10000)
-        }));
-    }
+                sum_in_parallel(10000)
+            }));
+        }
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+        for handle in handles {
+            handle.join().unwrap();
+        }
+    });
 }
 
 #[test]
 fn case_4_explode() {
-    let threads = 100;
-    let mut handles = vec![];
+    STATE.set(&State::default(), || {
+        let threads = 100;
+        let mut handles = vec![];
 
-    for _ in 0..threads {
-        handles.push(thread::spawn(move || {
-            sleep(Duration::from_secs(1));
+        for _ in 0..threads {
+            handles.push(thread::spawn(move || {
+                sleep(Duration::from_secs(1));
 
-            for _ in 0..10 {
-                spawn_work();
-            }
-        }));
-    }
+                for _ in 0..10 {
+                    spawn_work();
+                }
+            }));
+        }
 
-    for handle in handles {
-        handle.join().unwrap();
-    }
+        for handle in handles {
+            handle.join().unwrap();
+        }
+    });
 }
 
 #[derive(Default)]
