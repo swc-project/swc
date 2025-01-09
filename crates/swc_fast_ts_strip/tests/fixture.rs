@@ -102,7 +102,7 @@ fn error(input: PathBuf) {
     let output_file = input.with_extension("swc-stderr");
 
     testing::run_test(false, |cm, handler| {
-        operate(&cm, handler, input_code, opts(Mode::StripOnly)).expect("should not return Err()");
+        operate(&cm, handler, input_code, opts(Mode::StripOnly)).expect_err("should return Err()");
 
         Err::<(), _>(())
     })
