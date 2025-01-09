@@ -117,6 +117,10 @@ fn sum_in_parallel(to: usize) {
             });
         }
 
+        if n % 50 == 0 {
+            ctx.atoms.push(hstr::Atom::from(n.to_string()));
+        }
+
         ctx.sum += n;
     });
 
