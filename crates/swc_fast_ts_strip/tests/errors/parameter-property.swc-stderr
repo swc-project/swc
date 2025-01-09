@@ -1,0 +1,14 @@
+  x TypeScript parameter property is not supported in strip-only mode
+   ,-[5:1]
+ 4 | class Foo {
+ 5 |     constructor(public id: string) { }
+   :                        ^^^^^^^^^^
+ 6 | }
+   `----
+  x TypeScript parameter property is not supported in strip-only mode
+    ,-[10:1]
+  9 | class Bar {
+ 10 |     constructor(private id: string) { }
+    :                         ^^^^^^^^^^
+ 11 | }
+    `----
