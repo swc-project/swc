@@ -5,14 +5,15 @@ use std::{
 };
 
 use swc_parallel::{items::Items, join};
-
+#[derive(Default)]
 struct Context {
     sum: usize,
+    atoms: Vec<hstr::Atom>,
 }
 
 impl Parallel for Context {
     fn create(&self) -> Self {
-        Context { sum: 0 }
+        Context::default()
     }
 
     fn merge(&mut self, other: Self) {
@@ -34,7 +35,9 @@ fn case_2_wait_for() {
         let mut handles = vec![];
 
         for _ in 0..threads {
-            handles.push(thread::spawn(move || sum_in_parallel(10000)));
+            handles.push(thread::spawn(move || {
+                STATE.set(&Default::default(), || sum_in_parallel(10000));
+            }));
         }
 
         sleep(Duration::from_secs(1));
@@ -55,7 +58,7 @@ fn case_3_early_exit_of_entry() {
             handles.push(thread::spawn(move || {
                 sleep(Duration::from_secs(1));
 
-                sum_in_parallel(10000)
+                STATE.set(&Default::default(), || sum_in_parallel(10000));
             }));
         }
 
@@ -105,7 +108,7 @@ fn spawn_work() {
 fn sum_in_parallel(to: usize) {
     let items = (0..to).into_iter().collect::<Vec<_>>();
 
-    let mut ctx = Context { sum: 0 };
+    let mut ctx = Context::default();
     maybe_par_idx_raw(&mut ctx, items, &|ctx, _idx, n| {
         if n % 100 == 0 {
             STATE.with(|state| {
