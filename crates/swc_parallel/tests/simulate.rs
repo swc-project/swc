@@ -16,14 +16,28 @@ impl Parallel for Context {
 
 #[test]
 fn case_1() {
-    let items = (0..10000).into_iter().collect::<Vec<_>>();
+    sum_in_parallel(10000);
+}
+
+#[test]
+fn case_2() {
+    let threads = num_cpus::get();
+    let mut handles = vec![];
+
+    for _ in 0..threads {
+        handles.push(thread::spawn(move || sum_in_parallel(10000)));
+    }
+}
+
+fn sum_in_parallel(to: usize) {
+    let items = (0..to).into_iter().collect::<Vec<_>>();
 
     let mut ctx = Context { sum: 0 };
     maybe_par_idx_raw(&mut ctx, items, &|ctx, _idx, n| {
         ctx.sum += n;
     });
 
-    assert_eq!(ctx.sum, 9999 * 10000 / 2);
+    assert_eq!(ctx.sum, to * (to - 1) / 2);
 }
 
 pub trait Parallel: Send + Sync {
