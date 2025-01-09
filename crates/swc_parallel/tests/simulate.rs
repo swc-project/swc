@@ -106,7 +106,7 @@ fn spawn_work() {
 }
 
 fn sum_in_parallel(to: usize) {
-    let items = (0..to).into_iter().collect::<Vec<_>>();
+    let items = (0..to).collect::<Vec<_>>();
 
     let mut ctx = Context::default();
     maybe_par_idx_raw(&mut ctx, items, &|ctx, _idx, n| {
