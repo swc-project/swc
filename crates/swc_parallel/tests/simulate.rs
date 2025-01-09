@@ -176,6 +176,4 @@ where
 
     ctx.merge(va);
     ctx.merge(vb);
-
-    return;
 }
