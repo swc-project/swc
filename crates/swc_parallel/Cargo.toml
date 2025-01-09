@@ -12,7 +12,13 @@ version     = "1.0.1"
 default = ["parallel"]
 # Make it really parallel
 parallel = ["chili"]
+# Alias for parallel, just for CI. Do not use it if you are not working on SWC.
+concurrent = ["parallel"]
 
 [dependencies]
 chili     = { workspace = true, optional = true }
 once_cell = { workspace = true }
+
+[dev-dependencies]
+hstr       = { workspace = true }
+scoped-tls = { workspace = true }

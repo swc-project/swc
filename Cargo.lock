@@ -5937,7 +5937,9 @@ name = "swc_parallel"
 version = "1.0.1"
 dependencies = [
  "chili",
+ "hstr",
  "once_cell",
+ "scoped-tls",
 ]
 
 [[package]]

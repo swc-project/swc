@@ -497,12 +497,7 @@ jobs:
       fail-fast: false
       matrix:
         crate:
-          - better_scoped_tls
-          - string_enum
-          # - swc
-          - swc_bundler
-          # - swc_ecma_codegen
-          # - swc_ecma_minifier
+          - swc_parallel
     steps:
       - uses: actions/checkout@v4
         with:
