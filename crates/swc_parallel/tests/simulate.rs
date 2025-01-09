@@ -101,7 +101,7 @@ fn spawn_work() {
     let _handle = thread::spawn(move || {
         sleep(Duration::from_secs(1));
 
-        STATE.with(|state| sum_in_parallel(10000));
+        STATE.set(&State::default(), || sum_in_parallel(10000));
     });
 }
 
