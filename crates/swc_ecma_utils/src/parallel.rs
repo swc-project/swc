@@ -3,7 +3,10 @@
 use once_cell::sync::Lazy;
 use swc_common::GLOBALS;
 use swc_ecma_ast::*;
-use swc_parallel::join;
+use swc_parallel::{
+    items::{IntoItems, Items},
+    join,
+};
 
 static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
 
