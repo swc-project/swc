@@ -1,3 +1,8 @@
+use std::{
+    thread::{self, sleep},
+    time::Duration,
+};
+
 use swc_parallel::{items::Items, join};
 
 struct Context {
@@ -15,17 +20,33 @@ impl Parallel for Context {
 }
 
 #[test]
-fn case_1() {
+fn case_1_single_thread() {
     sum_in_parallel(10000);
 }
 
 #[test]
-fn case_2() {
-    let threads = num_cpus::get();
+fn case_2_wait_for() {
+    let threads = 100;
     let mut handles = vec![];
 
     for _ in 0..threads {
         handles.push(thread::spawn(move || sum_in_parallel(10000)));
+    }
+
+    sleep(Duration::from_secs(1));
+}
+
+#[test]
+fn case_3_early_exit_of_entry() {
+    let threads = 100;
+    let mut handles = vec![];
+
+    for _ in 0..threads {
+        handles.push(thread::spawn(move || {
+            sleep(Duration::from_secs(1));
+
+            sum_in_parallel(10000)
+        }));
     }
 }
 
