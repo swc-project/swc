@@ -18,3 +18,7 @@ concurrent = ["parallel"]
 [dependencies]
 chili     = { workspace = true, optional = true }
 once_cell = { workspace = true }
+
+[dev-dependencies]
+hstr       = { workspace = true }
+scoped-tls = { workspace = true }
