@@ -1,4 +1,5 @@
 use std::{
+    sync::{Arc, Mutex},
     thread::{self, sleep},
     time::Duration,
 };
@@ -34,6 +35,10 @@ fn case_2_wait_for() {
     }
 
     sleep(Duration::from_secs(1));
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
 }
 
 #[test]
@@ -47,6 +52,10 @@ fn case_3_early_exit_of_entry() {
 
             sum_in_parallel(10000)
         }));
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
     }
 }
 
@@ -64,7 +73,18 @@ fn case_4_explode() {
             }
         }));
     }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
 }
+
+#[derive(Default)]
+struct State {
+    arc: Arc<Mutex<usize>>,
+}
+
+scoped_tls::scoped_thread_local!(static STATE: State);
 
 fn spawn_work() {
     let _handle = thread::spawn(move || {
@@ -79,6 +99,13 @@ fn sum_in_parallel(to: usize) {
 
     let mut ctx = Context { sum: 0 };
     maybe_par_idx_raw(&mut ctx, items, &|ctx, _idx, n| {
+        if n % 100 == 0 {
+            STATE.with(|state| {
+                let mut guard = state.arc.lock().unwrap();
+                *guard += 1;
+            });
+        }
+
         ctx.sum += n;
     });
 
@@ -111,20 +138,26 @@ where
 
     let (na, nb) = nodes.split_at(len / 2);
 
-    let (va, vb) = join(
-        || {
-            let mut new_ctx = ctx.create();
-            maybe_par_idx_raw(&mut new_ctx, na, op);
+    let (va, vb) = STATE.with(|state| {
+        join(
+            || {
+                STATE.set(state, || {
+                    let mut new_ctx = ctx.create();
+                    maybe_par_idx_raw(&mut new_ctx, na, op);
 
-            new_ctx
-        },
-        || {
-            let mut new_ctx = ctx.create();
-            maybe_par_idx_raw(&mut new_ctx, nb, op);
+                    new_ctx
+                })
+            },
+            || {
+                STATE.set(state, || {
+                    let mut new_ctx = ctx.create();
+                    maybe_par_idx_raw(&mut new_ctx, nb, op);
 
-            new_ctx
-        },
-    );
+                    new_ctx
+                })
+            },
+        )
+    });
 
     ctx.merge(va);
     ctx.merge(vb);
