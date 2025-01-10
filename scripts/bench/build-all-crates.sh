@@ -4,14 +4,19 @@ set -eu
 
 echo "Building all crates for codspeed"
 
-# Get crates with feature named `concurrent`
-CRATES=$(./scripts/cargo/list-crates.sh | jq -r '.name')
+WS_CRATES=$(./scripts/cargo/list-crates.sh)
 
-for crate in $CRATES; do
+# Get crate names
+CRATE_NAMES=$(echo "$WS_CRATES" | jq -r '.name')
+
+for crate in $CRATE_NAMES; do
     # If crate is swc_plugin_runner, skip it
     if [[ $crate == "swc_plugin_runner" ]]; then
         continue
     fi
+    
+    crate_info=$(echo "$WS_CRATES" | jq -r 'select(.name == "'$crate'")')
+    echo $crate_info
 
     # If crate has feature 'concurrent', build it with feature
     if [[ $(./scripts/cargo/list-features.sh $crate) == *"concurrent"* ]]; then
