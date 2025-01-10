@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-win32-ia32-msvc",
-  "version": "1.10.7-nightly-20250110.2",
+  "version": "1.10.7",
   "os": [
     "win32"
   ],
