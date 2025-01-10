@@ -9,15 +9,14 @@ fn fast_ts(c: &mut Criterion) {
 fn fast_typescript(b: &mut Bencher) {
     b.iter(|| {
         ::testing::run_test(false, |cm, handler| {
-            black_box(operate(
+            let _result = black_box(operate(
                 &cm,
                 handler,
                 black_box(SOURCE.to_string()),
                 Options {
                     ..Default::default()
                 },
-            ))
-            .unwrap();
+            ));
 
             Ok(())
         })
