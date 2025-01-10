@@ -107,7 +107,7 @@ swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "6.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "5.0.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "5.0.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "5.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_runner = { version = "5.1.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "1.0.0", path = "../swc_transform_common" }
 swc_typescript = { version = "6.0.0", path = "../swc_typescript" }

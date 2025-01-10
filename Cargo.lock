@@ -4680,7 +4680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.0.2"
+version = "10.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5780,7 +5780,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "7.0.0"
+version = "7.1.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6040,7 +6040,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "5.0.0"
+version = "5.1.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

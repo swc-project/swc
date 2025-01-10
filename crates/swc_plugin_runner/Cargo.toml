@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "5.1.0"
 
 [lib]
 bench   = false
