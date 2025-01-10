@@ -138,5 +138,24 @@ describe("transform", () => {
                 })
             ).rejects.toMatchSnapshot();
         });
+
+
+        it("should report correct error for syntax error", async () => {
+            await expect(
+                swc.transform("function foo() { invalid syntax }", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
+
+        it("should report correct error for unsupported syntax", async () => {
+            await expect(
+                swc.transform(`enum Foo {
+                    a, b    
+                    }`, {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
     });
 });
