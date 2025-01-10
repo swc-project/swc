@@ -120,8 +120,8 @@ resolver = "2"
   walkdir                   = "2.4.0"
   wasm-bindgen              = "0.2.91"
   wasm-bindgen-futures      = "0.4.41"
-  wasmer                    = { version = "5.0.1", default-features = false }
-  wasmer-wasix              = { version = "0.31.0", default-features = false }
+  wasmer                    = { version = "=5.0.5-rc1", default-features = false }
+  wasmer-wasix              = { version = "0.35.0", default-features = false }
 
 [profile.release]
 lto = true

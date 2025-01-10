@@ -71,8 +71,8 @@ swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", optional = true }
 swc_plugin_proxy = { version = "5.0.0", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "5.0.1", optional = true }
-wasmer-compiler-cranelift = { version = "5.0.1", default-features = false }
+wasmer-cache              = { version = "=5.0.5-rc1", optional = true }
+wasmer-compiler-cranelift = { version = "=5.0.5-rc1", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
