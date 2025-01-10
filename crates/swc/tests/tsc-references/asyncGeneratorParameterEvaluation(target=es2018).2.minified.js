@@ -1,1 +1,2 @@
 //// [asyncGeneratorParameterEvaluation.ts]
+Super;

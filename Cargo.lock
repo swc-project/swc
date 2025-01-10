@@ -4614,7 +4614,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.0.1"
+version = "10.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5212,7 +5212,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "6.0.1"
+version = "6.0.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5451,7 +5451,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.5.0",
@@ -5937,7 +5937,9 @@ name = "swc_parallel"
 version = "1.0.1"
 dependencies = [
  "chili",
+ "hstr",
  "once_cell",
+ "scoped-tls",
 ]
 
 [[package]]
