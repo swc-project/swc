@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.10.7] - 2025-01-10
 
 ### Bug Fixes
 
