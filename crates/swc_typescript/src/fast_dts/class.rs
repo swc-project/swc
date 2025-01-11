@@ -501,12 +501,38 @@ impl FastDts {
 
     pub(crate) fn report_property_key(&mut self, key: &PropName) -> bool {
         if let Some(computed) = key.as_computed() {
+            let is_symbol = self.is_global_symbol_object(&computed.expr);
             let is_literal = Self::is_literal(&computed.expr);
-            if !is_literal {
+            if !is_symbol && !is_literal {
                 self.computed_property_name(key.span());
             }
-            return !is_literal;
+            return !is_symbol && !is_literal;
         }
+        false
+    }
+
+    pub(crate) fn is_global_symbol_object(&self, expr: &Expr) -> bool {
+        let Some(member_expr) = expr.as_member() else {
+            return false;
+        };
+
+        // https://github.com/microsoft/TypeScript/blob/cbac1ddfc73ca3b9d8741c1b51b74663a0f24695/src/compiler/transformers/declarations.ts#L1011
+        if let Some(ident) = member_expr.obj.as_ident() {
+            // Exactly `Symbol.something` and `Symbol` either does not resolve
+            // or definitely resolves to the global Symbol
+            return ident.sym.as_str() == "Symbol" && ident.ctxt.has_mark(self.unresolved_mark);
+        }
+
+        if let Some(member_expr) = member_expr.obj.as_member() {
+            // Exactly `globalThis.Symbol.something` and `globalThis` resolves
+            // to the global `globalThis`
+            if let Some(ident) = member_expr.obj.as_ident() {
+                return ident.sym.as_str() == "globalThis"
+                    && ident.ctxt.has_mark(self.unresolved_mark)
+                    && member_expr.prop.is_ident_with("Symbol");
+            }
+        }
+
         false
     }
 }
