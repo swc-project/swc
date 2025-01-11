@@ -1,9 +1,11 @@
 //! Tests copied from deno
 //! Make some changes to align with tsc
 
+use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_transforms_base::resolver;
 use swc_typescript::fast_dts::FastDts;
 
 #[track_caller]
@@ -14,8 +16,8 @@ fn transform_dts_test(source: &str, expected: &str) {
             source.to_string(),
         );
 
-        let mut checker = FastDts::new(fm.name.clone(), Default::default());
-
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
         let mut program = parse_file_as_program(
             &fm,
             Syntax::Typescript(TsSyntax {
@@ -25,7 +27,10 @@ fn transform_dts_test(source: &str, expected: &str) {
             None,
             &mut Vec::new(),
         )
+        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, true)))
         .unwrap();
+
+        let mut checker = FastDts::new(fm.name.clone(), unresolved_mark, Default::default());
 
         let _issues = checker.transform(&mut program);
 

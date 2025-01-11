@@ -352,7 +352,9 @@ impl FastDts {
 
         let is_not_allowed = match key {
             Expr::Ident(_) => false,
-            Expr::Member(member) => !member.get_first_object().is_ident(),
+            Expr::Member(member) => {
+                !member.get_first_object().is_ident() && !self.is_global_symbol_object(key)
+            }
             _ => !Self::is_literal(key),
         };
 

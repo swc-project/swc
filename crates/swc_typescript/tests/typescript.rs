@@ -35,6 +35,7 @@ fn fixture(input: PathBuf) {
         let internal_annotations = FastDts::get_internal_annotations(&comments);
         let mut checker = FastDts::new(
             fm.name.clone(),
+            unresolved_mark,
             FastDtsOptions {
                 internal_annotations: Some(internal_annotations),
             },
