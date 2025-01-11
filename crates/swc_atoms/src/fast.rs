@@ -1,4 +1,5 @@
 use std::{
+    fmt::Display,
     mem::{transmute_copy, ManuallyDrop},
     ops::Deref,
 };
@@ -29,6 +30,12 @@ impl FastAtom {
     #[inline]
     pub unsafe fn new(atom: &Atom) -> Self {
         Self(ManuallyDrop::new(transmute_copy(atom)))
+    }
+}
+
+impl Display for FastAtom {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", &*self.0)
     }
 }
 
