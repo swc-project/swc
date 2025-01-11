@@ -71,7 +71,7 @@ where
     scope: S::ScopeData,
     ctx: Ctx,
     expr_ctx: ExprCtx,
-    used_recursively: AHashMap<Id, RecursiveUsage>,
+    used_recursively: AHashMap<FastId, RecursiveUsage>,
 }
 
 impl<S> UsageAnalyzer<S>
@@ -140,14 +140,12 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let i = i.to_id();
-
-        if let Some(recr) = self.used_recursively.get(&i) {
+        if let Some(recr) = self.used_recursively.get(&unsafe { fast_id_from_ident(i) }) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
-                self.data.report_usage(self.ctx, i.clone());
-                self.data.var_or_default(i.clone()).mark_used_above_decl()
+                self.data.report_usage(self.ctx, i);
+                self.data.var_or_default(i).mark_used_above_decl()
             }
-            self.data.var_or_default(i.clone()).mark_used_recursively();
+            self.data.var_or_default(i).mark_used_recursively();
             return;
         }
 
@@ -155,17 +153,17 @@ where
     }
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
-        for id in find_pat_ids(p) {
+        for id in find_pat_ids::<_, Ident>(p) {
             // It's hard to determined the type of pat assignment
             self.data
-                .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
+                .report_assign(self.ctx, &id, is_read_modify, Value::Unknown)
         }
 
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => {
                     self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
+                        .report_assign(self.ctx, &i, is_read_modify, Value::Unknown)
                 }
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
@@ -174,7 +172,7 @@ where
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            self.data.report_assign(self.ctx, i.to_id(), is_op, ty)
+            self.data.report_assign(self.ctx, i, is_op, ty)
         }
     }
 
@@ -210,9 +208,7 @@ where
 
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
-            for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                self.data.mark_property_mutation(id.to_id())
-            });
+            for_each_id_ref_in_expr(&m.obj, &mut |id| self.data.mark_property_mutation(&id));
         }
     }
 }
@@ -272,9 +268,9 @@ where
 
         match &n.left {
             AssignTarget::Pat(p) => {
-                for id in find_pat_ids(p) {
+                for id in find_pat_ids::<_, Ident>(p) {
                     self.data
-                        .report_assign(self.ctx, id, is_op_assign, n.right.get_type())
+                        .report_assign(self.ctx, &id, is_op_assign, n.right.get_type())
                 }
             }
             AssignTarget::Simple(e) => {
@@ -288,8 +284,12 @@ where
         };
 
         if n.op == op!("=") {
+            let leftmost;
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
+                AssignTarget::Simple(left) => {
+                    leftmost = left.leftmost();
+                    leftmost.as_deref()
+                }
                 AssignTarget::Pat(..) => None,
             };
 
@@ -301,9 +301,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(left.clone())
-                        .add_infects_to(id.clone());
+                    self.data.var_or_default(&left).add_infects_to(id.clone());
                 }
             }
         }
@@ -347,7 +345,7 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(obj.to_id());
+                    let var = self.data.var_or_default(&obj);
                     var.mark_used_as_ref();
 
                     match &*e.left {
@@ -400,7 +398,7 @@ where
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                self.data.var_or_default(i.to_id()).mark_used_as_callee();
+                self.data.var_or_default(&i).mark_used_as_callee();
             });
 
             match &**callee {
@@ -414,7 +412,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
                                     self.data
-                                        .var_or_default(id.to_id())
+                                        .var_or_default(&id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -432,7 +430,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
                                     self.data
-                                        .var_or_default(id.to_id())
+                                        .var_or_default(&id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -460,7 +458,7 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(id.to_id());
+                        self.data.mark_property_mutation(&id);
                     });
                 }
             }
@@ -468,7 +466,7 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+                self.data.var_or_default(&arg).mark_used_as_arg();
             })
         }
 
@@ -479,7 +477,7 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        self.data.var_or_default(id.to_id()).mark_used_as_ref()
+                        self.data.var_or_default(&id).mark_used_as_ref()
                     })
                 }
                 _ => {}
