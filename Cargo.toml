@@ -127,6 +127,7 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "=5.0.5-rc1", default-features = false }
   wasmer-wasix              = { version = "0.35.0", default-features = false }
+thread_local = "1.1.8"
 
 [profile.release]
 lto = true
