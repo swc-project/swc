@@ -99,17 +99,17 @@ pub struct InfectionCollector<'a> {
 }
 
 impl InfectionCollector<'_> {
-    fn add_id(&mut self, e: &Id) {
-        if self.exclude.contains(e) {
+    fn add_id(&mut self, e: &Ident) {
+        if self.exclude.contains(&unsafe { fast_id_from_ident(e) }) {
             return;
         }
 
-        if self.unresolved_ctxt == Some(e.1) && is_global_var_with_pure_property_access(&e.0) {
+        if self.unresolved_ctxt == Some(e.ctxt) && is_global_var_with_pure_property_access(&e.sym) {
             return;
         }
 
         self.accesses.insert((
-            e.clone(),
+            unsafe { fast_id_from_ident(e) },
             if self.ctx.is_callee {
                 AccessKind::Call
             } else {
@@ -184,14 +184,14 @@ impl Visit for InfectionCollector<'_> {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.add_id(&n.to_id());
+        self.add_id(n);
     }
 
     fn visit_expr(&mut self, e: &Expr) {
         match e {
             Expr::Ident(i) => {
                 if self.ctx.track_expr_ident {
-                    self.add_id(&i.to_id());
+                    self.add_id(i);
                 }
             }
 
