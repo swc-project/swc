@@ -189,7 +189,9 @@ impl Optimizer<'_> {
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.assigned_fn_local {
                             false
-                        } else if let Some(u) = self.data.vars.get(&id.to_id()) {
+                        } else if let Some(u) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(id) })
+                        {
                             let mut should_inline = !u.reassigned && u.declared;
 
                             should_inline &=
@@ -260,7 +262,8 @@ impl Optimizer<'_> {
                     _ => false,
                 }
             {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode
+                    .store(unsafe { fast_id_from_ident(ident) }, &*init);
 
                 let VarUsageInfo {
                     used_as_arg,
@@ -278,7 +281,7 @@ impl Optimizer<'_> {
                 } = *usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                        if let Some(u) = self.data.vars.get_mut(&unsafe { fast_id_from_ident(i) }) {
                             u.used_as_arg |= used_as_arg;
                             u.used_as_ref |= used_as_ref;
                             u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
@@ -392,7 +395,7 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Fn(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+                        let excluded: Vec<FastId> = find_pat_ids(&f.function.params);
 
                         for id in idents_used_by(&f.function.params) {
                             if excluded.contains(&id) {
@@ -409,7 +412,7 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Arrow(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.params);
+                        let excluded: Vec<FastId> = find_pat_ids(&f.params);
 
                         for id in idents_used_by(&f.params) {
                             if excluded.contains(&id) {
@@ -579,12 +582,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&i) }) {
             if !usage.reassigned {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) | Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), "function".into());
+                        self.typeofs
+                            .insert(unsafe { fast_id_from_ident(&i) }, "function".into());
                     }
                     _ => {}
                 }
@@ -699,7 +703,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.to_id(),
+                                unsafe { fast_id_from_ident(&i) },
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -794,7 +798,9 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.to_id(), e);
+                self.vars
+                    .vars_for_inlining
+                    .insert(unsafe { fast_id_from_ident(&i) }, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -841,7 +847,9 @@ impl Optimizer<'_> {
                     .get(&id)
                     .or_else(|| {
                         if self.ctx.is_callee {
-                            self.vars.simple_functions.get(&i.to_id())
+                            self.vars
+                                .simple_functions
+                                .get(&unsafe { fast_id_from_ident(&i) })
                         } else {
                             None
                         }
