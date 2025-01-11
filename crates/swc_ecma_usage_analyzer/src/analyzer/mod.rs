@@ -163,7 +163,7 @@ where
             match &**e {
                 Expr::Ident(i) => {
                     self.data
-                        .report_assign(self.ctx, &i, is_read_modify, Value::Unknown)
+                        .report_assign(self.ctx, i, is_read_modify, Value::Unknown)
                 }
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
@@ -208,7 +208,7 @@ where
 
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
-            for_each_id_ref_in_expr(&m.obj, &mut |id| self.data.mark_property_mutation(&id));
+            for_each_id_ref_in_expr(&m.obj, &mut |id| self.data.mark_property_mutation(id));
         }
     }
 }
@@ -301,7 +301,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data.var_or_default(&left).add_infects_to(id.clone());
+                    self.data.var_or_default(left).add_infects_to(id.clone());
                 }
             }
         }
@@ -345,7 +345,7 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(&obj);
+                    let var = self.data.var_or_default(obj);
                     var.mark_used_as_ref();
 
                     match &*e.left {
@@ -398,7 +398,7 @@ where
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                self.data.var_or_default(&i).mark_used_as_callee();
+                self.data.var_or_default(i).mark_used_as_callee();
             });
 
             match &**callee {
@@ -412,7 +412,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
                                     self.data
-                                        .var_or_default(&id)
+                                        .var_or_default(id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -430,7 +430,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
                                     self.data
-                                        .var_or_default(&id)
+                                        .var_or_default(id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -458,7 +458,7 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(&id);
+                        self.data.mark_property_mutation(id);
                     });
                 }
             }
@@ -466,7 +466,7 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                self.data.var_or_default(&arg).mark_used_as_arg();
+                self.data.var_or_default(arg).mark_used_as_arg();
             })
         }
 
@@ -477,7 +477,7 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        self.data.var_or_default(&id).mark_used_as_ref()
+                        self.data.var_or_default(id).mark_used_as_ref()
                     })
                 }
                 _ => {}
@@ -612,12 +612,12 @@ where
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(i) = &c.ident {
-                    self.data.var_or_default(&i).prevent_inline();
+                    self.data.var_or_default(i).prevent_inline();
                 }
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    self.data.var_or_default(&i).prevent_inline();
+                    self.data.var_or_default(i).prevent_inline();
                 }
             }
             _ => {}
@@ -672,7 +672,7 @@ where
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
-                let v = self.data.var_or_default(&orig);
+                let v = self.data.var_or_default(orig);
                 v.prevent_inline();
                 v.mark_used_as_ref();
             }
@@ -758,10 +758,10 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
-            self.data.var_or_default(&n_id).mark_declared_as_fn_expr();
+            self.data.var_or_default(n_id).mark_declared_as_fn_expr();
 
             self.used_recursively.insert(
-                unsafe { fast_id_from_ident(&n_id) },
+                unsafe { fast_id_from_ident(n_id) },
                 RecursiveUsage::FnOrClass,
             );
 
@@ -775,11 +775,11 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data.var_or_default(&n_id).add_infects_to(id);
+                    self.data.var_or_default(n_id).add_infects_to(id);
                 }
             }
             self.used_recursively
-                .remove(&unsafe { fast_id_from_ident(&n_id) });
+                .remove(&unsafe { fast_id_from_ident(n_id) });
         } else {
             n.visit_children_with(self);
         }
@@ -941,7 +941,7 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let v = self.data.var_or_default(&obj);
+            let v = self.data.var_or_default(obj);
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
@@ -1119,7 +1119,7 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
-            self.data.var_or_default(&i).mark_indexed_with_dynamic_key();
+            self.data.var_or_default(i).mark_indexed_with_dynamic_key();
         });
     }
 
@@ -1266,7 +1266,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data.var_or_default(&var).add_infects_to(id.clone());
+                    self.data.var_or_default(var).add_infects_to(id.clone());
                 }
             }
         }
