@@ -22,14 +22,15 @@ concurrent = [
 debug = []
 
 [dependencies]
-dashmap    = { workspace = true }
-indexmap   = { workspace = true }
-once_cell  = { workspace = true }
-petgraph   = { workspace = true }
-rayon      = { workspace = true, optional = true }
-rustc-hash = { workspace = true }
-serde_json = { workspace = true }
-tracing    = { workspace = true }
+dashmap      = { workspace = true }
+indexmap     = { workspace = true }
+once_cell    = { workspace = true }
+petgraph     = { workspace = true }
+rayon        = { workspace = true, optional = true }
+rustc-hash   = { workspace = true }
+serde_json   = { workspace = true }
+thread_local = { workspace = true }
+tracing      = { workspace = true }
 
 swc_atoms                  = { version = "4.0.0", path = "../swc_atoms" }
 swc_common                 = { version = "7.0.0", path = "../swc_common" }
