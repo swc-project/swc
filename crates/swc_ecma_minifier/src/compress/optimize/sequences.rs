@@ -1829,7 +1829,7 @@ impl Optimizer<'_> {
                 }
 
                 if let Some(a_id) = a.id() {
-                    if a_id == b_left.to_id() {
+                    if a_id.sym == b_left.sym && a_id.ctxt == b_left.ctxt {
                         if self.replace_seq_assignment(a, b)? {
                             return Ok(true);
                         }
@@ -2713,17 +2713,17 @@ enum Mergable<'a> {
 }
 
 impl Mergable<'_> {
-    fn id(&self) -> Option<FastId> {
+    fn id(&self) -> Option<&Ident> {
         match self {
             Mergable::Var(s) => match &s.name {
-                Pat::Ident(i) => Some(unsafe { fast_id_from_ident(&i.id) }),
+                Pat::Ident(i) => Some(&i.id),
                 _ => None,
             },
             Mergable::Expr(s) => match &**s {
-                Expr::Assign(s) => s.left.as_ident().map(|v| unsafe { fast_id_from_ident(&v) }),
+                Expr::Assign(s) => s.left.as_ident().map(|v| &v.id),
                 _ => None,
             },
-            Mergable::FnDecl(f) => Some(unsafe { fast_id_from_ident(&f.ident) }),
+            Mergable::FnDecl(f) => Some(&f.ident),
             Mergable::Drop => None,
         }
     }
@@ -2731,7 +2731,7 @@ impl Mergable<'_> {
 
 #[derive(Debug, Default)]
 struct MergeSequenceCache {
-    ident_usage_cache: Vec<Option<FxHashSet<Id>>>,
+    ident_usage_cache: Vec<Option<FxHashSet<FastId>>>,
     top_retain_cache: Vec<Option<bool>>,
 }
 
@@ -2745,7 +2745,7 @@ impl MergeSequenceCache {
 
     fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
         &mut self,
-        ident: &Id,
+        ident: &FastId,
         node: &N,
         node_id: usize,
     ) -> bool {
@@ -2764,9 +2764,9 @@ impl MergeSequenceCache {
             }
 
             if let Some(a_id) = a.id() {
-                if a_id.0 == "arguments"
+                if a_id.sym == "arguments"
                     || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                        && !optimizer.may_remove_ident(a_id))
+                        && !optimizer.may_remove_ident(unsafe { fast_id_from_ident(&a_id) }))
                 {
                     return true;
                 }

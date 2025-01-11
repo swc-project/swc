@@ -27,7 +27,7 @@ impl Optimizer<'_> {
         init: &mut Expr,
         can_drop: bool,
     ) {
-        let may_remove = self.may_remove_ident(ident);
+        let may_remove = self.may_remove_ident(&ident);
 
         trace_op!(
             "inline: store_var_for_inlining({}, may_remove = {:?})",
@@ -620,7 +620,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.may_remove_ident(unsafe { fast_id_from_ident(&i) }) {
+        if !self.may_remove_ident(&i) {
             log_abort!("inline: [x] Top level");
             return;
         }

@@ -168,7 +168,7 @@ impl Optimizer<'_> {
     fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
-        if !self.may_remove_ident(i) {
+        if !self.may_remove_ident(&i) {
             log_abort!("unused: Preserving var `{:#?}` because it's top-level", i);
             return;
         }
@@ -536,7 +536,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if !self.may_remove_ident(unsafe { fast_id_from_ident(&ident) }) {
+                if !self.may_remove_ident(&ident) {
                     log_abort!(
                         "unused: Preserving function `{}` because it's top-level",
                         ident.sym
