@@ -400,7 +400,7 @@ impl Optimizer<'_> {
                 let side_effect_free = self
                     .data
                     .vars
-                    .get(&cons_callee.to_id())
+                    .get(&unsafe { fast_id_from_ident(&cons_callee) })
                     .map(|v| v.is_fn_local && v.declared)
                     .unwrap_or(false);
 

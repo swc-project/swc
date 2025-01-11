@@ -133,7 +133,7 @@ impl Optimizer<'_> {
                 ) if &**l_v == "undefined" => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
-                        if let Some(usage) = o.data.vars.get(&arg.to_id()) {
+                        if let Some(usage) = o.data.vars.get(&unsafe { fast_id_from_ident(&arg) }) {
                             if !usage.declared {
                                 return false;
                             }

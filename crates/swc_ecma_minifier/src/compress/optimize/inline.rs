@@ -44,7 +44,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+        if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&ident) }) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.var_initialized {
                 return;
@@ -91,8 +91,6 @@ impl Optimizer<'_> {
 
             self.vars.inline_with_multi_replacer(init);
 
-            let id = ident.to_id();
-
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
             // We don't drop definition, but we just inline array accesses with numeric
@@ -123,7 +121,7 @@ impl Optimizer<'_> {
                         );
                         self.vars
                             .lits_for_array_access
-                            .insert(ident.to_id(), Box::new(init.clone()));
+                            .insert(unsafe { fast_id_from_ident(ident) }, Box::new(init.clone()));
                     }
                 }
             }
@@ -233,9 +231,10 @@ impl Optimizer<'_> {
                             if ref_count == 1 || s.value.len() <= 3 {
                                 true
                             } else {
-                                self.vars
-                                    .lits_for_cmp
-                                    .insert(ident.to_id(), init.clone().into());
+                                self.vars.lits_for_cmp.insert(
+                                    unsafe { fast_id_from_ident(ident) },
+                                    init.clone().into(),
+                                );
                                 false
                             }
                         }
@@ -257,7 +256,7 @@ impl Optimizer<'_> {
                     _ => false,
                 }
             {
-                self.mode.store(id.clone(), &*init);
+                self.mode.store(ident.to_id(), &*init);
 
                 let VarUsageInfo {
                     used_as_arg,
@@ -311,7 +310,9 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.take().into());
+                    self.vars
+                        .lits
+                        .insert(unsafe { fast_id_from_ident(ident) }, init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -321,15 +322,23 @@ impl Optimizer<'_> {
                         ident.ctxt
                     );
 
-                    self.mode.store(id.clone(), &*init);
+                    self.mode
+                        .store(unsafe { fast_id_from_ident(&ident) }, &*init);
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.clone().into());
+                    // self.safe_memory.atoms.store(id.0.clone());
+                    self.vars
+                        .lits
+                        .insert(unsafe { fast_id_from_ident(&ident) }, init.take().into());
                 }
             }
 
-            let usage = self.data.vars.get(&id).unwrap();
+            let usage = self
+                .data
+                .vars
+                .get(&unsafe { fast_id_from_ident(&ident) })
+                .unwrap();
 
             // Single use => inlined
             if !self.ctx.is_exported
@@ -476,7 +485,7 @@ impl Optimizer<'_> {
                             // block_scoping pass.
                             // If the function captures the environment, we
                             // can't inline it.
-                            let params: Vec<Id> = find_pat_ids(&f.function.params);
+                            let params: Vec<FastId> = find_pat_ids(&f.function.params);
 
                             if !params.is_empty() {
                                 let captured = idents_captured_by(&f.function.body);
@@ -506,7 +515,8 @@ impl Optimizer<'_> {
 
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.take().to_id(), init.take().into());
+                    .insert(unsafe { fast_id_from_ident(&ident) }, init.take().into());
+                ident.take();
             }
         }
     }
@@ -798,7 +808,10 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
+                            let new = self
+                                .vars
+                                .lits_for_array_access
+                                .get(&unsafe { fast_id_from_ident(obj) });
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -817,7 +830,7 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
+                let id = unsafe { fast_id_from_ident(i) };
                 if let Some(mut value) = self
                     .vars
                     .lits
@@ -872,7 +885,11 @@ impl Optimizer<'_> {
                 }
 
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self
+                    .vars
+                    .vars_for_inlining
+                    .get(&unsafe { fast_id_from_ident(i) })
+                {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
                         return;
                     }
@@ -884,7 +901,11 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                if let Some(value) = self
+                    .vars
+                    .vars_for_inlining
+                    .remove(&unsafe { fast_id_from_ident(i) })
+                {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 

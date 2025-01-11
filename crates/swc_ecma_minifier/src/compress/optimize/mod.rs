@@ -202,7 +202,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<AHashMap<Id, JsWord>>,
+    typeofs: Box<AHashMap<FastId, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -215,7 +215,7 @@ struct Optimizer<'a> {
     #[allow(unused)]
     debug_infinite_loop: bool,
 
-    functions: Box<FxHashMap<Id, FnMetadata>>,
+    functions: Box<FxHashMap<FastId, FnMetadata>>,
 }
 
 #[derive(Default)]
@@ -223,33 +223,33 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<FastId, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
+    hoisted_props: Box<FxHashMap<(FastId, JsWord), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<FastId, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<FastId, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<FastId, Box<Expr>>,
+    vars_for_inlining: FxHashMap<FastId, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: FxHashSet<FastId>,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
+    fn has_pending_inline_for(&self, id: &FastId) -> bool {
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
@@ -967,7 +967,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old = unsafe { fast_id_from_ident(&i) };
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
@@ -1830,7 +1830,7 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old = unsafe { fast_id_from_ident(&i) };
 
                     self.store_var_for_inlining(i, right, false);
 
@@ -2086,7 +2086,7 @@ impl VisitMut for Optimizer<'_> {
         .entered();
 
         self.functions
-            .entry(f.ident.to_id())
+            .entry(unsafe { fast_id_from_ident(&f.ident) })
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
         self.drop_unused_params(&mut f.function.params);
@@ -2105,7 +2105,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
-                .entry(ident.to_id())
+                .entry(unsafe { fast_id_from_ident(&ident) })
                 .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
@@ -2417,7 +2417,10 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if self.vars.has_pending_inline_for(&i.to_id()) {
+            if self
+                .vars
+                .has_pending_inline_for(&unsafe { fast_id_from_ident(&i) })
+            {
                 let mut e: Expr = i.clone().into();
                 e.visit_mut_with(self);
 
@@ -3156,7 +3159,8 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&i) })
+                        {
                             if usage.declared_as_catch_param {
                                 var.init = None;
                                 debug_assert_valid(var);

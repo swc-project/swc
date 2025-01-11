@@ -1498,7 +1498,11 @@ impl Optimizer<'_> {
     }
 
     fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
-        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+        let usgae = if let Some(usage) = self
+            .data
+            .vars
+            .get(&unsafe { fast_id_from_ident(&assignee) })
+        {
             usage
         } else {
             return false;
@@ -2386,7 +2390,9 @@ impl Optimizer<'_> {
             match a {
                 Mergable::Var(a) => {
                     if self.options.unused {
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&left_id) })
+                        {
                             // We are eliminating one usage, so we use 1 instead of
                             // 0
                             if !force_drop && usage.usage_count == 1 && !usage.reassigned {
@@ -2399,7 +2405,9 @@ impl Optimizer<'_> {
                     if can_take_init || force_drop {
                         let init = a.init.take();
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&left_id) })
+                        {
                             if usage.var_kind == Some(VarDeclKind::Const) {
                                 a.init = Some(Expr::undefined(DUMMY_SP));
                             }
@@ -2552,7 +2560,9 @@ impl Optimizer<'_> {
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
-            self.vars.removed.insert(left_id.to_id());
+            self.vars
+                .removed
+                .insert(unsafe { fast_id_from_ident(&left_id) });
         }
 
         dump_change_detail!("sequences: {}", dump(&*b, false));

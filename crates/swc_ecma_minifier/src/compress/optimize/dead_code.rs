@@ -50,7 +50,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&lhs.to_id())
+                    .get(&unsafe { fast_id_from_ident(&lhs) })
                     .map(|var| var.declared && var.is_fn_local && !var.declared_as_fn_param)
                     .unwrap_or(false)
                 {
@@ -77,7 +77,7 @@ impl Optimizer<'_> {
                     if self
                         .data
                         .vars
-                        .get(&lhs.to_id())
+                        .get(&unsafe { fast_id_from_ident(&lhs) })
                         .map(|var| var.declared && var.is_fn_local)
                         .unwrap_or(false)
                     {

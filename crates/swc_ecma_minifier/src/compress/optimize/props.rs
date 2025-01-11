@@ -38,7 +38,7 @@ impl Optimizer<'_> {
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            let usage = self.data.vars.get(&name.to_id())?;
+            let usage = self.data.vars.get(&unsafe { fast_id_from_ident(&name) })?;
             if usage.mutated()
                 || usage.used_in_cond
                 || usage.used_above_decl
@@ -166,7 +166,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .hoisted_props
-                    .insert((name.to_id(), key), new_var_name);
+                    .insert((unsafe { fast_id_from_ident(&name) }, key), new_var_name);
 
                 new_vars.push(new_var);
             }
@@ -201,7 +201,7 @@ impl Optimizer<'_> {
             if let Some(value) = self
                 .vars
                 .hoisted_props
-                .get(&(obj.to_id(), sym.clone()))
+                .get(&(unsafe { fast_id_from_ident(obj) }, sym.clone()))
                 .cloned()
             {
                 report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);

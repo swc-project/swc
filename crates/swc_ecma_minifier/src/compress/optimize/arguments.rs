@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             Pat::Ident(i) => self
                 .data
                 .vars
-                .get(&i.id.to_id())
+                .get(&unsafe { fast_id_from_ident(&i) })
                 .map(|v| v.declared_count >= 2)
                 .unwrap_or(false),
             _ => true,

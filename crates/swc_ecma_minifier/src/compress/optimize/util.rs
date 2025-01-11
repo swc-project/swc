@@ -219,13 +219,13 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 /// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
-    pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
+    pub simple_functions: &'a FxHashMap<FastId, Box<Expr>>,
+    pub lits: &'a FxHashMap<FastId, Box<Expr>>,
+    pub lits_for_cmp: &'a FxHashMap<FastId, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<FastId, Box<Expr>>,
+    pub hoisted_props: &'a FxHashMap<(FastId, JsWord), Ident>,
 
-    pub vars_to_remove: &'a FxHashSet<Id>,
+    pub vars_to_remove: &'a FxHashSet<FastId>,
 
     pub changed: bool,
 }
@@ -241,7 +241,7 @@ impl Parallel for Finalizer<'_> {
 }
 
 impl Finalizer<'_> {
-    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
+    fn var(&mut self, i: &FastId, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
                 let mut value = self.simple_functions.get(i).cloned()?;
@@ -288,7 +288,7 @@ impl Finalizer<'_> {
 
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.to_id(), mode) {
+            if let Some(new) = self.var(&unsafe { fast_id_from_ident(i) }, mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -353,7 +353,10 @@ impl VisitMut for Finalizer<'_> {
 
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&i.to_id()) {
+                if self
+                    .vars_to_remove
+                    .contains(&unsafe { fast_id_from_ident(&i) })
+                {
                     n.name.take();
                 }
             }
@@ -407,7 +410,7 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&i.to_id()) {
+                if let Some(expr) = self.lits.get(&unsafe { fast_id_from_ident(i) }) {
                     *n = *expr.clone();
                     return;
                 }
@@ -423,7 +426,10 @@ impl VisitMut for Finalizer<'_> {
                         _ => return,
                     };
 
-                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
+                    if let Some(ident) = self
+                        .hoisted_props
+                        .get(&(unsafe { fast_id_from_ident(obj) }, sym.clone()))
+                    {
                         self.changed = true;
                         *n = ident.clone().into();
                         return;
@@ -450,20 +456,20 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
-    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    pub vars: &'a mut FxHashMap<FastId, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<FastId, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
             changed: false,
         }
     }
 
-    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
+    fn var(&mut self, i: &FastId) -> Option<Box<Expr>> {
         let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
@@ -495,7 +501,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         }
 
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.to_id()) {
+            if let Some(new) = self.var(&unsafe { fast_id_from_ident(i) }) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -521,7 +527,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.var(&i.to_id()) {
+            if let Some(value) = self.var(&unsafe { fast_id_from_ident(i) }) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 

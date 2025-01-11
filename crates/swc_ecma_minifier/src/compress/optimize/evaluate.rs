@@ -36,9 +36,9 @@ impl Optimizer<'_> {
         }) = e
         {
             if let Expr::Ident(obj) = &**obj {
-                let metadata = *self.functions.get(&obj.to_id())?;
+                let metadata = *self.functions.get(&unsafe { fast_id_from_ident(&obj) })?;
 
-                let usage = self.data.vars.get(&obj.to_id())?;
+                let usage = self.data.vars.get(&unsafe { fast_id_from_ident(&obj) })?;
 
                 if usage.reassigned {
                     return None;
@@ -97,7 +97,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&unsafe { fast_id_from_ident(&i) })
                 .map(|var| var.declared)
                 .unwrap_or(false)
             {

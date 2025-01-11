@@ -179,7 +179,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&ident.to_id())
+                .get(&unsafe { fast_id_from_ident(&ident) })
                 .filter(|usage| usage.used_recursively)
                 .is_some()
             {
@@ -198,7 +198,9 @@ impl Optimizer<'_> {
                         if param.sym == "arguments" {
                             continue;
                         }
-                        if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&param) })
+                        {
                             if usage.reassigned {
                                 continue;
                             }
@@ -221,7 +223,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.to_id(), arg.clone());
+                                vars.insert(unsafe { fast_id_from_ident(&param.id) }, arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -236,13 +238,20 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), Expr::undefined(param.span()));
+                            vars.insert(
+                                unsafe { fast_id_from_ident(&param.id) },
+                                Expr::undefined(param.span()).into(),
+                            );
                         }
                     }
 
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
-                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
+                            if let Some(usage) = self
+                                .data
+                                .vars
+                                .get(&unsafe { fast_id_from_ident(&param_id) })
+                            {
                                 if usage.reassigned
                                     || usage.ref_count != 1
                                     || !usage.has_property_access
@@ -265,7 +274,7 @@ impl Optimizer<'_> {
                                 }
 
                                 vars.insert(
-                                    param_id.to_id(),
+                                    unsafe { fast_id_from_ident(&param_id) },
                                     ArrayLit {
                                         span: param_id.span,
                                         elems: e
@@ -349,7 +358,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&ident.to_id())
+                .get(&unsafe { fast_id_from_ident(&ident) })
                 .filter(|usage| usage.used_recursively)
                 .is_some()
             {
@@ -363,7 +372,8 @@ impl Optimizer<'_> {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
-                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                    if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&param) })
+                    {
                         if usage.ref_count == 0 {
                             removed.push(idx);
                         }
@@ -406,8 +416,11 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
-    where
+    pub(super) fn inline_vars_in_node<N>(
+        &mut self,
+        n: &mut N,
+        mut vars: FxHashMap<FastId, Box<Expr>>,
+    ) where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
         trace_op!("inline: inline_vars_in_node");
@@ -617,7 +630,7 @@ impl Optimizer<'_> {
                     if self
                         .data
                         .vars
-                        .get(&i.to_id())
+                        .get(&unsafe { fast_id_from_ident(&i) })
                         .filter(|usage| usage.used_recursively)
                         .is_some()
                     {
@@ -696,7 +709,7 @@ impl Optimizer<'_> {
         // Don't create top-level variables.
         if !param_ids.is_empty() && !self.may_add_ident() {
             for pid in param_ids {
-                if let Some(usage) = self.data.vars.get(&pid.to_id()) {
+                if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&pid) }) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
                         log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
                         return false;
@@ -753,7 +766,7 @@ impl Optimizer<'_> {
                 let captured = idents_captured_by(body);
 
                 for param in param_ids {
-                    if captured.contains(&param.to_id()) {
+                    if captured.contains(&unsafe { fast_id_from_ident(&param) }) {
                         log_abort!(
                             "iife: [x] Cannot inline because of the capture of `{}`",
                             param
@@ -790,7 +803,10 @@ impl Optimizer<'_> {
                         match &decl.name {
                             Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
+                                if self
+                                    .vars
+                                    .has_pending_inline_for(&unsafe { fast_id_from_ident(&id) })
+                                {
                                     log_abort!(
                                         "iife: [x] Cannot inline because pending inline of `{}`",
                                         id.id
@@ -829,14 +845,16 @@ impl Optimizer<'_> {
                         if used.iter().all(|id| {
                             self.data
                                 .vars
-                                .get(id)
+                                .get(&id)
                                 .map(|usage| usage.ref_count == 1 && usage.callee_count > 0)
                                 .unwrap_or(false)
                         }) {
                             return true;
                         }
 
-                        param_ids.iter().all(|param| !used.contains(&param.to_id()))
+                        param_ids
+                            .iter()
+                            .all(|param| !used.contains(&unsafe { fast_id_from_ident(&param) }))
                     }
 
                     _ => true,
@@ -871,7 +889,11 @@ impl Optimizer<'_> {
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                if let Some(usage) = self.data.vars.get_mut(&params[idx].to_id()) {
+                if let Some(usage) = self
+                    .data
+                    .vars
+                    .get_mut(&unsafe { fast_id_from_ident(&param) })
+                {
                     if usage.ref_count == 1
                         && !usage.reassigned
                         && usage.property_mutation_count == 0
@@ -883,7 +905,9 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars.vars_for_inlining.insert(param.to_id(), arg);
+                        self.vars
+                            .vars_for_inlining
+                            .insert(unsafe { fast_id_from_ident(&param) }, arg);
                         continue;
                     }
 
