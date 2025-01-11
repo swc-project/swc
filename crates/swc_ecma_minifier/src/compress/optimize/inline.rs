@@ -75,7 +75,8 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode
+                    .store(unsafe { fast_id_from_ident(ident) }, &*init);
 
                 if init.may_have_side_effects(&self.ctx.expr_ctx) {
                     // TODO: Inline partially
@@ -155,17 +156,20 @@ impl Optimizer<'_> {
             if !usage.reassigned {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
-                        self.typeofs.insert(ident.to_id(), "function".into());
+                        self.typeofs
+                            .insert(unsafe { fast_id_from_ident(ident) }, "function".into());
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), "object".into());
+                        self.typeofs
+                            .insert(unsafe { fast_id_from_ident(ident) }, "object".into());
                     }
                     _ => {}
                 }
             }
 
             if !usage.mutated() {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode
+                    .store(unsafe { fast_id_from_ident(ident) }, &*init);
             }
 
             if usage.used_recursively {

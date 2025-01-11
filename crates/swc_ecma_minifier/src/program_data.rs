@@ -337,13 +337,18 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id) {
-        let inited = self.initialized_vars.contains(&i);
+    fn report_usage(&mut self, ctx: Ctx, i: &Ident) {
+        let inited = self
+            .initialized_vars
+            .contains(&unsafe { fast_id_from_ident(i) });
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| VarUsageInfo {
-            used_above_decl: true,
-            ..Default::default()
-        });
+        let e = self
+            .vars
+            .entry(unsafe { fast_id_from_ident(i) })
+            .or_insert_with(|| VarUsageInfo {
+                used_above_decl: true,
+                ..Default::default()
+            });
 
         e.used_as_ref |= ctx.is_id_ref;
         e.ref_count += 1;
@@ -359,10 +364,15 @@ impl Storage for ProgramData {
         e.used_in_cond |= ctx.in_cond;
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
-        let e = self.vars.entry(i.clone()).or_default();
+    fn report_assign(&mut self, ctx: Ctx, i: &Ident, is_op: bool, ty: Value<Type>) {
+        let e = self
+            .vars
+            .entry(unsafe { fast_id_from_ident(i) })
+            .or_default();
 
-        let inited = self.initialized_vars.contains(&i);
+        let inited = self
+            .initialized_vars
+            .contains(&unsafe { fast_id_from_ident(i) });
 
         if e.assign_count > 0 || e.initialized() {
             e.reassigned = true
@@ -372,7 +382,8 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
-            self.initialized_vars.insert(i.clone());
+            self.initialized_vars
+                .insert(unsafe { fast_id_from_ident(i) });
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.var_initialized = true;
             } else {
@@ -386,7 +397,7 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
-        let mut to_visit: IndexSet<Id, ARandomState> =
+        let mut to_visit: IndexSet<FastId, ARandomState> =
             IndexSet::from_iter(e.infects_to.clone().into_iter().map(|i| i.0));
 
         let mut idx = 0;
@@ -470,8 +481,11 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
-        let e = self.vars.entry(id).or_default();
+    fn mark_property_mutation(&mut self, id: &Ident) {
+        let e = self
+            .vars
+            .entry(unsafe { fast_id_from_ident(id) })
+            .or_default();
         e.property_mutation_count += 1;
 
         let mut to_mark_mutate = Vec::new();
