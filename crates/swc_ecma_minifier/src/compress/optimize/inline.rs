@@ -866,21 +866,22 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: AHashSet<FastId> = collect_decls(&*value);
+                    let bindings: AHashSet<Id> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();
 
                     for id in bindings {
+                        let fid = unsafe { fast_id(&id) };
                         let new_ctxt = cache
                             .entry(id.1)
                             .or_insert_with(|| id.1.apply_mark(new_mark));
 
                         let new_ctxt = *new_ctxt;
 
-                        if let Some(usage) = self.data.vars.get(&id).cloned() {
-                            let new_id = (id.0.clone(), new_ctxt);
-                            self.data.vars.insert(id, usage);
+                        if let Some(usage) = self.data.vars.get(&fid).cloned() {
+                            let new_id = (fid.0.clone(), new_ctxt);
+                            self.data.vars.insert(new_id, usage);
                         }
 
                         remap.insert(id, new_ctxt);
