@@ -376,7 +376,7 @@ impl Visit for IdentUsageCollector {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.ids.insert(n.to_id());
+        self.ids.insert(unsafe { fast_id_from_ident(n) });
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
@@ -420,7 +420,7 @@ impl Visit for CapturedIdCollector {
 
     fn visit_ident(&mut self, n: &Ident) {
         if self.is_nested {
-            self.ids.insert(n.to_id());
+            self.ids.insert(unsafe { fast_id_from_ident(n) });
         }
     }
 
