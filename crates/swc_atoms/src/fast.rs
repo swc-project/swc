@@ -61,3 +61,17 @@ impl PartialEq<Atom> for FastAtom {
         *self.0 == *other
     }
 }
+
+impl PartialEq<&'_ str> for FastAtom {
+    #[inline]
+    fn eq(&self, other: &&str) -> bool {
+        *self.0 == *other
+    }
+}
+
+impl PartialEq<str> for FastAtom {
+    #[inline]
+    fn eq(&self, other: &str) -> bool {
+        *self.0 == other
+    }
+}
