@@ -21,7 +21,7 @@ impl Optimizer<'_> {
             op!("===") | op!("==") | op!("!==") | op!("!=") => {
                 if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
                     let id: Ident = e.left.clone().ident().unwrap();
-                    if let Some(t) = self.typeofs.get(&id.to_id()) {
+                    if let Some(t) = self.typeofs.get(&unsafe { fast_id_from_ident(&id) }) {
                         match &**t {
                             "object" | "function" => {
                                 e.left = Box::new(make_bool(
@@ -361,7 +361,11 @@ impl Optimizer<'_> {
         {
             match &**arg {
                 Expr::Ident(arg) => {
-                    if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
+                    if let Some(value) = self
+                        .typeofs
+                        .get(&unsafe { fast_id_from_ident(arg) })
+                        .cloned()
+                    {
                         report_change!(
                             "Converting typeof of variable to literal as we know the value"
                         );

@@ -1183,8 +1183,8 @@ impl Optimizer<'_> {
             };
 
             if let Some(deps) = ids_used_by_a_init {
-                if deps.contains(&(e.to_id(), AccessKind::Reference))
-                    || deps.contains(&(e.to_id(), AccessKind::Call))
+                if deps.contains(&(unsafe { fast_id_from_ident(e) }, AccessKind::Reference))
+                    || deps.contains(&(unsafe { fast_id_from_ident(e) }, AccessKind::Call))
                 {
                     return false;
                 }

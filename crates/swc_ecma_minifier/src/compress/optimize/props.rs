@@ -63,7 +63,7 @@ impl Optimizer<'_> {
             let mut unknown_used_props = self
                 .data
                 .vars
-                .get(&name.to_id())
+                .get(&unsafe { fast_id_from_ident(&name) })
                 .map(|v| v.accessed_props.clone())
                 .unwrap_or_default();
 
@@ -114,7 +114,7 @@ impl Optimizer<'_> {
             }
 
             if let Some(init) = n.init.as_deref() {
-                self.mode.store(name.to_id(), init);
+                self.mode.store(unsafe { fast_id_from_ident(&name) }, init);
             }
 
             let mut new_vars = Vec::new();

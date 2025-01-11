@@ -817,7 +817,7 @@ impl Optimizer<'_> {
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
-        let usage = self.data.vars.get(&name.to_id())?;
+        let usage = self.data.vars.get(&unsafe { fast_id_from_ident(&name) })?;
 
         if usage.indexed_with_dynamic_key || usage.used_as_ref || usage.used_recursively {
             return None;
@@ -851,7 +851,7 @@ impl Optimizer<'_> {
         let mut unknown_used_props = self
             .data
             .vars
-            .get(&name.to_id())
+            .get(&unsafe { fast_id_from_ident(&name) })
             .map(|v| v.accessed_props.clone())
             .unwrap_or_default();
 

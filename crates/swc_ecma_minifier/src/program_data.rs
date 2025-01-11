@@ -466,7 +466,8 @@ impl Storage for ProgramData {
         v.declared = true;
         // not a VarDecl, thus always inited
         if init_type.is_some() || kind.is_none() {
-            self.initialized_vars.insert(i.to_id());
+            self.initialized_vars
+                .insert(unsafe { fast_id_from_ident(i) });
         }
         v.declared_as_catch_param |= ctx.in_catch_param;
 
@@ -608,7 +609,7 @@ impl ProgramData {
                     return false;
                 }
 
-                if let Some(v) = self.vars.get(&i.to_id()) {
+                if let Some(v) = self.vars.get(&unsafe { fast_id_from_ident(i) }) {
                     return !v.declared;
                 }
 
@@ -725,7 +726,7 @@ impl ProgramData {
                     return false;
                 }
 
-                if let Some(v) = self.vars.get(&i.to_id()) {
+                if let Some(v) = self.vars.get(&unsafe { fast_id_from_ident(i) }) {
                     return !v.declared;
                 }
 
