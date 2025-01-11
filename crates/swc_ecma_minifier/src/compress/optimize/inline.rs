@@ -620,7 +620,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.may_remove_ident(&i) {
+        if !self.may_remove_ident(unsafe { fast_id_from_ident(&i) }) {
             log_abort!("inline: [x] Top level");
             return;
         }

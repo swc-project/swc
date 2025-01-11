@@ -318,10 +318,8 @@ impl From<&Function> for FnMetadata {
 }
 
 impl Optimizer<'_> {
-    fn may_remove_ident(&self, id: &Ident) -> bool {
-        if let Some(VarUsageInfo { exported: true, .. }) =
-            self.data.vars.get(&unsafe { fast_id_from_ident(id) })
-        {
+    fn may_remove_ident(&self, id: FastId) -> bool {
+        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id) {
             return false;
         }
 
@@ -330,7 +328,7 @@ impl Optimizer<'_> {
         }
 
         if self.options.top_level() {
-            return !self.options.top_retain.contains(&id.sym);
+            return !self.options.top_retain.contains(&id.0);
         }
 
         false

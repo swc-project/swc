@@ -173,7 +173,12 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
+        if let Some(v) = self
+            .data
+            .vars
+            .get(&unsafe { fast_id_from_ident(&i) })
+            .cloned()
+        {
             if v.ref_count == 0
                 && v.usage_count == 0
                 && !v.reassigned
@@ -235,7 +240,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(usage) = self.data.vars.get(&e.to_id()) {
+                if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&e) }) {
                     if !usage.declared {
                         return true;
                     }
@@ -491,7 +496,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.to_id())
+                    .get(&unsafe { fast_id_from_ident(&ident) })
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -531,7 +536,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if !self.may_remove_ident(ident) {
+                if !self.may_remove_ident(unsafe { fast_id_from_ident(&ident) }) {
                     log_abort!(
                         "unused: Preserving function `{}` because it's top-level",
                         ident.sym
@@ -543,7 +548,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.to_id())
+                    .get(&unsafe { fast_id_from_ident(&ident) })
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -585,7 +590,7 @@ impl Optimizer<'_> {
         };
 
         if let Expr::Ident(arg) = &*update.arg {
-            if let Some(var) = self.data.vars.get(&arg.to_id()) {
+            if let Some(var) = self.data.vars.get(&unsafe { fast_id_from_ident(arg) }) {
                 // Update is counted as usage
                 if var.declared && var.is_fn_local && var.usage_count == 1 {
                     self.changed = true;
@@ -625,7 +630,7 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-            if let Some(var) = self.data.vars.get(&left.to_id()) {
+            if let Some(var) = self.data.vars.get(&unsafe { fast_id_from_ident(&left.id) }) {
                 // TODO: We don't need fn_local check
                 if var.declared && var.is_fn_local && var.usage_count == 1 {
                     self.changed = true;
@@ -678,11 +683,11 @@ impl Optimizer<'_> {
         );
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(i)) = &mut assign.left {
-            if !self.may_remove_ident(&i.id) {
+            if !self.may_remove_ident(unsafe { fast_id_from_ident(&i.id) }) {
                 return;
             }
 
-            if let Some(var) = self.data.vars.get(&i.to_id()) {
+            if let Some(var) = self.data.vars.get(&unsafe { fast_id_from_ident(&i.id) }) {
                 // technically this is inline
                 if !var.inline_prevented
                     && !var.exported
@@ -731,7 +736,7 @@ impl Optimizer<'_> {
             let can_remove_ident = self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&unsafe { fast_id_from_ident(&i) })
                 .map(|v| {
                     (!v.used_recursively && v.ref_count == 0 && v.usage_count == 0)
                         || v.var_kind.is_some()
@@ -759,7 +764,11 @@ impl Optimizer<'_> {
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
-                    if let Some(usage) = self.data.vars.get_mut(&name.to_id()) {
+                    if let Some(usage) = self
+                        .data
+                        .vars
+                        .get_mut(&unsafe { fast_id_from_ident(&name) })
+                    {
                         if usage.is_fn_local
                             && usage.declared_as_fn_param
                             && usage.declared_count >= 2

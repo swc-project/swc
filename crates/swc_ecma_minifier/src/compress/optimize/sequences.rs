@@ -1004,7 +1004,11 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a.id() {
-                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                                if merge_seq_cache.is_ident_used_by(
+                                    &unsafe { fast_id_from_ident(&id) },
+                                    &**e2,
+                                    b_idx,
+                                ) {
                                     break;
                                 }
                             }
@@ -1322,7 +1326,9 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
+                if used_ids.len() != 1
+                    || !used_ids.contains(&unsafe { fast_id_from_ident(&left_id) })
+                {
                     log_abort!("bad used_ids");
                     return false;
                 }
@@ -2098,7 +2104,9 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&a_id) })
+                        {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2173,7 +2181,9 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(a_id) })
+                        {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2273,7 +2283,9 @@ impl Optimizer<'_> {
                             }
                         };
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&left_id) })
+                        {
                             if usage.inline_prevented {
                                 return Ok(false);
                             }
@@ -2316,7 +2328,7 @@ impl Optimizer<'_> {
                     _ => return Ok(false),
                 };
 
-                if let Some(usage) = self.data.vars.get(&left.to_id()) {
+                if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&left) }) {
                     let is_lit = match a.init.as_deref() {
                         Some(e) => is_trivial_lit(e),
                         _ => false,
@@ -2353,7 +2365,7 @@ impl Optimizer<'_> {
             }
 
             Mergable::FnDecl(a) => {
-                if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
+                if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&a.ident) }) {
                     if usage.ref_count != 1 || usage.reassigned || !usage.is_fn_local {
                         return Ok(false);
                     }
@@ -2589,7 +2601,7 @@ impl Optimizer<'_> {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
                 Mergable::Expr(Expr::Assign(..)) => {
                     let used_by_b = idents_used_by(&*b.right);
-                    if used_by_b.contains(&a_id) {
+                    if used_by_b.contains(&unsafe { fast_id_from_ident(&a_id) }) {
                         return Ok(true);
                     }
                 }
@@ -2701,17 +2713,17 @@ enum Mergable<'a> {
 }
 
 impl Mergable<'_> {
-    fn id(&self) -> Option<Id> {
+    fn id(&self) -> Option<FastId> {
         match self {
             Mergable::Var(s) => match &s.name {
-                Pat::Ident(i) => Some(i.id.to_id()),
+                Pat::Ident(i) => Some(unsafe { fast_id_from_ident(&i.id) }),
                 _ => None,
             },
             Mergable::Expr(s) => match &**s {
-                Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
+                Expr::Assign(s) => s.left.as_ident().map(|v| unsafe { fast_id_from_ident(&v) }),
                 _ => None,
             },
-            Mergable::FnDecl(f) => Some(f.ident.to_id()),
+            Mergable::FnDecl(f) => Some(unsafe { fast_id_from_ident(&f.ident) }),
             Mergable::Drop => None,
         }
     }
@@ -2754,7 +2766,7 @@ impl MergeSequenceCache {
             if let Some(a_id) = a.id() {
                 if a_id.0 == "arguments"
                     || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                        && !optimizer.may_remove_ident(&Ident::from(a_id)))
+                        && !optimizer.may_remove_ident(a_id))
                 {
                     return true;
                 }

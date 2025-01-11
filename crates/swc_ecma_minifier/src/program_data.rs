@@ -432,7 +432,10 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self.vars.entry(i.to_id()).or_default();
+        let v = self
+            .vars
+            .entry(unsafe { fast_id_from_ident(i) })
+            .or_default();
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
