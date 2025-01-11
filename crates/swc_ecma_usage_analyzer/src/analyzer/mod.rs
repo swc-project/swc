@@ -612,12 +612,12 @@ where
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(i) = &c.ident {
-                    self.data.var_or_default(i.to_id()).prevent_inline();
+                    self.data.var_or_default(&i).prevent_inline();
                 }
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    self.data.var_or_default(i.to_id()).prevent_inline();
+                    self.data.var_or_default(&i).prevent_inline();
                 }
             }
             _ => {}
@@ -642,16 +642,16 @@ where
 
         match &n.decl {
             Decl::Class(c) => {
-                self.data.var_or_default(c.ident.to_id()).prevent_inline();
+                self.data.var_or_default(&c.ident).prevent_inline();
             }
             Decl::Fn(f) => {
-                self.data.var_or_default(f.ident.to_id()).prevent_inline();
+                self.data.var_or_default(&f.ident).prevent_inline();
             }
             Decl::Var(v) => {
-                let ids = find_pat_ids(v);
+                let ids = find_pat_ids::<_, Ident>(v);
 
                 for id in ids {
-                    self.data.var_or_default(id).mark_as_exported();
+                    self.data.var_or_default(&id).mark_as_exported();
                 }
             }
             _ => {}
@@ -672,7 +672,7 @@ where
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
-                let v = self.data.var_or_default(orig.to_id());
+                let v = self.data.var_or_default(&orig);
                 v.prevent_inline();
                 v.mark_used_as_ref();
             }
@@ -714,9 +714,7 @@ where
 
         if e.spread.is_some() {
             for_each_id_ref_in_expr(&e.expr, &mut |i| {
-                self.data
-                    .var_or_default(i.to_id())
-                    .mark_indexed_with_dynamic_key();
+                self.data.var_or_default(i).mark_indexed_with_dynamic_key();
             });
         }
     }
@@ -731,14 +729,16 @@ where
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
         if n.function.body.is_empty() {
-            self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
+            self.data.var_or_default(&n.ident).mark_as_pure_fn();
         }
 
-        let id = n.ident.to_id();
-        self.used_recursively
-            .insert(id.clone(), RecursiveUsage::FnOrClass);
+        self.used_recursively.insert(
+            unsafe { fast_id_from_ident(&n.ident) },
+            RecursiveUsage::FnOrClass,
+        );
         n.visit_children_with(self);
-        self.used_recursively.remove(&id);
+        self.used_recursively
+            .remove(&unsafe { fast_id_from_ident(&n.ident) });
 
         {
             for id in collect_infects_from(
@@ -749,7 +749,7 @@ where
                 },
             ) {
                 self.data
-                    .var_or_default(n.ident.to_id())
+                    .var_or_default(&n.ident)
                     .add_infects_to(id.clone());
             }
         }
@@ -758,12 +758,12 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
-            self.data
-                .var_or_default(n_id.to_id())
-                .mark_declared_as_fn_expr();
+            self.data.var_or_default(&n_id).mark_declared_as_fn_expr();
 
-            self.used_recursively
-                .insert(n_id.to_id(), RecursiveUsage::FnOrClass);
+            self.used_recursively.insert(
+                unsafe { fast_id_from_ident(&n_id) },
+                RecursiveUsage::FnOrClass,
+            );
 
             n.visit_children_with(self);
 
@@ -775,10 +775,11 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data.var_or_default(n_id.to_id()).add_infects_to(id);
+                    self.data.var_or_default(&n_id).add_infects_to(id);
                 }
             }
-            self.used_recursively.remove(&n_id.to_id());
+            self.used_recursively
+                .remove(&unsafe { fast_id_from_ident(&n_id) });
         } else {
             n.visit_children_with(self);
         }
@@ -940,7 +941,7 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let v = self.data.var_or_default(obj.to_id());
+            let v = self.data.var_or_default(&obj);
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
@@ -1007,7 +1008,7 @@ where
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            self.data.mark_property_mutation(id.to_id());
+                            self.data.mark_property_mutation(id);
                         });
                     }
                 }
@@ -1118,9 +1119,7 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
-            self.data
-                .var_or_default(i.to_id())
-                .mark_indexed_with_dynamic_key();
+            self.data.var_or_default(&i).mark_indexed_with_dynamic_key();
         });
     }
 
@@ -1267,9 +1266,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(var.to_id())
-                        .add_infects_to(id.clone());
+                    self.data.var_or_default(&var).add_infects_to(id.clone());
                 }
             }
         }
@@ -1312,15 +1309,15 @@ where
                     ..
                 } = e
                 {
-                    let id = id.to_id();
                     self.used_recursively.insert(
-                        id.clone(),
+                        unsafe { fast_id_from_ident(id) },
                         RecursiveUsage::Var {
                             can_ignore: !init.may_have_side_effects(&self.expr_ctx),
                         },
                     );
                     e.init.visit_with(&mut *self.with_ctx(ctx));
-                    self.used_recursively.remove(&id);
+                    self.used_recursively
+                        .remove(&unsafe { fast_id_from_ident(id) });
                     return;
                 }
             }
