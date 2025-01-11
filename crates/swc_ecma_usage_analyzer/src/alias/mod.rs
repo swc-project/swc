@@ -52,12 +52,12 @@ pub enum AccessKind {
     Call,
 }
 
-pub type Access = (Id, AccessKind);
+pub type Access = (FastId, AccessKind);
 
 pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
     N: InfectableNode
-        + VisitWith<BindingCollector<Id>>
+        + VisitWith<BindingCollector<FastId>>
         + for<'aa> VisitWith<InfectionCollector<'aa>>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
@@ -91,7 +91,7 @@ pub struct InfectionCollector<'a> {
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    exclude: &'a AHashSet<Id>,
+    exclude: &'a AHashSet<FastId>,
 
     ctx: Ctx,
 
