@@ -993,7 +993,11 @@ impl Optimizer<'_> {
                             }
 
                             if let Some(id) = a.id() {
-                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                                if merge_seq_cache.is_ident_used_by(
+                                    &unsafe { fast_id_from_ident(&id) },
+                                    &**e2,
+                                    b_idx,
+                                ) {
                                     break;
                                 }
                             }
@@ -1814,7 +1818,7 @@ impl Optimizer<'_> {
 
                     // As we are not *skipping* lhs, we can inline here
                     if let Some(a_id) = a.id() {
-                        if a_id == b_left.to_id() {
+                        if a_id.sym == b_left.sym && a_id.ctxt == b_left.ctxt {
                             if self.replace_seq_assignment(a, b)? {
                                 return Ok(true);
                             }
@@ -2499,7 +2503,7 @@ impl Optimizer<'_> {
                     let var_type = self
                         .data
                         .vars
-                        .get(&left_id.to_id())
+                        .get(&unsafe { fast_id_from_ident(&left_id) })
                         .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
@@ -2766,7 +2770,7 @@ impl MergeSequenceCache {
             if let Some(a_id) = a.id() {
                 if a_id.sym == "arguments"
                     || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                        && !optimizer.may_remove_ident(unsafe { fast_id_from_ident(&a_id) }))
+                        && !optimizer.may_remove_ident(&a_id))
                 {
                     return true;
                 }

@@ -683,7 +683,7 @@ impl Optimizer<'_> {
         );
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(i)) = &mut assign.left {
-            if !self.may_remove_ident(unsafe { fast_id_from_ident(&i.id) }) {
+            if !self.may_remove_ident(&i.id) {
                 return;
             }
 
