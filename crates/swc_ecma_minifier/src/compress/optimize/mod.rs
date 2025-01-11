@@ -319,7 +319,9 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id.clone().to_id()) {
+        if let Some(VarUsageInfo { exported: true, .. }) =
+            self.data.vars.get(&unsafe { fast_id_from_ident(id) })
+        {
             return false;
         }
 
@@ -870,7 +872,9 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                        if let Some(usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(callee) })
+                        {
                             if !usage.reassigned && usage.pure_fn {
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");

@@ -443,7 +443,9 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
+                        if let Some(init_usage) =
+                            self.data.vars.get(&unsafe { fast_id_from_ident(&id) })
+                        {
                             if init_usage.reassigned || !init_usage.declared {
                                 return;
                             }
@@ -639,7 +641,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        if let Some(usage) = self.data.vars.get(&unsafe { fast_id_from_ident(&i) }) {
             if usage.declared_as_catch_param {
                 log_abort!("inline: Declared as a catch parameter");
                 return;
@@ -864,7 +866,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: AHashSet<Id> = collect_decls(&*value);
+                    let bindings: AHashSet<FastId> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();
@@ -878,7 +880,7 @@ impl Optimizer<'_> {
 
                         if let Some(usage) = self.data.vars.get(&id).cloned() {
                             let new_id = (id.0.clone(), new_ctxt);
-                            self.data.vars.insert(new_id, usage);
+                            self.data.vars.insert(id, usage);
                         }
 
                         remap.insert(id, new_ctxt);
