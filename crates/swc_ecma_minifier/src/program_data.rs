@@ -31,13 +31,13 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
+    pub(crate) vars: FxHashMap<FastId, VarUsageInfo>,
 
     pub(crate) top: ScopeData,
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, ARandomState>,
+    initialized_vars: IndexSet<FastId, ARandomState>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -201,8 +201,10 @@ impl Storage for ProgramData {
         &mut self.top
     }
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
-        self.vars.entry(id).or_default()
+    fn var_or_default(&mut self, id: &Ident) -> &mut Self::VarData {
+        self.vars
+            .entry(unsafe { fast_id_from_ident(&id) })
+            .or_default()
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {

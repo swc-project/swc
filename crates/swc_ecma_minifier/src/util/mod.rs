@@ -326,7 +326,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    ids: FxHashSet<Id>,
+    ids: FxHashSet<FastId>,
     ignore_nested: bool,
 }
 
@@ -388,7 +388,7 @@ impl Visit for IdentUsageCollector {
 
 #[derive(Default)]
 pub(crate) struct CapturedIdCollector {
-    ids: FxHashSet<Id>,
+    ids: FxHashSet<FastId>,
     is_nested: bool,
 }
 
@@ -431,7 +431,7 @@ impl Visit for CapturedIdCollector {
     }
 }
 
-pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<FastId>
 where
     N: VisitWith<CapturedIdCollector>,
 {
@@ -443,7 +443,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<FastId>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -455,7 +455,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<FastId>
 where
     N: VisitWith<IdentUsageCollector>,
 {

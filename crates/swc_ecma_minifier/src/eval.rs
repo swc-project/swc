@@ -49,7 +49,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: AHashMap<Id, Box<Expr>>,
+    cache: AHashMap<FastId, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -59,7 +59,7 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Expr) {
+    fn store(&self, id: FastId, value: &Expr) {
         let mut w = self.store.lock();
         w.cache.insert(id, Box::new(value.clone()));
     }
@@ -191,7 +191,7 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.to_id())?;
+                let val = lock.cache.get(&unsafe { fast_id_from_ident(&i) })?;
 
                 return Some(val.clone());
             }

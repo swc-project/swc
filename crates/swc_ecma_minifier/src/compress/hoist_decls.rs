@@ -55,7 +55,7 @@ impl Hoister<'_> {
                 Some(stmt) => match stmt {
                     Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                     Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                        let ids: Vec<Id> = find_pat_ids(&var.decls);
+                        let ids: Vec<FastId> = find_pat_ids(&var.decls);
 
                         if ids.iter().any(|id| {
                             self.data
@@ -139,7 +139,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&id.to_id())
+                                                .get(&unsafe { fast_id_from_ident(&id) })
                                                 .map(|v| v.declared_as_fn_param)
                                                 .unwrap_or(false)
                                         {
@@ -221,7 +221,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.to_id())
+                                                .get(&unsafe { fast_id_from_ident(&name) })
                                                 .map(|v| v.declared_as_fn_param)
                                                 .unwrap_or(false)
                                         {

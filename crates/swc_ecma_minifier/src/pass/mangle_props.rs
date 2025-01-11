@@ -4,8 +4,8 @@ use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
-    CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
-    PropName, Str, SuperProp, SuperPropExpr,
+    fast_id_from_ident, CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr,
+    MemberProp, Program, Prop, PropName, Str, SuperProp, SuperPropExpr,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -174,7 +174,7 @@ fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData)
         Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
         Expr::Ident(expr) => data
             .vars
-            .get(&expr.to_id())
+            .get(&unsafe { fast_id_from_ident(&expr) })
             .map(|var| var.declared)
             .unwrap_or(false),
 

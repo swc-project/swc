@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 
 pub(crate) trait Mode: Send + Sync {
-    fn store(&self, id: Id, value: &Expr);
+    fn store(&self, id: FastId, value: &Expr);
 
     fn preserve_vars(&self) -> bool;
 
@@ -15,7 +15,7 @@ pub(crate) trait Mode: Send + Sync {
 pub struct Minification;
 
 impl Mode for Minification {
-    fn store(&self, _: Id, _: &Expr) {}
+    fn store(&self, _: FastId, _: &Expr) {}
 
     fn preserve_vars(&self) -> bool {
         false
