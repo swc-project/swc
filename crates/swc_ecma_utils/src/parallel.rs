@@ -86,27 +86,23 @@ where
                 }
 
                 let (na, nb) = nodes.split_at(len / 2);
+                let mut vb = Parallel::create(&*self);
 
-                let (va, vb) = join(
+                let (_, vb) = join(
                     || {
                         GLOBALS.set(globals, || {
-                            let mut visitor = Parallel::create(&*self);
-                            visitor.maybe_par_idx_raw(threshold, na, op);
-
-                            visitor
+                            self.maybe_par_idx_raw(threshold, na, op);
                         })
                     },
                     || {
                         GLOBALS.set(globals, || {
-                            let mut visitor = Parallel::create(&*self);
-                            visitor.maybe_par_idx_raw(threshold, nb, op);
+                            vb.maybe_par_idx_raw(threshold, nb, op);
 
-                            visitor
+                            vb
                         })
                     },
                 );
 
-                Parallel::merge(self, va);
                 Parallel::merge(self, vb);
             });
 
