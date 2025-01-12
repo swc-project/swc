@@ -18,6 +18,26 @@ pub(crate) fn precompress_optimizer<'a>() -> impl 'a + VisitMut {
 #[derive(Debug)]
 pub(crate) struct PrecompressOptimizer {}
 
+impl PrecompressOptimizer {
+    /// Drops RHS from `null && foo`
+    fn optimize_bin_expr(&mut self, n: &mut Expr) {
+        let Expr::Bin(b) = n else {
+            return;
+        };
+
+        if b.op == op!("&&") && b.left.as_pure_bool(&self.expr_ctx) == Known(false) {
+            *n = *b.left.take();
+            self.changed = true;
+            return;
+        }
+
+        if b.op == op!("||") && b.left.as_pure_bool(&self.expr_ctx) == Known(true) {
+            *n = *b.left.take();
+            self.changed = true;
+        }
+    }
+}
+
 impl Parallel for PrecompressOptimizer {
     fn create(&self) -> Self {
         Self {}
@@ -28,6 +48,12 @@ impl Parallel for PrecompressOptimizer {
 
 impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_bin_expr(n);
+    }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
