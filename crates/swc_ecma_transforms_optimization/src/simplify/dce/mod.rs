@@ -1,11 +1,11 @@
-use std::{borrow::Cow, cell::RefCell, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, hash::BuildHasherDefault, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
+    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, SyntaxContext, DUMMY_SP,
@@ -105,7 +105,7 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    used_names: AHashMap<Id, VarInfo>,
+    used_names: FxHashMap<Id, VarInfo>,
 
     /// Variable usage graph
     ///
@@ -116,7 +116,7 @@ struct Data {
     entries: FxHashSet<u32>,
     entry_ids: FxHashSet<Id>,
 
-    graph_ix: IndexSet<Id, ARandomState>,
+    graph_ix: IndexSet<Id, BuildHasherDefault<FxHasher>>,
 }
 
 impl Data {
