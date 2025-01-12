@@ -1,7 +1,9 @@
 use std::borrow::Cow;
 
 use swc_atoms::Atom;
-use swc_ecma_ast::{BindingIdent, Expr, Lit, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn};
+use swc_ecma_ast::{
+    BindingIdent, Expr, Lit, MemberExpr, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
+};
 
 pub trait PatExt {
     fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
@@ -114,6 +116,32 @@ impl MemberPropExt for MemberProp {
                 _ => None,
             },
             MemberProp::PrivateName(_) => None,
+        }
+    }
+}
+
+pub trait MemberExprExt {
+    fn get_first_object(&self) -> &Expr;
+}
+
+impl MemberExprExt for MemberExpr {
+    fn get_first_object(&self) -> &Expr {
+        let mut object = &self.obj;
+        loop {
+            match object.as_ref() {
+                Expr::Member(member_expr) => {
+                    object = &member_expr.obj;
+                    continue;
+                }
+                Expr::OptChain(opt_chain) => {
+                    if let Some(member_expr) = opt_chain.base.as_member() {
+                        object = &member_expr.obj;
+                        continue;
+                    }
+                }
+                _ => {}
+            }
+            break object;
         }
     }
 }
