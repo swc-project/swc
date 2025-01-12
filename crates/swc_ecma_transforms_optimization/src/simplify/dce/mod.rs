@@ -231,7 +231,10 @@ impl Parallel for Analyzer<'_> {
             data: self.data.clone(),
             scope: Scope {
                 parent: self.scope.parent,
-                ..Default::default()
+                ast_path: self.scope.ast_path.clone(),
+                bindings_affected_by_arguements: Default::default(),
+                bindings_affected_by_eval: Default::default(),
+                ..self.scope
             },
             cur_class_id: self.cur_class_id.clone(),
             cur_fn_id: self.cur_fn_id.clone(),
@@ -239,7 +242,16 @@ impl Parallel for Analyzer<'_> {
         }
     }
 
-    fn merge(&mut self, _: Self) {}
+    fn merge(&mut self, other: Self) {
+        self.scope.ast_path = other.scope.ast_path;
+
+        self.scope
+            .bindings_affected_by_eval
+            .extend(other.scope.bindings_affected_by_eval);
+        self.scope
+            .bindings_affected_by_arguements
+            .extend(other.scope.bindings_affected_by_arguements);
+    }
 }
 
 #[derive(Debug, Default)]
@@ -259,7 +271,7 @@ struct Scope<'a> {
     ast_path: Vec<Id>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ScopeKind {
     Fn,
     ArrowFn,
