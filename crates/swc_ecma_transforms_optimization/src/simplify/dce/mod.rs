@@ -1214,9 +1214,7 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
     let mut merged = Data::default();
 
     for data in data {
-        merged.used_names.merge(data.used_names);
-        merged.entry_ids.extend(data.entry_ids);
-        merged.edges.merge(data.edges);
+        merged.merge(data);
     }
 
     merged.subtract_cycles();
@@ -1272,6 +1270,14 @@ impl Merge for VarInfo {
     fn merge(&mut self, other: Self) {
         self.usage += other.usage;
         self.assign += other.assign;
+    }
+}
+
+impl Merge for Data {
+    fn merge(&mut self, other: Self) {
+        self.used_names.merge(other.used_names);
+        self.entry_ids.extend(other.entry_ids);
+        self.edges.merge(other.edges);
     }
 }
 
