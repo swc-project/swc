@@ -11,6 +11,10 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{cpu_count, Parallel};
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::{cpu_count, ParVisit, ParVisitMut, Parallel},
+};
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
     StmtLike, Value::Known,
@@ -216,6 +220,23 @@ struct Analyzer<'a> {
     data: Arc<ThreadLocal<RefCell<Data>>>,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
+}
+
+impl Parallel for Analyzer<'_> {
+    fn create(&self) -> Self {
+        Self {
+            data: self.data.clone(),
+            scope: Scope {
+                parent: self.scope.parent,
+                ..Default::default()
+            },
+            cur_class_id: self.cur_class_id.clone(),
+            cur_fn_id: self.cur_fn_id.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 #[derive(Debug, Default)]
@@ -561,6 +582,34 @@ impl Visit for Analyzer<'_> {
         n.init.visit_with(self);
 
         self.in_var_decl = old;
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.visit_par(cpu_count(), n);
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.visit_par(cpu_count(), n);
     }
 }
 
@@ -954,6 +1003,49 @@ impl VisitMut for TreeShaker {
         self.data = Arc::new(merged);
 
         m.visit_mut_children_with(self);
+        HELPERS.set(&Helpers::new(true), || {
+            debug_assert_valid(m);
+
+            let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
+            if self.bindings.is_empty() {
+                self.bindings = Arc::new(collect_decls(&*m))
+            }
+
+            let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: data.clone(),
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            let data = Arc::try_unwrap(data)
+                .map_err(|_| {})
+                .unwrap()
+                .into_iter()
+                .map(|d| d.into_inner())
+                .map(|mut data| {
+                    data.subtract_cycles();
+                    data
+                })
+                .collect::<Vec<_>>();
+            let mut merged = Data::default();
+
+            for data in data {
+                merged.used_names.extend(data.used_names);
+                merged.entry_ids.extend(data.entry_ids);
+            }
+
+            self.data = Arc::new(merged);
+
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
@@ -1031,6 +1123,47 @@ impl VisitMut for TreeShaker {
         self.data = Arc::new(merged);
 
         m.visit_mut_children_with(self);
+        HELPERS.set(&Helpers::new(true), || {
+            let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
+            if self.bindings.is_empty() {
+                self.bindings = Arc::new(collect_decls(&*m))
+            }
+
+            let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: data.clone(),
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            let data = Arc::try_unwrap(data)
+                .map_err(|_| {})
+                .unwrap()
+                .into_iter()
+                .map(|d| d.into_inner())
+                .map(|mut data| {
+                    data.subtract_cycles();
+                    data
+                })
+                .collect::<Vec<_>>();
+            let mut merged = Data::default();
+
+            for data in data {
+                merged.used_names.extend(data.used_names);
+                merged.entry_ids.extend(data.entry_ids);
+            }
+
+            self.data = Arc::new(merged);
+
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
