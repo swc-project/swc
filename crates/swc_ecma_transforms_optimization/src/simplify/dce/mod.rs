@@ -1,11 +1,20 @@
-use std::{borrow::Cow, cell::RefCell, hash::BuildHasherDefault, sync::Arc};
+use std::{
+    borrow::Cow,
+    cell::RefCell,
+    collections::HashMap,
+    hash::{BuildHasher, Hash},
+    mem::take,
+    sync::Arc,
+};
 
-use indexmap::IndexSet;
+use ahash::RandomState;
+use indexmap::{IndexMap, IndexSet};
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
     collections::AHashSet,
@@ -111,13 +120,8 @@ impl CompilerPass for TreeShaker {
 struct Data {
     used_names: FxHashMap<Id, VarInfo>,
 
-    /// Variable usage graph
-    ///
-    /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
-    /// we use u32 it fits into the cache line of cpu.
-    graph: FastDiGraphMap<u32, VarInfo>,
+    edges: IndexMap<(Id, Id), VarInfo, RandomState>,
     /// Entrypoints.
-    entries: FxHashSet<u32>,
     entry_ids: FxHashSet<Id>,
 
     graph_ix: IndexSet<Id, FxBuildHasher>,
@@ -125,43 +129,54 @@ struct Data {
 }
 
 impl Data {
-    fn node(&mut self, id: &Id) -> u32 {
-        self.graph_ix.get_index_of(id).unwrap_or_else(|| {
-            let ix = self.graph_ix.len();
-            self.graph_ix.insert_full(id.clone());
-            ix
-        }) as _
-    }
-
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
-        let from = self.node(from);
-        let to = self.node(to);
-
-        match self.graph.edge_weight_mut(from, to) {
-            Some(info) => {
+    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
+        match self.edges.entry((from, to)) {
+            indexmap::map::Entry::Occupied(mut info) => {
                 if assign {
-                    info.assign += 1;
+                    info.get_mut().assign += 1;
                 } else {
-                    info.usage += 1;
+                    info.get_mut().usage += 1;
                 }
             }
-            None => {
-                self.graph.add_edge(
-                    from,
-                    to,
-                    VarInfo {
-                        usage: u32::from(!assign),
-                        assign: u32::from(assign),
-                    },
-                );
+            indexmap::map::Entry::Vacant(info) => {
+                info.insert(VarInfo {
+                    usage: u32::from(!assign),
+                    assign: u32::from(assign),
+                });
             }
-        };
+        }
     }
 
     /// Traverse the graph and subtract usages from `used_names`.
     fn subtract_cycles(&mut self) {
-        let cycles = tarjan_scc(&self.graph);
+        let edges = take(&mut self.edges);
+
+        let mut graph = FastDiGraphMap::default();
+        let mut graph_ix = IndexMap::<Id, u32, RandomState>::default();
+
+        let mut get_node = |id: Id| -> u32 {
+            let len = graph_ix.len();
+
+            let id = *graph_ix.entry(id).or_insert(len as u32);
+
+            id as _
+        };
+
+        let entries = self
+            .entry_ids
+            .iter()
+            .map(|id| get_node(id.clone()))
+            .collect::<IndexSet<_, RandomState>>();
+
+        for ((src, dst), info) in edges {
+            let src = get_node(src);
+            let dst = get_node(dst);
+
+            graph.add_edge(src, dst, info);
+        }
+
+        let cycles = tarjan_scc(&graph);
 
         'c: for cycle in cycles {
             if cycle.len() == 1 {
@@ -172,11 +187,11 @@ impl Data {
             // of cycle.
             for &node in &cycle {
                 // It's referenced by an outer node.
-                if self.entries.contains(&node) {
+                if entries.contains(&node) {
                     continue 'c;
                 }
 
-                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                if graph.neighbors_directed(node, Incoming).any(|node| {
                     // Node in cycle does not matter
                     !cycle.contains(&node)
                 }) {
@@ -190,13 +205,13 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j as _);
+                    let id = graph_ix.get_index(j as _);
                     let id = match id {
-                        Some(id) => id,
+                        Some(id) => id.0,
                         None => continue,
                     };
 
-                    if let Some(w) = self.graph.edge_weight(i, j) {
+                    if let Some(w) = graph.edge_weight(i, j) {
                         let e = self.used_names.entry(id.clone()).or_default();
                         e.usage -= w.usage;
                         e.assign -= w.assign;
@@ -378,15 +393,13 @@ impl Analyzer<'_> {
 
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
-            let idx = data.node(&id);
-            data.entries.insert(idx);
             data.entry_ids.insert(id.clone());
         } else {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    data.add_dep_edge(component, &id, assign);
+                    data.add_dep_edge(component.clone(), id.clone(), assign);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
@@ -1197,19 +1210,69 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         .unwrap()
         .into_iter()
         .map(|d| d.into_inner())
-        .map(|mut data| {
-            data.subtract_cycles();
-            data
-        })
         .collect::<Vec<_>>();
     let mut merged = Data::default();
 
     for data in data {
-        merged.used_names.extend(data.used_names);
+        merged.used_names.merge(data.used_names);
         merged.entry_ids.extend(data.entry_ids);
+        merged.edges.merge(data.edges);
     }
 
+    merged.subtract_cycles();
+
     merged
+}
+
+trait Merge {
+    fn merge(&mut self, other: Self);
+}
+
+impl<K, V, S> Merge for HashMap<K, V, S>
+where
+    K: Eq + Hash,
+    V: Merge,
+    S: BuildHasher,
+{
+    fn merge(&mut self, other: Self) {
+        for (k, v) in other {
+            match self.entry(k) {
+                std::collections::hash_map::Entry::Occupied(mut e) => {
+                    e.get_mut().merge(v);
+                }
+                std::collections::hash_map::Entry::Vacant(e) => {
+                    e.insert(v);
+                }
+            }
+        }
+    }
+}
+
+impl<K, V, S> Merge for IndexMap<K, V, S>
+where
+    K: Eq + Hash,
+    V: Merge,
+    S: BuildHasher,
+{
+    fn merge(&mut self, other: Self) {
+        for (k, v) in other {
+            match self.entry(k) {
+                indexmap::map::Entry::Occupied(mut e) => {
+                    e.get_mut().merge(v);
+                }
+                indexmap::map::Entry::Vacant(e) => {
+                    e.insert(v);
+                }
+            }
+        }
+    }
+}
+
+impl Merge for VarInfo {
+    fn merge(&mut self, other: Self) {
+        self.usage += other.usage;
+        self.assign += other.assign;
+    }
 }
 
 impl Scope<'_> {
