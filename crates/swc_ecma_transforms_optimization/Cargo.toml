@@ -22,6 +22,7 @@ concurrent = [
 debug = []
 
 [dependencies]
+ahash        = { workspace = true }
 dashmap      = { workspace = true }
 indexmap     = { workspace = true }
 once_cell    = { workspace = true }
