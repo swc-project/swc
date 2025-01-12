@@ -1,10 +1,14 @@
-use std::{borrow::Cow, cell::RefCell, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, hash::BuildHasherDefault, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use swc_atoms::{atom, JsWord};
+use swc_common::{
+    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, SyntaxContext, DUMMY_SP,
@@ -117,6 +121,7 @@ struct Data {
     entry_ids: FxHashSet<Id>,
 
     graph_ix: IndexSet<Id, FxBuildHasher>,
+    graph_ix: IndexSet<Id, BuildHasherDefault<FxHasher>>,
 }
 
 impl Data {
