@@ -1,4 +1,4 @@
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
@@ -19,6 +19,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
+use thread_local::ThreadLocal;
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -111,6 +112,7 @@ struct Data {
     graph: FastDiGraphMap<u32, VarInfo>,
     /// Entrypoints.
     entries: FxHashSet<u32>,
+    entry_ids: FxHashSet<Id>,
 
     graph_ix: IndexSet<Id, FxBuildHasher>,
 }
@@ -211,7 +213,7 @@ struct Analyzer<'a> {
     config: &'a Config,
     in_var_decl: bool,
     scope: Scope<'a>,
-    data: &'a mut Data,
+    data: Arc<ThreadLocal<RefCell<Data>>>,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
 }
@@ -271,7 +273,7 @@ impl Analyzer<'_> {
 
             let mut v = Analyzer {
                 scope: child,
-                data: self.data,
+                data: self.data.clone(),
                 cur_fn_id: self.cur_fn_id.clone(),
                 cur_class_id: self.cur_class_id.clone(),
                 ..*self
@@ -288,7 +290,13 @@ impl Analyzer<'_> {
         // If we found eval, mark all declarations in scope and upper as used
         if child_scope.found_direct_eval {
             for id in child_scope.bindings_affected_by_eval {
-                self.data.used_names.entry(id).or_default().usage += 1;
+                self.data
+                    .get_or_default()
+                    .borrow_mut()
+                    .used_names
+                    .entry(id)
+                    .or_default()
+                    .usage += 1;
             }
 
             self.scope.found_direct_eval = true;
@@ -298,7 +306,13 @@ impl Analyzer<'_> {
             // Parameters
 
             for id in child_scope.bindings_affected_by_arguements {
-                self.data.used_names.entry(id).or_default().usage += 1;
+                self.data
+                    .get_or_default()
+                    .borrow_mut()
+                    .used_names
+                    .entry(id)
+                    .or_default()
+                    .usage += 1;
             }
 
             if !matches!(kind, ScopeKind::Fn) {
@@ -324,16 +338,19 @@ impl Analyzer<'_> {
             }
         }
 
+        let mut data = self.data.get_or_default().borrow_mut();
+
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
-            let idx = self.data.node(&id);
-            self.data.entries.insert(idx);
+            let idx = data.node(&id);
+            data.entries.insert(idx);
+            data.entry_ids.insert(id.clone());
         } else {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    self.data.add_dep_edge(component, &id, assign);
+                    data.add_dep_edge(component, &id, assign);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
@@ -345,9 +362,9 @@ impl Analyzer<'_> {
         }
 
         if assign {
-            self.data.used_names.entry(id).or_default().assign += 1;
+            data.used_names.entry(id).or_default().assign += 1;
         } else {
-            self.data.used_names.entry(id).or_default().usage += 1;
+            data.used_names.entry(id).or_default().usage += 1;
         }
     }
 }
@@ -633,11 +650,8 @@ impl TreeShaker {
             }
 
             // Abort if the variable is declared on top level scope.
-            let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
-                    return false;
-                }
+            if self.data.entry_ids.contains(&name) {
+                return false;
             }
         }
 
@@ -907,21 +921,37 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
                 scope: Default::default(),
-                data: &mut data,
+                data: data.clone(),
                 cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
+        let data = Arc::try_unwrap(data)
+            .map_err(|_| {})
+            .unwrap()
+            .into_iter()
+            .map(|d| d.into_inner())
+            .map(|mut data| {
+                data.subtract_cycles();
+                data
+            })
+            .collect::<Vec<_>>();
+        let mut merged = Data::default();
+
+        for data in data {
+            merged.used_names.extend(data.used_names);
+            merged.entry_ids.extend(data.entry_ids);
+        }
+
+        self.data = Arc::new(merged);
 
         m.visit_mut_children_with(self);
     }
@@ -968,21 +998,37 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
                 scope: Default::default(),
-                data: &mut data,
+                data: data.clone(),
                 cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
+        let data = Arc::try_unwrap(data)
+            .map_err(|_| {})
+            .unwrap()
+            .into_iter()
+            .map(|d| d.into_inner())
+            .map(|mut data| {
+                data.subtract_cycles();
+                data
+            })
+            .collect::<Vec<_>>();
+        let mut merged = Data::default();
+
+        for data in data {
+            merged.used_names.extend(data.used_names);
+            merged.entry_ids.extend(data.entry_ids);
+        }
+
+        self.data = Arc::new(merged);
 
         m.visit_mut_children_with(self);
     }
