@@ -1030,24 +1030,8 @@ impl VisitMut for TreeShaker {
                 };
                 m.visit_with(&mut analyzer);
             }
-            let data = Arc::try_unwrap(data)
-                .map_err(|_| {})
-                .unwrap()
-                .into_iter()
-                .map(|d| d.into_inner())
-                .map(|mut data| {
-                    data.subtract_cycles();
-                    data
-                })
-                .collect::<Vec<_>>();
-            let mut merged = Data::default();
 
-            for data in data {
-                merged.used_names.extend(data.used_names);
-                merged.entry_ids.extend(data.entry_ids);
-            }
-
-            self.data = Arc::new(merged);
+            self.data = Arc::new(merge_data(data));
 
             m.visit_mut_children_with(self);
         })
@@ -1148,24 +1132,8 @@ impl VisitMut for TreeShaker {
                 };
                 m.visit_with(&mut analyzer);
             }
-            let data = Arc::try_unwrap(data)
-                .map_err(|_| {})
-                .unwrap()
-                .into_iter()
-                .map(|d| d.into_inner())
-                .map(|mut data| {
-                    data.subtract_cycles();
-                    data
-                })
-                .collect::<Vec<_>>();
-            let mut merged = Data::default();
 
-            for data in data {
-                merged.used_names.extend(data.used_names);
-                merged.entry_ids.extend(data.entry_ids);
-            }
-
-            self.data = Arc::new(merged);
+            self.data = Arc::new(merge_data(data));
 
             m.visit_mut_children_with(self);
         })
@@ -1298,6 +1266,27 @@ impl VisitMut for TreeShaker {
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
     }
+}
+
+fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
+    let data = Arc::try_unwrap(data)
+        .map_err(|_| {})
+        .unwrap()
+        .into_iter()
+        .map(|d| d.into_inner())
+        .map(|mut data| {
+            data.subtract_cycles();
+            data
+        })
+        .collect::<Vec<_>>();
+    let mut merged = Data::default();
+
+    for data in data {
+        merged.used_names.extend(data.used_names);
+        merged.entry_ids.extend(data.entry_ids);
+    }
+
+    merged
 }
 
 impl Scope<'_> {
