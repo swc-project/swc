@@ -8,7 +8,7 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::ast_ext::{PatExt, PropNameExit},
+    util::ast_ext::{MemberExprExt, PatExt, PropNameExit},
     FastDts,
 };
 
@@ -17,25 +17,7 @@ impl FastDts {
         if let Some(super_class) = &class.super_class {
             let is_not_allowed = match super_class.as_ref() {
                 Expr::Ident(_) => false,
-                Expr::Member(member_expr) => {
-                    let mut object = &member_expr.obj;
-                    loop {
-                        match object.as_ref() {
-                            Expr::Member(member_expr) => {
-                                object = &member_expr.obj;
-                                continue;
-                            }
-                            Expr::OptChain(opt_chain) => {
-                                if let Some(member_expr) = opt_chain.base.as_member() {
-                                    object = &member_expr.obj;
-                                    continue;
-                                }
-                            }
-                            _ => {}
-                        }
-                        break !object.is_ident();
-                    }
-                }
+                Expr::Member(member_expr) => !member_expr.get_first_object().is_ident(),
                 _ => true,
             };
 
