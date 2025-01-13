@@ -1,6 +1,6 @@
 #![allow(clippy::needless_update)]
 
-use std::sync::Arc;
+use std::{cell::RefCell, sync::Arc};
 
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
@@ -72,21 +72,30 @@ where
         .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
     let decls = collect_decls(node);
 
-    let mut visitor = InfectionCollector {
-        config,
-        unresolved_ctxt,
+    let accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>> = Arc::default();
 
-        exclude: &decls,
-        ctx: Ctx {
-            track_expr_ident: true,
-            ..Default::default()
-        },
-        accesses: Default::default(),
-    };
+    {
+        let mut visitor = InfectionCollector {
+            config,
+            unresolved_ctxt,
 
-    node.visit_with(&mut visitor);
+            exclude: &decls,
+            ctx: Ctx {
+                track_expr_ident: true,
+                ..Default::default()
+            },
+            accesses: accesses.clone(),
+        };
 
-    visitor.accesses
+        node.visit_with(&mut visitor);
+    }
+
+    Arc::try_unwrap(accesses)
+        .map_err(|_| {})
+        .unwrap()
+        .into_iter()
+        .flat_map(RefCell::into_inner)
+        .collect()
 }
 
 pub struct InfectionCollector<'a> {
@@ -98,7 +107,7 @@ pub struct InfectionCollector<'a> {
 
     ctx: Ctx,
 
-    accesses: Arc<ThreadLocal<FxHashSet<Access>>>,
+    accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>>,
 }
 
 impl InfectionCollector<'_> {
@@ -111,7 +120,7 @@ impl InfectionCollector<'_> {
             return;
         }
 
-        self.accesses.insert((
+        self.accesses.get_or_default().borrow_mut().insert((
             e.clone(),
             if self.ctx.is_callee {
                 AccessKind::Call
