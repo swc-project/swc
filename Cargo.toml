@@ -108,6 +108,7 @@ resolver = "2"
   tempfile                  = "3.6.0"
   termcolor                 = "1.0"
   thiserror                 = "1.0.30"
+  thread_local              = "1.1.8"
   tokio                     = { version = "1", default-features = false }
   toml                      = "0.8.2"
   tracing                   = "0.1.40"
@@ -127,7 +128,6 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "=5.0.5-rc1", default-features = false }
   wasmer-wasix              = { version = "0.35.0", default-features = false }
-thread_local = "1.1.8"
 
 [profile.release]
 lto = true
