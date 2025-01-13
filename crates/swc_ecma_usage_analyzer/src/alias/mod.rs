@@ -5,7 +5,12 @@ use std::{cell::RefCell, sync::Arc};
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
+use swc_ecma_transforms_base::perf::ParVisit;
+use swc_ecma_utils::{
+    collect_decls,
+    parallel::{cpu_count, Parallel},
+    BindingCollector,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use thread_local::ThreadLocal;
 
@@ -14,7 +19,7 @@ use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 
 mod ctx;
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct AliasConfig {
     pub marks: Option<Marks>,
     pub ignore_nested: bool,
@@ -108,6 +113,17 @@ pub struct InfectionCollector<'a> {
     ctx: Ctx,
 
     accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>>,
+}
+
+impl Parallel for InfectionCollector<'_> {
+    fn create(&self) -> Self {
+        Self {
+            accesses: self.accesses.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl InfectionCollector<'_> {
@@ -304,5 +320,33 @@ impl Visit for InfectionCollector<'_> {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.visit_par(cpu_count() * 8, n);
     }
 }
