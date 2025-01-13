@@ -591,7 +591,7 @@ impl TreeShaker {
             }
         }
 
-        self.visit_mut_par(cpu_count(), stmts);
+        self.visit_mut_par(cpu_count() * 8, stmts);
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -845,11 +845,11 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.visit_mut_par(cpu_count(), n);
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.visit_mut_par(cpu_count(), n);
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 
     fn visit_mut_for_head(&mut self, n: &mut ForHead) {
@@ -947,11 +947,11 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_mut_par(cpu_count(), n);
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.visit_mut_par(cpu_count(), n);
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -1095,7 +1095,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        self.visit_mut_par(cpu_count(), n);
+        self.visit_mut_par(cpu_count() * 8, n);
 
         n.retain(|v| {
             if v.name.is_invalid() {
