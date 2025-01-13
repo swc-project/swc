@@ -122,7 +122,7 @@ impl CompilerPass for TreeShaker {
 struct Data {
     used_names: FxHashMap<Id, VarInfo>,
 
-    edges: IndexMap<(Id, Id), VarInfo, RandomState>,
+    edges: Edges,
     /// Entrypoints.
     entry_ids: FxHashSet<Id>,
 
@@ -130,10 +130,13 @@ struct Data {
     graph_ix: IndexSet<Id, BuildHasherDefault<FxHasher>>,
 }
 
+#[derive(Default)]
+struct Edges(IndexMap<(Id, Id), VarInfo, RandomState>);
+
 impl Data {
     /// Add an edge to dependency graph
     fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
-        match self.edges.entry((from, to)) {
+        match self.edges.0.entry((from, to)) {
             indexmap::map::Entry::Occupied(mut info) => {
                 if assign {
                     info.get_mut().assign += 1;
@@ -171,7 +174,7 @@ impl Data {
             .map(|id| get_node(id.clone()))
             .collect::<IndexSet<_, RandomState>>();
 
-        for ((src, dst), info) in edges {
+        for ((src, dst), info) in edges.0 {
             let src = get_node(src);
             let dst = get_node(dst);
 
@@ -1377,7 +1380,7 @@ impl Merge for Data {
     fn merge(&mut self, other: Self) {
         self.used_names.merge(other.used_names);
         self.entry_ids.extend(other.entry_ids);
-        self.edges.merge(other.edges);
+        self.edges.0.merge(other.edges.0);
     }
 }
 
