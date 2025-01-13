@@ -5,7 +5,10 @@ use std::{cell::RefCell, sync::Arc};
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::ParVisit;
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::ParVisit,
+};
 use swc_ecma_utils::{
     collect_decls,
     parallel::{cpu_count, Parallel},
@@ -68,39 +71,41 @@ where
         + VisitWith<BindingCollector<Id>>
         + for<'aa> VisitWith<InfectionCollector<'aa>>,
 {
-    if config.ignore_nested && node.is_fn_or_arrow_expr() {
-        return Default::default();
-    }
+    HELPERS.set(&Helpers::new(true), || {
+        if config.ignore_nested && node.is_fn_or_arrow_expr() {
+            return Default::default();
+        }
 
-    let unresolved_ctxt = config
-        .marks
-        .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
-    let decls = collect_decls(node);
+        let unresolved_ctxt = config
+            .marks
+            .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
+        let decls = collect_decls(node);
 
-    let accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>> = Arc::default();
+        let accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>> = Arc::default();
 
-    {
-        let mut visitor = InfectionCollector {
-            config,
-            unresolved_ctxt,
+        {
+            let mut visitor = InfectionCollector {
+                config,
+                unresolved_ctxt,
 
-            exclude: &decls,
-            ctx: Ctx {
-                track_expr_ident: true,
-                ..Default::default()
-            },
-            accesses: accesses.clone(),
-        };
+                exclude: &decls,
+                ctx: Ctx {
+                    track_expr_ident: true,
+                    ..Default::default()
+                },
+                accesses: accesses.clone(),
+            };
 
-        node.visit_with(&mut visitor);
-    }
+            node.visit_with(&mut visitor);
+        }
 
-    Arc::try_unwrap(accesses)
-        .map_err(|_| {})
-        .unwrap()
-        .into_iter()
-        .flat_map(RefCell::into_inner)
-        .collect()
+        Arc::try_unwrap(accesses)
+            .map_err(|_| {})
+            .unwrap()
+            .into_iter()
+            .flat_map(RefCell::into_inner)
+            .collect()
+    })
 }
 
 pub struct InfectionCollector<'a> {
