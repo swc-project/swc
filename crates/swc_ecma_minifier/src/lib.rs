@@ -87,7 +87,6 @@ pub mod marks {
 const DISABLE_BUGGY_PASSES: bool = true;
 
 pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
-pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 8);
 pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 pub fn optimize(
