@@ -1,6 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
-use swc_ecma_ast::{fast_id, BindingIdent, FastId, Id, Ident};
+use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, UnsafeId};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
     fn from_ident(i: &Ident) -> Self;
@@ -70,17 +70,17 @@ impl IdentLike for Ident {
     }
 }
 
-impl IdentLike for FastId {
+impl IdentLike for UnsafeId {
     fn from_ident(i: &Ident) -> Self {
-        unsafe { fast_id(&i.to_id()) }
+        unsafe { unsafe_id_from_ident(i) }
     }
 
     fn to_id(&self) -> Id {
-        unreachable!("FastId.to_id() is not allowed because it is very likely to be unsafe")
+        unreachable!("UnsafeId.to_id() is not allowed because it is very likely to be unsafe")
     }
 
     fn into_id(self) -> Id {
-        unreachable!("FastId.into_id() is not allowed because it is very likely to be unsafe")
+        unreachable!("UnsafeId.into_id() is not allowed because it is very likely to be unsafe")
     }
 }
 
