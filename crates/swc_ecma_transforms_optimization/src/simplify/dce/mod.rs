@@ -156,7 +156,8 @@ impl Data {
         let edges = take(&mut self.edges);
 
         let mut graph = FastDiGraphMap::with_capacity(self.used_names.len(), self.edges.0.len());
-        let mut graph_ix = IndexMap::<Id, u32, RandomState>::default();
+        let mut graph_ix: IndexMap<(JsWord, SyntaxContext), u32, RandomState> =
+            IndexMap::with_capacity_and_hasher(self.used_names.len(), Default::default());
 
         let mut get_node = |id: Id| -> u32 {
             let len = graph_ix.len();
