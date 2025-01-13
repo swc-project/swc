@@ -23,9 +23,10 @@ trace-ast     = []
 tracing-spans = []
 
 [dependencies]
-indexmap   = { workspace = true }
-rustc-hash = { workspace = true }
-tracing    = { workspace = true }
+indexmap     = { workspace = true }
+rustc-hash   = { workspace = true }
+thread_local = { workspace = true }
+tracing      = { workspace = true }
 
 swc_atoms      = { version = "3.0.2", path = "../swc_atoms" }
 swc_common     = { version = "5.0.0", path = "../swc_common" }
