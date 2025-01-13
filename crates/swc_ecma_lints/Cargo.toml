@@ -39,7 +39,7 @@ pretty_assertions         = { workspace = true }
 swc_ecma_codegen          = { version = "5.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser           = { version = "6.0.2", path = "../swc_ecma_parser" }
 swc_ecma_testing          = { version = "5.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base  = { version = "7.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base  = { version = "7.1.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
 testing                   = { version = "5.0.0", path = "../testing" }
 walkdir                   = { workspace = true }
