@@ -155,7 +155,7 @@ impl Data {
     fn subtract_cycles(&mut self) {
         let edges = take(&mut self.edges);
 
-        let mut graph = FastDiGraphMap::default();
+        let mut graph = FastDiGraphMap::with_capacity(self.used_names.len(), self.edges.0.len());
         let mut graph_ix = IndexMap::<Id, u32, RandomState>::default();
 
         let mut get_node = |id: Id| -> u32 {
