@@ -465,14 +465,14 @@ impl From<IdentName> for BindingIdent {
     }
 }
 
-/// FastId is a wrapper around [Id] that does not allocate, but extremely
+/// UnsafeId is a wrapper around [Id] that does not allocate, but extremely
 /// unsafe.
 ///
 /// Do not use this unless you know what you are doing.
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
-pub type FastId = (FastAtom, SyntaxContext);
+pub type UnsafeId = (FastAtom, SyntaxContext);
 
 /// This is extremely unsafe so don't use it unless you know what you are doing.
 ///
@@ -482,7 +482,7 @@ pub type FastId = (FastAtom, SyntaxContext);
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
-pub unsafe fn fast_id(id: &Id) -> FastId {
+pub unsafe fn unsafe_id(id: &Id) -> UnsafeId {
     (FastAtom::new(&id.0), id.1)
 }
 
@@ -494,7 +494,7 @@ pub unsafe fn fast_id(id: &Id) -> FastId {
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
-pub unsafe fn fast_id_from_ident(id: &Ident) -> FastId {
+pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
     (FastAtom::new(&id.sym), id.ctxt)
 }
 
