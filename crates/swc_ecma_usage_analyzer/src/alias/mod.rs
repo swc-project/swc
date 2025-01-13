@@ -1,10 +1,13 @@
 #![allow(clippy::needless_update)]
 
+use std::sync::Arc;
+
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use thread_local::ThreadLocal;
 
 pub use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
@@ -78,7 +81,7 @@ where
             track_expr_ident: true,
             ..Default::default()
         },
-        accesses: FxHashSet::default(),
+        accesses: Default::default(),
     };
 
     node.visit_with(&mut visitor);
@@ -95,7 +98,7 @@ pub struct InfectionCollector<'a> {
 
     ctx: Ctx,
 
-    accesses: FxHashSet<Access>,
+    accesses: Arc<ThreadLocal<FxHashSet<Access>>>,
 }
 
 impl InfectionCollector<'_> {
