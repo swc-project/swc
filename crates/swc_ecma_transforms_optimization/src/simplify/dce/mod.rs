@@ -624,31 +624,31 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_exprs(&mut self, n: &[Box<Expr>]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_stmts(&mut self, n: &[Stmt]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 
     fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
-        self.visit_par(cpu_count(), n);
+        self.visit_par(cpu_count() * 8, n);
     }
 }
 
