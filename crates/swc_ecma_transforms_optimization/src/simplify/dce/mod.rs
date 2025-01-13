@@ -262,7 +262,14 @@ impl Parallel for Analyzer<'_> {
 
         self.scope
             .bindings_affected_by_eval
+            .reserve(other.scope.bindings_affected_by_eval.len());
+        self.scope
+            .bindings_affected_by_eval
             .extend(other.scope.bindings_affected_by_eval);
+
+        self.scope
+            .bindings_affected_by_arguements
+            .reserve(other.scope.bindings_affected_by_arguements.len());
         self.scope
             .bindings_affected_by_arguements
             .extend(other.scope.bindings_affected_by_arguements);
@@ -1233,6 +1240,8 @@ where
     S: BuildHasher,
 {
     fn merge(&mut self, other: Self) {
+        self.reserve(other.len());
+
         for (k, v) in other {
             match self.entry(k) {
                 std::collections::hash_map::Entry::Occupied(mut e) => {
@@ -1253,6 +1262,8 @@ where
     S: BuildHasher,
 {
     fn merge(&mut self, other: Self) {
+        self.reserve(other.len());
+
         for (k, v) in other {
             match self.entry(k) {
                 indexmap::map::Entry::Occupied(mut e) => {
