@@ -24,65 +24,27 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 jobs:
-  # list-crates:
-  #   if: >-
-  #     ${{ !contains(github.event.head_commit.message, 'chore: ') }}
-  #   name: List crates
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     crates: ${{ steps.list-crates.outputs.crates }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Install Rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-
-  #     - name: List crates
-  #       id: list-crates
-  #       run: echo "crates=$(./scripts/cargo/get-crates.sh)" >> $GITHUB_OUTPUT
-
-  # bench-crate:
-  #   name: Bench ${{ matrix.crate }}
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - list-crates
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       crate: ${{fromJson(needs.list-crates.outputs.crates)}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Install Rust
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-
-  #     - uses: ./.github/actions/setup-node
-
-  #     - name: Setup rust toolchain, cache and cargo-codspeed binary
-  #       uses: moonrepo/setup-rust@v0
-  #       with:
-  #         channel: stable
-  #         cache-target: release
-  #         bins: cargo-codspeed
-
-  #     - name: Build the benchmark target(s)
-  #       run: cargo codspeed build -p ${{ matrix.crate }}
-
-  #     - name: Run the benchmarks
-  #       uses: CodSpeedHQ/action@v2
-  #       with:
-  #         run: cargo codspeed run -p ${{ matrix.crate }}
-  #         token: ${{ secrets.CODSPEED_TOKEN }}
-
-  bench-all:
-    name: Bench everything
+  list-crates:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    name: List crates to benchmark
     runs-on: ubuntu-22.04
+    outputs:
+      crates: ${{ steps.list-crates.outputs.crates }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: List crates
+        id: list-crates
+        run: echo "crates=$(./scripts/bench/list-crates-with-bench.sh)" >> $GITHUB_OUTPUT
+
+  build-crate:
+    name: Build benchmark for ${{ matrix.crate }}
+    runs-on: ubuntu-22.04
+    needs: list-crates
+    strategy:
+      matrix:
+        crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
       - uses: actions/checkout@v4
 
@@ -91,7 +53,13 @@ jobs:
         with:
           profile: minimal
 
-      - uses: ./.github/actions/setup-node
+      - uses: Swatinem/rust-cache@v2
+        # Some crates are too slow to build
+        if: matrix.crate == 'swc'
+        with:
+          shared-key: "bench-${{ matrix.crate }}"
+          key: "bench-${{ matrix.crate }}"
+          cache-all-crates: true
 
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
@@ -99,10 +67,51 @@ jobs:
           tool: cargo-codspeed@2.7.2
 
       - name: Build the benchmark target(s)
-        run: ./scripts/bench/build-all-crates.sh
+        run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
+
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-${{ matrix.crate }}
+          path: target/codspeed
+
+  bench-all:
+    name: Run benchmarks
+    needs: build-crate
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install cargo-codspeed
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-codspeed@2.7.2
+
+      - run: mkdir -p target/codspeed
+
+      - name: Download built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bench-*
+          path: target/codspeed
+          merge-multiple: true
+
+      - run: ls -alR target/codspeed
+
+      - run: chmod -R +x target/codspeed/*
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v2
+        uses: CodSpeedHQ/action@v3
         with:
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}

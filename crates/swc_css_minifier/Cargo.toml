@@ -29,7 +29,3 @@ swc_css_codegen = { version = "5.0.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "5.0.0", path = "../swc_css_parser" }
 swc_malloc      = { version = "1.0.0", path = "../swc_malloc" }
 testing         = { version = "5.0.0", path = "../testing" }
-
-[[bench]]
-harness = false
-name    = "full"
