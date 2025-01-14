@@ -28,7 +28,7 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates to benchmark
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
@@ -40,7 +40,7 @@ jobs:
 
   build-crate:
     name: Build benchmark for ${{ matrix.crate }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: list-crates
     strategy:
       matrix:
