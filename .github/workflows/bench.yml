@@ -94,7 +94,7 @@ jobs:
         with:
           profile: minimal
 
-      - uses: ./.github/actions/setup-node
+      # - uses: ./.github/actions/setup-node
 
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
