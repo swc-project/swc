@@ -34,8 +34,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-node
-
       - name: List crates
         id: list-crates
         run: echo "crates=$(./scripts/bench/list-crates-with-bench.sh)" >> $GITHUB_OUTPUT
