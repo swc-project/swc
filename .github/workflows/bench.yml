@@ -80,9 +80,12 @@ jobs:
 
   bench-all:
     name: Bench everything
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
-    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
