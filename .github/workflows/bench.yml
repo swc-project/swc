@@ -71,6 +71,7 @@ jobs:
 
   bench-all:
     name: Run benchmarks
+    needs: build-crate
     runs-on:
       - self-hosted
       - linux
