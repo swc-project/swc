@@ -1,6 +1,6 @@
 #![allow(clippy::needless_update)]
 
-use std::{cell::RefCell, sync::Arc};
+use std::cell::RefCell;
 
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
@@ -81,7 +81,7 @@ where
             .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
         let decls = collect_decls(node);
 
-        let accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>> = Arc::default();
+        let accesses: ThreadLocal<RefCell<FxHashSet<Access>>> = Default::default();
 
         {
             let mut visitor = InfectionCollector {
@@ -93,18 +93,13 @@ where
                     track_expr_ident: true,
                     ..Default::default()
                 },
-                accesses: accesses.clone(),
+                accesses: &accesses,
             };
 
             node.visit_with(&mut visitor);
         }
 
-        Arc::try_unwrap(accesses)
-            .map_err(|_| {})
-            .unwrap()
-            .into_iter()
-            .flat_map(RefCell::into_inner)
-            .collect()
+        accesses.into_iter().flat_map(RefCell::into_inner).collect()
     })
 }
 
@@ -117,15 +112,12 @@ pub struct InfectionCollector<'a> {
 
     ctx: Ctx,
 
-    accesses: Arc<ThreadLocal<RefCell<FxHashSet<Access>>>>,
+    accesses: &'a ThreadLocal<RefCell<FxHashSet<Access>>>,
 }
 
 impl Parallel for InfectionCollector<'_> {
     fn create(&self) -> Self {
-        Self {
-            accesses: self.accesses.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, _: Self) {}
