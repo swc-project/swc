@@ -94,6 +94,8 @@ jobs:
         with:
           profile: minimal
 
+      - run: apt update && apt install libc6
+
       # - uses: ./.github/actions/setup-node
 
       - name: Install cargo-codspeed
