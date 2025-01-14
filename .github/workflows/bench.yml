@@ -94,7 +94,10 @@ jobs:
         with:
           profile: minimal
 
-      - run: apt update && apt install libc6
+      - name: Install GLIBC 2.34
+        run: |
+          sudo apt-get update
+          sudo apt-get install libc6=2.34-0ubuntu3
 
       # - uses: ./.github/actions/setup-node
 
