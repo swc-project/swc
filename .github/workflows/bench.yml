@@ -105,7 +105,7 @@ jobs:
         run: ./scripts/bench/build-all-crates.sh
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v2
+        uses: CodSpeedHQ/action@v3
         with:
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}
