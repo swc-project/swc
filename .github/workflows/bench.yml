@@ -53,7 +53,12 @@ jobs:
         with:
           profile: minimal
 
-      # - uses: ./.github/actions/setup-node
+      - uses: Swatinem/rust-cache@v2
+        # Some crates are too slow to build
+        if: matrix.crate == 'swc'
+        with:
+          shared-key: "bench-${{ matrix.crate }}"
+          key: "bench-${{ matrix.crate }}"
 
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
