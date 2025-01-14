@@ -59,6 +59,7 @@ jobs:
         with:
           shared-key: "bench-${{ matrix.crate }}"
           key: "bench-${{ matrix.crate }}"
+          cache-all-crates: true
 
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
