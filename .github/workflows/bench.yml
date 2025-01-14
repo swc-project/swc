@@ -107,6 +107,8 @@ jobs:
 
       - run: ls -alR target/codspeed
 
+      - run: chmod -R +x target/codspeed/*
+
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v3
         with:
