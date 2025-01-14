@@ -87,15 +87,21 @@ jobs:
         with:
           profile: minimal
 
-      # - uses: ./.github/actions/setup-node
-
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-codspeed@2.7.2
 
-      - name: Build the benchmark target(s)
-        run: ./scripts/bench/build-all-crates.sh
+      - run: mkdir -p target/codspeed
+
+      - name: Download built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bench-*
+          path: target/codspeed
+          merge-multiple: true
+
+      - run: ls -alR target/codspeed
 
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v3
