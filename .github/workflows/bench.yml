@@ -40,6 +40,32 @@ jobs:
         id: list-crates
         run: echo "crates=$(./scripts/bench/list-crates-with-bench.sh)" >> $GITHUB_OUTPUT
 
+  build-crates:
+    name: Build benchmark for ${{ matrix.crates }}
+    runs-on: ubuntu-latest
+    needs: list-crates
+    strategy:
+      fail-fast: false
+      matrix:
+        crates: ${{fromJson(needs.list-crates.outputs.crates)}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      # - uses: ./.github/actions/setup-node
+
+      - name: Install cargo-codspeed
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-codspeed@2.7.2
+
+      - name: Build the benchmark target(s)
+        run: ./scripts/bench/build-crate.sh ${{ matrix.crates }}
+
   bench-all:
     name: Bench everything
     runs-on:
