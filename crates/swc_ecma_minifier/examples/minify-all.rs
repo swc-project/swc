@@ -26,10 +26,11 @@ fn main() {
     let files = expand_dirs(dirs);
     eprintln!("Using {} files", files.len());
 
-    let start = Instant::now();
-    minify_all(files);
-
-    eprintln!("Took {:?}", start.elapsed());
+    for i in 0..100 {
+        let start = Instant::now();
+        minify_all(&files);
+        eprintln!("{}: Took {:?}", i, start.elapsed());
+    }
 }
 
 /// Return the whole input files as abolute path.
@@ -65,7 +66,7 @@ impl Parallel for Worker {
 }
 
 #[inline(never)] // For profiling
-fn minify_all(files: Vec<PathBuf>) {
+fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
         Worker.maybe_par(2, files, |_, path| {
             testing::run_test(false, |cm, handler| {
