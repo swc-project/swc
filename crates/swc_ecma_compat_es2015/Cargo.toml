@@ -20,7 +20,7 @@ rustc-hash   = { workspace = true }
 serde        = { workspace = true }
 serde_derive = { workspace = true }
 smallvec     = { workspace = true }
-swc_atoms    = { version = "3.0.2", path = "../swc_atoms" }
+swc_atoms    = { version = "3.0.3", path = "../swc_atoms" }
 
 
 swc_common                  = { version = "5.0.0", path = "../swc_common" }
@@ -30,7 +30,7 @@ swc_ecma_compat_common      = { version = "7.0.0", path = "../swc_ecma_compat_co
 swc_ecma_transforms_base    = { version = "7.1.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "7.0.0", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
-swc_ecma_utils              = { version = "7.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils              = { version = "7.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_trace_macro             = { version = "2.0.0", path = "../swc_trace_macro" }
 tracing                     = { workspace = true }

@@ -19,7 +19,7 @@ parking_lot = { workspace = true }
 regex       = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
-swc_atoms = { version = "3.0.2", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.3", path = "../swc_atoms" }
 swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
@@ -27,7 +27,7 @@ swc_config = { version = "1.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "7.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "7.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_parallel = { version = "1.0.1", path = "../swc_parallel", default-features = false }
 

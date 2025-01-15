@@ -4502,7 +4502,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "3.0.2"
+version = "3.0.3"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.0",
@@ -4680,7 +4680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.2.0"
+version = "10.2.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5547,7 +5547,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "either",
  "rustc-hash",
@@ -5662,7 +5662,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "indexmap 2.5.0",
  "num_cpus",

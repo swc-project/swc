@@ -19,7 +19,7 @@ serde-impl = ["serde"]
 nom   = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "3.0.2", path = "../swc_atoms" }
+swc_atoms  = { version = "3.0.3", path = "../swc_atoms" }
 swc_common = { version = "5.0.0", path = "../swc_common" }
 
 [dev-dependencies]
