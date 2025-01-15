@@ -26,7 +26,7 @@ fn main() {
     let files = expand_dirs(dirs);
     eprintln!("Using {} files", files.len());
 
-    for i in 0..100 {
+    for i in 0..10 {
         let start = Instant::now();
         minify_all(&files);
         eprintln!("{}: Took {:?}", i, start.elapsed());
