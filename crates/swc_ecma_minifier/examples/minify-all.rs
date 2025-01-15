@@ -6,7 +6,7 @@ use std::{env, fs, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
-use swc_common::{sync::Lrc, Mark, SourceMap};
+use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -66,57 +66,59 @@ impl Parallel for Worker {
 
 #[inline(never)] // For profiling
 fn minify_all(files: Vec<PathBuf>) {
-    Worker.maybe_par(2, files, |_, path| {
-        testing::run_test(false, |cm, handler| {
-            let fm = cm.load_file(&path).expect("failed to load file");
+    GLOBALS.set(&Default::default(), || {
+        Worker.maybe_par(2, files, |_, path| {
+            testing::run_test(false, |cm, handler| {
+                let fm = cm.load_file(&path).expect("failed to load file");
 
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
+                let unresolved_mark = Mark::new();
+                let top_level_mark = Mark::new();
 
-            let program = parse_file_as_module(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut Vec::new(),
-            )
-            .map_err(|err| {
-                err.into_diagnostic(handler).emit();
-            })
-            .map(Program::Module)
-            .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)))
-            .map(|module| module.apply(&mut paren_remover(None)))
-            .unwrap();
+                let program = parse_file_as_module(
+                    &fm,
+                    Default::default(),
+                    Default::default(),
+                    None,
+                    &mut Vec::new(),
+                )
+                .map_err(|err| {
+                    err.into_diagnostic(handler).emit();
+                })
+                .map(Program::Module)
+                .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)))
+                .map(|module| module.apply(&mut paren_remover(None)))
+                .unwrap();
 
-            let output = optimize(
-                program,
-                cm.clone(),
-                None,
-                None,
-                &MinifyOptions {
-                    compress: Some(Default::default()),
-                    mangle: Some(MangleOptions {
-                        top_level: Some(true),
+                let output = optimize(
+                    program,
+                    cm.clone(),
+                    None,
+                    None,
+                    &MinifyOptions {
+                        compress: Some(Default::default()),
+                        mangle: Some(MangleOptions {
+                            top_level: Some(true),
+                            ..Default::default()
+                        }),
                         ..Default::default()
-                    }),
-                    ..Default::default()
-                },
-                &ExtraOptions {
-                    unresolved_mark,
-                    top_level_mark,
-                    mangle_name_cache: None,
-                },
-            );
+                    },
+                    &ExtraOptions {
+                        unresolved_mark,
+                        top_level_mark,
+                        mangle_name_cache: None,
+                    },
+                );
 
-            let output = output.apply(&mut fixer(None));
+                let output = output.apply(&mut fixer(None));
 
-            let code = print(cm.clone(), &[output], true);
+                let code = print(cm.clone(), &[output], true);
 
-            fs::write("output.js", code.as_bytes()).expect("failed to write output");
+                fs::write("output.js", code.as_bytes()).expect("failed to write output");
 
-            Ok(())
-        })
-        .unwrap()
+                Ok(())
+            })
+            .unwrap()
+        });
     });
 }
 
