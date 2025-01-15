@@ -13,25 +13,28 @@ use wasm_bindgen_futures::{
 /// auto generated one, which is not reflecting most of types in detail.
 #[wasm_bindgen(typescript_custom_section)]
 const INTERFACE_DEFINITIONS: &'static str = r#"
-export declare function transform(src: string, opts?: Options): Promise<TransformOutput>;
-export declare function transformSync(src: string, opts?: Options): TransformOutput;
+export declare function transform(src: string | Buffer, opts?: Options): Promise<TransformOutput>;
+export declare function transformSync(src: string | Buffer, opts?: Options): TransformOutput;
 export type { Options, TransformOutput };
 "#;
 
 #[wasm_bindgen(skip_typescript)]
-pub fn transform(input: JsString, options: JsValue) -> Promise {
+pub fn transform(input: JsValue, options: JsValue) -> Promise {
     future_to_promise(async move { transform_sync(input, options) })
 }
 
 #[wasm_bindgen(js_name = "transformSync", skip_typescript)]
-pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {
+pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsValue> {
     let options: Options = if options.is_falsy() {
         Default::default()
     } else {
         serde_wasm_bindgen::from_value(options)?
     };
 
-    let input = input.as_string().unwrap();
+    let input = match input.as_string() {
+        Some(input) => input,
+        None => return Err(JsValue::from_str("Input is not a string")),
+    };
 
     let result = GLOBALS
         .set(&Default::default(), || operate(input, options))
