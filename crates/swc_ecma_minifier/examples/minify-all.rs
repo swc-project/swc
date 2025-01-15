@@ -26,7 +26,7 @@ fn main() {
     eprintln!("Using {} files", files.len());
 
     let start = Instant::now();
-    minify_all(cm, files);
+    minify_all(files);
 
     eprintln!("Took {:?}", start.elapsed());
 }
@@ -54,7 +54,7 @@ fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
 }
 
 #[inline(never)] // For profiling
-fn minify_all(cm: Lrc<SourceMap>, files: Vec<PathBuf>) {
+fn minify_all(files: Vec<PathBuf>) {
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
             HANDLER.set(&handler, || {
