@@ -26,6 +26,35 @@ fn main() {
     eprintln!("Using {} files", files.len());
 
     let start = Instant::now();
+    minify_all(files);
+
+    eprintln!("Took {:?}", start.elapsed());
+}
+
+/// Return the whole input files as abolute path.
+fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
+    dirs.into_par_iter()
+        .map(PathBuf::from)
+        .map(|dir| dir.canonicalize().unwrap())
+        .flat_map(|dir| {
+            WalkDir::new(dir)
+                .into_iter()
+                .filter_map(Result::ok)
+                .filter_map(|entry| {
+                    if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
+                        Some(entry.into_path())
+                    } else {
+                        None
+                    }
+                })
+                .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
+                .collect::<Vec<_>>()
+        })
+        .collect()
+}
+
+#[inline(never)] // For profiling
+fn minify_all(files: Vec<PathBuf>) {
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
             HANDLER.set(&handler, || {
@@ -91,31 +120,7 @@ fn main() {
             })
         })
     })
-    .unwrap();
-
-    eprintln!("Took {:?}", start.elapsed());
-}
-
-/// Return the whole input files as abolute path.
-fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
-    dirs.into_par_iter()
-        .map(PathBuf::from)
-        .map(|dir| dir.canonicalize().unwrap())
-        .flat_map(|dir| {
-            WalkDir::new(dir)
-                .into_iter()
-                .filter_map(Result::ok)
-                .filter_map(|entry| {
-                    if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
-                        Some(entry.into_path())
-                    } else {
-                        None
-                    }
-                })
-                .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
-                .collect::<Vec<_>>()
-        })
-        .collect()
+    .unwrap()
 }
 
 fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
