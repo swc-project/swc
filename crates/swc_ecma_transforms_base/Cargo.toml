@@ -34,7 +34,7 @@ swc_ecma_ast    = { version = "5.0.1", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
 swc_ecma_utils  = { version = "7.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit  = { version = "5.0.0", path = "../swc_ecma_visit" }
-swc_parallel = { version = "1.0.1", path = "../swc_parallel", default-features = false }
+swc_parallel    = { version = "1.0.1", path = "../swc_parallel", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
@@ -49,9 +49,6 @@ testing                    = { version = "5.0.0", path = "../testing" }
 [[bench]]
 harness = false
 name    = "base"
-[[bench]]
-harness = false
-name    = "deps"
 [[bench]]
 harness = false
 name    = "parallel"
