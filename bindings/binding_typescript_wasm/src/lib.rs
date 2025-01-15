@@ -4,10 +4,7 @@ use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use swc_fast_ts_strip::{ErrorCode, Options, TransformOutput, TsError};
 use wasm_bindgen::prelude::*;
-use wasm_bindgen_futures::{
-    future_to_promise,
-    js_sys::{JsString, Promise},
-};
+use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
 /// auto generated one, which is not reflecting most of types in detail.
