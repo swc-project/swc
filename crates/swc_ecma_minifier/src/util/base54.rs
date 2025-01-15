@@ -1,6 +1,8 @@
+use core::simd::*;
 use std::{cmp::Reverse, io, ops::AddAssign};
 
 use arrayvec::ArrayVec;
+use cmp::SimdPartialOrd;
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -186,32 +188,55 @@ impl WriteJs for CharFreq {
 }
 
 impl CharFreq {
-    pub fn scan(&mut self, s: &str, delta: i32) {
-        if delta == 0 {
-            return;
+    #[inline(never)]
+    fn scan_simd(&mut self, s: &[u8], delta: i32) {
+        let mut i = 0;
+        const LANES: usize = 32;
+
+        while i + LANES <= s.len() {
+            let chunk: Simd<u8, LANES> = Simd::from_slice(&s[i..i + LANES]);
+
+            // Check for lowercase letters (a-z)
+            let is_lower = chunk.simd_ge(Simd::splat(b'a')) & chunk.simd_le(Simd::splat(b'z'));
+            // Check for uppercase letters (A-Z)
+            let is_upper = chunk.simd_ge(Simd::splat(b'A')) & chunk.simd_le(Simd::splat(b'Z'));
+            // Check for digits (0-9)
+            let is_digit = chunk.simd_ge(Simd::splat(b'0')) & chunk.simd_le(Simd::splat(b'9'));
+
+            let lower_mask = is_lower.to_array();
+            let upper_mask = is_upper.to_array();
+            let digit_mask = is_digit.to_array();
+
+            for j in 0..LANES {
+                let byte = s[i + j];
+                if lower_mask[j] {
+                    self.0[byte as usize - b'a' as usize] += delta;
+                } else if upper_mask[j] {
+                    self.0[byte as usize - b'A' as usize + 26] += delta;
+                } else if digit_mask[j] {
+                    self.0[byte as usize - b'0' as usize + 52] += delta;
+                } else if byte == b'$' {
+                    self.0[62] += delta;
+                } else if byte == b'_' {
+                    self.0[63] += delta;
+                }
+            }
+
+            i += LANES;
         }
 
-        // #[cfg(feature = "debug")]
-        // {
-        //     let considered = s
-        //         .chars()
-        //         .filter(|&c| Ident::is_valid_continue(c))
-        //         .collect::<String>();
-        //     if !considered.is_empty() {
-        //         tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
-        //     }
-        // }
-
-        for &c in s.as_bytes() {
+        // Handle remaining bytes
+        while i < s.len() {
+            let c = s[i];
             match c {
                 b'a'..=b'z' => {
-                    self.0[c as usize - 'a' as usize] += delta;
+                    self.0[c as usize - b'a' as usize] += delta;
                 }
                 b'A'..=b'Z' => {
-                    self.0[c as usize - 'A' as usize + 26] += delta;
+                    self.0[c as usize - b'A' as usize + 26] += delta;
                 }
                 b'0'..=b'9' => {
-                    self.0[c as usize - '0' as usize + 52] += delta;
+                    self.0[c as usize - b'0' as usize + 52] += delta;
                 }
                 b'$' => {
                     self.0[62] += delta;
@@ -219,7 +244,40 @@ impl CharFreq {
                 b'_' => {
                     self.0[63] += delta;
                 }
+                _ => {}
+            }
+            i += 1;
+        }
+    }
 
+    pub fn scan(&mut self, s: &str, delta: i32) {
+        if delta == 0 {
+            return;
+        }
+
+        if s.len() >= 64 {
+            self.scan_simd(s.as_bytes(), delta);
+            return;
+        }
+
+        // Fallback implementation for short strings
+        for &c in s.as_bytes() {
+            match c {
+                b'a'..=b'z' => {
+                    self.0[c as usize - b'a' as usize] += delta;
+                }
+                b'A'..=b'Z' => {
+                    self.0[c as usize - b'A' as usize + 26] += delta;
+                }
+                b'0'..=b'9' => {
+                    self.0[c as usize - b'0' as usize + 52] += delta;
+                }
+                b'$' => {
+                    self.0[62] += delta;
+                }
+                b'_' => {
+                    self.0[63] += delta;
+                }
                 _ => {}
             }
         }
