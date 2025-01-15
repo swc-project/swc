@@ -37,6 +37,7 @@
 #![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
+#![feature(portable_simd)]
 
 use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
