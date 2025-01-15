@@ -1,4 +1,5 @@
 use anyhow::Error;
+use js_sys::Uint8Array;
 use serde::Serialize;
 use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -10,8 +11,8 @@ use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 /// auto generated one, which is not reflecting most of types in detail.
 #[wasm_bindgen(typescript_custom_section)]
 const INTERFACE_DEFINITIONS: &'static str = r#"
-export declare function transform(src: string | Buffer, opts?: Options): Promise<TransformOutput>;
-export declare function transformSync(src: string | Buffer, opts?: Options): TransformOutput;
+export declare function transform(src: string | Uint8Array, opts?: Options): Promise<TransformOutput>;
+export declare function transformSync(src: string | Uint8Array, opts?: Options): TransformOutput;
 export type { Options, TransformOutput };
 "#;
 
@@ -30,7 +31,17 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
 
     let input = match input.as_string() {
         Some(input) => input,
-        None => return Err(JsValue::from_str("Input is not a string")),
+        None => {
+            if input.is_instance_of::<Uint8Array>() {
+                let input = input.unchecked_into::<Uint8Array>();
+                match input.to_string().as_string() {
+                    Some(input) => input,
+                    None => return Err(JsValue::from_str("Input Uint8Array is not valid utf-8")),
+                }
+            } else {
+                return Err(JsValue::from_str("Input is not a string or Uint8Array"));
+            }
+        }
     };
 
     let result = GLOBALS
