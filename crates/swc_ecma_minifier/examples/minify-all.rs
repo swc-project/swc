@@ -6,7 +6,7 @@ use std::{env, fs, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
-use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
+use swc_common::{sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -81,7 +81,7 @@ fn minify_all(files: Vec<PathBuf>) {
                 &mut Vec::new(),
             )
             .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
+                err.into_diagnostic(handler).emit();
             })
             .map(Program::Module)
             .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)))
