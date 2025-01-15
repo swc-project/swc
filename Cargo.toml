@@ -103,6 +103,7 @@ resolver = "2"
   tempfile                  = "3.6.0"
   termcolor                 = "1.0"
   thiserror                 = "1.0.30"
+  thread_local              = "1.1.8"
   tokio                     = { version = "1", default-features = false }
   toml                      = "0.8.2"
   tracing                   = "0.1.40"

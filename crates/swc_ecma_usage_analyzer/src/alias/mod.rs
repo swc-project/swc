@@ -1,17 +1,28 @@
 #![allow(clippy::needless_update)]
 
+use std::cell::RefCell;
+
 use rustc_hash::FxHashSet;
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::ParVisit,
+};
+use swc_ecma_utils::{
+    collect_decls,
+    parallel::{cpu_count, Parallel},
+    BindingCollector,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use thread_local::ThreadLocal;
 
 pub use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 
 mod ctx;
 
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct AliasConfig {
     pub marks: Option<Marks>,
     pub ignore_nested: bool,
@@ -60,30 +71,36 @@ where
         + VisitWith<BindingCollector<Id>>
         + for<'aa> VisitWith<InfectionCollector<'aa>>,
 {
-    if config.ignore_nested && node.is_fn_or_arrow_expr() {
-        return Default::default();
-    }
+    HELPERS.set(&Helpers::new(true), || {
+        if config.ignore_nested && node.is_fn_or_arrow_expr() {
+            return Default::default();
+        }
 
-    let unresolved_ctxt = config
-        .marks
-        .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
-    let decls = collect_decls(node);
+        let unresolved_ctxt = config
+            .marks
+            .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
+        let decls = collect_decls(node);
 
-    let mut visitor = InfectionCollector {
-        config,
-        unresolved_ctxt,
+        let accesses: ThreadLocal<RefCell<FxHashSet<Access>>> = Default::default();
 
-        exclude: &decls,
-        ctx: Ctx {
-            track_expr_ident: true,
-            ..Default::default()
-        },
-        accesses: FxHashSet::default(),
-    };
+        {
+            let mut visitor = InfectionCollector {
+                config,
+                unresolved_ctxt,
 
-    node.visit_with(&mut visitor);
+                exclude: &decls,
+                ctx: Ctx {
+                    track_expr_ident: true,
+                    ..Default::default()
+                },
+                accesses: &accesses,
+            };
 
-    visitor.accesses
+            node.visit_with(&mut visitor);
+        }
+
+        accesses.into_iter().flat_map(RefCell::into_inner).collect()
+    })
 }
 
 pub struct InfectionCollector<'a> {
@@ -95,7 +112,15 @@ pub struct InfectionCollector<'a> {
 
     ctx: Ctx,
 
-    accesses: FxHashSet<Access>,
+    accesses: &'a ThreadLocal<RefCell<FxHashSet<Access>>>,
+}
+
+impl Parallel for InfectionCollector<'_> {
+    fn create(&self) -> Self {
+        Self { ..*self }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl InfectionCollector<'_> {
@@ -108,7 +133,7 @@ impl InfectionCollector<'_> {
             return;
         }
 
-        self.accesses.insert((
+        self.accesses.get_or_default().borrow_mut().insert((
             e.clone(),
             if self.ctx.is_callee {
                 AccessKind::Call
@@ -292,5 +317,33 @@ impl Visit for InfectionCollector<'_> {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.visit_par(cpu_count() * 8, n);
     }
 }

@@ -49,6 +49,7 @@ rustc-hash        = { workspace = true }
 ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
+thread_local      = { workspace = true }
 tracing           = { workspace = true }
 
 
