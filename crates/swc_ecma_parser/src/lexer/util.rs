@@ -11,10 +11,7 @@ use swc_common::{
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{
-    comments_buffer::BufferedComment, input::Input, whitespace::SkipWhitespace, Char, LexResult,
-    Lexer,
-};
+use super::{comments_buffer::BufferedComment, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
@@ -22,8 +19,8 @@ use crate::{
 };
 
 impl Lexer<'_> {
-    pub(super) fn span(&self, start: BytePos) -> Span {
-        let end = self.last_pos();
+    pub(super) fn span(&mut self, start: BytePos) -> Span {
+        let end = self.input.cur_hi();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
                 "assertion failed: (span.start <= span.end).
@@ -36,50 +33,7 @@ impl Lexer<'_> {
 
     #[inline(always)]
     pub(super) fn bump(&mut self) {
-        unsafe {
-            // Safety: Actually this is not safe but this is an internal method.
-            self.input.bump()
-        }
-    }
-
-    #[inline(always)]
-    pub(super) fn is(&mut self, c: u8) -> bool {
-        self.input.is_byte(c)
-    }
-
-    #[inline(always)]
-    pub(super) fn is_str(&self, s: &str) -> bool {
-        self.input.is_str(s)
-    }
-
-    #[inline(always)]
-    pub(super) fn eat(&mut self, c: u8) -> bool {
-        self.input.eat_byte(c)
-    }
-
-    #[inline(always)]
-    pub(super) fn cur(&mut self) -> Option<char> {
-        self.input.cur()
-    }
-
-    #[inline(always)]
-    pub(super) fn peek(&mut self) -> Option<char> {
-        self.input.peek()
-    }
-
-    #[inline(always)]
-    pub(super) fn peek_ahead(&mut self) -> Option<char> {
-        self.input.peek_ahead()
-    }
-
-    #[inline(always)]
-    pub(super) fn cur_pos(&mut self) -> BytePos {
-        self.input.cur_pos()
-    }
-
-    #[inline(always)]
-    pub(super) fn last_pos(&self) -> BytePos {
-        self.input.last_pos()
+        self.input.next();
     }
 
     /// Shorthand for `let span = self.span(start); self.error_span(span)`
@@ -150,149 +104,6 @@ impl Lexer<'_> {
         let err = Error::new(span, kind);
 
         self.add_module_mode_error(err);
-    }
-
-    /// Skip comments or whitespaces.
-    ///
-    /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
-        loop {
-            let (offset, newline) = {
-                let mut skip = SkipWhitespace {
-                    input: self.input.as_str(),
-                    newline: false,
-                    offset: 0,
-                };
-
-                skip.scan();
-
-                (skip.offset, skip.newline)
-            };
-
-            self.input.bump_bytes(offset as usize);
-            if newline {
-                self.state.had_line_break = true;
-            }
-
-            if LEX_COMMENTS && self.input.is_byte(b'/') {
-                if self.peek() == Some('/') {
-                    self.skip_line_comment(2);
-                    continue;
-                } else if self.peek() == Some('*') {
-                    self.skip_block_comment();
-                    continue;
-                }
-            }
-
-            break;
-        }
-    }
-
-    #[inline(never)]
-    pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
-        let start = self.cur_pos();
-        self.input.bump_bytes(start_skip);
-        let slice_start = self.cur_pos();
-
-        // foo // comment for foo
-        // bar
-        //
-        // foo
-        // // comment for bar
-        // bar
-        //
-        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
-
-        let idx = self
-            .input
-            .as_str()
-            .find(['\r', '\n', '\u{2028}', '\u{2029}'])
-            .map_or(self.input.as_str().len(), |v| {
-                self.state.had_line_break = true;
-                v
-            });
-
-        self.input.bump_bytes(idx);
-        let end = self.cur_pos();
-
-        if let Some(comments) = self.comments_buffer.as_mut() {
-            let s = unsafe {
-                // Safety: We know that the start and the end are valid
-                self.input.slice(slice_start, end)
-            };
-            let cmt = Comment {
-                kind: CommentKind::Line,
-                span: Span::new(start, end),
-                text: self.atoms.atom(s),
-            };
-
-            if is_for_next {
-                comments.push_pending_leading(cmt);
-            } else {
-                comments.push(BufferedComment {
-                    kind: BufferedCommentKind::Trailing,
-                    pos: self.state.prev_hi,
-                    comment: cmt,
-                });
-            }
-        }
-
-        unsafe {
-            // Safety: We got end from self.input
-            self.input.reset_to(end);
-        }
-    }
-
-    /// Expects current char to be '/' and next char to be '*'.
-    #[inline(never)]
-    pub(super) fn skip_block_comment(&mut self) {
-        let start = self.cur_pos();
-
-        debug_assert_eq!(self.cur(), Some('/'));
-        debug_assert_eq!(self.peek(), Some('*'));
-
-        self.input.bump_bytes(2);
-
-        // jsdoc
-        let slice_start = self.cur_pos();
-        let mut was_star = if self.input.is_byte(b'*') {
-            self.bump();
-            true
-        } else {
-            false
-        };
-
-        let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
-
-        while let Some(c) = self.cur() {
-            if was_star && c == '/' {
-                debug_assert_eq!(self.cur(), Some('/'));
-                self.bump(); // '/'
-
-                let end = self.cur_pos();
-
-                self.skip_space::<false>();
-
-                if self.input.is_byte(b';') {
-                    is_for_next = false;
-                }
-
-                self.store_comment(is_for_next, start, end, slice_start);
-
-                return;
-            }
-            if c.is_line_terminator() {
-                self.state.had_line_break = true;
-            }
-
-            was_star = c == '*';
-            self.bump();
-        }
-
-        let end = self.input.end_pos();
-        let span = Span::new(end, end);
-        self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
     }
 
     #[inline(never)]

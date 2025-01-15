@@ -7,6 +7,7 @@ use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span, Spanned,
 };
+use swc_ecma_raw_lexer::LogosError;
 
 use crate::token::Token;
 
@@ -292,6 +293,8 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+
+    UnexpectedCharFromLexer,
 }
 
 impl SyntaxError {
@@ -758,6 +761,7 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
+            SyntaxError::UnexpectedCharFromLexer => "Unexpected character".into(),
         }
     }
 }
@@ -799,4 +803,13 @@ impl Error {
 #[test]
 fn size_of_error() {
     assert_eq!(std::mem::size_of::<Error>(), 8);
+}
+
+impl From<LogosError> for SyntaxError {
+    fn from(e: LogosError) -> Self {
+        match e {
+            LogosError::UnterminatedStr => SyntaxError::UnterminatedStrLit,
+            LogosError::UnknownChar => SyntaxError::UnexpectedCharFromLexer,
+        }
+    }
 }

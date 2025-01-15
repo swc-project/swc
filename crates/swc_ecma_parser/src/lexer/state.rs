@@ -1,17 +1,17 @@
 use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
-use swc_common::{BytePos, Span};
+use swc_common::BytePos;
+use swc_ecma_raw_lexer::RawToken;
 use tracing::trace;
 
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
+    Context, Lexer,
 };
 use crate::{
-    error::{Error, SyntaxError},
+    error::Error,
     input::Tokens,
-    lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
 };
@@ -260,14 +260,17 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
+        self.read_any_token(start)
+    }
 
-        match self.input.cur() {
-            Some(..) => {}
+    pub(super) fn read_any_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
+        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+            let start = self.state.tpl_start;
+            return self.read_tmpl_token(start).map(Some);
+        }
+
+        let c = match self.cur()? {
+            Some(v) => v,
             // End of input.
             None => {
                 self.consume_pending_comments();
@@ -275,6 +278,8 @@ impl Lexer<'_> {
                 return Ok(None);
             }
         };
+        dbg!(&c, start.0, self.input.cur_slice());
+        dbg!(&self.state.context.current());
 
         // println!(
         //     "\tContext: ({:?}) {:?}",
@@ -287,62 +292,38 @@ impl Lexer<'_> {
         if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
+                return self.read_jsx_token(start);
             }
 
-            let c = self.cur();
-            if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
+            if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                || self.state.context.current() == Some(TokenContext::JSXClosingTag)
+            {
+                if c == RawToken::Ident {
+                    let name = self.atoms.atom(self.input.cur_slice());
+                    let _ = self.input.next();
+                    return Ok(Some(Token::JSXName { name }));
+                }
+
+                if c == RawToken::GtOp {
+                    let _ = self.input.next();
+                    return Ok(Some(Token::JSXTagEnd));
+                }
+
+                if (c == RawToken::Str)
+                    && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                 {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
-                    }
-
-                    if c == '>' {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump();
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
-
-                    if (c == '\'' || c == '"')
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str(c).map(Some);
-                    }
+                    return self.read_jsx_str().map(Some);
                 }
+            }
 
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
-                    let had_line_break_before_last = self.had_line_break_before_last();
-                    let cur_pos = self.input.cur_pos();
+            if c == RawToken::LtOp && self.state.is_expr_allowed {
+                self.input.next();
 
-                    unsafe {
-                        // Safety: cur() is Some('<')
-                        self.input.bump();
-                    }
-
-                    if had_line_break_before_last && self.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
-
-                        self.emit_error_span(span, SyntaxError::TS1185);
-                        self.skip_line_comment(6);
-                        self.skip_space::<true>();
-                        return self.read_token();
-                    }
-
-                    return Ok(Some(Token::JSXTagStart));
-                }
+                return Ok(Some(Token::JSXTagStart));
             }
         }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
-
-        self.read_token()
+        self.read_token(c, start)
     }
 }
 
@@ -350,7 +331,7 @@ impl Iterator for Lexer<'_> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
+        let mut start = self.input.cur_pos();
 
         let res = self.next_token(&mut start);
 
@@ -372,7 +353,7 @@ impl Iterator for Lexer<'_> {
             }
 
             self.state.update(start, token.kind());
-            self.state.prev_hi = self.last_pos();
+            self.state.prev_hi = self.input.cur_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
 

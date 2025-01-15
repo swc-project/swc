@@ -58,6 +58,7 @@ resolver = "2"
   jsonc-parser              = "0.21.0"
   lazy_static               = "1.4.0"
   lexical                   = "6.1.0"
+  logos                     = "0.15.0"
   lru                       = "0.10.0"
   memchr                    = "2.6.1"
   miette                    = "7.2.0"
@@ -129,7 +130,7 @@ lto = true
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
 
-# debug = true
+debug = true
 # opt-level = 'z'
 
 [profile.bench]
