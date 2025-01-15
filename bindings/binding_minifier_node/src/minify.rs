@@ -212,7 +212,11 @@ fn do_work(
             .clone()
             .into_inner()
             .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-        minify_file_comments(&comments, preserve_comments);
+        minify_file_comments(
+            &comments,
+            preserve_comments,
+            options.format.preserve_annotations,
+        );
 
         swc_compiler_base::print(
             cm.clone(),

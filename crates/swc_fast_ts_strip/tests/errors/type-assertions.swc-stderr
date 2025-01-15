@@ -1,0 +1,6 @@
+  x The angle-bracket syntax for type assertions, `<T>expr`, is not supported in type strip mode. Instead, use the 'as' syntax: `expr as T`.
+   ,-[3:1]
+ 2 | 
+ 3 | const foo = <number>1;
+   :             ^^^^^^^^^
+   `----

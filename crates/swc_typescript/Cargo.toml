@@ -2,21 +2,26 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Proc macro for performance trace of swc"
 documentation = "https://rustdoc.swc.rs/swc_trace_macro/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "4.0.0"
+version       = "6.1.0"
 
 [dependencies]
-thiserror = { workspace = true }
+petgraph   = { workspace = true }
+rustc-hash = { workspace = true }
+thiserror  = { workspace = true }
 
-swc_atoms    = { version = "2.0.0", path = "../swc_atoms" }
-swc_common   = { version = "4.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }
+swc_atoms      = { version = "3.0.2", path = "../swc_atoms" }
+swc_common     = { version = "5.0.0", path = "../swc_common" }
+swc_ecma_ast   = { version = "5.0.1", path = "../swc_ecma_ast" }
+swc_ecma_utils = { version = "7.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "5.0.0", path = "../swc_ecma_parser" }
-testing          = { version = "4.0.0", path = "../testing" }
+swc_ecma_codegen         = { version = "5.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_parser          = { version = "6.0.2", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "7.1.0", path = "../swc_ecma_transforms_base" }
+testing                  = { version = "5.0.0", path = "../testing" }

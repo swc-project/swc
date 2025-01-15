@@ -8,6 +8,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, VisitWith};
 
+pub use super::util::Config as InnerConfig;
 use crate::{
     path::Resolver,
     top_level_this::top_level_this,
@@ -19,8 +20,8 @@ pub struct Config {
     #[serde(default)]
     pub allow_top_level_this: bool,
 
-    #[serde(default)]
-    pub resolve_fully: bool,
+    #[serde(flatten, default)]
+    pub config: InnerConfig,
 }
 
 struct SystemJs {

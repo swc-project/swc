@@ -8,7 +8,6 @@ function f() {
             };
             try {
                 const x = _ts_add_disposable_resource(env, 0, false);
-                ;
                 break;
             } catch (e) {
                 env.error = e;
@@ -24,7 +23,6 @@ function f() {
             };
             try {
                 const y = _ts_add_disposable_resource(env1, 1, false);
-                ;
                 break;
             } catch (e) {
                 env1.error = e;

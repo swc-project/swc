@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Runner for swc plugins. This crate is INTERNAL crate and used by swc itself."
 documentation = "https://rustdoc.swc.rs/swc_plugin_runner/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_plugin_runner"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.0"
+repository    = { workspace = true }
+version       = "5.1.0"
 
 [lib]
 bench   = false
@@ -63,34 +63,34 @@ virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
-swc_common = { version = "4.0.1", path = "../swc_common", features = [
+swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "4.0.0", path = "../swc_plugin_proxy" }
+swc_css_ast = { version = "5.0.0", path = "../swc_css_ast", optional = true }
+swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "5.0.0", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "4.3.7", optional = true }
-wasmer-compiler-cranelift = { version = "4.3.7", default-features = false }
+wasmer-cache              = { version = "=5.0.5-rc1", optional = true }
+wasmer-compiler-cranelift = { version = "=5.0.5-rc1", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_atoms = { version = "2.0.0", path = '../swc_atoms' }
-swc_css_ast = { version = "4.0.1", path = "../swc_css_ast", features = [
+swc_atoms = { version = "3.0.2", path = '../swc_atoms' }
+swc_css_ast = { version = "5.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
-swc_css_parser = { version = "4.0.0", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast", features = [
+swc_css_parser = { version = "5.0.0", path = "../swc_css_parser" }
+swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_loader = { version = "4.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
+swc_ecma_loader = { version = "5.0.0", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
-testing = { version = "4.0.0", path = "../testing" }
+testing = { version = "5.0.0", path = "../testing" }
 tokio = { workspace = true, features = ["rt"] }
 
 [[bench]]

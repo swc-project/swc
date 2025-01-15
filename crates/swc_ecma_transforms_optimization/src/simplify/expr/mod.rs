@@ -1470,7 +1470,7 @@ impl VisitMut for SimplifyExpr {
             in_callee: Default::default(),
         };
 
-        child.maybe_par(cpu_count() * 8, n, |v, n| {
+        child.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
         self.changed |= child.changed;
@@ -1615,7 +1615,7 @@ impl VisitMut for SimplifyExpr {
             in_callee: Default::default(),
         };
 
-        child.maybe_par(cpu_count() * 8, n, |v, n| {
+        child.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
         self.changed |= child.changed;
@@ -1652,25 +1652,25 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
     }

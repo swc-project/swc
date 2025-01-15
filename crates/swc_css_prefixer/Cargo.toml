@@ -2,12 +2,12 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Port of stylis"
 documentation = "https://rustdoc.swc.rs/swc_stylis/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_css_prefixer"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.0"
+repository    = { workspace = true }
+version       = "5.0.0"
 
 [lib]
 bench = false
@@ -18,13 +18,13 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 preset_env_base = { version = "1.0.0", path = "../preset_env_base" }
-swc_atoms       = { version = "2.0.0", path = "../swc_atoms" }
-swc_common      = { version = "4.0.1", path = "../swc_common" }
-swc_css_ast     = { version = "4.0.1", path = "../swc_css_ast" }
-swc_css_utils   = { version = "4.0.0", path = "../swc_css_utils/" }
-swc_css_visit   = { version = "4.0.1", path = "../swc_css_visit" }
+swc_atoms       = { version = "3.0.2", path = "../swc_atoms" }
+swc_common      = { version = "5.0.0", path = "../swc_common" }
+swc_css_ast     = { version = "5.0.0", path = "../swc_css_ast" }
+swc_css_utils   = { version = "5.0.0", path = "../swc_css_utils/" }
+swc_css_visit   = { version = "5.0.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
-swc_css_codegen = { version = "4.0.0", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "4.0.0", path = "../swc_css_parser" }
-testing         = { version = "4.0.0", path = "../testing" }
+swc_css_codegen = { version = "5.0.0", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "5.0.0", path = "../swc_css_parser" }
+testing         = { version = "5.0.0", path = "../testing" }

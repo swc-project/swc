@@ -13,7 +13,7 @@ use indexmap::IndexSet;
 use petgraph::{prelude::DiGraphMap, Direction};
 
 #[derive(Debug, Parser)]
-struct CliArs {
+struct CliArgs {
     #[clap(long)]
     pub dry_run: bool,
 
@@ -27,7 +27,7 @@ enum Cmd {
 }
 
 fn main() -> Result<()> {
-    let CliArs { dry_run, cmd } = CliArs::parse();
+    let CliArgs { dry_run, cmd } = CliArgs::parse();
 
     let workspace_dir = env::var("CARGO_WORKSPACE_DIR")
         .map(PathBuf::from)

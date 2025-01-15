@@ -6,7 +6,6 @@ const env = {
 try {
     before;
     const x = _ts_add_disposable_resource(env, fn(), false);
-    ;
     doSomethingWith(x);
     after;
 } catch (e) {

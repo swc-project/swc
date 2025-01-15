@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "rust port of babel and closure compiler."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_testing/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_ecma_transforms_testing"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.0"
+repository    = { workspace = true }
+version       = "7.0.0"
 
 [lib]
 bench = false
@@ -22,14 +22,14 @@ sha2       = { workspace = true }
 sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
-swc_common = { version = "4.0.1", path = "../swc_common", features = [
+swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "4.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "4.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "5.0.0", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "4.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "5.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "5.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "4.0.1", path = "../swc_ecma_visit" }
-testing = { version = "4.0.0", path = "../testing" }
+swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "5.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
+swc_ecma_testing = { version = "5.0.0", path = "../swc_ecma_testing" }
+swc_ecma_transforms_base = { version = "7.1.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "7.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
+testing = { version = "5.0.0", path = "../testing" }

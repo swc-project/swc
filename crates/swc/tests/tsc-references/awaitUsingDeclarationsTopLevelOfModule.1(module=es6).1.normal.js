@@ -10,7 +10,6 @@ try {
     const z = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
     }, true);
-    ;
     const y = 2;
     console.log(w, x, y, z);
 } catch (e) {

@@ -28,7 +28,7 @@ var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_clas
             key: "render",
             value: function() {
                 var e = this, t = this.props, r = t.items, i = t.itemProps, s = t.renderItem, n = t.renderItemData, l = t.sectionIndex, u = t.highlightedItemIndex, p = t.getItemId, a = t.theme, d = t.keyPrefix, h = null === l ? d : "".concat(d, "section-").concat(l, "-"), m = "function" == typeof i;
-                return /*#__PURE__*/ (0, o.jsx)("ul", _._(c._({
+                return (0, o.jsx)("ul", _._(c._({
                     role: "listbox"
                 }, a("".concat(h, "items-list"), "itemsList")), {
                     children: r.map(function(t, r) {
@@ -39,7 +39,7 @@ var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_clas
                             id: p(l, r),
                             "aria-selected": f
                         }, a(I, "item", d && "itemFirst", f && "itemHighlighted"), g);
-                        return f && (x.ref = e.storeHighlightedItemReference), /*#__PURE__*/ (0, o.jsx)(Item, _._(c._({}, x), {
+                        return f && (x.ref = e.storeHighlightedItemReference), (0, o.jsx)(Item, _._(c._({}, x), {
                             sectionIndex: l,
                             isHighlighted: f,
                             itemIndex: r,

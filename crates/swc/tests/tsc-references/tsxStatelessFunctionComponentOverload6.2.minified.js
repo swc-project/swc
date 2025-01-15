@@ -17,12 +17,12 @@ define([
         get: function() {
             return MainButton;
         }
-    }), /*#__PURE__*/ _object_spread._({
+    }), _object_spread._({
         to: 10000
     }, {
         children: "hi",
         to: "boo"
-    }), /*#__PURE__*/ _object_spread_props._(_object_spread._({}, obj1), {
+    }), _object_spread_props._(_object_spread._({}, obj1), {
         to: "/to/somewhere"
     });
 });

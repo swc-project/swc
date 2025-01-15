@@ -9,7 +9,6 @@ const env = {
 };
 try {
     const before = _ts_add_disposable_resource(env, null, false);
-    ;
     _class = _ts_decorate([
         dec
     ], _class);

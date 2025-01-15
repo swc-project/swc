@@ -28,7 +28,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
                 });
             })();
         }), true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

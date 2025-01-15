@@ -1837,6 +1837,13 @@ function copyBytes(src, dst, off = 0) {
     return src.byteLength;
 }
 const DEFAULT_BUF_SIZE = 4096;
+class PartialReadError extends Deno.errors.UnexpectedEof {
+    name = "PartialReadError";
+    partial;
+    constructor(){
+        super("Encountered UnexpectedEof, data only partially read");
+    }
+}
 class AbstractBufBase {
     buf;
     usedBufferBytes = 0;

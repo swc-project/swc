@@ -106,6 +106,7 @@ fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPath
         swc_ecma_transforms_module::path::Config {
             base_dir: Some(base_dir),
             resolve_fully: true,
+            file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
         },
     )
 }

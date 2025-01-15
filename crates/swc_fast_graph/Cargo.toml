@@ -1,12 +1,12 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Faster version of petgraph"
-edition     = "2021"
+edition     = { workspace = true }
 include     = ["Cargo.toml", "src/**/*.rs"]
-license     = "Apache-2.0"
+license     = { workspace = true }
 name        = "swc_fast_graph"
-repository  = "https://github.com/swc-project/swc.git"
-version     = "5.0.0"
+repository  = { workspace = true }
+version     = "6.0.0"
 
 [lib]
 bench = false
@@ -16,4 +16,4 @@ indexmap   = { workspace = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 
-swc_common = { version = "4.0.1", path = "../swc_common" }
+swc_common = { version = "5.0.0", path = "../swc_common" }

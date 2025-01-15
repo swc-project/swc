@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "A thin wrapper for bumpalo"
 documentation = "https://rustdoc.swc.rs/swc_allocator/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "1.0.0"
+version       = "2.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -14,9 +14,9 @@ version       = "1.0.0"
 
 
 [features]
-default = ["scoped"]
+default = ["scoped", "rkyv"]
 nightly = ["bumpalo/allocator_api", "hashbrown/nightly"]
-rkyv    = ["dep:rkyv"]
+rkyv    = ["dep:rkyv", "dep:rancor"]
 scoped  = ["nightly"]
 serde   = ["dep:serde"]
 
@@ -28,6 +28,7 @@ bumpalo = { workspace = true, features = [
 ] }
 hashbrown = { workspace = true }
 ptr_meta = { workspace = true }
+rancor = { workspace = true, optional = true }
 rkyv = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde = { workspace = true, optional = true }

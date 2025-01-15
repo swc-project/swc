@@ -9,7 +9,7 @@ use swc_estree_ast::{
 };
 
 use super::Context;
-use crate::swcify::Swcify;
+use crate::{swcify::Swcify, Never};
 
 impl Swcify for TSTypeParameterInstantiation {
     type Output = TsTypeParamInstantiation;
@@ -23,7 +23,7 @@ impl Swcify for TSTypeParameterInstantiation {
 }
 
 impl Swcify for FlowType {
-    type Output = !;
+    type Output = Never;
 
     fn swcify(self, _: &Context) -> Self::Output {
         unreachable!("swc does not support flow types")

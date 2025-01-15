@@ -20,15 +20,15 @@ define([
     function MainButton(props) {
         return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
     }
-    /*#__PURE__*/ _object_spread._({
+    _object_spread._({
         onClick: function(e) {}
-    }, obj0), /*#__PURE__*/ _object_spread._({
+    }, obj0), _object_spread._({
         to: "10000"
     }, {
         onClick: function() {}
-    }), /*#__PURE__*/ _object_spread_props._(_object_spread._({}, obj3), {
+    }), _object_spread_props._(_object_spread._({}, obj3), {
         to: !0
-    }), /*#__PURE__*/ _object_spread._({
+    }), _object_spread._({
         onClick: function(e) {}
     }, obj0);
 });

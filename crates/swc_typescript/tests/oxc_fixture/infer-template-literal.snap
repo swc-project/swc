@@ -1,0 +1,29 @@
+```==================== .D.TS ====================
+
+export declare const CSS_VARS_HELPER = "useCssVars";
+export declare function g(func?: string): void;
+export declare const F: {
+    readonly a: "a";
+    readonly b: readonly ["b"];
+};
+export declare let GOOD: string;
+export declare const BAD: any;
+export declare let BAD2: any;
+
+
+==================== Errors ====================
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-template-literal.ts:12:1]
+ 11 | 
+ 12 | export const BAD = `useCssV${v}ars`
+    :              ^^^
+    `----
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-template-literal.ts:14:1]
+ 13 | 
+ 14 | export let BAD2 = `useCssV${v}ars` as const
+    :            ^^^^
+    `----
+
+
+```

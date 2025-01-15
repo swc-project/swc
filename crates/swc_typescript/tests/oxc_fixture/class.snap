@@ -1,0 +1,65 @@
+```==================== .D.TS ====================
+
+export declare class Foo {
+    private constructor();
+}
+export declare class Bar {
+    constructor(a?: number);
+}
+export declare class Zoo {
+    foo<F>(f: F): F;
+}
+export declare abstract class Qux {
+    abstract foo(): void;
+    protected foo2?(): void;
+    bar(): void;
+    baz(): void;
+}
+export declare class Baz {
+    /** Just a comment */ readonly prop1 = "some string";
+    /** Just a comment */ prop2: string;
+    /** Just a comment */ private prop3;
+    /** Just a comment */ private prop4;
+    /** Just a comment */ private static prop5;
+    /** Just a comment */ private static prop6;
+}
+export declare class Boo {
+    readonly prop: number;
+    private readonly prop2;
+    readonly prop3: number;
+    constructor(prop?: number, prop2?: number, prop3?: number);
+}
+export declare class Bux {
+    readonly prop: number;
+    private readonly prop2;
+    readonly prop3: number;
+    private constructor();
+}
+export declare class PrivateFieldsWithConstructorAssignments {
+    first: number;
+    private second;
+    constructor(first: number);
+}
+export declare class PrivateMethodClass {
+    private good;
+    private get goodGetter();
+}
+export declare class PublicMethodClass {
+    bad(a): void;
+    get badGetter(): {
+        ['x']: number;
+    };
+}
+
+
+==================== Errors ====================
+  x TS9011: Parameter must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/class.ts:67:1]
+ 66 | export class PublicMethodClass {
+ 67 |   public bad(a): void {}
+    :              ^
+ 68 |   public get badGetter() {
+    `----
+
+
+```

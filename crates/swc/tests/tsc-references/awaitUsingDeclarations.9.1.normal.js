@@ -9,7 +9,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
     };
     try {
         const a = _ts_add_disposable_resource(env, null, true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

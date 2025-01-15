@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "General ecmascript loader used for transforms"
 documentation = "https://rustdoc.swc.rs/swc_ecma_loader/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_ecma_loader"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.0"
+repository    = { workspace = true }
+version       = "5.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -36,9 +36,9 @@ serde       = { workspace = true, features = ["derive"] }
 serde_json  = { workspace = true, optional = true }
 tracing     = { workspace = true }
 
-swc_atoms  = { version = "2.0.0", path = "../swc_atoms" }
+swc_atoms  = { version = "3.0.2", path = "../swc_atoms" }
 swc_cached = { version = "1.0.0", optional = true, path = "../swc_cached" }
-swc_common = { version = "4.0.1", path = "../swc_common" }
+swc_common = { version = "5.0.0", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = { workspace = true }

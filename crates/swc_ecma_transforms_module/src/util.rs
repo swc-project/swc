@@ -46,6 +46,15 @@ pub struct Config {
 
     #[serde(default)]
     pub resolve_fully: bool,
+
+    #[serde(default = "Config::default_js_ext")]
+    pub out_file_extension: String,
+}
+
+impl Config {
+    pub fn default_js_ext() -> String {
+        "js".to_string()
+    }
 }
 
 impl Default for Config {
@@ -61,6 +70,7 @@ impl Default for Config {
             ignore_dynamic: false,
             preserve_import_meta: false,
             resolve_fully: false,
+            out_file_extension: "js".to_string(),
         }
     }
 }

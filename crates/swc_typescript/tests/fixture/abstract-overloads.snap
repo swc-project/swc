@@ -1,0 +1,13 @@
+```==================== .D.TS ====================
+
+export declare abstract class Value {
+    protected body?(): string | undefined | Promise<string | undefined>;
+    protected footer(): string | undefined;
+}
+declare function overloadsNonExportDecl(args: string): void;
+declare function overloadsNonExportDecl(args: number): void;
+export { overloadsNonExportDecl };
+export default function defaultExport(args: string): void;
+export default function defaultExport(args: number): void;
+
+

@@ -1,0 +1,7 @@
+```==================== .D.TS ====================
+
+export default class Tokenizer {
+    delimiterClose: Uint8Array;
+}
+
+

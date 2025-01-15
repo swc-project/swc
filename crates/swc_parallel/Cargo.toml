@@ -1,0 +1,24 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Linter for the swc project"
+edition     = { workspace = true }
+include     = ["Cargo.toml", "src/**/*.rs"]
+license     = { workspace = true }
+name        = "swc_parallel"
+repository  = { workspace = true }
+version     = "1.0.1"
+
+[features]
+default = ["parallel"]
+# Make it really parallel
+parallel = ["chili"]
+# Alias for parallel, just for CI. Do not use it if you are not working on SWC.
+concurrent = ["parallel"]
+
+[dependencies]
+chili     = { workspace = true, optional = true }
+once_cell = { workspace = true }
+
+[dev-dependencies]
+hstr       = { workspace = true }
+scoped-tls = { workspace = true }

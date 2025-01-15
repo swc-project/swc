@@ -9,7 +9,7 @@
       "type": "UsingDeclaration",
       "span": {
         "start": 109,
-        "end": 145
+        "end": 146
       },
       "isAwait": false,
       "decls": [
@@ -99,13 +99,6 @@
       ]
     },
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 145,
-        "end": 146
-      }
-    },
-    {
       "type": "FunctionDeclaration",
       "identifier": {
         "type": "Identifier",
@@ -137,7 +130,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 167,
-              "end": 203
+              "end": 204
             },
             "isAwait": false,
             "decls": [
@@ -225,13 +218,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 203,
-              "end": 204
-            }
           }
         ]
       },
@@ -272,7 +258,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 234,
-              "end": 270
+              "end": 271
             },
             "isAwait": false,
             "decls": [
@@ -362,13 +348,6 @@
             ]
           },
           {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 270,
-              "end": 271
-            }
-          },
-          {
             "type": "ExpressionStatement",
             "span": {
               "start": 276,
@@ -428,7 +407,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 312,
-              "end": 348
+              "end": 349
             },
             "isAwait": false,
             "decls": [
@@ -518,13 +497,6 @@
             ]
           },
           {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 348,
-              "end": 349
-            }
-          },
-          {
             "type": "ExpressionStatement",
             "span": {
               "start": 354,
@@ -579,7 +551,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 392,
-              "end": 428
+              "end": 429
             },
             "isAwait": false,
             "decls": [
@@ -667,13 +639,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 428,
-              "end": 429
-            }
           },
           {
             "type": "ExpressionStatement",
@@ -766,7 +731,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 482,
-                    "end": 518
+                    "end": 519
                   },
                   "isAwait": false,
                   "decls": [
@@ -854,13 +819,6 @@
                       "definite": false
                     }
                   ]
-                },
-                {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 518,
-                    "end": 519
-                  }
                 }
               ]
             },
@@ -927,7 +885,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 558,
-                    "end": 594
+                    "end": 595
                   },
                   "isAwait": false,
                   "decls": [
@@ -1015,13 +973,6 @@
                       "definite": false
                     }
                   ]
-                },
-                {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 594,
-                    "end": 595
-                  }
                 }
               ]
             },
@@ -1069,7 +1020,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 631,
-                  "end": 667
+                  "end": 668
                 },
                 "isAwait": false,
                 "decls": [
@@ -1157,13 +1108,6 @@
                     "definite": false
                   }
                 ]
-              },
-              {
-                "type": "EmptyStatement",
-                "span": {
-                  "start": 667,
-                  "end": 668
-                }
               }
             ]
           },
@@ -1188,7 +1132,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 697,
-                  "end": 733
+                  "end": 734
                 },
                 "isAwait": false,
                 "decls": [
@@ -1276,13 +1220,6 @@
                     "definite": false
                   }
                 ]
-              },
-              {
-                "type": "EmptyStatement",
-                "span": {
-                  "start": 733,
-                  "end": 734
-                }
               }
             ]
           }
@@ -1321,7 +1258,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 760,
-                    "end": 797
+                    "end": 798
                   },
                   "isAwait": false,
                   "decls": [
@@ -1409,13 +1346,6 @@
                       "definite": false
                     }
                   ]
-                },
-                {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 797,
-                    "end": 798
-                  }
                 }
               ]
             },
@@ -1465,7 +1395,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 828,
-                    "end": 865
+                    "end": 866
                   },
                   "isAwait": false,
                   "decls": [
@@ -1555,13 +1485,6 @@
                   ]
                 },
                 {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 865,
-                    "end": 866
-                  }
-                },
-                {
                   "type": "ReturnStatement",
                   "span": {
                     "start": 875,
@@ -1645,7 +1568,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 915,
-                    "end": 952
+                    "end": 953
                   },
                   "isAwait": false,
                   "decls": [
@@ -1733,13 +1656,6 @@
                       "definite": false
                     }
                   ]
-                },
-                {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 952,
-                    "end": 953
-                  }
                 }
               ]
             },
@@ -1789,7 +1705,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 986,
-                    "end": 1023
+                    "end": 1024
                   },
                   "isAwait": false,
                   "decls": [
@@ -1879,13 +1795,6 @@
                   ]
                 },
                 {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 1023,
-                    "end": 1024
-                  }
-                },
-                {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 1033,
@@ -1954,7 +1863,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 1072,
-                    "end": 1109
+                    "end": 1110
                   },
                   "isAwait": false,
                   "decls": [
@@ -2044,13 +1953,6 @@
                   ]
                 },
                 {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 1109,
-                    "end": 1110
-                  }
-                },
-                {
                   "type": "ExpressionStatement",
                   "span": {
                     "start": 1119,
@@ -2114,7 +2016,7 @@
                   "type": "UsingDeclaration",
                   "span": {
                     "start": 1160,
-                    "end": 1197
+                    "end": 1198
                   },
                   "isAwait": false,
                   "decls": [
@@ -2202,13 +2104,6 @@
                       "definite": false
                     }
                   ]
-                },
-                {
-                  "type": "EmptyStatement",
-                  "span": {
-                    "start": 1197,
-                    "end": 1198
-                  }
                 },
                 {
                   "type": "ExpressionStatement",
@@ -2316,7 +2211,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 1293,
-                  "end": 1330
+                  "end": 1331
                 },
                 "isAwait": false,
                 "decls": [
@@ -2404,13 +2299,6 @@
                     "definite": false
                   }
                 ]
-              },
-              {
-                "type": "EmptyStatement",
-                "span": {
-                  "start": 1330,
-                  "end": 1331
-                }
               },
               {
                 "type": "ExpressionStatement",
@@ -2539,7 +2427,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 1419,
-                  "end": 1456
+                  "end": 1457
                 },
                 "isAwait": false,
                 "decls": [
@@ -2629,13 +2517,6 @@
                 ]
               },
               {
-                "type": "EmptyStatement",
-                "span": {
-                  "start": 1456,
-                  "end": 1457
-                }
-              },
-              {
                 "type": "ExpressionStatement",
                 "span": {
                   "start": 1466,
@@ -2709,7 +2590,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 1502,
-              "end": 1539
+              "end": 1540
             },
             "isAwait": false,
             "decls": [
@@ -2797,13 +2678,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 1539,
-              "end": 1540
-            }
           }
         ]
       }
@@ -2820,7 +2694,7 @@
           "type": "UsingDeclaration",
           "span": {
             "start": 1550,
-            "end": 1587
+            "end": 1588
           },
           "isAwait": false,
           "decls": [
@@ -2908,13 +2782,6 @@
               "definite": false
             }
           ]
-        },
-        {
-          "type": "EmptyStatement",
-          "span": {
-            "start": 1587,
-            "end": 1588
-          }
         }
       ]
     },
@@ -2980,7 +2847,7 @@
               "type": "UsingDeclaration",
               "span": {
                 "start": 1637,
-                "end": 1674
+                "end": 1675
               },
               "isAwait": false,
               "decls": [
@@ -3070,13 +2937,6 @@
               ]
             },
             {
-              "type": "EmptyStatement",
-              "span": {
-                "start": 1674,
-                "end": 1675
-              }
-            },
-            {
               "type": "BreakStatement",
               "span": {
                 "start": 1684,
@@ -3106,7 +2966,7 @@
               "type": "UsingDeclaration",
               "span": {
                 "start": 1712,
-                "end": 1749
+                "end": 1750
               },
               "isAwait": false,
               "decls": [
@@ -3196,13 +3056,6 @@
               ]
             },
             {
-              "type": "EmptyStatement",
-              "span": {
-                "start": 1749,
-                "end": 1750
-              }
-            },
-            {
               "type": "BreakStatement",
               "span": {
                 "start": 1759,
@@ -3264,7 +3117,7 @@
                 "type": "UsingDeclaration",
                 "span": {
                   "start": 1824,
-                  "end": 1861
+                  "end": 1862
                 },
                 "isAwait": false,
                 "decls": [
@@ -3354,13 +3207,6 @@
                 ]
               },
               {
-                "type": "EmptyStatement",
-                "span": {
-                  "start": 1861,
-                  "end": 1862
-                }
-              },
-              {
                 "type": "BreakStatement",
                 "span": {
                   "start": 1875,
@@ -3392,7 +3238,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 1899,
-              "end": 1936
+              "end": 1937
             },
             "isAwait": false,
             "decls": [
@@ -3480,13 +3326,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 1936,
-              "end": 1937
-            }
           }
         ]
       },
@@ -3509,7 +3348,7 @@
               "type": "UsingDeclaration",
               "span": {
                 "start": 1952,
-                "end": 1989
+                "end": 1990
               },
               "isAwait": false,
               "decls": [
@@ -3597,13 +3436,6 @@
                   "definite": false
                 }
               ]
-            },
-            {
-              "type": "EmptyStatement",
-              "span": {
-                "start": 1989,
-                "end": 1990
-              }
             }
           ]
         }
@@ -3620,7 +3452,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2007,
-              "end": 2044
+              "end": 2045
             },
             "isAwait": false,
             "decls": [
@@ -3708,13 +3540,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2044,
-              "end": 2045
-            }
           }
         ]
       }
@@ -3745,7 +3570,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2065,
-              "end": 2102
+              "end": 2103
             },
             "isAwait": false,
             "decls": [
@@ -3833,13 +3658,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2102,
-              "end": 2103
-            }
           }
         ]
       },
@@ -3855,7 +3673,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2117,
-              "end": 2154
+              "end": 2155
             },
             "isAwait": false,
             "decls": [
@@ -3943,13 +3761,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2154,
-              "end": 2155
-            }
           }
         ]
       }
@@ -3980,7 +3791,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2178,
-              "end": 2215
+              "end": 2216
             },
             "isAwait": false,
             "decls": [
@@ -4070,13 +3881,6 @@
             ]
           },
           {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2215,
-              "end": 2216
-            }
-          },
-          {
             "type": "BreakStatement",
             "span": {
               "start": 2221,
@@ -4113,7 +3917,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2240,
-              "end": 2277
+              "end": 2278
             },
             "isAwait": false,
             "decls": [
@@ -4203,13 +4007,6 @@
             ]
           },
           {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2277,
-              "end": 2278
-            }
-          },
-          {
             "type": "BreakStatement",
             "span": {
               "start": 2283,
@@ -4241,7 +4038,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2322,
-              "end": 2359
+              "end": 2360
             },
             "isAwait": false,
             "decls": [
@@ -4331,13 +4128,6 @@
             ]
           },
           {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2359,
-              "end": 2360
-            }
-          },
-          {
             "type": "BreakStatement",
             "span": {
               "start": 2365,
@@ -4406,7 +4196,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2401,
-              "end": 2438
+              "end": 2439
             },
             "isAwait": false,
             "decls": [
@@ -4494,13 +4284,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2438,
-              "end": 2439
-            }
           }
         ]
       }
@@ -4564,7 +4347,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 2469,
-              "end": 2506
+              "end": 2507
             },
             "isAwait": false,
             "decls": [
@@ -4652,13 +4435,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 2506,
-              "end": 2507
-            }
           }
         ]
       }

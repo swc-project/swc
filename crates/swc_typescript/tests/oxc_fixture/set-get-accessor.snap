@@ -1,0 +1,29 @@
+```==================== .D.TS ====================
+
+// Correct
+declare class Cls {
+    get a(): number;
+    set a(value);
+    get b(): string;
+    set b(v: string);
+    private get c();
+    private set c(value);
+}
+// Incorrect
+declare class ClsBad {
+    get a();
+    set a(v);
+}
+
+
+==================== Errors ====================
+  x TS9009: At least one accessor must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/set-get-accessor.ts:21:1]
+ 20 | class ClsBad {
+ 21 |   get a() {
+    :       ^
+ 22 |     return;
+    `----
+
+
+```

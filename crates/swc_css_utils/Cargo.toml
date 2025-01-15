@@ -2,12 +2,12 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Port of stylis"
 documentation = "https://rustdoc.swc.rs/swc_css_utils/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_css_utils"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "4.0.0"
+repository    = { workspace = true }
+version       = "5.0.0"
 
 [lib]
 bench = false
@@ -17,7 +17,7 @@ once_cell  = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
-swc_atoms     = { version = "2.0.0", path = "../swc_atoms" }
-swc_common    = { version = "4.0.1", path = "../swc_common" }
-swc_css_ast   = { version = "4.0.1", path = "../swc_css_ast" }
-swc_css_visit = { version = "4.0.1", path = "../swc_css_visit" }
+swc_atoms     = { version = "3.0.2", path = "../swc_atoms" }
+swc_common    = { version = "5.0.0", path = "../swc_common" }
+swc_css_ast   = { version = "5.0.0", path = "../swc_css_ast" }
+swc_css_visit = { version = "5.0.0", path = "../swc_css_visit" }

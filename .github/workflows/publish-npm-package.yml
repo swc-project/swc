@@ -115,6 +115,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               set -e &&
+              apk add --upgrade clang-static llvm-dev &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
               if [[ ${{ inputs.package }} == "core" ]]; then
                 RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
@@ -170,6 +171,7 @@ jobs:
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
+              apk add --upgrade clang-static llvm-dev &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ../../rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&

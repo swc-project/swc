@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Error reporter implementations for the swc project"
 documentation = "https://rustdoc.swc.rs/swc_error_reporters/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_error_reporters"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "5.0.0"
+repository    = { workspace = true }
+version       = "6.0.0"
 
 [lib]
 bench = false
@@ -17,6 +17,6 @@ miette      = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell   = { workspace = true }
 parking_lot = { workspace = true }
 
-swc_common = { version = "4.0.1", path = "../swc_common", features = [
+swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }

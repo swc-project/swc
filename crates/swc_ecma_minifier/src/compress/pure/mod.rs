@@ -1,12 +1,13 @@
 #![allow(clippy::needless_update)]
 
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
+use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::ExprCtx;
+use swc_ecma_utils::{
+    parallel::{cpu_count, Parallel, ParallelExt},
+    ExprCtx,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
@@ -74,6 +75,21 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
+}
+
+impl Parallel for Pure<'_> {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        if other.changed {
+            self.changed = true;
+        }
+    }
 }
 
 impl Repeated for Pure<'_> {
@@ -168,82 +184,9 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        let mut changed = false;
-        if !cfg!(target_arch = "wasm32")
-            && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
-            && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
-        {
-            #[cfg(feature = "concurrent")]
-            {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .par_iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|| false, |a, b| a || b);
-                })
-            }
-
-            #[cfg(not(feature = "concurrent"))]
-            {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|a, b| a || b)
-                        .unwrap_or(false);
-                })
-            }
-        } else {
-            changed = nodes
-                .iter_mut()
-                .map(|node| {
-                    let mut v = Pure {
-                        expr_ctx: self.expr_ctx.clone(),
-                        ctx: Ctx {
-                            par_depth: self.ctx.par_depth,
-                            ..self.ctx
-                        },
-                        changed: false,
-                        ..*self
-                    };
-                    node.visit_mut_with(&mut v);
-
-                    v.changed
-                })
-                .reduce(|a, b| a || b)
-                .unwrap_or(false);
-        }
-        self.changed |= changed;
+        self.maybe_par(cpu_count() * 8, nodes, |v, node| {
+            node.visit_mut_with(v);
+        });
     }
 }
 

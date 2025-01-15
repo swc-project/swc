@@ -1,0 +1,52 @@
+```==================== .D.TS ====================
+
+// Correct
+// ParenthesizedExpression
+declare const n = 0;
+declare const s = "";
+declare const t = "";
+declare const b = true;
+// UnaryExpression
+declare let unaryA: number;
+declare const unaryB = -1_2n;
+// Incorrect
+// UnaryExpression
+declare const unaryC: any;
+declare const unaryD: any;
+declare const unaryE: {
+    readonly E;
+};
+declare const unaryF: readonly [];
+
+
+==================== Errors ====================
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-expression.ts:16:1]
+ 15 | // UnaryExpression
+ 16 | const unaryC = +"str"
+    :       ^^^^^^
+ 17 | const unaryD = typeof "str"
+    `----
+  x TS9010: Variable must have an explicit type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-expression.ts:17:1]
+ 16 | const unaryC = +"str"
+ 17 | const unaryD = typeof "str"
+    :       ^^^^^^
+ 18 | const unaryE = {E: -"str"} as const
+    `----
+  x TS9013: Expression type can't be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-expression.ts:18:1]
+ 17 | const unaryD = typeof "str"
+ 18 | const unaryE = {E: -"str"} as const
+    :                    ^^^^^^
+ 19 | const unaryF = [+"str"] as const
+    `----
+  x TS9013: Expression type can't be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/infer-expression.ts:19:1]
+ 18 | const unaryE = {E: -"str"} as const
+ 19 | const unaryF = [+"str"] as const
+    :                 ^^^^^^
+    `----
+
+
+```

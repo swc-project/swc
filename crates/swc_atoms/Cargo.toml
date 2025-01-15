@@ -2,18 +2,18 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Atoms for the swc project."
 documentation = "https://rustdoc.swc.rs/swc_atoms/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_atoms"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "2.0.0"
+repository    = { workspace = true }
+version       = "3.0.2"
 
 [lib]
 bench = false
 
 [features]
 __rkyv    = []
-rkyv-impl = ["__rkyv", "rkyv", "bytecheck"]
+rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
@@ -21,6 +21,7 @@ arbitrary  = { workspace = true, optional = true }
 bytecheck  = { workspace = true, optional = true }
 hstr       = { workspace = true }
 once_cell  = { workspace = true }
+rancor     = { workspace = true, optional = true }
+rkyv       = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
-rkyv       = { workspace = true, features  = ["validation"], optional = true }

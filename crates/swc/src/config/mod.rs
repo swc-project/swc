@@ -30,7 +30,7 @@ use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
-    rules::{lint_to_fold, LintParams},
+    rules::{lint_pass, LintParams},
 };
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -48,7 +48,7 @@ use swc_ecma_transforms::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
         rewriter::import_rewriter,
-        EsModuleConfig,
+        util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
@@ -709,7 +709,7 @@ impl Options {
                         None
                     },
                     Optional::new(
-                        lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                        lint_pass(swc_ecma_lints::rules::all(LintParams {
                             program: &program,
                             lint_config: &lints,
                             top_level_ctxt,
@@ -802,7 +802,11 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: JscOutputConfig { charset, preamble },
+            output: JscOutputConfig {
+                charset,
+                preamble,
+                preserve_annotations: cfg.jsc.output.preserve_annotations,
+            },
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
@@ -1144,9 +1148,9 @@ where
             output_path: self.output_path,
             source_root: self.source_root,
             source_file_name: self.source_file_name,
+            comments: self.comments,
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
-            comments: self.comments,
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
@@ -1212,6 +1216,9 @@ pub struct JscOutputConfig {
 
     #[serde(default)]
     pub preamble: String,
+
+    #[serde(default)]
+    pub preserve_annotations: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -1393,22 +1400,39 @@ impl ModuleConfig {
 
         let base_url = base_url.to_path_buf();
         let resolver = match config {
-            None => build_resolver(base_url, paths, false),
+            None => build_resolver(base_url, paths, false, &util::Config::default_js_ext()),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
+                build_resolver(
+                    base_url,
+                    paths,
+                    config.config.resolve_fully,
+                    &config.config.out_file_extension,
+                )
             }
-            Some(ModuleConfig::CommonJs(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
-            }
-            Some(ModuleConfig::Umd(config)) => {
-                build_resolver(base_url, paths, config.config.resolve_fully)
-            }
-            Some(ModuleConfig::Amd(config)) => {
-                build_resolver(base_url, paths, config.config.resolve_fully)
-            }
-            Some(ModuleConfig::SystemJs(config)) => {
-                build_resolver(base_url, paths, config.resolve_fully)
-            }
+            Some(ModuleConfig::CommonJs(config)) => build_resolver(
+                base_url,
+                paths,
+                config.resolve_fully,
+                &config.out_file_extension,
+            ),
+            Some(ModuleConfig::Umd(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
+            Some(ModuleConfig::Amd(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
+            Some(ModuleConfig::SystemJs(config)) => build_resolver(
+                base_url,
+                paths,
+                config.config.resolve_fully,
+                &config.config.out_file_extension,
+            ),
         };
 
         Some((base, resolver))
@@ -1726,6 +1750,7 @@ fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,
     resolve_fully: bool,
+    file_extension: &str,
 ) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
@@ -1765,6 +1790,7 @@ fn build_resolver(
             swc_ecma_transforms::modules::path::Config {
                 base_dir: Some(base_url.clone()),
                 resolve_fully,
+                file_extension: file_extension.to_owned(),
             },
         );
         Arc::new(r)

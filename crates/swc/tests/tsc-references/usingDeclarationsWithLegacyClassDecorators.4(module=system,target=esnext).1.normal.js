@@ -27,7 +27,6 @@ System.register([
             };
             try {
                 const before = _ts_add_disposable_resource(env, null, false);
-                ;
                 _export("default", _class = _ts_decorate([
                     dec
                 ], _class));

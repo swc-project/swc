@@ -9,7 +9,7 @@
       "type": "UsingDeclaration",
       "span": {
         "start": 84,
-        "end": 104
+        "end": 105
       },
       "isAwait": true,
       "decls": [
@@ -40,13 +40,6 @@
           "definite": false
         }
       ]
-    },
-    {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 104,
-        "end": 105
-      }
     },
     {
       "type": "FunctionDeclaration",
@@ -80,7 +73,7 @@
             "type": "UsingDeclaration",
             "span": {
               "start": 126,
-              "end": 146
+              "end": 147
             },
             "isAwait": true,
             "decls": [
@@ -111,13 +104,6 @@
                 "definite": false
               }
             ]
-          },
-          {
-            "type": "EmptyStatement",
-            "span": {
-              "start": 146,
-              "end": 147
-            }
           }
         ]
       },

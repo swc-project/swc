@@ -17,7 +17,7 @@
           "type": "UsingDeclaration",
           "span": {
             "start": 115,
-            "end": 193
+            "end": 194
           },
           "isAwait": false,
           "decls": [
@@ -188,13 +188,6 @@
               "definite": false
             }
           ]
-        },
-        {
-          "type": "EmptyStatement",
-          "span": {
-            "start": 193,
-            "end": 194
-          }
         }
       ]
     }

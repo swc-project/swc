@@ -74,6 +74,7 @@ fn ts(input: PathBuf) {
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
+#[testing::fixture("tests/fixture/**/input.jsx")]
 fn js(input: PathBuf) {
     run(&input, false);
     run(&input, true);

@@ -888,7 +888,11 @@ impl Compiler {
                 .clone()
                 .into_inner()
                 .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            swc_compiler_base::minify_file_comments(&comments, preserve_comments);
+            swc_compiler_base::minify_file_comments(
+                &comments,
+                preserve_comments,
+                opts.format.preserve_annotations,
+            );
 
             self.print(
                 &program,
@@ -979,7 +983,7 @@ impl Compiler {
                 let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
-                let mut checker = FastDts::new(fm.name.clone());
+                let mut checker = FastDts::new(fm.name.clone(), Default::default());
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
@@ -989,10 +993,8 @@ impl Compiler {
                 let issues = checker.transform(&mut program);
 
                 for issue in issues {
-                    let range = issue.range();
-
                     handler
-                        .struct_span_err(range.span, &issue.to_string())
+                        .struct_span_err(issue.range.span, &issue.message)
                         .emit();
                 }
 
@@ -1020,7 +1022,11 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                swc_compiler_base::minify_file_comments(comments, config.preserve_comments);
+                swc_compiler_base::minify_file_comments(
+                    comments,
+                    config.preserve_comments,
+                    config.output.preserve_annotations.into_bool(),
+                );
             }
 
             self.print(

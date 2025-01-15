@@ -80,7 +80,7 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
   </a>
 </p>
 
-SWC is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
+SWC is a community-driven project, and is maintained by a group of [volunteers](https://swc.rs/docs/team). If you'd like to help support the future of the project, please consider:
 
 -   Giving developer time on the project. (Message us on [Discord](https://discord.gg/GnHbXTdZz6) (preferred) or [Github discussions](https://github.com/swc-project/swc/discussions) for guidance!)
 -   Giving funds by becoming a sponsor (see https://opencollective.com/swc)!

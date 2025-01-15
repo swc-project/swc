@@ -1,12 +1,12 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Commandline for SWC"
-edition     = "2021"
+edition     = { workspace = true }
 include     = ["Cargo.toml", "src/**/*.rs"]
-license     = "Apache-2.0"
+license     = { workspace = true }
 name        = "swc_cli"
-repository  = "https://github.com/swc-project/swc.git"
-version     = "0.91.447"
+repository  = { workspace = true }
+version     = "0.91.466"
 
 [[bin]]
 bench = false
