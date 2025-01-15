@@ -15,10 +15,11 @@ use swc_ecma_ast::{
     Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
     ImportDecl, ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp,
-    Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
-    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt,
+    Program, ReturnStmt, SetterProp, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDeclarator, WhileStmt,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -610,11 +611,6 @@ impl Visit for TsStrip {
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        #[inline(always)]
-        fn is_new_line(c: char) -> bool {
-            matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}')
-        }
-
         'type_params: {
             // ```TypeScript
             // let f = async <
@@ -690,6 +686,48 @@ impl Visit for TsStrip {
 
         n.params.visit_with(self);
         n.body.visit_with(self);
+    }
+
+    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
+        let Some(arg) = n.arg.as_deref() else {
+            return;
+        };
+
+        arg.visit_with(self);
+
+        if let Some(arrow_expr) = arg.as_arrow() {
+            if arrow_expr.is_async {
+                // We have already handled type parameters in `visit_arrow_expr`.
+                return;
+            }
+
+            // ```TypeScript
+            // return <T>
+            //     (v: T) => v;
+            // ```
+            //
+            // ```TypeScript
+            // return (
+            //      v   ) => v;
+            // ```
+
+            if let Some(tp) = &arrow_expr.type_params {
+                let l_paren = self.get_next_token(tp.span.hi);
+                debug_assert_eq!(l_paren.token, Token::LParen);
+
+                let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
+
+                if !slice.chars().any(is_new_line) {
+                    return;
+                }
+
+                let l_paren_pos = l_paren.span.lo;
+                let l_lt_pos = tp.span.lo;
+
+                self.add_overwrite(l_paren_pos, b' ');
+                self.add_overwrite(l_lt_pos, b'(');
+            }
+        }
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -1303,6 +1341,10 @@ impl Visit for TsStrip {
     }
 }
 
+#[inline(always)]
+fn is_new_line(c: char) -> bool {
+    matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}')
+}
 trait IsTsDecl {
     fn is_ts_declare(&self) -> bool;
 }
