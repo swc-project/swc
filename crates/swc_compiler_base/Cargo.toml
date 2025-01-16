@@ -28,7 +28,7 @@ swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_config = { version = "1.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "5.0.2", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "5.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "7.1.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
