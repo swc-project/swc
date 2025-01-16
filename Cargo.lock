@@ -4680,7 +4680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.2.2"
+version = "10.2.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5600,7 +5600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
