@@ -68,7 +68,7 @@ swc_ecma_transforms_optimization = { version = "7.1.0", path = "../swc_ecma_tran
 swc_ecma_usage_analyzer = { version = "7.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "7.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
-swc_parallel = { version = "1.0.1", path = "../swc_parallel", default-features = false }
+swc_parallel = { version = "1.1.0", path = "../swc_parallel", default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
 [dev-dependencies]
