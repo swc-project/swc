@@ -7,6 +7,7 @@
 
 use std::{borrow::Cow, fmt::Write, io};
 
+use in_place_string_map::MapInPlace;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
@@ -4309,11 +4310,32 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    if double_quote_count > single_quote_count {
-        format!("'{}'", buf.replace('\'', "\\'"))
-    } else {
-        format!("\"{}\"", buf.replace('"', "\\\""))
+    fn replace_in_place(buf: &mut String, from: u8, to: u8) {
+        let positions = buf
+            .char_indices()
+            .filter(|(_, c)| *c == from as char)
+            .collect::<Vec<_>>();
+
+        for (i, c) in positions {
+            unsafe {
+                buf.as_mut_vec()[i] = to;
+            }
+        }
     }
+
+    if double_quote_count > single_quote_count {
+        replace_in_place(&mut buf, b'\'', b'\\');
+
+        buf.insert(0, '\'');
+        buf.push('\'');
+    } else {
+        replace_in_place(&mut buf, b'"', b'\\');
+
+        buf.insert(0, '"');
+        buf.push('"');
+    }
+
+    buf
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
