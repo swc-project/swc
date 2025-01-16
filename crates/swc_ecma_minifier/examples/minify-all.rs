@@ -70,7 +70,7 @@ fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
         Worker.maybe_par(2, files, |_, path| {
             testing::run_test(false, |cm, handler| {
-                let fm = cm.load_file(&path).expect("failed to load file");
+                let fm = cm.load_file(path).expect("failed to load file");
 
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
