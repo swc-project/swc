@@ -4316,7 +4316,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
             .filter(|(_, c)| *c == from as char)
             .collect::<Vec<_>>();
 
-        for (i, c) in positions {
+        for (i, _) in positions {
             unsafe {
                 buf.as_mut_vec()[i] = to;
             }
