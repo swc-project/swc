@@ -22,6 +22,7 @@ sha2       = { workspace = true }
 sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
+swc_allocator = { version = "2.0.0", path = "../swc_allocator", default-features = false }
 swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
