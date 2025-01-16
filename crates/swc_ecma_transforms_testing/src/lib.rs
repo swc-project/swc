@@ -900,7 +900,7 @@ fn test_fixture_inner<'a>(
     });
 
     let mut src_map = if config.sourcemap {
-        Some(swc_allocator::vec::Vec::new())
+        Some(swc_allocator::maybe::vec::Vec::new())
     } else {
         None
     };
