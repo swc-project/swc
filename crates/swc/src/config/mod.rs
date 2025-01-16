@@ -812,6 +812,7 @@ impl Options {
                 .into_bool(),
             codegen_inline_script,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
+            unresolved_mark,
             resolver,
         })
     }
@@ -1124,6 +1125,7 @@ pub struct BuiltInput<P: Pass> {
     pub codegen_inline_script: bool,
 
     pub emit_isolated_dts: bool,
+    pub unresolved_mark: Mark,
     pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
 }
 
@@ -1156,6 +1158,7 @@ where
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             codegen_inline_script: self.codegen_inline_script,
             emit_isolated_dts: self.emit_isolated_dts,
+            unresolved_mark: self.unresolved_mark,
             resolver: self.resolver,
         }
     }
