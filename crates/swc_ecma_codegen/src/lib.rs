@@ -7,7 +7,6 @@
 
 use std::{borrow::Cow, fmt::Write, io};
 
-use in_place_string_map::MapInPlace;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
