@@ -1,9 +1,9 @@
 ```==================== .D.TS ====================
 
-import * as Member from "some-path/my_module";
+import type * as Member from "some-path/my_module";
 export interface IMember extends Member.C<"SimpleEntity"> {
 }
-import * as Ident from "some-path/my_module";
+import type * as Ident from "some-path/my_module";
 export interface IIdent extends Ident {
 }
 import * as Paren from "some-path/my_module";
