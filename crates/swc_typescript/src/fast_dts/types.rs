@@ -10,7 +10,7 @@ use super::{
     inferrer::ReturnTypeInferrer,
     type_ann,
     util::{
-        ast_ext::{MemberExprExt, PatExt},
+        ast_ext::{ExprExit, PatExt},
         types::{ts_keyword_type, ts_lit_type},
     },
     FastDts,
@@ -351,8 +351,7 @@ impl FastDts {
         }
 
         let is_not_allowed = match key {
-            Expr::Ident(_) => false,
-            Expr::Member(member) => !member.get_first_object().is_ident(),
+            Expr::Ident(_) | Expr::Member(_) | Expr::OptChain(_) => key.get_root_ident().is_none(),
             _ => !Self::is_literal(key),
         };
 
