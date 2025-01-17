@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_parallel"
 repository  = { workspace = true }
-version     = "1.0.1"
+version     = "1.1.0"
 
 [features]
 default = ["parallel"]
