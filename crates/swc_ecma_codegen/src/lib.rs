@@ -4317,6 +4317,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
         for (i, _) in positions {
             unsafe {
+                // Safety: We are sure that the index is ascii
                 buf.as_mut_vec()[i] = to;
             }
         }
