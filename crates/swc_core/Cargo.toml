@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "10.2.5"
+version       = "10.3.0"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -354,7 +354,7 @@ swc_css_prefixer                 = { optional = true, version = "5.0.0", path = 
 swc_css_utils                    = { optional = true, version = "5.0.0", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "5.0.0", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "5.0.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { optional = true, version = "5.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen                 = { optional = true, version = "5.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "7.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "5.0.0", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "7.1.0", path = "../swc_ecma_minifier" }
@@ -380,7 +380,7 @@ swc_plugin_macro                 = { optional = true, version = "1.0.0", path = 
 swc_plugin_proxy                 = { optional = true, version = "5.0.0", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "2.0.0", path = "../swc_trace_macro" }
 swc_transform_common             = { optional = true, version = "1.0.0", path = "../swc_transform_common" }
-swc_typescript                   = { optional = true, version = "6.1.0", path = "../swc_typescript" }
+swc_typescript                   = { optional = true, version = "6.1.1", path = "../swc_typescript" }
 testing                          = { optional = true, version = "5.0.0", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_allocator     = { version = "2.0.0", path = "../swc_allocator", default-features = false }
