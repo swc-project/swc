@@ -4323,12 +4323,12 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     }
 
     if double_quote_count > single_quote_count {
-        replace_in_place(&mut buf, b'\'', b'\\');
+        replace_in_place(&mut buf, b'\'', b'"');
 
         buf.insert(0, '\'');
         buf.push('\'');
     } else {
-        replace_in_place(&mut buf, b'"', b'\\');
+        replace_in_place(&mut buf, b'"', b'\'');
 
         buf.insert(0, '"');
         buf.push('"');
