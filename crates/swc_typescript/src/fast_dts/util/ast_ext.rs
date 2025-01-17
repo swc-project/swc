@@ -2,8 +2,26 @@ use std::borrow::Cow;
 
 use swc_atoms::Atom;
 use swc_ecma_ast::{
-    BindingIdent, Expr, Lit, MemberExpr, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
+    BindingIdent, Expr, Ident, Lit, MemberExpr, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
 };
+
+pub trait ExprExit {
+    fn get_root_ident(&self) -> Option<&Ident>;
+}
+
+impl ExprExit for Expr {
+    fn get_root_ident(&self) -> Option<&Ident> {
+        match self {
+            Expr::Member(member_expr) => member_expr.obj.get_root_ident(),
+            Expr::Ident(ident) => Some(ident),
+            Expr::OptChain(opt_chain_expr) => opt_chain_expr
+                .base
+                .as_member()
+                .and_then(|member_expr| member_expr.obj.get_root_ident()),
+            _ => None,
+        }
+    }
+}
 
 pub trait PatExt {
     fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
