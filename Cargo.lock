@@ -4680,7 +4680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.2.1"
+version = "10.2.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4924,7 +4924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "5.0.1"
+version = "5.0.2"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5600,7 +5600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5610,6 +5610,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "sourcemap",
+ "swc_allocator",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5662,7 +5663,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "7.0.1"
+version = "7.0.2"
 dependencies = [
  "indexmap 2.5.0",
  "num_cpus",
@@ -5780,7 +5781,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "7.1.0"
+version = "7.2.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6000,7 +6001,7 @@ dependencies = [
 
 [[package]]
 name = "swc_parallel"
-version = "1.0.1"
+version = "1.1.0"
 dependencies = [
  "chili",
  "hstr",

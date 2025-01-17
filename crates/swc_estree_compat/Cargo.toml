@@ -29,9 +29,9 @@ swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "5.0.2", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "7.0.1", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "7.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "5.0.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "5.0.0", path = "../swc_node_comments/" }
@@ -42,7 +42,7 @@ criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc                 = { version = "10.0.0", path = "../swc" }
-swc_ecma_ast        = { version = "5.0.1", path = "../swc_ecma_ast" }
+swc_ecma_ast        = { version = "5.0.2", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "6.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "9.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "5.0.0", path = "../testing" }
