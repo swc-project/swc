@@ -126,6 +126,16 @@ impl FastDts {
                     None
                 }
             }
+            Expr::OptChain(opt_chain) => {
+                let member = opt_chain.base.as_member()?;
+                let ident = member.obj.as_ident()?;
+                if &ident.sym == enum_name {
+                    let name = member.prop.static_name()?;
+                    prev_members.get(name).cloned()
+                } else {
+                    None
+                }
+            }
             _ => None,
         }
     }

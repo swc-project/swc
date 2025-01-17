@@ -8,19 +8,14 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::ast_ext::{MemberExprExt, PatExt, PropNameExit},
+    util::ast_ext::{ExprExit, PatExt, PropNameExit},
     FastDts,
 };
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
         if let Some(super_class) = &class.super_class {
-            let is_not_allowed = match super_class.as_ref() {
-                Expr::Ident(_) => false,
-                Expr::Member(member_expr) => !member_expr.get_first_object().is_ident(),
-                _ => true,
-            };
-
+            let is_not_allowed = super_class.get_root_ident().is_none();
             if is_not_allowed {
                 self.extends_clause_expression(super_class.span());
             }
