@@ -4309,27 +4309,13 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    fn replace_in_place(buf: &mut String, from: u8, to: u8) {
-        let positions = buf
-            .char_indices()
-            .filter(|(_, c)| *c == from as char)
-            .collect::<Vec<_>>();
-
-        for (i, _) in positions {
-            unsafe {
-                // Safety: We are sure that the index is ascii
-                buf.as_mut_vec()[i] = to;
-            }
-        }
-    }
-
     if double_quote_count > single_quote_count {
-        replace_in_place(&mut buf, b'\'', b'"');
+        buf = buf.replace('\'', "\\'");
 
         buf.insert(0, '\'');
         buf.push('\'');
     } else {
-        replace_in_place(&mut buf, b'"', b'\'');
+        buf = buf.replace('"', "\\\"");
 
         buf.insert(0, '"');
         buf.push('"');
