@@ -272,7 +272,7 @@ impl Optimizer<'_> {
                     used_recursively,
                     no_side_effect_for_member_access,
                     ..
-                } = *usage;
+                } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
