@@ -2,7 +2,11 @@
 
 extern crate swc_malloc;
 
-use std::{env, path::PathBuf, time::Instant};
+use std::{
+    env,
+    path::PathBuf,
+    time::{Duration, Instant},
+};
 
 use anyhow::Result;
 use rayon::prelude::*;
@@ -55,28 +59,37 @@ fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
         .collect()
 }
 
+#[derive(Default)]
 struct Worker {
     total_size: usize,
+    /// Single file max duration
+    max_duration: Duration,
 }
 
 impl Parallel for Worker {
     fn create(&self) -> Self {
-        Worker { total_size: 0 }
+        Worker {
+            total_size: 0,
+            ..*self
+        }
     }
 
     fn merge(&mut self, other: Self) {
         self.total_size += other.total_size;
+        self.max_duration = self.max_duration.max(other.max_duration);
     }
 }
 
 #[inline(never)] // For profiling
 fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
-        let mut worker = Worker { total_size: 0 };
+        let mut worker = Worker::default();
 
         worker.maybe_par(2, files, |worker, path| {
             testing::run_test(false, |cm, handler| {
                 let fm = cm.load_file(path).expect("failed to load file");
+
+                let start = Instant::now();
 
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
@@ -120,7 +133,10 @@ fn minify_all(files: &[PathBuf]) {
 
                 let code = print(cm.clone(), &[output], true);
 
+                let duration = start.elapsed();
+
                 worker.total_size += code.len();
+                worker.max_duration = worker.max_duration.max(duration);
 
                 Ok(())
             })
@@ -128,6 +144,7 @@ fn minify_all(files: &[PathBuf]) {
         });
 
         eprintln!("Total size: {}", worker.total_size);
+        eprintln!("Max duration: {:?}", worker.max_duration);
     });
 }
 
