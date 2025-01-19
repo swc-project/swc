@@ -152,6 +152,7 @@ impl Data {
     }
 
     /// Traverse the graph and subtract usages from `used_names`.
+    #[allow(unused)]
     fn subtract_cycles(&mut self) {
         let edges = take(&mut self.edges);
 
@@ -1228,7 +1229,7 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         merged.merge(data);
     }
 
-    merged.subtract_cycles();
+    // merged.subtract_cycles();
 
     merged
 }
@@ -1292,7 +1293,7 @@ impl Merge for Data {
     fn merge(&mut self, other: Self) {
         self.used_names.merge(other.used_names);
         self.entry_ids.extend(other.entry_ids);
-        self.edges.0.merge(other.edges.0);
+        // self.edges.0.merge(other.edges.0);
     }
 }
 
