@@ -89,7 +89,7 @@ impl Optimizer<'_> {
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
 
-            self.vars.inline_with_multi_replacer(init);
+            let mut inlined_into_init = false;
 
             let id = ident.to_id();
 
@@ -107,6 +107,9 @@ impl Optimizer<'_> {
                 && !usage.used_as_ref
             {
                 if let Expr::Array(arr) = init {
+                    self.vars.inline_with_multi_replacer(arr);
+                    inlined_into_init = true;
+
                     if arr.elems.len() < 32
                         && arr.elems.iter().all(|e| match e {
                             Some(ExprOrSpread { spread: None, expr }) => match &**expr {
@@ -257,6 +260,11 @@ impl Optimizer<'_> {
                     _ => false,
                 }
             {
+                if !inlined_into_init {
+                    inlined_into_init = true;
+                    self.vars.inline_with_multi_replacer(init);
+                }
+
                 self.mode.store(id.clone(), &*init);
 
                 let VarUsageInfo {
@@ -496,6 +504,10 @@ impl Optimizer<'_> {
 
                 if init.may_have_side_effects(&self.ctx.expr_ctx) {
                     return;
+                }
+
+                if !inlined_into_init {
+                    self.vars.inline_with_multi_replacer(init);
                 }
 
                 report_change!(
