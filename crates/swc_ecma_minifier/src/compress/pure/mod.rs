@@ -184,7 +184,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(cpu_count() * 8, nodes, |v, node| {
+        self.maybe_par(cpu_count() * 2, nodes, |v, node| {
             node.visit_mut_with(v);
         });
     }
