@@ -2,7 +2,7 @@
 
 extern crate swc_malloc;
 
-use std::{env, fs, path::PathBuf, time::Instant};
+use std::{env, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
