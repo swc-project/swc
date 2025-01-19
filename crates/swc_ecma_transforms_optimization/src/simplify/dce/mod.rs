@@ -702,7 +702,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
-        self.visit_par(members);
+        self.visit_mut_par(cpu_count() * 8, members);
     }
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
