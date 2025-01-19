@@ -227,7 +227,6 @@ impl CharFreq {
     }
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
-
         let (mut a, b) = swc_parallel::join(
             || {
                 let cm = Lrc::new(DummySourceMap);
