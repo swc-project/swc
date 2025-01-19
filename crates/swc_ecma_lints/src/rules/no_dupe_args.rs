@@ -111,6 +111,12 @@ impl Visit for NoDupeArgs {
         f.visit_children_with(self);
     }
 
+    fn visit_class_members(&mut self, members: &[ClassMember]) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_with(v);
+        });
+    }
+
     fn visit_constructor(&mut self, f: &Constructor) {
         check!(&f.params);
 
