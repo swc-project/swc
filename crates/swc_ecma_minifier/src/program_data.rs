@@ -31,7 +31,7 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
+    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
@@ -338,9 +338,11 @@ impl Storage for ProgramData {
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| VarUsageInfo {
-            used_above_decl: true,
-            ..Default::default()
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
+            Box::new(VarUsageInfo {
+                used_above_decl: true,
+                ..Default::default()
+            })
         });
 
         e.used_as_ref |= ctx.is_id_ref;

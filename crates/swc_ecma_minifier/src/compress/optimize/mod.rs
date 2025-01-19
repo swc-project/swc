@@ -319,7 +319,9 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id.clone().to_id()) {
+        if let Some(VarUsageInfo { exported: true, .. }) =
+            self.data.vars.get(&id.clone().to_id()).map(|v| &**v)
+        {
             return false;
         }
 
