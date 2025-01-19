@@ -228,29 +228,40 @@ impl CharFreq {
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let cm = Lrc::new(DummySourceMap);
 
-        let mut freq = Self::default();
+        let (a, b) = swc_parallel::join(
+            || {
+                let mut freq = Self::default();
 
-        {
-            let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config::default()
-                    .with_target(EsVersion::latest())
-                    .with_minify(true),
-                cm,
-                comments: None,
-                wr: &mut freq,
-            };
+                {
+                    let mut emitter = Emitter {
+                        cfg: swc_ecma_codegen::Config::default()
+                            .with_target(EsVersion::latest())
+                            .with_minify(true),
+                        cm,
+                        comments: None,
+                        wr: &mut freq,
+                    };
 
-            emitter.emit_program(p).unwrap();
-        }
+                    emitter.emit_program(p).unwrap();
+                }
 
-        // Subtract
-        p.visit_with(&mut CharFreqAnalyzer {
-            freq: &mut freq,
-            preserved,
-            unresolved_ctxt,
-        });
+                freq
+            },
+            || {
+                let mut visitor = CharFreqAnalyzer {
+                    freq: Default::default(),
+                    preserved,
+                    unresolved_ctxt,
+                };
 
-        freq
+                // Subtract
+                p.visit_with(&mut visitor);
+
+                visitor.freq
+            },
+        );
+
+        a + b
     }
 
     pub fn compile(self) -> Base54Chars {
@@ -290,7 +301,7 @@ impl CharFreq {
 }
 
 struct CharFreqAnalyzer<'a> {
-    freq: &'a mut CharFreq,
+    freq: CharFreq,
     preserved: &'a FxHashSet<Id>,
     unresolved_ctxt: SyntaxContext,
 }
