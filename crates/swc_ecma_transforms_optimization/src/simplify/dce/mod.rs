@@ -1210,6 +1210,7 @@ impl VisitMut for TreeShaker {
 }
 
 fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
+    #[cfg(feature = "concurrent")]
     let data = Arc::try_unwrap(data)
         .map_err(|_| {})
         .unwrap()
@@ -1218,15 +1219,23 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         .collect::<Vec<_>>();
 
     #[cfg(feature = "concurrent")]
-    let iter = data.into_par_iter();
+    let mut merged = data
+        .into_par_iter()
+        .reduce(Data::default, |mut merged, data| {
+            merged.merge(data);
+            merged
+        });
 
     #[cfg(not(feature = "concurrent"))]
-    let iter = data.into_iter();
-
-    let mut merged = iter.reduce(Data::default, |mut merged, data| {
-        merged.merge(data);
-        merged
-    });
+    let mut merged = Arc::try_unwrap(data)
+        .map_err(|_| {})
+        .unwrap()
+        .into_iter()
+        .map(|d| d.into_inner())
+        .fold(Data::default(), |mut merged, data| {
+            merged.merge(data);
+            merged
+        });
 
     merged.subtract_cycles();
 
@@ -1292,7 +1301,7 @@ impl Merge for Data {
     fn merge(&mut self, other: Self) {
         self.used_names.merge(other.used_names);
         self.entry_ids.extend(other.entry_ids);
-        // self.edges.0.merge(other.edges.0);
+        self.edges.0.merge(other.edges.0);
     }
 }
 
