@@ -138,6 +138,10 @@ fn minify_all(files: &[PathBuf]) {
                 worker.total_size += code.len();
                 worker.max_duration = worker.max_duration.max(duration);
 
+                if duration > Duration::from_secs(1) {
+                    eprintln!("{}: {:?}", path.display(), duration);
+                }
+
                 Ok(())
             })
             .unwrap()
