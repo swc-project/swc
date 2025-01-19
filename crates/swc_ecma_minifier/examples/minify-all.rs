@@ -55,20 +55,26 @@ fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
         .collect()
 }
 
-struct Worker;
+struct Worker {
+    total_size: usize,
+}
 
 impl Parallel for Worker {
     fn create(&self) -> Self {
-        Worker
+        Worker { total_size: 0 }
     }
 
-    fn merge(&mut self, _: Self) {}
+    fn merge(&mut self, other: Self) {
+        self.total_size += other.total_size;
+    }
 }
 
 #[inline(never)] // For profiling
 fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
-        Worker.maybe_par(2, files, |_, path| {
+        let mut worker = Worker { total_size: 0 };
+
+        worker.maybe_par(2, files, |worker, path| {
             testing::run_test(false, |cm, handler| {
                 let fm = cm.load_file(path).expect("failed to load file");
 
@@ -114,12 +120,14 @@ fn minify_all(files: &[PathBuf]) {
 
                 let code = print(cm.clone(), &[output], true);
 
-                fs::write("output.js", code.as_bytes()).expect("failed to write output");
+                worker.total_size += code.len();
 
                 Ok(())
             })
             .unwrap()
         });
+
+        eprintln!("Total size: {}", worker.total_size);
     });
 }
 
