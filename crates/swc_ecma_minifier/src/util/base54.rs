@@ -228,7 +228,7 @@ impl CharFreq {
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let cm = Lrc::new(DummySourceMap);
 
-        let (a, b) = swc_parallel::join(
+        let (mut a, b) = swc_parallel::join(
             || {
                 let mut freq = Self::default();
 
@@ -261,7 +261,9 @@ impl CharFreq {
             },
         );
 
-        a + b
+        a += b;
+
+        a
     }
 
     pub fn compile(self) -> Base54Chars {
