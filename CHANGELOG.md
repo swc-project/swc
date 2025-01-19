@@ -38,6 +38,9 @@
 - **(es/minifier)** Adjust parallel threshold ([#9872](https://github.com/swc-project/swc/issues/9872)) ([d5d856c](https://github.com/swc-project/swc/commit/d5d856cf3b7c89da4d917cb1acea4fdb3096769b))
 
 
+- **(es/minifier)** Box `VarUsageInfo` of `ProgramData` ([#9894](https://github.com/swc-project/swc/issues/9894)) ([fafd754](https://github.com/swc-project/swc/commit/fafd754f74be0cd9dfc1c0f5a24b1c078023cb64))
+
+
 - **(es/renamer)** Use `IndexSet` for rename queue ([#9866](https://github.com/swc-project/swc/issues/9866)) ([f404720](https://github.com/swc-project/swc/commit/f404720b8fa0166a27f47bf6913307353def7fae))
 
 
