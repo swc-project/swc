@@ -8,6 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
@@ -308,6 +309,19 @@ struct CharFreqAnalyzer<'a> {
     unresolved_ctxt: SyntaxContext,
 }
 
+impl Parallel for CharFreqAnalyzer<'_> {
+    fn create(&self) -> Self {
+        Self {
+            freq: Default::default(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.freq += other.freq;
+    }
+}
+
 impl Visit for CharFreqAnalyzer<'_> {
     noop_visit_type!();
 
@@ -338,6 +352,42 @@ impl Visit for CharFreqAnalyzer<'_> {
 
     /// This is preserved anyway
     fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_with(v);
+        });
+    }
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(cpu_count(), exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
+
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        self.maybe_par(cpu_count(), items, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_with(v);
+        });
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_with(v);
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(cpu_count(), stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
+    }
 }
 
 impl AddAssign for CharFreq {
