@@ -22,9 +22,15 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
     fn merge(&mut self, other: Self);
 
     /// Invoked after visiting all [Stmt]s, possibly in parallel.
+    ///
+    ///
+    /// Note: `visit_*_par` never calls this.
     fn after_stmts(&mut self, _stmts: &mut Vec<Stmt>) {}
 
     /// Invoked after visiting all [ModuleItem]s, possibly in parallel.
+    ///
+    ///
+    /// Note: `visit_*_par` never calls this.
     fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
 }
 
