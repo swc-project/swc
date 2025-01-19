@@ -1288,6 +1288,29 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = old_in_callee;
     }
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_export_default_expr(&mut self, expr: &mut ExportDefaultExpr) {
+        fn is_paren_wrap_fn_or_class(expr: &mut Expr, visitor: &mut SimplifyExpr) -> bool {
+            match &mut *expr {
+                Expr::Fn(..) | Expr::Class(..) => {
+                    expr.visit_mut_children_with(visitor);
+                    true
+                }
+                Expr::Paren(p) => is_paren_wrap_fn_or_class(&mut p.expr, visitor),
+                _ => false,
+            }
+        }
+
+        if !is_paren_wrap_fn_or_class(&mut expr.expr, self) {
+            expr.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Unary(UnaryExpr {
             op: op!("delete"), ..
@@ -1443,21 +1466,23 @@ impl VisitMut for SimplifyExpr {
         };
     }
 
-    fn visit_mut_export_default_expr(&mut self, expr: &mut ExportDefaultExpr) {
-        fn is_paren_wrap_fn_or_class(expr: &mut Expr, visitor: &mut SimplifyExpr) -> bool {
-            match &mut *expr {
-                Expr::Fn(..) | Expr::Class(..) => {
-                    expr.visit_mut_children_with(visitor);
-                    true
-                }
-                Expr::Paren(p) => is_paren_wrap_fn_or_class(&mut p.expr, visitor),
-                _ => false,
-            }
-        }
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
 
-        if !is_paren_wrap_fn_or_class(&mut expr.expr, self) {
-            expr.visit_mut_children_with(self);
-        }
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
+        let old = self.is_modifying;
+        self.is_modifying = true;
+        n.visit_mut_children_with(self);
+        self.is_modifying = old;
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -1494,6 +1519,12 @@ impl VisitMut for SimplifyExpr {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         let old_in_callee = self.in_callee;
         self.in_callee = false;
@@ -1515,6 +1546,12 @@ impl VisitMut for SimplifyExpr {
                 *p = *a.left.take();
             }
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count(), n, |v, n| {
+            n.visit_mut_with(v);
+        });
     }
 
     /// Drops unused values
@@ -1621,20 +1658,6 @@ impl VisitMut for SimplifyExpr {
         self.changed |= child.changed;
     }
 
-    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
-        let old = self.is_modifying;
-        self.is_modifying = true;
-        n.arg.visit_mut_with(self);
-        self.is_modifying = old;
-    }
-
-    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
-        let old = self.is_modifying;
-        self.is_modifying = true;
-        n.visit_mut_children_with(self);
-        self.is_modifying = old;
-    }
-
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         let old = self.in_callee;
         self.in_callee = true;
@@ -1647,32 +1670,15 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = old;
     }
 
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        let old = self.is_modifying;
+        self.is_modifying = true;
+        n.arg.visit_mut_with(self);
+        self.is_modifying = old;
+    }
+
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_mut_with(v);
-        });
     }
 }
 
