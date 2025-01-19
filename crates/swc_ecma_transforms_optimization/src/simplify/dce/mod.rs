@@ -10,6 +10,8 @@ use std::{
 use ahash::RandomState;
 use indexmap::{IndexMap, IndexSet};
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
+#[cfg(feature = "concurrent")]
+use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
@@ -144,7 +146,6 @@ impl Data {
     }
 
     /// Traverse the graph and subtract usages from `used_names`.
-    #[allow(unused)]
     fn subtract_cycles(&mut self) {
         let edges = take(&mut self.edges);
 
@@ -1215,13 +1216,19 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         .into_iter()
         .map(|d| d.into_inner())
         .collect::<Vec<_>>();
-    let mut merged = Data::default();
 
-    for data in data {
+    #[cfg(feature = "concurrent")]
+    let iter = data.into_par_iter();
+
+    #[cfg(not(feature = "concurrent"))]
+    let iter = data.into_iter();
+
+    let mut merged = iter.reduce(Data::default, |mut merged, data| {
         merged.merge(data);
-    }
+        merged
+    });
 
-    // merged.subtract_cycles();
+    merged.subtract_cycles();
 
     merged
 }
