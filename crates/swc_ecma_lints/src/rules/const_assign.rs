@@ -108,6 +108,12 @@ impl Visit for ConstAssign<'_> {
         self.check(&Ident::from(n));
     }
 
+    fn visit_class_members(&mut self, members: &[ClassMember]) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_with(v);
+        });
+    }
+
     fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
         self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_with(v);

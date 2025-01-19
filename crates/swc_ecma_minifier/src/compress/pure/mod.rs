@@ -184,7 +184,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(cpu_count() * 8, nodes, |v, node| {
+        self.maybe_par(cpu_count() * 2, nodes, |v, node| {
             node.visit_mut_with(v);
         });
     }
@@ -243,20 +243,6 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
-    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-
-        opt_call.args.visit_mut_with(self);
-
-        self.eval_spread_array(&mut opt_call.args);
-    }
-
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         m.visit_mut_children_with(self);
 
@@ -268,7 +254,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
-        m.visit_mut_children_with(self);
+        self.visit_par(m);
 
         m.retain(|m| {
             if let ClassMember::Empty(..) = m {
@@ -671,6 +657,20 @@ impl VisitMut for Pure<'_> {
         }
 
         e.args.visit_mut_with(self);
+    }
+
+    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        opt_call.args.visit_mut_with(self);
+
+        self.eval_spread_array(&mut opt_call.args);
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {

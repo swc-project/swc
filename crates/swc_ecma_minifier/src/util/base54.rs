@@ -326,31 +326,11 @@ impl Visit for CharFreqAnalyzer<'_> {
 
     visit_obj_and_computed!();
 
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.ctxt == self.unresolved_ctxt && i.sym != "arguments" {
-            return;
-        }
-
-        // It's not mangled
-        if self.preserved.contains(&i.to_id()) {
-            return;
-        }
-
-        self.freq.scan(&i.sym, -1);
+    fn visit_class_members(&mut self, members: &[ClassMember]) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_with(v);
+        });
     }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        match n {
-            PropName::Ident(_) => {}
-            PropName::Str(_) => {}
-            PropName::Num(_) => {}
-            PropName::Computed(e) => e.visit_with(self),
-            PropName::BigInt(_) => {}
-        }
-    }
-
-    /// This is preserved anyway
-    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
 
     fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
         self.maybe_par(cpu_count(), n, |v, n| {
@@ -364,6 +344,22 @@ impl Visit for CharFreqAnalyzer<'_> {
         });
     }
 
+    fn visit_ident(&mut self, i: &Ident) {
+        if i.ctxt == self.unresolved_ctxt && i.sym != "arguments" {
+            return;
+        }
+
+        // It's not mangled
+        if self.preserved.contains(&i.to_id()) {
+            return;
+        }
+
+        self.freq.scan(&i.sym, -1);
+    }
+
+    /// This is preserved anyway
+    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
+
     fn visit_module_items(&mut self, items: &[ModuleItem]) {
         self.maybe_par(cpu_count(), items, |v, item| {
             item.visit_with(v);
@@ -374,6 +370,16 @@ impl Visit for CharFreqAnalyzer<'_> {
         self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_with(v);
         });
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        match n {
+            PropName::Ident(_) => {}
+            PropName::Str(_) => {}
+            PropName::Num(_) => {}
+            PropName::Computed(e) => e.visit_with(self),
+            PropName::BigInt(_) => {}
+        }
     }
 
     fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {

@@ -74,6 +74,12 @@ impl Parallel for Remover {
 impl VisitMut for Remover {
     noop_visit_mut_type!();
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_mut_with(v);
+        });
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -175,6 +181,18 @@ impl VisitMut for Remover {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
@@ -296,6 +314,12 @@ impl VisitMut for Remover {
         }
     }
 
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
@@ -316,6 +340,12 @@ impl VisitMut for Remover {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
@@ -1216,30 +1246,6 @@ impl VisitMut for Remover {
         }) {
             s.cases.clear();
         }
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {

@@ -701,6 +701,10 @@ impl VisitMut for TreeShaker {
         self.in_block_stmt = old_in_block_stmt;
     }
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.visit_mut_par(cpu_count() * 8, members);
+    }
+
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
