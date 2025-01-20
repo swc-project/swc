@@ -449,7 +449,12 @@ impl Storage for ProgramData {
         }
 
         v.var_initialized |= init_type.is_some();
-        v.merged_var_type.merge(init_type);
+
+        if ctx.in_pat_of_param {
+            v.merged_var_type = Some(Value::Unknown);
+        } else {
+            v.merged_var_type.merge(init_type);
+        }
 
         v.declared_count += 1;
         v.declared = true;
