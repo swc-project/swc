@@ -90,7 +90,7 @@ where
         pass,
         Optional::new(
             class_fields_use_set(assumptions.pure_getters),
-            assumptions.set_public_class_fields,
+            assumptions.set_public_class_fields && should_enable!(ClassProperties, true),
         ),
     );
 
