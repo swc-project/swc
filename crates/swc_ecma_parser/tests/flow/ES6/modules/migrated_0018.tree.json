@@ -1,0 +1,47 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":3,"column":7},"end":{"line":3,"column":14}},
+      "message":"Duplicate export for `default`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":3,"column":18}},
+  "range":[46,83],
+  "body":[
+    {
+      "type":"ExportDefaultDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":18}},
+      "range":[46,64],
+      "declaration":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":17}},
+        "range":[61,63],
+        "value":42,
+        "raw":"42"
+      },
+      "exportKind":"value"
+    },
+    {
+      "type":"ExportDefaultDeclaration",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":18}},
+      "range":[65,83],
+      "declaration":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":3,"column":15},"end":{"line":3,"column":17}},
+        "range":[80,82],
+        "value":43,
+        "raw":"43"
+      },
+      "exportKind":"value"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":45}},
+      "range":[0,45],
+      "value":" Duplicate exports are an early/parse error"
+    }
+  ]
+}

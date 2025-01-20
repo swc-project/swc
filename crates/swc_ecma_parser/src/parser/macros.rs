@@ -19,7 +19,7 @@ macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match $p.input.cur() {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -27,14 +27,14 @@ macro_rules! is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match $p.input.cur() {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match $p.input.cur() {
-            Some(&Word(..)) => true,
+            Some(&crate::token::Word(..)) => true,
             _ => false,
         }
     }};
@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,14 +92,14 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match peek!($p) {
-            Some(&Word(..)) => true,
+            Some(&crate::token::Word(..)) => true,
             _ => false,
         }
     }};
@@ -161,9 +161,6 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
-        if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
-        }
         match $p.input.cur() {
             Some(&Token::Semi) => {
                 $p.input.bump();
@@ -210,7 +207,11 @@ macro_rules! expect {
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
             let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
+            syntax_error!(
+                $p,
+                $p.input.cur_span(),
+                crate::error::SyntaxError::Expected(TOKEN, cur)
+            )
         }
     }};
 }
@@ -220,7 +221,11 @@ macro_rules! expect_exact {
         const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
             let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
+            syntax_error!(
+                $p,
+                $p.input.cur_span(),
+                crate::error::SyntaxError::Expected(TOKEN, cur)
+            )
         }
     }};
 }
@@ -291,6 +296,9 @@ macro_rules! bump {
             $p.input.knows_cur(),
             "parser should not call bump() without knowing current token"
         );
+        if cfg!(feature = "debug") {
+            tracing::info!("Bump: {:?}", $p.input.cur());
+        }
         $p.input.bump()
     }};
 }
@@ -377,16 +385,13 @@ macro_rules! syntax_error {
                 }
             }
         }
-
-        if cfg!(feature = "debug") {
-            tracing::error!(
-                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
-                file!(),
-                line!(),
-                column!(),
-                $p.input.cur()
-            );
-        }
+        tracing::error!(
+            "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
+            file!(),
+            line!(),
+            column!(),
+            $p.input.cur()
+        );
         return Err(err.into());
     }};
 }
@@ -403,4 +408,18 @@ macro_rules! debug_tracing {
             .entered()
         }
     }};
+}
+
+macro_rules! is_contextual {
+    ($p:expr, $tt:tt) => {
+        // TODO: Check if the current token has an escape.
+        is!($p, $tt)
+    };
+}
+
+macro_rules! eat_contextual {
+    ($p:expr, $tt:tt) => {
+        // TODO: Check if the current token has an escape.
+        eat!($p, $tt)
+    };
 }

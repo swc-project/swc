@@ -126,6 +126,7 @@ define_known_ident!(
     Never => "never",
     Assert => "assert",
     Namespace => "namespace",
+    Module => "module",
     Accessor => "accessor",
     Meta => "meta",
     Target => "target",
@@ -134,6 +135,10 @@ define_known_ident!(
     Protected => "protected",
     Private => "private",
     Public => "public",
+    Opaque => "opaque",
+    Renders => "renders",
+    Proto => "proto",
+    Mixins => "mixins",
 );
 
 impl std::str::FromStr for KnownIdent {

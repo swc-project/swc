@@ -1,0 +1,49 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":41},"end":{"line":1,"column":43}},
+      "message":"Unexpected token `*/`. Did you mean `*-/`?"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":50}},
+  "range":[5,50],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":50}},
+      "range":[5,50],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":20}},
+        "range":[10,20],
+        "name":"PowerGlove",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"GenericTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":44},"end":{"line":1,"column":49}},
+        "range":[44,49],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":44},"end":{"line":1,"column":49}},
+          "range":[44,49],
+          "name":"soBad",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null
+      }
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":43}},
+      "range":[23,43],
+      "value":" bad means good "
+    }
+  ]
+}

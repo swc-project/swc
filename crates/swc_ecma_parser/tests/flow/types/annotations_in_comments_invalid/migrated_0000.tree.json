@@ -1,0 +1,23 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":3}},
+      "message":"Unexpected token `:`, expected the start of a statement"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+  "range":[7,7],
+  "body":[
+    {
+      "type":"EmptyStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "range":[7,7]
+    }
+  ],
+  "comments":[]
+}

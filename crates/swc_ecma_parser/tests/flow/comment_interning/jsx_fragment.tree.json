@@ -1,0 +1,67 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":60}},
+  "range":[25,60],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":60}},
+      "range":[25,60],
+      "expression":{
+        "type":"JSXFragment",
+        "trailingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":35},"end":{"line":1,"column":59}},
+            "range":[35,59],
+            "value":" 1.2 T JSX fragment "
+          }
+        ],
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+            "range":[0,24],
+            "value":" 1.1 L JSX fragment "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":34}},
+        "range":[25,34],
+        "openingFragment":{
+          "type":"JSXOpeningFragment",
+          "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":27}},
+          "range":[25,27]
+        },
+        "children":[
+          {
+            "type":"JSXText",
+            "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":31}},
+            "range":[27,31],
+            "value":"test",
+            "raw":"test"
+          }
+        ],
+        "closingFragment":{
+          "type":"JSXClosingFragment",
+          "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":34}},
+          "range":[31,34]
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+      "range":[0,24],
+      "value":" 1.1 L JSX fragment "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":35},"end":{"line":1,"column":59}},
+      "range":[35,59],
+      "value":" 1.2 T JSX fragment "
+    }
+  ]
+}

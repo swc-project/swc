@@ -1,0 +1,2 @@
+@blah
+type Foo = any;

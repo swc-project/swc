@@ -1,0 +1,11 @@
+type X = renders? number;
+type Y = renders? number | string;
+type Z = renders? (number | string);
+type Maybe = renders? ?number;
+type QualifiedGeneric = renders? React.Node;
+type Grouped = (renders? number);
+type Grouped2 = (renders? number | renders? string);
+type FuncParam = (renders?: number) => number;
+type FuncParamRenderType = (renders? number) => number;
+type FuncParamNoParens = renders? number => number;
+type ObjProp = {renders?: number};

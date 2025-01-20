@@ -1,0 +1,86 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 32
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 15,
+        "end": 32
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 15,
+          "end": 31
+        },
+        "expression": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 16,
+            "end": 30
+          },
+          "operator": "=",
+          "left": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 16,
+              "end": 25
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 18,
+                  "end": 23
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 23
+                  },
+                  "ctxt": 0,
+                  "value": "yield",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "value": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "right": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 28,
+              "end": 30
+            },
+            "properties": []
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

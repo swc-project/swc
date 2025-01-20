@@ -1,0 +1,105 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 12,
+          "ctxt": 0
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 1,
+            "end": 4,
+            "ctxt": 0
+          },
+          "operator": "<",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "value": "f",
+            "optional": false
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 3,
+              "end": 4,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "JSXElement",
+          "span": {
+            "start": 5,
+            "end": 12,
+            "ctxt": 0
+          },
+          "opening": {
+            "type": "JSXOpeningElement",
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 6,
+                "end": 7,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
+            },
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
+          },
+          "children": [],
+          "closing": {
+            "type": "JSXClosingElement",
+            "span": {
+              "start": 8,
+              "end": 12,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 11,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

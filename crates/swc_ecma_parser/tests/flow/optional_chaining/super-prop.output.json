@@ -1,0 +1,168 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 68
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8
+        },
+        "ctxt": 0,
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 18,
+          "end": 19
+        },
+        "ctxt": 0,
+        "value": "B",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 12,
+        "end": 68
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 34,
+            "end": 66
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 34,
+              "end": 35
+            },
+            "value": "x"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 34,
+              "end": 66
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 38,
+                "end": 66
+              },
+              "ctxt": 0,
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 44,
+                    "end": 62
+                  },
+                  "argument": {
+                    "type": "OptionalChainingExpression",
+                    "span": {
+                      "start": 51,
+                      "end": 61
+                    },
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 51,
+                        "end": 61
+                      },
+                      "object": {
+                        "type": "SuperPropExpression",
+                        "span": {
+                          "start": 51,
+                          "end": 58
+                        },
+                        "obj": {
+                          "type": "Super",
+                          "span": {
+                            "start": 51,
+                            "end": 56
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 57,
+                            "end": 58
+                          },
+                          "value": "a"
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 60,
+                          "end": 61
+                        },
+                        "value": "c"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 28,
+          "end": 29
+        },
+        "ctxt": 0,
+        "value": "A",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

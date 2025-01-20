@@ -1,0 +1,43 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 8
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 8
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 7
+        },
+        "operator": "**",
+        "left": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1,
+            "end": 2
+          },
+          "value": 2.0,
+          "raw": "2"
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 6,
+            "end": 7
+          },
+          "value": 3.0,
+          "raw": "3"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

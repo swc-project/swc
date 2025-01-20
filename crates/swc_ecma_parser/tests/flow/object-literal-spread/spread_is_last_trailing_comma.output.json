@@ -1,0 +1,60 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 17
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 1,
+          "end": 16
+        },
+        "expression": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 2,
+            "end": 15
+          },
+          "properties": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 3,
+                "end": 4
+              },
+              "ctxt": 0,
+              "value": "x",
+              "optional": false
+            },
+            {
+              "type": "SpreadElement",
+              "spread": {
+                "start": 6,
+                "end": 9
+              },
+              "arguments": {
+                "type": "Identifier",
+                "span": {
+                  "start": 9,
+                  "end": 13
+                },
+                "ctxt": 0,
+                "value": "rest",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
