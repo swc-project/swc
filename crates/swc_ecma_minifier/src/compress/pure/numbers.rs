@@ -90,4 +90,24 @@ impl Pure<'_> {
             }
         }
     }
+
+    pub(super) fn optimize_to_number(&mut self, e: &mut Expr) {
+        if let Expr::Bin(bin) = e {
+            if bin.op == op!("*")
+                && matches!(&*bin.left, Expr::Lit(Lit::Num(Number { value: 1.0, .. })))
+            {
+                report_change!("numbers: Turn '1 *' into '+'");
+                self.changed = true;
+
+                let value = bin.right.take();
+                let span = bin.span;
+
+                *e = Expr::Unary(UnaryExpr {
+                    span,
+                    op: op!(unary, "+"),
+                    arg: value,
+                })
+            }
+        }
+    }
 }
