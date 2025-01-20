@@ -1302,7 +1302,7 @@
                 },
                 rgb: function() {
                     var y = (this.l + 16) / 116, x = isNaN(this.a) ? y : y + this.a / 500, z = isNaN(this.b) ? y : y - this.b / 200;
-                    return x = 0.96422 * lab2xyz(x), y = 1 * lab2xyz(y), z = 0.82521 * lab2xyz(z), new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(lrgb2rgb(3.1338561 * x - 1.6168667 * y - 0.4906146 * z), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
+                    return x = 0.96422 * lab2xyz(x), y = +lab2xyz(y), z = 0.82521 * lab2xyz(z), new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(lrgb2rgb(3.1338561 * x - 1.6168667 * y - 0.4906146 * z), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
                 }
             })), Object(_define_js__WEBPACK_IMPORTED_MODULE_0__.default)(Hcl, hcl, Object(_define_js__WEBPACK_IMPORTED_MODULE_0__.extend)(_color_js__WEBPACK_IMPORTED_MODULE_1__.Color, {
                 brighter: function(k) {

@@ -4109,7 +4109,7 @@
                         case 58:
                             return d.trim() + c.replace(F, "$1" + d.trim());
                         default:
-                            if (0 < 1 * e && 0 < c.indexOf("\f")) return c.replace(F, (58 === d.charCodeAt(0) ? "" : "$1") + d.trim());
+                            if (0 < +e && 0 < c.indexOf("\f")) return c.replace(F, (58 === d.charCodeAt(0) ? "" : "$1") + d.trim());
                     }
                     return d + c;
                 }

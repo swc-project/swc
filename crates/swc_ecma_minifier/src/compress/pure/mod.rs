@@ -406,6 +406,7 @@ impl VisitMut for Pure<'_> {
         }
 
         self.lift_minus(e);
+        self.optimize_to_number(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
