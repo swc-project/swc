@@ -4680,7 +4680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.4.0"
+version = "10.5.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5183,7 +5183,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "7.0.0"
+version = "7.0.1"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5233,7 +5233,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "7.2.0"
+version = "7.3.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5397,7 +5397,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "7.1.0"
+version = "7.1.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5517,7 +5517,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "7.1.0"
+version = "7.1.1"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.5.0",
@@ -5663,7 +5663,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "7.0.2"
+version = "7.0.3"
 dependencies = [
  "indexmap 2.5.0",
  "num_cpus",
