@@ -24,10 +24,10 @@ swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "1.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "5.0.2", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "7.0.3", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "7.0.4", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_parallel = { version = "1.1.0", path = "../swc_parallel", default-features = false }
 

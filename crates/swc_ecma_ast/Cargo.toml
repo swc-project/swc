@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_ast"
 repository    = { workspace = true }
-version       = "5.0.2"
+version       = "5.0.3"
 
   [package.metadata.docs.rs]
   all-features = true
