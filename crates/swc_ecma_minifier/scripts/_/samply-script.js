@@ -12,6 +12,19 @@
         node.dispatchEvent(clickEvent);
     }
 
+    async function sendKey(node, key, keyCode, code) {
+        node.dispatchEvent(new KeyboardEvent("keydown", {
+            key: key,
+            keyCode: keyCode,
+            code: code,
+            which: keyCode,
+            shiftKey: false,
+            ctrlKey: false,
+            metaKey: false
+        }));
+
+    }
+
     async function handleRow(row) {
         const lib = row.querySelector('.lib');
         const libText = lib.textContent.trim();
@@ -22,13 +35,17 @@
             triggerMouseEvent(row, "click");
             await sleep(300);
 
-            row.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'm' }));
+            await sendKey(row, 'm', 77, 'KeyM');
             await sleep(500);
         }
     }
 
-    for (const row of rows) {
-        if (await handleRow(row)) {
+
+    while (true) {
+        const row = treeView.querySelector('.treeViewRow');
+        if (row) {
+            await handleRow(row);
+        } else {
             break;
         }
     }
