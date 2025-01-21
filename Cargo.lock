@@ -406,17 +406,16 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.16.0"
+version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fdf0ca73de70c3da94e4194e4a01fe732378f55d47cf4c0588caab22a0dbfa14"
+checksum = "74c973b79d9b6b89854493185ab760c6ef8e54bcfad10ad4e33991e46b374ac8"
 dependencies = [
  "ahash",
  "chrono",
  "either",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "itertools 0.13.0",
  "nom",
- "once_cell",
  "serde",
  "serde_json",
  "thiserror",
@@ -1808,7 +1807,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
 dependencies = [
  "fallible-iterator",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "stable_deref_trait",
 ]
 
@@ -1860,7 +1859,7 @@ dependencies = [
  "futures-sink",
  "futures-util",
  "http 0.2.12",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "slab",
  "tokio",
  "tokio-util",
@@ -2286,12 +2285,12 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.5.0"
+version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68b900aa2f7301e21c36462b170ee99994de34dff39a4a6a528e80e7376d07e5"
+checksum = "8c9c992b02b5b4c94ea26e32fe5bccb7aa7d9f390ab5c1221ff895bc7ea8b652"
 dependencies = [
  "equivalent",
- "hashbrown 0.14.5",
+ "hashbrown 0.15.2",
  "rayon",
  "serde",
 ]
@@ -3064,7 +3063,7 @@ dependencies = [
  "crc32fast",
  "flate2",
  "hashbrown 0.14.5",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "memchr",
  "ruzstd",
 ]
@@ -3240,7 +3239,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4c5cc86750666a3ed20bdaf5ca2a0344f9c67674cae0515bec2da16fbaa47db"
 dependencies = [
  "fixedbitset",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
 ]
 
 [[package]]
@@ -3797,7 +3796,7 @@ dependencies = [
  "bytecheck 0.8.0",
  "bytes",
  "hashbrown 0.15.2",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "munge",
  "ptr_meta 0.3.0",
  "rancor",
@@ -4147,7 +4146,7 @@ version = "0.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59e2dd588bf1597a252c3b920e0143eb99b0f76e4e082f4c92ce34fbc9e71ddd"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "itoa",
  "libyml",
  "memchr",
@@ -4421,7 +4420,7 @@ dependencies = [
  "criterion",
  "dashmap 5.5.3",
  "either",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "jsonc-parser",
  "lru",
  "napi",
@@ -4479,7 +4478,7 @@ dependencies = [
  "cargo_metadata",
  "changesets",
  "clap 4.5.9",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "petgraph",
 ]
 
@@ -4522,7 +4521,7 @@ dependencies = [
  "crc 2.1.0",
  "dashmap 5.5.3",
  "hex",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "is-macro",
  "ntest",
  "once_cell",
@@ -4660,7 +4659,7 @@ name = "swc_config"
 version = "1.0.0"
 dependencies = [
  "anyhow",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "serde",
  "serde_json",
  "sourcemap",
@@ -4849,7 +4848,7 @@ dependencies = [
 name = "swc_css_modules"
 version = "5.0.0"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -5013,7 +5012,7 @@ name = "swc_ecma_compat_es2015"
 version = "7.0.0"
 dependencies = [
  "arrayvec",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "is-macro",
  "rustc-hash",
  "serde",
@@ -5241,7 +5240,7 @@ dependencies = [
  "backtrace",
  "codspeed-criterion-compat",
  "criterion",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "num-bigint",
  "num_cpus",
  "once_cell",
@@ -5312,7 +5311,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
@@ -5403,7 +5402,7 @@ dependencies = [
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "criterion",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "once_cell",
  "phf",
  "rayon",
@@ -5441,7 +5440,7 @@ name = "swc_ecma_transforms_compat"
 version = "8.0.0"
 dependencies = [
  "arrayvec",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "is-macro",
  "num-bigint",
  "rayon",
@@ -5492,7 +5491,7 @@ dependencies = [
  "Inflector",
  "anyhow",
  "bitflags 2.6.0",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "is-macro",
  "path-clean 1.0.1",
  "pathdiff",
@@ -5520,7 +5519,7 @@ name = "swc_ecma_transforms_optimization"
 version = "7.1.1"
 dependencies = [
  "dashmap 5.5.3",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "once_cell",
  "petgraph",
  "rayon",
@@ -5576,7 +5575,7 @@ version = "7.0.0"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "once_cell",
  "rayon",
  "serde",
@@ -5650,7 +5649,7 @@ dependencies = [
 name = "swc_ecma_usage_analyzer"
 version = "7.0.0"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
@@ -5665,7 +5664,7 @@ dependencies = [
 name = "swc_ecma_utils"
 version = "7.0.4"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "num_cpus",
  "once_cell",
  "rayon",
@@ -5773,7 +5772,7 @@ dependencies = [
 name = "swc_fast_graph"
 version = "6.0.0"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "petgraph",
  "rustc-hash",
  "swc_common",
@@ -6608,7 +6607,7 @@ version = "0.19.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b5bb770da30e5cbfde35a2d7b9b8a2c4b8ef89548a7a6aeab5c9a576e3e7421"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "toml_datetime",
  "winnow 0.5.34",
 ]
@@ -6619,7 +6618,7 @@ version = "0.22.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "583c44c02ad26b0c3f3066fe629275e50627026c51ac2e595cca4c230ce1ce1d"
 dependencies = [
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "serde",
  "serde_spanned",
  "toml_datetime",
@@ -7311,7 +7310,7 @@ dependencies = [
  "ciborium",
  "derive_builder 0.12.0",
  "hex",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "schemars",
  "semver 1.0.23",
  "serde",
@@ -7333,7 +7332,7 @@ dependencies = [
  "ciborium",
  "derive_builder 0.12.0",
  "hex",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "schemars",
  "semver 1.0.23",
  "serde",
@@ -7445,7 +7444,7 @@ dependencies = [
  "enumset",
  "getrandom",
  "hex",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "more-asserts",
  "rkyv",
  "serde",
@@ -7469,7 +7468,7 @@ dependencies = [
  "dashmap 6.1.0",
  "enum-iterator",
  "fnv",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "lazy_static",
  "libc",
  "mach2",
@@ -7587,7 +7586,7 @@ dependencies = [
  "ahash",
  "bitflags 2.6.0",
  "hashbrown 0.14.5",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "semver 1.0.23",
 ]
 
@@ -8084,7 +8083,7 @@ dependencies = [
  "displaydoc",
  "flate2",
  "hmac",
- "indexmap 2.5.0",
+ "indexmap 2.7.1",
  "lzma-rs",
  "memchr",
  "pbkdf2",
