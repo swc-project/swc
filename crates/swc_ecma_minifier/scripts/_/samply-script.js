@@ -22,6 +22,15 @@
             ctrlKey: false,
             metaKey: false
         }));
+        node.dispatchEvent(new KeyboardEvent("keyup", {
+            key: key,
+            keyCode: keyCode,
+            code: code,
+            which: keyCode,
+            shiftKey: false,
+            ctrlKey: false,
+            metaKey: false
+        }));
 
     }
 
@@ -36,7 +45,7 @@
             await sleep(300);
 
             await sendKey(row, 'm', 77, 'KeyM');
-            await sleep(500);
+            await sleep(3000);
         }
     }
 
