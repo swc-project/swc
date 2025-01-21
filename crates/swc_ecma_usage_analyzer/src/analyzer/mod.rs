@@ -294,6 +294,7 @@ where
             };
 
             if let Some(left) = left {
+                let v = self.data.var_or_default(left.clone());
                 for id in collect_infects_from(
                     &n.right,
                     AliasConfig {
@@ -301,9 +302,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(left.clone())
-                        .add_infects_to(id.clone());
+                    v.add_infects_to(id.clone());
                 }
             }
         }
@@ -743,6 +742,7 @@ where
         self.used_recursively.remove(&id);
 
         {
+            let v = self.data.var_or_default(id);
             for id in collect_infects_from(
                 &n.function,
                 AliasConfig {
@@ -750,9 +750,7 @@ where
                     ..Default::default()
                 },
             ) {
-                self.data
-                    .var_or_default(n.ident.to_id())
-                    .add_infects_to(id.clone());
+                v.add_infects_to(id.clone());
             }
         }
     }
@@ -770,6 +768,7 @@ where
             n.visit_children_with(self);
 
             {
+                let v = self.data.var_or_default(n_id.to_id());
                 for id in collect_infects_from(
                     &n.function,
                     AliasConfig {
@@ -777,7 +776,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data.var_or_default(n_id.to_id()).add_infects_to(id);
+                    v.add_infects_to(id);
                 }
             }
             self.used_recursively.remove(&n_id.to_id());
@@ -1262,6 +1261,7 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
+                let v = self.data.var_or_default(var.to_id());
                 for id in collect_infects_from(
                     init,
                     AliasConfig {
@@ -1269,9 +1269,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(var.to_id())
-                        .add_infects_to(id.clone());
+                    v.add_infects_to(id.clone());
                 }
             }
         }
