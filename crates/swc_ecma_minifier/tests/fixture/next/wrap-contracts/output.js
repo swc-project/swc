@@ -1557,7 +1557,7 @@
                     } catch (err) {
                         return cb(new IteratorDecodeError('entry', err));
                     }
-                    !(void 0 === key && void 0 === value) && this[kCount]++, cb(null, key, value);
+                    (void 0 !== key || void 0 !== value) && this[kCount]++, cb(null, key, value);
                 }
                 [kHandleMany](err, entries) {
                     const cb = this[kFinishWork]();

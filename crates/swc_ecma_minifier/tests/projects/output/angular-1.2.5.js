@@ -642,7 +642,7 @@
     function toBoolean(value) {
         if (value && 0 !== value.length) {
             var v = lowercase("" + value);
-            value = !("f" == v || "0" == v || "false" == v || "no" == v || "n" == v || "[]" == v);
+            value = "f" != v && "0" != v && "false" != v && "no" != v && "n" != v && "[]" != v;
         } else value = !1;
         return value;
     }

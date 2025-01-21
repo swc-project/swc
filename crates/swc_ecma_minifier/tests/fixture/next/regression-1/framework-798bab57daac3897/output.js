@@ -27,7 +27,7 @@
             function ha(a, b) {
                 for(ea[a] = b, a = 0; a < b.length; a++)da.add(b[a]);
             }
-            var ia = !("undefined" == typeof window || void 0 === window.document || void 0 === window.document.createElement), ja = Object.prototype.hasOwnProperty, ka = /^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, la = {}, ma = {};
+            var ia = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement, ja = Object.prototype.hasOwnProperty, ka = /^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, la = {}, ma = {};
             function t(a, b, c, d, e, f, g) {
                 this.acceptsBooleans = 2 === b || 3 === b || 4 === b, this.attributeName = d, this.attributeNamespace = e, this.mustUseProperty = c, this.propertyName = a, this.type = b, this.sanitizeURL = f, this.removeEmptyString = g;
             }
@@ -321,7 +321,7 @@
             function cb(a, b, c) {
                 if (b.hasOwnProperty("value") || b.hasOwnProperty("defaultValue")) {
                     var d = b.type;
-                    if (!("submit" !== d && "reset" !== d || void 0 !== b.value && null !== b.value)) return;
+                    if (("submit" === d || "reset" === d) && (void 0 === b.value || null === b.value)) return;
                     b = "" + a._wrapperState.initialValue, c || b === a.value || (a.value = b), a.defaultValue = b;
                 }
                 "" !== (c = a.name) && (a.name = ""), a.defaultChecked = !!a._wrapperState.initialChecked, "" !== c && (a.name = c);
@@ -576,7 +576,7 @@
                     case "onMouseUp":
                     case "onMouseUpCapture":
                     case "onMouseEnter":
-                        (d = !d.disabled) || (d = !("button" === (a = a.type) || "input" === a || "select" === a || "textarea" === a)), a = !d;
+                        (d = !d.disabled) || (d = "button" !== (a = a.type) && "input" !== a && "select" !== a && "textarea" !== a), a = !d;
                         break;
                     default:
                         a = !1;

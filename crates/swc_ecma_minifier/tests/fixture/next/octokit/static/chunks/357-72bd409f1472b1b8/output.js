@@ -147,7 +147,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             }
             _assertStatus(expected) {
                 var status;
-                if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
+                if ((status = this._states.jobStatus(this.options.id)) !== expected && ("DONE" !== expected || null !== status)) throw new BottleneckError(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
             }
             doReceive() {
                 return this._states.start(this.options.id), this.Events.trigger("received", {
@@ -488,7 +488,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                     });
                 }
                 _validateOptions(options, invalid) {
-                    if (!(null != options && "object" == typeof options && 0 === invalid.length)) throw new Bottleneck.prototype.BottleneckError("Bottleneck v2 takes a single object argument. Refer to https://github.com/SGrondin/bottleneck#upgrading-to-v2 if you're upgrading from Bottleneck v1.");
+                    if (null == options || "object" != typeof options || 0 !== invalid.length) throw new Bottleneck.prototype.BottleneckError("Bottleneck v2 takes a single object argument. Refer to https://github.com/SGrondin/bottleneck#upgrading-to-v2 if you're upgrading from Bottleneck v1.");
                 }
                 ready() {
                     return this._store.ready;

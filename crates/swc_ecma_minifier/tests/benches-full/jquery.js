@@ -2321,7 +2321,7 @@
             !("click" === event.type && event.button >= 1)) {
                 for(; cur !== this; cur = cur.parentNode || this)// Don't check non-elements (#13208)
                 // Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-                if (1 === cur.nodeType && !("click" === event.type && !0 === cur.disabled)) {
+                if (1 === cur.nodeType && ("click" !== event.type || !0 !== cur.disabled)) {
                     for(i = 0, matchedHandlers = [], matchedSelectors = {}; i < delegateCount; i++)void 0 === matchedSelectors[// Don't conflict with Object.prototype properties (#13203)
                     sel = (handleObj = handlers[i]).selector + " "] && (matchedSelectors[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) > -1 : jQuery.find(sel, this, null, [
                         cur

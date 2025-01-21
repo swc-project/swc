@@ -5824,7 +5824,7 @@
             this.path = new PathProxy(!1);
         }, Path.prototype.hasStroke = function() {
             var style = this.style, stroke = style.stroke;
-            return !(null == stroke || 'none' === stroke || !(style.lineWidth > 0));
+            return null != stroke && 'none' !== stroke && style.lineWidth > 0;
         }, Path.prototype.hasFill = function() {
             var fill = this.style.fill;
             return null != fill && 'none' !== fill;
@@ -11865,7 +11865,7 @@
         var inner = makeInner();
         return function(seriesModel) {
             var fields = inner(seriesModel), pipelineContext = seriesModel.pipelineContext, originalLarge = !!fields.large, originalProgressive = !!fields.progressiveRender, large = fields.large = !!(pipelineContext && pipelineContext.large), progressive = fields.progressiveRender = !!(pipelineContext && pipelineContext.progressiveRender);
-            return !!(originalLarge !== large || originalProgressive !== progressive) && 'reset';
+            return (originalLarge !== large || originalProgressive !== progressive) && 'reset';
         };
     }
     enableClassExtend(ComponentView), enableClassManagement(ComponentView);
@@ -13497,7 +13497,7 @@
     var pathProxyForDraw = new PathProxy(!0);
     function styleHasStroke(style) {
         var stroke = style.stroke;
-        return !(null == stroke || 'none' === stroke || !(style.lineWidth > 0));
+        return null != stroke && 'none' !== stroke && style.lineWidth > 0;
     }
     function styleHasFill(style) {
         var fill = style.fill;
@@ -15506,7 +15506,7 @@
             function applyElementStates(el) {
                 for(var newStates = [], oldStates = el.currentStates, i = 0; i < oldStates.length; i++){
                     var stateName = oldStates[i];
-                    'emphasis' === stateName || 'blur' === stateName || 'select' === stateName || newStates.push(stateName);
+                    'emphasis' !== stateName && 'blur' !== stateName && 'select' !== stateName && newStates.push(stateName);
                 } // Only use states when it's exists.
                 el.selected && el.states.select && newStates.push('select'), 2 === el.hoverState && el.states.emphasis ? newStates.push('emphasis') : 1 === el.hoverState && el.states.blur && newStates.push('blur'), el.useStates(newStates);
             }
@@ -16739,7 +16739,7 @@
                 if (coordDim) {
                     assert(null == VISUAL_DIMENSIONS.get(coordDim));
                     var dimType, coordDimIndex = dimItem.coordDimIndex;
-                    getOrCreateEncodeArr(encode, coordDim)[coordDimIndex] = dimName, dimItem.isExtraCoord || (notExtraCoordDimMap.set(coordDim, 1), 'ordinal' === (dimType = dimItem.type) || 'time' === dimType || (defaultedLabel[0] = dimName), // And it only has index. User can use index to retrieve value from the raw item array.
+                    getOrCreateEncodeArr(encode, coordDim)[coordDimIndex] = dimName, dimItem.isExtraCoord || (notExtraCoordDimMap.set(coordDim, 1), 'ordinal' !== (dimType = dimItem.type) && 'time' !== dimType && (defaultedLabel[0] = dimName), // And it only has index. User can use index to retrieve value from the raw item array.
                     getOrCreateEncodeArr(userOutput.encode, coordDim)[coordDimIndex] = dimItem.index), dimItem.defaultTooltip && defaultedTooltip.push(dimName);
                 }
                 VISUAL_DIMENSIONS.each(function(v, otherDim) {
@@ -34278,7 +34278,7 @@
             var width, height, xAxisExtent, yAxisExtent, coordSys = seriesModel.coordinateSystem;
             if (isCoordinateSystemType(coordSys, 'cartesian2d')) {
                 var xAxis = coordSys.getAxis('x'), yAxis = coordSys.getAxis('y');
-                if (!('category' === xAxis.type && 'category' === yAxis.type)) throw Error('Heatmap on cartesian must have two category axes');
+                if ('category' !== xAxis.type || 'category' !== yAxis.type) throw Error('Heatmap on cartesian must have two category axes');
                 if (!(xAxis.onBand && yAxis.onBand)) throw Error('Heatmap on cartesian must have two axes with boundaryGap true');
                 width = xAxis.getBandWidth(), height = yAxis.getBandWidth(), xAxisExtent = xAxis.scale.getExtent(), yAxisExtent = yAxis.scale.getExtent();
             }
@@ -36370,7 +36370,7 @@
                 }
             }
             if (!isInit && elPropsInAttr // Just ignore shape animation in morphing.
-             && !(null != morphFromEl && 'shape' === mainAttr)) {
+             && (null == morphFromEl || 'shape' !== mainAttr)) {
                 if (attrOpt.transition) {
                     transFromPropsInAttr || (transFromPropsInAttr = transFromProps[mainAttr] = {});
                     for(var transitionKeys = normalizeToArray(attrOpt.transition), i = 0; i < transitionKeys.length; i++){
