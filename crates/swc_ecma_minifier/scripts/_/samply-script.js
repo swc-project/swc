@@ -42,7 +42,7 @@
         const libText = lib.textContent.trim();
         if (libText.endsWith("/swc_ecma_visit/src/generated.rs") ||
             libText.includes('/.rustup/') ||
-            libText.includes('/chili-') ||
+            libText.includes('chili-0.2.0/') ||
             libText.includes('/swc_parallel/')) {
             triggerMouseEvent(row, "mouseover");
             triggerMouseEvent(row, "mousedown");
