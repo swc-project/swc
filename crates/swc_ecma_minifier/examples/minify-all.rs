@@ -22,7 +22,7 @@ use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
 };
-use swc_ecma_utils::parallel::{Parallel, ParallelExt};
+use swc_ecma_utils::parallel::Parallel;
 use walkdir::WalkDir;
 
 fn main() {
@@ -30,11 +30,9 @@ fn main() {
     let files = expand_dirs(dirs);
     eprintln!("Using {} files", files.len());
 
-    for i in 0..10 {
-        let start = Instant::now();
-        minify_all(&files);
-        eprintln!("{}: Took {:?}", i, start.elapsed());
-    }
+    let start = Instant::now();
+    minify_all(&files);
+    eprintln!("Took {:?}", start.elapsed());
 }
 
 /// Return the whole input files as abolute path.
@@ -85,7 +83,7 @@ fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
         let mut worker = Worker::default();
 
-        worker.maybe_par(2, files, |worker, path| {
+        files.iter().for_each(|path| {
             testing::run_test(false, |cm, handler| {
                 let fm = cm.load_file(path).expect("failed to load file");
 
