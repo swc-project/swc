@@ -15,10 +15,11 @@ impl Pure<'_> {
     /// - `!foo ? true : bar` => `!foo || bar`
     /// - `foo ? false : bar` => `!foo && bar`
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
-        let cond = match e {
-            Expr::Cond(cond) => cond,
-            _ => return,
-        };
+        if !self.options.conditionals {
+            return;
+        }
+
+        let Expr::Cond(cond) = e else { return };
 
         let lt = cond.cons.get_type();
         if let Value::Known(Type::Bool) = lt {
@@ -100,10 +101,7 @@ impl Pure<'_> {
             return;
         }
 
-        let cond = match e {
-            Expr::Cond(v) => v,
-            _ => return,
-        };
+        let Expr::Cond(cond) = e else { return };
 
         match (&mut *cond.cons, &mut *cond.alt) {
             (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
@@ -129,6 +127,58 @@ impl Pure<'_> {
                 .into();
             }
             _ => {}
+        }
+    }
+
+    ///
+    /// - `foo ? num : 0` => `num * !!foo`
+    /// - `foo ? 0 : num` => `num * !foo`
+    pub(super) fn compress_conds_as_arithmetic(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+
+        let Expr::Cond(cond) = e else { return };
+        let span = cond.span;
+
+        match (&mut *cond.cons, &mut *cond.alt) {
+            (
+                Expr::Lit(Lit::Num(Number { value, .. })),
+                Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+            ) if *value > 0.0 => {
+                report_change!("conditionals: `foo ? num : 0` => `num * !!foo`");
+                self.changed = true;
+
+                let left = cond.cons.take();
+                let mut right = cond.test.take();
+                self.negate_twice(&mut right, false);
+
+                *e = Expr::Bin(BinExpr {
+                    span,
+                    op: op!("*"),
+                    left,
+                    right,
+                })
+            }
+            (
+                Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                Expr::Lit(Lit::Num(Number { value, .. })),
+            ) if *value > 0.0 => {
+                report_change!("conditionals: `foo ? 0 : num` => `num * !foo`");
+                self.changed = true;
+
+                let left = cond.alt.take();
+                let mut right = cond.test.take();
+                self.negate(&mut right, false, false);
+
+                *e = Expr::Bin(BinExpr {
+                    span,
+                    op: op!("*"),
+                    left,
+                    right,
+                })
+            }
+            _ => (),
         }
     }
 

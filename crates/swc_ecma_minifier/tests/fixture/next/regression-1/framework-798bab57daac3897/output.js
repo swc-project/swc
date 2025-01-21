@@ -766,7 +766,7 @@
                 return d;
             }
             function wc(a) {
-                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 & a ? 1073741824 : 0;
+                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 * !!(1073741824 & a);
             }
             function xc() {
                 var a = qc;
@@ -5249,7 +5249,7 @@
                         d = b.elementType;
                         a: {
                             switch(null !== a && (a.alternate = null, b.alternate = null, b.flags |= 2), a = b.pendingProps, d = (e = d._init)(d._payload), b.type = d, e = b.tag = function(a) {
-                                if ("function" == typeof a) return ij(a) ? 1 : 0;
+                                if ("function" == typeof a) return +!!ij(a);
                                 if (null != a) {
                                     if ((a = a.$$typeof) === Ca) return 11;
                                     if (a === Fa) return 14;

@@ -5630,7 +5630,7 @@
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
                             "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
+                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
                         return(// If a time zone is specified, all fields are interpreted as UTC and then
                         // offset according to the specified time zone.
                         "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
@@ -13503,7 +13503,7 @@ object-assign
                     if (1 === sign ? y0 - cr["bottom".concat(side)] < y1 + cr["top".concat(side)] : y0 + cr["bottom".concat(side)] > y1 - cr["top".concat(side)]) {
                         var topCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x + signL * cr["top".concat(side)], y1 + sign * cr["top".concat(side)]), topCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(topCenter, cr["top".concat(side)]), bottomCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x + signL * cr["bottom".concat(side)], y0 - sign * cr["bottom".concat(side)]), bottomCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(bottomCenter, cr["bottom".concat(side)]), circleIntersection = topCircle.intersection(bottomCircle);
                         if (circleIntersection.length > 0) {
-                            var arcIntersection = circleIntersection[isLeft ? 0 : 1];
+                            var arcIntersection = circleIntersection[+!isLeft];
                             bottomMiddlePoint = {
                                 x: arcIntersection.x,
                                 y: arcIntersection.y
@@ -13512,7 +13512,7 @@ object-assign
                                 y: arcIntersection.y
                             };
                         } else if (cr["top".concat(side)] > cr["bottom".concat(side)]) {
-                            var newX = topCircle.solveX(y0)[isLeft ? 0 : 1];
+                            var newX = topCircle.solveX(y0)[+!isLeft];
                             bottomPoint = {
                                 x: newX,
                                 y: y0
@@ -13524,7 +13524,7 @@ object-assign
                                 y: y0
                             };
                         } else {
-                            var _newX = bottomCircle.solveX(y1)[isLeft ? 0 : 1];
+                            var _newX = bottomCircle.solveX(y1)[+!isLeft];
                             bottomMiddlePoint = {
                                 x: _newX,
                                 y: y1
@@ -13564,7 +13564,7 @@ object-assign
                     if (leftMiddlePoint.x > rightMiddlePoint.x) {
                         var leftCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x0 + cr["".concat(side, "Left")], y - signL * cr["".concat(side, "Left")]), leftCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(leftCenter, cr["".concat(side, "Left")]), rightCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x1 - cr["".concat(side, "Right")], y - signL * cr["".concat(side, "Right")]), rightCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(rightCenter, cr["".concat(side, "Right")]), circleIntersection = leftCircle.intersection(rightCircle);
                         if (circleIntersection.length > 0) {
-                            var arcIntersection = circleIntersection[sign > 0 ? 1 : 0];
+                            var arcIntersection = circleIntersection[+(sign > 0)];
                             leftMiddlePoint = {
                                 x: arcIntersection.x,
                                 y: arcIntersection.y
@@ -13573,7 +13573,7 @@ object-assign
                                 y: arcIntersection.y
                             };
                         } else if (cr["".concat(side, "Right")] > cr["".concat(side, "Left")]) {
-                            var newY = rightCircle.solveY(x0)[isTop ? 0 : 1];
+                            var newY = rightCircle.solveY(x0)[+!isTop];
                             leftPoint = {
                                 x: x0,
                                 y: newY
@@ -13585,7 +13585,7 @@ object-assign
                                 y: newY
                             };
                         } else {
-                            var _newY = leftCircle.solveY(x1)[isTop ? 0 : 1];
+                            var _newY = leftCircle.solveY(x1)[+!isTop];
                             rightPoint = {
                                 x: x1,
                                 y: _newY
@@ -18689,7 +18689,7 @@ object-assign
                 return target;
             }
             /*eslint no-magic-numbers: ["error", { "ignore": [0, 1, 2, 180] }]*/ var getArcPath = function(props) {
-                var cx = props.cx, cy = props.cy, r = props.r, startAngle = props.startAngle, endAngle = props.endAngle, closedPath = props.closedPath, halfAngle = Math.abs(endAngle - startAngle) / 2 + startAngle, x1 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), y1 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), x2 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), y2 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), x3 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), y3 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), largerArcFlag1 = halfAngle - startAngle <= 180 ? 0 : 1, largerArcFlag2 = endAngle - halfAngle <= 180 ? 0 : 1, arcStart = closedPath ? " M ".concat(cx, ", ").concat(cy, " L ").concat(x1, ", ").concat(y1) : "M ".concat(x1, ", ").concat(y1), arc1 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag1, ", 0, ").concat(x2, ", ").concat(y2), arc2 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag2, ", 0, ").concat(x3, ", ").concat(y3); // Always draw the path as two arcs so that complete circles may be rendered.
+                var cx = props.cx, cy = props.cy, r = props.r, startAngle = props.startAngle, endAngle = props.endAngle, closedPath = props.closedPath, halfAngle = Math.abs(endAngle - startAngle) / 2 + startAngle, x1 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), y1 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), x2 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), y2 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), x3 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), y3 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), largerArcFlag1 = +!(halfAngle - startAngle <= 180), largerArcFlag2 = +!(endAngle - halfAngle <= 180), arcStart = closedPath ? " M ".concat(cx, ", ").concat(cy, " L ").concat(x1, ", ").concat(y1) : "M ".concat(x1, ", ").concat(y1), arc1 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag1, ", 0, ").concat(x2, ", ").concat(y2), arc2 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag2, ", 0, ").concat(x3, ", ").concat(y3); // Always draw the path as two arcs so that complete circles may be rendered.
                 return "".concat(arcStart, " ").concat(arc1, " ").concat(arc2, " ").concat(closedPath ? "Z" : "");
             }, evaluateProps = function(props) {
                 /**
@@ -22105,7 +22105,7 @@ object-assign
                     var labelPlacement = props.labelPlacement, datum = props.datum;
                     if (!labelPlacement || "vertical" === labelPlacement) return 0;
                     var degrees = void 0 !== baseAngle ? baseAngle % 360 : getDegrees(props, datum), angle = 0;
-                    return 0 === degrees || 180 === degrees ? angle = 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1) * ("perpendicular" === labelPlacement ? 0 : 90);
+                    return 0 === degrees || 180 === degrees ? angle = 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                 },
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
@@ -27440,7 +27440,7 @@ object-assign
                 var minDomain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getMinFromProps(props, axis), maxDomain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getMaxFromProps(props, axis), dataset = getData(props);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getDomainFromMinMax(minDomain, maxDomain) : void 0;
                 var error = "x" === axis ? "_errorX" : "_errorY", reduceErrorData = function(type) {
-                    var errorIndex = "min" === type ? 1 : 0, sign = "min" === type ? -1 : 1;
+                    var errorIndex = +("min" === type), sign = "min" === type ? -1 : 1;
                     return dataset.reduce(function(memo, datum) {
                         var currentError = Array.isArray(datum[error]) ? datum[error][errorIndex] : datum[error], current = datum["_".concat(axis)] + sign * (currentError || 0);
                         return memo < current && "min" === type || memo > current && "max" === type ? memo : current;
@@ -33054,7 +33054,7 @@ object-assign
                             var angle, polar = props.polar, labelPlacement = props.labelPlacement, orientation = props.orientation, datum = props.datum;
                             if (!polar || !labelPlacement || "vertical" === labelPlacement) return 0;
                             var degrees = victory_core__WEBPACK_IMPORTED_MODULE_7__.LabelHelpers.getDegrees(props, datum);
-                            return 0 === degrees || 180 === degrees ? angle = "top" === orientation && 180 === degrees ? 270 : 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1) * ("perpendicular" === labelPlacement ? 0 : 90);
+                            return 0 === degrees || 180 === degrees ? angle = "top" === orientation && 180 === degrees ? 270 : 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                         }
                     },
                     {

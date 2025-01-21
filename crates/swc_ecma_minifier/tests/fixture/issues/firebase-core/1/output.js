@@ -243,9 +243,6 @@
             function w(a, b) {
                 return -1 != a.indexOf(b);
             }
-            function ua(a, b) {
-                return a < b ? -1 : a > b ? 1 : 0;
-            }
             a: {
                 var va = l.navigator;
                 if (va) {
@@ -1450,7 +1447,7 @@
                             var b1, e = a.C;
                             D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
                         } else Gc(a);
-                    } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - (a.m ? 1 : 0)) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
+                    } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - +!!a.m) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
                             Q(a, 5);
                             break;
@@ -1573,7 +1570,7 @@
                         let a = 0;
                         const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
-                            var e = b[h] || "", f = c[h] || "";
+                            var a1, b1, a2, b2, a3, b3, e = b[h] || "", f = c[h] || "";
                             do {
                                 if (e = /(\d*)(\D*)(.*)/.exec(e) || [
                                     "",
@@ -1586,7 +1583,7 @@
                                     "",
                                     ""
                                 ], 0 == e[0].length && 0 == f[0].length) break;
-                                a = ua(0 == e[1].length ? 0 : parseInt(e[1], 10), 0 == f[1].length ? 0 : parseInt(f[1], 10)) || ua(0 == e[2].length, 0 == f[2].length) || ua(e[2], f[2]), e = e[3], f = f[3];
+                                a1 = 0 == e[1].length ? 0 : parseInt(e[1], 10), b1 = 0 == f[1].length ? 0 : parseInt(f[1], 10), a = (a1 < b1 ? -1 : +(a1 > b1)) || (a2 = 0 == e[2].length, b2 = 0 == f[2].length, a2 < b2 ? -1 : +(a2 > b2)) || (a3 = e[2], b3 = f[2], a3 < b3 ? -1 : +(a3 > b3)), e = e[3], f = f[3];
                             }while (0 == a)
                         }
                         return 0 <= a;

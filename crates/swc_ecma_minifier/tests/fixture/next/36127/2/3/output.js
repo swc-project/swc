@@ -161,7 +161,7 @@ class e extends Text {
         for(let s = 0, h = 0; h <= e && s < this.children.length; s++){
             let l = this.children[s], r = h + l.length;
             if (t <= r && e >= h) {
-                let s = i & ((h <= t ? 1 /* Open.From */  : 0) | (r >= e ? 2 /* Open.To */  : 0));
+                let s = i & (+(h <= t) | 2 /* Open.To */  * (r >= e));
                 h >= t && r <= e && !s ? n.push(l) : l.decompose(t - h, e - h, n, s);
             }
             h = r + 1;
@@ -260,7 +260,7 @@ class i {
             if (l == (n > 0 ? r : 0)) {
                 if (0 == i) return this.done = !0, this.value = "", this;
                 n > 0 && this.offsets[i - 1]++, this.nodes.pop(), this.offsets.pop();
-            } else if ((1 & h) == (n > 0 ? 0 : 1)) {
+            } else if ((1 & h) == +!(n > 0)) {
                 if (this.offsets[i] += n, 0 == e) return this.lineBreak = !0, this.value = "\n", this;
                 e--;
             } else if (s instanceof t) {

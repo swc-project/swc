@@ -1413,7 +1413,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = this.has(key) && delete this.__data__[key];
-            return this.size -= result ? 1 : 0, result;
+            return this.size -= +!!result, result;
         }, Hash.prototype.get = /**
      * Gets the hash value for `key`.
      *
@@ -1451,7 +1451,7 @@
      * @returns {Object} Returns the hash instance.
      */ function(key, value) {
             var data = this.__data__;
-            return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && undefined === value ? HASH_UNDEFINED : value, this;
+            return this.size += +!this.has(key), data[key] = nativeCreate && undefined === value ? HASH_UNDEFINED : value, this;
         }, // Add methods to `ListCache`.
         ListCache.prototype.clear = /**
      * Removes all key-value entries from the list cache.
@@ -1531,7 +1531,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = getMapData(this, key).delete(key);
-            return this.size -= result ? 1 : 0, result;
+            return this.size -= +!!result, result;
         }, MapCache.prototype.get = /**
      * Gets the map value for `key`.
      *
@@ -1563,7 +1563,7 @@
      * @returns {Object} Returns the map cache instance.
      */ function(key, value) {
             var data = getMapData(this, key), size = data.size;
-            return data.set(key, value), this.size += data.size == size ? 0 : 1, this;
+            return data.set(key, value), this.size += +(data.size != size), this;
         }, // Add methods to `SetCache`.
         SetCache.prototype.add = SetCache.prototype.push = /**
      * Adds `value` to the array cache.
@@ -3249,7 +3249,7 @@
                 // Exit early if metadata can't be merged.
                 if (isCommon || isCombo) {
                     1 & srcBitmask && (data[2] = source[2], // Set when currying a bound function.
-                    newBitmask |= 1 & bitmask ? 0 : 4);
+                    newBitmask |= 4 * !(1 & bitmask));
                     // Compose partial arguments.
                     var value = source[3];
                     if (value) {
@@ -4258,7 +4258,7 @@
             var length = paths.length, start = length ? paths[0] : 0, value = this.__wrapped__, interceptor = function(object) {
                 return baseAt(object, paths);
             };
-            return !(length > 1) && !this.__actions__.length && value instanceof LazyWrapper && isIndex(start) ? ((value = value.slice(start, +start + (length ? 1 : 0))).__actions__.push({
+            return !(length > 1) && !this.__actions__.length && value instanceof LazyWrapper && isIndex(start) ? ((value = value.slice(start, +start + +!!length)).__actions__.push({
                 func: thru,
                 args: [
                     interceptor
@@ -4449,7 +4449,7 @@
      * _.partition(users, 'active');
      * // => objects for [['fred'], ['barney', 'pebbles']]
      */ var partition = createAggregator(function(result, value, key) {
-            result[key ? 0 : 1].push(value);
+            result[+!key].push(value);
         }, function() {
             return [
                 [],

@@ -658,7 +658,7 @@
                 // Support: IE 11+, Edge 17 - 18+
                 // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
                 // two documents; shallow comparisons work.
-                /* eslint-disable eqeqeq */ ap[i] == preferredDoc ? -1 : bp[i] == preferredDoc ? 1 : /* eslint-enable eqeqeq */ 0;
+                /* eslint-disable eqeqeq */ ap[i] == preferredDoc ? -1 : +(bp[i] == preferredDoc);
             }), document;
         }, Sizzle.matches = function(expr, elements) {
             return Sizzle(expr, null, null, elements);
@@ -1088,7 +1088,7 @@
             var bySet, byElement, superMatcher, i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
             if (!cached) {
                 for(match || (match = tokenize(selector)), i = match.length; i--;)(cached = function matcherFromTokens(tokens) {
-                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, // The foundational matcher ensures that elements are reachable from top-level context(s)
+                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = +!!leadingRelative, // The foundational matcher ensures that elements are reachable from top-level context(s)
                     matchContext = addCombinator(function(elem) {
                         return elem === checkContext;
                     }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
@@ -2467,7 +2467,7 @@
         which: function(event) {
             var button = event.button;
             return(// Add which for key events
-            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0 : event.which);
+            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button) : event.which);
         }
     }, jQuery.event.addProp), jQuery.each({
         focus: "focusin",
@@ -2842,7 +2842,7 @@
         Math.max(0, matches[2] - (subtract || 0)) + (matches[3] || "px") : value;
     }
     function boxModelAdjustment(elem, dimension, box, isBorderBox, styles, computedVal) {
-        var i = "width" === dimension ? 1 : 0, extra = 0, delta = 0;
+        var i = +("width" === dimension), extra = 0, delta = 0;
         // Adjustment may not be necessary
         if (box === (isBorderBox ? "border" : "content")) return 0;
         for(; i < 4; i += 2)"margin" === box && (delta += jQuery.css(elem, box + cssExpand[i], !0, styles)), isBorderBox ? ("content" === box && (delta -= jQuery.css(elem, "padding" + cssExpand[i], !0, styles)), "margin" !== box && (delta -= jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles))) : (// Add padding
@@ -3060,7 +3060,7 @@
         };
         for(// If we include width, step value is 1 to do all cssExpand values,
         // otherwise step value is 2 to skip over Left and Right
-        includeWidth = includeWidth ? 1 : 0; i < 4; i += 2 - includeWidth)attrs["margin" + (which = cssExpand[i])] = attrs["padding" + which] = type;
+        includeWidth = +!!includeWidth; i < 4; i += 2 - includeWidth)attrs["margin" + (which = cssExpand[i])] = attrs["padding" + which] = type;
         return includeWidth && (attrs.opacity = attrs.width = type), attrs;
     }
     function createTween(value, prop, animation) {
@@ -3962,7 +3962,7 @@
                 // (no matter how long the jqXHR object will be used)
                 transport = void 0, // Cache response headers
                 responseHeadersString = headers || "", // Set readyState
-                jqXHR.readyState = status > 0 ? 4 : 0, // Determine if successful
+                jqXHR.readyState = 4 * (status > 0), // Determine if successful
                 isSuccess = status >= 200 && status < 300 || 304 === status, responses && (response = /* Handles responses to an ajax request:
  * - finds the right dataType (mediates between content-type and expected dataType)
  * - returns the corresponding response

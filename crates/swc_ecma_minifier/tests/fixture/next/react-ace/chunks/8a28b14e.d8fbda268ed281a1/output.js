@@ -470,7 +470,7 @@
                     });
                 };
                 var getModifierHash = function(e) {
-                    return 0 | (e.ctrlKey ? 1 : 0) | (e.altKey ? 2 : 0) | (e.shiftKey ? 4 : 0) | (e.metaKey ? 8 : 0);
+                    return 0 | +!!e.ctrlKey | 2 * !!e.altKey | 4 * !!e.shiftKey | 8 * !!e.metaKey;
                 };
                 function normalizeCommandKeys(callback, e, keyCode) {
                     var hashId = getModifierHash(e);
@@ -564,7 +564,7 @@
                         return 0 == this.compare(row, column);
                     }, this.compareRange = function(range) {
                         var cmp, end = range.end, start = range.start;
-                        return 1 == (cmp = this.compare(end.row, end.column)) ? 1 == (cmp = this.compare(start.row, start.column)) ? 2 : 0 == cmp ? 1 : 0 : -1 == cmp ? -2 : -1 == (cmp = this.compare(start.row, start.column)) ? -1 : 1 == cmp ? 42 : 0;
+                        return 1 == (cmp = this.compare(end.row, end.column)) ? 1 == (cmp = this.compare(start.row, start.column)) ? 2 : +(0 == cmp) : -1 == cmp ? -2 : -1 == (cmp = this.compare(start.row, start.column)) ? -1 : 42 * (1 == cmp);
                     }, this.comparePoint = function(p) {
                         return this.compare(p.row, p.column);
                     }, this.containsRange = function(range) {
@@ -587,7 +587,7 @@
                     }, this.insideEnd = function(row, column) {
                         return !(0 != this.compare(row, column) || this.isStart(row, column));
                     }, this.compare = function(row, column) {
-                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? column <= this.end.column ? 0 : 1 : 0 : column < this.start.column ? -1 : column > this.end.column ? 1 : 0;
+                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? +!(column <= this.end.column) : 0 : column < this.start.column ? -1 : +(column > this.end.column);
                     }, this.compareStart = function(row, column) {
                         return this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
                     }, this.compareEnd = function(row, column) {
@@ -814,7 +814,7 @@
                             value || (value = "");
                             var newValue = "\n ab" + value + "cde fg\n";
                             newValue != text.value && (text.value = lastValue = newValue);
-                            var selectionEnd = 4 + (value.length || (host.selection.isEmpty() ? 0 : 1));
+                            var selectionEnd = 4 + (value.length || +!host.selection.isEmpty());
                             (4 != lastSelectionStart || lastSelectionEnd != selectionEnd) && text.setSelectionRange(4, selectionEnd), lastSelectionStart = 4, lastSelectionEnd = selectionEnd;
                         }
                     } : function() {
@@ -1927,7 +1927,7 @@
                         initialValue: 2
                     },
                     dragDelay: {
-                        initialValue: useragent.isMac ? 150 : 0
+                        initialValue: 150 * !!useragent.isMac
                     },
                     dragEnabled: {
                         initialValue: !0
@@ -2430,12 +2430,12 @@
                 }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
-                    return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
+                    return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? +!!/[\u0591-\u05f4]/.test(ch) : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
                     var chars = text.split(""), logicalFromVisual = Array(chars.length), bidiLevels = Array(chars.length), levels = [];
-                    dir = isRtl ? 1 : 0, function(chars, levels, len, charTypes) {
+                    dir = +!!isRtl, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
                         for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
@@ -2590,7 +2590,7 @@
                         }, editor.session.$bidiHandler.RLE) : editor.session.doc.removeInLine(row, 0, 1);
                     }, this.getPosLeft = function(col) {
                         col -= this.wrapIndent;
-                        var leftBoundary = this.line.charAt(0) === this.RLE ? 1 : 0, logicalIdx = col > leftBoundary ? this.session.getOverwrite() ? col : col - 1 : leftBoundary, visualIdx = bidiUtil.getVisualFromLogicalIdx(logicalIdx, this.bidiMap), levels = this.bidiMap.bidiLevels, left = 0;
+                        var leftBoundary = +(this.line.charAt(0) === this.RLE), logicalIdx = col > leftBoundary ? this.session.getOverwrite() ? col : col - 1 : leftBoundary, visualIdx = bidiUtil.getVisualFromLogicalIdx(logicalIdx, this.bidiMap), levels = this.bidiMap.bidiLevels, left = 0;
                         !this.session.getOverwrite() && col <= leftBoundary && levels[visualIdx] % 2 != 0 && visualIdx++;
                         for(var i = 0; i < visualIdx; i++)left += this.charWidths[levels[i]];
                         return !this.session.getOverwrite() && col > leftBoundary && levels[visualIdx] % 2 == 0 && (left += this.charWidths[levels[visualIdx]]), this.wrapIndent && (left += this.isRtlDir ? -1 * this.wrapOffset : this.wrapOffset), this.isRtlDir && (left += this.rtlLineOffset), left;
@@ -3245,7 +3245,7 @@
                             0,
                             selection.start.column + 1,
                             rowDiff,
-                            selection.end.column + (rowDiff ? 0 : 1)
+                            selection.end.column + +!rowDiff
                         ]
                     };
                 }, CstyleBehaviour = function(options) {
@@ -5459,8 +5459,8 @@
                             if (options.siblings) {
                                 var data = this.getParentFoldRangeData(row);
                                 if (data.range) var startRow = data.range.start.row + 1, endRow = data.range.end.row;
-                                this.foldAll(startRow, endRow, options.all ? 10000 : 0);
-                            } else options.children ? (endRow = range ? range.end.row : this.getLength(), this.foldAll(row + 1, endRow, options.all ? 10000 : 0)) : range && (options.all && (range.collapseChildren = 10000), this.addFold("...", range));
+                                this.foldAll(startRow, endRow, 10000 * !!options.all);
+                            } else options.children ? (endRow = range ? range.end.row : this.getLength(), this.foldAll(row + 1, endRow, 10000 * !!options.all)) : range && (options.all && (range.collapseChildren = 10000), this.addFold("...", range));
                             return range;
                         }
                     }, this.toggleFoldWidget = function(toggleParent) {
@@ -8285,7 +8285,7 @@
                     }, this.sortLines = function() {
                         for(var rows = this.$getSelectedRows(), session = this.session, lines = [], i = rows.first; i <= rows.last; i++)lines.push(session.getLine(i));
                         lines.sort(function(a, b) {
-                            return a.toLowerCase() < b.toLowerCase() ? -1 : a.toLowerCase() > b.toLowerCase() ? 1 : 0;
+                            return a.toLowerCase() < b.toLowerCase() ? -1 : +(a.toLowerCase() > b.toLowerCase());
                         });
                         for(var deleteRange = new Range(0, 0, 0, 0), i = rows.first; i <= rows.last; i++){
                             var line = session.getLine(i);
@@ -9342,7 +9342,7 @@
                     }, this.$getTop = function(row, layerConfig) {
                         return (row - layerConfig.firstRowScreen) * layerConfig.lineHeight;
                     }, this.drawTextMarker = function(stringBuilder, range, clazz, layerConfig, extraStyle) {
-                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + ((row == start || row == start + 1 && range.start.column ? 1 : 0) | (prev < curr ? 2 : 0) | (curr > next ? 4 : 0) | (row == end ? 8 : 0)), layerConfig, row == end ? 0 : 1, extraStyle);
+                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + (+!!(row == start || row == start + 1 && range.start.column) | 2 * (prev < curr) | 4 * (curr > next) | 8 * !(row != end)), layerConfig, +(row != end), extraStyle);
                     }, this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
                         var padding = this.$padding, height = config.lineHeight, top = this.$getTop(range.start.row, config), left = padding + range.start.column * config.characterWidth;
                         if (extraStyle = extraStyle || "", this.session.$bidiHandler.isBidiRow(range.start.row)) {
@@ -9359,7 +9359,7 @@
                         }
                         if (!((height = (range.end.row - range.start.row - 1) * config.lineHeight) <= 0)) {
                             top = this.$getTop(range.start.row + 1, config);
-                            var radiusClass = (range.start.column ? 1 : 0) | (range.end.column ? 0 : 8);
+                            var radiusClass = +!!range.start.column | 8 * !range.end.column;
                             this.elt(clazz + (radiusClass ? " ace_br" + radiusClass : ""), "height:" + height + "px;right:0;top:" + top + "px;left:" + padding + "px;" + (extraStyle || ""));
                         }
                     }, this.drawSingleLineMarker = function(stringBuilder, range, clazz, config, extraLength, extraStyle) {
@@ -10494,7 +10494,7 @@ margin: 0 10px;\
                         this.$loop.pending ? this.$size.$dirty = !0 : this.onResize();
                     }, this.onResize = function(force, gutterWidth, width, height) {
                         if (!(this.resizing > 2)) {
-                            this.resizing > 0 ? this.resizing++ : this.resizing = force ? 1 : 0;
+                            this.resizing > 0 ? this.resizing++ : this.resizing = +!!force;
                             var el = this.container;
                             height || (height = el.clientHeight || el.scrollHeight), width || (width = el.clientWidth || el.scrollWidth);
                             var changes = this.$updateCachedSize(force, gutterWidth, width, height);
@@ -10580,7 +10580,7 @@ margin: 0 10px;\
                                 composition && composition.markerRange && (pixelPos = this.$cursorLayer.getPixelPosition(composition.markerRange.start, !0));
                                 var config = this.layerConfig, posTop = pixelPos.top, posLeft = pixelPos.left;
                                 posTop -= config.offset;
-                                var h = composition && composition.useTextareaForIME ? this.lineHeight : HIDE_TEXTAREA ? 0 : 1;
+                                var h = composition && composition.useTextareaForIME ? this.lineHeight : +!HIDE_TEXTAREA;
                                 if (posTop < 0 || posTop > config.height - h) {
                                     dom.translate(this.textarea, 0, 0);
                                     return;
@@ -10598,7 +10598,7 @@ margin: 0 10px;\
                     }, this.getFirstVisibleRow = function() {
                         return this.layerConfig.firstRow;
                     }, this.getFirstFullyVisibleRow = function() {
-                        return this.layerConfig.firstRow + (0 === this.layerConfig.offset ? 0 : 1);
+                        return this.layerConfig.firstRow + +(0 !== this.layerConfig.offset);
                     }, this.getLastFullyVisibleRow = function() {
                         var config = this.layerConfig, lastRow = config.lastRow;
                         return this.session.documentToScreenRow(lastRow, 0) * config.lineHeight - this.session.getScrollTop() > config.height - config.lineHeight ? lastRow - 1 : lastRow;

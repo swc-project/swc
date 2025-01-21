@@ -693,7 +693,7 @@
             ]
         ], detCache = {}, det = determinant(mA, 8, 0, 0, 0, detCache);
         if (0 !== det) {
-            for(var vh = [], i = 0; i < 8; i++)for(var j = 0; j < 8; j++)null == vh[j] && (vh[j] = 0), vh[j] += ((i + j) % 2 ? -1 : 1) * determinant(mA, 7, 0 === i ? 1 : 0, 1 << i, 1 << j, detCache) / det * dest[i];
+            for(var vh = [], i = 0; i < 8; i++)for(var j = 0; j < 8; j++)null == vh[j] && (vh[j] = 0), vh[j] += ((i + j) % 2 ? -1 : 1) * determinant(mA, 7, +(0 === i), 1 << i, 1 << j, detCache) / det * dest[i];
             return function(out, srcPointX, srcPointY) {
                 var pk = srcPointX * vh[6] + srcPointY * vh[7] + 1;
                 out[0] = (srcPointX * vh[0] + srcPointY * vh[1] + vh[2]) / pk, out[1] = (srcPointX * vh[3] + srcPointY * vh[4] + vh[5]) / pk;
@@ -785,7 +785,7 @@
             e.zrDelta = wheelDelta ? wheelDelta / 120 : -(e.detail || 0) / 3;
         }
         var button = e.button;
-        return null == e.which && void 0 !== button && MOUSE_EVENT_REG.test(e.type) && (e.which = 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0), e;
+        return null == e.which && void 0 !== button && MOUSE_EVENT_REG.test(e.type) && (e.which = 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button)), e;
     }
     function addEventListener(el, name, handler, opt) {
         isDomLevel2 ? el.addEventListener(name, handler, opt) : el.attachEvent('on' + name, handler);
@@ -2950,7 +2950,7 @@
                 255,
                 1
             ]);
-            for(var alpha = colorArr[3], isDark = this.__zr.isDarkMode(), i = 0; i < 3; i++)colorArr[i] = colorArr[i] * alpha + (isDark ? 0 : 255) * (1 - alpha);
+            for(var alpha = colorArr[3], isDark = this.__zr.isDarkMode(), i = 0; i < 3; i++)colorArr[i] = colorArr[i] * alpha + 255 * !isDark * (1 - alpha);
             return colorArr[3] = 1, stringify(colorArr, 'rgba');
         }, Element.prototype.traverse = function(cb, context) {}, Element.prototype.attrKV = function(key, value) {
             'textConfig' === key ? this.setTextConfig(value) : 'textContent' === key ? this.setTextContent(value) : 'clipPath' === key ? this.setClipPath(value) : 'extra' === key ? (this.extra = this.extra || {}, extend(this.extra, value)) : this[key] = value;
@@ -5303,7 +5303,7 @@
         }, PathProxy.prototype.arc = function(cx, cy, r, startAngle, endAngle, anticlockwise) {
             tmpAngles[0] = startAngle, tmpAngles[1] = endAngle, normalizeArcAngles(tmpAngles, anticlockwise), startAngle = tmpAngles[0];
             var delta = (endAngle = tmpAngles[1]) - startAngle;
-            return this.addData(CMD.A, cx, cy, r, r, startAngle, delta, 0, anticlockwise ? 0 : 1), this._ctx && this._ctx.arc(cx, cy, r, startAngle, endAngle, anticlockwise), this._xi = mathCos$1(endAngle) * r + cx, this._yi = mathSin$1(endAngle) * r + cy, this;
+            return this.addData(CMD.A, cx, cy, r, r, startAngle, delta, 0, +!anticlockwise), this._ctx && this._ctx.arc(cx, cy, r, startAngle, endAngle, anticlockwise), this._xi = mathCos$1(endAngle) * r + cx, this._yi = mathSin$1(endAngle) * r + cy, this;
         }, PathProxy.prototype.arcTo = function(x1, y1, x2, y2, radius) {
             return this._ctx && this._ctx.arcTo(x1, y1, x2, y2, radius), this;
         }, PathProxy.prototype.rect = function(x, y, w, h) {
@@ -6013,7 +6013,7 @@
             var originX = inputShape.x, originY = inputShape.y, originWidth = inputShape.width, originHeight = inputShape.height;
             outputShape.x = originX, outputShape.y = originY, outputShape.width = originWidth, outputShape.height = originHeight;
             var lineWidth = style && style.lineWidth;
-            return lineWidth && (outputShape.x = subPixelOptimize(originX, lineWidth, !0), outputShape.y = subPixelOptimize(originY, lineWidth, !0), outputShape.width = Math.max(subPixelOptimize(originX + originWidth, lineWidth, !1) - outputShape.x, 0 === originWidth ? 0 : 1), outputShape.height = Math.max(subPixelOptimize(originY + originHeight, lineWidth, !1) - outputShape.y, 0 === originHeight ? 0 : 1)), outputShape;
+            return lineWidth && (outputShape.x = subPixelOptimize(originX, lineWidth, !0), outputShape.y = subPixelOptimize(originY, lineWidth, !0), outputShape.width = Math.max(subPixelOptimize(originX + originWidth, lineWidth, !1) - outputShape.x, +(0 !== originWidth)), outputShape.height = Math.max(subPixelOptimize(originY + originHeight, lineWidth, !1) - outputShape.y, +(0 !== originHeight))), outputShape;
         }
     }
     function subPixelOptimize(position, lineWidth, positiveOrNegative) {
@@ -8524,7 +8524,7 @@
             case 'year':
                 return date[fullYearGetterName(isUTC)]();
             case 'half-year':
-                return date[monthGetterName(isUTC)]() >= 6 ? 1 : 0;
+                return +(date[monthGetterName(isUTC)]() >= 6);
             case 'quarter':
                 return Math.floor((date[monthGetterName(isUTC)]() + 1) / 4);
             case 'month':
@@ -10337,7 +10337,7 @@
                 'auto' === sourceHeader || null == sourceHeader ? arrayRowsTravelFirst(function(val) {
                     // '-' is regarded as null/undefined.
                     null != val && '-' !== val && (isString(val) ? null == startIndex && (startIndex = 1) : startIndex = 0); // 10 is an experience number, avoid long loop.
-                }, seriesLayoutBy, data, 10) : startIndex = isNumber(sourceHeader) ? sourceHeader : sourceHeader ? 1 : 0, dimensionsDefine || 1 !== startIndex || (dimensionsDefine = [], arrayRowsTravelFirst(function(val, index) {
+                }, seriesLayoutBy, data, 10) : startIndex = isNumber(sourceHeader) ? sourceHeader : +!!sourceHeader, dimensionsDefine || 1 !== startIndex || (dimensionsDefine = [], arrayRowsTravelFirst(function(val, index) {
                     dimensionsDefine[index] = null != val ? val + '' : '';
                 }, seriesLayoutBy, data, 1 / 0)), dimensionsDetectedCount = dimensionsDefine ? dimensionsDefine.length : 'row' === seriesLayoutBy ? data.length : data[0] ? data[0].length : null;
             } else if (sourceFormat === SOURCE_FORMAT_OBJECT_ROWS) dimensionsDefine || (dimensionsDefine = function(data) {
@@ -11392,8 +11392,8 @@
                     getBuilder(subBlock).planLayout(subBlock);
                     var subGapLevel = subBlock.__gapLevelBetweenSubBlocks; // If the some of the sub-blocks have some gaps (like 10px) inside, this block
                     // should use a larger gap (like 20px) to distinguish those sub-blocks.
-                    subGapLevel >= thisGapLevelBetweenSubBlocks && (thisGapLevelBetweenSubBlocks = subGapLevel + (!thisBlockHasInnerGap || subGapLevel // If no header, always keep the sub gap level. Otherwise
-                     && ('section' !== subBlock.type || subBlock.noHeader) ? 0 : 1));
+                    subGapLevel >= thisGapLevelBetweenSubBlocks && (thisGapLevelBetweenSubBlocks = subGapLevel + +(!!thisBlockHasInnerGap && (!subGapLevel // If no header, always keep the sub gap level. Otherwise
+                     || 'section' === subBlock.type && !subBlock.noHeader)));
                 }), fragment.__gapLevelBetweenSubBlocks = thisGapLevelBetweenSubBlocks;
             },
             build: function(ctx, fragment, topMarginForOuterGap, toolTipTextStyle) {
@@ -13611,7 +13611,7 @@
         var prevEl = scope.prevEl;
         prevEl || (forceSetStyle = forceSetTransform = !0);
         var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
-        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : m || m1 ? 0 : 1) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
+        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : +(!m && !m1)) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
         el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
             var hasStroke = styleHasStroke(style), hasFill = styleHasFill(style), strokePercent = style.strokePercent, strokePart = strokePercent < 1, firstDraw = !el.path;
@@ -16349,7 +16349,7 @@
         }).start('circularInOut'), arc.animateShape(!0).when(1000, {
             startAngle: 3 * PI$3 / 2
         }).delay(300).start('circularInOut'), group.add(arc)), group.resize = function() {
-            var textWidth = textContent.getBoundingRect().width, r = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r - (opts.showSpinner && textWidth ? 10 : 0) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
+            var textWidth = textContent.getBoundingRect().width, r = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r - 10 * (!!opts.showSpinner && !!textWidth) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
             ) + (opts.showSpinner ? 0 : textWidth / 2 // only show the spinner
             ) + (textWidth ? 0 : r), cy = api.getHeight() / 2;
             opts.showSpinner && arc.setShape({
@@ -18277,7 +18277,7 @@
         plan: createRenderPlanner(),
         reset: function(seriesModel) {
             if (isOnCartesian(seriesModel) && isInLargeMode(seriesModel)) {
-                var data = seriesModel.getData(), cartesian = seriesModel.coordinateSystem, coordLayout = cartesian.master.getRect(), baseAxis = cartesian.getBaseAxis(), valueAxis = cartesian.getOtherAxis(baseAxis), valueDim = data.mapDimension(valueAxis.dim), baseDim = data.mapDimension(baseAxis.dim), valueAxisHorizontal = valueAxis.isHorizontal(), valueDimIdx = valueAxisHorizontal ? 0 : 1, barWidth = retrieveColumnLayout(makeColumnLayout([
+                var data = seriesModel.getData(), cartesian = seriesModel.coordinateSystem, coordLayout = cartesian.master.getRect(), baseAxis = cartesian.getBaseAxis(), valueAxis = cartesian.getOtherAxis(baseAxis), valueDim = data.mapDimension(valueAxis.dim), baseDim = data.mapDimension(baseAxis.dim), valueAxisHorizontal = valueAxis.isHorizontal(), valueDimIdx = +!valueAxisHorizontal, barWidth = retrieveColumnLayout(makeColumnLayout([
                     seriesModel
                 ]), baseAxis, seriesModel).width;
                 return barWidth > 0.5 || // jshint ignore:line
@@ -18305,7 +18305,7 @@
         return seriesModel.pipelineContext && seriesModel.pipelineContext.large;
     } // See cases in `test/bar-start.html` and `#7412`, `#8747`.
     function getValueAxisStart(baseAxis, valueAxis, stacked) {
-        return valueAxis.toGlobalCoord(valueAxis.dataToCoord('log' === valueAxis.type ? 1 : 0));
+        return valueAxis.toGlobalCoord(valueAxis.dataToCoord(+('log' === valueAxis.type)));
     }
     var bisect = function(a, x, lo, hi) {
         for(; lo < hi;){
@@ -19350,7 +19350,7 @@
         }, /**
        * Get width of band
        */ Axis.prototype.getBandWidth = function() {
-            var axisExtent = this._extent, dataExtent = this.scale.getExtent(), len = dataExtent[1] - dataExtent[0] + (this.onBand ? 1 : 0);
+            var axisExtent = this._extent, dataExtent = this.scale.getExtent(), len = dataExtent[1] - dataExtent[0] + +!!this.onBand;
             return 0 === len && (len = 1), Math.abs(Math.abs(axisExtent[1] - axisExtent[0])) / len;
         }, /**
        * Only be called in category axis.
@@ -19363,7 +19363,7 @@
      * should be implemented in axis.
      */ function(axis) {
                 var labelModel, params = (labelModel = axis.getLabelModel(), {
-                    axisRotate: axis.getRotate ? axis.getRotate() : axis.isHorizontal && !axis.isHorizontal() ? 90 : 0,
+                    axisRotate: axis.getRotate ? axis.getRotate() : 90 * (!!axis.isHorizontal && !axis.isHorizontal()),
                     labelRotate: labelModel.get('rotate') || 0,
                     font: labelModel.getFont()
                 }), labelFormatter = makeLabelFormatter(axis), rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI, ordinalScale = axis.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
@@ -20345,7 +20345,7 @@
             var prevLayer = null, incrementalLayerCount = 0;
             for(i = 0; i < list.length; i++){
                 var el = list[i], zlevel = el.zlevel, layer = void 0;
-                prevZlevel !== zlevel && (prevZlevel = zlevel, incrementalLayerCount = 0), el.incremental ? ((layer = this.getLayer(zlevel + 0.001, this._needsManuallyCompositing)).incremental = !0, incrementalLayerCount = 1) : layer = this.getLayer(zlevel + (incrementalLayerCount > 0 ? 0.01 : 0), this._needsManuallyCompositing), layer.__builtin__ || logError('ZLevel ' + zlevel + ' has been used by unkown layer ' + layer.id), layer !== prevLayer && (layer.__used = !0, layer.__startIndex !== i && (layer.__dirty = !0), layer.__startIndex = i, layer.incremental ? layer.__drawIndex = -1 : layer.__drawIndex = i, updatePrevLayer(i), prevLayer = layer), el.__dirty & Element.REDARAW_BIT && !el.__inHover && (layer.__dirty = !0, layer.incremental && layer.__drawIndex < 0 && (layer.__drawIndex = i));
+                prevZlevel !== zlevel && (prevZlevel = zlevel, incrementalLayerCount = 0), el.incremental ? ((layer = this.getLayer(zlevel + 0.001, this._needsManuallyCompositing)).incremental = !0, incrementalLayerCount = 1) : layer = this.getLayer(zlevel + 0.01 * (incrementalLayerCount > 0), this._needsManuallyCompositing), layer.__builtin__ || logError('ZLevel ' + zlevel + ' has been used by unkown layer ' + layer.id), layer !== prevLayer && (layer.__used = !0, layer.__startIndex !== i && (layer.__dirty = !0), layer.__startIndex = i, layer.incremental ? layer.__drawIndex = -1 : layer.__drawIndex = i, updatePrevLayer(i), prevLayer = layer), el.__dirty & Element.REDARAW_BIT && !el.__inHover && (layer.__dirty = !0, layer.incremental && layer.__drawIndex < 0 && (layer.__drawIndex = i));
             }
             updatePrevLayer(i), this.eachBuiltinLayer(function(layer, z) {
                 !layer.__used && layer.getElementCount() > 0 && (layer.__dirty = !0, layer.__startIndex = layer.__endIndex = layer.__drawIndex = 0), layer.__dirty && layer.__drawIndex < 0 && (layer.__drawIndex = layer.__startIndex);
@@ -20834,7 +20834,7 @@
         }, SymbolDraw);
     }();
     function prepareDataCoordInfo(coordSys, data, valueOrigin) {
-        var valueStart, extent, baseAxis = coordSys.getBaseAxis(), valueAxis = coordSys.getOtherAxis(baseAxis), valueStart1 = (valueStart = 0, extent = valueAxis.scale.getExtent(), 'start' === valueOrigin ? valueStart = extent[0] : 'end' === valueOrigin ? valueStart = extent[1] : extent[0] > 0 ? valueStart = extent[0] : extent[1] < 0 && (valueStart = extent[1]), valueStart), baseAxisDim = baseAxis.dim, valueAxisDim = valueAxis.dim, valueDim = data.mapDimension(valueAxisDim), baseDim = data.mapDimension(baseAxisDim), baseDataOffset = 'x' === valueAxisDim || 'radius' === valueAxisDim ? 1 : 0, dims = map(coordSys.dimensions, function(coordDim) {
+        var valueStart, extent, baseAxis = coordSys.getBaseAxis(), valueAxis = coordSys.getOtherAxis(baseAxis), valueStart1 = (valueStart = 0, extent = valueAxis.scale.getExtent(), 'start' === valueOrigin ? valueStart = extent[0] : 'end' === valueOrigin ? valueStart = extent[1] : extent[0] > 0 ? valueStart = extent[0] : extent[1] < 0 && (valueStart = extent[1]), valueStart), baseAxisDim = baseAxis.dim, valueAxisDim = valueAxis.dim, valueDim = data.mapDimension(valueAxisDim), baseDim = data.mapDimension(baseAxisDim), baseDataOffset = +('x' === valueAxisDim || 'radius' === valueAxisDim), dims = map(coordSys.dimensions, function(coordDim) {
             return data.mapDimension(coordDim);
         }), stacked = !1, stackResultDim = data.getCalculationInfo('stackResultDimension');
         return isDimensionStacked(data, dims[0]) && (// jshint ignore:line
@@ -21119,10 +21119,10 @@
         return Math.max(Math.abs(min1[0] - min2[0]), Math.abs(min1[1] - min2[1]), Math.abs(max1[0] - max2[0]), Math.abs(max1[1] - max2[1]));
     }
     function getSmooth(smooth) {
-        return 'number' == typeof smooth ? smooth : smooth ? 0.5 : 0;
+        return 'number' == typeof smooth ? smooth : 0.5 * !!smooth;
     }
     function turnPointsIntoStep(points, coordSys, stepTurnAt) {
-        for(var baseAxis = coordSys.getBaseAxis(), baseIndex = 'x' === baseAxis.dim || 'radius' === baseAxis.dim ? 0 : 1, stepPoints = [], i = 0, stepPt = [], pt = [], nextPt = []; i < points.length - 2; i += 2)switch(nextPt[0] = points[i + 2], nextPt[1] = points[i + 3], pt[0] = points[i], pt[1] = points[i + 1], stepPoints.push(pt[0], pt[1]), stepTurnAt){
+        for(var baseAxis = coordSys.getBaseAxis(), baseIndex = +('x' !== baseAxis.dim && 'radius' !== baseAxis.dim), stepPoints = [], i = 0, stepPt = [], pt = [], nextPt = []; i < points.length - 2; i += 2)switch(nextPt[0] = points[i + 2], nextPt[1] = points[i + 3], pt[0] = points[i], pt[1] = points[i + 1], stepPoints.push(pt[0], pt[1]), stepTurnAt){
             case 'end':
                 stepPt[baseIndex] = nextPt[baseIndex], stepPt[1 - baseIndex] = pt[1 - baseIndex], stepPoints.push(stepPt[0], stepPt[1]);
                 break;
@@ -21193,7 +21193,7 @@
                         var axisExtent = categoryAxis.getExtent(), availSize = Math.abs(axisExtent[1] - axisExtent[0]) / categoryAxis.scale.count();
                         isNaN(availSize) && (availSize = 0); // 0/0 is NaN.
                         for(var dataLen = data.count(), step = Math.max(1, Math.round(dataLen / 5)), dataIndex = 0; dataIndex < dataLen; dataIndex += step)if (1.5 * Symbol.getSymbolSize(data, dataIndex // Only for cartesian, where `isHorizontal` exists.
-                        )[categoryAxis.isHorizontal() ? 1 : 0] // Empirical number
+                        )[+!!categoryAxis.isHorizontal()] // Empirical number
                          > availSize) return !1;
                         return !0;
                     }(categoryAxis, data))) {
@@ -21452,7 +21452,7 @@
                 // The label is not prepared at this time.
                 percent < 1 && null == animationRecord.originalX && (animationRecord.originalX = endLabel.x, animationRecord.originalY = endLabel.y);
                 var points = data.getLayout('points'), seriesModel = data.hostModel, connectNulls = seriesModel.get('connectNulls'), precision = endLabelModel.get('precision'), distance = endLabelModel.get('distance') || 0, baseAxis = coordSys.getBaseAxis(), isHorizontal = baseAxis.isHorizontal(), isBaseInversed = baseAxis.inverse, clipShape = clipRect.shape, xOrY = isBaseInversed ? isHorizontal ? clipShape.x : clipShape.y + clipShape.height : isHorizontal ? clipShape.x + clipShape.width : clipShape.y, distanceX = (isHorizontal ? distance : 0) * (isBaseInversed ? -1 : 1), distanceY = (isHorizontal ? 0 : -distance) * (isBaseInversed ? -1 : 1), dim = isHorizontal ? 'x' : 'y', dataIndexRange = function(points, xOrY, dim) {
-                    for(var a, b, len = points.length / 2, dimIdx = 'x' === dim ? 0 : 1, prevIndex = 0, nextIndex = -1, i = 0; i < len; i++)if (!(isNaN(b = points[2 * i + dimIdx]) || isNaN(points[2 * i + 1 - dimIdx]))) {
+                    for(var a, b, len = points.length / 2, dimIdx = +('x' !== dim), prevIndex = 0, nextIndex = -1, i = 0; i < len; i++)if (!(isNaN(b = points[2 * i + dimIdx]) || isNaN(points[2 * i + 1 - dimIdx]))) {
                         if (0 === i) {
                             a = b;
                             continue;
@@ -21736,7 +21736,7 @@
             var coordSys = this.coordinateSystem;
             if (coordSys) {
                 // PENDING if clamp ?
-                var pt = coordSys.dataToPoint(coordSys.clampData(value)), data = this.getData(), offset = data.getLayout('offset'), size = data.getLayout('size'), offsetIndex = coordSys.getBaseAxis().isHorizontal() ? 0 : 1;
+                var pt = coordSys.dataToPoint(coordSys.clampData(value)), data = this.getData(), offset = data.getLayout('offset'), size = data.getLayout('size'), offsetIndex = +!coordSys.getBaseAxis().isHorizontal();
                 return pt[offsetIndex] += offset + size / 2, pt;
             }
             return [
@@ -22164,7 +22164,7 @@
     }(Path);
     function createLarge(seriesModel, group, incremental) {
         // TODO support polar
-        var globalStyle, data = seriesModel.getData(), startPoint = [], baseDimIdx = data.getLayout('valueAxisHorizontal') ? 1 : 0;
+        var globalStyle, data = seriesModel.getData(), startPoint = [], baseDimIdx = +!!data.getLayout('valueAxisHorizontal');
         startPoint[1 - baseDimIdx] = data.getLayout('valueAxisStart');
         var largeDataIndices = data.getLayout('largeDataIndices'), barWidth = data.getLayout('barWidth'), backgroundModel = seriesModel.getModel('backgroundStyle');
         if (seriesModel.get('showBackground', !0)) {
@@ -23414,7 +23414,7 @@
             var ret = this.getExtent();
             return ret[0] = this.toGlobalCoord(ret[0]), ret[1] = this.toGlobalCoord(ret[1]), asc && ret[0] > ret[1] && ret.reverse(), ret;
         }, Axis2D.prototype.pointToData = function(point, clamp) {
-            return this.coordToData(this.toLocalCoord(point['x' === this.dim ? 0 : 1]), clamp);
+            return this.coordToData(this.toLocalCoord(point[+('x' !== this.dim)]), clamp);
         }, /**
        * Set ordinalSortInfo
        * @param info new OrdinalSortInfo
@@ -23453,7 +23453,7 @@
         layout.position = [
             'y' === axisDim ? posBound[idx[axisPosition]] : rectBound[0],
             'x' === axisDim ? posBound[idx[axisPosition]] : rectBound[3]
-        ], layout.rotation = Math.PI / 2 * ('x' === axisDim ? 0 : 1), layout.labelDirection = layout.tickDirection = layout.nameDirection = ({
+        ], layout.rotation = Math.PI / 2 * +('x' !== axisDim), layout.labelDirection = layout.tickDirection = layout.nameDirection = ({
             top: -1,
             bottom: 1,
             left: -1,
@@ -23523,7 +23523,7 @@
                     ] : [
                         0,
                         gridRect.height
-                    ], idx = axis.inverse ? 1 : 0;
+                    ], idx = +!!axis.inverse;
                     axis.setExtent(extent[idx], extent[1 - idx]), coordBase = isHorizontal ? gridRect.x : gridRect.y, axisExtentSum = (axisExtent = axis.getExtent())[0] + axisExtent[1], axis.toGlobalCoord = 'x' === axis.dim ? function(coord) {
                         return coord + coordBase;
                     } : function(coord) {
@@ -25407,7 +25407,7 @@
                             },
                             silent: !0,
                             // Do not overlap the first series, on which labels are displayed.
-                            z2: 8 + (offset ? 0 : 11)
+                            z2: 8 + 11 * !offset
                         });
                         // But consider the case:
                         // series: [
@@ -26304,7 +26304,7 @@
                 ctx.moveTo(parentPoint[0], parentPoint[1]), ctx.lineTo(firstChildPos[0], firstChildPos[1]);
                 return;
             }
-            var orient = shape.orient, forkDim = 'TB' === orient || 'BT' === orient ? 0 : 1, otherDim = 1 - forkDim, forkPosition = parsePercent$1(shape.forkPosition, 1), tmpPoint = [];
+            var orient = shape.orient, forkDim = +('TB' !== orient && 'BT' !== orient), otherDim = 1 - forkDim, forkPosition = parsePercent$1(shape.forkPosition, 1), tmpPoint = [];
             tmpPoint[forkDim] = parentPoint[forkDim], tmpPoint[otherDim] = parentPoint[otherDim] + (lastChildPos[otherDim] - parentPoint[otherDim]) * forkPosition, ctx.moveTo(parentPoint[0], parentPoint[1]), ctx.lineTo(tmpPoint[0], tmpPoint[1]), ctx.moveTo(firstChildPos[0], firstChildPos[1]), tmpPoint[forkDim] = firstChildPos[forkDim], ctx.lineTo(tmpPoint[0], tmpPoint[1]), tmpPoint[forkDim] = lastChildPos[forkDim], ctx.lineTo(tmpPoint[0], tmpPoint[1]), ctx.lineTo(lastChildPos[0], lastChildPos[1]);
             for(var i = 1; i < childLen - 1; i++){
                 var point = childPoints[i];
@@ -28601,7 +28601,7 @@
         // wh[idx0WhenH] means: when horizontal,
         //      wh[idx0WhenH] => wh[0] => 'width'.
         //      xy[idx1WhenH] => xy[1] => 'y'.
-        var idx0WhenH = rowFixedLength === rect.width ? 0 : 1, idx1WhenH = 1 - idx0WhenH, xy = [
+        var idx0WhenH = +(rowFixedLength !== rect.width), idx1WhenH = 1 - idx0WhenH, xy = [
             'x',
             'y'
         ], wh = [
@@ -28790,11 +28790,11 @@
          // if totalLen is Longer createCurveness
         var totalLen = getEdgeMapLengthWithKey(getKeyOfEdges(edge.node1, edge.node2, seriesModel), seriesModel) + getEdgeMapLengthWithKey(getKeyOfEdges(edge.node2, edge.node1, seriesModel), seriesModel);
         createCurveness(seriesModel, totalLen), edge.lineStyle = edge.lineStyle || {};
-        var curKey = getKeyOfEdges(edge.node1, edge.node2, seriesModel), curvenessList = seriesModel.__curvenessList, parityCorrection = isArrayParam ? 0 : totalLen % 2 ? 0 : 1;
+        var curKey = getKeyOfEdges(edge.node1, edge.node2, seriesModel), curvenessList = seriesModel.__curvenessList, parityCorrection = isArrayParam ? 0 : +!(totalLen % 2);
         if (edgeArray.isForward) return curvenessList[parityCorrection + edgeIndex];
         var len = getEdgeMapLengthWithKey(getOppositeKey(curKey), seriesModel), resValue = curvenessList[edgeIndex + len + parityCorrection];
         return needReverse ? // set as array may make the parity handle with the len of opposite
-        isArrayParam ? autoCurvenessParams && 0 === autoCurvenessParams[0] ? (len + parityCorrection) % 2 ? resValue : -resValue : ((len % 2 ? 0 : 1) + parityCorrection) % 2 ? resValue : -resValue : (len + parityCorrection) % 2 ? resValue : -resValue : curvenessList[edgeIndex + len + parityCorrection];
+        isArrayParam ? autoCurvenessParams && 0 === autoCurvenessParams[0] ? (len + parityCorrection) % 2 ? resValue : -resValue : (+!(len % 2) + parityCorrection) % 2 ? resValue : -resValue : (len + parityCorrection) % 2 ? resValue : -resValue : curvenessList[edgeIndex + len + parityCorrection];
     }
     function simpleLayout(seriesModel) {
         var coordSys = seriesModel.coordinateSystem;
@@ -30303,7 +30303,7 @@
             var anchorModel = seriesModel.getModel('anchor');
             if (anchorModel.get('show')) {
                 var anchorSize = anchorModel.get('size'), anchorType = anchorModel.get('icon'), offsetCenter = anchorModel.get('offsetCenter'), anchorKeepAspect = anchorModel.get('keepAspect'), anchor = createSymbol(anchorType, posInfo.cx - anchorSize / 2 + parsePercent$1(offsetCenter[0], posInfo.r), posInfo.cy - anchorSize / 2 + parsePercent$1(offsetCenter[1], posInfo.r), anchorSize, anchorSize, null, anchorKeepAspect);
-                anchor.z2 = anchorModel.get('showAbove') ? 1 : 0, anchor.setStyle(anchorModel.getModel('itemStyle').getItemStyle()), this.group.add(anchor);
+                anchor.z2 = +!!anchorModel.get('showAbove'), anchor.setStyle(anchorModel.getModel('itemStyle').getItemStyle()), this.group.add(anchor);
             }
         }, GaugeView.prototype._renderTitleAndDetail = function(seriesModel, ecModel, api, getColor, posInfo) {
             var _this = this, data = seriesModel.getData(), valueDim = data.mapDimension('value'), minVal = +seriesModel.get('min'), maxVal = +seriesModel.get('max'), contentGroup = new Group(), newTitleEls = [], newDetailEls = [], hasAnimation = seriesModel.isAnimationEnabled();
@@ -31354,7 +31354,7 @@
             ], wh = [
                 'width',
                 'height'
-            ], layout = parallelModel.get('layout'), pixelDimIndex = 'horizontal' === layout ? 0 : 1, layoutLength = rect[wh[pixelDimIndex]], layoutExtent = [
+            ], layout = parallelModel.get('layout'), pixelDimIndex = +('horizontal' !== layout), layoutLength = rect[wh[pixelDimIndex]], layoutExtent = [
                 0,
                 layoutLength
             ], axisCount = this.dimensions.length, axisExpandWidth = restrict$1(parallelModel.get('axisExpandWidth'), layoutExtent), axisExpandCount = restrict$1(parallelModel.get('axisExpandCount') || 0, [
@@ -31391,7 +31391,7 @@
                 var axisExtent = [
                     0,
                     layoutInfo.axisLength
-                ], idx = axis.inverse ? 1 : 0;
+                ], idx = +!!axis.inverse;
                 axis.setExtent(axisExtent[idx], axisExtent[1 - idx]);
             }), each(dimensions, function(dim, idx) {
                 var posInfo = (layoutInfo.axisExpandable ? function(axisIndex, layoutInfo) {
@@ -32822,7 +32822,7 @@
             var coordDims = [
                 'x',
                 'y'
-            ], baseAxisDimIndex = 'horizontal' === option.layout ? 0 : 1, baseAxisDim = this._baseAxisDim = coordDims[baseAxisDimIndex], otherAxisDim = coordDims[1 - baseAxisDimIndex], axisModels = [
+            ], baseAxisDimIndex = +('horizontal' !== option.layout), baseAxisDim = this._baseAxisDim = coordDims[baseAxisDimIndex], otherAxisDim = coordDims[1 - baseAxisDimIndex], axisModels = [
                 xAxisModel,
                 yAxisModel
             ], baseAxisType = axisModels[baseAxisDimIndex].get('type'), otherAxisType = axisModels[1 - baseAxisDimIndex].get('type'), data = option.data;
@@ -32937,7 +32937,7 @@
         return __extends(BoxplotView, _super), BoxplotView.prototype.render = function(seriesModel, ecModel, api) {
             var data = seriesModel.getData(), group = this.group, oldData = this._data;
             this._data || group.removeAll();
-            var constDim = 'horizontal' === seriesModel.get('layout') ? 1 : 0;
+            var constDim = +('horizontal' === seriesModel.get('layout'));
             data.diff(oldData).add(function(newIdx) {
                 if (data.hasValue(newIdx)) {
                     var symbolEl = createNormalBox(data.getItemLayout(newIdx), data, newIdx, constDim, !0);
@@ -33076,7 +33076,7 @@
                 /**
      * Calculate points location for each series.
      */ (function(seriesModel, offset, boxWidth) {
-                    var coordSys = seriesModel.coordinateSystem, data = seriesModel.getData(), halfWidth = boxWidth / 2, cDimIdx = 'horizontal' === seriesModel.get('layout') ? 0 : 1, vDimIdx = 1 - cDimIdx, coordDims = [
+                    var coordSys = seriesModel.coordinateSystem, data = seriesModel.getData(), halfWidth = boxWidth / 2, cDimIdx = +('horizontal' !== seriesModel.get('layout')), vDimIdx = 1 - cDimIdx, coordDims = [
                         'x',
                         'y'
                     ], cDim = data.mapDimension(coordDims[cDimIdx]), vDims = data.mapDimensionsAll(coordDims[vDimIdx]);
@@ -35870,7 +35870,7 @@
             var resultPaths = [];
             if (separateCount <= 0) return resultPaths;
             if (1 === separateCount) return duplicateShape(path, separateCount);
-            if (path instanceof Rect) for(var toPathShape = path.shape, splitPropIdx = toPathShape.height > toPathShape.width ? 1 : 0, propWH = PROP_WH[splitPropIdx], propXY = PROP_XY[splitPropIdx], subWH = toPathShape[propWH] / separateCount, xyCurr = toPathShape[propXY], i = 0; i < separateCount; i++, xyCurr += subWH){
+            if (path instanceof Rect) for(var toPathShape = path.shape, splitPropIdx = +(toPathShape.height > toPathShape.width), propWH = PROP_WH[splitPropIdx], propXY = PROP_XY[splitPropIdx], subWH = toPathShape[propWH] / separateCount, xyCurr = toPathShape[propXY], i = 0; i < separateCount; i++, xyCurr += subWH){
                 var subShape = {
                     x: toPathShape.x,
                     y: toPathShape.y,
@@ -37462,7 +37462,7 @@
         }, /**
        * @override
        */ CartesianAxisPointer.prototype.updateHandleTransform = function(transform, delta, axisModel, axisPointerModel) {
-            var axis = axisModel.axis, grid = axis.grid, axisExtent = axis.getGlobalExtent(!0), otherExtent = getCartesian(grid, axis).getOtherAxis(axis).getGlobalExtent(), dimIndex = 'x' === axis.dim ? 0 : 1, currPosition = [
+            var axis = axisModel.axis, grid = axis.grid, axisExtent = axis.getGlobalExtent(!0), otherExtent = getCartesian(grid, axis).getOtherAxis(axis).getGlobalExtent(), dimIndex = +('x' !== axis.dim), currPosition = [
                 transform.x,
                 transform.y
             ];
@@ -37520,7 +37520,7 @@
         }
     };
     function getAxisDimIndex(axis) {
-        return 'x' === axis.dim ? 0 : 1;
+        return +('x' !== axis.dim);
     }
     var AxisPointerModel = /** @class */ function(_super) {
         function AxisPointerModel() {
@@ -37671,7 +37671,7 @@
         if (seriesModel.getTooltipPosition) point = seriesModel.getTooltipPosition(dataIndex) || [];
         else if (coordSys && coordSys.dataToPoint) {
             if (finder.isStacked) {
-                var baseAxis = coordSys.getBaseAxis(), valueAxisDim = coordSys.getOtherAxis(baseAxis).dim, baseAxisDim = baseAxis.dim, baseDataOffset = 'x' === valueAxisDim || 'radius' === valueAxisDim ? 1 : 0, baseDim = data.mapDimension(baseAxisDim), stackedData = [];
+                var baseAxis = coordSys.getBaseAxis(), valueAxisDim = coordSys.getOtherAxis(baseAxis).dim, baseAxisDim = baseAxis.dim, baseDataOffset = +('x' === valueAxisDim || 'radius' === valueAxisDim), baseDim = data.mapDimension(baseAxisDim), stackedData = [];
                 stackedData[baseDataOffset] = data.get(baseDim, dataIndex), stackedData[1 - baseDataOffset] = data.get(data.getCalculationInfo('stackResultDimension'), dataIndex), point = coordSys.dataToPoint(stackedData) || [];
             } else point = coordSys.dataToPoint(data.getValues(map(coordSys.dimensions, function(dim) {
                 return data.mapDimension(dim);
@@ -38178,7 +38178,7 @@
             return _super.call(this, 'radius', scale, radiusExtent) || this;
         }
         return __extends(RadiusAxis, _super), RadiusAxis.prototype.pointToData = function(point, clamp) {
-            return this.polar.pointToData(point, clamp)['radius' === this.dim ? 0 : 1];
+            return this.polar.pointToData(point, clamp)[+('radius' !== this.dim)];
         }, RadiusAxis;
     }(Axis);
     RadiusAxis.prototype.dataToRadius = Axis.prototype.dataToCoord, RadiusAxis.prototype.radiusToData = Axis.prototype.coordToData;
@@ -38190,7 +38190,7 @@
             ]) || this;
         }
         return __extends(AngleAxis, _super), AngleAxis.prototype.pointToData = function(point, clamp) {
-            return this.polar.pointToData(point, clamp)['radius' === this.dim ? 0 : 1];
+            return this.polar.pointToData(point, clamp)[+('radius' !== this.dim)];
         }, /**
        * Only be called in category axis.
        * Angle axis uses text height to decide interval
@@ -38412,7 +38412,7 @@
         };
     }
     function getRadiusIdx(polar) {
-        return polar.getRadiusAxis().inverse ? 0 : 1;
+        return +!polar.getRadiusAxis().inverse;
     } // Remove the last tick which will overlap the first tick
     function fixAngleOverlap(list) {
         var firstItem = list[0], lastItem = list[list.length - 1];
@@ -38443,7 +38443,7 @@
             var shape, lineStyleModel = angleAxisModel.getModel([
                 'axisLine',
                 'lineStyle'
-            ]), rId = getRadiusIdx(polar), r0Id = rId ? 0 : 1; // extent id of the axis radius (r0 and r)
+            ]), rId = getRadiusIdx(polar), r0Id = +!rId; // extent id of the axis radius (r0 and r)
             (shape = 0 === radiusExtent[r0Id] ? new Circle({
                 shape: {
                     cx: polar.cx,
@@ -39030,7 +39030,7 @@
             ] : [
                 0,
                 rect.height
-            ], idx = axis.reverse ? 1 : 0;
+            ], idx = +!!axis.reverse;
             axis.setExtent(extent[idx], extent[1 - idx]), this._updateAxisTransform(axis, isHorizontal ? rect.x : rect.y);
         }, Single.prototype._updateAxisTransform = function(axis, coordBase) {
             var axisExtent = axis.getExtent(), extentSum = axisExtent[0] + axisExtent[1], isHorizontal = axis.isHorizontal();
@@ -39071,13 +39071,13 @@
         }, Single.prototype.pointToData = function(point) {
             var axis = this.getAxis();
             return [
-                axis.coordToData(axis.toLocalCoord(point['horizontal' === axis.orient ? 0 : 1]))
+                axis.coordToData(axis.toLocalCoord(point[+('horizontal' !== axis.orient)]))
             ];
         }, /**
        * Convert the series data to concrete point.
        * Can be [val] | val
        */ Single.prototype.dataToPoint = function(val) {
-            var axis = this.getAxis(), rect = this.getRect(), pt = [], idx = 'horizontal' === axis.orient ? 0 : 1;
+            var axis = this.getAxis(), rect = this.getRect(), pt = [], idx = +('horizontal' !== axis.orient);
             return val instanceof Array && (val = val[0]), pt[idx] = axis.toGlobalCoord(axis.dataToCoord(+val)), pt[1 - idx] = 0 === idx ? rect.y + rect.height / 2 : rect.x + rect.width / 2, pt;
         }, Single.prototype.convertToPixel = function(ecModel, finder, value) {
             return getCoordSys$3(finder) === this ? this.dataToPoint(value) : null;
@@ -39191,7 +39191,7 @@
         }
     };
     function getPointDimIndex(axis) {
-        return axis.isHorizontal() ? 0 : 1;
+        return +!axis.isHorizontal();
     }
     function getGlobalExtent(coordSys, dimIndex) {
         var rect = coordSys.getRect();
@@ -39401,7 +39401,7 @@
             var rs = [
                 points[0].slice(),
                 points[points.length - 1].slice()
-            ], idx = 'horizontal' === orient ? 0 : 1;
+            ], idx = +('horizontal' !== orient);
             return rs[0][idx] = rs[0][idx] - lineWidth / 2, rs[1][idx] = rs[1][idx] + lineWidth / 2, rs;
         }, CalendarView.prototype._drawSplitline = function(points, lineStyle, group) {
             var poyline = new Polyline({
@@ -39459,7 +39459,7 @@
                 var points = [
                     this._tlpoints[this._tlpoints.length - 1],
                     this._blpoints[0]
-                ], xc = (points[0][0] + points[1][0]) / 2, yc = (points[0][1] + points[1][1]) / 2, idx = 'horizontal' === orient ? 0 : 1, posPoints = {
+                ], xc = (points[0][0] + points[1][0]) / 2, yc = (points[0][1] + points[1][1]) / 2, idx = +('horizontal' !== orient), posPoints = {
                     top: [
                         xc,
                         points[idx][1]
@@ -39506,7 +39506,7 @@
                     this._blpoints
                 ];
                 isString(nameMap) && (nameMap = MONTH_TEXT[nameMap.toUpperCase()] || []);
-                var idx = 'start' === pos ? 0 : 1, axis = 'horizontal' === orient ? 0 : 1;
+                var idx = +('start' !== pos), axis = +('horizontal' !== orient);
                 margin = 'start' === pos ? -margin : margin;
                 for(var isCenter = 'center' === align, i = 0; i < termPoints[idx].length - 1; i++){
                     var tmp = termPoints[idx][i].slice(), firstDay = this._firstDayOfMonth[i];
@@ -43531,10 +43531,10 @@
             var labelPosOpt = layoutInfo.labelPosOpt;
             if (null == labelPosOpt || isString(labelPosOpt)) {
                 // '+' or '-'
-                var mainBoundIdx = '+' === labelPosOpt ? 0 : 1;
+                var mainBoundIdx = +('+' !== labelPosOpt);
                 toBound(mainPosition, mainBound, viewBound, 1, mainBoundIdx), toBound(labelsPosition, labelBound, viewBound, 1, 1 - mainBoundIdx);
             } else {
-                var mainBoundIdx = labelPosOpt >= 0 ? 0 : 1;
+                var mainBoundIdx = +!(labelPosOpt >= 0);
                 toBound(mainPosition, mainBound, viewBound, 1, mainBoundIdx), labelsPosition[1] = mainPosition[1] + labelPosOpt;
             }
             function setOrigin(targetGroup) {
@@ -44070,7 +44070,7 @@
                 !isNaN(val) && (sum_1 += val, count_1++);
             }), sum_1 / count_1;
         }
-        return 'median' === type ? data.getMedian(valueDataDim) : data.getDataExtent(valueDataDim)['max' === type ? 1 : 0];
+        return 'median' === type ? data.getMedian(valueDataDim) : data.getDataExtent(valueDataDim)[+('max' === type)];
     }
     var inner$h = makeInner(), MarkerView = /** @class */ function(_super) {
         function MarkerView() {
@@ -44225,7 +44225,7 @@
                     var valueDataDim = getStackedDimension(data, axisInfo.valueDataDim);
                     value = numCalculate(data, valueDataDim, mlType);
                 }
-                var valueIndex = 'x' === valueAxis.dim ? 0 : 1, baseIndex = 1 - valueIndex, mlFrom = clone(item), mlTo = {
+                var valueIndex = +('x' !== valueAxis.dim), baseIndex = 1 - valueIndex, mlFrom = clone(item), mlTo = {
                     coord: []
                 };
                 mlFrom.type = null, mlFrom.coord = [], mlFrom.coord[baseIndex] = -1 / 0, mlTo.coord[baseIndex] = 1 / 0;
@@ -44292,7 +44292,7 @@
             if (isCoordinateSystemType(coordSys, 'cartesian2d')) {
                 // TODO: TYPE ts@4.1 may still infer it as Axis instead of Axis2D. Not sure if it's a bug
                 var xAxis = coordSys.getAxis('x'), yAxis = coordSys.getAxis('y'), dims = coordSys.dimensions;
-                isInifinity(data.get(dims[0], idx)) ? point[0] = xAxis.toGlobalCoord(xAxis.getExtent()[isFrom ? 0 : 1]) : isInifinity(data.get(dims[1], idx)) && (point[1] = yAxis.toGlobalCoord(yAxis.getExtent()[isFrom ? 0 : 1]));
+                isInifinity(data.get(dims[0], idx)) ? point[0] = xAxis.toGlobalCoord(xAxis.getExtent()[+!isFrom]) : isInifinity(data.get(dims[1], idx)) && (point[1] = yAxis.toGlobalCoord(yAxis.getExtent()[+!isFrom]));
             } // Use x, y if has any
             isNaN(xPx) || (point[0] = xPx), isNaN(yPx) || (point[1] = yPx);
         } else point = [
@@ -44356,10 +44356,10 @@
                 null == style.fill && (style.fill = getVisualFromData(seriesData, 'color')), data.setItemVisual(idx, {
                     symbolKeepAspect: itemModel.get('symbolKeepAspect'),
                     // `0` should be considered as a valid value, so use `retrieve2` instead of `||`
-                    symbolOffset: retrieve2(itemModel.get('symbolOffset'), symbolOffset[isFrom ? 0 : 1]),
-                    symbolRotate: retrieve2(itemModel.get('symbolRotate', !0), symbolRotate[isFrom ? 0 : 1]),
-                    symbolSize: retrieve2(itemModel.get('symbolSize'), symbolSize[isFrom ? 0 : 1]),
-                    symbol: retrieve2(itemModel.get('symbol', !0), symbolType[isFrom ? 0 : 1]),
+                    symbolOffset: retrieve2(itemModel.get('symbolOffset'), symbolOffset[+!isFrom]),
+                    symbolRotate: retrieve2(itemModel.get('symbolRotate', !0), symbolRotate[+!isFrom]),
+                    symbolSize: retrieve2(itemModel.get('symbolSize'), symbolSize[+!isFrom]),
+                    symbol: retrieve2(itemModel.get('symbol', !0), symbolType[+!isFrom]),
                     style: style
                 });
             }
@@ -44485,7 +44485,7 @@
             if (isCoordinateSystemType(coordSys, 'cartesian2d')) {
                 // TODO: TYPE ts@4.1 may still infer it as Axis instead of Axis2D. Not sure if it's a bug
                 var xAxis = coordSys.getAxis('x'), yAxis = coordSys.getAxis('y'), x = data.get(dims[0], idx), y = data.get(dims[1], idx);
-                isInifinity$1(x) ? point[0] = xAxis.toGlobalCoord(xAxis.getExtent()['x0' === dims[0] ? 0 : 1]) : isInifinity$1(y) && (point[1] = yAxis.toGlobalCoord(yAxis.getExtent()['y0' === dims[1] ? 0 : 1]));
+                isInifinity$1(x) ? point[0] = xAxis.toGlobalCoord(xAxis.getExtent()[+('x0' !== dims[0])]) : isInifinity$1(y) && (point[1] = yAxis.toGlobalCoord(yAxis.getExtent()[+('y0' !== dims[1])]));
             } // Use x, y if has any
             isNaN(xPx) || (point[0] = xPx), isNaN(yPx) || (point[1] = yPx);
         } else point = [
@@ -44939,7 +44939,7 @@
                             itemStyle[visualName] = itemVisualStyle[visualName];
                     }
                     else 'auto' === value && 'lineWidth' === visualName ? // If lineStyle.width is 'auto', it is set to be 2 if series has border
-                    itemStyle.lineWidth = itemVisualStyle.lineWidth > 0 ? 2 : 0 : itemStyle[visualName] = value;
+                    itemStyle.lineWidth = 2 * (itemVisualStyle.lineWidth > 0) : itemStyle[visualName] = value;
                 } // lineStyle
                 for(var legendLineModel = legendModel.getModel('lineStyle'), lineProperties = LINE_STYLE_KEY_MAP.concat([
                     [
@@ -44951,11 +44951,11 @@
                 ]), lineStyle = {}, i = 0; i < lineProperties.length; ++i){
                     var propName = lineProperties[i][1], visualName = lineProperties[i][0], value = legendLineModel.getShallow(propName);
                     'inherit' === value ? lineStyle[visualName] = lineVisualStyle[visualName] : 'auto' === value && 'lineWidth' === visualName ? // If lineStyle.width is 'auto', it is set to be 2 if series has border
-                    lineStyle.lineWidth = lineVisualStyle.lineWidth > 0 ? 2 : 0 : lineStyle[visualName] = value;
+                    lineStyle.lineWidth = 2 * (lineVisualStyle.lineWidth > 0) : lineStyle[visualName] = value;
                 } // Fix auto color to real color
                 if ('auto' === itemStyle.fill && (itemStyle.fill = itemVisualStyle.fill), 'auto' === itemStyle.stroke && (itemStyle.stroke = itemVisualStyle.fill), 'auto' === lineStyle.stroke && (lineStyle.stroke = itemVisualStyle.fill), !isSelected) {
                     var borderWidth = legendModel.get('inactiveBorderWidth'), visualHasBorder = itemStyle[symbolType.indexOf('empty') > -1 ? 'fill' : 'stroke'];
-                    itemStyle.lineWidth = 'auto' === borderWidth ? itemVisualStyle.lineWidth > 0 && visualHasBorder ? 2 : 0 : itemStyle.lineWidth, itemStyle.fill = legendModel.get('inactiveColor'), itemStyle.stroke = legendModel.get('inactiveBorderColor'), lineStyle.stroke = legendLineStyle.get('inactiveColor'), lineStyle.lineWidth = legendLineStyle.get('inactiveWidth');
+                    itemStyle.lineWidth = 'auto' === borderWidth ? 2 * (itemVisualStyle.lineWidth > 0 && !!visualHasBorder) : itemStyle.lineWidth, itemStyle.fill = legendModel.get('inactiveColor'), itemStyle.stroke = legendModel.get('inactiveBorderColor'), lineStyle.stroke = legendLineStyle.get('inactiveColor'), lineStyle.lineWidth = legendLineStyle.get('inactiveWidth');
                 }
                 return {
                     itemStyle: itemStyle,
@@ -45348,7 +45348,7 @@
        *  pageNextDataIndex: number, null when no next page.
        * }
        */ ScrollableLegendView.prototype._getPageInfo = function(legendModel) {
-            var scrollDataIndex = legendModel.get('scrollDataIndex', !0), contentGroup = this.getContentGroup(), containerRectSize = this._containerGroup.__rectSize, orientIdx = legendModel.getOrient().index, wh = WH$1[orientIdx], xy = XY$1[orientIdx], targetItemIndex = this._findTargetItemIndex(scrollDataIndex), children = contentGroup.children(), targetItem = children[targetItemIndex], itemCount = children.length, pCount = itemCount ? 1 : 0, result = {
+            var scrollDataIndex = legendModel.get('scrollDataIndex', !0), contentGroup = this.getContentGroup(), containerRectSize = this._containerGroup.__rectSize, orientIdx = legendModel.getOrient().index, wh = WH$1[orientIdx], xy = XY$1[orientIdx], targetItemIndex = this._findTargetItemIndex(scrollDataIndex), children = contentGroup.children(), targetItem = children[targetItemIndex], itemCount = children.length, pCount = +!!itemCount, result = {
                 contentPosition: [
                     contentGroup.x,
                     contentGroup.y
@@ -45801,7 +45801,7 @@
                 // Why using 'right', because right should be used in vertical,
                 // and it is better to be consistent for dealing with position param merge.
                 right: ecSize.width - coordRect.x - coordRect.width,
-                top: ecSize.height - 30 - 7 - (showMoveHandle ? 7 : 0),
+                top: ecSize.height - 30 - 7 - 7 * !!showMoveHandle,
                 width: coordRect.width,
                 height: 30
             } : {
@@ -46849,7 +46849,7 @@
         for(var ecSize = {
             width: api.getWidth(),
             height: api.getHeight()
-        }, realIndex = 'horizontal' === modelOption.orient ? 1 : 0, reals = paramsSet[realIndex], fakeValue = [
+        }, realIndex = +('horizontal' === modelOption.orient), reals = paramsSet[realIndex], fakeValue = [
             0,
             null,
             10
@@ -46866,7 +46866,7 @@
                 0
             ]
         ][realIndex], rect = getLayoutRect(layoutInput, ecSize, modelOption.padding);
-        return reals[(rect.margin[rParam[2]] || 0) + rect[rParam[0]] + 0.5 * rect[rParam[1]] < 0.5 * ecSize[rParam[1]] ? 0 : 1];
+        return reals[+!((rect.margin[rParam[2]] || 0) + rect[rParam[0]] + 0.5 * rect[rParam[1]] < 0.5 * ecSize[rParam[1]])];
     }
     /**
      * Prepare dataIndex for outside usage, where dataIndex means rawIndex, and

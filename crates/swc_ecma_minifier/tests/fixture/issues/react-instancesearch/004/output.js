@@ -21,7 +21,7 @@ var _obj, isMultiIndexContext = function(widget) {
     return widget.props.indexId === indexId;
 }, sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
-    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
+    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : +(!isFirstWidgetIndex && !!isSecondWidgetIndex);
 };
 /**
  * Creates a new instance of the InstantSearchManager which controls the widgets and
