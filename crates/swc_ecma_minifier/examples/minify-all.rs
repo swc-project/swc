@@ -83,7 +83,7 @@ fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
         let mut worker = Worker::default();
 
-        files.into_iter().for_each(|path| {
+        files.iter().for_each(|path| {
             testing::run_test(false, |cm, handler| {
                 let fm = cm.load_file(path).expect("failed to load file");
 
