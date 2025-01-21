@@ -15,11 +15,11 @@ use swc_ecma_ast::{
     Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
     ImportDecl, ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp,
-    Program, ReturnStmt, SetterProp, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
     TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
     TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
     TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDeclarator, WhileStmt,
+    VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -596,6 +596,34 @@ impl TsStrip {
 
         self.add_replacement(*span);
     }
+
+    // ```TypeScript
+    // return/yield/throw <T>
+    //     (v: T) => v;
+    // ```
+    //
+    // ```TypeScript
+    // return/yield/throw (
+    //      v   ) => v;
+    // ```
+    fn fix_asi_in_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
+        if let Some(tp) = &arrow_expr.type_params {
+            let l_paren = self.get_next_token(tp.span.hi);
+            debug_assert_eq!(l_paren.token, Token::LParen);
+
+            let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
+
+            if !slice.chars().any(is_new_line) {
+                return;
+            }
+
+            let l_paren_pos = l_paren.span.lo;
+            let l_lt_pos = tp.span.lo;
+
+            self.add_overwrite(l_paren_pos, b' ');
+            self.add_overwrite(l_lt_pos, b'(');
+        }
+    }
 }
 
 impl Visit for TsStrip {
@@ -695,39 +723,52 @@ impl Visit for TsStrip {
 
         arg.visit_with(self);
 
-        if let Some(arrow_expr) = arg.as_arrow() {
-            if arrow_expr.is_async {
-                // We have already handled type parameters in `visit_arrow_expr`.
-                return;
-            }
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
 
-            // ```TypeScript
-            // return <T>
-            //     (v: T) => v;
-            // ```
-            //
-            // ```TypeScript
-            // return (
-            //      v   ) => v;
-            // ```
-
-            if let Some(tp) = &arrow_expr.type_params {
-                let l_paren = self.get_next_token(tp.span.hi);
-                debug_assert_eq!(l_paren.token, Token::LParen);
-
-                let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
-
-                if !slice.chars().any(is_new_line) {
-                    return;
-                }
-
-                let l_paren_pos = l_paren.span.lo;
-                let l_lt_pos = tp.span.lo;
-
-                self.add_overwrite(l_paren_pos, b' ');
-                self.add_overwrite(l_lt_pos, b'(');
-            }
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
         }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
+    }
+
+    fn visit_yield_expr(&mut self, n: &YieldExpr) {
+        let Some(arg) = &n.arg else {
+            return;
+        };
+
+        arg.visit_with(self);
+
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
+
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
+        }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
+    }
+
+    fn visit_throw_stmt(&mut self, n: &ThrowStmt) {
+        let arg = &n.arg;
+
+        arg.visit_with(self);
+
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
+
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
+        }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
