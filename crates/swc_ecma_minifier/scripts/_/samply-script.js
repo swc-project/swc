@@ -40,7 +40,10 @@
     async function handleRow(row) {
         const lib = row.querySelector('.lib');
         const libText = lib.textContent.trim();
-        if (libText.endsWith("/swc_ecma_visit/src/generated.rs") || libText.includes('/.rustup/')) {
+        if (libText.endsWith("/swc_ecma_visit/src/generated.rs") ||
+            libText.includes('/.rustup/') ||
+            libText.includes('/chili-') ||
+            libText.includes('/swc_parallel/')) {
             triggerMouseEvent(row, "mouseover");
             triggerMouseEvent(row, "mousedown");
             triggerMouseEvent(row, "mouseup");
