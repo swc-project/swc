@@ -46,10 +46,10 @@
             triggerMouseEvent(row, "mousedown");
             triggerMouseEvent(row, "mouseup");
             triggerMouseEvent(row, "click");
-            await sleep(300);
+            await sleep(100);
 
             await sendKey(row, 'm', 77, 'KeyM');
-            await sleep(1000);
+            await sleep(500);
             return true;
         }
     }
