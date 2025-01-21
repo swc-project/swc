@@ -20,7 +20,9 @@
             which: keyCode,
             shiftKey: false,
             ctrlKey: false,
-            metaKey: false
+            metaKey: false,
+            bubbles: true,
+            cancelable: true,
         }));
         node.dispatchEvent(new KeyboardEvent("keyup", {
             key: key,
@@ -29,7 +31,9 @@
             which: keyCode,
             shiftKey: false,
             ctrlKey: false,
-            metaKey: false
+            metaKey: false,
+            bubbles: true,
+            cancelable: true,
         }));
 
     }
@@ -53,10 +57,13 @@
 
     while (true) {
         const rows = treeView.querySelectorAll('.treeViewRow');
+        console.log(`Checking ${rows.length} rows`);
+
 
         let didWork = false;
         for (const row of rows) {
             if (await handleRow(row)) {
+                console.log("Worked");
                 didWork = true;
             }
         }
