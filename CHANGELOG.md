@@ -46,6 +46,12 @@
 
 - **(es/minifier)** Do heavy operation only if required ([#9902](https://github.com/swc-project/swc/issues/9902)) ([2687231](https://github.com/swc-project/swc/commit/26872310f60d4de40e717cd30e7bf856bad3edba))
 
+
+- **(es/minifier)** Cache `var_or_default` calls ([#9909](https://github.com/swc-project/swc/issues/9909)) ([4a3be8d](https://github.com/swc-project/swc/commit/4a3be8d60b1ad49d723a5e102264ec3284603638))
+
+
+- **(es/minifier)** Invert cache to be really a cache ([#9910](https://github.com/swc-project/swc/issues/9910)) ([8bfb0e5](https://github.com/swc-project/swc/commit/8bfb0e5edd51934dff37fe70136b73d5301a4e41))
+
 ## [1.10.8] - 2025-01-19
 
 ### Bug Fixes
@@ -1547,18 +1553,6 @@
 
 ## [1.6.7] - 2024-07-03
 
-### Documentation
-
-
-
-- Use `@swc/counter` for 3rd-party download count ([026ff7e](https://github.com/swc-project/swc/commit/026ff7ef0c64379fc34df206eb9880920eda99ee))
-
-### Features
-
-
-
-- **(binding)** Create Wasm package for stripping only TypeScript ([#9124](https://github.com/swc-project/swc/issues/9124)) ([6b3c0da](https://github.com/swc-project/swc/commit/6b3c0da755b29022327adf7a5dc9a7c96142ceb2))
-
 ### Refactor
 
 
@@ -1570,9 +1564,6 @@
 
 
 - **(bindings/ts)** Test Wasm binding ([#9128](https://github.com/swc-project/swc/issues/9128)) ([c6d6db3](https://github.com/swc-project/swc/commit/c6d6db3661ec93b9ebb8ca55ff88726f66b3d5e5))
-
-
-- **(es/decorators)** Split `decorator-tests` ([#9119](https://github.com/swc-project/swc/issues/9119)) ([07c3054](https://github.com/swc-project/swc/commit/07c3054847947bd4c39ca828a7471d990b77ee7c))
 
 ### Build
 
