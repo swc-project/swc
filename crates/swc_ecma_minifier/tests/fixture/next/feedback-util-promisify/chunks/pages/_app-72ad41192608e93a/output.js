@@ -396,7 +396,7 @@
                                 t = e[n], f = r[n];
                                 break;
                             }
-                            return t < f ? -1 : f < t ? 1 : 0;
+                            return t < f ? -1 : +(f < t);
                         }, Buffer.isEncoding = function(e) {
                             switch(String(e).toLowerCase()){
                                 case "hex":
@@ -460,7 +460,7 @@
                                 i = a[h], o = s[h];
                                 break;
                             }
-                            return i < o ? -1 : o < i ? 1 : 0;
+                            return i < o ? -1 : +(o < i);
                         }, Buffer.prototype.includes = function(e, r, t) {
                             return -1 !== this.indexOf(e, r, t);
                         }, Buffer.prototype.indexOf = function(e, r, t) {
@@ -731,8 +731,8 @@
                             }
                             return (p ? -1 : 1) * o * Math.pow(2, i - f);
                         }, r.write = function(e, r, t, f, n, i) {
-                            var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 23 === n ? 0.00000005960464477539062 : 0, p = f ? 0 : i - 1, y = f ? 1 : -1, g = r < 0 || 0 === r && 1 / r < 0 ? 1 : 0;
-                            for(isNaN(r = Math.abs(r)) || r === 1 / 0 ? (u = isNaN(r) ? 1 : 0, o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
+                            var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 0.00000005960464477539062 * (23 === n), p = f ? 0 : i - 1, y = f ? 1 : -1, g = +(r < 0 || 0 === r && 1 / r < 0);
+                            for(isNaN(r = Math.abs(r)) || r === 1 / 0 ? (u = +!!isNaN(r), o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
                             for(o = o << n | u, s += n; s > 0; e[t + p] = 255 & o, p += y, o /= 256, s -= 8);
                             e[t + p - y] |= 128 * g;
                         };

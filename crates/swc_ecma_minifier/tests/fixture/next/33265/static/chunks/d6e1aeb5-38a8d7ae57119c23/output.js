@@ -1078,7 +1078,7 @@
                     } // Handle key presses
                     event.which = event.charCode || event.keyCode, null !== event.button && void 0 !== event.button && // The following is disabled because it does not pass videojs-standard
                     // and... yikes.
-                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 & event.button ? 2 : 0);
+                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 * !!(2 & event.button));
                 }
                 return event.fixed_ = !0, event;
             }
@@ -15718,7 +15718,7 @@
                 if (preloadSegment) {
                     var parts = preloadSegment.parts;
                     return (preloadSegment.preloadHints || []).reduce(function(count, hint) {
-                        return count + ("PART" === hint.type ? 1 : 0);
+                        return count + +("PART" === hint.type);
                     }, 0) + (parts && parts.length ? parts.length : 0);
                 }
             }, liveEdgeDelay = function(master, media) {
@@ -18660,7 +18660,7 @@
                         nextByte
                     ], i++) : charCodeArray = [
                         currentByte
-                    ], _char = service.textDecoder_.decode(new Uint8Array(charCodeArray))) : _char = get708CharFromCode((isExtended ? 0x1000 : 0x0000) | currentByte), win.pendingNewLine && !win.isEmpty() && win.newLine(this.getPts(i)), win.pendingNewLine = !1, win.addText(_char), i;
+                    ], _char = service.textDecoder_.decode(new Uint8Array(charCodeArray))) : _char = get708CharFromCode(0x1000 * !!isExtended | currentByte), win.pendingNewLine && !win.isEmpty() && win.newLine(this.getPts(i)), win.pendingNewLine = !1, win.addText(_char), i;
                 }, /**
                      * Handle decoding of multibyte character
                      *

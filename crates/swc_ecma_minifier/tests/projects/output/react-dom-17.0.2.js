@@ -2715,7 +2715,7 @@
     }
     function getLanesToRetrySynchronouslyOnError(root) {
         var everythingButOffscreen = -1073741825 & root.pendingLanes;
-        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 & everythingButOffscreen ? 1073741824 : 0;
+        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 * !!(1073741824 & everythingButOffscreen);
     }
     function includesNonIdleWork(lanes) {
         return (134217727 & lanes) != 0;
@@ -8219,7 +8219,7 @@
                     var child, props = workInProgress.pendingProps, payload = elementType._payload, Component = (0, elementType._init)(payload);
                     workInProgress.type = Component;
                     var resolvedTag = workInProgress.tag = function(Component) {
-                        if ("function" == typeof Component) return shouldConstruct$1(Component) ? 1 : 0;
+                        if ("function" == typeof Component) return +!!shouldConstruct$1(Component);
                         if (null != Component) {
                             var $$typeof = Component.$$typeof;
                             if ($$typeof === REACT_FORWARD_REF_TYPE) return 11;
@@ -11439,7 +11439,7 @@
         // Tag is either LegacyRoot or Concurrent Root
         var root, mode, uninitializedFiber, hostRoot, hydrate = null != options && !0 === options.hydrate;
         null != options && options.hydrationOptions;
-        var mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = (root = new FiberRootNode(container, tag, hydrate), mode = 2 === tag ? 7 : 1 === tag ? 3 : 0, isDevToolsPresent && // Always collect profile timings when DevTools are present.
+        var mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = (root = new FiberRootNode(container, tag, hydrate), mode = 2 === tag ? 7 : 3 * (1 === tag), isDevToolsPresent && // Always collect profile timings when DevTools are present.
         // This enables DevTools to start capturing timing at any point–
         // Without some nodes in the tree having empty base times.
         (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);

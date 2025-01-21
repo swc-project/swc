@@ -522,7 +522,7 @@
                 }
             }
             function et(t, e) {
-                return t < e ? -1 : t > e ? 1 : 0;
+                return t < e ? -1 : +(t > e);
             }
             /** Helper to compare arrays using isEqual(). */ function nt(t, e, n) {
                 return t.length === e.length && t.every((t, s)=>n(t, e[s]));
@@ -795,7 +795,7 @@
                         if (n < i) return -1;
                         if (n > i) return 1;
                     }
-                    return t.length < e.length ? -1 : t.length > e.length ? 1 : 0;
+                    return t.length < e.length ? -1 : +(t.length > e.length);
                 }
             }
             /**
@@ -2543,7 +2543,7 @@
                     if (this.isRed() && this.left.isRed() || this.right.isRed()) throw L();
                     const t = this.left.check();
                     if (t !== this.right.check()) throw L();
-                    return t + (this.isRed() ? 0 : 1);
+                    return t + +!this.isRed();
                 }
             }
             // end LLRBNode
@@ -3089,7 +3089,7 @@
                      */ // Visible for testing.
                 ot(t, e) {
                     if (!this.ht(t)) return;
-                    const n = this.gt(t, e.key) ? 2 /* Modified */  : 0; /* Added */ 
+                    const n = 2 /* Modified */  * !!this.gt(t, e.key); /* Added */ 
                     this.ut(t).H(e.key, n), this.nt = this.nt.insert(e.key, e), this.st = this.st.insert(e.key, this.yt(e.key).add(t));
                 }
                 /**
@@ -7253,7 +7253,7 @@
                                      * See the License for the specific language governing permissions and
                                      * limitations under the License.
                                      */ t.type, e.type) || this.Io(t.doc, e.doc)), this.Vo(n);
-                    const r = e ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 /* Synced */  : 0 /* Local */ , c = o !== this.To;
+                    const r = e ? this.So() : [], o = +(0 === this.Eo.size && !!this.current) /* Local */ , c = o !== this.To;
                     return (this.To = o, 0 !== i.length || c) ? {
                         snapshot: new Fo(this.query, t.Ao, s, i, t.mutatedKeys, 0 /* Local */  === o, c, /* excludesMetadataChanges= */ !1),
                         Do: r

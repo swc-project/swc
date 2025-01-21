@@ -4516,9 +4516,9 @@
             var abs = Math.abs, pow = Math.pow, floor = Math.floor, log = Math.log, LN2 = Math.LN2;
             module.exports = {
                 pack: function(number, mantissaLength, bytes) {
-                    var exponent, mantissa, c, buffer = Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = number < 0 || 0 === number && 1 / number < 0 ? 1 : 0, index = 0;
+                    var exponent, mantissa, c, buffer = Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = +(number < 0 || 0 === number && 1 / number < 0), index = 0;
                     for((number = abs(number)) != number || number === 1 / 0 ? (// eslint-disable-next-line no-self-compare -- NaN check
-                    mantissa = number != number ? 1 : 0, exponent = eMax) : (exponent = floor(log(number) / LN2), number * (c = pow(2, -exponent)) < 1 && (exponent--, c *= 2), exponent + eBias >= 1 ? number += rt / c : number += rt * pow(2, 1 - eBias), number * c >= 2 && (exponent++, c /= 2), exponent + eBias >= eMax ? (mantissa = 0, exponent = eMax) : exponent + eBias >= 1 ? (mantissa = (number * c - 1) * pow(2, mantissaLength), exponent += eBias) : (mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength), exponent = 0)); mantissaLength >= 8; buffer[index++] = 255 & mantissa, mantissa /= 256, mantissaLength -= 8);
+                    mantissa = +(number != number), exponent = eMax) : (exponent = floor(log(number) / LN2), number * (c = pow(2, -exponent)) < 1 && (exponent--, c *= 2), exponent + eBias >= 1 ? number += rt / c : number += rt * pow(2, 1 - eBias), number * c >= 2 && (exponent++, c /= 2), exponent + eBias >= eMax ? (mantissa = 0, exponent = eMax) : exponent + eBias >= 1 ? (mantissa = (number * c - 1) * pow(2, mantissaLength), exponent += eBias) : (mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength), exponent = 0)); mantissaLength >= 8; buffer[index++] = 255 & mantissa, mantissa /= 256, mantissaLength -= 8);
                     for(exponent = exponent << mantissaLength | mantissa, exponentLength += mantissaLength; exponentLength > 0; buffer[index++] = 255 & exponent, exponent /= 256, exponentLength -= 8);
                     return buffer[--index] |= 128 * sign, buffer;
                 },
@@ -13368,7 +13368,7 @@
                 return d;
             }
             function Wc(a) {
-                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 & a ? 1073741824 : 0;
+                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 * !!(1073741824 & a);
             }
             function Xc(a, b) {
                 var a1, a2, a3, a4, a5;
@@ -17086,7 +17086,7 @@
             }
             function qk(a, b, c) {
                 var d = null != c && null != c.hydrationOptions && c.hydrationOptions.mutableSources || null;
-                if (c = new jk(a, b, null != c && !0 === c.hydrate), b = nh(3, null, null, 2 === b ? 7 : 1 === b ? 3 : 0), c.current = b, b.stateNode = c, xg(b), a[ff] = c.current, cf(8 === a.nodeType ? a.parentNode : a), d) for(a = 0; a < d.length; a++){
+                if (c = new jk(a, b, null != c && !0 === c.hydrate), b = nh(3, null, null, 2 === b ? 7 : 3 * (1 === b)), c.current = b, b.stateNode = c, xg(b), a[ff] = c.current, cf(8 === a.nodeType ? a.parentNode : a), d) for(a = 0; a < d.length; a++){
                     var e = (b = d[a])._getVersion;
                     e = e(b._source), null == c.mutableSourceEagerHydrationData ? c.mutableSourceEagerHydrationData = [
                         b,
@@ -17204,7 +17204,7 @@
                         e = b.elementType;
                         a: {
                             switch(null !== a && (a.alternate = null, b.alternate = null, b.flags |= 2), a = b.pendingProps, e = (f = e._init)(e._payload), b.type = e, f = b.tag = function(a) {
-                                if ("function" == typeof a) return ji(a) ? 1 : 0;
+                                if ("function" == typeof a) return +!!ji(a);
                                 if (null != a) {
                                     if ((a = a.$$typeof) === Aa) return 11;
                                     if (a === Da) return 14;

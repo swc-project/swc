@@ -2606,9 +2606,9 @@
                                 break;
                             case 'G':
                                 // eslint-disable-next-line
-                                var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
+                                var dec = +!(0 > value.getFullYear()), retu = options.era[dec];
                                 util_isNullOrUndefined(retu) && // eslint-disable-next-line
-                                (retu = options.era[dec ? 0 : 1]), ret += retu || '';
+                                (retu = options.era[+!dec]), ret += retu || '';
                                 break;
                             case '\'':
                                 ret += '\'\'' === match ? '\'' : match.replace(/'/g, '');
@@ -2657,7 +2657,7 @@
      * @returns {string} ?
      * @private
      */ DateFormat.getTimeZoneValue = function(tVal, pattern) {
-                    var _this = this, curPattern = pattern.split(';')[tVal > 0 ? 1 : 0], no = Math.abs(tVal);
+                    var _this = this, curPattern = pattern.split(';')[+(tVal > 0)], no = Math.abs(tVal);
                     return curPattern.replace(/HH?|mm/g, function(str) {
                         var len = str.length, ishour = -1 !== str.indexOf('H');
                         return _this.checkTwodigitNumber(Math.floor(ishour ? no / 60 : no % 60), len);
@@ -2963,7 +2963,7 @@
                     }
                     if (!util_isUndefined(desig)) {
                         var hour = res.getHours();
-                        'pm' === desig ? res.setHours(hour + (12 === hour ? 0 : 12)) : 12 === hour && res.setHours(0);
+                        'pm' === desig ? res.setHours(hour + 12 * (12 !== hour)) : 12 === hour && res.setHours(0);
                     }
                     if (!util_isUndefined(tzone)) {
                         var tzValue = tzone - res.getTimezoneOffset();
@@ -6947,7 +6947,7 @@
                     }, _this.modeclear = function() {
                         _this.modeClear = setTimeout(function() {
                             _this.touchAction = !0;
-                        }, 'function' != typeof _this.tap ? 0 : 20), _this.lastTapTime = new Date().getTime(), EventHandler.remove(_this.element, Browser.touchMoveEvent, _this.moveEvent), EventHandler.remove(_this.element, Browser.touchEndEvent, _this.endEvent), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
+                        }, 20 * ('function' == typeof _this.tap)), _this.lastTapTime = new Date().getTime(), EventHandler.remove(_this.element, Browser.touchMoveEvent, _this.moveEvent), EventHandler.remove(_this.element, Browser.touchEndEvent, _this.endEvent), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
                     }, _this.bind(), _this;
                 }
                 return touch_extends(Touch, _super), // triggers when property changed
@@ -8669,7 +8669,7 @@
                             var formatValue_1 = this.formatNumber();
                             this.setElementValue(formatValue_1), this.isPrevFocused || (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.version */ .AR.info.version ? setTimeout(function() {
                                 _this.element.setSelectionRange(0, formatValue_1.length);
-                            }, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos ? 600 : 0) : this.element.setSelectionRange(0, formatValue_1.length));
+                            }, 600 * (!!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && !!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos)) : this.element.setSelectionRange(0, formatValue_1.length));
                         }
                         _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
                     }
@@ -11640,7 +11640,7 @@
                                     } else if (_this.parent.inputElement === _this.range.startContainer) {
                                         var focusElem = _this.range.startContainer.childNodes[_this.range.startOffset];
                                         if ('#text' === focusElem.nodeName && 0 === focusElem.textContent.length) _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.previousSibling.textContent.length);
-                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.textContent.length >= 0 ? 0 : 1), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
+                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, +!(focusElem.textContent.length >= 0)), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
                                         else if (0 === focusElem.textContent.length) {
                                             for(var currentFocusElem = focusElem.previousSibling.lastChild; '#text' !== currentFocusElem.nodeName;)currentFocusElem = currentFocusElem.lastChild;
                                             _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), currentFocusElem, currentFocusElem.textContent.length), (0, ej2_base /* detach */ .og)(focusElem);
@@ -11674,7 +11674,7 @@
                                             insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
                                         } else {
                                             var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !1).cloneNode(!0);
-                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, newElem.textContent.length >= 0 ? 0 : 1);
+                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, +!(newElem.textContent.length >= 0));
                                         }
                                     } else {
                                         var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !0);
@@ -17603,7 +17603,7 @@
                     var nodeSelection = new selection /* NodeSelection */ .q(), nodeCutter = new NodeCutter(), range = nodeSelection.getRange(docElement), isCollapsed = range.collapsed, nodes = nodeSelection.getInsertNodeCollection(range), save = nodeSelection.save(range, docElement);
                     if (!isCollapsed) {
                         var preNode = void 0;
-                        if (preNode = 'BR' === nodes[0].nodeName && (0, ej2_base /* closest */ .oq)(nodes[0], 'table') ? nodeCutter.GetSpliceNode(range, (0, ej2_base /* closest */ .oq)(nodes[0], 'table')) : nodeCutter.GetSpliceNode(range, nodes[nodes.length > 1 && 'IMG' === nodes[0].nodeName ? 1 : 0]), 1 === nodes.length) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
+                        if (preNode = 'BR' === nodes[0].nodeName && (0, ej2_base /* closest */ .oq)(nodes[0], 'table') ? nodeCutter.GetSpliceNode(range, (0, ej2_base /* closest */ .oq)(nodes[0], 'table')) : nodeCutter.GetSpliceNode(range, nodes[+(nodes.length > 1 && 'IMG' === nodes[0].nodeName)]), 1 === nodes.length) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
                         else {
                             for(var i = 1, lastText = nodes[nodes.length - i]; nodes.length <= i && 'BR' === nodes[nodes.length - i].nodeName;)i++, lastText = nodes[nodes.length - i];
                             var lasNode = nodeCutter.GetSpliceNode(range, lastText);
@@ -24883,7 +24883,7 @@
                     var pos = {
                         top: 0,
                         left: 0
-                    }, tooltipEleWidth = this.tooltipEle.offsetWidth, tooltipEleHeight = this.tooltipEle.offsetHeight, arrowEle = (0, ej2_base /* select */ .Ys)('.' + ARROW_TIP, this.tooltipEle), tipWidth = arrowEle ? arrowEle.offsetWidth : 0, tipHeight = arrowEle ? arrowEle.offsetHeight : 0, tipAdjust = this.showTipPointer ? 0 : 8, tipHeightAdjust = tipHeight / 2 + 2 + (this.tooltipEle.offsetHeight - this.tooltipEle.clientHeight), tipWidthAdjust = tipWidth / 2 + 2 + (this.tooltipEle.offsetWidth - this.tooltipEle.clientWidth);
+                    }, tooltipEleWidth = this.tooltipEle.offsetWidth, tooltipEleHeight = this.tooltipEle.offsetHeight, arrowEle = (0, ej2_base /* select */ .Ys)('.' + ARROW_TIP, this.tooltipEle), tipWidth = arrowEle ? arrowEle.offsetWidth : 0, tipHeight = arrowEle ? arrowEle.offsetHeight : 0, tipAdjust = 8 * !this.showTipPointer, tipHeightAdjust = tipHeight / 2 + 2 + (this.tooltipEle.offsetHeight - this.tooltipEle.clientHeight), tipWidthAdjust = tipWidth / 2 + 2 + (this.tooltipEle.offsetWidth - this.tooltipEle.clientWidth);
                     switch(this.mouseTrail && (tipAdjust += 2), position){
                         case 'RightTop':
                             pos.left += tipWidth + tipAdjust, pos.top -= tooltipEleHeight - tipHeightAdjust;
@@ -27591,7 +27591,7 @@
                     else {
                         switch(max){
                             case r:
-                                h = (g - b) / d + (g < b ? 6 : 0);
+                                h = (g - b) / d + 6 * (g < b);
                                 break;
                             case g:
                                 h = (b - r) / d + 2;
@@ -32573,7 +32573,7 @@
                                 widthCompare = currentTd.offsetWidth - (currentTd.offsetWidth - currentTd.clientWidth) - 2 * currentTDPad;
                             } else widthCompare = rteWidth;
                             if (_this.resizeBtnStat.column) {
-                                var width = parseFloat(_this.columnEle.offsetWidth.toString()), cellRow = 'TH' === _this.curTable.rows[0].cells[0].nodeName ? 1 : 0, currentTableWidth = parseFloat(_this.curTable.style.width.split('%')[0]), currentColumnCellWidth = parseFloat(_this.curTable.rows[cellRow].cells[_this.colIndex].style.width.split('%')[0]);
+                                var width = parseFloat(_this.columnEle.offsetWidth.toString()), cellRow = +('TH' === _this.curTable.rows[0].cells[0].nodeName), currentTableWidth = parseFloat(_this.curTable.style.width.split('%')[0]), currentColumnCellWidth = parseFloat(_this.curTable.rows[cellRow].cells[_this.colIndex].style.width.split('%')[0]);
                                 if ('first' === _this.currentColumnResize) // Below the value '100' is the 100% width of the parent element.
                                 {
                                     if (mouseX -= 0.75, _this.removeResizeElement(), (0 !== mouseX && 5 < currentColumnCellWidth || mouseX < 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare)) {

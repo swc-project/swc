@@ -1359,7 +1359,7 @@
             props: "button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
             filter: function(event, original) {
                 var body, eventDoc, doc, button = original.button, fromElement = original.fromElement;
-                return null == event.pageX && null != original.clientX && (doc = (eventDoc = event.target.ownerDocument || document).documentElement, body = eventDoc.body, event.pageX = original.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0), event.pageY = original.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0)), !event.relatedTarget && fromElement && (event.relatedTarget = fromElement === event.target ? original.toElement : fromElement), event.which || undefined === button || (event.which = 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0), event;
+                return null == event.pageX && null != original.clientX && (doc = (eventDoc = event.target.ownerDocument || document).documentElement, body = eventDoc.body, event.pageX = original.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0), event.pageY = original.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0)), !event.relatedTarget && fromElement && (event.relatedTarget = fromElement === event.target ? original.toElement : fromElement), event.which || undefined === button || (event.which = 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button)), event;
             }
         },
         special: {
@@ -1890,7 +1890,7 @@
             sortOrder = docElem.compareDocumentPosition ? function(a, b) {
                 var compare;
                 if (a === b) return hasDuplicate = !0, 0;
-                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1;
+                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : +!!(b === doc || contains(preferredDoc, b)) : 4 & compare ? -1 : 1;
                 return a.compareDocumentPosition ? -1 : 1;
             } : function(a, b) {
                 var cur, i = 0, aup = a.parentNode, bup = b.parentNode, ap = [
@@ -1900,14 +1900,14 @@
                 ];
                 // Exit early if the nodes are identical
                 if (a === b) return hasDuplicate = !0, 0;
-                if (!aup || !bup) return a === doc ? -1 : b === doc ? 1 : aup ? -1 : bup ? 1 : 0;
+                if (!aup || !bup) return a === doc ? -1 : b === doc ? 1 : aup ? -1 : +!!bup;
                 if (aup === bup) return siblingCheck(a, b);
                 for(// Otherwise we need full lists of their ancestors for comparison
                 cur = a; cur = cur.parentNode;)ap.unshift(cur);
                 for(cur = b; cur = cur.parentNode;)bp.unshift(cur);
                 // Walk down the tree looking for a discrepancy
                 for(; ap[i] === bp[i];)i++;
-                return i ? siblingCheck(ap[i], bp[i]) : ap[i] === preferredDoc ? -1 : bp[i] === preferredDoc ? 1 : 0;
+                return i ? siblingCheck(ap[i], bp[i]) : ap[i] === preferredDoc ? -1 : +(bp[i] === preferredDoc);
             }, // Always assume the presence of duplicates if sort doesn't
             // pass them to our comparison function (as in Google Chrome).
             hasDuplicate = !1, [
@@ -2306,7 +2306,7 @@
             var matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
             if (!cached) {
                 for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = function matcherFromTokens(tokens) {
-                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, // The foundational matcher ensures that elements are reachable from top-level context(s)
+                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = +!!leadingRelative, // The foundational matcher ensures that elements are reachable from top-level context(s)
                     matchContext = addCombinator(function(elem) {
                         return elem === checkContext;
                     }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
@@ -2898,7 +2898,7 @@
         return matches ? Math.max(0, matches[1] - (subtract || 0)) + (matches[2] || "px") : value;
     }
     function augmentWidthOrHeight(elem, name1, extra, isBorderBox, styles) {
-        for(var i = extra === (isBorderBox ? "border" : "content") ? 4 : "width" === name1 ? 1 : 0, val = 0; i < 4; i += 2)"margin" === extra && (val += jQuery.css(elem, extra + cssExpand[i], !0, styles)), isBorderBox ? ("content" === extra && (val -= jQuery.css(elem, "padding" + cssExpand[i], !0, styles)), "margin" !== extra && (val -= jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles))) : (// at this point, extra isn't content, so add padding
+        for(var i = extra === (isBorderBox ? "border" : "content") ? 4 : +("width" === name1), val = 0; i < 4; i += 2)"margin" === extra && (val += jQuery.css(elem, extra + cssExpand[i], !0, styles)), isBorderBox ? ("content" === extra && (val -= jQuery.css(elem, "padding" + cssExpand[i], !0, styles)), "margin" !== extra && (val -= jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles))) : (// at this point, extra isn't content, so add padding
         val += jQuery.css(elem, "padding" + cssExpand[i], !0, styles), "padding" !== extra && (val += jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles)));
         return val;
     }
@@ -3480,7 +3480,7 @@
                 // (no matter how long the jqXHR object will be used)
                 transport = undefined, // Cache response headers
                 responseHeadersString = headers || "", // Set readyState
-                jqXHR.readyState = status > 0 ? 4 : 0, responses && (response = /* Handles responses to an ajax request:
+                jqXHR.readyState = 4 * (status > 0), responses && (response = /* Handles responses to an ajax request:
    * - sets all responseXXX fields accordingly
    * - finds the right dataType (mediates between content-type and expected dataType)
    * - returns the corresponding response
@@ -3776,7 +3776,7 @@
             }), anim.done(function() {
                 var prop;
                 for(prop in jQuery._removeData(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
-            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), prop in dataShow || (dataShow[prop] = tween.start, hidden && (tween.end = tween.start, tween.start = "width" === prop || "height" === prop ? 1 : 0));
+            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), prop in dataShow || (dataShow[prop] = tween.start, hidden && (tween.end = tween.start, tween.start = +("width" === prop || "height" === prop)));
         }
     ], tweeners = {
         "*": [
@@ -3880,7 +3880,7 @@
         }, i = 0;
         for(// if we include width, step value is 1 to do all cssExpand values,
         // if we don't include width, step value is 2 to skip over Left and Right
-        includeWidth = includeWidth ? 1 : 0; i < 4; i += 2 - includeWidth)attrs["margin" + (which = cssExpand[i])] = attrs["padding" + which] = type;
+        includeWidth = +!!includeWidth; i < 4; i += 2 - includeWidth)attrs["margin" + (which = cssExpand[i])] = attrs["padding" + which] = type;
         return includeWidth && (attrs.opacity = attrs.width = type), attrs;
     }
     function getWindow(elem) {

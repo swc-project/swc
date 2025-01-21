@@ -292,11 +292,11 @@ var ts, ts1, dynamicImportUMDHelper;
                         // import { x, y } from "mod";
                         // import d, { x, y } from "mod";
                         // import d, * as n from "mod";
-                        variables.push(factory.createVariableDeclaration(factory.getGeneratedNameForNode(node), /*exclamationToken*/ void 0, /*type*/ void 0, getHelperExpressionForImport(node, createRequireCall(node)))), namespaceDeclaration && ts1.isDefaultImport(node) && variables.push(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, factory.getGeneratedNameForNode(node)))), statements = ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList(variables, languageVersion >= 2 /* ES2015 */  ? 2 /* Const */  : 0 /* None */ )), /*location*/ node), /*original*/ node));
+                        variables.push(factory.createVariableDeclaration(factory.getGeneratedNameForNode(node), /*exclamationToken*/ void 0, /*type*/ void 0, getHelperExpressionForImport(node, createRequireCall(node)))), namespaceDeclaration && ts1.isDefaultImport(node) && variables.push(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, factory.getGeneratedNameForNode(node)))), statements = ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList(variables, 2 /* Const */  * (languageVersion >= 2 /* ES2015 */ ) /* None */ )), /*location*/ node), /*original*/ node));
                     } else namespaceDeclaration && ts1.isDefaultImport(node) && // import d, * as n from "mod";
                     (statements = ts1.append(statements, factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList([
                         ts1.setOriginalNode(ts1.setTextRange(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, factory.getGeneratedNameForNode(node)), /*location*/ node), /*original*/ node)
-                    ], languageVersion >= 2 /* ES2015 */  ? 2 /* Const */  : 0 /* None */ ))));
+                    ], 2 /* Const */  * (languageVersion >= 2 /* ES2015 */ ) /* None */ ))));
                     if (hasAssociatedEndOfDeclarationMarker(node)) {
                         // Defer exports until we encounter an EndOfDeclarationMarker node
                         var id = ts1.getOriginalNodeId(node);
@@ -312,7 +312,7 @@ var ts, ts1, dynamicImportUMDHelper;
          */ function(node) {
                     if (ts1.Debug.assert(ts1.isExternalModuleImportEqualsDeclaration(node), "import= for internal module references should be handled in an earlier transformer."), moduleKind !== ts1.ModuleKind.AMD ? statements = ts1.hasSyntacticModifier(node, 1 /* Export */ ) ? ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createExportExpression(node.name, createRequireCall(node))), node), node)) : ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList([
                         factory.createVariableDeclaration(factory.cloneNode(node.name), /*exclamationToken*/ void 0, /*type*/ void 0, createRequireCall(node))
-                    ], /*flags*/ languageVersion >= 2 /* ES2015 */  ? 2 /* Const */  : 0 /* None */ )), node), node)) : ts1.hasSyntacticModifier(node, 1 /* Export */ ) && (statements = ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createExportExpression(factory.getExportName(node), factory.getLocalName(node))), node), node))), hasAssociatedEndOfDeclarationMarker(node)) {
+                    ], /*flags*/ 2 /* Const */  * (languageVersion >= 2 /* ES2015 */ ) /* None */ )), node), node)) : ts1.hasSyntacticModifier(node, 1 /* Export */ ) && (statements = ts1.append(statements, ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createExportExpression(factory.getExportName(node), factory.getLocalName(node))), node), node))), hasAssociatedEndOfDeclarationMarker(node)) {
                         // Defer exports until we encounter an EndOfDeclarationMarker node
                         var statements, id = ts1.getOriginalNodeId(node);
                         deferredExports[id] = appendExportsOfImportEqualsDeclaration(deferredExports[id], node);
@@ -527,7 +527,7 @@ var ts, ts1, dynamicImportUMDHelper;
                             if (destructuringNeedsFlattening(elem.expression)) return !0;
                         } else if (destructuringNeedsFlattening(elem)) return !0;
                     }
-                    else if (ts1.isIdentifier(node)) return ts1.length(getExports(node)) > (ts1.isExportName(node) ? 1 : 0);
+                    else if (ts1.isIdentifier(node)) return ts1.length(getExports(node)) > +!!ts1.isExportName(node);
                     return !1;
                 }(node.left) ? ts1.visitEachChild(node, visitor, context) : ts1.flattenDestructuringAssignment(node, visitor, context, 0 /* All */ , !valueIsDiscarded, createAllExportExpressions);
                 break;

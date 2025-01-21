@@ -299,7 +299,7 @@
                         S.forEach((S)=>{
                             if ("attributes" === S.type && "data-tooltip-id" === S.attributeName && S.target.getAttribute("data-tooltip-id") === t && h.push(S.target), "childList" === S.type && (_ && [
                                 ...S.removedNodes
-                            ].some((m)=>!!m.contains(_) && (M(!1), Z(!1), b(null), !0)), !!m)) try {
+                            ].some((m)=>m.contains(_) ? (M(!1), Z(!1), b(null), !0) : !1), !!m)) try {
                                 let E = [
                                     ...S.addedNodes
                                 ].filter((m)=>1 === m.nodeType);

@@ -3841,10 +3841,10 @@ function(global, factory) {
             ];
         }
         _edgecode(x, y) {
-            return (x === this.xmin ? 0b0001 : x === this.xmax ? 0b0010 : 0b0000) | (y === this.ymin ? 0b0100 : y === this.ymax ? 0b1000 : 0b0000);
+            return (x === this.xmin ? 0b0001 : 0b0010 * (x === this.xmax)) | (y === this.ymin ? 0b0100 : 0b1000 * (y === this.ymax));
         }
         _regioncode(x, y) {
-            return (x < this.xmin ? 0b0001 : x > this.xmax ? 0b0010 : 0b0000) | (y < this.ymin ? 0b0100 : y > this.ymax ? 0b1000 : 0b0000);
+            return (x < this.xmin ? 0b0001 : 0b0010 * (x > this.xmax)) | (y < this.ymin ? 0b0100 : 0b1000 * (y > this.ymax));
         }
     }
     const tau$3 = 2 * Math.PI, pow = Math.pow;
@@ -5192,7 +5192,7 @@ function(global, factory) {
             else stream.point(to[0], to[1]);
         }
         function corner(p, direction) {
-            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? direction > 0 ? 1 : 0 : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
+            return 1e-6 > abs$2(p[0] - x0) ? 3 * !(direction > 0) : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? +(direction > 0) : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
         }
         function compareIntersection(a, b) {
             return comparePoint(a.x, b.x);
@@ -7459,7 +7459,7 @@ function(global, factory) {
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
                     "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
+                } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return(// If a time zone is specified, all fields are interpreted as UTC and then
                 // offset according to the specified time zone.
                 "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));

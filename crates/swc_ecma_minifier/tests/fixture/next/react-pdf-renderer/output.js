@@ -2916,7 +2916,7 @@
                                     4,
                                     6
                                 ].includes(this.colorType);
-                                var s = this.colors + (this.hasAlphaChannel ? 1 : 0);
+                                var s = this.colors + +!!this.hasAlphaChannel;
                                 switch(this.pixelBitlength = this.bits * s, this.colors){
                                     case 1:
                                         this.colorSpace = "DeviceGray";
@@ -4388,7 +4388,7 @@
                     (0, f.useEffect)(d, [
                         i
                     ]);
-                    var p = c.url ? c.url + "#toolbar=" + (void 0 === a || a ? 1 : 0) : null;
+                    var p = c.url ? c.url + "#toolbar=" + +!!(void 0 === a || a) : null;
                     return /*#__PURE__*/ f.createElement("iframe", (0, u /* default */ .Z)({
                         src: p,
                         title: t,
@@ -16617,7 +16617,7 @@
                                 r = e[i], n = t[i];
                                 break;
                             }
-                            return r < n ? -1 : n < r ? 1 : 0;
+                            return r < n ? -1 : +(n < r);
                         }
                         var I = void 0;
                         function j(e, t, r, n) {
@@ -19234,7 +19234,7 @@
                             return e.msg = l[t], t;
                         }
                         function c(e) {
-                            return (e << 1) - (e > 4 ? 9 : 0);
+                            return (e << 1) - 9 * (e > 4);
                         }
                         function f(e) {
                             for(var t = e.length; --t >= 0;)e[t] = 0;
@@ -19329,7 +19329,7 @@
                         }
                         function E(e) {
                             var t;
-                            return e && e.state ? (e.total_in = e.total_out = 0, e.data_type = 2, (t = e.state).pending = 0, t.pending_out = 0, t.wrap < 0 && (t.wrap = -t.wrap), t.status = t.wrap ? 42 : 113, e.adler = 2 === t.wrap ? 0 : 1, t.last_flush = 0, o._tr_init(t), 0) : s(e, -2);
+                            return e && e.state ? (e.total_in = e.total_out = 0, e.data_type = 2, (t = e.state).pending = 0, t.pending_out = 0, t.wrap < 0 && (t.wrap = -t.wrap), t.status = t.wrap ? 42 : 113, e.adler = +(2 !== t.wrap), t.last_flush = 0, o._tr_init(t), 0) : s(e, -2);
                         }
                         function _(e) {
                             var t, r = E(e);
@@ -19374,7 +19374,7 @@
                             if (!e || !e.state || t > 5 || t < 0) return e ? s(e, -2) : -2;
                             if (i = e.state, !e.output || !e.input && 0 !== e.avail_in || 666 === i.status && 4 !== t) return s(e, 0 === e.avail_out ? -5 : -2);
                             if (i.strm = e, r = i.last_flush, i.last_flush = t, 42 === i.status) {
-                                if (2 === i.wrap) e.adler = 0, h(i, 31), h(i, 139), h(i, 8), i.gzhead ? (h(i, (i.gzhead.text ? 1 : 0) + (i.gzhead.hcrc ? 2 : 0) + (i.gzhead.extra ? 4 : 0) + (i.gzhead.name ? 8 : 0) + (i.gzhead.comment ? 16 : 0)), h(i, 255 & i.gzhead.time), h(i, i.gzhead.time >> 8 & 255), h(i, i.gzhead.time >> 16 & 255), h(i, i.gzhead.time >> 24 & 255), h(i, 9 === i.level ? 2 : i.strategy >= 2 || i.level < 2 ? 4 : 0), h(i, 255 & i.gzhead.os), i.gzhead.extra && i.gzhead.extra.length && (h(i, 255 & i.gzhead.extra.length), h(i, i.gzhead.extra.length >> 8 & 255)), i.gzhead.hcrc && (e.adler = u(e.adler, i.pending_buf, i.pending, 0)), i.gzindex = 0, i.status = 69) : (h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 9 === i.level ? 2 : i.strategy >= 2 || i.level < 2 ? 4 : 0), h(i, 3), i.status = 113);
+                                if (2 === i.wrap) e.adler = 0, h(i, 31), h(i, 139), h(i, 8), i.gzhead ? (h(i, +!!i.gzhead.text + 2 * !!i.gzhead.hcrc + 4 * !!i.gzhead.extra + 8 * !!i.gzhead.name + 16 * !!i.gzhead.comment), h(i, 255 & i.gzhead.time), h(i, i.gzhead.time >> 8 & 255), h(i, i.gzhead.time >> 16 & 255), h(i, i.gzhead.time >> 24 & 255), h(i, 9 === i.level ? 2 : 4 * (i.strategy >= 2 || i.level < 2)), h(i, 255 & i.gzhead.os), i.gzhead.extra && i.gzhead.extra.length && (h(i, 255 & i.gzhead.extra.length), h(i, i.gzhead.extra.length >> 8 & 255)), i.gzhead.hcrc && (e.adler = u(e.adler, i.pending_buf, i.pending, 0)), i.gzindex = 0, i.status = 69) : (h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 9 === i.level ? 2 : 4 * (i.strategy >= 2 || i.level < 2)), h(i, 3), i.status = 113);
                                 else {
                                     var r, i, a, l, g = 8 + (i.w_bits - 8 << 4) << 8;
                                     g |= (i.strategy >= 2 || i.level < 2 ? 0 : i.level < 6 ? 1 : 6 === i.level ? 2 : 3) << 6, 0 !== i.strstart && (g |= 32), g += 31 - g % 31, i.status = 113, y(i, g), 0 !== i.strstart && (y(i, e.adler >>> 16), y(i, 65535 & e.adler)), e.adler = 1;
@@ -19445,7 +19445,7 @@
                                 if ((3 === b || 4 === b) && (i.status = 666), 1 === b || 3 === b) return 0 === e.avail_out && (i.last_flush = -1), 0;
                                 if (2 === b && (1 === t ? o._tr_align(i) : 5 !== t && (o._tr_stored_block(i, 0, 0, !1), 3 === t && (f(i.head), 0 === i.lookahead && (i.strstart = 0, i.block_start = 0, i.insert = 0))), d(e), 0 === e.avail_out)) return i.last_flush = -1, 0;
                             }
-                            return 4 !== t ? 0 : i.wrap <= 0 ? 1 : (2 === i.wrap ? (h(i, 255 & e.adler), h(i, e.adler >> 8 & 255), h(i, e.adler >> 16 & 255), h(i, e.adler >> 24 & 255), h(i, 255 & e.total_in), h(i, e.total_in >> 8 & 255), h(i, e.total_in >> 16 & 255), h(i, e.total_in >> 24 & 255)) : (y(i, e.adler >>> 16), y(i, 65535 & e.adler)), d(e), i.wrap > 0 && (i.wrap = -i.wrap), 0 !== i.pending ? 0 : 1);
+                            return 4 !== t ? 0 : i.wrap <= 0 ? 1 : (2 === i.wrap ? (h(i, 255 & e.adler), h(i, e.adler >> 8 & 255), h(i, e.adler >> 16 & 255), h(i, e.adler >> 24 & 255), h(i, 255 & e.total_in), h(i, e.total_in >> 8 & 255), h(i, e.total_in >> 16 & 255), h(i, e.total_in >> 24 & 255)) : (y(i, e.adler >>> 16), y(i, 65535 & e.adler)), d(e), i.wrap > 0 && (i.wrap = -i.wrap), +(0 === i.pending));
                         }, t.deflateEnd = function(e) {
                             var t;
                             return e && e.state ? 42 !== (t = e.state.status) && 69 !== t && 73 !== t && 91 !== t && 103 !== t && 113 !== t && 666 !== t ? s(e, -2) : (e.state = null, 113 === t ? s(e, -3) : 0) : -2;
@@ -19970,7 +19970,7 @@
                                 default:
                                     return -2;
                             }
-                            return (e.next_out = h, e.avail_out = b, e.next_in = p, e.avail_in = y, r.hold = m, r.bits = D, (r.wsize || E !== e.avail_out && r.mode < 30 && (r.mode < 27 || 4 !== t)) && v(e, e.output, e.next_out, E - e.avail_out)) ? (r.mode = 31, -4) : (w -= e.avail_in, E -= e.avail_out, e.total_in += w, e.total_out += E, r.total += E, r.wrap && E && (e.adler = r.check = r.flags ? u(r.check, d, E, e.next_out - E) : a(r.check, d, E, e.next_out - E)), e.data_type = r.bits + (r.last ? 64 : 0) + (12 === r.mode ? 128 : 0) + (20 === r.mode || 15 === r.mode ? 256 : 0), (0 === w && 0 === E || 4 === t) && 0 === R && (R = -5), R);
+                            return (e.next_out = h, e.avail_out = b, e.next_in = p, e.avail_in = y, r.hold = m, r.bits = D, (r.wsize || E !== e.avail_out && r.mode < 30 && (r.mode < 27 || 4 !== t)) && v(e, e.output, e.next_out, E - e.avail_out)) ? (r.mode = 31, -4) : (w -= e.avail_in, E -= e.avail_out, e.total_in += w, e.total_out += E, r.total += E, r.wrap && E && (e.adler = r.check = r.flags ? u(r.check, d, E, e.next_out - E) : a(r.check, d, E, e.next_out - E)), e.data_type = r.bits + 64 * !!r.last + 128 * (12 === r.mode) + 256 * (20 === r.mode || 15 === r.mode), (0 === w && 0 === E || 4 === t) && 0 === R && (R = -5), R);
                         }, t.inflateEnd = function(e) {
                             if (!e || !e.state) return -2;
                             var t = e.state;
@@ -20368,7 +20368,7 @@
                         u(v);
                         var I = !1;
                         function j(e, t, r, n) {
-                            E(e, 0 + (n ? 1 : 0), 3), k(e), w(e, r), w(e, ~r), a.arraySet(e.pending_buf, e.window, t, r, e.pending), e.pending += r;
+                            E(e, 0 + +!!n, 3), k(e), w(e, r), w(e, ~r), a.arraySet(e.pending_buf, e.window, t, r, e.pending), e.pending += r;
                         }
                         t._tr_init = function(e) {
                             I || (function() {
@@ -20396,7 +20396,7 @@
                                 var t;
                                 for(F(e, e.dyn_ltree, e.l_desc.max_code), F(e, e.dyn_dtree, e.d_desc.max_code), P(e, e.bl_desc), t = 18; t >= 3 && 0 === e.bl_tree[2 * f[t] + 1]; t--);
                                 return e.opt_len += 3 * (t + 1) + 5 + 5 + 4, t;
-                            }(e), i = e.opt_len + 3 + 7 >>> 3, (o = e.static_len + 3 + 7 >>> 3) <= i && (i = o)) : i = o = r + 5, r + 4 <= i && -1 !== t ? j(e, t, r, n) : 4 === e.strategy || o === i ? (E(e, 2 + (n ? 1 : 0), 3), C(e, d, p)) : (E(e, 4 + (n ? 1 : 0), 3), function(e, t, r, n) {
+                            }(e), i = e.opt_len + 3 + 7 >>> 3, (o = e.static_len + 3 + 7 >>> 3) <= i && (i = o)) : i = o = r + 5, r + 4 <= i && -1 !== t ? j(e, t, r, n) : 4 === e.strategy || o === i ? (E(e, 2 + +!!n, 3), C(e, d, p)) : (E(e, 4 + +!!n, 3), function(e, t, r, n) {
                                 var i;
                                 for(E(e, t - 257, 5), E(e, r - 1, 5), E(e, n - 4, 4), i = 0; i < n; i++)E(e, e.bl_tree[2 * f[i] + 1], 3);
                                 R(e, e.dyn_ltree, t - 1), R(e, e.dyn_dtree, r - 1);
@@ -20738,7 +20738,7 @@
                                 r = e[i], n = t[i];
                                 break;
                             }
-                            return r < n ? -1 : n < r ? 1 : 0;
+                            return r < n ? -1 : +(n < r);
                         }, u.isEncoding = function(e) {
                             switch(String(e).toLowerCase()){
                                 case "hex":
@@ -20802,7 +20802,7 @@
                                 o = s[f], a = c[f];
                                 break;
                             }
-                            return o < a ? -1 : a < o ? 1 : 0;
+                            return o < a ? -1 : +(a < o);
                         }, u.prototype.includes = function(e, t, r) {
                             return -1 !== this.indexOf(e, t, r);
                         }, u.prototype.indexOf = function(e, t, r) {
@@ -21073,8 +21073,8 @@
                             }
                             return (p ? -1 : 1) * a * Math.pow(2, o - n);
                         }, t.write = function(e, t, r, n, i, o) {
-                            var a, u, l, s = 8 * o - i - 1, c = (1 << s) - 1, f = c >> 1, d = 23 === i ? 0.00000005960464477539062 : 0, p = n ? 0 : o - 1, h = n ? 1 : -1, y = t < 0 || 0 === t && 1 / t < 0 ? 1 : 0;
-                            for(isNaN(t = Math.abs(t)) || t === 1 / 0 ? (u = isNaN(t) ? 1 : 0, a = c) : (a = Math.floor(Math.log(t) / Math.LN2), t * (l = Math.pow(2, -a)) < 1 && (a--, l *= 2), a + f >= 1 ? t += d / l : t += d * Math.pow(2, 1 - f), t * l >= 2 && (a++, l /= 2), a + f >= c ? (u = 0, a = c) : a + f >= 1 ? (u = (t * l - 1) * Math.pow(2, i), a += f) : (u = t * Math.pow(2, f - 1) * Math.pow(2, i), a = 0)); i >= 8; e[r + p] = 255 & u, p += h, u /= 256, i -= 8);
+                            var a, u, l, s = 8 * o - i - 1, c = (1 << s) - 1, f = c >> 1, d = 0.00000005960464477539062 * (23 === i), p = n ? 0 : o - 1, h = n ? 1 : -1, y = +(t < 0 || 0 === t && 1 / t < 0);
+                            for(isNaN(t = Math.abs(t)) || t === 1 / 0 ? (u = +!!isNaN(t), a = c) : (a = Math.floor(Math.log(t) / Math.LN2), t * (l = Math.pow(2, -a)) < 1 && (a--, l *= 2), a + f >= 1 ? t += d / l : t += d * Math.pow(2, 1 - f), t * l >= 2 && (a++, l /= 2), a + f >= c ? (u = 0, a = c) : a + f >= 1 ? (u = (t * l - 1) * Math.pow(2, i), a += f) : (u = t * Math.pow(2, f - 1) * Math.pow(2, i), a = 0)); i >= 8; e[r + p] = 255 & u, p += h, u /= 256, i -= 8);
                             for(a = a << i | u, s += i; s > 0; e[r + p] = 255 & a, p += h, a /= 256, s -= 8);
                             e[r + p - h] |= 128 * y;
                         };
@@ -27389,7 +27389,7 @@
                                 }
                             }(i), 1 !== i._status) throw i._result;
                             switch(i = i._result, t.type = i, o = t.tag = function(e) {
-                                if ("function" == typeof e) return ip(e) ? 1 : 0;
+                                if ("function" == typeof e) return +!!ip(e);
                                 if (null != e) {
                                     if ((e = e.$$typeof) === _) return 11;
                                     if (e === A) return 14;
@@ -27600,7 +27600,7 @@
                 }
                 var ik = {
                     createContainer: function(e, t, r) {
-                        return e = new im(e, t, r), t = id(3, null, null, 2 === t ? 7 : 1 === t ? 3 : 0), e.current = t, t.stateNode = e;
+                        return e = new im(e, t, r), t = id(3, null, null, 2 === t ? 7 : 3 * (1 === t)), e.current = t, t.stateNode = e;
                     },
                     updateContainer: function(e, t, r, n) {
                         var i = t.current, o = nH(), a = tL.suspense;

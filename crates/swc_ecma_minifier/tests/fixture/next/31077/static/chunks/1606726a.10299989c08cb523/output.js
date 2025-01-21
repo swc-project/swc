@@ -59,7 +59,7 @@
                             for(var desc, cur = dom; cur && !(desc = cur.pmViewDesc); cur = cur.parentNode);
                             return desc && desc.node && desc.node.isBlock && (desc.dom == dom || desc.contentDOM == dom);
                         }(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
-                        off = domIndex(node) + (dir < 0 ? 0 : 1), node = parent;
+                        off = domIndex(node) + +!(dir < 0), node = parent;
                     } else {
                         if (1 != node.nodeType || "false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
                         off = dir < 0 ? nodeSize(node) : 0;
@@ -178,13 +178,13 @@
                 }
                 // Inline, not in text node (this is not Bidi-safe)
                 if (offset && (side < 0 || offset == nodeSize(node))) {
-                    var before$1 = node.childNodes[offset - 1], target = 3 == before$1.nodeType ? textRange(before$1, nodeSize(before$1) - (supportEmptyRange ? 0 : 1)) : // Only use them if they are the last element in their parent
+                    var before$1 = node.childNodes[offset - 1], target = 3 == before$1.nodeType ? textRange(before$1, nodeSize(before$1) - +!supportEmptyRange) : // Only use them if they are the last element in their parent
                     1 != before$1.nodeType || "BR" == before$1.nodeName && before$1.nextSibling ? null : before$1;
                     if (target) return flattenV(singleRect(target, 1), !1);
                 }
                 if (offset < nodeSize(node)) {
                     for(var after$1 = node.childNodes[offset]; after$1.pmViewDesc && after$1.pmViewDesc.ignoreForCoords;)after$1 = after$1.nextSibling;
-                    var target$1 = after$1 ? 3 == after$1.nodeType ? textRange(after$1, 0, supportEmptyRange ? 0 : 1) : 1 == after$1.nodeType ? after$1 : null : null;
+                    var target$1 = after$1 ? 3 == after$1.nodeType ? textRange(after$1, 0, +!supportEmptyRange) : 1 == after$1.nodeType ? after$1 : null : null;
                     if (target$1) return flattenV(singleRect(target$1, -1), !0);
                 }
                 // All else failed, just try to get a rectangle for the target node
@@ -708,7 +708,7 @@
                 }, prototypeAccessors$3.size.get = function() {
                     return this.node.nodeSize;
                 }, prototypeAccessors$3.border.get = function() {
-                    return this.node.isLeaf ? 0 : 1;
+                    return +!this.node.isLeaf;
                 }, // Syncs `this.children` to match `this.node.content` and the local
                 // decorations, possibly introducing nesting for marks. Then, in a
                 // separate step, syncs the DOM inside `this.contentDOM` to
@@ -2812,7 +2812,7 @@
                                         type: type
                                     };
                                 }($from.parent.content.cut($from.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
-                                else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
+                                else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - +!$to.textOffset) {
                                     // Both positions in the same text node -- simply insert text
                                     var text$1 = $from.parent.textBetween($from.parentOffset, $to.parentOffset);
                                     if (view.someProp("handleTextInput", function(f) {
@@ -3139,7 +3139,7 @@
                                             closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
                                                 left: rect.right < coords.left ? rect.right : rect.left,
                                                 top: coords.top
-                                            } : coords, 1 == child.nodeType && dx && (offset = childIndex + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0));
+                                            } : coords, 1 == child.nodeType && dx && (offset = childIndex + +(coords.left >= (rect.left + rect.right) / 2));
                                             continue;
                                         }
                                     }
@@ -3152,7 +3152,7 @@
                                     var rect = singleRect(range, 1);
                                     if (rect.top != rect.bottom && inRect(coords, rect)) return {
                                         node: node,
-                                        offset: i + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0)
+                                        offset: i + +(coords.left >= (rect.left + rect.right) / 2)
                                     };
                                 }
                                 return {

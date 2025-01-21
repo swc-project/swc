@@ -476,6 +476,8 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.compress_conds_as_arithmetic(e);
+
         self.lift_seqs_of_bin(e);
 
         if e.is_seq() {

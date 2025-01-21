@@ -3827,8 +3827,8 @@
             },
             _sliderVMouseUp: function() {
                 if (this.dragging) return this.dragging = !1, this.isToggleSwitch && (// make the handle move with a smooth transition
-                this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(0 === this.beforeStart ? 1 : 0) : this.refresh(this.beforeStart) : // this is just a click, change the value
-                this.refresh(0 === this.beforeStart ? 1 : 0)), this.mouseMoved = !1, this._trigger("stop"), !1;
+                this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(+(0 === this.beforeStart)) : this.refresh(this.beforeStart) : // this is just a click, change the value
+                this.refresh(+(0 === this.beforeStart))), this.mouseMoved = !1, this._trigger("stop"), !1;
             },
             _preventDocumentDrag: function(event1) {
                 return(// NOTE: we don't do this in refresh because we still want to
@@ -6472,7 +6472,7 @@
             $.support.inlineSVG(), $.mobile.hideUrlBar && window.scrollTo(0, 1), // if defaultHomeScroll hasn't been set yet, see if scrollTop is 1
             // it should be 1 in most browsers, but android treats 1 as 0 (for hiding addr bar)
             // so if it's 1, use 0 from now on
-            $.mobile.defaultHomeScroll = $.support.scrollTop && 1 !== $.mobile.window.scrollTop() ? 1 : 0, $.mobile.autoInitializePage && $.mobile.initializePage(), $.mobile.hideUrlBar && $window.load($.mobile.silentScroll), $.support.cssPointerEvents || // IE and Opera don't support CSS pointer-events: none that we use to disable link-based buttons
+            $.mobile.defaultHomeScroll = +(!!$.support.scrollTop && 1 !== $.mobile.window.scrollTop()), $.mobile.autoInitializePage && $.mobile.initializePage(), $.mobile.hideUrlBar && $window.load($.mobile.silentScroll), $.support.cssPointerEvents || // IE and Opera don't support CSS pointer-events: none that we use to disable link-based buttons
             // by adding the 'ui-disabled' class to them. Using a JavaScript workaround for those browser.
             // https://github.com/jquery/jquery-mobile/issues/3558
             // DEPRECATED as of 1.4.0 - remove ui-disabled after 1.4.0 release

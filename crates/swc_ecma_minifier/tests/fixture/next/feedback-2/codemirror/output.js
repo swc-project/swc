@@ -312,7 +312,7 @@ function(global, factory) {
                 for(++i$7; i$7 < len && countsAsLeft.test(types[i$7]); ++i$7);
                 order.push(new BidiSpan(0, start, i$7));
             } else {
-                var pos = i$7, at = order.length, isRTL = "rtl" == direction ? 1 : 0;
+                var pos = i$7, at = order.length, isRTL = +("rtl" == direction);
                 for(++i$7; i$7 < len && "L" != types[i$7]; ++i$7);
                 for(var j$2 = pos; j$2 < i$7;)if (countsAsNum.test(types[j$2])) {
                     pos < j$2 && (order.splice(at, 0, new BidiSpan(1, pos, j$2)), at += isRTL);
@@ -930,7 +930,7 @@ function(global, factory) {
         return marker.inclusiveLeft ? -1 : 0;
     }
     function extraRight(marker) {
-        return marker.inclusiveRight ? 1 : 0;
+        return +!!marker.inclusiveRight;
     }
     // Returns a number indicating which of two overlapping collapsed
     // spans is larger (and thus includes the other). Falls back to
@@ -1726,16 +1726,16 @@ function(global, factory) {
                 if (boxAround) {
                     // Distinguish coordinates nearer to the left or right side of the box
                     var atLeft = x - boxAround.left < boxAround.right - x, atStart = atLeft == ltr;
-                    ch = chAround + (atStart ? 0 : 1), sticky = atStart ? "after" : "before", baseX = atLeft ? boxAround.left : boxAround.right;
+                    ch = chAround + +!atStart, sticky = atStart ? "after" : "before", baseX = atLeft ? boxAround.left : boxAround.right;
                 } else {
                     !ltr && (ch == end || ch == begin) && ch++, // To determine which side to associate with, get the box to the
                     // left of the character and compare it's vertical position to the
                     // coordinates
-                    sticky = 0 == ch ? "after" : ch == lineObj.text.length ? "before" : measureCharPrepared(cm, preparedMeasure, ch - (ltr ? 1 : 0)).bottom + widgetHeight <= y == ltr ? "after" : "before";
+                    sticky = 0 == ch ? "after" : ch == lineObj.text.length ? "before" : measureCharPrepared(cm, preparedMeasure, ch - +!!ltr).bottom + widgetHeight <= y == ltr ? "after" : "before";
                     // Now get accurate coordinates for this place, in order to get a
                     // base X position
                     var coords = cursorCoords(cm, Pos(lineNo, ch, sticky), "line", lineObj, preparedMeasure);
-                    baseX = coords.left, outside = y < coords.top ? -1 : y >= coords.bottom ? 1 : 0;
+                    baseX = coords.left, outside = y < coords.top ? -1 : +(y >= coords.bottom);
                 }
                 return PosWithInfo(lineNo, ch = skipExtendingChars(lineObj.text, ch, 1), sticky, outside, x - baseX);
             }(cm, lineObj, lineN, x, y), collapsed = function(line, ch) {
@@ -1745,7 +1745,7 @@ function(global, factory) {
                     sp.marker.collapsed && (null == sp.from || sp.from < ch) && (null == sp.to || sp.to > ch) && (!found || 0 > compareCollapsedMarkers(found, sp.marker)) && (found = sp.marker);
                 }
                 return found;
-            }(lineObj, found.ch + (found.xRel > 0 || found.outside > 0 ? 1 : 0));
+            }(lineObj, found.ch + +(found.xRel > 0 || found.outside > 0));
             if (!collapsed) return found;
             var rangeEnd = collapsed.find(1);
             if (rangeEnd.line == lineN) return rangeEnd;
@@ -1930,7 +1930,7 @@ function(global, factory) {
         }
         for(; visualLineNo(cm.doc, newN) != newN;){
             if (index == (dir < 0 ? 0 : view.length - 1)) return null;
-            newN += dir * view[index - (dir < 0 ? 1 : 0)].size, index += dir;
+            newN += dir * view[index - +(dir < 0)].size, index += dir;
         }
         return {
             index: index,
@@ -2120,7 +2120,7 @@ function(global, factory) {
             newTop != screentop && (result.scrollTop = newTop);
         }
         var gutterSpace = cm.options.fixedGutter ? 0 : display.gutters.offsetWidth, screenleft = cm.curOp && null != cm.curOp.scrollLeft ? cm.curOp.scrollLeft : display.scroller.scrollLeft - gutterSpace, screenw = displayWidth(cm) - display.gutters.offsetWidth, tooWide = rect.right - rect.left > screenw;
-        return tooWide && (rect.right = rect.left + screenw), rect.left < 10 ? result.scrollLeft = 0 : rect.left < screenleft ? result.scrollLeft = Math.max(0, rect.left + gutterSpace - (tooWide ? 0 : 10)) : rect.right > screenw + screenleft - 3 && (result.scrollLeft = rect.right + (tooWide ? 0 : 10) - screenw), result;
+        return tooWide && (rect.right = rect.left + screenw), rect.left < 10 ? result.scrollLeft = 0 : rect.left < screenleft ? result.scrollLeft = Math.max(0, rect.left + gutterSpace - 10 * !tooWide) : rect.right > screenw + screenleft - 3 && (result.scrollLeft = rect.right + 10 * !tooWide - screenw), result;
     }
     // Store a relative adjustment to the scroll position in the current
     // operation (to be applied when the operation finishes).
@@ -4951,7 +4951,7 @@ function(global, factory) {
                                                     if (!order) return range;
                                                     var index = getBidiPartAt(order, anchor.ch, anchor.sticky), part = order[index];
                                                     if (part.from != anchor.ch && part.to != anchor.ch) return range;
-                                                    var boundary = index + (part.from == anchor.ch == (1 != part.level) ? 0 : 1);
+                                                    var boundary = index + +(part.from == anchor.ch != (1 != part.level));
                                                     if (0 == boundary || boundary == order.length) return range;
                                                     if (head.line != anchor.line) leftSide = (head.line - anchor.line) * ("ltr" == cm.doc.direction ? 1 : -1) > 0;
                                                     else {
@@ -4969,7 +4969,7 @@ function(global, factory) {
                                         counter == curCount && extend(e);
                                     }), 150);
                                 } else {
-                                    var outside = e.clientY < editorSize.top ? -20 : e.clientY > editorSize.bottom ? 20 : 0;
+                                    var outside = e.clientY < editorSize.top ? -20 : 20 * (e.clientY > editorSize.bottom);
                                     outside && setTimeout(operation(cm, function() {
                                         counter == curCount && (display.scroller.scrollTop += outside, extend(e));
                                     }), 50);
@@ -5453,7 +5453,7 @@ function(global, factory) {
                         var curNode = map[j + 2];
                         if (curNode == textNode || curNode == topNode) {
                             var line = lineNo(i < 0 ? lineView.line : lineView.rest[i]), ch = map[j] + offset;
-                            return (offset < 0 || curNode != textNode) && (ch = map[j + (offset ? 1 : 0)]), Pos(line, ch);
+                            return (offset < 0 || curNode != textNode) && (ch = map[j + +!!offset]), Pos(line, ch);
                         }
                     }
                 }
@@ -6038,7 +6038,7 @@ function(global, factory) {
                 if (range.empty()) range.head.line > end && (indentLine(this, range.head.line, how, !0), end = range.head.line, i == this.doc.sel.primIndex && ensureCursorVisible(this));
                 else {
                     var from = range.from(), to = range.to(), start = Math.max(end, from.line);
-                    end = Math.min(this.lastLine(), to.line - (to.ch ? 0 : 1)) + 1;
+                    end = Math.min(this.lastLine(), to.line - +!to.ch) + 1;
                     for(var j = start; j < end; ++j)indentLine(this, j, how);
                     var newRanges = this.doc.sel.ranges;
                     0 == from.ch && ranges.length == newRanges.length && newRanges[i].from().ch > 0 && replaceOneSelection(this.doc, i, new Range(from, newRanges[i].to()), sel_dontScroll);
