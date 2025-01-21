@@ -46,15 +46,22 @@
 
             await sendKey(row, 'm', 77, 'KeyM');
             await sleep(3000);
+            return true;
         }
     }
 
 
     while (true) {
-        const row = treeView.querySelector('.treeViewRow');
-        if (row) {
-            await handleRow(row);
-        } else {
+        const rows = treeView.querySelectorAll('.treeViewRow');
+
+        let didWork = false;
+        for (const row of rows) {
+            if (await handleRow(row)) {
+                didWork = true;
+            }
+        }
+
+        if (!didWork) {
             break;
         }
     }
