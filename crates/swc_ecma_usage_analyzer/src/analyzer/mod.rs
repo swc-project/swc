@@ -1,6 +1,8 @@
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
+use swc_ecma_utils::{
+    find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -294,7 +296,7 @@ where
             };
 
             if let Some(left) = left {
-                let v = self.data.var_or_default(left.clone());
+                let mut v = None;
                 for id in collect_infects_from(
                     &n.right,
                     AliasConfig {
@@ -302,7 +304,11 @@ where
                         ..Default::default()
                     },
                 ) {
-                    v.add_infects_to(id.clone());
+                    if v.is_none() {
+                        v = Some(self.data.var_or_default(left.to_id()));
+                    }
+
+                    v.as_mut().unwrap().add_infects_to(id.clone());
                 }
             }
         }
@@ -742,7 +748,7 @@ where
         self.used_recursively.remove(&id);
 
         {
-            let v = self.data.var_or_default(id);
+            let mut v = None;
             for id in collect_infects_from(
                 &n.function,
                 AliasConfig {
@@ -750,7 +756,11 @@ where
                     ..Default::default()
                 },
             ) {
-                v.add_infects_to(id.clone());
+                if v.is_none() {
+                    v = Some(self.data.var_or_default(n.ident.to_id()));
+                }
+
+                v.as_mut().unwrap().add_infects_to(id.clone());
             }
         }
     }
@@ -768,7 +778,7 @@ where
             n.visit_children_with(self);
 
             {
-                let v = self.data.var_or_default(n_id.to_id());
+                let mut v = None;
                 for id in collect_infects_from(
                     &n.function,
                     AliasConfig {
@@ -776,7 +786,11 @@ where
                         ..Default::default()
                     },
                 ) {
-                    v.add_infects_to(id);
+                    if v.is_none() {
+                        v = Some(self.data.var_or_default(n_id.to_id()));
+                    }
+
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
             self.used_recursively.remove(&n_id.to_id());
@@ -1261,7 +1275,7 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let v = self.data.var_or_default(var.to_id());
+                let mut v = None;
                 for id in collect_infects_from(
                     init,
                     AliasConfig {
@@ -1269,7 +1283,11 @@ where
                         ..Default::default()
                     },
                 ) {
-                    v.add_infects_to(id.clone());
+                    if v.is_none() {
+                        v = Some(self.data.var_or_default(var.to_id()));
+                    }
+
+                    v.as_mut().unwrap().add_infects_to(id.clone());
                 }
             }
         }
