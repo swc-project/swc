@@ -49,7 +49,7 @@
             await sleep(300);
 
             await sendKey(row, 'm', 77, 'KeyM');
-            await sleep(3000);
+            await sleep(1000);
             return true;
         }
     }
@@ -65,6 +65,7 @@
             if (await handleRow(row)) {
                 console.log("Worked");
                 didWork = true;
+                break;
             }
         }
 
