@@ -12,7 +12,7 @@ function p() {
         return t(this, function(t) {
             switch(t.label){
                 case 0:
-                    if (!(_ !== __webpack_hash__) || 'idle' !== module.hot.status()) return [
+                    if (_ === __webpack_hash__ || 'idle' !== module.hot.status()) return [
                         2
                     ];
                     t.label = 1;

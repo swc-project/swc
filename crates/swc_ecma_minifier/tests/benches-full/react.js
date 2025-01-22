@@ -175,7 +175,7 @@
  * @final
  * @protected
  */ Component.prototype.setState = function(partialState, callback) {
-        if (!('object' == typeof partialState || 'function' == typeof partialState || null == partialState)) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
+        if ('object' != typeof partialState && 'function' != typeof partialState && null != partialState) throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
         this.updater.enqueueSetState(this, partialState, callback, 'setState');
     }, /**
  * Forces an update. This should only be invoked when it is known with
@@ -381,7 +381,7 @@
  * Clone and return a new ReactElement using element as the starting point.
  * See https://reactjs.org/docs/react-api.html#cloneelement
  */ function cloneElement(element, config, children) {
-        if (!(null != element)) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
+        if (null == element) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
         var propName, defaultProps, props = _assign({}, element.props), key = element.key, ref = element.ref, self = element._self, source = element._source, owner = element._owner; // Reserved names are extracted
         if (null != config) for(propName in hasValidRef(config) && (// Silently steal the ref from the parent.
         ref = config.ref, owner = ReactCurrentOwner.current), hasValidKey(config) && (key = '' + config.key), element.type && element.type.defaultProps && (defaultProps = element.type.defaultProps), config)hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (void 0 === config[propName] && void 0 !== defaultProps ? // Resolve default props
@@ -516,7 +516,7 @@
     }
     function resolveDispatcher() {
         var dispatcher = ReactCurrentDispatcher.current;
-        if (!(null !== dispatcher)) throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
+        if (null === dispatcher) throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
         return dispatcher;
     }
     // Helpers to patch console.logs to avoid logging during side-effect free

@@ -7068,7 +7068,7 @@
                 }
                 ho(t, e) {
                     return(// Always raise the first event when we're synced
-                    !t.fromCache || (!this.options.fo || !("Offline" /* Offline */  !== e)) && (!t.docs.isEmpty() || "Offline" /* Offline */  === e));
+                    !t.fromCache || (!this.options.fo || "Offline" /* Offline */  === e) && (!t.docs.isEmpty() || "Offline" /* Offline */  === e));
                 // Raise data from cache if we have any documents or we are offline
                 }
                 uo(t) {

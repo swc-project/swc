@@ -80,6 +80,83 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
+        fn is_eq(op: BinaryOp) -> bool {
+            matches!(op, op!("==") | op!("===") | op!("!=") | op!("!=="))
+        }
+
+        fn can_absorb_negate(e: &Expr) -> bool {
+            match e {
+                Expr::Lit(_) => true,
+                Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    left,
+                    right,
+                    ..
+                }) => can_absorb_negate(left) && can_absorb_negate(right),
+                Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => true,
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => arg.get_type() == Value::Known(Type::Bool),
+                _ => false,
+            }
+        }
+
+        fn negate_eq(op: BinaryOp) -> BinaryOp {
+            match op {
+                op!("==") => op!("!="),
+                op!("!=") => op!("=="),
+                op!("===") => op!("!=="),
+                op!("!==") => op!("==="),
+                _ => unreachable!(),
+            }
+        }
+
+        if !self.options.bools {
+            return;
+        }
+
+        let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        else {
+            return;
+        };
+
+        let arg_can_negate = can_absorb_negate(arg);
+
+        match &mut **arg {
+            Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => {
+                self.changed = true;
+                report_change!("bools: Optimizing `!(a == b)` as `a != b`");
+
+                *op = negate_eq(*op);
+
+                *e = *arg.take();
+            }
+            Expr::Bin(BinExpr {
+                op: op @ (op!("&&") | op!("||")),
+                left,
+                right,
+                ..
+            }) if arg_can_negate => {
+                self.changed = true;
+                report_change!("bools: Optimizing `!(a == b && c == d)` as `a != b`");
+
+                *op = match op {
+                    op!("&&") => op!("||"),
+                    op!("||") => op!("&&"),
+                    _ => unreachable!(),
+                };
+
+                self.negate(left, false, false);
+                self.negate(right, false, false);
+                *e = *arg.take();
+            }
+            _ => (),
+        }
+    }
+
     pub(super) fn compress_cmp_with_long_op(&mut self, e: &mut BinExpr) {
         fn should_optimize(l: &Expr, r: &Expr, opts: &CompressOptions) -> bool {
             match (l, r) {

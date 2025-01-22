@@ -405,6 +405,8 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.optimize_negate_eq(e);
+
         self.lift_minus(e);
         self.optimize_to_number(e);
 

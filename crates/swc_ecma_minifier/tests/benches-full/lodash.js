@@ -3097,7 +3097,7 @@
      * @returns {Function} Returns the new relational operation function.
      */ function createRelationalOperation(operator) {
             return function(value, other) {
-                return 'string' == typeof value && 'string' == typeof other || (value = toNumber(value), other = toNumber(other)), operator(value, other);
+                return ('string' != typeof value || 'string' != typeof other) && (value = toNumber(value), other = toNumber(other)), operator(value, other);
             };
         }
         /**
