@@ -766,7 +766,7 @@
                 return d;
             }
             function wc(a) {
-                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 * !!(1073741824 & a);
+                return 0 != (a = -1073741825 & a.pendingLanes) ? a : 1073741824 & a ? 1073741824 : 0;
             }
             function xc() {
                 var a = qc;

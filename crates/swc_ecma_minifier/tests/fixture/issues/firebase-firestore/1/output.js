@@ -7253,7 +7253,7 @@
                                      * See the License for the specific language governing permissions and
                                      * limitations under the License.
                                      */ t.type, e.type) || this.Io(t.doc, e.doc)), this.Vo(n);
-                    const r = e ? this.So() : [], o = +(0 === this.Eo.size && !!this.current) /* Local */ , c = o !== this.To;
+                    const r = e ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 /* Synced */  : 0 /* Local */ , c = o !== this.To;
                     return (this.To = o, 0 !== i.length || c) ? {
                         snapshot: new Fo(this.query, t.Ao, s, i, t.mutatedKeys, 0 /* Local */  === o, c, /* excludesMetadataChanges= */ !1),
                         Do: r

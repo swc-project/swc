@@ -59,7 +59,7 @@
                             for(var desc, cur = dom; cur && !(desc = cur.pmViewDesc); cur = cur.parentNode);
                             return desc && desc.node && desc.node.isBlock && (desc.dom == dom || desc.contentDOM == dom);
                         }(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
-                        off = domIndex(node) + +!(dir < 0), node = parent;
+                        off = domIndex(node) + (dir < 0 ? 0 : 1), node = parent;
                     } else {
                         if (1 != node.nodeType || "false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
                         off = dir < 0 ? nodeSize(node) : 0;

@@ -2715,7 +2715,7 @@
     }
     function getLanesToRetrySynchronouslyOnError(root) {
         var everythingButOffscreen = -1073741825 & root.pendingLanes;
-        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 * !!(1073741824 & everythingButOffscreen);
+        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 & everythingButOffscreen ? 1073741824 : 0;
     }
     function includesNonIdleWork(lanes) {
         return (134217727 & lanes) != 0;

@@ -25,7 +25,7 @@ var f = function(e) {
     return e.props.indexId === t;
 }, h = function(e, t) {
     var r = p(e), a = p(t);
-    return r && !a ? -1 : +(!r && !!a);
+    return r && !a ? -1 : !r && a ? 1 : 0;
 };
 export default function S(u) {
     var o, l, S = u.indexName, v = u.initialState, x = u.searchClient, _ = u.resultsState, y = u.stalledSearchDelay, w = s(x, S, t({}, c));

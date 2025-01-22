@@ -587,7 +587,7 @@
                     }, this.insideEnd = function(row, column) {
                         return !(0 != this.compare(row, column) || this.isStart(row, column));
                     }, this.compare = function(row, column) {
-                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? +!(column <= this.end.column) : 0 : column < this.start.column ? -1 : +(column > this.end.column);
+                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? column <= this.end.column ? 0 : 1 : 0 : column < this.start.column ? -1 : +(column > this.end.column);
                     }, this.compareStart = function(row, column) {
                         return this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
                     }, this.compareEnd = function(row, column) {

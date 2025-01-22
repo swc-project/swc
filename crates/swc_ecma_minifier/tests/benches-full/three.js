@@ -512,7 +512,7 @@ function(global, factory) {
                     uv.x = uv.x - Math.floor(uv.x);
                     break;
                 case 1001:
-                    uv.x = +!(uv.x < 0);
+                    uv.x = uv.x < 0 ? 0 : 1;
                     break;
                 case 1002:
                     1 === Math.abs(Math.floor(uv.x) % 2) ? uv.x = Math.ceil(uv.x) - uv.x : uv.x = uv.x - Math.floor(uv.x);
@@ -522,7 +522,7 @@ function(global, factory) {
                     uv.y = uv.y - Math.floor(uv.y);
                     break;
                 case 1001:
-                    uv.y = +!(uv.y < 0);
+                    uv.y = uv.y < 0 ? 0 : 1;
                     break;
                 case 1002:
                     1 === Math.abs(Math.floor(uv.y) % 2) ? uv.y = Math.ceil(uv.y) - uv.y : uv.y = uv.y - Math.floor(uv.y);

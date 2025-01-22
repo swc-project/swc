@@ -2606,7 +2606,7 @@
                                 break;
                             case 'G':
                                 // eslint-disable-next-line
-                                var dec = +!(0 > value.getFullYear()), retu = options.era[dec];
+                                var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
                                 util_isNullOrUndefined(retu) && // eslint-disable-next-line
                                 (retu = options.era[+!dec]), ret += retu || '';
                                 break;
@@ -8669,7 +8669,7 @@
                             var formatValue_1 = this.formatNumber();
                             this.setElementValue(formatValue_1), this.isPrevFocused || (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.version */ .AR.info.version ? setTimeout(function() {
                                 _this.element.setSelectionRange(0, formatValue_1.length);
-                            }, 600 * (!!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && !!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos)) : this.element.setSelectionRange(0, formatValue_1.length));
+                            }, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos ? 600 : 0) : this.element.setSelectionRange(0, formatValue_1.length));
                         }
                         _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
                     }
@@ -11640,7 +11640,7 @@
                                     } else if (_this.parent.inputElement === _this.range.startContainer) {
                                         var focusElem = _this.range.startContainer.childNodes[_this.range.startOffset];
                                         if ('#text' === focusElem.nodeName && 0 === focusElem.textContent.length) _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.previousSibling.textContent.length);
-                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, +!(focusElem.textContent.length >= 0)), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
+                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.textContent.length >= 0 ? 0 : 1), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
                                         else if (0 === focusElem.textContent.length) {
                                             for(var currentFocusElem = focusElem.previousSibling.lastChild; '#text' !== currentFocusElem.nodeName;)currentFocusElem = currentFocusElem.lastChild;
                                             _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), currentFocusElem, currentFocusElem.textContent.length), (0, ej2_base /* detach */ .og)(focusElem);
@@ -11674,7 +11674,7 @@
                                             insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
                                         } else {
                                             var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !1).cloneNode(!0);
-                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, +!(newElem.textContent.length >= 0));
+                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, newElem.textContent.length >= 0 ? 0 : 1);
                                         }
                                     } else {
                                         var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !0);
