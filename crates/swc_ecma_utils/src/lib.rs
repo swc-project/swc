@@ -2823,6 +2823,10 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
 }
 
 fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
+    let Some(ctx) = ctx.consume_depth() else {
+        return (MayBeImpure, Unknown);
+    };
+
     let v = match expr {
         Expr::Lit(l) => match l {
             Lit::Bool(Bool { value: true, .. }) => 1.0,
@@ -2914,6 +2918,10 @@ fn as_pure_number(expr: &Expr, ctx: ExprCtx) -> Value<f64> {
 }
 
 fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
+    let Some(ctx) = ctx.consume_depth() else {
+        return Unknown;
+    };
+
     match *expr {
         Expr::Lit(ref l) => match *l {
             Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
@@ -3226,6 +3234,10 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 }
 
 fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
+    let Some(ctx) = ctx.consume_depth() else {
+        return true;
+    };
+
     if expr.is_pure_callee(ctx) {
         return false;
     }
