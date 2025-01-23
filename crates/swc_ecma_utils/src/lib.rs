@@ -1653,6 +1653,17 @@ impl<'a> IdentUsageFinder<'a> {
 }
 
 impl ExprCtx {
+    fn consume_depth(self) -> Option<Self> {
+        if self.remaining_depth == 0 {
+            return None;
+        }
+
+        Some(Self {
+            remaining_depth: self.remaining_depth - 1,
+            ..self
+        })
+    }
+
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
     pub fn preserve_effects<I>(self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
@@ -2585,6 +2596,10 @@ fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
 }
 
 fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
+    let Some(ctx) = ctx.consume_depth() else {
+        return (MayBeImpure, Unknown);
+    };
+
     if expr.is_global_ref_to(ctx, "undefined") {
         return (Pure, Known(false));
     }
