@@ -362,7 +362,7 @@ pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn is_primitive<'a>(expr_ctx: ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
+pub(crate) fn is_primitive(expr_ctx: ExprCtx, e: &Expr) -> Option<&Expr> {
     if is_pure_undefined(expr_ctx, e) {
         Some(e)
     } else {

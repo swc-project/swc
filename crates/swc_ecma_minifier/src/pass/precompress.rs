@@ -42,9 +42,7 @@ impl PrecompressOptimizer {
 
 impl Parallel for PrecompressOptimizer {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, _: Self) {}
