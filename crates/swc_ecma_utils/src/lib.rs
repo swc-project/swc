@@ -708,8 +708,8 @@ pub trait ExprExt {
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
     #[inline(always)]
-    fn get_type(&self) -> Value<Type> {
-        get_type(self.as_expr())
+    fn get_type(&self, ctx: ExprCtx) -> Value<Type> {
+        get_type(self.as_expr(), ctx)
     }
 
     #[inline(always)]
@@ -2704,7 +2704,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             ref right,
             ..
         }) => {
-            if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
+            if left.get_type(ctx) != Known(BoolType) || right.get_type(ctx) != Known(BoolType) {
                 return (MayBeImpure, Unknown);
             }
 
@@ -3013,13 +3013,17 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
     }
 }
 
-fn get_type(expr: &Expr) -> Value<Type> {
+fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
+    let Some(ctx) = ctx.consume_depth() else {
+        return Unknown;
+    };
+
     match expr {
         Expr::Assign(AssignExpr {
             ref right,
             op: op!("="),
             ..
-        }) => right.get_type(),
+        }) => right.get_type(ctx),
 
         Expr::Member(MemberExpr {
             obj,
@@ -3036,7 +3040,7 @@ fn get_type(expr: &Expr) -> Value<Type> {
         Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
             .last()
             .expect("sequence expression should not be empty")
-            .get_type(),
+            .get_type(ctx),
 
         Expr::Bin(BinExpr {
             ref left,
@@ -3054,7 +3058,7 @@ fn get_type(expr: &Expr) -> Value<Type> {
             cons: ref left,
             alt: ref right,
             ..
-        }) => and(left.get_type(), right.get_type()),
+        }) => and(left.get_type(ctx), right.get_type(ctx)),
 
         Expr::Bin(BinExpr {
             ref left,
@@ -3062,12 +3066,12 @@ fn get_type(expr: &Expr) -> Value<Type> {
             ref right,
             ..
         }) => {
-            let rt = right.get_type();
+            let rt = right.get_type(ctx);
             if rt == Known(StringType) {
                 return Known(StringType);
             }
 
-            let lt = left.get_type();
+            let lt = left.get_type(ctx);
             if lt == Known(StringType) {
                 return Known(StringType);
             }
@@ -3096,7 +3100,7 @@ fn get_type(expr: &Expr) -> Value<Type> {
             ref right,
             ..
         }) => {
-            if right.get_type() == Known(StringType) {
+            if right.get_type(ctx) == Known(StringType) {
                 return Known(StringType);
             }
             Unknown
