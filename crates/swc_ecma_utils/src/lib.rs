@@ -597,7 +597,7 @@ impl Visit for Hoister {
     fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Copy, Default)]
 
 pub struct ExprCtx {
     /// This [SyntaxContext] should be applied only to unresolved references.
