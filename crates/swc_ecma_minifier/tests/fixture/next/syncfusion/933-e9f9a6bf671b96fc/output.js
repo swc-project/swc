@@ -27994,7 +27994,7 @@
 
      */ ToolbarRenderer.prototype.renderColorPickerDropDown = function(args, item, colorPicker, defaultColor) {
                     var range, _this = this, proxy = this, css = classes /* CLS_RTE_ELEMENTS */ .i7 + ' ' + classes /* CLS_TB_BTN */ .Fs + (this.parent.inlineMode ? ' ' + classes /* CLS_INLINE_DROPDOWN */ .ZV : '');
-                    css += ' ' + ('backgroundcolor' === item ? classes /* CLS_BACKGROUND_COLOR_DROPDOWN */ .Z8 : classes /* CLS_FONT_COLOR_DROPDOWN */ .UQ) + ' ' + this.parent.cssClass;
+                    css += ' ' + ('backgroundcolor' === item ? classes /* CLS_BACKGROUND_COLOR_DROPDOWN */ .Z8 : classes /* CLS_FONT_COLOR_DROPDOWN */ .UQ), css += ' ' + this.parent.cssClass;
                     var content = proxy.parent.createElement('span', {
                         className: classes /* CLS_COLOR_CONTENT */ .uN
                     }), inlineEle = proxy.parent.createElement('span', {
@@ -30011,7 +30011,7 @@
  * @returns {boolean} - returns the boolean value
  * @hidden
  */ function isEditableValueEmpty(value) {
-                return '<p><br></p>' === value || '&lt;p&gt;&lt;br&gt;&lt;/p&gt;' === value || '<div><br></div>' === value || '&lt;div&gt;&lt;br&gt;&lt;/div&gt;' === value || '<br>' === value || '&lt;br&gt;' === value || '' === value;
+                return '<p><br></p>' === value || '&lt;p&gt;&lt;br&gt;&lt;/p&gt;' === value || '<div><br></div>' === value || '&lt;div&gt;&lt;br&gt;&lt;/div&gt;' === value || '<br>' === value || '&lt;br&gt;' === value || '' === value || !1;
             }
             /**
  * @param {string} value - specifies the string value
