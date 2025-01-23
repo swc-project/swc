@@ -666,63 +666,91 @@ pub trait ExprExt {
     }
 
     fn is_number(&self) -> bool {
-        matches!(*self.as_expr(), Expr::Lit(Lit::Num(..)))
+        fn is_number(expr: &Expr) -> bool {
+            matches!(*expr, Expr::Lit(Lit::Num(..)))
+        }
+
+        is_number(self.as_expr())
     }
 
     // TODO: remove this after a proper evaluator
     fn is_str(&self) -> bool {
-        match self.as_expr() {
-            Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            }) => true,
-            Expr::Bin(BinExpr {
-                op: op!(bin, "+"),
-                left,
-                right,
-                ..
-            }) => left.is_str() || right.is_str(),
-            Expr::Assign(AssignExpr {
-                op: op!("=") | op!("+="),
-                right,
-                ..
-            }) => right.is_str(),
-            Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
-            Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
-            _ => false,
+        fn is_str(expr: &Expr) -> bool {
+            match expr {
+                Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"), ..
+                }) => true,
+                Expr::Bin(BinExpr {
+                    op: op!(bin, "+"),
+                    left,
+                    right,
+                    ..
+                }) => left.is_str() || right.is_str(),
+                Expr::Assign(AssignExpr {
+                    op: op!("=") | op!("+="),
+                    right,
+                    ..
+                }) => right.is_str(),
+                Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
+                Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
+                _ => false,
+            }
         }
+
+        is_str(self.as_expr())
     }
 
     fn is_array_lit(&self) -> bool {
-        matches!(*self.as_expr(), Expr::Array(..))
+        fn is_array_lit(expr: &Expr) -> bool {
+            matches!(*expr, Expr::Array(..))
+        }
+
+        is_array_lit(self.as_expr())
     }
 
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
-        // NaN is special
-        self.as_expr().is_ident_ref_to("NaN")
+        fn is_nan(expr: &Expr) -> bool {
+            // NaN is special
+            expr.is_ident_ref_to("NaN")
+        }
+
+        is_nan(self.as_expr())
     }
 
     fn is_undefined(&self, ctx: ExprCtx) -> bool {
-        self.is_global_ref_to(ctx, "undefined")
+        fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
+            expr.is_global_ref_to(ctx, "undefined")
+        }
+
+        is_undefined(self.as_expr(), ctx)
     }
 
     fn is_void(&self) -> bool {
-        matches!(
-            *self.as_expr(),
-            Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                ..
-            })
-        )
+        fn is_void(expr: &Expr) -> bool {
+            matches!(
+                *expr,
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"),
+                    ..
+                })
+            )
+        }
+
+        is_void(self.as_expr())
     }
 
     /// Returns `true` if `id` references a global object.
     fn is_global_ref_to(&self, ctx: ExprCtx, id: &str) -> bool {
-        match self.as_expr() {
-            Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
-            _ => false,
+        fn is_global_ref_to(expr: &Expr, ctx: ExprCtx, id: &str) -> bool {
+            match expr {
+                Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+                _ => false,
+            }
         }
+
+        is_global_ref_to(self.as_expr(), ctx, id)
     }
 
     /// Returns `true` if `id` references a global object.
