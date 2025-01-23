@@ -445,7 +445,7 @@ impl SimplifyExpr {
                     }
                 }
 
-                match expr.get_type() {
+                match expr.get_type(self.expr_ctx) {
                     // String concatenation
                     Known(StringType) => match expr {
                         Expr::Bin(BinExpr {
@@ -911,8 +911,8 @@ impl SimplifyExpr {
 
         if (lv.is_unknown() && rv.is_unknown())
             || op == op!(bin, "+")
-                && (!left.get_type().casted_to_number_on_add()
-                    || !right.get_type().casted_to_number_on_add())
+                && (!left.get_type(self.expr_ctx).casted_to_number_on_add()
+                    || !right.get_type(self.expr_ctx).casted_to_number_on_add())
         {
             return Unknown;
         }
@@ -1067,7 +1067,7 @@ impl SimplifyExpr {
         }
 
         // Try to evaluate based on the general type.
-        let (lt, rt) = (left.get_type(), right.get_type());
+        let (lt, rt) = (left.get_type(self.expr_ctx), right.get_type(self.expr_ctx));
 
         if let (Known(StringType), Known(StringType)) = (lt, rt) {
             if let (Known(lv), Known(rv)) = (
@@ -1099,7 +1099,10 @@ impl SimplifyExpr {
 
     /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
     fn perform_abstract_eq_cmp(&mut self, span: Span, left: &Expr, right: &Expr) -> Value<bool> {
-        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
+        let (lt, rt) = (
+            try_val!(left.get_type(self.expr_ctx)),
+            try_val!(right.get_type(self.expr_ctx)),
+        );
 
         if lt == rt {
             return self.perform_strict_eq_cmp(left, right);
@@ -1171,7 +1174,10 @@ impl SimplifyExpr {
             _ => {}
         }
 
-        let (lt, rt) = (try_val!(left.get_type()), try_val!(right.get_type()));
+        let (lt, rt) = (
+            try_val!(left.get_type(self.expr_ctx)),
+            try_val!(right.get_type(self.expr_ctx)),
+        );
         // Strict equality can only be true for values of the same type.
         if lt != rt {
             return Known(false);
