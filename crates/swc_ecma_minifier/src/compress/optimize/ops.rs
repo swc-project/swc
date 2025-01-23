@@ -58,8 +58,8 @@ impl Optimizer<'_> {
             }
         }
 
-        let lt = e.left.get_type();
-        let rt = e.right.get_type();
+        let lt = e.left.get_type(self.ctx.expr_ctx);
+        let rt = e.right.get_type(self.ctx.expr_ctx);
 
         if e.op == op!("===") {
             if let Known(lt) = lt {
@@ -127,7 +127,10 @@ impl Optimizer<'_> {
                 .into(),
             )
         };
-        match (n.left.get_type().opt()?, n.right.get_type().opt()?) {
+        match (
+            n.left.get_type(self.ctx.expr_ctx).opt()?,
+            n.right.get_type(self.ctx.expr_ctx).opt()?,
+        ) {
             // Abort if types differ, or one of them is unknown.
             (lt, rt) if lt != rt => {}
             (Type::Obj, Type::Obj) => {}
@@ -181,7 +184,7 @@ impl Optimizer<'_> {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                        if let Known(Type::Bool) = arg.get_type() {
+                        if let Known(Type::Bool) = arg.get_type(self.ctx.expr_ctx) {
                             self.changed = true;
                             report_change!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
@@ -299,14 +302,14 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        let lt = bin.left.get_type();
+        let lt = bin.left.get_type(self.ctx.expr_ctx);
         match lt {
             // Don't change type
             Known(Type::Bool) => {}
             _ => return,
         }
 
-        let rt = bin.right.get_type();
+        let rt = bin.right.get_type(self.ctx.expr_ctx);
         match rt {
             Known(Type::Bool) => {}
             _ => return,
