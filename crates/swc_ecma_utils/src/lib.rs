@@ -623,42 +623,46 @@ pub trait ExprExt {
 
     /// Returns true if this is an immutable value.
     fn is_immutable_value(&self) -> bool {
-        // TODO(johnlenz): rename this function.  It is currently being used
-        // in two disjoint cases:
-        // 1) We only care about the result of the expression (in which case NOT here
-        //    should return true)
-        // 2) We care that expression is a side-effect free and can't be side-effected
-        //    by other expressions.
-        // This should only be used to say the value is immutable and
-        // hasSideEffects and canBeSideEffected should be used for the other case.
-        match *self.as_expr() {
-            Expr::Lit(Lit::Bool(..))
-            | Expr::Lit(Lit::Str(..))
-            | Expr::Lit(Lit::Num(..))
-            | Expr::Lit(Lit::Null(..)) => true,
+        fn is_immutable_value(expr: &Expr) -> bool {
+            // TODO(johnlenz): rename this function.  It is currently being used
+            // in two disjoint cases:
+            // 1) We only care about the result of the expression (in which case NOT here
+            //    should return true)
+            // 2) We care that expression is a side-effect free and can't be side-effected
+            //    by other expressions.
+            // This should only be used to say the value is immutable and
+            // hasSideEffects and canBeSideEffected should be used for the other case.
+            match *expr {
+                Expr::Lit(Lit::Bool(..))
+                | Expr::Lit(Lit::Str(..))
+                | Expr::Lit(Lit::Num(..))
+                | Expr::Lit(Lit::Null(..)) => true,
 
-            Expr::Unary(UnaryExpr {
-                op: op!("!"),
-                ref arg,
-                ..
-            })
-            | Expr::Unary(UnaryExpr {
-                op: op!("~"),
-                ref arg,
-                ..
-            })
-            | Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                ref arg,
-                ..
-            }) => arg.is_immutable_value(),
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"),
+                    ref arg,
+                    ..
+                })
+                | Expr::Unary(UnaryExpr {
+                    op: op!("~"),
+                    ref arg,
+                    ..
+                })
+                | Expr::Unary(UnaryExpr {
+                    op: op!("void"),
+                    ref arg,
+                    ..
+                }) => arg.is_immutable_value(),
 
-            Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
+                Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
 
-            Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
+                Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
 
-            _ => false,
+                _ => false,
+            }
         }
+
+        is_immutable_value(self.as_expr())
     }
 
     fn is_number(&self) -> bool {
