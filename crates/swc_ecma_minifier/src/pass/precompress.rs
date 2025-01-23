@@ -29,12 +29,12 @@ impl PrecompressOptimizer {
             return;
         };
 
-        if b.op == op!("&&") && b.left.as_pure_bool(&self.expr_ctx) == Known(false) {
+        if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
             *n = *b.left.take();
             return;
         }
 
-        if b.op == op!("||") && b.left.as_pure_bool(&self.expr_ctx) == Known(true) {
+        if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
             *n = *b.left.take();
         }
     }

@@ -726,7 +726,7 @@ impl VisitMut for Pure<'_> {
 
         exprs.retain(|e| {
             if let PropOrSpread::Spread(spread) = e {
-                if is_pure_undefined_or_null(&self.expr_ctx, &spread.expr) {
+                if is_pure_undefined_or_null(self.expr_ctx, &spread.expr) {
                     return false;
                 }
             }

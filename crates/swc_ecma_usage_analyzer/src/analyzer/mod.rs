@@ -458,7 +458,7 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             let call_may_mutate = match &n.callee {
-                Callee::Expr(e) => call_may_mutate(e, &self.expr_ctx),
+                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx),
                 _ => true,
             };
 
@@ -1018,7 +1018,7 @@ where
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
-            if call_may_mutate(&n.callee, &self.expr_ctx) {
+            if call_may_mutate(&n.callee, self.expr_ctx) {
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
@@ -1334,7 +1334,7 @@ where
                     self.used_recursively.insert(
                         id.clone(),
                         RecursiveUsage::Var {
-                            can_ignore: !init.may_have_side_effects(&self.expr_ctx),
+                            can_ignore: !init.may_have_side_effects(self.expr_ctx),
                         },
                     );
                     e.init.visit_with(&mut *self.with_ctx(ctx));

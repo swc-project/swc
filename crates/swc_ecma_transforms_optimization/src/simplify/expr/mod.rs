@@ -145,7 +145,7 @@ impl SimplifyExpr {
                 if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
                     // x[5]
                     KnownOp::Index(*value)
-                } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
+                } else if let Known(s) = expr.as_pure_string(self.expr_ctx) {
                     if s == "length" && !obj.is_object() {
                         // Length of non-object type
                         KnownOp::Len
@@ -235,7 +235,7 @@ impl SimplifyExpr {
                         let may_have_side_effects = elems
                             .iter()
                             .filter_map(|e| e.as_ref())
-                            .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
+                            .any(|e| e.expr.may_have_side_effects(self.expr_ctx));
 
                         if may_have_side_effects {
                             return;
@@ -265,7 +265,7 @@ impl SimplifyExpr {
                                 .iter()
                                 .skip((idx as usize + 1) as _)
                                 .any(|elem| match elem {
-                                    Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                                    Some(elem) => elem.expr.may_have_side_effects(self.expr_ctx),
                                     None => false,
                                 });
 
@@ -386,7 +386,7 @@ impl SimplifyExpr {
                         // TODO: Optimize
                         self.changed = true;
 
-                        *expr = *make_bool_expr(&self.expr_ctx, *span, v, {
+                        *expr = *make_bool_expr(self.expr_ctx, *span, v, {
                             iter::once(left.take()).chain(iter::once(right.take()))
                         });
                         return;
@@ -428,8 +428,8 @@ impl SimplifyExpr {
                 // It's string concatenation if either left or right is string.
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     if let (Known(l), Known(r)) = (
-                        left.as_pure_string(&self.expr_ctx),
-                        right.as_pure_string(&self.expr_ctx),
+                        left.as_pure_string(self.expr_ctx),
+                        right.as_pure_string(self.expr_ctx),
                     ) {
                         let mut l = l.into_owned();
 
@@ -453,12 +453,12 @@ impl SimplifyExpr {
                         Expr::Bin(BinExpr {
                             left, right, span, ..
                         }) => {
-                            if !left.may_have_side_effects(&self.expr_ctx)
-                                && !right.may_have_side_effects(&self.expr_ctx)
+                            if !left.may_have_side_effects(self.expr_ctx)
+                                && !right.may_have_side_effects(self.expr_ctx)
                             {
                                 if let (Known(l), Known(r)) = (
-                                    left.as_pure_string(&self.expr_ctx),
-                                    right.as_pure_string(&self.expr_ctx),
+                                    left.as_pure_string(self.expr_ctx),
+                                    right.as_pure_string(self.expr_ctx),
                                 ) {
                                     self.changed = true;
 
@@ -521,7 +521,7 @@ impl SimplifyExpr {
             }
 
             op!("&&") | op!("||") => {
-                if let (_, Known(val)) = left.cast_to_bool(&self.expr_ctx) {
+                if let (_, Known(val)) = left.cast_to_bool(self.expr_ctx) {
                     let node = if *op == op!("&&") {
                         if val {
                             // 1 && $right
@@ -544,7 +544,7 @@ impl SimplifyExpr {
                         right
                     };
 
-                    if !left.may_have_side_effects(&self.expr_ctx) {
+                    if !left.may_have_side_effects(self.expr_ctx) {
                         self.changed = true;
 
                         if node.directness_maters() {
@@ -615,14 +615,14 @@ impl SimplifyExpr {
                 if is_non_obj(left) {
                     self.changed = true;
 
-                    *expr = *make_bool_expr(&self.expr_ctx, *span, false, iter::once(right.take()));
+                    *expr = *make_bool_expr(self.expr_ctx, *span, false, iter::once(right.take()));
                     return;
                 }
 
-                if is_obj(left) && right.is_global_ref_to(&self.expr_ctx, "Object") {
+                if is_obj(left) && right.is_global_ref_to(self.expr_ctx, "Object") {
                     self.changed = true;
 
-                    *expr = *make_bool_expr(&self.expr_ctx, *span, true, iter::once(left.take()));
+                    *expr = *make_bool_expr(self.expr_ctx, *span, true, iter::once(left.take()));
                 }
             }
 
@@ -657,7 +657,7 @@ impl SimplifyExpr {
                         _ => unreachable!("Unknown bit operator {:?}", op),
                     })
                 }
-                try_replace!(number, try_fold_shift(&self.expr_ctx, *op, left, right))
+                try_replace!(number, try_fold_shift(self.expr_ctx, *op, left, right))
             }
 
             // These needs one more check.
@@ -766,7 +766,7 @@ impl SimplifyExpr {
             Expr::Unary(unary) => unary,
             _ => return,
         };
-        let may_have_side_effects = arg.may_have_side_effects(&self.expr_ctx);
+        let may_have_side_effects = arg.may_have_side_effects(self.expr_ctx);
 
         match op {
             op!("typeof") if !may_have_side_effects => {
@@ -788,14 +788,14 @@ impl SimplifyExpr {
                     _ => {}
                 }
 
-                if let (_, Known(val)) = arg.cast_to_bool(&self.expr_ctx) {
+                if let (_, Known(val)) = arg.cast_to_bool(self.expr_ctx) {
                     self.changed = true;
 
-                    *expr = *make_bool_expr(&self.expr_ctx, *span, !val, iter::once(arg.take()));
+                    *expr = *make_bool_expr(self.expr_ctx, *span, !val, iter::once(arg.take()));
                 }
             }
             op!(unary, "+") => {
-                if let Known(v) = arg.as_pure_number(&self.expr_ctx) {
+                if let Known(v) = arg.as_pure_number(self.expr_ctx) {
                     self.changed = true;
 
                     if v.is_nan() {
@@ -857,7 +857,7 @@ impl SimplifyExpr {
             }
 
             op!("~") => {
-                if let Known(value) = arg.as_pure_number(&self.expr_ctx) {
+                if let Known(value) = arg.as_pure_number(self.expr_ctx) {
                     if value.fract() == 0.0 {
                         self.changed = true;
                         *expr = Lit::Num(Number {
@@ -907,8 +907,8 @@ impl SimplifyExpr {
         }
 
         let (lv, rv) = (
-            left.as_pure_number(&self.expr_ctx),
-            right.as_pure_number(&self.expr_ctx),
+            left.as_pure_number(self.expr_ctx),
+            right.as_pure_number(self.expr_ctx),
         );
 
         if (lv.is_unknown() && rv.is_unknown())
@@ -1073,8 +1073,8 @@ impl SimplifyExpr {
 
         if let (Known(StringType), Known(StringType)) = (lt, rt) {
             if let (Known(lv), Known(rv)) = (
-                left.as_pure_string(&self.expr_ctx),
-                right.as_pure_string(&self.expr_ctx),
+                left.as_pure_string(self.expr_ctx),
+                right.as_pure_string(self.expr_ctx),
             ) {
                 // In JS, browsers parse \v differently. So do not compare strings if one
                 // contains \v.
@@ -1089,8 +1089,8 @@ impl SimplifyExpr {
         // Then, try to evaluate based on the value of the node. Try comparing as
         // numbers.
         let (lv, rv) = (
-            try_val!(left.as_pure_number(&self.expr_ctx)),
-            try_val!(right.as_pure_number(&self.expr_ctx)),
+            try_val!(left.as_pure_number(self.expr_ctx)),
+            try_val!(right.as_pure_number(self.expr_ctx)),
         );
         if lv.is_nan() || rv.is_nan() {
             return Known(will_negate);
@@ -1110,7 +1110,7 @@ impl SimplifyExpr {
         match (lt, rt) {
             (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
             (NumberType, StringType) | (_, BoolType) => {
-                let rv = try_val!(right.as_pure_number(&self.expr_ctx));
+                let rv = try_val!(right.as_pure_number(self.expr_ctx));
                 self.perform_abstract_eq_cmp(
                     span,
                     left,
@@ -1124,7 +1124,7 @@ impl SimplifyExpr {
             }
 
             (StringType, NumberType) | (BoolType, _) => {
-                let lv = try_val!(left.as_pure_number(&self.expr_ctx));
+                let lv = try_val!(left.as_pure_number(self.expr_ctx));
                 self.perform_abstract_eq_cmp(
                     span,
                     &Lit::Num(Number {
@@ -1182,13 +1182,13 @@ impl SimplifyExpr {
         match lt {
             UndefinedType | NullType => Known(true),
             NumberType => Known(
-                try_val!(left.as_pure_number(&self.expr_ctx))
-                    == try_val!(right.as_pure_number(&self.expr_ctx)),
+                try_val!(left.as_pure_number(self.expr_ctx))
+                    == try_val!(right.as_pure_number(self.expr_ctx)),
             ),
             StringType => {
                 let (lv, rv) = (
-                    try_val!(left.as_pure_string(&self.expr_ctx)),
-                    try_val!(right.as_pure_string(&self.expr_ctx)),
+                    try_val!(left.as_pure_string(self.expr_ctx)),
+                    try_val!(right.as_pure_string(self.expr_ctx)),
                 );
                 // In JS, browsers parse \v differently. So do not consider strings
                 // equal if one contains \v.
@@ -1199,8 +1199,8 @@ impl SimplifyExpr {
             }
             BoolType => {
                 let (lv, rv) = (
-                    left.as_pure_bool(&self.expr_ctx),
-                    right.as_pure_bool(&self.expr_ctx),
+                    left.as_pure_bool(self.expr_ctx),
+                    right.as_pure_bool(self.expr_ctx),
                 );
 
                 // lv && rv || !lv && !rv
@@ -1362,7 +1362,7 @@ impl VisitMut for SimplifyExpr {
                 cons,
                 alt,
             }) => {
-                if let (p, Known(val)) = test.cast_to_bool(&self.expr_ctx) {
+                if let (p, Known(val)) = test.cast_to_bool(self.expr_ctx) {
                     self.changed = true;
 
                     let expr_value = if val { cons } else { alt };
@@ -1532,13 +1532,13 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = old_in_callee;
 
         if let Pat::Assign(a) = p {
-            if a.right.is_undefined(&self.expr_ctx)
+            if a.right.is_undefined(self.expr_ctx)
                 || match *a.right {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
                         ref arg,
                         ..
-                    }) => !arg.may_have_side_effects(&self.expr_ctx),
+                    }) => !arg.may_have_side_effects(self.expr_ctx),
                     _ => false,
                 }
             {
@@ -1591,7 +1591,7 @@ impl VisitMut for SimplifyExpr {
                 }
 
                 Expr::Lit(..) | Expr::Ident(..)
-                    if self.in_callee && !expr.may_have_side_effects(&self.expr_ctx) =>
+                    if self.in_callee && !expr.may_have_side_effects(self.expr_ctx) =>
                 {
                     if exprs.is_empty() {
                         self.changed = true;

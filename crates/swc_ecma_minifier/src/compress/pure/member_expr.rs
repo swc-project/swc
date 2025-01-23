@@ -285,7 +285,7 @@ impl Pure<'_> {
                 }
 
                 _ => {
-                    let Known(s) = c.expr.as_pure_string(&self.expr_ctx) else {
+                    let Known(s) = c.expr.as_pure_string(self.expr_ctx) else {
                         return None;
                     };
 
@@ -412,7 +412,7 @@ impl Pure<'_> {
                             let optimized_len = elems
                                 .iter()
                                 .flatten()
-                                .filter(|elem| elem.expr.may_have_side_effects(&self.expr_ctx))
+                                .filter(|elem| elem.expr.may_have_side_effects(self.expr_ctx))
                                 .count();
 
                             if optimized_len == elems.len() {
@@ -512,7 +512,7 @@ impl Pure<'_> {
                     let optimized_len = props
                         .iter()
                         .filter(|prop| {
-                            matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(prop) if prop.value.may_have_side_effects(&self.expr_ctx)))
+                            matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(prop) if prop.value.may_have_side_effects(self.expr_ctx)))
                         })
                         .count();
 
