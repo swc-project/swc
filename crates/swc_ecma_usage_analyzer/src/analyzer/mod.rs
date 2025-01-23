@@ -38,6 +38,7 @@ where
                 .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_default()),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 3,
         },
         used_recursively: AHashMap::default(),
     };
@@ -91,7 +92,7 @@ where
                 is_top_level: false,
                 ..self.ctx
             },
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             scope: Default::default(),
             used_recursively: self.used_recursively.clone(),
         };
@@ -1549,7 +1550,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
     }
 }
 
-fn call_may_mutate(expr: &Expr, expr_ctx: &ExprCtx) -> bool {
+fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
         s.ctxt == unresolved
             && matches!(

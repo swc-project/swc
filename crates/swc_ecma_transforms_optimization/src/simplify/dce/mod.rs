@@ -565,7 +565,7 @@ impl Repeated for TreeShaker {
 impl Parallel for TreeShaker {
     fn create(&self) -> Self {
         Self {
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             data: self.data.clone(),
             config: self.config.clone(),
             bindings: self.bindings.clone(),

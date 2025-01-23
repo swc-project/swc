@@ -63,10 +63,7 @@ struct Remover {
 
 impl Parallel for Remover {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, _: Self) {}

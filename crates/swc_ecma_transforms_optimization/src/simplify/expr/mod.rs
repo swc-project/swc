@@ -48,6 +48,7 @@ pub fn expr_simplifier(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 4,
         },
         config,
         changed: false,
@@ -59,10 +60,7 @@ pub fn expr_simplifier(
 
 impl Parallel for SimplifyExpr {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, other: Self) {
@@ -634,7 +632,7 @@ impl SimplifyExpr {
             // Bit shift operations
             op!("<<") | op!(">>") | op!(">>>") => {
                 fn try_fold_shift(
-                    ctx: &ExprCtx,
+                    ctx: ExprCtx,
                     op: BinaryOp,
                     left: &Expr,
                     right: &Expr,
@@ -1487,7 +1485,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut child = SimplifyExpr {
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             config: self.config,
             changed: Default::default(),
             is_arg_of_update: Default::default(),
@@ -1644,7 +1642,7 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let mut child = SimplifyExpr {
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             config: self.config,
             changed: Default::default(),
             is_arg_of_update: Default::default(),
@@ -1683,7 +1681,7 @@ impl VisitMut for SimplifyExpr {
 }
 
 /// make a new boolean expression preserving side effects, if any.
-fn make_bool_expr<I>(ctx: &ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
+fn make_bool_expr<I>(ctx: ExprCtx, span: Span, value: bool, orig: I) -> Box<Expr>
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
