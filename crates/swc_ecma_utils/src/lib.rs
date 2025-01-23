@@ -551,14 +551,6 @@ impl StmtExt for Box<Stmt> {
     fn as_stmt(&self) -> &Stmt {
         self
     }
-
-    fn extract_var_ids(&self) -> Vec<Ident> {
-        extract_var_ids(&**self)
-    }
-
-    fn terminates(&self) -> bool {
-        (**self).terminates()
-    }
 }
 
 pub struct Hoister {
