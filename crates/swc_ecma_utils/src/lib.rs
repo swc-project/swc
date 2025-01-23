@@ -694,181 +694,7 @@ pub trait ExprExt {
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
     fn get_type(&self) -> Value<Type> {
-        let expr = self.as_expr();
-
-        match expr {
-            Expr::Assign(AssignExpr {
-                ref right,
-                op: op!("="),
-                ..
-            }) => right.get_type(),
-
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(IdentName { sym: length, .. }),
-                ..
-            }) if &**length == "length" => match &**obj {
-                Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
-                Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
-                    Known(Type::Num)
-                }
-                _ => Unknown,
-            },
-
-            Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
-                .last()
-                .expect("sequence expression should not be empty")
-                .get_type(),
-
-            Expr::Bin(BinExpr {
-                ref left,
-                op: op!("&&"),
-                ref right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                ref left,
-                op: op!("||"),
-                ref right,
-                ..
-            })
-            | Expr::Cond(CondExpr {
-                cons: ref left,
-                alt: ref right,
-                ..
-            }) => and(left.get_type(), right.get_type()),
-
-            Expr::Bin(BinExpr {
-                ref left,
-                op: op!(bin, "+"),
-                ref right,
-                ..
-            }) => {
-                let rt = right.get_type();
-                if rt == Known(StringType) {
-                    return Known(StringType);
-                }
-
-                let lt = left.get_type();
-                if lt == Known(StringType) {
-                    return Known(StringType);
-                }
-
-                // There are some pretty weird cases for object types:
-                //   {} + [] === "0"
-                //   [] + {} ==== "[object Object]"
-                if lt == Known(ObjectType) || rt == Known(ObjectType) {
-                    return Unknown;
-                }
-
-                if !may_be_str(lt) && !may_be_str(rt) {
-                    // ADD used with compilations of null, boolean and number always
-                    // result in numbers.
-                    return Known(NumberType);
-                }
-
-                // There are some pretty weird cases for object types:
-                //   {} + [] === "0"
-                //   [] + {} ==== "[object Object]"
-                Unknown
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("+="),
-                ref right,
-                ..
-            }) => {
-                if right.get_type() == Known(StringType) {
-                    return Known(StringType);
-                }
-                Unknown
-            }
-
-            Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
-                "undefined" => UndefinedType,
-                "NaN" | "Infinity" => NumberType,
-                _ => return Unknown,
-            }),
-
-            Expr::Lit(Lit::Num(..))
-            | Expr::Assign(AssignExpr { op: op!("&="), .. })
-            | Expr::Assign(AssignExpr { op: op!("^="), .. })
-            | Expr::Assign(AssignExpr { op: op!("|="), .. })
-            | Expr::Assign(AssignExpr { op: op!("<<="), .. })
-            | Expr::Assign(AssignExpr { op: op!(">>="), .. })
-            | Expr::Assign(AssignExpr {
-                op: op!(">>>="), ..
-            })
-            | Expr::Assign(AssignExpr { op: op!("-="), .. })
-            | Expr::Assign(AssignExpr { op: op!("*="), .. })
-            | Expr::Assign(AssignExpr { op: op!("**="), .. })
-            | Expr::Assign(AssignExpr { op: op!("/="), .. })
-            | Expr::Assign(AssignExpr { op: op!("%="), .. })
-            | Expr::Unary(UnaryExpr { op: op!("~"), .. })
-            | Expr::Bin(BinExpr { op: op!("|"), .. })
-            | Expr::Bin(BinExpr { op: op!("^"), .. })
-            | Expr::Bin(BinExpr { op: op!("&"), .. })
-            | Expr::Bin(BinExpr { op: op!("<<"), .. })
-            | Expr::Bin(BinExpr { op: op!(">>"), .. })
-            | Expr::Bin(BinExpr { op: op!(">>>"), .. })
-            | Expr::Bin(BinExpr {
-                op: op!(bin, "-"), ..
-            })
-            | Expr::Bin(BinExpr { op: op!("*"), .. })
-            | Expr::Bin(BinExpr { op: op!("%"), .. })
-            | Expr::Bin(BinExpr { op: op!("/"), .. })
-            | Expr::Bin(BinExpr { op: op!("**"), .. })
-            | Expr::Update(UpdateExpr { op: op!("++"), .. })
-            | Expr::Update(UpdateExpr { op: op!("--"), .. })
-            | Expr::Unary(UnaryExpr {
-                op: op!(unary, "+"),
-                ..
-            })
-            | Expr::Unary(UnaryExpr {
-                op: op!(unary, "-"),
-                ..
-            }) => Known(NumberType),
-
-            // Primitives
-            Expr::Lit(Lit::Bool(..))
-            | Expr::Bin(BinExpr { op: op!("=="), .. })
-            | Expr::Bin(BinExpr { op: op!("!="), .. })
-            | Expr::Bin(BinExpr { op: op!("==="), .. })
-            | Expr::Bin(BinExpr { op: op!("!=="), .. })
-            | Expr::Bin(BinExpr { op: op!("<"), .. })
-            | Expr::Bin(BinExpr { op: op!("<="), .. })
-            | Expr::Bin(BinExpr { op: op!(">"), .. })
-            | Expr::Bin(BinExpr { op: op!(">="), .. })
-            | Expr::Bin(BinExpr { op: op!("in"), .. })
-            | Expr::Bin(BinExpr {
-                op: op!("instanceof"),
-                ..
-            })
-            | Expr::Unary(UnaryExpr { op: op!("!"), .. })
-            | Expr::Unary(UnaryExpr {
-                op: op!("delete"), ..
-            }) => Known(BoolType),
-
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            })
-            | Expr::Lit(Lit::Str { .. })
-            | Expr::Tpl(..) => Known(StringType),
-
-            Expr::Lit(Lit::Null(..)) => Known(NullType),
-
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => Known(UndefinedType),
-
-            Expr::Fn(..)
-            | Expr::New(NewExpr { .. })
-            | Expr::Array(ArrayLit { .. })
-            | Expr::Object(ObjectLit { .. })
-            | Expr::Lit(Lit::Regex(..)) => Known(ObjectType),
-
-            _ => Unknown,
-        }
+        get_type(self.as_expr())
     }
 
     fn is_pure_callee(&self, ctx: ExprCtx) -> bool {
@@ -3389,8 +3215,185 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         _ => Unknown,
     }
 }
+
+fn get_type(expr: &Expr) -> Value<Type> {
+    match expr {
+        Expr::Assign(AssignExpr {
+            ref right,
+            op: op!("="),
+            ..
+        }) => right.get_type(),
+
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(IdentName { sym: length, .. }),
+            ..
+        }) if &**length == "length" => match &**obj {
+            Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
+            Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
+                Known(Type::Num)
+            }
+            _ => Unknown,
+        },
+
+        Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
+            .last()
+            .expect("sequence expression should not be empty")
+            .get_type(),
+
+        Expr::Bin(BinExpr {
+            ref left,
+            op: op!("&&"),
+            ref right,
+            ..
+        })
+        | Expr::Bin(BinExpr {
+            ref left,
+            op: op!("||"),
+            ref right,
+            ..
+        })
+        | Expr::Cond(CondExpr {
+            cons: ref left,
+            alt: ref right,
+            ..
+        }) => and(left.get_type(), right.get_type()),
+
+        Expr::Bin(BinExpr {
+            ref left,
+            op: op!(bin, "+"),
+            ref right,
+            ..
+        }) => {
+            let rt = right.get_type();
+            if rt == Known(StringType) {
+                return Known(StringType);
+            }
+
+            let lt = left.get_type();
+            if lt == Known(StringType) {
+                return Known(StringType);
+            }
+
+            // There are some pretty weird cases for object types:
+            //   {} + [] === "0"
+            //   [] + {} ==== "[object Object]"
+            if lt == Known(ObjectType) || rt == Known(ObjectType) {
+                return Unknown;
+            }
+
+            if !may_be_str(lt) && !may_be_str(rt) {
+                // ADD used with compilations of null, boolean and number always
+                // result in numbers.
+                return Known(NumberType);
+            }
+
+            // There are some pretty weird cases for object types:
+            //   {} + [] === "0"
+            //   [] + {} ==== "[object Object]"
+            Unknown
+        }
+
+        Expr::Assign(AssignExpr {
+            op: op!("+="),
+            ref right,
+            ..
+        }) => {
+            if right.get_type() == Known(StringType) {
+                return Known(StringType);
+            }
+            Unknown
+        }
+
+        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
+            "undefined" => UndefinedType,
+            "NaN" | "Infinity" => NumberType,
+            _ => return Unknown,
+        }),
+
+        Expr::Lit(Lit::Num(..))
+        | Expr::Assign(AssignExpr { op: op!("&="), .. })
+        | Expr::Assign(AssignExpr { op: op!("^="), .. })
+        | Expr::Assign(AssignExpr { op: op!("|="), .. })
+        | Expr::Assign(AssignExpr { op: op!("<<="), .. })
+        | Expr::Assign(AssignExpr { op: op!(">>="), .. })
+        | Expr::Assign(AssignExpr {
+            op: op!(">>>="), ..
+        })
+        | Expr::Assign(AssignExpr { op: op!("-="), .. })
+        | Expr::Assign(AssignExpr { op: op!("*="), .. })
+        | Expr::Assign(AssignExpr { op: op!("**="), .. })
+        | Expr::Assign(AssignExpr { op: op!("/="), .. })
+        | Expr::Assign(AssignExpr { op: op!("%="), .. })
+        | Expr::Unary(UnaryExpr { op: op!("~"), .. })
+        | Expr::Bin(BinExpr { op: op!("|"), .. })
+        | Expr::Bin(BinExpr { op: op!("^"), .. })
+        | Expr::Bin(BinExpr { op: op!("&"), .. })
+        | Expr::Bin(BinExpr { op: op!("<<"), .. })
+        | Expr::Bin(BinExpr { op: op!(">>"), .. })
+        | Expr::Bin(BinExpr { op: op!(">>>"), .. })
+        | Expr::Bin(BinExpr {
+            op: op!(bin, "-"), ..
+        })
+        | Expr::Bin(BinExpr { op: op!("*"), .. })
+        | Expr::Bin(BinExpr { op: op!("%"), .. })
+        | Expr::Bin(BinExpr { op: op!("/"), .. })
+        | Expr::Bin(BinExpr { op: op!("**"), .. })
+        | Expr::Update(UpdateExpr { op: op!("++"), .. })
+        | Expr::Update(UpdateExpr { op: op!("--"), .. })
+        | Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            ..
+        }) => Known(NumberType),
+
+        // Primitives
+        Expr::Lit(Lit::Bool(..))
+        | Expr::Bin(BinExpr { op: op!("=="), .. })
+        | Expr::Bin(BinExpr { op: op!("!="), .. })
+        | Expr::Bin(BinExpr { op: op!("==="), .. })
+        | Expr::Bin(BinExpr { op: op!("!=="), .. })
+        | Expr::Bin(BinExpr { op: op!("<"), .. })
+        | Expr::Bin(BinExpr { op: op!("<="), .. })
+        | Expr::Bin(BinExpr { op: op!(">"), .. })
+        | Expr::Bin(BinExpr { op: op!(">="), .. })
+        | Expr::Bin(BinExpr { op: op!("in"), .. })
+        | Expr::Bin(BinExpr {
+            op: op!("instanceof"),
+            ..
+        })
+        | Expr::Unary(UnaryExpr { op: op!("!"), .. })
+        | Expr::Unary(UnaryExpr {
+            op: op!("delete"), ..
+        }) => Known(BoolType),
+
+        Expr::Unary(UnaryExpr {
+            op: op!("typeof"), ..
+        })
+        | Expr::Lit(Lit::Str { .. })
+        | Expr::Tpl(..) => Known(StringType),
+
+        Expr::Lit(Lit::Null(..)) => Known(NullType),
+
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => Known(UndefinedType),
+
+        Expr::Fn(..)
+        | Expr::New(NewExpr { .. })
+        | Expr::Array(ArrayLit { .. })
+        | Expr::Object(ObjectLit { .. })
+        | Expr::Lit(Lit::Regex(..)) => Known(ObjectType),
+
+        _ => Unknown,
+    }
+}
+
 #[cfg(test)]
-mod test {
+mod tests {
     use swc_common::{input::StringInput, BytePos};
     use swc_ecma_parser::{Parser, Syntax};
 
