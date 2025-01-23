@@ -481,59 +481,63 @@ pub trait StmtExt {
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
-        match self.as_stmt() {
-            Stmt::Block(block_stmt) => block_stmt
-                .stmts
-                .iter()
-                .any(|stmt| stmt.may_have_side_effects(ctx)),
-            Stmt::Empty(_) => false,
-            Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
-            Stmt::If(if_stmt) => {
-                if_stmt.test.may_have_side_effects(ctx)
-                    || if_stmt.cons.may_have_side_effects(ctx)
-                    || if_stmt
-                        .alt
-                        .as_ref()
-                        .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
-            }
-            Stmt::Switch(switch_stmt) => {
-                switch_stmt.discriminant.may_have_side_effects(ctx)
-                    || switch_stmt.cases.iter().any(|case| {
-                        case.test
-                            .as_ref()
-                            .map_or(false, |expr| expr.may_have_side_effects(ctx))
-                            || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
-                    })
-            }
-            Stmt::Try(try_stmt) => {
-                try_stmt
-                    .block
+        fn may_have_side_effects(stmt: &Stmt, ctx: ExprCtx) -> bool {
+            match stmt {
+                Stmt::Block(block_stmt) => block_stmt
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(ctx))
-                    || try_stmt.handler.as_ref().map_or(false, |handler| {
-                        handler
-                            .body
-                            .stmts
-                            .iter()
-                            .any(|stmt| stmt.may_have_side_effects(ctx))
-                    })
-                    || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
-                        finalizer
-                            .stmts
-                            .iter()
-                            .any(|stmt| stmt.may_have_side_effects(ctx))
-                    })
+                    .any(|stmt| stmt.may_have_side_effects(ctx)),
+                Stmt::Empty(_) => false,
+                Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
+                Stmt::If(if_stmt) => {
+                    if_stmt.test.may_have_side_effects(ctx)
+                        || if_stmt.cons.may_have_side_effects(ctx)
+                        || if_stmt
+                            .alt
+                            .as_ref()
+                            .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
+                }
+                Stmt::Switch(switch_stmt) => {
+                    switch_stmt.discriminant.may_have_side_effects(ctx)
+                        || switch_stmt.cases.iter().any(|case| {
+                            case.test
+                                .as_ref()
+                                .map_or(false, |expr| expr.may_have_side_effects(ctx))
+                                || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
+                        })
+                }
+                Stmt::Try(try_stmt) => {
+                    try_stmt
+                        .block
+                        .stmts
+                        .iter()
+                        .any(|stmt| stmt.may_have_side_effects(ctx))
+                        || try_stmt.handler.as_ref().map_or(false, |handler| {
+                            handler
+                                .body
+                                .stmts
+                                .iter()
+                                .any(|stmt| stmt.may_have_side_effects(ctx))
+                        })
+                        || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
+                            finalizer
+                                .stmts
+                                .iter()
+                                .any(|stmt| stmt.may_have_side_effects(ctx))
+                        })
+                }
+                Stmt::Decl(decl) => match decl {
+                    Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
+                    Decl::Fn(_) => !ctx.in_strict,
+                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                    _ => false,
+                },
+                Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
+                _ => true,
             }
-            Stmt::Decl(decl) => match decl {
-                Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
-                Decl::Fn(_) => !ctx.in_strict,
-                Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
-                _ => false,
-            },
-            Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
-            _ => true,
         }
+
+        may_have_side_effects(self.as_stmt(), ctx)
     }
 }
 
