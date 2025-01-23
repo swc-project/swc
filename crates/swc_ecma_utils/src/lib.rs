@@ -622,47 +622,57 @@ pub trait ExprExt {
     fn as_expr(&self) -> &Expr;
 
     /// Returns true if this is an immutable value.
+    #[inline(always)]
     fn is_immutable_value(&self) -> bool {
         is_immutable_value(self.as_expr())
     }
 
+    #[inline(always)]
     fn is_number(&self) -> bool {
         is_number(self.as_expr())
     }
 
     // TODO: remove this after a proper evaluator
+    #[inline(always)]
     fn is_str(&self) -> bool {
         is_str(self.as_expr())
     }
 
+    #[inline(always)]
     fn is_array_lit(&self) -> bool {
         is_array_lit(self.as_expr())
     }
 
     /// Checks if `self` is `NaN`.
+    #[inline(always)]
     fn is_nan(&self) -> bool {
         is_nan(self.as_expr())
     }
 
+    #[inline(always)]
     fn is_undefined(&self, ctx: ExprCtx) -> bool {
         is_undefined(self.as_expr(), ctx)
     }
 
+    #[inline(always)]
     fn is_void(&self) -> bool {
         is_void(self.as_expr())
     }
 
     /// Returns `true` if `id` references a global object.
+    #[inline(always)]
     fn is_global_ref_to(&self, ctx: ExprCtx, id: &str) -> bool {
         is_global_ref_to(self.as_expr(), ctx, id)
     }
 
     /// Returns `true` if `id` references a global object.
+    #[inline(always)]
     fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
         is_one_of_global_ref_to(self.as_expr(), ctx, ids)
     }
 
     /// Get bool value of `self` if it does not have any side effects.
+    #[inline(always)]
     fn as_pure_bool(&self, ctx: ExprCtx) -> BoolValue {
         as_pure_bool(self.as_expr(), ctx)
     }
@@ -671,10 +681,12 @@ pub trait ExprExt {
     /// This method emulates the `Boolean()` JavaScript cast function.
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
+    #[inline(always)]
     fn cast_to_bool(&self, ctx: ExprCtx) -> (Purity, BoolValue) {
         cast_to_bool(self.as_expr(), ctx)
     }
 
+    #[inline(always)]
     fn cast_to_number(&self, ctx: ExprCtx) -> (Purity, Value<f64>) {
         cast_to_number(self.as_expr(), ctx)
     }
@@ -682,25 +694,30 @@ pub trait ExprExt {
     /// Emulates javascript Number() cast function.
     ///
     /// Note: This method returns [Known] only if it's pure.
+    #[inline(always)]
     fn as_pure_number(&self, ctx: ExprCtx) -> Value<f64> {
         as_pure_number(self.as_expr(), ctx)
     }
 
     /// Returns Known only if it's pure.
+    #[inline(always)]
     fn as_pure_string(&self, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         as_pure_string(self.as_expr(), ctx)
     }
 
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
+    #[inline(always)]
     fn get_type(&self) -> Value<Type> {
         get_type(self.as_expr())
     }
 
+    #[inline(always)]
     fn is_pure_callee(&self, ctx: ExprCtx) -> bool {
         is_pure_callee(self.as_expr(), ctx)
     }
 
+    #[inline(always)]
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         may_have_side_effects(self.as_expr(), ctx)
     }
@@ -829,12 +846,14 @@ pub fn num_from_str(s: &str) -> Value<f64> {
 }
 
 impl ExprExt for Box<Expr> {
+    #[inline(always)]
     fn as_expr(&self) -> &Expr {
         self
     }
 }
 
 impl ExprExt for Expr {
+    #[inline(always)]
     fn as_expr(&self) -> &Expr {
         self
     }
