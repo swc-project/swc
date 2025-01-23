@@ -755,18 +755,26 @@ pub trait ExprExt {
 
     /// Returns `true` if `id` references a global object.
     fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
-        match self.as_expr() {
-            Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id),
-            _ => false,
+        fn is_one_of_global_ref_to(expr: &Expr, ctx: ExprCtx, ids: &[&str]) -> bool {
+            match expr {
+                Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.contains(&*i.sym),
+                _ => false,
+            }
         }
+
+        is_one_of_global_ref_to(self.as_expr(), ctx, ids)
     }
 
     /// Get bool value of `self` if it does not have any side effects.
     fn as_pure_bool(&self, ctx: ExprCtx) -> BoolValue {
-        match self.cast_to_bool(ctx) {
-            (Pure, Known(b)) => Known(b),
-            _ => Unknown,
+        fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
+            match expr.cast_to_bool(ctx) {
+                (Pure, Known(b)) => Known(b),
+                _ => Unknown,
+            }
         }
+
+        as_pure_bool(self.as_expr(), ctx)
     }
 
     ///
@@ -774,314 +782,324 @@ pub trait ExprExt {
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
     fn cast_to_bool(&self, ctx: ExprCtx) -> (Purity, BoolValue) {
-        let expr = self.as_expr();
-        if expr.is_global_ref_to(ctx, "undefined") {
-            return (Pure, Known(false));
-        }
-        if expr.is_nan() {
-            return (Pure, Known(false));
-        }
-
-        let val = match expr {
-            Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
-
-            Expr::Assign(AssignExpr {
-                ref right,
-                op: op!("="),
-                ..
-            }) => {
-                let (_, v) = right.cast_to_bool(ctx);
-                return (MayBeImpure, v);
+        fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
+            if expr.is_global_ref_to(ctx, "undefined") {
+                return (Pure, Known(false));
+            }
+            if expr.is_nan() {
+                return (Pure, Known(false));
             }
 
-            Expr::Unary(UnaryExpr {
-                op: op!(unary, "-"),
-                arg,
-                ..
-            }) => {
-                let v = arg.as_pure_number(ctx);
-                match v {
-                    Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
-                    Unknown => return (MayBeImpure, Unknown),
-                }
-            }
+            let val = match expr {
+                Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
 
-            Expr::Unary(UnaryExpr {
-                op: op!("!"),
-                ref arg,
-                ..
-            }) => {
-                let (p, v) = arg.cast_to_bool(ctx);
-                return (p, !v);
-            }
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().cast_to_bool(ctx).1,
-
-            Expr::Bin(BinExpr {
-                left,
-                op: op!(bin, "-"),
-                right,
-                ..
-            }) => {
-                let (lp, ln) = left.cast_to_number(ctx);
-                let (rp, rn) = right.cast_to_number(ctx);
-
-                return (
-                    lp + rp,
-                    match (ln, rn) {
-                        (Known(ln), Known(rn)) => {
-                            if ln == rn {
-                                Known(false)
-                            } else {
-                                Known(true)
-                            }
-                        }
-                        _ => Unknown,
-                    },
-                );
-            }
-
-            Expr::Bin(BinExpr {
-                left,
-                op: op!("/"),
-                right,
-                ..
-            }) => {
-                let lv = left.as_pure_number(ctx);
-                let rv = right.as_pure_number(ctx);
-
-                match (lv, rv) {
-                    (Known(lv), Known(rv)) => {
-                        // NaN is false
-                        if lv == 0.0 && rv == 0.0 {
-                            return (Pure, Known(false));
-                        }
-                        // Infinity is true.
-                        if rv == 0.0 {
-                            return (Pure, Known(true));
-                        }
-                        let v = lv / rv;
-
-                        return (Pure, Known(v != 0.0));
-                    }
-                    _ => Unknown,
-                }
-            }
-
-            Expr::Bin(BinExpr {
-                ref left,
-                op: op @ op!("&"),
-                ref right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                ref left,
-                op: op @ op!("|"),
-                ref right,
-                ..
-            }) => {
-                if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
-                    return (MayBeImpure, Unknown);
-                }
-
-                // TODO: Ignore purity if value cannot be reached.
-
-                let (lp, lv) = left.cast_to_bool(ctx);
-                let (rp, rv) = right.cast_to_bool(ctx);
-
-                let v = if *op == op!("&") {
-                    lv.and(rv)
-                } else {
-                    lv.or(rv)
-                };
-
-                if lp + rp == Pure {
-                    return (Pure, v);
-                }
-
-                v
-            }
-
-            Expr::Bin(BinExpr {
-                ref left,
-                op: op!("||"),
-                ref right,
-                ..
-            }) => {
-                let (lp, lv) = left.cast_to_bool(ctx);
-                if let Known(true) = lv {
-                    return (lp, lv);
-                }
-
-                let (rp, rv) = right.cast_to_bool(ctx);
-                if let Known(true) = rv {
-                    return (lp + rp, rv);
-                }
-
-                Unknown
-            }
-
-            Expr::Bin(BinExpr {
-                ref left,
-                op: op!("&&"),
-                ref right,
-                ..
-            }) => {
-                let (lp, lv) = left.cast_to_bool(ctx);
-                if let Known(false) = lv {
-                    return (lp, lv);
-                }
-
-                let (rp, rv) = right.cast_to_bool(ctx);
-                if let Known(false) = rv {
-                    return (lp + rp, rv);
-                }
-
-                Unknown
-            }
-
-            Expr::Bin(BinExpr {
-                left,
-                op: op!(bin, "+"),
-                right,
-                ..
-            }) => {
-                match &**left {
-                    Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
-                        return (MayBeImpure, Known(true))
-                    }
-                    _ => {}
-                }
-
-                match &**right {
-                    Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
-                        return (MayBeImpure, Known(true))
-                    }
-                    _ => {}
-                }
-
-                Unknown
-            }
-
-            Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
-                Known(true)
-            }
-
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => Known(false),
-
-            Expr::Lit(ref lit) => {
-                return (
-                    Pure,
-                    Known(match *lit {
-                        Lit::Num(Number { value: n, .. }) => {
-                            !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
-                        }
-                        Lit::BigInt(ref v) => v
-                            .value
-                            .to_string()
-                            .contains(|c: char| matches!(c, '1'..='9')),
-                        Lit::Bool(b) => b.value,
-                        Lit::Str(Str { ref value, .. }) => !value.is_empty(),
-                        Lit::Null(..) => false,
-                        Lit::Regex(..) => true,
-                        Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
-                    }),
-                );
-            }
-
-            //TODO?
-            _ => Unknown,
-        };
-
-        if expr.may_have_side_effects(ctx) {
-            (MayBeImpure, val)
-        } else {
-            (Pure, val)
-        }
-    }
-
-    fn cast_to_number(&self, ctx: ExprCtx) -> (Purity, Value<f64>) {
-        let expr = self.as_expr();
-        let v = match expr {
-            Expr::Lit(l) => match l {
-                Lit::Bool(Bool { value: true, .. }) => 1.0,
-                Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
-                Lit::Num(Number { value: n, .. }) => *n,
-                Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
-                _ => return (Pure, Unknown),
-            },
-            Expr::Array(..) => {
-                let Known(s) = self.as_pure_string(ctx) else {
-                    return (Pure, Unknown);
-                };
-
-                return (Pure, num_from_str(&s));
-            }
-            Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
-                "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
-                "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
-                _ => return (Pure, Unknown),
-            },
-            Expr::Unary(UnaryExpr {
-                op: op!(unary, "-"),
-                arg,
-                ..
-            }) => match arg.cast_to_number(ctx) {
-                (Pure, Known(v)) => -v,
-                _ => return (MayBeImpure, Unknown),
-            },
-            Expr::Unary(UnaryExpr {
-                op: op!("!"),
-                ref arg,
-                ..
-            }) => match arg.cast_to_bool(ctx) {
-                (Pure, Known(v)) => {
-                    if v {
-                        0.0
-                    } else {
-                        1.0
-                    }
-                }
-                _ => return (MayBeImpure, Unknown),
-            },
-            Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                ref arg,
-                ..
-            }) => {
-                if arg.may_have_side_effects(ctx) {
-                    return (MayBeImpure, Known(f64::NAN));
-                } else {
-                    f64::NAN
-                }
-            }
-
-            Expr::Tpl(..) => {
-                return (
-                    Pure,
-                    num_from_str(&match self.as_pure_string(ctx) {
-                        Known(v) => v,
-                        Unknown => return (MayBeImpure, Unknown),
-                    }),
-                );
-            }
-
-            Expr::Seq(seq) => {
-                if let Some(last) = seq.exprs.last() {
-                    let (_, v) = last.cast_to_number(ctx);
-
-                    // TODO: Purity
+                Expr::Assign(AssignExpr {
+                    ref right,
+                    op: op!("="),
+                    ..
+                }) => {
+                    let (_, v) = right.cast_to_bool(ctx);
                     return (MayBeImpure, v);
                 }
 
-                return (MayBeImpure, Unknown);
+                Expr::Unary(UnaryExpr {
+                    op: op!(unary, "-"),
+                    arg,
+                    ..
+                }) => {
+                    let v = arg.as_pure_number(ctx);
+                    match v {
+                        Known(n) => {
+                            Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero))
+                        }
+                        Unknown => return (MayBeImpure, Unknown),
+                    }
+                }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"),
+                    ref arg,
+                    ..
+                }) => {
+                    let (p, v) = arg.cast_to_bool(ctx);
+                    return (p, !v);
+                }
+                Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().cast_to_bool(ctx).1,
+
+                Expr::Bin(BinExpr {
+                    left,
+                    op: op!(bin, "-"),
+                    right,
+                    ..
+                }) => {
+                    let (lp, ln) = left.cast_to_number(ctx);
+                    let (rp, rn) = right.cast_to_number(ctx);
+
+                    return (
+                        lp + rp,
+                        match (ln, rn) {
+                            (Known(ln), Known(rn)) => {
+                                if ln == rn {
+                                    Known(false)
+                                } else {
+                                    Known(true)
+                                }
+                            }
+                            _ => Unknown,
+                        },
+                    );
+                }
+
+                Expr::Bin(BinExpr {
+                    left,
+                    op: op!("/"),
+                    right,
+                    ..
+                }) => {
+                    let lv = left.as_pure_number(ctx);
+                    let rv = right.as_pure_number(ctx);
+
+                    match (lv, rv) {
+                        (Known(lv), Known(rv)) => {
+                            // NaN is false
+                            if lv == 0.0 && rv == 0.0 {
+                                return (Pure, Known(false));
+                            }
+                            // Infinity is true.
+                            if rv == 0.0 {
+                                return (Pure, Known(true));
+                            }
+                            let v = lv / rv;
+
+                            return (Pure, Known(v != 0.0));
+                        }
+                        _ => Unknown,
+                    }
+                }
+
+                Expr::Bin(BinExpr {
+                    ref left,
+                    op: op @ op!("&"),
+                    ref right,
+                    ..
+                })
+                | Expr::Bin(BinExpr {
+                    ref left,
+                    op: op @ op!("|"),
+                    ref right,
+                    ..
+                }) => {
+                    if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
+                        return (MayBeImpure, Unknown);
+                    }
+
+                    // TODO: Ignore purity if value cannot be reached.
+
+                    let (lp, lv) = left.cast_to_bool(ctx);
+                    let (rp, rv) = right.cast_to_bool(ctx);
+
+                    let v = if *op == op!("&") {
+                        lv.and(rv)
+                    } else {
+                        lv.or(rv)
+                    };
+
+                    if lp + rp == Pure {
+                        return (Pure, v);
+                    }
+
+                    v
+                }
+
+                Expr::Bin(BinExpr {
+                    ref left,
+                    op: op!("||"),
+                    ref right,
+                    ..
+                }) => {
+                    let (lp, lv) = left.cast_to_bool(ctx);
+                    if let Known(true) = lv {
+                        return (lp, lv);
+                    }
+
+                    let (rp, rv) = right.cast_to_bool(ctx);
+                    if let Known(true) = rv {
+                        return (lp + rp, rv);
+                    }
+
+                    Unknown
+                }
+
+                Expr::Bin(BinExpr {
+                    ref left,
+                    op: op!("&&"),
+                    ref right,
+                    ..
+                }) => {
+                    let (lp, lv) = left.cast_to_bool(ctx);
+                    if let Known(false) = lv {
+                        return (lp, lv);
+                    }
+
+                    let (rp, rv) = right.cast_to_bool(ctx);
+                    if let Known(false) = rv {
+                        return (lp + rp, rv);
+                    }
+
+                    Unknown
+                }
+
+                Expr::Bin(BinExpr {
+                    left,
+                    op: op!(bin, "+"),
+                    right,
+                    ..
+                }) => {
+                    match &**left {
+                        Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
+                            return (MayBeImpure, Known(true))
+                        }
+                        _ => {}
+                    }
+
+                    match &**right {
+                        Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
+                            return (MayBeImpure, Known(true))
+                        }
+                        _ => {}
+                    }
+
+                    Unknown
+                }
+
+                Expr::Fn(..)
+                | Expr::Class(..)
+                | Expr::New(..)
+                | Expr::Array(..)
+                | Expr::Object(..) => Known(true),
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"), ..
+                }) => Known(false),
+
+                Expr::Lit(ref lit) => {
+                    return (
+                        Pure,
+                        Known(match *lit {
+                            Lit::Num(Number { value: n, .. }) => {
+                                !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
+                            }
+                            Lit::BigInt(ref v) => v
+                                .value
+                                .to_string()
+                                .contains(|c: char| matches!(c, '1'..='9')),
+                            Lit::Bool(b) => b.value,
+                            Lit::Str(Str { ref value, .. }) => !value.is_empty(),
+                            Lit::Null(..) => false,
+                            Lit::Regex(..) => true,
+                            Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
+                        }),
+                    );
+                }
+
+                //TODO?
+                _ => Unknown,
+            };
+
+            if expr.may_have_side_effects(ctx) {
+                (MayBeImpure, val)
+            } else {
+                (Pure, val)
             }
+        }
 
-            _ => return (MayBeImpure, Unknown),
-        };
+        cast_to_bool(self.as_expr(), ctx)
+    }
 
-        (Purity::Pure, Known(v))
+    fn cast_to_number(&self, ctx: ExprCtx) -> (Purity, Value<f64>) {
+        fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
+            let v = match expr {
+                Expr::Lit(l) => match l {
+                    Lit::Bool(Bool { value: true, .. }) => 1.0,
+                    Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
+                    Lit::Num(Number { value: n, .. }) => *n,
+                    Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
+                    _ => return (Pure, Unknown),
+                },
+                Expr::Array(..) => {
+                    let Known(s) = self.as_pure_string(ctx) else {
+                        return (Pure, Unknown);
+                    };
+
+                    return (Pure, num_from_str(&s));
+                }
+                Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
+                    "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
+                    "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
+                    _ => return (Pure, Unknown),
+                },
+                Expr::Unary(UnaryExpr {
+                    op: op!(unary, "-"),
+                    arg,
+                    ..
+                }) => match arg.cast_to_number(ctx) {
+                    (Pure, Known(v)) => -v,
+                    _ => return (MayBeImpure, Unknown),
+                },
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"),
+                    ref arg,
+                    ..
+                }) => match arg.cast_to_bool(ctx) {
+                    (Pure, Known(v)) => {
+                        if v {
+                            0.0
+                        } else {
+                            1.0
+                        }
+                    }
+                    _ => return (MayBeImpure, Unknown),
+                },
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"),
+                    ref arg,
+                    ..
+                }) => {
+                    if arg.may_have_side_effects(ctx) {
+                        return (MayBeImpure, Known(f64::NAN));
+                    } else {
+                        f64::NAN
+                    }
+                }
+
+                Expr::Tpl(..) => {
+                    return (
+                        Pure,
+                        num_from_str(&match self.as_pure_string(ctx) {
+                            Known(v) => v,
+                            Unknown => return (MayBeImpure, Unknown),
+                        }),
+                    );
+                }
+
+                Expr::Seq(seq) => {
+                    if let Some(last) = seq.exprs.last() {
+                        let (_, v) = last.cast_to_number(ctx);
+
+                        // TODO: Purity
+                        return (MayBeImpure, v);
+                    }
+
+                    return (MayBeImpure, Unknown);
+                }
+
+                _ => return (MayBeImpure, Unknown),
+            };
+
+            (Purity::Pure, Known(v))
+        }
+
+        cast_to_number(self.as_expr(), ctx)
     }
 
     /// Emulates javascript Number() cast function.
