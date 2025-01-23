@@ -463,7 +463,7 @@ pub trait StmtExt {
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool;
 
-    fn may_have_side_effects(&self, ctx: &ExprCtx) -> bool {
+    fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         match self.as_stmt() {
             Stmt::Block(block_stmt) => block_stmt
                 .stmts
@@ -701,7 +701,7 @@ pub trait ExprExt {
         self.as_expr().is_ident_ref_to("NaN")
     }
 
-    fn is_undefined(&self, ctx: &ExprCtx) -> bool {
+    fn is_undefined(&self, ctx: ExprCtx) -> bool {
         self.is_global_ref_to(ctx, "undefined")
     }
 
@@ -716,7 +716,7 @@ pub trait ExprExt {
     }
 
     /// Returns `true` if `id` references a global object.
-    fn is_global_ref_to(&self, ctx: &ExprCtx, id: &str) -> bool {
+    fn is_global_ref_to(&self, ctx: ExprCtx, id: &str) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
             _ => false,
@@ -724,7 +724,7 @@ pub trait ExprExt {
     }
 
     /// Returns `true` if `id` references a global object.
-    fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
+    fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id),
             _ => false,
@@ -732,7 +732,7 @@ pub trait ExprExt {
     }
 
     /// Get bool value of `self` if it does not have any side effects.
-    fn as_pure_bool(&self, ctx: &ExprCtx) -> BoolValue {
+    fn as_pure_bool(&self, ctx: ExprCtx) -> BoolValue {
         match self.cast_to_bool(ctx) {
             (Pure, Known(b)) => Known(b),
             _ => Unknown,
@@ -743,7 +743,7 @@ pub trait ExprExt {
     /// This method emulates the `Boolean()` JavaScript cast function.
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
-    fn cast_to_bool(&self, ctx: &ExprCtx) -> (Purity, BoolValue) {
+    fn cast_to_bool(&self, ctx: ExprCtx) -> (Purity, BoolValue) {
         let expr = self.as_expr();
         if expr.is_global_ref_to(ctx, "undefined") {
             return (Pure, Known(false));
@@ -971,7 +971,7 @@ pub trait ExprExt {
         }
     }
 
-    fn cast_to_number(&self, ctx: &ExprCtx) -> (Purity, Value<f64>) {
+    fn cast_to_number(&self, ctx: ExprCtx) -> (Purity, Value<f64>) {
         let expr = self.as_expr();
         let v = match expr {
             Expr::Lit(l) => match l {
@@ -1057,7 +1057,7 @@ pub trait ExprExt {
     /// Emulates javascript Number() cast function.
     ///
     /// Note: This method returns [Known] only if it's pure.
-    fn as_pure_number(&self, ctx: &ExprCtx) -> Value<f64> {
+    fn as_pure_number(&self, ctx: ExprCtx) -> Value<f64> {
         let (purity, v) = self.cast_to_number(ctx);
         if !purity.is_pure() {
             return Unknown;
@@ -1067,7 +1067,7 @@ pub trait ExprExt {
     }
 
     /// Returns Known only if it's pure.
-    fn as_pure_string(&self, ctx: &ExprCtx) -> Value<Cow<'_, str>> {
+    fn as_pure_string(&self, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         let expr = self.as_expr();
         match *expr {
             Expr::Lit(ref l) => match *l {
@@ -1340,7 +1340,7 @@ pub trait ExprExt {
         }
     }
 
-    fn is_pure_callee(&self, ctx: &ExprCtx) -> bool {
+    fn is_pure_callee(&self, ctx: ExprCtx) -> bool {
         if self.is_global_ref_to(ctx, "Date") {
             return true;
         }
@@ -1384,7 +1384,7 @@ pub trait ExprExt {
         }
     }
 
-    fn may_have_side_effects(&self, ctx: &ExprCtx) -> bool {
+    fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         if self.is_pure_callee(ctx) {
             return false;
         }
@@ -1594,7 +1594,7 @@ pub trait ExprExt {
     }
 }
 
-pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
+pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
     if let Some(e) = &c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             return true;
