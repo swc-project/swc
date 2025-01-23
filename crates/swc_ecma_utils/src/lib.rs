@@ -613,6 +613,10 @@ pub struct ExprCtx {
     /// True if we are in the strict mode. This will be set to `true` for
     /// statements **after** `'use strict'`
     pub in_strict: bool,
+
+    /// Remaining depth of the current expression. If this is 0, it means the
+    /// function should not recurse.
+    pub remaining_depth: u32,
 }
 
 /// Extension methods for [Expr].
