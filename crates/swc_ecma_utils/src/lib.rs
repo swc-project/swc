@@ -615,7 +615,7 @@ pub struct ExprCtx {
     pub in_strict: bool,
 
     /// Remaining depth of the current expression. If this is 0, it means the
-    /// function should not operate and return the default value.
+    /// function should not operate and return the safe value.
     ///
     /// Default value is `4`
     pub remaining_depth: u32,
