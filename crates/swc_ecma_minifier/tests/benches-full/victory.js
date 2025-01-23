@@ -17638,12 +17638,15 @@ object-assign
                                     cy: origin.y - top
                                 };
                                 child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(circleComponent, circleProps);
-                            } else child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, {
-                                x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
-                                y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
-                                width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
-                                height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
-                            });
+                            } else {
+                                var rectProps = {
+                                    x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
+                                    y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
+                                    width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
+                                    height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
+                                };
+                                child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, rectProps);
+                            }
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(clipPathComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 key: "clip-path-".concat(clipId)
                             }, props, {
