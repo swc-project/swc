@@ -492,10 +492,8 @@ impl Pure<'_> {
 
                 if let Value::Known(Type::Str) = type_of_second {
                     if let Value::Known(Type::Str) = type_of_third {
-                        if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx)
-                        {
-                            if let Value::Known(third_str) =
-                                bin.right.as_pure_string(self.expr_ctx)
+                        if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
+                            if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
                                 let new_str = format!("{}{}", second_str, third_str);
                                 let left_span = left.span;
