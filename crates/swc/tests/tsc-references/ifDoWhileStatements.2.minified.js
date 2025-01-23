@@ -17,8 +17,6 @@ for((M = M1 || (M1 = {})).A = function A() {
     return x.toString();
 };;);
 for(;;);
-do ;
-while (void 0);
 for(;;);
 for(;;);
 for(;;);
