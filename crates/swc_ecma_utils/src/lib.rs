@@ -1653,7 +1653,7 @@ impl<'a> IdentUsageFinder<'a> {
 }
 
 impl ExprCtx {
-    fn consume_depth(self) -> Option<Self> {
+    pub fn consume_depth(self) -> Option<Self> {
         if self.remaining_depth == 0 {
             return None;
         }
