@@ -122,6 +122,14 @@ impl InfectionCollector<'_> {
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        if self.config.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {
             op!("in")
@@ -163,6 +171,14 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
+    fn visit_callee(&mut self, n: &Callee) {
+        let ctx = Ctx {
+            is_callee: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_cond_expr(&mut self, e: &CondExpr) {
         {
             let ctx = Ctx {
@@ -183,10 +199,6 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
-    fn visit_ident(&mut self, n: &Ident) {
-        self.add_id(&n.to_id());
-    }
-
     fn visit_expr(&mut self, e: &Expr) {
         match e {
             Expr::Ident(i) => {
@@ -203,6 +215,18 @@ impl Visit for InfectionCollector<'_> {
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        if self.config.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_ident(&mut self, n: &Ident) {
+        self.add_id(&n.to_id());
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
@@ -225,6 +249,15 @@ impl Visit for InfectionCollector<'_> {
 
     fn visit_member_prop(&mut self, n: &MemberProp) {
         if let MemberProp::Computed(c) = &n {
+            c.visit_with(&mut *self.with_ctx(Ctx {
+                is_callee: false,
+                ..self.ctx
+            }));
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(c) = &n {
             c.visit_with(&mut *self.with_ctx(Ctx {
                 is_callee: false,
                 ..self.ctx
@@ -275,22 +308,5 @@ impl Visit for InfectionCollector<'_> {
             ..self.ctx
         };
         e.arg.visit_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        if let PropName::Computed(c) = &n {
-            c.visit_with(&mut *self.with_ctx(Ctx {
-                is_callee: false,
-                ..self.ctx
-            }));
-        }
-    }
-
-    fn visit_callee(&mut self, n: &Callee) {
-        let ctx = Ctx {
-            is_callee: true,
-            ..self.ctx
-        };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 }
