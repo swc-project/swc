@@ -289,7 +289,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool, ctx: &ExprCtx) -> bool {
+        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool, ctx: ExprCtx) -> bool {
             match stmt.as_stmt_mut() {
                 Some(s) if s.eq_ignore_span(last) => {
                     if need_break {

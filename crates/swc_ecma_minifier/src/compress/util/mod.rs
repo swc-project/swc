@@ -28,7 +28,7 @@ pub(super) fn negate(expr_ctx: ExprCtx, e: &mut Expr, in_bool_ctx: bool, is_ret_
 }
 
 fn negate_inner(
-    expr_ctx: &ExprCtx,
+    expr_ctx: ExprCtx,
     e: &mut Expr,
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
@@ -173,7 +173,7 @@ pub(crate) fn is_ok_to_negate_for_cond(e: &Expr) -> bool {
     !matches!(e, Expr::Update(..))
 }
 
-pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
+pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
     match rhs {
         Expr::Member(..) => true,
         Expr::Bin(BinExpr {
@@ -242,7 +242,7 @@ pub(crate) fn negate_cost(
     #[allow(clippy::only_used_in_recursion)]
     #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
-        expr_ctx: &ExprCtx,
+        expr_ctx: ExprCtx,
         e: &Expr,
         in_bool_ctx: bool,
         bin_op: Option<BinaryOp>,
@@ -350,7 +350,7 @@ pub(crate) fn negate_cost(
     cost
 }
 
-pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
+pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
     match e {
         Expr::Unary(UnaryExpr {
             op: UnaryOp::Void,
@@ -362,7 +362,7 @@ pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
+pub(crate) fn is_primitive<'a>(expr_ctx: ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
     if is_pure_undefined(expr_ctx, e) {
         Some(e)
     } else {
@@ -393,7 +393,7 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
     }
 }
 
-pub(crate) fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
+pub(crate) fn is_pure_undefined_or_null(expr_ctx: ExprCtx, e: &Expr) -> bool {
     is_pure_undefined(expr_ctx, e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 
@@ -401,7 +401,7 @@ pub(crate) fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
 ///
 /// This method is used to test if a whole call can be replaced, while
 /// preserving standalone constants.
-pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
+pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
     match e {
         Expr::Bin(BinExpr {
             op: op!(bin, "-"),

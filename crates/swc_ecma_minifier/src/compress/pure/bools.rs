@@ -270,7 +270,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if delete.arg.may_have_side_effects(&ExprCtx {
+        if delete.arg.may_have_side_effects(ExprCtx {
             is_unresolved_ref_safe: true,
             ..self.expr_ctx
         }) {
