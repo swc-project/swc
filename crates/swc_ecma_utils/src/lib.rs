@@ -621,17 +621,6 @@ pub struct ExprCtx {
     pub remaining_depth: u32,
 }
 
-impl Default for ExprCtx {
-    fn default() -> Self {
-        Self {
-            unresolved_ctxt: Default::default(),
-            is_unresolved_ref_safe: false,
-            in_strict: false,
-            remaining_depth: 4,
-        }
-    }
-}
-
 /// Extension methods for [Expr].
 pub trait ExprExt {
     fn as_expr(&self) -> &Expr;
