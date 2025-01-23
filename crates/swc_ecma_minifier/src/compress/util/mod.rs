@@ -23,12 +23,7 @@ mod tests;
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(
-    expr_ctx: &ExprCtx,
-    e: &mut Expr,
-    in_bool_ctx: bool,
-    is_ret_val_ignored: bool,
-) {
+pub(super) fn negate(expr_ctx: ExprCtx, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
     negate_inner(expr_ctx, e, in_bool_ctx, is_ret_val_ignored);
 }
 
@@ -239,7 +234,7 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
 #[allow(clippy::let_and_return)]
 pub(crate) fn negate_cost(
-    expr_ctx: &ExprCtx,
+    expr_ctx: ExprCtx,
     e: &Expr,
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
