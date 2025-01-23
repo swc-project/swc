@@ -597,7 +597,7 @@ impl Visit for Hoister {
     fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Copy)]
 
 pub struct ExprCtx {
     /// This [SyntaxContext] should be applied only to unresolved references.
@@ -615,8 +615,21 @@ pub struct ExprCtx {
     pub in_strict: bool,
 
     /// Remaining depth of the current expression. If this is 0, it means the
-    /// function should not recurse.
+    /// function should not operate and return the default value.
+    ///
+    /// Default value is `4`
     pub remaining_depth: u32,
+}
+
+impl Default for ExprCtx {
+    fn default() -> Self {
+        Self {
+            unresolved_ctxt: Default::default(),
+            is_unresolved_ref_safe: false,
+            in_strict: false,
+            remaining_depth: 4,
+        }
+    }
 }
 
 /// Extension methods for [Expr].
