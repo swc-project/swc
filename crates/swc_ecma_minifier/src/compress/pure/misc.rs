@@ -1675,8 +1675,8 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type();
-        let rt = cond.alt.get_type();
+        let lt = cond.cons.get_type(self.expr_ctx);
+        let rt = cond.alt.get_type(self.expr_ctx);
         match (lt, rt) {
             (Known(Type::Bool), Known(Type::Bool)) => {}
             _ => return,

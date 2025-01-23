@@ -276,15 +276,19 @@ where
         match &n.left {
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
-                    self.data
-                        .report_assign(self.ctx, id, is_op_assign, n.right.get_type())
+                    self.data.report_assign(
+                        self.ctx,
+                        id,
+                        is_op_assign,
+                        n.right.get_type(self.expr_ctx),
+                    )
                 }
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
-                    n.right.get_type(),
+                    n.right.get_type(self.expr_ctx),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -1304,7 +1308,10 @@ where
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
-                in_pat_of_var_decl_with_init: e.init.as_ref().map(|init| init.get_type()),
+                in_pat_of_var_decl_with_init: e
+                    .init
+                    .as_ref()
+                    .map(|init| init.get_type(self.expr_ctx)),
                 in_decl_with_no_side_effect_for_member_access: e
                     .init
                     .as_deref()

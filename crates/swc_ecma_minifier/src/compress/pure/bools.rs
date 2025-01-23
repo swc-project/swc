@@ -85,7 +85,7 @@ impl Pure<'_> {
             matches!(op, op!("==") | op!("===") | op!("!=") | op!("!=="))
         }
 
-        fn can_absorb_negate(e: &Expr) -> bool {
+        fn can_absorb_negate(e: &Expr, ctx: ExprCtx) -> bool {
             match e {
                 Expr::Lit(_) => true,
                 Expr::Bin(BinExpr {
@@ -93,11 +93,11 @@ impl Pure<'_> {
                     left,
                     right,
                     ..
-                }) => can_absorb_negate(left) && can_absorb_negate(right),
+                }) => can_absorb_negate(left, ctx) && can_absorb_negate(right, ctx),
                 Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => true,
                 Expr::Unary(UnaryExpr {
                     op: op!("!"), arg, ..
-                }) => arg.get_type() == Value::Known(Type::Bool),
+                }) => arg.get_type(ctx) == Value::Known(Type::Bool),
                 _ => false,
             }
         }
@@ -123,7 +123,7 @@ impl Pure<'_> {
             return;
         };
 
-        let arg_can_negate = can_absorb_negate(arg);
+        let arg_can_negate = can_absorb_negate(arg, self.expr_ctx);
 
         match &mut **arg {
             Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => {
@@ -158,7 +158,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn compress_cmp_with_long_op(&mut self, e: &mut BinExpr) {
-        fn should_optimize(l: &Expr, r: &Expr, opts: &CompressOptions) -> bool {
+        fn should_optimize(l: &Expr, r: &Expr, ctx: ExprCtx, opts: &CompressOptions) -> bool {
             match (l, r) {
                 (
                     Expr::Unary(UnaryExpr {
@@ -168,7 +168,7 @@ impl Pure<'_> {
                 ) => true,
                 _ => {
                     if opts.comparisons {
-                        match (l.get_type(), r.get_type()) {
+                        match (l.get_type(ctx), r.get_type(ctx)) {
                             (Value::Known(lt), Value::Known(rt)) => lt == rt,
 
                             _ => false,
@@ -185,8 +185,8 @@ impl Pure<'_> {
             _ => return,
         }
 
-        if should_optimize(&e.left, &e.right, self.options)
-            || should_optimize(&e.right, &e.left, self.options)
+        if should_optimize(&e.left, &e.right, self.expr_ctx, self.options)
+            || should_optimize(&e.right, &e.left, self.expr_ctx, self.options)
         {
             report_change!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
@@ -226,8 +226,8 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                let lt = left.get_type();
-                let rt = right.get_type();
+                let lt = left.get_type(self.expr_ctx);
+                let rt = right.get_type(self.expr_ctx);
 
                 if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
                     let rb = right.as_pure_bool(self.expr_ctx);
