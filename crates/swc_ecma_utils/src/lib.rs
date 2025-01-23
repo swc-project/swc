@@ -698,47 +698,7 @@ pub trait ExprExt {
     }
 
     fn is_pure_callee(&self, ctx: ExprCtx) -> bool {
-        if self.is_global_ref_to(ctx, "Date") {
-            return true;
-        }
-
-        match self.as_expr() {
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(prop),
-                ..
-            }) => {
-                obj.is_global_ref_to(ctx, "Math")
-                    || match &**obj {
-                        // Allow dummy span
-                        Expr::Ident(Ident {
-                            ctxt, sym: math, ..
-                        }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
-
-                        // Some methods of string are pure
-                        Expr::Lit(Lit::Str(..)) => match &*prop.sym {
-                            "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
-                            | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
-                            | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
-                            | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
-                            | "trim" | "trimEnd" | "trimStart" => true,
-                            _ => false,
-                        },
-
-                        _ => false,
-                    }
-            }
-
-            Expr::Fn(FnExpr { function: f, .. })
-                if f.params.iter().all(|p| p.pat.is_ident())
-                    && f.body.is_some()
-                    && f.body.as_ref().unwrap().stmts.is_empty() =>
-            {
-                true
-            }
-
-            _ => false,
-        }
+        is_pure_callee(self.as_expr(), ctx)
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
@@ -3389,6 +3349,50 @@ fn get_type(expr: &Expr) -> Value<Type> {
         | Expr::Lit(Lit::Regex(..)) => Known(ObjectType),
 
         _ => Unknown,
+    }
+}
+
+fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
+    if expr.is_global_ref_to(ctx, "Date") {
+        return true;
+    }
+
+    match expr {
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) => {
+            obj.is_global_ref_to(ctx, "Math")
+                || match &**obj {
+                    // Allow dummy span
+                    Expr::Ident(Ident {
+                        ctxt, sym: math, ..
+                    }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
+
+                    // Some methods of string are pure
+                    Expr::Lit(Lit::Str(..)) => match &*prop.sym {
+                        "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
+                        | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
+                        | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
+                        | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
+                        | "trim" | "trimEnd" | "trimStart" => true,
+                        _ => false,
+                    },
+
+                    _ => false,
+                }
+        }
+
+        Expr::Fn(FnExpr { function: f, .. })
+            if f.params.iter().all(|p| p.pat.is_ident())
+                && f.body.is_some()
+                && f.body.as_ref().unwrap().stmts.is_empty() =>
+        {
+            true
+        }
+
+        _ => false,
     }
 }
 
