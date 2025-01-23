@@ -131,6 +131,7 @@ pub fn optimize(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 6,
         }));
         debug_assert_valid(&n);
     }

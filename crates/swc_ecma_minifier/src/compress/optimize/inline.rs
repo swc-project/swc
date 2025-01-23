@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             if ref_count == 0 {
                 self.mode.store(ident.to_id(), &*init);
 
-                if init.may_have_side_effects(&self.ctx.expr_ctx) {
+                if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
                     return;
                 }
@@ -502,7 +502,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if init.may_have_side_effects(&self.ctx.expr_ctx) {
+                if init.may_have_side_effects(self.ctx.expr_ctx) {
                     return;
                 }
 
@@ -731,7 +731,7 @@ impl Optimizer<'_> {
                 })
             {
                 if let Decl::Class(ClassDecl { class, .. }) = decl {
-                    if class_has_side_effect(&self.ctx.expr_ctx, class) {
+                    if class_has_side_effect(self.ctx.expr_ctx, class) {
                         return;
                     }
                 }

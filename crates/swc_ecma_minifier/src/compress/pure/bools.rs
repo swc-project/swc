@@ -13,12 +13,12 @@ use crate::{
 
 impl Pure<'_> {
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(&self.expr_ctx, e, false, is_ret_val_ignored);
-        negate(&self.expr_ctx, e, false, is_ret_val_ignored);
+        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+        negate(self.expr_ctx, e, false, is_ret_val_ignored);
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-        negate(&self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
+        negate(self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
     }
 
     /// `!(a && b)` => `!a || !b`
@@ -42,8 +42,8 @@ impl Pure<'_> {
                     right,
                     ..
                 }) => {
-                    if negate_cost(&self.expr_ctx, left, false, false) >= 0
-                        || negate_cost(&self.expr_ctx, right, false, false) >= 0
+                    if negate_cost(self.expr_ctx, left, false, false) >= 0
+                        || negate_cost(self.expr_ctx, right, false, false) >= 0
                     {
                         return;
                     }
@@ -64,8 +64,8 @@ impl Pure<'_> {
                         ..
                     }) = &mut **arg_of_arg
                     {
-                        if negate_cost(&self.expr_ctx, left, false, false) > 0
-                            || negate_cost(&self.expr_ctx, right, false, false) > 0
+                        if negate_cost(self.expr_ctx, left, false, false) > 0
+                            || negate_cost(self.expr_ctx, right, false, false) > 0
                         {
                             return;
                         }
@@ -230,7 +230,7 @@ impl Pure<'_> {
                 let rt = right.get_type();
 
                 if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
-                    let rb = right.as_pure_bool(&self.expr_ctx);
+                    let rb = right.as_pure_bool(self.expr_ctx);
                     let rb = match rb {
                         Value::Known(v) => v,
                         Value::Unknown => return,
@@ -270,7 +270,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if delete.arg.may_have_side_effects(&ExprCtx {
+        if delete.arg.may_have_side_effects(ExprCtx {
             is_unresolved_ref_safe: true,
             ..self.expr_ctx
         }) {
@@ -287,7 +287,7 @@ impl Pure<'_> {
             Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => false,
             Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => false,
 
-            e if is_pure_undefined(&self.expr_ctx, e) => true,
+            e if is_pure_undefined(self.expr_ctx, e) => true,
 
             Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
 
@@ -297,7 +297,7 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                let rn = right.as_pure_number(&self.expr_ctx);
+                let rn = right.as_pure_number(self.expr_ctx);
                 let v = if let Value::Known(rn) = rn {
                     rn != 0.0
                 } else {
@@ -343,7 +343,7 @@ impl Pure<'_> {
                         let last = exprs.last_mut().unwrap();
                         self.optimize_expr_in_bool_ctx(last, false);
                         // Negate last element.
-                        negate(&self.expr_ctx, last, false, false);
+                        negate(self.expr_ctx, last, false, false);
                     }
 
                     *n = *e.arg.take();
@@ -487,7 +487,7 @@ impl Pure<'_> {
                 ..
             }) => {
                 // Optimize if (a ?? false); as if (a);
-                if let Value::Known(false) = right.as_pure_bool(&self.expr_ctx) {
+                if let Value::Known(false) = right.as_pure_bool(self.expr_ctx) {
                     report_change!(
                         "Dropping right operand of `??` as it's always false (in bool context)"
                     );
@@ -504,7 +504,7 @@ impl Pure<'_> {
             }) => {
                 // `a || false` => `a` (as it will be casted to boolean anyway)
 
-                if let Value::Known(false) = right.as_pure_bool(&self.expr_ctx) {
+                if let Value::Known(false) = right.as_pure_bool(self.expr_ctx) {
                     report_change!("bools: `expr || false` => `expr` (in bool context)");
                     self.changed = true;
                     *n = *left.take();
@@ -512,7 +512,7 @@ impl Pure<'_> {
             }
 
             _ => {
-                let v = n.as_pure_bool(&self.expr_ctx);
+                let v = n.as_pure_bool(self.expr_ctx);
                 if let Value::Known(v) = v {
                     let span = n.span();
                     report_change!("Optimizing expr as {} (in bool context)", v);
@@ -552,7 +552,7 @@ impl Pure<'_> {
             ) if matches!(&**arg, Expr::Lit(..)) => true,
 
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r)
-                if is_pure_undefined(&self.expr_ctx, r) =>
+                if is_pure_undefined(self.expr_ctx, r) =>
             {
                 true
             }
@@ -607,8 +607,8 @@ impl Pure<'_> {
                     .as_bin()
                     .filter(|b| b.op.precedence() == op.precedence())
                     .is_none()
-                && !left.may_have_side_effects(&self.expr_ctx)
-                && !right.may_have_side_effects(&self.expr_ctx));
+                && !left.may_have_side_effects(self.expr_ctx)
+                && !right.may_have_side_effects(self.expr_ctx));
 
         if can_swap {
             report_change!("Swapping operands of binary expession");

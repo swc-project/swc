@@ -23,7 +23,7 @@ impl Pure<'_> {
 
         let lt = cond.cons.get_type();
         if let Value::Known(Type::Bool) = lt {
-            let lb = cond.cons.as_pure_bool(&self.expr_ctx);
+            let lb = cond.cons.as_pure_bool(self.expr_ctx);
             if let Value::Known(true) = lb {
                 report_change!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
@@ -61,7 +61,7 @@ impl Pure<'_> {
 
         let rt = cond.alt.get_type();
         if let Value::Known(Type::Bool) = rt {
-            let rb = cond.alt.as_pure_bool(&self.expr_ctx);
+            let rb = cond.alt.as_pure_bool(self.expr_ctx);
             if let Value::Known(false) = rb {
                 report_change!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
@@ -183,7 +183,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&self.expr_ctx, &cond.test, true, false) >= 0 {
+        if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
             return;
         }
 
@@ -216,15 +216,15 @@ impl Pure<'_> {
             return;
         }
 
-        if bin.left.may_have_side_effects(&self.expr_ctx) {
+        if bin.left.may_have_side_effects(self.expr_ctx) {
             return;
         }
 
         let lt = bin.left.get_type();
         let rt = bin.right.get_type();
 
-        let _lb = bin.left.as_pure_bool(&self.expr_ctx);
-        let rb = bin.right.as_pure_bool(&self.expr_ctx);
+        let _lb = bin.left.as_pure_bool(self.expr_ctx);
+        let rb = bin.right.as_pure_bool(self.expr_ctx);
 
         if bin.op == op!("||") {
             if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {

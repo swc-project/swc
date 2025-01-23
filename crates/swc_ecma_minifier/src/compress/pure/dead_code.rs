@@ -289,7 +289,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool, ctx: &ExprCtx) -> bool {
+        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool, ctx: ExprCtx) -> bool {
             match stmt.as_stmt_mut() {
                 Some(s) if s.eq_ignore_span(last) => {
                     if need_break {
@@ -379,7 +379,7 @@ impl Pure<'_> {
         }
 
         if let Some(before_last) = stmts.last_mut() {
-            if drop(before_last, last, false, &self.expr_ctx) {
+            if drop(before_last, last, false, self.expr_ctx) {
                 self.changed = true;
 
                 report_change!("Dropping control keyword in nested block");
@@ -498,7 +498,7 @@ impl Pure<'_> {
 
         if !maybe_par!(
             stmts.iter().any(|stmt| match stmt.as_stmt() {
-                Some(Stmt::If(s)) => s.test.cast_to_bool(&self.expr_ctx).1.is_known(),
+                Some(Stmt::If(s)) => s.test.cast_to_bool(self.expr_ctx).1.is_known(),
                 _ => false,
             }),
             *crate::LIGHT_TASK_PARALLELS
@@ -516,7 +516,7 @@ impl Pure<'_> {
             .for_each(|stmt| match stmt.try_into_stmt() {
                 Ok(stmt) => match stmt {
                     Stmt::If(mut s) => {
-                        if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
+                        if let Value::Known(v) = s.test.cast_to_bool(self.expr_ctx).1 {
                             let mut var_ids = Vec::new();
                             new.push(T::from(
                                 ExprStmt {

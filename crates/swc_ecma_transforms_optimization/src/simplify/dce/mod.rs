@@ -36,6 +36,7 @@ pub fn dce(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 2,
         },
         config,
         changed: false,
@@ -564,7 +565,7 @@ impl Repeated for TreeShaker {
 impl Parallel for TreeShaker {
     fn create(&self) -> Self {
         Self {
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             data: self.data.clone(),
             config: self.config.clone(),
             bindings: self.bindings.clone(),
@@ -662,13 +663,13 @@ impl TreeShaker {
             return;
         };
 
-        if b.op == op!("&&") && b.left.as_pure_bool(&self.expr_ctx) == Known(false) {
+        if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
             *n = *b.left.take();
             self.changed = true;
             return;
         }
 
-        if b.op == op!("||") && b.left.as_pure_bool(&self.expr_ctx) == Known(true) {
+        if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
             *n = *b.left.take();
             self.changed = true;
         }
@@ -684,7 +685,7 @@ impl VisitMut for TreeShaker {
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
             if self.can_drop_assignment_to(id.to_id(), false)
-                && !n.right.may_have_side_effects(&self.expr_ctx)
+                && !n.right.may_have_side_effects(self.expr_ctx)
             {
                 self.changed = true;
                 debug!("Dropping an assignment to `{}` because it's not used", id);
@@ -722,7 +723,7 @@ impl VisitMut for TreeShaker {
                     && c.class
                         .super_class
                         .as_deref()
-                        .map_or(true, |e| !e.may_have_side_effects(&self.expr_ctx))
+                        .map_or(true, |e| !e.may_have_side_effects(self.expr_ctx))
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => {
@@ -730,20 +731,20 @@ impl VisitMut for TreeShaker {
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
                         }
                         ClassMember::AutoAccessor(m) => {
                             !matches!(m.key, Key::Public(PropName::Computed(..)))
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
                         }
 
                         ClassMember::PrivateProp(m) => !m
                             .value
                             .as_deref()
-                            .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx)),
+                            .map_or(false, |e| e.may_have_side_effects(self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
 
@@ -1083,7 +1084,7 @@ impl VisitMut for TreeShaker {
 
         if let Pat::Ident(i) = &v.name {
             let can_drop = if let Some(init) = &v.init {
-                !init.may_have_side_effects(&self.expr_ctx)
+                !init.may_have_side_effects(self.expr_ctx)
             } else {
                 true
             };

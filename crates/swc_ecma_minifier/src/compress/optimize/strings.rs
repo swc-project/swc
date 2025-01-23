@@ -18,7 +18,7 @@ impl Optimizer<'_> {
         {
             if args
                 .iter()
-                .any(|arg| arg.expr.may_have_side_effects(&self.ctx.expr_ctx))
+                .any(|arg| arg.expr.may_have_side_effects(self.ctx.expr_ctx))
             {
                 return;
             }
@@ -57,7 +57,7 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        let value = n.as_pure_string(&self.ctx.expr_ctx);
+        let value = n.as_pure_string(self.ctx.expr_ctx);
         if let Known(value) = value {
             let span = n.span();
 

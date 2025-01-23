@@ -200,9 +200,13 @@ impl Expr {
         }
     }
 
-    pub fn is_ident_ref_to(&self, ident: &str) -> bool {
+    pub fn is_ident_ref_to<S>(&self, ident: &S) -> bool
+    where
+        S: ?Sized,
+        Atom: PartialEq<S>,
+    {
         match self {
-            Expr::Ident(i) => i.sym == ident,
+            Expr::Ident(i) => i.sym == *ident,
             _ => false,
         }
     }

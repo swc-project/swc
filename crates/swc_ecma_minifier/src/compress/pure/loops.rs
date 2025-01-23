@@ -27,7 +27,7 @@ impl Pure<'_> {
                 .into();
             }
             Stmt::DoWhile(stmt) => {
-                let val = stmt.test.as_pure_bool(&self.expr_ctx);
+                let val = stmt.test.as_pure_bool(self.expr_ctx);
                 if let Value::Known(true) = val {
                     self.changed = true;
                     report_change!("loops: Converting an always-true do-while loop to a for loop");

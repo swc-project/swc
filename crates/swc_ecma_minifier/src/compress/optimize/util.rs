@@ -161,7 +161,7 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Box<Expr>> {
+pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<Expr>> {
     let mut res = Vec::new();
     if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {

@@ -26,7 +26,7 @@ impl Pure<'_> {
         let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
 
         for arg in &call.args {
-            if arg.expr.may_have_side_effects(&self.expr_ctx) {
+            if arg.expr.may_have_side_effects(self.expr_ctx) {
                 return;
             }
         }
@@ -42,7 +42,7 @@ impl Pure<'_> {
             prop: MemberProp::Ident(method_name),
         }) = callee
         {
-            if obj.may_have_side_effects(&self.expr_ctx) {
+            if obj.may_have_side_effects(self.expr_ctx) {
                 return;
             }
 
@@ -75,8 +75,7 @@ impl Pure<'_> {
                         *e = *obj.take();
                     }
                     1 => {
-                        if let Value::Known(start) =
-                            call.args[0].expr.as_pure_number(&self.expr_ctx)
+                        if let Value::Known(start) = call.args[0].expr.as_pure_number(self.expr_ctx)
                         {
                             if start.is_sign_negative() {
                                 return;
@@ -102,8 +101,8 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        let start = call.args[0].expr.as_pure_number(&self.expr_ctx);
-                        let end = call.args[1].expr.as_pure_number(&self.expr_ctx);
+                        let start = call.args[0].expr.as_pure_number(self.expr_ctx);
+                        let end = call.args[1].expr.as_pure_number(self.expr_ctx);
                         if let Value::Known(start) = start {
                             if start.is_sign_negative() {
                                 return;
@@ -180,7 +179,7 @@ impl Pure<'_> {
         let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
 
         for arg in &call.args {
-            if arg.expr.may_have_side_effects(&self.expr_ctx) {
+            if arg.expr.may_have_side_effects(self.expr_ctx) {
                 return;
             }
         }
@@ -196,7 +195,7 @@ impl Pure<'_> {
             ..
         }) = callee
         {
-            if obj.may_have_side_effects(&self.expr_ctx) {
+            if obj.may_have_side_effects(self.expr_ctx) {
                 return;
             }
 
@@ -323,7 +322,7 @@ impl Pure<'_> {
 
         if args
             .iter()
-            .any(|arg| arg.expr.may_have_side_effects(&self.expr_ctx))
+            .any(|arg| arg.expr.may_have_side_effects(self.expr_ctx))
         {
             return;
         }
@@ -347,7 +346,7 @@ impl Pure<'_> {
             if let Some(precision) = args
                 .first()
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
-                .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
+                .map_or(Some(0f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
             {
                 let f = precision.trunc() as u8;
 
@@ -407,7 +406,7 @@ impl Pure<'_> {
 
             if let Some(precision) = args
                 .first()
-                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
+                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
             {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
@@ -453,7 +452,7 @@ impl Pure<'_> {
                 return;
             } else if let Some(precision) = args
                 .first()
-                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
+                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
             {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
@@ -484,7 +483,7 @@ impl Pure<'_> {
         if &*method.sym == "toString" {
             if let Some(base) = args
                 .first()
-                .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
+                .map_or(Some(10f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
             {
                 if base.trunc() == 10. {
                     let value = num.value.to_js_string().into();
@@ -533,7 +532,7 @@ impl Pure<'_> {
         match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
                 //
-                if is_pure_undefined_or_null(&self.expr_ctx, obj) {
+                if is_pure_undefined_or_null(self.expr_ctx, obj) {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
@@ -545,7 +544,7 @@ impl Pure<'_> {
             }
 
             OptChainBase::Call(OptCall { span, callee, .. }) => {
-                if is_pure_undefined_or_null(&self.expr_ctx, callee) {
+                if is_pure_undefined_or_null(self.expr_ctx, callee) {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
@@ -573,7 +572,7 @@ impl Pure<'_> {
         };
 
         if bin_expr.op == op!("||") {
-            if let Value::Known(v) = bin_expr.right.as_pure_bool(&self.expr_ctx) {
+            if let Value::Known(v) = bin_expr.right.as_pure_bool(self.expr_ctx) {
                 // foo || 1 => foo, 1
                 if v {
                     self.changed = true;
@@ -594,7 +593,7 @@ impl Pure<'_> {
             }
 
             // 1 || foo => foo
-            if let Value::Known(true) = bin_expr.left.as_pure_bool(&self.expr_ctx) {
+            if let Value::Known(true) = bin_expr.left.as_pure_bool(self.expr_ctx) {
                 self.changed = true;
                 report_change!("evaluate: `true || foo` => `foo`");
 
@@ -603,7 +602,7 @@ impl Pure<'_> {
         } else {
             debug_assert_eq!(bin_expr.op, op!("&&"));
 
-            if let Value::Known(v) = bin_expr.right.as_pure_bool(&self.expr_ctx) {
+            if let Value::Known(v) = bin_expr.right.as_pure_bool(self.expr_ctx) {
                 if v {
                     self.changed = true;
                     report_change!("evaluate: `foo && true` => `foo` (bool ctx)");
@@ -622,7 +621,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if let Value::Known(true) = bin_expr.left.as_pure_bool(&self.expr_ctx) {
+            if let Value::Known(true) = bin_expr.left.as_pure_bool(self.expr_ctx) {
                 self.changed = true;
                 report_change!("evaluate: `true && foo` => `foo`");
 
