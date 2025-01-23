@@ -702,212 +702,7 @@ pub trait ExprExt {
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
-        if self.is_pure_callee(ctx) {
-            return false;
-        }
-
-        match self.as_expr() {
-            Expr::Ident(i) => {
-                if ctx.is_unresolved_ref_safe {
-                    return false;
-                }
-
-                if i.ctxt == ctx.unresolved_ctxt {
-                    !matches!(
-                        &*i.sym,
-                        "Infinity"
-                            | "NaN"
-                            | "Math"
-                            | "undefined"
-                            | "Object"
-                            | "Array"
-                            | "Promise"
-                            | "Boolean"
-                            | "Number"
-                            | "String"
-                            | "BigInt"
-                            | "Error"
-                            | "RegExp"
-                            | "Function"
-                            | "document"
-                    )
-                } else {
-                    false
-                }
-            }
-
-            Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
-                false
-            }
-
-            Expr::Paren(e) => e.expr.may_have_side_effects(ctx),
-
-            // Function expression does not have any side effect if it's not used.
-            Expr::Fn(..) | Expr::Arrow(..) => false,
-
-            // It's annoying to pass in_strict
-            Expr::Class(c) => class_has_side_effect(ctx, &c.class),
-            Expr::Array(ArrayLit { elems, .. }) => elems
-                .iter()
-                .filter_map(|e| e.as_ref())
-                .any(|e| e.spread.is_some() || e.expr.may_have_side_effects(ctx)),
-            Expr::Unary(UnaryExpr {
-                op: op!("delete"), ..
-            }) => true,
-            Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
-            }
-
-            Expr::Member(MemberExpr { obj, prop, .. })
-                if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
-            {
-                if obj.may_have_side_effects(ctx) {
-                    return true;
-                }
-                match &**obj {
-                    Expr::Class(c) => {
-                        let is_static_accessor = |member: &ClassMember| {
-                            if let ClassMember::Method(ClassMethod {
-                                kind: MethodKind::Getter | MethodKind::Setter,
-                                is_static: true,
-                                ..
-                            }) = member
-                            {
-                                true
-                            } else {
-                                false
-                            }
-                        };
-                        if c.class.body.iter().any(is_static_accessor) {
-                            return true;
-                        }
-                    }
-                    Expr::Object(obj) => {
-                        let can_have_side_effect = |prop: &PropOrSpread| match prop {
-                            PropOrSpread::Spread(_) => true,
-                            PropOrSpread::Prop(prop) => match prop.as_ref() {
-                                Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
-                                Prop::Shorthand(Ident { sym, .. })
-                                | Prop::KeyValue(KeyValueProp {
-                                    key:
-                                        PropName::Ident(IdentName { sym, .. })
-                                        | PropName::Str(Str { value: sym, .. }),
-                                    ..
-                                }) => &**sym == "__proto__",
-                                Prop::KeyValue(KeyValueProp {
-                                    key: PropName::Computed(_),
-                                    ..
-                                }) => true,
-                                _ => false,
-                            },
-                        };
-                        if obj.props.iter().any(can_have_side_effect) {
-                            return true;
-                        }
-                    }
-                    _ => {}
-                };
-
-                match prop {
-                    MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
-                    MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
-                }
-            }
-
-            //TODO
-            Expr::Tpl(_) => true,
-            Expr::TaggedTpl(_) => true,
-            Expr::MetaProp(_) => true,
-
-            Expr::Await(_)
-            | Expr::Yield(_)
-            | Expr::Member(_)
-            | Expr::SuperProp(_)
-            | Expr::Update(_)
-            | Expr::Assign(_) => true,
-
-            Expr::OptChain(OptChainExpr { base, .. })
-                if matches!(&**base, OptChainBase::Member(_)) =>
-            {
-                true
-            }
-
-            // TODO
-            Expr::New(_) => true,
-
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ref args,
-                ..
-            }) if callee.is_pure_callee(ctx) => {
-                args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
-            }
-            Expr::OptChain(OptChainExpr { base, .. })
-                if matches!(&**base, OptChainBase::Call(..))
-                    && OptChainBase::as_call(base)
-                        .unwrap()
-                        .callee
-                        .is_pure_callee(ctx) =>
-            {
-                OptChainBase::as_call(base)
-                    .unwrap()
-                    .args
-                    .iter()
-                    .any(|arg| arg.expr.may_have_side_effects(ctx))
-            }
-
-            Expr::Call(_) | Expr::OptChain(..) => true,
-
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects(ctx)),
-
-            Expr::Cond(CondExpr {
-                test, cons, alt, ..
-            }) => {
-                test.may_have_side_effects(ctx)
-                    || cons.may_have_side_effects(ctx)
-                    || alt.may_have_side_effects(ctx)
-            }
-
-            Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
-                PropOrSpread::Prop(node) => match &**node {
-                    Prop::Shorthand(..) => false,
-                    Prop::KeyValue(KeyValueProp { key, value }) => {
-                        let k = match key {
-                            PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
-                            _ => false,
-                        };
-
-                        k || value.may_have_side_effects(ctx)
-                    }
-                    Prop::Getter(GetterProp { key, .. })
-                    | Prop::Setter(SetterProp { key, .. })
-                    | Prop::Method(MethodProp { key, .. }) => match key {
-                        PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
-                        _ => false,
-                    },
-                    Prop::Assign(_) => true,
-                },
-                // may trigger getter
-                PropOrSpread::Spread(_) => true,
-            }),
-
-            Expr::JSXMember(..)
-            | Expr::JSXNamespacedName(..)
-            | Expr::JSXEmpty(..)
-            | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => true,
-
-            Expr::TsAs(TsAsExpr { ref expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => {
-                expr.may_have_side_effects(ctx)
-            }
-
-            Expr::Invalid(..) => true,
-        }
+        may_have_side_effects(self.as_expr(), ctx)
     }
 }
 
@@ -3051,7 +2846,7 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
         Expr::Tpl(..) => {
             return (
                 Pure,
-                num_from_str(&match self.as_pure_string(ctx) {
+                num_from_str(&match expr.as_pure_string(ctx) {
                     Known(v) => v,
                     Unknown => return (MayBeImpure, Unknown),
                 }),
@@ -3393,6 +3188,211 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
         }
 
         _ => false,
+    }
+}
+
+fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
+    if expr.is_pure_callee(ctx) {
+        return false;
+    }
+
+    match expr {
+        Expr::Ident(i) => {
+            if ctx.is_unresolved_ref_safe {
+                return false;
+            }
+
+            if i.ctxt == ctx.unresolved_ctxt {
+                !matches!(
+                    &*i.sym,
+                    "Infinity"
+                        | "NaN"
+                        | "Math"
+                        | "undefined"
+                        | "Object"
+                        | "Array"
+                        | "Promise"
+                        | "Boolean"
+                        | "Number"
+                        | "String"
+                        | "BigInt"
+                        | "Error"
+                        | "RegExp"
+                        | "Function"
+                        | "document"
+                )
+            } else {
+                false
+            }
+        }
+
+        Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
+            false
+        }
+
+        Expr::Paren(e) => e.expr.may_have_side_effects(ctx),
+
+        // Function expression does not have any side effect if it's not used.
+        Expr::Fn(..) | Expr::Arrow(..) => false,
+
+        // It's annoying to pass in_strict
+        Expr::Class(c) => class_has_side_effect(ctx, &c.class),
+        Expr::Array(ArrayLit { elems, .. }) => elems
+            .iter()
+            .filter_map(|e| e.as_ref())
+            .any(|e| e.spread.is_some() || e.expr.may_have_side_effects(ctx)),
+        Expr::Unary(UnaryExpr {
+            op: op!("delete"), ..
+        }) => true,
+        Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
+        Expr::Bin(BinExpr { left, right, .. }) => {
+            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+        }
+
+        Expr::Member(MemberExpr { obj, prop, .. })
+            if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
+        {
+            if obj.may_have_side_effects(ctx) {
+                return true;
+            }
+            match &**obj {
+                Expr::Class(c) => {
+                    let is_static_accessor = |member: &ClassMember| {
+                        if let ClassMember::Method(ClassMethod {
+                            kind: MethodKind::Getter | MethodKind::Setter,
+                            is_static: true,
+                            ..
+                        }) = member
+                        {
+                            true
+                        } else {
+                            false
+                        }
+                    };
+                    if c.class.body.iter().any(is_static_accessor) {
+                        return true;
+                    }
+                }
+                Expr::Object(obj) => {
+                    let can_have_side_effect = |prop: &PropOrSpread| match prop {
+                        PropOrSpread::Spread(_) => true,
+                        PropOrSpread::Prop(prop) => match prop.as_ref() {
+                            Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
+                            Prop::Shorthand(Ident { sym, .. })
+                            | Prop::KeyValue(KeyValueProp {
+                                key:
+                                    PropName::Ident(IdentName { sym, .. })
+                                    | PropName::Str(Str { value: sym, .. }),
+                                ..
+                            }) => &**sym == "__proto__",
+                            Prop::KeyValue(KeyValueProp {
+                                key: PropName::Computed(_),
+                                ..
+                            }) => true,
+                            _ => false,
+                        },
+                    };
+                    if obj.props.iter().any(can_have_side_effect) {
+                        return true;
+                    }
+                }
+                _ => {}
+            };
+
+            match prop {
+                MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
+                MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
+            }
+        }
+
+        //TODO
+        Expr::Tpl(_) => true,
+        Expr::TaggedTpl(_) => true,
+        Expr::MetaProp(_) => true,
+
+        Expr::Await(_)
+        | Expr::Yield(_)
+        | Expr::Member(_)
+        | Expr::SuperProp(_)
+        | Expr::Update(_)
+        | Expr::Assign(_) => true,
+
+        Expr::OptChain(OptChainExpr { base, .. }) if matches!(&**base, OptChainBase::Member(_)) => {
+            true
+        }
+
+        // TODO
+        Expr::New(_) => true,
+
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ref args,
+            ..
+        }) if callee.is_pure_callee(ctx) => {
+            args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
+        }
+        Expr::OptChain(OptChainExpr { base, .. })
+            if matches!(&**base, OptChainBase::Call(..))
+                && OptChainBase::as_call(base)
+                    .unwrap()
+                    .callee
+                    .is_pure_callee(ctx) =>
+        {
+            OptChainBase::as_call(base)
+                .unwrap()
+                .args
+                .iter()
+                .any(|arg| arg.expr.may_have_side_effects(ctx))
+        }
+
+        Expr::Call(_) | Expr::OptChain(..) => true,
+
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects(ctx)),
+
+        Expr::Cond(CondExpr {
+            test, cons, alt, ..
+        }) => {
+            test.may_have_side_effects(ctx)
+                || cons.may_have_side_effects(ctx)
+                || alt.may_have_side_effects(ctx)
+        }
+
+        Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
+            PropOrSpread::Prop(node) => match &**node {
+                Prop::Shorthand(..) => false,
+                Prop::KeyValue(KeyValueProp { key, value }) => {
+                    let k = match key {
+                        PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
+                        _ => false,
+                    };
+
+                    k || value.may_have_side_effects(ctx)
+                }
+                Prop::Getter(GetterProp { key, .. })
+                | Prop::Setter(SetterProp { key, .. })
+                | Prop::Method(MethodProp { key, .. }) => match key {
+                    PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
+                    _ => false,
+                },
+                Prop::Assign(_) => true,
+            },
+            // may trigger getter
+            PropOrSpread::Spread(_) => true,
+        }),
+
+        Expr::JSXMember(..)
+        | Expr::JSXNamespacedName(..)
+        | Expr::JSXEmpty(..)
+        | Expr::JSXElement(..)
+        | Expr::JSXFragment(..) => true,
+
+        Expr::TsAs(TsAsExpr { ref expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.may_have_side_effects(ctx),
+
+        Expr::Invalid(..) => true,
     }
 }
 
