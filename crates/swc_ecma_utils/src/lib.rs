@@ -623,157 +623,47 @@ pub trait ExprExt {
 
     /// Returns true if this is an immutable value.
     fn is_immutable_value(&self) -> bool {
-        fn is_immutable_value(expr: &Expr) -> bool {
-            // TODO(johnlenz): rename this function.  It is currently being used
-            // in two disjoint cases:
-            // 1) We only care about the result of the expression (in which case NOT here
-            //    should return true)
-            // 2) We care that expression is a side-effect free and can't be side-effected
-            //    by other expressions.
-            // This should only be used to say the value is immutable and
-            // hasSideEffects and canBeSideEffected should be used for the other case.
-            match *expr {
-                Expr::Lit(Lit::Bool(..))
-                | Expr::Lit(Lit::Str(..))
-                | Expr::Lit(Lit::Num(..))
-                | Expr::Lit(Lit::Null(..)) => true,
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    ref arg,
-                    ..
-                })
-                | Expr::Unary(UnaryExpr {
-                    op: op!("~"),
-                    ref arg,
-                    ..
-                })
-                | Expr::Unary(UnaryExpr {
-                    op: op!("void"),
-                    ref arg,
-                    ..
-                }) => arg.is_immutable_value(),
-
-                Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
-
-                Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
-
-                _ => false,
-            }
-        }
-
         is_immutable_value(self.as_expr())
     }
 
     fn is_number(&self) -> bool {
-        fn is_number(expr: &Expr) -> bool {
-            matches!(*expr, Expr::Lit(Lit::Num(..)))
-        }
-
         is_number(self.as_expr())
     }
 
     // TODO: remove this after a proper evaluator
     fn is_str(&self) -> bool {
-        fn is_str(expr: &Expr) -> bool {
-            match expr {
-                Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
-                Expr::Unary(UnaryExpr {
-                    op: op!("typeof"), ..
-                }) => true,
-                Expr::Bin(BinExpr {
-                    op: op!(bin, "+"),
-                    left,
-                    right,
-                    ..
-                }) => left.is_str() || right.is_str(),
-                Expr::Assign(AssignExpr {
-                    op: op!("=") | op!("+="),
-                    right,
-                    ..
-                }) => right.is_str(),
-                Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
-                Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
-                _ => false,
-            }
-        }
-
         is_str(self.as_expr())
     }
 
     fn is_array_lit(&self) -> bool {
-        fn is_array_lit(expr: &Expr) -> bool {
-            matches!(*expr, Expr::Array(..))
-        }
-
         is_array_lit(self.as_expr())
     }
 
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
-        fn is_nan(expr: &Expr) -> bool {
-            // NaN is special
-            expr.is_ident_ref_to("NaN")
-        }
-
         is_nan(self.as_expr())
     }
 
     fn is_undefined(&self, ctx: ExprCtx) -> bool {
-        fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
-            expr.is_global_ref_to(ctx, "undefined")
-        }
-
         is_undefined(self.as_expr(), ctx)
     }
 
     fn is_void(&self) -> bool {
-        fn is_void(expr: &Expr) -> bool {
-            matches!(
-                *expr,
-                Expr::Unary(UnaryExpr {
-                    op: op!("void"),
-                    ..
-                })
-            )
-        }
-
         is_void(self.as_expr())
     }
 
     /// Returns `true` if `id` references a global object.
     fn is_global_ref_to(&self, ctx: ExprCtx, id: &str) -> bool {
-        fn is_global_ref_to(expr: &Expr, ctx: ExprCtx, id: &str) -> bool {
-            match expr {
-                Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
-                _ => false,
-            }
-        }
-
         is_global_ref_to(self.as_expr(), ctx, id)
     }
 
     /// Returns `true` if `id` references a global object.
     fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
-        fn is_one_of_global_ref_to(expr: &Expr, ctx: ExprCtx, ids: &[&str]) -> bool {
-            match expr {
-                Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.contains(&*i.sym),
-                _ => false,
-            }
-        }
-
         is_one_of_global_ref_to(self.as_expr(), ctx, ids)
     }
 
     /// Get bool value of `self` if it does not have any side effects.
     fn as_pure_bool(&self, ctx: ExprCtx) -> BoolValue {
-        fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
-            match expr.cast_to_bool(ctx) {
-                (Pure, Known(b)) => Known(b),
-                _ => Unknown,
-            }
-        }
-
         as_pure_bool(self.as_expr(), ctx)
     }
 
@@ -782,323 +672,10 @@ pub trait ExprExt {
     ///Note: unlike getPureBooleanValue this function does not return `None`
     ///for expressions with side-effects.
     fn cast_to_bool(&self, ctx: ExprCtx) -> (Purity, BoolValue) {
-        fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
-            if expr.is_global_ref_to(ctx, "undefined") {
-                return (Pure, Known(false));
-            }
-            if expr.is_nan() {
-                return (Pure, Known(false));
-            }
-
-            let val = match expr {
-                Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
-
-                Expr::Assign(AssignExpr {
-                    ref right,
-                    op: op!("="),
-                    ..
-                }) => {
-                    let (_, v) = right.cast_to_bool(ctx);
-                    return (MayBeImpure, v);
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!(unary, "-"),
-                    arg,
-                    ..
-                }) => {
-                    let v = arg.as_pure_number(ctx);
-                    match v {
-                        Known(n) => {
-                            Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero))
-                        }
-                        Unknown => return (MayBeImpure, Unknown),
-                    }
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    ref arg,
-                    ..
-                }) => {
-                    let (p, v) = arg.cast_to_bool(ctx);
-                    return (p, !v);
-                }
-                Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().cast_to_bool(ctx).1,
-
-                Expr::Bin(BinExpr {
-                    left,
-                    op: op!(bin, "-"),
-                    right,
-                    ..
-                }) => {
-                    let (lp, ln) = left.cast_to_number(ctx);
-                    let (rp, rn) = right.cast_to_number(ctx);
-
-                    return (
-                        lp + rp,
-                        match (ln, rn) {
-                            (Known(ln), Known(rn)) => {
-                                if ln == rn {
-                                    Known(false)
-                                } else {
-                                    Known(true)
-                                }
-                            }
-                            _ => Unknown,
-                        },
-                    );
-                }
-
-                Expr::Bin(BinExpr {
-                    left,
-                    op: op!("/"),
-                    right,
-                    ..
-                }) => {
-                    let lv = left.as_pure_number(ctx);
-                    let rv = right.as_pure_number(ctx);
-
-                    match (lv, rv) {
-                        (Known(lv), Known(rv)) => {
-                            // NaN is false
-                            if lv == 0.0 && rv == 0.0 {
-                                return (Pure, Known(false));
-                            }
-                            // Infinity is true.
-                            if rv == 0.0 {
-                                return (Pure, Known(true));
-                            }
-                            let v = lv / rv;
-
-                            return (Pure, Known(v != 0.0));
-                        }
-                        _ => Unknown,
-                    }
-                }
-
-                Expr::Bin(BinExpr {
-                    ref left,
-                    op: op @ op!("&"),
-                    ref right,
-                    ..
-                })
-                | Expr::Bin(BinExpr {
-                    ref left,
-                    op: op @ op!("|"),
-                    ref right,
-                    ..
-                }) => {
-                    if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
-                        return (MayBeImpure, Unknown);
-                    }
-
-                    // TODO: Ignore purity if value cannot be reached.
-
-                    let (lp, lv) = left.cast_to_bool(ctx);
-                    let (rp, rv) = right.cast_to_bool(ctx);
-
-                    let v = if *op == op!("&") {
-                        lv.and(rv)
-                    } else {
-                        lv.or(rv)
-                    };
-
-                    if lp + rp == Pure {
-                        return (Pure, v);
-                    }
-
-                    v
-                }
-
-                Expr::Bin(BinExpr {
-                    ref left,
-                    op: op!("||"),
-                    ref right,
-                    ..
-                }) => {
-                    let (lp, lv) = left.cast_to_bool(ctx);
-                    if let Known(true) = lv {
-                        return (lp, lv);
-                    }
-
-                    let (rp, rv) = right.cast_to_bool(ctx);
-                    if let Known(true) = rv {
-                        return (lp + rp, rv);
-                    }
-
-                    Unknown
-                }
-
-                Expr::Bin(BinExpr {
-                    ref left,
-                    op: op!("&&"),
-                    ref right,
-                    ..
-                }) => {
-                    let (lp, lv) = left.cast_to_bool(ctx);
-                    if let Known(false) = lv {
-                        return (lp, lv);
-                    }
-
-                    let (rp, rv) = right.cast_to_bool(ctx);
-                    if let Known(false) = rv {
-                        return (lp + rp, rv);
-                    }
-
-                    Unknown
-                }
-
-                Expr::Bin(BinExpr {
-                    left,
-                    op: op!(bin, "+"),
-                    right,
-                    ..
-                }) => {
-                    match &**left {
-                        Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
-                            return (MayBeImpure, Known(true))
-                        }
-                        _ => {}
-                    }
-
-                    match &**right {
-                        Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => {
-                            return (MayBeImpure, Known(true))
-                        }
-                        _ => {}
-                    }
-
-                    Unknown
-                }
-
-                Expr::Fn(..)
-                | Expr::Class(..)
-                | Expr::New(..)
-                | Expr::Array(..)
-                | Expr::Object(..) => Known(true),
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
-                }) => Known(false),
-
-                Expr::Lit(ref lit) => {
-                    return (
-                        Pure,
-                        Known(match *lit {
-                            Lit::Num(Number { value: n, .. }) => {
-                                !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
-                            }
-                            Lit::BigInt(ref v) => v
-                                .value
-                                .to_string()
-                                .contains(|c: char| matches!(c, '1'..='9')),
-                            Lit::Bool(b) => b.value,
-                            Lit::Str(Str { ref value, .. }) => !value.is_empty(),
-                            Lit::Null(..) => false,
-                            Lit::Regex(..) => true,
-                            Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
-                        }),
-                    );
-                }
-
-                //TODO?
-                _ => Unknown,
-            };
-
-            if expr.may_have_side_effects(ctx) {
-                (MayBeImpure, val)
-            } else {
-                (Pure, val)
-            }
-        }
-
         cast_to_bool(self.as_expr(), ctx)
     }
 
     fn cast_to_number(&self, ctx: ExprCtx) -> (Purity, Value<f64>) {
-        fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
-            let v = match expr {
-                Expr::Lit(l) => match l {
-                    Lit::Bool(Bool { value: true, .. }) => 1.0,
-                    Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
-                    Lit::Num(Number { value: n, .. }) => *n,
-                    Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
-                    _ => return (Pure, Unknown),
-                },
-                Expr::Array(..) => {
-                    let Known(s) = self.as_pure_string(ctx) else {
-                        return (Pure, Unknown);
-                    };
-
-                    return (Pure, num_from_str(&s));
-                }
-                Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
-                    "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
-                    "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
-                    _ => return (Pure, Unknown),
-                },
-                Expr::Unary(UnaryExpr {
-                    op: op!(unary, "-"),
-                    arg,
-                    ..
-                }) => match arg.cast_to_number(ctx) {
-                    (Pure, Known(v)) => -v,
-                    _ => return (MayBeImpure, Unknown),
-                },
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    ref arg,
-                    ..
-                }) => match arg.cast_to_bool(ctx) {
-                    (Pure, Known(v)) => {
-                        if v {
-                            0.0
-                        } else {
-                            1.0
-                        }
-                    }
-                    _ => return (MayBeImpure, Unknown),
-                },
-                Expr::Unary(UnaryExpr {
-                    op: op!("void"),
-                    ref arg,
-                    ..
-                }) => {
-                    if arg.may_have_side_effects(ctx) {
-                        return (MayBeImpure, Known(f64::NAN));
-                    } else {
-                        f64::NAN
-                    }
-                }
-
-                Expr::Tpl(..) => {
-                    return (
-                        Pure,
-                        num_from_str(&match self.as_pure_string(ctx) {
-                            Known(v) => v,
-                            Unknown => return (MayBeImpure, Unknown),
-                        }),
-                    );
-                }
-
-                Expr::Seq(seq) => {
-                    if let Some(last) = seq.exprs.last() {
-                        let (_, v) = last.cast_to_number(ctx);
-
-                        // TODO: Purity
-                        return (MayBeImpure, v);
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                _ => return (MayBeImpure, Unknown),
-            };
-
-            (Purity::Pure, Known(v))
-        }
-
         cast_to_number(self.as_expr(), ctx)
     }
 
@@ -1106,106 +683,12 @@ pub trait ExprExt {
     ///
     /// Note: This method returns [Known] only if it's pure.
     fn as_pure_number(&self, ctx: ExprCtx) -> Value<f64> {
-        let (purity, v) = self.cast_to_number(ctx);
-        if !purity.is_pure() {
-            return Unknown;
-        }
-
-        v
+        as_pure_number(self.as_expr(), ctx)
     }
 
     /// Returns Known only if it's pure.
     fn as_pure_string(&self, ctx: ExprCtx) -> Value<Cow<'_, str>> {
-        let expr = self.as_expr();
-        match *expr {
-            Expr::Lit(ref l) => match *l {
-                Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
-                Lit::Num(ref n) => {
-                    if n.value == -0.0 {
-                        return Known(Cow::Borrowed("0"));
-                    }
-
-                    Known(Cow::Owned(n.value.to_js_string()))
-                }
-                Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
-                Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
-                Lit::Null(..) => Known(Cow::Borrowed("null")),
-                _ => Unknown,
-            },
-            Expr::Tpl(_) => {
-                Value::Unknown
-                // TODO:
-                // Only convert a template literal if all its expressions can be
-                // converted. unimplemented!("TplLit.
-                // as_string()")
-            }
-            Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
-                "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
-                    Known(Cow::Borrowed(&**sym))
-                }
-                _ => Unknown,
-            },
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => Known(Cow::Borrowed("undefined")),
-            Expr::Unary(UnaryExpr {
-                op: op!("!"),
-                ref arg,
-                ..
-            }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
-                Known(v) => {
-                    if v {
-                        "false"
-                    } else {
-                        "true"
-                    }
-                }
-                Unknown => return Value::Unknown,
-            })),
-            Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut buf = String::new();
-                let len = elems.len();
-                // null, undefined is "" in array literal.
-                for (idx, elem) in elems.iter().enumerate() {
-                    let last = idx == len - 1;
-                    let e = match *elem {
-                        Some(ref elem) => {
-                            let ExprOrSpread { ref expr, .. } = *elem;
-                            match &**expr {
-                                Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
-                                Expr::Unary(UnaryExpr {
-                                    op: op!("void"),
-                                    arg,
-                                    ..
-                                }) => {
-                                    if arg.may_have_side_effects(ctx) {
-                                        return Value::Unknown;
-                                    }
-                                    Cow::Borrowed("")
-                                }
-                                Expr::Ident(Ident { sym: undefined, .. })
-                                    if &**undefined == "undefined" =>
-                                {
-                                    Cow::Borrowed("")
-                                }
-                                _ => match expr.as_pure_string(ctx) {
-                                    Known(v) => v,
-                                    Unknown => return Value::Unknown,
-                                },
-                            }
-                        }
-                        None => Cow::Borrowed(""),
-                    };
-                    buf.push_str(&e);
-
-                    if !last {
-                        buf.push(',');
-                    }
-                }
-                Known(buf.into())
-            }
-            _ => Unknown,
-        }
+        as_pure_string(self.as_expr(), ctx)
     }
 
     /// Apply the supplied predicate against all possible result Nodes of the
@@ -2572,7 +2055,7 @@ impl<'a> IdentUsageFinder<'a> {
 impl ExprCtx {
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
-    pub fn preserve_effects<I>(&self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
+    pub fn preserve_effects<I>(self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
     where
         I: IntoIterator<Item = Box<Expr>>,
     {
@@ -2595,7 +2078,7 @@ impl ExprCtx {
     /// This function preserves order and conditions. (think a() ? yield b() :
     /// c())
     #[allow(clippy::vec_box)]
-    pub fn extract_side_effects_to(&self, to: &mut Vec<Box<Expr>>, expr: Expr) {
+    pub fn extract_side_effects_to(self, to: &mut Vec<Box<Expr>>, expr: Expr) {
         match expr {
             Expr::Lit(..)
             | Expr::This(..)
@@ -3391,6 +2874,521 @@ where
     }
 }
 
+fn is_immutable_value(expr: &Expr) -> bool {
+    // TODO(johnlenz): rename this function.  It is currently being used
+    // in two disjoint cases:
+    // 1) We only care about the result of the expression (in which case NOT here
+    //    should return true)
+    // 2) We care that expression is a side-effect free and can't be side-effected
+    //    by other expressions.
+    // This should only be used to say the value is immutable and
+    // hasSideEffects and canBeSideEffected should be used for the other case.
+    match *expr {
+        Expr::Lit(Lit::Bool(..))
+        | Expr::Lit(Lit::Str(..))
+        | Expr::Lit(Lit::Num(..))
+        | Expr::Lit(Lit::Null(..)) => true,
+
+        Expr::Unary(UnaryExpr {
+            op: op!("!"),
+            ref arg,
+            ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!("~"),
+            ref arg,
+            ..
+        })
+        | Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            ref arg,
+            ..
+        }) => arg.is_immutable_value(),
+
+        Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
+
+        Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
+
+        _ => false,
+    }
+}
+
+fn is_number(expr: &Expr) -> bool {
+    matches!(*expr, Expr::Lit(Lit::Num(..)))
+}
+
+fn is_str(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!("typeof"), ..
+        }) => true,
+        Expr::Bin(BinExpr {
+            op: op!(bin, "+"),
+            left,
+            right,
+            ..
+        }) => left.is_str() || right.is_str(),
+        Expr::Assign(AssignExpr {
+            op: op!("=") | op!("+="),
+            right,
+            ..
+        }) => right.is_str(),
+        Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
+        Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
+        _ => false,
+    }
+}
+
+fn is_array_lit(expr: &Expr) -> bool {
+    matches!(*expr, Expr::Array(..))
+}
+
+fn is_nan(expr: &Expr) -> bool {
+    // NaN is special
+    expr.is_ident_ref_to("NaN")
+}
+
+fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
+    expr.is_global_ref_to(ctx, "undefined")
+}
+
+fn is_void(expr: &Expr) -> bool {
+    matches!(
+        *expr,
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            ..
+        })
+    )
+}
+
+fn is_global_ref_to(expr: &Expr, ctx: ExprCtx, id: &str) -> bool {
+    match expr {
+        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+        _ => false,
+    }
+}
+
+fn is_one_of_global_ref_to(expr: &Expr, ctx: ExprCtx, ids: &[&str]) -> bool {
+    match expr {
+        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.contains(&&*i.sym),
+        _ => false,
+    }
+}
+
+fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
+    match expr.cast_to_bool(ctx) {
+        (Pure, Known(b)) => Known(b),
+        _ => Unknown,
+    }
+}
+
+fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
+    if expr.is_global_ref_to(ctx, "undefined") {
+        return (Pure, Known(false));
+    }
+    if expr.is_nan() {
+        return (Pure, Known(false));
+    }
+
+    let val = match expr {
+        Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
+
+        Expr::Assign(AssignExpr {
+            ref right,
+            op: op!("="),
+            ..
+        }) => {
+            let (_, v) = right.cast_to_bool(ctx);
+            return (MayBeImpure, v);
+        }
+
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            arg,
+            ..
+        }) => {
+            let v = arg.as_pure_number(ctx);
+            match v {
+                Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
+                Unknown => return (MayBeImpure, Unknown),
+            }
+        }
+
+        Expr::Unary(UnaryExpr {
+            op: op!("!"),
+            ref arg,
+            ..
+        }) => {
+            let (p, v) = arg.cast_to_bool(ctx);
+            return (p, !v);
+        }
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().unwrap().cast_to_bool(ctx).1,
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!(bin, "-"),
+            right,
+            ..
+        }) => {
+            let (lp, ln) = left.cast_to_number(ctx);
+            let (rp, rn) = right.cast_to_number(ctx);
+
+            return (
+                lp + rp,
+                match (ln, rn) {
+                    (Known(ln), Known(rn)) => {
+                        if ln == rn {
+                            Known(false)
+                        } else {
+                            Known(true)
+                        }
+                    }
+                    _ => Unknown,
+                },
+            );
+        }
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!("/"),
+            right,
+            ..
+        }) => {
+            let lv = left.as_pure_number(ctx);
+            let rv = right.as_pure_number(ctx);
+
+            match (lv, rv) {
+                (Known(lv), Known(rv)) => {
+                    // NaN is false
+                    if lv == 0.0 && rv == 0.0 {
+                        return (Pure, Known(false));
+                    }
+                    // Infinity is true.
+                    if rv == 0.0 {
+                        return (Pure, Known(true));
+                    }
+                    let v = lv / rv;
+
+                    return (Pure, Known(v != 0.0));
+                }
+                _ => Unknown,
+            }
+        }
+
+        Expr::Bin(BinExpr {
+            ref left,
+            op: op @ op!("&"),
+            ref right,
+            ..
+        })
+        | Expr::Bin(BinExpr {
+            ref left,
+            op: op @ op!("|"),
+            ref right,
+            ..
+        }) => {
+            if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
+                return (MayBeImpure, Unknown);
+            }
+
+            // TODO: Ignore purity if value cannot be reached.
+
+            let (lp, lv) = left.cast_to_bool(ctx);
+            let (rp, rv) = right.cast_to_bool(ctx);
+
+            let v = if *op == op!("&") {
+                lv.and(rv)
+            } else {
+                lv.or(rv)
+            };
+
+            if lp + rp == Pure {
+                return (Pure, v);
+            }
+
+            v
+        }
+
+        Expr::Bin(BinExpr {
+            ref left,
+            op: op!("||"),
+            ref right,
+            ..
+        }) => {
+            let (lp, lv) = left.cast_to_bool(ctx);
+            if let Known(true) = lv {
+                return (lp, lv);
+            }
+
+            let (rp, rv) = right.cast_to_bool(ctx);
+            if let Known(true) = rv {
+                return (lp + rp, rv);
+            }
+
+            Unknown
+        }
+
+        Expr::Bin(BinExpr {
+            ref left,
+            op: op!("&&"),
+            ref right,
+            ..
+        }) => {
+            let (lp, lv) = left.cast_to_bool(ctx);
+            if let Known(false) = lv {
+                return (lp, lv);
+            }
+
+            let (rp, rv) = right.cast_to_bool(ctx);
+            if let Known(false) = rv {
+                return (lp + rp, rv);
+            }
+
+            Unknown
+        }
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!(bin, "+"),
+            right,
+            ..
+        }) => {
+            match &**left {
+                Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => return (MayBeImpure, Known(true)),
+                _ => {}
+            }
+
+            match &**right {
+                Expr::Lit(Lit::Str(s)) if !s.value.is_empty() => return (MayBeImpure, Known(true)),
+                _ => {}
+            }
+
+            Unknown
+        }
+
+        Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
+            Known(true)
+        }
+
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => Known(false),
+
+        Expr::Lit(ref lit) => {
+            return (
+                Pure,
+                Known(match *lit {
+                    Lit::Num(Number { value: n, .. }) => {
+                        !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
+                    }
+                    Lit::BigInt(ref v) => v
+                        .value
+                        .to_string()
+                        .contains(|c: char| matches!(c, '1'..='9')),
+                    Lit::Bool(b) => b.value,
+                    Lit::Str(Str { ref value, .. }) => !value.is_empty(),
+                    Lit::Null(..) => false,
+                    Lit::Regex(..) => true,
+                    Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
+                }),
+            );
+        }
+
+        //TODO?
+        _ => Unknown,
+    };
+
+    if expr.may_have_side_effects(ctx) {
+        (MayBeImpure, val)
+    } else {
+        (Pure, val)
+    }
+}
+
+fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
+    let v = match expr {
+        Expr::Lit(l) => match l {
+            Lit::Bool(Bool { value: true, .. }) => 1.0,
+            Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
+            Lit::Num(Number { value: n, .. }) => *n,
+            Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
+            _ => return (Pure, Unknown),
+        },
+        Expr::Array(..) => {
+            let Known(s) = expr.as_pure_string(ctx) else {
+                return (Pure, Unknown);
+            };
+
+            return (Pure, num_from_str(&s));
+        }
+        Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
+            "undefined" | "NaN" if *ctxt == ctx.unresolved_ctxt => f64::NAN,
+            "Infinity" if *ctxt == ctx.unresolved_ctxt => f64::INFINITY,
+            _ => return (Pure, Unknown),
+        },
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            arg,
+            ..
+        }) => match arg.cast_to_number(ctx) {
+            (Pure, Known(v)) => -v,
+            _ => return (MayBeImpure, Unknown),
+        },
+        Expr::Unary(UnaryExpr {
+            op: op!("!"),
+            ref arg,
+            ..
+        }) => match arg.cast_to_bool(ctx) {
+            (Pure, Known(v)) => {
+                if v {
+                    0.0
+                } else {
+                    1.0
+                }
+            }
+            _ => return (MayBeImpure, Unknown),
+        },
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            ref arg,
+            ..
+        }) => {
+            if arg.may_have_side_effects(ctx) {
+                return (MayBeImpure, Known(f64::NAN));
+            } else {
+                f64::NAN
+            }
+        }
+
+        Expr::Tpl(..) => {
+            return (
+                Pure,
+                num_from_str(&match self.as_pure_string(ctx) {
+                    Known(v) => v,
+                    Unknown => return (MayBeImpure, Unknown),
+                }),
+            );
+        }
+
+        Expr::Seq(seq) => {
+            if let Some(last) = seq.exprs.last() {
+                let (_, v) = last.cast_to_number(ctx);
+
+                // TODO: Purity
+                return (MayBeImpure, v);
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        _ => return (MayBeImpure, Unknown),
+    };
+
+    (Purity::Pure, Known(v))
+}
+
+fn as_pure_number(expr: &Expr, ctx: ExprCtx) -> Value<f64> {
+    let (purity, v) = expr.cast_to_number(ctx);
+    if !purity.is_pure() {
+        return Unknown;
+    }
+
+    v
+}
+
+fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
+    match *expr {
+        Expr::Lit(ref l) => match *l {
+            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
+            Lit::Num(ref n) => {
+                if n.value == -0.0 {
+                    return Known(Cow::Borrowed("0"));
+                }
+
+                Known(Cow::Owned(n.value.to_js_string()))
+            }
+            Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
+            Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
+            Lit::Null(..) => Known(Cow::Borrowed("null")),
+            _ => Unknown,
+        },
+        Expr::Tpl(_) => {
+            Value::Unknown
+            // TODO:
+            // Only convert a template literal if all its expressions
+            // can be converted.
+            // unimplemented!("TplLit. as_string()")
+        }
+        Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
+            "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
+                Known(Cow::Borrowed(&**sym))
+            }
+            _ => Unknown,
+        },
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => Known(Cow::Borrowed("undefined")),
+        Expr::Unary(UnaryExpr {
+            op: op!("!"),
+            ref arg,
+            ..
+        }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
+            Known(v) => {
+                if v {
+                    "false"
+                } else {
+                    "true"
+                }
+            }
+            Unknown => return Value::Unknown,
+        })),
+        Expr::Array(ArrayLit { ref elems, .. }) => {
+            let mut buf = String::new();
+            let len = elems.len();
+            // null, undefined is "" in array literal.
+            for (idx, elem) in elems.iter().enumerate() {
+                let last = idx == len - 1;
+                let e = match *elem {
+                    Some(ref elem) => {
+                        let ExprOrSpread { ref expr, .. } = *elem;
+                        match &**expr {
+                            Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                            Expr::Unary(UnaryExpr {
+                                op: op!("void"),
+                                arg,
+                                ..
+                            }) => {
+                                if arg.may_have_side_effects(ctx) {
+                                    return Value::Unknown;
+                                }
+                                Cow::Borrowed("")
+                            }
+                            Expr::Ident(Ident { sym: undefined, .. })
+                                if &**undefined == "undefined" =>
+                            {
+                                Cow::Borrowed("")
+                            }
+                            _ => match expr.as_pure_string(ctx) {
+                                Known(v) => v,
+                                Unknown => return Value::Unknown,
+                            },
+                        }
+                    }
+                    None => Cow::Borrowed(""),
+                };
+                buf.push_str(&e);
+
+                if !last {
+                    buf.push(',');
+                }
+            }
+            Known(buf.into())
+        }
+        _ => Unknown,
+    }
+}
 #[cfg(test)]
 mod test {
     use swc_common::{input::StringInput, BytePos};
