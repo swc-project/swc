@@ -75,7 +75,7 @@ pub(super) fn optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
-            remaining_depth: 2,
+            remaining_depth: 6,
         },
         has_const_ann: false,
         dont_use_prepend_nor_append: false,

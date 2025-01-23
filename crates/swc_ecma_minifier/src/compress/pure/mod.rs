@@ -61,7 +61,7 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
-            remaining_depth: 4,
+            remaining_depth: 6,
         },
         ctx: Default::default(),
         changed: Default::default(),
