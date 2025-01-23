@@ -22,7 +22,7 @@ impl Optimizer<'_> {
         is_ret_val_ignored: bool,
     ) -> bool {
         let cost = negate_cost(
-            &self.ctx.expr_ctx,
+            self.ctx.expr_ctx,
             expr,
             is_ret_val_ignored,
             is_ret_val_ignored,

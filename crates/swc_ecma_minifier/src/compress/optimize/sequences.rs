@@ -548,7 +548,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(&self.ctx.expr_ctx, last) {
+            if is_pure_undefined(self.ctx.expr_ctx, last) {
                 self.changed = true;
                 report_change!("sequences: Shifting void");
 
@@ -1400,7 +1400,7 @@ impl Optimizer<'_> {
                 }
 
                 if let Callee::Expr(callee) = &e.callee {
-                    if callee.is_pure_callee(&self.ctx.expr_ctx) {
+                    if callee.is_pure_callee(self.ctx.expr_ctx) {
                         if !self.is_skippable_for_seq(a, callee) {
                             return false;
                         }
@@ -1437,7 +1437,7 @@ impl Optimizer<'_> {
 
             Expr::Update(..) => false,
             Expr::SuperProp(..) => false,
-            Expr::Class(_) => e.may_have_side_effects(&self.ctx.expr_ctx),
+            Expr::Class(_) => e.may_have_side_effects(self.ctx.expr_ctx),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
@@ -1463,7 +1463,7 @@ impl Optimizer<'_> {
                     false
                 }
                 OptChainBase::Call(e) => {
-                    if e.callee.is_pure_callee(&self.ctx.expr_ctx) {
+                    if e.callee.is_pure_callee(self.ctx.expr_ctx) {
                         if !self.is_skippable_for_seq(a, &e.callee) {
                             return false;
                         }
@@ -1507,9 +1507,9 @@ impl Optimizer<'_> {
             Mergable::Expr(a) => {
                 let has_side_effect = match a {
                     Expr::Assign(a) if a.is_simple_assign() => {
-                        a.right.may_have_side_effects(&self.ctx.expr_ctx)
+                        a.right.may_have_side_effects(self.ctx.expr_ctx)
                     }
-                    _ => a.may_have_side_effects(&self.ctx.expr_ctx),
+                    _ => a.may_have_side_effects(self.ctx.expr_ctx),
                 };
                 if has_side_effect && !usgae.is_fn_local && (usgae.exported || usgae.reassigned) {
                     log_abort!("a (expr) has side effect");
@@ -1518,7 +1518,7 @@ impl Optimizer<'_> {
             }
             Mergable::Var(a) => {
                 if let Some(init) = &a.init {
-                    if init.may_have_side_effects(&self.ctx.expr_ctx)
+                    if init.may_have_side_effects(self.ctx.expr_ctx)
                         && !usgae.is_fn_local
                         && (usgae.exported || usgae.reassigned)
                     {
@@ -1608,7 +1608,7 @@ impl Optimizer<'_> {
                             return Ok(false);
                         }
 
-                        if a.may_have_side_effects(&self.ctx.expr_ctx) {
+                        if a.may_have_side_effects(self.ctx.expr_ctx) {
                             return Ok(false);
                         }
                     }
@@ -1710,7 +1710,7 @@ impl Optimizer<'_> {
                     return Ok(true);
                 }
 
-                if obj.may_have_side_effects(&self.ctx.expr_ctx) {
+                if obj.may_have_side_effects(self.ctx.expr_ctx) {
                     return Ok(false);
                 }
 
@@ -1755,7 +1755,7 @@ impl Optimizer<'_> {
                             b_assign.left = match AssignTarget::try_from(b_left_expr) {
                                 Ok(v) => v,
                                 Err(b_left_expr) => {
-                                    if is_pure_undefined(&self.ctx.expr_ctx, &b_left_expr) {
+                                    if is_pure_undefined(self.ctx.expr_ctx, &b_left_expr) {
                                         *b = *b_assign.right.take();
                                         return Ok(true);
                                     }

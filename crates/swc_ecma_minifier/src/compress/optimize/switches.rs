@@ -30,7 +30,7 @@ impl Optimizer<'_> {
 
         let discriminant = &mut stmt.discriminant;
 
-        let tail = if let Some(e) = is_primitive(&self.ctx.expr_ctx, tail_expr(discriminant)) {
+        let tail = if let Some(e) = is_primitive(self.ctx.expr_ctx, tail_expr(discriminant)) {
             e
         } else {
             return;
@@ -43,7 +43,7 @@ impl Optimizer<'_> {
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
             if let Some(test) = case.test.as_ref() {
-                if let Some(e) = is_primitive(&self.ctx.expr_ctx, tail_expr(test)) {
+                if let Some(e) = is_primitive(self.ctx.expr_ctx, tail_expr(test)) {
                     if match (e, tail) {
                         (Expr::Lit(Lit::Num(e)), Expr::Lit(Lit::Num(tail))) => {
                             e.value == tail.value
@@ -210,7 +210,7 @@ impl Optimizer<'_> {
             if case
                 .cons
                 .iter()
-                .any(|stmt| stmt.may_have_side_effects(&self.ctx.expr_ctx) || stmt.terminates())
+                .any(|stmt| stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates())
             {
                 last = idx + 1;
                 break;
@@ -220,7 +220,7 @@ impl Optimizer<'_> {
         let has_side_effect = cases.iter().skip(last).rposition(|case| {
             case.test
                 .as_deref()
-                .map(|test| test.may_have_side_effects(&self.ctx.expr_ctx))
+                .map(|test| test.may_have_side_effects(self.ctx.expr_ctx))
                 .unwrap_or(false)
         });
 
@@ -247,7 +247,7 @@ impl Optimizer<'_> {
                 .skip(default)
                 .position(|case| {
                     case.cons.iter().any(|stmt| {
-                        stmt.may_have_side_effects(&self.ctx.expr_ctx) || stmt.terminates()
+                        stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates()
                     })
                 })
                 .unwrap_or(0)
@@ -259,11 +259,11 @@ impl Optimizer<'_> {
             let start = cases.iter().enumerate().rposition(|(idx, case)| {
                 case.test
                     .as_deref()
-                    .map(|test| test.may_have_side_effects(&self.ctx.expr_ctx))
+                    .map(|test| test.may_have_side_effects(self.ctx.expr_ctx))
                     .unwrap_or(false)
                     || (idx != end
                         && case.cons.iter().any(|stmt| {
-                            stmt.may_have_side_effects(&self.ctx.expr_ctx) || stmt.terminates()
+                            stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates()
                         }))
             });
 
@@ -304,7 +304,7 @@ impl Optimizer<'_> {
                 cannot_cross_block |= cases[j]
                     .test
                     .as_deref()
-                    .map(|test| is_primitive(&self.ctx.expr_ctx, test).is_none())
+                    .map(|test| is_primitive(self.ctx.expr_ctx, test).is_none())
                     .unwrap_or(false)
                     || !(cases[j].cons.is_empty()
                         || cases[j].cons.iter().rev().any(|s| s.terminates())
