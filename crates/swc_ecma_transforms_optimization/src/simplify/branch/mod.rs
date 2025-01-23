@@ -32,7 +32,7 @@ pub fn dead_branch_remover(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
-            remaining_depth: 2,
+            remaining_depth: 4,
         },
     })
 }
