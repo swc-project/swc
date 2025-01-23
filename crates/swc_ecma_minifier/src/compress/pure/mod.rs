@@ -61,6 +61,7 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
+            remaining_depth: 4,
         },
         ctx: Default::default(),
         changed: Default::default(),
@@ -79,10 +80,7 @@ struct Pure<'a> {
 
 impl Parallel for Pure<'_> {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, other: Self) {

@@ -75,8 +75,36 @@ pub(super) fn optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
+            remaining_depth: 2,
         },
-        ..Ctx::default()
+        has_const_ann: false,
+        dont_use_prepend_nor_append: false,
+        in_bool_ctx: false,
+        in_asm: false,
+        is_callee: false,
+        var_kind: None,
+        in_try_block: false,
+        in_cond: false,
+        is_delete_arg: false,
+        is_update_arg: false,
+        is_lhs_of_assign: false,
+        is_exact_lhs_of_assign: false,
+        executed_multiple_time: false,
+        in_bang_arg: false,
+        in_var_decl_of_for_in_or_of_loop: false,
+        dont_use_negated_iife: false,
+        is_exported: false,
+        top_level: false,
+        in_fn_like: false,
+        in_block: false,
+        in_obj_of_non_computed_member: false,
+        in_tpl_expr: false,
+        is_this_aware_callee: false,
+        is_nested_if_return_merging: false,
+        dont_invoke_iife: false,
+        in_with_stmt: false,
+        in_param: false,
+        scope: SyntaxContext::default(),
     };
 
     Optimizer {
@@ -99,7 +127,7 @@ pub(super) fn optimizer<'a>(
 /// Syntactic context.
 ///
 /// This should not be modified directly. Use `.with_ctx()` instead.
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 struct Ctx {
     expr_ctx: ExprCtx,
 

@@ -49,11 +49,12 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
             unresolved_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 2,
         };
 
         let real = {
             let mut real = e.clone();
-            negate(&expr_ctx, &mut real, in_bool_ctx, is_ret_val_ignored);
+            negate(expr_ctx, &mut real, in_bool_ctx, is_ret_val_ignored);
             real.visit_mut_with(&mut fixer(None));
             dump(&real, true)
         };
@@ -69,7 +70,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
             info!("Input: {}", input);
         }
 
-        let actual = negate_cost(&expr_ctx, &e, in_bool_ctx, is_ret_val_ignored);
+        let actual = negate_cost(expr_ctx, &e, in_bool_ctx, is_ret_val_ignored);
 
         assert_eq!(
             actual, expected,

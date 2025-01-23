@@ -32,6 +32,7 @@ impl Evaluator {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
                 is_unresolved_ref_safe: false,
                 in_strict: true,
+                remaining_depth: 3,
             },
 
             module,
