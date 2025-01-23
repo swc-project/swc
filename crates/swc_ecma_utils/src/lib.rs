@@ -437,7 +437,9 @@ pub trait StmtExt {
     fn as_stmt(&self) -> &Stmt;
 
     /// Extracts hoisted variables
-    fn extract_var_ids(&self) -> Vec<Ident>;
+    fn extract_var_ids(&self) -> Vec<Ident> {
+        extract_var_ids(self.as_stmt())
+    }
 
     fn extract_var_ids_as_var(&self) -> Option<VarDecl> {
         let ids = self.extract_var_ids();
@@ -461,7 +463,22 @@ pub trait StmtExt {
     }
 
     /// stmts contain top level return/break/continue/throw
-    fn terminates(&self) -> bool;
+    fn terminates(&self) -> bool {
+        fn terminates(stmt: &Stmt) -> bool {
+            match stmt {
+                Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
+                Stmt::Block(block) => block.stmts.iter().rev().any(|s| s.terminates()),
+                Stmt::If(IfStmt {
+                    cons,
+                    alt: Some(alt),
+                    ..
+                }) => cons.terminates() && alt.terminates(),
+                _ => false,
+            }
+        }
+
+        terminates(self.as_stmt())
+    }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         match self.as_stmt() {
@@ -523,23 +540,6 @@ pub trait StmtExt {
 impl StmtExt for Stmt {
     fn as_stmt(&self) -> &Stmt {
         self
-    }
-
-    fn extract_var_ids(&self) -> Vec<Ident> {
-        extract_var_ids(self)
-    }
-
-    fn terminates(&self) -> bool {
-        match self {
-            Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
-            Stmt::Block(block) => block.stmts.iter().rev().any(|s| s.terminates()),
-            Stmt::If(IfStmt {
-                cons,
-                alt: Some(alt),
-                ..
-            }) => cons.terminates() && alt.terminates(),
-            _ => false,
-        }
     }
 }
 
