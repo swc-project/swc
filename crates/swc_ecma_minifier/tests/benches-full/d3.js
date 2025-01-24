@@ -5192,7 +5192,7 @@ function(global, factory) {
             else stream.point(to[0], to[1]);
         }
         function corner(p, direction) {
-            return 1e-6 > abs$2(p[0] - x0) ? 3 * !(direction > 0) : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? +(direction > 0) : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
+            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? +(direction > 0) : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
         }
         function compareIntersection(a, b) {
             return comparePoint(a.x, b.x);

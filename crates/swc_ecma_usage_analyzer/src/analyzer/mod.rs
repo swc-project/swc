@@ -38,6 +38,7 @@ where
                 .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_default()),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 3,
         },
         used_recursively: AHashMap::default(),
     };
@@ -91,7 +92,7 @@ where
                 is_top_level: false,
                 ..self.ctx
             },
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             scope: Default::default(),
             used_recursively: self.used_recursively.clone(),
         };
@@ -275,15 +276,19 @@ where
         match &n.left {
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
-                    self.data
-                        .report_assign(self.ctx, id, is_op_assign, n.right.get_type())
+                    self.data.report_assign(
+                        self.ctx,
+                        id,
+                        is_op_assign,
+                        n.right.get_type(self.expr_ctx),
+                    )
                 }
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
-                    n.right.get_type(),
+                    n.right.get_type(self.expr_ctx),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -458,7 +463,7 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             let call_may_mutate = match &n.callee {
-                Callee::Expr(e) => call_may_mutate(e, &self.expr_ctx),
+                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx),
                 _ => true,
             };
 
@@ -1018,7 +1023,7 @@ where
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
-            if call_may_mutate(&n.callee, &self.expr_ctx) {
+            if call_may_mutate(&n.callee, self.expr_ctx) {
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
@@ -1303,7 +1308,10 @@ where
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
-                in_pat_of_var_decl_with_init: e.init.as_ref().map(|init| init.get_type()),
+                in_pat_of_var_decl_with_init: e
+                    .init
+                    .as_ref()
+                    .map(|init| init.get_type(self.expr_ctx)),
                 in_decl_with_no_side_effect_for_member_access: e
                     .init
                     .as_deref()
@@ -1334,7 +1342,7 @@ where
                     self.used_recursively.insert(
                         id.clone(),
                         RecursiveUsage::Var {
-                            can_ignore: !init.may_have_side_effects(&self.expr_ctx),
+                            can_ignore: !init.may_have_side_effects(self.expr_ctx),
                         },
                     );
                     e.init.visit_with(&mut *self.with_ctx(ctx));
@@ -1549,7 +1557,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
     }
 }
 
-fn call_may_mutate(expr: &Expr, expr_ctx: &ExprCtx) -> bool {
+fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
         s.ctxt == unresolved
             && matches!(

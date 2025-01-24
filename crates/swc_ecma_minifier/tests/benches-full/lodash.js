@@ -3249,7 +3249,7 @@
                 // Exit early if metadata can't be merged.
                 if (isCommon || isCombo) {
                     1 & srcBitmask && (data[2] = source[2], // Set when currying a bound function.
-                    newBitmask |= 4 * !(1 & bitmask));
+                    newBitmask |= 1 & bitmask ? 0 : 4);
                     // Compose partial arguments.
                     var value = source[3];
                     if (value) {

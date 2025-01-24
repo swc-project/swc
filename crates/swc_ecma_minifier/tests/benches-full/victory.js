@@ -17638,12 +17638,15 @@ object-assign
                                     cy: origin.y - top
                                 };
                                 child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(circleComponent, circleProps);
-                            } else child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, {
-                                x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
-                                y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
-                                width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
-                                height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
-                            });
+                            } else {
+                                var rectProps = {
+                                    x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
+                                    y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
+                                    width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
+                                    height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
+                                };
+                                child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, rectProps);
+                            }
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(clipPathComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 key: "clip-path-".concat(clipId)
                             }, props, {
@@ -18689,7 +18692,7 @@ object-assign
                 return target;
             }
             /*eslint no-magic-numbers: ["error", { "ignore": [0, 1, 2, 180] }]*/ var getArcPath = function(props) {
-                var cx = props.cx, cy = props.cy, r = props.r, startAngle = props.startAngle, endAngle = props.endAngle, closedPath = props.closedPath, halfAngle = Math.abs(endAngle - startAngle) / 2 + startAngle, x1 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), y1 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), x2 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), y2 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), x3 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), y3 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), largerArcFlag1 = +!(halfAngle - startAngle <= 180), largerArcFlag2 = +!(endAngle - halfAngle <= 180), arcStart = closedPath ? " M ".concat(cx, ", ").concat(cy, " L ").concat(x1, ", ").concat(y1) : "M ".concat(x1, ", ").concat(y1), arc1 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag1, ", 0, ").concat(x2, ", ").concat(y2), arc2 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag2, ", 0, ").concat(x3, ", ").concat(y3); // Always draw the path as two arcs so that complete circles may be rendered.
+                var cx = props.cx, cy = props.cy, r = props.r, startAngle = props.startAngle, endAngle = props.endAngle, closedPath = props.closedPath, halfAngle = Math.abs(endAngle - startAngle) / 2 + startAngle, x1 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), y1 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), x2 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), y2 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), x3 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), y3 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), largerArcFlag1 = halfAngle - startAngle <= 180 ? 0 : 1, largerArcFlag2 = endAngle - halfAngle <= 180 ? 0 : 1, arcStart = closedPath ? " M ".concat(cx, ", ").concat(cy, " L ").concat(x1, ", ").concat(y1) : "M ".concat(x1, ", ").concat(y1), arc1 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag1, ", 0, ").concat(x2, ", ").concat(y2), arc2 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(largerArcFlag2, ", 0, ").concat(x3, ", ").concat(y3); // Always draw the path as two arcs so that complete circles may be rendered.
                 return "".concat(arcStart, " ").concat(arc1, " ").concat(arc2, " ").concat(closedPath ? "Z" : "");
             }, evaluateProps = function(props) {
                 /**

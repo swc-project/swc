@@ -29,12 +29,12 @@ impl PrecompressOptimizer {
             return;
         };
 
-        if b.op == op!("&&") && b.left.as_pure_bool(&self.expr_ctx) == Known(false) {
+        if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
             *n = *b.left.take();
             return;
         }
 
-        if b.op == op!("||") && b.left.as_pure_bool(&self.expr_ctx) == Known(true) {
+        if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
             *n = *b.left.take();
         }
     }
@@ -42,9 +42,7 @@ impl PrecompressOptimizer {
 
 impl Parallel for PrecompressOptimizer {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, _: Self) {}

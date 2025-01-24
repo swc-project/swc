@@ -7,7 +7,10 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::util::negate_cost, util::make_bool};
+use crate::{
+    compress::util::{can_absorb_negate, negate_cost},
+    util::make_bool,
+};
 
 impl Pure<'_> {
     ///
@@ -21,9 +24,9 @@ impl Pure<'_> {
 
         let Expr::Cond(cond) = e else { return };
 
-        let lt = cond.cons.get_type();
+        let lt = cond.cons.get_type(self.expr_ctx);
         if let Value::Known(Type::Bool) = lt {
-            let lb = cond.cons.as_pure_bool(&self.expr_ctx);
+            let lb = cond.cons.as_pure_bool(self.expr_ctx);
             if let Value::Known(true) = lb {
                 report_change!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
@@ -59,9 +62,9 @@ impl Pure<'_> {
             }
         }
 
-        let rt = cond.alt.get_type();
+        let rt = cond.alt.get_type(self.expr_ctx);
         if let Value::Known(Type::Bool) = rt {
-            let rb = cond.alt.as_pure_bool(&self.expr_ctx);
+            let rb = cond.alt.as_pure_bool(self.expr_ctx);
             if let Value::Known(false) = rb {
                 report_change!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
@@ -145,7 +148,10 @@ impl Pure<'_> {
             (
                 Expr::Lit(Lit::Num(Number { value, .. })),
                 Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
-            ) if *value > 0.0 => {
+            ) if *value > 0.0
+                && (!cond.test.is_bin()
+                    || cond.test.get_type(self.expr_ctx) == Value::Known(Type::Bool)) =>
+            {
                 report_change!("conditionals: `foo ? num : 0` => `num * !!foo`");
                 self.changed = true;
 
@@ -163,7 +169,9 @@ impl Pure<'_> {
             (
                 Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
                 Expr::Lit(Lit::Num(Number { value, .. })),
-            ) if *value > 0.0 => {
+            ) if *value > 0.0
+                && (!cond.test.is_bin() || can_absorb_negate(&cond.test, self.expr_ctx)) =>
+            {
                 report_change!("conditionals: `foo ? 0 : num` => `num * !foo`");
                 self.changed = true;
 
@@ -183,7 +191,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(&self.expr_ctx, &cond.test, true, false) >= 0 {
+        if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
             return;
         }
 
@@ -216,15 +224,15 @@ impl Pure<'_> {
             return;
         }
 
-        if bin.left.may_have_side_effects(&self.expr_ctx) {
+        if bin.left.may_have_side_effects(self.expr_ctx) {
             return;
         }
 
-        let lt = bin.left.get_type();
-        let rt = bin.right.get_type();
+        let lt = bin.left.get_type(self.expr_ctx);
+        let rt = bin.right.get_type(self.expr_ctx);
 
-        let _lb = bin.left.as_pure_bool(&self.expr_ctx);
-        let rb = bin.right.as_pure_bool(&self.expr_ctx);
+        let _lb = bin.left.as_pure_bool(self.expr_ctx);
+        let rb = bin.right.as_pure_bool(self.expr_ctx);
 
         if bin.op == op!("||") {
             if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {

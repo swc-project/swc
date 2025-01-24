@@ -299,11 +299,11 @@ impl Optimizer<'_> {
                 Prop::Shorthand(..) => false,
                 Prop::KeyValue(p) => {
                     p.key.is_computed()
-                        || p.value.may_have_side_effects(&self.ctx.expr_ctx)
+                        || p.value.may_have_side_effects(self.ctx.expr_ctx)
                         || deeply_contains_this_expr(&p.value)
                 }
                 Prop::Assign(p) => {
-                    p.value.may_have_side_effects(&self.ctx.expr_ctx)
+                    p.value.may_have_side_effects(self.ctx.expr_ctx)
                         || deeply_contains_this_expr(&p.value)
                 }
                 Prop::Getter(p) => p.key.is_computed(),

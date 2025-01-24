@@ -785,7 +785,7 @@
             e.zrDelta = wheelDelta ? wheelDelta / 120 : -(e.detail || 0) / 3;
         }
         var button = e.button;
-        return null == e.which && void 0 !== button && MOUSE_EVENT_REG.test(e.type) && (e.which = 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button)), e;
+        return null == e.which && void 0 !== button && MOUSE_EVENT_REG.test(e.type) && (e.which = 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0), e;
     }
     function addEventListener(el, name, handler, opt) {
         isDomLevel2 ? el.addEventListener(name, handler, opt) : el.attachEvent('on' + name, handler);
@@ -11392,8 +11392,8 @@
                     getBuilder(subBlock).planLayout(subBlock);
                     var subGapLevel = subBlock.__gapLevelBetweenSubBlocks; // If the some of the sub-blocks have some gaps (like 10px) inside, this block
                     // should use a larger gap (like 20px) to distinguish those sub-blocks.
-                    subGapLevel >= thisGapLevelBetweenSubBlocks && (thisGapLevelBetweenSubBlocks = subGapLevel + +(!!thisBlockHasInnerGap && (!subGapLevel // If no header, always keep the sub gap level. Otherwise
-                     || 'section' === subBlock.type && !subBlock.noHeader)));
+                    subGapLevel >= thisGapLevelBetweenSubBlocks && (thisGapLevelBetweenSubBlocks = subGapLevel + (!thisBlockHasInnerGap || subGapLevel // If no header, always keep the sub gap level. Otherwise
+                     && ('section' !== subBlock.type || subBlock.noHeader) ? 0 : 1));
                 }), fragment.__gapLevelBetweenSubBlocks = thisGapLevelBetweenSubBlocks;
             },
             build: function(ctx, fragment, topMarginForOuterGap, toolTipTextStyle) {
@@ -13611,7 +13611,7 @@
         var prevEl = scope.prevEl;
         prevEl || (forceSetStyle = forceSetTransform = !0);
         var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
-        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : +(!m && !m1)) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
+        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : m || m1 ? 0 : 1) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
         el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
             var hasStroke = styleHasStroke(style), hasFill = styleHasFill(style), strokePercent = style.strokePercent, strokePart = strokePercent < 1, firstDraw = !el.path;
@@ -16349,7 +16349,7 @@
         }).start('circularInOut'), arc.animateShape(!0).when(1000, {
             startAngle: 3 * PI$3 / 2
         }).delay(300).start('circularInOut'), group.add(arc)), group.resize = function() {
-            var textWidth = textContent.getBoundingRect().width, r = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r - 10 * (!!opts.showSpinner && !!textWidth) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
+            var textWidth = textContent.getBoundingRect().width, r = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r - (opts.showSpinner && textWidth ? 10 : 0) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
             ) + (opts.showSpinner ? 0 : textWidth / 2 // only show the spinner
             ) + (textWidth ? 0 : r), cy = api.getHeight() / 2;
             opts.showSpinner && arc.setShape({
@@ -19363,7 +19363,7 @@
      * should be implemented in axis.
      */ function(axis) {
                 var labelModel, params = (labelModel = axis.getLabelModel(), {
-                    axisRotate: axis.getRotate ? axis.getRotate() : 90 * (!!axis.isHorizontal && !axis.isHorizontal()),
+                    axisRotate: axis.getRotate ? axis.getRotate() : axis.isHorizontal && !axis.isHorizontal() ? 90 : 0,
                     labelRotate: labelModel.get('rotate') || 0,
                     font: labelModel.getFont()
                 }), labelFormatter = makeLabelFormatter(axis), rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI, ordinalScale = axis.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
@@ -19739,8 +19739,8 @@
                     }
                 }
             }
-            var x = pattern.x || 0, y = pattern.y || 0, rotation = (pattern.rotation || 0) / Math.PI * 180, scaleX = pattern.scaleX || 1, scaleY = pattern.scaleY || 1;
-            patternDom.setAttribute('patternTransform', "translate(" + x + ", " + y + ") rotate(" + rotation + ") scale(" + scaleX + ", " + scaleY + ")"), patternDomMap.set(pattern, patternDom);
+            var transform = "translate(" + (pattern.x || 0) + ", " + (pattern.y || 0) + ") rotate(" + (pattern.rotation || 0) / Math.PI * 180 + ") scale(" + (pattern.scaleX || 1) + ", " + (pattern.scaleY || 1) + ")";
+            patternDom.setAttribute('patternTransform', transform), patternDomMap.set(pattern, patternDom);
         }, PatternManager.prototype.markUsed = function(displayable) {
             displayable.style && (isPattern(displayable.style.fill) && _super.prototype.markDomUsed.call(this, patternDomMap.get(displayable.style.fill)), isPattern(displayable.style.stroke) && _super.prototype.markDomUsed.call(this, patternDomMap.get(displayable.style.stroke)));
         }, PatternManager;
@@ -28790,11 +28790,11 @@
          // if totalLen is Longer createCurveness
         var totalLen = getEdgeMapLengthWithKey(getKeyOfEdges(edge.node1, edge.node2, seriesModel), seriesModel) + getEdgeMapLengthWithKey(getKeyOfEdges(edge.node2, edge.node1, seriesModel), seriesModel);
         createCurveness(seriesModel, totalLen), edge.lineStyle = edge.lineStyle || {};
-        var curKey = getKeyOfEdges(edge.node1, edge.node2, seriesModel), curvenessList = seriesModel.__curvenessList, parityCorrection = isArrayParam ? 0 : +!(totalLen % 2);
+        var curKey = getKeyOfEdges(edge.node1, edge.node2, seriesModel), curvenessList = seriesModel.__curvenessList, parityCorrection = isArrayParam ? 0 : totalLen % 2 ? 0 : 1;
         if (edgeArray.isForward) return curvenessList[parityCorrection + edgeIndex];
         var len = getEdgeMapLengthWithKey(getOppositeKey(curKey), seriesModel), resValue = curvenessList[edgeIndex + len + parityCorrection];
         return needReverse ? // set as array may make the parity handle with the len of opposite
-        isArrayParam ? autoCurvenessParams && 0 === autoCurvenessParams[0] ? (len + parityCorrection) % 2 ? resValue : -resValue : (+!(len % 2) + parityCorrection) % 2 ? resValue : -resValue : (len + parityCorrection) % 2 ? resValue : -resValue : curvenessList[edgeIndex + len + parityCorrection];
+        isArrayParam ? autoCurvenessParams && 0 === autoCurvenessParams[0] ? (len + parityCorrection) % 2 ? resValue : -resValue : ((len % 2 ? 0 : 1) + parityCorrection) % 2 ? resValue : -resValue : (len + parityCorrection) % 2 ? resValue : -resValue : curvenessList[edgeIndex + len + parityCorrection];
     }
     function simpleLayout(seriesModel) {
         var coordSys = seriesModel.coordinateSystem;
@@ -41994,8 +41994,8 @@
         // this.hide();
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
-            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px ") + shadowBlur + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
+            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, boxShadow, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), boxShadow = shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor, cssText.push('box-shadow:' + boxShadow), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
             cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
@@ -43534,7 +43534,7 @@
                 var mainBoundIdx = +('+' !== labelPosOpt);
                 toBound(mainPosition, mainBound, viewBound, 1, mainBoundIdx), toBound(labelsPosition, labelBound, viewBound, 1, 1 - mainBoundIdx);
             } else {
-                var mainBoundIdx = +!(labelPosOpt >= 0);
+                var mainBoundIdx = labelPosOpt >= 0 ? 0 : 1;
                 toBound(mainPosition, mainBound, viewBound, 1, mainBoundIdx), labelsPosition[1] = mainPosition[1] + labelPosOpt;
             }
             function setOrigin(targetGroup) {
@@ -44955,7 +44955,7 @@
                 } // Fix auto color to real color
                 if ('auto' === itemStyle.fill && (itemStyle.fill = itemVisualStyle.fill), 'auto' === itemStyle.stroke && (itemStyle.stroke = itemVisualStyle.fill), 'auto' === lineStyle.stroke && (lineStyle.stroke = itemVisualStyle.fill), !isSelected) {
                     var borderWidth = legendModel.get('inactiveBorderWidth'), visualHasBorder = itemStyle[symbolType.indexOf('empty') > -1 ? 'fill' : 'stroke'];
-                    itemStyle.lineWidth = 'auto' === borderWidth ? 2 * (itemVisualStyle.lineWidth > 0 && !!visualHasBorder) : itemStyle.lineWidth, itemStyle.fill = legendModel.get('inactiveColor'), itemStyle.stroke = legendModel.get('inactiveBorderColor'), lineStyle.stroke = legendLineStyle.get('inactiveColor'), lineStyle.lineWidth = legendLineStyle.get('inactiveWidth');
+                    itemStyle.lineWidth = 'auto' === borderWidth ? itemVisualStyle.lineWidth > 0 && visualHasBorder ? 2 : 0 : itemStyle.lineWidth, itemStyle.fill = legendModel.get('inactiveColor'), itemStyle.stroke = legendModel.get('inactiveBorderColor'), lineStyle.stroke = legendLineStyle.get('inactiveColor'), lineStyle.lineWidth = legendLineStyle.get('inactiveWidth');
                 }
                 return {
                     itemStyle: itemStyle,
@@ -46866,7 +46866,7 @@
                 0
             ]
         ][realIndex], rect = getLayoutRect(layoutInput, ecSize, modelOption.padding);
-        return reals[+!((rect.margin[rParam[2]] || 0) + rect[rParam[0]] + 0.5 * rect[rParam[1]] < 0.5 * ecSize[rParam[1]])];
+        return reals[(rect.margin[rParam[2]] || 0) + rect[rParam[0]] + 0.5 * rect[rParam[1]] < 0.5 * ecSize[rParam[1]] ? 0 : 1];
     }
     /**
      * Prepare dataIndex for outside usage, where dataIndex means rawIndex, and

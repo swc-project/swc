@@ -2715,7 +2715,7 @@
     }
     function getLanesToRetrySynchronouslyOnError(root) {
         var everythingButOffscreen = -1073741825 & root.pendingLanes;
-        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 * !!(1073741824 & everythingButOffscreen);
+        return 0 !== everythingButOffscreen ? everythingButOffscreen : 1073741824 & everythingButOffscreen ? 1073741824 : 0;
     }
     function includesNonIdleWork(lanes) {
         return (134217727 & lanes) != 0;
@@ -9079,10 +9079,11 @@
             }
             var componentName = source ? getComponentName(source.type) : null, errorBoundaryName = getComponentName(boundary.type);
             errorBoundaryMessage = errorBoundaryName ? "React will try to recreate this component tree from scratch using the error boundary you provided, " + errorBoundaryName + "." : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
+            var combinedMessage = (componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:") + "\n" + (null !== stack ? stack : "") + "\n\n" + errorBoundaryMessage; // In development, we provide our own message with just the component stack.
             // We don't include the original error message and JS stack because the browser
             // has already printed it. Even if the application swallows the error, it is still
             // displayed by the browser thanks to the DEV-only fake event trick in ReactErrorUtils.
-            console.error((componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:") + "\n" + (null !== stack ? stack : "") + "\n\n" + errorBoundaryMessage); // Don't transform to our wrapper
+            console.error(combinedMessage); // Don't transform to our wrapper
         } catch (e) {
             // This method must not throw, or React internal state will get messed up.
             // If console.error is overridden, or logCapturedError() shows a dialog that throws,

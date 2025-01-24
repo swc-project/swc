@@ -2467,7 +2467,7 @@
         which: function(event) {
             var button = event.button;
             return(// Add which for key events
-            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button) : event.which);
+            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0 : event.which);
         }
     }, jQuery.event.addProp), jQuery.each({
         focus: "focusin",

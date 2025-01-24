@@ -1078,7 +1078,7 @@
                     } // Handle key presses
                     event.which = event.charCode || event.keyCode, null !== event.button && void 0 !== event.button && // The following is disabled because it does not pass videojs-standard
                     // and... yikes.
-                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 * !!(2 & event.button));
+                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 & event.button ? 2 : 0);
                 }
                 return event.fixed_ = !0, event;
             }
