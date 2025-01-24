@@ -1217,11 +1217,6 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         .into_iter()
         .map(|d| d.into_inner())
         .collect::<Vec<_>>();
-    let mut merged = Data::default();
-
-    for data in data {
-        merged.merge(data);
-    }
 
     // merged.subtract_cycles();
     let mut merged = merge_in_parallel(data);
