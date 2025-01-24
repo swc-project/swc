@@ -49,7 +49,7 @@
         const lib = row.querySelector(".lib");
         const libText = lib.textContent.trim();
         if (
-            libText.endsWith("/swc_ecma_visit/src/generated.rs") ||
+            libText.endsWith("/swc_ecma_visit/src/") ||
             libText.endsWith("/swc_ecma_utils/src/parallel.rs") ||
             libText.includes('/.rustup/') ||
             libText.includes('chili-0.2.0/') ||
