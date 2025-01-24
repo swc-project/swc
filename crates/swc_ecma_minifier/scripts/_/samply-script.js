@@ -51,14 +51,6 @@
         if (
             libText.endsWith("/swc_ecma_visit/src/") ||
             libText.endsWith("/swc_ecma_utils/src/parallel.rs") ||
-            libText.includes('/.rustup/') ||
-            libText.includes('chili-0.2.0/') ||
-            libText.includes('scoped-tls-1.0.1/') ||
-            libText.includes('indexmap-2.7.1/') ||
-            libText.includes('hashbrown-0.14.5/') ||
-            libText.includes('/rust/deps/') ||
-            libText.includes('/better_scoped_tls/') ||
-            libText.includes('/swc_parallel/')) {
             libText.includes("/.rustup/") ||
             libText.includes("/std/") ||
             libText.includes("chili-") ||
