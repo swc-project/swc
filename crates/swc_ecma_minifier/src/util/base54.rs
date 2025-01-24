@@ -7,7 +7,7 @@ use swc_common::{
     sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
@@ -228,25 +228,7 @@ impl CharFreq {
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let (mut a, b) = swc_parallel::join(
-            || {
-                let cm = Lrc::new(DummySourceMap);
-                let mut freq = Self::default();
-
-                {
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config::default()
-                            .with_target(EsVersion::latest())
-                            .with_minify(true),
-                        cm,
-                        comments: None,
-                        wr: &mut freq,
-                    };
-
-                    emitter.emit_program(p).unwrap();
-                }
-
-                freq
-            },
+            || print_as_freq(p),
             || {
                 let mut visitor = CharFreqAnalyzer {
                     freq: Default::default(),
@@ -300,6 +282,63 @@ impl CharFreq {
             chars: all.try_into().unwrap(),
         }
     }
+}
+
+fn print_as_freq(program: &Program) -> CharFreq {
+    #[derive(Default)]
+    struct CharFreqPrinter {
+        freq: CharFreq,
+    }
+
+    impl Parallel for CharFreqPrinter {
+        fn create(&self) -> Self {
+            Self {
+                freq: Default::default(),
+            }
+        }
+
+        fn merge(&mut self, other: Self) {
+            self.freq += other.freq;
+        }
+    }
+    let cm = Lrc::new(DummySourceMap);
+
+    let mut printer = CharFreqPrinter {
+        freq: Default::default(),
+    };
+
+    match program {
+        Program::Module(module) => {
+            printer.maybe_par(cpu_count(), &*module.body, |printer, node| {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config::default()
+                        .with_target(EsVersion::latest())
+                        .with_minify(true),
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: &mut printer.freq,
+                };
+
+                emitter.emit_module_item(node).unwrap();
+            });
+        }
+        Program::Script(script) => {
+            printer.maybe_par(cpu_count(), &*script.body, |printer, node| {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config::default()
+                        .with_target(EsVersion::latest())
+                        .with_minify(true),
+                    cm: cm.clone(),
+                    comments: None,
+                    wr: &mut printer.freq,
+                };
+
+                node.emit_with(&mut emitter).unwrap();
+            });
+        }
+    }
+
+    printer.freq
 }
 
 struct CharFreqAnalyzer<'a> {
