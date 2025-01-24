@@ -1,11 +1,4 @@
-use std::{
-    borrow::Cow,
-    cell::RefCell,
-    collections::HashMap,
-    hash::{BuildHasher, Hash},
-    mem::take,
-    sync::Arc,
-};
+use std::{borrow::Cow, cell::RefCell, mem::take, sync::Arc};
 
 use ahash::RandomState;
 use indexmap::{IndexMap, IndexSet};
@@ -34,6 +27,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
+use swc_parallel::merge::{merge_in_parallel, Merge};
 use thread_local::ThreadLocal;
 use tracing::{debug, span, Level};
 
@@ -1230,56 +1224,11 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
     }
 
     // merged.subtract_cycles();
+    let mut merged = merge_in_parallel(data);
+
+    merged.subtract_cycles();
 
     merged
-}
-
-trait Merge {
-    fn merge(&mut self, other: Self);
-}
-
-impl<K, V, S> Merge for HashMap<K, V, S>
-where
-    K: Eq + Hash,
-    V: Merge,
-    S: BuildHasher,
-{
-    fn merge(&mut self, other: Self) {
-        self.reserve(other.len());
-
-        for (k, v) in other {
-            match self.entry(k) {
-                std::collections::hash_map::Entry::Occupied(mut e) => {
-                    e.get_mut().merge(v);
-                }
-                std::collections::hash_map::Entry::Vacant(e) => {
-                    e.insert(v);
-                }
-            }
-        }
-    }
-}
-
-impl<K, V, S> Merge for IndexMap<K, V, S>
-where
-    K: Eq + Hash,
-    V: Merge,
-    S: BuildHasher,
-{
-    fn merge(&mut self, other: Self) {
-        self.reserve(other.len());
-
-        for (k, v) in other {
-            match self.entry(k) {
-                indexmap::map::Entry::Occupied(mut e) => {
-                    e.get_mut().merge(v);
-                }
-                indexmap::map::Entry::Vacant(e) => {
-                    e.insert(v);
-                }
-            }
-        }
-    }
 }
 
 impl Merge for VarInfo {
