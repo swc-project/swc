@@ -260,7 +260,7 @@ class i {
             if (l == (n > 0 ? r : 0)) {
                 if (0 == i) return this.done = !0, this.value = "", this;
                 n > 0 && this.offsets[i - 1]++, this.nodes.pop(), this.offsets.pop();
-            } else if ((1 & h) == +!(n > 0)) {
+            } else if ((1 & h) == (n > 0 ? 0 : 1)) {
                 if (this.offsets[i] += n, 0 == e) return this.lineBreak = !0, this.value = "\n", this;
                 e--;
             } else if (s instanceof t) {

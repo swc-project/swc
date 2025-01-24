@@ -5075,9 +5075,9 @@
                 for(extrema.push({
                     pos: line.length,
                     val: line[line.length - 1]
-                }), j = extrema[0].pos; j < extrema[1].pos; j++)line[j] = +!(line[j] > center);
+                }), j = extrema[0].pos; j < extrema[1].pos; j++)line[j] = line[j] > center ? 0 : 1;
                  // iterate over extrema and convert to binary based on avg between minmax
-                for(i = 1; i < extrema.length - 1; i++)for(threshold = extrema[i + 1].val > extrema[i].val ? extrema[i].val + (extrema[i + 1].val - extrema[i].val) / 3 * 2 | 0 : extrema[i + 1].val + (extrema[i].val - extrema[i + 1].val) / 3 | 0, j = extrema[i].pos; j < extrema[i + 1].pos; j++)line[j] = +!(line[j] > threshold);
+                for(i = 1; i < extrema.length - 1; i++)for(threshold = extrema[i + 1].val > extrema[i].val ? extrema[i].val + (extrema[i + 1].val - extrema[i].val) / 3 * 2 | 0 : extrema[i + 1].val + (extrema[i].val - extrema[i + 1].val) / 3 | 0, j = extrema[i].pos; j < extrema[i + 1].pos; j++)line[j] = line[j] > threshold ? 0 : 1;
                 return {
                     line: line,
                     threshold: threshold

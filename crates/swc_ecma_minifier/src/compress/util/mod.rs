@@ -2,7 +2,7 @@ use std::{cmp::Ordering, f64};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Value};
+use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Type, Value};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -743,4 +743,25 @@ fn cmp_num(a: f64, b: f64) -> Ordering {
     }
 
     a.partial_cmp(&b).unwrap()
+}
+
+pub(crate) fn is_eq(op: BinaryOp) -> bool {
+    matches!(op, op!("==") | op!("===") | op!("!=") | op!("!=="))
+}
+
+pub(crate) fn can_absorb_negate(e: &Expr, expr_ctx: ExprCtx) -> bool {
+    match e {
+        Expr::Lit(_) => true,
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||"),
+            left,
+            right,
+            ..
+        }) => can_absorb_negate(left, expr_ctx) && can_absorb_negate(right, expr_ctx),
+        Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) => arg.get_type(expr_ctx) == Value::Known(Type::Bool),
+        _ => false,
+    }
 }
