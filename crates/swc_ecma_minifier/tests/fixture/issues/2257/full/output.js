@@ -4838,7 +4838,7 @@
             module.exports = !$expm1 || // Old FF bug
             $expm1(10) > 22025.465794806719 || 22025.4657948067165168 > $expm1(10) || // Tor Browser bug
             -0.00000000000000002 != $expm1(-0.00000000000000002) ? function(x) {
-                return 0 == (x = +x) ? x : x > -0.000001 && x < 1e-6 ? x + x * x / 2 : exp(x) - 1;
+                return 0 == (x *= 1) ? x : x > -0.000001 && x < 1e-6 ? x + x * x / 2 : exp(x) - 1;
             } : $expm1;
         /***/ },
         /***/ 45404: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -4858,7 +4858,7 @@
             // https://tc39.es/ecma262/#sec-math.log1p
             // eslint-disable-next-line es/no-math-log1p -- safe
             module.exports = Math.log1p || function(x) {
-                return (x = +x) > -0.00000001 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
+                return (x *= 1) > -0.00000001 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
             };
         /***/ },
         /***/ 62381: /***/ function(module) {
@@ -4867,7 +4867,7 @@
             // eslint-disable-next-line es/no-math-sign -- safe
             module.exports = Math.sign || function(x) {
                 // eslint-disable-next-line no-self-compare -- NaN check
-                return 0 == (x = +x) || x != x ? x : x < 0 ? -1 : 1;
+                return 0 == (x *= 1) || x != x ? x : x < 0 ? -1 : 1;
             };
         /***/ },
         /***/ 50277: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -5675,7 +5675,7 @@
             // `ToInteger` abstract operation
             // https://tc39.es/ecma262/#sec-tointeger
             module.exports = function(argument) {
-                return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+                return isNaN(argument *= 1) ? 0 : (argument > 0 ? floor : ceil)(argument);
             };
         /***/ },
         /***/ 31998: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -6734,7 +6734,7 @@
                 $acosh(1 / 0) != 1 / 0
             }, {
                 acosh: function(x) {
-                    return (x = +x) < 1 ? NaN : x > 94906265.62425156 ? log(x) + LN2 : log1p(x - 1 + sqrt(x - 1) * sqrt(x + 1));
+                    return (x *= 1) < 1 ? NaN : x > 94906265.62425156 ? log(x) + LN2 : log1p(x - 1 + sqrt(x - 1) * sqrt(x + 1));
                 }
             });
         /***/ },
@@ -6749,7 +6749,7 @@
                 forced: !($asinh && 1 / $asinh(0) > 0)
             }, {
                 asinh: function asinh(x) {
-                    return isFinite(x = +x) && 0 != x ? x < 0 ? -asinh(-x) : log(x + sqrt(x * x + 1)) : x;
+                    return isFinite(x *= 1) && 0 != x ? x < 0 ? -asinh(-x) : log(x + sqrt(x * x + 1)) : x;
                 }
             });
         /***/ },
@@ -6764,7 +6764,7 @@
                 forced: !($atanh && 1 / $atanh(-0) < 0)
             }, {
                 atanh: function(x) {
-                    return 0 == (x = +x) ? x : log((1 + x) / (1 - x)) / 2;
+                    return 0 == (x *= 1) ? x : log((1 + x) / (1 - x)) / 2;
                 }
             });
         /***/ },
@@ -6777,7 +6777,7 @@
                 stat: !0
             }, {
                 cbrt: function(x) {
-                    return sign(x = +x) * pow(abs(x), 1 / 3);
+                    return sign(x *= 1) * pow(abs(x), 1 / 3);
                 }
             });
         /***/ },
@@ -6926,7 +6926,7 @@
                 })
             }, {
                 sinh: function(x) {
-                    return 1 > abs(x = +x) ? (expm1(x) - expm1(-x)) / 2 : (exp(x - 1) - exp(-x - 1)) * (E / 2);
+                    return 1 > abs(x *= 1) ? (expm1(x) - expm1(-x)) / 2 : (exp(x - 1) - exp(-x - 1)) * (E / 2);
                 }
             });
         /***/ },
@@ -6939,7 +6939,7 @@
                 stat: !0
             }, {
                 tanh: function(x) {
-                    var a = expm1(x = +x), b = expm1(-x);
+                    var a = expm1(x *= 1), b = expm1(-x);
                     return a == 1 / 0 ? 1 : b == 1 / 0 ? -1 : (a - b) / (exp(x) + exp(-x));
                 }
             });
