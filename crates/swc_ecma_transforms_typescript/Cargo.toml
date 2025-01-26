@@ -12,6 +12,9 @@ version       = "7.0.0"
 [lib]
 bench = false
 
+[features]
+concurrent = ["swc_common/concurrent"]
+
 [dependencies]
 once_cell = { workspace = true }
 ryu-js    = { workspace = true }
