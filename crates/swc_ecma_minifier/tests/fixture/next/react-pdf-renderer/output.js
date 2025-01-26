@@ -16795,7 +16795,7 @@
                                 case "symbol":
                                     return !1;
                                 case "string":
-                                    e = +e;
+                                    e *= 1;
                                 case "number":
                                     if (c(e)) return !1;
                             }
@@ -20618,7 +20618,7 @@
                         function g(e, t, r, n, i) {
                             var o;
                             if (0 === e.length) return -1;
-                            if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r = +r) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) {
+                            if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r *= 1) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) {
                                 if (i) return -1;
                                 r = e.length - 1;
                             } else if (r < 0) {
@@ -20693,10 +20693,10 @@
                             if (r + n > e.length || r < 0) throw RangeError("Index out of range");
                         }
                         function E(e, t, r, n, o) {
-                            return t = +t, r >>>= 0, o || w(e, t, r, 4, 34028234663852886e22, -340282346638528860000000000000000000000), i.write(e, t, r, n, 23, 4), r + 4;
+                            return t *= 1, r >>>= 0, o || w(e, t, r, 4, 34028234663852886e22, -340282346638528860000000000000000000000), i.write(e, t, r, n, 23, 4), r + 4;
                         }
                         function _(e, t, r, n, o) {
-                            return t = +t, r >>>= 0, o || w(e, t, r, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), i.write(e, t, r, n, 52, 8), r + 8;
+                            return t *= 1, r >>>= 0, o || w(e, t, r, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), i.write(e, t, r, n, 52, 8), r + 8;
                         }
                         t.Buffer = u, t.SlowBuffer = function(e) {
                             return +e != e && (e = 0), u.alloc(+e);
@@ -20913,7 +20913,7 @@
                         }, u.prototype.readDoubleBE = function(e, t) {
                             return e >>>= 0, t || m(e, 8, this.length), i.read(this, e, !1, 52, 8);
                         }, u.prototype.writeUIntLE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
+                            if (e *= 1, t >>>= 0, r >>>= 0, !n) {
                                 var i = Math.pow(2, 8 * r) - 1;
                                 D(this, e, t, r, i, 0);
                             }
@@ -20921,7 +20921,7 @@
                             for(this[t] = 255 & e; ++a < r && (o *= 256);)this[t + a] = e / o & 255;
                             return t + r;
                         }, u.prototype.writeUIntBE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
+                            if (e *= 1, t >>>= 0, r >>>= 0, !n) {
                                 var i = Math.pow(2, 8 * r) - 1;
                                 D(this, e, t, r, i, 0);
                             }
@@ -20929,17 +20929,17 @@
                             for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)this[t + o] = e / a & 255;
                             return t + r;
                         }, u.prototype.writeUInt8 = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 1, 255, 0), this[t] = 255 & e, t + 1;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 1, 255, 0), this[t] = 255 & e, t + 1;
                         }, u.prototype.writeUInt16LE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 2, 65535, 0), this[t] = 255 & e, this[t + 1] = e >>> 8, t + 2;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 2, 65535, 0), this[t] = 255 & e, this[t + 1] = e >>> 8, t + 2;
                         }, u.prototype.writeUInt16BE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 2, 65535, 0), this[t] = e >>> 8, this[t + 1] = 255 & e, t + 2;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 2, 65535, 0), this[t] = e >>> 8, this[t + 1] = 255 & e, t + 2;
                         }, u.prototype.writeUInt32LE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 4, 4294967295, 0), this[t + 3] = e >>> 24, this[t + 2] = e >>> 16, this[t + 1] = e >>> 8, this[t] = 255 & e, t + 4;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 4, 4294967295, 0), this[t + 3] = e >>> 24, this[t + 2] = e >>> 16, this[t + 1] = e >>> 8, this[t] = 255 & e, t + 4;
                         }, u.prototype.writeUInt32BE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 4, 4294967295, 0), this[t] = e >>> 24, this[t + 1] = e >>> 16, this[t + 2] = e >>> 8, this[t + 3] = 255 & e, t + 4;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 4, 4294967295, 0), this[t] = e >>> 24, this[t + 1] = e >>> 16, this[t + 2] = e >>> 8, this[t + 3] = 255 & e, t + 4;
                         }, u.prototype.writeIntLE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, !n) {
+                            if (e *= 1, t >>>= 0, !n) {
                                 var i = Math.pow(2, 8 * r - 1);
                                 D(this, e, t, r, i - 1, -i);
                             }
@@ -20947,7 +20947,7 @@
                             for(this[t] = 255 & e; ++o < r && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o - 1] && (u = 1), this[t + o] = (e / a >> 0) - u & 255;
                             return t + r;
                         }, u.prototype.writeIntBE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, !n) {
+                            if (e *= 1, t >>>= 0, !n) {
                                 var i = Math.pow(2, 8 * r - 1);
                                 D(this, e, t, r, i - 1, -i);
                             }
@@ -20955,15 +20955,15 @@
                             for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o + 1] && (u = 1), this[t + o] = (e / a >> 0) - u & 255;
                             return t + r;
                         }, u.prototype.writeInt8 = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[t] = 255 & e, t + 1;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[t] = 255 & e, t + 1;
                         }, u.prototype.writeInt16LE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 2, 32767, -32768), this[t] = 255 & e, this[t + 1] = e >>> 8, t + 2;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 2, 32767, -32768), this[t] = 255 & e, this[t + 1] = e >>> 8, t + 2;
                         }, u.prototype.writeInt16BE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 2, 32767, -32768), this[t] = e >>> 8, this[t + 1] = 255 & e, t + 2;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 2, 32767, -32768), this[t] = e >>> 8, this[t + 1] = 255 & e, t + 2;
                         }, u.prototype.writeInt32LE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 4, 2147483647, -2147483648), this[t] = 255 & e, this[t + 1] = e >>> 8, this[t + 2] = e >>> 16, this[t + 3] = e >>> 24, t + 4;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 4, 2147483647, -2147483648), this[t] = 255 & e, this[t + 1] = e >>> 8, this[t + 2] = e >>> 16, this[t + 3] = e >>> 24, t + 4;
                         }, u.prototype.writeInt32BE = function(e, t, r) {
-                            return e = +e, t >>>= 0, r || D(this, e, t, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[t] = e >>> 24, this[t + 1] = e >>> 16, this[t + 2] = e >>> 8, this[t + 3] = 255 & e, t + 4;
+                            return e *= 1, t >>>= 0, r || D(this, e, t, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[t] = e >>> 24, this[t + 1] = e >>> 16, this[t + 2] = e >>> 8, this[t + 3] = 255 & e, t + 4;
                         }, u.prototype.writeFloatLE = function(e, t, r) {
                             return E(this, e, t, !0, r);
                         }, u.prototype.writeFloatBE = function(e, t, r) {

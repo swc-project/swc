@@ -5834,7 +5834,7 @@
                 }
                 this.index++;
             }
-            number = +number, this.tokens.push({
+            number *= 1, this.tokens.push({
                 index: start,
                 text: number,
                 json: !0,

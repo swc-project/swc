@@ -4039,7 +4039,7 @@
     /**
      * Get precision
      */ function getPrecision(val) {
-        if (isNaN(val = +val)) return 0;
+        if (isNaN(val *= 1)) return 0;
          // It is much faster than methods converting number to string as follows
         for(//      let tmp = val.toString();
         //      return tmp.length - 1 - tmp.indexOf('.');

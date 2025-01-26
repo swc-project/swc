@@ -9611,7 +9611,7 @@
      * _.map(['6', '08', '10'], _.parseInt);
      * // => [6, 8, 10]
      */ function(string, radix, guard) {
-            return guard || null == radix ? radix = 0 : radix && (radix = +radix), nativeParseInt(toString(string).replace(reTrimStart, ''), radix || 0);
+            return guard || null == radix ? radix = 0 : radix && (radix *= 1), nativeParseInt(toString(string).replace(reTrimStart, ''), radix || 0);
         }, lodash.random = /**
      * Produces a random number between the inclusive `lower` and `upper` bounds.
      * If only one argument is provided a number between `0` and the given number
