@@ -5,7 +5,7 @@ use std::{borrow::Cow, iter, iter::once, sync::Arc};
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{atom, Atom, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -101,8 +101,8 @@ macro_rules! static_str {
     }};
 }
 
-pub fn default_import_source() -> Arc<String> {
-    static_str!("react")
+pub fn default_import_source() -> Atom {
+    atom!("react")
 }
 
 pub fn default_pragma() -> Arc<String> {
