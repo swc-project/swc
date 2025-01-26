@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -39,11 +41,11 @@ pub struct Config {
 pub struct TsxConfig {
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma: Option<String>,
+    pub pragma: Option<Arc<String>>,
 
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma_frag: Option<String>,
+    pub pragma_frag: Option<Arc<String>>,
 }
 
 #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
