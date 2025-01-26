@@ -2,9 +2,7 @@ use std::{
     borrow::Cow,
     fmt::Debug,
     hash::{BuildHasherDefault, Hash, Hasher},
-    num::NonZeroU32,
     ptr::NonNull,
-    sync::atomic::{AtomicU32, Ordering::SeqCst},
 };
 
 use rustc_hash::FxHasher;
@@ -19,7 +17,6 @@ use crate::{
 pub(crate) struct Entry {
     pub string: Box<str>,
     pub hash: u64,
-    pub store_id: Option<NonZeroU32>,
 }
 
 impl Entry {
@@ -61,16 +58,12 @@ impl Hash for Entry {
 /// # Merging [AtomStore]
 #[derive(Debug)]
 pub struct AtomStore {
-    pub(crate) id: Option<NonZeroU32>,
     pub(crate) data: hashbrown::HashMap<Arc<Entry>, (), BuildEntryHasher>,
 }
 
 impl Default for AtomStore {
     fn default() -> Self {
-        static ATOM_STORE_ID: AtomicU32 = AtomicU32::new(1);
-
         Self {
-            id: Some(unsafe { NonZeroU32::new_unchecked(ATOM_STORE_ID.fetch_add(1, SeqCst)) }),
             data: hashbrown::HashMap::with_capacity_and_hasher(64, Default::default()),
         }
     }
@@ -122,7 +115,6 @@ pub(crate) trait Storage {
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
     fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry> {
-        let store_id = self.id;
         let (entry, _) = self
             .data
             .raw_entry_mut()
@@ -132,7 +124,6 @@ impl Storage for &'_ mut AtomStore {
                     Arc::new(Entry {
                         string: text.into_owned().into_boxed_str(),
                         hash,
-                        store_id,
                     }),
                     (),
                 )

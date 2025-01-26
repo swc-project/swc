@@ -285,19 +285,6 @@ impl PartialEq for Atom {
                 return false;
             }
 
-            // If the store is the same, the same string has same `unsafe_data``
-            match (&te.store_id, &oe.store_id) {
-                (Some(this_store), Some(other_store)) => {
-                    if this_store == other_store {
-                        return false;
-                    }
-                }
-                (None, None) => {
-                    return false;
-                }
-                _ => {}
-            }
-
             return te.string == oe.string;
         }
 
