@@ -1,4 +1,4 @@
-use std::{mem, sync::Arc};
+use std::mem;
 
 use once_cell::sync::Lazy;
 use swc_common::{
@@ -14,7 +14,7 @@ use crate::{strip_import_export::StripImportExport, strip_type::StripType, trans
 
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: Lazy<Arc<String>> = Lazy::new(|| Arc::new($s.into()));
+        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
         VAL.clone()
     }};
 }

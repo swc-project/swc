@@ -1,6 +1,5 @@
-use std::sync::Arc;
-
 use serde::{Deserialize, Serialize};
+use swc_common::sync::Lrc;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -41,11 +40,11 @@ pub struct Config {
 pub struct TsxConfig {
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma: Option<Arc<String>>,
+    pub pragma: Option<Lrc<String>>,
 
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma_frag: Option<Arc<String>>,
+    pub pragma_frag: Option<Lrc<String>>,
 }
 
 #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]

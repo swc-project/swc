@@ -101,7 +101,7 @@ pub struct Options {
 
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: Lazy<Arc<String>> = Lazy::new(|| Arc::new($s.into()));
+        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
         VAL.clone()
     }};
 }
