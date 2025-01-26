@@ -3152,7 +3152,7 @@ impl VisitMut for Prefixer {
             }
 
             "touch-action" => {
-                let env = &self.env;
+                let env = self.env.clone();
                 add_declaration!(
                     Prefix::Ms,
                     "-ms-touch-action",
