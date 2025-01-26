@@ -13,7 +13,7 @@ version       = "7.0.0"
 bench = false
 
 [features]
-concurrent = ["rayon"]
+concurrent = ["swc_common/concurrent", "rayon"]
 default    = ["serde-impl"]
 serde-impl = ["serde"]
 
