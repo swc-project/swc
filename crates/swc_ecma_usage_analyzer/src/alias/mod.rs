@@ -334,7 +334,10 @@ impl Visit for InfectionCollector<'_> {
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        if self.config.ignore_named_child_scope && n.op == op!("=") && n.left.is_simple() {
+        if self.config.ignore_named_child_scope
+            && n.op == op!("=")
+            && n.left.as_simple().and_then(|l| l.leftmost()).is_some()
+        {
             return;
         }
 
