@@ -20,6 +20,11 @@ pub struct AliasConfig {
     /// It should be renamed to some correct name.
     pub need_all: bool,
 
+    /// We can skip visiting children nodes in some cases.
+    ///
+    /// Because we recurse in the usage analyzer, we don't need to recurse into
+    /// child node that the usage analyzer will invoke [`collect_infects_from`]
+    /// on.
     pub ignore_named_child_scope: bool,
 }
 impl AliasConfig {
@@ -146,6 +151,17 @@ impl InfectionCollector<'_> {
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
 
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if self.config.ignore_named_child_scope
+            && n.op == op!("=")
+            && n.left.as_simple().and_then(|l| l.leftmost()).is_some()
+        {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {
             op!("in")
@@ -187,6 +203,14 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
+    fn visit_callee(&mut self, n: &Callee) {
+        let ctx = Ctx {
+            is_callee: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_cond_expr(&mut self, e: &CondExpr) {
         {
             let ctx = Ctx {
@@ -207,10 +231,6 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
-    fn visit_ident(&mut self, n: &Ident) {
-        self.add_id(n.to_id());
-    }
-
     fn visit_expr(&mut self, e: &Expr) {
         match e {
             Expr::Ident(i) => {
@@ -227,6 +247,25 @@ impl Visit for InfectionCollector<'_> {
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        if self.config.ignore_named_child_scope {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, n: &FnExpr) {
+        if self.config.ignore_named_child_scope && n.ident.is_some() {
+            return;
+        }
+        n.visit_children_with(self);
+    }
+
+    fn visit_ident(&mut self, n: &Ident) {
+        self.add_id(n.to_id());
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
@@ -249,6 +288,15 @@ impl Visit for InfectionCollector<'_> {
 
     fn visit_member_prop(&mut self, n: &MemberProp) {
         if let MemberProp::Computed(c) = &n {
+            c.visit_with(&mut *self.with_ctx(Ctx {
+                is_callee: false,
+                ..self.ctx
+            }));
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(c) = &n {
             c.visit_with(&mut *self.with_ctx(Ctx {
                 is_callee: false,
                 ..self.ctx
@@ -299,49 +347,6 @@ impl Visit for InfectionCollector<'_> {
             ..self.ctx
         };
         e.arg.visit_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        if let PropName::Computed(c) = &n {
-            c.visit_with(&mut *self.with_ctx(Ctx {
-                is_callee: false,
-                ..self.ctx
-            }));
-        }
-    }
-
-    fn visit_callee(&mut self, n: &Callee) {
-        let ctx = Ctx {
-            is_callee: true,
-            ..self.ctx
-        };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_fn_decl(&mut self, n: &FnDecl) {
-        if self.config.ignore_named_child_scope {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_fn_expr(&mut self, n: &FnExpr) {
-        if self.config.ignore_named_child_scope && n.ident.is_some() {
-            return;
-        }
-        n.visit_children_with(self);
-    }
-
-    fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        if self.config.ignore_named_child_scope
-            && n.op == op!("=")
-            && n.left.as_simple().and_then(|l| l.leftmost()).is_some()
-        {
-            return;
-        }
-
-        n.visit_children_with(self);
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
