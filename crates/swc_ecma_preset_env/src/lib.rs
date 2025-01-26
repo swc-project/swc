@@ -2,7 +2,7 @@
 #![allow(dead_code)]
 #![recursion_limit = "256"]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
@@ -47,7 +47,7 @@ where
     C: Comments + Clone,
 {
     let loose = c.loose;
-    let targets: Versions = targets_to_versions(c.targets).expect("failed to parse targets");
+    let targets = targets_to_versions(c.targets).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
@@ -62,7 +62,7 @@ where
                 && (c.force_all_transforms
                     || (is_any_target
                         || include.contains(&f)
-                        || f.should_enable(targets, c.bugfixes, $default)))
+                        || f.should_enable(&targets, c.bugfixes, $default)))
         }};
     }
 
@@ -355,7 +355,7 @@ where
 #[derive(Debug)]
 struct Polyfills {
     mode: Option<Mode>,
-    targets: Versions,
+    targets: Arc<Versions>,
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
@@ -376,14 +376,14 @@ impl Polyfills {
             Some(Mode::Usage) => {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
-                        let mut v = corejs2::UsageVisitor::new(self.targets);
+                        let mut v = corejs2::UsageVisitor::new(self.targets.clone());
                         m.visit_with(&mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v = corejs3::UsageVisitor::new(
-                            self.targets,
+                            self.targets.clone(),
                             self.shipped_proposals,
                             self.corejs,
                         );
@@ -402,13 +402,14 @@ impl Polyfills {
             }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 2, .. } => {
-                    let mut v = corejs2::Entry::new(self.targets, self.regenerator);
+                    let mut v = corejs2::Entry::new(self.targets.clone(), self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }
 
                 Version { major: 3, .. } => {
-                    let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
+                    let mut v =
+                        corejs3::Entry::new(self.targets.clone(), self.corejs, !self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }

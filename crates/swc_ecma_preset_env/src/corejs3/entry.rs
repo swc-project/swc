@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use preset_env_base::{
@@ -34,14 +36,14 @@ static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
 #[derive(Debug)]
 pub struct Entry {
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     corejs_version: Version,
     pub imports: IndexSet<&'static str, ARandomState>,
     remove_regenerator: bool,
 }
 
 impl Entry {
-    pub fn new(target: Versions, corejs_version: Version, remove_regenerator: bool) -> Self {
+    pub fn new(target: Arc<Versions>, corejs_version: Version, remove_regenerator: bool) -> Self {
         assert_eq!(corejs_version.major, 3);
 
         Entry {
@@ -74,7 +76,7 @@ impl Entry {
 
                 if !*is_any_target {
                     if let Some(feature) = feature {
-                        if !should_enable(*target, *feature, true) {
+                        if !should_enable(target, feature, true) {
                             return false;
                         }
                     }

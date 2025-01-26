@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::JsWord;
@@ -18,12 +20,12 @@ mod entry;
 
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     pub required: IndexSet<&'static str, ARandomState>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions) -> Self {
+    pub fn new(target: Arc<Versions>) -> Self {
         //        let mut v = Self { required: Vec::new() };
         //
         //
@@ -66,7 +68,7 @@ impl UsageVisitor {
             if !*is_any_target {
                 if let Some(v) = BUILTINS.get(&***f) {
                     // Skip
-                    if !should_enable(*target, *v, true) {
+                    if !should_enable(target, v, true) {
                         return false;
                     }
                 }

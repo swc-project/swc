@@ -2,7 +2,9 @@ use std::mem;
 
 use indexmap::IndexMap;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::ARandomState, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -11,7 +13,7 @@ use crate::ExprFactory;
 #[derive(Default)]
 struct SuperField {
     computed: Option<Ident>,
-    ident: IndexMap<JsWord, Ident>,
+    ident: IndexMap<JsWord, Ident, ARandomState>,
 }
 
 /// Don't use it against function, it will stop if come across any function
