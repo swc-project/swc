@@ -5629,6 +5629,7 @@ version = "7.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "once_cell",
  "ryu-js",
  "serde",
  "swc_atoms",
