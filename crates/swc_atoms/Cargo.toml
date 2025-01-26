@@ -19,9 +19,10 @@ rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
 arbitrary  = { workspace = true, optional = true }
 bytecheck  = { workspace = true, optional = true }
-hstr       = { workspace = true }
 once_cell  = { workspace = true }
 rancor     = { workspace = true, optional = true }
 rkyv       = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
+
+hstr = { version = "0.2.16", path = "../hstr" }
