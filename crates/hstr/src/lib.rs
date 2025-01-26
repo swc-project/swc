@@ -101,10 +101,9 @@ macro_rules! atom {
     ($s:tt) => {{
         #[inline(never)]
         fn get_atom() -> $crate::Atom {
-            thread_local! {
-                static CACHE: $crate::Atom = $crate::Atom::from($s);
-            }
-            CACHE.with(|cache| $crate::Atom::clone(cache))
+            static CACHE: $crate::CachedAtom = $crate::CachedAtom::new(|| $crate::Atom::from($s));
+
+            (*CACHE).clone()
         }
 
         get_atom()
@@ -283,19 +282,6 @@ impl PartialEq for Atom {
 
             if te.hash != oe.hash {
                 return false;
-            }
-
-            // If the store is the same, the same string has same `unsafe_data``
-            match (&te.store_id, &oe.store_id) {
-                (Some(this_store), Some(other_store)) => {
-                    if this_store == other_store {
-                        return false;
-                    }
-                }
-                (None, None) => {
-                    return false;
-                }
-                _ => {}
             }
 
             return te.string == oe.string;
