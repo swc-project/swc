@@ -101,7 +101,7 @@ impl Query {
 pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
     match v {
         None => Ok(Default::default()),
-        Some(Targets::Versions(v)) => Ok(v),
+        Some(Targets::Versions(v)) => Ok(Arc::new(v)),
         Some(Targets::Query(q)) => q
             .exec()
             .context("failed to convert target query to version data"),
@@ -117,9 +117,10 @@ pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
             });
 
             if map.is_empty() {
-                if let Some(mut q) = q {
+                if let Some(q) = q {
+                    let mut q = *q;
                     q.node = node;
-                    return Ok(q);
+                    return Ok(Arc::new(q));
                 }
             }
 
