@@ -414,7 +414,7 @@ where
     where
         T: StmtLike,
         // Fn(Vec<(local, imported)>, src, body)
-        F: Fn(Vec<(Ident, IdentName)>, &Atom, &mut Vec<T>),
+        F: Fn(Vec<(Ident, IdentName)>, &str, &mut Vec<T>),
     {
         if self.runtime == Runtime::Automatic {
             if let Some(local) = self.import_create_element.take() {
@@ -1147,7 +1147,7 @@ where
 
 // const { createElement } = require('react')
 // const { jsx: jsx } = require('react/jsx-runtime')
-fn add_require(imports: Vec<(Ident, IdentName)>, src: &Atom, unresolved_mark: Mark) -> Stmt {
+fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mark) -> Stmt {
     VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
