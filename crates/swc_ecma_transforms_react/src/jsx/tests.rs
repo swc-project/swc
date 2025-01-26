@@ -808,7 +808,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some(Lrc::new("dom".into())),
+            pragma: Some(Lrc::new("h".into())),
             throw_if_namespace: false.into(),
             ..Default::default()
         },
