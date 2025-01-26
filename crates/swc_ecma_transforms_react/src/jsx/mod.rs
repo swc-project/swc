@@ -390,6 +390,7 @@ impl JsxDirectives {
     }
 }
 
+#[cfg(feature = "concurrent")]
 fn cache_source(src: &str) -> Lrc<String> {
     static CACHE: Lazy<RwLock<FxHashMap<String, Lrc<String>>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
@@ -408,6 +409,12 @@ fn cache_source(src: &str) -> Lrc<String> {
         cache.insert(src.to_string(), cached.clone());
     }
     cached
+}
+
+#[cfg(not(feature = "concurrent"))]
+fn cache_source(src: &str) -> Lrc<String> {
+    // We cannot cache because Rc does not implement Send.
+    Lrc::new(src.to_string())
 }
 
 fn is_valid_for_pragma(s: &str) -> bool {
