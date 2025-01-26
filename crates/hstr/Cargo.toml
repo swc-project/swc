@@ -27,6 +27,7 @@ rustc-hash            = { workspace = true }
 serde                 = { workspace = true, optional = true }
 triomphe              = { workspace = true }
 
+
 [dev-dependencies]
 compact_str  = { workspace = true }
 criterion    = { workspace = true }
@@ -37,6 +38,8 @@ rayon        = { workspace = true }
 smartstring  = { workspace = true }
 smol_str     = { workspace = true }
 string_cache = { workspace = true }
+
+swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 
 [[bench]]
 harness = false
