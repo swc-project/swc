@@ -163,7 +163,7 @@ pub fn parse_expr_for_jsx(
         apply_mark(&mut expr, top_level_mark);
         expr
     })
-    .map(Arc::new)
+    .map(Lrc::new)
     .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
