@@ -1130,7 +1130,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            if should_prefix("min--moz-device-pixel-ratio", self.env, false) {
+            if should_prefix("min--moz-device-pixel-ratio", &self.env, false) {
                 let mut new_media_query = n.clone();
 
                 replace_media_feature_resolution_on_legacy_variant(
