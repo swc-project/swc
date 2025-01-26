@@ -7,7 +7,7 @@ use string_enum::StringEnum;
 use swc_common::collections::AHashMap;
 
 impl Feature {
-    pub fn should_enable(self, target: Versions, bugfixes: bool, default: bool) -> bool {
+    pub fn should_enable(self, target: &Versions, bugfixes: bool, default: bool) -> bool {
         let f = if bugfixes {
             &BUGFIX_FEATURES[&self]
         } else {
@@ -256,7 +256,7 @@ mod tests {
     #[test]
     fn arrow() {
         assert!(Feature::ArrowFunctions.should_enable(
-            BrowserData {
+            &BrowserData {
                 ie: Some("11.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -268,7 +268,7 @@ mod tests {
     #[test]
     fn tpl_lit() {
         assert!(!Feature::TemplateLiterals.should_enable(
-            BrowserData {
+            &BrowserData {
                 chrome: Some("71.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -281,7 +281,7 @@ mod tests {
     fn tpl_lit_bugfixes() {
         // Enable template literals pass in Safari 9 without bugfixes option
         assert!(Feature::TemplateLiterals.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("9.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -290,7 +290,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixTaggedTemplateCaching.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -300,7 +300,7 @@ mod tests {
 
         // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
         assert!(!Feature::TemplateLiterals.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("9.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -309,7 +309,7 @@ mod tests {
         ));
 
         assert!(Feature::BugfixTaggedTemplateCaching.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("9.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -318,7 +318,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixTaggedTemplateCaching.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("13.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -331,7 +331,7 @@ mod tests {
     fn edge_default_param_bug() {
         // Enable params pass in Edge 17 without bugfixes option
         assert!(Feature::Parameters.should_enable(
-            BrowserData {
+            &BrowserData {
                 edge: Some("17.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -340,7 +340,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixEdgeDefaultParam.should_enable(
-            BrowserData {
+            &BrowserData {
                 edge: Some("17.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -350,7 +350,7 @@ mod tests {
 
         // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
         assert!(!Feature::Parameters.should_enable(
-            BrowserData {
+            &BrowserData {
                 edge: Some("17.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -359,7 +359,7 @@ mod tests {
         ));
 
         assert!(Feature::BugfixEdgeDefaultParam.should_enable(
-            BrowserData {
+            &BrowserData {
                 edge: Some("17.0.0".parse().unwrap()),
                 ..Default::default()
             },

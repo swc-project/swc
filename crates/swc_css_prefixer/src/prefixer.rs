@@ -107,7 +107,7 @@ pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
 }
 
 pub fn prefixer(options: Options) -> impl VisitMut {
-    let env: Versions = targets_to_versions(options.env).expect("failed to parse targets");
+    let env = targets_to_versions(options.env).expect("failed to parse targets");
 
     Prefixer {
         env,
