@@ -1,21 +1,22 @@
 use serde::{Deserialize, Deserializer, Serialize};
+use swc_atoms::{atom, Atom};
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct RefreshOptions {
     #[serde(default = "default_refresh_reg")]
-    pub refresh_reg: String,
+    pub refresh_reg: Atom,
     #[serde(default = "default_refresh_sig")]
-    pub refresh_sig: String,
+    pub refresh_sig: Atom,
     #[serde(default = "default_emit_full_signatures")]
     pub emit_full_signatures: bool,
 }
 
-fn default_refresh_reg() -> String {
-    "$RefreshReg$".to_string()
+fn default_refresh_reg() -> Atom {
+    atom!("$RefreshReg$")
 }
-fn default_refresh_sig() -> String {
-    "$RefreshSig$".to_string()
+fn default_refresh_sig() -> Atom {
+    atom!("$RefreshSig$")
 }
 fn default_emit_full_signatures() -> bool {
     // Prefer to hash when we can
