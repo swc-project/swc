@@ -808,7 +808,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("h".into()),
+            pragma: Some(Arc::new("h".into())),
             throw_if_namespace: false.into(),
             ..Default::default()
         },
