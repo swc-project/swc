@@ -2,6 +2,7 @@
 
 use std::{borrow::Cow, iter, iter::once, sync::Arc};
 
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
 use swc_atoms::{Atom, JsWord};
@@ -93,16 +94,23 @@ pub struct Options {
     pub refresh: Option<RefreshOptions>,
 }
 
+macro_rules! static_str {
+    ($s:expr) => {{
+        static VAL: Lazy<Arc<String>> = Lazy::new(|| Arc::new($s.into()));
+        VAL.clone()
+    }};
+}
+
 pub fn default_import_source() -> Arc<String> {
-    "react".into()
+    static_str!("react")
 }
 
 pub fn default_pragma() -> Arc<String> {
-    "React.createElement".into()
+    static_str!("React.createElement")
 }
 
 pub fn default_pragma_frag() -> Arc<String> {
-    "React.Fragment".into()
+    static_str!("React.Fragment")
 }
 
 fn default_throw_if_namespace() -> bool {
