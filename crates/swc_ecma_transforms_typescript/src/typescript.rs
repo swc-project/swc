@@ -12,11 +12,19 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
+#[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
         static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
         VAL.clone()
     }};
+}
+
+#[cfg(not(feature = "concurrent"))]
+macro_rules! static_str {
+    ($s:expr) => {
+        Lrc::new($s.into())
+    };
 }
 
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {

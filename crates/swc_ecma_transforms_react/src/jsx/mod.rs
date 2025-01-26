@@ -99,11 +99,19 @@ pub struct Options {
     pub refresh: Option<RefreshOptions>,
 }
 
+#[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
         static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
         VAL.clone()
     }};
+}
+
+#[cfg(not(feature = "concurrent"))]
+macro_rules! static_str {
+    ($s:expr) => {
+        Lrc::new($s.into())
+    };
 }
 
 pub fn default_import_source() -> Atom {
