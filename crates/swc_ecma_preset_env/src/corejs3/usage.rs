@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
 use swc_atoms::JsWord;
@@ -18,13 +20,13 @@ use crate::{
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     corejs_version: Version,
     pub required: IndexSet<&'static str, ARandomState>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions, shipped_proposals: bool, corejs_version: Version) -> Self {
+    pub fn new(target: Arc<Versions>, shipped_proposals: bool, corejs_version: Version) -> Self {
         //        let mut v = Self { required: Vec::new() };
         //
         //
