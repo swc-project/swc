@@ -1,5 +1,6 @@
-use std::mem;
+use std::{mem, sync::Arc};
 
+use once_cell::sync::Lazy;
 use swc_common::{
     collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span,
     Spanned,
