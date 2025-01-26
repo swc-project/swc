@@ -1,0 +1,88 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 17
+      },
+      "ctxt": 0,
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 17
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 5,
+              "end": 12
+            },
+            "properties": [
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 6,
+                    "end": 7
+                  },
+                  "value": "x"
+                },
+                "value": {
+                  "type": "AssignmentPattern",
+                  "span": {
+                    "start": 8,
+                    "end": 11
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 8,
+                      "end": 9
+                    },
+                    "ctxt": 0,
+                    "value": "y",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 10,
+                      "end": 11
+                    },
+                    "ctxt": 0,
+                    "value": "z",
+                    "optional": false
+                  }
+                }
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 15,
+              "end": 17
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

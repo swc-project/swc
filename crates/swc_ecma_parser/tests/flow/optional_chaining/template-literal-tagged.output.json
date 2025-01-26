@@ -1,0 +1,113 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 32
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13
+        },
+        "ctxt": 0,
+        "value": "tag",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 18
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 16,
+          "end": 18
+        },
+        "ctxt": 0,
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 19,
+        "end": 32
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 19,
+          "end": 32
+        },
+        "optional": true,
+        "base": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 19,
+            "end": 32
+          },
+          "object": {
+            "type": "TaggedTemplateExpression",
+            "span": {
+              "start": 19,
+              "end": 29
+            },
+            "ctxt": 0,
+            "tag": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 22
+              },
+              "ctxt": 0,
+              "value": "tag",
+              "optional": false
+            },
+            "typeParameters": null,
+            "template": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 22,
+                "end": 29
+              },
+              "expressions": [],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 23,
+                    "end": 28
+                  },
+                  "tail": true,
+                  "cooked": "hello",
+                  "raw": "hello"
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 31,
+              "end": 32
+            },
+            "value": "a"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

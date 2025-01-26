@@ -1,0 +1,1 @@
+hook function foo() { }

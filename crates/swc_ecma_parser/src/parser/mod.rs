@@ -26,6 +26,7 @@ use crate::error::Error;
 mod macros;
 mod class_and_fn;
 mod expr;
+mod flow;
 mod ident;
 pub mod input;
 mod jsx;

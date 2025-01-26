@@ -1,0 +1,35 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 96
+  },
+  "body": [
+    {
+      "type": "WithStatement",
+      "span": {
+        "start": 18,
+        "end": 96
+      },
+      "object": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 57,
+          "end": 58
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 94,
+          "end": 96
+        },
+        "ctxt": 0,
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,73 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 38
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 38
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 37
+          },
+          "id": {
+            "type": "ArrayPattern",
+            "span": {
+              "start": 5,
+              "end": 8
+            },
+            "elements": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 6,
+                  "end": 7
+                },
+                "ctxt": 0,
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 26,
+              "end": 37
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 28,
+                    "end": 35
+                  },
+                  "value": "hello",
+                  "raw": "\"hello\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

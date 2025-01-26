@@ -1,0 +1,79 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 15
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 15
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 1,
+          "end": 15
+        },
+        "expression": {
+          "type": "JSXElement",
+          "span": {
+            "start": 2,
+            "end": 14
+          },
+          "opening": {
+            "type": "JSXOpeningElement",
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 3,
+                "end": 6
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "span": {
+              "start": 2,
+              "end": 7
+            },
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
+          },
+          "children": [
+            {
+              "type": "JSXText",
+              "span": {
+                "start": 7,
+                "end": 8
+              },
+              "value": ">",
+              "raw": ">"
+            }
+          ],
+          "closing": {
+            "type": "JSXClosingElement",
+            "span": {
+              "start": 8,
+              "end": 14
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 13
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,43 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":7}},
+      "message":"Enum `E` has type `string`, so the initializer of `A` needs to be a string literal."
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":9}},
+      "message":"Unexpected token `+`, expected the token `,`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":11}},
+      "message":"Unexpected number, expected an identifier"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
+  "range":[0,33],
+  "body":[
+    {
+      "type":"EnumDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
+      "range":[0,33],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"E",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"EnumStringBody",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":3,"column":1}},
+        "range":[7,33],
+        "members":[],
+        "explicitType":true,
+        "hasUnknownMembers":false
+      }
+    }
+  ],
+  "comments":[]
+}

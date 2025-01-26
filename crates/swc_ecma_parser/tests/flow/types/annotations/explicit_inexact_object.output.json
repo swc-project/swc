@@ -1,0 +1,52 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 82
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 15
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 15,
+        "end": 16
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 17,
+        "end": 42
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 42,
+        "end": 43
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 44,
+        "end": 81
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 81,
+        "end": 82
+      }
+    }
+  ],
+  "interpreter": null
+}

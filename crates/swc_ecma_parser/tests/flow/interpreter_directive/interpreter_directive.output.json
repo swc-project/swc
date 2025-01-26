@@ -1,0 +1,33 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 36
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 25,
+        "end": 36
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 25,
+          "end": 36
+        },
+        "expression": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 26,
+            "end": 27
+          },
+          "value": 1.0,
+          "raw": "1"
+        }
+      }
+    }
+  ],
+  "interpreter": "/bin/env foo"
+}

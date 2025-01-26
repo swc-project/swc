@@ -1,0 +1,3 @@
+class X impl {
+  foo() {}
+}

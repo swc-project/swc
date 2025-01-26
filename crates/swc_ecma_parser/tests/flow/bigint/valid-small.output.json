@@ -1,0 +1,31 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 6
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 6
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 1,
+          "end": 5
+        },
+        "value": [
+          1,
+          [
+            100
+          ]
+        ],
+        "raw": "100n"
+      }
+    }
+  ],
+  "interpreter": null
+}

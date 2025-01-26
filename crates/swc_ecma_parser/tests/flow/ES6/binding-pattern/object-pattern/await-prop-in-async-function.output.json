@@ -1,0 +1,120 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 126,
+    "end": 168
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 126,
+        "end": 168
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 126,
+          "end": 167
+        },
+        "expression": {
+          "type": "FunctionExpression",
+          "identifier": null,
+          "params": [],
+          "decorators": [],
+          "span": {
+            "start": 127,
+            "end": 166
+          },
+          "ctxt": 0,
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 144,
+              "end": 166
+            },
+            "ctxt": 0,
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 146,
+                  "end": 164
+                },
+                "expression": {
+                  "type": "SequenceExpression",
+                  "span": {
+                    "start": 146,
+                    "end": 163
+                  },
+                  "expressions": [
+                    {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 146,
+                        "end": 147
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    },
+                    {
+                      "type": "AssignmentExpression",
+                      "span": {
+                        "start": 149,
+                        "end": 163
+                      },
+                      "operator": "=",
+                      "left": {
+                        "type": "ObjectPattern",
+                        "span": {
+                          "start": 149,
+                          "end": 158
+                        },
+                        "properties": [
+                          {
+                            "type": "AssignmentPatternProperty",
+                            "span": {
+                              "start": 151,
+                              "end": 156
+                            },
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 151,
+                                "end": 156
+                              },
+                              "ctxt": 0,
+                              "value": "await",
+                              "optional": false,
+                              "typeAnnotation": null
+                            },
+                            "value": null
+                          }
+                        ],
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "right": {
+                        "type": "ObjectExpression",
+                        "span": {
+                          "start": 161,
+                          "end": 163
+                        },
+                        "properties": []
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "generator": false,
+          "async": true,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

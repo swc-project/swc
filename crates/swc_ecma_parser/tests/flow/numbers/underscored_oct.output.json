@@ -1,0 +1,26 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 8
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 8
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 1,
+          "end": 8
+        },
+        "value": 668.0,
+        "raw": "0o12_34"
+      }
+    }
+  ],
+  "interpreter": null
+}

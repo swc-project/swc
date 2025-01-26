@@ -1,0 +1,17 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 36
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 36
+      }
+    }
+  ],
+  "interpreter": null
+}
