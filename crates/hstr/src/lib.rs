@@ -87,7 +87,6 @@ mod tests;
 /// If you are working on a module which creates lots of [Atom]s, you are
 /// recommended to use [AtomStore] API because it's faster. But if you are not,
 /// you can use global APIs for convenience.
-
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
     unsafe_data: TaggedValue,
