@@ -268,9 +268,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Arc<Box<Expr>>,
+    pragma: Lrc<Box<Expr>>,
     comments: Option<C>,
-    pragma_frag: Arc<Box<Expr>>,
+    pragma_frag: Lrc<Box<Expr>>,
     development: bool,
     throw_if_namespace: bool,
 }
