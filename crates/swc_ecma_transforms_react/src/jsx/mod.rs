@@ -1,8 +1,13 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{borrow::Cow, iter, iter::once, sync::Arc};
+use std::{
+    borrow::Cow,
+    iter::{self, once},
+    sync::{Arc, RwLock},
+};
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
 use swc_atoms::{atom, Atom, JsWord};
@@ -206,10 +211,7 @@ where
         top_level_mark,
         unresolved_mark,
         runtime: options.runtime.unwrap_or_default(),
-        import_source: options
-            .import_source
-            .unwrap_or_else(default_import_source)
-            .into(),
+        import_source: options.import_source.unwrap_or_else(default_import_source),
         import_jsx: None,
         import_jsxs: None,
         import_fragment: None,
@@ -353,7 +355,7 @@ impl JsxDirectives {
                                     let mut e = (*parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma-frag",
-                                        src.to_string(),
+                                        cache_source(src),
                                         top_level_mark,
                                     ))
                                     .clone();
@@ -369,7 +371,7 @@ impl JsxDirectives {
                                     let mut e = (*parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma",
-                                        src.to_string(),
+                                        cache_source(src),
                                         top_level_mark,
                                     ))
                                     .clone();
@@ -386,6 +388,26 @@ impl JsxDirectives {
 
         res
     }
+}
+
+fn cache_source(src: &str) -> Arc<String> {
+    static CACHE: Lazy<RwLock<FxHashMap<String, Arc<String>>>> =
+        Lazy::new(|| RwLock::new(FxHashMap::default()));
+
+    {
+        let cache = CACHE.write().unwrap();
+
+        if let Some(cached) = cache.get(src) {
+            return cached.clone();
+        }
+    }
+
+    let cached = Arc::new(src.to_string());
+    {
+        let mut cache = CACHE.write().unwrap();
+        cache.insert(src.to_string(), cached.clone());
+    }
+    cached
 }
 
 fn is_valid_for_pragma(s: &str) -> bool {
