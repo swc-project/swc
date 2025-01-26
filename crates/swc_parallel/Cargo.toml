@@ -22,5 +22,6 @@ indexmap  = { workspace = true, optional = true }
 once_cell = { workspace = true }
 
 [dev-dependencies]
-hstr       = { workspace = true }
 scoped-tls = { workspace = true }
+
+hstr = { version = "0.2.16", path = "../hstr" }
