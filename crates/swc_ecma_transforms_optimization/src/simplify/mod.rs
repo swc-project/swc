@@ -15,6 +15,7 @@ pub mod const_propagation;
 pub mod dce;
 mod expr;
 pub mod inlining;
+mod pure;
 
 #[derive(Debug, Default)]
 pub struct Config {
