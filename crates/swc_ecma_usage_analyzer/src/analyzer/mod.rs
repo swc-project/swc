@@ -306,6 +306,7 @@ where
                     &n.right,
                     AliasConfig {
                         marks: self.marks,
+                        ignore_named_child_scope: true,
                         ..Default::default()
                     },
                 ) {
@@ -758,6 +759,7 @@ where
                 &n.function,
                 AliasConfig {
                     marks: self.marks,
+                    ignore_named_child_scope: true,
                     ..Default::default()
                 },
             ) {
@@ -788,6 +790,7 @@ where
                     &n.function,
                     AliasConfig {
                         marks: self.marks,
+                        ignore_named_child_scope: true,
                         ..Default::default()
                     },
                 ) {
@@ -1285,6 +1288,7 @@ where
                     init,
                     AliasConfig {
                         marks: self.marks,
+                        ignore_named_child_scope: true,
                         ..Default::default()
                     },
                 ) {

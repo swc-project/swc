@@ -12,12 +12,36 @@ use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 mod ctx;
 
 #[derive(Default)]
+#[non_exhaustive]
 pub struct AliasConfig {
     pub marks: Option<Marks>,
     pub ignore_nested: bool,
     /// TODO(kdy1): This field is used for sequential inliner.
     /// It should be renamed to some correct name.
     pub need_all: bool,
+
+    pub ignore_named_child_scope: bool,
+}
+impl AliasConfig {
+    pub fn marks(mut self, arg: Option<Marks>) -> Self {
+        self.marks = arg;
+        self
+    }
+
+    pub fn ignore_nested(mut self, arg: bool) -> Self {
+        self.ignore_nested = arg;
+        self
+    }
+
+    pub fn ignore_named_child_scope(mut self, arg: bool) -> Self {
+        self.ignore_named_child_scope = arg;
+        self
+    }
+
+    pub fn need_all(mut self, arg: bool) -> Self {
+        self.need_all = arg;
+        self
+    }
 }
 
 pub trait InfectableNode {
@@ -292,5 +316,38 @@ impl Visit for InfectionCollector<'_> {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        if self.config.ignore_named_child_scope {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, n: &FnExpr) {
+        if self.config.ignore_named_child_scope && n.ident.is_some() {
+            return;
+        }
+        n.visit_children_with(self);
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if self.config.ignore_named_child_scope && n.op == op!("=") && n.left.is_simple() {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
+        if self.config.ignore_named_child_scope {
+            if let (Pat::Ident(..), Some(..)) = (&n.name, n.init.as_deref()) {
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
     }
 }
