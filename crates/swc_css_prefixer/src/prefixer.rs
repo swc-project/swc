@@ -35,24 +35,27 @@ static PREFIXES_AND_BROWSERS: Lazy<AHashMap<String, [BrowserData<Option<Version>
             .collect()
     });
 
-macro_rules! zip {
-    ($x: expr) => ($x);
-    ($x: expr, $($y: expr), +) => ($x.iter().zip(zip!($($y), +)))
-}
-
 fn should_enable(
     target: &Versions,
     low_versions: &Versions,
     high_versions: &Versions,
     default: bool,
 ) -> bool {
-    if zip!(target, low_versions, high_versions).all(|((_, target_version), ((_, l), (_, h)))| {
+    let mut iter = target
+        .iter()
+        .zip(low_versions.iter().zip(high_versions.iter()));
+
+    if iter.all(|((_, target_version), ((_, l), (_, h)))| {
         target_version.is_none() && l.is_none() && h.is_none()
     }) {
         return default;
     }
 
-    zip!(target, low_versions, high_versions).any(
+    let mut iter = target
+        .iter()
+        .zip(low_versions.iter().zip(high_versions.iter()));
+
+    iter.any(
         |(
             (target_name, maybe_target_version),
             ((_, maybe_low_version), (_, maybe_high_version)),
