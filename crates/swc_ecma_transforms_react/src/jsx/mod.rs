@@ -57,7 +57,7 @@ pub struct Options {
 
     /// For automatic runtime
     #[serde(default)]
-    pub import_source: Option<Arc<String>>,
+    pub import_source: Option<Atom>,
 
     #[serde(default)]
     pub pragma: Option<Arc<String>>,
