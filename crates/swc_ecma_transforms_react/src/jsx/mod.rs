@@ -113,10 +113,10 @@ fn default_throw_if_namespace() -> bool {
 pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
-    src: String,
+    src: Arc<String>,
     top_level_mark: Mark,
 ) -> Arc<Box<Expr>> {
-    let fm = cm.new_source_file(
+    let fm = cm.new_source_file_from(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
     );
