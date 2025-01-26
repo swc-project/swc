@@ -10,12 +10,12 @@ use super::builtin::BUILTINS;
 #[derive(Debug)]
 pub struct Entry {
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     pub imports: IndexSet<&'static str, ARandomState>,
 }
 
 impl Entry {
-    pub fn new(target: Versions, regenerator: bool) -> Self {
+    pub fn new(target: Arc<Versions>, regenerator: bool) -> Self {
         let is_any_target = target.is_any_target();
         let is_web_target = target.into_iter().any(|(k, v)| {
             if k == "node" {

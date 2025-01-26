@@ -17,7 +17,7 @@ impl Feature {
             &FEATURES[&self]
         };
 
-        should_enable(target, *f, default)
+        should_enable(target, f, default)
     }
 }
 
@@ -368,7 +368,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixEdgeDefaultParam.should_enable(
-            BrowserData {
+            &BrowserData {
                 edge: Some("18.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -381,7 +381,7 @@ mod tests {
     fn async_arrows_in_class_bug() {
         // Enable async to generator pass in Safari 10.1 without bugfixes option
         assert!(Feature::AsyncToGenerator.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.1.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -390,7 +390,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixAsyncArrowsInClass.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.1.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -400,7 +400,7 @@ mod tests {
 
         // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
         assert!(!Feature::AsyncToGenerator.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.1.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -409,7 +409,7 @@ mod tests {
         ));
 
         assert!(Feature::BugfixAsyncArrowsInClass.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.1.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -418,7 +418,7 @@ mod tests {
         ));
 
         assert!(!Feature::BugfixAsyncArrowsInClass.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("11.1.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -431,7 +431,7 @@ mod tests {
     fn block_scoping() {
         // Enable block scoping pass in Safari 10 without bugfixes option
         assert!(Feature::BlockScoping.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.0.0".parse().unwrap()),
                 ..Default::default()
             },
@@ -441,7 +441,7 @@ mod tests {
 
         // Don't enable it with the bugfixes option.
         assert!(!Feature::BlockScoping.should_enable(
-            BrowserData {
+            &BrowserData {
                 safari: Some("10.0.0".parse().unwrap()),
                 ..Default::default()
             },
