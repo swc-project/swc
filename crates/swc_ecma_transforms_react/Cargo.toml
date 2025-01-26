@@ -18,13 +18,14 @@ default    = ["serde-impl"]
 serde-impl = ["serde"]
 
 [dependencies]
-base64    = { workspace = true }
-dashmap   = { workspace = true }
-indexmap  = { workspace = true }
-once_cell = { workspace = true }
-rayon     = { workspace = true, optional = true }
-serde     = { workspace = true, features = ["derive"], optional = true }
-sha1      = { workspace = true }
+base64     = { workspace = true }
+dashmap    = { workspace = true }
+indexmap   = { workspace = true }
+once_cell  = { workspace = true }
+rayon      = { workspace = true, optional = true }
+rustc-hash = { workspace = true }
+serde      = { workspace = true, features = ["derive"], optional = true }
+sha1       = { workspace = true }
 
 string_enum                = { version = "1.0.0", path = "../string_enum" }
 swc_allocator              = { version = "2.0.0", path = "../swc_allocator", default-features = false }
