@@ -2,6 +2,7 @@
 #![allow(clippy::mutable_key_type)]
 #![allow(clippy::arc_with_non_send_sync)]
 #![allow(rustc::untranslatable_diagnostic_trivial)]
+#![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Pass;

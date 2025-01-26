@@ -1,5 +1,6 @@
 // #![cfg_attr(test, deny(warnings))]
 #![allow(clippy::mutable_key_type)]
+#![cfg_attr(not(test), allow(unused))]
 
 pub use self::resolver::resolver;
 

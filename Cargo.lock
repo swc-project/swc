@@ -5578,6 +5578,7 @@ dependencies = [
  "indexmap 2.7.1",
  "once_cell",
  "rayon",
+ "rustc-hash",
  "serde",
  "sha1",
  "string_enum",
@@ -5628,6 +5629,7 @@ version = "7.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "once_cell",
  "ryu-js",
  "serde",
  "swc_atoms",
