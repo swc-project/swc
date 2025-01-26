@@ -3,7 +3,7 @@
 use std::{
     borrow::Cow,
     iter::{self, once},
-    sync::{Arc, RwLock},
+    sync::RwLock,
 };
 
 use once_cell::sync::Lazy;
@@ -283,10 +283,10 @@ pub struct JsxDirectives {
     pub import_source: Option<Atom>,
 
     /// Parsed from `@jsx`
-    pub pragma: Option<Arc<Box<Expr>>>,
+    pub pragma: Option<Lrc<Box<Expr>>>,
 
     /// Parsed from `@jsxFrag`
-    pub pragma_frag: Option<Arc<Box<Expr>>>,
+    pub pragma_frag: Option<Lrc<Box<Expr>>>,
 }
 
 fn respan(e: &mut Expr, span: Span) {
