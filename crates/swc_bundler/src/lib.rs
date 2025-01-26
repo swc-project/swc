@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::mutable_key_type)]
+#![cfg_attr(not(test), allow(unused))]
 
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config, ModuleType},
