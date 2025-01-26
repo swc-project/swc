@@ -2,8 +2,26 @@ use std::borrow::Cow;
 
 use swc_atoms::Atom;
 use swc_ecma_ast::{
-    BindingIdent, Expr, Lit, MemberExpr, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
+    BindingIdent, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
 };
+
+pub trait ExprExit {
+    fn get_root_ident(&self) -> Option<&Ident>;
+}
+
+impl ExprExit for Expr {
+    fn get_root_ident(&self) -> Option<&Ident> {
+        match self {
+            Expr::Member(member_expr) => member_expr.obj.get_root_ident(),
+            Expr::Ident(ident) => Some(ident),
+            Expr::OptChain(opt_chain_expr) => opt_chain_expr
+                .base
+                .as_member()
+                .and_then(|member_expr| member_expr.obj.get_root_ident()),
+            _ => None,
+        }
+    }
+}
 
 pub trait PatExt {
     fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
@@ -116,32 +134,6 @@ impl MemberPropExt for MemberProp {
                 _ => None,
             },
             MemberProp::PrivateName(_) => None,
-        }
-    }
-}
-
-pub trait MemberExprExt {
-    fn get_first_object(&self) -> &Expr;
-}
-
-impl MemberExprExt for MemberExpr {
-    fn get_first_object(&self) -> &Expr {
-        let mut object = &self.obj;
-        loop {
-            match object.as_ref() {
-                Expr::Member(member_expr) => {
-                    object = &member_expr.obj;
-                    continue;
-                }
-                Expr::OptChain(opt_chain) => {
-                    if let Some(member_expr) = opt_chain.base.as_member() {
-                        object = &member_expr.obj;
-                        continue;
-                    }
-                }
-                _ => {}
-            }
-            break object;
         }
     }
 }

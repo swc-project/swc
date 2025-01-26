@@ -2,7 +2,11 @@
 
 extern crate swc_malloc;
 
-use std::{env, fs, path::PathBuf, time::Instant};
+use std::{
+    env,
+    path::PathBuf,
+    time::{Duration, Instant},
+};
 
 use anyhow::Result;
 use rayon::prelude::*;
@@ -18,7 +22,7 @@ use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     resolver,
 };
-use swc_ecma_utils::parallel::{Parallel, ParallelExt};
+use swc_ecma_utils::parallel::Parallel;
 use walkdir::WalkDir;
 
 fn main() {
@@ -26,11 +30,9 @@ fn main() {
     let files = expand_dirs(dirs);
     eprintln!("Using {} files", files.len());
 
-    for i in 0..10 {
-        let start = Instant::now();
-        minify_all(&files);
-        eprintln!("{}: Took {:?}", i, start.elapsed());
-    }
+    let start = Instant::now();
+    minify_all(&files);
+    eprintln!("Took {:?}", start.elapsed());
 }
 
 /// Return the whole input files as abolute path.
@@ -55,22 +57,37 @@ fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
         .collect()
 }
 
-struct Worker;
+#[derive(Default)]
+struct Worker {
+    total_size: usize,
+    /// Single file max duration
+    max_duration: Duration,
+}
 
 impl Parallel for Worker {
     fn create(&self) -> Self {
-        Worker
+        Worker {
+            total_size: 0,
+            ..*self
+        }
     }
 
-    fn merge(&mut self, _: Self) {}
+    fn merge(&mut self, other: Self) {
+        self.total_size += other.total_size;
+        self.max_duration = self.max_duration.max(other.max_duration);
+    }
 }
 
 #[inline(never)] // For profiling
 fn minify_all(files: &[PathBuf]) {
     GLOBALS.set(&Default::default(), || {
-        Worker.maybe_par(2, files, |_, path| {
+        let mut worker = Worker::default();
+
+        files.iter().for_each(|path| {
             testing::run_test(false, |cm, handler| {
                 let fm = cm.load_file(path).expect("failed to load file");
+
+                let start = Instant::now();
 
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
@@ -114,12 +131,22 @@ fn minify_all(files: &[PathBuf]) {
 
                 let code = print(cm.clone(), &[output], true);
 
-                fs::write("output.js", code.as_bytes()).expect("failed to write output");
+                let duration = start.elapsed();
+
+                worker.total_size += code.len();
+                worker.max_duration = worker.max_duration.max(duration);
+
+                if duration > Duration::from_secs(1) {
+                    eprintln!("{}: {:?}", path.display(), duration);
+                }
 
                 Ok(())
             })
             .unwrap()
         });
+
+        eprintln!("Total size: {}", worker.total_size);
+        eprintln!("Max duration: {:?}", worker.max_duration);
     });
 }
 

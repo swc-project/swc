@@ -595,8 +595,8 @@ with any configuration info required for the module.
     @param {String} namespace* One or more namespaces to create.
     @return {Object} Reference to the last namespace object created.
     **/ namespace: function() {
-            for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = "YAHOO" == //Skip this if no "." is present
-            (d = arg.split("."))[0] ? 1 : 0; j < d.length; j++)o[d[j]] = o[d[j]] || {}, o = o[d[j]];
+            for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = +("YAHOO" == //Skip this if no "." is present
+            (d = arg.split("."))[0]); j < d.length; j++)o[d[j]] = o[d[j]] || {}, o = o[d[j]];
             else o[arg] = o[arg] || {}, o = o[arg];
             return o;
         },
@@ -3237,7 +3237,7 @@ Contains the core of YUI's feature test architecture.
             var cat_o = feature_tests[cat], // results = {};
             result = [];
             return cat_o && Y.Object.each(cat_o, function(v, k) {
-                result.push(k + ":" + (Y.Features.test(cat, k, args) ? 1 : 0));
+                result.push(k + ":" + +!!Y.Features.test(cat, k, args));
             }), result.length ? result.join(";") : "";
         },
         /**

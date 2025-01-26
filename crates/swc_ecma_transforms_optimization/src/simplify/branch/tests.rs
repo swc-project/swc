@@ -26,6 +26,7 @@ macro_rules! test_stmt {
                             // This is hack
                             is_unresolved_ref_safe: true,
                             in_strict: false,
+                            remaining_depth: 4,
                         },
                     }),
                 )

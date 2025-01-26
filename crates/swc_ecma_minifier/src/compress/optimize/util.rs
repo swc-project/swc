@@ -161,7 +161,7 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Box<Expr>> {
+pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<Expr>> {
     let mut res = Vec::new();
     if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {
@@ -308,24 +308,6 @@ enum FinalizerMode {
 impl VisitMut for Finalizer<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_callee(&mut self, e: &mut Callee) {
-        e.visit_mut_children_with(self);
-
-        if let Callee::Expr(e) = e {
-            self.check(e, FinalizerMode::Callee);
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.visit_mut_children_with(self);
-
-        if let MemberProp::Computed(ref mut prop) = e.prop {
-            if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
-                self.check(&mut e.obj, FinalizerMode::MemberAccess);
-            }
-        }
-    }
-
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
@@ -342,65 +324,17 @@ impl VisitMut for Finalizer<'_> {
         }
     }
 
-    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        n.visit_mut_children_with(self);
+    fn visit_mut_callee(&mut self, e: &mut Callee) {
+        e.visit_mut_children_with(self);
 
-        n.retain(|v| !v.name.is_invalid());
-    }
-
-    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
-        n.visit_mut_children_with(self);
-
-        if n.init.is_none() {
-            if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&i.to_id()) {
-                    n.name.take();
-                }
-            }
+        if let Callee::Expr(e) = e {
+            self.check(e, FinalizerMode::Callee);
         }
     }
 
-    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
-        n.visit_mut_children_with(self);
-
-        if let Some(VarDeclOrExpr::VarDecl(v)) = n {
-            if v.decls.is_empty() {
-                *n = None;
-            }
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        n.visit_mut_children_with(self);
-
-        if let Stmt::Decl(Decl::Var(v)) = n {
-            if v.decls.is_empty() {
-                n.take();
-            }
-        }
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, members, |v, member| {
+            member.visit_mut_with(v);
         });
     }
 
@@ -436,16 +370,88 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.visit_mut_children_with(self);
+
+        if let MemberProp::Computed(ref mut prop) = e.prop {
+            if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                self.check(&mut e.obj, FinalizerMode::MemberAccess);
+            }
+        }
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
+    }
+
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if let Some(VarDeclOrExpr::VarDecl(v)) = n {
+            if v.decls.is_empty() {
+                *n = None;
+            }
+        }
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        n.visit_mut_children_with(self);
+
+        if let Stmt::Decl(Decl::Var(v)) = n {
+            if v.decls.is_empty() {
+                n.take();
+            }
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        n.visit_mut_children_with(self);
+
+        if n.init.is_none() {
+            if let Pat::Ident(i) = &n.name {
+                if self.vars_to_remove.contains(&i.to_id()) {
+                    n.name.take();
+                }
+            }
+        }
+    }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| !v.name.is_invalid());
     }
 }
 

@@ -67,7 +67,7 @@ swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "5.0.0", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", optional = true }
+swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast", optional = true }
 swc_plugin_proxy = { version = "5.0.0", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
@@ -83,7 +83,7 @@ swc_css_ast = { version = "5.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
 swc_css_parser = { version = "5.0.0", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "5.0.0", path = "../swc_ecma_loader" }

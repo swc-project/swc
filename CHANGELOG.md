@@ -1,6 +1,79 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Compress negate eq ([#9911](https://github.com/swc-project/swc/issues/9911)) ([e8f23cf](https://github.com/swc-project/swc/commit/e8f23cf92146828ea2a8b65724c7a6824acf9f0f))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Add a script for samply profiler ([#9923](https://github.com/swc-project/swc/issues/9923)) ([8f8dcaa](https://github.com/swc-project/swc/commit/8f8dcaac2f22f71de538802034db5756e84c7f55))
+
+### Refactor
+
+
+
+- **(es/minifier)** Make `minify-all` example sequential ([#9912](https://github.com/swc-project/swc/issues/9912)) ([5b5c87e](https://github.com/swc-project/swc/commit/5b5c87e72480638ae382d519980302702e333305))
+
+## [1.10.9] - 2025-01-21
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Set param type to unknown ([#9905](https://github.com/swc-project/swc/issues/9905)) ([09b3b37](https://github.com/swc-project/swc/commit/09b3b371f93ca603c61992eca3e44208cd857dc5))
+
+### Documentation
+
+
+
+- **(es/parallel)** Improve document of `Parallel` ([#9896](https://github.com/swc-project/swc/issues/9896)) ([9962c9c](https://github.com/swc-project/swc/commit/9962c9c98d8a30623b4680303e398ae57da6d6a9))
+
+### Features
+
+
+
+- **(es/minifier)** Print total size from `minify-all` example ([#9897](https://github.com/swc-project/swc/issues/9897)) ([134000f](https://github.com/swc-project/swc/commit/134000fe93029c3af887726e5be6da1fd812e330))
+
+
+- **(es/minifier)** Turn `1 * v` into `+v` ([#9903](https://github.com/swc-project/swc/issues/9903)) ([a228347](https://github.com/swc-project/swc/commit/a2283475b1b8f770e113806590f4959550f89f31))
+
+
+- **(es/minifier)** Compress `foo ? num : 0` into `num * !!foo` ([#9908](https://github.com/swc-project/swc/issues/9908)) ([ce22557](https://github.com/swc-project/swc/commit/ce22557a0512e9263cb316116e5262757d884479))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Print slow files from `minify-all` example ([#9899](https://github.com/swc-project/swc/issues/9899)) ([2d87b89](https://github.com/swc-project/swc/commit/2d87b897e6f62e07aee3b0741d3e961190986763))
+
+### Performance
+
+
+
+- **(es/minifier)** Make character frequency analysis parallel ([#9895](https://github.com/swc-project/swc/issues/9895)) ([ca2fd1e](https://github.com/swc-project/swc/commit/ca2fd1ebdf94270efdb319379551de31f41428a2))
+
+
+- **(es/minifier)** Parallelize handling of class members ([#9900](https://github.com/swc-project/swc/issues/9900)) ([ed74839](https://github.com/swc-project/swc/commit/ed748394be54b9e4e212717007b430aa169667e9))
+
+
+- **(es/minifier)** Adjust threshold for parallel char frequency calculation ([#9901](https://github.com/swc-project/swc/issues/9901)) ([47ea8de](https://github.com/swc-project/swc/commit/47ea8de2777051bce249f666b10580f168d8d72a))
+
+
+- **(es/minifier)** Do heavy operation only if required ([#9902](https://github.com/swc-project/swc/issues/9902)) ([2687231](https://github.com/swc-project/swc/commit/26872310f60d4de40e717cd30e7bf856bad3edba))
+
+
+- **(es/minifier)** Cache `var_or_default` calls ([#9909](https://github.com/swc-project/swc/issues/9909)) ([4a3be8d](https://github.com/swc-project/swc/commit/4a3be8d60b1ad49d723a5e102264ec3284603638))
+
+
+- **(es/minifier)** Invert cache to be really a cache ([#9910](https://github.com/swc-project/swc/issues/9910)) ([8bfb0e5](https://github.com/swc-project/swc/commit/8bfb0e5edd51934dff37fe70136b73d5301a4e41))
+
+## [1.10.8] - 2025-01-19
+
 ### Bug Fixes
 
 
@@ -8,7 +81,13 @@
 - **(es/decorators)** Fix init order of `2022-03` impl ([#9760](https://github.com/swc-project/swc/issues/9760)) ([751a310](https://github.com/swc-project/swc/commit/751a310e87cbbb61ebd76671018bf01d07487792))
 
 
+- **(es/testing)** Fix sourcemap generation ([#9891](https://github.com/swc-project/swc/issues/9891)) ([008f2de](https://github.com/swc-project/swc/commit/008f2dee6660529faf4cd498e33a5a3ffd4c6f2f))
+
+
 - **(es/ts_strip)** Handle ASI hazard in return statement ([#9882](https://github.com/swc-project/swc/issues/9882)) ([121b5fe](https://github.com/swc-project/swc/commit/121b5fefbc17932816f69c88edc14f8387c493e9))
+
+
+- **(typescript)** Collect usages in extend clauses of classes and interfaces ([#9893](https://github.com/swc-project/swc/issues/9893)) ([ef29ef6](https://github.com/swc-project/swc/commit/ef29ef6a225927ccdd3d98751f9a2cfef88ca237))
 
 ### Features
 
@@ -23,10 +102,16 @@
 - **(bench)** Run benchmark on a custom runner ([#9877](https://github.com/swc-project/swc/issues/9877)) ([2d6f9a5](https://github.com/swc-project/swc/commit/2d6f9a5c27803257635b4b008c5d3b0592478e1d))
 
 
+- **(es/codegen)** Remove needless allocations ([#9890](https://github.com/swc-project/swc/issues/9890)) ([f230ff2](https://github.com/swc-project/swc/commit/f230ff2d8454808ffa99c298448eba7522597219))
+
+
 - **(es/minifier)** Make the first run of DCE more efficient ([#9868](https://github.com/swc-project/swc/issues/9868)) ([7329824](https://github.com/swc-project/swc/commit/7329824b825663c6c51c48dd5ace097da87e2c88))
 
 
 - **(es/minifier)** Adjust parallel threshold ([#9872](https://github.com/swc-project/swc/issues/9872)) ([d5d856c](https://github.com/swc-project/swc/commit/d5d856cf3b7c89da4d917cb1acea4fdb3096769b))
+
+
+- **(es/minifier)** Box `VarUsageInfo` of `ProgramData` ([#9894](https://github.com/swc-project/swc/issues/9894)) ([fafd754](https://github.com/swc-project/swc/commit/fafd754f74be0cd9dfc1c0f5a24b1c078023cb64))
 
 
 - **(es/renamer)** Use `IndexSet` for rename queue ([#9866](https://github.com/swc-project/swc/issues/9866)) ([f404720](https://github.com/swc-project/swc/commit/f404720b8fa0166a27f47bf6913307353def7fae))
@@ -1488,78 +1573,10 @@
 
 ## [1.6.7] - 2024-07-03
 
-### Bug Fixes
-
-
-
-- **(es/compat)** Do not reuse span ([#9117](https://github.com/swc-project/swc/issues/9117)) ([6520052](https://github.com/swc-project/swc/commit/652005243260f46074595a6c031f7b82fa85302d))
-
-### Documentation
-
-
-
-- Use `@swc/counter` for 3rd-party download count ([026ff7e](https://github.com/swc-project/swc/commit/026ff7ef0c64379fc34df206eb9880920eda99ee))
-
-### Features
-
-
-
-- **(binding)** Create Wasm package for stripping only TypeScript ([#9124](https://github.com/swc-project/swc/issues/9124)) ([6b3c0da](https://github.com/swc-project/swc/commit/6b3c0da755b29022327adf7a5dc9a7c96142ceb2))
-
-
-- **(es/minifier)** Handle more indexing expression ([#8750](https://github.com/swc-project/swc/issues/8750)) ([570c47a](https://github.com/swc-project/swc/commit/570c47a9acd7363428f58dfea2f41c097f73ec1f))
-
-
-- **(preset-env)** Upgrade `browserslist-rs` ([#9023](https://github.com/swc-project/swc/issues/9023)) ([18d6277](https://github.com/swc-project/swc/commit/18d6277e4c68474333349a5b413ad30e59813483))
-
-### Performance
-
-
-
-- **(es/lexer)** Do not use `memchr::memmem` in parser ([#9118](https://github.com/swc-project/swc/issues/9118)) ([72021de](https://github.com/swc-project/swc/commit/72021def15225c7355f80b72b16ab3bfd99f51ad))
-
-### Refactor
-
-
-
-- **(es/typescript)** Extract type annotation proposal out ([#9127](https://github.com/swc-project/swc/issues/9127)) ([dfee5f8](https://github.com/swc-project/swc/commit/dfee5f838b76dae012393e207902effa0a69dd0d))
-
 ### Testing
 
 
 
 - **(bindings/ts)** Test Wasm binding ([#9128](https://github.com/swc-project/swc/issues/9128)) ([c6d6db3](https://github.com/swc-project/swc/commit/c6d6db3661ec93b9ebb8ca55ff88726f66b3d5e5))
-
-
-- **(es/decorators)** Split `decorator-tests` ([#9119](https://github.com/swc-project/swc/issues/9119)) ([07c3054](https://github.com/swc-project/swc/commit/07c3054847947bd4c39ca828a7471d990b77ee7c))
-
-### Build
-
-
-
-- **(bindings)** Fix build of typescript binding ([#9125](https://github.com/swc-project/swc/issues/9125)) ([f409bc0](https://github.com/swc-project/swc/commit/f409bc09d5613db8342e98552efc520f9c2c393c))
-
-## [1.6.6] - 2024-06-29
-
-### Bug Fixes
-
-
-
-- **(es/lexer)** Fix lexing of `\r\n` in JSX ([#9112](https://github.com/swc-project/swc/issues/9112)) ([2a0ebec](https://github.com/swc-project/swc/commit/2a0ebec0f5e51d5cba1c1981215a893834c63255))
-
-### Performance
-
-
-
-- **(es/parser)** Optimize macros ([#9100](https://github.com/swc-project/swc/issues/9100)) ([719b7c5](https://github.com/swc-project/swc/commit/719b7c54f69ef276270dc39fbcb8bbdbf52899bf))
-
-
-- **(es/parser)** Remove unnecessary check ([#9102](https://github.com/swc-project/swc/issues/9102)) ([2a490ad](https://github.com/swc-project/swc/commit/2a490ad0b2f9f89260742e653ba9ca086c1a9798))
-
-
-- **(es/parser)** Add a check before numeric operations ([#9105](https://github.com/swc-project/swc/issues/9105)) ([c0602c8](https://github.com/swc-project/swc/commit/c0602c81db55777be726cd8fe2fd074e34bd4d96))
-
-
-- **(es/parser)** Increase token context size ([#9104](https://github.com/swc-project/swc/issues/9104)) ([8ef30cc](https://github.com/swc-project/swc/commit/8ef30cc08c86251bb8bebf66286949805e332b6c))
 
 <!-- generated by git-cliff -->

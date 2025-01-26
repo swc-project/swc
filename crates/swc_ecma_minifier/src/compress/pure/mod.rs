@@ -61,6 +61,7 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
+            remaining_depth: 6,
         },
         ctx: Default::default(),
         changed: Default::default(),
@@ -79,10 +80,7 @@ struct Pure<'a> {
 
 impl Parallel for Pure<'_> {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, other: Self) {
@@ -184,7 +182,7 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(cpu_count() * 8, nodes, |v, node| {
+        self.maybe_par(cpu_count() * 2, nodes, |v, node| {
             node.visit_mut_with(v);
         });
     }
@@ -243,20 +241,6 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
-    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-
-        opt_call.args.visit_mut_with(self);
-
-        self.eval_spread_array(&mut opt_call.args);
-    }
-
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         m.visit_mut_children_with(self);
 
@@ -268,7 +252,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
-        m.visit_mut_children_with(self);
+        self.visit_par(m);
 
         m.retain(|m| {
             if let ClassMember::Empty(..) = m {
@@ -419,7 +403,10 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.optimize_negate_eq(e);
+
         self.lift_minus(e);
+        self.optimize_to_number(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -488,6 +475,8 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
+
+        self.compress_conds_as_arithmetic(e);
 
         self.lift_seqs_of_bin(e);
 
@@ -673,6 +662,20 @@ impl VisitMut for Pure<'_> {
         e.args.visit_mut_with(self);
     }
 
+    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        opt_call.args.visit_mut_with(self);
+
+        self.eval_spread_array(&mut opt_call.args);
+    }
+
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
@@ -721,7 +724,7 @@ impl VisitMut for Pure<'_> {
 
         exprs.retain(|e| {
             if let PropOrSpread::Spread(spread) = e {
-                if is_pure_undefined_or_null(&self.expr_ctx, &spread.expr) {
+                if is_pure_undefined_or_null(self.expr_ctx, &spread.expr) {
                     return false;
                 }
             }

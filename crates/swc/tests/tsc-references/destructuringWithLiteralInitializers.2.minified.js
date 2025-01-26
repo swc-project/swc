@@ -1,5 +1,5 @@
 //// [destructuringWithLiteralInitializers.ts]
-var param, param1, param2, param3, param4, param5, param6, _param, _param1;
+var param, _param, _param1, param1, param2, param3, param4, param5, param6;
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 function f4() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {

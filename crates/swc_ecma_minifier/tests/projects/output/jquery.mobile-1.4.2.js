@@ -3168,7 +3168,7 @@
             void 0 !== options.collapsed && this._handleExpandCollapse(options.collapsed), (isCollapsed = elem.hasClass("ui-collapsible-collapsed")) ? opts.expandCueText !== undefined8 && status.text(opts.expandCueText) : opts.collapseCueText !== undefined8 && status.text(opts.collapseCueText), // Update icon
             // Is it supposed to have an icon?
             hasIcon = // If the collapsedIcon is being set, consult that
-            opts.collapsedIcon !== undefined8 ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, !(opts.iconpos === undefined8 && opts.collapsedIcon === undefined8 && opts.expandedIcon === undefined8) && (// Remove all current icon-related classes
+            opts.collapsedIcon !== undefined8 ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, (opts.iconpos !== undefined8 || opts.collapsedIcon !== undefined8 || opts.expandedIcon !== undefined8) && (// Remove all current icon-related classes
             anchor.removeClass([
                 iconposClass(currentOpts.iconpos)
             ].concat(currentOpts.expandedIcon ? [
@@ -3676,7 +3676,7 @@
             },
             _setOptions: function(options) {
                 var outer = this.widget();
-                this._super(options), void 0 === options.disabled && void 0 === options.mini && options.corners === undefined && options.theme === undefined && options.wrapperClass === undefined || (outer.removeClass(this.classes.join(" ")), this.classes = this._classesFromOptions(), outer.addClass(this.classes.join(" "))), options.disabled !== undefined && this.element.prop("disabled", !!options.disabled);
+                this._super(options), (void 0 !== options.disabled || void 0 !== options.mini || options.corners !== undefined || options.theme !== undefined || options.wrapperClass !== undefined) && (outer.removeClass(this.classes.join(" ")), this.classes = this._classesFromOptions(), outer.addClass(this.classes.join(" "))), options.disabled !== undefined && this.element.prop("disabled", !!options.disabled);
             },
             _destroy: function() {
                 !this.options.enhanced && (this.inputNeedsWrap && this.element.unwrap(), this.element.removeClass("ui-input-text " + this.classes.join(" ")));
@@ -3823,12 +3823,12 @@
             _sliderVMouseDown: function(event1) {
                 return(// NOTE: we don't do this in refresh because we still want to
                 //       support programmatic alteration of disabled inputs
-                !this.options.disabled && !!(1 === event1.which || 0 === event1.which || event1.which === undefined) && !1 !== this._trigger("beforestart", event1) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event1), this._trigger("start"), !1));
+                !this.options.disabled && (1 === event1.which || 0 === event1.which || event1.which === undefined) && !1 !== this._trigger("beforestart", event1) && (this.dragging = !0, this.userModified = !1, this.mouseMoved = !1, this.isToggleSwitch && (this.beforeStart = this.element[0].selectedIndex), this.refresh(event1), this._trigger("start"), !1));
             },
             _sliderVMouseUp: function() {
                 if (this.dragging) return this.dragging = !1, this.isToggleSwitch && (// make the handle move with a smooth transition
-                this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(0 === this.beforeStart ? 1 : 0) : this.refresh(this.beforeStart) : // this is just a click, change the value
-                this.refresh(0 === this.beforeStart ? 1 : 0)), this.mouseMoved = !1, this._trigger("stop"), !1;
+                this.handle.addClass("ui-slider-handle-snapping"), this.mouseMoved ? this.userModified ? this.refresh(+(0 === this.beforeStart)) : this.refresh(this.beforeStart) : // this is just a click, change the value
+                this.refresh(+(0 === this.beforeStart))), this.mouseMoved = !1, this._trigger("stop"), !1;
             },
             _preventDocumentDrag: function(event1) {
                 return(// NOTE: we don't do this in refresh because we still want to
@@ -5989,7 +5989,7 @@
                 })), this._search = search;
             },
             _setOptions: function(options) {
-                var refilter = !(void 0 === options.filterReveal && void 0 === options.filterCallback && options.children === undefined);
+                var refilter = void 0 !== options.filterReveal || void 0 !== options.filterCallback || options.children !== undefined;
                 this._super(options), options.input !== undefined && (this._setInput(options.input), refilter = !0), refilter && this.refresh();
             },
             _destroy: function() {

@@ -23,6 +23,7 @@ fn fold(src: &str, expected: &str) {
                         // This is hack
                         is_unresolved_ref_safe: true,
                         in_strict: false,
+                        remaining_depth: 4,
                     },
                     config: super::Config {},
                     changed: false,

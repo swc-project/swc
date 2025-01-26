@@ -1,0 +1,58 @@
+```==================== .D.TS ====================
+
+// Correct
+export declare const foo: {
+    [Symbol.iterator]: () => void;
+    [Symbol.asyncIterator]: () => Promise<void>;
+    [globalThis.Symbol.iterator]: () => void;
+    [Symbol.toStringTag]: string;
+};
+export declare abstract class Foo {
+    [Symbol.iterator](): void;
+    [Symbol.asyncIterator](): Promise<void>;
+    [globalThis.Symbol.iterator](): void;
+    get [Symbol.toStringTag](): string;
+}
+// Incorrect
+export declare namespace Foo {
+    const foo: {
+    };
+}
+export declare function bar(Symbol: {
+}, globalThis: {
+}): {
+};
+
+
+==================== Errors ====================
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/symbol-properties.ts:46:1]
+ 45 |     export const foo = {
+ 46 |         [Symbol.iterator]: (): void => {},
+    :         ^^^^^^^^^^^^^^^^^
+ 47 |         [globalThis.Symbol.iterator]: (): void => {},
+    `----
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/symbol-properties.ts:47:1]
+ 46 |         [Symbol.iterator]: (): void => {},
+ 47 |         [globalThis.Symbol.iterator]: (): void => {},
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 48 |     };
+    `----
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/symbol-properties.ts:53:1]
+ 52 |     return {
+ 53 |         [Symbol.iterator]: (): void => {},
+    :         ^^^^^^^^^^^^^^^^^
+ 54 |         [globalThis.Symbol.iterator]: (): void => {},
+    `----
+  x TS9038: Computed property names on class or object literals cannot be inferred with --isolatedDeclarations.
+    ,-[$DIR/tests/fixture/symbol-properties.ts:54:1]
+ 53 |         [Symbol.iterator]: (): void => {},
+ 54 |         [globalThis.Symbol.iterator]: (): void => {},
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 55 |     };
+    `----
+
+
+```

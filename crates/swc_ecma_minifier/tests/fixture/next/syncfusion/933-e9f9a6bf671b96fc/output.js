@@ -2608,7 +2608,7 @@
                                 // eslint-disable-next-line
                                 var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
                                 util_isNullOrUndefined(retu) && // eslint-disable-next-line
-                                (retu = options.era[dec ? 0 : 1]), ret += retu || '';
+                                (retu = options.era[+!dec]), ret += retu || '';
                                 break;
                             case '\'':
                                 ret += '\'\'' === match ? '\'' : match.replace(/'/g, '');
@@ -2657,7 +2657,7 @@
      * @returns {string} ?
      * @private
      */ DateFormat.getTimeZoneValue = function(tVal, pattern) {
-                    var _this = this, curPattern = pattern.split(';')[tVal > 0 ? 1 : 0], no = Math.abs(tVal);
+                    var _this = this, curPattern = pattern.split(';')[+(tVal > 0)], no = Math.abs(tVal);
                     return curPattern.replace(/HH?|mm/g, function(str) {
                         var len = str.length, ishour = -1 !== str.indexOf('H');
                         return _this.checkTwodigitNumber(Math.floor(ishour ? no / 60 : no % 60), len);
@@ -2963,7 +2963,7 @@
                     }
                     if (!util_isUndefined(desig)) {
                         var hour = res.getHours();
-                        'pm' === desig ? res.setHours(hour + (12 === hour ? 0 : 12)) : 12 === hour && res.setHours(0);
+                        'pm' === desig ? res.setHours(hour + 12 * (12 !== hour)) : 12 === hour && res.setHours(0);
                     }
                     if (!util_isUndefined(tzone)) {
                         var tzValue = tzone - res.getTimezoneOffset();
@@ -6886,7 +6886,7 @@
          * @returns {void} ?
          */ _this.moveEvent = function(evt) {
                         var point = _this.updateChangeTouches(evt);
-                        _this.movedPoint = point, _this.isTouchMoved = !(point.clientX === _this.startPoint.clientX && point.clientY === _this.startPoint.clientY);
+                        _this.movedPoint = point, _this.isTouchMoved = point.clientX !== _this.startPoint.clientX || point.clientY !== _this.startPoint.clientY;
                         var eScrollArgs = {};
                         _this.isTouchMoved && (clearTimeout(_this.timeOutTapHold), _this.calcScrollPoints(evt), eScrollArgs = util_extend(eScrollArgs, {}, {
                             startEvents: _this.startEventData,
@@ -6947,7 +6947,7 @@
                     }, _this.modeclear = function() {
                         _this.modeClear = setTimeout(function() {
                             _this.touchAction = !0;
-                        }, 'function' != typeof _this.tap ? 0 : 20), _this.lastTapTime = new Date().getTime(), EventHandler.remove(_this.element, Browser.touchMoveEvent, _this.moveEvent), EventHandler.remove(_this.element, Browser.touchEndEvent, _this.endEvent), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
+                        }, 20 * ('function' == typeof _this.tap)), _this.lastTapTime = new Date().getTime(), EventHandler.remove(_this.element, Browser.touchMoveEvent, _this.moveEvent), EventHandler.remove(_this.element, Browser.touchEndEvent, _this.endEvent), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
                     }, _this.bind(), _this;
                 }
                 return touch_extends(Touch, _super), // triggers when property changed
@@ -9770,7 +9770,7 @@
  */ function getScrollableParent(element, fixedParent) {
                 for(var eleStyle = getComputedStyle(element), scrollParents = [], overflowRegex = /(auto|scroll)/, parent = element.parentElement; parent && 'HTML' !== parent.tagName;){
                     var parentStyle = getComputedStyle(parent);
-                    !('absolute' === eleStyle.position && 'static' === parentStyle.position) && overflowRegex.test(parentStyle.overflow + parentStyle.overflowY + parentStyle.overflowX) && scrollParents.push(parent), parent = parent.parentElement;
+                    ('absolute' !== eleStyle.position || 'static' !== parentStyle.position) && overflowRegex.test(parentStyle.overflow + parentStyle.overflowY + parentStyle.overflowX) && scrollParents.push(parent), parent = parent.parentElement;
                 }
                 return fixedParent || scrollParents.push(document), scrollParents;
             }
@@ -11631,7 +11631,7 @@
                         };
                         this.parent.trigger(constant /* actionBegin */ .m2, actionBeginArgs, function(actionBeginArgs) {
                             if (!actionBeginArgs.cancel) {
-                                if (!(_this.range.startOffset === _this.range.endOffset && _this.range.startContainer === _this.range.endContainer)) {
+                                if (_this.range.startOffset !== _this.range.endOffset || _this.range.startContainer !== _this.range.endContainer) {
                                     if (_this.range.deleteContents(), '#text' === _this.range.startContainer.nodeName && 0 === _this.range.startContainer.textContent.length && _this.range.startContainer.parentElement !== _this.parent.inputElement) 'BR' === _this.parent.enterKey ? _this.range.startContainer.parentElement.innerHTML = '&#8203;' : _this.range.startContainer.parentElement.innerHTML = '<br>';
                                     else if (_this.range.startContainer === _this.parent.inputElement && '' === _this.range.startContainer.innerHTML) {
                                         _this.range.startContainer.innerHTML = '<br>';
@@ -11701,7 +11701,7 @@
                                         currentParent = currentNode === _this.parent.inputElement ? previousNode : currentNode;
                                     }
                                     _this.removeBRElement(currentParent);
-                                    for(var currentParentLastChild = currentParent.lastChild; !(0, ej2_base /* isNullOrUndefined */ .le)(currentParentLastChild) && !('#text' === currentParentLastChild.nodeName || 'BR' === currentParentLastChild.nodeName);)currentParentLastChild = currentParentLastChild.lastChild;
+                                    for(var currentParentLastChild = currentParent.lastChild; !(0, ej2_base /* isNullOrUndefined */ .le)(currentParentLastChild) && '#text' !== currentParentLastChild.nodeName && 'BR' !== currentParentLastChild.nodeName;)currentParentLastChild = currentParentLastChild.lastChild;
                                     var isLastNodeLength = _this.range.startContainer === currentParentLastChild ? _this.range.startContainer.textContent.length : currentParent.textContent.length;
                                     if (currentParent !== _this.parent.inputElement && _this.parent.formatter.editorManager.domNode.isBlockNode(currentParent) && _this.range.startOffset === _this.range.endOffset && _this.range.startOffset === isLastNodeLength) {
                                         var focusBRElem = _this.parent.createElement('br');
@@ -16128,16 +16128,7 @@
                         this.pasteInsertHTML(nodes, node, range, nodeSelection, nodeCutter, docElement, isCollapsed, closestParentNode, editNode);
                         return;
                     }
-                    if (editNode === range.startContainer || (isCollapsed || closestParentNode.nodeType === Node.ELEMENT_NODE && -1 !== TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) && ('table' !== node.nodeName.toLowerCase() || !closestParentNode || -1 !== TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase()))) {
-                        if (range.deleteContents(), isCursor && '' === range.startContainer.textContent && 'BR' !== range.startContainer.nodeName && (range.startContainer.innerHTML = ''), ej2_base /* Browser.isIE */ .AR.isIE) {
-                            var frag = docElement.createDocumentFragment();
-                            frag.appendChild(node), range.insertNode(frag);
-                        } else if (1 === range.startContainer.nodeType && 'hr' === range.startContainer.nodeName.toLowerCase() && 'hr' === range.endContainer.nodeName.toLowerCase()) {
-                            var paraElem = range.startContainer.nextElementSibling;
-                            paraElem && (paraElem.querySelector('br') && (0, ej2_base /* detach */ .og)(paraElem.querySelector('br')), paraElem.appendChild(node));
-                        } else 'BR' === range.startContainer.nodeName ? range.startContainer.parentElement.insertBefore(node, range.startContainer) : range.insertNode(node);
-                        3 !== node.nodeType && node.childNodes.length > 0 ? nodeSelection.setSelectionText(docElement, node, node, 1, 1) : 'IMG' === node.nodeName ? this.imageFocus(node, nodeSelection, docElement) : 3 !== node.nodeType ? nodeSelection.setSelectionContents(docElement, node) : nodeSelection.setSelectionText(docElement, node, node, node.textContent.length, node.textContent.length);
-                    } else {
+                    if (editNode !== range.startContainer && (!isCollapsed && (closestParentNode.nodeType !== Node.ELEMENT_NODE || -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) || 'table' === node.nodeName.toLowerCase() && closestParentNode && -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase()))) {
                         var preNode = nodeCutter.GetSpliceNode(range, closestParentNode), sibNode = preNode.previousSibling, parentNode = preNode.parentNode;
                         if (1 === nodes.length || 'table' === node.nodeName.toLowerCase() && 0 === preNode.childElementCount) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
                         else {
@@ -16158,6 +16149,15 @@
                             null !== previousNode && (parentNode = previousNode), parentNode.firstChild && (parentNode !== editNode || 'TABLE' === node.nodeName && isCursor && parentNode === range.startContainer && parentNode === range.endContainer) ? '' === parentNode.textContent.trim() && parentNode !== editNode ? (InsertMethods.AppendBefore(node, parentNode, !1), (0, ej2_base /* detach */ .og)(parentNode)) : InsertMethods.AppendBefore(node, parentNode.firstChild, !1) : parentNode.appendChild(node);
                         }
                         'IMG' === node.nodeName ? this.imageFocus(node, nodeSelection, docElement) : 3 !== node.nodeType ? nodeSelection.setSelectionText(docElement, node, node, 0, node.childNodes.length) : nodeSelection.setSelectionText(docElement, node, node, 0, node.textContent.length);
+                    } else {
+                        if (range.deleteContents(), isCursor && '' === range.startContainer.textContent && 'BR' !== range.startContainer.nodeName && (range.startContainer.innerHTML = ''), ej2_base /* Browser.isIE */ .AR.isIE) {
+                            var frag = docElement.createDocumentFragment();
+                            frag.appendChild(node), range.insertNode(frag);
+                        } else if (1 === range.startContainer.nodeType && 'hr' === range.startContainer.nodeName.toLowerCase() && 'hr' === range.endContainer.nodeName.toLowerCase()) {
+                            var paraElem = range.startContainer.nextElementSibling;
+                            paraElem && (paraElem.querySelector('br') && (0, ej2_base /* detach */ .og)(paraElem.querySelector('br')), paraElem.appendChild(node));
+                        } else 'BR' === range.startContainer.nodeName ? range.startContainer.parentElement.insertBefore(node, range.startContainer) : range.insertNode(node);
+                        3 !== node.nodeType && node.childNodes.length > 0 ? nodeSelection.setSelectionText(docElement, node, node, 1, 1) : 'IMG' === node.nodeName ? this.imageFocus(node, nodeSelection, docElement) : 3 !== node.nodeType ? nodeSelection.setSelectionContents(docElement, node) : nodeSelection.setSelectionText(docElement, node, node, node.textContent.length, node.textContent.length);
                     }
                 }, InsertHtml.pasteInsertHTML = function(nodes, node, range, nodeSelection, nodeCutter, docElement, isCollapsed, closestParentNode, editNode) {
                     var lasNode, sibNode, isSingleNode, preNode, lastSelectionNode, isCursor = range.startOffset === range.endOffset && range.startContainer === range.endContainer;
@@ -16165,7 +16165,7 @@
                         var currentBlockNode = this.getImmediateBlockNode(nodes[nodes.length - 1], editNode);
                         nodeSelection.setSelectionText(docElement, currentBlockNode, currentBlockNode, 0, 0), range = nodeSelection.getRange(docElement);
                     }
-                    editNode === range.startContainer || (isCollapsed || closestParentNode.nodeType === Node.ELEMENT_NODE && -1 !== TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) && ('table' !== node.nodeName.toLowerCase() || !closestParentNode || -1 !== TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) || (preNode = nodeCutter.GetSpliceNode(range, closestParentNode), sibNode = (0, ej2_base /* isNullOrUndefined */ .le)(preNode.previousSibling) ? preNode.parentNode.previousSibling : preNode.previousSibling, 1 === nodes.length ? (nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement), isSingleNode = !0) : (lasNode = nodeCutter.GetSpliceNode(range, nodes[nodes.length - 1].parentElement), lasNode = (0, ej2_base /* isNullOrUndefined */ .le)(lasNode) ? preNode : lasNode, nodeSelection.setSelectionText(docElement, preNode, lasNode, 0, 3 === lasNode.nodeType ? lasNode.textContent.length : lasNode.childNodes.length), range = nodeSelection.getRange(docElement), isSingleNode = !1));
+                    editNode !== range.startContainer && (!isCollapsed && (closestParentNode.nodeType !== Node.ELEMENT_NODE || -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) || 'table' === node.nodeName.toLowerCase() && closestParentNode && -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) && (preNode = nodeCutter.GetSpliceNode(range, closestParentNode), sibNode = (0, ej2_base /* isNullOrUndefined */ .le)(preNode.previousSibling) ? preNode.parentNode.previousSibling : preNode.previousSibling, 1 === nodes.length ? (nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement), isSingleNode = !0) : (lasNode = nodeCutter.GetSpliceNode(range, nodes[nodes.length - 1].parentElement), lasNode = (0, ej2_base /* isNullOrUndefined */ .le)(lasNode) ? preNode : lasNode, nodeSelection.setSelectionText(docElement, preNode, lasNode, 0, 3 === lasNode.nodeType ? lasNode.textContent.length : lasNode.childNodes.length), range = nodeSelection.getRange(docElement), isSingleNode = !1));
                     var containsBlockNode = !1;
                     this.removingComments(node);
                     for(var allChildNodes = node.childNodes, i = 0; i < allChildNodes.length; i++)if (BLOCK_TAGS.indexOf(allChildNodes[i].nodeName.toLocaleLowerCase()) >= 0) {
@@ -16860,7 +16860,7 @@
                     };
                 }, TableCommand.prototype.insertRow = function(e) {
                     var isBelow = 'InsertRowBefore' !== e.item.subCommand, selectedCell = e.item.selection.range.startContainer;
-                    if ('TH' === selectedCell.nodeName || 'TD' === selectedCell.nodeName || (selectedCell = (0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'td,th')), 'th' !== selectedCell.nodeName.toLowerCase() || 'InsertRowBefore' !== e.item.subCommand) {
+                    if ('TH' !== selectedCell.nodeName && 'TD' !== selectedCell.nodeName && (selectedCell = (0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'td,th')), 'th' !== selectedCell.nodeName.toLowerCase() || 'InsertRowBefore' !== e.item.subCommand) {
                         if (this.curTable = (0, ej2_base /* closest */ .oq)(this.parent.nodeSelection.range.startContainer.parentElement, 'table'), 0 === this.curTable.querySelectorAll('.e-cell-select').length) {
                             var lastRow = this.curTable.rows[this.curTable.rows.length - 1], cloneRow = lastRow.cloneNode(!0);
                             cloneRow.removeAttribute('rowspan'), this.insertAfter(cloneRow, lastRow);
@@ -16884,7 +16884,7 @@
                     }
                 }, TableCommand.prototype.insertColumn = function(e) {
                     var curCell, selectedCell = e.item.selection.range.startContainer;
-                    'TH' === selectedCell.nodeName || 'TD' === selectedCell.nodeName || (selectedCell = (0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'td,th'));
+                    'TH' !== selectedCell.nodeName && 'TD' !== selectedCell.nodeName && (selectedCell = (0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'td,th'));
                     for(var curRow = (0, ej2_base /* closest */ .oq)(selectedCell, 'tr'), allRows = (0, ej2_base /* closest */ .oq)(curRow, 'table').rows, colIndex = Array.prototype.slice.call(curRow.querySelectorAll(':scope > td, :scope > th')).indexOf(selectedCell), previousWidth = parseInt(e.item.width, 10) / curRow.querySelectorAll(':scope > td, :scope > th').length, currentWidth = parseInt(e.item.width, 10) / (curRow.querySelectorAll(':scope > td, :scope > th').length + 1), currentTabElm = (0, ej2_base /* closest */ .oq)(curRow, 'table'), thTdElm = (0, ej2_base /* closest */ .oq)(curRow, 'table').querySelectorAll('th,td'), i = 0; i < thTdElm.length; i++)thTdElm[i].dataset.oldWidth = thTdElm[i].offsetWidth / currentTabElm.offsetWidth * 100 + '%';
                     for(var i = 0; i < allRows.length; i++){
                         var colTemplate = (curCell = allRows[i].querySelectorAll(':scope > td, :scope > th')[colIndex]).cloneNode(!0);
@@ -17418,7 +17418,7 @@
                     return isFormatted.getFormattedNode(currentNode, format, endNode);
                 }, SelectionCommands.removeFormat = function(nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value, domSelection, endNode, domNode) {
                     var fontStyle, bgStyle, splitNode = null, startText = '#text' === range.startContainer.nodeName ? range.startContainer.textContent.substring(range.startOffset, range.startContainer.textContent.length) : range.startContainer.textContent;
-                    if (!(range.startContainer === range.endContainer && 0 === range.startOffset && range.endOffset === range.startContainer.length)) {
+                    if (range.startContainer !== range.endContainer || 0 !== range.startOffset || range.endOffset !== range.startContainer.length) {
                         var nodeIndex = [], cloneNode = nodes[index];
                         do nodeIndex.push(domSelection.getIndex(cloneNode)), cloneNode = cloneNode.parentNode;
                         while (cloneNode && cloneNode !== formatNode)
@@ -17471,7 +17471,7 @@
                         } else nodeCutter.position = range.startOffset;
                     } else if (null === formatNode && isFormat || isFontStyle) {
                         if ('BR' !== nodes[index].nodeName && (nodes[index] = nodeCutter.GetSpliceNode(range, nodes[index]), nodes[index].textContent = nodeCutter.TrimLineBreak(nodes[index].textContent)), 'uppercase' === format || 'lowercase' === format) nodes[index].textContent = 'uppercase' === format ? nodes[index].textContent.toLocaleUpperCase() : nodes[index].textContent.toLocaleLowerCase();
-                        else if (!(!0 === isFontStyle && '' === value)) {
+                        else if (!0 !== isFontStyle || '' !== value) {
                             var element = this.GetFormatNode(format, value);
                             if ('fontsize' === format || 'fontcolor' === format) {
                                 for(var liElement = nodes[index].parentElement, parentElement = nodes[index].parentElement; !(0, ej2_base /* isNullOrUndefined */ .le)(parentElement) && 'li' !== parentElement.tagName.toLowerCase();)liElement = parentElement = parentElement.parentElement;
@@ -17484,7 +17484,7 @@
                     } else nodes[index] = nodeCutter.GetSpliceNode(range, nodes[index]);
                     return nodes[index];
                 }, SelectionCommands.applyStyles = function(nodes, index, element) {
-                    return 'BR' === nodes[index].nodeName && 'BR' === this.enterAction || (nodes[index] = index === nodes.length - 1 || 'BR' === nodes[index].nodeName ? InsertMethods.Wrap(nodes[index], element) : InsertMethods.WrapBefore(nodes[index], element, !0), nodes[index] = this.getChildNode(nodes[index], element)), nodes[index];
+                    return ('BR' !== nodes[index].nodeName || 'BR' !== this.enterAction) && (nodes[index] = index === nodes.length - 1 || 'BR' === nodes[index].nodeName ? InsertMethods.Wrap(nodes[index], element) : InsertMethods.WrapBefore(nodes[index], element, !0), nodes[index] = this.getChildNode(nodes[index], element)), nodes[index];
                 }, SelectionCommands.getInsertNode = function(docElement, range, format, value) {
                     var element = this.GetFormatNode(format, value);
                     if (element.innerHTML = '&#8203;', ej2_base /* Browser.isIE */ .AR.isIE) {
@@ -17603,7 +17603,7 @@
                     var nodeSelection = new selection /* NodeSelection */ .q(), nodeCutter = new NodeCutter(), range = nodeSelection.getRange(docElement), isCollapsed = range.collapsed, nodes = nodeSelection.getInsertNodeCollection(range), save = nodeSelection.save(range, docElement);
                     if (!isCollapsed) {
                         var preNode = void 0;
-                        if (preNode = 'BR' === nodes[0].nodeName && (0, ej2_base /* closest */ .oq)(nodes[0], 'table') ? nodeCutter.GetSpliceNode(range, (0, ej2_base /* closest */ .oq)(nodes[0], 'table')) : nodeCutter.GetSpliceNode(range, nodes[nodes.length > 1 && 'IMG' === nodes[0].nodeName ? 1 : 0]), 1 === nodes.length) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
+                        if (preNode = 'BR' === nodes[0].nodeName && (0, ej2_base /* closest */ .oq)(nodes[0], 'table') ? nodeCutter.GetSpliceNode(range, (0, ej2_base /* closest */ .oq)(nodes[0], 'table')) : nodeCutter.GetSpliceNode(range, nodes[+(nodes.length > 1 && 'IMG' === nodes[0].nodeName)]), 1 === nodes.length) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
                         else {
                             for(var i = 1, lastText = nodes[nodes.length - i]; nodes.length <= i && 'BR' === nodes[nodes.length - i].nodeName;)i++, lastText = nodes[nodes.length - i];
                             var lasNode = nodeCutter.GetSpliceNode(range, lastText);
@@ -17646,7 +17646,7 @@
                     return parentNodes;
                 }, ClearFormat.unWrap = function(docElement, parentNodes, nodeCutter, nodeSelection) {
                     for(var index1 = 0; index1 < parentNodes.length; index1++)if (this.NONVALID_TAGS.indexOf(parentNodes[index1].nodeName.toLowerCase()) > -1 && parentNodes[index1].parentNode && this.NONVALID_PARENT_TAGS.indexOf(parentNodes[index1].parentNode.nodeName.toLowerCase()) > -1 && (nodeSelection.setSelectionText(docElement, parentNodes[index1], parentNodes[index1], 0, parentNodes[index1].childNodes.length), InsertMethods.unwrap(nodeCutter.GetSpliceNode(nodeSelection.getRange(docElement), parentNodes[index1].parentNode))), 'p' !== parentNodes[index1].nodeName.toLocaleLowerCase()) {
-                        !(0 > this.NONVALID_PARENT_TAGS.indexOf(parentNodes[index1].nodeName.toLowerCase())) || 'p' === parentNodes[index1].parentNode.nodeName.toLocaleLowerCase() || ('blockquote' === parentNodes[index1].nodeName.toLocaleLowerCase() || 'li' === parentNodes[index1].nodeName.toLocaleLowerCase()) && this.IGNORE_PARENT_TAGS.indexOf(parentNodes[index1].childNodes[0].nodeName.toLocaleLowerCase()) > -1 || 1 === parentNodes[index1].childNodes.length && 'p' === parentNodes[index1].childNodes[0].nodeName.toLocaleLowerCase() || InsertMethods.Wrap(parentNodes[index1], docElement.createElement(this.defaultTag));
+                        0 > this.NONVALID_PARENT_TAGS.indexOf(parentNodes[index1].nodeName.toLowerCase()) && 'p' !== parentNodes[index1].parentNode.nodeName.toLocaleLowerCase() && !(('blockquote' === parentNodes[index1].nodeName.toLocaleLowerCase() || 'li' === parentNodes[index1].nodeName.toLocaleLowerCase()) && this.IGNORE_PARENT_TAGS.indexOf(parentNodes[index1].childNodes[0].nodeName.toLocaleLowerCase()) > -1) && (1 !== parentNodes[index1].childNodes.length || 'p' !== parentNodes[index1].childNodes[0].nodeName.toLocaleLowerCase()) && InsertMethods.Wrap(parentNodes[index1], docElement.createElement(this.defaultTag));
                         var childNodes = InsertMethods.unwrap(parentNodes[index1]);
                         1 === childNodes.length && 'p' === childNodes[0].parentNode.nodeName.toLocaleLowerCase() && (InsertMethods.Wrap(parentNodes[index1], docElement.createElement(this.defaultTag)), InsertMethods.unwrap(parentNodes[index1]));
                         for(var index2 = 0; index2 < childNodes.length; index2++)if (this.NONVALID_TAGS.indexOf(childNodes[index2].nodeName.toLowerCase()) > -1) this.unWrap(docElement, [
@@ -19267,7 +19267,7 @@
                 }, HtmlEditor.prototype.onToolbarClick = function(args) {
                     var save, selectNodeEle, selectParentEle, item = args.item, closestElement = (0, ej2_base /* closest */ .oq)(args.originalEvent.target, '.e-rte-quick-popup');
                     if (closestElement && !closestElement.classList.contains('e-rte-inline-popup')) {
-                        if (!('SourceCode' === item.subCommand || 'Preview' === item.subCommand || 'FontColor' === item.subCommand || 'BackgroundColor' === item.subCommand)) {
+                        if ('SourceCode' !== item.subCommand && 'Preview' !== item.subCommand && 'FontColor' !== item.subCommand && 'BackgroundColor' !== item.subCommand) {
                             (0, common_util /* isIDevice */ .FA)() && 'Images' === item.command && this.nodeSelectionObj.restore();
                             var range = this.nodeSelectionObj.getRange(this.parent.contentModule.getDocument());
                             save = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), selectNodeEle = this.nodeSelectionObj.getNodeCollection(range), selectParentEle = this.nodeSelectionObj.getParentNodeCollection(range);
@@ -19293,7 +19293,7 @@
                         });
                     } else {
                         var linkDialog = document.getElementById(this.parent.getID() + '_rtelink'), imageDialog = document.getElementById(this.parent.getID() + '_image');
-                        if (!('SourceCode' === item.subCommand || 'Preview' === item.subCommand || 'FontColor' === item.subCommand || 'BackgroundColor' === item.subCommand)) {
+                        if ('SourceCode' !== item.subCommand && 'Preview' !== item.subCommand && 'FontColor' !== item.subCommand && 'BackgroundColor' !== item.subCommand) {
                             var range = this.nodeSelectionObj.getRange(this.parent.contentModule.getDocument());
                             (0, ej2_base /* isNullOrUndefined */ .le)(linkDialog) && (0, ej2_base /* isNullOrUndefined */ .le)(imageDialog) && (save = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument())), selectNodeEle = this.nodeSelectionObj.getNodeCollection(range), selectParentEle = this.nodeSelectionObj.getParentNodeCollection(range);
                         }
@@ -24883,7 +24883,7 @@
                     var pos = {
                         top: 0,
                         left: 0
-                    }, tooltipEleWidth = this.tooltipEle.offsetWidth, tooltipEleHeight = this.tooltipEle.offsetHeight, arrowEle = (0, ej2_base /* select */ .Ys)('.' + ARROW_TIP, this.tooltipEle), tipWidth = arrowEle ? arrowEle.offsetWidth : 0, tipHeight = arrowEle ? arrowEle.offsetHeight : 0, tipAdjust = this.showTipPointer ? 0 : 8, tipHeightAdjust = tipHeight / 2 + 2 + (this.tooltipEle.offsetHeight - this.tooltipEle.clientHeight), tipWidthAdjust = tipWidth / 2 + 2 + (this.tooltipEle.offsetWidth - this.tooltipEle.clientWidth);
+                    }, tooltipEleWidth = this.tooltipEle.offsetWidth, tooltipEleHeight = this.tooltipEle.offsetHeight, arrowEle = (0, ej2_base /* select */ .Ys)('.' + ARROW_TIP, this.tooltipEle), tipWidth = arrowEle ? arrowEle.offsetWidth : 0, tipHeight = arrowEle ? arrowEle.offsetHeight : 0, tipAdjust = 8 * !this.showTipPointer, tipHeightAdjust = tipHeight / 2 + 2 + (this.tooltipEle.offsetHeight - this.tooltipEle.clientHeight), tipWidthAdjust = tipWidth / 2 + 2 + (this.tooltipEle.offsetWidth - this.tooltipEle.clientWidth);
                     switch(this.mouseTrail && (tipAdjust += 2), position){
                         case 'RightTop':
                             pos.left += tipWidth + tipAdjust, pos.top -= tooltipEleHeight - tipHeightAdjust;
@@ -27591,7 +27591,7 @@
                     else {
                         switch(max){
                             case r:
-                                h = (g - b) / d + (g < b ? 6 : 0);
+                                h = (g - b) / d + 6 * (g < b);
                                 break;
                             case g:
                                 h = (b - r) / d + 2;
@@ -27994,7 +27994,7 @@
 
      */ ToolbarRenderer.prototype.renderColorPickerDropDown = function(args, item, colorPicker, defaultColor) {
                     var range, _this = this, proxy = this, css = classes /* CLS_RTE_ELEMENTS */ .i7 + ' ' + classes /* CLS_TB_BTN */ .Fs + (this.parent.inlineMode ? ' ' + classes /* CLS_INLINE_DROPDOWN */ .ZV : '');
-                    css += ' ' + ('backgroundcolor' === item ? classes /* CLS_BACKGROUND_COLOR_DROPDOWN */ .Z8 : classes /* CLS_FONT_COLOR_DROPDOWN */ .UQ) + ' ' + this.parent.cssClass;
+                    css += ' ' + ('backgroundcolor' === item ? classes /* CLS_BACKGROUND_COLOR_DROPDOWN */ .Z8 : classes /* CLS_FONT_COLOR_DROPDOWN */ .UQ), css += ' ' + this.parent.cssClass;
                     var content = proxy.parent.createElement('span', {
                         className: classes /* CLS_COLOR_CONTENT */ .uN
                     }), inlineEle = proxy.parent.createElement('span', {
@@ -30011,7 +30011,7 @@
  * @returns {boolean} - returns the boolean value
  * @hidden
  */ function isEditableValueEmpty(value) {
-                return '<p><br></p>' === value || '&lt;p&gt;&lt;br&gt;&lt;/p&gt;' === value || '<div><br></div>' === value || '&lt;div&gt;&lt;br&gt;&lt;/div&gt;' === value || '<br>' === value || '&lt;br&gt;' === value || '' === value;
+                return '<p><br></p>' === value || '&lt;p&gt;&lt;br&gt;&lt;/p&gt;' === value || '<div><br></div>' === value || '&lt;div&gt;&lt;br&gt;&lt;/div&gt;' === value || '<br>' === value || '&lt;br&gt;' === value || '' === value || !1;
             }
             /**
  * @param {string} value - specifies the string value
@@ -32573,7 +32573,7 @@
                                 widthCompare = currentTd.offsetWidth - (currentTd.offsetWidth - currentTd.clientWidth) - 2 * currentTDPad;
                             } else widthCompare = rteWidth;
                             if (_this.resizeBtnStat.column) {
-                                var width = parseFloat(_this.columnEle.offsetWidth.toString()), cellRow = 'TH' === _this.curTable.rows[0].cells[0].nodeName ? 1 : 0, currentTableWidth = parseFloat(_this.curTable.style.width.split('%')[0]), currentColumnCellWidth = parseFloat(_this.curTable.rows[cellRow].cells[_this.colIndex].style.width.split('%')[0]);
+                                var width = parseFloat(_this.columnEle.offsetWidth.toString()), cellRow = +('TH' === _this.curTable.rows[0].cells[0].nodeName), currentTableWidth = parseFloat(_this.curTable.style.width.split('%')[0]), currentColumnCellWidth = parseFloat(_this.curTable.rows[cellRow].cells[_this.colIndex].style.width.split('%')[0]);
                                 if ('first' === _this.currentColumnResize) // Below the value '100' is the 100% width of the parent element.
                                 {
                                     if (mouseX -= 0.75, _this.removeResizeElement(), (0 !== mouseX && 5 < currentColumnCellWidth || mouseX < 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare)) {

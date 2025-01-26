@@ -16,3 +16,22 @@ function f3() {
 		 x              
          )=>x;
 }
+
+(function () {
+    return(  
+         v   ) => v
+});
+(function () {
+    return/**/(
+         
+     /**/ v    /**/ 
+    )/**/=> v
+});
+(function* () {
+    yield(  
+ v   )=>v;
+});
+(function* () {
+    throw(  
+ v   )=>v;
+});

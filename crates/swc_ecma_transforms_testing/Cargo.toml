@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_transforms_testing"
 repository    = { workspace = true }
-version       = "7.0.0"
+version       = "7.0.1"
 
 [lib]
 bench = false
@@ -22,14 +22,15 @@ sha2       = { workspace = true }
 sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
+swc_allocator = { version = "2.0.0", path = "../swc_allocator", default-features = false }
 swc_common = { version = "5.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "5.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "5.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "5.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "5.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "7.1.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "7.0.1", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base = { version = "7.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "7.0.4", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 testing = { version = "5.0.0", path = "../testing" }

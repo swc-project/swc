@@ -161,7 +161,7 @@ class e extends Text {
         for(let s = 0, h = 0; h <= e && s < this.children.length; s++){
             let l = this.children[s], r = h + l.length;
             if (t <= r && e >= h) {
-                let s = i & ((h <= t ? 1 /* Open.From */  : 0) | (r >= e ? 2 /* Open.To */  : 0));
+                let s = i & (+(h <= t) | 2 /* Open.To */  * (r >= e));
                 h >= t && r <= e && !s ? n.push(l) : l.decompose(t - h, e - h, n, s);
             }
             h = r + 1;

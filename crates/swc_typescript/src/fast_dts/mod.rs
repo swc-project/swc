@@ -3,7 +3,8 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
-    comments::SingleThreadedComments, util::take::Take, BytePos, FileName, Span, Spanned, DUMMY_SP,
+    comments::SingleThreadedComments, util::take::Take, BytePos, FileName, Mark, Span, Spanned,
+    DUMMY_SP,
 };
 use swc_ecma_ast::{
     BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, Id, Ident, ImportSpecifier, ModuleDecl,
@@ -38,6 +39,7 @@ mod visitors;
 /// The original code is MIT licensed.
 pub struct FastDts {
     filename: Arc<FileName>,
+    unresolved_mark: Mark,
     diagnostics: Vec<DtsIssue>,
     // states
     id_counter: u32,
@@ -53,10 +55,11 @@ pub struct FastDtsOptions {
 
 /// Diagnostics
 impl FastDts {
-    pub fn new(filename: Arc<FileName>, options: FastDtsOptions) -> Self {
+    pub fn new(filename: Arc<FileName>, unresolved_mark: Mark, options: FastDtsOptions) -> Self {
         let internal_annotations = options.internal_annotations;
         Self {
             filename,
+            unresolved_mark,
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,

@@ -12,6 +12,8 @@ use swc_ecma_ast::{
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
+use crate::fast_dts::util::ast_ext::ExprExit;
+
 pub struct TypeUsageAnalyzer<'a> {
     graph: DiGraph<Id, ()>,
     nodes: FxHashMap<Id, NodeIndex>,
@@ -99,14 +101,14 @@ impl TypeUsageAnalyzer<'_> {
 
 impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
-        if let Some(ident) = node.key.as_ident() {
+        if let Some(ident) = node.key.get_root_ident() {
             self.add_edge(ident.to_id(), true);
         }
         node.visit_children_with(self);
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
-        if let Some(ident) = node.expr.as_ident() {
+        if let Some(ident) = node.expr.get_root_ident() {
             self.add_edge(ident.to_id(), true);
         }
         node.visit_children_with(self);
@@ -238,7 +240,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
 
     fn visit_class(&mut self, node: &Class) {
         if let Some(super_class) = &node.super_class {
-            if let Some(ident) = super_class.as_ident() {
+            if let Some(ident) = super_class.get_root_ident() {
                 self.add_edge(ident.to_id(), true);
             }
         }

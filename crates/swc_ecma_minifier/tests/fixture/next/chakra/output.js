@@ -359,7 +359,7 @@
                     var d = max - min;
                     switch(s = l > 0.5 ? d / (2 - max - min) : d / (max + min), max){
                         case r:
-                            h = (g - b) / d + (g < b ? 6 : 0);
+                            h = (g - b) / d + 6 * (g < b);
                             break;
                         case g:
                             h = (b - r) / d + 2;
@@ -389,7 +389,7 @@
                 else {
                     switch(max){
                         case r:
-                            h = (g - b) / d + (g < b ? 6 : 0);
+                            h = (g - b) / d + 6 * (g < b);
                             break;
                         case g:
                             h = (b - r) / d + 2;
