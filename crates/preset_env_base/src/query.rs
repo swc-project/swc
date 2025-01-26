@@ -1,7 +1,7 @@
 //! Module for `browserslist` queries.
 #![deny(clippy::all)]
 
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
 
 use anyhow::{Context, Error};
 use dashmap::DashMap;
@@ -44,7 +44,7 @@ pub enum Query {
     Multiple(Vec<String>),
 }
 
-type QueryResult = Result<Versions, Error>;
+type QueryResult = Result<Arc<Versions>, Error>;
 
 impl Query {
     fn exec(&self) -> QueryResult {
@@ -70,14 +70,14 @@ impl Query {
             let versions =
                 BrowserData::parse_versions(distribs).expect("failed to parse browser version");
 
-            Ok(versions)
+            Ok(Arc::new(versions))
         }
 
-        static CACHE: Lazy<DashMap<Query, Versions, ahash::RandomState>> =
+        static CACHE: Lazy<DashMap<Query, Arc<Versions>, ahash::RandomState>> =
             Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
-            return Ok(*v);
+            return Ok(v.clone());
         }
 
         let result = match *self {
@@ -92,13 +92,13 @@ impl Query {
         }
         .context("failed to execute query")?;
 
-        CACHE.insert(self.clone(), result);
+        CACHE.insert(self.clone(), result.clone());
 
         Ok(result)
     }
 }
 
-pub fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
+pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
     match v {
         None => Ok(Default::default()),
         Some(Targets::Versions(v)) => Ok(v),
@@ -129,8 +129,8 @@ pub fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
                     QueryOrVersion::Query(q) => {
                         let v = q.exec().context("failed to run query")?;
 
-                        for (k, v) in v {
-                            result.insert(k, v);
+                        for (k, v) in v.iter() {
+                            result.insert(k, *v);
                         }
                     }
                     QueryOrVersion::Version(v) => {
