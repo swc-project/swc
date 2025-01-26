@@ -2,7 +2,7 @@
 #![allow(dead_code)]
 #![recursion_limit = "256"]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
@@ -355,7 +355,7 @@ where
 #[derive(Debug)]
 struct Polyfills {
     mode: Option<Mode>,
-    targets: Versions,
+    targets: Arc<Versions>,
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,

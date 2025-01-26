@@ -1,7 +1,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use core::f64::consts::PI;
-use std::mem::take;
+use std::{mem::take, sync::Arc};
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
@@ -41,9 +41,9 @@ macro_rules! zip {
 }
 
 fn should_enable(
-    target: Versions,
-    low_versions: Versions,
-    high_versions: Versions,
+    target: &Versions,
+    low_versions: &Versions,
+    high_versions: &Versions,
     default: bool,
 ) -> bool {
     if zip!(target, low_versions, high_versions).all(|((_, target_version), ((_, l), (_, h)))| {
@@ -92,7 +92,7 @@ fn should_enable(
     )
 }
 
-pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
+pub fn should_prefix(property: &str, target: &Versions, default: bool) -> bool {
     if target.is_any_target() {
         return true;
     }
@@ -100,7 +100,7 @@ pub fn should_prefix(property: &str, target: Versions, default: bool) -> bool {
     let versions = PREFIXES_AND_BROWSERS.get(property);
 
     if let Some(versions) = versions {
-        return should_enable(target, versions[0], versions[1], false);
+        return should_enable(target, &versions[0], &versions[1], false);
     }
 
     default
@@ -767,7 +767,7 @@ pub enum Prefix {
 
 #[derive(Default)]
 struct Prefixer {
-    env: Versions,
+    env: Arc<Versions>,
     in_keyframe_block: bool,
     supports_condition: Option<SupportsCondition>,
     simple_block: Option<SimpleBlock>,
