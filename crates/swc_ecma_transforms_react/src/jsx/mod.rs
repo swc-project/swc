@@ -56,12 +56,12 @@ pub struct Options {
 
     /// For automatic runtime
     #[serde(default)]
-    pub import_source: Option<String>,
+    pub import_source: Option<Arc<String>>,
 
     #[serde(default)]
-    pub pragma: Option<String>,
+    pub pragma: Option<Arc<String>>,
     #[serde(default)]
-    pub pragma_frag: Option<String>,
+    pub pragma_frag: Option<Arc<String>>,
 
     #[serde(default)]
     pub throw_if_namespace: Option<bool>,
@@ -93,15 +93,15 @@ pub struct Options {
     pub refresh: Option<RefreshOptions>,
 }
 
-pub fn default_import_source() -> String {
+pub fn default_import_source() -> Arc<String> {
     "react".into()
 }
 
-pub fn default_pragma() -> String {
+pub fn default_pragma() -> Arc<String> {
     "React.createElement".into()
 }
 
-pub fn default_pragma_frag() -> String {
+pub fn default_pragma_frag() -> Arc<String> {
     "React.Fragment".into()
 }
 
@@ -239,7 +239,7 @@ where
 
     runtime: Runtime,
     /// For automatic runtime.
-    import_source: JsWord,
+    import_source: Arc<String>,
     /// For automatic runtime.
     import_jsx: Option<Ident>,
     /// For automatic runtime.
