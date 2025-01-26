@@ -337,7 +337,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("dom".into()),
+            pragma: Some(Arc::new("dom".into())),
             ..Default::default()
         },
         Mark::fresh(Mark::root())

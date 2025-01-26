@@ -247,7 +247,7 @@ where
 
     runtime: Runtime,
     /// For automatic runtime.
-    import_source: Arc<String>,
+    import_source: Atom,
     /// For automatic runtime.
     import_jsx: Option<Ident>,
     /// For automatic runtime.
@@ -270,7 +270,7 @@ pub struct JsxDirectives {
     pub runtime: Option<Runtime>,
 
     /// For automatic runtime.
-    pub import_source: Option<JsWord>,
+    pub import_source: Option<Atom>,
 
     /// Parsed from `@jsx`
     pub pragma: Option<Arc<Box<Expr>>>,
@@ -343,7 +343,7 @@ impl JsxDirectives {
                         Some("@jsxImportSource") => {
                             if let Some(src) = val {
                                 res.runtime = Some(Runtime::Automatic);
-                                res.import_source = Some(src.into());
+                                res.import_source = Some(Atom::new(src));
                             }
                         }
                         Some("@jsxFrag") => {
@@ -414,7 +414,7 @@ where
     where
         T: StmtLike,
         // Fn(Vec<(local, imported)>, src, body)
-        F: Fn(Vec<(Ident, IdentName)>, &str, &mut Vec<T>),
+        F: Fn(Vec<(Ident, IdentName)>, &Atom, &mut Vec<T>),
     {
         if self.runtime == Runtime::Automatic {
             if let Some(local) = self.import_create_element.take() {
@@ -1147,7 +1147,7 @@ where
 
 // const { createElement } = require('react')
 // const { jsx: jsx } = require('react/jsx-runtime')
-fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mark) -> Stmt {
+fn add_require(imports: Vec<(Ident, IdentName)>, src: &Atom, unresolved_mark: Mark) -> Stmt {
     VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
