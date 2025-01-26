@@ -18,7 +18,7 @@ mod entry;
 
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     pub required: IndexSet<&'static str, ARandomState>,
 }
 

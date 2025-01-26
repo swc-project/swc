@@ -376,14 +376,14 @@ impl Polyfills {
             Some(Mode::Usage) => {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
-                        let mut v = corejs2::UsageVisitor::new(self.targets);
+                        let mut v = corejs2::UsageVisitor::new(self.targets.clone());
                         m.visit_with(&mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v = corejs3::UsageVisitor::new(
-                            self.targets,
+                            self.targets.clone(),
                             self.shipped_proposals,
                             self.corejs,
                         );
