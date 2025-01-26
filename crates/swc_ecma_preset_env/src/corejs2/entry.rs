@@ -53,7 +53,7 @@ impl Entry {
         }
 
         for (feature, version) in BUILTINS.iter() {
-            self.add_inner(feature, *version);
+            self.add_inner(feature, version);
         }
 
         true

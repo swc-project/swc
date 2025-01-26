@@ -68,7 +68,7 @@ impl UsageVisitor {
             if !*is_any_target {
                 if let Some(v) = BUILTINS.get(&***f) {
                     // Skip
-                    if !should_enable(*target, *v, true) {
+                    if !should_enable(target, v, true) {
                         return false;
                     }
                 }

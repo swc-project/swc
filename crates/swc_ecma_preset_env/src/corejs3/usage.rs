@@ -82,7 +82,7 @@ impl UsageVisitor {
 
             if !*is_any_target {
                 if let Some(feature) = feature {
-                    if !should_enable(*target, *feature, true) {
+                    if !should_enable(target, feature, true) {
                         return false;
                     }
                 }

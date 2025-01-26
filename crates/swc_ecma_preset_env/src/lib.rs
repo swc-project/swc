@@ -402,13 +402,14 @@ impl Polyfills {
             }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 2, .. } => {
-                    let mut v = corejs2::Entry::new(self.targets, self.regenerator);
+                    let mut v = corejs2::Entry::new(self.targets.clone(), self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }
 
                 Version { major: 3, .. } => {
-                    let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
+                    let mut v =
+                        corejs3::Entry::new(self.targets.clone(), self.corejs, !self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }
