@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
@@ -57,8 +59,8 @@ impl Entry {
         true
     }
 
-    fn add_inner(&mut self, feature: &'static str, version: Versions) {
-        if self.is_any_target || should_enable(self.target, version, true) {
+    fn add_inner(&mut self, feature: &'static str, version: &Versions) {
+        if self.is_any_target || should_enable(&self.target, version, true) {
             self.imports.insert(feature);
         }
     }
