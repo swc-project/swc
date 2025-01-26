@@ -110,11 +110,11 @@ pub fn default_import_source() -> Atom {
     atom!("react")
 }
 
-pub fn default_pragma() -> Arc<String> {
+pub fn default_pragma() -> Lrc<String> {
     static_str!("React.createElement")
 }
 
-pub fn default_pragma_frag() -> Arc<String> {
+pub fn default_pragma_frag() -> Lrc<String> {
     static_str!("React.Fragment")
 }
 
@@ -390,8 +390,8 @@ impl JsxDirectives {
     }
 }
 
-fn cache_source(src: &str) -> Arc<String> {
-    static CACHE: Lazy<RwLock<FxHashMap<String, Arc<String>>>> =
+fn cache_source(src: &str) -> Lrc<String> {
+    static CACHE: Lazy<RwLock<FxHashMap<String, Lrc<String>>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
 
     {
@@ -402,7 +402,7 @@ fn cache_source(src: &str) -> Arc<String> {
         }
     }
 
-    let cached = Arc::new(src.to_string());
+    let cached = Lrc::new(src.to_string());
     {
         let mut cache = CACHE.write().unwrap();
         cache.insert(src.to_string(), cached.clone());
