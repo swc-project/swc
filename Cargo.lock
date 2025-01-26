@@ -5579,6 +5579,7 @@ dependencies = [
  "indexmap 2.5.0",
  "once_cell",
  "rayon",
+ "rustc-hash",
  "serde",
  "sha1",
  "string_enum",
