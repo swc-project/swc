@@ -101,10 +101,9 @@ macro_rules! atom {
     ($s:tt) => {{
         #[inline(never)]
         fn get_atom() -> $crate::Atom {
-            thread_local! {
-                static CACHE: $crate::Atom = $crate::Atom::from($s);
-            }
-            CACHE.with(|cache| $crate::Atom::clone(cache))
+            static CACHE: $crate::CachedAtom = $crate::CachedAtom::new(|| $crate::Atom::from($s));
+
+            (*CACHE).clone()
         }
 
         get_atom()
