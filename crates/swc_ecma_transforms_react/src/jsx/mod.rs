@@ -65,9 +65,9 @@ pub struct Options {
     pub import_source: Option<Atom>,
 
     #[serde(default)]
-    pub pragma: Option<Arc<String>>,
+    pub pragma: Option<Lrc<String>>,
     #[serde(default)]
-    pub pragma_frag: Option<Arc<String>>,
+    pub pragma_frag: Option<Lrc<String>>,
 
     #[serde(default)]
     pub throw_if_namespace: Option<bool>,
@@ -126,7 +126,7 @@ fn default_throw_if_namespace() -> bool {
 pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
-    src: Arc<String>,
+    src: Lrc<String>,
     top_level_mark: Mark,
 ) -> Arc<Box<Expr>> {
     let fm = cm.new_source_file_from(
