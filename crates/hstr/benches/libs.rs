@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
 
-extern crate dudy_malloc;
+extern crate swc_malloc;
 
 #[macro_use]
 extern crate criterion;
