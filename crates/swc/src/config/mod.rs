@@ -1466,10 +1466,6 @@ pub struct TransformConfig {
     #[serde(default)]
     pub regenerator: regenerator::Config,
 
-    #[serde(default)]
-    #[deprecated]
-    pub treat_const_enum_as_enum: BoolConfig<false>,
-
     /// https://www.typescriptlang.org/tsconfig#useDefineForClassFields
     #[serde(default)]
     pub use_define_for_class_fields: BoolConfig<true>,

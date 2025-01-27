@@ -661,37 +661,6 @@ pub enum CommentKind {
     Block = 1,
 }
 
-#[deprecated(
-    since = "0.13.5",
-    note = "helper methods are merged into Comments itself"
-)]
-pub trait CommentsExt: Comments {
-    fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
-    where
-        F: FnOnce(&[Comment]) -> Ret,
-    {
-        if let Some(comments) = self.get_leading(pos) {
-            op(&comments)
-        } else {
-            op(&[])
-        }
-    }
-
-    fn with_trailing<F, Ret>(&self, pos: BytePos, op: F) -> Ret
-    where
-        F: FnOnce(&[Comment]) -> Ret,
-    {
-        if let Some(comments) = self.get_trailing(pos) {
-            op(&comments)
-        } else {
-            op(&[])
-        }
-    }
-}
-
-#[allow(deprecated)]
-impl<C> CommentsExt for C where C: Comments {}
-
 better_scoped_tls::scoped_tls!(
     /// **This is not a public API**. Used to handle comments while **testing**.
     #[doc(hidden)]
