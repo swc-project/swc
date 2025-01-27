@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "3.0.3"
+version       = "3.0.4"
 
 [lib]
 bench = false
@@ -25,4 +25,4 @@ rkyv       = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
-hstr = { version = "0.2.16", path = "../hstr" }
+hstr = { version = "0.2.17", path = "../hstr" }

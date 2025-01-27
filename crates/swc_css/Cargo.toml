@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_css"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "6.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -28,6 +28,6 @@ swc_css_compat   = { version = "5.0.0", path = "../swc_css_compat", optional = t
 swc_css_minifier = { version = "5.0.0", path = "../swc_css_minifier", optional = true }
 swc_css_modules  = { version = "5.0.0", path = "../swc_css_modules", optional = true }
 swc_css_parser   = { version = "5.0.0", path = "../swc_css_parser" }
-swc_css_prefixer = { version = "5.0.0", path = "../swc_css_prefixer", optional = true }
+swc_css_prefixer = { version = "6.0.0", path = "../swc_css_prefixer", optional = true }
 swc_css_utils    = { version = "5.0.0", path = "../swc_css_utils/" }
 swc_css_visit    = { version = "5.0.0", path = "../swc_css_visit" }
