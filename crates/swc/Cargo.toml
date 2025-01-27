@@ -49,7 +49,6 @@ plugin_transform_host_native = [
 ]
 # Do not inject tokio runtime while running plugin transforms
 manual-tokio-runtime = []
-manual-tokio-runtmie = ["manual-tokio-runtime"]
 
 [dependencies]
 anyhow       = { workspace = true }
