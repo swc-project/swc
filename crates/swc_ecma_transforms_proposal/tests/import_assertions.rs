@@ -1,10 +1,10 @@
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
-use swc_ecma_transforms_proposal::import_assertions;
+use swc_ecma_transforms_proposal::import_attributes;
 use swc_ecma_transforms_testing::test;
 
 fn tr() -> impl Pass {
-    import_assertions()
+    import_attributes()
 }
 
 fn syntax() -> Syntax {

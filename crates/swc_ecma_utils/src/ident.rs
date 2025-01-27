@@ -83,9 +83,3 @@ impl IdentLike for UnsafeId {
         unreachable!("UnsafeId.into_id() is not allowed because it is very likely to be unsafe")
     }
 }
-
-#[deprecated = "Use i.to_id() instead"]
-#[inline(always)]
-pub fn id(i: &Ident) -> Id {
-    (i.sym.clone(), i.ctxt)
-}

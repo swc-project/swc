@@ -199,7 +199,10 @@ impl Scope {
         true
     }
 
-    #[cfg_attr(not(feature = "concurrent-renamer"), allow(unused))]
+    #[cfg_attr(
+        not(feature = "concurrent-renamer"),
+        allow(unused, clippy::only_used_in_recursion)
+    )]
     pub(crate) fn rename_in_mangle_mode<R>(
         &mut self,
         renamer: &R,

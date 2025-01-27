@@ -49,7 +49,7 @@
         const lib = row.querySelector(".lib");
         const libText = lib.textContent.trim();
         if (
-            libText.endsWith("/swc_ecma_visit/src/") ||
+            libText.includes("/swc_ecma_visit/src/") ||
             libText.endsWith("/swc_ecma_utils/src/parallel.rs") ||
             libText.includes("/.rustup/") ||
             libText.includes("/std/") ||
