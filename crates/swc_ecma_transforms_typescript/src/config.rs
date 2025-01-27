@@ -84,6 +84,3 @@ pub enum ImportsNotUsedAsValues {
     #[serde(rename = "preserve")]
     Preserve,
 }
-
-#[deprecated = "ImportNotUsedAsValues is renamed to ImportsNotUsedAsValues"]
-pub type ImportNotUsedAsValues = ImportsNotUsedAsValues;
