@@ -51,7 +51,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
-        export_default_from, import_assertions, import_attributes,
+        export_default_from, import_attributes,
     },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
