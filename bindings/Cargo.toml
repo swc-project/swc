@@ -19,7 +19,7 @@ resolver = "2"
   [workspace.dependencies]
   anyhow               = "1.0.86"
   backtrace            = "0.3"
-  getrandom            = "0.2.15"
+  getrandom            = "0.3.0"
   lightningcss         = "1.0.0-alpha.58"
   napi                 = { version = "2", default-features = false }
   napi-build           = "2"
