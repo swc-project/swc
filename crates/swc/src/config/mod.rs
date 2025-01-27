@@ -51,7 +51,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
-        export_default_from, import_attributes,
+        export_default_from, import_assertions, import_attributes,
     },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
@@ -1463,6 +1463,10 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub regenerator: regenerator::Config,
+
+    #[serde(default)]
+    #[deprecated]
+    pub treat_const_enum_as_enum: BoolConfig<false>,
 
     /// https://www.typescriptlang.org/tsconfig#useDefineForClassFields
     #[serde(default)]
