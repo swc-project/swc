@@ -1572,9 +1572,6 @@
 - **(es/minifier)** Fix `undefined` judgement ([#9146](https://github.com/swc-project/swc/issues/9146)) ([1a739b7](https://github.com/swc-project/swc/commit/1a739b79286aab3ccfd2b4597f11a79776b024b3))
 
 
-- **(es/renamer)** Fix renaming of default-exported declarations ([#9135](https://github.com/swc-project/swc/issues/9135)) ([45f671d](https://github.com/swc-project/swc/commit/45f671d8d85b0c3955c88ec3cf3d68d8fa6134c5))
-
-
 - **(es/renamer)** Remove `FastJsWord` ([#9136](https://github.com/swc-project/swc/issues/9136)) ([42b4caf](https://github.com/swc-project/swc/commit/42b4caf5735bc0a025024cf968ef16cd06d9f0dc))
 
 
