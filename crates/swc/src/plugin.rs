@@ -58,7 +58,7 @@ impl RustPlugins {
 
         let filename = self.metadata_context.filename.clone();
 
-        if cfg!(feature = "manual-tokio-runtmie") {
+        if cfg!(feature = "manual-tokio-runtime") {
             self.apply_inner(n)
         } else {
             let fut = async move { self.apply_inner(n) };
