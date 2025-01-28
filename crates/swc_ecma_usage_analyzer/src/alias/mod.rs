@@ -156,6 +156,7 @@ impl Visit for InfectionCollector<'_> {
             && n.op == op!("=")
             && n.left.as_simple().and_then(|l| l.leftmost()).is_some()
         {
+            n.left.visit_with(self);
             return;
         }
 
