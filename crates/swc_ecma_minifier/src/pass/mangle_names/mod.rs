@@ -49,7 +49,6 @@ pub(crate) fn mangle_names(
             top_level_mark,
             ignore_eval: options.eval,
             preserved_symbols: options.reserved.iter().cloned().collect(),
-            ..Default::default()
         },
         ManglingRenamer {
             chars,

@@ -18,6 +18,7 @@ use serde::Deserialize;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
+    input::SourceFileInput,
     sync::Lrc,
     util::take::Take,
     EqIgnoreSpan, FileName, Mark, SourceMap,
@@ -34,10 +35,7 @@ use swc_ecma_minifier::{
         MinifyOptions, TopLevelOptions,
     },
 };
-use swc_ecma_parser::{
-    lexer::{input::SourceFileInput, Lexer},
-    EsSyntax, Parser, Syntax,
-};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},

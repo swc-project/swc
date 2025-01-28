@@ -17,6 +17,6 @@ miette      = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell   = { workspace = true }
 parking_lot = { workspace = true }
 
-swc_common = { version = "5.0.0", path = "../swc_common", features = [
+swc_common = { version = "5.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }

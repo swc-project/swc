@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_ecma_lints"
 repository  = { workspace = true }
-version     = "7.0.1"
+version     = "8.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -19,17 +19,17 @@ parking_lot = { workspace = true }
 regex       = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
-swc_atoms = { version = "3.0.3", path = "../swc_atoms" }
-swc_common = { version = "5.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
+swc_common = { version = "5.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "1.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.1.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "7.0.4", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "8.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
-swc_parallel = { version = "1.1.0", path = "../swc_parallel", default-features = false }
+swc_parallel = { version = "1.2.0", path = "../swc_parallel", default-features = false }
 
 [dev-dependencies]
 anyhow                    = { workspace = true }
@@ -37,9 +37,9 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 swc_ecma_codegen          = { version = "5.1.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser           = { version = "6.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser           = { version = "7.0.0", path = "../swc_ecma_parser" }
 swc_ecma_testing          = { version = "5.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base  = { version = "7.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base  = { version = "8.0.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
 testing                   = { version = "5.0.0", path = "../testing" }
 walkdir                   = { workspace = true }

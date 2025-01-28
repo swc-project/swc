@@ -6,15 +6,13 @@ use std::char;
 
 use swc_common::{
     comments::{Comment, CommentKind},
+    input::Input,
     BytePos, Span,
 };
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{
-    comments_buffer::BufferedComment, input::Input, whitespace::SkipWhitespace, Char, LexResult,
-    Lexer,
-};
+use super::{comments_buffer::BufferedComment, whitespace::SkipWhitespace, Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,

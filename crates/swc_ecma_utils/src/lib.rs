@@ -1361,11 +1361,6 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
     }
 }
 
-#[deprecated(note = "Use default_constructor_with_span instead")]
-pub fn default_constructor(has_super: bool) -> Constructor {
-    default_constructor_with_span(has_super, DUMMY_SP)
-}
-
 /// `super_call_span` should be the span of the class definition
 /// Use value of [`Class::span`].
 pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> Constructor {
@@ -1479,18 +1474,7 @@ pub fn prepend_stmts<T: StmtLike>(to: &mut Vec<T>, stmts: impl ExactSizeIterator
 
 pub trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
-    #[deprecated(note = "use directive_continue instead")]
-    fn is_directive(&self) -> bool {
-        match self.as_ref() {
-            Some(Stmt::Expr(expr)) => match &*expr.expr {
-                Expr::Lit(Lit::Str(Str {
-                    raw: Some(value), ..
-                })) => value.starts_with("\"use ") || value.starts_with("'use "),
-                _ => false,
-            },
-            _ => false,
-        }
-    }
+
     fn directive_continue(&self) -> bool {
         self.as_ref().map_or(false, Stmt::can_precede_directive)
     }
