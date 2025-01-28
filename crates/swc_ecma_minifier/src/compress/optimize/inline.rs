@@ -685,11 +685,9 @@ impl Optimizer<'_> {
 
                             for i in collect_infects_from(
                                 &f.function,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: false,
-                                    need_all: true,
-                                },
+                                AliasConfig::default()
+                                    .marks(Some(self.marks))
+                                    .need_all(true),
                             ) {
                                 if let Some(usage) = self.data.vars.get_mut(&i.0) {
                                     usage.ref_count += 1;

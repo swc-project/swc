@@ -1150,21 +1150,19 @@ impl Optimizer<'_> {
                 Mergable::Var(a) => a.init.as_ref().map(|init| {
                     collect_infects_from(
                         init,
-                        AliasConfig {
-                            marks: Some(self.marks),
-                            ignore_nested: true,
-                            need_all: true,
-                        },
+                        AliasConfig::default()
+                            .marks(Some(self.marks))
+                            .ignore_nested(true)
+                            .need_all(true),
                     )
                 }),
                 Mergable::Expr(a) => match a {
                     Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
                         &a.right,
-                        AliasConfig {
-                            marks: Some(self.marks),
-                            ignore_nested: true,
-                            need_all: true,
-                        },
+                        AliasConfig::default()
+                            .marks(Some(self.marks))
+                            .ignore_nested(true)
+                            .need_all(true),
                     )),
 
                     _ => None,
@@ -1172,11 +1170,10 @@ impl Optimizer<'_> {
 
                 Mergable::FnDecl(a) => Some(collect_infects_from(
                     &a.function,
-                    AliasConfig {
-                        marks: Some(self.marks),
-                        ignore_nested: true,
-                        need_all: true,
-                    },
+                    AliasConfig::default()
+                        .marks(Some(self.marks))
+                        .ignore_nested(true)
+                        .need_all(true),
                 )),
 
                 Mergable::Drop => return false,
