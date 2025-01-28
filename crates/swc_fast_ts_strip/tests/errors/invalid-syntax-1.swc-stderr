@@ -1,0 +1,5 @@
+  x 'const' declarations must be initialized
+   ,----
+ 1 | interface Foo { }; const foo;
+   :                          ^^^
+   `----
