@@ -217,6 +217,12 @@ impl Visit for InfectionCollector {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        self.add_binding(&node.ident);
+
+        node.visit_children_with(self);
+    }
+
     fn visit_cond_expr(&mut self, e: &CondExpr) {
         {
             let ctx = Ctx {
