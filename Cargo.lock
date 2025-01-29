@@ -6017,6 +6017,7 @@ dependencies = [
 name = "swc_interop_babel"
 version = "0.1.0"
 dependencies = [
+ "napi",
  "serde",
  "serde_json",
  "swc_interop_nodejs",
