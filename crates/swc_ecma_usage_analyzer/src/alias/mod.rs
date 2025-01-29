@@ -126,10 +126,10 @@ pub struct InfectionCollector {
 }
 
 impl InfectionCollector {
-    fn add_binding(&mut self, e: Id) {
-        if self.bindings.insert(e.clone()) {
-            self.accesses.remove(&(e.clone(), AccessKind::Reference));
-            self.accesses.remove(&(e, AccessKind::Call));
+    fn add_binding(&mut self, e: &Ident) {
+        if self.bindings.insert(e.to_id()) {
+            self.accesses.remove(&(e.to_id(), AccessKind::Reference));
+            self.accesses.remove(&(e.to_id(), AccessKind::Call));
         }
     }
 
@@ -248,6 +248,7 @@ impl Visit for InfectionCollector {
             _ => {
                 let ctx = Ctx {
                     track_expr_ident: true,
+                    is_pat_decl: false,
                     ..self.ctx
                 };
                 e.visit_children_with(&mut *self.with_ctx(ctx));
@@ -256,6 +257,8 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
+        self.add_binding(&n.ident);
+
         if self.config.ignore_named_child_scope {
             return;
         }
