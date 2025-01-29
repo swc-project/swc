@@ -10,6 +10,8 @@ version       = "0.1.0"
 
 
 [dependencies]
-napi    = { workspace = true, features = ["napi4", "tokio_rt"] }
-tokio   = { workspace = true }
-tracing = { workspace = true }
+napi       = { workspace = true, features = ["napi4", "tokio_rt"] }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+tokio      = { workspace = true }
+tracing    = { workspace = true }
