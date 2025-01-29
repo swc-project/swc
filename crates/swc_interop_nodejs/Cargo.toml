@@ -10,3 +10,4 @@ version       = "0.1.0"
 
 
 [dependencies]
+napi = { workspace = true, features = ["napi4"] }
