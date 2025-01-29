@@ -41109,7 +41109,7 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(DataView, _super), DataView.prototype.onclick = function(ecModel, api) {
-            var seriesGroupByCategoryAxis, otherSeries, meta, groups, tables, result, container = api.getDom(), model = this.model;
+            var seriesGroupByCategoryAxis, otherSeries, meta, result, groups, tables, container = api.getDom(), model = this.model;
             this._dom && container.removeChild(this._dom);
             var root = document.createElement('div');
             root.style.cssText = 'position:absolute;left:5px;top:5px;bottom:5px;right:5px;', root.style.backgroundColor = model.get('backgroundColor') || '#fff';
