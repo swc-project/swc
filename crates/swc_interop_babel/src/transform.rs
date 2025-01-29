@@ -9,7 +9,7 @@ pub struct JsTrasnform {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TransformOutput {
     pub code: String,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
 }
 
