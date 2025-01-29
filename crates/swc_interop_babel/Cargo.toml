@@ -10,4 +10,6 @@ version       = "0.1.0"
 
 
 [dependencies]
+serde              = { workspace = true }
+serde_json         = { workspace = true }
 swc_interop_nodejs = { version = "0.1.0", path = "../swc_interop_nodejs" }
