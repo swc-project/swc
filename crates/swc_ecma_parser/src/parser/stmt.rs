@@ -1006,7 +1006,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if kind == VarDeclKind::Const && !self.ctx().in_declare {
+                } else if kind == VarDeclKind::Const && !for_loop && !self.ctx().in_declare {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,
