@@ -6022,6 +6022,9 @@ dependencies = [
 [[package]]
 name = "swc_interop_nodejs"
 version = "0.1.0"
+dependencies = [
+ "napi",
+]
 
 [[package]]
 name = "swc_macros_common"
