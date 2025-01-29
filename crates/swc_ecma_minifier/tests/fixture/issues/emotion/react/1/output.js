@@ -690,7 +690,7 @@
             // but this is much easier and the native packages
             // might use a different theme context in the future anyway
             "undefined" != typeof HTMLElement ? /* #__PURE__ */ function(options) {
-                var collection, length, callback, container, _insert, currentSheet, key = options.key;
+                var callback, container, _insert, currentSheet, collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])"); // get SSRed styles out of the way of React's hydration
                     // document.head is a safe place to move them to(though note document.head is not necessarily the last place they will be)
