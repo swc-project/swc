@@ -1,12 +1,12 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
+use swc_ecma_utils::BindingCollector;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-pub use self::ctx::Ctx;
+use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 
 mod ctx;
@@ -85,9 +85,7 @@ pub type Access = (Id, AccessKind);
 
 pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
-    N: InfectableNode
-        + VisitWith<BindingCollector<Id>>
-        + for<'aa> VisitWith<InfectionCollector<'aa>>,
+    N: InfectableNode + VisitWith<BindingCollector<Id>> + VisitWith<InfectionCollector>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
         return Default::default();
@@ -96,17 +94,17 @@ where
     let unresolved_ctxt = config
         .marks
         .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
-    let decls = collect_decls(node);
 
     let mut visitor = InfectionCollector {
         config,
         unresolved_ctxt,
 
-        exclude: &decls,
         ctx: Ctx {
             track_expr_ident: true,
             ..Default::default()
         },
+
+        bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
     };
 
@@ -115,21 +113,21 @@ where
     visitor.accesses
 }
 
-pub struct InfectionCollector<'a> {
+pub struct InfectionCollector {
     #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    exclude: &'a AHashSet<Id>,
+    bindings: FxHashSet<Id>,
 
     ctx: Ctx,
 
     accesses: FxHashSet<Access>,
 }
 
-impl InfectionCollector<'_> {
+impl InfectionCollector {
     fn add_id(&mut self, e: Id) {
-        if self.exclude.contains(&e) {
+        if self.bindings.contains(&e) {
             return;
         }
 
@@ -148,7 +146,7 @@ impl InfectionCollector<'_> {
     }
 }
 
-impl Visit for InfectionCollector<'_> {
+impl Visit for InfectionCollector {
     noop_visit_type!();
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
