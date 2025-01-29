@@ -54,11 +54,11 @@ impl JsOutput for bool {}
 
 /// Note: This type stringifies the output json string, because it's faster.
 #[derive(Debug, Default)]
-pub struct AsJson<T>(pub T)
+pub struct AsJsonString<T>(pub T)
 where
     T: 'static + Send + Debug;
 
-impl<T> FromNapiValue for AsJson<T>
+impl<T> FromNapiValue for AsJsonString<T>
 where
     T: 'static + Send + Debug + DeserializeOwned,
 {
@@ -73,9 +73,9 @@ where
     }
 }
 
-impl<T> JsOutput for AsJson<T> where T: 'static + Send + Debug + DeserializeOwned {}
+impl<T> JsOutput for AsJsonString<T> where T: 'static + Send + Debug + DeserializeOwned {}
 
-impl<T> JsInput for AsJson<T>
+impl<T> JsInput for AsJsonString<T>
 where
     T: 'static + Send + Debug + Serialize,
 {

@@ -1,9 +1,9 @@
 use napi::JsFunction;
 use serde::{Deserialize, Serialize};
-use swc_interop_nodejs::{js_hook::JsHook, types::AsJson};
+use swc_interop_nodejs::{js_hook::JsHook, types::AsJsonString};
 
 pub struct JsTrasnform {
-    f: JsHook<AsJson<SourceFile>, AsJson<SourceFile>>,
+    f: JsHook<AsJsonString<SourceFile>, AsJsonString<SourceFile>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -21,6 +21,6 @@ impl JsTrasnform {
     }
 
     pub async fn transform(&self, input: SourceFile) -> napi::Result<SourceFile> {
-        Ok(self.f.call(AsJson(input)).await?.0)
+        Ok(self.f.call(AsJsonString(input)).await?.0)
     }
 }
