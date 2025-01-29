@@ -1,0 +1,13 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "General interop for Babel"
+documentation = "https://rustdoc.swc.rs/swc_interop_babel/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_interop_babel"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+
+[dependencies]
+swc_interop_nodejs = { version = "0.1.0", path = "../swc_interop_nodejs" }
