@@ -10,4 +10,4 @@ version       = "0.1.0"
 
 
 [dependencies]
-napi = { workspace = true, features = ["napi4"] }
+napi = { workspace = true, features = ["napi4", "tokio_rt"] }
