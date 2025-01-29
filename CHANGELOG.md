@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.10.12] - 2025-01-29
 
 ### Bug Fixes
 
@@ -1584,9 +1584,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/renamer)** Remove `FastJsWord` ([#9136](https://github.com/swc-project/swc/issues/9136)) ([42b4caf](https://github.com/swc-project/swc/commit/42b4caf5735bc0a025024cf968ef16cd06d9f0dc))
 
 
 - **(es/typescript)** Fix tricky cases in TS fast strip ([#9159](https://github.com/swc-project/swc/issues/9159)) ([2bc51b8](https://github.com/swc-project/swc/commit/2bc51b8ab25130f355cc1bad4c60d58376485698))
