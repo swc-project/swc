@@ -156,6 +156,18 @@ impl InfectionCollector {
 impl Visit for InfectionCollector {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        let old = self.ctx.is_pat_decl;
+
+        for p in &n.params {
+            self.ctx.is_pat_decl = true;
+            p.visit_with(self);
+        }
+
+        n.body.visit_with(self);
+        self.ctx.is_pat_decl = old;
+    }
+
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         if self.config.ignore_named_child_scope
             && n.op == op!("=")
@@ -166,6 +178,14 @@ impl Visit for InfectionCollector {
         }
 
         n.visit_children_with(self);
+    }
+
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
+        node.value.visit_with(self);
+
+        if self.ctx.is_pat_decl {
+            self.add_binding(&node.key.clone().into());
+        }
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
