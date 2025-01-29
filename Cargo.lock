@@ -6025,6 +6025,8 @@ name = "swc_interop_nodejs"
 version = "0.1.0"
 dependencies = [
  "napi",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]
