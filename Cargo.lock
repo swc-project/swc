@@ -2886,6 +2886,7 @@ dependencies = [
  "once_cell",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -6010,6 +6011,27 @@ dependencies = [
  "swc_common",
  "swc_html_ast",
  "swc_visit",
+]
+
+[[package]]
+name = "swc_interop_babel"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "serde",
+ "serde_json",
+ "swc_interop_nodejs",
+]
+
+[[package]]
+name = "swc_interop_nodejs"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]
