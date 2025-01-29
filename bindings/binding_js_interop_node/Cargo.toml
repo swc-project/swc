@@ -61,3 +61,5 @@ swc_core = { workspace = true, features = [
   "base_concurrent",
 ] }
 swc_malloc = { workspace = true }
+swc_interop_babel = { version = "0.1.0"}
+swc_interop_nodejs = { version = "0.1.0"}
