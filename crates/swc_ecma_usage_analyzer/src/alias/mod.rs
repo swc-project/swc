@@ -126,6 +126,13 @@ pub struct InfectionCollector {
 }
 
 impl InfectionCollector {
+    fn add_binding(&mut self, e: Id) {
+        if self.bindings.insert(e.clone()) {
+            self.accesses.remove(&(e.clone(), AccessKind::Reference));
+            self.accesses.remove(&(e, AccessKind::Call));
+        }
+    }
+
     fn add_usage(&mut self, e: Id) {
         if self.bindings.contains(&e) {
             return;
