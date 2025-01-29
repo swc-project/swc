@@ -107,9 +107,6 @@ impl Optimizer<'_> {
                 && !usage.used_as_ref
             {
                 if let Expr::Array(arr) = init {
-                    self.vars.inline_with_multi_replacer(arr);
-                    inlined_into_init = true;
-
                     if arr.elems.len() < 32
                         && arr.elems.iter().all(|e| match e {
                             Some(ExprOrSpread { spread: None, expr }) => match &**expr {
@@ -119,6 +116,8 @@ impl Optimizer<'_> {
                             _ => false,
                         })
                     {
+                        inlined_into_init = true;
+                        self.vars.inline_with_multi_replacer(arr);
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
