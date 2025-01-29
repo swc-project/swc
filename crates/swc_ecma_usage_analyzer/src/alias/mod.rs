@@ -126,7 +126,7 @@ pub struct InfectionCollector {
 }
 
 impl InfectionCollector {
-    fn add_id(&mut self, e: Id) {
+    fn add_usage(&mut self, e: Id) {
         if self.bindings.contains(&e) {
             return;
         }
@@ -234,7 +234,7 @@ impl Visit for InfectionCollector {
         match e {
             Expr::Ident(i) => {
                 if self.ctx.track_expr_ident {
-                    self.add_id(i.to_id());
+                    self.add_usage(i.to_id());
                 }
             }
 
@@ -264,7 +264,7 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.add_id(n.to_id());
+        self.add_usage(n.to_id());
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
