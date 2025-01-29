@@ -3,11 +3,11 @@ use serde::{Deserialize, Serialize};
 use swc_interop_nodejs::{js_hook::JsHook, types::AsJsonString};
 
 pub struct JsTrasnform {
-    f: JsHook<AsJsonString<SourceFile>, AsJsonString<SourceFile>>,
+    f: JsHook<AsJsonString<TransformOutput>, AsJsonString<TransformOutput>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SourceFile {
+pub struct TransformOutput {
     pub code: String,
     #[serde(default)]
     pub map: Option<String>,
@@ -20,7 +20,7 @@ impl JsTrasnform {
         })
     }
 
-    pub async fn transform(&self, input: SourceFile) -> napi::Result<SourceFile> {
+    pub async fn transform(&self, input: TransformOutput) -> napi::Result<TransformOutput> {
         Ok(self.f.call(AsJsonString(input)).await?.0)
     }
 }
