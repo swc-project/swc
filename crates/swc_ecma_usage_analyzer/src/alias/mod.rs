@@ -402,17 +402,17 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
-        if self.config.ignore_named_child_scope {
-            if let (Pat::Ident(..), Some(..)) = (&n.name, n.init.as_deref()) {
-                return;
-            }
-        }
-
         {
             let old = self.ctx.is_pat_decl;
             self.ctx.is_pat_decl = true;
             n.name.visit_with(self);
             self.ctx.is_pat_decl = old;
+        }
+
+        if self.config.ignore_named_child_scope {
+            if let (Pat::Ident(..), Some(..)) = (&n.name, n.init.as_deref()) {
+                return;
+            }
         }
 
         {
