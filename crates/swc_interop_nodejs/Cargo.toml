@@ -1,8 +1,12 @@
 [package]
-edition    = { workspace = true }
-license    = { workspace = true }
-name       = "swc_interop_nodejs"
-repository = { workspace = true }
-version    = "0.1.0"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "General interop for Node.js"
+documentation = "https://rustdoc.swc.rs/swc_interop_nodejs/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_interop_nodejs"
+repository    = { workspace = true }
+version       = "0.1.0"
+
 
 [dependencies]
