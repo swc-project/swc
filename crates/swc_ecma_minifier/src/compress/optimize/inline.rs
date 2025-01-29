@@ -656,8 +656,6 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
-                    self.vars.inline_with_multi_replacer(&mut f.function.body);
-
                     if let Some(body) = &f.function.body {
                         if !usage.used_recursively
                             // only callees can be inlined multiple times
@@ -682,6 +680,8 @@ impl Optimizer<'_> {
                                 f.ident.sym,
                                 f.ident.ctxt
                             );
+
+                            self.vars.inline_with_multi_replacer(&mut f.function.body);
 
                             for i in collect_infects_from(
                                 &f.function,
