@@ -41,7 +41,7 @@ swc_allocator = { version = "2.0.0", path = "../swc_allocator" }
 swc_common = { version = "5.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "7.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "7.0.1", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "5.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "5.0.0", path = "../testing" }

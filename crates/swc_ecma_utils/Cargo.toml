@@ -39,5 +39,5 @@ swc_parallel   = { version = "1.2.0", path = "../swc_parallel", default-features
 stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
-swc_ecma_parser = { version = "7.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "7.0.1", path = "../swc_ecma_parser" }
 testing         = { version = "5.0.0", path = "../testing" }
