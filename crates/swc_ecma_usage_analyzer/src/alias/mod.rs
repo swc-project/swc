@@ -304,6 +304,23 @@ impl Visit for InfectionCollector {
         }
     }
 
+    fn visit_param(&mut self, node: &Param) {
+        let old = self.ctx.is_pat_decl;
+        self.ctx.is_pat_decl = true;
+        node.visit_children_with(self);
+        self.ctx.is_pat_decl = old;
+    }
+
+    fn visit_pat(&mut self, node: &Pat) {
+        node.visit_children_with(self);
+
+        if self.ctx.is_pat_decl {
+            if let Pat::Ident(i) = node {
+                self.add_binding(i)
+            }
+        }
+    }
+
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(c) = &n {
             c.visit_with(&mut *self.with_ctx(Ctx {
@@ -365,6 +382,18 @@ impl Visit for InfectionCollector {
             }
         }
 
-        n.visit_children_with(self);
+        {
+            let old = self.ctx.is_pat_decl;
+            self.ctx.is_pat_decl = true;
+            n.name.visit_with(self);
+            self.ctx.is_pat_decl = old;
+        }
+
+        {
+            let old = self.ctx.is_pat_decl;
+            self.ctx.is_pat_decl = false;
+            n.init.visit_with(self);
+            self.ctx.is_pat_decl = old;
+        }
     }
 }
