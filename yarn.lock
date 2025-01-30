@@ -4638,6 +4638,7 @@ __metadata:
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.43"
     "@swc/counter": "npm:^0.1.3"
+    benchmark: "npm:^2.1.4"
     typescript: "npm:^5.1.6"
   languageName: unknown
   linkType: soft
