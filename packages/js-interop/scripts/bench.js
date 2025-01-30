@@ -19,7 +19,7 @@ function createBabelTransform({ }) {
     }
 }
 
-const SOURCE = fs.readFileSync('./table.tsx.txt', 'utf8');
+const SOURCE = fs.readFileSync('./scripts/table.tsx.txt', 'utf8');
 
 var suite = new Benchmark.Suite;
 
