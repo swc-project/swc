@@ -1,3 +1,4 @@
+const fs = require('node:fs');
 const Benchmark = require('benchmark');
 const babel = require("@babel/core");
 
@@ -18,7 +19,7 @@ function createBabelTransform({ }) {
     }
 }
 
-const SOURCE = 'console.log("Hello World!");';
+const SOURCE = fs.readFileSync('./table.tsx.txt', 'utf8');
 
 var suite = new Benchmark.Suite;
 
