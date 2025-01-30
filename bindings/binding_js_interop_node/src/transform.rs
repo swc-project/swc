@@ -23,8 +23,6 @@ use crate::{get_compiler, util::try_with};
 /// Input to transform
 #[derive(Debug)]
 pub enum Input {
-    /// json string
-    Program(String),
     /// Raw source code.
     Source { src: String },
     /// File
@@ -58,13 +56,6 @@ impl Task for TransformTask {
             error_format,
             |handler| {
                 self.c.run(|| match &self.input {
-                    Input::Program(ref s) => {
-                        let program: Program =
-                            deserialize_json(s).expect("failed to deserialize Program");
-                        // TODO: Source map
-                        self.c.process_js(handler, program, &options)
-                    }
-
                     Input::File(ref path) => {
                         let fm = self.c.cm.load_file(path).context("failed to load file")?;
                         self.c.process_js_file(fm, handler, &options)
@@ -103,7 +94,7 @@ impl Task for TransformTask {
 pub fn transform(
     env: Env,
     src: String,
-    is_module: bool,
+    _is_module: bool,
     options: JsBuffer,
     babel_transform: Option<JsFunction>,
     signal: Option<AbortSignal>,
@@ -112,11 +103,7 @@ pub fn transform(
 
     let c = get_compiler();
 
-    let input = if is_module {
-        Input::Program(src)
-    } else {
-        Input::Source { src }
-    };
+    let input = Input::Source { src };
 
     let task = TransformTask {
         c,
