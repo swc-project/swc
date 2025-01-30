@@ -9,6 +9,8 @@ export declare function transform2Times(src: string, firstOptions: Buffer, babel
 
 export declare function transform3Times(src: string, firstOptions: Buffer, babelTransform: (...args: any[]) => any, thirdOptions: Buffer): object
 
+export declare function transformOnce(src: string, firstOptions: Buffer): object
+
 export interface TransformOutput {
   code: string
   map?: string
