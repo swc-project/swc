@@ -8,12 +8,10 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask},
     Env, JsBuffer, JsBufferValue, JsFunction, Ref, Task,
 };
-use path_clean::clean;
 use swc_core::{
     base::{config::Options, Compiler, TransformOutput},
     common::FileName,
-    ecma::ast::Program,
-    node::{deserialize_json, MapErr},
+    node::MapErr,
 };
 use swc_interop_babel::transform::JsTrasnform;
 use tracing::instrument;
@@ -108,33 +106,6 @@ pub fn transform(
     let task = TransformTask {
         c,
         input,
-        options: options.into_ref()?,
-        babel_transform: match babel_transform {
-            Some(f) => Some(JsTrasnform::new(&env, &f)?),
-            None => None,
-        },
-    };
-    Ok(AsyncTask::with_optional_signal(task, signal))
-}
-
-#[napi]
-#[instrument(level = "trace", skip_all)]
-pub fn transform_file(
-    env: Env,
-    src: String,
-    _is_module: bool,
-    options: JsBuffer,
-    babel_transform: Option<JsFunction>,
-    signal: Option<AbortSignal>,
-) -> napi::Result<AsyncTask<TransformTask>> {
-    crate::util::init_default_trace_subscriber();
-
-    let c = get_compiler();
-
-    let path = clean(&src);
-    let task = TransformTask {
-        c,
-        input: Input::File(path),
         options: options.into_ref()?,
         babel_transform: match babel_transform {
             Some(f) => Some(JsTrasnform::new(&env, &f)?),
