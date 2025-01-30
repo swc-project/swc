@@ -89,16 +89,13 @@ impl Task for TransformTask {
 
 #[napi]
 #[instrument(level = "trace", skip_all)]
-pub fn transform(
+pub fn transform_3_times(
     env: Env,
     src: String,
-    _is_module: bool,
     options: JsBuffer,
     babel_transform: Option<JsFunction>,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    crate::util::init_default_trace_subscriber();
-
     let c = get_compiler();
 
     let input = Input::Source { src };
