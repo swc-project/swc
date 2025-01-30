@@ -5,7 +5,7 @@ interface Options {
 
 }
 
-type BabelTransform = (input: string) => Promise<string>;
+type BabelTransform = (_:null,input: string) => Promise<string>;
 
 export async function transform3Times(
     content: string,

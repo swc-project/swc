@@ -1,19 +1,28 @@
 const Benchmark = require('benchmark');
+const lib = require('../index');
 
 
+function createBabelTransform({ }) {
+    return async (_, input) => {
+        const { code, map } = JSON.parse(input);
+
+        return JSON.stringify({ code, map });
+    }
+}
+
+const SOURCE = 'console.log("Hello World!");';
 
 var suite = new Benchmark.Suite;
 
 // add tests
 suite
-    .add('swc (code) -> babel (code) -> swc', function () {
-        'Hello World!'.indexOf('o') > -1;
+    .add('swc (code) -> babel (code) -> swc', async function (done) {
+        await lib.transform3Times(SOURCE, {}, createBabelTransform({}), {});
+        done();
     })
-    .add('swc (code) -> babel', function () {
-        !!'Hello World!'.match(/o/);
-    })
-    .add('swc (AST) -> babel', function () {
-        !!'Hello World!'.match(/o/);
+    .add('swc (code) -> babel', async function (done) {
+        await lib.transform2Times(SOURCE, {}, createBabelTransform({}));
+        done();
     })
     // add listeners
     .on('cycle', function (event) {
