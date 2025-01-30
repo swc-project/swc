@@ -4632,6 +4632,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/experimental-js-interop@workspace:packages/js-interop":
+  version: 0.0.0-use.local
+  resolution: "@swc/experimental-js-interop@workspace:packages/js-interop"
+  dependencies:
+    "@napi-rs/cli": "npm:^3.0.0-alpha.43"
+    "@swc/counter": "npm:^0.1.3"
+    typescript: "npm:^5.1.6"
+  languageName: unknown
+  linkType: soft
+
 "@swc/helpers@workspace:^, @swc/helpers@workspace:packages/helpers":
   version: 0.0.0-use.local
   resolution: "@swc/helpers@workspace:packages/helpers"
