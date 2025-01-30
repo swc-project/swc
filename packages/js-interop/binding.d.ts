@@ -5,9 +5,7 @@ export declare function getTargetTriple(): string
 
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export declare function transform(src: string, isModule: boolean, options: Buffer, babelTransform?: (...args: any[]) => any | undefined | null, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
-
-export declare function transformFile(src: string, isModule: boolean, options: Buffer, babelTransform?: (...args: any[]) => any | undefined | null, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+export declare function transform3Times(src: string, options: Buffer, babelTransform?: (...args: any[]) => any | undefined | null, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
 export interface TransformOutput {
   code: string

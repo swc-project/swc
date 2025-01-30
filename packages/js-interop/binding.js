@@ -337,5 +337,4 @@ if (!nativeBinding) {
 
 module.exports.getTargetTriple = nativeBinding.getTargetTriple
 module.exports.initCustomTraceSubscriber = nativeBinding.initCustomTraceSubscriber
-module.exports.transform = nativeBinding.transform
-module.exports.transformFile = nativeBinding.transformFile
+module.exports.transform3Times = nativeBinding.transform3Times
