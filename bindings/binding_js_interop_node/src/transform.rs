@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use napi::{bindgen_prelude::AbortSignal, Env, JsBuffer, JsBufferValue, JsFunction, JsObject, Ref};
+use napi::{Env, JsBuffer, JsBufferValue, JsFunction, JsObject, Ref};
 use swc_core::{base::config::Options, common::FileName, node::MapErr};
 use swc_interop_babel::transform::{JsTrasnform, TransformOutput};
 use tracing::instrument;
