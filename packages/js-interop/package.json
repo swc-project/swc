@@ -52,6 +52,7 @@
     },
     "devDependencies": {
         "@napi-rs/cli": "^3.0.0-alpha.43",
+        "benchmark": "^2.1.4",
         "typescript": "^5.1.6"
     },
     "dependencies": {
