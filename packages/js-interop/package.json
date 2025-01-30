@@ -1,0 +1,60 @@
+{
+    "name": "@swc/experimental-js-interop",
+    "version": "0.1.0",
+    "description": "Experimental JS interop",
+    "homepage": "https://swc.rs",
+    "main": "./index.js",
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "Apache-2.0",
+    "keywords": [
+        "swc",
+        "js",
+        "interop"
+    ],
+    "engines": {
+        "node": ">=14"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "napi": {
+        "binaryName": "swc-js-interop",
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "scripts": {
+        "artifacts": "napi artifacts --npm-dir scripts/npm",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
+        "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
+        "build:ts": "tsc -d",
+        "build": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_js_interop_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_js_interop_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "test": "echo 'done!'",
+        "version": "napi version --npm-dir scripts/npm"
+    },
+    "devDependencies": {
+        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "typescript": "^5.1.6"
+    },
+    "dependencies": {
+        "@swc/counter": "^0.1.3"
+    }
+}
