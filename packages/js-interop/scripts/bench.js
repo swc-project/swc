@@ -4,7 +4,7 @@ const babel = require("@babel/core");
 
 const lib = require('../index');
 
-function createBabelTransform({ }) {
+function createBabelTransform({ lower }) {
     return async (_, input) => {
         const { code, map } = JSON.parse(input);
 
@@ -44,14 +44,14 @@ suite
     .add('swc (code) -> babel (code) -> swc', {
         defer: true,
         fn: async function (deferred) {
-            await lib.transform3Times(SOURCE, firstSwcOption, createBabelTransform({}), secondSwcOption);
+            await lib.transform3Times(SOURCE, firstSwcOption, createBabelTransform({ lower: false }), secondSwcOption);
             deferred.resolve();
         },
     })
     .add('swc (code) -> babel', {
         defer: true,
         fn: async function (deferred) {
-            await lib.transform2Times(SOURCE, firstSwcOption, createBabelTransform({}));
+            await lib.transform2Times(SOURCE, firstSwcOption, createBabelTransform({ lower: true }));
             deferred.resolve();
         },
     })
@@ -68,6 +68,19 @@ suite
                 }
             });
             deferred.resolve();
+        },
+    })
+    .add('babel', {
+        defer: true,
+        fn: async function (deferred) {
+            babel.transform(SOURCE, {
+                inputSourceMap: map,
+            }, function (err, result) {
+                const { code, map } = result;
+                JSON.stringify({ code, map });
+
+                deferred.resolve();
+            });
         },
     })
     // add listeners
