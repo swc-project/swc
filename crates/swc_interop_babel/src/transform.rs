@@ -1,4 +1,5 @@
 use napi::JsFunction;
+use napi_derive::napi;
 use serde::{Deserialize, Serialize};
 use swc_interop_nodejs::{js_hook::JsHook, types::AsJsonString};
 
@@ -6,6 +7,7 @@ pub struct JsTrasnform {
     f: JsHook<AsJsonString<TransformOutput>, AsJsonString<TransformOutput>>,
 }
 
+#[napi(object)]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TransformOutput {
     pub code: String,

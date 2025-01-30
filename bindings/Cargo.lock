@@ -322,6 +322,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_js_interop_node"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "backtrace",
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "node_macro_deps",
+ "path-clean 1.0.1",
+ "serde",
+ "serde_json",
+ "swc_core",
+ "swc_malloc",
+ "tracing",
+ "tracing-chrome 0.7.2",
+ "tracing-futures",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "binding_macros"
 version = "12.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
