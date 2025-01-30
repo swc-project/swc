@@ -19,7 +19,7 @@ function createBabelTransform({ }) {
     }
 }
 
-const SOURCE = fs.readFileSync('./scripts/table.tsx.txt', 'utf8');
+const SOURCE = fs.readFileSync('./scripts/input.js.txt', 'utf8');
 
 var suite = new Benchmark.Suite;
 
@@ -28,7 +28,8 @@ suite
     .add('swc (code) -> babel (code) -> swc', {
         defer: true,
         fn: async function (deferred) {
-            await lib.transform3Times(SOURCE, {}, createBabelTransform({}), {});
+            await lib.transform3Times(SOURCE, {
+            }, createBabelTransform({}), {});
             deferred.resolve();
         },
     })
