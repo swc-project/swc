@@ -5,14 +5,22 @@ interface Options {
 
 }
 
-type BabelTransform = (input: TransformOutput) => Promise<TransformOutput>;
+type BabelTransform = (input: string) => Promise<string>;
 
 export async function transform3Times(
     content: string,
-    options?: Options,
-    babel_transform?: BabelTransform
-): Promise<binding.TransformOutput> {
-    return binding.transform3Times(content, toBuffer(options ?? {}), babel_transform);
+    firstOptions: Options,
+    babelTransform: BabelTransform,
+    thirdOptions: Options
+): Promise<TransformOutput> {
+    return await binding.transform3Times(content, toBuffer(firstOptions ?? {}), babelTransform, toBuffer(thirdOptions ?? {})) as any;
+}
+export async function transform2Times(
+    content: string,
+    firstOptions: Options,
+    babelTransform: BabelTransform,
+): Promise<TransformOutput> {
+    return await binding.transform2Times(content, toBuffer(firstOptions ?? {}), babelTransform) as any;
 }
 
 function toBuffer(t: any): Buffer {
