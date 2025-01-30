@@ -5,12 +5,19 @@ export declare function getTargetTriple(): string
 
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export declare function transform3Times(src: string, options: Buffer, babelTransform?: (...args: any[]) => any | undefined | null, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+export declare function transform2Times(src: string, firstOptions: Buffer, babelTransform: (...args: any[]) => any): object
+
+export declare function transform3Times(src: string, firstOptions: Buffer, babelTransform: (...args: any[]) => any, thirdOptions: Buffer): object
 
 export interface TransformOutput {
   code: string
   map?: string
   output?: string
+}
+
+export interface TransformOutput {
+  code: string
+  map?: string
 }
 
 /** Hack for `Type Generation` */
