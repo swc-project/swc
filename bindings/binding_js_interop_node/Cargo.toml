@@ -13,21 +13,9 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1", "plugin"]
-plugin = [
-  "swc_core/plugin_transform_host_native",
-  "swc_core/plugin_transform_host_native_filesystem_cache",
-]
-swc_v1 = ["swc_core/bundler_node_v1"]
-swc_v2 = ["swc_core/bundler_node_v2"]
-
-# Internal flag for testing purpose only.
-__plugin_transform_vtest = [
-  # We know what we're doing - enable internal features for testing fixture setup.
-  "swc_core/__plugin_transform_host",
-  "swc_core/__plugin_transform_host_schema_vtest",
-  "swc_core/__plugin_transform_env_native",
-]
+default = ["swc_v1"]
+swc_v1  = ["swc_core/bundler_node_v1"]
+swc_v2  = ["swc_core/bundler_node_v2"]
 
 [build-dependencies]
 napi-build = { workspace = true }
@@ -49,9 +37,7 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 swc_core = { workspace = true, features = [
   "allocator_node",
   "ecma_ast",
-  "ecma_minifier",
   "ecma_codegen",
-  "ecma_ast_serde",
   "common_concurrent",
   "bundler",
   "ecma_loader",
@@ -60,6 +46,6 @@ swc_core = { workspace = true, features = [
   "base_node",
   "base_concurrent",
 ] }
+swc_interop_babel = { version = "0.1.0" }
+swc_interop_nodejs = { version = "0.1.0" }
 swc_malloc = { workspace = true }
-swc_interop_babel = { version = "0.1.0"}
-swc_interop_nodejs = { version = "0.1.0"}
