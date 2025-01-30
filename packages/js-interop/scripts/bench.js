@@ -30,6 +30,13 @@ suite
             deferred.resolve();
         },
     })
+    .add('swc', {
+        defer: true,
+        fn: async function (deferred) {
+            await lib.transformOnce(SOURCE, {});
+            deferred.resolve();
+        },
+    })
     // add listeners
     .on('cycle', function (event) {
         console.log(String(event.target));

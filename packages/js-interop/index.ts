@@ -22,6 +22,12 @@ export async function transform2Times(
 ): Promise<TransformOutput> {
     return await binding.transform2Times(content, toBuffer(firstOptions ?? {}), babelTransform) as any;
 }
+export async function transformOnce(
+    content: string,
+    firstOptions: Options,
+): Promise<TransformOutput> {
+    return await binding.transformOnce(content, toBuffer(firstOptions ?? {})) as any;
+}
 
 function toBuffer(t: any): Buffer {
     return Buffer.from(JSON.stringify(t));
