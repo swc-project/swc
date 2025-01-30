@@ -16,13 +16,19 @@ var suite = new Benchmark.Suite;
 
 // add tests
 suite
-    .add('swc (code) -> babel (code) -> swc', async function (done) {
-        await lib.transform3Times(SOURCE, {}, createBabelTransform({}), {});
-        done();
+    .add('swc (code) -> babel (code) -> swc', {
+        defer: true,
+        fn: async function (deferred) {
+            await lib.transform3Times(SOURCE, {}, createBabelTransform({}), {});
+            deferred.resolve();
+        },
     })
-    .add('swc (code) -> babel', async function (done) {
-        await lib.transform2Times(SOURCE, {}, createBabelTransform({}));
-        done();
+    .add('swc (code) -> babel', {
+        defer: true,
+        fn: async function (deferred) {
+            await lib.transform2Times(SOURCE, {}, createBabelTransform({}));
+            deferred.resolve();
+        },
     })
     // add listeners
     .on('cycle', function (event) {
