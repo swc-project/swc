@@ -92,3 +92,18 @@ pub fn transform_2_times(
         babel_hook.transform(output).await
     })
 }
+
+#[napi]
+#[instrument(level = "trace", skip_all)]
+pub fn transform_once(env: Env, src: String, first_options: JsBuffer) -> napi::Result<JsObject> {
+    let first_options = first_options.into_ref()?;
+
+    env.spawn_future(async move {
+        let input = TransformOutput {
+            code: src,
+            map: None,
+        };
+
+        apply_swc(input, first_options)
+    })
+}
