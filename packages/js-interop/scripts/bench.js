@@ -1,12 +1,20 @@
 const Benchmark = require('benchmark');
-const lib = require('../index');
+const babel = require("@babel/core");
 
+const lib = require('../index');
 
 function createBabelTransform({ }) {
     return async (_, input) => {
         const { code, map } = JSON.parse(input);
 
-        return JSON.stringify({ code, map });
+        return new Promise((resolve, reject) => {
+            babel.transform(code, {
+                inputSourceMap: map,
+            }, function (err, result) {
+                const { code, map } = result;
+                resolve(JSON.stringify({ code, map }));
+            });
+        });
     }
 }
 
