@@ -4125,8 +4125,49 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 }
 
-fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
-    // Count quotes first to determine which quote character to use
+// Add this enum at the module level
+#[derive(Debug)]
+enum QuotedString<'a> {
+    /// Fast path - original string can be used with simple quotes
+    Raw { content: &'a str, quote: char },
+    /// Slow path - string needs escaping/processing
+    Processed(String),
+}
+
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> QuotedString {
+    // Fast path - check if string only contains safe characters
+    let needs_processing = v.chars().any(|c| {
+        matches!(
+            c,
+            '\0'..='\x1f'
+                | '\\'
+                | '\''
+                | '"'
+                | '\u{2028}'
+                | '\u{2029}'
+                | '\u{FEFF}'
+                | '\u{7f}'..='\u{ff}'
+                | '\u{100}'..='\u{FFFF}'
+        ) || (ascii_only && !c.is_ascii())
+    });
+
+    if !needs_processing {
+        // Count quotes to determine quote character
+        let (single_quotes, double_quotes) = v.chars().fold((0, 0), |(s, d), c| match c {
+            '\'' => (s + 1, d),
+            '"' => (s, d + 1),
+            _ => (s, d),
+        });
+
+        let quote = if double_quotes > single_quotes {
+            '\''
+        } else {
+            '"'
+        };
+        return QuotedString::Raw { content: v, quote };
+    }
+
+    // Slow path - original implementation
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
     for c in v.chars() {
         match c {
@@ -4136,7 +4177,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    // Pre-calculate capacity to avoid reallocations
     let quote_char = if double_quote_count > single_quote_count {
         '\''
     } else {
@@ -4149,7 +4189,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         double_quote_count
     };
 
-    // Add 2 for quotes, and 1 for each escaped quote
     let capacity = v.len() + 2 + escape_count;
     let mut buf = String::with_capacity(capacity);
     buf.push(quote_char);
@@ -4300,7 +4339,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     }
 
     buf.push(quote_char);
-    buf
+    QuotedString::Processed(buf)
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
