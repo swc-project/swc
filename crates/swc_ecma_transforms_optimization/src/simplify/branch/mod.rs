@@ -32,6 +32,7 @@ pub fn dead_branch_remover(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 3,
         },
     })
 }
@@ -62,10 +63,7 @@ struct Remover {
 
 impl Parallel for Remover {
     fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            ..*self
-        }
+        Self { ..*self }
     }
 
     fn merge(&mut self, _: Self) {}
@@ -73,6 +71,12 @@ impl Parallel for Remover {
 
 impl VisitMut for Remover {
     noop_visit_mut_type!();
+
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_mut_with(v);
+        });
+    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -140,19 +144,19 @@ impl VisitMut for Remover {
             }
 
             Expr::Cond(cond)
-                if !cond.test.may_have_side_effects(&self.expr_ctx)
-                    && (cond.cons.is_undefined(&self.expr_ctx)
+                if !cond.test.may_have_side_effects(self.expr_ctx)
+                    && (cond.cons.is_undefined(self.expr_ctx)
                         || matches!(*cond.cons, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
-                            }) if !arg.may_have_side_effects(&self.expr_ctx)))
-                    && (cond.alt.is_undefined(&self.expr_ctx)
+                            }) if !arg.may_have_side_effects(self.expr_ctx)))
+                    && (cond.alt.is_undefined(self.expr_ctx)
                         || matches!(*cond.alt, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
-                            }) if !arg.may_have_side_effects(&self.expr_ctx))) =>
+                            }) if !arg.may_have_side_effects(self.expr_ctx))) =>
             {
                 if cfg!(feature = "debug") {
                     debug!("Dropping side-effect-free expressions");
@@ -177,12 +181,24 @@ impl VisitMut for Remover {
         }
     }
 
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
         s.init = s.init.take().and_then(|e| match e {
             VarDeclOrExpr::Expr(e) => {
-                ignore_result(e, true, &self.expr_ctx).map(VarDeclOrExpr::from)
+                ignore_result(e, true, self.expr_ctx).map(VarDeclOrExpr::from)
             }
             _ => Some(e),
         });
@@ -190,11 +206,11 @@ impl VisitMut for Remover {
         s.update = s
             .update
             .take()
-            .and_then(|e| ignore_result(e, true, &self.expr_ctx));
+            .and_then(|e| ignore_result(e, true, self.expr_ctx));
 
         s.test = s.test.take().and_then(|e| {
             let span = e.span();
-            if let Known(value) = e.as_pure_bool(&self.expr_ctx) {
+            if let Known(value) = e.as_pure_bool(self.expr_ctx) {
                 return if value {
                     None
                 } else {
@@ -265,7 +281,7 @@ impl VisitMut for Remover {
                 span,
                 key,
                 value: Some(expr),
-            }) if expr.is_undefined(&self.expr_ctx)
+            }) if expr.is_undefined(self.expr_ctx)
                 || match **expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
@@ -296,12 +312,18 @@ impl VisitMut for Remover {
         }
     }
 
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
         match p {
             Pat::Assign(assign)
-                if assign.right.is_undefined(&self.expr_ctx)
+                if assign.right.is_undefined(self.expr_ctx)
                     || match *assign.right {
                         Expr::Unary(UnaryExpr {
                             op: op!("void"),
@@ -316,6 +338,12 @@ impl VisitMut for Remover {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
@@ -338,13 +366,13 @@ impl VisitMut for Remover {
                         return Some(e);
                     }
 
-                    ignore_result(e, true, &self.expr_ctx)
+                    ignore_result(e, true, self.expr_ctx)
                 })
                 .collect()
         } else {
             e.exprs
                 .take()
-                .move_flat_map(|e| ignore_result(e, false, &self.expr_ctx))
+                .move_flat_map(|e| ignore_result(e, false, self.expr_ctx))
         };
 
         exprs.push(last);
@@ -380,14 +408,14 @@ impl VisitMut for Remover {
                     }
 
                     let mut stmts = Vec::new();
-                    if let (p, Known(v)) = test.cast_to_bool(&self.expr_ctx) {
+                    if let (p, Known(v)) = test.cast_to_bool(self.expr_ctx) {
                         if cfg!(feature = "debug") {
                             trace!("The condition for if statement is always {}", v);
                         }
 
                         // Preserve effect of the test
                         if !p.is_pure() {
-                            if let Some(expr) = ignore_result(test, true, &self.expr_ctx) {
+                            if let Some(expr) = ignore_result(test, true, self.expr_ctx) {
                                 stmts.push(ExprStmt { span, expr }.into())
                             }
                         }
@@ -436,7 +464,7 @@ impl VisitMut for Remover {
                         if let Stmt::Empty(..) = *cons {
                             self.changed = true;
 
-                            return if let Some(expr) = ignore_result(test, true, &self.expr_ctx) {
+                            return if let Some(expr) = ignore_result(test, true, self.expr_ctx) {
                                 ExprStmt { span, expr }.into()
                             } else {
                                 EmptyStmt { span }.into()
@@ -488,7 +516,7 @@ impl VisitMut for Remover {
                         return ExprStmt { span, expr }.into();
                     }
 
-                    match ignore_result(expr, false, &self.expr_ctx) {
+                    match ignore_result(expr, false, self.expr_ctx) {
                         Some(e) => ExprStmt { span, expr: e }.into(),
                         None => EmptyStmt { span: DUMMY_SP }.into(),
                     }
@@ -627,7 +655,7 @@ impl VisitMut for Remover {
                         Expr::Lit(Lit::Str(..))
                         | Expr::Lit(Lit::Null(..))
                         | Expr::Lit(Lit::Num(..)) => true,
-                        ref e if e.is_nan() || e.is_global_ref_to(&self.expr_ctx, "undefined") => {
+                        ref e if e.is_nan() || e.is_global_ref_to(self.expr_ctx, "undefined") => {
                             true
                         }
                         _ => false,
@@ -638,7 +666,7 @@ impl VisitMut for Remover {
                         if cfg!(feature = "debug") {
                             debug!("Removing an empty switch statement");
                         }
-                        return match ignore_result(s.discriminant, true, &self.expr_ctx) {
+                        return match ignore_result(s.discriminant, true, self.expr_ctx) {
                             Some(expr) => ExprStmt { span: s.span, expr }.into(),
                             None => EmptyStmt { span: s.span }.into(),
                         };
@@ -654,7 +682,7 @@ impl VisitMut for Remover {
                         }
 
                         let mut stmts = remove_break(s.cases.remove(0).cons);
-                        if let Some(expr) = ignore_result(s.discriminant, true, &self.expr_ctx) {
+                        if let Some(expr) = ignore_result(s.discriminant, true, self.expr_ctx) {
                             prepend_stmt(&mut stmts, expr.into_stmt());
                         }
 
@@ -697,7 +725,7 @@ impl VisitMut for Remover {
 
                                     _ => {
                                         if !test.is_nan()
-                                            && !test.is_global_ref_to(&self.expr_ctx, "undefined")
+                                            && !test.is_global_ref_to(self.expr_ctx, "undefined")
                                         {
                                             non_constant_case_idx = Some(i);
                                         }
@@ -725,7 +753,7 @@ impl VisitMut for Remover {
                     if let Some(i) = selected {
                         if !has_conditional_stopper(&s.cases[i].cons) {
                             let mut exprs = Vec::new();
-                            exprs.extend(ignore_result(s.discriminant, true, &self.expr_ctx));
+                            exprs.extend(ignore_result(s.discriminant, true, self.expr_ctx));
 
                             let mut stmts = s.cases[i].cons.take();
                             let mut cases = s.cases.drain((i + 1)..);
@@ -745,7 +773,7 @@ impl VisitMut for Remover {
                                 .flat_map(|case| {
                                     exprs.extend(
                                         case.test
-                                            .and_then(|e| ignore_result(e, true, &self.expr_ctx)),
+                                            .and_then(|e| ignore_result(e, true, self.expr_ctx)),
                                     );
                                     case.cons
                                 })
@@ -932,7 +960,7 @@ impl VisitMut for Remover {
                         let is_all_case_side_effect_free = s.cases.iter().all(|case| {
                             case.test
                                 .as_ref()
-                                .map(|e| e.is_ident() || !e.may_have_side_effects(&self.expr_ctx))
+                                .map(|e| e.is_ident() || !e.may_have_side_effects(self.expr_ctx))
                                 .unwrap_or(true)
                         });
 
@@ -942,13 +970,13 @@ impl VisitMut for Remover {
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
                             let mut exprs = Vec::new();
-                            exprs.extend(ignore_result(s.discriminant, true, &self.expr_ctx));
+                            exprs.extend(ignore_result(s.discriminant, true, self.expr_ctx));
 
                             exprs.extend(
                                 s.cases
                                     .iter_mut()
                                     .filter_map(|case| case.test.take())
-                                    .filter_map(|e| ignore_result(e, true, &self.expr_ctx)),
+                                    .filter_map(|e| ignore_result(e, true, self.expr_ctx)),
                             );
 
                             let stmts = s.cases.pop().unwrap().cons;
@@ -1073,7 +1101,7 @@ impl VisitMut for Remover {
                 }
 
                 Stmt::While(s) => {
-                    if let (purity, Known(v)) = s.test.cast_to_bool(&self.expr_ctx) {
+                    if let (purity, Known(v)) = s.test.cast_to_bool(self.expr_ctx) {
                         if v {
                             if purity.is_pure() {
                                 WhileStmt {
@@ -1113,7 +1141,7 @@ impl VisitMut for Remover {
                         return s.into();
                     }
 
-                    if let Known(v) = s.test.as_pure_bool(&self.expr_ctx) {
+                    if let Known(v) = s.test.as_pure_bool(self.expr_ctx) {
                         if v {
                             // `for(;;);` is shorter than `do ; while(true);`
                             ForStmt {
@@ -1128,7 +1156,7 @@ impl VisitMut for Remover {
                             let mut body = prepare_loop_body_for_inlining(*s.body);
                             body.visit_mut_with(self);
 
-                            if let Some(test) = ignore_result(s.test, true, &self.expr_ctx) {
+                            if let Some(test) = ignore_result(s.test, true, self.expr_ctx) {
                                 BlockStmt {
                                     span: s.span,
                                     stmts: vec![body, test.into_stmt()],
@@ -1203,7 +1231,7 @@ impl VisitMut for Remover {
 
         if s.cases.iter().all(|case| {
             if let Some(test) = case.test.as_deref() {
-                if test.may_have_side_effects(&self.expr_ctx) {
+                if test.may_have_side_effects(self.expr_ctx) {
                     return false;
                 }
             }
@@ -1216,30 +1244,6 @@ impl VisitMut for Remover {
         }) {
             s.cases.clear();
         }
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
@@ -1373,11 +1377,11 @@ impl Remover {
                             span,
                         }) => {
                             // check if
-                            match test.cast_to_bool(&self.expr_ctx) {
+                            match test.cast_to_bool(self.expr_ctx) {
                                 (purity, Known(val)) => {
                                     self.changed = true;
                                     if !purity.is_pure() {
-                                        let expr = ignore_result(test, true, &self.expr_ctx);
+                                        let expr = ignore_result(test, true, self.expr_ctx);
 
                                         if let Some(expr) = expr {
                                             new_stmts.push(T::from(
@@ -1440,7 +1444,7 @@ impl Remover {
 ///  - [Some] if `e` has a side effect.
 ///  - [None] if `e` does not have a side effect.
 #[inline(never)]
-fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Box<Expr>> {
+fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<Expr>> {
     match *e {
         Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Bool(..))

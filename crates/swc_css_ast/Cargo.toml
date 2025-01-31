@@ -2,10 +2,10 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "AST definitions of css"
 documentation = "https://rustdoc.swc.rs/swc_css_ast/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_css_ast"
-repository    = "https://github.com/swc-project/swc.git"
+repository    = { workspace = true }
 version       = "5.0.0"
 
 [lib]
@@ -31,7 +31,7 @@ rancor      = { workspace = true, optional = true }
 serde       = { workspace = true, features = ["derive"], optional = true }
 string_enum = { version = "1.0.0", path = "../string_enum/" }
 
-swc_atoms  = { version = "3.0.0", path = "../swc_atoms" }
-swc_common = { version = "5.0.0", path = "../swc_common" }
+swc_atoms  = { version = "3.0.4", path = "../swc_atoms" }
+swc_common = { version = "5.0.1", path = "../swc_common" }
 
 rkyv = { workspace = true, optional = true }

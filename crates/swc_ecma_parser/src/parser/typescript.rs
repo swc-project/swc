@@ -336,7 +336,12 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if is!(self, '<') {
-            self.parse_ts_type_args().map(Some)?
+            self.with_ctx(Context {
+                should_not_lex_lt_or_gt_as_type: false,
+                ..self.ctx()
+            })
+            .parse_ts_type_args()
+            .map(Some)?
         } else {
             None
         };

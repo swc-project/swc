@@ -10,7 +10,7 @@ use super::{
     inferrer::ReturnTypeInferrer,
     type_ann,
     util::{
-        ast_ext::PatExt,
+        ast_ext::{ExprExit, PatExt},
         types::{ts_keyword_type, ts_lit_type},
     },
     FastDts,
@@ -312,6 +312,51 @@ impl FastDts {
             PropName::Num(num) => (Lit::Num(num.clone()).into(), true),
             PropName::Computed(computed) => (*computed.expr.clone(), true),
             PropName::BigInt(big_int) => (Lit::BigInt(big_int.clone()).into(), true),
+        }
+    }
+
+    pub(crate) fn check_ts_signature(&mut self, signature: &TsTypeElement) {
+        match signature {
+            TsTypeElement::TsPropertySignature(ts_property_signature) => {
+                self.report_signature_property_key(
+                    &ts_property_signature.key,
+                    ts_property_signature.computed,
+                );
+            }
+            TsTypeElement::TsGetterSignature(ts_getter_signature) => {
+                self.report_signature_property_key(
+                    &ts_getter_signature.key,
+                    ts_getter_signature.computed,
+                );
+            }
+            TsTypeElement::TsSetterSignature(ts_setter_signature) => {
+                self.report_signature_property_key(
+                    &ts_setter_signature.key,
+                    ts_setter_signature.computed,
+                );
+            }
+            TsTypeElement::TsMethodSignature(ts_method_signature) => {
+                self.report_signature_property_key(
+                    &ts_method_signature.key,
+                    ts_method_signature.computed,
+                );
+            }
+            _ => {}
+        }
+    }
+
+    pub(crate) fn report_signature_property_key(&mut self, key: &Expr, computed: bool) {
+        if !computed {
+            return;
+        }
+
+        let is_not_allowed = match key {
+            Expr::Ident(_) | Expr::Member(_) | Expr::OptChain(_) => key.get_root_ident().is_none(),
+            _ => !Self::is_literal(key),
+        };
+
+        if is_not_allowed {
+            self.signature_computed_property_name(key.span());
         }
     }
 

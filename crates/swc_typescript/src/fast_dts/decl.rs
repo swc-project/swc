@@ -101,11 +101,26 @@ impl FastDts {
                     );
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {
+            Decl::TsInterface(ts_interface) => {
                 if let Some(internal_annotations) = self.internal_annotations.as_ref() {
-                    decl.visit_mut_children_with(&mut InternalAnnotationTransformer::new(
+                    ts_interface.visit_mut_children_with(&mut InternalAnnotationTransformer::new(
                         internal_annotations,
                     ))
+                }
+                for type_element in ts_interface.body.body.iter() {
+                    self.check_ts_signature(type_element);
+                }
+            }
+            Decl::TsTypeAlias(ts_type_alias) => {
+                if let Some(internal_annotations) = self.internal_annotations.as_ref() {
+                    ts_type_alias.visit_mut_children_with(&mut InternalAnnotationTransformer::new(
+                        internal_annotations,
+                    ))
+                }
+                if let Some(ts_lit) = ts_type_alias.type_ann.as_ts_type_lit() {
+                    for type_element in ts_lit.members.iter() {
+                        self.check_ts_signature(type_element);
+                    }
                 }
             }
         }

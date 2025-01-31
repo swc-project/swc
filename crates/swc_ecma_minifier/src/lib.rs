@@ -44,6 +44,7 @@ use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, Synta
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
+use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
@@ -126,7 +127,12 @@ pub fn optimize(
     if let Some(_options) = &options.compress {
         let _timer = timer!("precompress");
 
-        n.visit_mut_with(&mut precompress_optimizer());
+        n.visit_mut_with(&mut precompress_optimizer(ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+            is_unresolved_ref_safe: false,
+            in_strict: false,
+            remaining_depth: 6,
+        }));
         debug_assert_valid(&n);
     }
 

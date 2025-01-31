@@ -75,8 +75,36 @@ pub(super) fn optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
+            remaining_depth: 6,
         },
-        ..Ctx::default()
+        has_const_ann: false,
+        dont_use_prepend_nor_append: false,
+        in_bool_ctx: false,
+        in_asm: false,
+        is_callee: false,
+        var_kind: None,
+        in_try_block: false,
+        in_cond: false,
+        is_delete_arg: false,
+        is_update_arg: false,
+        is_lhs_of_assign: false,
+        is_exact_lhs_of_assign: false,
+        executed_multiple_time: false,
+        in_bang_arg: false,
+        in_var_decl_of_for_in_or_of_loop: false,
+        dont_use_negated_iife: false,
+        is_exported: false,
+        top_level: false,
+        in_fn_like: false,
+        in_block: false,
+        in_obj_of_non_computed_member: false,
+        in_tpl_expr: false,
+        is_this_aware_callee: false,
+        is_nested_if_return_merging: false,
+        dont_invoke_iife: false,
+        in_with_stmt: false,
+        in_param: false,
+        scope: SyntaxContext::default(),
     };
 
     Optimizer {
@@ -99,7 +127,7 @@ pub(super) fn optimizer<'a>(
 /// Syntactic context.
 ///
 /// This should not be modified directly. Use `.with_ctx()` instead.
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 struct Ctx {
     expr_ctx: ExprCtx,
 
@@ -319,7 +347,9 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id.clone().to_id()) {
+        if let Some(VarUsageInfo { exported: true, .. }) =
+            self.data.vars.get(&id.clone().to_id()).map(|v| &**v)
+        {
             return false;
         }
 
@@ -718,7 +748,7 @@ impl Optimizer<'_> {
                 }
 
                 let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.ctx.expr_ctx, *cls.class.take())
+                    extract_class_side_effect(self.ctx.expr_ctx, *cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new)
@@ -934,7 +964,7 @@ impl Optimizer<'_> {
             }) if left.is_simple() && !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
                     if let SimpleAssignTarget::Member(m) = expr {
-                        if !m.obj.may_have_side_effects(&self.ctx.expr_ctx)
+                        if !m.obj.may_have_side_effects(self.ctx.expr_ctx)
                             && (m.obj.is_object()
                                 || m.obj.is_fn_expr()
                                 || m.obj.is_arrow()
@@ -1274,7 +1304,7 @@ impl Optimizer<'_> {
                     return exprs.pop().map(|v| *v);
                 } else {
                     let is_last_undefined =
-                        is_pure_undefined(&self.ctx.expr_ctx, exprs.last().unwrap());
+                        is_pure_undefined(self.ctx.expr_ctx, exprs.last().unwrap());
 
                     // (foo(), void 0) => void foo()
                     if is_last_undefined {
@@ -1572,7 +1602,7 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Some(value) = &n.value {
-            if is_pure_undefined(&self.ctx.expr_ctx, value) {
+            if is_pure_undefined(self.ctx.expr_ctx, value) {
                 n.value = None;
             }
         }
@@ -1600,11 +1630,11 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_bin_and_or(n);
 
         if n.op == op!(bin, "+") {
-            if let Known(Type::Str) = n.left.get_type() {
+            if let Known(Type::Str) = n.left.get_type(self.ctx.expr_ctx) {
                 self.optimize_expr_in_str_ctx(&mut n.right);
             }
 
-            if let Known(Type::Str) = n.right.get_type() {
+            if let Known(Type::Str) = n.right.get_type(self.ctx.expr_ctx) {
                 self.optimize_expr_in_str_ctx(&mut n.left);
             }
         }
@@ -2668,7 +2698,7 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.append_stmts.len(), append_len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
-            if is_pure_undefined(&self.ctx.expr_ctx, expr) {
+            if is_pure_undefined(self.ctx.expr_ctx, expr) {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
@@ -2691,7 +2721,7 @@ impl VisitMut for Optimizer<'_> {
             if self.options.unused {
                 let can_be_removed = !is_directive
                     && !expr.is_ident()
-                    && !expr.may_have_side_effects(&self.ctx.expr_ctx);
+                    && !expr.may_have_side_effects(self.ctx.expr_ctx);
 
                 if can_be_removed {
                     self.changed = true;
@@ -2957,7 +2987,7 @@ impl VisitMut for Optimizer<'_> {
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
                 if let Some(e) = &var.init {
-                    if is_pure_undefined(&self.ctx.expr_ctx, e) {
+                    if is_pure_undefined(self.ctx.expr_ctx, e) {
                         self.changed = true;
                         report_change!(
                             "Dropping explicit initializer which evaluates to `undefined`"
@@ -3061,7 +3091,7 @@ impl VisitMut for Optimizer<'_> {
             for v in vars.iter_mut() {
                 if v.init
                     .as_deref()
-                    .map(|e| !e.is_ident() && !e.may_have_side_effects(&self.ctx.expr_ctx))
+                    .map(|e| !e.is_ident() && !e.may_have_side_effects(self.ctx.expr_ctx))
                     .unwrap_or(true)
                 {
                     self.drop_unused_var_declarator(v, &mut None);
@@ -3206,7 +3236,7 @@ impl VisitMut for Optimizer<'_> {
         if let Some(arg) = &mut n.arg {
             self.compress_undefined(arg);
 
-            if !n.delegate && is_pure_undefined(&self.ctx.expr_ctx, arg) {
+            if !n.delegate && is_pure_undefined(self.ctx.expr_ctx, arg) {
                 n.arg = None;
             }
         }

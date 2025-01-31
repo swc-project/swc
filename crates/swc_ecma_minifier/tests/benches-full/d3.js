@@ -39,10 +39,10 @@ function(global, factory) {
     const ascendingBisect = bisector(ascending), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left, bisectCenter = bisector(number).center;
     function count(values, valueof) {
         let count = 0;
-        if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && ++count;
+        if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && ++count;
         else {
             let index = -1;
-            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && ++count;
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && ++count;
         }
         return count;
     }
@@ -57,10 +57,10 @@ function(global, factory) {
     }
     function variance(values, valueof) {
         let delta, count = 0, mean = 0, sum = 0;
-        if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
+        if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
         else {
             let index = -1;
-            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
         }
         if (count > 1) return sum / (count - 1);
     }
@@ -135,7 +135,7 @@ function(global, factory) {
     var e10 = Math.sqrt(50), e5 = Math.sqrt(10), e2 = Math.sqrt(2);
     function ticks(start, stop, count) {
         var reverse, n, ticks, step, i = -1;
-        if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+        if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
             start
         ];
         if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
@@ -253,13 +253,13 @@ function(global, factory) {
     }
     function quantile(values, p, valueof) {
         if (n = (values = Float64Array.from(function*(values, valueof) {
-            if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (yield value);
+            if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (yield value);
             else {
                 let index = -1;
-                for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (yield value);
+                for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (yield value);
             }
         }(values, valueof))).length) {
-            if ((p = +p) <= 0 || n < 2) return min(values);
+            if ((p *= 1) <= 0 || n < 2) return min(values);
             if (p >= 1) return max(values);
             var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = max(quickselect(values, i0).subarray(0, i0 + 1));
             return value0 + (min(values.subarray(i0 + 1)) - value0) * (i - i0);
@@ -267,7 +267,7 @@ function(global, factory) {
     }
     function quantileSorted(values, p, valueof = number) {
         if (n = values.length) {
-            if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
+            if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
             if (p >= 1) return +valueof(values[n - 1], n - 1, values);
             var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
             return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
@@ -302,7 +302,7 @@ function(global, factory) {
         return Array.from(keys, (key)=>source[key]);
     }
     function sequence(start, stop, step) {
-        start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
+        start *= 1, stop *= 1, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
         for(var i = -1, n = 0 | Math.max(0, Math.ceil((stop - start) / step)), range = Array(n); ++i < n;)range[i] = start + i * step;
         return range;
     }
@@ -316,7 +316,7 @@ function(global, factory) {
     var shuffle = shuffler(Math.random);
     function shuffler(random) {
         return function(array, i0 = 0, i1 = array.length) {
-            let m = i1 - (i0 = +i0);
+            let m = i1 - (i0 *= 1);
             for(; m;){
                 const i = random() * m-- | 0, t = array[m + i0];
                 array[m + i0] = array[i + i0], array[i + i0] = t;
@@ -1481,7 +1481,7 @@ function(global, factory) {
         },
         rgb: function() {
             var y = (this.l + 16) / 116, x = isNaN(this.a) ? y : y + this.a / 500, z = isNaN(this.b) ? y : y - this.b / 200;
-            return new Rgb(lrgb2rgb(3.1338561 * (x = 0.96422 * lab2xyz(x)) - 1.6168667 * (y = 1 * lab2xyz(y)) - 0.4906146 * (z = 0.82521 * lab2xyz(z))), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
+            return new Rgb(lrgb2rgb(3.1338561 * (x = 0.96422 * lab2xyz(x)) - 1.6168667 * (y = +lab2xyz(y)) - 0.4906146 * (z = 0.82521 * lab2xyz(z))), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
         }
     })), define1(Hcl, hcl, extend(Color, {
         brighter: function(k) {
@@ -1551,7 +1551,7 @@ function(global, factory) {
         return d ? linear(a, d) : constant$3(isNaN(a) ? b : a);
     }
     var interpolateRgb = function rgbGamma(y) {
-        var y1, color = 1 == (y1 = +(y1 = y)) ? nogamma : function(a, b) {
+        var y1, color = 1 == (y1 = +y) ? nogamma : function(a, b) {
             var a1, b1, y;
             return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y = y1), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
                 return Math.pow(a1 + t * b1, y);
@@ -1597,12 +1597,12 @@ function(global, factory) {
     }
     function date(a, b) {
         var d = new Date;
-        return a = +a, b = +b, function(t) {
+        return a *= 1, b *= 1, function(t) {
             return d.setTime(a * (1 - t) + b * t), d;
         };
     }
     function interpolateNumber(a, b) {
-        return a = +a, b = +b, function(t) {
+        return a *= 1, b *= 1, function(t) {
             return a * (1 - t) + b * t;
         };
     }
@@ -1639,7 +1639,7 @@ function(global, factory) {
         return null == b || "boolean" === t ? constant$3(b) : ("number" === t ? interpolateNumber : "string" === t ? (c = color(b)) ? (b = c, interpolateRgb) : interpolateString : b instanceof color ? interpolateRgb : b instanceof Date ? date : isNumberArray(b) ? numberArray : Array.isArray(b) ? genericArray : "function" != typeof b.valueOf && "function" != typeof b.toString || isNaN(b) ? object : interpolateNumber)(a, b);
     }
     function interpolateRound(a, b) {
-        return a = +a, b = +b, function(t) {
+        return a *= 1, b *= 1, function(t) {
             return Math.round(a * (1 - t) + b * t);
         };
     }
@@ -1768,7 +1768,7 @@ function(global, factory) {
                     return start.h = h(t), start.s = s(t), start.l = l(Math.pow(t, y)), start.opacity = opacity(t), start + "";
                 };
             }
-            return y = +y, cubehelix$1.gamma = cubehelixGamma, cubehelix$1;
+            return y *= 1, cubehelix$1.gamma = cubehelixGamma, cubehelix$1;
         }(1);
     }
     var cubehelix$2 = cubehelix$1(hue), cubehelixLong = cubehelix$1(nogamma);
@@ -2196,7 +2196,7 @@ function(global, factory) {
                     init(this, id).delay = +value.apply(this, arguments);
                 };
             } : function(id, value) {
-                return value = +value, function() {
+                return value *= 1, function() {
                     init(this, id).delay = value;
                 };
             })(id, value)) : get$1(this.node(), id).delay;
@@ -2208,7 +2208,7 @@ function(global, factory) {
                     set$2(this, id).duration = +value.apply(this, arguments);
                 };
             } : function(id, value) {
-                return value = +value, function() {
+                return value *= 1, function() {
                     set$2(this, id).duration = value;
                 };
             })(id, value)) : get$1(this.node(), id).duration;
@@ -2253,17 +2253,17 @@ function(global, factory) {
         function polyIn(t) {
             return Math.pow(t, e);
         }
-        return e = +e, polyIn.exponent = custom, polyIn;
+        return e *= 1, polyIn.exponent = custom, polyIn;
     }(3), polyOut = function custom(e) {
         function polyOut(t) {
             return 1 - Math.pow(1 - t, e);
         }
-        return e = +e, polyOut.exponent = custom, polyOut;
+        return e *= 1, polyOut.exponent = custom, polyOut;
     }(3), polyInOut = function custom(e) {
         function polyInOut(t) {
             return ((t *= 2) <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
         }
-        return e = +e, polyInOut.exponent = custom, polyInOut;
+        return e *= 1, polyInOut.exponent = custom, polyInOut;
     }(3), pi = Math.PI, halfPi = pi / 2;
     function sinInOut(t) {
         return (1 - Math.cos(pi * t)) / 2;
@@ -2280,23 +2280,23 @@ function(global, factory) {
     }
     var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
     function bounceOut(t) {
-        return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
     }
     var backIn = function custom(s) {
         function backIn(t) {
-            return (t = +t) * t * (s * (t - 1) + t);
+            return (t *= 1) * t * (s * (t - 1) + t);
         }
-        return s = +s, backIn.overshoot = custom, backIn;
+        return s *= 1, backIn.overshoot = custom, backIn;
     }(1.70158), backOut = function custom(s) {
         function backOut(t) {
             return --t * t * ((t + 1) * s + t) + 1;
         }
-        return s = +s, backOut.overshoot = custom, backOut;
+        return s *= 1, backOut.overshoot = custom, backOut;
     }(1.70158), backInOut = function custom(s) {
         function backInOut(t) {
             return ((t *= 2) < 1 ? t * t * ((s + 1) * t - s) : (t -= 2) * t * ((s + 1) * t + s) + 2) / 2;
         }
-        return s = +s, backInOut.overshoot = custom, backInOut;
+        return s *= 1, backInOut.overshoot = custom, backInOut;
     }(1.70158), tau = 2 * Math.PI, elasticIn = function custom(a, p) {
         var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
         function elasticIn(t) {
@@ -2310,7 +2310,7 @@ function(global, factory) {
     }(1, 0.3), elasticOut = function custom(a, p) {
         var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
         function elasticOut(t) {
-            return 1 - a * tpmt(t = +t) * Math.sin((t + s) / p);
+            return 1 - a * tpmt(t *= 1) * Math.sin((t + s) / p);
         }
         return elasticOut.amplitude = function(a) {
             return custom(a, p * tau);
@@ -2906,7 +2906,7 @@ function(global, factory) {
             this._ += "C" + +x1 + "," + +y1 + "," + +x2 + "," + +y2 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
         },
         arcTo: function(x1, y1, x2, y2, r) {
-            x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
+            x1 *= 1, y1 *= 1, x2 *= 1, y2 *= 1, r *= 1;
             var x0 = this._x1, y0 = this._y1, x21 = x2 - x1, y21 = y2 - y1, x01 = x0 - x1, y01 = y0 - y1, l01_2 = x01 * x01 + y01 * y01;
             // Is the radius negative? Error.
             if (r < 0) throw Error("negative radius: " + r);
@@ -2920,7 +2920,7 @@ function(global, factory) {
             }
         },
         arc: function(x, y, r, a0, a1, ccw) {
-            x = +x, y = +y, r = +r, ccw = !!ccw;
+            x *= 1, y *= 1, r *= 1, ccw = !!ccw;
             var dx = r * Math.cos(a0), dy = r * Math.sin(a0), x0 = x + dx, y0 = y + dy, cw = 1 ^ ccw, da = ccw ? a0 - a1 : a1 - a0;
             // Is the radius negative? Error.
             if (r < 0) throw Error("negative radius: " + r);
@@ -3558,8 +3558,8 @@ function(global, factory) {
             this._ += `L${this._x1 = +x},${this._y1 = +y}`;
         }
         arc(x, y, r) {
-            x = +x, y = +y;
-            const x0 = x + (r = +r), y0 = y;
+            x *= 1, y *= 1, r *= 1;
+            const x0 = x + r, y0 = y;
             if (r < 0) throw Error("negative radius");
             null === this._x1 ? this._ += `M${x0},${y0}` : (Math.abs(this._x1 - x0) > 1e-6 || Math.abs(this._y1 - y0) > 1e-6) && (this._ += "L" + x0 + "," + y0), r && (this._ += `A${r},${r},0,1,1,${x - r},${y}A${r},${r},0,1,1,${this._x1 = x0},${this._y1 = y0}`);
         }
@@ -3600,7 +3600,7 @@ function(global, factory) {
             960,
             500
         ]){
-            if (!((xmax = +xmax) >= (xmin = +xmin)) || !((ymax = +ymax) >= (ymin = +ymin))) throw Error("invalid bounds");
+            if (!((xmax *= 1) >= (xmin *= 1)) || !((ymax *= 1) >= (ymin *= 1))) throw Error("invalid bounds");
             this.delaunay = delaunay, this._circumcenters = new Float64Array(2 * delaunay.points.length), this.vectors = new Float64Array(2 * delaunay.points.length), this.xmax = xmax, this.xmin = xmin, this.ymax = ymax, this.ymin = ymin, this._init();
         }
         update() {
@@ -3673,7 +3673,7 @@ function(global, factory) {
             0 === c0 && 0 === c1 ? (context.moveTo(x0, y0), context.lineTo(x1, y1)) : (S = this._clipSegment(x0, y0, x1, y1, c0, c1)) && (context.moveTo(S[0], S[1]), context.lineTo(S[2], S[3]));
         }
         contains(i, x, y) {
-            return (x = +x) == x && (y = +y) == y && this.delaunay._step(i, x, y) === i;
+            return (x *= 1) == x && (y *= 1) == y && this.delaunay._step(i, x, y) === i;
         }
         *neighbors(i) {
             const ci = this._clip(i);
@@ -3841,10 +3841,10 @@ function(global, factory) {
             ];
         }
         _edgecode(x, y) {
-            return (x === this.xmin ? 0b0001 : x === this.xmax ? 0b0010 : 0b0000) | (y === this.ymin ? 0b0100 : y === this.ymax ? 0b1000 : 0b0000);
+            return (x === this.xmin ? 0b0001 : 0b0010 * (x === this.xmax)) | (y === this.ymin ? 0b0100 : 0b1000 * (y === this.ymax));
         }
         _regioncode(x, y) {
-            return (x < this.xmin ? 0b0001 : x > this.xmax ? 0b0010 : 0b0000) | (y < this.ymin ? 0b0100 : y > this.ymax ? 0b1000 : 0b0000);
+            return (x < this.xmin ? 0b0001 : 0b0010 * (x > this.xmax)) | (y < this.ymin ? 0b0100 : 0b1000 * (y > this.ymax));
         }
     }
     const tau$3 = 2 * Math.PI, pow = Math.pow;
@@ -3942,7 +3942,7 @@ function(global, factory) {
         }
         find(x, y, i = 0) {
             let c;
-            if ((x = +x) != x || (y = +y) != y) return -1;
+            if ((x *= 1) != x || (y *= 1) != y) return -1;
             const i0 = i;
             for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
             return c;
@@ -4246,7 +4246,7 @@ function(global, factory) {
         this.cover(x0, y0).cover(x1, y1), i = 0; i < n; ++i)add(this, xz[i], yz[i], data[i]);
         return this;
     }, treeProto.cover = function(x, y) {
-        if (isNaN(x = +x) || isNaN(y = +y)) return this; // ignore invalid points
+        if (isNaN(x *= 1) || isNaN(y *= 1)) return this; // ignore invalid points
         var x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1;
         // If the quadtree has no extent, initialize them.
         // Integer extent are necessary so that if we later double the extent,
@@ -4470,7 +4470,7 @@ function(global, factory) {
                 if ("c" === type) valueSuffix = formatType(value) + valueSuffix, value = "";
                 else {
                     // Determine the sign. -0 is not less than 0, but 1 / -0 is!
-                    var valueNegative = (value = +value) < 0 || 1 / value < 0;
+                    var valueNegative = (value *= 1) < 0 || 1 / value < 0;
                     // Break the formatted value into the integer “value” part that can be
                     // grouped, and fractional or exponential “suffix” part that is not.
                     if (// Perform the initial formatting.
@@ -5192,7 +5192,7 @@ function(global, factory) {
             else stream.point(to[0], to[1]);
         }
         function corner(p, direction) {
-            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? direction > 0 ? 1 : 0 : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
+            return 1e-6 > abs$2(p[0] - x0) ? direction > 0 ? 0 : 3 : 1e-6 > abs$2(p[0] - x1) ? direction > 0 ? 2 : 1 : 1e-6 > abs$2(p[1] - y0) ? +(direction > 0) : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
         }
         function compareIntersection(a, b) {
             return comparePoint(a.x, b.x);
@@ -5716,7 +5716,7 @@ function(global, factory) {
         _radius: 4.5,
         _circle: circle$1(4.5),
         pointRadius: function(_) {
-            return (_ = +_) !== this._radius && (this._radius = _, this._circle = null), this;
+            return (_ *= 1) !== this._radius && (this._radius = _, this._circle = null), this;
         },
         polygonStart: function() {
             this._line = 0;
@@ -6577,7 +6577,7 @@ function(global, factory) {
             squarifyRatio(ratio, parent, x0, y0, x1, y1);
         }
         return squarify.ratio = function(x) {
-            return custom((x = +x) > 1 ? x : 1);
+            return custom((x *= 1) > 1 ? x : 1);
         }, squarify;
     }(phi), resquarify = function custom(ratio) {
         function resquarify(parent, x0, y0, x1, y1) {
@@ -6588,7 +6588,7 @@ function(global, factory) {
             else parent._squarify = rows = squarifyRatio(ratio, parent, x0, y0, x1, y1), rows.ratio = ratio;
         }
         return resquarify.ratio = function(x) {
-            return custom((x = +x) > 1 ? x : 1);
+            return custom((x *= 1) > 1 ? x : 1);
         }, resquarify;
     }(phi);
     function lexicographicOrder(a, b) {
@@ -6647,7 +6647,7 @@ function(global, factory) {
         return randomLogNormal.source = sourceRandomLogNormal, randomLogNormal;
     }(defaultSource$1), irwinHall = function sourceRandomIrwinHall(source) {
         function randomIrwinHall(n) {
-            return (n = +n) <= 0 ? ()=>0 : function() {
+            return (n *= 1) <= 0 ? ()=>0 : function() {
                 for(var sum = 0, i = n; i > 1; --i)sum += source();
                 return sum + i * source();
             };
@@ -6657,7 +6657,7 @@ function(global, factory) {
         var I = irwinHall.source(source);
         function randomBates(n) {
             // use limiting distribution at n === 0
-            if (0 == (n = +n)) return source;
+            if (0 == (n *= 1)) return source;
             var randomIrwinHall = I(n);
             return function() {
                 return randomIrwinHall() / n;
@@ -6673,7 +6673,7 @@ function(global, factory) {
         return randomExponential.source = sourceRandomExponential, randomExponential;
     }(defaultSource$1), pareto = function sourceRandomPareto(source) {
         function randomPareto(alpha) {
-            if ((alpha = +alpha) < 0) throw RangeError("invalid alpha");
+            if ((alpha *= 1) < 0) throw RangeError("invalid alpha");
             return alpha = -(1 / alpha), function() {
                 return Math.pow(1 - source(), alpha);
             };
@@ -6681,7 +6681,7 @@ function(global, factory) {
         return randomPareto.source = sourceRandomPareto, randomPareto;
     }(defaultSource$1), bernoulli = function sourceRandomBernoulli(source) {
         function randomBernoulli(p) {
-            if ((p = +p) < 0 || p > 1) throw RangeError("invalid p");
+            if ((p *= 1) < 0 || p > 1) throw RangeError("invalid p");
             return function() {
                 return Math.floor(source() + p);
             };
@@ -6689,7 +6689,7 @@ function(global, factory) {
         return randomBernoulli.source = sourceRandomBernoulli, randomBernoulli;
     }(defaultSource$1), geometric = function sourceRandomGeometric(source) {
         function randomGeometric(p) {
-            if ((p = +p) < 0 || p > 1) throw RangeError("invalid p");
+            if ((p *= 1) < 0 || p > 1) throw RangeError("invalid p");
             return 0 === p ? ()=>1 / 0 : 1 === p ? ()=>1 : (p = Math.log1p(-p), function() {
                 return 1 + Math.floor(Math.log1p(-source()) / p);
             });
@@ -6698,7 +6698,7 @@ function(global, factory) {
     }(defaultSource$1), gamma$1 = function sourceRandomGamma(source) {
         var randomNormal = normal.source(source)();
         function randomGamma(k, theta) {
-            if ((k = +k) < 0) throw RangeError("invalid k");
+            if ((k *= 1) < 0) throw RangeError("invalid k");
             // degenerate distribution if k === 0
             if (0 === k) return ()=>0;
             // exponential distribution if k === 1
@@ -6728,7 +6728,7 @@ function(global, factory) {
     }(defaultSource$1), binomial = function sourceRandomBinomial(source) {
         var G = geometric.source(source), B = beta.source(source);
         function randomBinomial(n, p) {
-            return (n = +n, (p = +p) >= 1) ? ()=>n : p <= 0 ? ()=>0 : function() {
+            return (n *= 1, (p *= 1) >= 1) ? ()=>n : p <= 0 ? ()=>0 : function() {
                 for(var acc = 0, nn = n, pp = p; nn * pp > 16 && nn * (1 - pp) > 16;){
                     var i = Math.floor((nn + 1) * pp), y = B(i, nn - i + 1)();
                     y <= pp ? (acc += i, nn -= i, pp = (pp - y) / (1 - y)) : (nn = i - 1, pp /= y);
@@ -6741,7 +6741,7 @@ function(global, factory) {
     }(defaultSource$1), weibull = function sourceRandomWeibull(source) {
         function randomWeibull(k, a, b) {
             var outerFunc;
-            return 0 == (k = +k) ? outerFunc = (x)=>-Math.log(x) : (k = 1 / k, outerFunc = (x)=>Math.pow(x, k)), a = null == a ? 0 : +a, b = null == b ? 1 : +b, function() {
+            return 0 == (k *= 1) ? outerFunc = (x)=>-Math.log(x) : (k = 1 / k, outerFunc = (x)=>Math.pow(x, k)), a = null == a ? 0 : +a, b = null == b ? 1 : +b, function() {
                 return a + b * outerFunc(-Math.log1p(-source()));
             };
         }
@@ -6840,12 +6840,12 @@ function(global, factory) {
         return delete scale.unknown, scale.domain = function(_) {
             return arguments.length ? (domain(_), rescale()) : domain();
         }, scale.range = function(_) {
-            return arguments.length ? ([r0, r1] = _, r0 = +r0, r1 = +r1, rescale()) : [
+            return arguments.length ? ([r0, r1] = _, r0 *= 1, r1 *= 1, rescale()) : [
                 r0,
                 r1
             ];
         }, scale.rangeRound = function(_) {
-            return [r0, r1] = _, r0 = +r0, r1 = +r1, round = !0, rescale();
+            return [r0, r1] = _, r0 *= 1, r1 *= 1, round = !0, rescale();
         }, scale.bandwidth = function() {
             return bandwidth;
         }, scale.step = function() {
@@ -6879,7 +6879,7 @@ function(global, factory) {
     }
     function normalize(a, b) {
         var x;
-        return (b -= a = +a) ? function(x) {
+        return (b -= a *= 1) ? function(x) {
             return (x - a) / b;
         } : (x = isNaN(b) ? NaN : 0.5, function() {
             return x;
@@ -6913,7 +6913,7 @@ function(global, factory) {
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
         function scale(x) {
-            return isNaN(x = +x) ? unknown : (output || (output = piecewise(domain.map(transform), range, interpolate$1)))(transform(clamp(x)));
+            return isNaN(x *= 1) ? unknown : (output || (output = piecewise(domain.map(transform), range, interpolate$1)))(transform(clamp(x)));
         }
         return scale.invert = function(y) {
             return clamp(untransform((input || (input = piecewise(range, domain.map(transform), interpolateNumber)))(y)));
@@ -7459,7 +7459,7 @@ function(global, factory) {
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
                     "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
+                } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return(// If a time zone is specified, all fields are interpreted as UTC and then
                 // offset according to the specified time zone.
                 "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
@@ -7936,7 +7936,7 @@ function(global, factory) {
     function transformer$2() {
         var t0, t1, k10, transform, unknown, x0 = 0, x1 = 1, interpolator = identity$6, clamp = !1;
         function scale(x) {
-            return isNaN(x = +x) ? unknown : interpolator(0 === k10 ? 0.5 : (x = (transform(x) - t0) * k10, clamp ? Math.max(0, Math.min(1, x)) : x));
+            return isNaN(x *= 1) ? unknown : interpolator(0 === k10 ? 0.5 : (x = (transform(x) - t0) * k10, clamp ? Math.max(0, Math.min(1, x)) : x));
         }
         function range(interpolate) {
             return function(_) {
@@ -7948,7 +7948,7 @@ function(global, factory) {
             };
         }
         return scale.domain = function(_) {
-            return arguments.length ? ([x0, x1] = _, t0 = transform(x0 = +x0), t1 = transform(x1 = +x1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale) : [
+            return arguments.length ? ([x0, x1] = _, t0 = transform(x0 *= 1), t1 = transform(x1 *= 1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale) : [
                 x0,
                 x1
             ];
@@ -7974,7 +7974,7 @@ function(global, factory) {
     function transformer$3() {
         var t0, t1, t2, k10, k21, transform, unknown, x0 = 0, x1 = 0.5, x2 = 1, s = 1, interpolator = identity$6, clamp = !1;
         function scale(x) {
-            return isNaN(x = +x) ? unknown : (x = 0.5 + ((x = +transform(x)) - t1) * (s * x < s * t1 ? k10 : k21), interpolator(clamp ? Math.max(0, Math.min(1, x)) : x));
+            return isNaN(x *= 1) ? unknown : (x = 0.5 + ((x = +transform(x)) - t1) * (s * x < s * t1 ? k10 : k21), interpolator(clamp ? Math.max(0, Math.min(1, x)) : x));
         }
         function range(interpolate) {
             return function(_) {
@@ -7991,7 +7991,7 @@ function(global, factory) {
             };
         }
         return scale.domain = function(_) {
-            return arguments.length ? ([x0, x1, x2] = _, t0 = transform(x0 = +x0), t1 = transform(x1 = +x1), t2 = transform(x2 = +x2), k10 = t0 === t1 ? 0 : 0.5 / (t1 - t0), k21 = t1 === t2 ? 0 : 0.5 / (t2 - t1), s = t1 < t0 ? -1 : 1, scale) : [
+            return arguments.length ? ([x0, x1, x2] = _, t0 = transform(x0 *= 1), t1 = transform(x1 *= 1), t2 = transform(x2 *= 1), k10 = t0 === t1 ? 0 : 0.5 / (t1 - t0), k21 = t1 === t2 ? 0 : 0.5 / (t2 - t1), s = t1 < t0 ? -1 : 1, scale) : [
                 x0,
                 x1,
                 x2
@@ -8270,7 +8270,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
@@ -8316,7 +8316,7 @@ function(global, factory) {
     }
     function pointRadial(x, y) {
         return [
-            (y = +y) * Math.cos(x -= Math.PI / 2),
+            (y *= 1) * Math.cos(x -= Math.PI / 2),
             y * Math.sin(x)
         ];
     }
@@ -8456,7 +8456,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
@@ -8489,7 +8489,7 @@ function(global, factory) {
             }
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._x2 = x, this._y2 = y;
                     break;
@@ -8518,7 +8518,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1;
                     break;
@@ -8585,7 +8585,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
@@ -8630,7 +8630,7 @@ function(global, factory) {
             }
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._x3 = x, this._y3 = y;
                     break;
@@ -8671,7 +8671,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1;
                     break;
@@ -8733,7 +8733,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            if (x = +x, y = +y, this._point) {
+            if (x *= 1, y *= 1, this._point) {
                 var x23 = this._x2 - x, y23 = this._y2 - y;
                 this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
             }
@@ -8782,7 +8782,7 @@ function(global, factory) {
             }
         },
         point: function(x, y) {
-            if (x = +x, y = +y, this._point) {
+            if (x *= 1, y *= 1, this._point) {
                 var x23 = this._x2 - x, y23 = this._y2 - y;
                 this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
             }
@@ -8827,7 +8827,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            if (x = +x, y = +y, this._point) {
+            if (x *= 1, y *= 1, this._point) {
                 var x23 = this._x2 - x, y23 = this._y2 - y;
                 this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
             }
@@ -8951,7 +8951,7 @@ function(global, factory) {
             this._point && this._context.closePath();
         },
         point: function(x, y) {
-            x = +x, y = +y, this._point ? this._context.lineTo(x, y) : (this._point = 1, this._context.moveTo(x, y));
+            x *= 1, y *= 1, this._point ? this._context.lineTo(x, y) : (this._point = 1, this._context.moveTo(x, y));
         }
     }, MonotoneX.prototype = {
         areaStart: function() {
@@ -8975,7 +8975,7 @@ function(global, factory) {
         },
         point: function(x, y) {
             var t1 = NaN;
-            if (y = +y, (x = +x) !== this._x1 || y !== this._y1) {
+            if (y *= 1, (x *= 1) !== this._x1 || y !== this._y1) {
                 switch(this._point){
                     case 0:
                         this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
@@ -9042,7 +9042,7 @@ function(global, factory) {
             0 < this._t && this._t < 1 && 2 === this._point && this._context.lineTo(this._x, this._y), (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line >= 0 && (this._t = 1 - this._t, this._line = 1 - this._line);
         },
         point: function(x, y) {
-            switch(x = +x, y = +y, this._point){
+            switch(x *= 1, y *= 1, this._point){
                 case 0:
                     this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                     break;
@@ -9437,13 +9437,13 @@ function(global, factory) {
             return dx = _0, dy = _1, resize();
         }, density.cellSize = function(_) {
             if (!arguments.length) return 1 << k;
-            if (!((_ = +_) >= 1)) throw Error("invalid cell size");
+            if (!((_ *= 1) >= 1)) throw Error("invalid cell size");
             return k = Math.floor(Math.log(_) / Math.LN2), resize();
         }, density.thresholds = function(_) {
             return arguments.length ? (threshold = "function" == typeof _ ? _ : Array.isArray(_) ? constant$6(slice$3.call(_)) : constant$6(_), density) : threshold;
         }, density.bandwidth = function(_) {
             if (!arguments.length) return Math.sqrt(r * (r + 1));
-            if (!((_ = +_) >= 0)) throw Error("invalid bandwidth");
+            if (!((_ *= 1) >= 0)) throw Error("invalid bandwidth");
             return r = Math.round((Math.sqrt(4 * _ * _ + 1) - 1) / 2), resize();
         }, density;
     }, exports1.contours = contours, exports1.count = count, exports1.create = function(name) {
@@ -9585,7 +9585,7 @@ function(global, factory) {
             var value = listeners.on.apply(listeners, arguments);
             return value === listeners ? drag : value;
         }, drag.clickDistance = function(_) {
-            return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
+            return arguments.length ? (clickDistance2 = (_ *= 1) * _, drag) : Math.sqrt(clickDistance2);
         }, drag;
     }, exports1.dragDisable = dragDisable, exports1.dragEnable = yesdrag, exports1.dsv = function(delimiter, input, init, row) {
         3 == arguments.length && "function" == typeof init && (row = init, init = void 0);
@@ -9895,7 +9895,7 @@ function(global, factory) {
         }, force;
     }, exports1.formatDefaultLocale = defaultLocale, exports1.formatLocale = formatLocale, exports1.formatSpecifier = formatSpecifier, exports1.fsum = function(values, valueof) {
         const adder = new Adder();
-        if (void 0 === valueof) for (let value of values)(value = +value) && adder.add(value);
+        if (void 0 === valueof) for (let value of values)(value *= 1) && adder.add(value);
         else {
             let index = -1;
             for (let value of values)(value = +valueof(value, ++index, values)) && adder.add(value);
@@ -10350,7 +10350,7 @@ function(global, factory) {
     }, exports1.interval = function(callback, delay, time) {
         var t = new Timer, total = delay;
         return null == delay || (t._restart = t.restart, t.restart = function(callback, delay, time) {
-            delay = +delay, time = null == time ? now() : +time, t._restart(function tick(elapsed) {
+            delay *= 1, time = null == time ? now() : +time, t._restart(function tick(elapsed) {
                 elapsed += total, t._restart(tick, total += delay, time), callback(elapsed);
             }, delay, time);
         }), t.restart(callback, delay, time), t;
@@ -10382,10 +10382,10 @@ function(global, factory) {
         return Array.from(values, (value, index)=>mapper(value, index, values));
     }, exports1.matcher = matcher, exports1.max = max, exports1.maxIndex = maxIndex, exports1.mean = function(values, valueof) {
         let count = 0, sum = 0;
-        if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (++count, sum += value);
+        if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (++count, sum += value);
         else {
             let index = -1;
-            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (++count, sum += value);
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (++count, sum += value);
         }
         if (count) return sum / count;
     }, exports1.median = function(values, valueof) {
@@ -10554,7 +10554,7 @@ function(global, factory) {
     }, exports1.scaleIdentity = function identity$7(domain) {
         var unknown;
         function scale(x) {
-            return isNaN(x = +x) ? unknown : x;
+            return isNaN(x *= 1) ? unknown : x;
         }
         return scale.invert = scale, scale.domain = scale.range = function(_) {
             return arguments.length ? (domain = Array.from(_, number$2), scale) : domain.slice();
@@ -10594,7 +10594,7 @@ function(global, factory) {
             return scale;
         }
         function scale(x) {
-            return isNaN(x = +x) ? unknown : range[bisectRight(thresholds, x)];
+            return isNaN(x *= 1) ? unknown : range[bisectRight(thresholds, x)];
         }
         return scale.invertExtent = function(y) {
             var i = range.indexOf(y);
@@ -10607,7 +10607,7 @@ function(global, factory) {
             ];
         }, scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
-            for (let d of (domain = [], _))null == d || isNaN(d = +d) || domain.push(d);
+            for (let d of (domain = [], _))null == d || isNaN(d *= 1) || domain.push(d);
             return domain.sort(ascending), rescale();
         }, scale.range = function(_) {
             return arguments.length ? (range = Array.from(_), rescale()) : range.slice();
@@ -10634,7 +10634,7 @@ function(global, factory) {
             return scale;
         }
         return scale.domain = function(_) {
-            return arguments.length ? ([x0, x1] = _, x0 = +x0, x1 = +x1, rescale()) : [
+            return arguments.length ? ([x0, x1] = _, x0 *= 1, x1 *= 1, rescale()) : [
                 x0,
                 x1
             ];
@@ -10707,11 +10707,11 @@ function(global, factory) {
     }, exports1.scaleSequentialPow = sequentialPow, exports1.scaleSequentialQuantile = function sequentialQuantile() {
         var domain = [], interpolator = identity$6;
         function scale(x) {
-            if (!isNaN(x = +x)) return interpolator((bisectRight(domain, x, 1) - 1) / (domain.length - 1));
+            if (!isNaN(x *= 1)) return interpolator((bisectRight(domain, x, 1) - 1) / (domain.length - 1));
         }
         return scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
-            for (let d of (domain = [], _))null == d || isNaN(d = +d) || domain.push(d);
+            for (let d of (domain = [], _))null == d || isNaN(d *= 1) || domain.push(d);
             return domain.sort(ascending), scale;
         }, scale.interpolator = function(_) {
             return arguments.length ? (interpolator = _, scale) : interpolator;
@@ -10882,7 +10882,7 @@ function(global, factory) {
         return superset(other, values);
     }, exports1.sum = function(values, valueof) {
         let sum = 0;
-        if (void 0 === valueof) for (let value of values)(value = +value) && (sum += value);
+        if (void 0 === valueof) for (let value of values)(value *= 1) && (sum += value);
         else {
             let index = -1;
             for (let value of values)(value = +valueof(value, ++index, values)) && (sum += value);
@@ -11291,7 +11291,7 @@ function(global, factory) {
             var value = listeners.on.apply(listeners, arguments);
             return value === listeners ? zoom : value;
         }, zoom.clickDistance = function(_) {
-            return arguments.length ? (clickDistance2 = (_ = +_) * _, zoom) : Math.sqrt(clickDistance2);
+            return arguments.length ? (clickDistance2 = (_ *= 1) * _, zoom) : Math.sqrt(clickDistance2);
         }, zoom.tapDistance = function(_) {
             return arguments.length ? (tapDistance = +_, zoom) : tapDistance;
         }, zoom;

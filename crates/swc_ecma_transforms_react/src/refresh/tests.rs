@@ -710,8 +710,8 @@ test!(
             refresh(
                 true,
                 Some(RefreshOptions {
-                    refresh_reg: "import_meta_refreshReg".to_string(),
-                    refresh_sig: "import_meta_refreshSig".to_string(),
+                    refresh_reg: "import_meta_refreshReg".into(),
+                    refresh_sig: "import_meta_refreshSig".into(),
                     emit_full_signatures: true,
                 }),
                 t.cm.clone(),

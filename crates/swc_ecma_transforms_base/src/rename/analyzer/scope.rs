@@ -2,12 +2,14 @@
 
 use std::{
     fmt::{Display, Formatter},
-    mem::{transmute_copy, ManuallyDrop},
+    hash::BuildHasherDefault,
+    mem::{take, transmute_copy, ManuallyDrop},
 };
 
+use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
 use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -36,6 +38,8 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
+pub(super) type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// All identifiers used by this scope or children.
@@ -46,7 +50,7 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
-    queue: Vec<Id>,
+    queue: FxIndexSet<Id>,
 }
 
 impl Scope {
@@ -62,7 +66,7 @@ impl Scope {
                 return;
             }
 
-            self.data.queue.push(id.clone());
+            self.data.queue.insert(id.clone());
         }
     }
 
@@ -104,7 +108,7 @@ impl Scope {
     ) where
         R: Renamer,
     {
-        let queue = self.data.queue.take();
+        let queue = take(&mut self.data.queue);
 
         // let mut cloned_reverse = reverse.clone();
 
@@ -136,7 +140,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<Id>,
+        queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
@@ -195,7 +199,10 @@ impl Scope {
         true
     }
 
-    #[cfg_attr(not(feature = "concurrent-renamer"), allow(unused))]
+    #[cfg_attr(
+        not(feature = "concurrent-renamer"),
+        allow(unused, clippy::only_used_in_recursion)
+    )]
     pub(crate) fn rename_in_mangle_mode<R>(
         &mut self,
         renamer: &R,
@@ -208,7 +215,7 @@ impl Scope {
     ) where
         R: Renamer,
     {
-        let queue = self.data.queue.take();
+        let queue = take(&mut self.data.queue);
 
         let mut cloned_reverse = reverse.next();
 
@@ -272,7 +279,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: Vec<Id>,
+        queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where

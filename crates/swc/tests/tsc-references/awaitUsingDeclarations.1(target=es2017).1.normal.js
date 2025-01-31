@@ -10,7 +10,6 @@ try {
     const d1 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
     }, true);
-    ;
     async function af() {
         const env = {
             stack: [],
@@ -21,7 +20,6 @@ try {
             const d3 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
             await null;
         } catch (e) {
             env.error = e;
@@ -41,7 +39,6 @@ try {
             const d5 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
             yield;
             await null;
         } catch (e) {
@@ -62,7 +59,6 @@ try {
             const d6 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -82,7 +78,6 @@ try {
                 const d13 = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
-                ;
                 await null;
             } catch (e) {
                 env.error = e;
@@ -102,7 +97,6 @@ try {
                 const d15 = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
-                ;
                 yield;
                 await null;
             } catch (e) {
@@ -124,7 +118,6 @@ try {
                     const d7 = _ts_add_disposable_resource(env, {
                         async [Symbol.asyncDispose] () {}
                     }, true);
-                    ;
                 } catch (e) {
                     env.error = e;
                     env.hasError = true;
@@ -145,7 +138,6 @@ try {
             const d19 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -165,7 +157,6 @@ try {
                 const d20 = _ts_add_disposable_resource(env1, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env1.error = e;
@@ -184,7 +175,6 @@ try {
                 const d21 = _ts_add_disposable_resource(env2, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env2.error = e;
@@ -205,7 +195,6 @@ try {
                 const d22 = _ts_add_disposable_resource(env3, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
-                ;
                 break;
             } catch (e) {
                 env3.error = e;
@@ -225,7 +214,6 @@ try {
             const d23 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -243,7 +231,6 @@ try {
             const d24 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -261,7 +248,6 @@ try {
             const d25 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -280,7 +266,6 @@ try {
             const d26 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -298,7 +283,6 @@ try {
             const d27 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -317,7 +301,6 @@ try {
             const d28 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -337,7 +320,6 @@ try {
             const d29 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -357,7 +339,6 @@ try {
             const d30 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -377,7 +358,6 @@ try {
             const d31 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -396,7 +376,6 @@ try {
             const d32 = _ts_add_disposable_resource(env, {
                 async [Symbol.asyncDispose] () {}
             }, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;

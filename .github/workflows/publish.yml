@@ -173,6 +173,7 @@ jobs:
   git-tag-stable:
     name: "Git tag stable"
     runs-on: ubuntu-latest
+    if: inputs.onlyNightly == false
     needs:
       - publish-cargo
       - run-ecosystem-ci-with-nightly

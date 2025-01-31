@@ -1,10 +1,16 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{borrow::Cow, iter, iter::once, sync::Arc};
+use std::{
+    borrow::Cow,
+    iter::{self, once},
+    sync::RwLock,
+};
 
+use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{atom, Atom, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -56,12 +62,12 @@ pub struct Options {
 
     /// For automatic runtime
     #[serde(default)]
-    pub import_source: Option<String>,
+    pub import_source: Option<Atom>,
 
     #[serde(default)]
-    pub pragma: Option<String>,
+    pub pragma: Option<Lrc<String>>,
     #[serde(default)]
-    pub pragma_frag: Option<String>,
+    pub pragma_frag: Option<Lrc<String>>,
 
     #[serde(default)]
     pub throw_if_namespace: Option<bool>,
@@ -93,16 +99,31 @@ pub struct Options {
     pub refresh: Option<RefreshOptions>,
 }
 
-pub fn default_import_source() -> String {
-    "react".into()
+#[cfg(feature = "concurrent")]
+macro_rules! static_str {
+    ($s:expr) => {{
+        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
+        VAL.clone()
+    }};
 }
 
-pub fn default_pragma() -> String {
-    "React.createElement".into()
+#[cfg(not(feature = "concurrent"))]
+macro_rules! static_str {
+    ($s:expr) => {
+        Lrc::new($s.into())
+    };
 }
 
-pub fn default_pragma_frag() -> String {
-    "React.Fragment".into()
+pub fn default_import_source() -> Atom {
+    atom!("react")
+}
+
+pub fn default_pragma() -> Lrc<String> {
+    static_str!("React.createElement")
+}
+
+pub fn default_pragma_frag() -> Lrc<String> {
+    static_str!("React.Fragment")
 }
 
 fn default_throw_if_namespace() -> bool {
@@ -113,10 +134,10 @@ fn default_throw_if_namespace() -> bool {
 pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
-    src: String,
+    src: Lrc<String>,
     top_level_mark: Mark,
-) -> Arc<Box<Expr>> {
-    let fm = cm.new_source_file(
+) -> Lrc<Box<Expr>> {
+    let fm = cm.new_source_file_from(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
     );
@@ -142,7 +163,7 @@ pub fn parse_expr_for_jsx(
         apply_mark(&mut expr, top_level_mark);
         expr
     })
-    .map(Arc::new)
+    .map(Lrc::new)
     .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
@@ -198,10 +219,7 @@ where
         top_level_mark,
         unresolved_mark,
         runtime: options.runtime.unwrap_or_default(),
-        import_source: options
-            .import_source
-            .unwrap_or_else(default_import_source)
-            .into(),
+        import_source: options.import_source.unwrap_or_else(default_import_source),
         import_jsx: None,
         import_jsxs: None,
         import_fragment: None,
@@ -239,7 +257,7 @@ where
 
     runtime: Runtime,
     /// For automatic runtime.
-    import_source: JsWord,
+    import_source: Atom,
     /// For automatic runtime.
     import_jsx: Option<Ident>,
     /// For automatic runtime.
@@ -250,9 +268,9 @@ where
     import_fragment: Option<Ident>,
     top_level_node: bool,
 
-    pragma: Arc<Box<Expr>>,
+    pragma: Lrc<Box<Expr>>,
     comments: Option<C>,
-    pragma_frag: Arc<Box<Expr>>,
+    pragma_frag: Lrc<Box<Expr>>,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -262,13 +280,13 @@ pub struct JsxDirectives {
     pub runtime: Option<Runtime>,
 
     /// For automatic runtime.
-    pub import_source: Option<JsWord>,
+    pub import_source: Option<Atom>,
 
     /// Parsed from `@jsx`
-    pub pragma: Option<Arc<Box<Expr>>>,
+    pub pragma: Option<Lrc<Box<Expr>>>,
 
     /// Parsed from `@jsxFrag`
-    pub pragma_frag: Option<Arc<Box<Expr>>>,
+    pub pragma_frag: Option<Lrc<Box<Expr>>>,
 }
 
 fn respan(e: &mut Expr, span: Span) {
@@ -335,7 +353,7 @@ impl JsxDirectives {
                         Some("@jsxImportSource") => {
                             if let Some(src) = val {
                                 res.runtime = Some(Runtime::Automatic);
-                                res.import_source = Some(src.into());
+                                res.import_source = Some(Atom::new(src));
                             }
                         }
                         Some("@jsxFrag") => {
@@ -345,7 +363,7 @@ impl JsxDirectives {
                                     let mut e = (*parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma-frag",
-                                        src.to_string(),
+                                        cache_source(src),
                                         top_level_mark,
                                     ))
                                     .clone();
@@ -361,7 +379,7 @@ impl JsxDirectives {
                                     let mut e = (*parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma",
-                                        src.to_string(),
+                                        cache_source(src),
                                         top_level_mark,
                                     ))
                                     .clone();
@@ -378,6 +396,33 @@ impl JsxDirectives {
 
         res
     }
+}
+
+#[cfg(feature = "concurrent")]
+fn cache_source(src: &str) -> Lrc<String> {
+    static CACHE: Lazy<RwLock<FxHashMap<String, Lrc<String>>>> =
+        Lazy::new(|| RwLock::new(FxHashMap::default()));
+
+    {
+        let cache = CACHE.write().unwrap();
+
+        if let Some(cached) = cache.get(src) {
+            return cached.clone();
+        }
+    }
+
+    let cached = Lrc::new(src.to_string());
+    {
+        let mut cache = CACHE.write().unwrap();
+        cache.insert(src.to_string(), cached.clone());
+    }
+    cached
+}
+
+#[cfg(not(feature = "concurrent"))]
+fn cache_source(src: &str) -> Lrc<String> {
+    // We cannot cache because Rc does not implement Send.
+    Lrc::new(src.to_string())
 }
 
 fn is_valid_for_pragma(s: &str) -> bool {

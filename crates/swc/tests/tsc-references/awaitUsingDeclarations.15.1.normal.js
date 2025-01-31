@@ -11,7 +11,6 @@ async function f() {
         const _ = _ts_add_disposable_resource(env, {
             async [Symbol.asyncDispose] () {}
         }, true);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

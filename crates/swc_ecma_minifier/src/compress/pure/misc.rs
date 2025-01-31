@@ -191,7 +191,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if is_pure_undefined(&self.expr_ctx, &call.args[0].expr) {
+            if is_pure_undefined(self.expr_ctx, &call.args[0].expr) {
                 ",".into()
             } else {
                 match &*call.args[0].expr {
@@ -236,7 +236,7 @@ impl Pure<'_> {
             .iter()
             .filter_map(|v| v.as_ref())
             .any(|v| match &*v.expr {
-                e if is_pure_undefined(&self.expr_ctx, e) => false,
+                e if is_pure_undefined(self.expr_ctx, e) => false,
                 Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                 _ => true,
             });
@@ -261,7 +261,7 @@ impl Pure<'_> {
                 .iter()
                 .filter_map(|v| v.as_ref())
                 .any(|v| match &*v.expr {
-                    e if is_pure_undefined(&self.expr_ctx, e) => false,
+                    e if is_pure_undefined(self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
@@ -298,7 +298,7 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(&self.expr_ctx, e) => {}
+                        e if is_pure_undefined(self.expr_ctx, e) => {}
                         Expr::Lit(Lit::Null(..)) => {}
                         _ => {
                             add(&mut res, expr);
@@ -328,7 +328,7 @@ impl Pure<'_> {
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
                     }
-                    e if is_pure_undefined(&self.expr_ctx, e) => {}
+                    e if is_pure_undefined(self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
                     _ => {
                         unreachable!(
@@ -357,7 +357,7 @@ impl Pure<'_> {
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
         if let Some(e) = s.arg.as_deref() {
-            if is_pure_undefined(&self.expr_ctx, e) {
+            if is_pure_undefined(self.expr_ctx, e) {
                 self.changed = true;
                 report_change!("Dropped `undefined` from `return undefined`");
                 s.arg.take();
@@ -556,9 +556,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if callee
-                .is_one_of_global_ref_to(&self.expr_ctx, &["Array", "Object", "RegExp"]) =>
-            {
+            }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Array", "Object", "RegExp"]) => {
                 let new_expr = match &**callee {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
                         self.optimize_regex(args, span)
@@ -587,7 +585,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) if callee.is_one_of_global_ref_to(
-                &self.expr_ctx,
+                self.expr_ctx,
                 &["Boolean", "Number", "String", "Symbol"],
             ) =>
             {
@@ -697,7 +695,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) if callee.is_one_of_global_ref_to(
-                &self.expr_ctx,
+                self.expr_ctx,
                 &[
                     "Object",
                     // https://262.ecma-international.org/12.0/#sec-array-constructor
@@ -716,7 +714,7 @@ impl Pure<'_> {
                     "TypeError",
                     "URIError",
                 ],
-            ) || (callee.is_global_ref_to(&self.expr_ctx, "RegExp")
+            ) || (callee.is_global_ref_to(self.expr_ctx, "RegExp")
                 && can_compress_new_regexp(args.as_deref())) =>
             {
                 self.changed = true;
@@ -1065,7 +1063,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) => {
-                if callee.is_pure_callee(&self.expr_ctx) {
+                if callee.is_pure_callee(self.expr_ctx) {
                     self.changed = true;
                     report_change!("Dropping pure call as callee is pure");
                     *e = self
@@ -1081,7 +1079,7 @@ impl Pure<'_> {
                 tpl,
                 ..
             }) => {
-                if callee.is_pure_callee(&self.expr_ctx) {
+                if callee.is_pure_callee(self.expr_ctx) {
                     self.changed = true;
                     report_change!("Dropping pure tag tpl as callee is pure");
                     *e = self
@@ -1418,7 +1416,7 @@ impl Pure<'_> {
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(
-                    &self.expr_ctx,
+                    self.expr_ctx,
                     &[
                         "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
                     ],
@@ -1442,7 +1440,7 @@ impl Pure<'_> {
                     args,
                     ..
                 }) if callee.is_one_of_global_ref_to(
-                    &self.expr_ctx,
+                    self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number"],
                 ) =>
                 {
@@ -1677,15 +1675,15 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type();
-        let rt = cond.alt.get_type();
+        let lt = cond.cons.get_type(self.expr_ctx);
+        let rt = cond.alt.get_type(self.expr_ctx);
         match (lt, rt) {
             (Known(Type::Bool), Known(Type::Bool)) => {}
             _ => return,
         }
 
-        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
-        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
+        let lb = cond.cons.as_pure_bool(self.expr_ctx);
+        let rb = cond.alt.as_pure_bool(self.expr_ctx);
 
         let lb = match lb {
             Value::Known(v) => v,

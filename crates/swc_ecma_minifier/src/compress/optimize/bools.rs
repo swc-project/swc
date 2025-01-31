@@ -22,7 +22,7 @@ impl Optimizer<'_> {
         is_ret_val_ignored: bool,
     ) -> bool {
         let cost = negate_cost(
-            &self.ctx.expr_ctx,
+            self.ctx.expr_ctx,
             expr,
             is_ret_val_ignored,
             is_ret_val_ignored,
@@ -42,13 +42,13 @@ impl Optimizer<'_> {
         }
 
         if !is_ret_val_ignored {
-            if let Known(Type::Bool) = e.left.get_type() {
+            if let Known(Type::Bool) = e.left.get_type(self.ctx.expr_ctx) {
             } else {
                 // Don't change type.
                 return false;
             }
 
-            if let Known(Type::Bool) = e.right.get_type() {
+            if let Known(Type::Bool) = e.right.get_type(self.ctx.expr_ctx) {
             } else {
                 // Don't change type.
                 return false;
@@ -277,8 +277,8 @@ impl Optimizer<'_> {
             _ => return None,
         };
 
-        let lt = left.get_type();
-        let rt = right.get_type();
+        let lt = left.get_type(self.ctx.expr_ctx);
+        let rt = right.get_type(self.ctx.expr_ctx);
         if let Value::Known(lt) = lt {
             if let Value::Known(rt) = rt {
                 match (lt, rt) {

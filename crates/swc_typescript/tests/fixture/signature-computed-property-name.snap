@@ -1,0 +1,47 @@
+```==================== .D.TS ====================
+
+export interface A {
+    ["foo" as string]: number;
+    ["bar" as string](a: number): string;
+}
+export type B = {
+    ["foo" as string]: number;
+    ["bar" as string](a: number): string;
+};
+export type C = {
+    [D?.b]: number;
+};
+
+
+==================== Errors ====================
+  x TS9014: Computed properties must be number or string literals, variables or dotted expressions with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/signature-computed-property-name.ts:2:1]
+ 1 | export interface A {
+ 2 |     ["foo" as string]: number;
+   :      ^^^^^^^^^^^^^^^
+ 3 |     ["bar" as string](a: number): string;
+   `----
+  x TS9014: Computed properties must be number or string literals, variables or dotted expressions with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/signature-computed-property-name.ts:3:1]
+ 2 |     ["foo" as string]: number;
+ 3 |     ["bar" as string](a: number): string;
+   :      ^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+  x TS9014: Computed properties must be number or string literals, variables or dotted expressions with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/signature-computed-property-name.ts:7:1]
+ 6 | export type B = {
+ 7 |     ["foo" as string]: number;
+   :      ^^^^^^^^^^^^^^^
+ 8 |     ["bar" as string](a: number): string;
+   `----
+  x TS9014: Computed properties must be number or string literals, variables or dotted expressions with --isolatedDeclarations.
+   ,-[$DIR/tests/fixture/signature-computed-property-name.ts:8:1]
+ 7 |     ["foo" as string]: number;
+ 8 |     ["bar" as string](a: number): string;
+   :      ^^^^^^^^^^^^^^^
+ 9 | };
+   `----
+
+
+```

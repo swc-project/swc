@@ -16,13 +16,13 @@ fn test(input: PathBuf) {
     let transform_output_file = input.with_extension("transform.js");
 
     let err = testing::run_test(false, |cm, handler| {
-        let code = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly))
-            .expect("should not return Err()")
-            .code;
+        if let Ok(code) = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly)) {
+            let code = code.code;
 
-        NormalizedOutput::new_raw(code)
-            .compare_to_file(output_file)
-            .unwrap();
+            NormalizedOutput::new_raw(code)
+                .compare_to_file(output_file)
+                .unwrap();
+        }
 
         if handler.has_errors() {
             return Err(());
@@ -102,7 +102,7 @@ fn error(input: PathBuf) {
     let output_file = input.with_extension("swc-stderr");
 
     testing::run_test(false, |cm, handler| {
-        operate(&cm, handler, input_code, opts(Mode::StripOnly)).expect("should not return Err()");
+        operate(&cm, handler, input_code, opts(Mode::StripOnly)).expect_err("should return Err()");
 
         Err::<(), _>(())
     })

@@ -10,7 +10,6 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
     };
     try {
         var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false), d2 = _ts_add_disposable_resource(env, null, false), d3 = _ts_add_disposable_resource(env, undefined, false), d4 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
-        ;
     } catch (e) {
         env.error = e;
         env.hasError = true;

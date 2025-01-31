@@ -5,7 +5,7 @@ use std::{
 };
 
 use phf::phf_set;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::{fast::FastAtom, js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -463,6 +463,39 @@ impl From<IdentName> for BindingIdent {
             ..Default::default()
         }
     }
+}
+
+/// UnsafeId is a wrapper around [Id] that does not allocate, but extremely
+/// unsafe.
+///
+/// Do not use this unless you know what you are doing.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
+pub type UnsafeId = (FastAtom, SyntaxContext);
+
+/// This is extremely unsafe so don't use it unless you know what you are doing.
+///
+/// # Safety
+///
+/// See [`FastAtom::new`] for constraints.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
+pub unsafe fn unsafe_id(id: &Id) -> UnsafeId {
+    (FastAtom::new(&id.0), id.1)
+}
+
+/// This is extremely unsafe so don't use it unless you know what you are doing.
+///
+/// # Safety
+///
+/// See [`FastAtom::new`] for constraints.
+///
+/// **Currently, it's considered as a unstable API and may be changed in the
+/// future without a semver bump.**
+pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
+    (FastAtom::new(&id.sym), id.ctxt)
 }
 
 /// See [Ident] for documentation.

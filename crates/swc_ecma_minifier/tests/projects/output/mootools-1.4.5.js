@@ -688,7 +688,7 @@ delete Function.prototype.bind, Function.implement({
         var self = this;
         return options = options || {}, function(event) {
             var args = options.arguments;
-            args = null != args ? Array.from(args) : Array.slice(arguments, options.event ? 1 : 0), options.event && (args = [
+            args = null != args ? Array.from(args) : Array.slice(arguments, +!!options.event), options.event && (args = [
                 event || window.event
             ].extend(args));
             var returns = function() {
@@ -1528,7 +1528,7 @@ requires: Slick.Parser
             }, // document order sorting
             // credits to Sizzle (http://sizzlejs.com/)
             features.documentSorter = root.compareDocumentPosition ? function(a, b) {
-                return a.compareDocumentPosition && b.compareDocumentPosition ? 4 & a.compareDocumentPosition(b) ? -1 : a === b ? 0 : 1 : 0;
+                return a.compareDocumentPosition && b.compareDocumentPosition ? 4 & a.compareDocumentPosition(b) ? -1 : +(a !== b) : 0;
             } : "sourceIndex" in root ? function(a, b) {
                 return a.sourceIndex && b.sourceIndex ? a.sourceIndex - b.sourceIndex : 0;
             } : document1.createRange ? function(a, b) {
@@ -2680,7 +2680,7 @@ provides: Element.Style
         return filter && (opacity = filter.match(reAlpha)), null == opacity || null == filter ? 1 : opacity[1] / 100;
     } : function(element) {
         var opacity = element.retrieve("$opacity");
-        return null == opacity && (opacity = "hidden" == element.style.visibility ? 0 : 1), opacity;
+        return null == opacity && (opacity = +("hidden" != element.style.visibility)), opacity;
     }, floatName = null == html.style.cssFloat ? "styleFloat" : "cssFloat";
     Element.implement({
         getComputedStyle: function(property) {
@@ -3645,7 +3645,7 @@ provides: [Fx.Tween, Element.fade, Element.highlight]
                 break;
             case "toggle":
                 var flag = this.retrieve("fade:flag", 1 == this.getStyle("opacity"));
-                method = "start", args[1] = flag ? 0 : 1, this.store("fade:flag", !flag), toggle = !0;
+                method = "start", args[1] = +!flag, this.store("fade:flag", !flag), toggle = !0;
                 break;
             default:
                 method = "start";

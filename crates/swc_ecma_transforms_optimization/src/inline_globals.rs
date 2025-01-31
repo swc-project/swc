@@ -65,6 +65,10 @@ impl Parallel for InlineGlobals {
 impl VisitMut for InlineGlobals {
     noop_visit_mut_type!(fail);
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.visit_mut_par(cpu_count(), members);
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Ident(Ident { ref sym, ctxt, .. }) = expr {
             if self.bindings.contains(&(sym.clone(), *ctxt)) {
@@ -151,10 +155,22 @@ impl VisitMut for InlineGlobals {
         }
     }
 
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.visit_mut_par(cpu_count(), n);
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.visit_mut_par(cpu_count(), n);
+    }
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.bindings = Lrc::new(collect_decls(&*module));
 
         module.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_mut_par(cpu_count(), n);
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -176,26 +192,14 @@ impl VisitMut for InlineGlobals {
         }
     }
 
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.visit_mut_par(cpu_count(), n);
+    }
+
     fn visit_mut_script(&mut self, script: &mut Script) {
         self.bindings = Lrc::new(collect_decls(&*script));
 
         script.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
     }
 }
 

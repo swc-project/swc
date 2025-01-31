@@ -66,7 +66,7 @@
       "type": "UsingDeclaration",
       "span": {
         "start": 203,
-        "end": 222
+        "end": 223
       },
       "isAwait": false,
       "decls": [
@@ -97,13 +97,6 @@
           "definite": false
         }
       ]
-    },
-    {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 222,
-        "end": 223
-      }
     },
     {
       "type": "ExportDefaultDeclaration",

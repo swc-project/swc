@@ -10,7 +10,6 @@ try {
     const d1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
-    ;
     function f() {
         const env = {
             stack: [],
@@ -21,7 +20,6 @@ try {
             const d2 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -39,7 +37,6 @@ try {
             const d3 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             await null;
         } catch (e) {
             env.error = e;
@@ -58,7 +55,6 @@ try {
             const d4 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             yield;
         } catch (e) {
             env.error = e;
@@ -77,7 +73,6 @@ try {
             const d5 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             yield;
             await null;
         } catch (e) {
@@ -97,7 +92,6 @@ try {
             const d6 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -116,7 +110,6 @@ try {
                 const d10 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
@@ -134,7 +127,6 @@ try {
                 const d11 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 return 0;
             } catch (e) {
                 env.error = e;
@@ -153,7 +145,6 @@ try {
                 const d12 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
@@ -171,7 +162,6 @@ try {
                 const d13 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 await null;
             } catch (e) {
                 env.error = e;
@@ -190,7 +180,6 @@ try {
                 const d14 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 yield;
             } catch (e) {
                 env.error = e;
@@ -209,7 +198,6 @@ try {
                 const d15 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 yield;
                 await null;
             } catch (e) {
@@ -230,7 +218,6 @@ try {
                     const d7 = _ts_add_disposable_resource(env, {
                         [Symbol.dispose] () {}
                     }, false);
-                    ;
                 } catch (e) {
                     env.error = e;
                     env.hasError = true;
@@ -247,7 +234,6 @@ try {
                 const d8 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
@@ -266,7 +252,6 @@ try {
             const d9 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -285,7 +270,6 @@ try {
                 const d16 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 super();
             } catch (e) {
                 env.error = e;
@@ -306,7 +290,6 @@ try {
                 const d17 = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 super(), this.y = 1;
             } catch (e) {
                 env.error = e;
@@ -326,7 +309,6 @@ try {
             const d18 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -344,7 +326,6 @@ try {
             const d19 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -363,7 +344,6 @@ try {
                 const d20 = _ts_add_disposable_resource(env1, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 break;
             } catch (e) {
                 env1.error = e;
@@ -381,7 +361,6 @@ try {
                 const d21 = _ts_add_disposable_resource(env2, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 break;
             } catch (e) {
                 env2.error = e;
@@ -401,7 +380,6 @@ try {
                 const d22 = _ts_add_disposable_resource(env3, {
                     [Symbol.dispose] () {}
                 }, false);
-                ;
                 break;
             } catch (e) {
                 env3.error = e;
@@ -420,7 +398,6 @@ try {
             const d23 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -437,7 +414,6 @@ try {
             const d24 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -454,7 +430,6 @@ try {
             const d25 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -472,7 +447,6 @@ try {
             const d26 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -489,7 +463,6 @@ try {
             const d27 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -507,7 +480,6 @@ try {
             const d28 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -526,7 +498,6 @@ try {
             const d29 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -545,7 +516,6 @@ try {
             const d30 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
             break;
         } catch (e) {
             env.error = e;
@@ -564,7 +534,6 @@ try {
             const d31 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -582,7 +551,6 @@ try {
             const d32 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;

@@ -1,5 +1,5 @@
 {
-    using foo__3 = null
+    using foo__3 = null;
 }{
-    using foo__4 = null
+    using foo__4 = null;
 }

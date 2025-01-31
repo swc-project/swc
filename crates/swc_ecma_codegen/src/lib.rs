@@ -3045,6 +3045,10 @@ where
                 emit!(e);
                 semi!();
             }
+            Stmt::Decl(e @ Decl::Using(..)) => {
+                emit!(e);
+                semi!();
+            }
             Stmt::Decl(ref e) => emit!(e),
         }
         if self.comments.is_some() {
@@ -4122,12 +4126,35 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 }
 
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
-    let mut buf = String::with_capacity(v.len() + 2);
+    // Count quotes first to determine which quote character to use
+    let (mut single_quote_count, mut double_quote_count) = (0, 0);
+    for c in v.chars() {
+        match c {
+            '\'' => single_quote_count += 1,
+            '"' => double_quote_count += 1,
+            _ => {}
+        }
+    }
+
+    // Pre-calculate capacity to avoid reallocations
+    let quote_char = if double_quote_count > single_quote_count {
+        '\''
+    } else {
+        '"'
+    };
+    let escape_char = if quote_char == '\'' { '\'' } else { '"' };
+    let escape_count = if quote_char == '\'' {
+        single_quote_count
+    } else {
+        double_quote_count
+    };
+
+    // Add 2 for quotes, and 1 for each escaped quote
+    let capacity = v.len() + 2 + escape_count;
+    let mut buf = String::with_capacity(capacity);
+    buf.push(quote_char);
+
     let mut iter = v.chars().peekable();
-
-    let mut single_quote_count = 0;
-    let mut double_quote_count = 0;
-
     while let Some(c) = iter.next() {
         match c {
             '\x00' => {
@@ -4145,12 +4172,9 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
             '\t' => buf.push('\t'),
             '\\' => {
                 let next = iter.peek();
-
                 match next {
-                    // TODO fix me - workaround for surrogate pairs
                     Some('u') => {
                         let mut inner_iter = iter.clone();
-
                         inner_iter.next();
 
                         let mut is_curly = false;
@@ -4158,7 +4182,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
                         if next == Some(&'{') {
                             is_curly = true;
-
                             inner_iter.next();
                             next = inner_iter.peek();
                         } else if next != Some(&'D') && next != Some(&'d') {
@@ -4166,8 +4189,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                         }
 
                         if let Some(c @ 'D' | c @ 'd') = next {
-                            let mut inner_buf = String::new();
-
+                            let mut inner_buf = String::with_capacity(8);
                             inner_buf.push('\\');
                             inner_buf.push('u');
 
@@ -4176,21 +4198,17 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                             }
 
                             inner_buf.push(*c);
-
                             inner_iter.next();
 
                             let mut is_valid = true;
-
                             for _ in 0..3 {
-                                let c = inner_iter.next();
-
-                                match c {
-                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
-                                        inner_buf.push(c.unwrap());
+                                match inner_iter.next() {
+                                    Some(c @ '0'..='9') | Some(c @ 'a'..='f')
+                                    | Some(c @ 'A'..='F') => {
+                                        inner_buf.push(c);
                                     }
                                     _ => {
                                         is_valid = false;
-
                                         break;
                                     }
                                 }
@@ -4208,29 +4226,23 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
                             if is_valid {
                                 let val_str = &inner_buf[range];
-
-                                let v = u32::from_str_radix(val_str, 16).unwrap_or_else(|err| {
-                                    unreachable!(
-                                        "failed to parse {} as a hex value: {:?}",
-                                        val_str, err
-                                    )
-                                });
-
-                                if v > 0xffff {
-                                    buf.push_str(&inner_buf);
-
-                                    let end = if is_curly { 7 } else { 5 };
-
-                                    for _ in 0..end {
-                                        iter.next();
+                                if let Ok(v) = u32::from_str_radix(val_str, 16) {
+                                    if v > 0xffff {
+                                        buf.push_str(&inner_buf);
+                                        let end = if is_curly { 7 } else { 5 };
+                                        for _ in 0..end {
+                                            iter.next();
+                                        }
+                                    } else if (0xd800..=0xdfff).contains(&v) {
+                                        buf.push('\\');
+                                    } else {
+                                        buf.push_str("\\\\");
                                     }
-                                } else if (0xd800..=0xdfff).contains(&v) {
-                                    buf.push('\\');
                                 } else {
                                     buf.push_str("\\\\");
                                 }
                             } else {
-                                buf.push_str("\\\\")
+                                buf.push_str("\\\\");
                             }
                         } else if is_curly {
                             buf.push_str("\\\\");
@@ -4238,66 +4250,48 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                             buf.push('\\');
                         }
                     }
-                    _ => {
-                        buf.push_str("\\\\");
-                    }
+                    _ => buf.push_str("\\\\"),
                 }
             }
-            '\'' => {
-                single_quote_count += 1;
-                buf.push('\'');
-            }
-            '"' => {
-                double_quote_count += 1;
-                buf.push('"');
-            }
-            '\x01'..='\x0f' => {
-                let _ = write!(buf, "\\x0{:x}", c as u8);
-            }
-            '\x10'..='\x1f' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
-            }
-            '\x20'..='\x7e' => {
+            c if c == escape_char => {
+                buf.push('\\');
                 buf.push(c);
             }
+            '\x01'..='\x0f' => {
+                buf.push_str("\\x0");
+                write!(&mut buf, "{:x}", c as u8).unwrap();
+            }
+            '\x10'..='\x1f' => {
+                buf.push_str("\\x");
+                write!(&mut buf, "{:x}", c as u8).unwrap();
+            }
+            '\x20'..='\x7e' => buf.push(c),
             '\u{7f}'..='\u{ff}' => {
                 if ascii_only || target <= EsVersion::Es5 {
-                    let _ = write!(buf, "\\x{:x}", c as u8);
+                    buf.push_str("\\x");
+                    write!(&mut buf, "{:x}", c as u8).unwrap();
                 } else {
                     buf.push(c);
                 }
             }
-            '\u{2028}' => {
-                buf.push_str("\\u2028");
-            }
-            '\u{2029}' => {
-                buf.push_str("\\u2029");
-            }
-            '\u{FEFF}' => {
-                buf.push_str("\\uFEFF");
-            }
-            _ => {
+            '\u{2028}' => buf.push_str("\\u2028"),
+            '\u{2029}' => buf.push_str("\\u2029"),
+            '\u{FEFF}' => buf.push_str("\\uFEFF"),
+            c => {
                 if c.is_ascii() {
                     buf.push(c);
                 } else if c > '\u{FFFF}' {
-                    // if we've got this far the char isn't reserved and if the callee has specified
-                    // we should output unicode for non-ascii chars then we have
-                    // to make sure we output unicode that is safe for the target
-                    // Es5 does not support code point escapes and so surrograte formula must be
-                    // used
                     if target <= EsVersion::Es5 {
-                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
-
-                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                        write!(&mut buf, "\\u{:04X}\\u{:04X}", h, l).unwrap();
                     } else if ascii_only {
-                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                        write!(&mut buf, "\\u{{{:04X}}}", c as u32).unwrap();
                     } else {
                         buf.push(c);
                     }
                 } else if ascii_only {
-                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                    write!(&mut buf, "\\u{:04X}", c as u16).unwrap();
                 } else {
                     buf.push(c);
                 }
@@ -4305,11 +4299,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    if double_quote_count > single_quote_count {
-        format!("'{}'", buf.replace('\'', "\\'"))
-    } else {
-        format!("\"{}\"", buf.replace('"', "\\\""))
-    }
+    buf.push(quote_char);
+    buf
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {

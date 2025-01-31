@@ -32,6 +32,7 @@ impl Evaluator {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
                 is_unresolved_ref_safe: false,
                 in_strict: true,
+                remaining_depth: 3,
             },
 
             module,
@@ -124,7 +125,7 @@ impl Evaluator {
                         obj: tag_obj,
                         prop: MemberProp::Ident(prop),
                         ..
-                    }) if tag_obj.is_global_ref_to(&self.expr_ctx, "String")
+                    }) if tag_obj.is_global_ref_to(self.expr_ctx, "String")
                         && prop.sym == *"raw" =>
                     {
                         return self.eval_tpl(&t.tpl);

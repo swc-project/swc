@@ -450,7 +450,7 @@
             /* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./number */ "../../../node_modules/d3-array/src/number.js");
             /* harmony default export */ __webpack_exports__.default = function(values, p, valueof) {
                 if (null == valueof && (valueof = _number__WEBPACK_IMPORTED_MODULE_0__.default), n = values.length) {
-                    if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
+                    if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
                     var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
                     return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
@@ -462,7 +462,7 @@
   \******************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(start, stop, step) {
-                start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
+                start *= 1, stop *= 1, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
                 for(var i = -1, n = 0 | Math.max(0, Math.ceil((stop - start) / step)), range = Array(n); ++i < n;)range[i] = start + i * step;
                 return range;
             };
@@ -549,7 +549,7 @@
             }
             /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
-                if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+                if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
@@ -1302,7 +1302,7 @@
                 },
                 rgb: function() {
                     var y = (this.l + 16) / 116, x = isNaN(this.a) ? y : y + this.a / 500, z = isNaN(this.b) ? y : y - this.b / 200;
-                    return x = 0.96422 * lab2xyz(x), y = 1 * lab2xyz(y), z = 0.82521 * lab2xyz(z), new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(lrgb2rgb(3.1338561 * x - 1.6168667 * y - 0.4906146 * z), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
+                    return x = 0.96422 * lab2xyz(x), y = +lab2xyz(y), z = 0.82521 * lab2xyz(z), new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(lrgb2rgb(3.1338561 * x - 1.6168667 * y - 0.4906146 * z), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
                 }
             })), Object(_define_js__WEBPACK_IMPORTED_MODULE_0__.default)(Hcl, hcl, Object(_define_js__WEBPACK_IMPORTED_MODULE_0__.extend)(_color_js__WEBPACK_IMPORTED_MODULE_1__.Color, {
                 brighter: function(k) {
@@ -1342,17 +1342,17 @@
                 function backIn(t) {
                     return t * t * ((s + 1) * t - s);
                 }
-                return s = +s, backIn.overshoot = custom, backIn;
+                return s *= 1, backIn.overshoot = custom, backIn;
             }(1.70158), backOut = function custom(s) {
                 function backOut(t) {
                     return --t * t * ((s + 1) * t + s) + 1;
                 }
-                return s = +s, backOut.overshoot = custom, backOut;
+                return s *= 1, backOut.overshoot = custom, backOut;
             }(1.70158), backInOut = function custom(s) {
                 function backInOut(t) {
                     return ((t *= 2) < 1 ? t * t * ((s + 1) * t - s) : (t -= 2) * t * ((s + 1) * t + s) + 2) / 2;
                 }
-                return s = +s, backInOut.overshoot = custom, backInOut;
+                return s *= 1, backInOut.overshoot = custom, backInOut;
             }(1.70158);
         /***/ },
         /***/ "../../../node_modules/d3-ease/src/bounce.js": /*!******************************************************************************!*\
@@ -1371,7 +1371,7 @@
                 return 1 - bounceOut(1 - t);
             }
             function bounceOut(t) {
-                return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+                return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
             }
             function bounceInOut(t) {
                 return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;
@@ -1443,7 +1443,7 @@
             }(1, 0.3), elasticOut = function custom(a, p) {
                 var s = Math.asin(1 / (a = Math.max(1, a))) * (p /= tau);
                 function elasticOut(t) {
-                    return 1 - a * Math.pow(2, -10 * (t = +t)) * Math.sin((t + s) / p);
+                    return 1 - a * Math.pow(2, -10 * (t *= 1)) * Math.sin((t + s) / p);
                 }
                 return elasticOut.amplitude = function(a) {
                     return custom(a, p * tau);
@@ -1609,17 +1609,17 @@
                 function polyIn(t) {
                     return Math.pow(t, e);
                 }
-                return e = +e, polyIn.exponent = custom, polyIn;
+                return e *= 1, polyIn.exponent = custom, polyIn;
             }(3), polyOut = function custom(e) {
                 function polyOut(t) {
                     return 1 - Math.pow(1 - t, e);
                 }
-                return e = +e, polyOut.exponent = custom, polyOut;
+                return e *= 1, polyOut.exponent = custom, polyOut;
             }(3), polyInOut = function custom(e) {
                 function polyInOut(t) {
                     return ((t *= 2) <= 1 ? Math.pow(t, e) : 2 - Math.pow(2 - t, e)) / 2;
                 }
-                return e = +e, polyInOut.exponent = custom, polyInOut;
+                return e *= 1, polyInOut.exponent = custom, polyInOut;
             }(3);
         /***/ },
         /***/ "../../../node_modules/d3-ease/src/quad.js": /*!****************************************************************************!*\
@@ -1951,7 +1951,7 @@
                         if ("c" === type) valueSuffix = formatType(value) + valueSuffix, value = "";
                         else {
                             // Determine the sign. -0 is not less than 0, but 1 / -0 is!
-                            var valueNegative = (value = +value) < 0 || 1 / value < 0;
+                            var valueNegative = (value *= 1) < 0 || 1 / value < 0;
                             // Break the formatted value into the integer “value” part that can be
                             // grouped, and fractional or exponential “suffix” part that is not.
                             if (// Perform the initial formatting.
@@ -2106,7 +2106,7 @@
                 return d ? linear(a, d > 180 || d < -180 ? d - 360 * Math.round(d / 360) : d) : Object(_constant_js__WEBPACK_IMPORTED_MODULE_0__.default)(isNaN(a) ? b : a);
             }
             function gamma(y) {
-                return 1 == (y = +y) ? nogamma : function(a, b) {
+                return 1 == (y *= 1) ? nogamma : function(a, b) {
                     var a1, b1, y1;
                     return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y1 = y), b1 = Math.pow(b1, y1) - a1, y1 = 1 / y1, function(t) {
                         return Math.pow(a1 + t * b1, y1);
@@ -2144,7 +2144,7 @@
                             return start.h = h(t), start.s = s(t), start.l = l(Math.pow(t, y)), start.opacity = opacity(t), start + "";
                         };
                     }
-                    return y = +y, cubehelix.gamma = cubehelixGamma, cubehelix;
+                    return y *= 1, cubehelix.gamma = cubehelixGamma, cubehelix;
                 }(1);
             }
             /* harmony default export */ __webpack_exports__.default = cubehelix(_color_js__WEBPACK_IMPORTED_MODULE_1__.hue);
@@ -2156,7 +2156,7 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
                 var d = new Date;
-                return a = +a, b = +b, function(t) {
+                return a *= 1, b *= 1, function(t) {
                     return d.setTime(a * (1 - t) + b * t), d;
                 };
             };
@@ -2346,7 +2346,7 @@
   \*************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return a = +a, b = +b, function(t) {
+                return a *= 1, b *= 1, function(t) {
                     return a * (1 - t) + b * t;
                 };
             };
@@ -2444,7 +2444,7 @@
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                return a = +a, b = +b, function(t) {
+                return a *= 1, b *= 1, function(t) {
                     return Math.round(a * (1 - t) + b * t);
                 };
             };
@@ -2657,7 +2657,7 @@
                     this._ += "C" + +x1 + "," + +y1 + "," + +x2 + "," + +y2 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
                 },
                 arcTo: function(x1, y1, x2, y2, r) {
-                    x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
+                    x1 *= 1, y1 *= 1, x2 *= 1, y2 *= 1, r *= 1;
                     var x0 = this._x1, y0 = this._y1, x21 = x2 - x1, y21 = y2 - y1, x01 = x0 - x1, y01 = y0 - y1, l01_2 = x01 * x01 + y01 * y01;
                     // Is the radius negative? Error.
                     if (r < 0) throw Error("negative radius: " + r);
@@ -2671,7 +2671,7 @@
                     }
                 },
                 arc: function(x, y, r, a0, a1, ccw) {
-                    x = +x, y = +y, r = +r, ccw = !!ccw;
+                    x *= 1, y *= 1, r *= 1, ccw = !!ccw;
                     var dx = r * Math.cos(a0), dy = r * Math.sin(a0), x0 = x + dx, y0 = y + dy, cw = 1 ^ ccw, da = ccw ? a0 - a1 : a1 - a0;
                     // Is the radius negative? Error.
                     if (r < 0) throw Error("negative radius: " + r);
@@ -2924,7 +2924,7 @@
                 1
             ];
             function deinterpolateLinear(a, b) {
-                return (b -= a = +a) ? function(x) {
+                return (b -= a *= 1) ? function(x) {
                     return (x - a) / b;
                 } : Object(_constant__WEBPACK_IMPORTED_MODULE_3__.default)(b);
             }
@@ -2954,7 +2954,7 @@
                 }
                 function scale(x) {
                     return (output || (output = piecewise(domain, range, clamp ? function(a, b) {
-                        var d = deinterpolate(a = +a, b = +b);
+                        var d = deinterpolate(a *= 1, b *= 1);
                         return function(x) {
                             return x <= a ? 0 : x >= b ? 1 : d(x);
                         };
@@ -2962,7 +2962,7 @@
                 }
                 return scale.invert = function(y) {
                     return (input || (input = piecewise(range, domain, deinterpolateLinear, clamp ? function(a, b) {
-                        var r = reinterpolate(a = +a, b = +b);
+                        var r = reinterpolate(a *= 1, b *= 1);
                         return function(t) {
                             return t <= 0 ? a : t >= 1 ? b : r(t);
                         };
@@ -3225,7 +3225,7 @@
                         return scale;
                     }
                     function scale(x) {
-                        if (!isNaN(x = +x)) return range[Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.bisect)(thresholds, x)];
+                        if (!isNaN(x *= 1)) return range[Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.bisect)(thresholds, x)];
                     }
                     return scale.invertExtent = function(y) {
                         var i = range.indexOf(y);
@@ -3239,7 +3239,7 @@
                     }, scale.domain = function(_) {
                         if (!arguments.length) return domain.slice();
                         domain = [];
-                        for(var d, i = 0, n = _.length; i < n; ++i)null == (d = _[i]) || isNaN(d = +d) || domain.push(d);
+                        for(var d, i = 0, n = _.length; i < n; ++i)null == (d = _[i]) || isNaN(d *= 1) || domain.push(d);
                         return domain.sort(d3_array__WEBPACK_IMPORTED_MODULE_0__.ascending), rescale();
                     }, scale.range = function(_) {
                         return arguments.length ? (range = _array__WEBPACK_IMPORTED_MODULE_1__.slice.call(_), rescale()) : range.slice();
@@ -3807,7 +3807,7 @@
                     (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                             break;
@@ -3853,7 +3853,7 @@
                     }
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._x2 = x, this._y2 = y;
                             break;
@@ -3895,7 +3895,7 @@
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1;
                             break;
@@ -3983,7 +3983,7 @@
                     (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                             break;
@@ -4036,7 +4036,7 @@
                     }
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._x3 = x, this._y3 = y;
                             break;
@@ -4085,7 +4085,7 @@
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1;
                             break;
@@ -4155,7 +4155,7 @@
                     (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    if (x = +x, y = +y, this._point) {
+                    if (x *= 1, y *= 1, this._point) {
                         var x23 = this._x2 - x, y23 = this._y2 - y;
                         this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
                     }
@@ -4210,7 +4210,7 @@
                     }
                 },
                 point: function(x, y) {
-                    if (x = +x, y = +y, this._point) {
+                    if (x *= 1, y *= 1, this._point) {
                         var x23 = this._x2 - x, y23 = this._y2 - y;
                         this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
                     }
@@ -4261,7 +4261,7 @@
                     (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    if (x = +x, y = +y, this._point) {
+                    if (x *= 1, y *= 1, this._point) {
                         var x23 = this._x2 - x, y23 = this._y2 - y;
                         this._l23_a = Math.sqrt(this._l23_2a = Math.pow(x23 * x23 + y23 * y23, this._alpha));
                     }
@@ -4312,7 +4312,7 @@
                     (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                             break;
@@ -4345,7 +4345,7 @@
                     this._point && this._context.closePath();
                 },
                 point: function(x, y) {
-                    x = +x, y = +y, this._point ? this._context.lineTo(x, y) : (this._point = 1, this._context.moveTo(x, y));
+                    x *= 1, y *= 1, this._point ? this._context.lineTo(x, y) : (this._point = 1, this._context.moveTo(x, y));
                 }
             }, /* harmony default export */ __webpack_exports__.default = function(context) {
                 return new LinearClosed(context);
@@ -4416,7 +4416,7 @@
                 },
                 point: function(x, y) {
                     var t1 = NaN;
-                    if (y = +y, (x = +x) !== this._x1 || y !== this._y1) {
+                    if (y *= 1, (x *= 1) !== this._x1 || y !== this._y1) {
                         switch(this._point){
                             case 0:
                                 this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
@@ -4562,7 +4562,7 @@
                     0 < this._t && this._t < 1 && 2 === this._point && this._context.lineTo(this._x, this._y), (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line >= 0 && (this._t = 1 - this._t, this._line = 1 - this._line);
                 },
                 point: function(x, y) {
-                    switch(x = +x, y = +y, this._point){
+                    switch(x *= 1, y *= 1, this._point){
                         case 0:
                             this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
                             break;
@@ -5149,7 +5149,7 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(x, y) {
                 return [
-                    (y = +y) * Math.cos(x -= Math.PI / 2),
+                    (y *= 1) * Math.cos(x -= Math.PI / 2),
                     y * Math.sin(x)
                 ];
             };
@@ -5630,7 +5630,7 @@
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
                             "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
+                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
                         return(// If a time zone is specified, all fields are interpreted as UTC and then
                         // offset according to the specified time zone.
                         "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
@@ -6481,7 +6481,7 @@
             /* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./timer.js */ "../../../node_modules/d3-timer/src/timer.js");
             /* harmony default export */ __webpack_exports__.default = function(callback, delay, time) {
                 var t = new _timer_js__WEBPACK_IMPORTED_MODULE_0__.Timer, total = delay;
-                return null == delay ? t.restart(callback, delay, time) : (delay = +delay, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
+                return null == delay ? t.restart(callback, delay, time) : (delay *= 1, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
                     elapsed += total, t.restart(tick, total += delay, time), callback(elapsed);
                 }, delay, time)), t;
             };
@@ -7458,7 +7458,7 @@
                     return results;
                 }, _proto.find = function(x, y, i) {
                     // eslint-disable-next-line no-self-compare
-                    if (void 0 === i && (i = 0), (x = +x) != x || (y = +y) != y) return -1;
+                    if (void 0 === i && (i = 0), (x *= 1) != x || (y *= 1) != y) return -1;
                     for(var c, i0 = i; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
                     return c;
                 }, _proto._step = function(i, x, y) {
@@ -13503,7 +13503,7 @@ object-assign
                     if (1 === sign ? y0 - cr["bottom".concat(side)] < y1 + cr["top".concat(side)] : y0 + cr["bottom".concat(side)] > y1 - cr["top".concat(side)]) {
                         var topCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x + signL * cr["top".concat(side)], y1 + sign * cr["top".concat(side)]), topCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(topCenter, cr["top".concat(side)]), bottomCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x + signL * cr["bottom".concat(side)], y0 - sign * cr["bottom".concat(side)]), bottomCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(bottomCenter, cr["bottom".concat(side)]), circleIntersection = topCircle.intersection(bottomCircle);
                         if (circleIntersection.length > 0) {
-                            var arcIntersection = circleIntersection[isLeft ? 0 : 1];
+                            var arcIntersection = circleIntersection[+!isLeft];
                             bottomMiddlePoint = {
                                 x: arcIntersection.x,
                                 y: arcIntersection.y
@@ -13512,7 +13512,7 @@ object-assign
                                 y: arcIntersection.y
                             };
                         } else if (cr["top".concat(side)] > cr["bottom".concat(side)]) {
-                            var newX = topCircle.solveX(y0)[isLeft ? 0 : 1];
+                            var newX = topCircle.solveX(y0)[+!isLeft];
                             bottomPoint = {
                                 x: newX,
                                 y: y0
@@ -13524,7 +13524,7 @@ object-assign
                                 y: y0
                             };
                         } else {
-                            var _newX = bottomCircle.solveX(y1)[isLeft ? 0 : 1];
+                            var _newX = bottomCircle.solveX(y1)[+!isLeft];
                             bottomMiddlePoint = {
                                 x: _newX,
                                 y: y1
@@ -13564,7 +13564,7 @@ object-assign
                     if (leftMiddlePoint.x > rightMiddlePoint.x) {
                         var leftCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x0 + cr["".concat(side, "Left")], y - signL * cr["".concat(side, "Left")]), leftCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(leftCenter, cr["".concat(side, "Left")]), rightCenter = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.point)(x1 - cr["".concat(side, "Right")], y - signL * cr["".concat(side, "Right")]), rightCircle = Object(_geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__.circle)(rightCenter, cr["".concat(side, "Right")]), circleIntersection = leftCircle.intersection(rightCircle);
                         if (circleIntersection.length > 0) {
-                            var arcIntersection = circleIntersection[sign > 0 ? 1 : 0];
+                            var arcIntersection = circleIntersection[+(sign > 0)];
                             leftMiddlePoint = {
                                 x: arcIntersection.x,
                                 y: arcIntersection.y
@@ -13573,7 +13573,7 @@ object-assign
                                 y: arcIntersection.y
                             };
                         } else if (cr["".concat(side, "Right")] > cr["".concat(side, "Left")]) {
-                            var newY = rightCircle.solveY(x0)[isTop ? 0 : 1];
+                            var newY = rightCircle.solveY(x0)[+!isTop];
                             leftPoint = {
                                 x: x0,
                                 y: newY
@@ -13585,7 +13585,7 @@ object-assign
                                 y: newY
                             };
                         } else {
-                            var _newY = leftCircle.solveY(x1)[isTop ? 0 : 1];
+                            var _newY = leftCircle.solveY(x1)[+!isTop];
                             rightPoint = {
                                 x: x1,
                                 y: _newY
@@ -17638,12 +17638,15 @@ object-assign
                                     cy: origin.y - top
                                 };
                                 child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(circleComponent, circleProps);
-                            } else child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, {
-                                x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
-                                y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
-                                width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
-                                height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
-                            });
+                            } else {
+                                var rectProps = {
+                                    x: (void 0 === _props$translateX2 ? 0 : _props$translateX2) - left,
+                                    y: (void 0 === _props$translateY2 ? 0 : _props$translateY2) - top,
+                                    width: Math.max((void 0 === _props$clipWidth2 ? 0 : _props$clipWidth2) + left + right, 0),
+                                    height: Math.max((void 0 === _props$clipHeight2 ? 0 : _props$clipHeight2) + top + bottom, 0)
+                                };
+                                child = react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(rectComponent, rectProps);
+                            }
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.cloneElement(clipPathComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 key: "clip-path-".concat(clipId)
                             }, props, {
@@ -22105,7 +22108,7 @@ object-assign
                     var labelPlacement = props.labelPlacement, datum = props.datum;
                     if (!labelPlacement || "vertical" === labelPlacement) return 0;
                     var degrees = void 0 !== baseAngle ? baseAngle % 360 : getDegrees(props, datum), angle = 0;
-                    return 0 === degrees || 180 === degrees ? angle = 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1) * ("perpendicular" === labelPlacement ? 0 : 90);
+                    return 0 === degrees || 180 === degrees ? angle = 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                 },
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
@@ -27440,7 +27443,7 @@ object-assign
                 var minDomain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getMinFromProps(props, axis), maxDomain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getMaxFromProps(props, axis), dataset = getData(props);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Domain.getDomainFromMinMax(minDomain, maxDomain) : void 0;
                 var error = "x" === axis ? "_errorX" : "_errorY", reduceErrorData = function(type) {
-                    var errorIndex = "min" === type ? 1 : 0, sign = "min" === type ? -1 : 1;
+                    var errorIndex = +("min" === type), sign = "min" === type ? -1 : 1;
                     return dataset.reduce(function(memo, datum) {
                         var currentError = Array.isArray(datum[error]) ? datum[error][errorIndex] : datum[error], current = datum["_".concat(axis)] + sign * (currentError || 0);
                         return memo < current && "min" === type || memo > current && "max" === type ? memo : current;
@@ -28609,10 +28612,10 @@ object-assign
             "use strict";
             function count(values, valueof) {
                 let count = 0;
-                if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && ++count;
+                if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && ++count;
                 else {
                     let index = -1;
-                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && ++count;
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && ++count;
                 }
                 return count;
             }
@@ -29036,10 +29039,10 @@ object-assign
             "use strict";
             function mean(values, valueof) {
                 let count = 0, sum = 0;
-                if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (++count, sum += value);
+                if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (++count, sum += value);
                 else {
                     let index = -1;
-                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (++count, sum += value);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (++count, sum += value);
                 }
                 if (count) return sum / count;
             }
@@ -29107,10 +29110,10 @@ object-assign
   \**********************************************************************************************************/ /*! exports provided: default, numbers */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function* numbers(values, valueof) {
-                if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (yield value);
+                if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (yield value);
                 else {
                     let index = -1;
-                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (yield value);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (yield value);
                 }
             }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numbers", function() {
@@ -29162,7 +29165,7 @@ object-assign
             /* harmony import */ var _max_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./max.js */ "../../victory-histogram/node_modules/d3-array/src/max.js"), _min_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./min.js */ "../../victory-histogram/node_modules/d3-array/src/min.js"), _quickselect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./quickselect.js */ "../../victory-histogram/node_modules/d3-array/src/quickselect.js"), _number_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./number.js */ "../../victory-histogram/node_modules/d3-array/src/number.js");
             function quantile(values, p, valueof) {
                 if (n = (values = Float64Array.from(Object(_number_js__WEBPACK_IMPORTED_MODULE_3__.numbers)(values, valueof))).length) {
-                    if ((p = +p) <= 0 || n < 2) return Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values);
+                    if ((p *= 1) <= 0 || n < 2) return Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values);
                     if (p >= 1) return Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(values);
                     var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1));
                     return value0 + (Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1)) - value0) * (i - i0);
@@ -29170,7 +29173,7 @@ object-assign
             }
             function quantileSorted(values, p, valueof = _number_js__WEBPACK_IMPORTED_MODULE_3__.default) {
                 if (n = values.length) {
-                    if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
+                    if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
                     var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
                     return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
@@ -29212,7 +29215,7 @@ object-assign
   \*********************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(start, stop, step) {
-                start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
+                start *= 1, stop *= 1, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
                 for(var i = -1, n = 0 | Math.max(0, Math.ceil((stop - start) / step)), range = Array(n); ++i < n;)range[i] = start + i * step;
                 return range;
             };
@@ -29235,7 +29238,7 @@ object-assign
   \***********************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function shuffle(array, i0 = 0, i1 = array.length) {
-                for(var t, i, m = i1 - (i0 = +i0); m;)i = Math.random() * m-- | 0, t = array[m + i0], array[m + i0] = array[i + i0], array[i + i0] = t;
+                for(var t, i, m = i1 - (i0 *= 1); m;)i = Math.random() * m-- | 0, t = array[m + i0], array[m + i0] = array[i + i0], array[i + i0] = t;
                 return array;
             }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
@@ -29248,7 +29251,7 @@ object-assign
             "use strict";
             function sum(values, valueof) {
                 let sum = 0;
-                if (void 0 === valueof) for (let value of values)(value = +value) && (sum += value);
+                if (void 0 === valueof) for (let value of values)(value *= 1) && (sum += value);
                 else {
                     let index = -1;
                     for (let value of values)(value = +valueof(value, ++index, values)) && (sum += value);
@@ -29309,7 +29312,7 @@ object-assign
             }
             /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
-                if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+                if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
@@ -29339,10 +29342,10 @@ object-assign
             "use strict";
             function variance(values, valueof) {
                 let delta, count = 0, mean = 0, sum = 0;
-                if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
+                if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
                 else {
                     let index = -1;
-                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value *= 1) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
                 }
                 if (count > 1) return sum / (count - 1);
             }
@@ -32459,7 +32462,7 @@ object-assign
                 }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets = filterNullChildData.map(function(dataset) {
                     var indexOffset = 0, isDate = dataset[0] && dataset[0]._x instanceof Date;
                     return xArr.map(function(x, index) {
-                        x = +x;
+                        x *= 1;
                         var datum = dataset[index - indexOffset];
                         if (datum) {
                             if ((isDate ? datum._x.getTime() : datum._x) === x) return datum;
@@ -33054,7 +33057,7 @@ object-assign
                             var angle, polar = props.polar, labelPlacement = props.labelPlacement, orientation = props.orientation, datum = props.datum;
                             if (!polar || !labelPlacement || "vertical" === labelPlacement) return 0;
                             var degrees = victory_core__WEBPACK_IMPORTED_MODULE_7__.LabelHelpers.getDegrees(props, datum);
-                            return 0 === degrees || 180 === degrees ? angle = "top" === orientation && 180 === degrees ? 270 : 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1) * ("perpendicular" === labelPlacement ? 0 : 90);
+                            return 0 === degrees || 180 === degrees ? angle = "top" === orientation && 180 === degrees ? 270 : 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                         }
                     },
                     {

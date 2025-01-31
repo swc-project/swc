@@ -522,6 +522,12 @@ where
         }
     }
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.maybe_par(cpu_count(), members, |v, member| {
+            member.visit_mut_with(v);
+        });
+    }
+
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
         self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);

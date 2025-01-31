@@ -413,6 +413,7 @@ impl Visit for TypeCollector<'_> {
     }
 }
 
+#[cold]
 fn emit_error(name: &str, span: Span, prev_span: Span) {
     HANDLER.with(|handler| {
         handler

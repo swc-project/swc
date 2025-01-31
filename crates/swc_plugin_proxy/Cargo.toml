@@ -1,10 +1,10 @@
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Proxy structs to the hosts original structs for the plugin"
-edition     = "2021"
-license     = "Apache-2.0"
+edition     = { workspace = true }
+license     = { workspace = true }
 name        = "swc_plugin_proxy"
-repository  = "https://github.com/swc-project/swc.git"
+repository  = { workspace = true }
 version     = "5.0.0"
 
 [lib]
@@ -28,6 +28,6 @@ rkyv      = { workspace = true, optional = true }
 tracing   = { workspace = true }
 
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
-swc_common        = { version = "5.0.0", path = "../swc_common" }
-swc_ecma_ast      = { version = "5.0.0", path = "../swc_ecma_ast" }
+swc_common        = { version = "5.0.1", path = "../swc_common" }
+swc_ecma_ast      = { version = "5.1.0", path = "../swc_ecma_ast" }
 swc_trace_macro   = { version = "2.0.0", path = "../swc_trace_macro" }

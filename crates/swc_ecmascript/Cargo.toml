@@ -2,11 +2,11 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Ecmascript"
 documentation = "https://rustdoc.swc.rs/swc_ecmascript/"
-edition       = "2021"
-license       = "Apache-2.0"
+edition       = { workspace = true }
+license       = { workspace = true }
 name          = "swc_ecmascript"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "8.0.0"
+repository    = { workspace = true }
+version       = "11.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -38,14 +38,14 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "5.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "5.0.0", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_minifier   = { version = "6.0.1", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "6.0.0", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "8.0.0", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "6.0.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "8.0.0", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "6.0.0", path = "../swc_ecma_utils", optional = true }
+swc_ecma_ast        = { version = "5.1.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen    = { version = "5.1.0", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_minifier   = { version = "9.0.0", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser     = { version = "7.0.1", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "10.0.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote      = { version = "7.0.0", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "10.0.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils      = { version = "8.0.0", path = "../swc_ecma_utils", optional = true }
 swc_ecma_visit      = { version = "5.0.0", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]

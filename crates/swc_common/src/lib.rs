@@ -33,6 +33,7 @@
 //! Use `ahash` instead of `rustc_hash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(not(test), allow(unused))]
 
 use std::fmt::Debug;
 

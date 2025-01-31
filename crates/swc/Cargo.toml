@@ -4,12 +4,12 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Speedy web compiler"
 documentation = "https://rustdoc.swc.rs/swc/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "9.0.0"
+repository    = { workspace = true }
+version       = "12.0.0"
 
 [lib]
 bench = false
@@ -48,7 +48,6 @@ plugin_transform_host_native = [
   "swc_plugin_runner/plugin_transform_host_native",
 ]
 # Do not inject tokio runtime while running plugin transforms
-manual-tokio-runtmie = ["manual-tokio-runtime"]
 manual-tokio-runtime = []
 
 [dependencies]
@@ -70,28 +69,28 @@ sourcemap    = { workspace = true }
 tracing      = { workspace = true }
 url          = { workspace = true }
 
-swc_atoms = { version = "3.0.0", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
 swc_cached = { version = "1.0.0", path = "../swc_cached" }
-swc_common = { version = "5.0.0", path = "../swc_common", features = [
+swc_common = { version = "5.0.1", path = "../swc_common", features = [
   "ahash",
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "7.0.0", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "10.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "1.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "5.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "5.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_ext_transforms = { version = "6.0.0", path = "../swc_ecma_ext_transforms" }
-swc_ecma_lints = { version = "6.0.0", path = "../swc_ecma_lints" }
+swc_ecma_ast = { version = "5.1.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "5.1.0", path = "../swc_ecma_codegen" }
+swc_ecma_ext_transforms = { version = "8.0.0", path = "../swc_ecma_ext_transforms" }
+swc_ecma_lints = { version = "8.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "5.0.0", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "6.0.1", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "6.0.0", path = "../swc_ecma_parser" }
-swc_ecma_preset_env = { version = "8.0.0", path = "../swc_ecma_preset_env" }
-swc_ecma_transforms = { version = "8.0.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_minifier = { version = "9.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "7.0.1", path = "../swc_ecma_parser" }
+swc_ecma_preset_env = { version = "10.0.0", path = "../swc_ecma_preset_env" }
+swc_ecma_transforms = { version = "10.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -99,18 +98,18 @@ swc_ecma_transforms = { version = "8.0.0", path = "../swc_ecma_transforms", feat
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "6.0.2", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "7.0.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "6.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "6.0.0", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base = { version = "8.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat = { version = "9.0.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_optimization = { version = "8.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils = { version = "8.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "6.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "5.0.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "5.0.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "5.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_runner = { version = "5.1.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "1.0.0", path = "../swc_transform_common" }
-swc_typescript = { version = "5.0.0", path = "../swc_typescript" }
+swc_typescript = { version = "7.0.0", path = "../swc_typescript" }
 swc_visit = { version = "2.0.0", path = "../swc_visit" }
 
   [dependencies.tokio]
@@ -136,10 +135,10 @@ rayon     = { workspace = true }
 walkdir   = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "5.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "5.1.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_lints = { version = "6.0.0", path = "../swc_ecma_lints", features = [
+swc_ecma_lints = { version = "8.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "5.0.0", path = "../swc_ecma_testing" }

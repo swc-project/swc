@@ -5,9 +5,7 @@ const env = {
 };
 try {
     const x = _ts_add_disposable_resource(env, A, false);
-    ;
     const y = _ts_add_disposable_resource(env, B, true);
-    ;
 } catch (e) {
     env.error = e;
     env.hasError = true;

@@ -22,7 +22,6 @@ var C1 = /*#__PURE__*/ function(A) {
         };
         try {
             var x = _ts_add_disposable_resource(env, null, false);
-            ;
             _this = _call_super(this, C1);
         } catch (e) {
             env.error = e;
@@ -48,7 +47,6 @@ var C2 = /*#__PURE__*/ function(A) {
         try {
             _this = _call_super(this, C2);
             var x = _ts_add_disposable_resource(env, null, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;
@@ -72,7 +70,6 @@ var C3 = /*#__PURE__*/ function(A) {
         };
         try {
             var x = _ts_add_disposable_resource(env, null, false);
-            ;
             _this = _call_super(this, C3), _this.y = 1;
         } catch (e) {
             env.error = e;
@@ -97,7 +94,6 @@ var C4 = /*#__PURE__*/ function(A) {
         };
         try {
             var x = _ts_add_disposable_resource(env, null, false);
-            ;
             _this = _call_super(this, C4), _this.y = y;
         } catch (e) {
             env.error = e;
@@ -122,7 +118,6 @@ var C5 = /*#__PURE__*/ function(A) {
         };
         try {
             var x = _ts_add_disposable_resource(env, null, false);
-            ;
             _this = _call_super(this, C5), _this.y = y, _this.z = 1;
         } catch (e) {
             env.error = e;

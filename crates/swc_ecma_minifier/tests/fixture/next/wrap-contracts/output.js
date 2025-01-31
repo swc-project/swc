@@ -1557,7 +1557,7 @@
                     } catch (err) {
                         return cb(new IteratorDecodeError('entry', err));
                     }
-                    !(void 0 === key && void 0 === value) && this[kCount]++, cb(null, key, value);
+                    (void 0 !== key || void 0 !== value) && this[kCount]++, cb(null, key, value);
                 }
                 [kHandleMany](err, entries) {
                     const cb = this[kFinishWork]();
@@ -6484,7 +6484,7 @@
                 for(let i = out.length - 1; i >= 0; i--)out[i] = 0xff & num, num >>= 8;
                 return 0x80 & out[0] && out.unshift(0), this._createEncoderBuffer(Buffer.from(out));
             }, DERNode.prototype._encodeBool = function(value) {
-                return this._createEncoderBuffer(value ? 0xff : 0);
+                return this._createEncoderBuffer(0xff * !!value);
             }, DERNode.prototype._use = function(entity, obj) {
                 return 'function' == typeof entity && (entity = entity(obj)), entity._getEncoder('der').tree;
             }, DERNode.prototype._skipDefault = function(dataBuffer, reporter, parent) {
@@ -8498,7 +8498,7 @@
                         }
                         function subtract(a, b, aL, base) {
                             // Subtract b from a.
-                            for(var i = 0; aL--;)a[aL] -= i, i = a[aL] < b[aL] ? 1 : 0, a[aL] = i * base + a[aL] - b[aL];
+                            for(var i = 0; aL--;)a[aL] -= i, i = +(a[aL] < b[aL]), a[aL] = i * base + a[aL] - b[aL];
                             // Remove leading zeros.
                             for(; !a[0] && a.length > 1; a.splice(0, 1));
                         }
@@ -10964,7 +10964,7 @@
             function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
-                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset = +byteOffset // Coerce to Number.
+                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset *= 1 // Coerce to Number.
                 ) && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
                 (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
@@ -11123,7 +11123,7 @@
                     x = a[i], y = b[i];
                     break;
                 }
-                return x < y ? -1 : y < x ? 1 : 0;
+                return x < y ? -1 : +(y < x);
             }, Buffer.isEncoding = function(encoding) {
                 switch(String(encoding).toLowerCase()){
                     case 'hex':
@@ -11200,7 +11200,7 @@
                     x = thisCopy[i], y = targetCopy[i];
                     break;
                 }
-                return x < y ? -1 : y < x ? 1 : 0;
+                return x < y ? -1 : +(y < x);
             }, Buffer.prototype.includes = function(val, byteOffset, encoding) {
                 return -1 !== this.indexOf(val, byteOffset, encoding);
             }, Buffer.prototype.indexOf = function(val, byteOffset, encoding) {
@@ -11313,10 +11313,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             Buffer.prototype.slice = function(start, end) {
                 const len = this.length;
@@ -11399,7 +11399,7 @@
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUintLE = Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     const maxBytes = Math.pow(2, 8 * byteLength) - 1;
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
@@ -11407,7 +11407,7 @@
                 for(this[offset] = 0xFF & value; ++i < byteLength && (mul *= 0x100);)this[offset + i] = value / mul & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeUintBE = Buffer.prototype.writeUIntBE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     const maxBytes = Math.pow(2, 8 * byteLength) - 1;
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
@@ -11415,21 +11415,21 @@
                 for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeUint8 = Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeUint16LE = Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeUint16BE = Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeUint32LE = Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeUint32BE = Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeBigUInt64LE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'));
             }), Buffer.prototype.writeBigUInt64BE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'));
             }), Buffer.prototype.writeIntLE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, !noAssert) {
                     const limit = Math.pow(2, 8 * byteLength - 1);
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
@@ -11437,7 +11437,7 @@
                 for(this[offset] = 0xFF & value; ++i < byteLength && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeIntBE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, !noAssert) {
                     const limit = Math.pow(2, 8 * byteLength - 1);
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
@@ -11445,15 +11445,15 @@
                 for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeBigInt64LE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64LE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'));
             }), Buffer.prototype.writeBigInt64BE = defineBigIntMethod(function(value, offset = 0) {
@@ -11542,7 +11542,7 @@
             }
             function addNumericalSeparator(val) {
                 let res = '', i = val.length;
-                const start = '-' === val[0] ? 1 : 0;
+                const start = +('-' === val[0]);
                 for(; i >= start + 4; i -= 3)res = `_${val.slice(i - 3, i)}${res}`;
                 return `${val.slice(0, i)}${res}`;
             }
@@ -11565,7 +11565,7 @@
             function boundsError(value, length, type) {
                 if (Math.floor(value) !== value) throw validateNumber(value, type), new errors.ERR_OUT_OF_RANGE(type || 'offset', 'an integer', value);
                 if (length < 0) throw new errors.ERR_BUFFER_OUT_OF_BOUNDS();
-                throw new errors.ERR_OUT_OF_RANGE(type || 'offset', `>= ${type ? 1 : 0} and <= ${length}`, value);
+                throw new errors.ERR_OUT_OF_RANGE(type || 'offset', `>= ${+!!type} and <= ${length}`, value);
             }
             E('ERR_BUFFER_OUT_OF_BOUNDS', function(name) {
                 return name ? `${name} is outside of buffer bounds` : 'Attempt to access memory outside buffer bounds';
@@ -12756,7 +12756,7 @@
                             if (0 !== r.cmpn(0)) {
                                 var s = k.invm(this.n).mul(r.mul(key.getPrivate()).iadd(msg));
                                 if (0 !== (s = s.umod(this.n)).cmpn(0)) {
-                                    var recoveryParam = (kp.getY().isOdd() ? 1 : 0) | (0 !== kpX.cmp(r) ? 2 : 0);
+                                    var recoveryParam = +!!kp.getY().isOdd() | 2 * (0 !== kpX.cmp(r));
                                     return options.canonical && s.cmp(this.nh) > 0 && (s = this.n.sub(s), recoveryParam ^= 1), new Signature({
                                         r: r,
                                         s: s,
@@ -12976,7 +12976,7 @@
 *
 */ EDDSA.prototype.encodePoint = function(point) {
                 var enc = point.getY().toArray('le', this.encodingLength);
-                return enc[this.encodingLength - 1] |= point.getX().isOdd() ? 0x80 : 0, enc;
+                return enc[this.encodingLength - 1] |= 0x80 * !!point.getX().isOdd(), enc;
             }, EDDSA.prototype.decodePoint = function(bytes) {
                 var lastIx = (bytes = utils.parseBytes(bytes)).length - 1, normed = bytes.slice(0, lastIx).concat(-129 & bytes[lastIx]), xIsOdd = (0x80 & bytes[lastIx]) != 0, y = utils.intFromLE(normed);
                 return this.curve.pointFromY(y, xIsOdd);
@@ -14621,7 +14621,7 @@
             }
             //Default comparison function
             function defaultCompare(a, b) {
-                return a < b ? -1 : a > b ? 1 : 0;
+                return a < b ? -1 : +(a > b);
             }
             //Build a tree
             function createRBTree(compare) {
@@ -15256,7 +15256,7 @@
                 return j <= 15 ? 0x00000000 : j <= 31 ? 0x5a827999 : j <= 47 ? 0x6ed9eba1 : j <= 63 ? 0x8f1bbcdc : 0xa953fd4e;
             }
             function Kh(j) {
-                return j <= 15 ? 0x50a28be6 : j <= 31 ? 0x5c4dd124 : j <= 47 ? 0x6d703ef3 : j <= 63 ? 0x7a6d76e9 : 0x00000000;
+                return j <= 15 ? 0x50a28be6 : j <= 31 ? 0x5c4dd124 : j <= 47 ? 0x6d703ef3 : 0x7a6d76e9 * (j <= 63);
             }
             utils.inherits(RIPEMD160, BlockHash), exports.ripemd160 = RIPEMD160, RIPEMD160.blockSize = 512, RIPEMD160.outSize = 160, RIPEMD160.hmacStrength = 192, RIPEMD160.padLength = 64, RIPEMD160.prototype._update = function(msg, start) {
                 for(var A = this.h[0], B = this.h[1], C = this.h[2], D = this.h[3], E = this.h[4], Ah = A, Bh = B, Ch = C, Dh = D, Eh = E, j = 0; j < 80; j++){
@@ -16125,25 +16125,25 @@
                 return a + b + c + d + e >>> 0;
             }
             function sum64(buf, pos, ah, al) {
-                var bh = buf[pos], lo = al + buf[pos + 1] >>> 0, hi = (lo < al ? 1 : 0) + ah + bh;
+                var bh = buf[pos], lo = al + buf[pos + 1] >>> 0, hi = +(lo < al) + ah + bh;
                 buf[pos] = hi >>> 0, buf[pos + 1] = lo;
             }
             function sum64_hi(ah, al, bh, bl) {
-                return (al + bl >>> 0 < al ? 1 : 0) + ah + bh >>> 0;
+                return +(al + bl >>> 0 < al) + ah + bh >>> 0;
             }
             function sum64_lo(ah, al, bh, bl) {
                 return al + bl >>> 0;
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
                 var carry, lo = al;
-                return ah + bh + ch + dh + (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) >>> 0;
+                return ah + bh + ch + dh + (carry = 0 + +((lo = lo + bl >>> 0) < al) + +((lo = lo + cl >>> 0) < cl) + +((lo = lo + dl >>> 0) < dl)) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 var carry, lo = al;
-                return ah + bh + ch + dh + eh + (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0) + ((lo = lo + el >>> 0) < el ? 1 : 0)) >>> 0;
+                return ah + bh + ch + dh + eh + (carry = 0 + +((lo = lo + bl >>> 0) < al) + +((lo = lo + cl >>> 0) < cl) + +((lo = lo + dl >>> 0) < dl) + +((lo = lo + el >>> 0) < el)) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
@@ -16207,8 +16207,8 @@
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539062 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
-                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
+                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 0.00000005960464477539062 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
+                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
             };
@@ -18292,7 +18292,7 @@
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */ function hashDelete(key) {
                 var result = this.has(key) && delete this.__data__[key];
-                return this.size -= result ? 1 : 0, result;
+                return this.size -= +!!result, result;
             }
             module.exports = hashDelete;
         /***/ },
@@ -18345,7 +18345,7 @@
  * @returns {Object} Returns the hash instance.
  */ function hashSet(key, value) {
                 var data = this.__data__;
-                return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && void 0 === value ? HASH_UNDEFINED : value, this;
+                return this.size += +!this.has(key), data[key] = nativeCreate && void 0 === value ? HASH_UNDEFINED : value, this;
             }
             module.exports = hashSet;
         /***/ },
@@ -18590,7 +18590,7 @@
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */ function mapCacheDelete(key) {
                 var result = getMapData(this, key).delete(key);
-                return this.size -= result ? 1 : 0, result;
+                return this.size -= +!!result, result;
             }
             module.exports = mapCacheDelete;
         /***/ },
@@ -18637,7 +18637,7 @@
  * @returns {Object} Returns the map cache instance.
  */ function mapCacheSet(key, value) {
                 var data = getMapData(this, key), size = data.size;
-                return data.set(key, value), this.size += data.size == size ? 0 : 1, this;
+                return data.set(key, value), this.size += +(data.size != size), this;
             }
             module.exports = mapCacheSet;
         /***/ },
@@ -19194,7 +19194,7 @@
             function compare(a, b) {
                 // Only relevant when storeEncoding is 'utf8',
                 // which guarantees that b is also a string.
-                if ('string' == typeof a) return a < b ? -1 : a > b ? 1 : 0;
+                if ('string' == typeof a) return a < b ? -1 : +(a > b);
                 const length = Math.min(a.byteLength, b.byteLength);
                 for(let i = 0; i < length; i++){
                     const cmp = a[i] - b[i];
@@ -21490,7 +21490,7 @@
                     ]);
                     const len = entry.params.length; // number of parameters
                     return leb.unsigned.write(len, stream), 0 !== len && stream.write(entry.params.map((type)=>LANGUAGE_TYPES[type])), stream.write([
-                        entry.return_type ? 1 : 0
+                        +!!entry.return_type
                     ]), entry.return_type && stream.write([
                         LANGUAGE_TYPES[entry.return_type]
                     ]), stream.buffer;

@@ -1,0 +1,43 @@
+{
+    "name": "@swc/experimental-js-interop-linux-x64-musl",
+    "version": "1.10.12",
+    "os": [
+        "linux"
+    ],
+    "cpu": [
+        "x64"
+    ],
+    "main": "swc-experimental-js-interop.linux-x64-musl.node",
+    "files": [
+        "swc-experimental-js-interop.linux-x64-musl.node"
+    ],
+    "libc": [
+        "musl"
+    ],
+    "description": "Super-fast HTML minifier",
+    "keywords": [
+        "swcpack",
+        "babel",
+        "typescript",
+        "rust",
+        "webpack",
+        "tsc"
+    ],
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "homepage": "https://swc.rs",
+    "license": "Apache-2.0 AND MIT",
+    "engines": {
+        "node": ">=10"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    }
+}

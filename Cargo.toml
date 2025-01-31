@@ -1,37 +1,9 @@
 [workspace]
-members = [
-  "xtask",
-  "crates/swc_allocator",
-  "crates/swc_core",
-  "crates/swc_cli_impl",
-  "crates/dbg-swc",
-  "crates/jsdoc",
-  "crates/binding_macros",
-  "crates/swc_css",
-  "crates/swc_css_lints",
-  "crates/swc_css_prefixer",
-  "crates/swc_ecmascript",
-  "crates/swc_ecma_lints",
-  "crates/swc_ecma_quote",
-  "crates/swc_estree_compat",
-  "crates/swc_html",
-  "crates/swc_plugin",
-  "crates/swc_plugin_macro",
-  "crates/swc_plugin_runner",
-  "crates/swc_plugin_testing",
-  "crates/swc_plugin_proxy",
-  "crates/swc_timer",
-  "crates/swc_xml",
-  "crates/swc_x_optimizer",
-  "crates/swc_transform_common",
-  "crates/swc_typescript",
-  "crates/swc_fast_ts_strip",
-  "tools/generate-code",
-  "tools/swc-releaser",
-]
+members  = ["xtask", "crates/*", "tools/generate-code", "tools/swc-releaser"]
 resolver = "2"
 
   [workspace.package]
+  edition    = "2021"
   license    = "Apache-2.0"
   repository = "https://github.com/swc-project/swc.git"
 
@@ -56,13 +28,15 @@ resolver = "2"
   backtrace                 = "0.3.61"
   base64                    = "0.21.0"
   bitflags                  = "2.5.0"
-  browserslist-rs           = "0.16.0"
+  browserslist-rs           = "0.17.0"
   bumpalo                   = "3.16.0"
   cargo_metadata            = "0.18.1"
   cfg-if                    = "1.0.0"
   changesets                = "0.2.2"
+  chili                     = "=0.2.0"
   chrono                    = "0.4.38"
   codspeed-criterion-compat = "2.6.0"
+  compact_str               = "0.7.1"
   console_error_panic_hook  = "0.1.7"
   copyless                  = "0.1.5"
   crc                       = "2.1.0"
@@ -78,11 +52,11 @@ resolver = "2"
   glob                      = "0.3.0"
   hashbrown                 = "0.14.5"
   hex                       = "0.4.3"
-  hstr                      = "0.2.12"
   indexmap                  = "2.0.0"
   is-macro                  = "0.3.5"
   js-sys                    = "0.3.59"
   jsonc-parser              = "0.21.0"
+  kstring                   = "2.0.0"
   lazy_static               = "1.4.0"
   lexical                   = "6.1.0"
   lru                       = "0.10.0"
@@ -107,6 +81,7 @@ resolver = "2"
   ptr_meta                  = "0.3.0"
   quote                     = "1.0.7"
   radix_fmt                 = "1.0.0"
+  rand                      = "0.8.5"
   rayon                     = "1.7.0"
   regex                     = "1.5.4"
   relative-path             = "1.6.1"
@@ -123,9 +98,11 @@ resolver = "2"
   sha2                      = "0.10.8"
   siphasher                 = "0.3.9"
   smallvec                  = "1.8.0"
-  smartstring               = "1"
+  smartstring               = "1.0.1"
+  smol_str                  = "0.2.0"
   sourcemap                 = "9.0.0"
   st-map                    = "0.2.0"
+  string_cache              = "0.8.7"
   syn                       = "2"
   tempfile                  = "3.6.0"
   termcolor                 = "1.0"
@@ -141,14 +118,14 @@ resolver = "2"
   unicode-id                = "0.3"
   unicode-id-start          = "1.2.0"
   unicode-width             = "0.1.4"
-  url                       = "2.4.0"
+  url                       = "2.5.4"
   vergen                    = { version = "9.0.0", default-features = false }
   virtual-fs                = { version = "0.19.0", default-features = false }
   walkdir                   = "2.4.0"
   wasm-bindgen              = "0.2.91"
   wasm-bindgen-futures      = "0.4.41"
-  wasmer                    = { version = "5.0.1", default-features = false }
-  wasmer-wasix              = { version = "0.31.0", default-features = false }
+  wasmer                    = { version = "=5.0.5-rc1", default-features = false }
+  wasmer-wasix              = { version = "0.35.0", default-features = false }
 
 [profile.release]
 lto = true

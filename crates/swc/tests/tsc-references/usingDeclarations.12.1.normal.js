@@ -16,7 +16,6 @@ class C2 extends C1 {
             const d17 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;

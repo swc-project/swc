@@ -8,7 +8,6 @@ const env = {
 };
 try {
     const x = _ts_add_disposable_resource(env, null, true);
-    ;
     function f() {
         const env = {
             stack: [],
@@ -17,7 +16,6 @@ try {
         };
         try {
             const x = _ts_add_disposable_resource(env, null, true);
-            ;
         } catch (e) {
             env.error = e;
             env.hasError = true;

@@ -30,15 +30,13 @@ use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_lints::{
     config::LintConfig,
-    rules::{lint_to_fold, LintParams},
+    rules::{lint_pass, LintParams},
 };
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
-#[allow(deprecated)]
-pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
@@ -53,7 +51,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
-        export_default_from, import_assertions,
+        export_default_from, import_attributes,
     },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
@@ -709,7 +707,7 @@ impl Options {
                         None
                     },
                     Optional::new(
-                        lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                        lint_pass(swc_ecma_lints::rules::all(LintParams {
                             program: &program,
                             lint_config: &lints,
                             top_level_ctxt,
@@ -729,7 +727,7 @@ impl Options {
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
                 (
-                    Optional::new(import_assertions(), !keep_import_attributes),
+                    Optional::new(import_attributes(), !keep_import_attributes),
                     Optional::new(
                         typescript::tsx::<Option<&dyn Comments>>(
                             cm.clone(),
@@ -812,6 +810,7 @@ impl Options {
                 .into_bool(),
             codegen_inline_script,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
+            unresolved_mark,
             resolver,
         })
     }
@@ -1124,6 +1123,7 @@ pub struct BuiltInput<P: Pass> {
     pub codegen_inline_script: bool,
 
     pub emit_isolated_dts: bool,
+    pub unresolved_mark: Mark,
     pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
 }
 
@@ -1156,6 +1156,7 @@ where
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             codegen_inline_script: self.codegen_inline_script,
             emit_isolated_dts: self.emit_isolated_dts,
+            unresolved_mark: self.unresolved_mark,
             resolver: self.resolver,
         }
     }

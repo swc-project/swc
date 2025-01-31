@@ -1,1 +1,2 @@
 //// [overrideInterfaceProperty.ts]
+Mup, Mup;

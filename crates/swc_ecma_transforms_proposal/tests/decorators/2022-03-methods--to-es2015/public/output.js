@@ -10,8 +10,7 @@ class Foo {
         return this.value;
     }
     constructor(){
-        _define_property(this, "value", 1);
-        _initProto(this);
+        _define_property(this, "value", (_initProto(this), 1));
     }
 }
 ({ e: [_initProto] } = _apply_decs_2203_r(Foo, [

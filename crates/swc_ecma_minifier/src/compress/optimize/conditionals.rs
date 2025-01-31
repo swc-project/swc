@@ -30,7 +30,7 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        if negate_cost(&self.ctx.expr_ctx, &stmt.test, true, false) < 0 {
+        if negate_cost(self.ctx.expr_ctx, &stmt.test, true, false) < 0 {
             report_change!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
                 in_bool_ctx: true,
@@ -63,7 +63,7 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        if !cond.cons.may_have_side_effects(&self.ctx.expr_ctx) {
+        if !cond.cons.may_have_side_effects(self.ctx.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? useless : alt` => `cond || alt`");
             *e = BinExpr {
@@ -76,7 +76,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !cond.alt.may_have_side_effects(&self.ctx.expr_ctx) {
+        if !cond.alt.may_have_side_effects(self.ctx.expr_ctx) {
             self.changed = true;
             report_change!("conditionals: `cond ? cons : useless` => `cond && cons`");
             *e = BinExpr {
@@ -121,7 +121,9 @@ impl Optimizer<'_> {
                     (
                         Some(Stmt::If(l @ IfStmt { alt: None, .. })),
                         Some(Stmt::If(r @ IfStmt { alt: None, .. })),
-                    ) => SyntaxContext::within_ignored_ctxt(|| l.cons.eq_ignore_span(&r.cons)),
+                    ) => SyntaxContext::within_ignored_ctxt(|| {
+                        l.cons.eq_ignore_span(&r.cons) && l.cons.terminates()
+                    }),
                     _ => false,
                 });
         if !has_work {
@@ -878,7 +880,7 @@ impl Optimizer<'_> {
                         ) = (&*cons, &*alt)
                         {
                             // I don't know why, but terser behaves differently
-                            negate(&self.ctx.expr_ctx, &mut test, true, false);
+                            negate(self.ctx.expr_ctx, &mut test, true, false);
 
                             swap(&mut cons, &mut alt);
                         }

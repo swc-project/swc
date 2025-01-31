@@ -8,37 +8,14 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::ast_ext::{PatExt, PropNameExit},
+    util::ast_ext::{ExprExit, PatExt, PropNameExit},
     FastDts,
 };
 
 impl FastDts {
     pub(crate) fn transform_class(&mut self, class: &mut Class) {
         if let Some(super_class) = &class.super_class {
-            let is_not_allowed = match super_class.as_ref() {
-                Expr::Ident(_) => false,
-                Expr::Member(member_expr) => {
-                    let mut object = &member_expr.obj;
-                    loop {
-                        match object.as_ref() {
-                            Expr::Member(member_expr) => {
-                                object = &member_expr.obj;
-                                continue;
-                            }
-                            Expr::OptChain(opt_chain) => {
-                                if let Some(member_expr) = opt_chain.base.as_member() {
-                                    object = &member_expr.obj;
-                                    continue;
-                                }
-                            }
-                            _ => {}
-                        }
-                        break object.is_ident();
-                    }
-                }
-                _ => true,
-            };
-
+            let is_not_allowed = super_class.get_root_ident().is_none();
             if is_not_allowed {
                 self.extends_clause_expression(super_class.span());
             }
@@ -524,12 +501,42 @@ impl FastDts {
 
     pub(crate) fn report_property_key(&mut self, key: &PropName) -> bool {
         if let Some(computed) = key.as_computed() {
+            let is_symbol = self.is_global_symbol_object(&computed.expr);
             let is_literal = Self::is_literal(&computed.expr);
-            if !is_literal {
+            if !is_symbol && !is_literal {
                 self.computed_property_name(key.span());
             }
-            return !is_literal;
+            return !is_symbol && !is_literal;
         }
+        false
+    }
+
+    pub(crate) fn is_global_symbol_object(&self, expr: &Expr) -> bool {
+        let Some(obj) = (match expr {
+            Expr::Member(member) => Some(&member.obj),
+            Expr::OptChain(opt_chain) => opt_chain.base.as_member().map(|member| &member.obj),
+            _ => None,
+        }) else {
+            return false;
+        };
+
+        // https://github.com/microsoft/TypeScript/blob/cbac1ddfc73ca3b9d8741c1b51b74663a0f24695/src/compiler/transformers/declarations.ts#L1011
+        if let Some(ident) = obj.as_ident() {
+            // Exactly `Symbol.something` and `Symbol` either does not resolve
+            // or definitely resolves to the global Symbol
+            return ident.sym.as_str() == "Symbol" && ident.ctxt.has_mark(self.unresolved_mark);
+        }
+
+        if let Some(member_expr) = obj.as_member() {
+            // Exactly `globalThis.Symbol.something` and `globalThis` resolves
+            // to the global `globalThis`
+            if let Some(ident) = member_expr.obj.as_ident() {
+                return ident.sym.as_str() == "globalThis"
+                    && ident.ctxt.has_mark(self.unresolved_mark)
+                    && member_expr.prop.is_ident_with("Symbol");
+            }
+        }
+
         false
     }
 }

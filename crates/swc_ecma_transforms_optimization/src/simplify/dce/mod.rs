@@ -3,7 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::{atom, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, ParVisitMut, Parallel},
 };
 use swc_ecma_utils::{
-    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -36,6 +36,7 @@ pub fn dce(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: false,
+            remaining_depth: 2,
         },
         config,
         changed: false,
@@ -127,9 +128,9 @@ impl Data {
     }
 
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
-        let from = self.node(&from);
-        let to = self.node(&to);
+    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
+        let from = self.node(from);
+        let to = self.node(to);
 
         match self.graph.edge_weight_mut(from, to) {
             Some(info) => {
@@ -311,7 +312,7 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == "arguments" {
+        if id.0 == atom!("arguments") {
             self.scope.found_arguemnts = true;
         }
 
@@ -335,8 +336,7 @@ impl Analyzer<'_> {
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    self.data
-                        .add_dep_edge(component.clone(), id.clone(), assign)
+                    self.data.add_dep_edge(component, &id, assign);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
@@ -565,7 +565,7 @@ impl Repeated for TreeShaker {
 impl Parallel for TreeShaker {
     fn create(&self) -> Self {
         Self {
-            expr_ctx: self.expr_ctx.clone(),
+            expr_ctx: self.expr_ctx,
             data: self.data.clone(),
             config: self.config.clone(),
             bindings: self.bindings.clone(),
@@ -656,6 +656,24 @@ impl TreeShaker {
                 .map(|v| v.usage == 0)
                 .unwrap_or_default()
     }
+
+    /// Drops RHS from `null && foo`
+    fn optimize_bin_expr(&mut self, n: &mut Expr) {
+        let Expr::Bin(b) = n else {
+            return;
+        };
+
+        if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
+            *n = *b.left.take();
+            self.changed = true;
+            return;
+        }
+
+        if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
+            *n = *b.left.take();
+            self.changed = true;
+        }
+    }
 }
 
 impl VisitMut for TreeShaker {
@@ -667,7 +685,7 @@ impl VisitMut for TreeShaker {
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
             if self.can_drop_assignment_to(id.to_id(), false)
-                && !n.right.may_have_side_effects(&self.expr_ctx)
+                && !n.right.may_have_side_effects(self.expr_ctx)
             {
                 self.changed = true;
                 debug!("Dropping an assignment to `{}` because it's not used", id);
@@ -684,6 +702,10 @@ impl VisitMut for TreeShaker {
         self.in_block_stmt = old_in_block_stmt;
     }
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        self.visit_mut_par(cpu_count() * 8, members);
+    }
+
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
@@ -698,6 +720,10 @@ impl VisitMut for TreeShaker {
             }
             Decl::Class(c) => {
                 if self.can_drop_binding(c.ident.to_id(), false)
+                    && c.class
+                        .super_class
+                        .as_deref()
+                        .map_or(true, |e| !e.may_have_side_effects(self.expr_ctx))
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => {
@@ -705,20 +731,20 @@ impl VisitMut for TreeShaker {
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
                         }
                         ClassMember::AutoAccessor(m) => {
                             !matches!(m.key, Key::Public(PropName::Computed(..)))
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
                         }
 
                         ClassMember::PrivateProp(m) => !m
                             .value
                             .as_deref()
-                            .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx)),
+                            .map_or(false, |e| e.may_have_side_effects(self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
 
@@ -757,6 +783,8 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
+
+        self.optimize_bin_expr(n);
 
         if let Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
@@ -1056,7 +1084,7 @@ impl VisitMut for TreeShaker {
 
         if let Pat::Ident(i) = &v.name {
             let can_drop = if let Some(init) = &v.init {
-                !init.may_have_side_effects(&self.expr_ctx)
+                !init.may_have_side_effects(self.expr_ctx)
             } else {
                 true
             };

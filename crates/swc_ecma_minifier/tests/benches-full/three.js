@@ -2376,7 +2376,7 @@ function(global, factory) {
                 var delta = max - min;
                 switch(saturation = lightness <= 0.5 ? delta / (max + min) : delta / (2 - max - min), max){
                     case r:
-                        hue = (g - b) / delta + (g < b ? 6 : 0);
+                        hue = (g - b) / delta + 6 * (g < b);
                         break;
                     case g:
                         hue = (b - r) / delta + 2;
@@ -6108,7 +6108,7 @@ function(global, factory) {
     }
     var nextVersion = 0;
     function shadowCastingLightsFirst(lightA, lightB) {
-        return (lightB.castShadow ? 1 : 0) - (lightA.castShadow ? 1 : 0);
+        return +!!lightB.castShadow - +!!lightA.castShadow;
     }
     function WebGLLights(extensions, capabilities) {
         for(var lights, cache = new UniformsCache(), shadowCache = (lights = {}, {
@@ -11347,7 +11347,7 @@ function(global, factory) {
                         for(var morphTargetName in morphTargetNames){
                             for(var times = [], values = [], _m = 0; _m !== animationKeys[k].morphTargets.length; ++_m){
                                 var animationKey = animationKeys[k];
-                                times.push(animationKey.time), values.push(animationKey.morphTarget === morphTargetName ? 1 : 0);
+                                times.push(animationKey.time), values.push(+(animationKey.morphTarget === morphTargetName));
                             }
                             tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
                         }
@@ -11955,7 +11955,7 @@ function(global, factory) {
     }
     CatmullRomCurve3.prototype = Object.create(Curve.prototype), CatmullRomCurve3.prototype.constructor = CatmullRomCurve3, CatmullRomCurve3.prototype.isCatmullRomCurve3 = !0, CatmullRomCurve3.prototype.getPoint = function(t, optionalTarget) {
         void 0 === optionalTarget && (optionalTarget = new Vector3());
-        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - (this.closed ? 0 : 1)) * t, intPoint = Math.floor(p), weight = p - intPoint;
+        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - +!this.closed) * t, intPoint = Math.floor(p), weight = p - intPoint;
         this.closed ? intPoint += intPoint > 0 ? 0 : (Math.floor(Math.abs(intPoint) / l) + 1) * l : 0 === weight && intPoint === l - 1 && (intPoint = l - 2, weight = 1), this.closed || intPoint > 0 ? p0 = points[(intPoint - 1) % l] : (// extrapolate first point
         tmp.subVectors(points[0], points[1]).add(points[0]), p0 = tmp);
         var p1 = points[intPoint % l], p2 = points[(intPoint + 1) % l];
@@ -15201,7 +15201,7 @@ function(global, factory) {
         }
         return _inheritsLoose(PlaneHelper, _Line), PlaneHelper.prototype.updateMatrixWorld = function(force) {
             var scale = -this.plane.constant;
-            1e-8 > Math.abs(scale) && (scale = 1e-8), this.scale.set(0.5 * this.size, 0.5 * this.size, scale), this.children[0].material.side = scale < 0 ? 1 : 0, this.lookAt(this.plane.normal), _Line.prototype.updateMatrixWorld.call(this, force);
+            1e-8 > Math.abs(scale) && (scale = 1e-8), this.scale.set(0.5 * this.size, 0.5 * this.size, scale), this.children[0].material.side = +(scale < 0), this.lookAt(this.plane.normal), _Line.prototype.updateMatrixWorld.call(this, force);
         }, PlaneHelper;
     }(Line), _axis = /*@__PURE__*/ new Vector3(), ArrowHelper = /*#__PURE__*/ function(_Object3D) {
         function ArrowHelper(dir, origin, length, color, headLength, headWidth) {
@@ -15498,7 +15498,7 @@ function(global, factory) {
             }
             for(var i = 0; i < 6; i++){
                 var col = i % 3;
-                0 == col ? (cubeCamera.up.set(0, upSign[i], 0), cubeCamera.lookAt(forwardSign[i], 0, 0)) : 1 == col ? (cubeCamera.up.set(0, 0, upSign[i]), cubeCamera.lookAt(0, forwardSign[i], 0)) : (cubeCamera.up.set(0, upSign[i], 0), cubeCamera.lookAt(0, 0, forwardSign[i])), _setViewport(cubeUVRenderTarget, 256 * col, i > 2 ? 256 : 0, 256, 256), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(scene, cubeCamera);
+                0 == col ? (cubeCamera.up.set(0, upSign[i], 0), cubeCamera.lookAt(forwardSign[i], 0, 0)) : 1 == col ? (cubeCamera.up.set(0, 0, upSign[i]), cubeCamera.lookAt(0, forwardSign[i], 0)) : (cubeCamera.up.set(0, upSign[i], 0), cubeCamera.lookAt(0, 0, forwardSign[i])), _setViewport(cubeUVRenderTarget, 256 * col, 256 * (i > 2), 256, 256), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(scene, cubeCamera);
             }
             renderer.toneMapping = toneMapping, renderer.outputEncoding = outputEncoding, renderer.setClearColor(_clearColor, clearAlpha);
         }, _proto._textureToCubeUV = function(texture, cubeUVRenderTarget) {
@@ -15535,7 +15535,7 @@ function(global, factory) {
             for(var _i = 0; _i < weights.length; _i++)weights[_i] = weights[_i] / sum;
             blurUniforms.envMap.value = targetIn.texture, blurUniforms.samples.value = samples, blurUniforms.weights.value = weights, blurUniforms.latitudinal.value = 'latitudinal' === direction, poleAxis && (blurUniforms.poleAxis.value = poleAxis), blurUniforms.dTheta.value = radiansPerPixel, blurUniforms.mipInt.value = 8 - lodIn, blurUniforms.inputEncoding.value = ENCODINGS[targetIn.texture.encoding], blurUniforms.outputEncoding.value = ENCODINGS[targetIn.texture.encoding];
             var outputSize = _sizeLods[lodOut];
-            _setViewport(targetOut, 3 * Math.max(0, 256 - 2 * outputSize), (0 === lodOut ? 0 : 512) + 2 * outputSize * (lodOut > 4 ? lodOut - 8 + 4 : 0), 3 * outputSize, 2 * outputSize), renderer.setRenderTarget(targetOut), renderer.render(blurMesh, _flatCamera);
+            _setViewport(targetOut, 3 * Math.max(0, 256 - 2 * outputSize), 512 * (0 !== lodOut) + 2 * outputSize * (lodOut > 4 ? lodOut - 8 + 4 : 0), 3 * outputSize, 2 * outputSize), renderer.setRenderTarget(targetOut), renderer.render(blurMesh, _flatCamera);
         }, PMREMGenerator;
     }();
     function _createRenderTarget(params) {
@@ -16508,7 +16508,7 @@ function(global, factory) {
             var x = _int32View[0], bits = x >> 16 & 0x8000, m = x >> 12 & 0x07ff, e = x >> 23 & 0xff;
             return(/* Using int is faster here */ /* If zero, or denormal, or exponent underflows too much for a denormal
 				* half, return signed zero. */ e < 103 ? bits : e > 142 ? (bits |= 0x7c00, /* If exponent was 0xff and one mantissa bit was set, it means NaN,
-							* not Inf, so make sure we set one mantissa bit too. */ bits |= (255 == e ? 0 : 1) && 0x007fffff & x) : e < 113 ? (m |= 0x0800, /* Extra rounding may overflow and set mantissa to 0 and exponent
+							* not Inf, so make sure we set one mantissa bit too. */ bits |= +(255 != e) && 0x007fffff & x) : e < 113 ? (m |= 0x0800, /* Extra rounding may overflow and set mantissa to 0 and exponent
 					* to 1, which is OK. */ bits |= (m >> 114 - e) + (m >> 113 - e & 1)) : (bits |= e - 112 << 10 | m >> 1, /* Extra rounding. An overflow will set mantissa to 0 and increment
 				* the exponent, which is OK. */ bits += 1 & m));
         }

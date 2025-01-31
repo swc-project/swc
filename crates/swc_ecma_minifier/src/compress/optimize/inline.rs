@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             if ref_count == 0 {
                 self.mode.store(ident.to_id(), &*init);
 
-                if init.may_have_side_effects(&self.ctx.expr_ctx) {
+                if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
                     return;
                 }
@@ -89,7 +89,7 @@ impl Optimizer<'_> {
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
 
-            self.vars.inline_with_multi_replacer(init);
+            let mut inlined_into_init = false;
 
             let id = ident.to_id();
 
@@ -116,6 +116,8 @@ impl Optimizer<'_> {
                             _ => false,
                         })
                     {
+                        inlined_into_init = true;
+                        self.vars.inline_with_multi_replacer(arr);
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
@@ -257,6 +259,11 @@ impl Optimizer<'_> {
                     _ => false,
                 }
             {
+                if !inlined_into_init {
+                    inlined_into_init = true;
+                    self.vars.inline_with_multi_replacer(init);
+                }
+
                 self.mode.store(id.clone(), &*init);
 
                 let VarUsageInfo {
@@ -272,7 +279,7 @@ impl Optimizer<'_> {
                     used_recursively,
                     no_side_effect_for_member_access,
                     ..
-                } = *usage;
+                } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
@@ -494,8 +501,12 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if init.may_have_side_effects(&self.ctx.expr_ctx) {
+                if init.may_have_side_effects(self.ctx.expr_ctx) {
                     return;
+                }
+
+                if !inlined_into_init {
+                    self.vars.inline_with_multi_replacer(init);
                 }
 
                 report_change!(
@@ -644,8 +655,6 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
-                    self.vars.inline_with_multi_replacer(&mut f.function.body);
-
                     if let Some(body) = &f.function.body {
                         if !usage.used_recursively
                             // only callees can be inlined multiple times
@@ -671,13 +680,13 @@ impl Optimizer<'_> {
                                 f.ident.ctxt
                             );
 
+                            self.vars.inline_with_multi_replacer(&mut f.function.body);
+
                             for i in collect_infects_from(
                                 &f.function,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: false,
-                                    need_all: true,
-                                },
+                                AliasConfig::default()
+                                    .marks(Some(self.marks))
+                                    .need_all(true),
                             ) {
                                 if let Some(usage) = self.data.vars.get_mut(&i.0) {
                                     usage.ref_count += 1;
@@ -719,7 +728,7 @@ impl Optimizer<'_> {
                 })
             {
                 if let Decl::Class(ClassDecl { class, .. }) = decl {
-                    if class_has_side_effect(&self.ctx.expr_ctx, class) {
+                    if class_has_side_effect(self.ctx.expr_ctx, class) {
                         return;
                     }
                 }

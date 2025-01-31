@@ -13,8 +13,7 @@ class Foo {
             get: get_a,
             set: set_a
         });
-        _define_property(this, "value", 1);
-        _initProto(this);
+        _define_property(this, "value", (_initProto(this), 1));
     }
 }
 ({ e: [_call_a, _call_a1, _initProto] } = _apply_decs_2203_r(Foo, [

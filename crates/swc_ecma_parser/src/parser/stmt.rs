@@ -839,6 +839,8 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        eat!(self, ';');
+
         Ok(Some(Box::new(UsingDecl {
             span: span!(self, start),
             is_await,
@@ -1004,8 +1006,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if kind == VarDeclKind::Const && self.ctx().strict && !self.ctx().in_declare
-                {
+                } else if kind == VarDeclKind::Const && !for_loop && !self.ctx().in_declare {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,

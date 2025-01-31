@@ -2,12 +2,12 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "rust port of babel and closure compiler."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_base/"
-edition       = "2021"
+edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
-license       = "Apache-2.0"
+license       = { workspace = true }
 name          = "swc_ecma_transforms_base"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "6.0.2"
+repository    = { workspace = true }
+version       = "8.0.0"
 
 [lib]
 bench = false
@@ -28,19 +28,20 @@ serde             = { workspace = true, features = ["derive"] }
 smallvec          = { workspace = true }
 tracing           = { workspace = true }
 
-swc_atoms       = { version = "3.0.0", path = "../swc_atoms" }
-swc_common      = { version = "5.0.0", path = "../swc_common" }
-swc_ecma_ast    = { version = "5.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "6.0.0", path = "../swc_ecma_parser" }
-swc_ecma_utils  = { version = "6.0.0", path = "../swc_ecma_utils" }
+swc_atoms       = { version = "3.0.4", path = "../swc_atoms" }
+swc_common      = { version = "5.0.1", path = "../swc_common" }
+swc_ecma_ast    = { version = "5.1.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "7.0.1", path = "../swc_ecma_parser" }
+swc_ecma_utils  = { version = "8.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit  = { version = "5.0.0", path = "../swc_ecma_visit" }
+swc_parallel    = { version = "1.2.0", path = "../swc_parallel", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 rayon                     = { workspace = true }
 
-swc_ecma_codegen           = { version = "5.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "5.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_malloc                 = { version = "1.0.0", path = "../swc_malloc" }
 testing                    = { version = "5.0.0", path = "../testing" }
@@ -48,9 +49,6 @@ testing                    = { version = "5.0.0", path = "../testing" }
 [[bench]]
 harness = false
 name    = "base"
-[[bench]]
-harness = false
-name    = "deps"
 [[bench]]
 harness = false
 name    = "parallel"

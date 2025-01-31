@@ -23,7 +23,6 @@ try {
         dec
     ], _class);
     var after = _ts_add_disposable_resource._(env, null, false);
-    ;
 } catch (e) {
     env.error = e;
     env.hasError = true;

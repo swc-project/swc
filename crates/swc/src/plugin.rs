@@ -7,6 +7,7 @@
 )]
 
 use serde::{Deserialize, Serialize};
+use swc_common::errors::HANDLER;
 use swc_ecma_ast::Pass;
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
@@ -57,7 +58,7 @@ impl RustPlugins {
 
         let filename = self.metadata_context.filename.clone();
 
-        if cfg!(feature = "manual-tokio-runtmie") {
+        if cfg!(feature = "manual-tokio-runtime") {
             self.apply_inner(n)
         } else {
             let fut = async move { self.apply_inner(n) };
@@ -165,15 +166,27 @@ impl Fold for RustPlugins {
 
     #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
-        self.apply(Program::Module(n))
-            .expect("failed to invoke plugin")
-            .expect_module()
+        match self.apply(Program::Module(n)) {
+            Ok(program) => program.expect_module(),
+            Err(err) => {
+                HANDLER.with(|handler| {
+                    handler.err(&err.to_string());
+                });
+                Module::default()
+            }
+        }
     }
 
     #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
-        self.apply(Program::Script(n))
-            .expect("failed to invoke plugin")
-            .expect_script()
+        match self.apply(Program::Script(n)) {
+            Ok(program) => program.expect_script(),
+            Err(err) => {
+                HANDLER.with(|handler| {
+                    handler.err(&err.to_string());
+                });
+                Script::default()
+            }
+        }
     }
 }

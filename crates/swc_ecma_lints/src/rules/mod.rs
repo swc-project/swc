@@ -216,7 +216,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
     rules
 }
 
-pub fn lint_to_fold<R>(r: R) -> impl Pass
+pub fn lint_pass<R>(r: R) -> impl Pass
 where
     R: Rule,
 {

@@ -23,6 +23,8 @@ use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
 
+pub mod fast;
+
 /// Clone-on-write string.
 ///
 ///
@@ -104,6 +106,13 @@ macro_rules! impl_from {
     };
 }
 
+impl From<hstr::Atom> for Atom {
+    #[inline(always)]
+    fn from(s: hstr::Atom) -> Self {
+        Atom(s)
+    }
+}
+
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
         &**self == other
@@ -174,7 +183,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 #[macro_export]
 macro_rules! atom {
     ($s:tt) => {{
-        $crate::Atom::new($crate::hstr::atom!($s))
+        $crate::Atom::from($crate::hstr::atom!($s))
     }};
 }
 
@@ -182,7 +191,7 @@ macro_rules! atom {
 #[macro_export]
 macro_rules! lazy_atom {
     ($s:tt) => {{
-        $crate::Atom::new($crate::hstr::atom!($s))
+        $crate::Atom::from($crate::hstr::atom!($s))
     }};
 }
 

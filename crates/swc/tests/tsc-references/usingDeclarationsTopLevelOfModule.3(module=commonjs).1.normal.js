@@ -20,7 +20,6 @@ try {
     const z = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
     }, false);
-    ;
     if (false) {
         var y = 1;
     }

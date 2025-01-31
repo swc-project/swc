@@ -117,22 +117,6 @@ impl<R> NodeImportResolver<R>
 where
     R: Resolve,
 {
-    #[deprecated(note = "Use `with_config`")]
-    pub fn new(resolver: R) -> Self {
-        Self::with_config(resolver, Default::default())
-    }
-
-    #[deprecated(note = "Use `with_config`")]
-    pub fn with_base_dir(resolver: R, base_dir: Option<PathBuf>) -> Self {
-        Self::with_config(
-            resolver,
-            Config {
-                base_dir,
-                ..Default::default()
-            },
-        )
-    }
-
     pub fn with_config(resolver: R, config: Config) -> Self {
         #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
         if let Some(base_dir) = &config.base_dir {

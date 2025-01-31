@@ -1,6 +1,6 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, fmt::Display, rc::Rc};
 
-use anyhow::{Context, Error};
+use anyhow::Context;
 use serde::{Deserialize, Serialize};
 use swc_allocator::maybe::vec::Vec;
 use swc_common::{
@@ -15,10 +15,11 @@ use swc_ecma_ast::{
     Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
     ImportDecl, ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp,
-    Program, SetterProp, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
-    TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt,
+    Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -134,12 +135,53 @@ interface TransformOutput {
 }
 "#;
 
+#[derive(Debug, Serialize)]
+pub struct TsError {
+    pub message: String,
+    pub code: ErrorCode,
+}
+
+impl std::fmt::Display for TsError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "[{}] {}", self.code, self.message)
+    }
+}
+
+impl std::error::Error for TsError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        None
+    }
+}
+
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, Serialize)]
+pub enum ErrorCode {
+    InvalidSyntax,
+    UnsupportedSyntax,
+    Unknown,
+}
+
+impl Display for ErrorCode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl From<anyhow::Error> for TsError {
+    fn from(err: anyhow::Error) -> Self {
+        TsError {
+            message: err.to_string(),
+            code: ErrorCode::Unknown,
+        }
+    }
+}
+
 pub fn operate(
     cm: &Lrc<SourceMap>,
     handler: &Handler,
     input: String,
     options: Options,
-) -> Result<TransformOutput, Error> {
+) -> Result<TransformOutput, TsError> {
     let filename = options
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
@@ -177,7 +219,10 @@ pub fn operate(
                 e.into_diagnostic(handler).emit();
             }
 
-            return Err(anyhow::anyhow!("failed to parse"));
+            return Err(TsError {
+                message: "Syntax error".to_string(),
+                code: ErrorCode::InvalidSyntax,
+            });
         }
     };
 
@@ -186,7 +231,10 @@ pub fn operate(
             e.into_diagnostic(handler).emit();
         }
 
-        return Err(anyhow::anyhow!("failed to parse"));
+        return Err(TsError {
+            message: "Syntax error".to_string(),
+            code: ErrorCode::InvalidSyntax,
+        });
     }
 
     drop(parser);
@@ -200,6 +248,12 @@ pub fn operate(
             // Strip typescript types
             let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
             program.visit_with(&mut ts_strip);
+            if handler.has_errors() {
+                return Err(TsError {
+                    message: "Unsupported syntax".to_string(),
+                    code: ErrorCode::UnsupportedSyntax,
+                });
+            }
 
             let replacements = ts_strip.replacements;
             let overwrites = ts_strip.overwrites;
@@ -266,8 +320,10 @@ pub fn operate(
             }
 
             let code = if cfg!(debug_assertions) {
-                String::from_utf8(code)
-                    .map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))?
+                String::from_utf8(code).map_err(|err| TsError {
+                    message: format!("failed to convert to utf-8: {}", err),
+                    code: ErrorCode::Unknown,
+                })?
             } else {
                 // SAFETY: We've already validated that the source is valid utf-8
                 // and our operations are limited to character-level string replacements.
@@ -540,6 +596,34 @@ impl TsStrip {
 
         self.add_replacement(*span);
     }
+
+    // ```TypeScript
+    // return/yield/throw <T>
+    //     (v: T) => v;
+    // ```
+    //
+    // ```TypeScript
+    // return/yield/throw (
+    //      v   ) => v;
+    // ```
+    fn fix_asi_in_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
+        if let Some(tp) = &arrow_expr.type_params {
+            let l_paren = self.get_next_token(tp.span.hi);
+            debug_assert_eq!(l_paren.token, Token::LParen);
+
+            let slice = self.get_src_slice(tp.span.with_hi(l_paren.span.lo));
+
+            if !slice.chars().any(is_new_line) {
+                return;
+            }
+
+            let l_paren_pos = l_paren.span.lo;
+            let l_lt_pos = tp.span.lo;
+
+            self.add_overwrite(l_paren_pos, b' ');
+            self.add_overwrite(l_lt_pos, b'(');
+        }
+    }
 }
 
 impl Visit for TsStrip {
@@ -555,11 +639,6 @@ impl Visit for TsStrip {
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        #[inline(always)]
-        fn is_new_line(c: char) -> bool {
-            matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}')
-        }
-
         'type_params: {
             // ```TypeScript
             // let f = async <
@@ -635,6 +714,61 @@ impl Visit for TsStrip {
 
         n.params.visit_with(self);
         n.body.visit_with(self);
+    }
+
+    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
+        let Some(arg) = n.arg.as_deref() else {
+            return;
+        };
+
+        arg.visit_with(self);
+
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
+
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
+        }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
+    }
+
+    fn visit_yield_expr(&mut self, n: &YieldExpr) {
+        let Some(arg) = &n.arg else {
+            return;
+        };
+
+        arg.visit_with(self);
+
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
+
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
+        }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
+    }
+
+    fn visit_throw_stmt(&mut self, n: &ThrowStmt) {
+        let arg = &n.arg;
+
+        arg.visit_with(self);
+
+        let Some(arrow_expr) = arg.as_arrow() else {
+            return;
+        };
+
+        if arrow_expr.is_async {
+            // We have already handled type parameters in `visit_arrow_expr`.
+            return;
+        }
+
+        self.fix_asi_in_arrow_expr(arrow_expr);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -1028,10 +1162,12 @@ impl Visit for TsStrip {
 
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span,
-                "TypeScript export assignment is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    n.span,
+                    "TypeScript export assignment is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
@@ -1043,10 +1179,12 @@ impl Visit for TsStrip {
         }
 
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span,
-                "TypeScript import equals declaration is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    n.span,
+                    "TypeScript import equals declaration is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
@@ -1062,28 +1200,34 @@ impl Visit for TsStrip {
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                e.span,
-                "TypeScript enum is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    e.span,
+                    "TypeScript enum is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span(),
-                "TypeScript namespace declaration is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    n.span(),
+                    "TypeScript namespace declaration is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
     fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span(),
-                "TypeScript module declaration is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    n.span(),
+                    "TypeScript module declaration is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
@@ -1095,10 +1239,12 @@ impl Visit for TsStrip {
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span(),
-                "TypeScript parameter property is not supported in strip-only mode",
-            );
+            handler
+                .struct_span_err(
+                    n.span(),
+                    "TypeScript parameter property is not supported in strip-only mode",
+                )
+                .emit();
         });
     }
 
@@ -1133,11 +1279,13 @@ impl Visit for TsStrip {
     /// See https://github.com/swc-project/swc/issues/9295
     fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                n.span,
-                "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
-                 type strip mode. Instead, use the 'as' syntax: `expr as T`.",
-            );
+            handler
+                .struct_span_err(
+                    n.span,
+                    "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
+                     type strip mode. Instead, use the 'as' syntax: `expr as T`.",
+                )
+                .emit();
         });
 
         n.expr.visit_children_with(self);
@@ -1234,6 +1382,10 @@ impl Visit for TsStrip {
     }
 }
 
+#[inline(always)]
+fn is_new_line(c: char) -> bool {
+    matches!(c, '\u{000A}' | '\u{000D}' | '\u{2028}' | '\u{2029}')
+}
 trait IsTsDecl {
     fn is_ts_declare(&self) -> bool;
 }

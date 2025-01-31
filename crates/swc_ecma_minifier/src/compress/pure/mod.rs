@@ -1,12 +1,13 @@
 #![allow(clippy::needless_update)]
 
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
+use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::ExprCtx;
+use swc_ecma_utils::{
+    parallel::{cpu_count, Parallel, ParallelExt},
+    ExprCtx,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
@@ -60,6 +61,7 @@ pub(crate) fn pure_optimizer<'a>(
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
             in_strict: options.module,
+            remaining_depth: 6,
         },
         ctx: Default::default(),
         changed: Default::default(),
@@ -74,6 +76,18 @@ struct Pure<'a> {
 
     ctx: Ctx,
     changed: bool,
+}
+
+impl Parallel for Pure<'_> {
+    fn create(&self) -> Self {
+        Self { ..*self }
+    }
+
+    fn merge(&mut self, other: Self) {
+        if other.changed {
+            self.changed = true;
+        }
+    }
 }
 
 impl Repeated for Pure<'_> {
@@ -168,82 +182,9 @@ impl Pure<'_> {
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        let mut changed = false;
-        if !cfg!(target_arch = "wasm32")
-            && (!cfg!(feature = "debug") || !cfg!(debug_assertions))
-            && nodes.len() >= *crate::HEAVY_TASK_PARALLELS
-        {
-            #[cfg(feature = "concurrent")]
-            {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .par_iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|| false, |a, b| a || b);
-                })
-            }
-
-            #[cfg(not(feature = "concurrent"))]
-            {
-                GLOBALS.with(|globals| {
-                    changed = nodes
-                        .iter_mut()
-                        .map(|node| {
-                            GLOBALS.set(globals, || {
-                                let mut v = Pure {
-                                    expr_ctx: self.expr_ctx.clone(),
-                                    ctx: Ctx {
-                                        par_depth: self.ctx.par_depth + 1,
-                                        ..self.ctx
-                                    },
-                                    changed: false,
-                                    ..*self
-                                };
-                                node.visit_mut_with(&mut v);
-
-                                v.changed
-                            })
-                        })
-                        .reduce(|a, b| a || b)
-                        .unwrap_or(false);
-                })
-            }
-        } else {
-            changed = nodes
-                .iter_mut()
-                .map(|node| {
-                    let mut v = Pure {
-                        expr_ctx: self.expr_ctx.clone(),
-                        ctx: Ctx {
-                            par_depth: self.ctx.par_depth,
-                            ..self.ctx
-                        },
-                        changed: false,
-                        ..*self
-                    };
-                    node.visit_mut_with(&mut v);
-
-                    v.changed
-                })
-                .reduce(|a, b| a || b)
-                .unwrap_or(false);
-        }
-        self.changed |= changed;
+        self.maybe_par(cpu_count() * 2, nodes, |v, node| {
+            node.visit_mut_with(v);
+        });
     }
 }
 
@@ -300,20 +241,6 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
-    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-
-        opt_call.args.visit_mut_with(self);
-
-        self.eval_spread_array(&mut opt_call.args);
-    }
-
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         m.visit_mut_children_with(self);
 
@@ -325,7 +252,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
-        m.visit_mut_children_with(self);
+        self.visit_par(m);
 
         m.retain(|m| {
             if let ClassMember::Empty(..) = m {
@@ -476,7 +403,10 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.optimize_negate_eq(e);
+
         self.lift_minus(e);
+        self.optimize_to_number(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -545,6 +475,8 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
+
+        self.compress_conds_as_arithmetic(e);
 
         self.lift_seqs_of_bin(e);
 
@@ -730,6 +662,20 @@ impl VisitMut for Pure<'_> {
         e.args.visit_mut_with(self);
     }
 
+    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        opt_call.args.visit_mut_with(self);
+
+        self.eval_spread_array(&mut opt_call.args);
+    }
+
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
@@ -778,7 +724,7 @@ impl VisitMut for Pure<'_> {
 
         exprs.retain(|e| {
             if let PropOrSpread::Spread(spread) = e {
-                if is_pure_undefined_or_null(&self.expr_ctx, &spread.expr) {
+                if is_pure_undefined_or_null(self.expr_ctx, &spread.expr) {
                     return false;
                 }
             }
