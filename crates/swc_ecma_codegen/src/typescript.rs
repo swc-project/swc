@@ -863,14 +863,20 @@ where
     #[emitter]
     fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result {
         punct!("{");
-
-        if let Some(with) = &n.with {
-            keyword!("with");
-            punct!(":");
-            formatting_space!();
-            emit!(with);
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+            self.wr.increase_indent()?;
         }
 
+        keyword!("with");
+        punct!(":");
+        formatting_space!();
+        emit!(n.with);
+
+        if !self.cfg.minify {
+            self.wr.decrease_indent()?;
+            self.wr.write_line()?;
+        }
         punct!("}");
     }
 
