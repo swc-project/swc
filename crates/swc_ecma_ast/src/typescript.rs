@@ -536,6 +536,15 @@ pub enum TsTypeQueryExpr {
     Import(TsImportType),
 }
 
+#[ast_node("TsImportCallOptions")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsImportCallOptions {
+    pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub with: Box<ObjectLit>,
+}
+
 #[ast_node("TsImportType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -547,7 +556,7 @@ pub struct TsImportType {
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub with: Option<Box<ObjectLit>>,
+    pub attributes: Option<TsImportCallOptions>,
 }
 
 #[ast_node("TsTypeLiteral")]

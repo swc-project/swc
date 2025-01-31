@@ -845,10 +845,10 @@ where
         keyword!("import");
         punct!("(");
         emit!(n.arg);
-        if let Some(with) = &n.with {
+        if let Some(attributes) = &n.attributes {
             punct!(",");
             formatting_space!();
-            emit!(with);
+            emit!(attributes);
         }
         punct!(")");
 
@@ -858,6 +858,20 @@ where
         }
 
         emit!(n.type_args);
+    }
+
+    #[emitter]
+    fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result {
+        punct!("{");
+
+        if let Some(with) = &n.with {
+            keyword!("with");
+            punct!(":");
+            formatting_space!();
+            emit!(with);
+        }
+
+        punct!("}");
     }
 
     #[emitter]
