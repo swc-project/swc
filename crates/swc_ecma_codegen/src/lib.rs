@@ -683,12 +683,22 @@ where
         let mut value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
         if self.cfg.inline_script {
-            value = replace_close_inline_script(&value)
-                .replace("\x3c!--", "\\x3c!--")
-                .replace("--\x3e", "--\\x3e");
+            let v = value.into_string();
+            value = QuotedString::Processed(
+                replace_close_inline_script(&v)
+                    .replace("\x3c!--", "\\x3c!--")
+                    .replace("--\x3e", "--\\x3e"),
+            );
         }
 
-        self.wr.write_str_lit(DUMMY_SP, &value)?;
+        match value {
+            QuotedString::Raw { content, quote } => {
+                self.wr.write_str_lit(DUMMY_SP, &quote.to_string())?;
+                self.wr.write_str_lit(DUMMY_SP, content)?;
+                self.wr.write_str_lit(DUMMY_SP, &quote.to_string())?;
+            }
+            QuotedString::Processed(s) => self.wr.write_str_lit(DUMMY_SP, &s)?,
+        }
 
         // srcmap!(node, false);
     }
@@ -4132,6 +4142,21 @@ enum QuotedString<'a> {
     Raw { content: &'a str, quote: char },
     /// Slow path - string needs escaping/processing
     Processed(String),
+}
+
+impl QuotedString<'_> {
+    fn into_string(self) -> String {
+        match self {
+            QuotedString::Raw { content, quote } => {
+                let mut buf = String::with_capacity(content.len() + 2);
+                buf.push(quote);
+                buf.push_str(content);
+                buf.push(quote);
+                buf
+            }
+            QuotedString::Processed(s) => s,
+        }
+    }
 }
 
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> QuotedString {
