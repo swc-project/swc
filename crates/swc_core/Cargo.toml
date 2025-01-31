@@ -88,8 +88,9 @@ common_concurrent = ["__common", "swc_common/concurrent"]
 common_tty = ["__common", "swc_common/tty-emitter"]
 
 # Enable swc_ecma_visit
-ecma_visit      = ["__visit"]
-ecma_visit_path = ["__visit", "swc_ecma_visit/path"]
+ecma_visit       = ["__visit"]
+ecma_visit_path  = ["__visit", "swc_ecma_visit/path"]
+ecma_visit_serde = ["__visit", "swc_ecma_visit/serde-impl"]
 
 # Enable `quote!` macro support.
 ecma_quote = [
@@ -135,7 +136,7 @@ testing_transform = ["__ecma", "__testing_transform"]
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
 ecma_ast       = ["__ecma", "swc_ecma_ast", "swc_atoms"]
-ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl", "swc_ecma_visit/serde"]
+ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl"]
 
 # Enable swc_ecma_parser support.
 ecma_parser            = ["__parser"]
