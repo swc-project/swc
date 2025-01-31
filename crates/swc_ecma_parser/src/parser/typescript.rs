@@ -318,11 +318,12 @@ impl<I: Tokens> Parser<I> {
 
         // the "assert" keyword is deprecated and this syntax is niche, so
         // don't support it
-        let attributes = if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
-            Some(self.parse_ts_call_options()?)
-        } else {
-            None
-        };
+        let attributes =
+            if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
+                Some(self.parse_ts_call_options()?)
+            } else {
+                None
+            };
 
         expect!(self, ')');
 
