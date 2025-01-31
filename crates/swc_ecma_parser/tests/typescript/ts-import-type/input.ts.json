@@ -46,55 +46,42 @@
           },
           "qualifier": null,
           "typeArguments": null,
-          "with": {
-            "type": "ObjectExpression",
+          "attributes": {
+            "type": "TsImportCallOptions",
             "span": {
               "start": 35,
               "end": 86
             },
-            "properties": [
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 39,
-                    "end": 43
+            "with": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 45,
+                "end": 84
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 53,
+                      "end": 70
+                    },
+                    "value": "resolution-mode",
+                    "raw": "\"resolution-mode\""
                   },
-                  "value": "with"
-                },
-                "value": {
-                  "type": "ObjectExpression",
-                  "span": {
-                    "start": 45,
-                    "end": 84
-                  },
-                  "properties": [
-                    {
-                      "type": "KeyValueProperty",
-                      "key": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 53,
-                          "end": 70
-                        },
-                        "value": "resolution-mode",
-                        "raw": "\"resolution-mode\""
-                      },
-                      "value": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 72,
-                          "end": 80
-                        },
-                        "value": "import",
-                        "raw": "\"import\""
-                      }
-                    }
-                  ]
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 72,
+                      "end": 80
+                    },
+                    "value": "import",
+                    "raw": "\"import\""
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         },
         "typeArguments": null
@@ -141,7 +128,7 @@
           },
           "qualifier": null,
           "typeArguments": null,
-          "with": null
+          "attributes": null
         },
         "typeArguments": null
       }
@@ -187,7 +174,7 @@
           },
           "qualifier": null,
           "typeArguments": null,
-          "with": null
+          "attributes": null
         },
         "typeArguments": null
       }

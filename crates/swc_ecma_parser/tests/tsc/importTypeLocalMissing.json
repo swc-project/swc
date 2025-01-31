@@ -659,7 +659,8 @@
                     "raw": "\"./fo\""
                   },
                   "qualifier": null,
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -794,7 +795,8 @@
                       "value": "I"
                     }
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -929,7 +931,8 @@
                       "value": "Q"
                     }
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -1288,7 +1291,8 @@
                       "raw": "\"./fo2\""
                     },
                     "qualifier": null,
-                    "typeArguments": null
+                    "typeArguments": null,
+                    "attributes": null
                   },
                   "typeArguments": null
                 }

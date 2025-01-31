@@ -1018,7 +1018,8 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "attributes": null
                 }
               }
             },
@@ -1245,7 +1246,8 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "attributes": null
                 }
               }
             },
@@ -1719,7 +1721,8 @@
                       "raw": "\"./foo2\""
                     },
                     "qualifier": null,
-                    "typeArguments": null
+                    "typeArguments": null,
+                    "attributes": null
                   },
                   "typeArguments": null
                 }

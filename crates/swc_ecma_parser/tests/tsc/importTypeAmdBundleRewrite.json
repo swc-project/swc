@@ -140,7 +140,8 @@
                   "value": "Foo",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           },
@@ -268,7 +269,8 @@
                       "raw": "\"./a/inner\""
                     },
                     "qualifier": null,
-                    "typeArguments": null
+                    "typeArguments": null,
+                    "attributes": null
                   },
                   "typeArguments": null
                 },
