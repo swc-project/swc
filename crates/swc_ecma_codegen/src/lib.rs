@@ -693,9 +693,12 @@ where
 
         match value {
             QuotedString::Raw { content, quote } => {
-                self.wr.write_str_lit(DUMMY_SP, &quote.to_string())?;
+                let mut tmp = [0u8; 4];
+                let quote_str = quote.encode_utf8(&mut tmp);
+
+                self.wr.write_str_lit(DUMMY_SP, quote_str)?;
                 self.wr.write_str_lit(DUMMY_SP, content)?;
-                self.wr.write_str_lit(DUMMY_SP, &quote.to_string())?;
+                self.wr.write_str_lit(DUMMY_SP, quote_str)?;
             }
             QuotedString::Processed(s) => self.wr.write_str_lit(DUMMY_SP, &s)?,
         }
