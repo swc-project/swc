@@ -4126,7 +4126,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 }
 
 // Add this enum at the module level
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 enum QuotedString<'a> {
     /// Fast path - original string can be used with simple quotes
     Raw { content: &'a str, quote: char },
