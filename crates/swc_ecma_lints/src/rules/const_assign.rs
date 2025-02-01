@@ -1,4 +1,5 @@
-use swc_common::{collections::AHashMap, errors::HANDLER, Span};
+use rustc_hash::FxHashMap;
+use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -14,8 +15,8 @@ struct ConstAssignRule;
 
 impl Rule for ConstAssignRule {
     fn lint_module(&mut self, program: &Module) {
-        let mut const_vars = AHashMap::default();
-        let mut import_binding = AHashMap::default();
+        let mut const_vars = FxHashMap::default();
+        let mut import_binding = FxHashMap::default();
 
         program.visit_children_with(&mut Collector {
             const_vars: &mut const_vars,
@@ -31,8 +32,8 @@ impl Rule for ConstAssignRule {
     }
 
     fn lint_script(&mut self, program: &Script) {
-        let mut const_vars = AHashMap::default();
-        let mut import_binding = AHashMap::default();
+        let mut const_vars = FxHashMap::default();
+        let mut import_binding = FxHashMap::default();
 
         program.visit_children_with(&mut Collector {
             const_vars: &mut const_vars,
@@ -52,8 +53,8 @@ impl Rule for ConstAssignRule {
 
 #[derive(Clone, Copy)]
 struct ConstAssign<'a> {
-    const_vars: &'a AHashMap<Id, Span>,
-    import_binding: &'a AHashMap<Id, Span>,
+    const_vars: &'a FxHashMap<Id, Span>,
+    import_binding: &'a FxHashMap<Id, Span>,
 
     is_pat_decl: bool,
 }
@@ -169,8 +170,8 @@ impl Visit for ConstAssign<'_> {
 }
 
 struct Collector<'a> {
-    const_vars: &'a mut AHashMap<Id, Span>,
-    import_binding: &'a mut AHashMap<Id, Span>,
+    const_vars: &'a mut FxHashMap<Id, Span>,
+    import_binding: &'a mut FxHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
 }
