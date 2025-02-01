@@ -2,6 +2,7 @@
 
 use std::hash::Hash;
 
+use rustc_hash::FxBuildHasher;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -103,9 +104,9 @@ where
     V: Clone,
 {
     #[cfg(feature = "concurrent")]
-    inner: dashmap::DashMap<K, V, swc_common::collections::ARandomState>,
+    inner: dashmap::DashMap<K, V, FxBuildHasher>,
     #[cfg(not(feature = "concurrent"))]
-    inner: std::cell::RefCell<swc_common::collections::AHashMap<K, V>>,
+    inner: std::cell::RefCell<FxHashMap<K, V>>,
 }
 
 impl<K, V> Default for CloneMap<K, V>

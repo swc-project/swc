@@ -1,10 +1,9 @@
 use std::collections::HashMap;
 
 use anyhow::{Context, Error};
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashMap, sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
-};
+use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 
 use self::scope::Scope;
@@ -179,7 +178,7 @@ where
         // TODO: Handle dynamic imports
 
         let local = {
-            let mut output = AHashMap::default();
+            let mut output = FxHashMap::default();
 
             for res in results {
                 let (name, m) = res?;

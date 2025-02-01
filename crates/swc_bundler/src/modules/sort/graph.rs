@@ -4,7 +4,7 @@ use petgraph::{
     EdgeDirection,
     EdgeDirection::{Incoming, Outgoing},
 };
-use swc_common::collections::AHashSet;
+use rustc_hash::FxHashSet;
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 /// Is dependency between nodes hard?
@@ -23,7 +23,7 @@ pub(super) struct StmtDepGraph {
     inner: FastDiGraphMap<usize, Required>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
-    paths: Vec<AHashSet<usize>>,
+    paths: Vec<FxHashSet<usize>>,
 }
 
 impl StmtDepGraph {
@@ -45,8 +45,8 @@ impl StmtDepGraph {
         self.insert_transitives(a, b);
     }
 
-    fn calc_transitives(&self, id: usize, dir: EdgeDirection) -> AHashSet<usize> {
-        let mut set = AHashSet::default();
+    fn calc_transitives(&self, id: usize, dir: EdgeDirection) -> FxHashSet<usize> {
+        let mut set = FxHashSet::default();
 
         let mut queue = VecDeque::default();
         queue.push_front(id);

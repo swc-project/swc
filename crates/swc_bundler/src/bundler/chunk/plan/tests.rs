@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use swc_common::collections::{FxHashMap, FxHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::bundler::tests::suite;
 

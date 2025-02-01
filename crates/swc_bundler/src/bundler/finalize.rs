@@ -2,7 +2,8 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Error;
 use relative_path::RelativePath;
-use swc_common::{collections::AHashMap, util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
+use rustc_hash::FxHashMap;
+use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -31,7 +32,7 @@ where
     ) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
-            let mut renamed = AHashMap::default();
+            let mut renamed = FxHashMap::default();
 
             for mut bundle in bundles {
                 bundle.module = self.optimize(bundle.module);
@@ -384,7 +385,7 @@ where
 {
     resolver: R,
     base: &'a PathBuf,
-    renamed: &'a AHashMap<PathBuf, String>,
+    renamed: &'a FxHashMap<PathBuf, String>,
 }
 
 impl<R> Fold for Renamer<'_, R>
