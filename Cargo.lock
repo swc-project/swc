@@ -4597,6 +4597,7 @@ dependencies = [
  "rayon",
  "relative-path",
  "reqwest",
+ "rustc-hash 2.1.0",
  "sha1",
  "swc_atoms",
  "swc_common",
@@ -4897,6 +4898,7 @@ version = "5.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -4950,6 +4952,7 @@ version = "6.0.0"
 dependencies = [
  "once_cell",
  "preset_env_base",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -4967,6 +4970,7 @@ name = "swc_css_utils"
 version = "5.0.0"
 dependencies = [
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5049,6 +5053,7 @@ dependencies = [
 name = "swc_ecma_compat_bugfixes"
 version = "8.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5206,6 +5211,7 @@ dependencies = [
 name = "swc_ecma_compat_es2022"
 version = "9.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5258,6 +5264,7 @@ dependencies = [
  "parking_lot",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -5418,6 +5425,7 @@ dependencies = [
  "anyhow",
  "proc-macro2",
  "quote",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5564,6 +5572,7 @@ dependencies = [
  "path-clean 1.0.1",
  "pathdiff",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5698,6 +5707,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "once_cell",
+ "rustc-hash 2.1.0",
  "ryu-js",
  "serde",
  "swc_atoms",
@@ -5874,6 +5884,7 @@ version = "5.0.0"
 dependencies = [
  "auto_impl",
  "petgraph",
+ "rustc-hash 2.1.0",
  "swc_common",
  "swc_fast_graph",
  "testing",
@@ -5938,6 +5949,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5968,6 +5980,7 @@ version = "5.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5984,6 +5997,7 @@ name = "swc_html_utils"
 version = "5.0.0"
 dependencies = [
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -6050,6 +6064,7 @@ dependencies = [
  "once_cell",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "string_enum",
