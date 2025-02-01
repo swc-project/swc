@@ -17,6 +17,7 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
+use rustc_hash::FxHashSet;
 #[cfg(feature = "tty-emitter")]
 use termcolor::{Color, ColorSpec};
 
@@ -27,7 +28,6 @@ pub use self::{
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };
 use crate::{
-    collections::AHashSet,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span},
@@ -361,15 +361,15 @@ pub struct Handler {
     // This set contains the `DiagnosticId` of all emitted diagnostics to avoid
     // emitting the same diagnostic with extended help (`--teach`) twice, which
     // would be unnecessary repetition.
-    taught_diagnostics: Lock<AHashSet<DiagnosticId>>,
+    taught_diagnostics: Lock<FxHashSet<DiagnosticId>>,
 
     /// Used to suggest rustc --explain <error code>
-    emitted_diagnostic_codes: Lock<AHashSet<DiagnosticId>>,
+    emitted_diagnostic_codes: Lock<FxHashSet<DiagnosticId>>,
 
     // This set contains a hash of every diagnostic that has been emitted by
     // this handler. These hashes is used to avoid emitting the same error
     // twice.
-    emitted_diagnostics: Lock<AHashSet<u128>>,
+    emitted_diagnostics: Lock<FxHashSet<u128>>,
 }
 
 fn default_track_diagnostic(_: &Diagnostic) {}

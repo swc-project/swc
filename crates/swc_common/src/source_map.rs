@@ -28,13 +28,13 @@ use std::{
 };
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
 use tracing::debug;
 
 pub use crate::syntax_pos::*;
 use crate::{
-    collections::AHashMap,
     errors::SourceMapper,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockGuard, Lrc, MappedLockGuard},
@@ -104,7 +104,7 @@ impl StableSourceFileId {
 #[derive(Default)]
 pub(super) struct SourceMapFiles {
     pub(super) source_files: Vec<Lrc<SourceFile>>,
-    stable_id_to_source_file: AHashMap<StableSourceFileId, Lrc<SourceFile>>,
+    stable_id_to_source_file: FxHashMap<StableSourceFileId, Lrc<SourceFile>>,
 }
 
 /// The interner for spans.

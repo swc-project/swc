@@ -21,10 +21,11 @@ use std::{
     fmt,
 };
 
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
-use crate::{collections::AHashMap, EqIgnoreSpan};
+use crate::EqIgnoreSpan;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -269,7 +270,7 @@ impl Mark {
 #[derive(Debug)]
 pub(crate) struct HygieneData {
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {
