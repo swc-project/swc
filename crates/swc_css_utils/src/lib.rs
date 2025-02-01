@@ -3,9 +3,9 @@
 use std::{borrow::Cow, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, StaticString};
-use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -152,7 +152,7 @@ pub struct NamedColor {
     pub rgb: Vec<u8>,
 }
 
-pub static NAMED_COLORS: Lazy<AHashMap<StaticString, NamedColor>> = Lazy::new(|| {
+pub static NAMED_COLORS: Lazy<FxHashMap<StaticString, NamedColor>> = Lazy::new(|| {
     serde_json::from_str(include_str!("./named-colors.json"))
         .expect("failed to parse named-colors.json for html entities")
 });

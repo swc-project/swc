@@ -2,11 +2,8 @@ use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use swc_common::{
-    collections::{AHashSet, ARandomState},
-    sync::Lrc,
-    SourceMap, SyntaxContext,
-};
+use rustc_hash::{FxBuildHasher, FxHashSet};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -137,7 +134,7 @@ fn cycles_for(
     cycles: &[Vec<ModuleId>],
     id: ModuleId,
     checked: &mut Vec<ModuleId>,
-) -> IndexSet<ModuleId, ARandomState> {
+) -> IndexSet<ModuleId, FxBuildHasher> {
     checked.push(id);
     let mut v = cycles
         .iter()
@@ -163,8 +160,8 @@ fn toposort_real_module_ids<'a>(
     graph: &'a ModuleGraph,
     cycles: &'a [Vec<ModuleId>],
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
-    let mut done = AHashSet::<ModuleId>::default();
-    let mut errorred = AHashSet::<ModuleId>::default();
+    let mut done = FxHashSet::<ModuleId>::default();
+    let mut errorred = FxHashSet::<ModuleId>::default();
 
     from_fn(move || {
         while let Some(id) = queue.pop_front() {

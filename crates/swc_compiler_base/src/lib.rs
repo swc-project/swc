@@ -12,7 +12,6 @@ use serde::{Deserialize, Serialize};
 use swc_allocator::maybe::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap,
     comments::{Comment, CommentKind, Comments, SingleThreadedComments},
     errors::Handler,
     source_map::SourceMapGenConfig,
@@ -109,7 +108,7 @@ pub struct PrintArgs<'a> {
     pub output_path: Option<PathBuf>,
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
-    pub source_map_names: &'a AHashMap<BytePos, JsWord>,
+    pub source_map_names: &'a FxHashMap<BytePos, JsWord>,
     pub orig: Option<&'a sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
@@ -120,7 +119,7 @@ pub struct PrintArgs<'a> {
 
 impl Default for PrintArgs<'_> {
     fn default() -> Self {
-        static DUMMY_NAMES: Lazy<AHashMap<BytePos, JsWord>> = Lazy::new(Default::default);
+        static DUMMY_NAMES: Lazy<FxHashMap<BytePos, JsWord>> = Lazy::new(Default::default);
 
         PrintArgs {
             source_root: None,
@@ -282,7 +281,7 @@ struct SwcSourceMapConfig<'a> {
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
 
-    names: &'a AHashMap<BytePos, JsWord>,
+    names: &'a FxHashMap<BytePos, JsWord>,
 
     inline_sources_content: bool,
 
@@ -407,7 +406,7 @@ impl Default for SourceMapsConfig {
 }
 
 pub struct IdentCollector {
-    pub names: AHashMap<BytePos, JsWord>,
+    pub names: FxHashMap<BytePos, JsWord>,
 }
 
 impl Visit for IdentCollector {

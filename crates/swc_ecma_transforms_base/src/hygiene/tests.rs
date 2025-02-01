@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
+use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -9,7 +10,7 @@ use super::*;
 use crate::tests::{HygieneVisualizer, Tester};
 
 struct Marker {
-    map: AHashMap<JsWord, Mark>,
+    map: FxHashMap<JsWord, Mark>,
 }
 
 fn marker(markers: &[(&str, Mark)]) -> Marker {
@@ -29,7 +30,7 @@ impl Fold for Marker {
 }
 
 struct OnceMarker {
-    map: AHashMap<JsWord, Vec<Mark>>,
+    map: FxHashMap<JsWord, Vec<Mark>>,
 }
 
 impl OnceMarker {

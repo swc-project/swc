@@ -1,7 +1,7 @@
 use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 
 use auto_impl::auto_impl;
-use swc_common::collections::AHashSet;
+use rustc_hash::FxHashSet;
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 #[auto_impl(&, Box, Rc, Arc)]
@@ -17,7 +17,7 @@ where
     G: DepGraph,
 {
     /// `(src, dst)`
-    tracked: AHashSet<(G::ModuleId, G::ModuleId)>,
+    tracked: FxHashSet<(G::ModuleId, G::ModuleId)>,
     dep_graph: G,
     data: GraphResult<G>,
 }

@@ -1,13 +1,10 @@
 use std::{iter::once, mem::take};
 
 use indexmap::IndexMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    util::take::Take,
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -56,7 +53,7 @@ enum ScopeKind {
         /// Produced by identifier reference and consumed by for-of/in loop.
         used: Vec<Id>,
         /// Map of original identifier to modified syntax context
-        mutated: AHashMap<Id, SyntaxContext>,
+        mutated: FxHashMap<Id, SyntaxContext>,
     },
     Fn,
     Block,
@@ -167,7 +164,7 @@ impl BlockScoping {
                 has_yield: false,
                 has_await: false,
                 label: IndexMap::new(),
-                inner_label: AHashSet::default(),
+                inner_label: FxHashSet::default(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,
@@ -651,9 +648,9 @@ struct FlowHelper<'a> {
 
     // label cannot be shadowed, so it's pretty safe to use JsWord
     label: IndexMap<JsWord, Label>,
-    inner_label: AHashSet<JsWord>,
+    inner_label: FxHashSet<JsWord>,
     all: &'a Vec<Id>,
-    mutated: AHashMap<Id, SyntaxContext>,
+    mutated: FxHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
 
     in_nested_loop: bool,
@@ -880,7 +877,7 @@ impl VisitMut for FlowHelper<'_> {
 }
 
 struct MutationHandler<'a> {
-    map: &'a mut AHashMap<Id, SyntaxContext>,
+    map: &'a mut FxHashMap<Id, SyntaxContext>,
     in_function: bool,
 }
 

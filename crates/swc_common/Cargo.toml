@@ -19,7 +19,6 @@ bench = false
 __plugin         = []
 __plugin_mode    = []
 __plugin_rt      = []
-ahash            = ["dep:ahash"]
 concurrent       = ["parking_lot"]
 debug            = []
 default          = []
@@ -37,7 +36,6 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck", "rancor"]
 
 [dependencies]
-ahash                 = { workspace = true, optional = true }
 anyhow                = { workspace = true, optional = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
 bytecheck             = { workspace = true, optional = true }

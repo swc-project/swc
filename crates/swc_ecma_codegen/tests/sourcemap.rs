@@ -1,8 +1,9 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use base64::prelude::{Engine, BASE64_STANDARD};
+use rustc_hash::FxBuildHasher;
 use sourcemap::SourceMap;
-use swc_allocator::{collections::FxHashSet, maybe::vec::Vec};
+use swc_allocator::{collections::HashSet, maybe::vec::Vec};
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -368,7 +369,7 @@ fn identity(entry: PathBuf) {
             .iter()
             .filter(|a| expected_tokens.contains(&**a))
             .map(|v| v.to_string())
-            .collect::<FxHashSet<_>>();
+            .collect::<HashSet<_, FxBuildHasher>>();
 
         let actual_tokens_diff = actual_tokens
             .iter()

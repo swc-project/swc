@@ -1,5 +1,5 @@
 use anyhow::{bail, Error};
-use swc_common::collections::AHashMap;
+use rustc_hash::FxHashMap;
 use swc_graph_analyzer::{DepGraph, GraphAnalyzer};
 
 use crate::{
@@ -13,12 +13,12 @@ mod tests;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
-    kinds: AHashMap<ModuleId, BundleKind>,
+    kinds: FxHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Default)]
 pub(super) struct Plan {
-    pub entries: AHashMap<ModuleId, BundleKind>,
+    pub entries: FxHashMap<ModuleId, BundleKind>,
 
     /// Id of all modules.
     pub all: Vec<ModuleId>,
@@ -46,7 +46,7 @@ where
 {
     pub(super) fn determine_entries(
         &self,
-        entries: AHashMap<String, TransformedModule>,
+        entries: FxHashMap<String, TransformedModule>,
     ) -> Result<(Plan, ModuleGraph, Vec<Vec<ModuleId>>), Error> {
         let mut builder = PlanBuilder::default();
         let mut analyzer = GraphAnalyzer::new(&self.scope);

@@ -11,7 +11,7 @@ use indexmap::IndexSet;
 use rayon::prelude::*;
 use rustc_hash::{FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
-use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
+use swc_common::{util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 

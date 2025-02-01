@@ -14,8 +14,8 @@ use difference::Changeset;
 use once_cell::sync::Lazy;
 pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
+use rustc_hash::FxHashMap;
 use swc_common::{
-    collections::AHashMap,
     errors::{Diagnostic, Handler, HANDLER},
     sync::Lrc,
     FilePathMapping, SourceMap,
@@ -52,7 +52,7 @@ pub fn init() -> tracing::subscriber::DefaultGuard {
 }
 
 pub fn find_executable(name: &str) -> Option<PathBuf> {
-    static CACHE: Lazy<RwLock<AHashMap<String, PathBuf>>> = Lazy::new(Default::default);
+    static CACHE: Lazy<RwLock<FxHashMap<String, PathBuf>>> = Lazy::new(Default::default);
 
     {
         let locked = CACHE.read().unwrap();

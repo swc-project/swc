@@ -35,6 +35,7 @@ petgraph      = { workspace = true }
 radix_fmt     = { workspace = true }
 rayon         = { workspace = true, optional = true }
 relative-path = { workspace = true }
+rustc-hash    = { workspace = true }
 tracing       = { workspace = true }
 
 swc_atoms                        = { version = "3.0.4", path = "../swc_atoms" }

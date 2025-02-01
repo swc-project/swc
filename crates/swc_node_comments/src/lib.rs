@@ -3,14 +3,14 @@
 use std::sync::Arc;
 
 use dashmap::DashMap;
+use rustc_hash::FxBuildHasher;
 use swc_atoms::atom;
 use swc_common::{
-    collections::ARandomState,
     comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
 };
 
-type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ARandomState>>;
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, FxBuildHasher>>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]

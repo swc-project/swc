@@ -26,11 +26,6 @@
 //! ## `plugin-mode`
 //!
 //! Allows replacing operations related to thread-local variables with a trait.
-//!
-//!
-//! ## `ahash`
-//!
-//! Use `ahash` instead of `rustc_hash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(not(test), allow(unused))]
@@ -59,7 +54,6 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned {
 }
 
 pub mod cache;
-pub mod collections;
 pub mod comments;
 mod eq;
 pub mod errors;

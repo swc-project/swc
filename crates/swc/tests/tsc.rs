@@ -11,6 +11,7 @@ use std::{
 
 use once_cell::sync::Lazy;
 use regex::Regex;
+use rustc_hash::FxHashSet;
 use serde::de::DeserializeOwned;
 use serde_json::from_str;
 use swc::{
@@ -19,9 +20,7 @@ use swc::{
     },
     try_with_handler, Compiler,
 };
-use swc_common::{
-    collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS,
-};
+use swc_common::{errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use testing::NormalizedOutput;
@@ -216,8 +215,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     // "ES3", "ES5", "ES6", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019",
     // "ES2020", "ES2021", "ES2022", "ESNext"
-    fn target(value: &str) -> AHashSet<EsVersion> {
-        let mut versions = AHashSet::<EsVersion>::default();
+    fn target(value: &str) -> FxHashSet<EsVersion> {
+        let mut versions = FxHashSet::<EsVersion>::default();
 
         value.split(',').for_each(|v| {
             let mut v = v.trim();
@@ -262,8 +261,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     // "CommonJS", "AMD", "System", "UMD", "ES6", "ES2015", "ES2020", "ESNext",
     // "None", "ES2022", "Node16", "NodeNext"
-    fn module(value: &str) -> AHashSet<Module> {
-        let mut modules = AHashSet::<Module>::default();
+    fn module(value: &str) -> FxHashSet<Module> {
+        let mut modules = FxHashSet::<Module>::default();
 
         value.split(',').for_each(|v| {
             let v = v.trim();

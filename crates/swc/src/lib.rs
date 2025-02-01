@@ -173,7 +173,7 @@ mod plugin;
 pub mod resolver {
     use std::path::PathBuf;
 
-    use swc_common::collections::AHashMap;
+    use rustc_hash::FxHashMap;
     use swc_ecma_loader::{
         resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
         TargetEnv,
@@ -185,7 +185,7 @@ pub mod resolver {
 
     pub fn paths_resolver(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         base_url: PathBuf,
         paths: CompiledPaths,
         preserve_symlinks: bool,
@@ -200,7 +200,7 @@ pub mod resolver {
 
     pub fn environment_resolver(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         preserve_symlinks: bool,
     ) -> NodeResolver {
         CachingResolver::new(

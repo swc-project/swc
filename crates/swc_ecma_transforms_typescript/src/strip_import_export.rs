@@ -1,4 +1,4 @@
-use swc_common::collections::{AHashMap, AHashSet};
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
@@ -7,12 +7,12 @@ use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
 
 #[derive(Debug, Default)]
 pub(crate) struct UsageCollect {
-    id_usage: AHashSet<Id>,
-    import_chain: AHashMap<Id, Id>,
+    id_usage: FxHashSet<Id>,
+    import_chain: FxHashMap<Id, Id>,
 }
 
-impl From<AHashSet<Id>> for UsageCollect {
-    fn from(id_usage: AHashSet<Id>) -> Self {
+impl From<FxHashSet<Id>> for UsageCollect {
+    fn from(id_usage: FxHashSet<Id>) -> Self {
         Self {
             id_usage,
             import_chain: Default::default(),
@@ -117,7 +117,7 @@ impl UsageCollect {
             return;
         }
 
-        let mut new_usage = AHashSet::default();
+        let mut new_usage = FxHashSet::default();
         for id in &self.id_usage {
             let mut next = self.import_chain.remove(id);
             while let Some(id) = next {
@@ -144,8 +144,8 @@ fn get_module_ident(ts_entity_name: &TsEntityName) -> &Ident {
 
 #[derive(Debug, Default)]
 pub(crate) struct DeclareCollect {
-    id_type: AHashSet<Id>,
-    id_value: AHashSet<Id>,
+    id_type: FxHashSet<Id>,
+    id_value: FxHashSet<Id>,
 }
 
 /// Only scan the top level of the module.

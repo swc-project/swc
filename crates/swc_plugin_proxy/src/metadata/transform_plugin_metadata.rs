@@ -98,9 +98,7 @@ impl TransformPluginProgramMetadata {
     /// Each time this is called, it'll require a call between host-plugin which
     /// involves serialization / deserialization.
     #[allow(unreachable_code)]
-    pub fn get_raw_experimental_context(
-        &self,
-    ) -> swc_common::collections::AHashMap<String, String> {
+    pub fn get_raw_experimental_context(&self) -> rustc_hash::FxHashMap<String, String> {
         // TODO: There is no clear usecase yet - enable when we have a correct usecase.
         unimplemented!("Not supported yet");
 
@@ -111,6 +109,6 @@ impl TransformPluginProgramMetadata {
         .expect("Raw experimental metadata should exists, even if it's empty map");
 
         #[cfg(not(target_arch = "wasm32"))]
-        swc_common::collections::AHashMap::default()
+        rustc_hash::FxHashMap::default()
     }
 }

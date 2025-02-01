@@ -1,8 +1,9 @@
 use std::{iter, mem};
 
 use metadata::remove_span;
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, BytePos, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{private_ident, prop_name_to_expr_value, quote_ident, ExprFactory, StmtLike};
@@ -37,7 +38,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
 pub(super) struct TscDecorator {
     metadata: bool,
 
-    enums: AHashMap<JsWord, EnumKind>,
+    enums: FxHashMap<JsWord, EnumKind>,
 
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,

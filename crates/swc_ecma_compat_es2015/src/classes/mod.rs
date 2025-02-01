@@ -1,10 +1,8 @@
 use std::iter;
 
+use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_common::{
-    collections::ARandomState, util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -37,7 +35,7 @@ pub fn classes(config: Config) -> impl Pass {
     })
 }
 
-type IndexMap<K, V> = indexmap::IndexMap<K, V, ARandomState>;
+type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 
 /// `@babel/plugin-transform-classes`
 ///

@@ -3,8 +3,9 @@ use std::{
     sync::Arc,
 };
 
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, SourceMap, Span};
+use swc_common::{errors::HANDLER, SourceMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -50,10 +51,10 @@ impl FunctionModifiers {
 #[serde(rename_all = "camelCase")]
 pub struct NoEmptyFunctionConfig {
     consider_comments: Option<bool>,
-    functions: Option<AHashSet<FunctionModifiers>>,
-    arrow_functions: Option<AHashSet<FunctionModifiers>>,
-    methods: Option<AHashSet<FunctionModifiers>>,
-    constructors: Option<AHashSet<FunctionModifiers>>,
+    functions: Option<FxHashSet<FunctionModifiers>>,
+    arrow_functions: Option<FxHashSet<FunctionModifiers>>,
+    methods: Option<FxHashSet<FunctionModifiers>>,
+    constructors: Option<FxHashSet<FunctionModifiers>>,
 }
 
 pub fn no_empty_function(
@@ -75,10 +76,10 @@ struct NoEmptyFunction {
 
     expected_reaction: LintRuleReaction,
     consider_comments: bool,
-    functions: Option<AHashSet<FunctionModifiers>>,
-    arrow_functions: Option<AHashSet<FunctionModifiers>>,
-    methods: Option<AHashSet<FunctionModifiers>>,
-    constructors: Option<AHashSet<FunctionModifiers>>,
+    functions: Option<FxHashSet<FunctionModifiers>>,
+    arrow_functions: Option<FxHashSet<FunctionModifiers>>,
+    methods: Option<FxHashSet<FunctionModifiers>>,
+    constructors: Option<FxHashSet<FunctionModifiers>>,
 }
 
 impl Debug for NoEmptyFunction {
@@ -211,7 +212,7 @@ impl NoEmptyFunction {
         &self,
         span: Span,
         target_type: &str,
-        allowed: Option<&AHashSet<FunctionModifiers>>,
+        allowed: Option<&FxHashSet<FunctionModifiers>>,
         modifiers: &[FunctionModifiers],
     ) {
         if let Some(allowed) = allowed {

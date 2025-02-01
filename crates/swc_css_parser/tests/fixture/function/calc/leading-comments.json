@@ -1,12 +1,12 @@
 {
-  "1779": [
+  "1659": [
     {
       "kind": "Block",
       "span": {
-        "start": 1718,
-        "end": 1779
+        "start": 1561,
+        "end": 1659
       },
-      "text": "/* Force the font-size to stay between 12px and 100px */"
+      "text": "/* Set font-size to 10x the average of vw and vh,\n       but don’t let it go below 12px. */"
     }
   ],
   "1277": [
@@ -19,6 +19,16 @@
       "text": "/*height: -webkit-calc(9/16 * 100%)!important;*/"
     }
   ],
+  "1779": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1718,
+        "end": 1779
+      },
+      "text": "/* Force the font-size to stay between 12px and 100px */"
+    }
+  ],
   "1319": [
     {
       "kind": "Block",
@@ -27,16 +37,6 @@
         "end": 1319
       },
       "text": "/*width: -moz-calc((50px - 50%)*2);*/"
-    }
-  ],
-  "1659": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1561,
-        "end": 1659
-      },
-      "text": "/* Set font-size to 10x the average of vw and vh,\n       but don’t let it go below 12px. */"
     }
   ]
 }

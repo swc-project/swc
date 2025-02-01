@@ -16,12 +16,18 @@ version = "9.0.0"
 bench = false
 
 [features]
-default = ["default-css-minifier"]
-default-css-minifier = ["swc_css_ast", "swc_css_codegen", "swc_css_minifier", "swc_css_parser"]
 custom-css-minifier = []
+default = ["default-css-minifier"]
+default-css-minifier = [
+  "swc_css_ast",
+  "swc_css_codegen",
+  "swc_css_minifier",
+  "swc_css_parser",
+]
 
 [dependencies]
 once_cell  = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 

@@ -1,7 +1,5 @@
-use swc_common::{
-    collections::AHashSet, source_map::PURE_SP, util::take::Take, Mark, Span, SyntaxContext,
-    DUMMY_SP,
-};
+use rustc_hash::FxHashSet;
+use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -226,7 +224,7 @@ impl Cjs {
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
-        lazy_record: &mut AHashSet<Id>,
+        lazy_record: &mut FxHashSet<Id>,
         link: Link,
         export: Export,
         is_export_assign: bool,

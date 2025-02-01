@@ -12,11 +12,11 @@ version       = "2.0.0"
 bench = false
 
 [dependencies]
-ahash           = { workspace = true }
 anyhow          = { workspace = true }
 browserslist-rs = { workspace = true }
 dashmap         = { workspace = true }
 once_cell       = { workspace = true }
+rustc-hash      = { workspace = true }
 semver          = { workspace = true, features = ["serde"] }
 serde           = { workspace = true, features = ["derive"] }
 st-map          = { workspace = true }

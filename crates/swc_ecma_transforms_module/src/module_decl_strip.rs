@@ -1,10 +1,7 @@
 use indexmap::IndexMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    util::take::Take,
-    Mark, Span, SyntaxContext,
-};
+use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -14,7 +11,7 @@ use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 /// key: module path
 pub type Link = IndexMap<JsWord, LinkItem>;
 /// key: export binding name
-pub type Export = AHashMap<JsWord, ExportItem>;
+pub type Export = FxHashMap<JsWord, ExportItem>;
 
 #[derive(Debug)]
 pub struct ModuleDeclStrip {
@@ -498,7 +495,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
 }
 
 #[derive(Debug, Default)]
-pub struct LinkItem(pub SpanCtx, pub AHashSet<LinkSpecifier>, pub LinkFlag);
+pub struct LinkItem(pub SpanCtx, pub FxHashSet<LinkSpecifier>, pub LinkFlag);
 
 use bitflags::bitflags;
 
@@ -642,7 +639,7 @@ pub(crate) trait LinkSpecifierReducer {
     );
 }
 
-impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
+impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
     fn reduce(
         self,
         import_map: &mut ImportMap,

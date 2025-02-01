@@ -16,6 +16,7 @@ bench = false
 auto_impl   = { workspace = true }
 parking_lot = { workspace = true }
 rayon       = { workspace = true }
+rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 

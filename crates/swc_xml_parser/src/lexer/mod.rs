@@ -1,7 +1,8 @@
 use std::{collections::VecDeque, mem::take};
 
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
+use swc_common::{input::Input, BytePos, Span};
 use swc_xml_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
@@ -804,7 +805,7 @@ where
                 current_tag_token.kind = kind;
             }
 
-            let mut already_seen: AHashSet<JsWord> = Default::default();
+            let mut already_seen: FxHashSet<JsWord> = Default::default();
 
             let attributes = current_tag_token
                 .attributes

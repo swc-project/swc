@@ -3,12 +3,13 @@
 use std::{borrow::Cow, cmp::Ordering, mem::take};
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
-    collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName,
-    FilePathMapping, Mark, SourceMap, DUMMY_SP,
+    comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
+    SourceMap, DUMMY_SP,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -232,7 +233,7 @@ struct Minifier<'a, C: MinifyCss> {
     current_element: Option<Element>,
     latest_element: Option<Child>,
     descendant_of_pre: bool,
-    attribute_name_counter: Option<AHashMap<JsWord, usize>>,
+    attribute_name_counter: Option<FxHashMap<JsWord, usize>>,
 
     css_minifier: &'a C,
 }
@@ -2818,7 +2819,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
 }
 
 struct AttributeNameCounter {
-    tree: AHashMap<JsWord, usize>,
+    tree: FxHashMap<JsWord, usize>,
 }
 
 impl VisitMut for AttributeNameCounter {

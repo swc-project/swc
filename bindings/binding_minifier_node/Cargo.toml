@@ -22,6 +22,7 @@ napi               = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
 node_macro_deps    = { path = "../node_macro_deps" }
 path-clean         = { workspace = true }
+rustc-hash         = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 sourcemap          = { workspace = true }

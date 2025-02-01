@@ -1,9 +1,6 @@
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    errors::HANDLER,
-    Span, DUMMY_SP,
-};
+use swc_common::{errors::HANDLER, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -29,15 +26,15 @@ struct NoLoopFunc {
     function_depth: usize,
     inside_loop_decl: bool,
     scopes: Vec<Span>,
-    scoped_unsafe_vars: AHashMap<Span, AHashSet<Id>>,
-    current_fn_unsafe_vars: AHashSet<JsWord>,
+    scoped_unsafe_vars: FxHashMap<Span, FxHashSet<Id>>,
+    current_fn_unsafe_vars: FxHashSet<JsWord>,
 }
 
 impl NoLoopFunc {
     fn new(expected_reaction: LintRuleReaction) -> Self {
         let root_scope = DUMMY_SP;
 
-        let mut scoped_vars: AHashMap<Span, AHashSet<Id>> = Default::default();
+        let mut scoped_vars: FxHashMap<Span, FxHashSet<Id>> = Default::default();
         scoped_vars.insert(root_scope, Default::default());
 
         Self {

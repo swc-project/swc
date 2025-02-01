@@ -1,7 +1,8 @@
 use anyhow::Context;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
@@ -30,7 +31,7 @@ struct SystemJs {
     config: Config,
 
     declare_var_idents: Vec<Ident>,
-    export_map: AHashMap<Id, Vec<JsWord>>,
+    export_map: FxHashMap<Id, Vec<JsWord>>,
     export_names: Vec<JsWord>,
     export_values: Vec<Box<Expr>>,
     tla: bool,

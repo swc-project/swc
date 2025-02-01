@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashMap, errors::HANDLER, Span};
+use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -54,7 +55,7 @@ struct VariableMeta {
 #[derive(Debug, Default)]
 struct PreferConst {
     expected_reaction: LintRuleReaction,
-    vars_meta: AHashMap<Id, VariableMeta>,
+    vars_meta: FxHashMap<Id, VariableMeta>,
     scope_vars_idx: usize,
     block_depth: usize,
     cycle_head_depth: usize,

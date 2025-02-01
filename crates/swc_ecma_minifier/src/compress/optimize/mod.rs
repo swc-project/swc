@@ -5,8 +5,7 @@ use std::iter::once;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
-    SyntaxContext, DUMMY_SP,
+    iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -230,7 +229,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<AHashMap<Id, JsWord>>,
+    typeofs: Box<FxHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one

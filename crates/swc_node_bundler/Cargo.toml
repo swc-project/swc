@@ -24,6 +24,7 @@ dashmap    = { workspace = true }
 is-macro   = { workspace = true }
 once_cell  = { workspace = true }
 regex      = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
 tracing    = { workspace = true }

@@ -72,7 +72,6 @@ url          = { workspace = true }
 swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
 swc_cached = { version = "1.0.0", path = "../swc_cached" }
 swc_common = { version = "5.0.1", path = "../swc_common", features = [
-  "ahash",
   "sourcemap",
   "parking_lot",
 ] }

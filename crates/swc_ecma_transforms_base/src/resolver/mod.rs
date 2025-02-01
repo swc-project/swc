@@ -1,9 +1,6 @@
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    Mark, SyntaxContext,
-};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
@@ -172,10 +169,10 @@ struct Scope<'a> {
     mark: Mark,
 
     /// All declarations in the scope
-    declared_symbols: AHashMap<JsWord, DeclKind>,
+    declared_symbols: FxHashMap<JsWord, DeclKind>,
 
     /// All types declared in the scope
-    declared_types: AHashSet<JsWord>,
+    declared_types: FxHashSet<JsWord>,
 }
 
 impl<'a> Scope<'a> {

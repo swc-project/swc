@@ -18,9 +18,9 @@ bench = false
 [features]
 
 [dependencies]
-ahash      = { workspace = true, features = ["compile-time-rng"] }
 anyhow     = { workspace = true }
 copyless   = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 

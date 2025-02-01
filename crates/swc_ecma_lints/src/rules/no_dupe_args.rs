@@ -1,6 +1,7 @@
 use std::collections::hash_map::Entry;
 
-use swc_common::{collections::AHashMap, errors::HANDLER};
+use rustc_hash::FxHashMap;
+use swc_common::errors::HANDLER;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     for_each_binding_ident,
@@ -84,7 +85,7 @@ macro_rules! check {
         });
 
         if hash_mode {
-            let mut map = AHashMap::default();
+            let mut map = FxHashMap::default();
 
             for_each_binding_ident($node, |id| {
                 //

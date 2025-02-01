@@ -2,8 +2,8 @@ use std::sync::Arc;
 
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
+use rustc_hash::FxBuildHasher;
 use swc_atoms::JsWord;
-use swc_common::collections::ARandomState;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -21,7 +21,7 @@ mod entry;
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Arc<Versions>,
-    pub required: IndexSet<&'static str, ARandomState>,
+    pub required: IndexSet<&'static str, FxBuildHasher>,
 }
 
 impl UsageVisitor {
