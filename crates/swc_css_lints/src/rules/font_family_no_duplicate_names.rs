@@ -1,5 +1,6 @@
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, Span};
+use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -77,7 +78,7 @@ impl FontFamilyNoDuplicateNames {
 
         fonts
             .iter()
-            .fold(AHashSet::default(), |mut seen, (font, span)| {
+            .fold(FxHashSet::default(), |mut seen, (font, span)| {
                 let name = font.name();
                 if seen.contains(&font) && self.ignored.iter().all(|item| !item.is_match(name)) {
                     self.ctx
