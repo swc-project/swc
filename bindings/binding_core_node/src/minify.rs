@@ -10,7 +10,7 @@ use swc_core::{
         config::{ErrorFormat, JsMinifyOptions},
         JsMinifyExtras, TransformOutput,
     },
-    common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    common::{collections::FxHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
     ecma::minifier::option::{MangleCache, SimpleMangleCache},
     node::{deserialize_json, get_deserialized, MapErr},
 };
@@ -36,7 +36,7 @@ enum MinifyTarget {
     /// Code to minify.
     Single(String),
     /// `{ filename: code }`
-    Map(AHashMap<String, String>),
+    Map(FxHashMap<String, String>),
 }
 
 impl MinifyTarget {

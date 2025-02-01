@@ -13,7 +13,7 @@ use swc_config::config_types::BoolOr;
 use swc_core::{
     base::JsMinifyExtras,
     common::{
-        collections::AHashMap,
+        collections::FxHashMap,
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
         FileName, Mark, SourceFile, SourceMap,
@@ -50,7 +50,7 @@ enum MinifyTarget {
     /// Code to minify.
     Single(String),
     /// `{ filename: code }`
-    Map(AHashMap<String, String>),
+    Map(FxHashMap<String, String>),
 }
 
 impl MinifyTarget {
