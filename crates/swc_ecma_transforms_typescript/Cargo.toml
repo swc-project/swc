@@ -16,9 +16,10 @@ bench = false
 concurrent = ["swc_common/concurrent"]
 
 [dependencies]
-once_cell = { workspace = true }
-ryu-js    = { workspace = true }
-serde     = { workspace = true, features = ["derive"] }
+once_cell  = { workspace = true }
+rustc-hash = { workspace = true }
+ryu-js     = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
 
 swc_atoms                 = { version = "3.0.4", path = "../swc_atoms" }
 swc_common                = { version = "5.0.1", path = "../swc_common" }
