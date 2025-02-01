@@ -307,7 +307,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 tok!('{') => {
-                    return self.parse_object();
+                    return self.parse_object::<Expr>().map(Box::new);
                 }
 
                 // Handle FunctionExpression and GeneratorExpression

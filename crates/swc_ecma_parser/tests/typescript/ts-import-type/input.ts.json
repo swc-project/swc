@@ -1,0 +1,184 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 161
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 88
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 10
+        },
+        "ctxt": 0,
+        "value": "Vite",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeQuery",
+        "span": {
+          "start": 13,
+          "end": 87
+        },
+        "exprName": {
+          "type": "TsImportType",
+          "span": {
+            "start": 20,
+            "end": 87
+          },
+          "argument": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 27,
+              "end": 33
+            },
+            "value": "vite",
+            "raw": "\"vite\""
+          },
+          "qualifier": null,
+          "typeArguments": null,
+          "attributes": {
+            "type": "TsImportCallOptions",
+            "span": {
+              "start": 35,
+              "end": 86
+            },
+            "with": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 45,
+                "end": 84
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 53,
+                      "end": 70
+                    },
+                    "value": "resolution-mode",
+                    "raw": "\"resolution-mode\""
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 72,
+                      "end": 80
+                    },
+                    "value": "import",
+                    "raw": "\"import\""
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 89,
+        "end": 125
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 94,
+          "end": 99
+        },
+        "ctxt": 0,
+        "value": "Vite2",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeQuery",
+        "span": {
+          "start": 102,
+          "end": 124
+        },
+        "exprName": {
+          "type": "TsImportType",
+          "span": {
+            "start": 109,
+            "end": 124
+          },
+          "argument": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 116,
+              "end": 122
+            },
+            "value": "vite",
+            "raw": "\"vite\""
+          },
+          "qualifier": null,
+          "typeArguments": null,
+          "attributes": null
+        },
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 126,
+        "end": 161
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 131,
+          "end": 136
+        },
+        "ctxt": 0,
+        "value": "Vite3",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeQuery",
+        "span": {
+          "start": 139,
+          "end": 160
+        },
+        "exprName": {
+          "type": "TsImportType",
+          "span": {
+            "start": 146,
+            "end": 160
+          },
+          "argument": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 153,
+              "end": 159
+            },
+            "value": "vite",
+            "raw": "\"vite\""
+          },
+          "qualifier": null,
+          "typeArguments": null,
+          "attributes": null
+        },
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

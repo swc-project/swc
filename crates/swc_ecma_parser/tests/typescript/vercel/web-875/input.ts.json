@@ -373,7 +373,8 @@
                                                   "value": "default",
                                                   "optional": false
                                                 },
-                                                "typeArguments": null
+                                                "typeArguments": null,
+                                                "attributes": null
                                               },
                                               "typeArguments": null
                                             }
