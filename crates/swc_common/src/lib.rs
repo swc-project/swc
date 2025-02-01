@@ -26,11 +26,6 @@
 //! ## `plugin-mode`
 //!
 //! Allows replacing operations related to thread-local variables with a trait.
-//!
-//!
-//! ## `ahash`
-//!
-//! Use `ahash` instead of `rustc_hash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(not(test), allow(unused))]
