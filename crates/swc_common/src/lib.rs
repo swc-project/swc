@@ -59,7 +59,6 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned {
 }
 
 pub mod cache;
-pub mod collections;
 pub mod comments;
 mod eq;
 pub mod errors;
