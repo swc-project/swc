@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "12.0.0"
+version       = "12.0.1"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
