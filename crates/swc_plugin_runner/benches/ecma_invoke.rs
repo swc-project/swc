@@ -13,8 +13,8 @@ use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Benc
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
-    collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, FileName,
-    FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
+    plugin::metadata::TransformPluginMetadataContext, FileName, FilePathMapping, Globals, Mark,
+    SourceMap, GLOBALS,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
@@ -99,8 +99,8 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                         None,
                     );
 
-                let experimental_metadata: VersionedSerializable<AHashMap<String, String>> =
-                    VersionedSerializable::new(AHashMap::default());
+                let experimental_metadata: VersionedSerializable<FxHashMap<String, String>> =
+                    VersionedSerializable::new(FxHashMap::default());
                 let _experimental_metadata =
                     PluginSerializedBytes::try_serialize(&experimental_metadata)
                         .expect("Should be a hashmap");

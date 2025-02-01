@@ -10,10 +10,7 @@ use anyhow::{anyhow, Error};
 use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
-use swc_common::{
-    collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName,
-    Mark,
-};
+use swc_common::{plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName, Mark};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
 
@@ -91,7 +88,7 @@ fn invoke(input: PathBuf) {
                 &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
             )
             .expect("Should serializable");
-            let experimental_metadata: AHashMap<String, String> = [
+            let experimental_metadata: FxHashMap<String, String> = [
                 (
                     "TestExperimental".to_string(),
                     "ExperimentalValue".to_string(),
@@ -143,7 +140,7 @@ fn invoke(input: PathBuf) {
             )
             .expect("Should serializable");
 
-            let experimental_metadata: AHashMap<String, String> = [
+            let experimental_metadata: FxHashMap<String, String> = [
                 (
                     "TestExperimental".to_string(),
                     "ExperimentalValue".to_string(),

@@ -9,10 +9,8 @@ use std::{
 use anyhow::{Context, Error};
 use enumset::EnumSet;
 use parking_lot::Mutex;
-use swc_common::{
-    collections::AHashMap,
-    sync::{Lazy, OnceCell},
-};
+use rustc_hash::FxHashMap;
+use swc_common::sync::{Lazy, OnceCell};
 #[cfg(not(target_arch = "wasm32"))]
 use wasmer::{sys::BaseTunables, CpuFeature, Engine, Target, Triple};
 use wasmer::{Module, Store};
@@ -44,13 +42,13 @@ pub struct PluginModuleCacheInner {
     // FileSystemCache. This works since SWC does not revalidates plugin in single process
     // lifecycle.
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-    fs_cache_hash_store: AHashMap<String, Hash>,
+    fs_cache_hash_store: FxHashMap<String, Hash>,
     // Generic in-memory cache to the raw bytes, either read by fs or supplied by bindgen.
-    memory_cache_store: AHashMap<String, Vec<u8>>,
+    memory_cache_store: FxHashMap<String, Vec<u8>>,
     // A naive hashmap to the compiled plugin modules.
     // Current it doesn't have any invalidation or expiration logics like lru,
     // having a lot of plugins may create some memory pressure.
-    compiled_module_bytes: AHashMap<String, (wasmer::Store, wasmer::Module)>,
+    compiled_module_bytes: FxHashMap<String, (wasmer::Store, wasmer::Module)>,
 }
 
 impl PluginModuleCacheInner {
