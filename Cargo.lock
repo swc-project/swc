@@ -6141,6 +6141,7 @@ dependencies = [
  "bytecheck 0.8.0",
  "rancor",
  "rkyv",
+ "rustc-hash 2.1.0",
  "swc_common",
  "swc_ecma_ast",
  "swc_trace_macro",
