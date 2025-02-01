@@ -55,6 +55,7 @@ enumset      = { workspace = true }
 futures      = { workspace = true }
 once_cell    = { workspace = true }
 parking_lot  = { workspace = true }
+rustc-hash   = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 tokio        = { workspace = true, optional = true }
