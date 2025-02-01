@@ -23,7 +23,7 @@ napi-build = { workspace = true }
 [dependencies]
 anyhow             = { workspace = true }
 backtrace          = { workspace = true }
-napi               = { workspace = true, features = ["napi3", "serde-json"] }
+napi               = { workspace = true, features = ["napi3", "serde-json", "tokio_rt"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
 node_macro_deps    = { path = "../node_macro_deps" }
 path-clean         = { workspace = true }

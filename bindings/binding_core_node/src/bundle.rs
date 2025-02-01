@@ -8,6 +8,7 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Status, Task,
 };
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_core::{
     atoms::JsWord,

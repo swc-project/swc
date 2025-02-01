@@ -4,6 +4,7 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
     Env, JsExternal, JsObject, JsUnknown, Task,
 };
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_core::{
     base::{
