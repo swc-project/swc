@@ -45,7 +45,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e89da841a80418a9b391ebaea17f5c112ffaaa96f621d2c285b5174da76b9011"
 dependencies = [
  "cfg-if",
- "const-random",
  "getrandom",
  "once_cell",
  "serde",
@@ -839,26 +838,6 @@ checksum = "a06aeb73f470f66dcdbf7223caeebb85984942f22f1adb2a088cf9668146bbbc"
 dependencies = [
  "cfg-if",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "const-random"
-version = "0.1.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aaf16c9c2c612020bcfd042e170f6e32de9b9d75adb5277cdbbd2e2c8c8299a"
-dependencies = [
- "const-random-macro",
-]
-
-[[package]]
-name = "const-random-macro"
-version = "0.1.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9d839f2a20b0aee515dc581a6172f2321f96cab76c1a38a4c584a194955390e"
-dependencies = [
- "getrandom",
- "once_cell",
- "tiny-keccak",
 ]
 
 [[package]]
@@ -3453,12 +3432,12 @@ dependencies = [
 name = "preset_env_base"
 version = "2.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "browserslist-rs",
  "dashmap 5.5.3",
  "from_variant",
  "once_cell",
+ "rustc-hash 2.1.0",
  "semver 1.0.23",
  "serde",
  "st-map",
@@ -4646,11 +4625,11 @@ dependencies = [
 name = "swc_cached"
 version = "1.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "dashmap 5.5.3",
  "once_cell",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
 ]
 
@@ -4681,7 +4660,6 @@ dependencies = [
 name = "swc_common"
 version = "5.0.1"
 dependencies = [
- "ahash",
  "anyhow",
  "arbitrary",
  "ast_node",
@@ -4900,6 +4878,7 @@ dependencies = [
  "auto_impl",
  "parking_lot",
  "rayon",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5040,6 +5019,7 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "sourcemap",
@@ -5308,6 +5288,7 @@ dependencies = [
  "parking_lot",
  "path-clean 0.1.0",
  "pathdiff",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5373,6 +5354,7 @@ dependencies = [
  "num-traits",
  "phf",
  "pretty_assertions",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "smallvec",
@@ -5834,12 +5816,12 @@ dependencies = [
 name = "swc_estree_compat"
 version = "8.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "codspeed-criterion-compat",
  "copyless",
  "criterion",
  "pretty_assertions",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc",
@@ -6092,6 +6074,7 @@ name = "swc_node_comments"
 version = "5.0.0"
 dependencies = [
  "dashmap 5.5.3",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
 ]
@@ -6160,6 +6143,7 @@ dependencies = [
  "futures",
  "once_cell",
  "parking_lot",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -6296,6 +6280,7 @@ dependencies = [
 name = "swc_xml_parser"
 version = "5.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -6466,6 +6451,7 @@ dependencies = [
  "once_cell",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_common",
@@ -6582,15 +6568,6 @@ checksum = "3f252a68540fde3a3877aeea552b832b40ab9a69e318efd078774a01ddee1ccf"
 dependencies = [
  "num-conv",
  "time-core",
-]
-
-[[package]]
-name = "tiny-keccak"
-version = "2.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
-dependencies = [
- "crunchy",
 ]
 
 [[package]]
