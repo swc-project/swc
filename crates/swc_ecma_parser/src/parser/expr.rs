@@ -339,7 +339,7 @@ impl<I: Tokens> Parser<I> {
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(
-                                    AHashMap::<char, usize>::default(),
+                                    FxHashMap::<char, usize>::default(),
                                     |mut map, flag| {
                                         let key = match flag {
                                             // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
