@@ -17,6 +17,7 @@ auto_impl   = { workspace = true }
 dashmap     = { workspace = true }
 parking_lot = { workspace = true }
 regex       = { workspace = true }
+rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
 swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
