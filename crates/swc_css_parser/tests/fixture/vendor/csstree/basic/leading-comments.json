@@ -1,24 +1,4 @@
 {
-  "493": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 371,
-        "end": 493
-      },
-      "text": "/*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/"
-    }
-  ],
-  "1114": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1099,
-        "end": 1113
-      },
-      "text": "/* CDO/CDC */"
-    }
-  ],
   "527": [
     {
       "kind": "Block",
@@ -37,6 +17,26 @@
         "end": 17
       },
       "text": "/*! something */"
+    }
+  ],
+  "493": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 371,
+        "end": 493
+      },
+      "text": "/*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/"
+    }
+  ],
+  "1114": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1099,
+        "end": 1113
+      },
+      "text": "/* CDO/CDC */"
     }
   ]
 }

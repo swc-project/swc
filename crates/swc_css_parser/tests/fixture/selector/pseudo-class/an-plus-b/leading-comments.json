@@ -1,44 +1,4 @@
 {
-  "1505": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1496,
-        "end": 1505
-      },
-      "text": "/*test*/"
-    }
-  ],
-  "1534": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1511,
-        "end": 1534
-      },
-      "text": "/*test*/"
-    }
-  ],
-  "1563": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1554,
-        "end": 1563
-      },
-      "text": "/*test*/"
-    }
-  ],
-  "1496": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1487,
-        "end": 1496
-      },
-      "text": "/*test*/"
-    }
-  ],
   "1477": [
     {
       "kind": "Block",
@@ -59,12 +19,42 @@
       "text": "/*test*/"
     }
   ],
-  "1487": [
+  "1496": [
     {
       "kind": "Block",
       "span": {
-        "start": 1477,
-        "end": 1487
+        "start": 1487,
+        "end": 1496
+      },
+      "text": "/*test*/"
+    }
+  ],
+  "1563": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1554,
+        "end": 1563
+      },
+      "text": "/*test*/"
+    }
+  ],
+  "1534": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1511,
+        "end": 1534
+      },
+      "text": "/*test*/"
+    }
+  ],
+  "1505": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1496,
+        "end": 1505
       },
       "text": "/*test*/"
     }
@@ -75,6 +65,16 @@
       "span": {
         "start": 1534,
         "end": 1545
+      },
+      "text": "/*test*/"
+    }
+  ],
+  "1487": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1477,
+        "end": 1487
       },
       "text": "/*test*/"
     }
