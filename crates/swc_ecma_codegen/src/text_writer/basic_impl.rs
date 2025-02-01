@@ -1,6 +1,7 @@
 use std::io::Write;
 
-use swc_allocator::{collections::FxHashSet, maybe::vec::Vec};
+use rustc_hash::FxBuildHasher;
+use swc_allocator::{collections::HashSet, maybe::vec::Vec};
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{Result, WriteJs};
@@ -19,7 +20,7 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    srcmap_done: FxHashSet<(BytePos, u32, u32)>,
+    srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
