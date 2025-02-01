@@ -1,11 +1,11 @@
 use once_cell::sync::Lazy;
 use preset_env_base::version::Version;
-use swc_common::collections::AHashMap;
+use rustc_hash::FxHashMap;
 
 pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];
 
-pub static MODULES_BY_VERSION: Lazy<AHashMap<&'static str, Version>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<_, _>>(include_str!(
+pub static MODULES_BY_VERSION: Lazy<FxHashMap<&'static str, Version>> = Lazy::new(|| {
+    serde_json::from_str::<FxHashMap<_, _>>(include_str!(
         "../../data/core-js-compat/modules-by-versions.json"
     ))
     .expect("failed to parse modules-by-versions.json")

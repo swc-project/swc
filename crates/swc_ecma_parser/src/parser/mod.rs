@@ -3,6 +3,7 @@
 
 use std::ops::{Deref, DerefMut};
 
+use rustc_hash::FxHashMap;
 use swc_atoms::{Atom, JsWord};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;

@@ -6,12 +6,10 @@ use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
+use rustc_hash::FxHashSet;
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::AHashSet, comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{
@@ -359,8 +357,8 @@ struct Polyfills {
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
-    includes: AHashSet<String>,
-    excludes: AHashSet<String>,
+    includes: FxHashSet<String>,
+    excludes: FxHashSet<String>,
     unresolved_mark: Mark,
 }
 impl Polyfills {
@@ -627,9 +625,9 @@ pub enum FeatureOrModule {
 }
 
 impl FeatureOrModule {
-    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, AHashSet<String>) {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
         let mut features: Vec<_> = Default::default();
-        let mut modules: AHashSet<_> = Default::default();
+        let mut modules: FxHashSet<_> = Default::default();
 
         for v in vec {
             match v {

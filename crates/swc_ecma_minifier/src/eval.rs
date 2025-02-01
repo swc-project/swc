@@ -1,8 +1,9 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
+use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -50,7 +51,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: AHashMap<Id, Box<Expr>>,
+    cache: FxHashMap<Id, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

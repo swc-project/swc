@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};

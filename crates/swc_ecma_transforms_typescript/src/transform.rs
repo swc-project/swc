@@ -1,12 +1,10 @@
 use std::{iter, mem};
 
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
-    errors::HANDLER,
-    source_map::PURE_SP,
-    util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -62,12 +60,12 @@ pub(crate) struct Transform {
 
     ref_rewriter: Option<RefRewriter<ExportQuery>>,
 
-    decl_id_record: AHashSet<Id>,
+    decl_id_record: FxHashSet<Id>,
     namespace_id: Option<Id>,
-    exported_binding: AHashMap<Id, Option<Id>>,
+    exported_binding: FxHashMap<Id, Option<Id>>,
 
     enum_record: TsEnumRecord,
-    const_enum: AHashSet<Id>,
+    const_enum: FxHashSet<Id>,
 
     var_list: Vec<Id>,
     export_var_list: Vec<Id>,
@@ -1413,7 +1411,7 @@ impl Transform {
 }
 
 struct ExportQuery {
-    export_name: AHashMap<Id, Option<Id>>,
+    export_name: FxHashMap<Id, Option<Id>>,
 }
 
 impl QueryRef for ExportQuery {

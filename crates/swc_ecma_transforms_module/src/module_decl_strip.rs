@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;

@@ -1,9 +1,10 @@
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, FileName};
+use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_loader::TargetEnv;
 
@@ -52,7 +53,7 @@ pub struct Config {
     pub external_modules: Vec<JsWord>,
 
     #[serde(default)]
-    pub alias: AHashMap<TargetEnv, AHashMap<String, String>>,
+    pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,
 
     #[serde(default)]
     pub preserve_symlinks: bool,
@@ -82,7 +83,7 @@ pub enum Mode {
 pub enum EntryConfig {
     File(String),
     Multiple(Vec<String>),
-    Files(AHashMap<String, PathBuf>),
+    Files(FxHashMap<String, PathBuf>),
 }
 
 impl From<EntryConfig> for HashMap<String, FileName> {

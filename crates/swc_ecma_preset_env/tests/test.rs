@@ -10,11 +10,11 @@ use std::{
 };
 
 use pretty_assertions::assert_eq;
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, input::StringInput,
-    FromVariant, Mark,
+    comments::SingleThreadedComments, errors::HANDLER, input::StringInput, FromVariant, Mark,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -70,7 +70,7 @@ struct PresetConfig {
 #[serde(untagged)]
 pub enum CoreJs {
     Ver(Version),
-    Val(AHashMap<String, Value>),
+    Val(FxHashMap<String, Value>),
 }
 
 impl Default for CoreJs {

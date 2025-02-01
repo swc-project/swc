@@ -1,12 +1,9 @@
 use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, ARandomState},
-    SyntaxContext,
-};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
@@ -37,7 +34,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, ARandomState>,
+    initialized_vars: IndexSet<Id, FxBuildHasher>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -123,7 +120,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: Box<AHashMap<JsWord, u32>>,
+    pub(crate) accessed_props: Box<FxHashMap<JsWord, u32>>,
 
     pub(crate) used_recursively: bool,
 }
@@ -386,7 +383,7 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
-        let mut to_visit: IndexSet<Id, ARandomState> =
+        let mut to_visit: IndexSet<Id, FxBuildHasher> =
             IndexSet::from_iter(e.infects_to.clone().into_iter().map(|i| i.0));
 
         let mut idx = 0;

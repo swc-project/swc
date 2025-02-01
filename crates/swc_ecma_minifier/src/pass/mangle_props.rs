@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
@@ -15,14 +15,14 @@ use crate::{
     util::base54::Base54Chars,
 };
 
-pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
+pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))
         .expect("failed to parse domprops.json for property mangler");
 
     let jsprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/jsprops.json"))
         .expect("Failed to parse jsprops.json for property mangler");
 
-    let mut word_set: AHashSet<JsWord> = HashSet::default();
+    let mut word_set: FxHashSet<JsWord> = HashSet::default();
 
     for name in domprops.iter().chain(jsprops.iter()) {
         word_set.insert(name.clone());
@@ -35,11 +35,11 @@ struct ManglePropertiesState {
     chars: Base54Chars,
     options: ManglePropertiesOptions,
 
-    names_to_mangle: AHashSet<JsWord>,
-    unmangleable: AHashSet<JsWord>,
+    names_to_mangle: FxHashSet<JsWord>,
+    unmangleable: FxHashSet<JsWord>,
 
     // Cache of already mangled names
-    cache: AHashMap<JsWord, JsWord>,
+    cache: FxHashMap<JsWord, JsWord>,
 
     // Numbers to pass to base54()
     n: usize,

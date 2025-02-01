@@ -1,6 +1,7 @@
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
+use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -13,7 +14,7 @@ const MESSAGE: &str = "Unexpected console statement";
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct NoConsoleConfig {
-    allow: Option<AHashSet<String>>,
+    allow: Option<FxHashSet<String>>,
 }
 
 pub fn no_console(
@@ -30,7 +31,7 @@ pub fn no_console(
 struct NoConsole {
     expected_reaction: LintRuleReaction,
     unresolved_ctxt: SyntaxContext,
-    allow: Option<AHashSet<JsWord>>,
+    allow: Option<FxHashSet<JsWord>>,
 }
 
 impl NoConsole {

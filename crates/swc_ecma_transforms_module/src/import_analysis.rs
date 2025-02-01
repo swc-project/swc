@@ -1,3 +1,4 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;

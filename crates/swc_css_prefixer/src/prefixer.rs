@@ -5,8 +5,9 @@ use std::{mem::take, sync::Arc};
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::FxHashMap, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,

@@ -5,7 +5,7 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
@@ -247,7 +247,7 @@ impl Finalizer<'_> {
                 let mut value = self.simple_functions.get(i).cloned()?;
                 let mut cache = FxHashMap::default();
                 let mut remap = FxHashMap::default();
-                let bindings: AHashSet<Id> = collect_decls(&*value);
+                let bindings: FxHashSet<Id> = collect_decls(&*value);
                 let new_mark = Mark::new();
 
                 // at this point, var usage no longer matter

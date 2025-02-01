@@ -1,4 +1,5 @@
 use either::Either;
+use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};

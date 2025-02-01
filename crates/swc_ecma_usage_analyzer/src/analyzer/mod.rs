@@ -1,4 +1,5 @@
-use swc_common::{collections::AHashMap, SyntaxContext};
+use rustc_hash::FxHashMap;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
@@ -40,7 +41,7 @@ where
             in_strict: false,
             remaining_depth: 3,
         },
-        used_recursively: AHashMap::default(),
+        used_recursively: FxHashMap::default(),
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
@@ -74,7 +75,7 @@ where
     scope: S::ScopeData,
     ctx: Ctx,
     expr_ctx: ExprCtx,
-    used_recursively: AHashMap<Id, RecursiveUsage>,
+    used_recursively: FxHashMap<Id, RecursiveUsage>,
 }
 
 impl<S> UsageAnalyzer<S>

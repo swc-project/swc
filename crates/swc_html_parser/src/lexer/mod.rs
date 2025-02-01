@@ -1,7 +1,8 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take, rc::Rc};
 
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
+use swc_common::{input::Input, BytePos, Span};
 use swc_html_ast::{AttributeToken, Raw, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
 
@@ -113,7 +114,7 @@ where
     buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     current_token: Option<Token>,
-    attributes_validator: AHashSet<JsWord>,
+    attributes_validator: FxHashSet<JsWord>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,

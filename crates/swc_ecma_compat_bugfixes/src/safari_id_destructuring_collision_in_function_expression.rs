@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -15,7 +16,7 @@ pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
 struct SafariIdDestructuringCollisionInFunctionExpression {
     fn_expr_name: JsWord,
     destructured_id_span: Option<SyntaxContext>,
-    other_ident_symbols: AHashSet<JsWord>,
+    other_ident_symbols: FxHashSet<JsWord>,
     in_body: bool,
 }
 
