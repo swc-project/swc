@@ -3,6 +3,8 @@
 use std::hash::Hash;
 
 use rustc_hash::FxBuildHasher;
+#[cfg(not(feature = "concurrent"))]
+use rustc_hash::FxHashMap;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
