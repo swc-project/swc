@@ -21,6 +21,7 @@ is-macro   = { workspace = true }
 path-clean = "1.0.1"
 pathdiff   = { workspace = true }
 regex      = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 tracing    = { workspace = true }
 
