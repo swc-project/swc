@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::JsWord;
-use swc_common::{collections::ARandomState, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -23,7 +23,7 @@ struct BlockScopedVars {
 struct Scope {
     kind: ScopeKind,
 
-    vars: IndexMap<Id, VarDeclKind, ARandomState>,
+    vars: IndexMap<Id, VarDeclKind, FxBuildHasher>,
     usages: Vec<Id>,
 
     children: Vec<Scope>,
@@ -33,7 +33,7 @@ struct Scope {
 struct ParentScope<'a> {
     parent: Option<&'a ParentScope<'a>>,
 
-    vars: &'a IndexMap<Id, VarDeclKind, ARandomState>,
+    vars: &'a IndexMap<Id, VarDeclKind, FxBuildHasher>,
 }
 
 #[swc_trace]
