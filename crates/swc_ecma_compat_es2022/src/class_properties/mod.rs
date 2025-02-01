@@ -1,6 +1,7 @@
+use rustc_hash::FxHashMap;
 use swc_common::{
-    collections::AHashMap, errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -429,7 +430,7 @@ impl ClassProperties {
             mark: Mark::fresh(Mark::root()),
             class_name: class_ident.clone(),
             ident: {
-                let mut private_map = AHashMap::default();
+                let mut private_map = FxHashMap::default();
 
                 for member in class.body.iter() {
                     match member {
