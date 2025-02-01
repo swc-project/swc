@@ -13,7 +13,6 @@ use swc_config::config_types::BoolOr;
 use swc_core::{
     base::JsMinifyExtras,
     common::{
-        collections::FxHashMap,
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
         FileName, Mark, SourceFile, SourceMap,

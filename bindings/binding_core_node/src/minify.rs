@@ -10,7 +10,7 @@ use swc_core::{
         config::{ErrorFormat, JsMinifyOptions},
         JsMinifyExtras, TransformOutput,
     },
-    common::{collections::FxHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    common::{sync::Lrc, FileName, SourceFile, SourceMap},
     ecma::minifier::option::{MangleCache, SimpleMangleCache},
     node::{deserialize_json, get_deserialized, MapErr},
 };
