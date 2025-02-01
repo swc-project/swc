@@ -16,7 +16,6 @@ resolver = "2"
 
 
   Inflector                 = "0.11.4"
-  ahash                     = "0.8.8"
   allocator-api2            = "0.2.18"
   ansi_term                 = "0.12.1"
   anyhow                    = "1.0.81"
