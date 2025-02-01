@@ -8,6 +8,7 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
+use rustc_hash::FxHashMap;
 use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
