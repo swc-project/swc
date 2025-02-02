@@ -1,11 +1,11 @@
   x TypeScript namespace declaration is not supported in strip-only mode
    ,----
- 1 | namespace Foo { }
-   : ^^^^^^^^^^^^^^^^^
+ 1 | namespace Foo { export const m = 1; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TypeScript namespace declaration is not supported in strip-only mode
    ,-[3:1]
  2 | 
- 3 | export namespace Bar { }
-   :        ^^^^^^^^^^^^^^^^^
+ 3 | export namespace Bar { export const m = 1; }
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

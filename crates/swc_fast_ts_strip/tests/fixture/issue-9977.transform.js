@@ -1,0 +1,3 @@
+class MyClassOk {
+    constructor(foo){}
+}
