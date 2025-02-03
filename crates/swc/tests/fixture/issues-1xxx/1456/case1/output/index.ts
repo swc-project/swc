@@ -3,6 +3,7 @@ var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
 var _ts_param = require("@swc/helpers/_/_ts_param");
 class MyClass1 {
+    param1;
     constructor(param1){
         this.param1 = param1;
     }
@@ -15,6 +16,7 @@ MyClass1 = _ts_decorate._([
     ])
 ], MyClass1);
 class MyClass2 {
+    param1;
     constructor(param1){
         this.param1 = param1;
     }
@@ -27,6 +29,7 @@ MyClass2 = _ts_decorate._([
     ])
 ], MyClass2);
 class MyClass3 {
+    param1;
     constructor(param1){
         this.param1 = param1;
     }
@@ -39,6 +42,7 @@ MyClass3 = _ts_decorate._([
     ])
 ], MyClass3);
 class MyClass4 {
+    param1;
     constructor(param1){
         this.param1 = param1;
     }
@@ -51,6 +55,7 @@ MyClass4 = _ts_decorate._([
     ])
 ], MyClass4);
 class MyClass5 {
+    param1;
     constructor(param1){
         this.param1 = param1;
     }
@@ -63,6 +68,8 @@ MyClass5 = _ts_decorate._([
     ])
 ], MyClass5);
 class MyClass6 {
+    param1;
+    param2;
     constructor(param1, param2){
         this.param1 = param1;
         this.param2 = param2;
