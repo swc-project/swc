@@ -1,13 +1,8 @@
 use std::{borrow::Cow, cell::RefCell, mem::take, sync::Arc};
 
-use ahash::RandomState;
 use indexmap::{IndexMap, IndexSet};
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, JsWord};
-use swc_common::{
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
     collections::AHashSet,
