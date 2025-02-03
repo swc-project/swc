@@ -17,6 +17,7 @@ crate-type = ["cdylib"]
 [dependencies]
 anyhow               = { workspace = true }
 getrandom            = { workspace = true, features = ["js"] }
+js-sys               = { workspace = true }
 serde                = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen   = { workspace = true }
 serde_json           = { workspace = true }
