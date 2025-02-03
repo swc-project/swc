@@ -3430,7 +3430,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -4476,7 +4476,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "13.0.0"
+version = "13.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4744,7 +4744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "13.0.0"
+version = "13.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",

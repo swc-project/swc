@@ -8,6 +8,9 @@
 - **(deps)** Update cargo (patch) ([#9971](https://github.com/swc-project/swc/issues/9971)) ([e9843d8](https://github.com/swc-project/swc/commit/e9843d8bb730ebdfca42108585c2e013f96fd612))
 
 
+- **(es/transforms)** Pass `unresolved_mark` to `simplifier` instead of `top_level_mark` ([#9989](https://github.com/swc-project/swc/issues/9989)) ([963b088](https://github.com/swc-project/swc/commit/963b0881f9e027fd9ca6ed7b59a3b1f284bf688e))
+
+
 - **(swc_core)** Fix typo in swc_core feature ([#9979](https://github.com/swc-project/swc/issues/9979)) ([99a6339](https://github.com/swc-project/swc/commit/99a63397b65dfe02bc2c864069edbffb84efa510))
 
 ### Features
