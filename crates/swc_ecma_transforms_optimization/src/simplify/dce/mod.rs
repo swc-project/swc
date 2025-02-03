@@ -41,7 +41,7 @@ pub fn dce(
             in_strict: false,
             remaining_depth: 2,
         },
-        config,
+        config: Arc::new(config),
         changed: false,
         pass: 0,
         in_fn: false,
@@ -87,7 +87,7 @@ impl Default for Config {
 struct TreeShaker {
     expr_ctx: ExprCtx,
 
-    config: Config,
+    config: Arc<Config>,
     changed: bool,
     pass: u16,
 
