@@ -2,9 +2,9 @@ class A {
 }
 class B extends A {
     constructor(){
-        <sometag1 __self={this}/>;
-        super(<sometag2 __self={this}/>);
-        <sometag3 __self={this}/>;
+        <sometag1/>;
+        super(<sometag2/>);
+        <sometag3/>;
     }
 }
 class C {
@@ -24,7 +24,7 @@ class C {
 }
 class E extends A {
     constructor(){
-        this.x = ()=><sometag5 __self={this}/>;
+        this.x = ()=><sometag5/>;
         this.y = function() {
             return <sometag6 __self={this}/>;
         };
@@ -32,7 +32,7 @@ class E extends A {
             return <sometag7 __self={this}/>;
         }
         {
-            <sometag8 __self={this}/>;
+            <sometag8/>;
         }
         super();
     }
@@ -44,6 +44,6 @@ class F {
 }
 class G extends A {
     constructor(){
-        return <sometag10 __self={this}/>;
+        return <sometag10/>;
     }
 }
