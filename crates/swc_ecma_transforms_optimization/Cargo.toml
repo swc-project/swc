@@ -40,7 +40,7 @@ swc_ecma_transforms_base = { version = "9.0.0", path = "../swc_ecma_transforms_b
 swc_ecma_transforms_macros = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils = { version = "9.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "6.0.0", path = "../swc_ecma_visit" }
-swc_fast_graph = { version = "6.0.0", path = "../swc_fast_graph" }
+swc_fast_graph = { version = "7.0.0", path = "../swc_fast_graph" }
 swc_parallel = { version = "1.0.0", path = "../swc_parallel", default-features = false, features = [
   "indexmap",
 ] }
