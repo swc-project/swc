@@ -5,7 +5,6 @@ use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, JsWord};
 use swc_common::{
-    collections::AHashSet,
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, SyntaxContext, DUMMY_SP,
@@ -112,13 +111,10 @@ struct Data {
     edges: Edges,
     /// Entrypoints.
     entry_ids: FxHashSet<Id>,
-
-    graph_ix: IndexSet<Id, FxBuildHasher>,
-    graph_ix: IndexSet<Id, BuildHasherDefault<FxHasher>>,
 }
 
 #[derive(Default)]
-struct Edges(IndexMap<(Id, Id), VarInfo, RandomState>);
+struct Edges(IndexMap<(Id, Id), VarInfo, FxBuildHasher>);
 
 impl Data {
     /// Add an edge to dependency graph
@@ -146,7 +142,7 @@ impl Data {
         let edges = take(&mut self.edges);
 
         let mut graph = FastDiGraphMap::with_capacity(self.used_names.len(), edges.0.len());
-        let mut graph_ix: IndexMap<(JsWord, SyntaxContext), u32, RandomState> =
+        let mut graph_ix: IndexMap<(JsWord, SyntaxContext), u32, FxBuildHasher> =
             IndexMap::with_capacity_and_hasher(self.used_names.len(), Default::default());
 
         let mut get_node = |id: Id| -> u32 {
@@ -161,7 +157,7 @@ impl Data {
             .entry_ids
             .iter()
             .map(|id| get_node(id.clone()))
-            .collect::<IndexSet<_, RandomState>>();
+            .collect::<IndexSet<_, FxBuildHasher>>();
 
         for ((src, dst), info) in edges.0 {
             let src = get_node(src);
