@@ -193,7 +193,7 @@ impl Data {
 
             for &i in &cycle {
                 for &j in &cycle {
-                    if i == j {
+                    if i <= j {
                         continue;
                     }
 
