@@ -3,8 +3,8 @@ use preset_env_base::{
     version::{should_enable, Version},
     BrowserData, Versions,
 };
+use rustc_hash::FxHashMap;
 use string_enum::StringEnum;
-use swc_common::collections::AHashMap;
 
 impl Feature {
     pub fn should_enable(self, target: &Versions, bugfixes: bool, default: bool) -> bool {
@@ -204,9 +204,9 @@ pub enum Feature {
     BugfixTransformSafariClassFieldInitializerScope, // TODO
 }
 
-pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
+pub(crate) static FEATURES: Lazy<FxHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: AHashMap<Feature, BrowserData<Option<String>>> =
+        let map: FxHashMap<Feature, BrowserData<Option<String>>> =
             serde_json::from_str(include_str!("../data/@babel/compat-data/data/plugins.json"))
                 .expect("failed to parse json");
 
@@ -230,9 +230,9 @@ pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>
             .collect()
     });
 
-pub(crate) static BUGFIX_FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
+pub(crate) static BUGFIX_FEATURES: Lazy<FxHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: AHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
+        let map: FxHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
             include_str!("../data/@babel/compat-data/data/plugin-bugfixes.json"),
         )
         .expect("failed to parse json");

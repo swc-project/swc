@@ -1,6 +1,7 @@
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
-use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
+use rustc_hash::FxHashSet;
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
@@ -105,7 +106,7 @@ impl Hoister<'_> {
         let mut var_decls = Vec::new();
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        let mut done = AHashSet::default();
+        let mut done = FxHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {

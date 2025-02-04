@@ -1,10 +1,7 @@
 use anyhow::{Context, Error};
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    sync::Lrc,
-    FileName, Mark, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -95,7 +92,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: AHashSet<JsWord>,
+    pub forced_ns: FxHashSet<JsWord>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -115,13 +112,13 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: AHashMap<Id, Vec<Id>>,
+    usages: FxHashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
-    imported_idents: AHashMap<Id, SyntaxContext>,
+    imported_idents: FxHashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
-    idents_to_deglob: AHashSet<Id>,
+    idents_to_deglob: FxHashSet<Id>,
 
     /// `true` while folding objects of a member expression.
     ///

@@ -1,5 +1,5 @@
-use rustc_hash::FxHashMap;
-use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark};
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
@@ -848,7 +848,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: AHashSet<Id> = collect_decls(&*value);
+                    let bindings: FxHashSet<Id> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();

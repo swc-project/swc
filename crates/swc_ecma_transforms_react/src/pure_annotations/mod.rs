@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, comments::Comments, Span};
+use swc_common::{comments::Comments, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -26,7 +27,7 @@ struct PureAnnotations<C>
 where
     C: Comments,
 {
-    imports: AHashMap<Id, (JsWord, JsWord)>,
+    imports: FxHashMap<Id, (JsWord, JsWord)>,
     comments: Option<C>,
 }
 

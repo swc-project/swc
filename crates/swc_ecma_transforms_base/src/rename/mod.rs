@@ -4,7 +4,6 @@ use std::{borrow::Cow, collections::hash_map::Entry};
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{

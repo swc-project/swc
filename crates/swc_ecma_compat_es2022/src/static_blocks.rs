@@ -1,5 +1,6 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, source_map::PLACEHOLDER_SP, util::take::Take};
+use swc_common::{source_map::PLACEHOLDER_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -61,7 +62,7 @@ impl VisitMut for ClassStaticBlock {
     fn visit_mut_class(&mut self, class: &mut Class) {
         class.visit_mut_children_with(self);
 
-        let mut private_names = AHashSet::default();
+        let mut private_names = FxHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
                 private_names.insert(private_property.key.name.clone());
@@ -85,7 +86,7 @@ impl VisitMut for ClassStaticBlock {
     }
 }
 
-fn generate_uid(deny_list: &AHashSet<JsWord>, i: &mut u32) -> JsWord {
+fn generate_uid(deny_list: &FxHashSet<JsWord>, i: &mut u32) -> JsWord {
     *i += 1;
 
     let mut uid: JsWord = if *i == 1 {

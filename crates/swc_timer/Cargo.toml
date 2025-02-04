@@ -15,4 +15,4 @@ bench = false
 tracing = { workspace = true }
 
 [dev-dependencies]
-testing = { version = "5.0.0", path = "../testing" }
+testing = { version = "6.0.0", path = "../testing" }

@@ -6,18 +6,16 @@ use preset_env_base::{
     version::{should_enable, Version},
     Versions,
 };
+use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::js_word;
-use swc_common::{
-    collections::{AHashMap, ARandomState},
-    DUMMY_SP,
-};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
-static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!(
+static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!(
         "../../data/core-js-compat/entries.json"
     ))
     .expect("failed to parse entries.json from core js 3")
@@ -38,7 +36,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Arc<Versions>,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, ARandomState>,
+    pub imports: IndexSet<&'static str, FxBuildHasher>,
     remove_regenerator: bool,
 }
 

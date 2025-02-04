@@ -1,9 +1,6 @@
+use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    errors::HANDLER,
-    Span, DUMMY_SP,
-};
+use swc_common::{errors::HANDLER, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -41,9 +38,9 @@ struct NoUseBeforeDefine {
     check_functions: bool,
     check_classes: bool,
 
-    scoped_indents: AHashMap<Span, AHashSet<Id>>,
+    scoped_indents: FxHashMap<Span, FxHashSet<Id>>,
     scope: Vec<Span>,
-    scoped_spans: AHashMap<SpansScopeId, AHashSet<Span>>,
+    scoped_spans: FxHashMap<SpansScopeId, FxHashSet<Span>>,
 }
 
 impl NoUseBeforeDefine {
@@ -52,7 +49,7 @@ impl NoUseBeforeDefine {
 
         let root_scope = DUMMY_SP;
 
-        let mut scoped_indents: AHashMap<Span, AHashSet<Id>> = Default::default();
+        let mut scoped_indents: FxHashMap<Span, FxHashSet<Id>> = Default::default();
 
         scoped_indents.insert(root_scope, Default::default());
 
@@ -83,7 +80,7 @@ impl NoUseBeforeDefine {
         if let Some(spans) = self.scoped_spans.get_mut(&spans_block_id) {
             spans.insert(span);
         } else {
-            let mut spans: AHashSet<Span> = Default::default();
+            let mut spans: FxHashSet<Span> = Default::default();
 
             spans.insert(span);
 
@@ -97,7 +94,7 @@ impl NoUseBeforeDefine {
         self.scoped_indents.get(current_scope).unwrap().contains(id)
     }
 
-    fn get_ident_spans_in_current_scope(&self, id: &Id) -> &AHashSet<Span> {
+    fn get_ident_spans_in_current_scope(&self, id: &Id) -> &FxHashSet<Span> {
         let current_block = self.scope.last().unwrap();
 
         let spans_block_id = SpansScopeId {

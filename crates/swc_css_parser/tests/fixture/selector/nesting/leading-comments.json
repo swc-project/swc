@@ -1,14 +1,4 @@
 {
-  "1393": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1311,
-        "end": 1393
-      },
-      "text": "/* valid, starts with a colon,\n       and equivalent to the previous rule. */"
-    }
-  ],
   "1278": [
     {
       "kind": "Block",
@@ -59,6 +49,16 @@
         "end": 645
       },
       "text": "/*}*/"
+    }
+  ],
+  "1393": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1311,
+        "end": 1393
+      },
+      "text": "/* valid, starts with a colon,\n       and equivalent to the previous rule. */"
     }
   ]
 }

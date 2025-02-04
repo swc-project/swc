@@ -3,7 +3,7 @@ use std::time::Instant;
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use swc_common::collections::AHashMap;
+use rustc_hash::FxHashMap;
 
 use super::{load::TransformedModule, Bundler};
 use crate::{
@@ -27,7 +27,7 @@ where
     /// For first, we load all dependencies and determine all entries.
     pub(super) fn chunk(
         &self,
-        entries: AHashMap<String, TransformedModule>,
+        entries: FxHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         #[cfg(not(target_arch = "wasm32"))]
         let start = Instant::now();
@@ -73,7 +73,7 @@ where
                     Ok((*id, module))
                 })
             })
-            .collect::<Result<AHashMap<_, _>, _>>()?;
+            .collect::<Result<FxHashMap<_, _>, _>>()?;
 
         #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
@@ -172,7 +172,7 @@ mod tests {
                     .bundler
                     .load_transformed(&FileName::Real("main.js".into()))?
                     .unwrap();
-                let mut entries = AHashMap::default();
+                let mut entries = FxHashMap::default();
                 entries.insert("main.js".to_string(), module);
 
                 let chunked = t.bundler.chunk(entries)?;

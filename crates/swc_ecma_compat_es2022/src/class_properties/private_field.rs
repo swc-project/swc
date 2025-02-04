@@ -1,10 +1,8 @@
 use std::iter;
 
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashMap, errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, quote_ident, ExprFactory};
@@ -17,7 +15,7 @@ use crate::optional_chaining_impl::optional_chaining_impl;
 pub(super) struct Private {
     pub mark: Mark,
     pub class_name: Ident,
-    pub ident: AHashMap<JsWord, PrivateKind>,
+    pub ident: FxHashMap<JsWord, PrivateKind>,
 }
 
 pub(super) struct PrivateRecord(Vec<Private>);

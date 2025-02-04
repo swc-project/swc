@@ -6,7 +6,7 @@
 use std::{
     cmp::Ordering,
     fmt,
-    hash::{self, BuildHasherDefault, Hash},
+    hash::{self, Hash},
     iter::Cloned,
     marker::PhantomData,
     ops::Deref,
@@ -25,10 +25,7 @@ use petgraph::{
     },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
-use rustc_hash::FxHasher;
-use swc_common::collections::AHashSet;
-
-type FxBuildHasher = BuildHasherDefault<FxHasher>;
+use rustc_hash::{FxBuildHasher, FxHashSet};
 
 /// A `GraphMap` with directed edges.
 ///
@@ -865,10 +862,10 @@ where
     N: Copy + Ord + Hash,
     Ty: EdgeType,
 {
-    type Map = AHashSet<N>;
+    type Map = FxHashSet<N>;
 
-    fn visit_map(&self) -> AHashSet<N> {
-        AHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
+    fn visit_map(&self) -> FxHashSet<N> {
+        FxHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
     }
 
     fn reset_map(&self, map: &mut Self::Map) {

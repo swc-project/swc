@@ -15,11 +15,9 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashSet, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
@@ -1920,7 +1918,7 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     only: Option<SyntaxContext>,
-    bindings: AHashSet<I>,
+    bindings: FxHashSet<I>,
     is_pat_decl: bool,
 }
 
@@ -2043,7 +2041,7 @@ where
 }
 
 /// Collects binding identifiers.
-pub fn collect_decls<I, N>(n: &N) -> AHashSet<I>
+pub fn collect_decls<I, N>(n: &N) -> FxHashSet<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
@@ -2059,7 +2057,7 @@ where
 
 /// Collects binding identifiers, but only if it has a context which is
 /// identical to `ctxt`.
-pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> AHashSet<I>
+pub fn collect_decls_with_ctxt<I, N>(n: &N, ctxt: SyntaxContext) -> FxHashSet<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<BindingCollector<I>>,
@@ -3454,7 +3452,7 @@ mod tests {
 
     fn run_collect_decls(text: &str, expected_names: &[&str]) {
         let module = parse_module(text);
-        let decls: AHashSet<Id> = collect_decls(&module);
+        let decls: FxHashSet<Id> = collect_decls(&module);
         let mut names = decls.iter().map(|d| d.0.to_string()).collect::<Vec<_>>();
         names.sort();
         assert_eq!(names, expected_names);

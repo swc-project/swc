@@ -7,6 +7,7 @@ use anyhow::{Context, Error};
 use dashmap::DashMap;
 use from_variant::FromVariant;
 use once_cell::sync::Lazy;
+use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
 
 use crate::{version::Version, BrowserData, Versions};
@@ -18,10 +19,7 @@ pub enum Targets {
     Query(Query),
     EsModules(EsModules),
     Versions(Versions),
-    /// This uses `ahash` directly to reduce build time.
-    ///
-    /// This type is identical to `swc_common::collections::AHashMap`
-    HashMap(HashMap<String, QueryOrVersion, ahash::RandomState>),
+    HashMap(HashMap<String, QueryOrVersion, FxBuildHasher>),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize)]
@@ -73,7 +71,7 @@ impl Query {
             Ok(Arc::new(versions))
         }
 
-        static CACHE: Lazy<DashMap<Query, Arc<Versions>, ahash::RandomState>> =
+        static CACHE: Lazy<DashMap<Query, Arc<Versions>, FxBuildHasher>> =
             Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {

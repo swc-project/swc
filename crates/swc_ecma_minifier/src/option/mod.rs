@@ -6,7 +6,7 @@ use parking_lot::RwLock;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
-use swc_common::{collections::AHashMap, Mark};
+use swc_common::Mark;
 use swc_config::{merge::Merge, CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr, Id};
 
@@ -188,7 +188,7 @@ pub struct CompressOptions {
     /// to remove spans.
     #[cfg_attr(feature = "extra-serde", serde(skip))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "global_defs"))]
-    pub global_defs: AHashMap<Box<Expr>, Box<Expr>>,
+    pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_funs"))]

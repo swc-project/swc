@@ -14,12 +14,12 @@ use swc_ecma_ast::{
     ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp,
     Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
-    ImportDecl, ImportSpecifier, NamedExport, ObjectPat, Param, Pat, PrivateMethod, PrivateProp,
-    Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr, TsConstAssertion, TsEnumDecl,
-    TsExportAssignment, TsImportEqualsDecl, TsIndexSignature, TsInstantiation, TsModuleDecl,
-    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDeclarator, WhileStmt, YieldExpr,
+    ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param, Pat,
+    PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
+    TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
+    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -1034,7 +1034,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        if n.decl.is_ts_declare() {
+        if n.decl.is_ts_declare() || n.decl.is_uninstantiated() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
             return;
@@ -1044,7 +1044,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
-        if n.decl.is_ts_declare() {
+        if n.decl.is_ts_declare() || n.decl.is_uninstantiated() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
             return;
@@ -1054,7 +1054,7 @@ impl Visit for TsStrip {
     }
 
     fn visit_decl(&mut self, n: &Decl) {
-        if n.is_ts_declare() {
+        if n.is_ts_declare() || n.is_uninstantiated() {
             self.add_replacement(n.span());
             self.fix_asi(n.span());
             return;
@@ -1393,7 +1393,7 @@ trait IsTsDecl {
 impl IsTsDecl for Decl {
     fn is_ts_declare(&self) -> bool {
         match self {
-            Self::TsInterface { .. } | Self::TsTypeAlias(..) => true,
+            Self::TsInterface(..) | Self::TsTypeAlias(..) => true,
 
             Self::TsModule(module) => module.declare || matches!(module.id, TsModuleName::Str(..)),
             Self::TsEnum(ref r#enum) => r#enum.declare,
@@ -1419,9 +1419,64 @@ impl IsTsDecl for DefaultDecl {
     fn is_ts_declare(&self) -> bool {
         match self {
             Self::Class(..) => false,
-            DefaultDecl::Fn(r#fn) => r#fn.function.body.is_none(),
-            DefaultDecl::TsInterfaceDecl(..) => true,
+            Self::Fn(r#fn) => r#fn.function.body.is_none(),
+            Self::TsInterfaceDecl(..) => true,
         }
+    }
+}
+
+trait IsUninstantiated {
+    fn is_uninstantiated(&self) -> bool;
+}
+
+impl IsUninstantiated for TsNamespaceBody {
+    fn is_uninstantiated(&self) -> bool {
+        match self {
+            Self::TsModuleBlock(block) => {
+                block.body.iter().all(IsUninstantiated::is_uninstantiated)
+            }
+            Self::TsNamespaceDecl(decl) => decl.body.is_uninstantiated(),
+        }
+    }
+}
+
+impl IsUninstantiated for ModuleItem {
+    fn is_uninstantiated(&self) -> bool {
+        match self {
+            Self::Stmt(stmt) => stmt.is_uninstantiated(),
+            Self::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
+                decl.is_uninstantiated()
+            }
+            _ => false,
+        }
+    }
+}
+
+impl IsUninstantiated for Stmt {
+    fn is_uninstantiated(&self) -> bool {
+        matches!(self, Self::Decl(decl) if decl.is_uninstantiated())
+    }
+}
+
+impl IsUninstantiated for TsModuleDecl {
+    fn is_uninstantiated(&self) -> bool {
+        matches!(&self.body, Some(body) if body.is_uninstantiated())
+    }
+}
+
+impl IsUninstantiated for Decl {
+    fn is_uninstantiated(&self) -> bool {
+        match self {
+            Self::TsInterface(..) | Self::TsTypeAlias(..) => true,
+            Self::TsModule(module) => module.is_uninstantiated(),
+            _ => false,
+        }
+    }
+}
+
+impl IsUninstantiated for DefaultDecl {
+    fn is_uninstantiated(&self) -> bool {
+        matches!(self, Self::TsInterfaceDecl(..))
     }
 }
 

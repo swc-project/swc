@@ -1,4 +1,14 @@
 {
+  "22": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1,
+        "end": 22
+      },
+      "text": "/*This is a comment*/"
+    }
+  ],
   "221": [
     {
       "kind": "Block",
@@ -47,16 +57,6 @@
         "end": 220
       },
       "text": "/*}*/"
-    }
-  ],
-  "22": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1,
-        "end": 22
-      },
-      "text": "/*This is a comment*/"
     }
   ]
 }

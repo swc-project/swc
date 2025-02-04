@@ -7,15 +7,15 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_cached"
 repository    = { workspace = true }
-version       = "1.0.0"
+version       = "2.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-ahash     = { workspace = true }
-anyhow    = { workspace = true }
-dashmap   = { workspace = true }
-once_cell = { workspace = true }
-regex     = { workspace = true }
-serde     = { workspace = true }
+anyhow     = { workspace = true }
+dashmap    = { workspace = true }
+once_cell  = { workspace = true }
+regex      = { workspace = true }
+rustc-hash = { workspace = true }
+serde      = { workspace = true }

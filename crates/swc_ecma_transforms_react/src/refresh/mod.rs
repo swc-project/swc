@@ -1,6 +1,7 @@
+use rustc_hash::FxHashSet;
 use swc_common::{
-    collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark,
-    SourceMap, SourceMapper, Span, Spanned, SyntaxContext, DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap, SourceMapper, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
@@ -76,7 +77,7 @@ impl<C: Comments> Refresh<C> {
     fn get_persistent_id_from_var_decl(
         &self,
         var_decl: &mut VarDecl,
-        used_in_jsx: &AHashSet<Id>,
+        used_in_jsx: &FxHashSet<Id>,
         hook_reg: &mut HookRegister,
     ) -> Persist {
         // We only handle the case when a single variable is declared

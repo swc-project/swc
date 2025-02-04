@@ -1,14 +1,4 @@
 {
-  "365": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 351,
-        "end": 365
-      },
-      "text": "/* layer 1 */"
-    }
-  ],
   "390": [
     {
       "kind": "Block",
@@ -27,6 +17,16 @@
         "end": 861
       },
       "text": "/* These styles will be added to the theme layer inside the framework layer */"
+    }
+  ],
+  "365": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 351,
+        "end": 365
+      },
+      "text": "/* layer 1 */"
     }
   ]
 }

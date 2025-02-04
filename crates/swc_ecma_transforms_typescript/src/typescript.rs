@@ -4,6 +4,9 @@ use swc_common::{
     collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span,
     Spanned,
 };
+use once_cell::sync::Lazy;
+use rustc_hash::FxHashSet;
+use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
@@ -47,7 +50,7 @@ pub(crate) struct TypeScript {
     pub unresolved_mark: Mark,
     pub top_level_mark: Mark,
 
-    id_usage: AHashSet<Id>,
+    id_usage: FxHashSet<Id>,
 }
 
 impl VisitMut for TypeScript {
@@ -192,7 +195,7 @@ where
 {
     config: Config,
     tsx_config: TsxConfig,
-    id_usage: AHashSet<Id>,
+    id_usage: FxHashSet<Id>,
     comments: C,
     cm: Lrc<SourceMap>,
     top_level_mark: Mark,

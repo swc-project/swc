@@ -1,7 +1,8 @@
 use std::mem::take;
 
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned};
+use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitMutWith, VisitWith};
 
@@ -78,7 +79,7 @@ impl Compressor {
         }
     }
 
-    fn collect_names(&self, at_rule: &AtRule, names: &mut AHashMap<Name, isize>) {
+    fn collect_names(&self, at_rule: &AtRule, names: &mut FxHashMap<Name, isize>) {
         let Some(prelude) = &at_rule.prelude else {
             return;
         };
@@ -113,7 +114,7 @@ impl Compressor {
     fn discard_overridden(
         &self,
         parent_node: ParentNode,
-        names: &mut AHashMap<Name, isize>,
+        names: &mut FxHashMap<Name, isize>,
         remove_rules_list: &mut Vec<usize>,
     ) {
         let mut discarder = |at_rule: &AtRule| {
@@ -372,7 +373,7 @@ impl Compressor {
     }
 
     pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
-        let mut names: AHashMap<Name, isize> = Default::default();
+        let mut names: FxHashMap<Name, isize> = Default::default();
         let mut prev_rule_idx = None;
         let mut remove_rules_list = Vec::new();
         let mut prev_index = 0;
@@ -509,7 +510,7 @@ impl Compressor {
     }
 
     pub(super) fn compress_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        let mut names: AHashMap<Name, isize> = Default::default();
+        let mut names: FxHashMap<Name, isize> = Default::default();
         let mut prev_rule_idx = None;
         let mut remove_rules_list = Vec::new();
         let mut prev_index = 0;

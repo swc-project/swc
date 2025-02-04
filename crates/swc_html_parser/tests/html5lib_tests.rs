@@ -4,10 +4,10 @@
 use std::{fs, mem::take, path::PathBuf};
 
 use common::{document_span_visualizer, DomVisualizer};
+use rustc_hash::FxHashSet;
 use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashSet,
     input::{SourceFileInput, StringInput},
     BytePos,
 };
@@ -169,7 +169,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         *raw_tag_name = None;
 
                         let mut new_attributes = Vec::new();
-                        let mut already_seen: AHashSet<JsWord> = Default::default();
+                        let mut already_seen: FxHashSet<JsWord> = Default::default();
 
                         for mut attribute in take(attributes) {
                             if already_seen.contains(&attribute.name) {

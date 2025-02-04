@@ -1,6 +1,7 @@
 use indexmap::IndexMap;
+use rustc_hash::FxBuildHasher;
 use swc_atoms::JsWord;
-use swc_common::{collections::ARandomState, FileName, SyntaxContext};
+use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -42,7 +43,7 @@ where
 #[derive(Debug, Default)]
 pub(super) struct RawExports {
     /// Key is None if it's exported from the module itself.
-    pub items: IndexMap<Option<Str>, Vec<Specifier>, ARandomState>,
+    pub items: IndexMap<Option<Str>, Vec<Specifier>, FxBuildHasher>,
 }
 
 #[derive(Debug, Default)]

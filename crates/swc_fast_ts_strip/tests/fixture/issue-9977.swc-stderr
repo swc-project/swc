@@ -1,0 +1,52 @@
+  x TypeScript parameter property is not supported in strip-only mode
+   ,-[6:1]
+ 5 |     // No parameter properties
+ 6 |     constructor(public foo: string) { }
+   :                        ^^^^^^^^^^^
+ 7 | }
+   `----
+  x TypeScript namespace declaration is not supported in strip-only mode
+    ,-[9:1]
+  8 |     
+  9 | ,-> namespace IllegalBecauseInstantiated {
+ 10 | |       export const m = 1;
+ 11 | `-> }
+    `----
+  x TypeScript namespace declaration is not supported in strip-only mode
+    ,-[13:1]
+ 12 |     
+ 13 | ,-> namespace AlsoIllegalBecauseInstantiated {
+ 14 | |       class PrivateClass {
+ 15 | |   
+ 16 | |       }
+ 17 | `-> }
+    `----
+  x TypeScript namespace declaration is not supported in strip-only mode
+    ,-[19:1]
+ 18 |     
+ 19 | ,-> namespace IllegalBecauseNestedInstantiated {
+ 20 | |       namespace Nested {
+ 21 | |           export const m = 1;
+ 22 | |       }
+ 23 | `-> }
+    `----
+  x TypeScript enum is not supported in strip-only mode
+    ,-[25:1]
+ 24 |     
+ 25 | ,-> enum NotLegalEnum {
+ 26 | |       B = 1
+ 27 | `-> }
+    `----
+  x TypeScript import equals declaration is not supported in strip-only mode
+    ,-[29:1]
+ 28 | 
+ 29 | import NoGoodAlias = NotLegalEnum.B;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+  x TypeScript enum is not supported in strip-only mode
+    ,-[31:1]
+ 30 |     
+ 31 | ,-> const enum NotLegalConstEnum {
+ 32 | |       C = 2
+ 33 | `-> }
+    `----

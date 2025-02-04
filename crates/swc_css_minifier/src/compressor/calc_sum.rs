@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{collections::AHashMap, Span};
+use swc_common::Span;
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -315,7 +316,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
     // combine numbers, combine percentages, combine px values, etc.)
     let mut number: Option<usize> = None;
     let mut percentage: Option<usize> = None;
-    let mut dimensions: AHashMap<String, usize> = AHashMap::default();
+    let mut dimensions: FxHashMap<String, usize> = FxHashMap::default();
     let mut idx = 0;
     while idx < nodes.len() {
         match &nodes[idx] {
@@ -441,7 +442,7 @@ fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
 }
 
 fn try_to_reduce_node_with_dimensions(
-    dimensions: &mut AHashMap<String, usize>,
+    dimensions: &mut FxHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     try_to_reduce_node_with_absolute_lengths(dimensions, nodes);
@@ -452,7 +453,7 @@ fn try_to_reduce_node_with_dimensions(
 
 // https://www.w3.org/TR/css-values-4/#absolute-lengths
 fn try_to_reduce_node_with_absolute_lengths(
-    dimensions: &mut AHashMap<String, usize>,
+    dimensions: &mut FxHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_cm), Some(idx_mm)) = (dimensions.get("cm"), dimensions.get("mm")) {
@@ -521,7 +522,7 @@ fn try_to_reduce_node_with_absolute_lengths(
 
 // https://www.w3.org/TR/css-values-4/#time
 fn try_to_reduce_node_with_durations(
-    dimensions: &mut AHashMap<String, usize>,
+    dimensions: &mut FxHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_ms), Some(idx_s)) = (dimensions.get("ms"), dimensions.get("s")) {
@@ -537,7 +538,7 @@ fn try_to_reduce_node_with_durations(
 
 // https://www.w3.org/TR/css-values-4/#frequency
 fn try_to_reduce_node_with_frequencies(
-    dimensions: &mut AHashMap<String, usize>,
+    dimensions: &mut FxHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_hz), Some(idx_khz)) = (dimensions.get("hz"), dimensions.get("khz")) {
@@ -553,7 +554,7 @@ fn try_to_reduce_node_with_frequencies(
 
 // https://www.w3.org/TR/css-values-4/#resolution
 fn try_to_reduce_node_with_resolutions(
-    dimensions: &mut AHashMap<String, usize>,
+    dimensions: &mut FxHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     match (dimensions.get("dppx"), dimensions.get("x")) {

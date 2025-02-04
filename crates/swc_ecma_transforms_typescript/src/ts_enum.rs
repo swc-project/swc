@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     number::{JsNumber, ToJsString},
@@ -13,7 +14,7 @@ pub(crate) struct TsEnumRecordKey {
     pub member_name: JsWord,
 }
 
-pub(crate) type TsEnumRecord = AHashMap<TsEnumRecordKey, TsEnumRecordValue>;
+pub(crate) type TsEnumRecord = FxHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 
 #[derive(Debug, Clone)]
 pub(crate) enum TsEnumRecordValue {

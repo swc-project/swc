@@ -1,8 +1,7 @@
 use std::env;
 
 use once_cell::sync::Lazy;
-
-use crate::collections::AHashMap;
+use rustc_hash::FxHashMap;
 
 /// Indexable key to the metadata context for a transform plugin.
 ///
@@ -41,14 +40,14 @@ pub struct TransformPluginMetadataContext {
     pub env: String,
     /// The current working directory.
     pub cwd: Option<String>,
-    pub experimental: AHashMap<String, String>,
+    pub experimental: FxHashMap<String, String>,
 }
 
 impl TransformPluginMetadataContext {
     pub fn new(
         filename: Option<String>,
         env: String,
-        experimental: Option<AHashMap<String, String>>,
+        experimental: Option<FxHashMap<String, String>>,
     ) -> Self {
         static CWD: Lazy<Option<String>> = Lazy::new(|| {
             env::current_dir()
