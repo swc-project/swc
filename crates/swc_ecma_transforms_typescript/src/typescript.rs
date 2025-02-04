@@ -1,6 +1,5 @@
 use std::mem;
 
-use once_cell::sync::Lazy;
 use rustc_hash::FxHashSet;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
