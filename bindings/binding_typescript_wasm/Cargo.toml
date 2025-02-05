@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_typescript_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.10.12"
+version     = "1.10.14"
 
 [lib]
 bench      = false
@@ -17,6 +17,7 @@ crate-type = ["cdylib"]
 [dependencies]
 anyhow               = { workspace = true }
 getrandom            = { workspace = true, features = ["js"] }
+js-sys               = { workspace = true }
 serde                = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen   = { workspace = true }
 serde_json           = { workspace = true }

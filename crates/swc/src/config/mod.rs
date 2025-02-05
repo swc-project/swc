@@ -470,13 +470,13 @@ impl Options {
                 match opts {
                     SimplifyOption::Bool(allow_simplify) => {
                         if *allow_simplify {
-                            Some(simplifier(top_level_mark, Default::default()))
+                            Some(simplifier(unresolved_mark, Default::default()))
                         } else {
                             None
                         }
                     }
                     SimplifyOption::Json(cfg) => Some(simplifier(
-                        top_level_mark,
+                        unresolved_mark,
                         SimplifyConfig {
                             dce: DceConfig {
                                 preserve_imports_with_side_effects: cfg
