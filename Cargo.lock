@@ -179,6 +179,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
 
 [[package]]
+name = "ascii"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
+
+[[package]]
 name = "assert_cmd"
 version = "2.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5016,6 +5022,7 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "6.0.0"
 dependencies = [
+ "ascii",
  "base64 0.21.7",
  "codspeed-criterion-compat",
  "criterion",

@@ -17,6 +17,7 @@ serde-impl = ["swc_ecma_ast/serde"]
 bench = false
 
 [dependencies]
+ascii      = { workspace = true }
 memchr     = { workspace = true }
 num-bigint = { workspace = true, features = ["serde"] }
 once_cell  = { workspace = true }

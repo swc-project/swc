@@ -5,8 +5,9 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io};
+use std::{borrow::Cow, fmt::Write, io, str};
 
+use ascii::AsciiChar;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
@@ -680,15 +681,25 @@ where
             }
         }
 
-        let mut value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+        let (quote_char, mut value) = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
         if self.cfg.inline_script {
-            value = replace_close_inline_script(&value)
-                .replace("\x3c!--", "\\x3c!--")
-                .replace("--\x3e", "--\\x3e");
+            value = Cow::Owned(
+                replace_close_inline_script(&value)
+                    .replace("\x3c!--", "\\x3c!--")
+                    .replace("--\x3e", "--\\x3e"),
+            );
         }
 
+        let quote_str = [quote_char.as_byte()];
+        let quote_str = unsafe {
+            // Safety: quote_char is valid ascii
+            str::from_utf8_unchecked(&quote_str)
+        };
+
+        self.wr.write_str(quote_str)?;
         self.wr.write_str_lit(DUMMY_SP, &value)?;
+        self.wr.write_str(quote_str)?;
 
         // srcmap!(node, false);
     }
@@ -4125,7 +4136,45 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 }
 
-fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
+/// Returns `(quote_char, value)`
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, Cow<str>) {
+    // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
+    // allocation
+    if v.is_ascii() {
+        let mut needs_escaping = false;
+        let mut single_quote_count = 0;
+        let mut double_quote_count = 0;
+
+        for &b in v.as_bytes() {
+            match b {
+                b'\'' => single_quote_count += 1,
+                b'"' => double_quote_count += 1,
+                // Control characters and backslash need escaping
+                0..=0x1f | b'\\' => {
+                    needs_escaping = true;
+                    break;
+                }
+                _ => {}
+            }
+        }
+
+        if !needs_escaping {
+            let quote_char = if double_quote_count > single_quote_count {
+                AsciiChar::Apostrophe
+            } else {
+                AsciiChar::Quotation
+            };
+
+            // If there are no quotes to escape, we can return the original string
+            if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
+                || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
+            {
+                return (quote_char, Cow::Borrowed(v));
+            }
+        }
+    }
+
+    // Slow path: Original implementation for strings that need processing
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
     for c in v.chars() {
@@ -4138,21 +4187,24 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
     // Pre-calculate capacity to avoid reallocations
     let quote_char = if double_quote_count > single_quote_count {
-        '\''
+        AsciiChar::Apostrophe
     } else {
-        '"'
+        AsciiChar::Quotation
     };
-    let escape_char = if quote_char == '\'' { '\'' } else { '"' };
-    let escape_count = if quote_char == '\'' {
+    let escape_char = if quote_char == AsciiChar::Apostrophe {
+        AsciiChar::Apostrophe
+    } else {
+        AsciiChar::Quotation
+    };
+    let escape_count = if quote_char == AsciiChar::Apostrophe {
         single_quote_count
     } else {
         double_quote_count
     };
 
-    // Add 2 for quotes, and 1 for each escaped quote
-    let capacity = v.len() + 2 + escape_count;
+    // Add 1 for each escaped quote
+    let capacity = v.len() + escape_count;
     let mut buf = String::with_capacity(capacity);
-    buf.push(quote_char);
 
     let mut iter = v.chars().peekable();
     while let Some(c) = iter.next() {
@@ -4299,8 +4351,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    buf.push(quote_char);
-    buf
+    (quote_char, Cow::Owned(buf))
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
