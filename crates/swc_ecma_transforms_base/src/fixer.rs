@@ -719,6 +719,9 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         match &*e.tag {
+            Expr::Object(..) if self.ctx == Context::Default => {
+                self.wrap(&mut e.tag);
+            }
             Expr::OptChain(..)
             | Expr::Arrow(..)
             | Expr::Cond(..)
