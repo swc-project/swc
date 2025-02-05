@@ -79,7 +79,7 @@ wasmer-compiler-cranelift = { version = "=5.0.5-rc1", default-features = false }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_atoms = { version = "3.0.4", path = '../swc_atoms' }
+swc_atoms = { version = "3.0.5", path = '../swc_atoms' }
 swc_css_ast = { version = "6.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }

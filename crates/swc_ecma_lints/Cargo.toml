@@ -20,7 +20,7 @@ regex       = { workspace = true }
 rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
-swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.5", path = "../swc_atoms" }
 swc_common = { version = "6.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
@@ -37,10 +37,10 @@ anyhow                    = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
-swc_ecma_codegen          = { version = "6.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen          = { version = "6.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser           = { version = "8.0.0", path = "../swc_ecma_parser" }
 swc_ecma_testing          = { version = "6.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base  = { version = "9.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base  = { version = "9.0.1", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
 testing                   = { version = "6.0.0", path = "../testing" }
 walkdir                   = { workspace = true }

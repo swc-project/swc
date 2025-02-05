@@ -60,7 +60,7 @@ ast_node             = { version = "3.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.0", path = "../better_scoped_tls" }
 from_variant         = { version = "2.0.0", path = "../from_variant" }
 swc_allocator        = { version = "3.0.0", path = "../swc_allocator", default-features = false }
-swc_atoms            = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms            = { version = "3.0.5", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.0", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.0", path = "../swc_visit" }
 

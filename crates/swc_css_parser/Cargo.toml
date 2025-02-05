@@ -19,7 +19,7 @@ debug = []
 lexical = { workspace = true }
 serde   = { workspace = true }
 
-swc_atoms   = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms   = { version = "3.0.5", path = "../swc_atoms" }
 swc_common  = { version = "6.0.0", path = "../swc_common" }
 swc_css_ast = { version = "6.0.0", path = "../swc_css_ast" }
 

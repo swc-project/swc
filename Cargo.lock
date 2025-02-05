@@ -179,6 +179,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
 
 [[package]]
+name = "ascii"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
+
+[[package]]
 name = "assert_cmd"
 version = "2.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3112,9 +3118,9 @@ checksum = "0ab1bc2a289d34bd04a330323ac98a1b4bc82c9d9fcb1e66b63caa84da26b575"
 
 [[package]]
 name = "openssl"
-version = "0.10.66"
+version = "0.10.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9529f4786b70a3e8c61e11179af17ab6188ad8d0ded78c5529441ed39d4bd9c1"
+checksum = "61cfb4e166a8bb8c9b55c500bc2308550148ece889be90f609377e58140f42c6"
 dependencies = [
  "bitflags 2.6.0",
  "cfg-if",
@@ -3144,9 +3150,9 @@ checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.103"
+version = "0.9.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f9e8deee91df40a943c71b917e5874b951d32a802526c85721ce3b776c929d6"
+checksum = "8b22d5b84be05a8d6947c7cb71f7c849aa0f112acd4bf51c2a7c1c988ac0a9dc"
 dependencies = [
  "cc",
  "libc",
@@ -4566,7 +4572,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "3.0.4"
+version = "3.0.5"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.0",
@@ -4744,7 +4750,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "13.0.2"
+version = "13.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5014,8 +5020,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
+ "ascii",
  "base64 0.21.7",
  "codspeed-criterion-compat",
  "criterion",
@@ -5472,7 +5479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "9.0.0"
+version = "9.0.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5648,7 +5655,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "9.0.0"
+version = "9.0.1"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
