@@ -84,7 +84,7 @@ var _ref4 = {
             f5: 0
         }
     ]
-}, _ref_f = _sliced_to_array(_ref4.f, 3), f1 = _ref_f[0], f2 = _ref_f[1], _ref_f_ = _ref_f[2], f4 = _ref_f_.f3, f5 = _ref_f_.f5;
+}, _ref_f = _sliced_to_array(_ref4.f, 4), f1 = _ref_f[0], f2 = _ref_f[1], _ref_f_ = _ref_f[2], f4 = _ref_f_.f3, f5 = _ref_f_.f5;
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.

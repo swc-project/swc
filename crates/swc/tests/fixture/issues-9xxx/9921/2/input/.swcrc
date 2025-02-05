@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "target": "es2022",
+        "experimental": {
+            "disableBuiltinTransformsForInternalTesting": true,
+        }
+    }
+}
