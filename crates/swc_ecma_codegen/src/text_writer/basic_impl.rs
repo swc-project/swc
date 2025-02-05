@@ -78,7 +78,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(())
     }
 
-    #[inline]
+    #[inline(always)]
     fn write(&mut self, span: Option<Span>, data: &str) -> Result {
         if !data.is_empty() {
             if self.line_start {
