@@ -4146,8 +4146,12 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar,
     } else {
         AsciiChar::Quotation
     };
-    let escape_char = if quote_char == b'\'' { b'\'' } else { b'"' };
-    let escape_count = if quote_char == b'\'' {
+    let escape_char = if quote_char == AsciiChar::Apostrophe {
+        AsciiChar::Apostrophe
+    } else {
+        AsciiChar::Quotation
+    };
+    let escape_count = if quote_char == AsciiChar::Apostrophe {
         single_quote_count
     } else {
         double_quote_count
