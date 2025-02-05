@@ -5,7 +5,7 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io};
+use std::{borrow::Cow, fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use memchr::memmem::Finder;
@@ -691,7 +691,15 @@ where
             );
         }
 
+        let quote_str = [quote_char.as_byte()];
+        let quote_str = unsafe {
+            // Safety: quote_char is valid ascii
+            str::from_utf8_unchecked(&quote_str)
+        };
+
+        self.wr.write_str(quote_str)?;
         self.wr.write_str_lit(DUMMY_SP, &value)?;
+        self.wr.write_str(quote_str)?;
 
         // srcmap!(node, false);
     }
