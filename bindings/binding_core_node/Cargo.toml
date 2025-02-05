@@ -15,8 +15,9 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin = [
-  "swc_core/plugin_transform_host_native",
-  "swc_core/plugin_transform_host_native_filesystem_cache",
+  # "swc_core/plugin_transform_host_native",
+  # "swc_core/plugin_transform_host_native_filesystem_cache",
+  "swc_core/plugin_transform_host_js",
 ]
 swc_v1 = ["swc_core/bundler_node_v1"]
 swc_v2 = ["swc_core/bundler_node_v2"]
