@@ -7,6 +7,7 @@
 
 use std::{borrow::Cow, fmt::Write, io};
 
+use ascii::AsciiChar;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
@@ -680,12 +681,14 @@ where
             }
         }
 
-        let mut value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+        let (quote_char, mut value) = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
         if self.cfg.inline_script {
-            value = replace_close_inline_script(&value)
-                .replace("\x3c!--", "\\x3c!--")
-                .replace("--\x3e", "--\\x3e");
+            value = Cow::Owned(
+                replace_close_inline_script(&value)
+                    .replace("\x3c!--", "\\x3c!--")
+                    .replace("--\x3e", "--\\x3e"),
+            );
         }
 
         self.wr.write_str_lit(DUMMY_SP, &value)?;
@@ -4126,7 +4129,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 }
 
 /// Returns `(quote_char, value)`
-fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (u8, Cow<str>) {
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, Cow<str>) {
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
     for c in v.chars() {
@@ -4139,9 +4142,9 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (u8, Cow<st
 
     // Pre-calculate capacity to avoid reallocations
     let quote_char = if double_quote_count > single_quote_count {
-        b'\''
+        AsciiChar::Apostrophe
     } else {
-        b'"'
+        AsciiChar::Quotation
     };
     let escape_char = if quote_char == b'\'' { b'\'' } else { b'"' };
     let escape_count = if quote_char == b'\'' {
