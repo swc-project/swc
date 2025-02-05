@@ -4125,7 +4125,8 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 }
 
-fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
+/// Returns `(quote_char, value)`
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (u8, Cow<str>) {
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
     for c in v.chars() {
@@ -4138,21 +4139,20 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
     // Pre-calculate capacity to avoid reallocations
     let quote_char = if double_quote_count > single_quote_count {
-        '\''
+        b'\''
     } else {
-        '"'
+        b'"'
     };
-    let escape_char = if quote_char == '\'' { '\'' } else { '"' };
-    let escape_count = if quote_char == '\'' {
+    let escape_char = if quote_char == b'\'' { b'\'' } else { b'"' };
+    let escape_count = if quote_char == b'\'' {
         single_quote_count
     } else {
         double_quote_count
     };
 
-    // Add 2 for quotes, and 1 for each escaped quote
-    let capacity = v.len() + 2 + escape_count;
+    // Add 1 for each escaped quote
+    let capacity = v.len() + escape_count;
     let mut buf = String::with_capacity(capacity);
-    buf.push(quote_char);
 
     let mut iter = v.chars().peekable();
     while let Some(c) = iter.next() {
@@ -4299,8 +4299,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
         }
     }
 
-    buf.push(quote_char);
-    buf
+    (quote_char, Cow::Owned(buf))
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {
