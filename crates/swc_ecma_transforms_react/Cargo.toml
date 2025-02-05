@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_react"
 repository    = { workspace = true }
-version       = "9.0.0"
+version       = "9.0.1"
 
 [lib]
 bench = false
@@ -40,7 +40,7 @@ swc_ecma_utils             = { version = "9.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "6.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen            = { version = "6.0.0", path = "../swc_ecma_codegen/" }
+swc_ecma_codegen            = { version = "6.0.1", path = "../swc_ecma_codegen/" }
 swc_ecma_transforms_compat  = { version = "10.0.0", path = "../swc_ecma_transforms_compat/" }
 swc_ecma_transforms_testing = { version = "9.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "6.0.0", path = "../testing" }

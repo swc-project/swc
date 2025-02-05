@@ -4750,7 +4750,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "13.0.2"
+version = "13.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5020,7 +5020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "ascii",
  "base64 0.21.7",
@@ -5655,7 +5655,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "9.0.0"
+version = "9.0.1"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
