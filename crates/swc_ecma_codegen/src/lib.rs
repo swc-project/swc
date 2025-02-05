@@ -4138,6 +4138,43 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 
 /// Returns `(quote_char, value)`
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, Cow<str>) {
+    // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
+    // allocation
+    if v.is_ascii() {
+        let mut needs_escaping = false;
+        let mut single_quote_count = 0;
+        let mut double_quote_count = 0;
+
+        for &b in v.as_bytes() {
+            match b {
+                b'\'' => single_quote_count += 1,
+                b'"' => double_quote_count += 1,
+                // Control characters and backslash need escaping
+                0..=0x1f | b'\\' => {
+                    needs_escaping = true;
+                    break;
+                }
+                _ => {}
+            }
+        }
+
+        if !needs_escaping {
+            let quote_char = if double_quote_count > single_quote_count {
+                AsciiChar::Apostrophe
+            } else {
+                AsciiChar::Quotation
+            };
+
+            // If there are no quotes to escape, we can return the original string
+            if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
+                || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
+            {
+                return (quote_char, Cow::Borrowed(v));
+            }
+        }
+    }
+
+    // Slow path: Original implementation for strings that need processing
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
     for c in v.chars() {
