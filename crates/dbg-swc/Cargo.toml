@@ -26,7 +26,7 @@ url        = { workspace = true }
 clap               = { version = "3", features = ["derive"] }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
 
-swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.5", path = "../swc_atoms" }
 swc_common = { version = "6.0.0", features = [
   "concurrent",
   "tty-emitter",
@@ -37,7 +37,7 @@ swc_ecma_minifier = { version = "10.0.0", path = "../swc_ecma_minifier", feature
   "concurrent",
 ] }
 swc_ecma_parser = { version = "8.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "9.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "9.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "6.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "7.0.0", path = "../swc_error_reporters" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }

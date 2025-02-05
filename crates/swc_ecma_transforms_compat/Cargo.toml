@@ -29,7 +29,7 @@ serde      = { workspace = true, features = ["derive"] }
 smallvec   = { workspace = true }
 tracing    = { workspace = true }
 
-swc_atoms                   = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms                   = { version = "3.0.5", path = "../swc_atoms" }
 swc_common                  = { version = "6.0.0", path = "../swc_common" }
 swc_config                  = { version = "2.0.0", path = "../swc_config" }
 swc_ecma_ast                = { version = "6.0.0", path = "../swc_ecma_ast" }
@@ -44,7 +44,7 @@ swc_ecma_compat_es2020      = { version = "10.0.0", path = "../swc_ecma_compat_e
 swc_ecma_compat_es2021      = { version = "9.0.0", path = "../swc_ecma_compat_es2021" }
 swc_ecma_compat_es2022      = { version = "10.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3         = { version = "9.0.0", path = "../swc_ecma_compat_es3" }
-swc_ecma_transforms_base    = { version = "9.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base    = { version = "9.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "9.0.0", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "9.0.0", path = "../swc_ecma_utils" }

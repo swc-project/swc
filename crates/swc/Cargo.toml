@@ -69,7 +69,7 @@ sourcemap    = { workspace = true }
 tracing      = { workspace = true }
 url          = { workspace = true }
 
-swc_atoms = { version = "3.0.4", path = "../swc_atoms" }
+swc_atoms = { version = "3.0.5", path = "../swc_atoms" }
 swc_cached = { version = "2.0.0", path = "../swc_cached" }
 swc_common = { version = "6.0.0", path = "../swc_common", features = [
   "sourcemap",
@@ -97,7 +97,7 @@ swc_ecma_transforms = { version = "11.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "9.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "9.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "10.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "9.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "9.0.0", path = "../swc_ecma_utils" }
