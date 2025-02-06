@@ -157,7 +157,9 @@
               "start": 78,
               "end": 81
             },
-            "elements": [],
+            "elements": [
+              null
+            ],
             "optional": false,
             "typeAnnotation": null
           },

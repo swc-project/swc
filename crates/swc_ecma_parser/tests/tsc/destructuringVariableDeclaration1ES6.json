@@ -1881,7 +1881,8 @@
                       ],
                       "optional": false,
                       "typeAnnotation": null
-                    }
+                    },
+                    null
                   ],
                   "optional": false,
                   "typeAnnotation": null

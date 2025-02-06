@@ -8,5 +8,5 @@
     let [d, [x, a]] = dd;
 }var [d, x] = a;
 var [d, [x, a]] = dd;
-var [, [], , , r] = xx;
-var [, , t] = xxx;
+var [, [, , , , , ], , , r] = xx;
+var [, , t, , ] = xxx;

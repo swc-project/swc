@@ -2910,11 +2910,14 @@ where
         srcmap!(node, true);
 
         punct!("[");
-        self.emit_list(
-            node.span(),
-            Some(&node.elems),
-            ListFormat::ArrayBindingPatternElements,
-        )?;
+
+        let mut format = ListFormat::ArrayBindingPatternElements;
+
+        if let Some(None) = node.elems.last() {
+            format |= ListFormat::ForceTrailingComma;
+        }
+
+        self.emit_list(node.span(), Some(&node.elems), format)?;
         punct!("]");
         if node.optional {
             punct!("?");
