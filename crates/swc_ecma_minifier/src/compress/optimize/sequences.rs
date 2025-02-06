@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
-    alias::{try_collect_infects_from, AccessKind, AliasConfig},
+    alias::{collect_infects_from, AccessKind, AliasConfig},
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{

@@ -72,8 +72,6 @@ pub trait VarDataLike: Sized {
 
     fn add_infects_to(&mut self, other: Access);
 
-    fn give_up_infect_analysis(&mut self) {}
-
     fn prevent_inline(&mut self);
 
     fn mark_as_exported(&mut self);
