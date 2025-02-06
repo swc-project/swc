@@ -4257,6 +4257,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
+name = "shrink-to-fit"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d2b490099e05858ca56c40431fea42f88bc74b45fdc877cab149f79e239f8e2"
+dependencies = [
+ "shrink-to-fit-macro",
+]
+
+[[package]]
+name = "shrink-to-fit-macro"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73e6ce0923372a4afb6b15537fc52d1d9000575197d911e80dfaa76000022d21"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
 name = "simd-abstraction"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5011,6 +5031,7 @@ dependencies = [
  "scoped-tls",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "string_enum",
  "swc_atoms",
  "swc_common",
