@@ -49,6 +49,7 @@ pub struct JSXNamespacedName {
 #[ast_node("JSXEmptyExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXEmptyExpr {
     pub span: Span,
 }
@@ -56,6 +57,7 @@ pub struct JSXEmptyExpr {
 #[ast_node("JSXExpressionContainer")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXExprContainer {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -66,6 +68,7 @@ pub struct JSXExprContainer {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
@@ -217,6 +220,7 @@ impl<'a> arbitrary::Arbitrary<'a> for JSXText {
 #[ast_node("JSXElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
@@ -238,6 +242,7 @@ impl Take for JSXElement {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXElementChild {
     #[tag("JSXText")]
     JSXText(JSXText),
@@ -258,6 +263,7 @@ pub enum JSXElementChild {
 #[ast_node("JSXFragment")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXFragment {
     pub span: Span,
 

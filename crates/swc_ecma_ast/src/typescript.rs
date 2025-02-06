@@ -637,6 +637,7 @@ pub struct TsIntersectionType {
 #[ast_node("TsConditionalType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConditionalType {
     pub span: Span,
     pub check_type: Box<TsType>,
@@ -648,6 +649,7 @@ pub struct TsConditionalType {
 #[ast_node("TsInferType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInferType {
     pub span: Span,
     pub type_param: TsTypeParam,
@@ -656,6 +658,7 @@ pub struct TsInferType {
 #[ast_node("TsParenthesizedType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParenthesizedType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -665,6 +668,7 @@ pub struct TsParenthesizedType {
 #[ast_node("TsTypeOperator")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeOperator {
     pub span: Span,
     pub op: TsTypeOperatorOp,
@@ -1041,6 +1045,7 @@ pub struct TsNamespaceExportDecl {
 #[ast_node("TsAsExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsAsExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1105,6 +1110,7 @@ pub enum Accessibility {
 #[ast_node("TsConstAssertion")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1114,6 +1120,7 @@ pub struct TsConstAssertion {
 #[ast_node("TsInstantiation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInstantiation {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
