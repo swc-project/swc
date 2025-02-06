@@ -105,6 +105,8 @@ where
 
         bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
+
+        max_entries: None,
     };
 
     node.visit_with(&mut visitor);
@@ -112,12 +114,15 @@ where
     visitor.accesses
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct TooManyAccesses;
+
 /// If the number of accesses exceeds `max_entries`, it returns `Err(())`.
 pub fn try_collect_infects_from<N>(
     node: &N,
     config: AliasConfig,
     max_entries: usize,
-) -> Result<FxHashSet<Access>, ()>
+) -> Result<FxHashSet<Access>, TooManyAccesses>
 where
     N: InfectableNode + VisitWith<InfectionCollector>,
 {
@@ -140,11 +145,17 @@ where
 
         bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
+
+        max_entries: Some(max_entries),
     };
 
     node.visit_with(&mut visitor);
 
-    visitor.accesses
+    if visitor.accesses.len() > max_entries {
+        return Err(());
+    }
+
+    Ok(visitor.accesses)
 }
 
 pub struct InfectionCollector {
@@ -157,6 +168,8 @@ pub struct InfectionCollector {
     ctx: Ctx,
 
     accesses: FxHashSet<Access>,
+
+    max_entries: Option<usize>,
 }
 
 impl InfectionCollector {
