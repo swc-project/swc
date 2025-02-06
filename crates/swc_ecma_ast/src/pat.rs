@@ -11,8 +11,7 @@ use crate::{
 
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Pat {
     #[tag("Identifier")]
     Ident(BindingIdent),
@@ -85,7 +84,7 @@ pat_to_other!(Box<Expr>);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ArrayPat {
     pub span: Span,
 
@@ -102,8 +101,7 @@ pub struct ArrayPat {
 
 #[ast_node("ObjectPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ObjectPat {
     pub span: Span,
 
@@ -120,7 +118,7 @@ pub struct ObjectPat {
 
 #[ast_node("AssignmentPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignPat {
     pub span: Span,
 
@@ -132,7 +130,7 @@ pub struct AssignPat {
 /// EsTree `RestElement`
 #[ast_node("RestElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct RestPat {
     pub span: Span,
 
@@ -148,7 +146,7 @@ pub struct RestPat {
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]
     KeyValue(KeyValuePatProp),
@@ -163,7 +161,7 @@ pub enum ObjectPatProp {
 /// `{key: value}`
 #[ast_node("KeyValuePatternProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValuePatProp {
     #[span(lo)]
     pub key: PropName,
@@ -174,7 +172,7 @@ pub struct KeyValuePatProp {
 /// `{key}` or `{key = value}`
 #[ast_node("AssignmentPatternProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignPatProp {
     pub span: Span,
     /// Note: This type is to help implementing visitor and the field `type_ann`

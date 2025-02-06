@@ -721,6 +721,7 @@ impl Take for UpdateExpr {
 #[ast_node("BinaryExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BinExpr {
     pub span: Span,
 
@@ -845,6 +846,7 @@ impl AssignExpr {
 #[ast_node("MemberExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct MemberExpr {
     pub span: Span,
 
@@ -858,6 +860,7 @@ pub struct MemberExpr {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum MemberProp {
     #[tag("Identifier")]
     Ident(IdentName),
@@ -876,6 +879,7 @@ impl MemberProp {
 #[ast_node("SuperPropExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SuperPropExpr {
     pub span: Span,
 
@@ -888,6 +892,7 @@ pub struct SuperPropExpr {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum SuperProp {
     #[tag("Identifier")]
     Ident(IdentName),
@@ -932,6 +937,7 @@ impl Default for SuperProp {
 #[ast_node("ConditionalExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CondExpr {
     pub span: Span,
 
@@ -958,6 +964,7 @@ impl Take for CondExpr {
 #[ast_node("CallExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CallExpr {
     pub span: Span,
     pub ctxt: SyntaxContext,
@@ -981,6 +988,7 @@ impl Take for CallExpr {
 #[ast_node("NewExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct NewExpr {
     pub span: Span,
 
@@ -1025,6 +1033,7 @@ impl Take for SeqExpr {
 #[ast_node("ArrowFunctionExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ArrowExpr {
     pub span: Span,
 
@@ -1059,6 +1068,7 @@ impl Take for ArrowExpr {
 #[ast_node("YieldExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct YieldExpr {
     pub span: Span,
 
@@ -1107,6 +1117,7 @@ pub enum MetaPropKind {
 #[ast_node("AwaitExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AwaitExpr {
     pub span: Span,
 
@@ -1140,6 +1151,7 @@ impl Take for Tpl {
 #[ast_node("TaggedTemplateExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TaggedTpl {
     pub span: Span,
 
@@ -1211,6 +1223,7 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
 #[ast_node("ParenthesisExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ParenExpr {
     pub span: Span,
 
@@ -1229,6 +1242,7 @@ impl Take for ParenExpr {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Callee {
     #[tag("Super")]
     #[is(name = "super_")]
@@ -1256,6 +1270,7 @@ impl Take for Callee {
 #[ast_node("Super")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Super {
     pub span: Span,
 }
@@ -1269,6 +1284,7 @@ impl Take for Super {
 #[ast_node("Import")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Import {
     pub span: Span,
     pub phase: ImportPhase,
@@ -1285,6 +1301,7 @@ impl Take for Import {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -1353,6 +1370,7 @@ bridge_from!(ExprOrSpread, Box<Expr>, Expr);
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum BlockStmtOrExpr {
     #[tag("BlockStatement")]
     BlockStmt(BlockStmt),
@@ -1441,6 +1459,7 @@ impl TryFrom<Box<Expr>> for AssignTarget {
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum AssignTargetPat {
     #[tag("ArrayPattern")]
     Array(ArrayPat),
@@ -1495,6 +1514,7 @@ impl TryFrom<Pat> for AssignTargetPat {
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum SimpleAssignTarget {
     /// Note: This type is to help implementing visitor and the field `type_ann`
     /// is always [None].
@@ -1619,6 +1639,7 @@ impl Take for AssignTarget {
 #[ast_node("OptionalChainingExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct OptChainExpr {
     pub span: Span,
     pub optional: bool,
@@ -1629,6 +1650,7 @@ pub struct OptChainExpr {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum OptChainBase {
     #[tag("MemberExpression")]
     Member(MemberExpr),
@@ -1645,6 +1667,7 @@ impl Default for OptChainBase {
 #[ast_node("CallExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct OptCall {
     pub span: Span,
 

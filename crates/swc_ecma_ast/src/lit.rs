@@ -13,8 +13,7 @@ use crate::jsx::JSXText;
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -296,8 +295,7 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 /// All of `Box<Expr>`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
@@ -324,8 +322,7 @@ impl From<bool> for Bool {
 
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
     pub span: Span,
 }
