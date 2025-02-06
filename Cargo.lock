@@ -5048,6 +5048,7 @@ dependencies = [
  "ascii",
  "base64 0.21.7",
  "codspeed-criterion-compat",
+ "compact_str",
  "criterion",
  "memchr",
  "num-bigint",
