@@ -271,3 +271,10 @@ impl AtomStoreCell {
         unsafe { (*self.0.get()).atom(s) }
     }
 }
+
+/// noop
+#[cfg(feature = "shrink-to-fit")]
+impl shrink_to_fit::ShrinkToFit for Atom {
+    #[inline(always)]
+    fn shrink_to_fit(&mut self) {}
+}

@@ -12,17 +12,19 @@ version       = "3.0.5"
 bench = false
 
 [features]
-__rkyv    = []
-rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+__rkyv        = []
+rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-arbitrary  = { workspace = true, optional = true }
-bytecheck  = { workspace = true, optional = true }
-once_cell  = { workspace = true }
-rancor     = { workspace = true, optional = true }
-rkyv       = { workspace = true, optional = true }
-rustc-hash = { workspace = true }
-serde      = { workspace = true }
+arbitrary     = { workspace = true, optional = true }
+bytecheck     = { workspace = true, optional = true }
+once_cell     = { workspace = true }
+rancor        = { workspace = true, optional = true }
+rkyv          = { workspace = true, optional = true }
+rustc-hash    = { workspace = true }
+serde         = { workspace = true }
+shrink-to-fit = { workspace = true, optional = true }
 
 hstr = { version = "0.2.17", path = "../hstr" }
