@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "3.0.5"
+version       = "3.1.0"
 
 [lib]
 bench = false

@@ -8,10 +8,25 @@
 - **(es/fixer)** Wrap object tagged templates ([#9991](https://github.com/swc-project/swc/issues/9991)) ([963c3a5](https://github.com/swc-project/swc/commit/963c3a58c8ec05a381b61724ee9930093cf65b8f))
 
 
+- **(es/minifier)** Dont't optimize swtich case before DCE ([#9994](https://github.com/swc-project/swc/issues/9994)) ([afe21b5](https://github.com/swc-project/swc/commit/afe21b5e71edb8cee5ba4335a193fb8a309bb43b))
+
+
+- **(es/minifier)** Revert #10006 ([#10007](https://github.com/swc-project/swc/issues/10007)) ([7e21323](https://github.com/swc-project/swc/commit/7e21323b3bedc0552634da5d6c34f33fb2c5bad6))
+
+
+- **(es/parser, es/codegen)** Handle trailing empty slots in array patterns ([#9992](https://github.com/swc-project/swc/issues/9992)) ([1a87e76](https://github.com/swc-project/swc/commit/1a87e76e95566eb998bf81bde1e77dc14eb42fda))
+
+
 - **(es/react)** Avoid adding `__self` in constructors of derived class in the `jsx_self` ([#9987](https://github.com/swc-project/swc/issues/9987)) ([83f24af](https://github.com/swc-project/swc/commit/83f24afad9114801c897d04bfa7a1525c92686c1))
 
 ### Features
 
+
+
+- **(es/ast)** Add `ShrinkToFit` implementation ([#10009](https://github.com/swc-project/swc/issues/10009)) ([6849b6a](https://github.com/swc-project/swc/commit/6849b6aba764b06674783f6c0a7d2f26350ea5fe))
+
+
+- **(es/helpers)** Update package exports for module-sync and webpack compatibility ([#9995](https://github.com/swc-project/swc/issues/9995)) ([6f4e7ad](https://github.com/swc-project/swc/commit/6f4e7adce4b476ee33ea8a9a1aa333cbf80c85cc))
 
 
 - **(fast-ts)** Support Uint8Array Input ([#9879](https://github.com/swc-project/swc/issues/9879)) ([61ae579](https://github.com/swc-project/swc/commit/61ae579a1c7c588244317320da42a03541a7f801))
@@ -21,6 +36,15 @@
 
 
 - **(es/codegen)** Remove needless allocations ([#9978](https://github.com/swc-project/swc/issues/9978)) ([9c89d57](https://github.com/swc-project/swc/commit/9c89d57cf9f3cd409e003f7b667afc9c87916359))
+
+
+- **(es/minifier)** Do not clone from `take_ident_of_pat_if_unused` ([#10005](https://github.com/swc-project/swc/issues/10005)) ([dc3b46e](https://github.com/swc-project/swc/commit/dc3b46eff9befa898a777308d8588b1ff37e577a))
+
+
+- **(es/minifier)** Allocate in once from `mark_property_mutation` ([#10004](https://github.com/swc-project/swc/issues/10004)) ([4a90e51](https://github.com/swc-project/swc/commit/4a90e5197d337ba1d0851908053d0ad13b17f907))
+
+
+- **(es/minifier)** Limit infection analysis by the entry size ([#10006](https://github.com/swc-project/swc/issues/10006)) ([1a3a4b9](https://github.com/swc-project/swc/commit/1a3a4b936cca1db646a40c0813a7a1275832b604))
 
 ## [1.10.14] - 2025-02-03
 
