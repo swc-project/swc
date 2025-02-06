@@ -112,6 +112,41 @@ where
     visitor.accesses
 }
 
+/// If the number of accesses exceeds `max_entries`, it returns `Err(())`.
+pub fn try_collect_infects_from<N>(
+    node: &N,
+    config: AliasConfig,
+    max_entries: usize,
+) -> Result<FxHashSet<Access>, ()>
+where
+    N: InfectableNode + VisitWith<InfectionCollector>,
+{
+    if config.ignore_nested && node.is_fn_or_arrow_expr() {
+        return Ok(Default::default());
+    }
+
+    let unresolved_ctxt = config
+        .marks
+        .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
+
+    let mut visitor = InfectionCollector {
+        config,
+        unresolved_ctxt,
+
+        ctx: Ctx {
+            track_expr_ident: true,
+            ..Default::default()
+        },
+
+        bindings: FxHashSet::default(),
+        accesses: FxHashSet::default(),
+    };
+
+    node.visit_with(&mut visitor);
+
+    visitor.accesses
+}
+
 pub struct InfectionCollector {
     #[allow(unused)]
     config: AliasConfig,
