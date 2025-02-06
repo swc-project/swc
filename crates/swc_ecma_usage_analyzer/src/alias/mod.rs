@@ -311,6 +311,12 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
         match e {
             Expr::Ident(i) => {
                 if self.ctx.track_expr_ident {
@@ -343,6 +349,16 @@ impl Visit for InfectionCollector {
         if self.config.ignore_named_child_scope && n.ident.is_some() {
             return;
         }
+        n.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
         n.visit_children_with(self);
     }
 
@@ -401,6 +417,16 @@ impl Visit for InfectionCollector {
                 ..self.ctx
             }));
         }
+    }
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
