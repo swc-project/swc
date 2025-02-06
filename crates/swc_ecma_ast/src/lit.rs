@@ -383,6 +383,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// `From<usize>`.
 
 #[ast_node("NumericLiteral")]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.

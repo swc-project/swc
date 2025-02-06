@@ -195,6 +195,7 @@ pub enum JSXAttrValue {
 
 #[ast_node("JSXText")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXText {
     pub span: Span,
     pub value: Atom,

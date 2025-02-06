@@ -14,6 +14,7 @@ use crate::{
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Decl {
     #[tag("ClassDeclaration")]
     Class(ClassDecl),
@@ -96,6 +97,7 @@ impl Take for Decl {
 #[ast_node("FunctionDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct FnDecl {
     #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
@@ -121,6 +123,7 @@ impl Take for FnDecl {
 #[ast_node("ClassDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassDecl {
     #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
@@ -146,6 +149,7 @@ impl Take for ClassDecl {
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct VarDecl {
     pub span: Span,
 
