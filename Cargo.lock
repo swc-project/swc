@@ -4602,6 +4602,7 @@ dependencies = [
  "rkyv",
  "rustc-hash 2.1.0",
  "serde",
+ "shrink-to-fit",
 ]
 
 [[package]]
@@ -4707,6 +4708,7 @@ dependencies = [
  "rustc-hash 2.1.0",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "siphasher 0.3.11",
  "sourcemap",
  "swc_allocator",
