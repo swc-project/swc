@@ -36,14 +36,26 @@ main_package_json.exports = {
     "./esm/*": "./esm/*",
     "./cjs/*": "./cjs/*",
     "./src/*": "./src/*",
-    ".": { import: "./esm/index.js", default: "./cjs/index.cjs" },
-    "./_": { import: "./esm/index.js", default: "./cjs/index.cjs" },
+    ".": {
+        "module-sync": "./esm/index.js",
+        webpack: "./esm/index.js",
+        import: "./esm/index.js",
+        default: "./cjs/index.cjs",
+    },
+    "./_": {
+        "module-sync": "./esm/index.js",
+        webpack: "./esm/index.js",
+        import: "./esm/index.js",
+        default: "./cjs/index.cjs",
+    },
 };
 
 modules.forEach((p) => {
     const importBinding = p.slice(0, -3);
 
     main_package_json.exports[`./_/${importBinding}`] = {
+        "module-sync": `./esm/${importBinding}.js`,
+        webpack: `./esm/${importBinding}.js`,
         import: `./esm/${importBinding}.js`,
         default: `./cjs/${importBinding}.cjs`,
     };
@@ -97,7 +109,7 @@ task_queue.push(
         encoding: "utf-8",
     }),
     fs.outputFile(root("src", "index.mjs"), `export * from "../esm/index.js"`, {
-        "encoding": "utf-8",
+        encoding: "utf-8",
     }),
 );
 
