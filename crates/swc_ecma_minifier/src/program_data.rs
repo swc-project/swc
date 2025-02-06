@@ -573,6 +573,10 @@ impl VarDataLike for VarUsageInfo {
         }
     }
 
+    fn give_up_infect_analysis(&mut self) {
+        self.infects_to = None;
+    }
+
     fn prevent_inline(&mut self) {
         self.inline_prevented = true;
     }
