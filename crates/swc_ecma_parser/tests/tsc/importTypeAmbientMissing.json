@@ -195,7 +195,8 @@
                   "raw": "\"fo\""
                 },
                 "qualifier": null,
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           },

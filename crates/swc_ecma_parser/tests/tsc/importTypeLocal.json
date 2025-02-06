@@ -659,7 +659,8 @@
                     "raw": "\"./foo\""
                   },
                   "qualifier": null,
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -794,7 +795,8 @@
                       "value": "I"
                     }
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -1153,7 +1155,8 @@
                       "raw": "\"./foo2\""
                     },
                     "qualifier": null,
-                    "typeArguments": null
+                    "typeArguments": null,
+                    "attributes": null
                   },
                   "typeArguments": null
                 }

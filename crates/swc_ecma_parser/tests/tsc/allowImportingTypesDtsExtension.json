@@ -332,7 +332,8 @@
               "value": "User",
               "optional": false
             },
-            "typeArguments": null
+            "typeArguments": null,
+            "attributes": null
           }
         }
       }
