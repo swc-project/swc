@@ -3,7 +3,6 @@
 use rustc_hash::FxHashSet;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::BindingCollector;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;
@@ -85,7 +84,7 @@ pub type Access = (Id, AccessKind);
 
 pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
-    N: InfectableNode + VisitWith<BindingCollector<Id>> + VisitWith<InfectionCollector>,
+    N: InfectableNode + VisitWith<InfectionCollector>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
         return Default::default();
