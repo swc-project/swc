@@ -152,7 +152,7 @@ where
     node.visit_with(&mut visitor);
 
     if visitor.accesses.len() > max_entries {
-        return Err(());
+        return Err(TooManyAccesses);
     }
 
     Ok(visitor.accesses)
