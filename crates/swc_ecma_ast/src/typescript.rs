@@ -827,6 +827,7 @@ pub struct TsTplLitType {
 #[ast_node("TsInterfaceDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
@@ -859,6 +860,7 @@ pub struct TsExprWithTypeArgs {
 #[ast_node("TsTypeAliasDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
@@ -872,6 +874,7 @@ pub struct TsTypeAliasDecl {
 #[ast_node("TsEnumDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsEnumDecl {
     pub span: Span,
     pub declare: bool,
@@ -915,6 +918,7 @@ impl AsRef<Atom> for TsEnumMemberId {
 #[ast_node("TsModuleDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleDecl {
     pub span: Span,
     pub declare: bool,

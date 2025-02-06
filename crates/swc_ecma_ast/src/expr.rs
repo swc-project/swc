@@ -781,6 +781,7 @@ bridge_expr_from!(FnExpr, Box<Function>);
 #[ast_node("ClassExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     pub ident: Option<Ident>,
@@ -811,6 +812,7 @@ bridge_expr_from!(ClassExpr, Box<Class>);
 #[ast_node("AssignmentExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AssignExpr {
     pub span: Span,
 
