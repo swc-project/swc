@@ -1116,6 +1116,7 @@ pub struct AwaitExpr {
 #[ast_node("TemplateLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Tpl {
     pub span: Span,
 
@@ -1161,6 +1162,7 @@ impl Take for TaggedTpl {
 
 #[ast_node("TemplateElement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
@@ -1381,6 +1383,7 @@ impl Take for BlockStmtOrExpr {
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum AssignTarget {
     #[tag("Identifier")]
     #[tag("MemberExpression")]

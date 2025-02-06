@@ -27,6 +27,7 @@ use crate::{
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAnn {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -46,6 +47,7 @@ pub struct TsTypeParamDecl {
 #[ast_node("TsTypeParameter")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParam {
     pub span: Span,
     pub name: Ident,
@@ -230,6 +232,7 @@ pub struct TsMethodSignature {
 #[ast_node("TsIndexSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
@@ -248,6 +251,7 @@ pub struct TsIndexSignature {
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsType {
     #[tag("TsKeywordType")]
     TsKeywordType(TsKeywordType),
@@ -1048,6 +1052,7 @@ pub struct TsAsExpr {
 #[ast_node("TsTypeAssertion")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1059,6 +1064,7 @@ pub struct TsTypeAssertion {
 #[ast_node("TsNonNullExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNonNullExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1068,6 +1074,7 @@ pub struct TsNonNullExpr {
 #[ast_node("TsSatisfiesExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsSatisfiesExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]

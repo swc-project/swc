@@ -222,6 +222,7 @@ pub struct ExprStmt {
 #[ast_node("EmptyStatement")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct EmptyStmt {
     /// Span of semicolon.
     pub span: Span,
