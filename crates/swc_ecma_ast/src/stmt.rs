@@ -11,7 +11,8 @@ use crate::{
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
@@ -33,7 +34,8 @@ impl Take for BlockStmt {
 
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Stmt {
     #[tag("BlockStatement")]
     Block(BlockStmt),
@@ -211,7 +213,8 @@ impl Take for Stmt {
 
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ExprStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -220,7 +223,8 @@ pub struct ExprStmt {
 
 #[ast_node("EmptyStatement")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct EmptyStmt {
     /// Span of semicolon.
     pub span: Span,
@@ -228,14 +232,16 @@ pub struct EmptyStmt {
 
 #[ast_node("DebuggerStatement")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DebuggerStmt {
     pub span: Span,
 }
 
 #[ast_node("WithStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WithStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
@@ -245,7 +251,8 @@ pub struct WithStmt {
 
 #[ast_node("ReturnStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ReturnStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
@@ -254,7 +261,8 @@ pub struct ReturnStmt {
 
 #[ast_node("LabeledStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct LabeledStmt {
     pub span: Span,
     pub label: Ident,
@@ -263,7 +271,8 @@ pub struct LabeledStmt {
 
 #[ast_node("BreakStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BreakStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -272,7 +281,8 @@ pub struct BreakStmt {
 
 #[ast_node("ContinueStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ContinueStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -281,7 +291,8 @@ pub struct ContinueStmt {
 
 #[ast_node("IfStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IfStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -295,7 +306,8 @@ pub struct IfStmt {
 
 #[ast_node("SwitchStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchStmt {
     pub span: Span,
     pub discriminant: Box<Expr>,
@@ -304,7 +316,8 @@ pub struct SwitchStmt {
 
 #[ast_node("ThrowStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ThrowStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
@@ -313,7 +326,8 @@ pub struct ThrowStmt {
 
 #[ast_node("TryStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TryStmt {
     pub span: Span,
 
@@ -328,7 +342,8 @@ pub struct TryStmt {
 
 #[ast_node("WhileStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct WhileStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -337,7 +352,8 @@ pub struct WhileStmt {
 
 #[ast_node("DoWhileStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct DoWhileStmt {
     pub span: Span,
     pub test: Box<Expr>,
@@ -346,7 +362,8 @@ pub struct DoWhileStmt {
 
 #[ast_node("ForStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForStmt {
     pub span: Span,
 
@@ -364,7 +381,8 @@ pub struct ForStmt {
 
 #[ast_node("ForInStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForInStmt {
     pub span: Span,
     pub left: ForHead,
@@ -374,7 +392,8 @@ pub struct ForInStmt {
 
 #[ast_node("ForOfStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ForOfStmt {
     pub span: Span,
     /// Span of the await token.
@@ -397,7 +416,8 @@ impl Take for ForOfStmt {
 
 #[ast_node("SwitchCase")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SwitchCase {
     pub span: Span,
 
@@ -421,7 +441,8 @@ impl Take for SwitchCase {
 
 #[ast_node("CatchClause")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct CatchClause {
     pub span: Span,
     /// es2019
@@ -437,7 +458,8 @@ pub struct CatchClause {
 /// A head for for-in and for-of loop.
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ForHead {
     #[tag("VariableDeclaration")]
     VarDecl(Box<VarDecl>),
@@ -467,7 +489,8 @@ impl Default for ForHead {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum VarDeclOrExpr {
     #[tag("VariableDeclaration")]
     VarDecl(Box<VarDecl>),
