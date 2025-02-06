@@ -476,12 +476,12 @@ impl Storage for ProgramData {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
 
-        let mut to_mark_mutate = Vec::new();
-        for (other, kind) in &e.infects_to {
-            if *kind == AccessKind::Reference {
-                to_mark_mutate.push(other.clone())
-            }
-        }
+        let to_mark_mutate = e
+            .infects_to
+            .iter()
+            .filter(|(_, kind)| *kind == AccessKind::Reference)
+            .map(|(id, _)| id.clone())
+            .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
             let other = self.vars.entry(other).or_default();
