@@ -560,6 +560,12 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
 }
 
 fn contains_nested_break(case: &SwitchCase) -> bool {
+    // wait for DCE to work
+    let terminator = case.cons.iter().rposition(|s| s.terminates());
+    if terminator.is_some_and(|t| t != case.cons.len() - 1) {
+        return true;
+    }
+
     let mut v = BreakFinder {
         top_level: true,
         nested_unlabelled_break: false,
