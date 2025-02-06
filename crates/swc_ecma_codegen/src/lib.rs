@@ -5,10 +5,10 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io, str};
+use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
 
 use ascii::AsciiChar;
-use compact_str::CompactString;
+use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
@@ -114,6 +114,17 @@ enum CowStr<'a> {
     Owned(CompactString),
 }
 
+impl Deref for CowStr<'_> {
+    type Target = str;
+
+    fn deref(&self) -> &str {
+        match self {
+            CowStr::Borrowed(s) => s,
+            CowStr::Owned(s) => s.as_str(),
+        }
+    }
+}
+
 fn replace_close_inline_script(raw: &str) -> CowStr {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
@@ -137,13 +148,13 @@ fn replace_close_inline_script(raw: &str) -> CowStr {
         return CowStr::Borrowed(raw);
     }
 
-    let mut result = String::from(raw);
+    let mut result = CompactString::new(raw);
 
     for (offset, i) in matched_indexes.enumerate() {
         result.insert(i + 1 + offset, '\\');
     }
 
-    Cow::Owned(result)
+    CowStr::Owned(result)
 }
 
 static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
@@ -690,10 +701,11 @@ where
         let (quote_char, mut value) = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
         if self.cfg.inline_script {
-            value = Cow::Owned(
+            value = CowStr::Owned(
                 replace_close_inline_script(&value)
                     .replace("\x3c!--", "\\x3c!--")
-                    .replace("--\x3e", "--\\x3e"),
+                    .replace("--\x3e", "--\\x3e")
+                    .into(),
             );
         }
 
@@ -3977,7 +3989,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 
     let mut first = true;
-    let mut buf = String::with_capacity(sym.len() + 8);
+    let mut buf = CompactString::with_capacity(sym.len() + 8);
     let mut iter = sym.chars().peekable();
     let mut need_quote = false;
 
@@ -4139,9 +4151,9 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 
     if need_quote {
-        Cow::Owned(format!("\"{}\"", buf))
+        CowStr::Owned(format_compact!("\"{}\"", buf))
     } else {
-        Cow::Owned(buf)
+        CowStr::Owned(buf)
     }
 }
 
@@ -4178,7 +4190,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar,
             if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
                 || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
             {
-                return (quote_char, Cow::Borrowed(v));
+                return (quote_char, CowStr::Borrowed(v));
             }
         }
     }
@@ -4213,7 +4225,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar,
 
     // Add 1 for each escaped quote
     let capacity = v.len() + escape_count;
-    let mut buf = String::with_capacity(capacity);
+    let mut buf = CompactString::with_capacity(capacity);
 
     let mut iter = v.chars().peekable();
     while let Some(c) = iter.next() {
@@ -4360,13 +4372,13 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar,
         }
     }
 
-    (quote_char, Cow::Owned(buf))
+    (quote_char, CowStr::Owned(buf))
 }
 
-fn handle_invalid_unicodes(s: &str) -> CowStr {
+fn handle_invalid_unicodes(s: &str) -> Cow<str> {
     static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
     if NEEDLE.find(s.as_bytes()).is_none() {
-        return CowStr::Borrowed(s);
+        return Cow::Borrowed(s);
     }
 
     Cow::Owned(s.replace("\\\0", "\\"))
