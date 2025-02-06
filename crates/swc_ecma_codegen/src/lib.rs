@@ -8,6 +8,7 @@
 use std::{borrow::Cow, fmt::Write, io, str};
 
 use ascii::AsciiChar;
+use compact_str::CompactString;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_allocator::maybe::vec::Vec;
@@ -108,7 +109,12 @@ where
     pub wr: W,
 }
 
-fn replace_close_inline_script(raw: &str) -> Cow<str> {
+enum CowStr<'a> {
+    Borrowed(&'a str),
+    Owned(CompactString),
+}
+
+fn replace_close_inline_script(raw: &str) -> CowStr {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
 
@@ -128,7 +134,7 @@ fn replace_close_inline_script(raw: &str) -> Cow<str> {
         .peekable();
 
     if matched_indexes.peek().is_none() {
-        return Cow::Borrowed(raw);
+        return CowStr::Borrowed(raw);
     }
 
     let mut result = String::from(raw);
@@ -3965,9 +3971,9 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
-fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> Cow<str> {
+fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> CowStr {
     if sym.is_ascii() {
-        return Cow::Borrowed(sym);
+        return CowStr::Borrowed(sym);
     }
 
     let mut first = true;
@@ -4140,7 +4146,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
 }
 
 /// Returns `(quote_char, value)`
-fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, Cow<str>) {
+fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {
@@ -4357,10 +4363,10 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar,
     (quote_char, Cow::Owned(buf))
 }
 
-fn handle_invalid_unicodes(s: &str) -> Cow<str> {
+fn handle_invalid_unicodes(s: &str) -> CowStr {
     static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
     if NEEDLE.find(s.as_bytes()).is_none() {
-        return Cow::Borrowed(s);
+        return CowStr::Borrowed(s);
     }
 
     Cow::Owned(s.replace("\\\0", "\\"))
