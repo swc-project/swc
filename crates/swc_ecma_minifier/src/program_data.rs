@@ -118,7 +118,9 @@ pub(crate) struct VarUsageInfo {
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
-    infects_to: Vec<Access>,
+    ///
+    /// [None] means that we have too many accesses to collect.
+    infects_to: Option<Vec<Access>>,
     /// Only **string** properties.
     pub(crate) accessed_props: Box<FxHashMap<JsWord, u32>>,
 
@@ -155,7 +157,7 @@ impl Default for VarUsageInfo {
             used_as_arg: Default::default(),
             indexed_with_dynamic_key: Default::default(),
             pure_fn: Default::default(),
-            infects_to: Default::default(),
+            infects_to: Some(vec![]),
             used_in_non_child_fn: Default::default(),
             accessed_props: Default::default(),
             used_recursively: Default::default(),
@@ -168,7 +170,7 @@ impl Default for VarUsageInfo {
 
 impl VarUsageInfo {
     pub(crate) fn is_infected(&self) -> bool {
-        !self.infects_to.is_empty()
+        self.infects_to.as_deref().map_or(true, |v| !v.is_empty())
     }
 
     /// The variable itself or a property of it is modified.
@@ -274,7 +276,16 @@ impl Storage for ProgramData {
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
-                    e.get_mut().infects_to.extend(var_info.infects_to);
+                    match var_info.infects_to {
+                        Some(v) => {
+                            if let Some(l) = &mut e.get_mut().infects_to {
+                                l.extend(v);
+                            }
+                        }
+                        None => {
+                            e.get_mut().infects_to = None;
+                        }
+                    }
 
                     e.get_mut().no_side_effect_for_member_access =
                         e.get_mut().no_side_effect_for_member_access
@@ -384,7 +395,7 @@ impl Storage for ProgramData {
         }
 
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.clone().into_iter().map(|i| i.0));
+            IndexSet::from_iter(e.infects_to.iter().flatten().cloned().map(|i| i.0));
 
         let mut idx = 0;
 
@@ -400,7 +411,7 @@ impl Storage for ProgramData {
                     usage.usage_count += 1;
                 }
 
-                to_visit.extend(usage.infects_to.clone().into_iter().map(|i| i.0))
+                to_visit.extend(usage.infects_to.iter().flatten().cloned().map(|i| i.0));
             }
 
             idx += 1;
@@ -479,6 +490,7 @@ impl Storage for ProgramData {
         let to_mark_mutate = e
             .infects_to
             .iter()
+            .flatten()
             .filter(|(_, kind)| *kind == AccessKind::Reference)
             .map(|(id, _)| id.clone())
             .collect::<Vec<_>>();
@@ -556,7 +568,13 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_infects_to(&mut self, other: Access) {
-        self.infects_to.push(other);
+        if let Some(v) = &mut self.infects_to {
+            v.push(other);
+        }
+    }
+
+    fn give_up_infect_analysis(&mut self) {
+        self.infects_to = None;
     }
 
     fn prevent_inline(&mut self) {
