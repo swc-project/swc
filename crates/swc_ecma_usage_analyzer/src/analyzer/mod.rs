@@ -10,7 +10,7 @@ use swc_timer::timer;
 pub use self::ctx::Ctx;
 use self::storage::*;
 use crate::{
-    alias::{collect_infects_from, AliasConfig},
+    alias::{try_collect_infects_from, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
@@ -302,15 +302,22 @@ where
             };
 
             if let Some(left) = left {
-                let mut v = None;
-                for id in collect_infects_from(
+                let Ok(iter) = try_collect_infects_from(
                     &n.right,
                     AliasConfig {
                         marks: self.marks,
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
-                ) {
+                    8,
+                ) else {
+                    self.data
+                        .var_or_default(left.to_id())
+                        .give_up_infect_analysis();
+                    return;
+                };
+                let mut v = None;
+                for id in iter {
                     if v.is_none() {
                         v = Some(self.data.var_or_default(left.to_id()));
                     }
@@ -756,14 +763,21 @@ where
 
         {
             let mut v = None;
-            for id in collect_infects_from(
+            let Ok(iter) = try_collect_infects_from(
                 &n.function,
                 AliasConfig {
                     marks: self.marks,
                     ignore_named_child_scope: true,
                     ..Default::default()
                 },
-            ) {
+                8,
+            ) else {
+                self.data
+                    .var_or_default(n.ident.to_id())
+                    .give_up_infect_analysis();
+                return;
+            };
+            for id in iter {
                 if v.is_none() {
                     v = Some(self.data.var_or_default(n.ident.to_id()));
                 }
@@ -787,14 +801,21 @@ where
 
             {
                 let mut v = None;
-                for id in collect_infects_from(
+                let Ok(iter) = try_collect_infects_from(
                     &n.function,
                     AliasConfig {
                         marks: self.marks,
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
-                ) {
+                    8,
+                ) else {
+                    self.data
+                        .var_or_default(n_id.to_id())
+                        .give_up_infect_analysis();
+                    return;
+                };
+                for id in iter {
                     if v.is_none() {
                         v = Some(self.data.var_or_default(n_id.to_id()));
                     }
@@ -1285,14 +1306,21 @@ where
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
                 let mut v = None;
-                for id in collect_infects_from(
+                let Ok(iter) = try_collect_infects_from(
                     init,
                     AliasConfig {
                         marks: self.marks,
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
-                ) {
+                    8,
+                ) else {
+                    self.data
+                        .var_or_default(var.to_id())
+                        .give_up_infect_analysis();
+                    return;
+                };
+                for id in iter {
                     if v.is_none() {
                         v = Some(self.data.var_or_default(var.to_id()));
                     }
