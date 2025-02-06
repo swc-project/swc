@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
-    alias::{collect_infects_from, AccessKind, AliasConfig},
+    alias::{try_collect_infects_from, AccessKind, AliasConfig},
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
@@ -1148,38 +1148,45 @@ impl Optimizer<'_> {
 
             let ids_used_by_a_init = match a {
                 Mergable::Var(a) => a.init.as_ref().map(|init| {
-                    collect_infects_from(
+                    try_collect_infects_from(
                         init,
                         AliasConfig::default()
                             .marks(Some(self.marks))
                             .ignore_nested(true)
                             .need_all(true),
+                        8,
                     )
                 }),
                 Mergable::Expr(a) => match a {
-                    Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
+                    Expr::Assign(a) if a.is_simple_assign() => Some(try_collect_infects_from(
                         &a.right,
                         AliasConfig::default()
                             .marks(Some(self.marks))
                             .ignore_nested(true)
                             .need_all(true),
+                        8,
                     )),
 
                     _ => None,
                 },
 
-                Mergable::FnDecl(a) => Some(collect_infects_from(
+                Mergable::FnDecl(a) => Some(try_collect_infects_from(
                     &a.function,
                     AliasConfig::default()
                         .marks(Some(self.marks))
                         .ignore_nested(true)
                         .need_all(true),
+                    8,
                 )),
 
                 Mergable::Drop => return false,
             };
 
             if let Some(deps) = ids_used_by_a_init {
+                let Ok(deps) = deps else {
+                    return false;
+                };
+
                 if deps.contains(&(e.to_id(), AccessKind::Reference))
                     || deps.contains(&(e.to_id(), AccessKind::Call))
                 {
