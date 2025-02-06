@@ -29,6 +29,7 @@ use crate::{
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Expr {
     #[tag("ThisExpression")]
     This(ThisExpr),
@@ -483,6 +484,7 @@ boxed_expr!(Invalid);
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ThisExpr {
     pub span: Span,
 }
@@ -497,6 +499,7 @@ impl Take for ThisExpr {
 #[ast_node("ArrayExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ArrayLit {
     pub span: Span,
 
@@ -620,6 +623,7 @@ impl Take for ObjectLit {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum PropOrSpread {
     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
     #[tag("SpreadElement")]
@@ -643,6 +647,7 @@ impl Take for PropOrSpread {
 #[ast_node("SpreadElement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SpreadElement {
     #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
     #[span(lo)]
@@ -688,6 +693,7 @@ impl Take for UnaryExpr {
 #[ast_node("UpdateExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct UpdateExpr {
     pub span: Span,
 
@@ -740,6 +746,7 @@ impl Take for BinExpr {
 #[ast_node("FunctionExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct FnExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     pub ident: Option<Ident>,
