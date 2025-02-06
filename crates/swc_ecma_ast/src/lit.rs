@@ -13,7 +13,8 @@ use crate::jsx::JSXText;
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -77,7 +78,6 @@ impl Lit {
 
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash)]
-#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
@@ -86,6 +86,12 @@ pub struct BigInt {
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
     pub raw: Option<Atom>,
+}
+
+#[cfg(feature = "shrink-to-fit")]
+impl shrink_to_fit::ShrinkToFit for BigInt {
+    #[inline(always)]
+    fn shrink_to_fit(&mut self) {}
 }
 
 impl EqIgnoreSpan for BigInt {
@@ -295,7 +301,8 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 /// All of `Box<Expr>`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
@@ -322,7 +329,8 @@ impl From<bool> for Bool {
 
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))] #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
     pub span: Span,
 }
