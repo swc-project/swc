@@ -132,8 +132,9 @@ testing_transform = ["__ecma", "__testing_transform"]
 
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
-ecma_ast       = ["__ecma", "swc_ecma_ast", "swc_atoms"]
-ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl"]
+ecma_ast        = ["__ecma", "swc_ecma_ast", "swc_atoms"]
+ecma_ast_serde  = ["ecma_ast", "swc_ecma_ast/serde-impl"]
+ecma_ast_shrink = ["ecma_ast", "swc_ecma_ast/shrink-to-fit"]
 
 # Enable swc_ecma_parser support.
 ecma_parser            = ["__parser"]
