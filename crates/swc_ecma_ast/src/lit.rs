@@ -14,6 +14,7 @@ use crate::jsx::JSXText;
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -77,6 +78,7 @@ impl Lit {
 
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
@@ -174,6 +176,7 @@ impl From<BigIntValue> for BigInt {
 /// A string literal.
 #[ast_node("StringLiteral")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Str {
     pub span: Span,
 
@@ -294,6 +297,7 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
@@ -321,6 +325,7 @@ impl From<bool> for Bool {
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
     pub span: Span,
 }
@@ -333,6 +338,7 @@ impl Take for Null {
 
 #[ast_node("RegExpLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Regex {
     pub span: Span,
 

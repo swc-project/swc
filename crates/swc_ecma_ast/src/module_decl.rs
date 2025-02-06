@@ -14,6 +14,7 @@ use crate::{
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
     Import(ImportDecl),
@@ -113,6 +114,7 @@ pub struct ExportDecl {
 #[ast_node("ImportDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ImportDecl {
     pub span: Span,
 
