@@ -95,6 +95,7 @@ pub struct MethodProp {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum PropName {
     #[tag("Identifier")]
     Ident(IdentName),
@@ -149,6 +150,7 @@ impl From<PropName> for MemberProp {
 #[ast_node("Computed")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ComputedPropName {
     /// Span including `[` and `]`.
     pub span: Span,

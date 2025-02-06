@@ -386,6 +386,7 @@ impl Ident {
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IdentName {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
@@ -547,6 +548,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 #[ast_node("PrivateName")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateName {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
