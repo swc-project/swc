@@ -173,7 +173,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
+        if let Some(v) = self.data.vars.get(&i.to_id()) {
             if v.ref_count == 0
                 && v.usage_count == 0
                 && !v.reassigned
