@@ -49,6 +49,7 @@ rancor                = { workspace = true, optional = true }
 rkyv                  = { workspace = true, optional = true }
 rustc-hash            = { workspace = true }
 serde                 = { workspace = true, features = ["derive"] }
+shrink-to-fit         = { workspace = true }
 siphasher             = { workspace = true }
 sourcemap             = { workspace = true, optional = true }
 termcolor             = { workspace = true, optional = true }
