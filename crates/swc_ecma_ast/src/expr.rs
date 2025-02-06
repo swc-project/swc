@@ -670,6 +670,7 @@ impl Take for SpreadElement {
 #[ast_node("UnaryExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct UnaryExpr {
     pub span: Span,
 

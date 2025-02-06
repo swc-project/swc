@@ -12,6 +12,7 @@ use crate::{
 #[ast_node("BlockStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,

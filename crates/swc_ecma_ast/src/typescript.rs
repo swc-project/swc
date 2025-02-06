@@ -36,6 +36,7 @@ pub struct TsTypeAnn {
 #[ast_node("TsTypeParameterDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamDecl {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "parameters"))]
@@ -68,6 +69,7 @@ pub struct TsTypeParam {
 #[ast_node("TsTypeParameterInstantiation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamInstantiation {
     pub span: Span,
     pub params: Vec<Box<TsType>>,
@@ -76,6 +78,7 @@ pub struct TsTypeParamInstantiation {
 #[ast_node("TsParameterProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParamProp {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -841,6 +844,7 @@ pub struct TsInterfaceDecl {
 #[ast_node("TsInterfaceBody")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceBody {
     pub span: Span,
     pub body: Vec<TsTypeElement>,
@@ -849,6 +853,7 @@ pub struct TsInterfaceBody {
 #[ast_node("TsExpressionWithTypeArguments")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1080,6 +1085,7 @@ pub struct TsSatisfiesExpr {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Accessibility {
     #[cfg_attr(feature = "serde-impl", serde(rename = "public"))]
     Public,

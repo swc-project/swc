@@ -168,6 +168,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// distinguish identifiers.
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Ident {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
