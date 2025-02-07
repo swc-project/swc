@@ -18,14 +18,14 @@ bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
-swc_atoms              = { version = "3.0.5", path = "../swc_atoms" }
-swc_common             = { version = "6.0.0", path = "../swc_common" }
+swc_atoms              = { version = "3.1.0", path = "../swc_atoms" }
+swc_common             = { version = "6.1.0", path = "../swc_common" }
 swc_css_ast            = { version = "6.0.0", path = "../swc_css_ast" }
 swc_css_codegen_macros = { version = "1.0.0", path = "../swc_css_codegen_macros" }
 swc_css_utils          = { version = "6.0.0", path = "../swc_css_utils" }
 
 [dev-dependencies]
-swc_common = { version = "6.0.0", path = "../swc_common", features = [
+swc_common = { version = "6.1.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_css_parser = { version = "6.0.0", path = "../swc_css_parser" }

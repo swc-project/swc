@@ -4257,6 +4257,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
+name = "shrink-to-fit"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "040f84743f19cf4a481c2580f4d9d12beab78f401773314ff18835ef78c930ea"
+dependencies = [
+ "shrink-to-fit-macro",
+]
+
+[[package]]
+name = "shrink-to-fit-macro"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5e9bca0d4a99ce6c7296fea5972a9327a5e70c062b73f38e11c7894cf7ec72c"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
 name = "simd-abstraction"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4572,7 +4592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "3.0.5"
+version = "3.1.0"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.0",
@@ -4582,6 +4602,7 @@ dependencies = [
  "rkyv",
  "rustc-hash 2.1.0",
  "serde",
+ "shrink-to-fit",
 ]
 
 [[package]]
@@ -4665,7 +4686,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -4687,6 +4708,7 @@ dependencies = [
  "rustc-hash 2.1.0",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "siphasher 0.3.11",
  "sourcemap",
  "swc_allocator",
@@ -4750,7 +4772,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "13.0.4"
+version = "13.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4998,7 +5020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "6.0.0"
+version = "6.1.0"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5011,6 +5033,7 @@ dependencies = [
  "scoped-tls",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "string_enum",
  "swc_atoms",
  "swc_common",
@@ -5020,7 +5043,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "6.0.1"
+version = "6.0.2"
 dependencies = [
  "ascii",
  "base64 0.21.7",
@@ -5314,7 +5337,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "10.0.0"
+version = "10.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5359,7 +5382,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "8.0.0"
+version = "8.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5735,7 +5758,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "10.0.0"
+version = "10.1.0"
 dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.0",

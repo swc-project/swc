@@ -14,6 +14,7 @@ use crate::jsx::JSXText;
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Lit {
     #[tag("StringLiteral")]
     Str(Str),
@@ -85,6 +86,12 @@ pub struct BigInt {
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
     pub raw: Option<Atom>,
+}
+
+#[cfg(feature = "shrink-to-fit")]
+impl shrink_to_fit::ShrinkToFit for BigInt {
+    #[inline(always)]
+    fn shrink_to_fit(&mut self) {}
 }
 
 impl EqIgnoreSpan for BigInt {
@@ -174,6 +181,7 @@ impl From<BigIntValue> for BigInt {
 /// A string literal.
 #[ast_node("StringLiteral")]
 #[derive(Eq, Hash)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Str {
     pub span: Span,
 
@@ -294,6 +302,7 @@ bridge_from!(Str, Atom, Cow<'_, str>);
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Bool {
     pub span: Span,
     pub value: bool,
@@ -321,6 +330,7 @@ impl From<bool> for Bool {
 #[ast_node("NullLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Null {
     pub span: Span,
 }
@@ -333,6 +343,7 @@ impl Take for Null {
 
 #[ast_node("RegExpLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Regex {
     pub span: Span,
 
@@ -377,6 +388,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// `From<usize>`.
 
 #[ast_node("NumericLiteral")]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Number {
     pub span: Span,
     /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.

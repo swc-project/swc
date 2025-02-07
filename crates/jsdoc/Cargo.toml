@@ -19,13 +19,13 @@ serde-impl = ["serde"]
 nom   = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "3.0.5", path = "../swc_atoms" }
-swc_common = { version = "6.0.0", path = "../swc_common" }
+swc_atoms  = { version = "3.1.0", path = "../swc_atoms" }
+swc_common = { version = "6.1.0", path = "../swc_common" }
 
 [dev-dependencies]
 anyhow  = { workspace = true }
 dashmap = { workspace = true }
 
-swc_ecma_ast    = { version = "6.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "8.0.0", path = "../swc_ecma_parser" }
+swc_ecma_ast    = { version = "6.1.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "8.0.1", path = "../swc_ecma_parser" }
 testing         = { version = "6.0.0", path = "../testing" }

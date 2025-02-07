@@ -15,6 +15,7 @@ use crate::{
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXObject {
     #[tag("JSXMemberExpression")]
     JSXMemberExpr(Box<JSXMemberExpr>),
@@ -25,6 +26,7 @@ pub enum JSXObject {
 #[ast_node("JSXMemberExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXMemberExpr {
     pub span: Span,
 
@@ -39,6 +41,7 @@ pub struct JSXMemberExpr {
 #[ast_node("JSXNamespacedName")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXNamespacedName {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "namespace"))]
@@ -49,6 +52,7 @@ pub struct JSXNamespacedName {
 #[ast_node("JSXEmptyExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXEmptyExpr {
     pub span: Span,
 }
@@ -56,6 +60,7 @@ pub struct JSXEmptyExpr {
 #[ast_node("JSXExpressionContainer")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXExprContainer {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -66,6 +71,7 @@ pub struct JSXExprContainer {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXExpr {
     #[tag("JSXEmptyExpression")]
     JSXEmptyExpr(JSXEmptyExpr),
@@ -76,6 +82,7 @@ pub enum JSXExpr {
 #[ast_node("JSXSpreadChild")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXSpreadChild {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -85,6 +92,7 @@ pub struct JSXSpreadChild {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXElementName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -103,6 +111,7 @@ impl Take for JSXElementName {
 #[ast_node("JSXOpeningElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXOpeningElement {
     pub name: JSXElementName,
 
@@ -136,6 +145,7 @@ impl Take for JSXOpeningElement {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXAttrOrSpread {
     #[tag("JSXAttribute")]
     JSXAttr(JSXAttr),
@@ -146,6 +156,7 @@ pub enum JSXAttrOrSpread {
 #[ast_node("JSXClosingElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXClosingElement {
     pub span: Span,
     pub name: JSXElementName,
@@ -154,6 +165,7 @@ pub struct JSXClosingElement {
 #[ast_node("JSXAttribute")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
@@ -164,6 +176,7 @@ pub struct JSXAttr {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXAttrName {
     #[tag("Identifier")]
     Ident(IdentName),
@@ -174,6 +187,7 @@ pub enum JSXAttrName {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
     #[tag("BooleanLiteral")]
@@ -195,6 +209,7 @@ pub enum JSXAttrValue {
 
 #[ast_node("JSXText")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXText {
     pub span: Span,
     pub value: Atom,
@@ -216,6 +231,7 @@ impl<'a> arbitrary::Arbitrary<'a> for JSXText {
 #[ast_node("JSXElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
@@ -237,6 +253,7 @@ impl Take for JSXElement {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXElementChild {
     #[tag("JSXText")]
     JSXText(JSXText),
@@ -257,6 +274,7 @@ pub enum JSXElementChild {
 #[ast_node("JSXFragment")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXFragment {
     pub span: Span,
 
@@ -282,6 +300,7 @@ impl Take for JSXFragment {
 #[ast_node("JSXOpeningFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXOpeningFragment {
     pub span: Span,
 }
@@ -295,6 +314,7 @@ impl Take for JSXOpeningFragment {
 #[ast_node("JSXClosingFragment")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct JSXClosingFragment {
     pub span: Span,
 }

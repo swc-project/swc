@@ -17,6 +17,7 @@ use crate::{
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Class {
     pub span: Span,
 
@@ -56,6 +57,7 @@ impl Take for Class {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ClassMember {
     #[tag("Constructor")]
     Constructor(Constructor),
@@ -92,6 +94,7 @@ impl Take for ClassMember {
 #[ast_node("ClassProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
@@ -137,6 +140,7 @@ pub struct ClassProp {
 #[ast_node("PrivateProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
@@ -178,6 +182,7 @@ pub struct PrivateProp {
 #[ast_node("ClassMethod")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
@@ -201,6 +206,7 @@ pub struct ClassMethod {
 #[ast_node("PrivateMethod")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateMethod {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
@@ -224,6 +230,7 @@ pub struct PrivateMethod {
 #[ast_node("Constructor")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Constructor {
     pub span: Span,
 
@@ -246,6 +253,7 @@ pub struct Constructor {
 #[ast_node("Decorator")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Decorator {
     pub span: Span,
 
@@ -262,6 +270,7 @@ pub struct Decorator {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum MethodKind {
     #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "method"))]
@@ -275,6 +284,7 @@ pub enum MethodKind {
 #[ast_node("StaticBlock")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct StaticBlock {
     pub span: Span,
     pub body: BlockStmt,
@@ -293,6 +303,7 @@ impl Take for StaticBlock {
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Key {
     #[tag("PrivateName")]
     Private(PrivateName),
@@ -326,6 +337,7 @@ impl Default for Key {
 #[ast_node("AutoAccessor")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct AutoAccessor {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,

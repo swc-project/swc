@@ -69,16 +69,16 @@ sourcemap    = { workspace = true }
 tracing      = { workspace = true }
 url          = { workspace = true }
 
-swc_atoms = { version = "3.0.5", path = "../swc_atoms" }
+swc_atoms = { version = "3.1.0", path = "../swc_atoms" }
 swc_cached = { version = "2.0.0", path = "../swc_cached" }
-swc_common = { version = "6.0.0", path = "../swc_common", features = [
+swc_common = { version = "6.1.0", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
 swc_compiler_base = { version = "11.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "2.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "6.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "6.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "6.1.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "6.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "9.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "9.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "6.0.0", path = "../swc_ecma_loader", features = [
@@ -86,8 +86,8 @@ swc_ecma_loader = { version = "6.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "10.0.0", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "8.0.0", path = "../swc_ecma_parser" }
+swc_ecma_minifier = { version = "10.1.0", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "8.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "11.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "11.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
@@ -134,7 +134,7 @@ rayon     = { workspace = true }
 walkdir   = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "6.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "6.1.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_lints = { version = "9.0.0", path = "../swc_ecma_lints", features = [
