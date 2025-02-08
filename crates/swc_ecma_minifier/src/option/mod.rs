@@ -367,7 +367,7 @@ const fn true_by_default() -> bool {
 }
 
 const fn default_passes() -> usize {
-    3
+    2
 }
 
 const fn three_by_default() -> u8 {

@@ -64,7 +64,7 @@ swc_ecma_loader = { version = "6.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "10.1.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "10.2.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_proposal = { version = "9.0.0", path = "../swc_ecma_transforms_proposal" }
