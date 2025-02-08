@@ -86,7 +86,7 @@ swc_ecma_loader = { version = "6.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "10.1.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "10.2.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "8.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "11.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "11.0.0", path = "../swc_ecma_transforms", features = [
