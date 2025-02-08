@@ -44,6 +44,12 @@ pub(crate) enum RawTokenKind {
     /// `!`
     Bang,
 
+    /// `^=`
+    BitXorAssignOp,
+
+    /// `^`
+    BitXorOp,
+
     /// `/`
     DivOp,
 
@@ -63,9 +69,15 @@ pub(crate) enum RawTokenKind {
     RParen,
 
     /// `{`
-    LBracket,
+    LBrace,
 
     /// `}`
+    RBrace,
+
+    /// `[`
+    LBracket,
+
+    /// `]`
     RBracket,
 
     /// `;`
@@ -87,6 +99,12 @@ pub(crate) enum RawTokenKind {
 
     /// `?`
     QuestionMark,
+
+    /// `??`
+    NullishCoalescingOp,
+
+    /// `??=`
+    NullishAssignOp,
 
     /// `%`
     ModOp,
@@ -136,6 +154,54 @@ pub(crate) enum RawTokenKind {
     /// `--`
     MinusMinus,
 
+    /// `~`
+    Tilde,
+
+    /// `|`
+    BitOrOp,
+
+    /// `||`
+    LogicalOrOp,
+
+    /// `|=`
+    BitOrAssignOp,
+
+    /// `||=`
+    OrAssignOp,
+
+    /// `<`
+    LtOp,
+
+    /// `<=`
+    LtEqOp,
+
+    /// `<<`
+    LShiftOp,
+
+    /// `<<=`
+    LShiftAssignOp,
+
+    /// `<!--`
+    LegacyCommentOpen,
+
+    /// `>`
+    GtOp,
+
+    /// `>=`
+    GtEqOp,
+
+    /// `>>`
+    RShiftOp,
+
+    /// `>>>`
+    ZeroFillRShiftOp,
+
+    /// `>>=`
+    RShiftAssignOp,
+
+    /// `>>>=`
+    ZeroFillRShiftAssignOp,
+
     /// string literal
     Str,
 
@@ -145,27 +211,94 @@ pub(crate) enum RawTokenKind {
     /// bigint literal
     BigInt,
 
-    // TypeScript's keyword
-    /// ts keyword - number
-    Number,
+    // TemplateHead,
+    // TemplateMiddle,
+    // TemplateTail,
 
-    /// ts keyword - object
+    // JavaScript's keyword
+    Await,
+    Async,
+    Accessor,
+    Break,
+    Bigint,
+    Case,
+    Catch,
+    Class,
+    Const,
+    Continue,
+    Debugger,
+    Default,
+    Delete,
+    Do,
+    Else,
+    Enum,
+    Export,
+    Extends,
+    False,
+    Finally,
+    For,
+    Function,
+    From,
+    Global,
+    Get,
+    If,
+    In,
+    Is,
+    Import,
+    Instanceof,
+    Keyof,
+    Let,
+    Meta,
+    New,
+    Null,
+    Of,
     Object,
+    Package,
+    Private,
+    Protected,
+    Public,
+    Return,
+    Require,
+    Yield,
+    While,
+    With,
+    Var,
+    Void,
+    This,
+    Throw,
+    True,
+    Typeof,
+    Try,
+    Type,
+    Target,
+    Super,
+    Static,
+    Switch,
+    Symbol,
+    Set,
 
-    /// ts keyword - string
-    String,
-
-    /// ts keyword - undefined
-    Undefined,
-
-    /// ts keyword - interface
+    // TypeScript's keyword
+    Number,    // ts keyword - number
+    String,    // ts keyword - string
+    Undefined, // ts keyword - undefined
+    Satisfies,
+    Never,
+    Namespace,
     Interface,
-
-    /// ts keyword - asserts
     Asserts,
-
-    /// ts keyword - unknown
     Unknown,
+    Abstract,
+    Any,
+    As,
+    Assert,
+    Boolean,
+    Declare,
+    Infer,
+    Implements,
+    Intrinsic,
+    Readonly,
+    Using,
+    Unique,
 }
 
 impl RawTokenKind {
@@ -187,8 +320,8 @@ impl RawTokenKind {
             RawTokenKind::Bang => "!",
             RawTokenKind::LParen => "(",
             RawTokenKind::RParen => ")",
-            RawTokenKind::LBracket => "{",
-            RawTokenKind::RBracket => "}",
+            RawTokenKind::LBracket => "[",
+            RawTokenKind::RBracket => "]",
             RawTokenKind::Semi => ";",
             RawTokenKind::Comma => ",",
             RawTokenKind::Colon => ":",
@@ -235,6 +368,102 @@ impl RawTokenKind {
             RawTokenKind::ConflictMarker => "conflict marker",
             RawTokenKind::BackQuote => "`",
             RawTokenKind::At => "@",
+            RawTokenKind::Tilde => "~",
+            RawTokenKind::BitXorAssignOp => "^=",
+            RawTokenKind::BitXorOp => "^",
+            RawTokenKind::LBrace => "{",
+            RawTokenKind::RBrace => "}",
+            RawTokenKind::NullishCoalescingOp => "??",
+            RawTokenKind::NullishAssignOp => "??=",
+            RawTokenKind::BitOrOp => "|",
+            RawTokenKind::LogicalOrOp => "||",
+            RawTokenKind::BitOrAssignOp => "|=",
+            RawTokenKind::OrAssignOp => "||=",
+            RawTokenKind::LtOp => "<",
+            RawTokenKind::LtEqOp => "<=",
+            RawTokenKind::LShiftOp => "<<",
+            RawTokenKind::LShiftAssignOp => "<<=",
+            RawTokenKind::LegacyCommentOpen => "<!--",
+            RawTokenKind::GtOp => ">",
+            RawTokenKind::GtEqOp => ">=",
+            RawTokenKind::RShiftOp => ">>",
+            RawTokenKind::ZeroFillRShiftOp => ">>>",
+            RawTokenKind::RShiftAssignOp => ">>=",
+            RawTokenKind::ZeroFillRShiftAssignOp => ">>>=",
+            RawTokenKind::Await => "await",
+            RawTokenKind::Async => "async",
+            RawTokenKind::Accessor => "accessor",
+            RawTokenKind::Abstract => "abstract",
+            RawTokenKind::As => "as",
+            RawTokenKind::Any => "any",
+            RawTokenKind::Assert => "assert",
+            RawTokenKind::Break => "break",
+            RawTokenKind::Bigint => "bigint",
+            RawTokenKind::Boolean => "boolean",
+            RawTokenKind::Case => "case",
+            RawTokenKind::Catch => "catch",
+            RawTokenKind::Class => "class",
+            RawTokenKind::Const => "const",
+            RawTokenKind::Continue => "continue",
+            RawTokenKind::Debugger => "debugger",
+            RawTokenKind::Default => "default",
+            RawTokenKind::Delete => "delete",
+            RawTokenKind::Do => "do",
+            RawTokenKind::Declare => "declare",
+            RawTokenKind::Else => "else",
+            RawTokenKind::Enum => "enum",
+            RawTokenKind::Export => "export",
+            RawTokenKind::Extends => "extends",
+            RawTokenKind::False => "false",
+            RawTokenKind::Finally => "finally",
+            RawTokenKind::For => "for",
+            RawTokenKind::Function => "function",
+            RawTokenKind::From => "from",
+            RawTokenKind::Global => "global",
+            RawTokenKind::Get => "get",
+            RawTokenKind::If => "if",
+            RawTokenKind::In => "in",
+            RawTokenKind::Is => "is",
+            RawTokenKind::Import => "import",
+            RawTokenKind::Instanceof => "instanceof",
+            RawTokenKind::Infer => "infer",
+            RawTokenKind::Implements => "implements",
+            RawTokenKind::Intrinsic => "intrinsic",
+            RawTokenKind::Keyof => "keyof",
+            RawTokenKind::Let => "let",
+            RawTokenKind::Meta => "meta",
+            RawTokenKind::New => "new",
+            RawTokenKind::Null => "null",
+            RawTokenKind::Never => "never",
+            RawTokenKind::Namespace => "namespace",
+            RawTokenKind::Of => "of",
+            RawTokenKind::Package => "package",
+            RawTokenKind::Private => "private",
+            RawTokenKind::Protected => "protected",
+            RawTokenKind::Public => "public",
+            RawTokenKind::Return => "return",
+            RawTokenKind::Require => "require",
+            RawTokenKind::Yield => "yield",
+            RawTokenKind::While => "while",
+            RawTokenKind::With => "with",
+            RawTokenKind::Var => "var",
+            RawTokenKind::Void => "void",
+            RawTokenKind::This => "this",
+            RawTokenKind::Throw => "throw",
+            RawTokenKind::True => "true",
+            RawTokenKind::Typeof => "typeof",
+            RawTokenKind::Try => "try",
+            RawTokenKind::Type => "type",
+            RawTokenKind::Target => "target",
+            RawTokenKind::Super => "super",
+            RawTokenKind::Static => "static",
+            RawTokenKind::Switch => "switch",
+            RawTokenKind::Symbol => "symbol",
+            RawTokenKind::Set => "set",
+            RawTokenKind::Satisfies => "satisfies",
+            RawTokenKind::Readonly => "readonly",
+            RawTokenKind::Using => "using",
+            RawTokenKind::Unique => "unique",
         }
     }
 }

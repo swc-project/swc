@@ -1,12 +1,18 @@
 mod error;
-mod handlers;
+mod handler;
+mod identifier;
+mod number;
 mod source;
 mod string;
 mod token;
+mod unicode;
+
 use error::RawLexResult;
 use handlers::handler_from_byte;
 use source::Source;
 use token::{RawToken, RawTokenKind, RawTokenSpan, RawTokenValue};
+
+use crate::error::{Error, SyntaxError};
 
 pub struct RawLexer<'source> {
     source: Source<'source>,
@@ -38,7 +44,11 @@ impl<'source> RawLexer<'source> {
         Ok(RawToken {
             kind,
             span: RawTokenSpan { start, end },
-            value: self.token_value.take(),
+            value: if self.token_value.is_some() {
+                self.token_value.take()
+            } else {
+                None
+            },
             // TODO check is on new line?
             is_on_new_line: false,
         })
