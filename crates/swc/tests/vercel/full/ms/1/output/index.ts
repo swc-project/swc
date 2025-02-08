@@ -1,6 +1,6 @@
 import { _ as e } from "@swc/helpers/_/_type_of";
 export default function(c, a) {
-    var r, n;
+    var r, n, t, o, u;
     try {
         if ("string" == typeof c && c.length > 0) return function(e) {
             if ((e = String(e)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
@@ -50,10 +50,12 @@ export default function(c, a) {
                     throw Error("The unit ".concat(a, " was matched, but no matching case exists."));
             }
         }(c);
-        if ("number" == typeof c && isFinite(c)) return (null == a ? void 0 : a.long) ? (r = Math.abs(c)) >= 86400000 ? s(c, r, 86400000, "day") : r >= 3600000 ? s(c, r, 3600000, "hour") : r >= 60000 ? s(c, r, 60000, "minute") : r >= 1000 ? s(c, r, 1000, "second") : "".concat(c, " ms") : (n = Math.abs(c)) >= 86400000 ? "".concat(Math.round(c / 86400000), "d") : n >= 3600000 ? "".concat(Math.round(c / 3600000), "h") : n >= 60000 ? "".concat(Math.round(c / 60000), "m") : n >= 1000 ? "".concat(Math.round(c / 1000), "s") : "".concat(c, "ms");
+        if ("number" == typeof c && isFinite(c)) {
+            return (null == a ? void 0 : a.long) ? (r = c, (n = Math.abs(r)) >= 86400000 ? s(r, n, 86400000, "day") : n >= 3600000 ? s(r, n, 3600000, "hour") : n >= 60000 ? s(r, n, 60000, "minute") : n >= 1000 ? s(r, n, 1000, "second") : "".concat(r, " ms")) : (t = c, (o = Math.abs(t)) >= 86400000 ? "".concat(Math.round(t / 86400000), "d") : o >= 3600000 ? "".concat(Math.round(t / 3600000), "h") : o >= 60000 ? "".concat(Math.round(t / 60000), "m") : o >= 1000 ? "".concat(Math.round(t / 1000), "s") : "".concat(t, "ms"));
+        }
         throw Error("Value is not a string or number.");
     } catch (s) {
-        throw Error((void 0 === s ? "undefined" : e(s)) === "object" && null !== s && "message" in s ? "".concat(s.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occurred.");
+        throw Error((void 0 === (u = s) ? "undefined" : e(u)) === "object" && null !== u && "message" in u ? "".concat(s.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occurred.");
     }
 }
 function s(e, s, c, a) {
