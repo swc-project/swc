@@ -13111,7 +13111,7 @@ function(global, factory) {
                     void 0 === skeleton ? console.warn('THREE.ObjectLoader: No skeleton found with UUID:', child.skeleton) : child.bind(skeleton, child.bindMatrix);
                 }
             });
-        } /* DEPRECATED */ , _proto.setTexturePath = function(value) {
+        }, _proto.setTexturePath = function(value) {
             return console.warn('THREE.ObjectLoader: .setTexturePath() has been renamed to .setResourcePath().'), this.setResourcePath(value);
         }, ObjectLoader;
     }(Loader), TEXTURE_MAPPING = {
@@ -15420,33 +15420,15 @@ function(global, factory) {
             void 0 === sigma && (sigma = 0), void 0 === near && (near = 0.1), void 0 === far && (far = 100), _oldTarget = this._renderer.getRenderTarget();
             var cubeUVRenderTarget = this._allocateTargets();
             return this._sceneToCubeUV(scene, near, far, cubeUVRenderTarget), sigma > 0 && this._blur(cubeUVRenderTarget, 0, 0, sigma), this._applyPMREM(cubeUVRenderTarget), this._cleanup(cubeUVRenderTarget), cubeUVRenderTarget;
-        } /**
-		 * Generates a PMREM from an equirectangular texture, which can be either LDR
-		 * (RGBFormat) or HDR (RGBEFormat). The ideal input image size is 1k (1024 x 512),
-		 * as this matches best with the 256 x 256 cubemap output.
-		 */ , _proto.fromEquirectangular = function(equirectangular) {
+        }, _proto.fromEquirectangular = function(equirectangular) {
             return this._fromTexture(equirectangular);
-        } /**
-		 * Generates a PMREM from an cubemap texture, which can be either LDR
-		 * (RGBFormat) or HDR (RGBEFormat). The ideal input cube size is 256 x 256,
-		 * as this matches best with the 256 x 256 cubemap output.
-		 */ , _proto.fromCubemap = function(cubemap) {
+        }, _proto.fromCubemap = function(cubemap) {
             return this._fromTexture(cubemap);
-        } /**
-		 * Pre-compiles the cubemap shader. You can get faster start-up by invoking this method during
-		 * your texture's network fetch for increased concurrency.
-		 */ , _proto.compileCubemapShader = function() {
+        }, _proto.compileCubemapShader = function() {
             null === this._cubemapShader && (this._cubemapShader = _getCubemapShader(), this._compileMaterial(this._cubemapShader));
-        } /**
-		 * Pre-compiles the equirectangular shader. You can get faster start-up by invoking this method during
-		 * your texture's network fetch for increased concurrency.
-		 */ , _proto.compileEquirectangularShader = function() {
+        }, _proto.compileEquirectangularShader = function() {
             null === this._equirectShader && (this._equirectShader = _getEquirectShader(), this._compileMaterial(this._equirectShader));
-        } /**
-		 * Disposes of the PMREMGenerator's internal memory. Note that PMREMGenerator is a static class,
-		 * so you should not need more than one PMREMGenerator object. If you do, calling dispose() on
-		 * one of them will cause any others to also become unusable.
-		 */ , _proto.dispose = function() {
+        }, _proto.dispose = function() {
             this._blurMaterial.dispose(), null !== this._cubemapShader && this._cubemapShader.dispose(), null !== this._equirectShader && this._equirectShader.dispose();
             for(var i = 0; i < _lodPlanes.length; i++)_lodPlanes[i].dispose();
         } // private interface
@@ -15514,13 +15496,7 @@ function(global, factory) {
                 this._blur(cubeUVRenderTarget, i - 1, i, sigma, poleAxis);
             }
             renderer.autoClear = autoClear;
-        } /**
-		 * This is a two-pass Gaussian blur for a cubemap. Normally this is done
-		 * vertically and horizontally, but this breaks down on a cube. Here we apply
-		 * the blur latitudinally (around the poles), and then longitudinally (towards
-		 * the poles) to approximate the orthogonally-separable blur. It is least
-		 * accurate at the poles, but still does a decent job.
-		 */ , _proto._blur = function(cubeUVRenderTarget, lodIn, lodOut, sigma, poleAxis) {
+        }, _proto._blur = function(cubeUVRenderTarget, lodIn, lodOut, sigma, poleAxis) {
             var pingPongRenderTarget = this._pingPongRenderTarget;
             this._halfBlur(cubeUVRenderTarget, pingPongRenderTarget, lodIn, lodOut, sigma, 'latitudinal', poleAxis), this._halfBlur(pingPongRenderTarget, cubeUVRenderTarget, lodOut, lodOut, sigma, 'longitudinal', poleAxis);
         }, _proto._halfBlur = function(targetIn, targetOut, lodIn, lodOut, sigmaRadians, direction, poleAxis) {
