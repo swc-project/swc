@@ -2787,7 +2787,7 @@
         /***/ },
         /***/ 8908: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var win;
-            "undefined" != typeof window ? win = window : void 0 !== __webpack_require__.g ? win = __webpack_require__.g : "undefined" != typeof self ? win = self : win = {}, module.exports = win;
+            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
         /***/ },
         /***/ 7376: /***/ function(module) {
             module.exports = function(fn) {

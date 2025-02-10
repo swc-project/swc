@@ -70,10 +70,10 @@ function(global, factory) {
         for(var as = a.split(" "), i = 0; i < as.length; i++)as[i] && !classTest(as[i]).test(b) && (b += " " + as[i]);
         return b;
     }
-    document.createRange ? range = function(node, start, end, endNode) {
+    range = document.createRange ? function(node, start, end, endNode) {
         var r = document.createRange();
         return r.setEnd(endNode || node, end), r.setStart(node, start), r;
-    } : range = function(node, start, end) {
+    } : function(node, start, end) {
         var r = document.body.createTextRange();
         try {
             r.moveToElementText(node.parentNode);
