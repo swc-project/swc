@@ -21,3 +21,10 @@
  7 | export declare module aModuleKeywordExportedDeclareNamespace { }
    :                ^^^^^^
    `----
+  x `module` keyword is not supported. Use `namespace` instead.
+    ,-[10:1]
+  9 | namespace foo {
+ 10 |     export module aModuleKeywordExportedNamespaceInNamespace { }
+    :            ^^^^^^
+ 11 | }
+    `----
