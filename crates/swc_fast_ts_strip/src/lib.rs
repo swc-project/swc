@@ -426,7 +426,27 @@ struct ErrorOnTsModule {
     tokens: std::vec::Vec<TokenAndSpan>,
 }
 
+// All namespaces or modules are either at the top level or nested within
+// another namespace or module.
 impl Visit for ErrorOnTsModule {
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if n.is_decl() {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_decl(&mut self, n: &Decl) {
+        if n.is_ts_module() {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_module_decl(&mut self, n: &ModuleDecl) {
+        if n.is_export_decl() {
+            n.visit_children_with(self);
+        }
+    }
+
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
         if n.global || n.id.is_str() {
             return;
