@@ -204,6 +204,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": true,
       "id": {
         "type": "Identifier",
         "span": {
@@ -419,6 +420,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
