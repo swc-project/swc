@@ -55,6 +55,9 @@ pub struct Options {
     pub transform: Option<typescript::Config>,
 
     #[serde(default)]
+    pub deprecated_ts_module_as_error: Option<bool>,
+
+    #[serde(default)]
     pub source_map: bool,
 }
 
@@ -66,6 +69,7 @@ interface Options {
     filename?: string;
     mode?: Mode;
     transform?: TransformConfig;
+    deprecatedTsModuleAsError?: boolean;
     sourceMap?: boolean;
 }
 
@@ -239,6 +243,8 @@ pub fn operate(
 
     drop(parser);
 
+    let deprecated_ts_module_as_error = options.deprecated_ts_module_as_error.unwrap_or_default();
+
     match options.mode {
         Mode::StripOnly => {
             let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
@@ -246,7 +252,7 @@ pub fn operate(
             tokens.sort_by_key(|t| t.span);
 
             // Strip typescript types
-            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+            let mut ts_strip = TsStrip::new(fm.src.clone(), tokens, deprecated_ts_module_as_error);
             program.visit_with(&mut ts_strip);
             if handler.has_errors() {
                 return Err(TsError {
@@ -343,6 +349,17 @@ pub fn operate(
             HELPERS.set(&Helpers::new(false), || {
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
+                if deprecated_ts_module_as_error {
+                    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+
+                    tokens.sort_by_key(|t| t.span);
+
+                    program.visit_with(&mut ErrorOnTsModule {
+                        src: fm.src.clone(),
+                        tokens,
+                    });
+                }
+
                 program.mutate(&mut typescript::typescript(
                     options.transform.unwrap_or_default(),
                     unresolved_mark,
@@ -404,6 +421,54 @@ pub fn operate(
     }
 }
 
+struct ErrorOnTsModule {
+    src: Lrc<String>,
+    tokens: std::vec::Vec<TokenAndSpan>,
+}
+
+impl Visit for ErrorOnTsModule {
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
+        if n.global || n.id.is_str() {
+            return;
+        }
+
+        let mut pos = n.span.lo;
+
+        if n.declare {
+            let declare_index = self
+                .tokens
+                .binary_search_by_key(&pos, |t| t.span.lo)
+                .unwrap();
+
+            debug_assert_eq!(
+                self.tokens[declare_index].token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+            );
+
+            let TokenAndSpan { token, span, .. } = &self.tokens[declare_index + 1];
+            // declare global
+            // declare module
+            // declare namespace
+            if let Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace))) = token {
+                return;
+            }
+
+            pos = span.lo;
+        } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler
+                .struct_span_err(
+                    span(pos, pos + BytePos(6)),
+                    "`module` keyword is not supported. Use `namespace` instead.",
+                )
+                .emit();
+        });
+    }
+}
+
 struct TsStrip {
     src: Lrc<String>,
 
@@ -414,15 +479,22 @@ struct TsStrip {
     overwrites: Vec<(BytePos, u8)>,
 
     tokens: std::vec::Vec<TokenAndSpan>,
+
+    deprecated_ts_module_as_error: bool,
 }
 
 impl TsStrip {
-    fn new(src: Lrc<String>, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
+    fn new(
+        src: Lrc<String>,
+        tokens: std::vec::Vec<TokenAndSpan>,
+        deprecated_ts_module_as_error: bool,
+    ) -> Self {
         TsStrip {
             src,
             replacements: Default::default(),
             overwrites: Default::default(),
             tokens,
+            deprecated_ts_module_as_error,
         }
     }
 }
@@ -462,6 +534,51 @@ impl TsStrip {
 
     fn get_prev_token(&self, pos: BytePos) -> &TokenAndSpan {
         &self.tokens[self.get_prev_token_index(pos)]
+    }
+
+    fn error_module_token(&self, decl: &Decl) {
+        if !self.deprecated_ts_module_as_error {
+            return;
+        }
+
+        let Some(module) = decl.as_ts_module() else {
+            return;
+        };
+
+        if module.global || module.id.is_str() {
+            return;
+        }
+
+        let mut pos = module.span.lo;
+
+        if module.declare {
+            let declare_index = self.get_next_token_index(pos);
+            debug_assert_eq!(
+                self.tokens[declare_index].token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+            );
+
+            let TokenAndSpan { token, span, .. } = &self.tokens[declare_index + 1];
+            // declare global
+            // declare module
+            // declare namespace
+            if let Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace))) = token {
+                return;
+            }
+
+            pos = span.lo;
+        } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
+            return;
+        };
+
+        HANDLER.with(|handler| {
+            handler
+                .struct_span_err(
+                    span(pos, pos + BytePos(6)),
+                    "`module` keyword is not supported. Use `namespace` instead.",
+                )
+                .emit();
+        });
     }
 
     fn fix_asi(&mut self, span: Span) {
@@ -1034,6 +1151,8 @@ impl Visit for TsStrip {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
+        self.error_module_token(&n.decl);
+
         if n.decl.is_ts_declare() || n.decl.is_uninstantiated() {
             self.add_replacement(n.span);
             self.fix_asi(n.span);
@@ -1054,6 +1173,8 @@ impl Visit for TsStrip {
     }
 
     fn visit_decl(&mut self, n: &Decl) {
+        self.error_module_token(n);
+
         if n.is_ts_declare() || n.is_uninstantiated() {
             self.add_replacement(n.span());
             self.fix_asi(n.span());
