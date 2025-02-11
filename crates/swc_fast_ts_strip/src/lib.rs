@@ -436,7 +436,7 @@ struct ErrorOnTsModule<'a> {
 
 // All namespaces or modules are either at the top level or nested within
 // another namespace or module.
-impl<'a> Visit for ErrorOnTsModule<'a> {
+impl Visit for ErrorOnTsModule<'_> {
     fn visit_stmt(&mut self, n: &Stmt) {
         if n.is_decl() {
             n.visit_children_with(self);
