@@ -120,7 +120,7 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
 {
   "code": "UnsupportedSyntax",
-  "message": "  x \`module\` keyword is not supported in strip-only mode. Use \`namespace\` instead.
+  "message": "  x \`module\` keyword is not supported. Use \`namespace\` instead.
    ,----
  1 | module foo { }
    : ^^^^^^

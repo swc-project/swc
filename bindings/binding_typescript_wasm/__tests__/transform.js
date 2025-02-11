@@ -127,6 +127,7 @@ describe("transform", () => {
             await expect(
                 swc.transform("module foo { }", {
                     mode: "strip-only",
+                    deprecatedTsModuleAsError: true,
                 }),
             ).rejects.toMatchSnapshot();
         });
