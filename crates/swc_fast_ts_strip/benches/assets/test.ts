@@ -4,7 +4,7 @@ let x /**/: number/**/ = 1!;
 [] as [] satisfies [];
 // ^^^^^^^^^^^^^^^^^^
 
-(<string>"test");
+"test" as "test" satisfies "test";
 //^^^^^^^^
 
 class C /**/<T>/*︎*/ extends Array/**/<T> /*︎*/ implements I, J/*︎*/ {
@@ -119,7 +119,7 @@ void 0;
 
 void 0;
 
-/**/declare module M { }
+/**/declare module "M" { }
 //  ^^^^^^^^^^^^^^^^^^^ `declare module`
 
 void 0;

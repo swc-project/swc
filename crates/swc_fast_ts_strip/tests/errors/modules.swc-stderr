@@ -1,11 +1,23 @@
-  x TypeScript namespace declaration is not supported in strip-only mode
+  x `module` keyword is not supported. Use `namespace` instead.
    ,----
- 1 | module aModuleKeywordNamespace { export const m = 1; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | module aModuleKeywordNamespace { }
+   : ^^^^^^
    `----
-  x TypeScript namespace declaration is not supported in strip-only mode
+  x `module` keyword is not supported. Use `namespace` instead.
    ,-[3:1]
  2 | 
- 3 | export module aModuleKeywordExportedNamespace { export const m = 1; }
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | declare module aModuleKeywordDeclareNamespace { }
+   :         ^^^^^^
+   `----
+  x `module` keyword is not supported. Use `namespace` instead.
+   ,-[5:1]
+ 4 | 
+ 5 | export module aModuleKeywordExportedNamespace { }
+   :        ^^^^^^
+   `----
+  x `module` keyword is not supported. Use `namespace` instead.
+   ,-[7:1]
+ 6 | 
+ 7 | export declare module aModuleKeywordExportedDeclareNamespace { }
+   :                ^^^^^^
    `----

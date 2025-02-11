@@ -125,7 +125,7 @@ describe("transform", () => {
 
         it("should throw an error when it encounters a module", async () => {
             await expect(
-                swc.transform("module foo { export const m = 1; }", {
+                swc.transform("module foo { }", {
                     mode: "strip-only",
                 }),
             ).rejects.toMatchSnapshot();
@@ -157,6 +157,17 @@ describe("transform", () => {
                         mode: "strip-only",
                     },
                 ),
+            ).rejects.toMatchSnapshot();
+        });
+    });
+
+    describe("in transform mode", () => {
+        it("should throw an error when it encounters a module", async () => {
+            await expect(
+                swc.transform("module foo { }", {
+                    mode: "transform",
+                    deprecatedTsModuleAsError: true,
+                }),
             ).rejects.toMatchSnapshot();
         });
     });

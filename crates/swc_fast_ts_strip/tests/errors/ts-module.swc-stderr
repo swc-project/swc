@@ -1,3 +1,10 @@
+  x `module` keyword is not supported. Use `namespace` instead.
+   ,-[3:1]
+ 2 | 
+ 3 | module Foo {
+   : ^^^^^^
+ 4 |     export const foo = 1;
+   `----
   x TypeScript namespace declaration is not supported in strip-only mode
    ,-[3:1]
  2 |     

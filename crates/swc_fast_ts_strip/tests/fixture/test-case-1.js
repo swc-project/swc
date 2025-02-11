@@ -1,198 +1,198 @@
-let x /**/: number/**/ = 1!;
+let x /**/        /**/ = 1 ;
 //        ^^^^^^^^        ^
 
-[] as [] satisfies [];
+[]                   ;
 // ^^^^^^^^^^^^^^^^^^
 
-"test" as "test" satisfies "test";
+"test"                           ;
 //^^^^^^^^
 
-class C /**/<T>/*︎*/ extends Array/**/<T> /*︎*/ implements I, J/*︎*/ {
+class C /**/   /*︎*/ extends Array/**/    /*︎*/                /*︎*/ {
     //          ^^^^^                      ^^^     ^^^^^^^^^^^^^^
-    readonly field/**/: string/**/ = "";
+             field/**/        /**/ = "";
     //  ^^^^^^^^          ^^^^^^^^
     static accessor f1;
-    private f2/**/!/**/: string/*︎*/;
+            f2/**/ /**/        /*︎*/;
     //  ^^^^^^^       ^    ^^^^^^^^
-    declare f3: any;
+                    
     //  ^^^^^^^^^^^^^^^^ declared property
 
-    public method/**/<T>/*︎*/(/*︎*/this: T,/**/ a? /*︎*/: string/**/)/*︎*/: void/*︎*/ {
+           method/**/   /*︎*/(/*︎*/        /**/ a  /*︎*/        /**/)/*︎*/      /*︎*/ {
         //  ^^^^^^           ^^^         ^^^^^^^^      ^     ^^^^^^^^         ^^^^^^
     }
 
-    [key: string]: any;
+                       
     //  ^^^^^^^^^^^^^^^^^^^ index signature
 
-    get g(): any { return 1 };
+    get g()      { return 1 };
     //         ^^^^^
-    set g(v: any) { };
+    set g(v     ) { };
     //         ^^^^^
 }
 
-class D extends C<any> {
+class D extends C      {
     //               ^^^^^
-    override method(...args): any { }
+             method(...args)      { }
     //  ^^^^^^^^                ^^^^^
 }
 
-abstract class A {
+         class A {
     // ^^^^^^^^
-    abstract a;
+               
     //  ^^^^^^^^^^^ abstract property
     b;
-    abstract method();
+                      
     //  ^^^^^^^^^^^^^^^^^^ abstract method
 }
 
 {
-    let m = new (Map!)<string, number>([]!);
+    let m = new (Map )                ([] );
     //              ^ ^^^^^^^^^^^^^^^^   ^
 }
 
 {
-    let a = (foo!)<any>;
+    let a = (foo )     ;
     //          ^ ^^^^^
 }
 
 {
-    let a = (foo!)<any>([]!);
+    let a = (foo )     ([] );
     //          ^ ^^^^^   ^
 }
 
 {
-    let f = function (p: any) { }
+    let f = function (p     ) { }
     //                ^^^^^
 }
 
 {
-    function overload(): number;
+                                
     //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ overload
-    function overload(): any { }
+    function overload()      { }
     //                     ^^^^^
 }
 
 /** @doc */
-interface I { }
+               
 // ^^^^^^^^^^^ interface
 
 void 0;
 
 /** @doc */
-type J = I;
+           
 // ^^^^^^^^ type alias
 
-/**/import type T from "node:assert";
+/**/                                 
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `import type`
 
-/**/export type { I };
+/**/                  
 //  ^^^^^^^^^^^^^^^^^^ `export type`
 
-/**/export type * from "node:buffer";
+/**/                                 
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `export type *`
 
-import { type AssertPredicate/**/, deepEqual } from "node:assert";
+import {                           deepEqual } from "node:assert";
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 export {
     C,
-    type T,
+           
     //  ^^^^^^
 }
 
-/**/export type T2 = 1;
+/**/                   
 //  ^^^^^^^^^^^^^^^^^^^
 
-function foo<T>(p: any = (): any => 1): any {
+function foo   (p      = ()      => 1)      {
     //          ^^^  ^^^^^     ^^^^^      ^^^^^
-    return p as any;
+    return p       ;
     //           ^^^^^^
 }
 
-/**/declare enum E1 { }
+/**/                   
 //  ^^^^^^^^^^^^^^^^^^ `declare enum`
 
 void 0;
 
-/**/declare namespace N { }
+/**/                       
 //  ^^^^^^^^^^^^^^^^^^^^^^ `declare namespace`
 
 void 0;
 
-/**/declare module "M" { }
+/**/                      
 //  ^^^^^^^^^^^^^^^^^^^ `declare module`
 
 void 0;
 
-/**/declare let a;
+/**/              
 //  ^^^^^^^^^^^^^^ `declare let`
 
 void 0;
 
-/**/declare class DeclaredClass { }
+/**/                               
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `declare class`
 
 void 0;
 
-/**/declare function DeclaredFunction(): void;
+/**/                                          
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `declare function`
 
 void 0;
 
 // `=>` spanning line cases:
 {
-    ()
-        : any =>
+    ( 
+            ) =>
         1
 };
 {
-    ():
-        any =>
-        1
-};
-{
-    (
-    )
-        : any =>
+    (  
+          ) =>
         1
 };
 {
     (
-    ): (
-            | any
+     
+            ) =>
+        1
+};
+{
+    (
+        
+                 
         ) =>
         1
 };
 {
     (
-    ):
-        NonNullable<any
-        > =>
+      
+                       
+        ) =>
         1
 };
 {
-    (a, b, c: D = [] as any/*comment-1*/)/*comment-2*/:
-        any =>
+    (a, b, c    = []       /*comment-1*/ /*comment-2*/ 
+          ) =>
         1
 };
 
 
-    ():
-        any=>
+    (  
+          )=>
         1;
 
 {
-    (a, b, c: D = [] as any/*comment-1*/)/*comment-2*/:
-        /*comment-3*/any/*comment-4*/=>
+    (a, b, c    = []       /*comment-1*/ /*comment-2*/ 
+                       )/*comment-4*/=>
         1
 };
 
-type 任意の型 = any;
+                
 
-():
-任意の型=>
+(  
+   )  =>
 1;
 
-()/*comment-1*/:/*comment-2*/
-/*comment-3*/任意の型/*comment-4*/=>
+( /*comment-1*/              
+                )  /*comment-4*/=>
 1;
