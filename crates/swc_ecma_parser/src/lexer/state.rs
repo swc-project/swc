@@ -1,18 +1,22 @@
 use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
+use swc_ecma_ast::AssignOp;
 use tracing::trace;
 
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
+    Context, Input, LexResult, Lexer,
 };
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
+    raw_lexer::{RawTokenKind, RawTokenSpan},
+    token::{
+        BinOpToken, IdentLike, Keyword, KnownIdent, Token, TokenAndSpan, TokenKind, Word, WordKind,
+    },
     EsVersion, Syntax,
 };
 
@@ -189,7 +193,9 @@ impl Tokens for Lexer<'_> {
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
+        // take(&mut self.errors.borrow_mut())
+        // self.raw_lexer.
+        self.raw_lexer.take_errors()
     }
 
     fn take_script_module_errors(&mut self) -> Vec<Error> {
@@ -243,6 +249,259 @@ impl Lexer<'_> {
                     }
                 }
             }
+        }
+    }
+
+    fn next_token1(&mut self) -> LexResult<Option<(Token, Span)>> {
+        let next_token = self.raw_lexer.read_next_token()?;
+
+        if next_token.kind.is_eof() {
+            Ok(None)
+        } else {
+            let raw_span = next_token.span;
+            let RawTokenSpan { start, end } = raw_span;
+            let span = Span::new(BytePos(start + 1), BytePos(end + 1));
+            let token = match next_token.kind {
+                RawTokenKind::Eof => unreachable!(),
+                RawTokenKind::WhiteSpace => return self.next_token1(),
+                RawTokenKind::Skip => return self.next_token1(),
+                RawTokenKind::Arrow => Token::Arrow,
+                RawTokenKind::AssignOp => Token::AssignOp(AssignOp::Assign),
+                RawTokenKind::EqEqOp => Token::BinOp(BinOpToken::EqEq),
+                RawTokenKind::EqEqEqOp => Token::BinOp(BinOpToken::EqEqEq),
+                RawTokenKind::ConflictMarker => {
+                    self.raw_lexer.add_error(start, end, SyntaxError::TS1185);
+                    return self.next_token1();
+                }
+                RawTokenKind::Hash => Token::Hash,
+                RawTokenKind::At => Token::At,
+                RawTokenKind::Dot => Token::Dot,
+                RawTokenKind::DotDotDot => Token::DotDotDot,
+                RawTokenKind::BackQuote => Token::BackQuote,
+                RawTokenKind::Bang => Token::Bang,
+                RawTokenKind::BitXorAssignOp => Token::AssignOp(AssignOp::BitXorAssign),
+                RawTokenKind::BitXorOp => Token::BinOp(BinOpToken::BitXor),
+                RawTokenKind::DivOp => Token::BinOp(BinOpToken::Div),
+                RawTokenKind::DivAssignOp => Token::AssignOp(AssignOp::DivAssign),
+                RawTokenKind::NotEqOp => Token::BinOp(BinOpToken::NotEq),
+                RawTokenKind::NotEqEqOp => Token::BinOp(BinOpToken::NotEqEq),
+                RawTokenKind::LParen => Token::LParen,
+                RawTokenKind::RParen => Token::RParen,
+                RawTokenKind::LBrace => Token::LBrace,
+                RawTokenKind::RBrace => Token::RBrace,
+                RawTokenKind::LBracket => Token::LBracket,
+                RawTokenKind::RBracket => Token::RBracket,
+                RawTokenKind::Semi => Token::Semi,
+                RawTokenKind::Comma => Token::Comma,
+                RawTokenKind::Colon => Token::Colon,
+                RawTokenKind::HashbangComment => {
+                    Token::Shebang(next_token.value.unwrap().as_string().unwrap())
+                }
+                RawTokenKind::Identifier => Token::Word(Word::Ident(IdentLike::Other(
+                    next_token
+                        .value
+                        .expect("Should have a value")
+                        .as_string()
+                        .expect("Should be atom"),
+                ))),
+                RawTokenKind::QuestionMark => Token::QuestionMark,
+                RawTokenKind::NullishCoalescingOp => Token::BinOp(BinOpToken::NullishCoalescing),
+                RawTokenKind::NullishAssignOp => Token::AssignOp(AssignOp::NullishAssign),
+                RawTokenKind::ModOp => Token::BinOp(BinOpToken::Mod),
+                RawTokenKind::ModAssignOp => Token::AssignOp(AssignOp::ModAssign),
+                RawTokenKind::Mul => Token::BinOp(BinOpToken::Mul),
+                RawTokenKind::MulAssign => Token::AssignOp(AssignOp::MulAssign),
+                RawTokenKind::Exp => Token::BinOp(BinOpToken::Exp),
+                RawTokenKind::ExpAssign => Token::AssignOp(AssignOp::ExpAssign),
+                RawTokenKind::BitAndOp => Token::BinOp(BinOpToken::BitAnd),
+                RawTokenKind::LogicalAndOp => Token::BinOp(BinOpToken::LogicalAnd),
+                RawTokenKind::BitAndAssignOp => Token::AssignOp(AssignOp::BitAndAssign),
+                RawTokenKind::AndAssignOp => Token::AssignOp(AssignOp::AndAssign),
+                RawTokenKind::AddOp => Token::BinOp(BinOpToken::Add),
+                RawTokenKind::PlusPlus => Token::PlusPlus,
+                RawTokenKind::AddAssignOp => Token::AssignOp(AssignOp::AddAssign),
+                RawTokenKind::SubOp => Token::BinOp(BinOpToken::Sub),
+                RawTokenKind::SubAssignOp => Token::AssignOp(AssignOp::SubAssign),
+                RawTokenKind::MinusMinus => Token::MinusMinus,
+                RawTokenKind::Tilde => Token::Tilde,
+                RawTokenKind::BitOrOp => Token::BinOp(BinOpToken::BitOr),
+                RawTokenKind::LogicalOrOp => Token::BinOp(BinOpToken::LogicalOr),
+                RawTokenKind::BitOrAssignOp => Token::AssignOp(AssignOp::BitOrAssign),
+                RawTokenKind::OrAssignOp => Token::AssignOp(AssignOp::OrAssign),
+                RawTokenKind::LtOp => Token::BinOp(BinOpToken::Lt),
+                RawTokenKind::LtEqOp => Token::BinOp(BinOpToken::LtEq),
+                RawTokenKind::LShiftOp => Token::BinOp(BinOpToken::LShift),
+                RawTokenKind::LShiftAssignOp => Token::AssignOp(AssignOp::LShiftAssign),
+                RawTokenKind::LegacyCommentOpen => todo!(),
+                RawTokenKind::GtOp => Token::BinOp(BinOpToken::Gt),
+                RawTokenKind::GtEqOp => Token::BinOp(BinOpToken::GtEq),
+                RawTokenKind::RShiftOp => Token::BinOp(BinOpToken::RShift),
+                RawTokenKind::ZeroFillRShiftOp => Token::BinOp(BinOpToken::ZeroFillRShift),
+                RawTokenKind::RShiftAssignOp => Token::AssignOp(AssignOp::RShiftAssign),
+                RawTokenKind::ZeroFillRShiftAssignOp => {
+                    Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
+                }
+                RawTokenKind::Str => Token::Str {
+                    value: next_token.value.unwrap().as_string().unwrap(),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                },
+                RawTokenKind::Num => Token::Num {
+                    value: next_token.value.unwrap().as_number().unwrap(),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                },
+                RawTokenKind::BigIntLiteral => todo!(),
+                // RawTokenKind::BigintLiteral => Token::BigInt {
+                //     value: next_token.value.unwrap().as_number().unwrap(),
+                //     raw: self.raw_lexer.str_from_pos(start, end).into(),
+                // },
+                RawTokenKind::Await => Token::Word(Word::Keyword(Keyword::Await)),
+                RawTokenKind::Async => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)))
+                }
+                RawTokenKind::Accessor => todo!(),
+                RawTokenKind::Break => Token::Word(Word::Keyword(Keyword::Break)),
+                RawTokenKind::BigInt => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Bigint)))
+                }
+                RawTokenKind::Case => Token::Word(Word::Keyword(Keyword::Case)),
+                RawTokenKind::Catch => Token::Word(Word::Keyword(Keyword::Catch)),
+                RawTokenKind::Class => Token::Word(Word::Keyword(Keyword::Class)),
+                RawTokenKind::Const => Token::Word(Word::Keyword(Keyword::Const)),
+                RawTokenKind::Continue => Token::Word(Word::Keyword(Keyword::Continue)),
+                RawTokenKind::Debugger => Token::Word(Word::Keyword(Keyword::Debugger)),
+                RawTokenKind::Default => Token::Word(Word::Keyword(Keyword::Default_)),
+                RawTokenKind::Delete => Token::Word(Word::Keyword(Keyword::Delete)),
+                RawTokenKind::Do => Token::Word(Word::Keyword(Keyword::Do)),
+                RawTokenKind::Else => Token::Word(Word::Keyword(Keyword::Else)),
+                RawTokenKind::Enum => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum))),
+                RawTokenKind::Export => Token::Word(Word::Keyword(Keyword::Export)),
+                RawTokenKind::Extends => Token::Word(Word::Keyword(Keyword::Extends)),
+                RawTokenKind::False => Token::Word(Word::False),
+                RawTokenKind::Finally => Token::Word(Word::Keyword(Keyword::Finally)),
+                RawTokenKind::For => Token::Word(Word::Keyword(Keyword::For)),
+                RawTokenKind::Function => Token::Word(Word::Keyword(Keyword::Function)),
+                RawTokenKind::From => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::From))),
+                RawTokenKind::Global => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Global)))
+                }
+                RawTokenKind::Get => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Get))),
+                RawTokenKind::If => Token::Word(Word::Keyword(Keyword::If)),
+                RawTokenKind::In => Token::Word(Word::Keyword(Keyword::In)),
+                RawTokenKind::Is => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is))),
+                RawTokenKind::Import => Token::Word(Word::Keyword(Keyword::Import)),
+                RawTokenKind::Instanceof => Token::Word(Word::Keyword(Keyword::InstanceOf)),
+                RawTokenKind::Keyof => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Keyof)))
+                }
+                RawTokenKind::Let => Token::Word(Word::Keyword(Keyword::Let)),
+                RawTokenKind::Meta => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Meta))),
+                RawTokenKind::New => Token::Word(Word::Keyword(Keyword::New)),
+                RawTokenKind::Null => Token::Word(Word::Null),
+                RawTokenKind::Of => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of))),
+                RawTokenKind::Object => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Object)))
+                }
+                RawTokenKind::Package => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)))
+                }
+                RawTokenKind::Private => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
+                }
+                RawTokenKind::Protected => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
+                }
+                RawTokenKind::Public => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)))
+                }
+                RawTokenKind::Return => Token::Word(Word::Keyword(Keyword::Return)),
+                RawTokenKind::Require => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Require)))
+                }
+                RawTokenKind::Yield => Token::Word(Word::Keyword(Keyword::Yield)),
+                RawTokenKind::While => Token::Word(Word::Keyword(Keyword::While)),
+                RawTokenKind::With => Token::Word(Word::Keyword(Keyword::With)),
+                RawTokenKind::Var => Token::Word(Word::Keyword(Keyword::Var)),
+                RawTokenKind::Void => Token::Word(Word::Keyword(Keyword::Void)),
+                RawTokenKind::This => Token::Word(Word::Keyword(Keyword::This)),
+                RawTokenKind::Throw => Token::Word(Word::Keyword(Keyword::Throw)),
+                RawTokenKind::True => Token::Word(Word::True),
+                RawTokenKind::Typeof => Token::Word(Word::Keyword(Keyword::TypeOf)),
+                RawTokenKind::Try => Token::Word(Word::Keyword(Keyword::Try)),
+                RawTokenKind::Type => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Type))),
+                RawTokenKind::Target => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Target)))
+                }
+                RawTokenKind::Super => Token::Word(Word::Keyword(Keyword::Super)),
+                RawTokenKind::Static => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)))
+                }
+                RawTokenKind::Switch => Token::Word(Word::Keyword(Keyword::Switch)),
+                RawTokenKind::Symbol => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Symbol)))
+                }
+                RawTokenKind::Set => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Set))),
+                RawTokenKind::Number => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Number)))
+                }
+                RawTokenKind::String => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::String)))
+                }
+                RawTokenKind::Undefined => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Undefined)))
+                }
+                RawTokenKind::Satisfies => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
+                }
+                RawTokenKind::Never => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Never)))
+                }
+                RawTokenKind::Namespace => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace)))
+                }
+                RawTokenKind::Interface => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
+                }
+                RawTokenKind::Asserts => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)))
+                }
+                RawTokenKind::Unknown => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unknown)))
+                }
+                RawTokenKind::Abstract => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)))
+                }
+                RawTokenKind::Any => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any))),
+                RawTokenKind::As => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As))),
+                RawTokenKind::Assert => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Assert)))
+                }
+                RawTokenKind::Boolean => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Boolean)))
+                }
+                RawTokenKind::Declare => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+                }
+                RawTokenKind::Infer => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer)))
+                }
+                RawTokenKind::Implements => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
+                }
+                RawTokenKind::Intrinsic => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Intrinsic)))
+                }
+                RawTokenKind::Readonly => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)))
+                }
+                RawTokenKind::Using => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Using)))
+                }
+                RawTokenKind::Unique => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique)))
+                }
+            };
+
+            Ok(Some((token, span)))
         }
     }
 
@@ -350,40 +609,307 @@ impl Iterator for Lexer<'_> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
-
-        let res = self.next_token(&mut start);
-
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let next_token = match self.raw_lexer.read_next_token() {
             Ok(t) => t,
-            Err(e) => e,
+            Err(e) => {
+                let span = e.span();
+                let t = Token::Error(e);
+
+                return Some(TokenAndSpan {
+                    token: t,
+                    span,
+                    had_line_break: false,
+                });
+            }
         };
 
-        let span = self.span(start);
-        if let Some(ref token) = token {
-            if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+        if next_token.kind.is_eof() {
+            None
+        } else {
+            let raw_span = next_token.span;
+            let RawTokenSpan { start, end } = raw_span;
+            let span = Span::new(BytePos(start + 1), BytePos(end + 1));
+            let token = match next_token.kind {
+                RawTokenKind::Eof => unreachable!(),
+                RawTokenKind::WhiteSpace => return self.next(),
+                RawTokenKind::Skip => return self.next(),
+                RawTokenKind::Arrow => Token::Arrow,
+                RawTokenKind::AssignOp => Token::AssignOp(AssignOp::Assign),
+                RawTokenKind::EqEqOp => Token::BinOp(BinOpToken::EqEq),
+                RawTokenKind::EqEqEqOp => Token::BinOp(BinOpToken::EqEqEq),
+                RawTokenKind::ConflictMarker => {
+                    self.raw_lexer.add_error(start, end, SyntaxError::TS1185);
+                    return self.next();
                 }
-            }
+                RawTokenKind::Hash => Token::Hash,
+                RawTokenKind::At => Token::At,
+                RawTokenKind::Dot => Token::Dot,
+                RawTokenKind::DotDotDot => Token::DotDotDot,
+                RawTokenKind::BackQuote => Token::BackQuote,
+                RawTokenKind::Bang => Token::Bang,
+                RawTokenKind::BitXorAssignOp => Token::AssignOp(AssignOp::BitXorAssign),
+                RawTokenKind::BitXorOp => Token::BinOp(BinOpToken::BitXor),
+                RawTokenKind::DivOp => Token::BinOp(BinOpToken::Div),
+                RawTokenKind::DivAssignOp => Token::AssignOp(AssignOp::DivAssign),
+                RawTokenKind::NotEqOp => Token::BinOp(BinOpToken::NotEq),
+                RawTokenKind::NotEqEqOp => Token::BinOp(BinOpToken::NotEqEq),
+                RawTokenKind::LParen => Token::LParen,
+                RawTokenKind::RParen => Token::RParen,
+                RawTokenKind::LBrace => Token::LBrace,
+                RawTokenKind::RBrace => Token::RBrace,
+                RawTokenKind::LBracket => Token::LBracket,
+                RawTokenKind::RBracket => Token::RBracket,
+                RawTokenKind::Semi => Token::Semi,
+                RawTokenKind::Comma => Token::Comma,
+                RawTokenKind::Colon => Token::Colon,
+                RawTokenKind::HashbangComment => {
+                    Token::Shebang(next_token.value.unwrap().as_string().unwrap())
+                }
+                RawTokenKind::Identifier => Token::Word(Word::Ident(IdentLike::Other(
+                    next_token
+                        .value
+                        .expect("Should have a value")
+                        .as_string()
+                        .expect("Should be atom"),
+                ))),
+                RawTokenKind::QuestionMark => Token::QuestionMark,
+                RawTokenKind::NullishCoalescingOp => Token::BinOp(BinOpToken::NullishCoalescing),
+                RawTokenKind::NullishAssignOp => Token::AssignOp(AssignOp::NullishAssign),
+                RawTokenKind::ModOp => Token::BinOp(BinOpToken::Mod),
+                RawTokenKind::ModAssignOp => Token::AssignOp(AssignOp::ModAssign),
+                RawTokenKind::Mul => Token::BinOp(BinOpToken::Mul),
+                RawTokenKind::MulAssign => Token::AssignOp(AssignOp::MulAssign),
+                RawTokenKind::Exp => Token::BinOp(BinOpToken::Exp),
+                RawTokenKind::ExpAssign => Token::AssignOp(AssignOp::ExpAssign),
+                RawTokenKind::BitAndOp => Token::BinOp(BinOpToken::BitAnd),
+                RawTokenKind::LogicalAndOp => Token::BinOp(BinOpToken::LogicalAnd),
+                RawTokenKind::BitAndAssignOp => Token::AssignOp(AssignOp::BitAndAssign),
+                RawTokenKind::AndAssignOp => Token::AssignOp(AssignOp::AndAssign),
+                RawTokenKind::AddOp => Token::BinOp(BinOpToken::Add),
+                RawTokenKind::PlusPlus => Token::PlusPlus,
+                RawTokenKind::AddAssignOp => Token::AssignOp(AssignOp::AddAssign),
+                RawTokenKind::SubOp => Token::BinOp(BinOpToken::Sub),
+                RawTokenKind::SubAssignOp => Token::AssignOp(AssignOp::SubAssign),
+                RawTokenKind::MinusMinus => Token::MinusMinus,
+                RawTokenKind::Tilde => Token::Tilde,
+                RawTokenKind::BitOrOp => Token::BinOp(BinOpToken::BitOr),
+                RawTokenKind::LogicalOrOp => Token::BinOp(BinOpToken::LogicalOr),
+                RawTokenKind::BitOrAssignOp => Token::AssignOp(AssignOp::BitOrAssign),
+                RawTokenKind::OrAssignOp => Token::AssignOp(AssignOp::OrAssign),
+                RawTokenKind::LtOp => Token::BinOp(BinOpToken::Lt),
+                RawTokenKind::LtEqOp => Token::BinOp(BinOpToken::LtEq),
+                RawTokenKind::LShiftOp => Token::BinOp(BinOpToken::LShift),
+                RawTokenKind::LShiftAssignOp => Token::AssignOp(AssignOp::LShiftAssign),
+                RawTokenKind::LegacyCommentOpen => todo!(),
+                RawTokenKind::GtOp => Token::BinOp(BinOpToken::Gt),
+                RawTokenKind::GtEqOp => Token::BinOp(BinOpToken::GtEq),
+                RawTokenKind::RShiftOp => Token::BinOp(BinOpToken::RShift),
+                RawTokenKind::ZeroFillRShiftOp => Token::BinOp(BinOpToken::ZeroFillRShift),
+                RawTokenKind::RShiftAssignOp => Token::AssignOp(AssignOp::RShiftAssign),
+                RawTokenKind::ZeroFillRShiftAssignOp => {
+                    Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
+                }
+                RawTokenKind::Str => Token::Str {
+                    value: next_token.value.unwrap().as_string().unwrap(),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                },
+                RawTokenKind::Num => Token::Num {
+                    value: next_token.value.unwrap().as_number().unwrap(),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                },
+                RawTokenKind::BigIntLiteral => todo!(),
+                // RawTokenKind::BigintLiteral => Token::BigInt {
+                //     value: next_token.value.unwrap().as_number().unwrap(),
+                //     raw: self.raw_lexer.str_from_pos(start, end).into(),
+                // },
+                RawTokenKind::Await => Token::Word(Word::Keyword(Keyword::Await)),
+                RawTokenKind::Async => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)))
+                }
+                RawTokenKind::Accessor => todo!(),
+                RawTokenKind::Break => Token::Word(Word::Keyword(Keyword::Break)),
+                RawTokenKind::BigInt => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Bigint)))
+                }
+                RawTokenKind::Case => Token::Word(Word::Keyword(Keyword::Case)),
+                RawTokenKind::Catch => Token::Word(Word::Keyword(Keyword::Catch)),
+                RawTokenKind::Class => Token::Word(Word::Keyword(Keyword::Class)),
+                RawTokenKind::Const => Token::Word(Word::Keyword(Keyword::Const)),
+                RawTokenKind::Continue => Token::Word(Word::Keyword(Keyword::Continue)),
+                RawTokenKind::Debugger => Token::Word(Word::Keyword(Keyword::Debugger)),
+                RawTokenKind::Default => Token::Word(Word::Keyword(Keyword::Default_)),
+                RawTokenKind::Delete => Token::Word(Word::Keyword(Keyword::Delete)),
+                RawTokenKind::Do => Token::Word(Word::Keyword(Keyword::Do)),
+                RawTokenKind::Else => Token::Word(Word::Keyword(Keyword::Else)),
+                RawTokenKind::Enum => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum))),
+                RawTokenKind::Export => Token::Word(Word::Keyword(Keyword::Export)),
+                RawTokenKind::Extends => Token::Word(Word::Keyword(Keyword::Extends)),
+                RawTokenKind::False => Token::Word(Word::False),
+                RawTokenKind::Finally => Token::Word(Word::Keyword(Keyword::Finally)),
+                RawTokenKind::For => Token::Word(Word::Keyword(Keyword::For)),
+                RawTokenKind::Function => Token::Word(Word::Keyword(Keyword::Function)),
+                RawTokenKind::From => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::From))),
+                RawTokenKind::Global => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Global)))
+                }
+                RawTokenKind::Get => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Get))),
+                RawTokenKind::If => Token::Word(Word::Keyword(Keyword::If)),
+                RawTokenKind::In => Token::Word(Word::Keyword(Keyword::In)),
+                RawTokenKind::Is => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is))),
+                RawTokenKind::Import => Token::Word(Word::Keyword(Keyword::Import)),
+                RawTokenKind::Instanceof => Token::Word(Word::Keyword(Keyword::InstanceOf)),
+                RawTokenKind::Keyof => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Keyof)))
+                }
+                RawTokenKind::Let => Token::Word(Word::Keyword(Keyword::Let)),
+                RawTokenKind::Meta => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Meta))),
+                RawTokenKind::New => Token::Word(Word::Keyword(Keyword::New)),
+                RawTokenKind::Null => Token::Word(Word::Null),
+                RawTokenKind::Of => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of))),
+                RawTokenKind::Object => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Object)))
+                }
+                RawTokenKind::Package => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)))
+                }
+                RawTokenKind::Private => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
+                }
+                RawTokenKind::Protected => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
+                }
+                RawTokenKind::Public => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)))
+                }
+                RawTokenKind::Return => Token::Word(Word::Keyword(Keyword::Return)),
+                RawTokenKind::Require => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Require)))
+                }
+                RawTokenKind::Yield => Token::Word(Word::Keyword(Keyword::Yield)),
+                RawTokenKind::While => Token::Word(Word::Keyword(Keyword::While)),
+                RawTokenKind::With => Token::Word(Word::Keyword(Keyword::With)),
+                RawTokenKind::Var => Token::Word(Word::Keyword(Keyword::Var)),
+                RawTokenKind::Void => Token::Word(Word::Keyword(Keyword::Void)),
+                RawTokenKind::This => Token::Word(Word::Keyword(Keyword::This)),
+                RawTokenKind::Throw => Token::Word(Word::Keyword(Keyword::Throw)),
+                RawTokenKind::True => Token::Word(Word::True),
+                RawTokenKind::Typeof => Token::Word(Word::Keyword(Keyword::TypeOf)),
+                RawTokenKind::Try => Token::Word(Word::Keyword(Keyword::Try)),
+                RawTokenKind::Type => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Type))),
+                RawTokenKind::Target => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Target)))
+                }
+                RawTokenKind::Super => Token::Word(Word::Keyword(Keyword::Super)),
+                RawTokenKind::Static => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)))
+                }
+                RawTokenKind::Switch => Token::Word(Word::Keyword(Keyword::Switch)),
+                RawTokenKind::Symbol => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Symbol)))
+                }
+                RawTokenKind::Set => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Set))),
+                RawTokenKind::Number => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Number)))
+                }
+                RawTokenKind::String => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::String)))
+                }
+                RawTokenKind::Undefined => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Undefined)))
+                }
+                RawTokenKind::Satisfies => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
+                }
+                RawTokenKind::Never => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Never)))
+                }
+                RawTokenKind::Namespace => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace)))
+                }
+                RawTokenKind::Interface => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
+                }
+                RawTokenKind::Asserts => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)))
+                }
+                RawTokenKind::Unknown => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unknown)))
+                }
+                RawTokenKind::Abstract => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)))
+                }
+                RawTokenKind::Any => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any))),
+                RawTokenKind::As => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As))),
+                RawTokenKind::Assert => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Assert)))
+                }
+                RawTokenKind::Boolean => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Boolean)))
+                }
+                RawTokenKind::Declare => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+                }
+                RawTokenKind::Infer => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer)))
+                }
+                RawTokenKind::Implements => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
+                }
+                RawTokenKind::Intrinsic => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Intrinsic)))
+                }
+                RawTokenKind::Readonly => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)))
+                }
+                RawTokenKind::Using => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Using)))
+                }
+                RawTokenKind::Unique => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique)))
+                }
+            };
 
-            self.state.update(start, token.kind());
-            self.state.prev_hi = self.last_pos();
-            self.state.had_line_break_before_last = self.had_line_break_before_last();
-        }
-
-        token.map(|token| {
-            // Attach span to token.
-            TokenAndSpan {
+            Some(TokenAndSpan {
                 token,
-                had_line_break: self.had_line_break_before_last(),
+                had_line_break: next_token.is_on_new_line,
                 span,
-            }
-        })
+            })
+        }
+        // let mut start = self.cur_pos();
+
+        // let _ = self.next_token(&mut start);
+        // let res = self.next_token1();
+
+        // let token = match res.map_err(Token::Error).map_err(Some) {
+        //     Ok(t) => t,
+        //     Err(e) => panic!("{:?}", e),
+        // };
+
+        // // let span = self.span(start);
+        // // if let Some(ref token) = token {
+        // //     if let Some(comments) = self.comments_buffer.as_mut() {
+        // //         for comment in comments.take_pending_leading() {
+        // //             comments.push(BufferedComment {
+        // //                 kind: BufferedCommentKind::Leading,
+        // //                 pos: start,
+        // //                 comment,
+        // //             });
+        // //         }
+        // //     }
+
+        // //     self.state.update(start, token.kind());
+        // //     self.state.prev_hi = self.last_pos();
+        // //     self.state.had_line_break_before_last =
+        // // self.had_line_break_before_last(); }
+
+        // token.map(|(token, span)| {
+        //     // Attach span to token.
+        //     TokenAndSpan {
+        //         token,
+        //         had_line_break: ,
+        //         span,
+        //     }
+        // })
     }
 }
 

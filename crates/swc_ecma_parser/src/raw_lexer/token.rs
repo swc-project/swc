@@ -2,14 +2,15 @@ use std::fmt::Debug;
 
 use swc_atoms::Atom;
 
-#[derive(PartialEq, Eq, Default)]
-pub(crate) enum RawTokenKind {
+#[derive(PartialEq, Eq, Default, Clone)]
+pub enum RawTokenKind {
     #[default]
     Eof,
 
-    Terminal,
-
     WhiteSpace,
+
+    /// comments, ..
+    Skip,
 
     /// `=>`
     Arrow,
@@ -95,7 +96,8 @@ pub(crate) enum RawTokenKind {
     Identifier,
 
     /// `${`
-    DollarLBrace,
+    // #[deny(dead_code)]
+    // DollarLBrace,
 
     /// `?`
     QuestionMark,
@@ -208,8 +210,8 @@ pub(crate) enum RawTokenKind {
     /// number literal
     Num,
 
-    /// bigint literal
-    BigInt,
+    /// number bigint literal
+    BigIntLiteral,
 
     // TemplateHead,
     // TemplateMiddle,
@@ -220,7 +222,7 @@ pub(crate) enum RawTokenKind {
     Async,
     Accessor,
     Break,
-    Bigint,
+    BigInt,
     Case,
     Catch,
     Class,
@@ -302,7 +304,7 @@ pub(crate) enum RawTokenKind {
 }
 
 impl RawTokenKind {
-    pub(super) fn is_eof(&self) -> bool {
+    pub fn is_eof(&self) -> bool {
         match self {
             RawTokenKind::Eof => true,
             _ => false,
@@ -327,11 +329,10 @@ impl RawTokenKind {
             RawTokenKind::Colon => ":",
             RawTokenKind::HashbangComment => "#!",
             RawTokenKind::Identifier => "identifier",
-            RawTokenKind::DollarLBrace => "${",
+            // RawTokenKind::DollarLBrace => "${",
             RawTokenKind::QuestionMark => "?",
             RawTokenKind::Str => "string literal",
             RawTokenKind::Num => "number literal",
-            RawTokenKind::BigInt => "bigInt",
             RawTokenKind::Number => "number",
             RawTokenKind::Object => "object",
             RawTokenKind::String => "string",
@@ -348,7 +349,6 @@ impl RawTokenKind {
             RawTokenKind::LogicalAndOp => "&&",
             RawTokenKind::BitAndAssignOp => "&=",
             RawTokenKind::AndAssignOp => "&&=",
-            RawTokenKind::Terminal => "terminal",
             RawTokenKind::Mul => "*",
             RawTokenKind::MulAssign => "*=",
             RawTokenKind::Exp => "**",
@@ -398,7 +398,7 @@ impl RawTokenKind {
             RawTokenKind::Any => "any",
             RawTokenKind::Assert => "assert",
             RawTokenKind::Break => "break",
-            RawTokenKind::Bigint => "bigint",
+            RawTokenKind::BigInt => "bigint",
             RawTokenKind::Boolean => "boolean",
             RawTokenKind::Case => "case",
             RawTokenKind::Catch => "catch",
@@ -464,6 +464,8 @@ impl RawTokenKind {
             RawTokenKind::Readonly => "readonly",
             RawTokenKind::Using => "using",
             RawTokenKind::Unique => "unique",
+            RawTokenKind::BigIntLiteral => "bigint literal",
+            RawTokenKind::Skip => "skip",
         }
     }
 }
@@ -475,28 +477,55 @@ impl Debug for RawTokenKind {
     }
 }
 
-#[derive(Debug)]
-pub(crate) enum RawTokenValue {
+#[derive(Debug, Clone)]
+/// Represents the value of a raw token, which can be either a string or a
+/// number.
+pub enum RawTokenValue {
+    /// Represents a string value.
     String(Atom),
-    // TODO: think of using f64
-    Number(f32),
+    /// Represents a number value.
+    Number(f64),
+}
+
+impl RawTokenValue {
+    pub fn as_string(&self) -> Option<Atom> {
+        match self {
+            RawTokenValue::String(atom) => Some(atom.clone()),
+            _ => None,
+        }
+    }
+
+    pub fn as_number(&self) -> Option<f64> {
+        match self {
+            RawTokenValue::Number(n) => Some(*n),
+            _ => None,
+        }
+    }
 }
 
 #[derive(Debug)]
-pub(crate) struct RawTokenSpan {
+/// Represents the span of a token in the source code.
+pub struct RawTokenSpan {
+    /// The starting position of the token.
     pub start: u32,
 
+    /// The ending position of the token.
     pub end: u32,
 }
 
 #[derive(Debug)]
-pub(crate) struct RawToken {
+/// Represents a raw token in the source code.
+pub struct RawToken {
+    /// The kind of token, such as keyword, identifier, number, etc.
     pub kind: RawTokenKind,
 
-    // for many token we do not have value, but we need create value for
+    /// The value of the token, if applicable. Many tokens do not have a value.
     pub value: Option<RawTokenValue>,
 
+    /// The span of the token in the source code, including start and end
+    /// positions.
     pub span: RawTokenSpan,
 
+    /// Indicates if the token is located on a new line.
     pub is_on_new_line: bool,
 }

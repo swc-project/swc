@@ -116,7 +116,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
-#![deny(unused)]
+// #![deny(unused)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::unnecessary_unwrap)]
@@ -144,7 +144,7 @@ pub mod token;
 pub mod error;
 pub mod lexer;
 mod parser;
-mod raw_lexer;
+pub mod raw_lexer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, tag = "syntax")]

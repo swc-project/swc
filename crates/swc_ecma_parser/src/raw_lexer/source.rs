@@ -1,8 +1,12 @@
 use std::ops::Add;
 
-use super::RawLexer;
+use super::{
+    unicode::{CR, LF, LS, PS},
+    RawLexer,
+};
 
 /// Represents a source of bytes with a start and end position.
+#[derive(Clone)]
 pub(super) struct Source<'source> {
     /// The slice of bytes that makes up the source.
     bytes: &'source [u8],
@@ -162,13 +166,13 @@ impl<'source> Source<'source> {
     ///
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the second character.
-    fn peek_2_char(&self) -> Option<char> {
-        if self.is_eof() {
-            None
-        } else {
-            self.remainder().chars().skip(1).next()
-        }
-    }
+    // fn peek_2_char(&self) -> Option<char> {
+    //     if self.is_eof() {
+    //         None
+    //     } else {
+    //         self.remainder().chars().skip(1).next()
+    //     }
+    // }
 
     /// Returns the remaining part of the source as a string slice.
     ///
@@ -194,16 +198,47 @@ impl<'source> Source<'source> {
     /// Consumes the next character from the source and returns true if
     fn consume_until(&mut self, f: impl Fn(u8) -> bool) -> &str {
         let start = self.pos;
-        while let Some(byte) = self.peek_byte() {
+        while let Some(byte) = self.next_byte() {
             if f(byte) {
                 break;
             }
-            self.next_byte();
         }
         let end = self.pos;
         let slice = &self.bytes[start as usize..end as usize];
         // TODO: confirm if this is safe
         unsafe { std::str::from_utf8_unchecked(slice) }
+    }
+
+    /// Extracts a string slice from the source starting from the given `start`
+    /// position to the current position.
+    ///
+    /// This method calculates the end position based on the current offset of
+    /// the source, then extracts a byte slice from the source bytes
+    /// starting from the `start` position to the `end` position. Finally, it
+    /// converts the byte slice to a string slice using
+    /// `std::str::from_utf8_unchecked` and returns it.
+    ///
+    /// # Safety
+    /// This method assumes that the byte slice extracted from the source is
+    /// valid UTF-8. If the slice is not valid UTF-8, the behavior is
+    /// undefined.
+    fn str_from_start_to_current(&self, start: u32) -> &str {
+        assert!(start <= self.end);
+
+        let end = self.offset();
+
+        let buffer = &self.bytes[start as usize..end as usize];
+
+        unsafe { std::str::from_utf8_unchecked(buffer) }
+    }
+
+    fn str_from_pos(&self, start: u32, end: u32) -> &str {
+        assert!(start <= end);
+        assert!(end <= self.end);
+
+        let buffer = &self.bytes[start as usize..end as usize];
+
+        unsafe { std::str::from_utf8_unchecked(buffer) }
     }
 }
 
@@ -223,9 +258,9 @@ impl RawLexer<'_> {
         self.source.peek_char()
     }
 
-    pub(super) fn peek_2_char(&self) -> Option<char> {
-        self.source.peek_2_char()
-    }
+    // pub(super) fn peek_2_char(&self) -> Option<char> {
+    //     self.source.peek_2_char()
+    // }
 
     /// Advances the source position by the length of the next character and
     /// returns the character.
@@ -289,9 +324,26 @@ impl RawLexer<'_> {
     /// has reached the end (EOF), it returns `false`.
     #[inline(always)]
     pub(super) fn consume_char(&mut self) -> bool {
-        match self.source.next_char() {
-            Some(_) => true,
-            None => false,
-        }
+        self.source.next_char().is_some()
+    }
+
+    /// Returns a string slice from the start position to the current position.
+    ///
+    /// This method takes a `start` position as an argument and returns a string
+    /// slice from that position to the current position within the source.
+    pub(super) fn str_from_start_to_current(&self, start: u32) -> &str {
+        self.source.str_from_start_to_current(start)
+    }
+
+    pub fn str_from_pos(&self, start: u32, end: u32) -> &str {
+        self.source.str_from_pos(start, end)
+    }
+
+    pub fn consume_single_line(&mut self) -> &str {
+        self.is_on_new_line = true;
+        let line = self.consume_until(|byte| {
+            byte == LF as u8 || byte == CR as u8 || byte == LS as u8 || byte == PS as u8
+        });
+        line
     }
 }

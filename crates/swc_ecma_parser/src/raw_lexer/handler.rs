@@ -1,9 +1,5 @@
-use super::{
-    error::RawLexResult,
-    token::RawToken,
-    unicode::{CR, LF, LS, PS},
-    RawLexer, RawTokenKind, RawTokenValue,
-};
+use super::{error::RawLexResult, unicode::LF, RawLexer, RawTokenKind, RawTokenValue};
+use crate::{error::SyntaxError, lexer::util::CharExt};
 
 // TODO: using macro to match token
 // ## For example
@@ -46,7 +42,7 @@ impl RawLexer<'_> {
 
         match matches(&identifier_or_keyword) {
             ident @ RawTokenKind::Identifier => {
-                self.token_value = Some(RawTokenValue::String(identifier_or_keyword));
+                self.token_value = Some(RawTokenValue::String(identifier_or_keyword.into()));
                 Ok(ident)
             }
             other => Ok(other),
@@ -62,8 +58,8 @@ pub(super) fn handler_from_byte(byte: u8) -> ByteHandler {
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
 static BYTE_HANDLERS: [ByteHandler; 256] = [
-    //  0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
-    EOF, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 0
+    //  0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+    EOF, ___, ___, ___, ___, ___, ___, ___, ___, SPA, LIN, ___, ___, LIN, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
     SPA, EXL, QOD, HAS, IDT, PRC, AMP, QOS, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
     ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
@@ -87,6 +83,15 @@ const ___: ByteHandler = |lex| {
     Ok(RawTokenKind::default())
 };
 
+const LIN: ByteHandler = |lex| {
+    lex.consume_byte();
+
+    // check lexer meet `LineTerminator` or `LineTerminatorSequence`
+    lex.is_on_new_line = true;
+
+    Ok(RawTokenKind::Skip)
+};
+
 const EOF: ByteHandler = |_| Ok(RawTokenKind::Eof);
 
 /// <SPA>
@@ -96,7 +101,7 @@ const SPA: ByteHandler = |lex| {
     Ok(RawTokenKind::WhiteSpace)
 };
 
-/// '!'
+/// `!`
 const EXL: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -113,7 +118,7 @@ const EXL: ByteHandler = |lex| {
     }
 };
 
-// "
+// `"`
 const QOD: ByteHandler = |lex| {
     let string_literal = lex.read_string_literal('"')?;
     lex.token_value = Some(RawTokenValue::String(string_literal.into()));
@@ -121,7 +126,7 @@ const QOD: ByteHandler = |lex| {
     Ok(RawTokenKind::Str)
 };
 
-// '
+// `'`
 const QOS: ByteHandler = |lex| {
     let string_literal = lex.read_string_literal('\'')?;
     lex.token_value = Some(RawTokenValue::String(string_literal.into()));
@@ -129,16 +134,14 @@ const QOS: ByteHandler = |lex| {
     Ok(RawTokenKind::Str)
 };
 
-// #
+// `#`
 const HAS: ByteHandler = |lex| {
     // it is a hashbang comment
     if lex.offset() == 0 {
         lex.consume_byte();
         if lex.peek_byte() == Some(b'!') {
             lex.consume_byte();
-            let hashbang_comment = lex.consume_until(|next_byte: u8| {
-                next_byte == LF || next_byte == CR || next_byte == LS || next_byte == PS
-            });
+            let hashbang_comment = lex.consume_single_line();
             lex.token_value = Some(RawTokenValue::String(hashbang_comment.into()));
             // consume LineTerminator
             lex.consume_byte();
@@ -155,12 +158,12 @@ const HAS: ByteHandler = |lex| {
 // Identifier
 const IDT: ByteHandler = |lex| {
     let identifier_name = lex.read_identifier_name()?;
-    lex.token_value = Some(RawTokenValue::String(identifier_name));
+    lex.token_value = Some(RawTokenValue::String(identifier_name.into()));
 
     Ok(RawTokenKind::Identifier)
 };
 
-// %
+// `%`
 const PRC: ByteHandler = |lex| {
     lex.consume_byte();
     if lex.peek_byte() == Some(b'=') {
@@ -171,7 +174,7 @@ const PRC: ByteHandler = |lex| {
     }
 };
 
-/// '&'
+/// `&`
 const AMP: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -191,21 +194,21 @@ const AMP: ByteHandler = |lex| {
     }
 };
 
-/// '('
+/// `(`
 const PNO: ByteHandler = |lex| {
     lex.consume_byte();
 
     Ok(RawTokenKind::LParen)
 };
 
-/// ')'
+/// `)`
 const PNC: ByteHandler = |lex| {
     lex.consume_byte();
 
     Ok(RawTokenKind::RParen)
 };
 
-/// '*'
+/// `*`
 const ATR: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -245,13 +248,21 @@ const PLS: ByteHandler = |lex| {
 
 /// `-`
 const MIN: ByteHandler = |lex| {
+    let start = lex.offset();
     lex.consume_byte();
 
     match lex.peek_byte() {
         Some(b'-') => {
-            // consume '+'
+            // consume '-'
             lex.consume_byte();
-            Ok(RawTokenKind::MinusMinus)
+            // -->
+            if matches!(lex.peek_byte(), Some(b'>')) {
+                lex.consume_byte();
+                lex.add_error(start, lex.offset(), SyntaxError::LegacyCommentInModule);
+                Ok(RawTokenKind::Skip)
+            } else {
+                Ok(RawTokenKind::MinusMinus)
+            }
         }
         Some(b'=') => {
             lex.consume_byte();
@@ -261,7 +272,7 @@ const MIN: ByteHandler = |lex| {
     }
 };
 
-/// ','
+/// `,`
 const COM: ByteHandler = |lex| {
     lex.consume_byte();
     Ok(RawTokenKind::Comma)
@@ -290,31 +301,79 @@ const SLH: ByteHandler = |lex| {
             lex.consume_byte();
             Ok(RawTokenKind::DivAssignOp)
         }
+        Some(b'/') => {
+            lex.consume_single_line();
+            Ok(RawTokenKind::Skip)
+        }
         _ => Ok(RawTokenKind::DivOp),
     }
 };
 
-/// '0'
-const ZER: ByteHandler = |lex| todo!();
+/// `0`
+const ZER: ByteHandler = |lex| {
+    // peek_byte must be '0';
+    let value = match lex.peek_2_byte() {
+        Some(b'b' | b'B') => {
+            lex.consume_byte();
+            lex.consume_byte();
+
+            lex.read_binary()
+        }
+        Some(b'o' | b'O') => {
+            lex.consume_byte();
+            lex.consume_byte();
+
+            lex.read_octal()
+        }
+        Some(b'x' | b'X') => {
+            lex.consume_byte();
+            lex.consume_byte();
+
+            lex.read_hex()
+        }
+        Some(b'.') => lex.decimal_literal(),
+        _ => Ok(0.0),
+    }?;
+
+    lex.token_value = Some(RawTokenValue::Number(value));
+
+    if matches!(lex.peek_byte(), Some(b'n')) {
+        lex.consume_byte();
+        Ok(RawTokenKind::BigIntLiteral)
+    } else {
+        Ok(RawTokenKind::Num)
+    }
+};
 
 /// digit
-const DIG: ByteHandler = |lex| todo!();
+const DIG: ByteHandler = |lex| {
+    let value = lex.decimal_literal()?;
 
-/// ':'
+    lex.token_value = Some(RawTokenValue::Number(value));
+
+    if matches!(lex.peek_byte(), Some(b'n')) {
+        lex.consume_byte();
+        Ok(RawTokenKind::BigIntLiteral)
+    } else {
+        Ok(RawTokenKind::Num)
+    }
+};
+
+/// `:`
 const COL: ByteHandler = |lex| {
     lex.consume_byte();
 
     Ok(RawTokenKind::Colon)
 };
 
-/// ';'
+/// `;`
 const SEM: ByteHandler = |lex| {
     lex.consume_byte();
 
     Ok(RawTokenKind::Semi)
 };
 
-/// '<'
+/// `<`
 const LSS: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -336,8 +395,8 @@ const LSS: ByteHandler = |lex| {
                     lex.consume_byte();
                     Ok(RawTokenKind::LShiftAssignOp)
                 }
-                Some(b'<') if (1..4).all(|n| lex.peek_n_byte(n) == Some(b'<')) => {
-                    lex.consume_n_byte(4);
+                Some(b'<') if (1..=4).all(|n| lex.peek_n_byte(n) == Some(b'<')) => {
+                    lex.consume_n_byte(5);
                     Ok(RawTokenKind::ConflictMarker)
                 }
                 _ => Ok(RawTokenKind::LShiftOp),
@@ -347,7 +406,7 @@ const LSS: ByteHandler = |lex| {
     }
 };
 
-/// '='
+/// `=`
 const EQL: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -377,7 +436,7 @@ const EQL: ByteHandler = |lex| {
     }
 };
 
-/// '>'
+/// `>`
 const MOR: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -403,7 +462,7 @@ const MOR: ByteHandler = |lex| {
                             lex.consume_byte();
                             Ok(RawTokenKind::ZeroFillRShiftAssignOp)
                         }
-                        Some(b'>') if (1..4).all(|n| lex.peek_n_byte(n) == Some(b'>')) => {
+                        Some(b'>') if (0..4).all(|n| lex.peek_n_byte(n) == Some(b'>')) => {
                             lex.consume_n_byte(4);
                             Ok(RawTokenKind::ConflictMarker)
                         }
@@ -417,7 +476,7 @@ const MOR: ByteHandler = |lex| {
     }
 };
 
-/// '?'
+/// `?`
 const QST: ByteHandler = |lex| {
     lex.consume_byte();
 
@@ -723,7 +782,7 @@ const L_Z: ByteHandler = IDT;
 const BEO: ByteHandler = |lex| {
     lex.consume_byte();
 
-    Ok(RawTokenKind::LBracket)
+    Ok(RawTokenKind::LBrace)
 };
 
 /// '|'
@@ -760,7 +819,7 @@ const PIP: ByteHandler = |lex| {
 const BEC: ByteHandler = |lex| {
     lex.consume_byte();
 
-    Ok(RawTokenKind::RBracket)
+    Ok(RawTokenKind::RBrace)
 };
 
 /// '~'
@@ -771,4 +830,19 @@ const TLD: ByteHandler = |lex| {
 };
 
 /// Unicode
-const UNI: ByteHandler = |lex| todo!();
+const UNI: ByteHandler = |lex| {
+    let start = lex.offset();
+
+    // SAFETY: xx
+    let ch = lex.peek_char().unwrap();
+
+    if ch.is_ident_start() {
+        let identifier_name = lex.read_identifier_name()?;
+        lex.token_value = Some(RawTokenValue::String(identifier_name.into()));
+
+        Ok(RawTokenKind::Identifier)
+    } else {
+        lex.consume_char();
+        lex.error(start, lex.offset(), SyntaxError::UnexpectedChar { c: ch })
+    }
+};

@@ -1,8 +1,8 @@
-use std::ops::{Add, Sub};
+use std::ops::Sub;
 
 // implement string literal parse
 use super::{
-    unicode::{CR, LF, LS, PS},
+    unicode::{CR, FF, LF, LS, PS, TAB, VT},
     RawLexer,
 };
 use crate::{error::SyntaxError, lexer::LexResult};
@@ -63,7 +63,7 @@ impl RawLexer<'_> {
                 Some('\\') => {
                     self.escape_sequence(&mut builder)?;
                 }
-                Some(other) => builder.push(ch),
+                Some(other) => builder.push(other),
             }
         }
 
@@ -87,7 +87,7 @@ impl RawLexer<'_> {
                     // LineContinuation. Check for the sequence \r\n; otherwise
                     // ignore it.
                     if self.peek_char() == Some(LF) {
-                        self.consume_char()
+                        self.consume_char();
                     }
                 }
                 '\'' | '"' | '\\' => text.push(ch),
@@ -126,7 +126,7 @@ impl RawLexer<'_> {
                 }
                 other => text.push(other),
             },
-        }
+        };
 
         Ok(())
     }
@@ -135,7 +135,7 @@ impl RawLexer<'_> {
     pub(super) fn unicode_escape_sequence_without_u(&mut self) -> LexResult<char> {
         let start = self.offset();
         let value = match self.peek_char() {
-            Some("{") => {
+            Some('{') => {
                 self.consume_char();
 
                 let value = self.code_point()?;
@@ -188,12 +188,11 @@ impl RawLexer<'_> {
     }
 
     fn code_point_to_char(&self, value: u32) -> LexResult<char> {
-        if 0xd800 <= value && value <= 0xdfff {
+        if (0xd800..=0xdfff).contains(&value) {
             self.error_with_single_byte(self.offset(), SyntaxError::InvalidUnicodeEscape)
         } else {
-            char::try_from(value).map_err(|_| {
-                self.error_with_single_byte(self.offset(), SyntaxError::InvalidUnicodeEscape)
-            })
+            char::try_from(value)
+                .or(self.error_with_single_byte(self.offset(), SyntaxError::InvalidUnicodeEscape))
         }
     }
 
@@ -201,11 +200,10 @@ impl RawLexer<'_> {
         let start = self.offset();
 
         match self.next_char() {
-            None => self.error(start, self.offset(), SyntaxError::InvalidStrEscape),
             Some(c @ '0'..='9') => Ok(c as u32 - '0' as u32),
             Some(c @ 'a'..='f') => Ok(10 + (c as u32 - 'a' as u32)),
             Some(c @ 'A'..='F') => Ok(10 + (c as u32 - 'A' as u32)),
-            Some(other) => self.error(start, self.offset(), SyntaxError::InvalidStrEscape),
+            None | Some(_) => self.error(start, self.offset(), SyntaxError::InvalidStrEscape),
         }
     }
 }

@@ -20,6 +20,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
+    raw_lexer::RawLexer,
     token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
@@ -117,6 +118,7 @@ impl FusedIterator for CharIter {}
 #[derive(Clone)]
 pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
+    raw_lexer: RawLexer<'a>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
 
@@ -148,9 +150,11 @@ impl<'a> Lexer<'a> {
         let start_pos = input.last_pos();
 
         Lexer {
+            raw_lexer: RawLexer::new(input.as_str()),
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
+            // input,
             input,
             start_pos,
             state: State::new(syntax, start_pos),

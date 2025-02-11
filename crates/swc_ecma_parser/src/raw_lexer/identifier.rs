@@ -1,4 +1,8 @@
-use super::{string, unicode::is_id_start, RawLexResult, RawLexer};
+use super::{
+    unicode::{is_id_continue, is_id_start, ZWJ, ZWNJ},
+    RawLexResult, RawLexer,
+};
+use crate::error::SyntaxError;
 
 impl RawLexer<'_> {
     /// identifier_name
@@ -22,20 +26,21 @@ impl RawLexer<'_> {
         let start = self.offset();
 
         let ch = match self.next_char() {
-            Some(ch) => match c {
+            Some(ch) => match ch {
                 '\\' => {
                     if self.next_char() != Some('u') {
                         return self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape);
                     };
 
                     let ch = self.unicode_escape_sequence_without_u()?;
-                    if is_identifier_start(ch) {
-                        Ok(ch)
-                    } else {
-                        self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape)
+
+                    if !is_identifier_start(ch) {
+                        self.add_error(start, self.offset(), SyntaxError::InvalidUnicodeEscape);
                     }
+
+                    Ok(ch)
                 }
-                other if is_identifier_start(c) => Ok(other),
+                other if is_identifier_start(other) => Ok(other),
                 _ => self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape),
             },
             None => unreachable!(),
@@ -55,14 +60,17 @@ impl RawLexer<'_> {
     /// ```
     pub(super) fn identifier_part(&mut self, text: &mut String) -> RawLexResult<()> {
         let start = self.offset();
-        while let Some(ch) = self.next_char() {
+        while let Some(ch) = self.peek_char() {
             match ch {
                 '\\' => {
+                    self.consume_char();
+
                     if self.next_char() != Some('u') {
                         return self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape);
                     };
 
                     let ch = self.unicode_escape_sequence_without_u()?;
+                    dbg!(&ch);
 
                     if is_identifier_part(ch) {
                         text.push(ch);
@@ -70,7 +78,10 @@ impl RawLexer<'_> {
                         return self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape);
                     }
                 }
-                other if is_identifier_part(other) => text.push(other),
+                other if is_identifier_part(other) => {
+                    self.consume_char();
+                    text.push(other);
+                }
                 _ => break,
             }
         }

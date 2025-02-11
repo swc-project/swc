@@ -9,27 +9,28 @@ pub(super) const ZWNJ: char = '\u{200c}';
 
 /// U+200D ZERO WIDTH JOINER, abbreviated as <ZWJ>.
 /// Specially permitted in identifiers.
-pub(super) const ZWJ: u8 = '\u{200d}' as u8;
+pub(super) const ZWJ: char = '\u{200d}';
 
 /// U+000A LINE FEED, abbreviated in the spec as <LF>.
-pub(super) const LF: u8 = '\u{000A}' as u8;
+pub(super) const LF: char = '\u{000A}';
 
 /// U+000D CARRIAGE RETURN, abbreviated in the spec as <CR>.
-pub(super) const CR: u8 = '\u{000D}' as u8;
+pub(super) const CR: char = '\u{000D}';
 
-pub(super) const FF: u8 = '\u{000c}' as u8;
+/// U+000C FORM FEED, abbreviated in the spec as <FF>.
+pub(super) const FF: char = '\u{000C}';
 
 /// U+0009 CHARACTER TABULATION, abbreviated <TAB>.
-pub(super) const TAB: u8 = '\u{0009}' as u8;
+pub(super) const TAB: char = '\u{0009}';
 
 /// U+000B VERTICAL TAB, abbreviated <VT>.
-pub(super) const VT: u8 = '\u{000b}' as u8;
+pub(super) const VT: char = '\u{000b}';
 
 /// U+2028 LINE SEPARATOR, abbreviated <LS>.
-pub(super) const LS: u8 = '\u{2028}' as u8;
+pub(super) const LS: char = '\u{2028}';
 
 /// U+2029 PARAGRAPH SEPARATOR, abbreviated <PS>.
-pub(super) const PS: u8 = '\u{2029}' as u8;
+pub(super) const PS: char = '\u{2029}';
 
 pub(super) fn is_id_start(c: char) -> bool {
     if c > UTF16_MAX {

@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, Tokens};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -16,7 +16,22 @@ fn main() {
 
     let fm = cm.new_source_file(
         FileName::Custom("test.js".into()).into(),
-        "`hello ${app} world`".into(),
+        "class C {
+  foo() {
+<<<<<<< B
+     a();
+  }
+||||||| merged common ancestors
+     c();
+  }
+=======
+     b();
+  }
+>>>>>>> A
+
+  public bar() { }
+}"
+        .into(),
     );
 
     let mut lexer = Lexer::new(
@@ -29,6 +44,11 @@ fn main() {
     for token in lexer {
         println!("{:?}", token);
     }
+
+    // let errors =
+    // let errors = lexer.take_errors();
+
+    // println!("error: \n", errors);
 
     // let capturing = Capturing::new(lexer);
 
