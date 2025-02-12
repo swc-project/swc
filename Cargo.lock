@@ -4714,6 +4714,7 @@ dependencies = [
  "serde_json",
  "shrink-to-fit",
  "siphasher 0.3.11",
+ "smallvec",
  "sourcemap",
  "swc_allocator",
  "swc_atoms",
