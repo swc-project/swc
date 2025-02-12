@@ -505,7 +505,7 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    pub elems: SmallVec<[ExprOrSpread; 1]>,
+    pub elems: SmallVec<[Option<ExprOrSpread>; 1]>,
 }
 
 impl Take for ArrayLit {
