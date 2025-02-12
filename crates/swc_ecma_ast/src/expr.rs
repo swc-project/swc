@@ -302,7 +302,7 @@ impl Expr {
     /// # Panics
     ///
     /// Panics if `exprs` is empty.
-    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
+    pub fn from_exprs(mut exprs: SmallVec<[Box<Expr>; 2]>) -> Box<Expr> {
         debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
