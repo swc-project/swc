@@ -354,6 +354,7 @@ pub struct Handler {
     pub flags: HandlerFlags,
 
     err_count: AtomicUsize,
+    warn_count: AtomicUsize,
     emitter: Lock<Box<dyn Emitter>>,
     continue_after_error: LockCell<bool>,
     delayed_span_bugs: Lock<Vec<Diagnostic>>,
@@ -473,6 +474,7 @@ impl Handler {
     pub fn with_emitter_and_flags(e: Box<dyn Emitter>, flags: HandlerFlags) -> Handler {
         Handler {
             flags,
+            warn_count: AtomicUsize::new(0),
             err_count: AtomicUsize::new(0),
             emitter: Lock::new(e),
             continue_after_error: LockCell::new(true),
@@ -740,12 +742,24 @@ impl Handler {
         self.err_count.fetch_add(1, SeqCst);
     }
 
+    fn bump_warn_count(&self) {
+        self.warn_count.fetch_add(1, SeqCst);
+    }
+
     pub fn err_count(&self) -> usize {
         self.err_count.load(SeqCst)
     }
 
+    pub fn warn_count(&self) -> usize {
+        self.warn_count.load(SeqCst)
+    }
+
     pub fn has_errors(&self) -> bool {
         self.err_count() > 0
+    }
+
+    pub fn has_warning(&self) -> bool {
+        self.warn_count() > 0
     }
 
     pub fn print_error_count(&self) {
@@ -871,6 +885,10 @@ impl Handler {
             self.emitter.borrow_mut().emit(db);
             if db.is_error() {
                 self.bump_err_count();
+            }
+
+            if db.is_warn() {
+                self.bump_warn_count();
             }
         }
     }

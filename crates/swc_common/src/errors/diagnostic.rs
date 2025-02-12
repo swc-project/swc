@@ -151,6 +151,13 @@ impl Diagnostic {
         }
     }
 
+    pub fn is_warn(&self) -> bool {
+        match self.level {
+            Level::Warning => true,
+            _ => false,
+        }
+    }
+
     /// Cancel the diagnostic (a structured diagnostic must either be emitted or
     /// canceled or it will panic when dropped).
     pub fn cancel(&mut self) {
