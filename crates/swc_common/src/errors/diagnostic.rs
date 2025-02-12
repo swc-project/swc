@@ -152,10 +152,7 @@ impl Diagnostic {
     }
 
     pub fn is_warn(&self) -> bool {
-        match self.level {
-            Level::Warning => true,
-            _ => false,
-        }
+        matches!(self.level, Level::Warning)
     }
 
     /// Cancel the diagnostic (a structured diagnostic must either be emitted or
