@@ -19,7 +19,7 @@ where
 
     #[emitter]
     fn emit_ts_array_type(&mut self, n: &TsArrayType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.elem_type);
         punct!("[");
@@ -28,7 +28,7 @@ where
 
     #[emitter]
     fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
 
@@ -54,7 +54,7 @@ where
 
     #[emitter]
     fn emit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.type_params);
 
@@ -73,7 +73,7 @@ where
 
     #[emitter]
     fn emit_ts_cond_type(&mut self, n: &TsConditionalType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.check_type);
         space!();

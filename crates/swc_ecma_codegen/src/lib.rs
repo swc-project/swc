@@ -2137,7 +2137,7 @@ where
 
     #[emitter]
     fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2153,7 +2153,7 @@ where
 
     #[emitter]
     fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2205,7 +2205,7 @@ where
 
     #[emitter]
     fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span.lo, false)?;
 
         srcmap!(n, true);
 
@@ -2217,7 +2217,7 @@ where
 
     #[emitter]
     fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(node, true);
 
@@ -2235,7 +2235,7 @@ where
 
     #[emitter]
     fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(node, true);
 
@@ -2279,7 +2279,7 @@ where
 
     #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
         let key_span = node.key.span();
         let value_span = node.value.span();
         if !key_span.is_dummy() {
@@ -2299,7 +2299,7 @@ where
 
     #[emitter]
     fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(node, true);
 
@@ -2310,7 +2310,7 @@ where
 
     #[emitter]
     fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(node, true);
 
@@ -2335,7 +2335,7 @@ where
 
     #[emitter]
     fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(node, true);
 
@@ -2372,7 +2372,7 @@ where
 
     #[emitter]
     fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2395,7 +2395,7 @@ where
     fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2408,7 +2408,7 @@ where
 
     #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 

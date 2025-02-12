@@ -36,7 +36,7 @@ where
 
     #[emitter]
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         if node.is_await {
             keyword!("await");
@@ -58,7 +58,7 @@ where
         node: &ClassDecl,
         skip_decorators: bool,
     ) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         srcmap!(self, node, true);
 
