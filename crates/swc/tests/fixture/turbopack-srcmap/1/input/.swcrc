@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "mangle": true
+        }
+    },
+    "minify": true,
+    "sourceMaps": "inline",
+    "inlineSourcesContent": true
+}
