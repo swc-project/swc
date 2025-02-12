@@ -2,6 +2,7 @@
 use std::{borrow::Cow, mem::transmute};
 
 use is_macro::Is;
+use smallvec::SmallVec;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
 use swc_common::{
@@ -504,7 +505,7 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    pub elems: Vec<Option<ExprOrSpread>>,
+    pub elems: SmallVec<[ExprOrSpread; 1]>,
 }
 
 impl Take for ArrayLit {
@@ -649,9 +650,10 @@ impl Take for PropOrSpread {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SpreadElement {
+    /// `lo` of the spread operator
     #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
     #[span(lo)]
-    pub dot3_token: Span,
+    pub dot3_token: BytePos,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "arguments"))]
     #[span(hi)]
@@ -972,7 +974,7 @@ pub struct CallExpr {
     pub callee: Callee,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
-    pub args: Vec<ExprOrSpread>,
+    pub args: SmallVec<[ExprOrSpread; 1]>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -997,7 +999,7 @@ pub struct NewExpr {
     pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
-    pub args: Option<Vec<ExprOrSpread>>,
+    pub args: Option<SmallVec<[ExprOrSpread; 1]>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
@@ -1018,7 +1020,7 @@ pub struct SeqExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: SmallVec<[Box<Expr>; 2]>,
 }
 
 impl Take for SeqExpr {
@@ -1133,7 +1135,7 @@ pub struct Tpl {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: SmallVec<[Box<Expr>; 2]>,
 
     pub quasis: Vec<TplElement>,
 }
@@ -1677,7 +1679,7 @@ pub struct OptCall {
     pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
-    pub args: Vec<ExprOrSpread>,
+    pub args: SmallVec<[ExprOrSpread; 1]>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
