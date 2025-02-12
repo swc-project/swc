@@ -3844,6 +3844,7 @@ dependencies = [
  "rancor",
  "rend",
  "rkyv_derive",
+ "smallvec",
  "tinyvec",
  "uuid",
 ]
