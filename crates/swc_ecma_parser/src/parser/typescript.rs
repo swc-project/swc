@@ -1733,7 +1733,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(p);
 
             let rest = if eat!(p, "...") {
-                Some(p.input.prev_span())
+                Some(p.input.prev_span().lo)
             } else {
                 None
             };

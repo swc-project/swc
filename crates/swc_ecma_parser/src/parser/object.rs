@@ -147,7 +147,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         if eat!(self, "...") {
             // spread element
-            let dot3_token = span!(self, start);
+            let dot3_token = span!(self, start).lo;
 
             let expr = self.include_in_expr(true).parse_assignment_expr()?;
 

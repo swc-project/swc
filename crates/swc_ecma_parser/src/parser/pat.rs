@@ -119,7 +119,7 @@ impl<I: Tokens> Parser<I> {
             let mut is_rest = false;
             if eat!(self, "...") {
                 is_rest = true;
-                let dot3_token = span!(self, start);
+                let dot3_token = start;
 
                 let pat = self.parse_binding_pat_or_ident(false)?;
                 rest_span = span!(self, start);
@@ -302,7 +302,7 @@ impl<I: Tokens> Parser<I> {
             let mut is_rest = false;
             if eat!(self, "...") {
                 is_rest = true;
-                let dot3_token = span!(self, pat_start);
+                let dot3_token = pat_start;
 
                 let pat = self.parse_binding_pat_or_ident(false)?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
@@ -415,7 +415,7 @@ impl<I: Tokens> Parser<I> {
             let pat_start = cur_pos!(self);
 
             let pat = if eat!(self, "...") {
-                let dot3_token = span!(self, pat_start);
+                let dot3_token = span!(self, pat_start).lo;
 
                 let mut pat = self.parse_binding_pat_or_ident(false)?;
 
