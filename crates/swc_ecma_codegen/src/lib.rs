@@ -737,7 +737,7 @@ where
     ) -> std::result::Result<bool, io::Error> {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(num.span(), false)?;
+        self.emit_leading_comments_of_span(num.span_lo(), false)?;
 
         // Handle infinity
         if num.value.is_infinite() && num.raw.is_none() {
@@ -832,7 +832,7 @@ where
 
     #[emitter]
     fn emit_big_lit(&mut self, v: &BigInt) -> Result {
-        self.emit_leading_comments_of_span(v.span, false)?;
+        self.emit_leading_comments_of_span(v.span_lo(), false)?;
 
         if self.cfg.minify {
             let value = if *v.value >= 10000000000000000_i64.into() {
@@ -1014,7 +1014,7 @@ where
 
     #[emitter]
     fn emit_invalid(&mut self, n: &Invalid) -> Result {
-        self.emit_leading_comments_of_span(n.span, false)?;
+        self.emit_leading_comments_of_span(n.span.lo, false)?;
 
         self.wr.write_str_lit(n.span, "<invalid>")?;
     }
@@ -1567,7 +1567,7 @@ where
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
-        self.emit_leading_comments_of_span(n.key.span(), false)?;
+        self.emit_leading_comments_of_span(n.key.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -1858,7 +1858,7 @@ where
         match node {
             PropName::Ident(ident) => {
                 // TODO: Use write_symbol when ident is a symbol.
-                self.emit_leading_comments_of_span(ident.span, false)?;
+                self.emit_leading_comments_of_span(ident.span.lo, false)?;
 
                 // Source map
                 self.wr.commit_pending_semi()?;
