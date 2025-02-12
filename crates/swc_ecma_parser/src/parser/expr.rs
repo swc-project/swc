@@ -1013,10 +1013,10 @@ impl<I: Tokens> Parser<I> {
     fn parse_tpl_elements(
         &mut self,
         is_tagged_tpl: bool,
-    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
+    ) -> PResult<(SmallVec<[Box<Expr>; 2]>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::<[Box<Expr>; 2]>::new();
 
         let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
         let mut is_tail = cur_elem.tail;
@@ -1759,7 +1759,7 @@ impl<I: Tokens> Parser<I> {
                     && (is!(self, IdentRef) || (is!(self, "...") && peeked_is!(self, IdentRef)))
                 {
                     let spread = if eat!(self, "...") {
-                        Some(self.input.prev_span())
+                        Some(self.input.prev_span().lo)
                     } else {
                         None
                     };

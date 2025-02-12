@@ -1,5 +1,6 @@
 //! Parser for object literal.
 
+use smallvec::smallvec;
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
@@ -87,7 +88,7 @@ impl<I: Tokens> Parser<I> {
                     let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
 
                     if p.syntax().typescript() && is!(p, ',') {
-                        let mut exprs = vec![expr];
+                        let mut exprs = smallvec![expr];
 
                         while eat!(p, ',') {
                             exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
@@ -470,7 +471,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         if eat!(self, "...") {
             // spread element
-            let dot3_token = span!(self, start);
+            let dot3_token = span!(self, start).lo;
 
             let arg = Box::new(self.parse_binding_pat_or_ident(false)?);
 

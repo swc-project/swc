@@ -169,7 +169,7 @@ impl<I: Tokens> Parser<I> {
         if eat!(self, '{') {
             let dot3_start = cur_pos!(self);
             expect!(self, "...");
-            let dot3_token = span!(self, dot3_start);
+            let dot3_token = span!(self, dot3_start).lo;
             let expr = self.parse_assignment_expr()?;
             expect!(self, '}');
             return Ok(SpreadElement { dot3_token, expr }.into());
