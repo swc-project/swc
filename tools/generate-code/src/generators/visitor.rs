@@ -100,10 +100,11 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
     output
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 enum FieldType {
     Normal(String),
     Generic(String, Box<FieldType>),
+    SmallVec(String, Box<FieldType>, Expr),
 }
 
 impl ToTokens for FieldType {
@@ -118,6 +119,11 @@ impl ToTokens for FieldType {
                 let ty = &**ty;
                 quote!(#name<#ty>).to_tokens(tokens);
             }
+            FieldType::SmallVec(name, ty, size) => {
+                let name = Ident::new(name, Span::call_site());
+                let ty = &**ty;
+                quote!(#name<[#ty; #size]>).to_tokens(tokens);
+            }
         }
     }
 }
@@ -127,6 +133,7 @@ impl FieldType {
         match self {
             FieldType::Normal(name) => name.contains(target),
             FieldType::Generic(name, ty) => name.contains(target) || ty.contains(target),
+            FieldType::SmallVec(name, ty, _size) => name.contains(target) || ty.contains(target),
         }
     }
 
@@ -135,7 +142,7 @@ impl FieldType {
             FieldType::Normal(name) => name.split("::").last().unwrap().to_snake_case(),
             FieldType::Generic(name, ty) => match &**name {
                 "Option" => format!("opt_{}", ty.method_name()),
-                "Vec" | "SmallVec" => {
+                "Vec" => {
                     // Vec<Option<Foo>> => opt_vec_foo
                     match &**ty {
                         FieldType::Generic(name, ty) if name == "Option" => {
@@ -148,6 +155,16 @@ impl FieldType {
                 "Box" => ty.method_name(),
                 _ => todo!("method_name for generic type: {}", name),
             },
+            FieldType::SmallVec(_, ty, _) => {
+                // Vec<Option<Foo>> => opt_vec_foo
+                match &**ty {
+                    FieldType::Generic(name, ty) if name == "Option" => {
+                        return format!("opt_vec_{}s", ty.method_name())
+                    }
+                    _ => {}
+                }
+                format!("{}s", ty.method_name())
+            }
         }
     }
 }
@@ -236,9 +253,11 @@ fn to_field_ty(ty: &Type) -> Option<FieldType> {
 }
 
 fn all_types_in_ty(ty: &Type) -> Vec<FieldType> {
-    if let Some(ty) = extract_smallvec(ty) {
+    if let Some((ty, len)) = extract_smallvec(ty) {
         let mut types = all_types_in_ty(ty);
-        types.extend(to_field_ty(ty).map(|ty| FieldType::Generic("SmallVec".into(), Box::new(ty))));
+        types.extend(
+            to_field_ty(ty).map(|ty| FieldType::SmallVec("SmallVec".into(), Box::new(ty), len)),
+        );
         return types;
     }
 
@@ -965,7 +984,7 @@ impl Generator {
                 },
 
                 FieldType::Generic(name, inner) => match &**name {
-                    "Vec" | "SmallVec" => {
+                    "Vec" => {
                         let inner = inner.as_ref();
                         let inner_ty = quote!(#inner);
 
@@ -1050,6 +1069,55 @@ impl Generator {
                     "Box" => continue,
                     _ => unreachable!("unexpected generic type: {}", name),
                 },
+
+                FieldType::SmallVec(_name, inner, _size) => {
+                    let inner = inner.as_ref();
+                    let inner_ty = quote!(#inner);
+
+                    match (self.kind, self.variant) {
+                        (TraitKind::Visit, Variant::Normal) => {
+                            parse_quote!(self.iter().for_each(|item| {
+                                <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
+                            }))
+                        }
+                        (TraitKind::Visit, Variant::AstPath) => {
+                            parse_quote!(self.iter().enumerate().for_each(|(__idx, item)| {
+                                let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                            }))
+                        }
+                        (TraitKind::VisitMut, Variant::Normal) => {
+                            parse_quote!(
+                                self.iter_mut().for_each(|item| {
+                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
+                                })
+                            )
+                        }
+                        (TraitKind::VisitMut, Variant::AstPath) => {
+                            parse_quote!(
+                                self.iter_mut().enumerate().for_each(|(__idx, item)| {
+                                    let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                                })
+                            )
+                        }
+                        (TraitKind::Fold, Variant::Normal) => {
+                            parse_quote!(
+                                swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor #ast_path_arg)
+                                })
+                            )
+                        }
+                        (TraitKind::Fold, Variant::AstPath) => {
+                            parse_quote!(
+                                self.into_iter().enumerate().map(|(__idx, item)| {
+                                    let mut __ast_path = __ast_path.with_index_guard(__idx);
+                                    <#inner_ty as #visit_with_trait_name<V>>::#visit_with_name(item, visitor, &mut *__ast_path)
+                                }).collect()
+                            )
+                        }
+                    }
+                }
             };
 
             let target_type = self.node_type_for_visitor_method(node_type);
@@ -1254,13 +1322,13 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<(TokenStream, Optio
 }
 
 fn extract_vec(ty: &Type) -> Option<&Type> {
-    extract_generic("Vec", ty).or_else(|| extract_smallvec(ty))
+    extract_generic("Vec", ty).or_else(|| extract_smallvec(ty).map(|(ty, _)| ty))
 }
 
-fn extract_smallvec(ty: &Type) -> Option<&Type> {
+fn extract_smallvec(ty: &Type) -> Option<(&Type, Expr)> {
     if let Some(array) = extract_generic("SmallVec", ty) {
         match array {
-            Type::Array(array) => Some(&array.elem),
+            Type::Array(array) => Some((&array.elem, array.len.clone())),
             _ => None,
         }
     } else {
