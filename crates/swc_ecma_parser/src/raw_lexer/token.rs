@@ -503,7 +503,7 @@ impl RawTokenValue {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 /// Represents the span of a token in the source code.
 pub struct RawTokenSpan {
     /// The starting position of the token.
@@ -513,7 +513,7 @@ pub struct RawTokenSpan {
     pub end: u32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 /// Represents a raw token in the source code.
 pub struct RawToken {
     /// The kind of token, such as keyword, identifier, number, etc.
@@ -528,4 +528,13 @@ pub struct RawToken {
 
     /// Indicates if the token is located on a new line.
     pub is_on_new_line: bool,
+}
+
+impl RawToken {
+    pub(super) fn first_default_token() -> Self {
+        Self {
+            is_on_new_line: true,
+            ..Default::default()
+        }
+    }
 }

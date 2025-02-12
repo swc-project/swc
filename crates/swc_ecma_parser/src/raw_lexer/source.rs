@@ -340,7 +340,7 @@ impl RawLexer<'_> {
     }
 
     pub fn consume_single_line(&mut self) -> &str {
-        self.is_on_new_line = true;
+        self.token.is_on_new_line = true;
         let line = self.consume_until(|byte| {
             byte == LF as u8 || byte == CR as u8 || byte == LS as u8 || byte == PS as u8
         });

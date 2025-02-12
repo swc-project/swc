@@ -16,9 +16,7 @@ pub use token::{RawToken, RawTokenKind, RawTokenSpan, RawTokenValue};
 pub struct RawLexer<'source> {
     source: Source<'source>,
 
-    token_value: Option<RawTokenValue>,
-
-    is_on_new_line: bool,
+    token: RawToken,
 
     pub errors: Vec<Error>,
 }
@@ -27,8 +25,7 @@ impl<'source> RawLexer<'source> {
     pub fn new(source: &'source str) -> Self {
         Self {
             source: Source::new(source),
-            token_value: None,
-            is_on_new_line: true,
+            token: RawToken::first_default_token(),
             errors: Default::default(),
         }
     }
@@ -36,7 +33,6 @@ impl<'source> RawLexer<'source> {
     pub fn read_next_token(&mut self) -> RawLexResult<RawToken> {
         loop {
             let start = self.offset();
-
             let kind = match self.peek_byte() {
                 Some(byte) => {
                     let handler = handler_from_byte(byte);
@@ -45,26 +41,25 @@ impl<'source> RawLexer<'source> {
                 None => RawTokenKind::Eof,
             };
 
-            let end = self.offset();
-
             if kind == RawTokenKind::Skip {
                 continue;
             }
 
-            return Ok(RawToken {
-                kind,
-                span: RawTokenSpan { start, end },
-                value: if self.token_value.is_some() {
-                    self.token_value.take()
-                } else {
-                    None
-                },
-                is_on_new_line: if self.is_on_new_line {
-                    std::mem::take(&mut self.is_on_new_line)
-                } else {
-                    false
-                },
-            });
+            let end = self.offset();
+            return Ok(self.build_token(kind, start, end));
         }
+    }
+
+    /// Builds a new token with the given kind, start, and end positions.
+    ///
+    /// This method updates the current token's kind and span with the provided
+    /// parameters and returns the updated token. The `std::mem::take` function
+    /// is used to move the token out of the `self` context, effectively
+    /// "taking" ownership of the token.
+    fn build_token(&mut self, kind: RawTokenKind, start: u32, end: u32) -> RawToken {
+        self.token.kind = kind;
+        self.token.span = RawTokenSpan { start, end };
+
+        std::mem::take(&mut self.token)
     }
 }
