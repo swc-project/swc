@@ -749,7 +749,7 @@ impl<I: Tokens> Parser<I> {
 
         if eat!(self, "...") {
             let spread_span = span!(self, start);
-            let spread = Some(spread_span);
+            let spread = Some(spread_span.lo);
             self.include_in_expr(true)
                 .parse_assignment_expr()
                 .map_err(|err| {
@@ -938,7 +938,7 @@ impl<I: Tokens> Parser<I> {
                     _ => syntax_error!(self, item.span(), SyntaxError::InvalidExpr),
                 }
             })
-            .collect::<Result<Vec<_>, _>>()?;
+            .collect::<Result<SmallVec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
             return Ok(CallExpr {
@@ -981,7 +981,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             debug_assert!(expr_or_spreads.len() >= 2);
 
-            let mut exprs = Vec::with_capacity(expr_or_spreads.len());
+            let mut exprs = SmallVec::<[Box<Expr>; 2]>::with_capacity(expr_or_spreads.len());
             for expr in expr_or_spreads {
                 match expr {
                     ExprOrSpread {
