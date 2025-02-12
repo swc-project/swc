@@ -6,6 +6,6 @@
         }
     },
     "minify": true,
-    "sourceMaps": "inline",
+    "sourceMaps": true,
     "inlineSourcesContent": true
 }
