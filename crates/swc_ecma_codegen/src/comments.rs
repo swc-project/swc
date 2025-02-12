@@ -109,8 +109,7 @@ where
     }
 
     #[inline(always)]
-    pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {
-        let pos = if is_hi { span.hi } else { span.lo };
+    pub(super) fn emit_leading_comments_of_span(&mut self, pos: BytePos, is_hi: bool) -> Result {
         self.emit_leading_comments(pos, is_hi)
     }
 }
