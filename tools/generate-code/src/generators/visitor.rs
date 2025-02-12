@@ -1233,7 +1233,16 @@ fn field_variant(type_name: &Ident, field: &Field) -> Option<(TokenStream, Optio
 }
 
 fn extract_vec(ty: &Type) -> Option<&Type> {
-    extract_generic("Vec", ty)
+    extract_generic("Vec", ty).or_else(|| {
+        if let Some(array) = extract_generic("SmallVec", ty) {
+            match array {
+                Type::Array(array) => Some(&array.elem),
+                _ => None,
+            }
+        } else {
+            None
+        }
+    })
 }
 
 fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
