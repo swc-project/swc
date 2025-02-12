@@ -429,7 +429,7 @@ where
     fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
         debug_assert!(node.quasis.len() == node.types.len() + 1);
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         punct!("`");
 

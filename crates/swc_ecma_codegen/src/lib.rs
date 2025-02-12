@@ -2279,7 +2279,7 @@ where
 
     #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
-        self.emit_leading_comments_of_span(node.span.lo, false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
         let key_span = node.key.span();
         let value_span = node.value.span();
         if !key_span.is_dummy() {
@@ -2446,7 +2446,7 @@ where
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
-        self.emit_leading_comments_of_span(span, false)?;
+        self.emit_leading_comments_of_span(span.lo, false)?;
 
         // Source map
         self.wr.commit_pending_semi()?;
@@ -3095,7 +3095,7 @@ where
     #[emitter]
 
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
-        self.emit_leading_comments_of_span(e.span, false)?;
+        self.emit_leading_comments_of_span(e.span.lo, false)?;
 
         emit!(e.expr);
 
@@ -3127,7 +3127,7 @@ where
 
         self.emit_list(node.span(), Some(&node.stmts), list_format)?;
 
-        self.emit_leading_comments_of_span(node.span(), true)?;
+        self.emit_leading_comments_of_span(node.span_hi(), true)?;
 
         srcmap!(self, node, false, true);
         punct!(self, "}");
@@ -3306,7 +3306,7 @@ where
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(n.span, false)?;
+        self.emit_leading_comments_of_span(n.span.lo, false)?;
 
         srcmap!(n, true);
 
