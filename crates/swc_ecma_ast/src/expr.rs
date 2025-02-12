@@ -1325,9 +1325,10 @@ impl Take for Import {
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
+    /// `lo` of the spread operator
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
-    pub spread: Option<Span>,
+    pub spread: Option<BytePos>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
@@ -1339,7 +1340,7 @@ impl Spanned for ExprOrSpread {
     fn span(&self) -> Span {
         let expr = self.expr.span();
         match self.spread {
-            Some(spread) => expr.with_lo(spread.lo()),
+            Some(spread) => expr.with_lo(spread),
             None => expr,
         }
     }
@@ -1347,7 +1348,7 @@ impl Spanned for ExprOrSpread {
     #[inline]
     fn span_lo(&self) -> BytePos {
         match self.spread {
-            Some(s) => s.lo,
+            Some(s) => s,
             None => self.expr.span_lo(),
         }
     }
