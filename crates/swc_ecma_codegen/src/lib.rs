@@ -2855,7 +2855,10 @@ where
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
-        punct!(node.dot3_token, "...");
+        punct!(
+            Span::new(node.dot3_token, node.dot3_token + BytePos(3)),
+            "..."
+        );
         emit!(node.arg);
 
         if let Some(type_ann) = &node.type_ann {
