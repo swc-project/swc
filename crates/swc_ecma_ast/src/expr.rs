@@ -639,7 +639,7 @@ bridge_from!(PropOrSpread, Box<Prop>, Prop);
 impl Take for PropOrSpread {
     fn dummy() -> Self {
         PropOrSpread::Spread(SpreadElement {
-            dot3_token: DUMMY_SP,
+            dot3_token: BytePos::DUMMY,
             expr: Take::dummy(),
         })
     }
@@ -663,7 +663,7 @@ pub struct SpreadElement {
 impl Take for SpreadElement {
     fn dummy() -> Self {
         SpreadElement {
-            dot3_token: DUMMY_SP,
+            dot3_token: BytePos::DUMMY,
             expr: Take::dummy(),
         }
     }
