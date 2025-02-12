@@ -5034,6 +5034,7 @@ dependencies = [
  "serde",
  "serde_json",
  "shrink-to-fit",
+ "smallvec",
  "string_enum",
  "swc_atoms",
  "swc_common",
