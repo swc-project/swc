@@ -17,6 +17,7 @@ anyhow      = { workspace = true }
 proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 rustc-hash  = { workspace = true }
+smallvec    = { workspace = true }
 syn         = { workspace = true }
 
 swc_atoms         = { version = "4.0.0", path = "../swc_atoms" }
