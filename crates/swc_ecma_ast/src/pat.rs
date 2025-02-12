@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
     expr::Expr,
@@ -139,8 +139,9 @@ pub struct AssignPat {
 pub struct RestPat {
     pub span: Span,
 
+    /// `lo` of `...`
     #[cfg_attr(feature = "serde-impl", serde(rename = "rest"))]
-    pub dot3_token: Span,
+    pub dot3_token: BytePos,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Pat>,
