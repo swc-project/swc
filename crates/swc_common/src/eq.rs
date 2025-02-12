@@ -259,6 +259,28 @@ impl TypeEq for BigInt {
     }
 }
 
+impl<const N: usize, T> EqIgnoreSpan for smallvec::SmallVec<[T; N]>
+where
+    T: EqIgnoreSpan,
+{
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.len() == other.len()
+            && self
+                .iter()
+                .zip(other.iter())
+                .all(|(a, b)| a.eq_ignore_span(b))
+    }
+}
+
+impl<const N: usize, T> TypeEq for smallvec::SmallVec<[T; N]>
+where
+    T: TypeEq,
+{
+    fn type_eq(&self, other: &Self) -> bool {
+        self.len() == other.len() && self.iter().zip(other.iter()).all(|(a, b)| a.type_eq(b))
+    }
+}
+
 macro_rules! tuple {
     (
         $num:tt: $F:ident
