@@ -54,6 +54,7 @@ rustc-hash            = { workspace = true }
 serde                 = { workspace = true, features = ["derive"] }
 shrink-to-fit         = { workspace = true, optional = true }
 siphasher             = { workspace = true }
+smallvec              = { workspace = true }
 sourcemap             = { workspace = true, optional = true }
 termcolor             = { workspace = true, optional = true }
 tracing               = { workspace = true }
