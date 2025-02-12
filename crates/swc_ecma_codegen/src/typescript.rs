@@ -41,7 +41,7 @@ where
 
     #[emitter]
     fn emit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
 
@@ -97,7 +97,7 @@ where
 
     #[emitter]
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("new");
         if let Some(type_params) = &n.type_params {
@@ -118,7 +118,7 @@ where
 
     #[emitter]
     fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.is_abstract {
             keyword!("abstract");
@@ -144,7 +144,7 @@ where
 
     #[emitter]
     fn emit_ts_entity_name(&mut self, n: &TsEntityName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n {
             TsEntityName::TsQualifiedName(n) => {
@@ -156,7 +156,7 @@ where
 
     #[emitter]
     fn emit_ts_enum_decl(&mut self, n: &TsEnumDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.declare {
             keyword!("declare");
@@ -183,7 +183,7 @@ where
 
     #[emitter]
     fn emit_ts_enum_member(&mut self, n: &TsEnumMember) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.id);
 
@@ -205,7 +205,7 @@ where
 
     #[emitter]
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("export");
         formatting_space!();
@@ -216,7 +216,7 @@ where
 
     #[emitter]
     fn emit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
 
@@ -225,7 +225,7 @@ where
 
     #[emitter]
     fn emit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("require");
         punct!("(");
@@ -235,7 +235,7 @@ where
 
     #[emitter]
     fn emit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n {
             TsFnOrConstructorType::TsFnType(n) => emit!(n),
@@ -255,7 +255,7 @@ where
 
     #[emitter]
     fn emit_ts_fn_type(&mut self, n: &TsFnType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.type_params);
 
@@ -272,7 +272,7 @@ where
 
     #[emitter]
     fn emit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.is_export {
             keyword!("export");
@@ -300,7 +300,7 @@ where
 
     #[emitter]
     fn emit_ts_index_signature(&mut self, n: &TsIndexSignature) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.readonly {
             keyword!("readonly");
@@ -320,7 +320,7 @@ where
 
     #[emitter]
     fn emit_ts_index_accessed_type(&mut self, n: &TsIndexedAccessType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.obj_type);
 
@@ -331,7 +331,7 @@ where
 
     #[emitter]
     fn emit_ts_infer_type(&mut self, n: &TsInferType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("infer");
         space!();
@@ -340,7 +340,7 @@ where
 
     #[emitter]
     fn emit_ts_interface_body(&mut self, n: &TsInterfaceBody) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("{");
 
@@ -351,7 +351,7 @@ where
 
     #[emitter]
     fn emit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.declare {
             keyword!("declare");
@@ -384,7 +384,7 @@ where
 
     #[emitter]
     fn emit_ts_intersection_type(&mut self, n: &TsIntersectionType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.emit_list(
             n.span,
@@ -395,7 +395,7 @@ where
 
     #[emitter]
     fn emit_ts_keyword_type(&mut self, n: &TsKeywordType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n.kind {
             TsKeywordTypeKind::TsAnyKeyword => keyword!(n.span, "any"),
@@ -448,14 +448,14 @@ where
 
     #[emitter]
     fn emit_ts_lit_type(&mut self, n: &TsLitType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.lit);
     }
 
     #[emitter]
     fn emit_ts_mapped_type(&mut self, n: &TsMappedType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("{");
         self.wr.write_line()?;
@@ -540,7 +540,7 @@ where
 
     #[emitter]
     fn emit_ts_method_signature(&mut self, n: &TsMethodSignature) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.computed {
             punct!("[");
@@ -572,12 +572,12 @@ where
     #[emitter]
     fn emit_ts_module_block(&mut self, n: &TsModuleBlock) -> Result {
         self.emit_list(n.span, Some(&n.body), ListFormat::SourceFileStatements)?;
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
     }
 
     #[emitter]
     fn emit_ts_module_decl(&mut self, n: &TsModuleDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.declare {
             keyword!("declare");
@@ -618,7 +618,7 @@ where
 
     #[emitter]
     fn emit_ts_module_ref(&mut self, n: &TsModuleRef) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n {
             TsModuleRef::TsEntityName(n) => emit!(n),
@@ -628,7 +628,7 @@ where
 
     #[emitter]
     fn emit_ts_ns_body(&mut self, n: &TsNamespaceBody) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("{");
         self.wr.increase_indent()?;
@@ -642,7 +642,7 @@ where
 
     #[emitter]
     fn emit_ts_ns_decl(&mut self, n: &TsNamespaceDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.declare {
             keyword!("declare");
@@ -659,7 +659,7 @@ where
 
     #[emitter]
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("export");
         space!();
@@ -670,7 +670,7 @@ where
 
     #[emitter]
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
         punct!("!")
@@ -678,7 +678,7 @@ where
 
     #[emitter]
     fn emit_ts_optional_type(&mut self, n: &TsOptionalType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.type_ann);
         punct!("?");
@@ -686,7 +686,7 @@ where
 
     #[emitter]
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
@@ -707,7 +707,7 @@ where
 
     #[emitter]
     fn emit_ts_param_prop_param(&mut self, n: &TsParamPropParam) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n {
             TsParamPropParam::Ident(n) => emit!(n),
@@ -717,7 +717,7 @@ where
 
     #[emitter]
     fn emit_ts_paren_type(&mut self, n: &TsParenthesizedType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("(");
         emit!(n.type_ann);
@@ -726,7 +726,7 @@ where
 
     #[emitter]
     fn emit_ts_property_signature(&mut self, n: &TsPropertySignature) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.readonly {
             keyword!("readonly");
@@ -758,7 +758,7 @@ where
 
     #[emitter]
     fn emit_ts_qualified_name(&mut self, n: &TsQualifiedName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.left);
         punct!(".");
@@ -767,7 +767,7 @@ where
 
     #[emitter]
     fn emit_ts_rest_type(&mut self, n: &TsRestType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("...");
         emit!(n.type_ann);
@@ -775,14 +775,14 @@ where
 
     #[emitter]
     fn emit_ts_this_type(&mut self, n: &TsThisType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!(n.span, "this");
     }
 
     #[emitter]
     fn emit_ts_this_type_or_ident(&mut self, n: &TsThisTypeOrIdent) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n {
             TsThisTypeOrIdent::TsThisType(n) => emit!(n),
@@ -792,7 +792,7 @@ where
 
     #[emitter]
     fn emit_ts_tuple_type(&mut self, n: &TsTupleType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("[");
         self.emit_list(n.span, Some(&n.elem_types), ListFormat::TupleTypeElements)?;
@@ -801,7 +801,7 @@ where
 
     #[emitter]
     fn emit_ts_tuple_element(&mut self, n: &TsTupleElement) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if let Some(label) = &n.label {
             emit!(label);
@@ -840,7 +840,7 @@ where
 
     #[emitter]
     fn emit_ts_import_type(&mut self, n: &TsImportType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("import");
         punct!("(");
@@ -857,7 +857,7 @@ where
 
     #[emitter]
     fn emit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.declare {
             keyword!("declare");
@@ -885,14 +885,14 @@ where
 
     #[emitter]
     fn emit_ts_type_ann(&mut self, n: &TsTypeAnn) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.type_ann)
     }
 
     #[emitter]
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("<");
         emit!(n.type_ann);
@@ -902,7 +902,7 @@ where
 
     #[emitter]
     fn emit_ts_const_assertion(&mut self, n: &TsConstAssertion) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
 
@@ -974,7 +974,7 @@ where
 
     #[emitter]
     fn emit_ts_type_lit(&mut self, n: &TsTypeLit) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("{");
         self.emit_list(
@@ -987,7 +987,7 @@ where
 
     #[emitter]
     fn emit_ts_type_operator(&mut self, n: &TsTypeOperator) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match n.op {
             TsTypeOperatorOp::KeyOf => keyword!("keyof"),
@@ -1000,7 +1000,7 @@ where
 
     #[emitter]
     fn emit_ts_type_param(&mut self, n: &TsTypeParam) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.is_const {
             keyword!("const");
@@ -1036,7 +1036,7 @@ where
 
     #[emitter]
     fn emit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("<");
 
@@ -1047,7 +1047,7 @@ where
 
     #[emitter]
     fn emit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         punct!("<");
         self.emit_list(n.span, Some(&n.params), ListFormat::TypeParameters)?;
@@ -1057,7 +1057,7 @@ where
 
     #[emitter]
     fn emit_ts_type_predicate(&mut self, n: &TsTypePredicate) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.asserts {
             keyword!("asserts");
@@ -1076,7 +1076,7 @@ where
 
     #[emitter]
     fn emit_ts_type_query(&mut self, n: &TsTypeQuery) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         keyword!("typeof");
         space!();
@@ -1094,7 +1094,7 @@ where
 
     #[emitter]
     fn emit_ts_type_ref(&mut self, n: &TsTypeRef) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.type_name);
 
@@ -1115,14 +1115,14 @@ where
 
     #[emitter]
     fn emit_ts_union_type(&mut self, n: &TsUnionType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
     }
 
     #[emitter]
     fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         emit!(n.expr);
 

@@ -36,7 +36,7 @@ where
 
     #[emitter]
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span.lo, false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         if node.is_await {
             keyword!("await");
@@ -58,7 +58,7 @@ where
         node: &ClassDecl,
         skip_decorators: bool,
     ) -> Result {
-        self.emit_leading_comments_of_span(node.span.lo, false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(self, node, true);
 
@@ -90,7 +90,7 @@ where
 
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -125,7 +125,7 @@ where
     }
 
     fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span, false)?;
+        self.emit_leading_comments_of_span(node.span.lo, false)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -162,7 +162,7 @@ where
 
     #[emitter]
     fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
