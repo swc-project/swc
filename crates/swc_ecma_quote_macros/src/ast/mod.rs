@@ -1,4 +1,5 @@
-use swc_common::{Span, SyntaxContext};
+use smallvec::SmallVec;
+use swc_common::{BytePos, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use syn::{parse_quote, ExprBlock};
 
@@ -125,6 +126,12 @@ where
 
 impl_struct!(Invalid, [span]);
 
+impl ToCode for BytePos {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        parse_quote!(swc_core::common::BytePos::DUMMY)
+    }
+}
+
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         parse_quote!(swc_core::common::DUMMY_SP)
@@ -188,6 +195,34 @@ where
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         let len = self.len();
         let var_stmt: syn::Stmt = parse_quote!(let mut items = Vec::with_capacity(#len););
+        let mut stmts = vec![var_stmt];
+
+        for item in self {
+            let item = item.to_code(cx);
+            stmts.push(syn::Stmt::Expr(
+                parse_quote!(items.push(#item)),
+                Some(Default::default()),
+            ));
+        }
+
+        stmts.push(syn::Stmt::Expr(parse_quote!(items), None));
+
+        syn::Expr::Block(ExprBlock {
+            attrs: Default::default(),
+            label: Default::default(),
+            block: syn::Block {
+                brace_token: Default::default(),
+                stmts,
+            },
+        })
+    }
+}
+
+impl<const N: usize, T: ToCode> ToCode for SmallVec<[T; N]> {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        let len = self.len();
+        let var_stmt: syn::Stmt =
+            parse_quote!(let mut items = smallvec::SmallVec::<[_; _]>::with_capacity(#len););
         let mut stmts = vec![var_stmt];
 
         for item in self {
