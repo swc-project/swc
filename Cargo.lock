@@ -5463,6 +5463,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustc-hash 2.1.0",
+ "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
