@@ -24,6 +24,7 @@ rkyv-impl = [
   "rkyv",
   "bytecheck",
   "rancor",
+  "rkyv/smallvec-1",
   "swc_atoms/rkyv-impl",
   "swc_common/rkyv-impl",
 ]
