@@ -25,6 +25,7 @@ serde-impl = ["serde"]
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true, features = ["serde"] }
 serde                 = { workspace = true, optional = true, features = ["derive"] }
+smallvec              = { workspace = true }
 tracing               = { workspace = true }
 
 swc_atoms    = { version = "4.0.0", path = "../swc_atoms" }
