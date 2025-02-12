@@ -27,7 +27,7 @@ rkyv-impl = [
   "swc_atoms/rkyv-impl",
   "swc_common/rkyv-impl",
 ]
-serde-impl = ["serde"]
+serde-impl = ["serde", "smallvec/serde"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
   "swc_atoms/shrink-to-fit",
