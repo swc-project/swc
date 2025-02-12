@@ -177,7 +177,7 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     pub fn emit_module(&mut self, node: &Module) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         if node.body.is_empty() {
             srcmap!(node, true);
@@ -201,7 +201,7 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     pub fn emit_script(&mut self, node: &Script) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         if node.body.is_empty() {
             srcmap!(node, true);
@@ -224,7 +224,7 @@ where
 
     #[emitter]
     pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
         match *node {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(ref decl) => emit!(decl),
@@ -234,7 +234,7 @@ where
 
     #[emitter]
     fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         match *node {
             ModuleDecl::Import(ref d) => emit!(d),
@@ -303,7 +303,7 @@ where
 
     #[emitter]
     fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -321,7 +321,7 @@ where
 
     #[emitter]
     fn emit_import(&mut self, n: &ImportDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -462,7 +462,7 @@ where
 
     #[emitter]
     fn emit_namespace_export_specifier(&mut self, node: &ExportNamespaceSpecifier) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -477,7 +477,7 @@ where
 
     #[emitter]
     fn emit_named_export_specifier(&mut self, node: &ExportNamedSpecifier) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -500,7 +500,7 @@ where
 
     #[emitter]
     fn emit_named_export(&mut self, node: &NamedExport) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -592,7 +592,7 @@ where
 
     #[emitter]
     fn emit_export_all(&mut self, node: &ExportAll) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -631,7 +631,7 @@ where
     #[emitter]
 
     fn emit_lit(&mut self, node: &Lit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -668,7 +668,7 @@ where
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -976,7 +976,7 @@ where
 
     #[emitter]
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         match &*n.base {
             OptChainBase::Member(ref e) => {
@@ -1023,7 +1023,7 @@ where
     fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1043,7 +1043,7 @@ where
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(self, node, true);
 
@@ -1088,7 +1088,7 @@ where
 
     #[emitter]
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1141,7 +1141,7 @@ where
 
     #[emitter]
     fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1161,7 +1161,7 @@ where
 
     #[emitter]
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1214,7 +1214,7 @@ where
     #[emitter]
     fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
         if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
+            self.emit_leading_comments_of_span(node.span_lo(), false)?;
         }
 
         srcmap!(node, true);
@@ -1228,7 +1228,7 @@ where
 
     #[emitter]
     fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1248,7 +1248,7 @@ where
 
     #[emitter]
     fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         emit!(node.left);
         formatting_space!();
@@ -1328,7 +1328,7 @@ where
 
     #[emitter]
     fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1364,7 +1364,7 @@ where
 
     #[emitter]
     fn emit_decorator(&mut self, node: &Decorator) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1377,7 +1377,7 @@ where
 
     #[emitter]
     fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1515,7 +1515,7 @@ where
 
     #[emitter]
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -1554,7 +1554,7 @@ where
 
     #[emitter]
     fn emit_bool(&mut self, n: &Bool) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         if n.value {
             keyword!(n.span, "true")
@@ -1565,7 +1565,7 @@ where
 
     #[emitter]
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.emit_leading_comments_of_span(n.key.span(), false)?;
 
@@ -1680,7 +1680,7 @@ where
 
     #[emitter]
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -1739,7 +1739,7 @@ where
 
     #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
         srcmap!(n, true);
 
         for dec in &n.decorators {
@@ -1823,7 +1823,7 @@ where
     #[emitter]
 
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -1843,7 +1843,7 @@ where
 
     #[emitter]
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -1905,7 +1905,7 @@ where
 
     #[emitter]
     fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -1922,7 +1922,7 @@ where
 
     #[emitter]
     fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -1990,7 +1990,7 @@ where
 
     #[emitter]
     fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         keyword!(node.span, "this");
     }
@@ -1999,7 +1999,7 @@ where
     fn emit_tpl_lit(&mut self, node: &Tpl) -> Result {
         debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2056,7 +2056,7 @@ where
 
     #[emitter]
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2075,7 +2075,7 @@ where
     fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
         debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(self, node, true);
 
@@ -2110,7 +2110,7 @@ where
 
     #[emitter]
     fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -2823,7 +2823,7 @@ where
 {
     #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2853,7 +2853,7 @@ where
 
     #[emitter]
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         punct!(node.dot3_token, "...");
         emit!(node.arg);
@@ -2876,7 +2876,7 @@ where
     #[emitter]
     fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
         if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
+            self.emit_leading_comments_of_span(node.span_lo(), false)?;
         }
 
         srcmap!(node, true);
@@ -2923,7 +2923,7 @@ where
 
     #[emitter]
     fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2952,7 +2952,7 @@ where
 
     #[emitter]
     fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -2967,7 +2967,7 @@ where
 
     #[emitter]
     fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
         punct!("{");
@@ -3004,7 +3004,7 @@ where
 
     #[emitter]
     fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -3018,7 +3018,7 @@ where
 
     #[emitter]
     fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -3109,7 +3109,7 @@ where
     }
 
     fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         if !skip_first_src_map {
             srcmap!(self, node, true);
@@ -3137,7 +3137,7 @@ where
 
     #[emitter]
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         self.wr.write_punct(None, ";")?;
     }
@@ -3146,7 +3146,7 @@ where
     fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         keyword!(node.span, "debugger");
         semi!();
@@ -3382,7 +3382,7 @@ where
 
     #[emitter]
     fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -3421,7 +3421,7 @@ where
     fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3440,7 +3440,7 @@ where
 
     #[emitter]
     fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3461,7 +3461,7 @@ where
 
     #[emitter]
     fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3503,7 +3503,7 @@ where
 
     #[emitter]
     fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3530,7 +3530,7 @@ where
     #[emitter]
 
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -3558,7 +3558,7 @@ where
     fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -3575,7 +3575,7 @@ where
     fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span_lo(), false)?;
 
         srcmap!(node, true);
 
@@ -3606,7 +3606,7 @@ where
     fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3627,7 +3627,7 @@ where
     fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
@@ -3663,7 +3663,7 @@ where
     fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        self.emit_leading_comments_of_span(n.span(), false)?;
+        self.emit_leading_comments_of_span(n.span_lo(), false)?;
 
         srcmap!(n, true);
 
