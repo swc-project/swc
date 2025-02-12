@@ -7,5 +7,6 @@
     },
     "minify": true,
     "sourceMaps": true,
-    "inlineSourcesContent": true
+    "inlineSourcesContent": true,
+    "isModule": true
 }
