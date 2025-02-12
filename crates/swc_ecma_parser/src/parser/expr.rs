@@ -1,5 +1,6 @@
 use either::Either;
 use rustc_hash::FxHashMap;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
@@ -20,7 +21,7 @@ impl<I: Tokens> Parser<I> {
         let start = expr.span_lo();
 
         if is!(self, ',') {
-            let mut exprs = vec![expr];
+            let mut exprs = smallvec![expr];
             while eat!(self, ',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
@@ -499,7 +500,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, '[');
-        let mut elems = Vec::new();
+        let mut elems = SmallVec::new();
 
         while !eof!(self) && !is!(self, ']') {
             if is!(self, ',') {
@@ -694,7 +695,10 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `Arguments[Yield, Await]`
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
+    pub(super) fn parse_args(
+        &mut self,
+        is_dynamic_import: bool,
+    ) -> PResult<SmallVec<[ExprOrSpread; 1]>> {
         trace_cur!(self, parse_args);
 
         let ctx = Context {
@@ -707,7 +711,7 @@ impl<I: Tokens> Parser<I> {
             expect!(p, '(');
 
             let mut first = true;
-            let mut expr_or_spreads = Vec::with_capacity(2);
+            let mut expr_or_spreads = SmallVec::new();
 
             while !eof!(p) && !is!(p, ')') {
                 if first {
