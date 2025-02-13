@@ -5788,6 +5788,7 @@ dependencies = [
  "rayon",
  "rustc-hash 2.1.0",
  "ryu-js",
+ "smallvec",
  "stacker",
  "swc_atoms",
  "swc_common",
