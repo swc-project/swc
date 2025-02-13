@@ -1038,7 +1038,7 @@ impl Generator {
                     }
                     "Option" => {
                         let inner = inner.as_ref();
-                        let inner_ty = quote!(#inner);
+                        let inner_ty = self.node_type_for_visitor_method(inner);
 
                         match self.kind {
                             TraitKind::Visit => {
