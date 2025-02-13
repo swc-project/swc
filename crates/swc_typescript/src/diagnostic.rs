@@ -3,7 +3,7 @@
 
 use std::{borrow::Cow, sync::Arc};
 
-use swc_common::{FileName, Span};
+use swc_common::{BytePos, FileName, Span};
 
 use crate::fast_dts::FastDts;
 
@@ -103,10 +103,10 @@ impl FastDts {
         );
     }
 
-    pub fn arrays_with_spread_elements(&mut self, span: Span) {
+    pub fn arrays_with_spread_elements(&mut self, lo: BytePos) {
         self.mark_diagnostic(
             "TS9018: Arrays with spread elements can't inferred with --isolatedDeclarations.",
-            span,
+            Span::new(lo, lo + BytePos(3)),
         );
     }
 
