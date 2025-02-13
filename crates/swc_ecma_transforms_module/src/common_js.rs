@@ -524,7 +524,7 @@ impl Cjs {
 /// ```
 pub(crate) fn cjs_dynamic_import(
     span: Span,
-    args: Vec<ExprOrSpread>,
+    args: SmallVec<[ExprOrSpread; 1]>,
     require: Ident,
     import_interop: ImportInterop,
     support_arrow: bool,

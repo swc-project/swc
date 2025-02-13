@@ -523,7 +523,7 @@ impl VisitMut for Pure<'_> {
         self.eval_member_expr(e);
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut SmallVec<[ExprOrSpread; 1]>) {
         self.visit_par(nodes);
     }
 

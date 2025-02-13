@@ -27,7 +27,7 @@ struct Hoc {
 }
 struct HocHook {
     callee: Callee,
-    rest_arg: Vec<ExprOrSpread>,
+    rest_arg: SmallVec<[ExprOrSpread; 1]>,
 }
 enum Persist {
     Hoc(Hoc),

@@ -133,7 +133,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn into_new_expr(self, span: Span, args: Option<Vec<ExprOrSpread>>) -> NewExpr {
+    fn into_new_expr(self, span: Span, args: Option<SmallVec<[ExprOrSpread; 1]>>) -> NewExpr {
         NewExpr {
             span,
             callee: self.into(),
@@ -143,7 +143,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
+    fn apply(self, span: Span, this: Box<Expr>, args: SmallVec<[ExprOrSpread; 1]>) -> Expr {
         let apply = self.make_member(IdentName::new("apply".into(), span));
 
         CallExpr {
@@ -157,7 +157,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    fn call_fn(self, span: Span, args: SmallVec<[ExprOrSpread; 1]>) -> Expr {
         CallExpr {
             span,
             args,
@@ -170,7 +170,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    fn as_call(self, span: Span, args: SmallVec<[ExprOrSpread; 1]>) -> Expr {
         CallExpr {
             span,
             args,

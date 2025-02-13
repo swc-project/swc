@@ -153,7 +153,7 @@ impl VisitMut for InlineGlobals {
         }
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut SmallVec<[ExprOrSpread; 1]>) {
         self.visit_mut_par(cpu_count(), n);
     }
 

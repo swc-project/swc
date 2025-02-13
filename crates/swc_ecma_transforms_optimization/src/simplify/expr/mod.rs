@@ -1470,7 +1470,7 @@ impl VisitMut for SimplifyExpr {
         };
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut SmallVec<[ExprOrSpread; 1]>) {
         self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });

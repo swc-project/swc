@@ -74,7 +74,7 @@ struct Classes {
     config: Config,
 
     params: Vec<Param>,
-    args: Vec<ExprOrSpread>,
+    args: SmallVec<[ExprOrSpread; 1]>,
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]

@@ -179,7 +179,7 @@ where
         maybe_grow_default(|| n.visit_mut_children_with(self))
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut SmallVec<[ExprOrSpread; 1]>) {
         self.maybe_par(cpu_count() * 100, n, |v, n| {
             n.visit_mut_with(v);
         })

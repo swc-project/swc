@@ -97,7 +97,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 impl Pure<'_> {
     /// `foo(...[1, 2])`` => `foo(1, 2)`
-    pub(super) fn eval_spread_array(&mut self, args: &mut Vec<ExprOrSpread>) {
+    pub(super) fn eval_spread_array(&mut self, args: &mut SmallVec<[ExprOrSpread; 1]>) {
         if args
             .iter()
             .all(|arg| arg.spread.is_none() || !arg.expr.is_array())
@@ -378,7 +378,11 @@ impl Pure<'_> {
     }
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
-    fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_regex(
+        &mut self,
+        args: &mut SmallVec<[ExprOrSpread; 1]>,
+        span: &mut Span,
+    ) -> Option<Expr> {
         fn valid_pattern(pattern: &Expr) -> Option<JsWord> {
             if let Expr::Lit(Lit::Str(s)) = pattern {
                 if s.value.contains(|c: char| {
@@ -458,7 +462,11 @@ impl Pure<'_> {
     }
 
     /// Array() -> []
-    fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_array(
+        &mut self,
+        args: &mut SmallVec<[ExprOrSpread; 1]>,
+        span: &mut Span,
+    ) -> Option<Expr> {
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
@@ -499,7 +507,11 @@ impl Pure<'_> {
     }
 
     /// Object -> {}
-    fn optimize_object(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+    fn optimize_object(
+        &mut self,
+        args: &mut SmallVec<[ExprOrSpread; 1]>,
+        span: &mut Span,
+    ) -> Option<Expr> {
         if args.is_empty() {
             Some(
                 ObjectLit {

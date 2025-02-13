@@ -446,7 +446,7 @@ where
 /// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
 pub(crate) fn amd_dynamic_import(
     span: Span,
-    args: Vec<ExprOrSpread>,
+    args: SmallVec<[ExprOrSpread; 1]>,
     require: Ident,
     import_interop: ImportInterop,
     support_arrow: bool,

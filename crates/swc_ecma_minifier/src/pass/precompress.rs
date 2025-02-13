@@ -81,7 +81,7 @@ impl VisitMut for PrecompressOptimizer {
         });
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut SmallVec<[ExprOrSpread; 1]>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
