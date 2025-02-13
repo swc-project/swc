@@ -2,6 +2,7 @@ use std::mem;
 
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -406,7 +407,7 @@ impl VisitMut for FnEnvHoister {
                                 let args = if let Some(op) = op {
                                     let tmp = private_ident!("tmp");
                                     self.extra_ident.push(tmp.clone());
-                                    vec![
+                                    smallvec![
                                         Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
                                             left: tmp.clone().into(),
@@ -421,7 +422,7 @@ impl VisitMut for FnEnvHoister {
                                                 callee: self
                                                     .super_get_computed(DUMMY_SP)
                                                     .as_callee(),
-                                                args: vec![tmp.as_arg()],
+                                                args: smallvec![tmp.as_arg()],
                                                 ..Default::default()
                                             })),
                                             op,
@@ -430,7 +431,7 @@ impl VisitMut for FnEnvHoister {
                                         .as_arg(),
                                     ]
                                 } else {
-                                    vec![c.expr.take().as_arg(), right.take().as_arg()]
+                                    smallvec![c.expr.take().as_arg(), right.take().as_arg()]
                                 };
                                 *e = CallExpr {
                                     span: *span,
@@ -444,12 +445,12 @@ impl VisitMut for FnEnvHoister {
                                 let callee = self.super_set(&id.sym, left_span);
                                 *e = CallExpr {
                                     span: *span,
-                                    args: vec![(if let Some(op) = op.to_update() {
+                                    args: smallvec![(if let Some(op) = op.to_update() {
                                         Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: Box::new(
                                                 self.super_get(&id.sym, id.span)
-                                                    .as_call(id.span, Vec::new()),
+                                                    .as_call(id.span, Default::default()),
                                             ),
                                             op,
                                             right: right.take(),

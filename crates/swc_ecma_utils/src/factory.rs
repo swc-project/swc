@@ -1,5 +1,6 @@
 use std::iter;
 
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -310,7 +311,7 @@ impl IntoIndirectCall for Callee {
     fn into_indirect(self) -> Callee {
         SeqExpr {
             span: DUMMY_SP,
-            exprs: vec![0f64.into(), self.expect_expr()],
+            exprs: smallvec![0f64.into(), self.expect_expr()],
         }
         .as_callee()
     }
@@ -325,7 +326,7 @@ impl IntoIndirectCall for TaggedTpl {
             tag: Box::new(
                 SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![0f64.into(), self.tag.take()],
+                    exprs: smallvec![0f64.into(), self.tag.take()],
                 }
                 .into(),
             ),
