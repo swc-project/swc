@@ -924,7 +924,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Document {
                     <DocumentMode as VisitWith<V>>::visit_with(mode, visitor)
                 };
                 {
-                    <Vec<Child> as VisitWith<V>>::visit_with(children, visitor)
+                    <[Child] as VisitWith<V>>::visit_with(children, visitor)
                 };
             }
         }
@@ -943,7 +943,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentFragment {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
                 };
                 {
-                    <Vec<Child> as VisitWith<V>>::visit_with(children, visitor)
+                    <[Child] as VisitWith<V>>::visit_with(children, visitor)
                 };
             }
         }
@@ -1024,10 +1024,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for Element {
                     <Namespace as VisitWith<V>>::visit_with(namespace, visitor)
                 };
                 {
-                    <Vec<Attribute> as VisitWith<V>>::visit_with(attributes, visitor)
+                    <[Attribute] as VisitWith<V>>::visit_with(attributes, visitor)
                 };
                 {
-                    <Vec<Child> as VisitWith<V>>::visit_with(children, visitor)
+                    <[Child] as VisitWith<V>>::visit_with(children, visitor)
                 };
                 {
                     <Option<DocumentFragment> as VisitWith<V>>::visit_with(content, visitor)
@@ -1131,7 +1131,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Token {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw_tag_name, visitor)
                 };
                 {
-                    <Vec<AttributeToken> as VisitWith<V>>::visit_with(attributes, visitor)
+                    <[AttributeToken] as VisitWith<V>>::visit_with(attributes, visitor)
                 };
             }
             Token::EndTag {
@@ -1147,7 +1147,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Token {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw_tag_name, visitor)
                 };
                 {
-                    <Vec<AttributeToken> as VisitWith<V>>::visit_with(attributes, visitor)
+                    <[AttributeToken] as VisitWith<V>>::visit_with(attributes, visitor)
                 };
             }
             Token::Comment { data, raw } => {
@@ -3000,7 +3000,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Document {
                         self,
                         self::fields::DocumentField::Children(usize::MAX),
                     ));
-                    <Vec<Child> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[Child] as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
                         &mut *__ast_path,
@@ -3045,7 +3045,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentFragment {
                         self,
                         self::fields::DocumentFragmentField::Children(usize::MAX),
                     ));
-                    <Vec<Child> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[Child] as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
                         &mut *__ast_path,
@@ -3228,7 +3228,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                         self,
                         self::fields::ElementField::Attributes(usize::MAX),
                     ));
-                    <Vec<Attribute> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[Attribute] as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
                         visitor,
                         &mut *__ast_path,
@@ -3239,7 +3239,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                         self,
                         self::fields::ElementField::Children(usize::MAX),
                     ));
-                    <Vec<Child> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[Child] as VisitWithAstPath<V>>::visit_with_ast_path(
                         children,
                         visitor,
                         &mut *__ast_path,
@@ -3477,7 +3477,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                         self,
                         self::fields::TokenField::Attributes(usize::MAX),
                     ));
-                    <Vec<AttributeToken> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[AttributeToken] as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
                         visitor,
                         &mut *__ast_path,
@@ -3521,7 +3521,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                         self,
                         self::fields::TokenField::Attributes(usize::MAX),
                     ));
-                    <Vec<AttributeToken> as VisitWithAstPath<V>>::visit_with_ast_path(
+                    <[AttributeToken] as VisitWithAstPath<V>>::visit_with_ast_path(
                         attributes,
                         visitor,
                         &mut *__ast_path,
