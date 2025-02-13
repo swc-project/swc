@@ -26,6 +26,7 @@ once_cell  = { workspace = true }
 rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 ryu-js     = { workspace = true }
+smallvec   = { workspace = true }
 tracing    = { workspace = true }
 unicode-id = { workspace = true }
 
