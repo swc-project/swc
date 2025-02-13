@@ -56,7 +56,7 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
     }
 }
 
-fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
+fn collect_exprs_from_object(obj: &mut ObjectLit) -> SmallVec<[Box<Expr>; 2]> {
     let mut exprs = Vec::new();
 
     for prop in obj.props.take() {

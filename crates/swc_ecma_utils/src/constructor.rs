@@ -6,7 +6,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::ExprFactory;
 
-pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
+pub fn inject_after_super(c: &mut Constructor, exprs: SmallVec<[Box<Expr>; 2]>) {
     if exprs.is_empty() {
         return;
     }
@@ -29,7 +29,7 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
 
 #[derive(Default)]
 struct Injector {
-    exprs: Vec<Box<Expr>>,
+    exprs: SmallVec<[Box<Expr>; 2]>,
     ignore_return_value: bool,
 
     injected: bool,

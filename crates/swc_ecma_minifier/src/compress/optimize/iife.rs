@@ -861,7 +861,7 @@ impl Optimizer<'_> {
         &mut self,
         params: &[Ident],
         args: &mut [ExprOrSpread],
-        exprs: &mut Vec<Box<Expr>>,
+        exprs: &mut SmallVec<[Box<Expr>; 2]>,
     ) -> Vec<VarDeclarator> {
         let mut vars = Vec::with_capacity(params.len());
 

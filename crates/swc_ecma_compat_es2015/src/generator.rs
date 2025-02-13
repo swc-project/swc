@@ -1207,10 +1207,10 @@ impl Generator {
 
     fn reduce_property(
         &mut self,
-        mut expressions: Vec<Box<Expr>>,
+        mut expressions: SmallVec<[Box<Expr>; 2]>,
         property: CompiledProp,
         temp: &mut Ident,
-    ) -> Vec<Box<Expr>> {
+    ) -> SmallVec<[Box<Expr>; 2]> {
         if match &property {
             CompiledProp::Prop(p) => contains_yield(p),
             CompiledProp::Accessor(g, s) => {

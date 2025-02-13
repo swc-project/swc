@@ -71,7 +71,7 @@ pub(crate) struct Transform {
     export_var_list: Vec<Id>,
 
     in_class_prop: Vec<Id>,
-    in_class_prop_init: Vec<Box<Expr>>,
+    in_class_prop_init: SmallVec<[Box<Expr>; 2]>,
 }
 
 pub fn transform(
@@ -1035,7 +1035,7 @@ impl Transform {
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
         prop_list: Vec<Id>,
-        mut init_list: Vec<Box<Expr>>,
+        mut init_list: SmallVec<[Box<Expr>; 2]>,
     ) {
         let mut constructor = None;
         let mut cons_index = 0;
@@ -1121,7 +1121,7 @@ impl Transform {
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
         prop_list: Vec<Id>,
-        init_list: Vec<Box<Expr>>,
+        init_list: SmallVec<[Box<Expr>; 2]>,
     ) {
         if let Some(constructor) = class_member_list
             .iter_mut()

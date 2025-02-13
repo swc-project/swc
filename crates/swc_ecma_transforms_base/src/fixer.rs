@@ -1139,7 +1139,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
 // at least 3 element in seq, which means we can safely
 // remove that padding, if not at last position
 #[allow(clippy::vec_box)]
-fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
+fn ignore_padding_value(exprs: SmallVec<[Box<Expr>; 2]>) -> SmallVec<[Box<Expr>; 2]> {
     let len = exprs.len();
 
     if len > 2 {

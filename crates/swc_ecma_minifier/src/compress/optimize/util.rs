@@ -161,7 +161,7 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<Expr>> {
+pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> SmallVec<[Box<Expr>; 2]> {
     let mut res = Vec::new();
     if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {
@@ -376,7 +376,7 @@ impl VisitMut for Finalizer<'_> {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, n: &mut SmallVec<[Box<Expr>; 2]>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });

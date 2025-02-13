@@ -1653,7 +1653,7 @@ impl ExprCtx {
     where
         I: IntoIterator<Item = Box<Expr>>,
     {
-        let mut exprs = exprs.into_iter().fold(Vec::new(), |mut v, e| {
+        let mut exprs = exprs.into_iter().fold(Default::default(), |mut v, e| {
             self.extract_side_effects_to(&mut v, *e);
             v
         });
@@ -1672,7 +1672,7 @@ impl ExprCtx {
     /// This function preserves order and conditions. (think a() ? yield b() :
     /// c())
     #[allow(clippy::vec_box)]
-    pub fn extract_side_effects_to(self, to: &mut Vec<Box<Expr>>, expr: Expr) {
+    pub fn extract_side_effects_to(self, to: &mut SmallVec<[Box<Expr>; 2]>, expr: Expr) {
         match expr {
             Expr::Lit(..)
             | Expr::This(..)

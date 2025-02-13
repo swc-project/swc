@@ -73,7 +73,7 @@ impl MemberInitRecord {
         }
     }
 
-    pub fn into_init(self) -> Vec<Box<Expr>> {
+    pub fn into_init(self) -> SmallVec<[Box<Expr>; 2]> {
         let mut normal_init = Vec::new();
         let mut value_init = Vec::new();
         for init in self.record {

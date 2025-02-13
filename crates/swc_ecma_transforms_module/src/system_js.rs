@@ -33,7 +33,7 @@ struct SystemJs {
     declare_var_idents: Vec<Ident>,
     export_map: FxHashMap<Id, Vec<JsWord>>,
     export_names: Vec<JsWord>,
-    export_values: Vec<Box<Expr>>,
+    export_values: SmallVec<[Box<Expr>; 2]>,
     tla: bool,
     enter_async_fn: u32,
     root_fn_decl_idents: Vec<Ident>,
@@ -64,7 +64,7 @@ pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> i
 
 struct ModuleItemMeta {
     export_names: Vec<JsWord>,
-    export_values: Vec<Box<Expr>>,
+    export_values: SmallVec<[Box<Expr>; 2]>,
     has_export_all: bool,
     src: JsWord,
     setter_fn_stmts: Vec<Stmt>,
@@ -203,7 +203,7 @@ impl SystemJs {
     fn build_export_call(
         &mut self,
         export_names: &mut Vec<JsWord>,
-        export_values: &mut Vec<Box<Expr>>,
+        export_values: &mut SmallVec<[Box<Expr>; 2]>,
     ) -> Vec<Stmt> {
         match export_names.len() {
             0 => Vec::new(),

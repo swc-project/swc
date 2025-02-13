@@ -139,7 +139,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: Vec<Box<Expr>> = Vec::new();
+            let mut inits: SmallVec<[Box<Expr>; 2]> = Vec::new();
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {

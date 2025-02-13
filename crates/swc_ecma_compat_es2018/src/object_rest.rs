@@ -26,7 +26,7 @@ pub(super) struct ObjectRest {
     /// Variables which should be declared using `var`
     pub mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
-    pub exprs: Vec<Box<Expr>>,
+    pub exprs: SmallVec<[Box<Expr>; 2]>,
     pub config: Config,
 }
 

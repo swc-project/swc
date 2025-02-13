@@ -23,7 +23,7 @@ pub fn private_in_object() -> impl Pass {
 enum Mode {
     ClassExpr {
         vars: Vec<VarDeclarator>,
-        init_exprs: Vec<Box<Expr>>,
+        init_exprs: SmallVec<[Box<Expr>; 2]>,
     },
     ClassDecl {
         vars: Vec<VarDeclarator>,
@@ -75,7 +75,7 @@ impl Mode {
 #[derive(Default)]
 struct PrivateInObject {
     vars: Vec<VarDeclarator>,
-    prepend_exprs: Vec<Box<Expr>>,
+    prepend_exprs: SmallVec<[Box<Expr>; 2]>,
 
     injected_vars: FxHashSet<Id>,
     cls: ClassData,
@@ -100,7 +100,7 @@ struct ClassData {
     /// Name of private statics.
     statics: Vec<JsWord>,
 
-    constructor_exprs: Vec<Box<Expr>>,
+    constructor_exprs: SmallVec<[Box<Expr>; 2]>,
 
     names_used_for_brand_checks: FxHashSet<JsWord>,
 }

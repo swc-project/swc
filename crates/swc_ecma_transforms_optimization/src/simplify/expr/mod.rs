@@ -1476,7 +1476,7 @@ impl VisitMut for SimplifyExpr {
         });
     }
 
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+    fn visit_mut_exprs(&mut self, n: &mut SmallVec<[Box<Expr>; 2]>) {
         self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });

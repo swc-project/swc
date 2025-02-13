@@ -746,7 +746,7 @@ impl Optimizer<'_> {
                     return Some(cls.take().into());
                 }
 
-                let exprs: Vec<Box<Expr>> =
+                let exprs: SmallVec<[Box<Expr>; 2]> =
                     extract_class_side_effect(self.ctx.expr_ctx, *cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))

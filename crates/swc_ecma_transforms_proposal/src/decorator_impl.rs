@@ -31,7 +31,7 @@ struct DecoratorPass {
     state: ClassState,
 
     /// Prepended before the class
-    pre_class_inits: Vec<Box<Expr>>,
+    pre_class_inits: SmallVec<[Box<Expr>; 2]>,
 
     rename_map: FxHashMap<Id, Id>,
 
