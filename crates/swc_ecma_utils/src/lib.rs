@@ -16,6 +16,7 @@ use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
 use rustc_hash::{FxHashMap, FxHashSet};
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

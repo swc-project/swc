@@ -1,5 +1,6 @@
 use std::marker::PhantomData;
 
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -233,7 +234,7 @@ impl<T> FunctionWrapper<T> {
             arg: Some(Box::new(ref_ident.apply(
                 DUMMY_SP,
                 ThisExpr { span: DUMMY_SP }.into(),
-                vec![quote_ident!("arguments").as_arg()],
+                smallvec![quote_ident!("arguments").as_arg()],
             ))),
         }
         .into();
