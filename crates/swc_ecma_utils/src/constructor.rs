@@ -1,5 +1,6 @@
 use std::{iter, mem};
 
+use smallvec::SmallVec;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
