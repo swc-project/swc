@@ -824,12 +824,18 @@ impl Generator {
                         }
                     }
 
+                    let field_ty = if let Some(ty) = to_field_ty(ty) {
+                        self.node_type_for_visitor_method(&ty)
+                    } else {
+                        quote!(#ty)
+                    };
+
                     if let Some(reconstructor) = &mut reconstruct {
                         if !self.should_skip(ty) {
                             stmts.push(parse_quote!(
                                 let #field_name = {
                                     #ast_path_guard_expr
-                                    <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
+                                    <#field_ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
                                 };
                             ));
                         }
@@ -839,7 +845,7 @@ impl Generator {
                         stmts.push(parse_quote!(
                             {
                                 #ast_path_guard_expr
-                                <#ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
+                                <#field_ty as #with_visitor_trait_name<V>>::#visit_with_name(#field_name, visitor #ast_path_arg)
                             };
                         ));
                     }
