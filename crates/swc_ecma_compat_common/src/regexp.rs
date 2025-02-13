@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::util::take::Take;
 use swc_ecma_ast::{CallExpr, Expr, Lit, Pass, Regex};
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -52,7 +53,7 @@ impl VisitMut for RegExp {
                 let Regex { exp, flags, span } = regex.take();
 
                 let exp: Expr = exp.into();
-                let mut args = vec![exp.into()];
+                let mut args = smallvec![exp.into()];
 
                 if !flags.is_empty() {
                     let flags: Expr = flags.into();
