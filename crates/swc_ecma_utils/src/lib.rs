@@ -1375,7 +1375,7 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
                 decorators: Vec::new(),
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
-                    dot3_token: DUMMY_SP,
+                    dot3_token: DUMMY_SP.lo,
                     arg: Box::new(Pat::Ident(quote_ident!("args").into())),
                     type_ann: Default::default(),
                 }),
@@ -1388,8 +1388,8 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
                 vec![CallExpr {
                     span: super_call_span,
                     callee: Callee::Super(Super { span: DUMMY_SP }),
-                    args: vec![ExprOrSpread {
-                        spread: Some(DUMMY_SP),
+                    args: smallvec![ExprOrSpread {
+                        spread: Some(DUMMY_SP.lo),
                         expr: Box::new(Expr::Ident(quote_ident!("args").into())),
                     }],
                     ..Default::default()

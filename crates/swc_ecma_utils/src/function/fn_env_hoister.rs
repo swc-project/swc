@@ -529,7 +529,7 @@ impl VisitMut for FnEnvHoister {
                     *e = if self.in_pat {
                         Expr::from(CallExpr {
                             span: *span,
-                            args: vec![c.expr.take().as_arg()],
+                            args: smallvec![c.expr.take().as_arg()],
                             callee: self.super_update_computed(*span).as_callee(),
                             ..Default::default()
                         })
@@ -538,7 +538,7 @@ impl VisitMut for FnEnvHoister {
                     } else {
                         CallExpr {
                             span: *span,
-                            args: vec![c.expr.take().as_arg()],
+                            args: smallvec![c.expr.take().as_arg()],
                             callee: self.super_get_computed(*span).as_callee(),
                             ..Default::default()
                         }
@@ -628,7 +628,7 @@ impl VisitMut for InitThis<'_> {
                 span,
                 expr: SeqExpr {
                     span,
-                    exprs: vec![
+                    exprs: smallvec![
                         Box::new(Expr::Call(call_expr.take())),
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -691,7 +691,7 @@ fn extend_super(
                                         .expect("setter not found")
                                         .without_loc(),
                                 )
-                                .as_call(DUMMY_SP, vec![value.as_arg()])
+                                .as_call(DUMMY_SP, smallvec![value.as_arg()])
                                 .into_stmt()],
                                 ..Default::default()
                             }),
@@ -733,7 +733,7 @@ fn extend_super(
                                                 .expect("getter computed not found")
                                                 .without_loc(),
                                         )
-                                        .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
+                                        .as_call(DUMMY_SP, smallvec![prop.clone().as_arg()])
                                         .into_return_stmt()
                                         .into()],
                                         ..Default::default()
@@ -751,7 +751,7 @@ fn extend_super(
                                                 .expect("setter computed not found")
                                                 .without_loc(),
                                         )
-                                        .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
+                                        .as_call(DUMMY_SP, smallvec![prop.as_arg(), value.as_arg()])
                                         .into_return_stmt()
                                         .into()],
                                         ..Default::default()
