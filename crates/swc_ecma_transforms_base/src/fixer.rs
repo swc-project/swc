@@ -2,6 +2,7 @@ use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
+use smallvec::SmallVec;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -863,14 +864,14 @@ impl Fixer<'_> {
                                 ignore_return_value(e.take(), &mut has_padding_value)
                             }
                         })
-                        .collect::<Vec<_>>();
+                        .collect::<SmallVec<[Box<Expr>; 2]>>();
                     if exprs.len() == 1 {
                         *e = *exprs.pop().unwrap();
                         return;
                     }
                     ignore_padding_value(exprs)
                 } else {
-                    let mut buf = Vec::with_capacity(len);
+                    let mut buf = SmallVec::<[Box<Expr>; 2]>::with_capacity(len);
                     for (i, expr) in exprs.iter_mut().enumerate() {
                         let is_last = i + 1 == exprs_len;
 
@@ -1110,7 +1111,7 @@ fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<
         }
         Expr::Seq(SeqExpr { span, exprs }) => {
             let len = exprs.len();
-            let mut exprs: Vec<_> = exprs
+            let mut exprs: SmallVec<[Box<Expr>; 2]> = exprs
                 .into_iter()
                 .enumerate()
                 .filter_map(|(i, expr)| {

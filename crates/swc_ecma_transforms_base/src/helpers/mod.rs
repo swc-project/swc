@@ -2,6 +2,7 @@ use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -475,7 +476,7 @@ impl InjectHelpers {
                 ..Default::default()
             })
             .as_callee(),
-            args: vec![Str {
+            args: smallvec![Str {
                 span: DUMMY_SP,
                 value: format!("@swc/helpers/_/_{}", name).into(),
                 raw: None,
