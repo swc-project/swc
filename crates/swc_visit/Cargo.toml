@@ -11,8 +11,9 @@ version     = "2.0.0"
 bench = false
 
 [features]
-path = []
-
+path     = []
+smallvec = ["dep:smallvec"]
 [dependencies]
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
+smallvec              = { workspace = true, optional = true }
