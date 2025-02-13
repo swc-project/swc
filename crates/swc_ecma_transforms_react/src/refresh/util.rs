@@ -64,7 +64,7 @@ pub fn make_call_expr(handle: Ident) -> Expr {
     CallExpr {
         span: DUMMY_SP,
         callee: handle.as_callee(),
-        args: Vec::new(),
+        args: Default::default(),
         ..Default::default()
     }
     .into()

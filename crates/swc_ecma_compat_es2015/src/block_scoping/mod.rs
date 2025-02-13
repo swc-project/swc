@@ -63,7 +63,7 @@ impl ScopeKind {
     fn new_loop() -> Self {
         ScopeKind::Loop {
             lexical_var: Vec::new(),
-            args: Vec::new(),
+            args: Default::default(),
             used: Vec::new(),
             mutated: Default::default(),
         }

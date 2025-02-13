@@ -446,7 +446,7 @@ impl DecoratorPass {
             let call_stmt = CallExpr {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
-                args: Vec::new(),
+                args: Default::default(),
                 ..Default::default()
             }
             .into_stmt();
@@ -544,7 +544,7 @@ impl DecoratorPass {
                                                 ..Default::default()
                                             }
                                             .as_callee(),
-                                            args: Vec::new(),
+                                            args: Default::default(),
                                             ..Default::default()
                                         })),
                                         value.take(),
@@ -666,7 +666,7 @@ impl DecoratorPass {
                             ..Default::default()
                         }
                         .as_callee(),
-                        args: Vec::new(),
+                        args: Default::default(),
                         ..Default::default()
                     }
                     .into()
@@ -675,7 +675,7 @@ impl DecoratorPass {
                 let init_class_call = CallExpr {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
-                    args: Vec::new(),
+                    args: Default::default(),
                     ..Default::default()
                 }
                 .into();
@@ -728,7 +728,7 @@ impl DecoratorPass {
                 stmts: vec![CallExpr {
                     span: DUMMY_SP,
                     callee: init_class.as_callee(),
-                    args: Vec::new(),
+                    args: Default::default(),
                     ..Default::default()
                 }
                 .into_stmt()],

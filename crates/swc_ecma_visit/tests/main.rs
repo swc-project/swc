@@ -13,7 +13,7 @@ fn traverse_lookup() {
             }
             .into(),
         ),
-        args: Vec::new(),
+        args: Default::default(),
         ..Default::default()
     });
 

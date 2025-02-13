@@ -497,7 +497,7 @@ impl VisitMut for FnEnvHoister {
                                 let callee = self.super_get(&id.sym, super_prop.span);
                                 let call: Expr = CallExpr {
                                     span: *span,
-                                    args: Vec::new(),
+                                    args: Default::default(),
                                     callee: callee.as_callee(),
                                     ..Default::default()
                                 }
@@ -552,7 +552,7 @@ impl VisitMut for FnEnvHoister {
                     } else {
                         CallExpr {
                             span: *span,
-                            args: Vec::new(),
+                            args: Default::default(),
                             callee: self.super_get(&id.sym, *span).as_callee(),
                             ..Default::default()
                         }

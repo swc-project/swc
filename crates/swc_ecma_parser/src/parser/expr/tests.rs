@@ -98,7 +98,7 @@ fn async_call() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(expr("async")),
-            args: Vec::new(),
+            args: Default::default(),
             ..Default::default()
         }))
     );
@@ -201,7 +201,7 @@ fn lhs_expr_as_call() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(lhs("new Date.toString()")),
-            args: Vec::new(),
+            args: Default::default(),
             ..Default::default()
         }))
     )
@@ -342,7 +342,7 @@ fn iife() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(expr("(function(){})")),
-            args: Vec::new(),
+            args: Default::default(),
             ..Default::default()
         }))
     )

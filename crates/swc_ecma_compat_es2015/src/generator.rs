@@ -2353,7 +2353,7 @@ impl Generator {
                     .clone()
                     .make_member(quote_ident!("sent"))
                     .as_callee(),
-                args: Vec::new(),
+                args: Default::default(),
                 ..Default::default()
             }
             .into(),
@@ -2719,7 +2719,7 @@ impl Generator {
                 .clone()
                 .make_member(quote_ident!("sent"))
                 .as_callee(),
-            args: Vec::new(),
+            args: Default::default(),
             ..Default::default()
         }
         .into()

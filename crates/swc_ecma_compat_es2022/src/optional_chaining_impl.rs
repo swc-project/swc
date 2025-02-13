@@ -131,7 +131,7 @@ impl VisitMut for OptionalChaining {
                     ..Default::default()
                 }
                 .as_callee(),
-                args: Vec::new(),
+                args: Default::default(),
                 ..Default::default()
             }
             .into();

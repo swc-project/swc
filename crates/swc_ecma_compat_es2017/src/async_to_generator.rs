@@ -205,7 +205,7 @@ impl VisitMut for Actual {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: expr.as_callee(),
-                                    args: Vec::new(),
+                                    args: Default::default(),
                                     ..Default::default()
                                 }
                                 .into(),
@@ -365,7 +365,7 @@ impl VisitMut for Actual {
             CallExpr {
                 span: DUMMY_SP,
                 callee: fn_ref.as_callee(),
-                args: Vec::new(),
+                args: Default::default(),
                 ..Default::default()
             }
             .into()
@@ -902,7 +902,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .clone()
                 .make_member(quote_ident!("return"))
                 .as_callee(),
-            args: Vec::new(),
+            args: Default::default(),
             ..Default::default()
         }
         .into();

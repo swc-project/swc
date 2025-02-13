@@ -370,7 +370,7 @@ impl VisitMut for TemplateLiteral {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
-                            args: Vec::new(),
+                            args: Default::default(),
                             ..Default::default()
                         }
                         .as_arg(),
