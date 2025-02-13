@@ -203,6 +203,10 @@ fn all_field_types(node_types: &[&Item]) -> HashSet<FieldType> {
 }
 
 fn to_field_ty(ty: &Type) -> Option<FieldType> {
+    if let Some((ty, len)) = extract_smallvec(ty) {
+        return to_field_ty(ty).map(|ty| FieldType::SmallVec("SmallVec".into(), Box::new(ty), len));
+    }
+
     if let Some(ty) = extract_vec(ty) {
         return to_field_ty(ty).map(|ty| FieldType::Generic("Vec".into(), Box::new(ty)));
     }
