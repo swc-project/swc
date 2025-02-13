@@ -1281,6 +1281,11 @@ impl Generator {
 
                     quote!([#inner_ty])
                 }
+                FieldType::SmallVec(_, inner, _) => {
+                    let inner_ty = quote!(#inner);
+
+                    quote!([#inner_ty])
+                }
 
                 _ => quote!(#node_type),
             },
