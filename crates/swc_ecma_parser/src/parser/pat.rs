@@ -962,7 +962,7 @@ mod tests {
         Some(
             RestPat {
                 span,
-                dot3_token: span,
+                dot3_token: span.lo,
                 type_ann: None,
                 arg: ident("tail").into(),
             }
@@ -1129,7 +1129,7 @@ mod tests {
                     None,
                     Some(Pat::Rest(RestPat {
                         span,
-                        dot3_token: span,
+                        dot3_token: span.lo,
                         type_ann: None,
                         arg: Box::new(Pat::Array(ArrayPat {
                             span,
@@ -1154,7 +1154,7 @@ mod tests {
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
-                    dot3_token: span,
+                    dot3_token: span.lo,
                     type_ann: None,
                     arg: Box::new(Pat::Ident(ident("obj").into()))
                 })]

@@ -1,5 +1,6 @@
 use std::hint::black_box;
 
+use smallvec::smallvec;
 use swc_common::{FileName, SourceMap, DUMMY_SP as span};
 use swc_ecma_visit::assert_eq_ignore_span;
 
@@ -245,7 +246,7 @@ fn arrow_fn_rest() {
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 span,
-                dot3_token: span,
+                dot3_token: span.lo,
                 arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
                 type_ann: None
             })],
@@ -300,7 +301,7 @@ fn array_lit() {
         expr("[a,,,,, ...d,, e]"),
         Box::new(Expr::Array(ArrayLit {
             span,
-            elems: vec![
+            elems: smallvec![
                 Some(ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Ident(Ident::new_no_ctxt("a".into(), span))),
@@ -310,7 +311,7 @@ fn array_lit() {
                 None,
                 None,
                 Some(ExprOrSpread {
-                    spread: Some(span),
+                    spread: Some(span.lo),
                     expr: Box::new(Expr::Ident(Ident::new_no_ctxt("d".into(), span))),
                 }),
                 None,
