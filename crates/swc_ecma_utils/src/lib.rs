@@ -1698,7 +1698,7 @@ impl ExprCtx {
             Expr::New(e) => {
                 // Known constructors
                 if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == "Date" && e.args.is_empty() {
+                    if *sym == "Date" && e.args.as_deref().map_or(true, |args| args.is_empty()) {
                         return;
                     }
                 }
