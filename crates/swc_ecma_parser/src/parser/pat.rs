@@ -935,6 +935,7 @@ impl<I: Tokens> Parser<I> {
 
 #[cfg(test)]
 mod tests {
+    use smallvec::smallvec;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;
 
