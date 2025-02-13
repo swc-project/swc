@@ -1252,8 +1252,8 @@ mod tests {
                                 "under",
                                 Expr::Array(ArrayLit {
                                     span,
-                                    elems: vec![Some(ExprOrSpread {
-                                        spread: Some(span),
+                                    elems: smallvec![Some(ExprOrSpread {
+                                        spread: Some(span.lo),
                                         expr: Box::new(Expr::Ident(ident("tail")))
                                     })]
                                 })

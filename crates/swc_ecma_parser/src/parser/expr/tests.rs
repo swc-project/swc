@@ -356,7 +356,7 @@ fn issue_319_1() {
         Box::new(Expr::Call(CallExpr {
             span,
             callee: Callee::Expr(expr("obj")),
-            args: vec![ExprOrSpread {
+            args: smallvec![ExprOrSpread {
                 spread: None,
                 expr: expr("({ async f() { await g(); } })"),
             }],
@@ -379,7 +379,7 @@ fn issue_328() {
                     span,
                     phase: Default::default()
                 }),
-                args: vec![ExprOrSpread {
+                args: smallvec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
