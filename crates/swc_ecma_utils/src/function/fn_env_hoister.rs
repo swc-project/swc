@@ -483,7 +483,7 @@ impl VisitMut for FnEnvHoister {
                                 let callee = self.super_get_computed(super_prop.span);
                                 let call: Expr = CallExpr {
                                     span: *span,
-                                    args: vec![c.expr.take().as_arg()],
+                                    args: smallvec![c.expr.take().as_arg()],
                                     callee: callee.as_callee(),
                                     ..Default::default()
                                 }
