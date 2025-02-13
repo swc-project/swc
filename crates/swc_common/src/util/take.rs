@@ -49,10 +49,7 @@ impl<T> Take for Vec<T> {
     }
 }
 
-impl<const N: usize, T> Take for smallvec::SmallVec<[T; N]>
-where
-    T: Take,
-{
+impl<const N: usize, T> Take for smallvec::SmallVec<[T; N]> {
     fn dummy() -> Self {
         smallvec::SmallVec::default()
     }
