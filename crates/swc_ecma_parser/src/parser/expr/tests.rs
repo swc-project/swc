@@ -132,7 +132,7 @@ fn object_rest_pat() {
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
-                    dot3_token: span,
+                    dot3_token: span.lo,
                     arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
                     type_ann: None,
                 })],
@@ -160,7 +160,7 @@ fn object_spread() {
                 props: vec![
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("a".into(), span).into())),
                     PropOrSpread::Spread(SpreadElement {
-                        dot3_token: span,
+                        dot3_token: span.lo,
                         expr: Box::new(Expr::Ident(Ident::new_no_ctxt("bar".into(), span))),
                     }),
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
@@ -188,7 +188,7 @@ fn lhs_expr_as_new_expr_prod() {
         Box::new(Expr::New(NewExpr {
             span,
             callee: lhs("Date.toString"),
-            args: Some(Vec::new()),
+            args: Some(Default::default()),
             ..Default::default()
         }))
     );

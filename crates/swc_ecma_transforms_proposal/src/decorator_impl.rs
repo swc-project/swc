@@ -706,7 +706,7 @@ impl DecoratorPass {
             return NewExpr {
                 span: DUMMY_SP,
                 callee: ClassExpr { ident: None, class }.into(),
-                args: Some(Vec::new()),
+                args: Some(Default::default()),
                 ..Default::default()
             }
             .into_stmt();
