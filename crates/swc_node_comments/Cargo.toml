@@ -19,4 +19,4 @@ dashmap    = { workspace = true }
 rustc-hash = { workspace = true }
 
 swc_atoms  = { version = "3.1.0", path = "../swc_atoms" }
-swc_common = { version = "6.1.0", path = "../swc_common" }
+swc_common = { version = "6.1.1", path = "../swc_common" }

@@ -64,7 +64,7 @@ virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
-swc_common = { version = "6.1.0", path = "../swc_common", features = [
+swc_common = { version = "6.1.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "6.0.0", path = "../swc_css_ast", optional = true }
@@ -88,7 +88,7 @@ swc_ecma_ast = { version = "6.1.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "6.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "8.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "8.0.2", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "6.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "6.0.0", path = "../testing" }

@@ -22,7 +22,7 @@ ryu-js     = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
 swc_atoms                 = { version = "3.1.0", path = "../swc_atoms" }
-swc_common                = { version = "6.1.0", path = "../swc_common" }
+swc_common                = { version = "6.1.1", path = "../swc_common" }
 swc_ecma_ast              = { version = "6.1.0", path = "../swc_ecma_ast" }
 swc_ecma_transforms_base  = { version = "9.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "9.0.1", path = "../swc_ecma_transforms_react" }
@@ -33,8 +33,8 @@ swc_ecma_visit            = { version = "6.0.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_ecma_codegen             = { version = "6.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser              = { version = "8.0.1", path = "../swc_ecma_parser" }
+swc_ecma_codegen             = { version = "6.1.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser              = { version = "8.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat   = { version = "10.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "9.0.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing  = { version = "9.0.0", path = "../swc_ecma_transforms_testing" }

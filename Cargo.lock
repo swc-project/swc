@@ -4686,7 +4686,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "6.1.0"
+version = "6.1.1"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -4772,7 +4772,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "13.2.0"
+version = "13.3.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5043,7 +5043,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "6.0.2"
+version = "6.1.0"
 dependencies = [
  "ascii",
  "base64 0.21.7",
@@ -5337,7 +5337,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "10.2.0"
+version = "10.2.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5382,7 +5382,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "8.0.1"
+version = "8.0.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5891,7 +5891,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "9.0.0"
+version = "9.0.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

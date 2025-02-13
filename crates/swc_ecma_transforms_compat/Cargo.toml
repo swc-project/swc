@@ -30,7 +30,7 @@ smallvec   = { workspace = true }
 tracing    = { workspace = true }
 
 swc_atoms                   = { version = "3.1.0", path = "../swc_atoms" }
-swc_common                  = { version = "6.1.0", path = "../swc_common" }
+swc_common                  = { version = "6.1.1", path = "../swc_common" }
 swc_config                  = { version = "2.0.0", path = "../swc_config" }
 swc_ecma_ast                = { version = "6.1.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_bugfixes    = { version = "9.0.0", path = "../swc_ecma_compat_bugfixes" }
@@ -54,6 +54,6 @@ swc_trace_macro             = { version = "2.0.0", path = "../swc_trace_macro" }
 [dev-dependencies]
 serde_json = { workspace = true }
 
-swc_ecma_parser             = { version = "8.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "8.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "9.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "6.0.0", path = "../testing" }

@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_common"
 repository    = { workspace = true }
-version       = "6.1.0"
+version       = "6.1.1"
 
   [package.metadata.docs.rs]
   all-features = true
