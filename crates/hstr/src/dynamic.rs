@@ -15,9 +15,14 @@ use crate::{
 };
 
 /// TODO: Remove `Hash` impl
-#[derive(Hash)]
 pub(crate) struct Metadata {
     pub hash: u64,
+}
+
+impl Hash for Metadata {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        state.write_u64(self.hash);
+    }
 }
 
 pub(crate) type Item = ThinArc<HeaderWithLength<Metadata>, u8>;
