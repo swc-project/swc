@@ -1,26 +1,33 @@
 use std::{
     borrow::Cow,
-    fmt::Debug,
+    ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
+    ops::Deref,
     ptr::NonNull,
-    sync::{Arc, Weak},
 };
 
 use rustc_hash::FxHasher;
-use triomphe::{HeaderSlice, HeaderWithLength};
+use triomphe::{HeaderWithLength, ThinArc};
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
     Atom, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
+/// TODO: Remove `Hash` impl
+#[derive(Hash)]
 struct Metadata {
     hash: u64,
 }
 
-type Entry = HeaderSlice<HeaderWithLength<Metadata>, [u8]>;
+pub(crate) type Item = ThinArc<HeaderWithLength<Metadata>, u8>;
 
-pub(crate) unsafe fn cast(ptr: TaggedValue) -> *const Entry {
+/// TODO: Use real weak pointer
+type WeakItem = Item;
+
+pub(crate) type Entry = <Item as Deref>::Target;
+
+pub(crate) unsafe fn cast(ptr: TaggedValue) -> *const Item {
     ptr.get_ptr().cast()
 }
 
@@ -28,9 +35,9 @@ pub(crate) unsafe fn deref_from<'i>(ptr: TaggedValue) -> &'i Entry {
     &*cast(ptr)
 }
 
-pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Arc<Entry> {
-    let ptr = v.get_ptr() as *const Entry;
-    Arc::from_raw(ptr)
+pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
+    let ptr = v.get_ptr() as *const c_void;
+    ThinArc::from_raw(ptr)
 }
 
 /// A store that stores [Atom]s. Can be merged with other [AtomStore]s for
@@ -38,9 +45,8 @@ pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Arc<Entry> {
 ///
 ///
 /// # Merging [AtomStore]
-#[derive(Debug)]
 pub struct AtomStore {
-    pub(crate) data: hashbrown::HashMap<Weak<Entry>, (), BuildEntryHasher>,
+    pub(crate) data: hashbrown::HashMap<WeakItem, (), BuildEntryHasher>,
 }
 
 impl Default for AtomStore {
@@ -78,9 +84,9 @@ where
 
     let hash = calc_hash(&text);
     let entry = storage.insert_entry(text, hash);
-    let entry = Arc::into_raw(entry) as *mut Entry;
+    let entry = ThinArc::into_raw(entry) as *mut c_void;
 
-    let ptr: NonNull<Entry> = unsafe {
+    let ptr: NonNull<c_void> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
         NonNull::new_unchecked(entry)
     };
@@ -91,22 +97,24 @@ where
 }
 
 pub(crate) trait Storage {
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry>;
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry> {
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
         let (entry, _) = self
             .data
             .raw_entry_mut()
-            .from_hash(hash, |key| key.hash == hash && *key.string == *text)
+            .from_hash(hash, |key| {
+                key.header.header.header.hash == hash && key.slice == *text.as_bytes()
+            })
             .or_insert_with(move || {
                 (
-                    Arc::new(Entry {
-                        string: text.into_owned().into_boxed_str(),
-                        hash,
-                    }),
+                    ThinArc::from_header_and_slice(
+                        HeaderWithLength::new(Metadata { hash }, text.len()),
+                        text.as_bytes(),
+                    ),
                     (),
                 )
             });

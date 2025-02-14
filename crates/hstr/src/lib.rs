@@ -11,10 +11,9 @@ use std::{
 
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
-use tagged_value::TaggedValue;
 
 pub use crate::dynamic::AtomStore;
-use crate::dynamic::Entry;
+use crate::{dynamic::Entry, tagged_value::TaggedValue};
 
 mod dynamic;
 mod global_store;
