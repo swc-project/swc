@@ -55,3 +55,12 @@ fn store_multiple() {
     assert_eq!(a1.get_hash(), a2.get_hash(), "Same string should be equal");
     assert_eq!(a1, a2, "Same string should be equal");
 }
+
+#[test]
+fn store_ref_count() {
+    let (store, atoms) = store_with_atoms(vec!["Hello, world!!!!"]);
+
+    assert_eq!(atoms[0].ref_count(), 2);
+    drop(store);
+    assert_eq!(atoms[0].ref_count(), 1);
+}

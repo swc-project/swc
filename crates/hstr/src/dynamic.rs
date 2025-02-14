@@ -20,7 +20,7 @@ pub(crate) struct Metadata {
 }
 
 #[derive(Clone)]
-pub(crate) struct Item(ThinArc<HeaderWithLength<Metadata>, u8>);
+pub(crate) struct Item(pub ThinArc<HeaderWithLength<Metadata>, u8>);
 
 impl Deref for Item {
     type Target = <ThinArc<HeaderWithLength<Metadata>, u8> as Deref>::Target;
