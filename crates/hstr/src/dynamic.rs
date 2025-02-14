@@ -14,21 +14,29 @@ use crate::{
     Atom, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
-/// TODO: Remove `Hash` impl
 pub(crate) struct Metadata {
     pub hash: u64,
 }
 
-impl Hash for Metadata {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        state.write_u64(self.hash);
+#[derive(Clone)]
+pub(crate) struct Item(ThinArc<HeaderWithLength<Metadata>, u8>);
+
+impl Deref for Item {
+    type Target = <ThinArc<HeaderWithLength<Metadata>, u8> as Deref>::Target;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
-pub(crate) type Item = ThinArc<HeaderWithLength<Metadata>, u8>;
-
 /// TODO: Use real weak pointer
 type WeakItem = Item;
+
+impl Hash for Item {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        state.write_u64(self.0.header.header.header.hash);
+    }
+}
 
 pub(crate) type Entry = <Item as Deref>::Target;
 
@@ -42,7 +50,7 @@ pub(crate) unsafe fn deref_from<'i>(ptr: TaggedValue) -> &'i Entry {
 
 pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
     let ptr = v.get_ptr();
-    ThinArc::from_raw(ptr)
+    Item(ThinArc::from_raw(ptr))
 }
 
 /// A store that stores [Atom]s. Can be merged with other [AtomStore]s for
@@ -89,7 +97,7 @@ where
 
     let hash = calc_hash(&text);
     let entry = storage.insert_entry(text, hash);
-    let entry = ThinArc::into_raw(entry) as *mut c_void;
+    let entry = ThinArc::into_raw(entry.0) as *mut c_void;
 
     let ptr: NonNull<c_void> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
@@ -116,10 +124,10 @@ impl Storage for &'_ mut AtomStore {
             })
             .or_insert_with(move || {
                 (
-                    ThinArc::from_header_and_slice(
+                    Item(ThinArc::from_header_and_slice(
                         HeaderWithLength::new(Metadata { hash }, text.len()),
                         text.as_bytes(),
-                    ),
+                    )),
                     (),
                 )
             });
