@@ -1,6 +1,5 @@
 use std::{
     borrow::Cow,
-    ffi::c_void,
     fmt::Debug,
     hash::{BuildHasherDefault, Hash, Hasher},
     ptr::NonNull,
