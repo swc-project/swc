@@ -30,9 +30,6 @@ impl Deref for Item {
     }
 }
 
-/// TODO: Use real weak pointer
-type WeakItem = Item;
-
 impl Hash for Item {
     fn hash<H: Hasher>(&self, state: &mut H) {
         state.write_u64(self.0.header.header.header.hash);
@@ -56,7 +53,7 @@ pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
 ///
 /// # Merging [AtomStore]
 pub struct AtomStore {
-    pub(crate) data: hashbrown::HashMap<WeakItem, (), BuildEntryHasher>,
+    pub(crate) data: hashbrown::HashMap<Item, (), BuildEntryHasher>,
 }
 
 impl Default for AtomStore {
