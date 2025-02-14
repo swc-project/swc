@@ -7,11 +7,18 @@ use std::{
 };
 
 use rustc_hash::FxHasher;
+use triomphe::ThinArc;
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
     Atom, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
+
+struct Metadata {
+    hash: u64,
+}
+
+type Item = ThinArc<Metadata, u8>;
 
 #[derive(Debug)]
 pub(crate) struct Entry {
