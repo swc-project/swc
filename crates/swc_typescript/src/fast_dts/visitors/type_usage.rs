@@ -267,9 +267,12 @@ impl Visit for TypeUsageAnalyzer<'_> {
             ClassMember::TsIndexSignature(_) => false,
             ClassMember::Empty(_) => false,
             ClassMember::StaticBlock(_) => false,
-            ClassMember::AutoAccessor(auto_accessor) => auto_accessor
-                .accessibility
-                .is_some_and(|accessibility| accessibility == Accessibility::Private),
+            ClassMember::AutoAccessor(auto_accessor) => {
+                auto_accessor
+                    .accessibility
+                    .is_some_and(|accessibility| accessibility == Accessibility::Private)
+                    || auto_accessor.key.is_private()
+            }
         };
 
         if is_private {

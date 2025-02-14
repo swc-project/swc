@@ -15,5 +15,6 @@ export class B {
 
 export class C {
     #p1: typeof A_SYMBOL;
+    accessor #myProperty: typeof A_SYMBOL;
     #f(a: typeof A_SYMBOL) {}
 }

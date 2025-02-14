@@ -3,7 +3,7 @@
 export declare class A {
     private p1;
     private constructor();
-    private accessor myProperty: typeof A_SYMBOL;
+    private accessor myProperty;
     private func1;
 }
 export declare class B {
