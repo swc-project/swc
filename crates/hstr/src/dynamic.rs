@@ -1,5 +1,6 @@
 use std::{
     borrow::Cow,
+    ffi::c_void,
     fmt::Debug,
     hash::{BuildHasherDefault, Hash, Hasher},
     ptr::NonNull,
@@ -18,7 +19,7 @@ struct Metadata {
     hash: u64,
 }
 
-type Item = ThinArc<Metadata, u8>;
+pub(crate) type Item = ThinArc<Metadata, u8>;
 
 #[derive(Debug)]
 pub(crate) struct Entry {
@@ -35,9 +36,9 @@ impl Entry {
         &*Self::cast(ptr)
     }
 
-    pub unsafe fn restore_arc(v: TaggedValue) -> Arc<Entry> {
-        let ptr = v.get_ptr() as *const Entry;
-        Arc::from_raw(ptr)
+    pub unsafe fn restore_arc(v: TaggedValue) -> Item {
+        let ptr = v.get_ptr() as *const Item as *const c_void;
+        Item::from_raw(ptr)
     }
 }
 
@@ -103,11 +104,11 @@ where
 
     let hash = calc_hash(&text);
     let entry = storage.insert_entry(text, hash);
-    let entry = Arc::into_raw(entry);
+    let entry = Item::into_raw(entry) as *mut c_void;
 
-    let ptr: NonNull<Entry> = unsafe {
+    let ptr: NonNull<c_void> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
-        NonNull::new_unchecked(entry as *mut Entry)
+        NonNull::new_unchecked(entry)
     };
     debug_assert!(0 == ptr.as_ptr() as u8 & TAG_MASK);
     Atom {
@@ -116,12 +117,12 @@ where
 }
 
 pub(crate) trait Storage {
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry>;
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry> {
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
         let (entry, _) = self
             .data
             .raw_entry_mut()
