@@ -277,9 +277,11 @@ impl Atom {
 impl Atom {
     pub(crate) fn ref_count(&self) -> usize {
         match self.tag() {
-            DYNAMIC_TAG => triomphe::ThinArc::strong_count(
-                &unsafe { crate::dynamic::restore_arc(self.unsafe_data) }.0,
-            ),
+            DYNAMIC_TAG => {
+                let ptr = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
+
+                triomphe::ThinArc::strong_count(&ptr.0)
+            }
             _ => 1,
         }
     }
