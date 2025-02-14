@@ -79,7 +79,7 @@ where
 
     let hash = calc_hash(&text);
     let entry = storage.insert_entry(text, hash);
-    let entry = Arc::into_raw(entry);
+    let entry = Arc::into_raw(entry) as *mut Entry;
 
     let ptr: NonNull<Entry> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
