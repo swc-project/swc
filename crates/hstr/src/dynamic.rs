@@ -3,10 +3,10 @@ use std::{
     fmt::Debug,
     hash::{BuildHasherDefault, Hash, Hasher},
     ptr::NonNull,
+    sync::{Arc, Weak},
 };
 
 use rustc_hash::FxHasher;
-use triomphe::Arc;
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
@@ -58,7 +58,7 @@ impl Hash for Entry {
 /// # Merging [AtomStore]
 #[derive(Debug)]
 pub struct AtomStore {
-    pub(crate) data: hashbrown::HashMap<Arc<Entry>, (), BuildEntryHasher>,
+    pub(crate) data: hashbrown::HashMap<Weak<Entry>, (), BuildEntryHasher>,
 }
 
 impl Default for AtomStore {
