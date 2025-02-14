@@ -18,7 +18,7 @@ struct Metadata {
     hash: u64,
 }
 
-type Entry = HeaderSlice<HeaderWithLength<Metadata>, [u8; 0]>;
+type Entry = HeaderSlice<HeaderWithLength<Metadata>, [u8]>;
 
 pub(crate) unsafe fn cast(ptr: TaggedValue) -> *const Entry {
     ptr.get_ptr().cast()
