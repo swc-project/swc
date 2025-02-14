@@ -1,54 +1,53 @@
 use std::{
     borrow::Cow,
-    fmt::Debug,
+    ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
+    mem::ManuallyDrop,
+    ops::Deref,
     ptr::NonNull,
 };
 
 use rustc_hash::FxHasher;
-use triomphe::Arc;
+use triomphe::{HeaderWithLength, ThinArc};
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
     Atom, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
-#[derive(Debug)]
-pub(crate) struct Entry {
-    pub string: Box<str>,
+pub(crate) struct Metadata {
     pub hash: u64,
 }
 
-impl Entry {
-    pub unsafe fn cast(ptr: TaggedValue) -> *const Entry {
-        ptr.get_ptr().cast()
-    }
+#[derive(Clone)]
+pub(crate) struct Item(ThinArc<HeaderWithLength<Metadata>, u8>);
 
-    pub unsafe fn deref_from<'i>(ptr: TaggedValue) -> &'i Entry {
-        &*Self::cast(ptr)
-    }
+impl Deref for Item {
+    type Target = <ThinArc<HeaderWithLength<Metadata>, u8> as Deref>::Target;
 
-    pub unsafe fn restore_arc(v: TaggedValue) -> Arc<Entry> {
-        let ptr = v.get_ptr() as *const Entry;
-        Arc::from_raw(ptr)
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
-impl PartialEq for Entry {
-    fn eq(&self, other: &Self) -> bool {
-        // Assumption: `store_id` and `alias` don't matter for equality within a single
-        // store (what we care about here). Compare hash first because that's cheaper.
-        self.hash == other.hash && self.string == other.string
-    }
-}
+/// TODO: Use real weak pointer
+type WeakItem = Item;
 
-impl Eq for Entry {}
-
-impl Hash for Entry {
+impl Hash for Item {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        // Assumption: type H is an EntryHasher
-        state.write_u64(self.hash);
+        state.write_u64(self.0.header.header.header.hash);
     }
+}
+
+pub(crate) unsafe fn deref_from(ptr: TaggedValue) -> ManuallyDrop<Item> {
+    let item = restore_arc(ptr);
+
+    ManuallyDrop::new(item)
+}
+
+pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
+    let ptr = v.get_ptr();
+    Item(ThinArc::from_raw(ptr))
 }
 
 /// A store that stores [Atom]s. Can be merged with other [AtomStore]s for
@@ -56,9 +55,8 @@ impl Hash for Entry {
 ///
 ///
 /// # Merging [AtomStore]
-#[derive(Debug)]
 pub struct AtomStore {
-    pub(crate) data: hashbrown::HashMap<Arc<Entry>, (), BuildEntryHasher>,
+    pub(crate) data: hashbrown::HashMap<WeakItem, (), BuildEntryHasher>,
 }
 
 impl Default for AtomStore {
@@ -96,11 +94,11 @@ where
 
     let hash = calc_hash(&text);
     let entry = storage.insert_entry(text, hash);
-    let entry = Arc::into_raw(entry);
+    let entry = ThinArc::into_raw(entry.0) as *mut c_void;
 
-    let ptr: NonNull<Entry> = unsafe {
+    let ptr: NonNull<c_void> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
-        NonNull::new_unchecked(entry as *mut Entry)
+        NonNull::new_unchecked(entry)
     };
     debug_assert!(0 == ptr.as_ptr() as u8 & TAG_MASK);
     Atom {
@@ -109,22 +107,24 @@ where
 }
 
 pub(crate) trait Storage {
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry>;
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Arc<Entry> {
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
         let (entry, _) = self
             .data
             .raw_entry_mut()
-            .from_hash(hash, |key| key.hash == hash && *key.string == *text)
+            .from_hash(hash, |key| {
+                key.header.header.header.hash == hash && key.slice == *text.as_bytes()
+            })
             .or_insert_with(move || {
                 (
-                    Arc::new(Entry {
-                        string: text.into_owned().into_boxed_str(),
-                        hash,
-                    }),
+                    Item(ThinArc::from_header_and_slice(
+                        HeaderWithLength::new(Metadata { hash }, text.len()),
+                        text.as_bytes(),
+                    )),
                     (),
                 )
             });
