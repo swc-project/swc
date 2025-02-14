@@ -1,19 +1,21 @@
 #![cfg_attr(feature = "atom_size_128", feature(integer_atomics))]
 //! See [Atom] for more information.
 
+use core::str;
 use std::{
     fmt::{Debug, Display},
     hash::Hash,
     mem::{self, forget},
     num::NonZeroU8,
     ops::Deref,
+    str::from_utf8_unchecked,
 };
 
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
 pub use crate::dynamic::AtomStore;
-use crate::{dynamic::Entry, tagged_value::TaggedValue};
+use crate::tagged_value::TaggedValue;
 
 mod dynamic;
 mod global_store;
@@ -232,7 +234,13 @@ impl Atom {
     #[inline(never)]
     fn get_hash(&self) -> u64 {
         match self.tag() {
-            DYNAMIC_TAG => unsafe { Entry::deref_from(self.unsafe_data) }.hash,
+            DYNAMIC_TAG => {
+                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
+                    .header
+                    .header
+                    .header
+                    .hash
+            }
             STATIC_TAG => {
                 todo!("static hash")
             }
@@ -248,7 +256,9 @@ impl Atom {
     #[inline(never)]
     fn as_str(&self) -> &str {
         match self.tag() {
-            DYNAMIC_TAG => &unsafe { Entry::deref_from(self.unsafe_data) }.string,
+            DYNAMIC_TAG => unsafe {
+                from_utf8_unchecked(&crate::dynamic::deref_from(self.unsafe_data).slice)
+            },
             STATIC_TAG => {
                 todo!("static as_str")
             }
@@ -276,14 +286,14 @@ impl PartialEq for Atom {
         }
 
         if self.is_dynamic() && other.is_dynamic() {
-            let te = unsafe { Entry::deref_from(self.unsafe_data) };
-            let oe = unsafe { Entry::deref_from(other.unsafe_data) };
+            let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
+            let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
 
-            if te.hash != oe.hash {
+            if te.header.header.header.hash != oe.header.header.header.hash {
                 return false;
             }
 
-            return te.string == oe.string;
+            return te.slice == oe.slice;
         }
 
         if self.get_hash() != other.get_hash() {
@@ -309,7 +319,7 @@ impl Drop for Atom {
     #[inline(always)]
     fn drop(&mut self) {
         if self.is_dynamic() {
-            unsafe { drop(Entry::restore_arc(self.unsafe_data)) }
+            unsafe { drop(crate::dynamic::restore_arc(self.unsafe_data)) }
         }
     }
 }
@@ -326,7 +336,7 @@ impl Atom {
     pub(crate) fn from_alias(alias: TaggedValue) -> Self {
         if alias.tag() & TAG_MASK == DYNAMIC_TAG {
             unsafe {
-                let arc = Entry::restore_arc(alias);
+                let arc = crate::dynamic::restore_arc(alias);
                 forget(arc.clone());
                 forget(arc);
             }

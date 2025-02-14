@@ -16,8 +16,8 @@ use crate::{
 
 /// TODO: Remove `Hash` impl
 #[derive(Hash)]
-struct Metadata {
-    hash: u64,
+pub(crate) struct Metadata {
+    pub hash: u64,
 }
 
 pub(crate) type Item = ThinArc<HeaderWithLength<Metadata>, u8>;
@@ -36,7 +36,7 @@ pub(crate) unsafe fn deref_from<'i>(ptr: TaggedValue) -> &'i Entry {
 }
 
 pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
-    let ptr = v.get_ptr() as *const c_void;
+    let ptr = v.get_ptr();
     ThinArc::from_raw(ptr)
 }
 
