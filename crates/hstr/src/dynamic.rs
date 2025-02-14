@@ -113,6 +113,14 @@ pub(crate) trait Storage {
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
     fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
+        // If the text is too long, interning is not worth it.
+        if text.len() > 512 {
+            return Item(ThinArc::from_header_and_slice(
+                HeaderWithLength::new(Metadata { hash }, text.len()),
+                text.as_bytes(),
+            ));
+        }
+
         let (entry, _) = self
             .data
             .raw_entry_mut()
