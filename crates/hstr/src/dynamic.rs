@@ -2,6 +2,7 @@ use std::{
     borrow::Cow,
     ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
+    mem::ManuallyDrop,
     ops::Deref,
     ptr::NonNull,
 };
@@ -38,14 +39,10 @@ impl Hash for Item {
     }
 }
 
-pub(crate) type Entry = <Item as Deref>::Target;
+pub(crate) unsafe fn deref_from(ptr: TaggedValue) -> ManuallyDrop<Item> {
+    let item = restore_arc(ptr);
 
-pub(crate) unsafe fn cast(ptr: TaggedValue) -> *const Item {
-    ptr.get_ptr().cast()
-}
-
-pub(crate) unsafe fn deref_from<'i>(ptr: TaggedValue) -> &'i Entry {
-    &*cast(ptr)
+    ManuallyDrop::new(item)
 }
 
 pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {

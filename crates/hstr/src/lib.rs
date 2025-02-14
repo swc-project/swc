@@ -5,7 +5,7 @@ use core::str;
 use std::{
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget},
+    mem::{self, forget, transmute},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -257,7 +257,8 @@ impl Atom {
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
-                from_utf8_unchecked(&crate::dynamic::deref_from(self.unsafe_data).slice)
+                let item = crate::dynamic::deref_from(self.unsafe_data);
+                from_utf8_unchecked(transmute::<&[u8], &'static [u8]>(&item.slice))
             },
             STATIC_TAG => {
                 todo!("static as_str")
