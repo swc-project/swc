@@ -64,3 +64,21 @@ fn store_ref_count() {
     drop(store);
     assert_eq!(atoms[0].ref_count(), 1);
 }
+
+#[test]
+fn store_ref_count_dynamic() {
+    let (store, atoms) = store_with_atoms(vec!["Hello, world!!!!"]);
+
+    let a1 = atoms[0].clone();
+    let a2 = atoms[0].clone();
+
+    assert_eq!(atoms[0].ref_count(), 4);
+    drop(store);
+    assert_eq!(atoms[0].ref_count(), 3);
+
+    drop(a1);
+    assert_eq!(atoms[0].ref_count(), 2);
+
+    drop(a2);
+    assert_eq!(atoms[0].ref_count(), 1);
+}
