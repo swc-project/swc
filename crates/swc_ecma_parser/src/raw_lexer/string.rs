@@ -118,9 +118,13 @@ impl RawLexer<'_> {
 
                     text.push(ch);
                 }
-                '0' => {
-                    todo!("parse legacy octal escape sequence")
-                }
+                '0' => match self.peek_byte() {
+                    Some(b'0'..=b'7') => todo!("legacy octal escape sequence in string"),
+                    Some(b'8'..=b'9') => todo!("digit immediately following \\0 escape sequence"),
+                    _ => {
+                        text.push('\u{0000}');
+                    }
+                },
                 '1'..='7' => {
                     todo!("parse octal escape sequence")
                 }

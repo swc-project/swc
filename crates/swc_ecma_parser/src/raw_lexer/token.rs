@@ -96,8 +96,7 @@ pub enum RawTokenKind {
     Identifier,
 
     /// `${`
-    // #[deny(dead_code)]
-    // DollarLBrace,
+    DollarLBrace,
 
     /// `?`
     QuestionMark,
@@ -213,6 +212,8 @@ pub enum RawTokenKind {
     /// number bigint literal
     BigIntLiteral,
 
+    /// Template Char
+    TemplateLiteral,
     // TemplateHead,
     // TemplateMiddle,
     // TemplateTail,
@@ -329,7 +330,7 @@ impl RawTokenKind {
             RawTokenKind::Colon => ":",
             RawTokenKind::HashbangComment => "#!",
             RawTokenKind::Identifier => "identifier",
-            // RawTokenKind::DollarLBrace => "${",
+            RawTokenKind::DollarLBrace => "${",
             RawTokenKind::QuestionMark => "?",
             RawTokenKind::Str => "string literal",
             RawTokenKind::Num => "number literal",
@@ -466,6 +467,7 @@ impl RawTokenKind {
             RawTokenKind::Unique => "unique",
             RawTokenKind::BigIntLiteral => "bigint literal",
             RawTokenKind::Skip => "skip",
+            RawTokenKind::TemplateLiteral => "template literal",
         }
     }
 }

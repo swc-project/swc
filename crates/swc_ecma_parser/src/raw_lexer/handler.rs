@@ -1,4 +1,6 @@
-use super::{error::RawLexResult, unicode::LF, RawLexer, RawTokenKind, RawTokenValue};
+use super::{
+    error::RawLexResult, unicode::LF, RawLexer, RawLexerContext, RawTokenKind, RawTokenValue,
+};
 use crate::{error::SyntaxError, lexer::util::CharExt};
 
 // TODO: using macro to match token
@@ -534,6 +536,9 @@ const CRT: ByteHandler = |lex| {
 const TPL: ByteHandler = |lex| {
     lex.consume_byte();
 
+    // Switch to template literal mode to parse the template string contents
+    lex.set_context(RawLexerContext::JsTemplateLiteral);
+
     Ok(RawTokenKind::BackQuote)
 };
 
@@ -820,6 +825,13 @@ const PIP: ByteHandler = |lex| {
 /// '}'
 const BEC: ByteHandler = |lex| {
     lex.consume_byte();
+
+    // If we're in a template quasi literal (${...}), switch back to template
+    // literal mode after encountering the closing brace. This allows us to
+    // continue parsing the rest of the template string.
+    if lex.context == RawLexerContext::JsTemplateQuasiLiteral {
+        lex.set_context(RawLexerContext::JsTemplateLiteral);
+    }
 
     Ok(RawTokenKind::RBrace)
 };

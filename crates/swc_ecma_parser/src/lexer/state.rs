@@ -614,6 +614,11 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::Unique => {
                     Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique)))
                 }
+                RawTokenKind::DollarLBrace => Token::DollarLBrace,
+                RawTokenKind::TemplateLiteral => Token::Template {
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                    cooked: Ok(self.raw_lexer.str_from_pos(start, end).into()),
+                },
             };
 
             Some(TokenAndSpan {

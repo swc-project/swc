@@ -196,10 +196,10 @@ impl<'source> Source<'source> {
     }
 
     /// Consumes the next character from the source and returns true if
-    fn consume_until(&mut self, f: impl Fn(u8) -> bool) -> &str {
+    fn consume_until(&mut self, f: impl Fn(char) -> bool) -> &str {
         let start = self.pos;
-        while let Some(byte) = self.next_byte() {
-            if f(byte) {
+        while let Some(ch) = self.next_char() {
+            if f(ch) {
                 break;
             }
         }
@@ -297,7 +297,7 @@ impl RawLexer<'_> {
     }
 
     /// Advances the source position by the length of the next character and
-    pub(super) fn consume_until(&mut self, f: impl Fn(u8) -> bool) -> &str {
+    pub(super) fn consume_until(&mut self, f: impl Fn(char) -> bool) -> &str {
         self.source.consume_until(f)
     }
 
@@ -341,9 +341,7 @@ impl RawLexer<'_> {
 
     pub fn consume_single_line(&mut self) -> &str {
         self.token.is_on_new_line = true;
-        let line = self.consume_until(|byte| {
-            byte == LF as u8 || byte == CR as u8 || byte == LS as u8 || byte == PS as u8
-        });
+        let line = self.consume_until(|ch| matches!(ch, LF | CR | LS | PS));
         line
     }
 }

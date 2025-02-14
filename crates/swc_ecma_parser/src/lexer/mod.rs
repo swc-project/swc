@@ -150,7 +150,7 @@ impl<'a> Lexer<'a> {
         let start_pos = input.last_pos();
 
         Lexer {
-            raw_lexer: RawLexer::new(input.as_str()),
+            raw_lexer: RawLexer::new(input.as_str(), syntax),
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
