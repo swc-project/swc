@@ -67,13 +67,13 @@ impl Default for AtomStore {
 impl AtomStore {
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
-        new_atom(self, text.into())
+        atom_in_store(self, text.into())
     }
 }
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
 /// module.
-pub(crate) fn new_atom<S>(storage: S, text: Cow<str>) -> Atom
+fn atom_in_store<S>(storage: S, text: Cow<str>) -> Atom
 where
     S: Storage,
 {
@@ -110,12 +110,18 @@ pub(crate) trait Storage {
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
     fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
+        macro_rules! make {
+            () => {{
+                Item(ThinArc::from_header_and_slice(
+                    HeaderWithLength::new(Metadata { hash }, text.len()),
+                    text.as_bytes(),
+                ))
+            }};
+        }
+
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
-            return Item(ThinArc::from_header_and_slice(
-                HeaderWithLength::new(Metadata { hash }, text.len()),
-                text.as_bytes(),
-            ));
+            return make!();
         }
 
         let (entry, _) = self
@@ -124,15 +130,7 @@ impl Storage for &'_ mut AtomStore {
             .from_hash(hash, |key| {
                 key.header.header.header.hash == hash && key.slice == *text.as_bytes()
             })
-            .or_insert_with(move || {
-                (
-                    Item(ThinArc::from_header_and_slice(
-                        HeaderWithLength::new(Metadata { hash }, text.len()),
-                        text.as_bytes(),
-                    )),
-                    (),
-                )
-            });
+            .or_insert_with(move || (make!(), ()));
         entry.clone()
     }
 }
@@ -144,7 +142,24 @@ fn calc_hash(text: &str) -> u64 {
     hasher.finish()
 }
 
-type BuildEntryHasher = BuildHasherDefault<EntryHasher>;
+/// Do not intern.
+struct GlobalAtomStore;
+
+impl Storage for GlobalAtomStore {
+    #[inline(never)]
+    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
+        Item(ThinArc::from_header_and_slice(
+            HeaderWithLength::new(Metadata { hash }, text.len()),
+            text.as_bytes(),
+        ))
+    }
+}
+
+pub(crate) fn global_atom(text: Cow<str>) -> Atom {
+    atom_in_store(GlobalAtomStore, text)
+}
+
+pub(crate) type BuildEntryHasher = BuildHasherDefault<EntryHasher>;
 
 /// A "no-op" hasher for [Entry] that returns [Entry::hash]. The design is
 /// inspired by the `nohash-hasher` crate.
