@@ -229,6 +229,18 @@ impl FastDts {
                         continue;
                     }
 
+                    if auto_accessor
+                        .accessibility
+                        .is_some_and(|accessibility| accessibility == Accessibility::Private)
+                    {
+                        auto_accessor.decorators.clear();
+                        auto_accessor.definite = false;
+                        auto_accessor.type_ann = None;
+                        auto_accessor.accessibility =
+                            self.transform_accessibility(auto_accessor.accessibility);
+                    }
+
+                    auto_accessor.is_override = false;
                     auto_accessor.value = None;
                     class.body.push(member);
                 }
