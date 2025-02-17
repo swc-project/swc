@@ -1,5 +1,6 @@
 use std::mem;
 
+use smallvec::SmallVec;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -175,7 +176,7 @@ impl VisitMut for FieldsHandler {
     }
 
     fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
-        let mut constructor_inits = Vec::new();
+        let mut constructor_inits = SmallVec::new();
 
         for member in n.iter_mut() {
             match member {
