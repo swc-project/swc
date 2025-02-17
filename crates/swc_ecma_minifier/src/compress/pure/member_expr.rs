@@ -1,4 +1,5 @@
 use phf::phf_set;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, JsWord};
 use swc_common::Spanned;
 use swc_ecma_ast::{
@@ -374,7 +375,7 @@ impl Pure<'_> {
                         // Replacement is certain at this point, and is always undefined
 
                         // Extract side effects
-                        let mut exprs = Vec::new();
+                        let mut exprs = SmallVec::new();
                         elems.drain(..).flatten().for_each(|elem| {
                             self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
                         });
@@ -384,7 +385,7 @@ impl Pure<'_> {
                             // (0, void 0)
                             SeqExpr {
                                 span: *span,
-                                exprs: vec![0.into(), Expr::undefined(*span)]
+                                exprs: smallvec![0.into(), Expr::undefined(*span)]
                             }.into()
                         } else {
                             // Side effects exist, replacement is:
@@ -423,7 +424,7 @@ impl Pure<'_> {
                         }
 
                         // Extract side effects
-                        let mut exprs = Vec::new();
+                        let mut exprs = SmallVec::new();
                         elems.drain(..).flatten().for_each(|elem| {
                             self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
                         });
@@ -453,7 +454,7 @@ impl Pure<'_> {
                                 // (0, void 0)
                                 SeqExpr {
                                     span: val.span(),
-                                    exprs: vec![0.into(), val]
+                                    exprs: smallvec![0.into(), val]
                                 }.into()
                             } else {
                                 // Side effects exist, replacement is:
