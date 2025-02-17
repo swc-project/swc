@@ -1,6 +1,6 @@
 use std::iter;
 
-use smallvec::smallvec;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -449,11 +449,11 @@ impl SuperFieldAccessFolder<'_> {
 
             proto_arg = SeqExpr {
                 span: DUMMY_SP,
-                exprs: vec![
+                exprs: smallvec![
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(assert_this_initialized),
-                        args: vec![this.as_arg()],
+                        args: smallvec![this.as_arg()],
                         ..Default::default()
                     })
                     .into(),
