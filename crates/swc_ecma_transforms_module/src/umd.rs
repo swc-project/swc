@@ -1,5 +1,5 @@
 use anyhow::Context;
-use smallvec::smallvec;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{
     source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext,
@@ -157,7 +157,7 @@ impl VisitMut for Umd {
         *module_items = vec![adapter_fn_expr
             .as_call(
                 DUMMY_SP,
-                vec![
+                smallvec![
                     ThisExpr { span: DUMMY_SP }.as_arg(),
                     factory_fn_expr.as_arg(),
                 ],
@@ -229,10 +229,10 @@ impl Umd {
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        .as_call(PURE_SP, smallvec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard)
-                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(PURE_SP, smallvec![import_expr.as_arg(), true.as_arg()])
                         }
                         _ => import_expr,
                     }
@@ -357,7 +357,7 @@ impl Umd {
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
         let mut cjs_args = Vec::new();
-        let mut amd_dep_list = Vec::new();
+        let mut amd_dep_list = SmallVec::new();
         let mut browser_args = Vec::new();
 
         let mut factory_params = Vec::new();
@@ -397,7 +397,7 @@ impl Umd {
                         .clone()
                         .as_call(
                             DUMMY_SP,
-                            vec![quote_str!(src_span.0, src_path.clone()).as_arg()],
+                            smallvec![quote_str!(src_span.0, src_path.clone()).as_arg()],
                         )
                         .as_arg(),
                 );
@@ -426,7 +426,7 @@ impl Umd {
         let amd_if_test = js_typeof!(define.clone() => "function").make_bin(op!("&&"), define_amd);
         let amd_if_body = define.as_call(
             DUMMY_SP,
-            vec![
+            smallvec![
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: amd_dep_list,
