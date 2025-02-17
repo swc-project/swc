@@ -304,7 +304,7 @@ impl BlockScoping {
                                     CallExpr {
                                         span: Default::default(),
                                         callee,
-                                        args: vec![ret.clone().as_arg()],
+                                        args: smallvec![ret.clone().as_arg()],
                                         ..Default::default()
                                     }
                                     .into()
