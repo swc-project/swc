@@ -2,6 +2,7 @@ use std::{iter, mem};
 
 use metadata::remove_span;
 use rustc_hash::FxHashMap;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, BytePos, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -203,7 +204,7 @@ impl TscDecorator {
 
         let expr = CallExpr {
             callee: helper!(ts, ts_decorate),
-            args: vec![decorators, target, key, desc],
+            args: smallvec![decorators, target, key, desc],
             ..Default::default()
         }
         .into();
@@ -318,7 +319,7 @@ impl VisitMut for TscDecorator {
                 let decorated = CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate),
-                    args: vec![
+                    args: smallvec![
                         decorators,
                         class_name
                             .clone()
