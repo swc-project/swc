@@ -1,5 +1,6 @@
 use std::iter;
 
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -180,7 +181,7 @@ impl SuperReplacer {
         CallExpr {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of),
-            args: vec![self.get_obj_ref().as_arg()],
+            args: smallvec![self.get_obj_ref().as_arg()],
 
             ..Default::default()
         }
@@ -347,7 +348,7 @@ impl SuperReplacer {
         CallExpr {
             span: super_token,
             callee: helper!(get),
-            args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
+            args: smallvec![proto, prop, ThisExpr { span: super_token }.as_arg()],
             ..Default::default()
         }
         .into()
