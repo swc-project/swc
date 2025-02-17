@@ -950,7 +950,7 @@ impl VisitMut for TreeShaker {
         self.visit_mut_stmt_likes(s);
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.visit_mut_par(cpu_count() * 8, n);
     }
 
