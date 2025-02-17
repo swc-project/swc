@@ -49,10 +49,6 @@ impl Expander {
             ("module_item", quote!(swc_ecma_ast::ModuleItem)),
             ("module_items", quote!(Vec<swc_ecma_ast::ModuleItem>)),
             ("expr", quote!(swc_ecma_ast::Expr)),
-            (
-                "exprs",
-                quote!(smallvec::SmallVec<[Box<swc_ecma_ast::Expr>; 2]>),
-            ),
             ("decl", quote!(swc_ecma_ast::Decl)),
             ("pat", quote!(swc_ecma_ast::Pat)),
         ];
