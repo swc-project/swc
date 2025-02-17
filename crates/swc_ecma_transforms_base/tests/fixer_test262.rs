@@ -302,7 +302,7 @@ impl Fold for Normalizer {
 
         expr.args = match expr.args {
             Some(..) => expr.args,
-            None => Some(Vec::new()),
+            None => Some(Default::default()),
         };
 
         expr
