@@ -1,5 +1,6 @@
 use std::mem;
 
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -43,7 +44,7 @@ pub(super) fn fold_constructor(
         stmts.push(
             CallExpr {
                 callee: helper!(class_call_check),
-                args: vec![
+                args: smallvec![
                     Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
                     class_name.clone().as_arg(),
                 ],
@@ -145,7 +146,7 @@ pub(super) fn fold_constructor(
                     .this
                     .map_or_else(|| Expr::undefined(DUMMY_SP).as_arg(), |this| this.as_arg());
 
-                helper_expr!(assert_this_initialized).as_call(DUMMY_SP, vec![this])
+                helper_expr!(assert_this_initialized).as_call(DUMMY_SP, smallvec![this])
             };
 
             let return_this = ReturnStmt {
@@ -374,7 +375,7 @@ impl VisitMut for ConstructorFolder {
         if node.is_this() {
             if !self.super_found {
                 *node = helper_expr!(assert_this_initialized)
-                    .as_call(DUMMY_SP, vec![self.get_this().clone().as_arg()]);
+                    .as_call(DUMMY_SP, smallvec![self.get_this().clone().as_arg()]);
             } else {
                 *node = self.get_this().clone().into();
             }
@@ -403,7 +404,7 @@ impl VisitMut for ConstructorFolder {
 
         if !self.in_arrow {
             let arg = node.arg.take().map(ExprFactory::as_arg);
-            let mut args = vec![self.get_this().clone().as_arg()];
+            let mut args = smallvec![self.get_this().clone().as_arg()];
             args.extend(arg);
             node.arg = Some(
                 helper_expr!(possible_constructor_return)
@@ -455,7 +456,7 @@ impl ConstructorFolder {
                     arguments.span = e.expr.span()
                 }
 
-                *origin_args = vec![ThisExpr { span: DUMMY_SP }.as_arg(), arguments.as_arg()];
+                *origin_args = smallvec![ThisExpr { span: DUMMY_SP }.as_arg(), arguments.as_arg()];
             } else {
                 *callee = self
                     .class_super_name
@@ -478,7 +479,7 @@ impl ConstructorFolder {
 
         *callee = helper!(call_super);
 
-        let mut args = vec![
+        let mut args = smallvec![
             ThisExpr { span: DUMMY_SP }.as_arg(),
             self.class_name.clone().as_arg(),
         ];
