@@ -893,7 +893,7 @@ impl VisitMut for AssignFolder {
                     right.visit_mut_with(self);
 
                     *expr = helper_expr!(object_destructuring_empty)
-                        .as_call(DUMMY_SP, vec![right.as_arg()]);
+                        .as_call(DUMMY_SP, smallvec![right.as_arg()]);
                 }
                 AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
                     if props.len() == 1 {
@@ -913,7 +913,7 @@ impl VisitMut for AssignFolder {
 
                     let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
-                    let mut exprs = vec![Box::new(Expr::Assign(AssignExpr {
+                    let mut exprs = smallvec![Box::new(Expr::Assign(AssignExpr {
                         span: *span,
                         left: ref_ident.clone().into(),
                         op: op!("="),
