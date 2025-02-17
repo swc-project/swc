@@ -13,10 +13,10 @@ use std::fmt;
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::syntax_pos::{MultiSpan, Span};
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
@@ -149,10 +149,6 @@ impl Diagnostic {
 
             Level::Warning | Level::Note | Level::Help | Level::Cancelled => false,
         }
-    }
-
-    pub fn is_warn(&self) -> bool {
-        matches!(self.level, Level::Warning)
     }
 
     /// Cancel the diagnostic (a structured diagnostic must either be emitted or
