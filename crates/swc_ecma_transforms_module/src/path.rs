@@ -10,6 +10,7 @@ use std::{
 use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -53,7 +54,7 @@ impl Resolver {
                 "require"
             )
             .as_callee(),
-            args: vec![Lit::Str(Str {
+            args: smallvec![Lit::Str(Str {
                 span: src_span,
                 raw: None,
                 value: src,
