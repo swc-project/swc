@@ -1,6 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -177,7 +178,7 @@ where
         //  Emit
         // ====================
 
-        let mut elems = vec![Some(quote_str!("require").as_arg())];
+        let mut elems = smallvec![Some(quote_str!("require").as_arg())];
         let mut params = vec![self.require.clone().into()];
 
         if let Some(exports) = self.exports.take() {
