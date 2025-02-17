@@ -907,7 +907,7 @@ fn object_without_properties(
                 }
                 .as_arg(),
                 helper_expr!(object_destructuring_empty)
-                    .as_call(DUMMY_SP, vec![obj.as_arg()])
+                    .as_call(DUMMY_SP, smallvec![obj.as_arg()])
                     .as_arg(),
             ],
             ..Default::default()
