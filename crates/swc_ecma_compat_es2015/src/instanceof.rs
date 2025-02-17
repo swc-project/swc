@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -65,7 +66,7 @@ impl VisitMut for InstanceOf {
             *expr = CallExpr {
                 span: *span,
                 callee: helper!(instanceof_span, instanceof),
-                args: vec![left.take().as_arg(), right.take().as_arg()],
+                args: smallvec![left.take().as_arg(), right.take().as_arg()],
                 ..Default::default()
             }
             .into();
