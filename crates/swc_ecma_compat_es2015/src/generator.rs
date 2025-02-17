@@ -6,7 +6,7 @@ use std::{
 };
 
 use is_macro::Is;
-use smallvec::SmallVec;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
@@ -432,7 +432,7 @@ impl VisitMut for Generator {
                         .map(|e| CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(ts, ts_values),
-                            args: vec![e.as_arg()],
+                            args: smallvec![e.as_arg()],
                             ..Default::default()
                         })
                         .map(Expr::from)
@@ -1318,7 +1318,7 @@ impl Generator {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(define_property),
-                    args: vec![
+                    args: smallvec![
                         temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),
                         desc.as_arg(),
@@ -3437,7 +3437,7 @@ impl Generator {
                     arg: Some(
                         ArrayLit {
                             span: DUMMY_SP,
-                            elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                            elems: smallvec![Some(inst.as_arg()), Some(label.as_arg())],
                         }
                         .into(),
                     ),
