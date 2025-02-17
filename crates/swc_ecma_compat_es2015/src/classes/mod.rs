@@ -2,7 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use smallvec::SmallVec;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -405,20 +405,20 @@ impl Classes {
             if is_super_native {
                 (
                     params,
-                    vec![CallExpr {
+                    smallvec![CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(wrap_native_super),
-                        args: vec![super_class.as_arg()],
+                        args: smallvec![super_class.as_arg()],
                         ..Default::default()
                     }
                     .as_arg()],
                     Some(super_param),
                 )
             } else {
-                (params, vec![super_class.as_arg()], Some(super_param))
+                (params, smallvec![super_class.as_arg()], Some(super_param))
             }
         } else {
-            (Vec::new(), Vec::new(), None)
+            (Vec::new(), Default::default(), None)
         };
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
@@ -538,7 +538,7 @@ impl Classes {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(inherits),
-                    args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
+                    args: smallvec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
                     ..Default::default()
                 }
                 .into_stmt(),
@@ -945,7 +945,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let class_call_check = CallExpr {
         span: DUMMY_SP,
         callee: helper!(class_call_check),
-        args: vec![
+        args: smallvec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             class_name_sym.as_arg(),
         ],
