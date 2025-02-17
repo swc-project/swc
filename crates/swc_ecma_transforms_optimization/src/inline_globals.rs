@@ -1,4 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::sync::Lrc;
 use swc_ecma_ast::*;
@@ -167,7 +168,7 @@ impl VisitMut for InlineGlobals {
         module.visit_mut_children_with(self);
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.visit_mut_par(cpu_count(), n);
     }
 
