@@ -1,6 +1,7 @@
 use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -50,16 +51,16 @@ struct ClassState {
 
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
-    init_proto_args: Vec<Option<ExprOrSpread>>,
+    init_proto_args: SmallVec<[Option<ExprOrSpread>; 1]>,
 
     init_static: Option<Ident>,
-    init_static_args: Vec<Option<ExprOrSpread>>,
+    init_static_args: SmallVec<[Option<ExprOrSpread>; 1]>,
 
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
     class_lhs: Vec<Option<Pat>>,
-    class_decorators: Vec<Option<ExprOrSpread>>,
+    class_decorators: SmallVec<[Option<ExprOrSpread>; 1]>,
 
     super_class: Option<Ident>,
 }
@@ -68,7 +69,7 @@ impl DecoratorPass {
     fn preserve_side_effect_of_decorators(
         &mut self,
         decorators: Vec<Decorator>,
-    ) -> Vec<Option<ExprOrSpread>> {
+    ) -> SmallVec<[Option<ExprOrSpread>; 1]> {
         decorators
             .into_iter()
             .map(|e| Some(self.preserve_side_effect_of_decorator(e.expr).as_arg()))
@@ -112,7 +113,7 @@ impl DecoratorPass {
         }
 
         let mut e_lhs = Vec::new();
-        let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+        let mut combined_args = smallvec![ThisExpr { span: DUMMY_SP }.as_arg()];
 
         for id in self
             .state
@@ -237,7 +238,7 @@ impl DecoratorPass {
                     expr: CallExpr {
                         span: DUMMY_SP,
                         callee: init.as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         ..Default::default()
                     }
                     .into(),
@@ -526,7 +527,7 @@ impl DecoratorPass {
                             if let Some(last_static_block) = last_static_block.take() {
                                 **value = SeqExpr {
                                     span: DUMMY_SP,
-                                    exprs: vec![
+                                    exprs: smallvec![
                                         Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: ArrowExpr {
@@ -646,7 +647,7 @@ impl DecoratorPass {
                 let super_call = CallExpr {
                     span: DUMMY_SP,
                     callee: Callee::Super(Super { span: DUMMY_SP }),
-                    args: vec![c.ident.clone().as_arg()],
+                    args: smallvec![c.ident.clone().as_arg()],
                     ..Default::default()
                 }
                 .into();
@@ -817,7 +818,7 @@ impl VisitMut for DecoratorPass {
             let init_proto_expr = CallExpr {
                 span: DUMMY_SP,
                 callee: init_proto.clone().as_callee(),
-                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             };
             let mut proto_inited = false;
@@ -827,7 +828,7 @@ impl VisitMut for DecoratorPass {
                         continue;
                     }
                     if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
+                        prop.value = Some(Expr::from_exprs(smallvec![
                             init_proto_expr.clone().into(),
                             value,
                         ]));
@@ -840,7 +841,7 @@ impl VisitMut for DecoratorPass {
                         continue;
                     }
                     if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
+                        prop.value = Some(Expr::from_exprs(smallvec![
                             init_proto_expr.clone().into(),
                             value,
                         ]));
@@ -854,7 +855,7 @@ impl VisitMut for DecoratorPass {
             if !proto_inited {
                 let c = self.ensure_constructor(n);
 
-                inject_after_super(c, vec![Box::new(init_proto_expr.into())])
+                inject_after_super(c, smallvec![Box::new(init_proto_expr.into())])
             }
         }
 
@@ -917,7 +918,7 @@ impl VisitMut for DecoratorPass {
             let arg = Some(
                 ArrayLit {
                     span: DUMMY_SP,
-                    elems: vec![
+                    elems: smallvec![
                         dec,
                         Some(
                             if p.is_static {
@@ -975,7 +976,7 @@ impl VisitMut for DecoratorPass {
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.as_callee(),
-                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                                 ..Default::default()
                             }
                             .into(),
@@ -996,7 +997,7 @@ impl VisitMut for DecoratorPass {
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.as_callee(),
-                                args: vec![
+                                args: smallvec![
                                     ThisExpr { span: DUMMY_SP }.as_arg(),
                                     Ident::from(p.function.params[0].pat.as_ident().unwrap())
                                         .as_arg(),
@@ -1177,7 +1178,7 @@ impl VisitMut for DecoratorPass {
                                 span: DUMMY_SP,
                                 elems: match &accessor.key {
                                     Key::Private(_) => {
-                                        let data = vec![
+                                        let data = smallvec![
                                             dec,
                                             Some(if accessor.is_static {
                                                 6.as_arg()
@@ -1227,9 +1228,10 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![
-                                                            ThisExpr { span: DUMMY_SP }.as_arg()
-                                                        ],
+                                                        args: smallvec![ThisExpr {
+                                                            span: DUMMY_SP
+                                                        }
+                                                        .as_arg()],
                                                         ..Default::default()
                                                     }))),
                                                 })],
@@ -1260,7 +1262,7 @@ impl VisitMut for DecoratorPass {
                                                             .clone()
                                                             .unwrap()
                                                             .as_callee(),
-                                                        args: vec![
+                                                        args: smallvec![
                                                             ThisExpr { span: DUMMY_SP }.as_arg(),
                                                             param.as_arg(),
                                                         ],
@@ -1277,7 +1279,7 @@ impl VisitMut for DecoratorPass {
                                         data
                                     }
                                     Key::Public(_) => {
-                                        vec![
+                                        smallvec![
                                             dec,
                                             Some(if accessor.is_static {
                                                 6.as_arg()
@@ -1438,7 +1440,7 @@ impl VisitMut for DecoratorPass {
         let arg = Some(
             ArrayLit {
                 span: DUMMY_SP,
-                elems: vec![
+                elems: smallvec![
                     dec,
                     Some(
                         match (n.is_static, n.kind) {
@@ -1503,7 +1505,7 @@ impl VisitMut for DecoratorPass {
             Some(
                 ArrayLit {
                     span: DUMMY_SP,
-                    elems: vec![
+                    elems: smallvec![
                         dec,
                         Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                         Some(name.as_arg()),
@@ -1531,7 +1533,7 @@ impl VisitMut for DecoratorPass {
 
                 *e = SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![Box::new(e.take()), Box::new(Expr::Ident(new))],
+                    exprs: smallvec![Box::new(e.take()), Box::new(Expr::Ident(new))],
                 }
                 .into();
 
@@ -1752,7 +1754,7 @@ impl VisitMut for DecoratorPass {
 
             ArrayLit {
                 span: DUMMY_SP,
-                elems: vec![
+                elems: smallvec![
                     dec,
                     Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                     Some((&*p.key.name).as_arg()),
@@ -1910,7 +1912,7 @@ impl<T> InsertPassBuilder<T> {
     }
 }
 
-fn merge_decorators(decorators: Vec<Option<ExprOrSpread>>) -> Option<ExprOrSpread> {
+fn merge_decorators(decorators: SmallVec<[Option<ExprOrSpread>; 1]>) -> Option<ExprOrSpread> {
     if decorators.len() == 1 {
         return decorators.into_iter().next().unwrap();
     }
