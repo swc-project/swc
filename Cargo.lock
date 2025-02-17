@@ -5165,6 +5165,7 @@ name = "swc_ecma_compat_es2017"
 version = "10.0.0"
 dependencies = [
  "serde",
+ "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5183,6 +5184,7 @@ name = "swc_ecma_compat_es2018"
 version = "10.0.0"
 dependencies = [
  "serde",
+ "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
