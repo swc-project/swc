@@ -495,7 +495,7 @@ impl Cjs {
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
-                quote_ident!("__export").as_call(DUMMY_SP, vec![import_expr.as_arg()])
+                quote_ident!("__export").as_call(DUMMY_SP, smallvec![import_expr.as_arg()])
             })
             .reduce(|left, right| {
                 BinExpr {
@@ -534,9 +534,9 @@ pub(crate) fn cjs_dynamic_import(
     let p = private_ident!("p");
 
     let (resolve_args, callback_params, require_args) = if is_lit_path {
-        (Vec::new(), Vec::new(), args)
+        (Default::default(), Default::default(), args)
     } else {
-        (args, vec![p.clone().into()], vec![p.as_arg()])
+        (args, vec![p.clone().into()], smallvec![p.as_arg()])
     };
 
     let then = member_expr!(Default::default(), Default::default(), Promise.resolve)
@@ -568,11 +568,11 @@ pub(crate) fn cjs_dynamic_import(
 /// require('url').pathToFileURL(__filename).toString()
 fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Expr {
     require
-        .as_call(DUMMY_SP, vec!["url".as_arg()])
+        .as_call(DUMMY_SP, smallvec!["url".as_arg()])
         .make_member(quote_ident!("pathToFileURL"))
         .as_call(
             DUMMY_SP,
-            vec![quote_ident!(
+            smallvec![quote_ident!(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
                 "__filename"
             )
