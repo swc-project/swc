@@ -509,7 +509,7 @@ fn make_fn_ref(mut expr: FnExpr) -> Expr {
     CallExpr {
         span,
         callee: helper,
-        args: vec![expr.as_arg()],
+        args: smallvec![expr.as_arg()],
         ..Default::default()
     }
     .into()
@@ -551,11 +551,11 @@ impl VisitMut for AsyncFnBodyHandler {
                 let arg = CallExpr {
                     span: *span,
                     callee,
-                    args: vec![
+                    args: smallvec![
                         CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(async_iterator),
-                            args: vec![arg.take().as_arg()],
+                            args: smallvec![arg.take().as_arg()],
                             ..Default::default()
                         }
                         .as_arg(),
@@ -578,7 +578,7 @@ impl VisitMut for AsyncFnBodyHandler {
                     let arg = CallExpr {
                         span: *span,
                         callee,
-                        args: vec![arg.take().as_arg()],
+                        args: smallvec![arg.take().as_arg()],
                         ..Default::default()
                     }
                     .into();
@@ -744,7 +744,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     CallExpr {
                         span: DUMMY_SP,
                         callee,
-                        args: vec![s.right.as_arg()],
+                        args: smallvec![s.right.as_arg()],
                         ..Default::default()
                     }
                     .into(),
@@ -924,7 +924,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
-                        args: vec![iterator_return.as_arg()],
+                        args: smallvec![iterator_return.as_arg()],
                         ..Default::default()
                     }
                     .into()
