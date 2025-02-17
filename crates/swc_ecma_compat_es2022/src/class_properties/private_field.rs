@@ -1,6 +1,7 @@
 use std::iter;
 
 use rustc_hash::FxHashMap;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -770,7 +771,7 @@ impl PrivateAccessVisitor<'_> {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: get,
-                                    args: vec![
+                                    args: smallvec![
                                         obj.clone().as_arg(),
                                         ident.as_arg(),
                                         method_name.as_arg(),
@@ -782,7 +783,7 @@ impl PrivateAccessVisitor<'_> {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: get,
-                                    args: vec![this.as_arg(), ident.as_arg()],
+                                    args: smallvec![this.as_arg(), ident.as_arg()],
                                     ..Default::default()
                                 }
                                 .into()
