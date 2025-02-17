@@ -238,7 +238,11 @@ impl Babelify for ArrayLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayExpression {
             base: ctx.base(self.span),
-            elements: self.elems.babelify(ctx),
+            elements: self
+                .elems
+                .into_iter()
+                .map(|e| e.map(|e| e.babelify(ctx)))
+                .collect(),
         }
     }
 }

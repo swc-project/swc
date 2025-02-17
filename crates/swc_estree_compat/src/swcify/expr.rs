@@ -85,7 +85,7 @@ impl Swcify for ArrayExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ArrayLit {
             span: ctx.span(&self.base),
-            elems: self.elements.swcify(ctx),
+            elems: self.elements.into_iter().map(|e| e.swcify(ctx)).collect(),
         }
     }
 }
@@ -261,7 +261,7 @@ impl Swcify for Arg {
     fn swcify(self, ctx: &Context) -> Self::Output {
         Some(match self {
             Arg::Spread(s) => ExprOrSpread {
-                spread: Some(ctx.span(&s.base)),
+                spread: Some(ctx.span(&s.base).lo),
                 expr: s.argument.swcify(ctx),
             },
             Arg::JSXName(e) => ExprOrSpread {
@@ -447,7 +447,7 @@ impl Swcify for ObjectExprProp {
             ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx)))),
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
                 // TODO: Use exact span
-                dot3_token: ctx.span(&p.base),
+                dot3_token: ctx.span(&p.base).lo,
                 expr: p.argument.swcify(ctx),
             }),
         }
