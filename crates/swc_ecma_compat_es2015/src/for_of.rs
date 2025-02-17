@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -227,7 +228,7 @@ impl ForOf {
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_for_of_iterator_helper_loose),
-                        args: vec![right.as_arg()],
+                        args: smallvec![right.as_arg()],
                         ..Default::default()
                     }))),
                     definite: Default::default(),
