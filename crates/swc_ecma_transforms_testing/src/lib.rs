@@ -19,6 +19,7 @@ use anyhow::Error;
 use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::de::DeserializeOwned;
 use sha2::{Digest, Sha256};
+use smallvec::smallvec;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::{Handler, HANDLER},
@@ -212,7 +213,7 @@ impl VisitMut for RegeneratorHandler {
             let init = CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!("require").as_callee(),
-                args: vec![quote_str!("regenerator-runtime").as_arg()],
+                args: smallvec![quote_str!("regenerator-runtime").as_arg()],
                 ..Default::default()
             }
             .into();
