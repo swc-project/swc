@@ -2,7 +2,7 @@ use std::{iter::once, mem::take};
 
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
-use smallvec::SmallVec;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -139,7 +139,7 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            let mut inits: SmallVec<[Box<Expr>; 2]> = Vec::new();
+            let mut inits: SmallVec<[Box<Expr>; 2]> = smallvec![];
 
             for mut var in env_hoister.to_decl() {
                 if let Some(init) = var.init.take() {
