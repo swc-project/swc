@@ -1,4 +1,5 @@
 use serde_json::Value;
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -72,7 +73,7 @@ impl VisitMut for JsonParse {
                     *expr = CallExpr {
                         span: expr.span(),
                         callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
-                        args: vec![Lit::Str(Str {
+                        args: smallvec![Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
                             value: value.into(),
