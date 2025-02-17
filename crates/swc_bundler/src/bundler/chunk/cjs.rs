@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
 use rustc_hash::FxHashMap;
+use smallvec::smallvec;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -164,7 +165,7 @@ fn wrap_module(
                 callee: Ident::new("__swcpack_require__".into(), DUMMY_SP, helper_ctxt)
                     .make_member(quote_ident!("bind"))
                     .as_callee(),
-                args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
+                args: smallvec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 ..Default::default()
             }))),
             definite: false,
@@ -206,7 +207,7 @@ where
                         let load = CallExpr {
                             span: node.span,
                             callee: Ident::new("load".into(), i.span, i.ctxt).as_callee(),
-                            args: Vec::new(),
+                            args: Default::default(),
                             ..Default::default()
                         };
                         self.replaced = true;
@@ -254,7 +255,7 @@ where
                 *node = CallExpr {
                     span: DUMMY_SP,
                     callee: load_var.as_callee(),
-                    args: Vec::new(),
+                    args: Default::default(),
 
                     ..Default::default()
                 }
@@ -304,7 +305,7 @@ where
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: load_var.as_callee(),
-                                        args: Vec::new(),
+                                        args: Default::default(),
 
                                         ..Default::default()
                                     }
@@ -336,7 +337,7 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: load_var.as_callee(),
-                        args: Vec::new(),
+                        args: Default::default(),
                         ..Default::default()
                     }))),
                     definite: false,
