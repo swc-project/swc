@@ -1,5 +1,5 @@
 #![deny(clippy::all)]
-
+use smallvec::smallvec;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -18,7 +18,7 @@ pub fn get_prototype_of(obj: Box<Expr>) -> Box<Expr> {
     CallExpr {
         span: DUMMY_SP,
         callee: helper!(get_prototype_of),
-        args: vec![obj.as_arg()],
+        args: smallvec![obj.as_arg()],
         ..Default::default()
     }
     .into()
