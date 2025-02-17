@@ -1,4 +1,5 @@
 use anyhow::Context;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{
     source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext,
@@ -214,7 +215,7 @@ impl Umd {
                 let mut import_expr: Expr = if need_re_export {
                     helper_expr!(export_star).as_call(
                         DUMMY_SP,
-                        vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
+                        smallvec![mod_ident.clone().as_arg(), self.exports().as_arg()],
                     )
                 } else {
                     mod_ident.clone().into()
