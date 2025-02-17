@@ -887,7 +887,7 @@ impl MutationHandler<'_> {
             return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
         }
 
-        let mut exprs = Vec::with_capacity(self.map.len() + 1);
+        let mut exprs = SmallVec::with_capacity(self.map.len() + 1);
 
         for (id, ctxt) in &*self.map {
             exprs.push(
