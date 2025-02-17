@@ -29,6 +29,7 @@ petgraph   = { workspace = true }
 rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde_json = { workspace = true }
+smallvec   = { workspace = true }
 tracing    = { workspace = true }
 
 swc_atoms                  = { version = "4.0.0", path = "../swc_atoms" }
