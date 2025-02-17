@@ -3493,7 +3493,7 @@ impl Generator {
                 arg: Some(
                     ArrayLit {
                         span: DUMMY_SP,
-                        elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
+                        elems: smallvec![Some(arg1.as_arg()), Some(expr.as_arg())],
                     }
                     .into(),
                 ),
