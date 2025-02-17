@@ -18,6 +18,10 @@ use crate::syntax_pos::{MultiSpan, Span};
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Message(pub String, pub Style);
