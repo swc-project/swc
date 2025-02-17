@@ -5,6 +5,7 @@ use std::sync::Arc;
 use parking_lot::RwLock;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
+use smallvec::SmallVec;
 use swc_atoms::{Atom, JsWord};
 use swc_common::Mark;
 use swc_config::{merge::Merge, CachedRegex};

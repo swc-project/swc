@@ -1,8 +1,8 @@
 #![allow(dead_code)]
-
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -133,7 +133,7 @@ pub(crate) trait ExprOptExt: Sized {
                 let inner = expr.take();
                 *expr = SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![Box::new(inner)],
+                    exprs: smallvec![Box::new(inner)],
                 }
                 .into();
                 expr.force_seq()
@@ -457,7 +457,7 @@ where
 
 pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
 where
-    N: VisitWith<IdentUsageCollector>,
+    N: ?Sized + VisitWith<IdentUsageCollector>,
 {
     let mut v = IdentUsageCollector {
         ignore_nested: true,

@@ -370,7 +370,7 @@ impl SizeWithCtxt for Tpl {
     }
 }
 
-impl<T: SizeWithCtxt> SizeWithCtxt for Vec<T> {
+impl<T: SizeWithCtxt> SizeWithCtxt for [T] {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         let mut c = 0;
 
@@ -386,7 +386,7 @@ impl<T: SizeWithCtxt> SizeWithCtxt for Vec<T> {
     }
 }
 
-impl<T: SizeWithCtxt> SizeWithCtxt for Vec<Option<T>> {
+impl<T: SizeWithCtxt> SizeWithCtxt for [Option<T>] {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         let mut c = 0;
 

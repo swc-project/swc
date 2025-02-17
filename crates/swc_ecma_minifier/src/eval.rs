@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
+use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -225,7 +226,7 @@ impl Evaluator {
     pub fn eval_tpl(&mut self, q: &Tpl) -> Option<EvalResult> {
         self.run();
 
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::with_capacity(q.exprs.len());
 
         for expr in &q.exprs {
             let res = self.eval(expr)?;
