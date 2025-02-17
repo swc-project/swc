@@ -175,7 +175,7 @@ impl<C: Comments> Refresh<C> {
                     let mut first = first_arg.take();
                     if let Some(HocHook { callee, rest_arg }) = &hoc.hook {
                         let span = first.span();
-                        let mut args = vec![first.as_arg()];
+                        let mut args = smallvec![first.as_arg()];
                         args.extend(rest_arg.clone());
                         first = CallExpr {
                             span,

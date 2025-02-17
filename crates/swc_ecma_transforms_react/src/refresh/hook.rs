@@ -2,6 +2,7 @@ use std::{fmt::Write, mem};
 
 use base64::prelude::{Engine, BASE64_STANDARD};
 use sha1::{Digest, Sha1};
+use smallvec::smallvec;
 use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
