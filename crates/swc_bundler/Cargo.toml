@@ -36,6 +36,7 @@ radix_fmt     = { workspace = true }
 rayon         = { workspace = true, optional = true }
 relative-path = { workspace = true }
 rustc-hash    = { workspace = true }
+smallvec      = { workspace = true }
 tracing       = { workspace = true }
 
 swc_atoms                        = { version = "4.0.0", path = "../swc_atoms" }
