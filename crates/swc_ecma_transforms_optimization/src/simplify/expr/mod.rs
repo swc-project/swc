@@ -549,7 +549,7 @@ impl SimplifyExpr {
                         if node.directness_maters() {
                             *expr = SeqExpr {
                                 span: node.span(),
-                                exprs: vec![0.into(), node.take()],
+                                exprs: smallvec![0.into(), node.take()],
                             }
                             .into();
                         } else {
@@ -560,7 +560,7 @@ impl SimplifyExpr {
 
                         let mut seq = SeqExpr {
                             span: *span,
-                            exprs: vec![left.take(), node.take()],
+                            exprs: smallvec![left.take(), node.take()],
                         };
 
                         seq.visit_mut_with(self);
