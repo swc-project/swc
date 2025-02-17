@@ -9,6 +9,8 @@ mod private {
     impl<T> Sealed for &[T] {}
     #[cfg(feature = "smallvec")]
     impl<T, const N: usize> Sealed for smallvec::SmallVec<[T; N]> {}
+    #[cfg(feature = "smallvec")]
+    impl<T, const N: usize> Sealed for &mut smallvec::SmallVec<[T; N]> {}
 }
 pub trait IntoItems: Sealed {
     type Elem;
@@ -30,6 +32,19 @@ where
 }
 
 impl<'a, T> IntoItems for &'a mut Vec<T>
+where
+    T: Send + Sync,
+{
+    type Elem = &'a mut T;
+    type Items = &'a mut [T];
+
+    fn into_items(self) -> Self::Items {
+        self
+    }
+}
+
+#[cfg(feature = "smallvec")]
+impl<'a, T, const N: usize> IntoItems for &'a mut smallvec::SmallVec<[T; N]>
 where
     T: Send + Sync,
 {
