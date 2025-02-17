@@ -1,6 +1,7 @@
 use std::ops::Deref;
 
 use rustc_hash::FxHashMap;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
@@ -72,7 +73,7 @@ impl ParamMetadata {
             expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_param),
-                args: vec![param_index.as_arg(), decorator_expr.as_arg()],
+                args: smallvec![param_index.as_arg(), decorator_expr.as_arg()],
                 ..Default::default()
             }
             .into(),
@@ -289,7 +290,7 @@ impl<'a> Metadata<'a> {
             expr: CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_metadata),
-                args: vec![design.as_arg(), type_arg],
+                args: smallvec![design.as_arg(), type_arg],
                 ..Default::default()
             }
             .into(),
