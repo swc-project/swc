@@ -2,6 +2,7 @@ use std::{iter, mem::take};
 
 use either::Either;
 use serde::Deserialize;
+use smallvec::smallvec;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
@@ -292,7 +293,7 @@ impl Decorators {
             let initialize_call = CallExpr {
                 span: DUMMY_SP,
                 callee: initialize.clone().as_callee(),
-                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             }
             .into();
@@ -311,7 +312,7 @@ impl Decorators {
                         ClassMember::Constructor(c) => c,
                         _ => unreachable!(),
                     };
-                    inject_after_super(&mut c, vec![initialize_call]);
+                    inject_after_super(&mut c, smallvec![initialize_call]);
 
                     ClassMember::Constructor(c)
                 }
