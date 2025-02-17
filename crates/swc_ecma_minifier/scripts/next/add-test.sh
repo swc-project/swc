@@ -16,5 +16,5 @@ rm -rf .next
 # This is not useful data, as this is a script used only by me (@kdy1)
 npx next telemetry disable
 
-npm run build | node "$SCRIPT_DIR/evaluate.js"
+npx next build | node "$SCRIPT_DIR/evaluate.js"
 touch "$SCRIPT_DIR/../../tests/compress.rs"
