@@ -5110,6 +5110,7 @@ dependencies = [
 name = "swc_ecma_compat_common"
 version = "10.0.0"
 dependencies = [
+ "smallvec",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_utils",
