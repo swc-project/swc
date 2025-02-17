@@ -1,5 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
+use smallvec::SmallVec;
 use swc_atoms::{Atom, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -265,7 +266,7 @@ impl Pure<'_> {
         trace_op!("compress_tpl");
 
         let mut quasis = Vec::new();
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::new();
         let mut cur_raw = String::new();
         let mut cur_cooked = Some(String::new());
 

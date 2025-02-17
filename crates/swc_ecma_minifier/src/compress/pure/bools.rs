@@ -1,5 +1,6 @@
 use std::mem::swap;
 
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
@@ -291,7 +292,7 @@ impl Pure<'_> {
                     report_change!("booleans: Compressing `delete` as sequence expression");
                     *e = SeqExpr {
                         span,
-                        exprs: vec![delete.arg.take(), Box::new(make_bool(span, true))],
+                        exprs: smallvec![delete.arg.take(), Box::new(make_bool(span, true))],
                     }
                     .into();
                     return;
@@ -423,7 +424,7 @@ impl Pure<'_> {
                         .into();
                         *n = SeqExpr {
                             span: *span,
-                            exprs: vec![arg.take(), true_expr],
+                            exprs: smallvec![arg.take(), true_expr],
                         }
                         .into()
                     }

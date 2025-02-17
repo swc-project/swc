@@ -1,5 +1,6 @@
 #![allow(clippy::needless_update)]
 
+use smallvec::SmallVec;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -178,7 +179,7 @@ impl Pure<'_> {
     }
 
     /// Visit `nodes`, maybe in parallel.
-    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
+    fn visit_par<N>(&mut self, nodes: &mut [N])
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
@@ -697,7 +698,10 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(
+        &mut self,
+        nodes: &mut SmallVec<[Option<ExprOrSpread>; 1]>,
+    ) {
         self.visit_par(nodes);
     }
 
@@ -747,7 +751,7 @@ impl VisitMut for Pure<'_> {
             exprs.iter().any(|e| e.is_seq()),
             *crate::LIGHT_TASK_PARALLELS
         ) {
-            let mut exprs = Vec::new();
+            let mut exprs = SmallVec::new();
 
             for e in e.exprs.take() {
                 if let Expr::Seq(seq) = *e {

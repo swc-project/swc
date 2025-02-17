@@ -1,3 +1,4 @@
+use smallvec::SmallVec;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
@@ -91,7 +92,7 @@ impl Pure<'_> {
         if let Expr::Seq(test) = &mut *cond.test {
             //
             if test.exprs.len() >= 2 {
-                let mut new_seq = Vec::new();
+                let mut new_seq = SmallVec::new();
                 new_seq.extend(test.exprs.drain(..test.exprs.len() - 1));
 
                 self.changed = true;

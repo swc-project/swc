@@ -1,4 +1,5 @@
 use radix_fmt::Radix;
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
@@ -580,7 +581,7 @@ impl Pure<'_> {
 
                     *e = SeqExpr {
                         span: bin_expr.span,
-                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                        exprs: smallvec![bin_expr.left.clone(), bin_expr.right.clone()],
                     }
                     .into();
                 } else {
@@ -614,7 +615,7 @@ impl Pure<'_> {
 
                     *e = SeqExpr {
                         span: bin_expr.span,
-                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                        exprs: smallvec![bin_expr.left.clone(), bin_expr.right.clone()],
                     }
                     .into();
                 }

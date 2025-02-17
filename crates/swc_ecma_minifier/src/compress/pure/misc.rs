@@ -1,6 +1,7 @@
 use std::{fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -57,7 +58,7 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
 }
 
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> SmallVec<[Box<Expr>; 2]> {
-    let mut exprs = Vec::new();
+    let mut exprs = SmallVec::new();
 
     for prop in obj.props.take() {
         if let PropOrSpread::Prop(p) = prop {
@@ -105,7 +106,7 @@ impl Pure<'_> {
             return;
         }
 
-        let mut new_args = Vec::new();
+        let mut new_args = SmallVec::new();
         for arg in args.take() {
             match arg {
                 ExprOrSpread {
@@ -475,7 +476,7 @@ impl Pure<'_> {
                             Some(
                                 ArrayLit {
                                     span: *span,
-                                    elems: vec![None; num.value as usize],
+                                    elems: smallvec![None; num.value as usize],
                                 }
                                 .into(),
                             )
@@ -486,7 +487,7 @@ impl Pure<'_> {
                     Expr::Lit(_) => Some(
                         ArrayLit {
                             span: *span,
-                            elems: vec![args.take().into_iter().next()],
+                            elems: smallvec![args.take().into_iter().next()],
                         }
                         .into(),
                     ),
@@ -784,7 +785,7 @@ impl Pure<'_> {
     fn compress_array_join_as_tpl(
         &mut self,
         span: Span,
-        elems: &mut Vec<Option<ExprOrSpread>>,
+        elems: &mut SmallVec<[Option<ExprOrSpread>; 1]>,
         sep: &str,
     ) -> Option<Expr> {
         if !self.options.evaluate {
@@ -805,7 +806,7 @@ impl Pure<'_> {
         let mut new_tpl = Tpl {
             span,
             quasis: Vec::new(),
-            exprs: Vec::new(),
+            exprs: Default::default(),
         };
         let mut cur_raw = String::new();
         let mut cur_cooked = String::new();
@@ -941,7 +942,7 @@ impl Pure<'_> {
                     Some(e)
                 }
             })
-            .collect::<Vec<_>>();
+            .collect::<SmallVec<[Box<Expr>; 2]>>();
 
         if exprs.is_empty() {
             return None;
@@ -1304,7 +1305,7 @@ impl Pure<'_> {
                         report_change!("ignore_return_value: Compressing binary as seq");
                         *e = SeqExpr {
                             span,
-                            exprs: vec![bin.left.take(), bin.right.take()],
+                            exprs: smallvec![bin.left.take(), bin.right.take()],
                         }
                         .into();
                         return;
