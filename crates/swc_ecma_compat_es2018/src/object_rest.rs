@@ -915,7 +915,7 @@ fn object_without_properties(
         .into();
     }
 
-    let excluded_props = excluded_props
+    let excluded_props: SmallVec<[Option<ExprOrSpread>; 1]> = excluded_props
         .into_iter()
         .map(|v| {
             v.map(|v| match *v.expr {
@@ -942,7 +942,7 @@ fn object_without_properties(
         },
         args: smallvec![
             obj.as_arg(),
-            if is_literal(&excluded_props) {
+            if is_literal(&*excluded_props) {
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: excluded_props,
@@ -957,7 +957,7 @@ fn object_without_properties(
                     }
                     .make_member(quote_ident!("map"))
                     .as_callee(),
-                    args: vec![helper_expr!(to_property_key).as_arg()],
+                    args: smallvec![helper_expr!(to_property_key).as_arg()],
                     ..Default::default()
                 }
                 .as_arg()
