@@ -76,7 +76,7 @@ impl HookRegister<'_> {
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
     fn wrap_with_register(&self, handle: Ident, func: Expr, hooks: Vec<Hook>) -> Expr {
-        let mut args = vec![func.as_arg()];
+        let mut args = smallvec![func.as_arg()];
         let mut sign = Vec::new();
         let mut custom_hook = Vec::new();
 
