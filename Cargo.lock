@@ -5146,6 +5146,7 @@ dependencies = [
 name = "swc_ecma_compat_es2016"
 version = "10.0.0"
 dependencies = [
+ "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
