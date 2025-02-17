@@ -1,6 +1,7 @@
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
+use smallvec::SmallVec;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
@@ -128,7 +129,7 @@ impl Hoister<'_> {
                                 }
                             ) && found_non_var_decl =>
                         {
-                            let mut exprs = Vec::new();
+                            let mut exprs = SmallVec::new();
                             for decl in var.decls {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
