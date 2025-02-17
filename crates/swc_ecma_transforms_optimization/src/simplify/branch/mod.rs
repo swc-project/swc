@@ -1,5 +1,6 @@
 use std::{borrow::Cow, iter::once, mem::take};
 
+use smallvec::{smallvec, SmallVec};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
