@@ -7,6 +7,8 @@ mod private {
     impl<T> Sealed for &mut Vec<T> {}
     impl<T> Sealed for &mut [T] {}
     impl<T> Sealed for &[T] {}
+    #[cfg(feature = "smallvec")]
+    impl<T, const N: usize> Sealed for smallvec::SmallVec<[T; N]> {}
 }
 pub trait IntoItems: Sealed {
     type Elem;
@@ -99,4 +101,21 @@ where
         (a, b)
     }
 }
-//
+
+#[cfg(feature = "smallvec")]
+impl<const N: usize, T> Items for smallvec::SmallVec<[T; N]>
+where
+    T: Send + Sync,
+{
+    type Elem = T;
+
+    fn len(&self) -> usize {
+        <[T]>::len(self)
+    }
+
+    fn split_at(mut self, at: usize) -> (Self, Self) {
+        let b = self.drain(at..).collect();
+
+        (self, b)
+    }
+}
