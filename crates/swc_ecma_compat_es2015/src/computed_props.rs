@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -75,7 +76,7 @@ impl VisitMut for ComputedProps {
             let mark = Mark::fresh(Mark::root());
             let obj_ident = quote_ident!(SyntaxContext::empty().apply_mark(mark), *span, "_obj");
 
-            let mut exprs: SmallVec<[Box<Expr>; 2]> = Vec::with_capacity(props.len() + 2);
+            let mut exprs: SmallVec<[Box<Expr>; 2]> = SmallVec::with_capacity(props.len() + 2);
             let mutator_map = quote_ident!(
                 SyntaxContext::empty().apply_mark(mark),
                 *span,
@@ -258,7 +259,11 @@ impl VisitMut for ComputedProps {
                         CallExpr {
                             span,
                             callee: helper!(define_property),
-                            args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
+                            args: smallvec![
+                                exprs.pop().unwrap().as_arg(),
+                                key.as_arg(),
+                                value.as_arg()
+                            ],
                             ..Default::default()
                         }
                         .into(),
@@ -282,7 +287,7 @@ impl VisitMut for ComputedProps {
                     CallExpr {
                         span,
                         callee: helper!(define_property),
-                        args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
+                        args: smallvec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         ..Default::default()
                     }
                     .into()
@@ -317,7 +322,7 @@ impl VisitMut for ComputedProps {
                     CallExpr {
                         span: *span,
                         callee: helper!(define_enumerable_properties),
-                        args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
+                        args: smallvec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         ..Default::default()
                     }
                     .into(),
