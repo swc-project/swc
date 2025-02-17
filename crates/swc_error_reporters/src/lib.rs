@@ -1,4 +1,5 @@
 use std::{
+    cell::RefCell,
     fmt::{self, Write},
     intrinsics::transmute,
 };
@@ -23,6 +24,8 @@ pub struct PrettyEmitter {
     reporter: GraphicalReportHandler,
 
     config: PrettyEmitterConfig,
+
+    diagnostics: Vec<String>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -42,6 +45,7 @@ impl PrettyEmitter {
             wr: WriterWrapper(wr),
             reporter,
             config,
+            diagnostics: vec![],
         }
     }
 }
@@ -175,9 +179,22 @@ impl Emitter for PrettyEmitter {
             children,
         };
 
+        let mut format_result = String::new();
+
         self.reporter
-            .render_report(&mut self.wr, &diagnostic)
+            .render_report(&mut format_result, &diagnostic)
             .unwrap();
+
+        self.diagnostics.push(format_result.clone());
+
+        self.wr.write_str(&format_result).unwrap()
+    }
+
+    fn emit_diagnostics(&mut self, de: &RefCell<dyn swc_common::errors::DiagnosticEmitter>) {
+        let mut de_mut = de.borrow_mut();
+        for d in std::mem::take(&mut self.diagnostics) {
+            de_mut.emit(d);
+        }
     }
 }
 

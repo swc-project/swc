@@ -13,7 +13,7 @@ use swc_allocator::maybe::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, CommentKind, Comments, SingleThreadedComments},
-    errors::Handler,
+    errors::{DiagnosticEmitter, Handler},
     source_map::SourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap,
@@ -37,17 +37,28 @@ pub struct TransformOutput {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
 }
 
 #[cfg(not(feature = "node"))]
 #[derive(Debug, Serialize)]
 pub struct TransformOutput {
     pub code: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
+}
+
+impl DiagnosticEmitter for TransformOutput {
+    fn emit(&mut self, diagnostic: String) {
+        self.diagnostics.push(diagnostic);
+    }
 }
 
 /// This method parses a javascript / typescript file
@@ -273,6 +284,7 @@ where
         output: output
             .map(|v| serde_json::to_string(&v).context("failed to serilaize output"))
             .transpose()?,
+        diagnostics: Default::default(),
     })
 }
 

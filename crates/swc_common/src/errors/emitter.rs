@@ -10,6 +10,7 @@
 
 use std::{
     borrow::Cow,
+    cell::RefCell,
     cmp::{min, Reverse},
     collections::HashMap,
     io::{self, prelude::*},
@@ -23,7 +24,8 @@ use super::{
     diagnostic::Message,
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
+    CodeSuggestion, DiagnosticBuilder, DiagnosticEmitter, DiagnosticId, Level, SourceMapperDyn,
+    SubDiagnostic,
 };
 use crate::{
     sync::Lrc,
@@ -41,6 +43,8 @@ pub trait Emitter: crate::sync::Send {
     fn should_show_explain(&self) -> bool {
         true
     }
+
+    fn emit_diagnostics(&mut self, _de: &RefCell<dyn DiagnosticEmitter>) {}
 }
 
 impl Emitter for EmitterWriter {

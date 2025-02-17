@@ -894,7 +894,7 @@ impl Compiler {
                 opts.format.preserve_annotations,
             );
 
-            self.print(
+            let ret = self.print(
                 &program,
                 PrintArgs {
                     source_root: None,
@@ -917,7 +917,16 @@ impl Compiler {
                         .with_inline_script(opts.format.inline_script),
                     output: None,
                 },
-            )
+            );
+
+            ret.map(|t| {
+                let t = RefCell::new(t);
+                handler.emit_diagnostics(&t);
+
+                let transform_output = t.into_inner();
+
+                transform_output
+            })
         })
     }
 

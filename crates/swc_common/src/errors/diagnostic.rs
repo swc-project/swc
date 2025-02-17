@@ -13,11 +13,7 @@ use std::fmt;
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::syntax_pos::{MultiSpan, Span};
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
-#[cfg_attr(
-    feature = "diagnostic-serde",
-    derive(serde::Serialize, serde::Deserialize)
-)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -45,6 +41,10 @@ pub struct Diagnostic {
     pub span: MultiSpan,
     pub children: Vec<SubDiagnostic>,
     pub suggestions: Vec<CodeSuggestion>,
+}
+
+pub trait DiagnosticEmitter {
+    fn emit(&mut self, _diagnostic: String) {}
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
