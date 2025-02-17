@@ -1,5 +1,6 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::DUMMY_SP;
@@ -182,7 +183,7 @@ pub(super) fn object_define_property(
     descriptor: ExprOrSpread,
 ) -> Expr {
     member_expr!(Default::default(), DUMMY_SP, Object.defineProperty)
-        .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
+        .as_call(DUMMY_SP, smallvec![target, prop_name, descriptor])
 }
 
 /// Creates
@@ -366,7 +367,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     esm_export().into_fn_decl(esm_export_ident.clone()),
                 )),
                 esm_export_ident
-                    .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
+                    .as_call(DUMMY_SP, smallvec![exports.as_arg(), obj_lit.as_arg()])
                     .into_stmt(),
             ]
         }
