@@ -1,3 +1,4 @@
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -43,7 +44,7 @@ impl VisitMut for ObjectSpread {
 
             // { foo, ...x } => ({ foo }, x)
             let args = {
-                let mut buf = Vec::new();
+                let mut buf = SmallVec::new();
                 let mut obj = ObjectLit {
                     span: DUMMY_SP,
                     props: Vec::new(),
@@ -54,7 +55,7 @@ impl VisitMut for ObjectSpread {
                         PropOrSpread::Prop(..) => {
                             // before is spread element
                             if !first && obj.props.is_empty() && !self.config.pure_getters {
-                                buf = vec![Expr::Call(CallExpr {
+                                buf = smallvec![Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: callee.clone(),
                                     args: buf.take(),
@@ -69,7 +70,7 @@ impl VisitMut for ObjectSpread {
                             if first || !obj.props.is_empty() {
                                 buf.push(obj.take().as_arg());
                                 if !first && !self.config.pure_getters {
-                                    buf = vec![Expr::Call(CallExpr {
+                                    buf = smallvec![Expr::Call(CallExpr {
                                         span: DUMMY_SP,
                                         callee: helper!(object_spread_props),
                                         args: buf.take(),
