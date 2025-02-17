@@ -1,6 +1,6 @@
-use anyhow::Context;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -75,7 +75,7 @@ impl SystemJs {
         CallExpr {
             span,
             callee: self.export_ident.clone().as_callee(),
-            args: vec![quote_str!(name).as_arg(), expr.as_arg()],
+            args: smallvec![quote_str!(name).as_arg(), expr.as_arg()],
             ..Default::default()
         }
     }
@@ -114,7 +114,7 @@ impl SystemJs {
 
                 match pat {
                     AssignTargetPat::Object(..) | AssignTargetPat::Array(..) => {
-                        let mut exprs = vec![Box::new(Expr::Assign(assign_expr))];
+                        let mut exprs = smallvec![Box::new(Expr::Assign(assign_expr))];
 
                         for to in to {
                             for (k, v) in self.export_map.iter() {
@@ -335,7 +335,7 @@ impl SystemJs {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: self.export_ident.clone().as_callee(),
-                    args: vec![export_obj.as_arg()],
+                    args: smallvec![export_obj.as_arg()],
                     ..Default::default()
                 }
                 .into_stmt(),
@@ -369,7 +369,7 @@ impl SystemJs {
 
     #[allow(clippy::boxed_local)]
     fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Expr> {
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::new();
         for var_declarator in var_decl.decls {
             let mut tos: Vec<Id> = Vec::new();
             var_declarator.visit_with(&mut VarCollector { to: &mut tos });
@@ -916,11 +916,11 @@ impl Fold for SystemJs {
                     }
                     ModuleDecl::ExportAll(decl) => {
                         self.add_module_item_meta(ModuleItemMeta {
-                            export_names: Vec::new(),
-                            export_values: Vec::new(),
+                            export_names: Default::default(),
+                            export_values: Default::default(),
                             has_export_all: true,
                             src: decl.src.value,
-                            setter_fn_stmts: Vec::new(),
+                            setter_fn_stmts: Default::default(),
                         });
                     }
                     _ => {}
@@ -1107,7 +1107,7 @@ impl Fold for SystemJs {
                 span: DUMMY_SP,
                 callee: member_expr!(Default::default(), Default::default(), System.register)
                     .as_callee(),
-                args: vec![
+                args: smallvec![
                     dep_module_names.as_arg(),
                     FnExpr {
                         ident: None,
