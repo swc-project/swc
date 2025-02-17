@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -85,7 +86,7 @@ impl VisitMut for TypeOfSymbol {
                     let call = CallExpr {
                         span: *span,
                         callee: helper!(*span, type_of),
-                        args: vec![arg.take().as_arg()],
+                        args: smallvec![arg.take().as_arg()],
                         ..Default::default()
                     }
                     .into();
@@ -102,7 +103,7 @@ impl VisitMut for TypeOfSymbol {
                     let call = CallExpr {
                         span: *span,
                         callee: helper!(*span, type_of),
-                        args: vec![arg.take().as_arg()],
+                        args: smallvec![arg.take().as_arg()],
 
                         ..Default::default()
                     }

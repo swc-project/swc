@@ -2,6 +2,7 @@ use std::mem;
 
 use arrayvec::ArrayVec;
 use serde::Deserialize;
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
@@ -338,7 +339,7 @@ impl Params {
                                                     quote_ident!(self.unresolved_ctxt, "Array")
                                                         .into(),
                                                 ),
-                                                args: Some(vec![{
+                                                args: Some(smallvec![{
                                                     // `len` or  `len - $i`
                                                     make_minus_i(&len_ident, true).as_arg()
                                                 }]),

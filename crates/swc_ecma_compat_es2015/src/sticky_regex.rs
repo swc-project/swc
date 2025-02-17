@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -44,7 +45,7 @@ impl VisitMut for StickyRegex {
                 *e = NewExpr {
                     span: *span,
                     callee: Box::new(quote_ident!(Default::default(), *span, "RegExp").into()),
-                    args: Some(vec![exp.clone().as_arg(), flags.clone().as_arg()]),
+                    args: Some(smallvec![exp.clone().as_arg(), flags.clone().as_arg()]),
                     ..Default::default()
                 }
                 .into()

@@ -1,7 +1,8 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use smallvec::{smallvec, SmallVec};
+use swc_common::{util::take::Take, BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
@@ -251,7 +252,7 @@ impl AssignFolder {
                         Pat::Rest(RestPat {
                             dot3_token, arg, ..
                         }) => VarDeclarator {
-                            span: dot3_token,
+                            span: Span::new(dot3_token, dot3_token + BytePos(3)),
                             name: *arg,
                             init: Some(
                                 CallExpr {
@@ -260,9 +261,9 @@ impl AssignFolder {
                                         .clone()
                                         .make_member(quote_ident!("slice"))
                                         .as_callee(),
-                                    args: vec![Number {
+                                    args: smallvec![Number {
                                         value: i as f64,
-                                        span: dot3_token,
+                                        span: Span::new(dot3_token, dot3_token + BytePos(3)),
                                         raw: None,
                                     }
                                     .as_arg()],
@@ -300,7 +301,7 @@ impl AssignFolder {
 
                 let expr = helper_expr!(object_destructuring_empty).as_call(
                     DUMMY_SP,
-                    vec![decl
+                    smallvec![decl
                         .init
                         .expect("destructuring must be initialized")
                         .as_arg()],
@@ -567,7 +568,7 @@ impl AssignFolder {
     ) -> Expr {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
-        let mut exprs = vec![Box::new(
+        let mut exprs = smallvec![Box::new(
             AssignExpr {
                 span,
                 left: ref_ident.clone().into(),
@@ -660,7 +661,7 @@ impl VisitMut for AssignFolder {
                 //     });
                 // }
                 AssignTargetPat::Array(ArrayPat { elems, .. }) => {
-                    let mut exprs = Vec::with_capacity(elems.len() + 1);
+                    let mut exprs = SmallVec::with_capacity(elems.len() + 1);
 
                     if is_literal(right) && ignore_return_value {
                         match &mut **right {
@@ -765,7 +766,7 @@ impl VisitMut for AssignFolder {
                                                     Array.prototype.slice.call
                                                 )
                                                 .as_callee(),
-                                                args: vec![right.take().as_arg()],
+                                                args: smallvec![right.take().as_arg()],
                                                 ..Default::default()
                                             }
                                             .into(),
@@ -783,7 +784,7 @@ impl VisitMut for AssignFolder {
                                                 CallExpr {
                                                     span: DUMMY_SP,
                                                     callee: helper!(to_array),
-                                                    args: vec![right.take().as_arg()],
+                                                    args: smallvec![right.take().as_arg()],
                                                     ..Default::default()
                                                 }
                                                 .into(),
@@ -793,7 +794,7 @@ impl VisitMut for AssignFolder {
                                                 CallExpr {
                                                     span: DUMMY_SP,
                                                     callee: helper!(sliced_to_array),
-                                                    args: vec![
+                                                    args: smallvec![
                                                         right.take().as_arg(),
                                                         elems.len().as_arg(),
                                                     ],
@@ -854,7 +855,7 @@ impl VisitMut for AssignFolder {
                                             .clone()
                                             .make_member(quote_ident!("slice"))
                                             .as_callee(),
-                                        args: vec![(i as f64).as_arg()],
+                                        args: smallvec![(i as f64).as_arg()],
                                         ..Default::default()
                                     }
                                     .into(),
@@ -1181,7 +1182,7 @@ fn make_ref_ident_for_array(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(to_array),
-                                args: vec![v.as_arg()],
+                                args: smallvec![v.as_arg()],
                                 ..Default::default()
                             }
                             .into(),
@@ -1190,7 +1191,7 @@ fn make_ref_ident_for_array(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(sliced_to_array),
-                                args: vec![v.as_arg(), value.as_arg()],
+                                args: smallvec![v.as_arg(), value.as_arg()],
                                 ..Default::default()
                             }
                             .into(),

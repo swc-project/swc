@@ -163,7 +163,7 @@ impl VisitMut for Spread {
                 *e = CallExpr {
                     span: *span,
                     callee: apply.as_callee(),
-                    args: vec![this.as_arg(), args_array.as_arg()],
+                    args: smallvec![this.as_arg(), args_array.as_arg()],
                     ..Default::default()
                 }
                 .into()
@@ -186,7 +186,7 @@ impl VisitMut for Spread {
                 *e = CallExpr {
                     span: *span,
                     callee: helper!(construct),
-                    args: vec![callee.take().as_arg(), args.as_arg()],
+                    args: smallvec![callee.take().as_arg(), args.as_arg()],
                     ..Default::default()
                 }
                 .into();
@@ -238,8 +238,8 @@ impl Spread {
         //
         let mut first_arr = None;
 
-        let mut tmp_arr = Vec::new();
-        let mut buf = Vec::new();
+        let mut tmp_arr = SmallVec::new();
+        let mut buf: SmallVec<[ExprOrSpread; 1]> = SmallVec::new();
         let args_len = args.len();
 
         macro_rules! make_arr {
@@ -266,8 +266,8 @@ impl Spread {
         // contiguous slice of non-spread args in an array, which will protect
         // array args from being flattened.
         if self.c.loose {
-            let mut arg_list = Vec::new();
-            let mut current_elems = Vec::new();
+            let mut arg_list = SmallVec::new();
+            let mut current_elems = SmallVec::new();
             for arg in args.flatten() {
                 let expr = arg.expr;
                 match arg.spread {
@@ -280,7 +280,7 @@ impl Spread {
                                 }
                                 .as_arg(),
                             );
-                            current_elems = Vec::new();
+                            current_elems = Default::default();
                         }
                         arg_list.push(expr.as_arg());
                     }
@@ -303,7 +303,7 @@ impl Spread {
                 span: DUMMY_SP,
                 callee: ArrayLit {
                     span: DUMMY_SP,
-                    elems: Vec::new(),
+                    elems: Default::default(),
                 }
                 .make_member(quote_ident!("concat"))
                 .as_callee(),
@@ -324,7 +324,7 @@ impl Spread {
                             callee: quote_ident!("Array")
                                 .make_member(quote_ident!("from"))
                                 .as_callee(),
-                            args: vec![expr.as_arg()],
+                            args: smallvec![expr.as_arg()],
                             ..Default::default()
                         }
                     } else {
@@ -356,7 +356,7 @@ impl Spread {
                                                 Array.prototype.slice.call
                                             )
                                             .as_callee(),
-                                            args: vec![expr.as_arg()],
+                                            args: smallvec![expr.as_arg()],
                                             ..Default::default()
                                         }
                                         .into();
@@ -372,7 +372,7 @@ impl Spread {
                                             Array.prototype.slice.call
                                         )
                                         .as_callee(),
-                                        args: vec![expr.as_arg()],
+                                        args: smallvec![expr.as_arg()],
                                         ..Default::default()
                                     }
                                     .as_arg()
@@ -393,11 +393,11 @@ impl Spread {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {
                                                 span: DUMMY_SP,
-                                                elems: Vec::new(),
+                                                elems: Default::default(),
                                             }
                                             .make_member(quote_ident!("concat"))
                                             .as_callee(),
-                                            args: vec![expr.as_arg()],
+                                            args: smallvec![expr.as_arg()],
                                             ..Default::default()
                                         }
                                         .into()
@@ -451,7 +451,7 @@ impl Spread {
                     // assert!(args.is_empty());
                     Expr::Array(ArrayLit {
                         span,
-                        elems: Vec::new(),
+                        elems: Default::default(),
                     })
                 })
                 .make_member(IdentName::new("concat".into(), span))
@@ -467,9 +467,9 @@ impl Spread {
 #[tracing::instrument(level = "info", skip_all)]
 fn expand_literal_args(
     args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
-) -> Vec<Option<ExprOrSpread>> {
+) -> SmallVec<[Option<ExprOrSpread>; 1]> {
     fn expand(
-        buf: &mut Vec<Option<ExprOrSpread>>,
+        buf: &mut SmallVec<[Option<ExprOrSpread>; 1]>,
         args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
     ) {
         for mut arg in args {
@@ -496,7 +496,7 @@ fn expand_literal_args(
         }
     }
 
-    let mut buf = Vec::with_capacity(args.len() + 4);
+    let mut buf = SmallVec::with_capacity(args.len() + 4);
     expand(&mut buf, args);
     buf
 }

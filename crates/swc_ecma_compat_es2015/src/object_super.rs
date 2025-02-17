@@ -372,7 +372,7 @@ impl SuperReplacer {
         CallExpr {
             span: super_token,
             callee: helper!(set),
-            args: vec![
+            args: smallvec![
                 self.get_proto(),
                 prop,
                 rhs,
@@ -442,7 +442,7 @@ impl SuperReplacer {
                         self.vars.push(update_ident.clone());
                         SeqExpr {
                             span: DUMMY_SP,
-                            exprs: vec![
+                            exprs: smallvec![
                                 Box::new(
                                     self.call_set_helper(
                                         super_token,

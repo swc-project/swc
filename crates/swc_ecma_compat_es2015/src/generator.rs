@@ -88,7 +88,7 @@ impl VisitMut for Wrapper {
             let generator_object = CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_generator),
-                args: vec![
+                args: smallvec![
                     ThisExpr { span: DUMMY_SP }.as_arg(),
                     FnExpr {
                         ident: None,
@@ -516,7 +516,7 @@ impl VisitMut for Generator {
 
             Expr::Seq(node) => {
                 //     // flattened version of `visitCommaExpression`
-                let mut pending_expressions = Vec::new();
+                let mut pending_expressions = SmallVec::new();
 
                 for mut elem in node.exprs.take() {
                     if let Expr::Seq(mut elem) = *elem {
@@ -741,7 +741,7 @@ impl VisitMut for Generator {
                         props
                     })
                     .into_iter()
-                    .fold(Vec::new(), |exprs, property| {
+                    .fold(Default::default(), |exprs, property| {
                         self.reduce_property(exprs, property, &mut temp)
                     });
 
@@ -865,7 +865,7 @@ impl VisitMut for Generator {
                 .filter_map(|v| self.transform_initialized_variable(v.take()))
                 .map(Expr::from)
                 .map(Box::new)
-                .collect::<Vec<_>>();
+                .collect::<SmallVec<[Box<Expr>; 2]>>();
             node.init = if exprs.is_empty() {
                 None
             } else {
@@ -1028,7 +1028,7 @@ impl VisitMut for Generator {
                     .filter_map(|v| self.transform_initialized_variable(v.take()))
                     .map(Expr::from)
                     .map(Box::new)
-                    .collect::<Vec<_>>();
+                    .collect::<SmallVec<[Box<Expr>; 2]>>();
 
                 if exprs.is_empty() {
                     node.take();
@@ -1117,7 +1117,7 @@ impl Generator {
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
-            .fold(Vec::new(), |exprs, element| {
+            .fold(Default::default(), |exprs, element| {
                 self.reduce_element(exprs, element, &mut leading_element, &mut temp)
             });
 
@@ -1125,7 +1125,7 @@ impl Generator {
             CallExpr {
                 span: DUMMY_SP,
                 callee: temp.make_member(quote_ident!("concat")).as_callee(),
-                args: vec![ExprOrSpread {
+                args: smallvec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Array(ArrayLit {
                         span: DUMMY_SP,
@@ -1151,11 +1151,11 @@ impl Generator {
 
     fn reduce_element(
         &mut self,
-        mut expressions: Vec<Option<ExprOrSpread>>,
+        mut expressions: SmallVec<[Option<ExprOrSpread>; 1]>,
         mut element: Option<ExprOrSpread>,
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
-    ) -> Vec<Option<ExprOrSpread>> {
+    ) -> SmallVec<[Option<ExprOrSpread>; 1]> {
         if contains_yield(&element) && !expressions.is_empty() {
             let has_assigned_temp = temp.is_some();
             if temp.is_none() {
@@ -1172,7 +1172,7 @@ impl Generator {
                             .unwrap()
                             .make_member(quote_ident!("concat"))
                             .as_callee(),
-                        args: vec![Box::new(Expr::Array(ArrayLit {
+                        args: smallvec![Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems: expressions.take(),
                         }))
@@ -1504,7 +1504,7 @@ impl Generator {
         let mut variables = self.get_initialized_variables(&mut node);
         let var_len = variables.len();
         let mut variables_written = 0;
-        let mut pending_expressions = Vec::new();
+        let mut pending_expressions = SmallVec::new();
         let mut cnt = 0;
 
         while variables_written < var_len {
@@ -2672,7 +2672,7 @@ impl Generator {
     /// - `location`: An optional source map location for the statement.
     fn create_inline_break(&mut self, label: Label, span: Option<Span>) -> ReturnStmt {
         debug_assert!(label.0 >= 0, "Invalid label");
-        let args = vec![
+        let args = smallvec![
             Some(self.create_instruction(Instruction::Break).as_arg()),
             Some(self.create_label(Some(label)).as_arg()),
         ];
@@ -2699,11 +2699,13 @@ impl Generator {
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: match expr {
-                        Some(expr) => vec![
+                        Some(expr) => smallvec![
                             Some(self.create_instruction(Instruction::Return).as_arg()),
                             Some(expr.as_arg()),
                         ],
-                        None => vec![Some(self.create_instruction(Instruction::Return).as_arg())],
+                        None => {
+                            smallvec![Some(self.create_instruction(Instruction::Return).as_arg())]
+                        }
                     },
                 }
                 .into(),
@@ -3038,9 +3040,9 @@ impl Generator {
                                 .make_member(quote_ident!("trys"))
                                 .make_member(quote_ident!("push"))
                                 .as_callee(),
-                            args: vec![ArrayLit {
+                            args: smallvec![ArrayLit {
                                 span: DUMMY_SP,
-                                elems: vec![
+                                elems: smallvec![
                                     Some(start_label.as_arg()),
                                     Some(catch_label.as_arg()),
                                     Some(finally_label.as_arg()),
@@ -3349,10 +3351,10 @@ impl Generator {
                         span: DUMMY_SP,
                         elems: match expr {
                             Some(expr) => {
-                                vec![Some(inst.as_arg()), Some(expr.as_arg())]
+                                smallvec![Some(inst.as_arg()), Some(expr.as_arg())]
                             }
                             _ => {
-                                vec![Some(inst.as_arg())]
+                                smallvec![Some(inst.as_arg())]
                             }
                         },
                     }
@@ -3378,7 +3380,7 @@ impl Generator {
                 arg: Some(
                     ArrayLit {
                         span: DUMMY_SP,
-                        elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                        elems: smallvec![Some(inst.as_arg()), Some(label.as_arg())],
                     }
                     .into(),
                 ),
@@ -3404,7 +3406,7 @@ impl Generator {
                     arg: Some(
                         ArrayLit {
                             span: DUMMY_SP,
-                            elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
+                            elems: smallvec![Some(inst.as_arg()), Some(label.as_arg())],
                         }
                         .into(),
                     ),
@@ -3458,10 +3460,10 @@ impl Generator {
         let inst = self.create_instruction(Instruction::Yield);
         let elems = match expr {
             Some(expr) => {
-                vec![Some(inst.as_arg()), Some(expr.as_arg())]
+                smallvec![Some(inst.as_arg()), Some(expr.as_arg())]
             }
             None => {
-                vec![Some(inst.as_arg())]
+                smallvec![Some(inst.as_arg())]
             }
         };
         self.write_stmt(
@@ -3513,7 +3515,7 @@ impl Generator {
                 arg: Some(
                     ArrayLit {
                         span: DUMMY_SP,
-                        elems: vec![Some(arg.as_arg())],
+                        elems: smallvec![Some(arg.as_arg())],
                     }
                     .into(),
                 ),
