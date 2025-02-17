@@ -1,4 +1,5 @@
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -280,7 +281,7 @@ impl Cjs {
                 let import_expr = if link_flag.export_star() {
                     helper_expr!(export_star).as_call(
                         DUMMY_SP,
-                        vec![import_expr.as_arg(), self.exports().as_arg()],
+                        smallvec![import_expr.as_arg(), self.exports().as_arg()],
                     )
                 } else {
                     import_expr
@@ -294,10 +295,10 @@ impl Cjs {
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        .as_call(PURE_SP, smallvec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard)
-                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(PURE_SP, smallvec![import_expr.as_arg(), true.as_arg()])
                         }
                         _ => import_expr,
                     }
@@ -549,16 +550,16 @@ pub(crate) fn cjs_dynamic_import(
         match import_interop {
             ImportInterop::None => require,
             ImportInterop::Swc => {
-                helper_expr!(interop_require_wildcard).as_call(PURE_SP, vec![require.as_arg()])
+                helper_expr!(interop_require_wildcard).as_call(PURE_SP, smallvec![require.as_arg()])
             }
             ImportInterop::Node => helper_expr!(interop_require_wildcard)
-                .as_call(PURE_SP, vec![require.as_arg(), true.as_arg()]),
+                .as_call(PURE_SP, smallvec![require.as_arg(), true.as_arg()]),
         }
     };
 
     then.as_call(
         span,
-        vec![import_expr
+        smallvec![import_expr
             .into_lazy_auto(callback_params, support_arrow)
             .as_arg()],
     )
