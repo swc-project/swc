@@ -49,8 +49,8 @@ rustc-hash        = { workspace = true }
 ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
+smallvec          = { workspace = true }
 tracing           = { workspace = true }
-
 
 swc_allocator = { version = "3.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "4.0.0", path = "../swc_atoms" }
