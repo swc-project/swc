@@ -6155,6 +6155,7 @@ dependencies = [
  "indexmap 2.7.1",
  "once_cell",
  "scoped-tls",
+ "smallvec",
 ]
 
 [[package]]
