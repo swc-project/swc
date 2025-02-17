@@ -31,7 +31,7 @@ impl Swcify for RestElement {
 
         RestPat {
             span,
-            dot3_token: span,
+            dot3_token: span.hi,
             arg: Box::new(self.argument.swcify(ctx)),
             type_ann: None,
         }

@@ -102,8 +102,12 @@ impl Swcify for TemplateLiteral {
     fn swcify(self, ctx: &Context) -> Self::Output {
         Tpl {
             span: ctx.span(&self.base),
-            exprs: self.expressions.swcify(ctx),
-            quasis: self.quasis.swcify(ctx),
+            exprs: self
+                .expressions
+                .into_iter()
+                .map(|e| e.swcify(ctx))
+                .collect(),
+            quasis: self.quasis.into_iter().map(|e| e.swcify(ctx)).collect(),
         }
     }
 }

@@ -530,7 +530,11 @@ impl Swcify for SequenceExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         SeqExpr {
             span: ctx.span(&self.base),
-            exprs: self.expressions.swcify(ctx),
+            exprs: self
+                .expressions
+                .into_iter()
+                .map(|e| e.swcify(ctx))
+                .collect(),
         }
     }
 }
@@ -984,7 +988,7 @@ impl Swcify for JSXSpreadAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         SpreadElement {
-            dot3_token: ctx.span(&self.base),
+            dot3_token: ctx.span(&self.base).lo,
             expr: self.argument.swcify(ctx),
         }
     }
@@ -1172,7 +1176,7 @@ impl Swcify for ArrayExprEl {
         match self {
             ArrayExprEl::Spread(s) => ExprOrSpread {
                 // TODO: Use correct span
-                spread: Some(ctx.span(&s.base)),
+                spread: Some(ctx.span(&s.base).lo),
                 expr: s.argument.swcify(ctx),
             },
             ArrayExprEl::Expr(e) => ExprOrSpread {
