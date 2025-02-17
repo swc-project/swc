@@ -356,9 +356,9 @@ impl Umd {
         let module_exports = module.clone().make_member(quote_ident!("exports"));
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
-        let mut cjs_args = Vec::new();
+        let mut cjs_args = SmallVec::new();
         let mut amd_dep_list = SmallVec::new();
-        let mut browser_args = Vec::new();
+        let mut browser_args = SmallVec::new();
 
         let mut factory_params = Vec::new();
 
