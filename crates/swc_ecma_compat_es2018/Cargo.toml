@@ -13,8 +13,9 @@ version       = "10.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde   = { workspace = true, features = ["derive"] }
-tracing = { workspace = true }
+serde    = { workspace = true, features = ["derive"] }
+smallvec = { workspace = true }
+tracing  = { workspace = true }
 
 swc_atoms                  = { version = "4.0.0", path = "../swc_atoms" }
 swc_common                 = { version = "7.0.0", path = "../swc_common" }
