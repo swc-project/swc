@@ -3,6 +3,7 @@ use std::{
     mem::{self, replace},
 };
 
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
@@ -373,7 +374,7 @@ impl VisitMut for ObjectRest {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: helper!(extends),
-                                    args: vec![
+                                    args: smallvec![
                                         ObjectLit {
                                             span: DUMMY_SP,
                                             props: Vec::new(),

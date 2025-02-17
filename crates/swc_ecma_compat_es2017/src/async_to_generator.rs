@@ -361,7 +361,11 @@ impl VisitMut for Actual {
         );
 
         let fn_ref = if is_this_used {
-            fn_ref.apply(DUMMY_SP, ThisExpr { span: DUMMY_SP }.into(), Vec::new())
+            fn_ref.apply(
+                DUMMY_SP,
+                ThisExpr { span: DUMMY_SP }.into(),
+                Default::default(),
+            )
         } else {
             CallExpr {
                 span: DUMMY_SP,
