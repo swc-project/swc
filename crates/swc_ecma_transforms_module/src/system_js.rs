@@ -1,3 +1,4 @@
+use anyhow::Context;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use smallvec::{smallvec, SmallVec};
@@ -51,7 +52,7 @@ pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> i
         declare_var_idents: Vec::new(),
         export_map: Default::default(),
         export_names: Vec::new(),
-        export_values: Vec::new(),
+        export_values: Default::default(),
         tla: false,
         enter_async_fn: 0,
         root_fn_decl_idents: Vec::new(),
@@ -168,7 +169,10 @@ impl SystemJs {
                             }
                             return SeqExpr {
                                 span: DUMMY_SP,
-                                exprs: vec![Box::new(expr), Box::new(Expr::Update(update_expr))],
+                                exprs: smallvec![
+                                    Box::new(expr),
+                                    Box::new(Expr::Update(update_expr))
+                                ],
                             }
                             .into();
                         }
@@ -224,7 +228,7 @@ impl SystemJs {
                 vec![CallExpr {
                     span: DUMMY_SP,
                     callee: self.export_ident.clone().as_callee(),
-                    args: vec![ObjectLit {
+                    args: smallvec![ObjectLit {
                         span: DUMMY_SP,
                         props,
                     }
@@ -710,7 +714,7 @@ impl Fold for SystemJs {
 
                         self.add_module_item_meta(ModuleItemMeta {
                             export_names: Vec::new(),
-                            export_values: Vec::new(),
+                            export_values: Default::default(),
                             has_export_all: false,
                             src: src.clone(),
                             setter_fn_stmts,
@@ -730,7 +734,7 @@ impl Fold for SystemJs {
                             for specifier in decl.specifiers {
                                 let source_alias = local_name_for_src(&src);
                                 let mut export_names = Vec::new();
-                                let mut export_values = Vec::new();
+                                let mut export_values = SmallVec::new();
 
                                 match specifier {
                                     ExportSpecifier::Named(specifier) => {
@@ -980,12 +984,12 @@ impl Fold for SystemJs {
 
         let mut setters = ArrayLit {
             span: DUMMY_SP,
-            elems: Vec::new(),
+            elems: Default::default(),
         };
 
         let mut dep_module_names = ArrayLit {
             span: DUMMY_SP,
-            elems: Vec::new(),
+            elems: Default::default(),
         };
 
         let module_item_meta_list: Vec<ModuleItemMeta> =
