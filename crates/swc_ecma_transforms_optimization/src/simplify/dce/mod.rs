@@ -3,6 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use smallvec::SmallVec;
 use swc_atoms::{atom, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -1014,7 +1015,7 @@ impl VisitMut for TreeShaker {
                     .take()
                     .into_iter()
                     .filter_map(|v| v.init)
-                    .collect::<Vec<_>>();
+                    .collect::<SmallVec<[Box<Expr>; 2]>>();
 
                 debug!(
                     count = cnt,

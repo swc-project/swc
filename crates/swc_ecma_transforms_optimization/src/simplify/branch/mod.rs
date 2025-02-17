@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter::once, mem::take};
 
-use smallvec::{smallvec, SmallVec};
+use smallvec::SmallVec;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
@@ -313,7 +313,7 @@ impl VisitMut for Remover {
         }
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
@@ -753,7 +753,7 @@ impl VisitMut for Remover {
                     let mut var_ids = Vec::new();
                     if let Some(i) = selected {
                         if !has_conditional_stopper(&s.cases[i].cons) {
-                            let mut exprs = Vec::new();
+                            let mut exprs = SmallVec::new();
                             exprs.extend(ignore_result(s.discriminant, true, self.expr_ctx));
 
                             let mut stmts = s.cases[i].cons.take();
@@ -970,7 +970,7 @@ impl VisitMut for Remover {
                             && is_all_case_side_effect_free
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
-                            let mut exprs = Vec::new();
+                            let mut exprs = SmallVec::new();
                             exprs.extend(ignore_result(s.discriminant, true, self.expr_ctx));
 
                             exprs.extend(

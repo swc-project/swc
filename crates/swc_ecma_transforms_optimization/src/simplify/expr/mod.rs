@@ -315,7 +315,7 @@ impl SimplifyExpr {
                             // (0, val)
                             *expr = SeqExpr {
                                 span: val.span(),
-                                exprs: vec![0.into(), val],
+                                exprs: smallvec![0.into(), val],
                             }
                             .into();
                             return;
@@ -1278,7 +1278,7 @@ impl VisitMut for SimplifyExpr {
                         _ => {
                             let seq = SeqExpr {
                                 span: DUMMY_SP,
-                                exprs: vec![0.0.into(), e.take()],
+                                exprs: smallvec![0.0.into(), e.take()],
                             };
                             **e = seq.into();
                         }
@@ -1375,7 +1375,7 @@ impl VisitMut for SimplifyExpr {
                         if expr_value.directness_maters() {
                             SeqExpr {
                                 span: *span,
-                                exprs: vec![0.into(), expr_value.take()],
+                                exprs: smallvec![0.into(), expr_value.take()],
                             }
                             .into()
                         } else {
@@ -1384,7 +1384,7 @@ impl VisitMut for SimplifyExpr {
                     } else {
                         SeqExpr {
                             span: *span,
-                            exprs: vec![test.take(), expr_value.take()],
+                            exprs: smallvec![test.take(), expr_value.take()],
                         }
                         .into()
                     }
@@ -1403,7 +1403,7 @@ impl VisitMut for SimplifyExpr {
             }
 
             Expr::Array(ArrayLit { elems, .. }) => {
-                let mut e = Vec::with_capacity(elems.len());
+                let mut e = SmallVec::with_capacity(elems.len());
 
                 for elem in elems.take() {
                     match elem {
@@ -1524,7 +1524,7 @@ impl VisitMut for SimplifyExpr {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.maybe_par(cpu_count(), n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -1583,7 +1583,7 @@ impl VisitMut for SimplifyExpr {
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
 
         // Expressions except last one
-        let mut exprs = Vec::with_capacity(e.exprs.len() + 1);
+        let mut exprs = SmallVec::with_capacity(e.exprs.len() + 1);
 
         for expr in e.exprs.take() {
             match *expr {
