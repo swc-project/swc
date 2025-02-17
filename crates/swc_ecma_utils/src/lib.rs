@@ -946,7 +946,7 @@ impl Visit for RestPatVisitor {
 
 pub fn is_literal<T>(node: &T) -> bool
 where
-    T: VisitWith<LiteralVisitor>,
+    T: ?Sized + VisitWith<LiteralVisitor>,
 {
     let (v, _) = calc_literal_cost(node, true);
     v
@@ -955,7 +955,7 @@ where
 #[inline(never)]
 pub fn calc_literal_cost<T>(e: &T, allow_non_json_value: bool) -> (bool, usize)
 where
-    T: VisitWith<LiteralVisitor>,
+    T: ?Sized + VisitWith<LiteralVisitor>,
 {
     let mut v = LiteralVisitor {
         is_lit: true,
