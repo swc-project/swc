@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -79,7 +80,7 @@ impl ExplicitResourceManagement {
                             key: PropName::Ident(quote_ident!("stack")),
                             value: Box::new(Expr::Array(ArrayLit {
                                 span: DUMMY_SP,
-                                elems: vec![],
+                                elems: Default::default(),
                             })),
                         }))),
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -116,7 +117,7 @@ impl ExplicitResourceManagement {
                     init: Some(
                         CallExpr {
                             callee: helper!(ts, ts_add_disposable_resource),
-                            args: vec![
+                            args: smallvec![
                                 env.clone().as_arg(),
                                 disposable.as_arg(),
                                 is_async.as_arg(),
@@ -196,7 +197,7 @@ impl ExplicitResourceManagement {
                     init: Some(
                         CallExpr {
                             callee: helper!(ts, ts_dispose_resources),
-                            args: vec![env.clone().as_arg()],
+                            args: smallvec![env.clone().as_arg()],
                             ..Default::default()
                         }
                         .into(),
@@ -227,7 +228,7 @@ impl ExplicitResourceManagement {
             // _ts_dispose_resources(env_1);
             vec![CallExpr {
                 callee: helper!(ts, ts_dispose_resources),
-                args: vec![env.clone().as_arg()],
+                args: smallvec![env.clone().as_arg()],
                 ..Default::default()
             }
             .into_stmt()]
@@ -278,7 +279,7 @@ impl VisitMut for ExplicitResourceManagement {
                     init: Some(
                         CallExpr {
                             callee: helper!(ts, ts_add_disposable_resource),
-                            args: vec![
+                            args: smallvec![
                                 state.env.clone().as_arg(),
                                 new_var.clone().as_arg(),
                                 using.is_await.as_arg(),
@@ -354,7 +355,7 @@ fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {
         decl.init = Some(
             CallExpr {
                 callee: helper!(ts, ts_add_disposable_resource),
-                args: vec![
+                args: smallvec![
                     state.env.clone().as_arg(),
                     decl.init.take().unwrap().as_arg(),
                     using.is_await.as_arg(),
