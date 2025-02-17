@@ -8,6 +8,7 @@ use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use rustc_hash::FxHashSet;
 use serde::Deserialize;
+use smallvec::smallvec;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -508,7 +509,7 @@ impl VisitMut for Polyfills {
                                 ..Default::default()
                             }
                             .as_callee(),
-                            args: vec![Str {
+                            args: smallvec![Str {
                                 span: DUMMY_SP,
                                 value: src,
                                 raw: None,
@@ -536,7 +537,7 @@ impl VisitMut for Polyfills {
                                 ..Default::default()
                             }
                             .as_callee(),
-                            args: vec![Str {
+                            args: smallvec![Str {
                                 span: DUMMY_SP,
                                 value: src,
                                 raw: None,
