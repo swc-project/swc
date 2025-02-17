@@ -1,5 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -289,7 +290,7 @@ impl SimplifyExpr {
                         };
 
                         // Replacement expressions.
-                        let mut exprs = Vec::new();
+                        let mut exprs = smallvec![];
 
                         // Add before side effects.
                         for elem in before.into_iter().flatten() {
