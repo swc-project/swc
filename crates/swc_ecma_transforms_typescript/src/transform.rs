@@ -1,6 +1,7 @@
 use std::{iter, mem};
 
 use rustc_hash::{FxHashMap, FxHashSet};
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
@@ -759,7 +760,7 @@ impl Transform {
         };
 
         let expr = Factory::function(vec![id.clone().into()], body)
-            .as_call(if iife { DUMMY_SP } else { PURE_SP }, vec![init_arg]);
+            .as_call(if iife { DUMMY_SP } else { PURE_SP }, smallvec![init_arg]);
 
         if iife {
             FoldedDecl::Expr(
@@ -835,7 +836,7 @@ impl Transform {
         .or_assign_empty();
 
         let expr = Factory::function(vec![module_ident.clone().into()], body)
-            .as_call(DUMMY_SP, vec![init_arg])
+            .as_call(DUMMY_SP, smallvec![init_arg])
             .into();
 
         FoldedDecl::Expr(ExprStmt { span, expr }.into())
@@ -867,7 +868,7 @@ impl Transform {
         .or_assign_empty();
 
         let expr =
-            Factory::function(vec![local_name.into()], body).as_call(DUMMY_SP, vec![init_arg]);
+            Factory::function(vec![local_name.into()], body).as_call(DUMMY_SP, smallvec![init_arg]);
 
         BlockStmt {
             span,
@@ -921,7 +922,7 @@ impl Transform {
                         stmts.push(assign_stmt);
                     }
                     Decl::Var(var_decl) => {
-                        let mut exprs: Vec<Box<_>> = var_decl
+                        let mut exprs: SmallVec<[Box<Expr>; 2]> = var_decl
                             .decls
                             .into_iter()
                             .flat_map(
@@ -1260,7 +1261,7 @@ impl Transform {
                                     // require("foo");
                                     let mut init = cjs_require
                                         .clone()
-                                        .as_call(DUMMY_SP, vec![expr.take().as_arg()]);
+                                        .as_call(DUMMY_SP, smallvec![expr.take().as_arg()]);
 
                                     // exports.foo = require("foo");
                                     if decl.is_export {
@@ -1287,7 +1288,7 @@ impl Transform {
 
                                     let mut var_decl = require
                                         .clone()
-                                        .as_call(DUMMY_SP, vec![expr.take().as_arg()])
+                                        .as_call(DUMMY_SP, smallvec![expr.take().as_arg()])
                                         .into_var_decl(VarDeclKind::Const, decl.id.take().into());
 
                                     *module_item = if decl.is_export {
@@ -1351,7 +1352,7 @@ impl Transform {
                 create_require
                     .as_call(
                         DUMMY_SP,
-                        vec![MetaPropExpr {
+                        smallvec![MetaPropExpr {
                             span: DUMMY_SP,
                             kind: MetaPropKind::ImportMeta,
                         }
