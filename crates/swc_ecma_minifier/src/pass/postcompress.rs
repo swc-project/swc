@@ -1,3 +1,4 @@
+use smallvec::SmallVec;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -140,7 +141,7 @@ impl VisitMut for PostcompressOptimizer<'_> {
         });
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
