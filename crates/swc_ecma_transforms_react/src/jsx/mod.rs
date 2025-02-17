@@ -1,5 +1,4 @@
 #![allow(clippy::redundant_allocation)]
-
 use std::{
     borrow::Cow,
     iter::{self, once},
@@ -9,6 +8,7 @@ use std::{
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
+use smallvec::{smallvec, SmallVec};
 use string_enum::StringEnum;
 use swc_atoms::{atom, Atom, JsWord};
 use swc_common::{
@@ -541,12 +541,12 @@ where
                     props: Vec::new(),
                 };
 
-                let children = el
+                let children: SmallVec<[Option<ExprOrSpread>; 1]> = el
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
                     .map(Some)
-                    .collect::<Vec<_>>();
+                    .collect::<SmallVec<_>>();
 
                 match (children.len(), use_jsxs) {
                     (0, _) => {}
@@ -800,12 +800,12 @@ where
                     }
                 }
 
-                let mut children = el
+                let mut children: SmallVec<[Option<ExprOrSpread>; 1]> = el
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
                     .map(Some)
-                    .collect::<Vec<_>>();
+                    .collect::<SmallVec<_>>();
 
                 match children.len() {
                     0 => {}
@@ -931,7 +931,7 @@ where
             JSXElementChild::JSXElement(el) => self.jsx_elem_to_expr(*el).as_arg(),
             JSXElementChild::JSXFragment(el) => self.jsx_frag_to_expr(el).as_arg(),
             JSXElementChild::JSXSpreadChild(JSXSpreadChild { span, expr, .. }) => ExprOrSpread {
-                spread: Some(span),
+                spread: Some(span.lo),
                 expr,
             },
         })
@@ -1222,7 +1222,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                     optional: false,
                     ..Default::default()
                 }))),
-                args: vec![ExprOrSpread {
+                args: smallvec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
