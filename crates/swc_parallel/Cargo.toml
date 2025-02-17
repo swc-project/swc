@@ -15,11 +15,13 @@ parallel = ["dep:chili"]
 # Alias for parallel, just for CI. Do not use it if you are not working on SWC.
 concurrent = ["parallel"]
 indexmap   = ["dep:indexmap"]
+smallvec   = ["dep:smallvec"]
 
 [dependencies]
 chili     = { workspace = true, optional = true }
 indexmap  = { workspace = true, optional = true }
 once_cell = { workspace = true }
+smallvec  = { workspace = true, optional = true }
 
 [dev-dependencies]
 scoped-tls = { workspace = true }
