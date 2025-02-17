@@ -273,6 +273,20 @@ impl Atom {
     }
 }
 
+#[cfg(test)]
+impl Atom {
+    pub(crate) fn ref_count(&self) -> usize {
+        match self.tag() {
+            DYNAMIC_TAG => {
+                let ptr = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
+
+                triomphe::ThinArc::strong_count(&ptr.0)
+            }
+            _ => 1,
+        }
+    }
+}
+
 impl PartialEq for Atom {
     #[inline(never)]
     fn eq(&self, other: &Self) -> bool {
