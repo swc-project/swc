@@ -6,6 +6,7 @@ use std::{
 };
 
 use is_macro::Is;
+use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
