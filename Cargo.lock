@@ -5701,6 +5701,7 @@ dependencies = [
  "rustc-hash 2.1.0",
  "serde",
  "sha1",
+ "smallvec",
  "string_enum",
  "swc_allocator",
  "swc_atoms",
