@@ -1,4 +1,5 @@
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{
     comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap, SourceMapper, Span,
     Spanned, SyntaxContext, DUMMY_SP,
@@ -198,7 +199,7 @@ impl<C: Comments> Refresh<C> {
                 let hook = if let Expr::Call(call) = first.as_ref() {
                     let res = Some(HocHook {
                         callee: call.callee.clone(),
-                        rest_arg: call.args[1..].to_owned(),
+                        rest_arg: call.args[1..].iter().cloned().collect(),
                     });
                     *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
                     res
@@ -473,7 +474,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     span: DUMMY_SP,
                     expr: CallExpr {
                         callee: quote_ident!(refresh_reg).as_callee(),
-                        args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
+                        args: smallvec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
                         ..Default::default()
                     }
                     .into(),
@@ -490,7 +491,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
 fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
     let span = expr.span();
-    let mut args = vec![expr.take().as_arg()];
+    let mut args = smallvec![expr.take().as_arg()];
     args.append(&mut hook.rest_arg);
     *expr = CallExpr {
         span,
