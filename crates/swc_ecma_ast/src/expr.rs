@@ -27,6 +27,8 @@ use crate::{
     Number, ObjectPat, PropName, Str,
 };
 
+/// Note: This type is stored in a boxed form, so it's small enough to be used
+/// in a [smallvec::SmallVec].
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1301,6 +1303,7 @@ impl Take for Import {
     }
 }
 
+/// Note: This type is small enough to be used in a [smallvec::SmallVec].
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
