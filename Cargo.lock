@@ -5252,6 +5252,7 @@ name = "swc_ecma_compat_es2022"
 version = "11.0.0"
 dependencies = [
  "rustc-hash 2.1.0",
+ "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
