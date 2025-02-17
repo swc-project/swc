@@ -381,7 +381,7 @@ impl VisitMut for ObjectRest {
                                         }
                                         .as_arg(),
                                         helper_expr!(object_destructuring_empty)
-                                            .as_call(DUMMY_SP, vec![init.as_arg()])
+                                            .as_call(DUMMY_SP, smallvec![init.as_arg()])
                                             .as_arg(),
                                     ],
                                     ..Default::default()
@@ -900,7 +900,7 @@ fn object_without_properties(
         return CallExpr {
             span: DUMMY_SP,
             callee: helper!(extends),
-            args: vec![
+            args: smallvec![
                 ObjectLit {
                     span: DUMMY_SP,
                     props: Vec::new(),
@@ -940,7 +940,7 @@ fn object_without_properties(
         } else {
             helper!(object_without_properties)
         },
-        args: vec![
+        args: smallvec![
             obj.as_arg(),
             if is_literal(&excluded_props) {
                 ArrayLit {
