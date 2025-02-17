@@ -1,3 +1,4 @@
+use smallvec::{smallvec, SmallVec};
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -116,7 +117,7 @@ impl MemberInitRecord {
                         } else {
                             helper!(class_private_field_init)
                         },
-                        args: vec![
+                        args: smallvec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
                             name.as_arg(),
                             get_value_desc(value).as_arg(),
@@ -263,7 +264,7 @@ impl MemberInitRecord {
                         expr: CallExpr {
                             span,
                             callee: obj_def_prop(),
-                            args: vec![
+                            args: smallvec![
                                 class_ident.clone().as_arg(),
                                 name.as_arg(),
                                 get_accessor_desc(getter, setter).as_arg(),
