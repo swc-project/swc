@@ -2,7 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use smallvec::{smallvec, SmallVec};
+use smallvec::SmallVec;
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
