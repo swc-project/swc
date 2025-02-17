@@ -21,7 +21,9 @@ swc_ecma_transforms_macros = { version = "1.0.0", path = "../swc_ecma_transforms
 swc_ecma_utils             = { version = "10.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "7.0.0", path = "../swc_ecma_visit" }
 swc_trace_macro            = { version = "2.0.0", path = "../swc_trace_macro" }
-tracing                    = { workspace = true }
+
+smallvec = { workspace = true }
+tracing  = { workspace = true }
 
 [dev-dependencies]
 swc_ecma_parser             = { version = "9.0.0", path = "../swc_ecma_parser" }
