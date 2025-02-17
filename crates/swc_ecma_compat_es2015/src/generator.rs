@@ -1788,7 +1788,7 @@ impl Generator {
                                 .clone()
                                 .make_member(quote_ident!("push"))
                                 .as_callee(),
-                            args: vec![key.as_arg()],
+                            args: smallvec![key.as_arg()],
                             ..Default::default()
                         }
                         .into(),
