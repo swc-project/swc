@@ -1,6 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
@@ -330,7 +331,7 @@ impl Spread {
                         CallExpr {
                             span,
                             callee: helper!(to_consumable_array),
-                            args: vec![expr.as_arg()],
+                            args: smallvec![expr.as_arg()],
                             ..Default::default()
                         }
                     }
@@ -338,7 +339,8 @@ impl Spread {
 
                 match spread {
                     // ...b -> toConsumableArray(b)
-                    Some(span) => {
+                    Some(pos) => {
+                        let span = Span::new(pos, pos);
                         //
                         make_arr!();
 
