@@ -132,6 +132,15 @@ describe("transform", () => {
             ).rejects.toMatchSnapshot();
         });
 
+        it("should throw an error when it encounters a module", async () => {
+            await expect(
+                swc.transform("declare module foo { }", {
+                    mode: "strip-only",
+                    deprecatedTsModuleAsError: true,
+                }),
+            ).rejects.toMatchSnapshot();
+        });
+
         it("should not emit 'Caused by: failed to parse'", async () => {
             await expect(
                 swc.transform("function foo() { await Promise.resolve(1); }", {
@@ -166,6 +175,15 @@ describe("transform", () => {
         it("should throw an error when it encounters a module", async () => {
             await expect(
                 swc.transform("module foo { }", {
+                    mode: "transform",
+                    deprecatedTsModuleAsError: true,
+                }),
+            ).rejects.toMatchSnapshot();
+        });
+
+        it("should throw an error when it encounters a declared module", async () => {
+            await expect(
+                swc.transform("declare module foo { }", {
                     mode: "transform",
                     deprecatedTsModuleAsError: true,
                 }),
