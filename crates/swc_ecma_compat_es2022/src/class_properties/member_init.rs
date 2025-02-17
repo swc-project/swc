@@ -75,7 +75,7 @@ impl MemberInitRecord {
     }
 
     pub fn into_init(self) -> SmallVec<[Box<Expr>; 2]> {
-        let mut normal_init = Vec::new();
+        let mut normal_init = SmallVec::new();
         let mut value_init = Vec::new();
         for init in self.record {
             match init {
@@ -87,7 +87,7 @@ impl MemberInitRecord {
                     let (callee, args) = if self.c.private_as_properties {
                         (
                             obj_def_prop(),
-                            vec![
+                            smallvec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 name.as_arg(),
                                 get_method_desc(Box::new(fn_name.into())).as_arg(),
@@ -96,7 +96,7 @@ impl MemberInitRecord {
                     } else {
                         (
                             helper!(class_private_method_init),
-                            vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
+                            smallvec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
                         )
                     };
                     normal_init.push(
@@ -139,7 +139,7 @@ impl MemberInitRecord {
                         } else {
                             helper!(class_private_field_init)
                         },
-                        args: vec![
+                        args: smallvec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
                             name.as_arg(),
                             get_accessor_desc(getter, setter).as_arg(),
@@ -164,7 +164,7 @@ impl MemberInitRecord {
                         CallExpr {
                             span,
                             callee: helper!(define_property),
-                            args: vec![
+                            args: smallvec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 prop_name_to_expr_value(name).as_arg(),
                                 value.as_arg(),
@@ -208,7 +208,7 @@ impl MemberInitRecord {
                             CallExpr {
                                 span,
                                 callee: helper!(define_property),
-                                args: vec![
+                                args: smallvec![
                                     class_ident.clone().as_arg(),
                                     prop_name_to_expr_value(name).as_arg(),
                                     value.as_arg(),
@@ -228,7 +228,7 @@ impl MemberInitRecord {
                             expr: CallExpr {
                                 span,
                                 callee: obj_def_prop(),
-                                args: vec![
+                                args: smallvec![
                                     class_ident.clone().as_arg(),
                                     name.as_arg(),
                                     get_value_desc(value).as_arg(),
@@ -300,7 +300,7 @@ impl MemberInitRecord {
                                 expr: CallExpr {
                                     span,
                                     callee: obj_def_prop(),
-                                    args: vec![
+                                    args: smallvec![
                                         class_ident.clone().as_arg(),
                                         name.as_arg(),
                                         get_method_desc(Box::new(fn_name.into())).as_arg(),

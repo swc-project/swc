@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use smallvec::smallvec;
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
@@ -209,7 +210,7 @@ impl VisitMut for ClassProperties {
                 return;
             }
 
-            let mut exprs = Vec::new();
+            let mut exprs = smallvec![];
 
             for mut var in vars {
                 let init = var.init.take();
@@ -742,7 +743,7 @@ impl ClassProperties {
                                 CallExpr {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
-                                    args: vec![ident.sym.as_arg()],
+                                    args: smallvec![ident.sym.as_arg()],
                                     ..Default::default()
                                 }
                                 .into(),
@@ -890,7 +891,7 @@ impl ClassProperties {
                                 CallExpr {
                                     span,
                                     callee: helper!(class_private_field_loose_key),
-                                    args: vec![weak_coll_var.sym.as_arg()],
+                                    args: smallvec![weak_coll_var.sym.as_arg()],
                                     ..Default::default()
                                 }
                                 .into()

@@ -1,7 +1,7 @@
 use std::iter;
 
 use rustc_hash::FxHashMap;
-use smallvec::{smallvec, SmallVec};
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -138,7 +138,7 @@ impl VisitMut for BrandCheckHandler<'_> {
                 *e = CallExpr {
                     span: *span,
                     callee: weak_coll_ident.make_member(quote_ident!("has")).as_callee(),
-                    args: vec![right.take().as_arg()],
+                    args: smallvec![right.take().as_arg()],
 
                     ..Default::default()
                 }
@@ -259,7 +259,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 *e = CallExpr {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
-                    args: vec![obj.take().as_arg(), ident.clone().as_arg()],
+                    args: smallvec![obj.take().as_arg(), ident.clone().as_arg()],
                     ..Default::default()
                 }
                 .computed_member(ident)
@@ -361,7 +361,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                     *e = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(class_static_private_field_spec_set),
-                        args: vec![
+                        args: smallvec![
                             this.as_arg(),
                             class_name.clone().as_arg(),
                             ident.as_arg(),
@@ -375,13 +375,13 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                     let err = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(read_only_error),
-                        args: vec![format!("#{}", n.name).as_arg()],
+                        args: smallvec![format!("#{}", n.name).as_arg()],
                         ..Default::default()
                     }
                     .into();
                     *e = SeqExpr {
                         span: *span,
-                        exprs: vec![this, value, err],
+                        exprs: smallvec![this, value, err],
                     }
                     .into();
                 } else {
@@ -390,7 +390,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                     *e = CallExpr {
                         span: DUMMY_SP,
                         callee: set,
-                        args: vec![this.as_arg(), ident.as_arg(), value.as_arg()],
+                        args: smallvec![this.as_arg(), ident.as_arg(), value.as_arg()],
 
                         ..Default::default()
                     }
@@ -426,7 +426,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                         tag: CallExpr {
                             span: DUMMY_SP,
                             callee: expr.make_member(quote_ident!("bind")).as_callee(),
-                            args: vec![this.as_arg()],
+                            args: smallvec![this.as_arg()],
                             ..Default::default()
                         }
                         .into(),
@@ -533,7 +533,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 *e = CallExpr {
                     callee: helper!(class_private_field_loose_base),
                     span: *span,
-                    args: vec![obj.take().as_arg(), ident.clone().as_arg()],
+                    args: smallvec![obj.take().as_arg(), ident.clone().as_arg()],
                     ..Default::default()
                 }
                 .computed_member(ident)
@@ -634,7 +634,7 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![
+                            args: smallvec![
                                 obj.clone().as_arg(),
                                 class_name.clone().as_arg(),
                                 ident.as_arg(),
@@ -653,7 +653,7 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![
+                            args: smallvec![
                                 obj.clone().as_arg(),
                                 class_name.clone().as_arg(),
                                 ident.as_arg(),
@@ -676,7 +676,7 @@ impl PrivateAccessVisitor<'_> {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: h,
-                        args: vec![
+                        args: smallvec![
                             obj.as_arg(),
                             class_name.clone().as_arg(),
                             method_name.as_arg(),
@@ -694,7 +694,7 @@ impl PrivateAccessVisitor<'_> {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: get,
-                    args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
+                    args: smallvec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
                     ..Default::default()
                 }
                 .into(),
@@ -709,7 +709,7 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: smallvec![obj.clone().as_arg(), ident.as_arg()],
 
                             ..Default::default()
                         }
@@ -725,7 +725,7 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: smallvec![obj.clone().as_arg(), ident.as_arg()],
 
                             ..Default::default()
                         }
@@ -741,7 +741,7 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: helper,
-                            args: vec![format!("#{}", n.name).as_arg()],
+                            args: smallvec![format!("#{}", n.name).as_arg()],
                             ..Default::default()
                         }
                         .into(),
@@ -749,7 +749,7 @@ impl PrivateAccessVisitor<'_> {
                     (
                         SeqExpr {
                             span: DUMMY_SP,
-                            exprs: vec![obj.clone(), expr],
+                            exprs: smallvec![obj.clone(), expr],
                         }
                         .into(),
                         Some(*obj),
@@ -821,9 +821,9 @@ impl PrivateAccessVisitor<'_> {
                             };
 
                             let args = if kind.is_method() {
-                                vec![first_arg, ident.as_arg(), method_name.as_arg()]
+                                smallvec![first_arg, ident.as_arg(), method_name.as_arg()]
                             } else {
-                                vec![first_arg, ident.as_arg()]
+                                smallvec![first_arg, ident.as_arg()]
                             };
 
                             (

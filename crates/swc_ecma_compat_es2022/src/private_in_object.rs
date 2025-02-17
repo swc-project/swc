@@ -4,6 +4,7 @@ use std::{
 };
 
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -368,7 +369,7 @@ impl VisitMut for PrivateInObject {
                                     .clone()
                                     .make_member(quote_ident!("add"))
                                     .as_callee(),
-                                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                                 ..Default::default()
                             }
                             .into(),
@@ -379,7 +380,7 @@ impl VisitMut for PrivateInObject {
                 *e = CallExpr {
                     span: *span,
                     callee: var_name.make_member(quote_ident!("has")).as_callee(),
-                    args: vec![right.take().as_arg()],
+                    args: smallvec![right.take().as_arg()],
                     ..Default::default()
                 }
                 .into();
@@ -432,14 +433,14 @@ impl VisitMut for PrivateInObject {
                     let add_to_checker = CallExpr {
                         span: DUMMY_SP,
                         callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         ..Default::default()
                     }
                     .into();
 
                     *init = SeqExpr {
                         span: init_span,
-                        exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
+                        exprs: smallvec![assign, add_to_checker, Box::new(tmp.into())],
                     }
                     .into();
                 }
@@ -452,7 +453,7 @@ impl VisitMut for PrivateInObject {
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: var_name.make_member(quote_ident!("add")).as_callee(),
-                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    args: smallvec![ThisExpr { span: DUMMY_SP }.as_arg()],
                                     ..Default::default()
                                 }
                                 .into(),

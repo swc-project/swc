@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -21,11 +22,11 @@ impl VisitMut for ClassNameTdzFolder<'_> {
                 if i.sym == self.class_name.sym {
                     *expr = SeqExpr {
                         span: DUMMY_SP,
-                        exprs: vec![
+                        exprs: smallvec![
                             Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(class_name_tdz_error),
-                                args: vec![Str {
+                                args: smallvec![Str {
                                     span: i.span,
                                     raw: None,
                                     value: i.sym.clone(),
