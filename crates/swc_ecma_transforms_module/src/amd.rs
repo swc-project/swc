@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use smallvec::smallvec;
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -207,7 +207,7 @@ where
                 params.push(ident.into());
             });
 
-        let mut amd_call_args = Vec::with_capacity(3);
+        let mut amd_call_args = SmallVec::with_capacity(3);
         if let Some(module_id) = self.module_id.clone() {
             amd_call_args.push(quote_str!(module_id).as_arg());
         }
@@ -352,7 +352,7 @@ where
                 let mut import_expr: Expr = if need_re_export {
                     helper_expr!(export_star).as_call(
                         DUMMY_SP,
-                        vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
+                        smallvec![mod_ident.clone().as_arg(), self.exports().as_arg()],
                     )
                 } else {
                     mod_ident.clone().into()
@@ -366,10 +366,10 @@ where
                         } else {
                             helper_expr!(interop_require_default)
                         }
-                        .as_call(PURE_SP, vec![import_expr.as_arg()]),
+                        .as_call(PURE_SP, smallvec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
                             helper_expr!(interop_require_wildcard)
-                                .as_call(PURE_SP, vec![import_expr.as_arg(), true.as_arg()])
+                                .as_call(PURE_SP, smallvec![import_expr.as_arg(), true.as_arg()])
                         }
                         _ => import_expr,
                     }
@@ -460,21 +460,20 @@ pub(crate) fn amd_dynamic_import(
 
     let resolved_module: Expr = match import_interop {
         ImportInterop::None => module.clone().into(),
-        ImportInterop::Swc => {
-            helper_expr!(interop_require_wildcard).as_call(PURE_SP, vec![module.clone().as_arg()])
-        }
+        ImportInterop::Swc => helper_expr!(interop_require_wildcard)
+            .as_call(PURE_SP, smallvec![module.clone().as_arg()]),
         ImportInterop::Node => helper_expr!(interop_require_wildcard)
-            .as_call(PURE_SP, vec![module.clone().as_arg(), true.as_arg()]),
+            .as_call(PURE_SP, smallvec![module.clone().as_arg(), true.as_arg()]),
     };
 
     let resolve_callback = resolve
         .clone()
-        .as_call(DUMMY_SP, vec![resolved_module.as_arg()])
+        .as_call(DUMMY_SP, smallvec![resolved_module.as_arg()])
         .into_lazy_auto(vec![module.into()], support_arrow);
 
     let require_call = require.as_call(
         DUMMY_SP,
-        vec![
+        smallvec![
             ArrayLit {
                 span: DUMMY_SP,
                 elems: arg,
@@ -491,7 +490,7 @@ pub(crate) fn amd_dynamic_import(
     NewExpr {
         span,
         callee: Box::new(quote_ident!("Promise").into()),
-        args: Some(vec![promise_executer.as_arg()]),
+        args: Some(smallvec![promise_executer.as_arg()]),
         ..Default::default()
     }
     .into()
@@ -504,7 +503,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
         obj: quote_ident!("URL")
             .into_new_expr(
                 DUMMY_SP,
-                Some(vec![
+                Some(smallvec![
                     module.make_member(quote_ident!("uri")).as_arg(),
                     member_expr!(Default::default(), DUMMY_SP, document.baseURI).as_arg(),
                 ]),
