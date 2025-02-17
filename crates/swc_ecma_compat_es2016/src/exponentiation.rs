@@ -1,3 +1,4 @@
+use smallvec::smallvec;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
@@ -143,7 +144,7 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
         span,
         callee: member_expr!(Default::default(), span, Math.pow).as_callee(),
 
-        args: vec![left.as_arg(), right.as_arg()],
+        args: smallvec![left.as_arg(), right.as_arg()],
         ..Default::default()
     }
     .into()
