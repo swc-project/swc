@@ -1,6 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
+use smallvec::smallvec;
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
@@ -781,7 +782,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(await_async_generator),
-                        args: vec![iter_next.as_arg()],
+                        args: smallvec![iter_next.as_arg()],
                         ..Default::default()
                     }
                     .into()
