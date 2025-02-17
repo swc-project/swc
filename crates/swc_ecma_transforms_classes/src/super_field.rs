@@ -412,7 +412,7 @@ impl SuperFieldAccessFolder<'_> {
         let expr: Expr = CallExpr {
             span: super_token,
             callee: helper!(update),
-            args: vec![
+            args: smallvec![
                 proto_arg.as_arg(),
                 prop_arg,
                 this_arg,
