@@ -128,7 +128,7 @@ impl Fold for TemplateLiteralCaching {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: n.tag.as_callee(),
-                    args: vec![inline_cache.as_arg()]
+                    args: [inline_cache.as_arg()]
                         .into_iter()
                         .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
