@@ -1,4 +1,5 @@
 use rustc_hash::FxHashSet;
+use smallvec::smallvec;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -699,7 +700,7 @@ impl Optimizer<'_> {
                     if self.ctx.is_this_aware_callee {
                         *e = SeqExpr {
                             span: DUMMY_SP,
-                            exprs: vec![0.into(), assign.right.take()],
+                            exprs: smallvec![0.into(), assign.right.take()],
                         }
                         .into()
                     } else {

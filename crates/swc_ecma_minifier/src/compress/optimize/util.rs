@@ -4,6 +4,7 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -30,7 +31,7 @@ impl<'b> Optimizer<'b> {
                 }
 
                 if seq.exprs.iter().any(|v| v.is_seq()) {
-                    let mut new = Vec::new();
+                    let mut new = SmallVec::new();
 
                     for e in seq.exprs.take() {
                         match *e {
@@ -162,7 +163,7 @@ impl Drop for WithCtx<'_, '_> {
 }
 
 pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> SmallVec<[Box<Expr>; 2]> {
-    let mut res = Vec::new();
+    let mut res = SmallVec::new();
     if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             res.push(e);
@@ -278,7 +279,7 @@ impl Finalizer<'_> {
             Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
                 SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![0.into(), e],
+                    exprs: smallvec![0.into(), e],
                 }
                 .into(),
             ),
@@ -408,7 +409,7 @@ impl VisitMut for Finalizer<'_> {
         }
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut SmallVec<[Option<ExprOrSpread>; 1]>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -478,7 +479,7 @@ impl<'a> NormalMultiReplacer<'a> {
             Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
                 SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![0.into(), e],
+                    exprs: smallvec![0.into(), e],
                 }
                 .into(),
             ),
@@ -571,7 +572,7 @@ impl ExprReplacer {
             Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
                 SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![0.into(), e],
+                    exprs: smallvec![0.into(), e],
                 }
                 .into(),
             ),

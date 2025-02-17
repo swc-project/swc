@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
@@ -540,7 +541,7 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!("inline: Inlining a function call (arrow)");
 
-                        let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
+                        let mut exprs = smallvec![Box::new(make_number(DUMMY_SP, 0.0))];
 
                         let vars = self.inline_fn_param(&param_ids, &mut call.args, &mut exprs);
 
@@ -935,7 +936,7 @@ impl Optimizer<'_> {
         }
 
         let param_len = params.len();
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::new();
         let vars = self.inline_fn_param(params, args, &mut exprs);
 
         if args.len() > param_len {

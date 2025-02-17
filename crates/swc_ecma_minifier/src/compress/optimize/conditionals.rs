@@ -1,5 +1,6 @@
 use std::mem::swap;
 
+use smallvec::{smallvec, SmallVec};
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
@@ -375,7 +376,7 @@ impl Optimizer<'_> {
             return Some(
                 SeqExpr {
                     span: DUMMY_SP,
-                    exprs: vec![test.take(), Box::new(cons.take())],
+                    exprs: smallvec![test.take(), Box::new(cons.take())],
                 }
                 .into(),
             );
@@ -428,7 +429,7 @@ impl Optimizer<'_> {
                             .position(|(cons, alt)| !cons.eq_ignore_span(alt))
                             .unwrap();
 
-                        let mut new_args = Vec::new();
+                        let mut new_args = SmallVec::new();
 
                         for (idx, arg) in cons.args.take().into_iter().enumerate() {
                             if idx == diff_idx {
@@ -475,7 +476,7 @@ impl Optimizer<'_> {
                     // do_something(some_condition ? x : y);
                     //
 
-                    let args = vec![CondExpr {
+                    let args = smallvec![CondExpr {
                         span: DUMMY_SP,
                         test: test.take(),
                         cons: cons.args[0].expr.take(),
@@ -541,10 +542,10 @@ impl Optimizer<'_> {
                             .iter()
                             .all(|arg| arg.spread.is_none()))
                 {
-                    let mut args = Vec::new();
+                    let mut args = SmallVec::new();
 
                     if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
-                        args = vec![ExprOrSpread {
+                        args = smallvec![ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
                                 span: DUMMY_SP,
@@ -640,7 +641,7 @@ impl Optimizer<'_> {
                 Some(
                     SeqExpr {
                         span: DUMMY_SP,
-                        exprs: vec![first, Box::new(cons.take())],
+                        exprs: smallvec![first, Box::new(cons.take())],
                     }
                     .into(),
                 )
@@ -664,7 +665,7 @@ impl Optimizer<'_> {
                 Some(
                     SeqExpr {
                         span: DUMMY_SP,
-                        exprs: vec![first, Box::new(alt.take())],
+                        exprs: smallvec![first, Box::new(alt.take())],
                     }
                     .into(),
                 )
@@ -698,7 +699,7 @@ impl Optimizer<'_> {
 
                     alt.truncate(alt.len() - idx);
 
-                    let mut seq = vec![Box::new(Expr::Bin(BinExpr {
+                    let mut seq = smallvec![Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),
                         op: op!("||"),
@@ -721,7 +722,7 @@ impl Optimizer<'_> {
 
                     cons.truncate(cons.len() - idx);
 
-                    let mut seq = vec![Box::new(Expr::Bin(BinExpr {
+                    let mut seq = smallvec![Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),
                         op: op!("&&"),
@@ -739,10 +740,13 @@ impl Optimizer<'_> {
                 } else {
                     self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr");
-                    let _ = left.exprs.split_off(left_len - idx);
-                    let mut common = right.exprs.split_off(right_len - idx);
+                    left.exprs.truncate(left_len - idx);
+                    let mut common = right
+                        .exprs
+                        .drain(right_len - idx..)
+                        .collect::<SmallVec<[Box<Expr>; 2]>>();
 
-                    let mut seq = vec![Box::new(Expr::Cond(CondExpr {
+                    let mut seq = smallvec![Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
                         test: test.take(),
                         cons: Box::new(Expr::Seq(left.take())),

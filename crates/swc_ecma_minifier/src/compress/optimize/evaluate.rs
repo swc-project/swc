@@ -1,5 +1,6 @@
 use std::num::FpCategory;
 
+use smallvec::SmallVec;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -271,7 +272,7 @@ impl Optimizer<'_> {
                             _ => return,
                         };
 
-                        let mut keys = Vec::new();
+                        let mut keys = SmallVec::new();
 
                         for prop in &obj.props {
                             match prop {

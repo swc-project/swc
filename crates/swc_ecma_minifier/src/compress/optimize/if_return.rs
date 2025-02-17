@@ -1,3 +1,4 @@
+use smallvec::SmallVec;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -306,7 +307,7 @@ impl Optimizer<'_> {
                 stmt
             };
             let is_nonconditional_return = matches!(stmt, Stmt::Return(..));
-            let new_expr = self.merge_if_returns_to(stmt, Vec::new());
+            let new_expr = self.merge_if_returns_to(stmt, Default::default());
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
                     Some(cur) => match &mut **cur {
@@ -446,9 +447,9 @@ impl Optimizer<'_> {
                 alt,
                 ..
             }) => {
-                let cons = Box::new(self.merge_if_returns_to(*cons, Vec::new()));
+                let cons = Box::new(self.merge_if_returns_to(*cons, Default::default()));
                 let alt = match alt {
-                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, Vec::new())),
+                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, Default::default())),
                     None => Expr::undefined(DUMMY_SP),
                 };
 

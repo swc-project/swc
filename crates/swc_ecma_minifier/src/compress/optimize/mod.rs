@@ -1,8 +1,8 @@
 #![allow(clippy::collapsible_match)]
-
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
+use smallvec::{smallvec, SmallVec};
 use swc_atoms::JsWord;
 use swc_common::{
     iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
@@ -840,7 +840,7 @@ impl Optimizer<'_> {
                 return Some(
                     SeqExpr {
                         span,
-                        exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
+                        exprs: smallvec![Box::new(left.unwrap()), Box::new(right.unwrap())],
                     }
                     .into(),
                 );
@@ -917,7 +917,7 @@ impl Optimizer<'_> {
                                                 .map(|expr| ExprOrSpread { expr, spread: None })
                                         })
                                         .map(Some)
-                                        .collect::<Vec<_>>();
+                                        .collect::<SmallVec<[Option<ExprOrSpread>; 1]>>();
 
                                     if elems.is_empty() {
                                         return None;
@@ -937,7 +937,7 @@ impl Optimizer<'_> {
                                     .into_iter()
                                     .filter_map(|mut arg| self.ignore_return_value(&mut arg.expr))
                                     .map(Box::new)
-                                    .collect::<Vec<_>>();
+                                    .collect::<SmallVec<[Box<Expr>; 2]>>();
 
                                 if args.is_empty() {
                                     return None;
@@ -1085,7 +1085,7 @@ impl Optimizer<'_> {
                     );
                 }
 
-                let mut exprs = Vec::new();
+                let mut exprs = SmallVec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an array literal");
                 exprs.extend(
@@ -1112,7 +1112,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
-                let mut exprs = Vec::new();
+                let mut exprs = SmallVec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
@@ -1298,7 +1298,7 @@ impl Optimizer<'_> {
                         self.with_ctx(ctx).ignore_return_value(expr)
                     })
                     .map(Box::new)
-                    .collect::<Vec<_>>();
+                    .collect::<SmallVec<[Box<Expr>; 2]>>();
                 if exprs.len() <= 1 {
                     return exprs.pop().map(|v| *v);
                 } else {
@@ -1699,7 +1699,7 @@ impl VisitMut for Optimizer<'_> {
 
                     *callee = SeqExpr {
                         span: callee.span(),
-                        exprs: vec![zero, callee.take()],
+                        exprs: smallvec![zero, callee.take()],
                     }
                     .into();
                 }
@@ -2537,7 +2537,7 @@ impl VisitMut for Optimizer<'_> {
                     Some(expr.take())
                 }
             })
-            .collect::<Vec<_>>();
+            .collect::<SmallVec<[Box<Expr>; 2]>>();
         n.exprs = exprs;
 
         self.shift_void(n);
@@ -3098,7 +3098,7 @@ impl VisitMut for Optimizer<'_> {
             }
 
             let mut can_prepend = true;
-            let mut side_effects = Vec::new();
+            let mut side_effects = SmallVec::new();
 
             for v in vars.iter_mut() {
                 let mut storage = None;

@@ -1,6 +1,7 @@
 use std::{iter::once, mem::take};
 
 use rustc_hash::FxHashSet;
+use smallvec::{smallvec, SmallVec};
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -155,7 +156,7 @@ impl Optimizer<'_> {
         report_change!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
-        let mut exprs = Vec::new();
+        let mut exprs = SmallVec::new();
         // This is bigger than required.
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
@@ -227,7 +228,7 @@ impl Optimizer<'_> {
                                         )
                                     }) {
                                         let ids_used_by_exprs =
-                                            idents_used_by_ignoring_nested(&exprs);
+                                            idents_used_by_ignoring_nested(&*exprs);
 
                                         let ids_used_by_first_expr =
                                             idents_used_by_ignoring_nested(&*e.first_expr_mut());
@@ -753,7 +754,7 @@ impl Optimizer<'_> {
         }
 
         if seq.exprs.iter().any(|v| v.is_seq()) {
-            let mut new = Vec::new();
+            let mut new = SmallVec::new();
 
             for e in seq.exprs.take() {
                 match *e {
@@ -1891,7 +1892,7 @@ impl Optimizer<'_> {
 
                             *b_callee = SeqExpr {
                                 span: b_callee.span(),
-                                exprs: vec![zero, b_callee.take()],
+                                exprs: smallvec![zero, b_callee.take()],
                             }
                             .into();
                         }
@@ -2463,7 +2464,7 @@ impl Optimizer<'_> {
                         if let Some(a) = a_expr {
                             b.right = SeqExpr {
                                 span: DUMMY_SP,
-                                exprs: vec![Box::new(a), b.right.take()],
+                                exprs: smallvec![Box::new(a), b.right.take()],
                             }
                             .into();
                         }
