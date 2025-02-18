@@ -13,7 +13,7 @@ use swc_allocator::maybe::vec::Vec;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, CommentKind, Comments, SingleThreadedComments},
-    errors::{DiagnosticEmitter, Handler},
+    errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap,
@@ -53,12 +53,6 @@ pub struct TransformOutput {
     pub output: Option<String>,
 
     pub diagnostics: std::vec::Vec<String>,
-}
-
-impl DiagnosticEmitter for TransformOutput {
-    fn emit(&mut self, diagnostic: String) {
-        self.diagnostics.push(diagnostic);
-    }
 }
 
 /// This method parses a javascript / typescript file

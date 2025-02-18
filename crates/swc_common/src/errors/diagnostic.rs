@@ -47,10 +47,6 @@ pub struct Diagnostic {
     pub suggestions: Vec<CodeSuggestion>,
 }
 
-pub trait DiagnosticEmitter {
-    fn emit(&mut self, _diagnostic: String) {}
-}
-
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",

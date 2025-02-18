@@ -10,7 +10,6 @@
 
 use std::{
     borrow::Cow,
-    cell::RefCell,
     cmp::{min, Reverse},
     collections::HashMap,
     io::{self, prelude::*},
@@ -24,8 +23,7 @@ use super::{
     diagnostic::Message,
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticBuilder, DiagnosticEmitter, DiagnosticId, Level, SourceMapperDyn,
-    SubDiagnostic,
+    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 use crate::{
     sync::Lrc,

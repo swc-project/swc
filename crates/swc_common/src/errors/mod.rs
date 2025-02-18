@@ -23,9 +23,7 @@ use termcolor::{Color, ColorSpec};
 
 use self::Level::*;
 pub use self::{
-    diagnostic::{
-        Diagnostic, DiagnosticEmitter, DiagnosticId, DiagnosticStyledString, SubDiagnostic,
-    },
+    diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
 };

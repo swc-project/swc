@@ -1,5 +1,4 @@
 use std::{
-    cell::RefCell,
     fmt::{self, Write},
     intrinsics::transmute,
 };
