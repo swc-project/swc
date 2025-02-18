@@ -5,9 +5,10 @@ set -eu
 echo "Listing all swc crates"
 
 swc_crates=$(cargo metadata --format-version=1 --all-features | jq '.packages .[] | select(.repository == "https://github.com/swc-project/swc.git" or .repository == "https://github.com/swc-project/plugins.git") | .name' -r)
+swc_deps=$(cargo metadata --format-version=1 --all-features | jq '.packages .[] | select(.repository == "https://github.com/swc-project/swc.git" or .repository == "https://github.com/swc-project/plugins.git") | .name+"@"+.version' -r)
 
 command="cargo update"
-for crate in $swc_crates; do
+for crate in $swc_deps; do
   command="$command -p $crate"
 done
 

@@ -14,12 +14,16 @@ use super::{
 impl FastDts {
     pub(crate) fn infer_type_from_expr(&mut self, e: &Expr) -> Option<Box<TsType>> {
         match e {
+            Expr::Ident(ident) if ident.sym.as_str() == "undefined" => {
+                Some(ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword))
+            }
             Expr::Lit(lit) => match lit {
                 Lit::Str(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
                 Lit::Bool(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBooleanKeyword)),
                 Lit::Num(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNumberKeyword)),
                 Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
-                Lit::Null(_) | Lit::Regex(_) | Lit::JSXText(_) => None,
+                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
+                Lit::Regex(_) | Lit::JSXText(_) => None,
             },
             Expr::Tpl(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
             Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(

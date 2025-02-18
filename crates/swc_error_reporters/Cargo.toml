@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_error_reporters"
 repository    = { workspace = true }
-version       = "7.0.0"
+version       = "8.0.0"
 
 [lib]
 bench = false
@@ -17,6 +17,6 @@ miette      = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell   = { workspace = true }
 parking_lot = { workspace = true }
 
-swc_common = { version = "6.1.1", path = "../swc_common", features = [
+swc_common = { version = "7.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }

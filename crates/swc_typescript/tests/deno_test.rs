@@ -267,7 +267,7 @@ fn dts_as_const() {
     );
     transform_dts_test(
         r#"export const foo = [1, ,2] as const;"#,
-        "export declare const foo: readonly [1, any, 2];",
+        "export declare const foo: readonly [1, undefined, 2];",
     );
 
     transform_dts_test(
@@ -277,7 +277,7 @@ fn dts_as_const() {
     readonly bool: true;
     readonly bool2: false;
     readonly num: 42;
-    readonly nullish: any;
+    readonly nullish: null;
 };"#,
     );
 
@@ -331,11 +331,11 @@ fn dts_literal_inference() {
     );
     transform_dts_test(
         r#"export const foo = null;"#,
-        "export declare const foo: any;",
+        "export declare const foo: null;",
     );
     transform_dts_test(
         r#"export let foo = undefined;"#,
-        "export declare let foo: any;",
+        "export declare let foo: undefined;",
     );
     transform_dts_test(
         r#"export let foo = 10n;"#,

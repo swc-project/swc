@@ -92,7 +92,7 @@ fn minify_all(files: &[PathBuf]) {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
-                let program = parse_file_as_module(
+                let Ok(program) = parse_file_as_module(
                     &fm,
                     Default::default(),
                     Default::default(),
@@ -104,8 +104,9 @@ fn minify_all(files: &[PathBuf]) {
                 })
                 .map(Program::Module)
                 .map(|module| module.apply(&mut resolver(unresolved_mark, top_level_mark, false)))
-                .map(|module| module.apply(&mut paren_remover(None)))
-                .unwrap();
+                .map(|module| module.apply(&mut paren_remover(None))) else {
+                    return Ok(());
+                };
 
                 let output = optimize(
                     program,

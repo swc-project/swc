@@ -33,22 +33,22 @@ resolver = "2"
   serde-wasm-bindgen   = "0.6.5"
   serde_json           = "1.0.120"
   sourcemap            = "8.0.1"
-  swc_atoms            = "3.1.0"
+  swc_atoms            = "4.0.0"
   swc_cached           = "2.0.0"
-  swc_cli_impl         = "13.0.0"
-  swc_common           = "6.1.1"
-  swc_compiler_base    = "11.0.0"
+  swc_cli_impl         = "14.0.0"
+  swc_common           = "7.0.0"
+  swc_compiler_base    = "12.0.0"
   swc_config           = "2.0.0"
-  swc_core             = "13.3.0"
-  swc_css_ast          = "6.0.0"
-  swc_css_codegen      = "6.0.0"
-  swc_css_minifier     = "6.0.0"
-  swc_css_parser       = "6.0.0"
-  swc_error_reporters  = "7.0.0"
-  swc_fast_ts_strip    = "9.0.1"
-  swc_html             = "10.0.0"
-  swc_html_ast         = "6.0.0"
-  swc_html_minifier    = "10.0.0"
+  swc_core             = "14.0.0"
+  swc_css_ast          = "7.0.0"
+  swc_css_codegen      = "7.0.0"
+  swc_css_minifier     = "7.0.0"
+  swc_css_parser       = "7.0.0"
+  swc_error_reporters  = "8.0.0"
+  swc_fast_ts_strip    = "10.0.0"
+  swc_html             = "11.0.0"
+  swc_html_ast         = "7.0.0"
+  swc_html_minifier    = "11.0.0"
   swc_malloc           = "1.0.0"
   swc_nodejs_common    = "1.0.0"
   tracing              = "0.1.40"
@@ -69,6 +69,80 @@ resolver = "2"
 
 # Strip debug symbols
 strip = "symbols"
+
+  [profile.release.package]
+
+    [profile.release.package.std]
+    opt-level = 3
+
+    [profile.release.package.wasmer-wasix]
+    opt-level = "s"
+
+    [profile.release.package.cranelift-codegen]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_minifier]
+    opt-level = 3
+
+    [profile.release.package.swc]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_compat_es2015]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_parser]
+    opt-level = 3
+
+    [profile.release.package.wast]
+    opt-level = "s"
+
+    [profile.release.package.wasmparser]
+    opt-level = "s"
+
+    [profile.release.package.browserslist-rs]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_module]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_proposal]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_optimization]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_ast]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_transforms_base]
+    opt-level = 3
+
+    [profile.release.package.webc]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_compat_es2022]
+    opt-level = "s"
+
+    [profile.release.package.regex-automata]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_typescript]
+    opt-level = 3
+
+    [profile.release.package.clap]
+    opt-level = "s"
+
+    [profile.release.package.swc_cli_impl]
+    opt-level = "s"
+
+    [profile.release.package.wasmer-config]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_utils]
+    opt-level = 3
+
+    [profile.release.package.wasmer-compiler]
+    opt-level = "s"
 
 
 [profile.dev.package."*"]
