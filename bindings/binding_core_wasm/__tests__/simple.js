@@ -16,7 +16,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
-            "diagnostics": [],
+              "diagnostics": [],
             }
         `);
     });
@@ -36,7 +36,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
-            "diagnostics": [],
+              "diagnostics": [],
             }
         `);
     });
@@ -60,7 +60,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
-            "diagnostics": [],
+              "diagnostics": [],
             }
         `);
     });
@@ -212,6 +212,7 @@ describe("minify", () => {
         expect(output).toMatchInlineSnapshot(`
             {
               "code": "let somename=1;console.log(1);",
+              "diagnostics": [],
             }
         `);
     });
@@ -230,7 +231,7 @@ describe("print", () => {
               "code": "class Foo {
             }
             ",
-            "diagnostics": [],
+              "diagnostics": [],
             }
         `);
     });
@@ -247,7 +248,7 @@ describe("print", () => {
               "code": "class Foo {
             }
             ",
-            "diagnostics": [],
+              "diagnostics": [],
             }
         `);
     });
