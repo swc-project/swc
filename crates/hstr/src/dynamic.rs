@@ -92,7 +92,7 @@ impl Drop for Item {
         if self.0.header.header.header.is_global && ThinArc::strong_count(&self.0) == 2 {
             GLOBAL_DATA.with(|global| {
                 let mut store = global.borrow_mut();
-                store.data.remove(self);
+                forget(store.data.remove_entry(self));
             });
         }
     }
