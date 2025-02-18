@@ -302,6 +302,12 @@ pub enum RawTokenKind {
     Readonly,
     Using,
     Unique,
+
+    // Jsx
+    JsxTagStart,
+    JsxTagEnd,
+    JSXName,
+    JsxText,
 }
 
 impl RawTokenKind {
@@ -468,6 +474,10 @@ impl RawTokenKind {
             RawTokenKind::BigIntLiteral => "bigint literal",
             RawTokenKind::Skip => "skip",
             RawTokenKind::TemplateLiteral => "template literal",
+            RawTokenKind::JsxTagStart => "< jsx tag start",
+            RawTokenKind::JsxTagEnd => "> jsx tag end",
+            RawTokenKind::JSXName => "jsx name",
+            RawTokenKind::JsxText => "jsx text",
         }
     }
 }

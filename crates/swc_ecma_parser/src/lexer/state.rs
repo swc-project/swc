@@ -465,10 +465,6 @@ impl Iterator for Lexer<'_> {
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
                 RawTokenKind::BigIntLiteral => todo!(),
-                // RawTokenKind::BigintLiteral => Token::BigInt {
-                //     value: next_token.value.unwrap().as_number().unwrap(),
-                //     raw: self.raw_lexer.str_from_pos(start, end).into(),
-                // },
                 RawTokenKind::Await => Token::Word(Word::Keyword(Keyword::Await)),
                 RawTokenKind::Async => {
                     Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)))
@@ -618,6 +614,15 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::TemplateLiteral => Token::Template {
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                     cooked: Ok(self.raw_lexer.str_from_pos(start, end).into()),
+                },
+                RawTokenKind::JsxTagStart => Token::JSXTagStart,
+                RawTokenKind::JsxTagEnd => Token::JSXTagEnd,
+                RawTokenKind::JSXName => Token::JSXName {
+                    name: self.raw_lexer.str_from_pos(start, end).into(),
+                },
+                RawTokenKind::JsxText => Token::JSXText {
+                    value: self.raw_lexer.str_from_pos(start, end).into(),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
             };
 

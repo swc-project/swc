@@ -1,4 +1,4 @@
-use super::{handler::ByteHandler, token::RawTokenKind, RawLexer, RawLexerContext};
+use super::{context::RawLexerContext, token::RawTokenKind, ByteHandler, RawLexer};
 use crate::lexer::LexResult;
 
 /// TemplateHead ::

@@ -1,5 +1,6 @@
 use super::{
-    error::RawLexResult, unicode::LF, RawLexer, RawLexerContext, RawTokenKind, RawTokenValue,
+    context::RawLexerContext, error::RawLexResult, unicode::LF, ByteHandler, RawLexer,
+    RawTokenKind, RawTokenValue,
 };
 use crate::{error::SyntaxError, lexer::util::CharExt};
 
@@ -51,8 +52,6 @@ impl RawLexer<'_> {
         }
     }
 }
-
-pub type ByteHandler = for<'source> fn(&mut RawLexer<'source>) -> RawLexResult<RawTokenKind>;
 
 pub(super) fn handler_from_byte(byte: u8) -> ByteHandler {
     unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) }
