@@ -1,5 +1,6 @@
 use std::{
     borrow::Cow,
+    cell::RefCell,
     ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
     mem::ManuallyDrop,
@@ -72,6 +73,18 @@ impl AtomStore {
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
         atom_in(self, &text.into())
     }
+}
+
+pub(crate) fn global_atom(text: &str) -> Atom {
+    thread_local! {
+        static GLOBAL_DATA: RefCell<AtomStore> = Default::default();
+    }
+
+    GLOBAL_DATA.with(|global| {
+        let mut store = global.borrow_mut();
+
+        store.atom(text)
+    })
 }
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
