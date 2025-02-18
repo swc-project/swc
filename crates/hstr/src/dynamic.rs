@@ -70,13 +70,13 @@ impl Default for AtomStore {
 impl AtomStore {
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
-        new_atom(self, text.into())
+        atom_in(self, &text.into())
     }
 }
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
 /// module.
-pub(crate) fn new_atom<S>(storage: S, text: Cow<str>) -> Atom
+pub(crate) fn atom_in<S>(storage: S, text: &str) -> Atom
 where
     S: Storage,
 {
@@ -92,7 +92,7 @@ where
         return Atom { unsafe_data };
     }
 
-    let hash = calc_hash(&text);
+    let hash = calc_hash(text);
     let entry = storage.insert_entry(text, hash);
     let entry = ThinArc::into_raw(entry.0) as *mut c_void;
 
@@ -107,12 +107,12 @@ where
 }
 
 pub(crate) trait Storage {
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item;
+    fn insert_entry(self, text: &str, hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
-    fn insert_entry(self, text: Cow<str>, hash: u64) -> Item {
+    fn insert_entry(self, text: &str, hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
             return Item(ThinArc::from_header_and_slice(
