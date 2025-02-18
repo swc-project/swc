@@ -70,6 +70,80 @@ resolver = "2"
 # Strip debug symbols
 strip = "symbols"
 
+  [profile.release.package]
+
+    [profile.release.package.std]
+    opt-level = 3
+
+    [profile.release.package.wasmer-wasix]
+    opt-level = "s"
+
+    [profile.release.package.cranelift-codegen]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_minifier]
+    opt-level = 3
+
+    [profile.release.package.swc]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_compat_es2015]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_parser]
+    opt-level = 3
+
+    [profile.release.package.wast]
+    opt-level = "s"
+
+    [profile.release.package.wasmparser]
+    opt-level = "s"
+
+    [profile.release.package.browserslist-rs]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_module]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_proposal]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_optimization]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_ast]
+    opt-level = 3
+
+    [profile.release.package.swc_ecma_transforms_base]
+    opt-level = 3
+
+    [profile.release.package.webc]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_compat_es2022]
+    opt-level = "s"
+
+    [profile.release.package.regex-automata]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_transforms_typescript]
+    opt-level = 3
+
+    [profile.release.package.clap]
+    opt-level = "s"
+
+    [profile.release.package.swc_cli_impl]
+    opt-level = "s"
+
+    [profile.release.package.wasmer-config]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_utils]
+    opt-level = 3
+
+    [profile.release.package.wasmer-compiler]
+    opt-level = "s"
+
 
 [profile.dev.package."*"]
 debug-assertions = false
