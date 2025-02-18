@@ -190,11 +190,8 @@ impl Emitter for PrettyEmitter {
         self.wr.write_str(&format_result).unwrap()
     }
 
-    fn emit_diagnostics(&mut self, de: &RefCell<dyn swc_common::errors::DiagnosticEmitter>) {
-        let mut de_mut = de.borrow_mut();
-        for d in std::mem::take(&mut self.diagnostics) {
-            de_mut.emit(d);
-        }
+    fn take_diagnostics(&mut self) -> Vec<String> {
+        std::mem::take(&mut self.diagnostics)
     }
 }
 

@@ -919,13 +919,10 @@ impl Compiler {
                 },
             );
 
-            ret.map(|t| {
-                let t = RefCell::new(t);
-                handler.emit_diagnostics(&t);
+            ret.map(|mut output| {
+                output.diagnostics = handler.take_diagnostics();
 
-                let transform_output = t.into_inner();
-
-                transform_output
+                output
             })
         })
     }

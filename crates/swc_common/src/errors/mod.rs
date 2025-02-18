@@ -877,8 +877,8 @@ impl Handler {
         }
     }
 
-    pub fn emit_diagnostics(&self, de: &RefCell<dyn DiagnosticEmitter>) {
-        self.emitter.borrow_mut().emit_diagnostics(de);
+    pub fn take_diagnostics(&self) -> Vec<String> {
+        self.emitter.borrow_mut().take_diagnostics()
     }
 }
 

@@ -44,7 +44,9 @@ pub trait Emitter: crate::sync::Send {
         true
     }
 
-    fn emit_diagnostics(&mut self, _de: &RefCell<dyn DiagnosticEmitter>) {}
+    fn take_diagnostics(&mut self) -> Vec<String> {
+        vec![]
+    }
 }
 
 impl Emitter for EmitterWriter {
