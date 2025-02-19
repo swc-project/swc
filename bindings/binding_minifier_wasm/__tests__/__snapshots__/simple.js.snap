@@ -3,5 +3,6 @@
 exports[`minify should work 1`] = `
 Object {
   "code": "console.log(1);",
+  "diagnostics": Array [],
 }
 `;

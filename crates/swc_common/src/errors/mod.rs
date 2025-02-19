@@ -874,6 +874,10 @@ impl Handler {
             }
         }
     }
+
+    pub fn take_diagnostics(&self) -> Vec<String> {
+        self.emitter.borrow_mut().take_diagnostics()
+    }
 }
 
 #[derive(Copy, PartialEq, Eq, Clone, Hash, Debug)]

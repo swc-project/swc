@@ -37,17 +37,22 @@ pub struct TransformOutput {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
 }
 
 #[cfg(not(feature = "node"))]
 #[derive(Debug, Serialize)]
 pub struct TransformOutput {
     pub code: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
 }
 
 /// This method parses a javascript / typescript file
@@ -273,6 +278,7 @@ where
         output: output
             .map(|v| serde_json::to_string(&v).context("failed to serilaize output"))
             .transpose()?,
+        diagnostics: Default::default(),
     })
 }
 

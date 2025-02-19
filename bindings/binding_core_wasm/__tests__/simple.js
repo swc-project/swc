@@ -1,7 +1,7 @@
 const swc = require("../pkg");
 
 describe("transform", () => {
-    it("should work", function () {
+    it("should work", () => {
         const output = swc.transformSync("class Foo {}", {});
 
         expect(output).toMatchInlineSnapshot(`
@@ -16,6 +16,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
+              "diagnostics": [],
             }
         `);
     });
@@ -35,6 +36,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
+              "diagnostics": [],
             }
         `);
     });
@@ -58,6 +60,7 @@ describe("transform", () => {
                 _class_call_check(this, Foo);
             };
             ",
+              "diagnostics": [],
             }
         `);
     });
@@ -195,6 +198,7 @@ describe("minify", () => {
         expect(output).toMatchInlineSnapshot(`
             {
               "code": "let somename=1;console.log(1);",
+              "diagnostics": [],
             }
         `);
     });
@@ -208,6 +212,7 @@ describe("minify", () => {
         expect(output).toMatchInlineSnapshot(`
             {
               "code": "let somename=1;console.log(1);",
+              "diagnostics": [],
             }
         `);
     });
@@ -226,6 +231,7 @@ describe("print", () => {
               "code": "class Foo {
             }
             ",
+              "diagnostics": [],
             }
         `);
     });
@@ -242,6 +248,7 @@ describe("print", () => {
               "code": "class Foo {
             }
             ",
+              "diagnostics": [],
             }
         `);
     });
