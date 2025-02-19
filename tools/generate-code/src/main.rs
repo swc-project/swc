@@ -148,7 +148,6 @@ fn test_ecmascript_std() {
         ],
     )
     .unwrap();
-    panic!();
 }
 
 #[test]
