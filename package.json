@@ -79,7 +79,7 @@
             "taplo format"
         ],
         "*.rs": [
-            "rustfmt --"
+            "cargo fmt --"
         ],
         "*.json": [
             "prettier --write"
