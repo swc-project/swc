@@ -162,6 +162,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": true,
       "id": {
         "type": "Identifier",
         "span": {

@@ -844,13 +844,17 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseModuleOrNamespaceDeclaration`
-    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<Box<TsModuleDecl>> {
+    fn parse_ts_module_or_ns_decl(
+        &mut self,
+        start: BytePos,
+        namespace: bool,
+    ) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
         let body: TsNamespaceBody = if eat!(self, '.') {
             let inner_start = cur_pos!(self);
-            let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
+            let inner = self.parse_ts_module_or_ns_decl(inner_start, namespace)?;
             let inner = TsNamespaceDecl {
                 span: inner.span,
                 id: match inner.id {
@@ -872,6 +876,7 @@ impl<I: Tokens> Parser<I> {
             id: TsModuleName::Ident(id.into()),
             body: Some(body),
             global: false,
+            namespace,
         }))
     }
 
@@ -908,6 +913,7 @@ impl<I: Tokens> Parser<I> {
             id,
             global,
             body,
+            namespace: false,
         }))
     }
 
@@ -2354,6 +2360,7 @@ impl<I: Tokens> Parser<I> {
                             span: span!(self, start),
                             global,
                             declare: false,
+                            namespace: false,
                             id,
                             body,
                         }
@@ -2573,7 +2580,7 @@ impl<I: Tokens> Parser<I> {
                         .map(Some);
                 } else if next || is!(self, IdentRef) {
                     return self
-                        .parse_ts_module_or_ns_decl(start)
+                        .parse_ts_module_or_ns_decl(start, false)
                         .map(From::from)
                         .map(Some);
                 }
@@ -2585,7 +2592,7 @@ impl<I: Tokens> Parser<I> {
                         bump!(self);
                     }
                     return self
-                        .parse_ts_module_or_ns_decl(start)
+                        .parse_ts_module_or_ns_decl(start, true)
                         .map(From::from)
                         .map(Some);
                 }

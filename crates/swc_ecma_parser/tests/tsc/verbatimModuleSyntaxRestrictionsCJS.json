@@ -117,6 +117,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -585,6 +586,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
@@ -654,6 +656,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
@@ -836,6 +839,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": true,
       "id": {
         "type": "Identifier",
         "span": {
