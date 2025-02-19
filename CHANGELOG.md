@@ -1556,9 +1556,6 @@
 - **(es/codegen)** Fix codegen of large numeric literals ([#9226](https://github.com/swc-project/swc/issues/9226)) ([fba79e6](https://github.com/swc-project/swc/commit/fba79e6f03da69a6ae721eabe4afeaaedc301816))
 
 
-- **(es/compat)** Consider only the variables used in the closure ([#9151](https://github.com/swc-project/swc/issues/9151)) ([1357531](https://github.com/swc-project/swc/commit/1357531805d529b11848b02d1b59c010a02d272d))
-
-
 - **(es/compat)** Add support for destructuring with BigInts ([#9215](https://github.com/swc-project/swc/issues/9215)) ([2cc7028](https://github.com/swc-project/swc/commit/2cc70287e0c5d87e0134990e629dad2bf544d867))
 
 
