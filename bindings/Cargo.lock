@@ -255,7 +255,7 @@ dependencies = [
  "bitflags 2.6.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -290,7 +290,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.10.17"
+version = "1.10.18-nightly-20250219.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -401,7 +401,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.10.17"
+version = "1.10.18-nightly-20250219.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -414,7 +414,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.10.17"
+version = "1.10.18-nightly-20250219.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -1862,9 +1862,9 @@ dependencies = [
 
 [[package]]
 name = "hstr"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e963d8fe690aa5ecd16d270b18362b28643862474f7fceabf105fd4c9b3a6a42"
+checksum = "4032fdbefb72a4538180ef5dec6d0970e642f30f2e639c4d27e477afb5d97036"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -4279,7 +4279,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.484"
+version = "0.91.485"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -4397,9 +4397,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "14.0.0"
+version = "14.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80006194dd33cfa1af6f5371b371b6fc4c234adea327c4d0d1f9cec70eba2ca6"
+checksum = "624749807c67a0ceebbe6b8fce07b96186cd855ae3c4fb6be546634de91bd79b"
 dependencies = [
  "binding_macros",
  "swc",
