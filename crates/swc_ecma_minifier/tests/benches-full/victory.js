@@ -7187,8 +7187,7 @@
         /***/ "../../../node_modules/delaunator/delaunator.js": /*!*********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/delaunator/delaunator.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var factory;
-            factory = function() {
+            module1.exports = function() {
                 'use strict';
                 var EDGE_STACK = new Uint32Array(512), Delaunator = function(coords) {
                     var n = coords.length >> 1;
@@ -7378,7 +7377,7 @@
                     var t = this.trianglesLen;
                     return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
                 }, Delaunator;
-            }, module1.exports = factory();
+            }();
         /***/ },
         /***/ "../../../node_modules/delaunay-find/lib/index.js": /*!***********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/delaunay-find/lib/index.js ***!

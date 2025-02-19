@@ -10113,13 +10113,13 @@
                  * @return {Object}
                  *         An object with config values parsed from the DOM or localStorage.
                  */ _proto.getValues = function() {
-                    var fn, initial, _this3 = this;
+                    var fn, _this3 = this;
                     return fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, initial = {}, keys(selectConfigs).reduce(function(accum, key) {
+                    }, keys(selectConfigs).reduce(function(accum, key) {
                         return fn(accum, selectConfigs[key], key);
-                    }, initial);
+                    }, {});
                 }, /**
                  * Sets text track settings from an object of values.
                  *
@@ -17066,7 +17066,7 @@
                      *
                      * A lightweight readable stream implemention that handles event dispatching.
                      * Objects that inherit from streams should call init in their constructors.
-                     */ var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, ExpGolomb, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, startTime, getTimescaleFromMediaHeader, Stream = function() {
+                     */ var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, getTimescaleFromMediaHeader, Stream = function() {
                     this.init = function() {
                         var listeners = {};
                         /**
@@ -17356,53 +17356,6 @@
                     for(i = payload.length; i--;)size += payload[i].byteLength;
                     for(new DataView((result = new Uint8Array(size + 8)).buffer, result.byteOffset, result.byteLength).setUint32(0, result.byteLength), result.set(type, 4), i = 0, size = 8; i < payload.length; i++)result.set(payload[i], size), size += payload[i].byteLength;
                     return result;
-                }, dinf = function() {
-                    return box(types.dinf, box(types.dref, DREF));
-                }, esds = function(track) {
-                    return box(types.esds, new Uint8Array([
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x00,
-                        // ES_Descriptor
-                        0x03,
-                        0x19,
-                        0x00,
-                        0x00,
-                        0x00,
-                        // DecoderConfigDescriptor
-                        0x04,
-                        0x11,
-                        0x40,
-                        0x15,
-                        0x00,
-                        0x06,
-                        0x00,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        // DecoderSpecificInfo
-                        0x05,
-                        0x02,
-                        // ISO/IEC 14496-3, AudioSpecificConfig
-                        // for samplingFrequencyIndex see ISO/IEC 13818-7:2006, 8.1.3.2.2, Table 35
-                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
-                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
-                        0x06,
-                        0x01,
-                        0x02
-                    ]));
-                }, ftyp = function() {
-                    return box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND);
-                }, hdlr = function(type) {
-                    return box(types.hdlr, HDLR_TYPES[type]);
-                }, mdat = function(data) {
-                    return box(types.mdat, data);
                 }, mdhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -17432,26 +17385,10 @@
                     ]); // Use the sample rate from the track metadata, when it is
                     return track.samplerate && (result[12] = track.samplerate >>> 24 & 0xff, result[13] = track.samplerate >>> 16 & 0xff, result[14] = track.samplerate >>> 8 & 0xff, result[15] = 0xff & track.samplerate), box(types.mdhd, result);
                 }, mdia = function(track) {
-                    return box(types.mdia, mdhd(track), hdlr(track.type), minf(track));
-                }, mfhd = function(sequenceNumber) {
-                    return box(types.mfhd, new Uint8Array([
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x00,
-                        (0xff000000 & sequenceNumber) >> 24,
-                        (0xff0000 & sequenceNumber) >> 16,
-                        (0xff00 & sequenceNumber) >> 8,
-                        0xff & sequenceNumber
-                    ]));
+                    var type;
+                    return box(types.mdia, mdhd(track), (type = track.type, box(types.hdlr, HDLR_TYPES[type])), minf(track));
                 }, minf = function(track) {
-                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), dinf(), stbl(track));
-                }, moof = function(sequenceNumber, tracks) {
-                    for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
-                    return box.apply(null, [
-                        types.moof,
-                        mfhd(sequenceNumber)
-                    ].concat(trackFragments));
+                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), box(types.dinf, box(types.dref, DREF)), stbl(track));
                 }, /**
                      * Returns a movie box.
                      * @param tracks {array} the tracks associated with this movie
@@ -17748,7 +17685,44 @@
                         0xff & track.samplerate,
                         0x00,
                         0x00
-                    ]), esds(track));
+                    ]), box(types.esds, new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        // ES_Descriptor
+                        0x03,
+                        0x19,
+                        0x00,
+                        0x00,
+                        0x00,
+                        // DecoderConfigDescriptor
+                        0x04,
+                        0x11,
+                        0x40,
+                        0x15,
+                        0x00,
+                        0x06,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        // DecoderSpecificInfo
+                        0x05,
+                        0x02,
+                        // ISO/IEC 14496-3, AudioSpecificConfig
+                        // for samplingFrequencyIndex see ISO/IEC 13818-7:2006, 8.1.3.2.2, Table 35
+                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
+                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
+                        0x06,
+                        0x01,
+                        0x02
+                    ])));
                 }, tkhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -17949,10 +17923,27 @@
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
                 };
                 var mp4Generator = {
-                    mdat: mdat,
-                    moof: moof,
+                    mdat: function(data) {
+                        return box(types.mdat, data);
+                    },
+                    moof: function(sequenceNumber, tracks) {
+                        for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
+                        return box.apply(null, [
+                            types.moof,
+                            box(types.mfhd, new Uint8Array([
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                (0xff000000 & sequenceNumber) >> 24,
+                                (0xff0000 & sequenceNumber) >> 16,
+                                (0xff00 & sequenceNumber) >> 8,
+                                0xff & sequenceNumber
+                            ]))
+                        ].concat(trackFragments));
+                    },
                     initSegment: function(tracks) {
-                        var result, fileType = ftyp(), movie = moov(tracks);
+                        var result, fileType = box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND), movie = moov(tracks);
                         return (result = new Uint8Array(fileType.byteLength + movie.byteLength)).set(fileType), result.set(movie, fileType.byteLength), result;
                     }
                 }, sampleForFrame = function(frame, dataOffset) {
@@ -18253,32 +18244,23 @@
                         }, {});
                     }
                     return silence;
-                };
-                secondsToVideoTs = function(seconds) {
-                    return 90000 * seconds;
-                }, secondsToAudioTs = function(seconds, sampleRate) {
-                    return seconds * sampleRate;
-                }, videoTsToSeconds = function(timestamp) {
-                    return timestamp / 90000;
-                }, audioTsToSeconds = function(timestamp, sampleRate) {
-                    return timestamp / sampleRate;
-                }, audioTsToVideoTs = function(timestamp, sampleRate) {
-                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                }, videoTsToAudioTs = function(timestamp, sampleRate) {
-                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                }, /**
-                     * Adjust ID3 tag or caption timing information by the timeline pts values
-                     * (if keepOriginalTimestamps is false) and convert to seconds
-                     */ metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                };
-                var clock = {
+                }, clock = {
                     ONE_SECOND_IN_TS: 90000,
-                    secondsToVideoTs: secondsToVideoTs,
-                    videoTsToSeconds: videoTsToSeconds,
-                    audioTsToVideoTs: audioTsToVideoTs,
-                    videoTsToAudioTs: videoTsToAudioTs,
-                    metadataTsToSeconds: metadataTsToSeconds
+                    secondsToVideoTs: secondsToVideoTs = function(seconds) {
+                        return 90000 * seconds;
+                    },
+                    videoTsToSeconds: videoTsToSeconds = function(timestamp) {
+                        return timestamp / 90000;
+                    },
+                    audioTsToVideoTs: function(timestamp, sampleRate) {
+                        return secondsToVideoTs(timestamp / sampleRate);
+                    },
+                    videoTsToAudioTs: function(timestamp, sampleRate) {
+                        return videoTsToSeconds(timestamp) * sampleRate;
+                    },
+                    metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                        return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                    }
                 }, sumFrameByteLengths = function(array) {
                     var i, sum = 0; // sum the byteLength's all each nal unit in the frame
                     for(i = 0; i < array.length; i++)sum += array[i].data.byteLength;
@@ -19303,8 +19285,8 @@
                     };
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
-                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, dinf, esds, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, hdlr, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
-                secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, percentEncode$1 = function(bytes, start, end) {
+                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
+                secondsToVideoTs, videoTsToSeconds, _MetadataStream, percentEncode$1 = function(bytes, start, end) {
                     var i, result = "";
                     for(i = start; i < end; i++)result += "%" + ("00" + bytes[i].toString(16)).slice(-2);
                     return result;
@@ -19712,11 +19694,7 @@
                         buffer = void 0, this.trigger("endedtimeline");
                     };
                 }).prototype = new Stream();
-                var adts = _AdtsStream;
-                /**
-                     * Parser for exponential Golomb codes, a variable-bitwidth number encoding
-                     * scheme used by h264.
-                     */ ExpGolomb = function(workingData) {
+                var adts = _AdtsStream, expGolomb = function(workingData) {
                     var workingBytesAvailable = workingData.byteLength, // the current word being examined
                     workingWord = 0, // :uint
                     // the number of bits left to examine in the current word
@@ -19760,7 +19738,8 @@
                     }, this.readUnsignedByte = function() {
                         return this.readBits(8);
                     }, this.loadWord();
-                }, /**
+                };
+                /**
                      * Accepts a NAL unit byte stream and unpacks the embedded NAL units.
                      */ (_NalByteStream = function() {
                     var i, buffer, syncPoint = 0;
@@ -19950,7 +19929,7 @@
                             1
                         ];
                         // some profiles have more optional data we don't need
-                        if (profileIdc = (expGolombDecoder = new ExpGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
+                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
                         scalingListCount = 3 !== chromaFormatIdc ? 8 : 12; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
                         if (expGolombDecoder.skipUnsignedExpGolomb(), 0 === (picOrderCntType = expGolombDecoder.readUnsignedExpGolomb())) expGolombDecoder.readUnsignedExpGolomb(); // log2_max_pic_order_cnt_lsb_minus4
                         else if (1 === picOrderCntType) for(expGolombDecoder.skipBits(1), expGolombDecoder.skipExpGolomb(), expGolombDecoder.skipExpGolomb(), numRefFramesInPicOrderCntCycle = expGolombDecoder.readUnsignedExpGolomb(), i = 0; i < numRefFramesInPicOrderCntCycle; i++)expGolombDecoder.skipExpGolomb(); // offset_for_ref_frame[ i ]
@@ -20807,22 +20786,11 @@
                 }, toHexString = function(value) {
                     return ("00" + value.toString(16)).slice(-2);
                 };
-                /**
-                     * Determine the base media decode start time, in seconds, for an MP4
-                     * fragment. If multiple fragments are specified, the earliest time is
-                     * returned.
-                     *
-                     * The base media decode time can be parsed from track fragment
-                     * metadata:
-                     * ```
-                     * moof > traf > tfdt.baseMediaDecodeTime
-                     * ```
-                     * It requires the timescale value from the mdhd to interpret.
-                     *
-                     * @param timescale {object} a hash of track ids to timescale values.
-                     * @return {number} the earliest base media decode start time for the
-                     * fragment, in seconds
-                     */ startTime = function(timescale, fragment) {
+                getTimescaleFromMediaHeader = function(mdhd) {
+                    var index = 0 === mdhd[0] ? 12 : 20;
+                    return bin_toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
+                };
+                var probe$2_startTime = function(timescale, fragment) {
                     var trafs, baseTimes, result; // we need info from two childrend of each track fragment box
                     return trafs = findBox_1(fragment, [
                         "moof",
@@ -20840,11 +20808,7 @@
                             })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
                         });
                     })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
-                }, getTimescaleFromMediaHeader = function(mdhd) {
-                    var index = 0 === mdhd[0] ? 12 : 20;
-                    return bin_toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
-                };
-                var probe$2_tracks = function(init) {
+                }, probe$2_tracks = function(init) {
                     var traks = findBox_1(init, [
                         "moov",
                         "trak"
@@ -21299,10 +21263,10 @@
                             segment.buffer
                         ]);
                     }, _proto.probeMp4StartTime = function(_ref) {
-                        var timescales = _ref.timescales, data = _ref.data, startTime1 = startTime(timescales, data);
+                        var timescales = _ref.timescales, data = _ref.data, startTime = probe$2_startTime(timescales, data);
                         this.self.postMessage({
                             action: "probeMp4StartTime",
-                            startTime: startTime1,
+                            startTime: startTime,
                             data: data
                         }, [
                             data.buffer

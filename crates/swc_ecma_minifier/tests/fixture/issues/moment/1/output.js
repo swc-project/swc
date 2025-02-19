@@ -1598,8 +1598,8 @@ function(global, factory) {
      * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
      */ function() {
         if (!this.isValid()) return "moment.invalid(/* " + this._i + " */)";
-        var prefix, year, datetime, suffix, func = "moment", zone = "";
-        return this.isLocal() || (func = 0 === this.utcOffset() ? "moment.utc" : "moment.parseZone", zone = "Z"), prefix = "[" + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? "YYYY" : "YYYYYY", datetime = "-MM-DD[T]HH:mm:ss.SSS", suffix = zone + '[")]', this.format(prefix + year + datetime + suffix);
+        var prefix, year, suffix, func = "moment", zone = "";
+        return this.isLocal() || (func = 0 === this.utcOffset() ? "moment.utc" : "moment.parseZone", zone = "Z"), prefix = "[" + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? "YYYY" : "YYYYYY", suffix = zone + '[")]', this.format(prefix + year + "-MM-DD[T]HH:mm:ss.SSS" + suffix);
     }, "undefined" != typeof Symbol && null != Symbol.for && (proto[Symbol.for("nodejs.util.inspect.custom")] = function() {
         return "Moment<" + this.format() + ">";
     }), proto.toJSON = function() {

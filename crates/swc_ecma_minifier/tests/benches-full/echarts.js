@@ -34,7 +34,7 @@
     LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, loadingFx, theme, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -12361,7 +12361,7 @@
         '#ff8a45',
         '#8d48e3',
         '#dd79ff'
-    ], theme1 = {
+    ], theme = {
         darkMode: !0,
         color: colorPalette,
         backgroundColor: backgroundColor,
@@ -12514,7 +12514,7 @@
             }
         }
     };
-    theme1.categoryAxis.splitLine.show = !1;
+    theme.categoryAxis.splitLine.show = !1;
     /**
      * Usage of query:
      * `chart.on('click', query, handler);`
@@ -14417,11 +14417,10 @@
             };
         }, GeoSVGResource.prototype._buildGraphic = function(svgXML) {
             try {
-                var opt;
-                rootFromParse = (result = svgXML && (opt = {
+                rootFromParse = (result = svgXML && new SVGParser().parse(svgXML, {
                     ignoreViewBox: !0,
                     ignoreRootClip: !0
-                }, new SVGParser().parse(svgXML, opt)) || {}).root, assert(null != rootFromParse);
+                }) || {}).root, assert(null != rootFromParse);
             } catch (e) {
                 throw Error('Invalid svg format\n' + e.message);
             } // Note: we keep the covenant that the root has no transform. So always add an extra root.
@@ -16278,7 +16277,7 @@
                 stackInfoList.length && data.setCalculationInfo('stackedOnSeries', stackInfoList[stackInfoList.length - 1].seriesModel), stackInfoList.push(stackInfo);
             }
         }), stackInfoMap.each(calculateStack);
-    }), loadingFx = /**
+    }), loadingEffects.default = /**
      * @param {module:echarts/ExtensionAPI} api
      * @param {Object} [opts]
      * @param {string} [opts.text]
@@ -16367,7 +16366,7 @@
                 height: api.getHeight()
             });
         }, group.resize(), group;
-    }, loadingEffects.default = loadingFx, registerAction({
+    }, registerAction({
         type: HIGHLIGHT_ACTION_TYPE,
         event: HIGHLIGHT_ACTION_TYPE,
         update: HIGHLIGHT_ACTION_TYPE
@@ -16387,7 +16386,7 @@
         type: TOGGLE_SELECT_ACTION_TYPE,
         event: TOGGLE_SELECT_ACTION_TYPE,
         update: TOGGLE_SELECT_ACTION_TYPE
-    }, noop), theme = {
+    }, noop), themeStorage.light = {
         color: colorAll,
         colorLayer: [
             [
@@ -16416,7 +16415,7 @@
             ],
             colorAll
         ]
-    }, themeStorage.light = theme, themeStorage.dark = theme1;
+    }, themeStorage.dark = theme;
     var extensions = [], extensionRegisters = {
         registerPreprocessor: registerPreprocessor,
         registerProcessor: registerProcessor,
@@ -30857,12 +30856,7 @@
             } // First create
             ).execute(), !this._initialized) {
                 this._initialized = !0;
-                var cb, parallelModel, rect, rectEl, dim, clipPath = (cb = function() {
-                    // Callback will be invoked immediately if there is no animation
-                    setTimeout(function() {
-                        dataGroup.removeClipPath();
-                    });
-                }, parallelModel = coordSys.model, rectEl = new Rect({
+                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rectEl = new Rect({
                     shape: {
                         x: (rect = coordSys.getRect()).x,
                         y: rect.y,
@@ -30874,7 +30868,12 @@
                         width: rect.width,
                         height: rect.height
                     }
-                }, seriesModel, cb), rectEl);
+                }, seriesModel, function() {
+                    // Callback will be invoked immediately if there is no animation
+                    setTimeout(function() {
+                        dataGroup.removeClipPath();
+                    });
+                }), rectEl);
                 dataGroup.setClipPath(clipPath);
             }
             this._data = data;
@@ -32323,7 +32322,7 @@
             return _this.type = SankeyView.type, _this._focusAdjacencyDisabled = !1, _this;
         }
         return __extends(SankeyView, _super), SankeyView.prototype.render = function(seriesModel, ecModel, api) {
-            var rect, cb, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
+            var rect, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
             this._model = seriesModel, group.removeAll(), group.x = layoutInfo.x, group.y = layoutInfo.y, graph.eachEdge(function(edge) {
                 var x1, y1, x2, y2, cpx1, cpy1, cpx2, cpy2, curve = new SankeyPath(), ecData = getECData(curve);
                 ecData.dataIndex = edge.dataIndex, ecData.seriesIndex = seriesModel.seriesIndex, ecData.dataType = 'edge';
@@ -32393,11 +32392,9 @@
                 }, el.ondragend = function() {
                     sankeyView._focusAdjacencyDisabled = !1;
                 }, el.draggable = !0, el.cursor = 'move');
-            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), cb = function() {
-                group.removeClipPath();
-            }, initProps(rectEl = new Rect({
+            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((initProps(rectEl = new Rect({
                 shape: {
-                    x: rect.x - 10,
+                    x: (rect = group.getBoundingRect()).x - 10,
                     y: rect.y - 10,
                     width: 0,
                     height: rect.height + 20
@@ -32406,7 +32403,9 @@
                 shape: {
                     width: rect.width + 20
                 }
-            }, seriesModel, cb), rectEl)), this._data = seriesModel.getData();
+            }, seriesModel, function() {
+                group.removeClipPath();
+            }), rectEl)), this._data = seriesModel.getData();
         }, SankeyView.prototype.dispose = function() {}, SankeyView.type = 'sankey', SankeyView;
     }(ChartView), SankeySeriesModel = /** @class */ function(_super) {
         function SankeySeriesModel() {
@@ -34845,7 +34844,7 @@
                 }
                 var textLayout = data.getItemLayout(indices[0]), margin = seriesModel.getModel('label').get('margin'), emphasisModel = seriesModel.getModel('emphasis');
                 if ('add' === status) {
-                    var rect, cb, rectEl, layerGroup = newLayersGroups[idx] = new Group();
+                    var rect, rectEl, layerGroup = newLayersGroups[idx] = new Group();
                     polygon = new ECPolygon({
                         shape: {
                             points: points0,
@@ -34855,11 +34854,9 @@
                             smoothConstraint: !1
                         },
                         z2: 0
-                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), cb = function() {
-                        polygon.removeClipPath();
-                    }, initProps(rectEl = new Rect({
+                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((initProps(rectEl = new Rect({
                         shape: {
-                            x: rect.x - 10,
+                            x: (rect = polygon.getBoundingRect()).x - 10,
                             y: rect.y - 10,
                             width: 0,
                             height: rect.height + 20
@@ -34870,7 +34867,9 @@
                             width: rect.width + 100,
                             height: rect.height + 20
                         }
-                    }, seriesModel, cb), rectEl));
+                    }, seriesModel, function() {
+                        polygon.removeClipPath();
+                    }), rectEl));
                 } else {
                     var layerGroup = oldLayersGroups[oldIdx];
                     polygon = layerGroup.childAt(0), group.add(layerGroup), newLayersGroups[idx] = layerGroup, updateProps(polygon, {
@@ -43686,10 +43685,10 @@
             ]).getItemStyle(), playState = timelineModel.getPlayState(), inverse = timelineModel.get('inverse', !0);
             function makeBtn(position, iconName, onclick, willRotate) {
                 if (position) {
-                    var objPath, rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
+                    var rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
                         'controlStyle',
                         iconName + 'BtnSize'
-                    ]), controlSize), controlSize), btn = (objPath = iconName + 'Icon', rect = [
+                    ]), controlSize), controlSize), btn = (rect = [
                         0,
                         -iconSize / 2,
                         iconSize,
@@ -43705,7 +43704,7 @@
                         onclick: onclick
                     }).style, icon = createIcon(timelineModel.get([
                         'controlStyle',
-                        objPath
+                        iconName + 'Icon'
                     ]), opts || {}, new BoundingRect(rect[0], rect[1], rect[2], rect[3])), style && icon.setStyle(style), icon);
                     btn.ensureState('emphasis').style = hoverStyle, group.add(btn), enableHoverEmphasis(btn);
                 }

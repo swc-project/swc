@@ -3003,9 +3003,9 @@
     jQuery.mobile.degradeInputsWithin = function(target) {
         // Degrade inputs to avoid poorly implemented native functionality
         (target = jQuery(target)).find("input").not(jQuery.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, findstr, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
-            jQuery.mobile.degradeInputs[type] && (findstr = // In IE browsers, the type sometimes doesn't exist in the cloned markup, so we replace the closing tag instead
-            (hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            var html, hasType, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
+            jQuery.mobile.degradeInputs[type] && (// In IE browsers, the type sometimes doesn't exist in the cloned markup, so we replace the closing tag instead
+            hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -4240,12 +4240,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), height = scrollHeight + (borderTop + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), height += paddingTop + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""

@@ -1,9 +1,8 @@
-var a, c, a1, c1, a2, c2;
-a = module.exports, c = function() {
+module.exports.A = function() {
     return A;
-}, a.A = c, a1 = module.exports, c1 = function() {
+}, module.exports.B = function() {
     return B;
-}, a1.B = c1, a2 = module.exports, c2 = function() {
+}, module.exports.C = function() {
     return C;
-}, a2.C = c2;
+};
 const A = "A", B = "B", C = "C";
