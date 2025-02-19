@@ -3,18 +3,28 @@ use std::collections::HashSet;
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::{quote, ToTokens};
+use swc_cached::regex::CachedRegex;
 use syn::{
     parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,
 };
 
-pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
+pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[String]) -> File {
     let mut output = File {
         shebang: None,
         attrs: Vec::new(),
         items: Vec::new(),
     };
     let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
+
+    if !excluded_types.is_empty() {
+        all_types.retain(|ty| {
+            !excluded_types
+                .iter()
+                .any(|type_name| ty.contains_type(type_name))
+        });
+    }
+
     all_types.sort_by_cached_key(|v| v.method_name());
 
     let mut typedefs = HashSet::new();
@@ -59,7 +69,11 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
 
     for &kind in [TraitKind::Visit, TraitKind::VisitMut, TraitKind::Fold].iter() {
         for &variant in [Variant::Normal, Variant::AstPath].iter() {
-            let g = Generator { kind, variant };
+            let g = Generator {
+                kind,
+                variant,
+                excluded_types,
+            };
 
             output.items.extend(g.declare_visit_trait(&all_types));
 
@@ -133,6 +147,15 @@ impl FieldType {
                 "Box" => ty.method_name(),
                 _ => todo!("method_name for generic type: {}", name),
             },
+        }
+    }
+
+    fn contains_type(&self, type_name: &str) -> bool {
+        let regex = CachedRegex::new(type_name).expect("failed to create regex");
+
+        match self {
+            FieldType::Normal(name) => regex.is_match(name),
+            FieldType::Generic(name, ty) => regex.is_match(name) || ty.contains_type(type_name),
         }
     }
 }
@@ -283,12 +306,14 @@ impl Variant {
     }
 }
 
-struct Generator {
+struct Generator<'a> {
     kind: TraitKind,
     variant: Variant,
+
+    excluded_types: &'a [String],
 }
 
-impl Generator {
+impl Generator<'_> {
     fn should_skip(&self, ty: &Type) -> bool {
         if let Some(ty) = extract_generic("Box", ty) {
             return self.should_skip(ty);
@@ -304,9 +329,16 @@ impl Generator {
 
         let ty = to_field_ty(ty);
         match ty {
-            Some(..) => {}
+            Some(ty) => {
+                for excluded_type in self.excluded_types {
+                    if ty.contains_type(excluded_type) {
+                        return true;
+                    }
+                }
+            }
             None => return true,
         }
+
         false
     }
 

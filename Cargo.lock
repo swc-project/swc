@@ -1768,6 +1768,7 @@ dependencies = [
  "clap 4.5.9",
  "proc-macro2",
  "quote",
+ "swc_cached",
  "syn 2.0.87",
  "walkdir",
 ]
@@ -5796,6 +5797,20 @@ dependencies = [
 [[package]]
 name = "swc_ecma_visit"
 version = "7.0.0"
+dependencies = [
+ "new_debug_unreachable",
+ "num-bigint",
+ "serde",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_visit",
+ "tracing",
+]
+
+[[package]]
+name = "swc_ecma_visit_std"
+version = "1.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
