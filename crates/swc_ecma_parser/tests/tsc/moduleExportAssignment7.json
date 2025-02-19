@@ -1216,7 +1216,8 @@
                   "value": "Thing",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1268,7 +1269,8 @@
                   "value": "AnotherThing",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1320,7 +1322,8 @@
                   "value": "foo",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1372,7 +1375,8 @@
                   "value": "qux",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1424,7 +1428,8 @@
                   "value": "baz",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1476,7 +1481,8 @@
                   "value": "buz",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1528,7 +1534,8 @@
                   "value": "literal",
                   "optional": false
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           }
@@ -1832,7 +1839,8 @@
                     "value": "Thing",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -1892,7 +1900,8 @@
                     "value": "AnotherThing",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -1952,7 +1961,8 @@
                     "value": "foo",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -2012,7 +2022,8 @@
                     "value": "qux",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -2072,7 +2083,8 @@
                     "value": "baz",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -2132,7 +2144,8 @@
                     "value": "buz",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }
@@ -2192,7 +2205,8 @@
                     "value": "literal",
                     "optional": false
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }

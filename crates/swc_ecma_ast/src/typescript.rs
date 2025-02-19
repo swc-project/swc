@@ -16,7 +16,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
     class::Decorator,
-    expr::Expr,
+    expr::{Expr, ObjectLit},
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
@@ -565,6 +565,15 @@ pub enum TsTypeQueryExpr {
     Import(TsImportType),
 }
 
+#[ast_node("TsImportCallOptions")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsImportCallOptions {
+    pub span: Span,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub with: Box<ObjectLit>,
+}
+
 #[ast_node("TsImportType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -576,6 +585,8 @@ pub struct TsImportType {
     pub qualifier: Option<TsEntityName>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub attributes: Option<TsImportCallOptions>,
 }
 
 #[ast_node("TsTypeLiteral")]

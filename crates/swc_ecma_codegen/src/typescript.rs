@@ -845,6 +845,11 @@ where
         keyword!("import");
         punct!("(");
         emit!(n.arg);
+        if let Some(attributes) = &n.attributes {
+            punct!(",");
+            formatting_space!();
+            emit!(attributes);
+        }
         punct!(")");
 
         if let Some(n) = &n.qualifier {
@@ -853,6 +858,26 @@ where
         }
 
         emit!(n.type_args);
+    }
+
+    #[emitter]
+    fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result {
+        punct!("{");
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+            self.wr.increase_indent()?;
+        }
+
+        keyword!("with");
+        punct!(":");
+        formatting_space!();
+        emit!(n.with);
+
+        if !self.cfg.minify {
+            self.wr.decrease_indent()?;
+            self.wr.write_line()?;
+        }
+        punct!("}");
     }
 
     #[emitter]
