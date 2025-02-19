@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "mangle": {
+                "topLevel": true
+            },
+            "toplevel": true
+        }
+    },
+    "minify": true,
+    "sourceMaps": true,
+    "inlineSourcesContent": true,
+    "isModule": true
+}

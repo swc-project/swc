@@ -1,0 +1,17 @@
+{
+  "mappings": "AAAA,IAAMA,EAAU,EACVC,EAAUC,IAKhB,SAASA,IACL,MAAO,OACX,CALAC,QAAQC,GAAG,CAAC,gBAAsBJ,EAASC,GAC3CE,QAAQC,GAAG,CAACH",
+  "names": [
+    "inlined",
+    "message",
+    "getMessage",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../../input/1.js"
+  ],
+  "sourcesContent": [
+    "const inlined = 3;\nconst message = getMessage();\n\nconsole.log(\"Hello,\" + \" world!\", inlined, message);\nconsole.log(message);\n\nfunction getMessage() {\n    return \"Hello\";\n}\n"
+  ],
+  "version": 3
+}
