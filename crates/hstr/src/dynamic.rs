@@ -90,10 +90,12 @@ impl Drop for Item {
         // If we are going to drop the last reference, we need to remove the
         // entry from the global store if it is a global atom
         if self.0.header.header.header.is_global && ThinArc::strong_count(&self.0) == 2 {
-            GLOBAL_DATA.with(|global| {
+            let v = GLOBAL_DATA.with(|global| {
                 let mut store = global.borrow_mut();
-                forget(store.data.remove_entry(self));
+                store.data.remove_entry(self)
             });
+
+            forget(v);
         }
     }
 }
