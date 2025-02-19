@@ -38,6 +38,7 @@ swc_ecma_parser            = { version = "9.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base   = { version = "10.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_macros = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils             = { version = "10.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit             = { version = "7.0.0", path = "../swc_ecma_visit" }
 swc_ecma_visit_std         = { version = "1.0.0", path = "../swc_ecma_visit_std" }
 swc_fast_graph             = { version = "8.0.0", path = "../swc_fast_graph" }
 
