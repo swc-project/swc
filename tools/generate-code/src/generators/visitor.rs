@@ -8,13 +8,20 @@ use syn::{
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,
 };
 
-pub fn generate(crate_name: &Ident, node_types: &[&Item]) -> File {
+pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[String]) -> File {
     let mut output = File {
         shebang: None,
         attrs: Vec::new(),
         items: Vec::new(),
     };
     let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
+
+    all_types.retain(|ty| {
+        excluded_types
+            .iter()
+            .all(|type_name| !ty.contains_type(type_name))
+    });
+
     all_types.sort_by_cached_key(|v| v.method_name());
 
     let mut typedefs = HashSet::new();
@@ -133,6 +140,13 @@ impl FieldType {
                 "Box" => ty.method_name(),
                 _ => todo!("method_name for generic type: {}", name),
             },
+        }
+    }
+
+    fn contains_type(&self, type_name: &str) -> bool {
+        match self {
+            FieldType::Normal(name) => name == type_name,
+            FieldType::Generic(name, ty) => name == type_name || ty.contains_type(type_name),
         }
     }
 }
