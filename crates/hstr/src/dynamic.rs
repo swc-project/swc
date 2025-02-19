@@ -95,7 +95,9 @@ impl Drop for Item {
                 store.data.remove_entry(self)
             });
 
-            forget(v);
+            if let Some((v, _)) = v {
+                v.into_inner();
+            }
         }
     }
 }
