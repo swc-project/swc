@@ -584,7 +584,7 @@ CONTENT\r
 
 #[test]
 fn test_get_quoted_utf16() {
-    fn combine((quote_char, s): (AsciiChar, Cow<str>)) -> String {
+    fn combine((quote_char, s): (AsciiChar, CowStr<'_>)) -> String {
         let mut new = String::with_capacity(s.len() + 2);
         new.push(quote_char.as_char());
         new.push_str(s.as_ref());

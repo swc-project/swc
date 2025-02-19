@@ -34,5 +34,5 @@ var _ref_e = _sliced_to_array([
         f3: 4,
         f5: 0
     }
-], 3)), _ref_f_ = (_ref_f[0], _ref_f[1], _ref_f[2]);
+], 4)), _ref_f_ = (_ref_f[0], _ref_f[1], _ref_f[2]);
 _ref_f_.f3, _ref_f_.f5;

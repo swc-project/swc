@@ -577,7 +577,10 @@ impl Optimizer<'_> {
                 Expr::Assign(cons @ AssignExpr { op: op!("="), .. }),
                 Expr::Assign(alt @ AssignExpr { op: op!("="), .. }),
             ) if cons.left.eq_ignore_span(&alt.left) && cons.left.as_ident().is_some() => {
-                if !test.is_ident() && self.data.contains_unresolved(test) {
+                if self
+                    .data
+                    .ident_is_unresolved(&cons.left.as_ident().unwrap().id)
+                {
                     return None;
                 }
 

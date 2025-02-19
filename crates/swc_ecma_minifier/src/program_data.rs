@@ -384,7 +384,7 @@ impl Storage for ProgramData {
         }
 
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.clone().into_iter().map(|i| i.0));
+            IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
 
         let mut idx = 0;
 
@@ -400,7 +400,7 @@ impl Storage for ProgramData {
                     usage.usage_count += 1;
                 }
 
-                to_visit.extend(usage.infects_to.clone().into_iter().map(|i| i.0))
+                to_visit.extend(usage.infects_to.iter().cloned().map(|i| i.0))
             }
 
             idx += 1;
@@ -476,12 +476,12 @@ impl Storage for ProgramData {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
 
-        let mut to_mark_mutate = Vec::new();
-        for (other, kind) in &e.infects_to {
-            if *kind == AccessKind::Reference {
-                to_mark_mutate.push(other.clone())
-            }
-        }
+        let to_mark_mutate = e
+            .infects_to
+            .iter()
+            .filter(|(_, kind)| *kind == AccessKind::Reference)
+            .map(|(id, _)| id.clone())
+            .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
             let other = self.vars.entry(other).or_default();
@@ -588,20 +588,7 @@ impl ProgramData {
     /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
-            Expr::Ident(i) => {
-                // We treat `window` and `global` as resolved
-                if is_global_var_with_pure_property_access(&i.sym)
-                    || matches!(&*i.sym, "arguments" | "window" | "global")
-                {
-                    return false;
-                }
-
-                if let Some(v) = self.vars.get(&i.to_id()) {
-                    return !v.declared;
-                }
-
-                true
-            }
+            Expr::Ident(i) => self.ident_is_unresolved(i),
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
                 if self.contains_unresolved(obj) {
@@ -675,6 +662,21 @@ impl ProgramData {
         }
     }
 
+    pub(crate) fn ident_is_unresolved(&self, i: &Ident) -> bool {
+        // We treat `window` and `global` as resolved
+        if is_global_var_with_pure_property_access(&i.sym)
+            || matches!(&*i.sym, "arguments" | "window" | "global")
+        {
+            return false;
+        }
+
+        if let Some(v) = self.vars.get(&i.to_id()) {
+            return !v.declared;
+        }
+
+        true
+    }
+
     fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
         match &*o.base {
             OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
@@ -708,17 +710,7 @@ impl ProgramData {
 
     fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
         match n {
-            SimpleAssignTarget::Ident(i) => {
-                if is_global_var_with_pure_property_access(&i.sym) {
-                    return false;
-                }
-
-                if let Some(v) = self.vars.get(&i.to_id()) {
-                    return !v.declared;
-                }
-
-                true
-            }
+            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id),
             SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
             SimpleAssignTarget::SuperProp(n) => {
                 if let SuperProp::Computed(prop) = &n.prop {

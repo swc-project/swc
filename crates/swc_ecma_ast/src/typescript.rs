@@ -27,6 +27,7 @@ use crate::{
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAnn {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -36,6 +37,7 @@ pub struct TsTypeAnn {
 #[ast_node("TsTypeParameterDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamDecl {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "parameters"))]
@@ -45,6 +47,7 @@ pub struct TsTypeParamDecl {
 #[ast_node("TsTypeParameter")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParam {
     pub span: Span,
     pub name: Ident,
@@ -68,6 +71,7 @@ pub struct TsTypeParam {
 #[ast_node("TsTypeParameterInstantiation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeParamInstantiation {
     pub span: Span,
     pub params: Vec<Box<TsType>>,
@@ -76,6 +80,7 @@ pub struct TsTypeParamInstantiation {
 #[ast_node("TsParameterProperty")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParamProp {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -92,6 +97,7 @@ pub struct TsParamProp {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
     Ident(BindingIdent),
@@ -103,6 +109,7 @@ pub enum TsParamPropParam {
 #[ast_node("TsQualifiedName")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsQualifiedName {
     pub span: Span,
     pub left: TsEntityName,
@@ -113,6 +120,7 @@ pub struct TsQualifiedName {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsEntityName {
     #[tag("TsQualifiedName")]
     TsQualifiedName(Box<TsQualifiedName>),
@@ -128,6 +136,7 @@ pub enum TsEntityName {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
     TsCallSignatureDecl(TsCallSignatureDecl),
@@ -154,6 +163,7 @@ pub enum TsTypeElement {
 #[ast_node("TsCallSignatureDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -166,6 +176,7 @@ pub struct TsCallSignatureDecl {
 #[ast_node("TsConstructSignatureDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -178,6 +189,7 @@ pub struct TsConstructSignatureDecl {
 #[ast_node("TsPropertySignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsPropertySignature {
     pub span: Span,
     pub readonly: bool,
@@ -191,6 +203,7 @@ pub struct TsPropertySignature {
 #[ast_node("TsGetterSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsGetterSignature {
     pub span: Span,
     pub key: Box<Expr>,
@@ -202,6 +215,7 @@ pub struct TsGetterSignature {
 #[ast_node("TsSetterSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsSetterSignature {
     pub span: Span,
     pub key: Box<Expr>,
@@ -212,6 +226,7 @@ pub struct TsSetterSignature {
 #[ast_node("TsMethodSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsMethodSignature {
     pub span: Span,
     pub key: Box<Expr>,
@@ -227,6 +242,7 @@ pub struct TsMethodSignature {
 #[ast_node("TsIndexSignature")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
@@ -245,6 +261,7 @@ pub struct TsIndexSignature {
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsType {
     #[tag("TsKeywordType")]
     TsKeywordType(TsKeywordType),
@@ -342,6 +359,7 @@ impl Clone for TsType {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
     TsFnType(TsFnType),
@@ -376,6 +394,7 @@ impl From<TsIntersectionType> for TsType {
 #[ast_node("TsKeywordType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsKeywordType {
     pub span: Span,
     pub kind: TsKeywordTypeKind,
@@ -383,6 +402,7 @@ pub struct TsKeywordType {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -434,6 +454,7 @@ pub enum TsKeywordTypeKind {
 #[ast_node("TsThisType")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsThisType {
     pub span: Span,
 }
@@ -441,6 +462,7 @@ pub struct TsThisType {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsFnParam {
     #[tag("Identifier")]
     Ident(BindingIdent),
@@ -458,6 +480,7 @@ pub enum TsFnParam {
 #[ast_node("TsFunctionType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -471,6 +494,7 @@ pub struct TsFnType {
 #[ast_node("TsConstructorType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
@@ -484,6 +508,7 @@ pub struct TsConstructorType {
 #[ast_node("TsTypeReference")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
@@ -494,6 +519,7 @@ pub struct TsTypeRef {
 #[ast_node("TsTypePredicate")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypePredicate {
     pub span: Span,
     pub asserts: bool,
@@ -506,6 +532,7 @@ pub struct TsTypePredicate {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsThisTypeOrIdent {
     #[tag("TsThisType")]
     TsThisType(TsThisType),
@@ -518,6 +545,7 @@ pub enum TsThisTypeOrIdent {
 #[ast_node("TsTypeQuery")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
@@ -528,6 +556,7 @@ pub struct TsTypeQuery {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]
@@ -548,6 +577,7 @@ pub struct TsImportCallOptions {
 #[ast_node("TsImportType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsImportType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
@@ -562,6 +592,7 @@ pub struct TsImportType {
 #[ast_node("TsTypeLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeLit {
     pub span: Span,
     pub members: Vec<TsTypeElement>,
@@ -570,6 +601,7 @@ pub struct TsTypeLit {
 #[ast_node("TsArrayType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsArrayType {
     pub span: Span,
     pub elem_type: Box<TsType>,
@@ -578,6 +610,7 @@ pub struct TsArrayType {
 #[ast_node("TsTupleType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTupleType {
     pub span: Span,
     pub elem_types: Vec<TsTupleElement>,
@@ -586,6 +619,7 @@ pub struct TsTupleType {
 #[ast_node("TsTupleElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTupleElement {
     pub span: Span,
     /// `Ident` or `RestPat { arg: Ident }`
@@ -596,6 +630,7 @@ pub struct TsTupleElement {
 #[ast_node("TsOptionalType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsOptionalType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -605,6 +640,7 @@ pub struct TsOptionalType {
 #[ast_node("TsRestType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsRestType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -614,6 +650,7 @@ pub struct TsRestType {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
     TsUnionType(TsUnionType),
@@ -625,6 +662,7 @@ pub enum TsUnionOrIntersectionType {
 #[ast_node("TsUnionType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsUnionType {
     pub span: Span,
     pub types: Vec<Box<TsType>>,
@@ -633,6 +671,7 @@ pub struct TsUnionType {
 #[ast_node("TsIntersectionType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIntersectionType {
     pub span: Span,
     pub types: Vec<Box<TsType>>,
@@ -641,6 +680,7 @@ pub struct TsIntersectionType {
 #[ast_node("TsConditionalType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConditionalType {
     pub span: Span,
     pub check_type: Box<TsType>,
@@ -652,6 +692,7 @@ pub struct TsConditionalType {
 #[ast_node("TsInferType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInferType {
     pub span: Span,
     pub type_param: TsTypeParam,
@@ -660,6 +701,7 @@ pub struct TsInferType {
 #[ast_node("TsParenthesizedType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsParenthesizedType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
@@ -669,6 +711,7 @@ pub struct TsParenthesizedType {
 #[ast_node("TsTypeOperator")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeOperator {
     pub span: Span,
     pub op: TsTypeOperatorOp,
@@ -678,6 +721,7 @@ pub struct TsTypeOperator {
 
 #[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -696,6 +740,7 @@ pub enum TsTypeOperatorOp {
 #[ast_node("TsIndexedAccessType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsIndexedAccessType {
     pub span: Span,
     pub readonly: bool,
@@ -706,6 +751,7 @@ pub struct TsIndexedAccessType {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -778,6 +824,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 #[ast_node("TsMappedType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsMappedType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -794,6 +841,7 @@ pub struct TsMappedType {
 #[ast_node("TsLiteralType")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsLitType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "literal"))]
@@ -803,6 +851,7 @@ pub struct TsLitType {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsLit {
     #[tag("NumericLiteral")]
     Number(Number),
@@ -823,6 +872,7 @@ pub enum TsLit {
 #[ast_node("TemplateLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTplLitType {
     pub span: Span,
 
@@ -838,6 +888,7 @@ pub struct TsTplLitType {
 #[ast_node("TsInterfaceDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
@@ -851,6 +902,7 @@ pub struct TsInterfaceDecl {
 #[ast_node("TsInterfaceBody")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInterfaceBody {
     pub span: Span,
     pub body: Vec<TsTypeElement>,
@@ -859,6 +911,7 @@ pub struct TsInterfaceBody {
 #[ast_node("TsExpressionWithTypeArguments")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -870,6 +923,7 @@ pub struct TsExprWithTypeArgs {
 #[ast_node("TsTypeAliasDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
@@ -883,6 +937,7 @@ pub struct TsTypeAliasDecl {
 #[ast_node("TsEnumDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsEnumDecl {
     pub span: Span,
     pub declare: bool,
@@ -894,6 +949,7 @@ pub struct TsEnumDecl {
 #[ast_node("TsEnumMember")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
@@ -906,6 +962,7 @@ pub struct TsEnumMember {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
     Ident(Ident),
@@ -926,6 +983,7 @@ impl AsRef<Atom> for TsEnumMemberId {
 #[ast_node("TsModuleDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleDecl {
     pub span: Span,
     pub declare: bool,
@@ -941,6 +999,7 @@ pub struct TsModuleDecl {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
     TsModuleBlock(TsModuleBlock),
@@ -952,6 +1011,7 @@ pub enum TsNamespaceBody {
 #[ast_node("TsModuleBlock")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsModuleBlock {
     pub span: Span,
     pub body: Vec<ModuleItem>,
@@ -960,6 +1020,7 @@ pub struct TsModuleBlock {
 #[ast_node("TsNamespaceDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNamespaceDecl {
     pub span: Span,
     pub declare: bool,
@@ -972,6 +1033,7 @@ pub struct TsNamespaceDecl {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsModuleName {
     #[tag("Identifier")]
     Ident(Ident),
@@ -983,6 +1045,7 @@ pub enum TsModuleName {
 #[ast_node("TsImportEqualsDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsImportEqualsDecl {
     pub span: Span,
     pub is_export: bool,
@@ -994,6 +1057,7 @@ pub struct TsImportEqualsDecl {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]
     #[tag("Identifier")]
@@ -1006,6 +1070,7 @@ pub enum TsModuleRef {
 #[ast_node("TsExternalModuleReference")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExternalModuleRef {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1018,6 +1083,7 @@ pub struct TsExternalModuleRef {
 #[ast_node("TsExportAssignment")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsExportAssignment {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1027,6 +1093,7 @@ pub struct TsExportAssignment {
 #[ast_node("TsNamespaceExportDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNamespaceExportDecl {
     pub span: Span,
     pub id: Ident,
@@ -1039,6 +1106,7 @@ pub struct TsNamespaceExportDecl {
 #[ast_node("TsAsExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsAsExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1050,6 +1118,7 @@ pub struct TsAsExpr {
 #[ast_node("TsTypeAssertion")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsTypeAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1061,6 +1130,7 @@ pub struct TsTypeAssertion {
 #[ast_node("TsNonNullExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsNonNullExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1070,6 +1140,7 @@ pub struct TsNonNullExpr {
 #[ast_node("TsSatisfiesExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsSatisfiesExpr {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1087,6 +1158,7 @@ pub struct TsSatisfiesExpr {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Accessibility {
     #[cfg_attr(feature = "serde-impl", serde(rename = "public"))]
     Public,
@@ -1099,6 +1171,7 @@ pub enum Accessibility {
 #[ast_node("TsConstAssertion")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsConstAssertion {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1108,6 +1181,7 @@ pub struct TsConstAssertion {
 #[ast_node("TsInstantiation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct TsInstantiation {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]

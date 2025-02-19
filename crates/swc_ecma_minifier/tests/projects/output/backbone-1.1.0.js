@@ -10,8 +10,8 @@
     // Save a reference to the global object (`window` in the browser, `exports`
     // on the server).
     var Backbone, root = this, previousBackbone = root.Backbone, slice = [].slice;
-    "undefined" != typeof exports ? Backbone = exports : Backbone = root.Backbone = {}, // Current version of the library. Keep in sync with `package.json`.
-    Backbone.VERSION = "1.1.0";
+    // Current version of the library. Keep in sync with `package.json`.
+    (Backbone = "undefined" != typeof exports ? exports : root.Backbone = {}).VERSION = "1.1.0";
     // Require Underscore, if we're on the server, and it's not already present.
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require("underscore")), // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns

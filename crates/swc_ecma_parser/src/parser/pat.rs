@@ -1,5 +1,4 @@
 //! 13.3.3 Destructuring Binding Patterns
-use std::iter;
 
 use swc_common::Spanned;
 
@@ -102,22 +101,19 @@ impl<I: Tokens> Parser<I> {
         assert_and_bump!(self, '[');
 
         let mut elems = Vec::new();
-        let mut comma = 0;
+
         let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ']') {
+            if eat!(self, ',') {
+                elems.push(None);
+                continue;
+            }
+
             if !rest_span.is_dummy() {
                 self.emit_err(rest_span, SyntaxError::NonLastRestParam);
             }
 
-            if eat!(self, ',') {
-                comma += 1;
-                continue;
-            }
-            if comma > 0 {
-                elems.extend(iter::repeat(None).take(comma));
-                comma = 0;
-            }
             let start = cur_pos!(self);
 
             let mut is_rest = false;
@@ -1052,6 +1048,19 @@ mod tests {
                         type_ann: None
                     }))
                 ],
+                type_ann: None
+            })
+        );
+    }
+
+    #[test]
+    fn array_pat_empty_end() {
+        assert_eq_ignore_span!(
+            array_pat("[a, ,]"),
+            Pat::Array(ArrayPat {
+                span,
+                optional: false,
+                elems: vec![Some(Pat::Ident(ident("a").into())), None,],
                 type_ann: None
             })
         );

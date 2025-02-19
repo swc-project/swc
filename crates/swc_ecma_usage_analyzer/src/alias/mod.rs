@@ -3,7 +3,6 @@
 use rustc_hash::FxHashSet;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::BindingCollector;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;
@@ -85,7 +84,7 @@ pub type Access = (Id, AccessKind);
 
 pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
-    N: InfectableNode + VisitWith<BindingCollector<Id>> + VisitWith<InfectionCollector>,
+    N: InfectableNode + VisitWith<InfectionCollector>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
         return Default::default();
@@ -106,11 +105,57 @@ where
 
         bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
+
+        max_entries: None,
     };
 
     node.visit_with(&mut visitor);
 
     visitor.accesses
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct TooManyAccesses;
+
+/// If the number of accesses exceeds `max_entries`, it returns `Err(())`.
+pub fn try_collect_infects_from<N>(
+    node: &N,
+    config: AliasConfig,
+    max_entries: usize,
+) -> Result<FxHashSet<Access>, TooManyAccesses>
+where
+    N: InfectableNode + VisitWith<InfectionCollector>,
+{
+    if config.ignore_nested && node.is_fn_or_arrow_expr() {
+        return Ok(Default::default());
+    }
+
+    let unresolved_ctxt = config
+        .marks
+        .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
+
+    let mut visitor = InfectionCollector {
+        config,
+        unresolved_ctxt,
+
+        ctx: Ctx {
+            track_expr_ident: true,
+            ..Default::default()
+        },
+
+        bindings: FxHashSet::default(),
+        accesses: FxHashSet::default(),
+
+        max_entries: Some(max_entries),
+    };
+
+    node.visit_with(&mut visitor);
+
+    if visitor.accesses.len() > max_entries {
+        return Err(TooManyAccesses);
+    }
+
+    Ok(visitor.accesses)
 }
 
 pub struct InfectionCollector {
@@ -123,6 +168,8 @@ pub struct InfectionCollector {
     ctx: Ctx,
 
     accesses: FxHashSet<Access>,
+
+    max_entries: Option<usize>,
 }
 
 impl InfectionCollector {
@@ -264,6 +311,12 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
         match e {
             Expr::Ident(i) => {
                 if self.ctx.track_expr_ident {
@@ -296,6 +349,16 @@ impl Visit for InfectionCollector {
         if self.config.ignore_named_child_scope && n.ident.is_some() {
             return;
         }
+        n.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
         n.visit_children_with(self);
     }
 
@@ -354,6 +417,16 @@ impl Visit for InfectionCollector {
                 ..self.ctx
             }));
         }
+    }
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if let Some(max_entries) = self.max_entries {
+            if self.accesses.len() >= max_entries {
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {

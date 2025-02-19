@@ -7,6 +7,7 @@ use crate::{module_decl::ModuleDecl, stmt::Stmt};
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum Program {
     #[tag("Module")]
     Module(Module),
@@ -22,6 +23,7 @@ impl Take for Program {
 
 #[ast_node("Module")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Module {
     pub span: Span,
 
@@ -57,6 +59,7 @@ impl Take for Module {
 
 #[ast_node("Script")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Script {
     pub span: Span,
 
@@ -93,6 +96,7 @@ impl Take for Script {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ModuleItem {
     #[tag("ImportDeclaration")]
     #[tag("ExportDeclaration")]
