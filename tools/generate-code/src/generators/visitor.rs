@@ -17,11 +17,13 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[Stri
     };
     let mut all_types = all_field_types(node_types).into_iter().collect::<Vec<_>>();
 
-    all_types.retain(|ty| {
-        excluded_types
-            .iter()
-            .all(|type_name| !ty.contains_type(type_name))
-    });
+    if !excluded_types.is_empty() {
+        all_types.retain(|ty| {
+            !excluded_types
+                .iter()
+                .any(|type_name| ty.contains_type(type_name))
+        });
+    }
 
     all_types.sort_by_cached_key(|v| v.method_name());
 
@@ -147,8 +149,10 @@ impl FieldType {
     fn contains_type(&self, type_name: &str) -> bool {
         let regex = CachedRegex::new(type_name).expect("failed to create regex");
 
+        dbg!(type_name);
+
         match self {
-            FieldType::Normal(name) => regex.is_match(name),
+            FieldType::Normal(name) => dbg!(regex.is_match(dbg!(name))),
             FieldType::Generic(name, ty) => regex.is_match(name) || ty.contains_type(type_name),
         }
     }

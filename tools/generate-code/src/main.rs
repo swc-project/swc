@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
+use swc_cached::regex::CachedRegex;
 use syn::{Ident, Item};
 
 use crate::types::qualify_types;
@@ -72,7 +73,14 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
             _ => return false,
         };
 
-        !excluded_types.contains(&ident.to_string())
+        for type_name in excluded_types {
+            let regex = CachedRegex::new(type_name).expect("failed to create regex");
+            if regex.is_match(&ident.to_string()) {
+                return false;
+            }
+        }
+
+        true
     });
 
     all_type_defs.sort_by_key(|item| match item {
