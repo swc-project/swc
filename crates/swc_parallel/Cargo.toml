@@ -24,4 +24,4 @@ once_cell = { workspace = true }
 [dev-dependencies]
 scoped-tls = { workspace = true }
 
-hstr = { version = "0.3.0", path = "../hstr" }
+hstr = { version = "0.3.1", path = "../hstr" }

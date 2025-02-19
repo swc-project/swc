@@ -27,4 +27,4 @@ rustc-hash    = { workspace = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 
-hstr = { version = "0.3.0", path = "../hstr" }
+hstr = { version = "0.3.1", path = "../hstr" }

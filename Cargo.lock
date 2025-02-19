@@ -1989,7 +1989,7 @@ dependencies = [
 
 [[package]]
 name = "hstr"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "compact_str",
  "criterion",
@@ -4772,7 +4772,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
