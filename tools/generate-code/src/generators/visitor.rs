@@ -149,10 +149,8 @@ impl FieldType {
     fn contains_type(&self, type_name: &str) -> bool {
         let regex = CachedRegex::new(type_name).expect("failed to create regex");
 
-        dbg!(type_name);
-
         match self {
-            FieldType::Normal(name) => dbg!(regex.is_match(dbg!(name))),
+            FieldType::Normal(name) => regex.is_match(name),
             FieldType::Generic(name, ty) => regex.is_match(name) || ty.contains_type(type_name),
         }
     }
