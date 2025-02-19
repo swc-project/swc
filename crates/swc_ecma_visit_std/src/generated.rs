@@ -6760,9 +6760,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrayPat {
                 {
                     <Vec<Option<Pat>> as VisitWith<V>>::visit_with(elems, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -6796,12 +6793,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ArrowExpr {
                 };
                 {
                     <Box<BlockStmtOrExpr> as VisitWith<V>>::visit_with(body, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(return_type, visitor)
                 };
             }
         }
@@ -6997,13 +6988,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for AutoAccessor {
                     <Option<Box<Expr>> as VisitWith<V>>::visit_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitWith<V>>::visit_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
                 };
             }
         }
@@ -7128,9 +7113,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for BindingIdent {
                 {
                     <Ident as VisitWith<V>>::visit_with(id, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -7236,11 +7218,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for CallExpr {
                 {
                     <Vec<ExprOrSpread> as VisitWith<V>>::visit_with(args, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -7321,18 +7298,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Class {
                 {
                     <Option<Box<Expr>> as VisitWith<V>>::visit_with(super_class, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        super_type_params,
-                        visitor,
-                    )
-                };
-                {
-                    <Vec<TsExprWithTypeArgs> as VisitWith<V>>::visit_with(implements, visitor)
-                };
             }
         }
     }
@@ -7402,9 +7367,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassMember {
             ClassMember::PrivateProp { 0: _field_0 } => {
                 <PrivateProp as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            ClassMember::TsIndexSignature { 0: _field_0 } => {
-                <TsIndexSignature as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            ClassMember::TsIndexSignature { 0: _field_0 } => {}
             ClassMember::Empty { 0: _field_0 } => {
                 <EmptyStmt as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -7448,9 +7411,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassMethod {
                 {
                     <MethodKind as VisitWith<V>>::visit_with(kind, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
-                };
             }
         }
     }
@@ -7488,13 +7448,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ClassProp {
                     <Option<Box<Expr>> as VisitWith<V>>::visit_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitWith<V>>::visit_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
                 };
             }
         }
@@ -7581,9 +7535,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Constructor {
                 {
                     <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
-                };
             }
         }
     }
@@ -7643,18 +7594,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for Decl {
             Decl::Using { 0: _field_0 } => {
                 <Box<UsingDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            Decl::TsInterface { 0: _field_0 } => {
-                <Box<TsInterfaceDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Decl::TsTypeAlias { 0: _field_0 } => {
-                <Box<TsTypeAliasDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Decl::TsEnum { 0: _field_0 } => {
-                <Box<TsEnumDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Decl::TsModule { 0: _field_0 } => {
-                <Box<TsModuleDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            Decl::TsInterface { 0: _field_0 } => {}
+            Decl::TsTypeAlias { 0: _field_0 } => {}
+            Decl::TsEnum { 0: _field_0 } => {}
+            Decl::TsModule { 0: _field_0 } => {}
         }
     }
 }
@@ -7691,9 +7634,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for DefaultDecl {
             DefaultDecl::Fn { 0: _field_0 } => {
                 <FnExpr as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
-                <Box<TsInterfaceDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {}
         }
     }
 }
@@ -7996,24 +7937,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Expr {
             Expr::JSXFragment { 0: _field_0 } => {
                 <JSXFragment as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            Expr::TsTypeAssertion { 0: _field_0 } => {
-                <TsTypeAssertion as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Expr::TsConstAssertion { 0: _field_0 } => {
-                <TsConstAssertion as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Expr::TsNonNull { 0: _field_0 } => {
-                <TsNonNullExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Expr::TsAs { 0: _field_0 } => {
-                <TsAsExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Expr::TsInstantiation { 0: _field_0 } => {
-                <TsInstantiation as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            Expr::TsSatisfies { 0: _field_0 } => {
-                <TsSatisfiesExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            Expr::TsTypeAssertion { 0: _field_0 } => {}
+            Expr::TsConstAssertion { 0: _field_0 } => {}
+            Expr::TsNonNull { 0: _field_0 } => {}
+            Expr::TsAs { 0: _field_0 } => {}
+            Expr::TsInstantiation { 0: _field_0 } => {}
+            Expr::TsSatisfies { 0: _field_0 } => {}
             Expr::PrivateName { 0: _field_0 } => {
                 <PrivateName as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -8255,12 +8184,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for Function {
                 {
                     <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitWith<V>>::visit_with(type_params, visitor)
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(return_type, visitor)
-                };
             }
         }
     }
@@ -8284,9 +8207,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for GetterProp {
                 };
                 {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
                 };
                 {
                     <Option<BlockStmt> as VisitWith<V>>::visit_with(body, visitor)
@@ -8935,11 +8855,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for JSXOpeningElement {
                 {
                     <Vec<JSXAttrOrSpread> as VisitWith<V>>::visit_with(attrs, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -9269,15 +9184,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for ModuleDecl {
             ModuleDecl::ExportAll { 0: _field_0 } => {
                 <ExportAll as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            ModuleDecl::TsImportEquals { 0: _field_0 } => {
-                <Box<TsImportEqualsDecl> as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            ModuleDecl::TsExportAssignment { 0: _field_0 } => {
-                <TsExportAssignment as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
-                <TsNamespaceExportDecl as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            ModuleDecl::TsImportEquals { 0: _field_0 } => {}
+            ModuleDecl::TsExportAssignment { 0: _field_0 } => {}
+            ModuleDecl::TsNamespaceExport { 0: _field_0 } => {}
         }
     }
 }
@@ -9373,11 +9282,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for NewExpr {
                 {
                     <Option<Vec<ExprOrSpread>> as VisitWith<V>>::visit_with(args, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -9456,9 +9360,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for ObjectPat {
                 {
                     <Vec<ObjectPatProp> as VisitWith<V>>::visit_with(props, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -9509,11 +9410,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for OptCall {
                 };
                 {
                     <Vec<ExprOrSpread> as VisitWith<V>>::visit_with(args, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        type_args, visitor,
-                    )
                 };
             }
         }
@@ -9593,9 +9489,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for ParamOrTsParamProp {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {
-                <TsParamProp as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {}
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 <Param as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -9684,9 +9578,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for PrivateMethod {
                 {
                     <MethodKind as VisitWith<V>>::visit_with(kind, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
-                };
             }
         }
     }
@@ -9745,13 +9636,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for PrivateProp {
                     <Option<Box<Expr>> as VisitWith<V>>::visit_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitWith<V>>::visit_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitWith<V>>::visit_with(accessibility, visitor)
                 };
             }
         }
@@ -9891,9 +9776,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for RestPat {
                 {
                     <Box<Pat> as VisitWith<V>>::visit_with(arg, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitWith<V>>::visit_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -10019,21 +9901,11 @@ impl<V: ?Sized + Visit> VisitWith<V> for SimpleAssignTarget {
             SimpleAssignTarget::OptChain { 0: _field_0 } => {
                 <OptChainExpr as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-            SimpleAssignTarget::TsAs { 0: _field_0 } => {
-                <TsAsExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
-                <TsSatisfiesExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
-                <TsNonNullExpr as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
-                <TsTypeAssertion as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
-                <TsInstantiation as VisitWith<V>>::visit_with(_field_0, visitor);
-            }
+            SimpleAssignTarget::TsAs { 0: _field_0 } => {}
+            SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {}
+            SimpleAssignTarget::TsNonNull { 0: _field_0 } => {}
+            SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {}
+            SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {}
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 <Invalid as VisitWith<V>>::visit_with(_field_0, visitor);
             }
@@ -10294,12 +10166,6 @@ impl<V: ?Sized + Visit> VisitWith<V> for TaggedTpl {
                 };
                 {
                     <Box<Expr> as VisitWith<V>>::visit_with(tag, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitWith<V>>::visit_with(
-                        type_params,
-                        visitor,
-                    )
                 };
                 {
                     <Box<Tpl> as VisitWith<V>>::visit_with(tpl, visitor)
@@ -22717,17 +22583,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrayPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ArrayPat(
-                        self,
-                        self::fields::ArrayPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -22800,28 +22655,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ArrowExpr {
                     ));
                     <Box<BlockStmtOrExpr> as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ArrowExpr(
-                        self,
-                        self::fields::ArrowExprField::TypeParams,
-                    ));
-                    <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ArrowExpr(
-                        self,
-                        self::fields::ArrowExprField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        return_type,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -23270,32 +23103,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AutoAccessor {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AutoAccessor(
                         self,
-                        self::fields::AutoAccessorField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AutoAccessor(
-                        self,
                         self::fields::AutoAccessorField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitWithAstPath<V>>::visit_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::AutoAccessor(
-                        self,
-                        self::fields::AutoAccessorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -23553,17 +23364,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for BindingIdent {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::BindingIdent(
-                        self,
-                        self::fields::BindingIdentField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -23813,13 +23613,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for CallExpr {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::CallExpr(
-                        self,
-                        self::fields::CallExprField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -24018,35 +23811,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Class {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Class(
-                        self,
-                        self::fields::ClassField::TypeParams,
-                    ));
-                    <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Class(
-                        self,
-                        self::fields::ClassField::SuperTypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (super_type_params , visitor , & mut * __ast_path)
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Class(
-                        self,
-                        self::fields::ClassField::Implements(usize::MAX),
-                    ));
-                    <Vec<TsExprWithTypeArgs> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        implements,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -24223,11 +23987,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassMember {
                     self,
                     self::fields::ClassMemberField::TsIndexSignature,
                 ));
-                <TsIndexSignature as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ClassMember::Empty { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassMember(
@@ -24338,17 +24097,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassMethod {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassMethod(
-                        self,
-                        self::fields::ClassMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -24422,32 +24170,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ClassProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassProp(
                         self,
-                        self::fields::ClassPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassProp(
-                        self,
                         self::fields::ClassPropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitWithAstPath<V>>::visit_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ClassProp(
-                        self,
-                        self::fields::ClassPropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -24655,17 +24381,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Constructor {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Constructor(
-                        self,
-                        self::fields::ConstructorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -24808,44 +24523,24 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Decl {
                     self,
                     self::fields::DeclField::TsInterface,
                 ));
-                <Box<TsInterfaceDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsTypeAlias { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Decl(
                     self,
                     self::fields::DeclField::TsTypeAlias,
                 ));
-                <Box<TsTypeAliasDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsEnum { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Decl(
                     self,
                     self::fields::DeclField::TsEnum,
                 ));
-                <Box<TsEnumDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsModule { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Decl(
                     self,
                     self::fields::DeclField::TsModule,
                 ));
-                <Box<TsModuleDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -24940,11 +24635,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DefaultDecl {
                     self,
                     self::fields::DefaultDeclField::TsInterfaceDecl,
                 ));
-                <Box<TsInterfaceDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -25747,64 +25437,34 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Expr {
                     self,
                     self::fields::ExprField::TsTypeAssertion,
                 ));
-                <TsTypeAssertion as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsConstAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Expr(
                     self,
                     self::fields::ExprField::TsConstAssertion,
                 ));
-                <TsConstAssertion as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Expr(
                     self,
                     self::fields::ExprField::TsNonNull,
                 ));
-                <TsNonNullExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsAs { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Expr(self, self::fields::ExprField::TsAs));
-                <TsAsExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Expr(
                     self,
                     self::fields::ExprField::TsInstantiation,
                 ));
-                <TsInstantiation as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Expr(
                     self,
                     self::fields::ExprField::TsSatisfies,
                 ));
-                <TsSatisfiesExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::PrivateName { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Expr(
@@ -26393,28 +26053,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Function {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
-                        self,
-                        self::fields::FunctionField::TypeParams,
-                    ));
-                    <Option<Box<TsTypeParamDecl>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Function(
-                        self,
-                        self::fields::FunctionField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        return_type,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -26461,17 +26099,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for GetterProp {
                     ));
                     <PropName as VisitWithAstPath<V>>::visit_with_ast_path(
                         key,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::GetterProp(
-                        self,
-                        self::fields::GetterPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -28061,14 +27688,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for JSXOpeningElement {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path =
-                        __ast_path.with_guard(AstParentNodeRef::JSXOpeningElement(
-                            self,
-                            self::fields::JSXOpeningElementField::TypeArgs,
-                        ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -28874,33 +28493,18 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ModuleDecl {
                     self,
                     self::fields::ModuleDeclField::TsImportEquals,
                 ));
-                <Box<TsImportEqualsDecl> as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ModuleDecl(
                     self,
                     self::fields::ModuleDeclField::TsExportAssignment,
                 ));
-                <TsExportAssignment as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ModuleDecl(
                     self,
                     self::fields::ModuleDeclField::TsNamespaceExport,
                 ));
-                <TsNamespaceExportDecl as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -29133,13 +28737,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for NewExpr {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::NewExpr(
-                        self,
-                        self::fields::NewExprField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -29312,17 +28909,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ObjectPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ObjectPat(
-                        self,
-                        self::fields::ObjectPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -29449,13 +29035,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for OptCall {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::OptCall(
-                        self,
-                        self::fields::OptCallField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (type_args , visitor , & mut * __ast_path)
                 };
             }
         }
@@ -29634,11 +29213,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for ParamOrTsParamProp {
                     self,
                     self::fields::ParamOrTsParamPropField::TsParamProp,
                 ));
-                <TsParamProp as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::ParamOrTsParamProp(
@@ -29856,17 +29430,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateMethod {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PrivateMethod(
-                        self,
-                        self::fields::PrivateMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -29995,32 +29558,10 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for PrivateProp {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PrivateProp(
                         self,
-                        self::fields::PrivatePropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PrivateProp(
-                        self,
                         self::fields::PrivatePropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitWithAstPath<V>>::visit_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::PrivateProp(
-                        self,
-                        self::fields::PrivatePropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -30389,17 +29930,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RestPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::RestPat(
-                        self,
-                        self::fields::RestPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitWithAstPath<V>>::visit_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -30716,55 +30246,30 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SimpleAssignTarget {
                     self,
                     self::fields::SimpleAssignTargetField::TsAs,
                 ));
-                <TsAsExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleAssignTarget(
                     self,
                     self::fields::SimpleAssignTargetField::TsSatisfies,
                 ));
-                <TsSatisfiesExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleAssignTarget(
                     self,
                     self::fields::SimpleAssignTargetField::TsNonNull,
                 ));
-                <TsNonNullExpr as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleAssignTarget(
                     self,
                     self::fields::SimpleAssignTargetField::TsTypeAssertion,
                 ));
-                <TsTypeAssertion as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleAssignTarget(
                     self,
                     self::fields::SimpleAssignTargetField::TsInstantiation,
                 ));
-                <TsInstantiation as VisitWithAstPath<V>>::visit_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SimpleAssignTarget(
@@ -31430,13 +30935,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TaggedTpl {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TaggedTpl(
-                        self,
-                        self::fields::TaggedTplField::TypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitWithAstPath < V > > :: visit_with_ast_path (type_params , visitor , & mut * __ast_path)
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TaggedTpl(
@@ -40413,9 +39911,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrayPat {
                 {
                     <Vec<Option<Pat>> as VisitMutWith<V>>::visit_mut_with(elems, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -40449,18 +39944,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ArrowExpr {
                 };
                 {
                     <Box<BlockStmtOrExpr> as VisitMutWith<V>>::visit_mut_with(body, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
-                        type_params,
-                        visitor,
-                    )
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(
-                        return_type,
-                        visitor,
-                    )
                 };
             }
         }
@@ -40656,16 +40139,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AutoAccessor {
                     <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitMutWith<V>>::visit_mut_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
                 };
             }
         }
@@ -40790,9 +40264,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for BindingIdent {
                 {
                     <Ident as VisitMutWith<V>>::visit_mut_with(id, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -40898,11 +40369,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for CallExpr {
                 {
                     <Vec<ExprOrSpread> as VisitMutWith<V>>::visit_mut_with(args, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -40983,23 +40449,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Class {
                 {
                     <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_with(super_class, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
-                        type_params,
-                        visitor,
-                    )
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        super_type_params,
-                        visitor,
-                    )
-                };
-                {
-                    <Vec<TsExprWithTypeArgs> as VisitMutWith<V>>::visit_mut_with(
-                        implements, visitor,
-                    )
-                };
             }
         }
     }
@@ -41069,9 +40518,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassMember {
             ClassMember::PrivateProp { 0: _field_0 } => {
                 <PrivateProp as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            ClassMember::TsIndexSignature { 0: _field_0 } => {
-                <TsIndexSignature as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            ClassMember::TsIndexSignature { 0: _field_0 } => {}
             ClassMember::Empty { 0: _field_0 } => {
                 <EmptyStmt as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -41115,12 +40562,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassMethod {
                 {
                     <MethodKind as VisitMutWith<V>>::visit_mut_with(kind, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
-                };
             }
         }
     }
@@ -41158,16 +40599,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ClassProp {
                     <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitMutWith<V>>::visit_mut_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
                 };
             }
         }
@@ -41254,12 +40686,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Constructor {
                 {
                     <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
-                };
             }
         }
     }
@@ -41319,18 +40745,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Decl {
             Decl::Using { 0: _field_0 } => {
                 <Box<UsingDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            Decl::TsInterface { 0: _field_0 } => {
-                <Box<TsInterfaceDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Decl::TsTypeAlias { 0: _field_0 } => {
-                <Box<TsTypeAliasDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Decl::TsEnum { 0: _field_0 } => {
-                <Box<TsEnumDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Decl::TsModule { 0: _field_0 } => {
-                <Box<TsModuleDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            Decl::TsInterface { 0: _field_0 } => {}
+            Decl::TsTypeAlias { 0: _field_0 } => {}
+            Decl::TsEnum { 0: _field_0 } => {}
+            Decl::TsModule { 0: _field_0 } => {}
         }
     }
 }
@@ -41367,9 +40785,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DefaultDecl {
             DefaultDecl::Fn { 0: _field_0 } => {
                 <FnExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
-                <Box<TsInterfaceDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {}
         }
     }
 }
@@ -41672,24 +41088,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Expr {
             Expr::JSXFragment { 0: _field_0 } => {
                 <JSXFragment as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            Expr::TsTypeAssertion { 0: _field_0 } => {
-                <TsTypeAssertion as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Expr::TsConstAssertion { 0: _field_0 } => {
-                <TsConstAssertion as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Expr::TsNonNull { 0: _field_0 } => {
-                <TsNonNullExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Expr::TsAs { 0: _field_0 } => {
-                <TsAsExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Expr::TsInstantiation { 0: _field_0 } => {
-                <TsInstantiation as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            Expr::TsSatisfies { 0: _field_0 } => {
-                <TsSatisfiesExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            Expr::TsTypeAssertion { 0: _field_0 } => {}
+            Expr::TsConstAssertion { 0: _field_0 } => {}
+            Expr::TsNonNull { 0: _field_0 } => {}
+            Expr::TsAs { 0: _field_0 } => {}
+            Expr::TsInstantiation { 0: _field_0 } => {}
+            Expr::TsSatisfies { 0: _field_0 } => {}
             Expr::PrivateName { 0: _field_0 } => {
                 <PrivateName as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -41931,18 +41335,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Function {
                 {
                     <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamDecl>> as VisitMutWith<V>>::visit_mut_with(
-                        type_params,
-                        visitor,
-                    )
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(
-                        return_type,
-                        visitor,
-                    )
-                };
             }
         }
     }
@@ -41966,9 +41358,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for GetterProp {
                 };
                 {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
-                };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
                 };
                 {
                     <Option<BlockStmt> as VisitMutWith<V>>::visit_mut_with(body, visitor)
@@ -42617,11 +42006,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for JSXOpeningElement {
                 {
                     <Vec<JSXAttrOrSpread> as VisitMutWith<V>>::visit_mut_with(attrs, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -42951,15 +42335,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ModuleDecl {
             ModuleDecl::ExportAll { 0: _field_0 } => {
                 <ExportAll as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            ModuleDecl::TsImportEquals { 0: _field_0 } => {
-                <Box<TsImportEqualsDecl> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            ModuleDecl::TsExportAssignment { 0: _field_0 } => {
-                <TsExportAssignment as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
-                <TsNamespaceExportDecl as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            ModuleDecl::TsImportEquals { 0: _field_0 } => {}
+            ModuleDecl::TsExportAssignment { 0: _field_0 } => {}
+            ModuleDecl::TsNamespaceExport { 0: _field_0 } => {}
         }
     }
 }
@@ -43055,11 +42433,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for NewExpr {
                 {
                     <Option<Vec<ExprOrSpread>> as VisitMutWith<V>>::visit_mut_with(args, visitor)
                 };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        type_args, visitor,
-                    )
-                };
             }
         }
     }
@@ -43138,9 +42511,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ObjectPat {
                 {
                     <Vec<ObjectPatProp> as VisitMutWith<V>>::visit_mut_with(props, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -43191,11 +42561,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for OptCall {
                 };
                 {
                     <Vec<ExprOrSpread> as VisitMutWith<V>>::visit_mut_with(args, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        type_args, visitor,
-                    )
                 };
             }
         }
@@ -43275,9 +42640,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for ParamOrTsParamProp {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {
-                <TsParamProp as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {}
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 <Param as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -43366,12 +42729,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateMethod {
                 {
                     <MethodKind as VisitMutWith<V>>::visit_mut_with(kind, visitor)
                 };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
-                };
             }
         }
     }
@@ -43430,16 +42787,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for PrivateProp {
                     <Option<Box<Expr>> as VisitMutWith<V>>::visit_mut_with(value, visitor)
                 };
                 {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
-                {
                     <Vec<Decorator> as VisitMutWith<V>>::visit_mut_with(decorators, visitor)
-                };
-                {
-                    <Option<Accessibility> as VisitMutWith<V>>::visit_mut_with(
-                        accessibility,
-                        visitor,
-                    )
                 };
             }
         }
@@ -43579,9 +42927,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for RestPat {
                 {
                     <Box<Pat> as VisitMutWith<V>>::visit_mut_with(arg, visitor)
                 };
-                {
-                    <Option<Box<TsTypeAnn>> as VisitMutWith<V>>::visit_mut_with(type_ann, visitor)
-                };
             }
         }
     }
@@ -43707,21 +43052,11 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SimpleAssignTarget {
             SimpleAssignTarget::OptChain { 0: _field_0 } => {
                 <OptChainExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-            SimpleAssignTarget::TsAs { 0: _field_0 } => {
-                <TsAsExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
-                <TsSatisfiesExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
-                <TsNonNullExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
-                <TsTypeAssertion as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
-            SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
-                <TsInstantiation as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
-            }
+            SimpleAssignTarget::TsAs { 0: _field_0 } => {}
+            SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {}
+            SimpleAssignTarget::TsNonNull { 0: _field_0 } => {}
+            SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {}
+            SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {}
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 <Invalid as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
@@ -43982,12 +43317,6 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TaggedTpl {
                 };
                 {
                     <Box<Expr> as VisitMutWith<V>>::visit_mut_with(tag, visitor)
-                };
-                {
-                    <Option<Box<TsTypeParamInstantiation>> as VisitMutWith<V>>::visit_mut_with(
-                        type_params,
-                        visitor,
-                    )
                 };
                 {
                     <Box<Tpl> as VisitMutWith<V>>::visit_mut_with(tpl, visitor)
@@ -54285,16 +53614,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrayPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrayPat(
-                        self::fields::ArrayPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -54352,22 +53671,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ArrowExpr {
                         .with_guard(AstParentKind::ArrowExpr(self::fields::ArrowExprField::Body));
                     <Box<BlockStmtOrExpr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowExpr(
-                        self::fields::ArrowExprField::TypeParams,
-                    ));
-                    < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowExpr(
-                        self::fields::ArrowExprField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        return_type,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -54727,30 +54030,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AutoAccessor {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
-                        self::fields::AutoAccessorField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
                         self::fields::AutoAccessorField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
-                        self::fields::AutoAccessorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -54949,16 +54232,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for BindingIdent {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::BindingIdent(
-                        self::fields::BindingIdentField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -55151,12 +54424,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for CallExpr {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CallExpr(
-                        self::fields::CallExprField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -55314,27 +54581,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Class {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Class(self::fields::ClassField::TypeParams));
-                    < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Class(
-                        self::fields::ClassField::SuperTypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (super_type_params , visitor , & mut * __ast_path)
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Class(
-                        self::fields::ClassField::Implements(usize::MAX),
-                    ));
-                    <Vec<TsExprWithTypeArgs> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        implements,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -55477,11 +54723,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassMember {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
                     self::fields::ClassMemberField::TsIndexSignature,
                 ));
-                <TsIndexSignature as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ClassMember::Empty { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
@@ -55577,16 +54818,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassMethod {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMethod(
-                        self::fields::ClassMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -55646,30 +54877,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ClassProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
-                        self::fields::ClassPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
                         self::fields::ClassPropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
-                        self::fields::ClassPropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -55838,16 +55049,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Constructor {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Constructor(
-                        self::fields::ConstructorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -55961,38 +55162,18 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Decl {
             Decl::TsInterface { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Decl(self::fields::DeclField::TsInterface));
-                <Box<TsInterfaceDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsTypeAlias { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Decl(self::fields::DeclField::TsTypeAlias));
-                <Box<TsTypeAliasDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsEnum { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsEnum));
-                <Box<TsEnumDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Decl::TsModule { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsModule));
-                <Box<TsModuleDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -56064,11 +55245,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DefaultDecl {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::DefaultDecl(
                     self::fields::DefaultDeclField::TsInterfaceDecl,
                 ));
-                <Box<TsInterfaceDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -56729,58 +55905,28 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Expr {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsTypeAssertion,
                 ));
-                <TsTypeAssertion as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsConstAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsConstAssertion,
                 ));
-                <TsConstAssertion as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::TsNonNull));
-                <TsNonNullExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsAs { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::TsAs));
-                <TsAsExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsInstantiation,
                 ));
-                <TsInstantiation as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Expr(self::fields::ExprField::TsSatisfies));
-                <TsSatisfiesExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             Expr::PrivateName { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
@@ -57240,22 +56386,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Function {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
-                        self::fields::FunctionField::TypeParams,
-                    ));
-                    < Option < Box < TsTypeParamDecl > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
-                        self::fields::FunctionField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        return_type,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -57292,16 +56422,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for GetterProp {
                     ));
                     <PropName as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         key,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -58550,12 +57670,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for JSXOpeningElement {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::JSXOpeningElement(
-                        self::fields::JSXOpeningElementField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -59194,31 +58308,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ModuleDecl {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsImportEquals,
                 ));
-                <Box<TsImportEqualsDecl> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsExportAssignment,
                 ));
-                <TsExportAssignment as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsNamespaceExport,
                 ));
-                <TsNamespaceExportDecl as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
         }
     }
@@ -59404,11 +58503,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for NewExpr {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::NewExpr(self::fields::NewExprField::TypeArgs));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
             }
         }
     }
@@ -59539,16 +58633,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ObjectPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ObjectPat(
-                        self::fields::ObjectPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -59649,11 +58733,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for OptCall {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::OptCall(self::fields::OptCallField::TypeArgs));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_args , visitor , & mut * __ast_path)
                 };
             }
         }
@@ -59792,11 +58871,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for ParamOrTsParamProp 
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ParamOrTsParamProp(
                     self::fields::ParamOrTsParamPropField::TsParamProp,
                 ));
-                <TsParamProp as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ParamOrTsParamProp(
@@ -59981,16 +59055,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateMethod {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateMethod(
-                        self::fields::PrivateMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -60096,30 +59160,10 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for PrivateProp {
                 };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
-                        self::fields::PrivatePropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
                         self::fields::PrivatePropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
-                        self::fields::PrivatePropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -60404,15 +59448,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for RestPat {
                         &mut *__ast_path,
                     )
                 };
-                {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::RestPat(self::fields::RestPatField::TypeAnn));
-                    <Option<Box<TsTypeAnn>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
             }
         }
     }
@@ -60668,51 +59703,26 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SimpleAssignTarget 
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsAs,
                 ));
-                <TsAsExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsSatisfies,
                 ));
-                <TsSatisfiesExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsNonNull,
                 ));
-                <TsNonNullExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsTypeAssertion,
                 ));
-                <TsTypeAssertion as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsInstantiation,
                 ));
-                <TsInstantiation as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
@@ -61262,12 +60272,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TaggedTpl {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TaggedTpl(
-                        self::fields::TaggedTplField::TypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as VisitMutWithAstPath < V > > :: visit_mut_with_ast_path (type_params , visitor , & mut * __ast_path)
                 };
                 {
                     let mut __ast_path = __ast_path
@@ -69851,8 +68855,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrayPat {
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let elems = { <Vec<Option<Pat>> as FoldWith<V>>::fold_with(elems, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 ArrayPat {
                     span,
                     elems,
@@ -69885,11 +68887,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ArrowExpr {
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let params = { <Vec<Pat> as FoldWith<V>>::fold_with(params, visitor) };
                 let body = { <Box<BlockStmtOrExpr> as FoldWith<V>>::fold_with(body, visitor) };
-                let type_params = {
-                    <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
-                };
-                let return_type =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(return_type, visitor) };
                 ArrowExpr {
                     span,
                     ctxt,
@@ -70075,12 +69072,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for AutoAccessor {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <Key as FoldWith<V>>::fold_with(key, visitor) };
                 let value = { <Option<Box<Expr>> as FoldWith<V>>::fold_with(value, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 let decorators =
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 AutoAccessor {
                     span,
                     key,
@@ -70204,8 +69197,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for BindingIdent {
         match self {
             BindingIdent { id, type_ann } => {
                 let id = { <Ident as FoldWith<V>>::fold_with(id, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 BindingIdent { id, type_ann }
             }
         }
@@ -70297,11 +69288,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for CallExpr {
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let callee = { <Callee as FoldWith<V>>::fold_with(callee, visitor) };
                 let args = { <Vec<ExprOrSpread> as FoldWith<V>>::fold_with(args, visitor) };
-                let type_args = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        type_args, visitor,
-                    )
-                };
                 CallExpr {
                     span,
                     ctxt,
@@ -70379,17 +69365,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Class {
                 let body = { <Vec<ClassMember> as FoldWith<V>>::fold_with(body, visitor) };
                 let super_class =
                     { <Option<Box<Expr>> as FoldWith<V>>::fold_with(super_class, visitor) };
-                let type_params = {
-                    <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
-                };
-                let super_type_params = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        super_type_params,
-                        visitor,
-                    )
-                };
-                let implements =
-                    { <Vec<TsExprWithTypeArgs> as FoldWith<V>>::fold_with(implements, visitor) };
                 Class {
                     span,
                     ctxt,
@@ -70474,7 +69449,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassMember {
                 ClassMember::PrivateProp { 0: _field_0 }
             }
             ClassMember::TsIndexSignature { 0: _field_0 } => {
-                let _field_0 = <TsIndexSignature as FoldWith<V>>::fold_with(_field_0, visitor);
                 ClassMember::TsIndexSignature { 0: _field_0 }
             }
             ClassMember::Empty { 0: _field_0 } => {
@@ -70515,8 +69489,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassMethod {
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
                 let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 let kind = { <MethodKind as FoldWith<V>>::fold_with(kind, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 ClassMethod {
                     span,
                     key,
@@ -70558,12 +69530,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for ClassProp {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
                 let value = { <Option<Box<Expr>> as FoldWith<V>>::fold_with(value, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 let decorators =
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 ClassProp {
                     span,
                     key,
@@ -70650,8 +69618,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Constructor {
                 let params =
                     { <Vec<ParamOrTsParamProp> as FoldWith<V>>::fold_with(params, visitor) };
                 let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 Constructor {
                     span,
                     ctxt,
@@ -70720,22 +69686,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decl {
                 let _field_0 = <Box<UsingDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Decl::Using { 0: _field_0 }
             }
-            Decl::TsInterface { 0: _field_0 } => {
-                let _field_0 = <Box<TsInterfaceDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsInterface { 0: _field_0 }
-            }
-            Decl::TsTypeAlias { 0: _field_0 } => {
-                let _field_0 = <Box<TsTypeAliasDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsTypeAlias { 0: _field_0 }
-            }
-            Decl::TsEnum { 0: _field_0 } => {
-                let _field_0 = <Box<TsEnumDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsEnum { 0: _field_0 }
-            }
-            Decl::TsModule { 0: _field_0 } => {
-                let _field_0 = <Box<TsModuleDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
-                Decl::TsModule { 0: _field_0 }
-            }
+            Decl::TsInterface { 0: _field_0 } => Decl::TsInterface { 0: _field_0 },
+            Decl::TsTypeAlias { 0: _field_0 } => Decl::TsTypeAlias { 0: _field_0 },
+            Decl::TsEnum { 0: _field_0 } => Decl::TsEnum { 0: _field_0 },
+            Decl::TsModule { 0: _field_0 } => Decl::TsModule { 0: _field_0 },
         }
     }
 }
@@ -70772,7 +69726,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for DefaultDecl {
                 DefaultDecl::Fn { 0: _field_0 }
             }
             DefaultDecl::TsInterfaceDecl { 0: _field_0 } => {
-                let _field_0 = <Box<TsInterfaceDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 DefaultDecl::TsInterfaceDecl { 0: _field_0 }
             }
         }
@@ -71093,30 +70046,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::JSXFragment { 0: _field_0 }
             }
-            Expr::TsTypeAssertion { 0: _field_0 } => {
-                let _field_0 = <TsTypeAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsTypeAssertion { 0: _field_0 }
-            }
-            Expr::TsConstAssertion { 0: _field_0 } => {
-                let _field_0 = <TsConstAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsConstAssertion { 0: _field_0 }
-            }
-            Expr::TsNonNull { 0: _field_0 } => {
-                let _field_0 = <TsNonNullExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsNonNull { 0: _field_0 }
-            }
-            Expr::TsAs { 0: _field_0 } => {
-                let _field_0 = <TsAsExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsAs { 0: _field_0 }
-            }
-            Expr::TsInstantiation { 0: _field_0 } => {
-                let _field_0 = <TsInstantiation as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsInstantiation { 0: _field_0 }
-            }
-            Expr::TsSatisfies { 0: _field_0 } => {
-                let _field_0 = <TsSatisfiesExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                Expr::TsSatisfies { 0: _field_0 }
-            }
+            Expr::TsTypeAssertion { 0: _field_0 } => Expr::TsTypeAssertion { 0: _field_0 },
+            Expr::TsConstAssertion { 0: _field_0 } => Expr::TsConstAssertion { 0: _field_0 },
+            Expr::TsNonNull { 0: _field_0 } => Expr::TsNonNull { 0: _field_0 },
+            Expr::TsAs { 0: _field_0 } => Expr::TsAs { 0: _field_0 },
+            Expr::TsInstantiation { 0: _field_0 } => Expr::TsInstantiation { 0: _field_0 },
+            Expr::TsSatisfies { 0: _field_0 } => Expr::TsSatisfies { 0: _field_0 },
             Expr::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::PrivateName { 0: _field_0 }
@@ -71342,11 +70277,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for Function {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
-                let type_params = {
-                    <Option<Box<TsTypeParamDecl>> as FoldWith<V>>::fold_with(type_params, visitor)
-                };
-                let return_type =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(return_type, visitor) };
                 Function {
                     params,
                     decorators,
@@ -71378,8 +70308,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for GetterProp {
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 let body = { <Option<BlockStmt> as FoldWith<V>>::fold_with(body, visitor) };
                 GetterProp {
                     span,
@@ -72004,11 +70932,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for JSXOpeningElement {
                 let name = { <JSXElementName as FoldWith<V>>::fold_with(name, visitor) };
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let attrs = { <Vec<JSXAttrOrSpread> as FoldWith<V>>::fold_with(attrs, visitor) };
-                let type_args = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        type_args, visitor,
-                    )
-                };
                 JSXOpeningElement {
                     name,
                     span,
@@ -72333,16 +71256,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for ModuleDecl {
                 ModuleDecl::ExportAll { 0: _field_0 }
             }
             ModuleDecl::TsImportEquals { 0: _field_0 } => {
-                let _field_0 =
-                    <Box<TsImportEqualsDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 ModuleDecl::TsImportEquals { 0: _field_0 }
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
-                let _field_0 = <TsExportAssignment as FoldWith<V>>::fold_with(_field_0, visitor);
                 ModuleDecl::TsExportAssignment { 0: _field_0 }
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
-                let _field_0 = <TsNamespaceExportDecl as FoldWith<V>>::fold_with(_field_0, visitor);
                 ModuleDecl::TsNamespaceExport { 0: _field_0 }
             }
         }
@@ -72436,11 +71355,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for NewExpr {
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let callee = { <Box<Expr> as FoldWith<V>>::fold_with(callee, visitor) };
                 let args = { <Option<Vec<ExprOrSpread>> as FoldWith<V>>::fold_with(args, visitor) };
-                let type_args = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        type_args, visitor,
-                    )
-                };
                 NewExpr {
                     span,
                     ctxt,
@@ -72515,8 +71429,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ObjectPat {
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let props = { <Vec<ObjectPatProp> as FoldWith<V>>::fold_with(props, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 ObjectPat {
                     span,
                     props,
@@ -72569,11 +71481,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for OptCall {
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let callee = { <Box<Expr> as FoldWith<V>>::fold_with(callee, visitor) };
                 let args = { <Vec<ExprOrSpread> as FoldWith<V>>::fold_with(args, visitor) };
-                let type_args = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        type_args, visitor,
-                    )
-                };
                 OptCall {
                     span,
                     ctxt,
@@ -72663,7 +71570,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for ParamOrTsParamProp {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             ParamOrTsParamProp::TsParamProp { 0: _field_0 } => {
-                let _field_0 = <TsParamProp as FoldWith<V>>::fold_with(_field_0, visitor);
                 ParamOrTsParamProp::TsParamProp { 0: _field_0 }
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
@@ -72751,8 +71657,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for PrivateMethod {
                 let key = { <PrivateName as FoldWith<V>>::fold_with(key, visitor) };
                 let function = { <Box<Function> as FoldWith<V>>::fold_with(function, visitor) };
                 let kind = { <MethodKind as FoldWith<V>>::fold_with(kind, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 PrivateMethod {
                     span,
                     key,
@@ -72810,12 +71714,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for PrivateProp {
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let key = { <PrivateName as FoldWith<V>>::fold_with(key, visitor) };
                 let value = { <Option<Box<Expr>> as FoldWith<V>>::fold_with(value, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 let decorators =
                     { <Vec<Decorator> as FoldWith<V>>::fold_with(decorators, visitor) };
-                let accessibility =
-                    { <Option<Accessibility> as FoldWith<V>>::fold_with(accessibility, visitor) };
                 PrivateProp {
                     span,
                     ctxt,
@@ -72973,8 +71873,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for RestPat {
                 let dot3_token =
                     { <swc_common::Span as FoldWith<V>>::fold_with(dot3_token, visitor) };
                 let arg = { <Box<Pat> as FoldWith<V>>::fold_with(arg, visitor) };
-                let type_ann =
-                    { <Option<Box<TsTypeAnn>> as FoldWith<V>>::fold_with(type_ann, visitor) };
                 RestPat {
                     span,
                     dot3_token,
@@ -73102,24 +72000,17 @@ impl<V: ?Sized + Fold> FoldWith<V> for SimpleAssignTarget {
                 let _field_0 = <OptChainExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::OptChain { 0: _field_0 }
             }
-            SimpleAssignTarget::TsAs { 0: _field_0 } => {
-                let _field_0 = <TsAsExpr as FoldWith<V>>::fold_with(_field_0, visitor);
-                SimpleAssignTarget::TsAs { 0: _field_0 }
-            }
+            SimpleAssignTarget::TsAs { 0: _field_0 } => SimpleAssignTarget::TsAs { 0: _field_0 },
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
-                let _field_0 = <TsSatisfiesExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
-                let _field_0 = <TsNonNullExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::TsNonNull { 0: _field_0 }
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
-                let _field_0 = <TsTypeAssertion as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::TsTypeAssertion { 0: _field_0 }
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
-                let _field_0 = <TsInstantiation as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::TsInstantiation { 0: _field_0 }
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
@@ -73377,12 +72268,6 @@ impl<V: ?Sized + Fold> FoldWith<V> for TaggedTpl {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let ctxt = { <swc_common::SyntaxContext as FoldWith<V>>::fold_with(ctxt, visitor) };
                 let tag = { <Box<Expr> as FoldWith<V>>::fold_with(tag, visitor) };
-                let type_params = {
-                    <Option<Box<TsTypeParamInstantiation>> as FoldWith<V>>::fold_with(
-                        type_params,
-                        visitor,
-                    )
-                };
                 let tpl = { <Box<Tpl> as FoldWith<V>>::fold_with(tpl, visitor) };
                 TaggedTpl {
                     span,
@@ -84213,16 +83098,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrayPat {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrayPat(
-                        self::fields::ArrayPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 ArrayPat {
                     span,
                     elems,
@@ -84286,26 +83161,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ArrowExpr {
                         .with_guard(AstParentKind::ArrowExpr(self::fields::ArrowExprField::Body));
                     <Box<BlockStmtOrExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
                         body,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let type_params = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowExpr(
-                        self::fields::ArrowExprField::TypeParams,
-                    ));
-                    <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let return_type = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ArrowExpr(
-                        self::fields::ArrowExprField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        return_type,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -84683,32 +83538,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AutoAccessor {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
-                        self::fields::AutoAccessorField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 let decorators = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
                         self::fields::AutoAccessorField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::AutoAccessor(
-                        self::fields::AutoAccessorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -84923,16 +83758,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for BindingIdent {
                     ));
                     <Ident as FoldWithAstPath<V>>::fold_with_ast_path(id, visitor, &mut *__ast_path)
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::BindingIdent(
-                        self::fields::BindingIdentField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 BindingIdent { id, type_ann }
             }
         }
@@ -85131,12 +83956,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for CallExpr {
                         &mut *__ast_path,
                     )
                 };
-                let type_args = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::CallExpr(
-                        self::fields::CallExprField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
                 CallExpr {
                     span,
                     ctxt,
@@ -85305,31 +84124,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Class {
                         &mut *__ast_path,
                     )
                 };
-                let type_params = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::Class(self::fields::ClassField::TypeParams));
-                    <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let super_type_params = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Class(
-                        self::fields::ClassField::SuperTypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (super_type_params , visitor , & mut * __ast_path)
-                };
-                let implements = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Class(
-                        self::fields::ClassField::Implements(usize::MAX),
-                    ));
-                    <Vec<TsExprWithTypeArgs> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        implements,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 Class {
                     span,
                     ctxt,
@@ -85494,11 +84288,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassMember {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMember(
                     self::fields::ClassMemberField::TsIndexSignature,
                 ));
-                let _field_0 = <TsIndexSignature as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 ClassMember::TsIndexSignature { 0: _field_0 }
             }
             ClassMember::Empty { 0: _field_0 } => {
@@ -85598,16 +84387,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassMethod {
                         &mut *__ast_path,
                     )
                 };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassMethod(
-                        self::fields::ClassMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 ClassMethod {
                     span,
                     key,
@@ -85676,32 +84455,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ClassProp {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
-                        self::fields::ClassPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 let decorators = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
                         self::fields::ClassPropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ClassProp(
-                        self::fields::ClassPropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -85892,16 +84651,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Constructor {
                         &mut *__ast_path,
                     )
                 };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Constructor(
-                        self::fields::ConstructorField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 Constructor {
                     span,
                     ctxt,
@@ -86030,41 +84779,21 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Decl {
             Decl::TsInterface { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Decl(self::fields::DeclField::TsInterface));
-                let _field_0 = <Box<TsInterfaceDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Decl::TsInterface { 0: _field_0 }
             }
             Decl::TsTypeAlias { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Decl(self::fields::DeclField::TsTypeAlias));
-                let _field_0 = <Box<TsTypeAliasDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Decl::TsTypeAlias { 0: _field_0 }
             }
             Decl::TsEnum { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsEnum));
-                let _field_0 = <Box<TsEnumDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Decl::TsEnum { 0: _field_0 }
             }
             Decl::TsModule { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Decl(self::fields::DeclField::TsModule));
-                let _field_0 = <Box<TsModuleDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Decl::TsModule { 0: _field_0 }
             }
         }
@@ -86140,11 +84869,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DefaultDecl {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::DefaultDecl(
                     self::fields::DefaultDeclField::TsInterfaceDecl,
                 ));
-                let _field_0 = <Box<TsInterfaceDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 DefaultDecl::TsInterfaceDecl { 0: _field_0 }
             }
         }
@@ -86857,63 +85581,33 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Expr {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsTypeAssertion,
                 ));
-                let _field_0 = <TsTypeAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsTypeAssertion { 0: _field_0 }
             }
             Expr::TsConstAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsConstAssertion,
                 ));
-                let _field_0 = <TsConstAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsConstAssertion { 0: _field_0 }
             }
             Expr::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::TsNonNull));
-                let _field_0 = <TsNonNullExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsNonNull { 0: _field_0 }
             }
             Expr::TsAs { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::TsAs));
-                let _field_0 = <TsAsExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsAs { 0: _field_0 }
             }
             Expr::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::Expr(
                     self::fields::ExprField::TsInstantiation,
                 ));
-                let _field_0 = <TsInstantiation as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsInstantiation { 0: _field_0 }
             }
             Expr::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Expr(self::fields::ExprField::TsSatisfies));
-                let _field_0 = <TsSatisfiesExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 Expr::TsSatisfies { 0: _field_0 }
             }
             Expr::PrivateName { 0: _field_0 } => {
@@ -87408,26 +86102,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Function {
                         &mut *__ast_path,
                     )
                 };
-                let type_params = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
-                        self::fields::FunctionField::TypeParams,
-                    ));
-                    <Option<Box<TsTypeParamDecl>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_params,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let return_type = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::Function(
-                        self::fields::FunctionField::ReturnType,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        return_type,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 Function {
                     params,
                     decorators,
@@ -87475,16 +86149,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for GetterProp {
                     ));
                     <PropName as FoldWithAstPath<V>>::fold_with_ast_path(
                         key,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::GetterProp(
-                        self::fields::GetterPropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -88814,12 +87478,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for JSXOpeningElement {
                         &mut *__ast_path,
                     )
                 };
-                let type_args = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::JSXOpeningElement(
-                        self::fields::JSXOpeningElementField::TypeArgs,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
                 JSXOpeningElement {
                     name,
                     span,
@@ -89497,33 +88155,18 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ModuleDecl {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsImportEquals,
                 ));
-                let _field_0 = <Box<TsImportEqualsDecl> as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 ModuleDecl::TsImportEquals { 0: _field_0 }
             }
             ModuleDecl::TsExportAssignment { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsExportAssignment,
                 ));
-                let _field_0 = <TsExportAssignment as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 ModuleDecl::TsExportAssignment { 0: _field_0 }
             }
             ModuleDecl::TsNamespaceExport { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ModuleDecl(
                     self::fields::ModuleDeclField::TsNamespaceExport,
                 ));
-                let _field_0 = <TsNamespaceExportDecl as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 ModuleDecl::TsNamespaceExport { 0: _field_0 }
             }
         }
@@ -89721,11 +88364,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for NewExpr {
                         &mut *__ast_path,
                     )
                 };
-                let type_args = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::NewExpr(self::fields::NewExprField::TypeArgs));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (type_args , visitor , & mut * __ast_path)
-                };
                 NewExpr {
                     span,
                     ctxt,
@@ -89866,16 +88504,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ObjectPat {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::ObjectPat(
-                        self::fields::ObjectPatField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 ObjectPat {
                     span,
                     props,
@@ -89985,11 +88613,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for OptCall {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                let type_args = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::OptCall(self::fields::OptCallField::TypeArgs));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (type_args , visitor , & mut * __ast_path)
                 };
                 OptCall {
                     span,
@@ -90143,11 +88766,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for ParamOrTsParamProp {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::ParamOrTsParamProp(
                     self::fields::ParamOrTsParamPropField::TsParamProp,
                 ));
-                let _field_0 = <TsParamProp as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 ParamOrTsParamProp::TsParamProp { 0: _field_0 }
             }
             ParamOrTsParamProp::Param { 0: _field_0 } => {
@@ -90342,16 +88960,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateMethod {
                         &mut *__ast_path,
                     )
                 };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateMethod(
-                        self::fields::PrivateMethodField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 PrivateMethod {
                     span,
                     key,
@@ -90467,32 +89075,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for PrivateProp {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
-                        self::fields::PrivatePropField::TypeAnn,
-                    ));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 let decorators = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
                         self::fields::PrivatePropField::Decorators(usize::MAX),
                     ));
                     <Vec<Decorator> as FoldWithAstPath<V>>::fold_with_ast_path(
                         decorators,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let accessibility = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::PrivateProp(
-                        self::fields::PrivatePropField::Accessibility,
-                    ));
-                    <Option<Accessibility> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        accessibility,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -90807,15 +89395,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for RestPat {
                         &mut *__ast_path,
                     )
                 };
-                let type_ann = {
-                    let mut __ast_path = __ast_path
-                        .with_guard(AstParentKind::RestPat(self::fields::RestPatField::TypeAnn));
-                    <Option<Box<TsTypeAnn>> as FoldWithAstPath<V>>::fold_with_ast_path(
-                        type_ann,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
                 RestPat {
                     span,
                     dot3_token,
@@ -91096,55 +89675,30 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SimpleAssignTarget {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsAs,
                 ));
-                let _field_0 = <TsAsExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 SimpleAssignTarget::TsAs { 0: _field_0 }
             }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsSatisfies,
                 ));
-                let _field_0 = <TsSatisfiesExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
             SimpleAssignTarget::TsNonNull { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsNonNull,
                 ));
-                let _field_0 = <TsNonNullExpr as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 SimpleAssignTarget::TsNonNull { 0: _field_0 }
             }
             SimpleAssignTarget::TsTypeAssertion { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsTypeAssertion,
                 ));
-                let _field_0 = <TsTypeAssertion as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 SimpleAssignTarget::TsTypeAssertion { 0: _field_0 }
             }
             SimpleAssignTarget::TsInstantiation { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::SimpleAssignTarget(
                     self::fields::SimpleAssignTargetField::TsInstantiation,
                 ));
-                let _field_0 = <TsInstantiation as FoldWithAstPath<V>>::fold_with_ast_path(
-                    _field_0,
-                    visitor,
-                    &mut *__ast_path,
-                );
                 SimpleAssignTarget::TsInstantiation { 0: _field_0 }
             }
             SimpleAssignTarget::Invalid { 0: _field_0 } => {
@@ -91728,12 +90282,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TaggedTpl {
                         visitor,
                         &mut *__ast_path,
                     )
-                };
-                let type_params = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TaggedTpl(
-                        self::fields::TaggedTplField::TypeParams,
-                    ));
-                    < Option < Box < TsTypeParamInstantiation > > as FoldWithAstPath < V > > :: fold_with_ast_path (type_params , visitor , & mut * __ast_path)
                 };
                 let tpl = {
                     let mut __ast_path = __ast_path
