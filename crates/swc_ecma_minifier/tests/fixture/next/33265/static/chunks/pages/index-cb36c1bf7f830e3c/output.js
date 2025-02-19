@@ -4583,7 +4583,7 @@
              *
              * Copyright (c) Brightcove
              * Licensed Apache-2.0 https://github.com/videojs/mux.js/blob/master/LICENSE
-             */ var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
+             */ var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
             secondsToVideoTs = function(seconds) {
                 return 90000 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
@@ -4592,24 +4592,21 @@
                 return timestamp / 90000;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
-            }, audioTsToVideoTs = function(timestamp, sampleRate) {
-                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-            }, videoTsToAudioTs = function(timestamp, sampleRate) {
-                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-            }, /**
-             * Adjust ID3 tag or caption timing information by the timeline pts values
-             * (if keepOriginalTimestamps is false) and convert to seconds
-             */ metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
                 ONE_SECOND_IN_TS: 90000,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
                 audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: audioTsToVideoTs,
-                videoTsToAudioTs: videoTsToAudioTs,
-                metadataTsToSeconds: metadataTsToSeconds
+                audioTsToVideoTs: function(timestamp, sampleRate) {
+                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+                },
+                videoTsToAudioTs: function(timestamp, sampleRate) {
+                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+                },
+                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                }
             };
         /***/ },
         /***/ 8581: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {

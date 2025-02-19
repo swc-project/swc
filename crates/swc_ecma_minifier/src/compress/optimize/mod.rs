@@ -959,8 +959,30 @@ impl Optimizer<'_> {
             }
 
             Expr::Assign(AssignExpr {
-                op, left, right, ..
-            }) if left.is_simple() && !op.may_short_circuit() => {
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
+                right,
+                ..
+            }) => {
+                let old = i.id.to_id();
+                self.store_var_for_inlining(&mut i.id, right, true);
+
+                if i.is_dummy() && self.options.unused {
+                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
+                    self.vars.removed.insert(old);
+                }
+
+                if right.is_invalid() {
+                    return None;
+                }
+            }
+
+            Expr::Assign(AssignExpr {
+                op,
+                left: left @ AssignTarget::Simple(_),
+                right,
+                ..
+            }) if !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
                     if let SimpleAssignTarget::Member(m) = expr {
                         if !m.obj.may_have_side_effects(self.ctx.expr_ctx)
@@ -988,25 +1010,6 @@ impl Optimizer<'_> {
                     }
                 }
                 return Some(e.take());
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
-                right,
-                ..
-            }) => {
-                let old = i.id.to_id();
-                self.store_var_for_inlining(&mut i.id, right, true);
-
-                if i.is_dummy() && self.options.unused {
-                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
-                    self.vars.removed.insert(old);
-                }
-
-                if right.is_invalid() {
-                    return None;
-                }
             }
 
             // We drop `f.g` in

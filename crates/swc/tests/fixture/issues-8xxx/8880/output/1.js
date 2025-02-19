@@ -10,7 +10,7 @@ function a(module, exports, farmRequire, farmDynamicRequire) {
     farmRequire("15d5169f");
     (0, _dep734fea04.c)(function(module, exports) {
         var e__1, _;
-        e__1 = _dep734fea04.a, _ = function(e__2) {
+        e__1 = _dep734fea04.a, module.exports = function(e__2) {
             var e__3;
             var t = e__2 && "object" == (0, _typeof.default)(e__2) && "default" in e__2 ? e__2 : {
                 default: e__2
@@ -59,6 +59,6 @@ function a(module, exports, farmRequire, farmDynamicRequire) {
                 }
             };
             return t["default"].locale(d, null, !0), d;
-        }, module.exports = _(_dayjs.default);
+        }(_dayjs.default);
     });
 }
