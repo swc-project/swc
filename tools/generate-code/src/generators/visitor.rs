@@ -3,6 +3,7 @@ use std::collections::HashSet;
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::{quote, ToTokens};
+use swc_cached::regex::CachedRegex;
 use syn::{
     parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,
@@ -144,9 +145,11 @@ impl FieldType {
     }
 
     fn contains_type(&self, type_name: &str) -> bool {
+        let regex = CachedRegex::new(type_name).expect("failed to create regex");
+
         match self {
-            FieldType::Normal(name) => name == type_name,
-            FieldType::Generic(name, ty) => name == type_name || ty.contains_type(type_name),
+            FieldType::Normal(name) => regex.is_match(name),
+            FieldType::Generic(name, ty) => regex.is_match(name) || ty.contains_type(type_name),
         }
     }
 }

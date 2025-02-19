@@ -81,7 +81,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
         _ => None,
     });
 
-    let file = generators::visitor::generate(&crate_name, &all_type_defs, &excluded_types);
+    let file = generators::visitor::generate(&crate_name, &all_type_defs, excluded_types);
 
     let output_content = quote::quote!(#file).to_string();
 
@@ -136,9 +136,11 @@ fn test_ecmascript_std() {
             "EsVersion".into(),
             "FnPass".into(),
             "Accessibility".into(),
+            "^Ts.*".into(),
         ],
     )
     .unwrap();
+    panic!();
 }
 
 #[test]
