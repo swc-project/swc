@@ -69,7 +69,11 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[Stri
 
     for &kind in [TraitKind::Visit, TraitKind::VisitMut, TraitKind::Fold].iter() {
         for &variant in [Variant::Normal, Variant::AstPath].iter() {
-            let g = Generator { kind, variant };
+            let g = Generator {
+                kind,
+                variant,
+                excluded_types,
+            };
 
             output.items.extend(g.declare_visit_trait(&all_types));
 
@@ -302,12 +306,14 @@ impl Variant {
     }
 }
 
-struct Generator {
+struct Generator<'a> {
     kind: TraitKind,
     variant: Variant,
+
+    excluded_types: &'a [String],
 }
 
-impl Generator {
+impl Generator<'_> {
     fn should_skip(&self, ty: &Type) -> bool {
         if let Some(ty) = extract_generic("Box", ty) {
             return self.should_skip(ty);
@@ -323,9 +329,16 @@ impl Generator {
 
         let ty = to_field_ty(ty);
         match ty {
-            Some(..) => {}
+            Some(ty) => {
+                for excluded_type in self.excluded_types {
+                    if ty.contains_type(excluded_type) {
+                        return true;
+                    }
+                }
+            }
             None => return true,
         }
+
         false
     }
 
