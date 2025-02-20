@@ -78,7 +78,7 @@ impl<'b, 'alloc> Optimizer<'b, 'alloc> {
     }
 
     /// RAII guard to change context temporarically
-    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, '_, 'alloc> {
+    pub(super) fn with_ctx<'a>(&'a mut self, mut ctx: Ctx) -> WithCtx<'a, 'b, 'alloc> {
         let mut scope_ctxt = ctx.scope;
 
         if self.ctx.scope != scope_ctxt {
