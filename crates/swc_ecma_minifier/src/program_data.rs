@@ -500,7 +500,7 @@ impl<'alloc> Storage<'alloc> for ProgramData<'alloc> {
     }
 }
 
-impl ScopeDataLike for ScopeData {
+impl<'alloc> ScopeDataLike<'alloc> for ScopeData {
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
     fn merge(&mut self, other: Self, _: bool) {
@@ -522,7 +522,7 @@ impl ScopeDataLike for ScopeData {
     }
 }
 
-impl VarDataLike for VarUsageInfo {
+impl<'alloc> VarDataLike<'alloc> for VarUsageInfo {
     fn mark_declared_as_fn_param(&mut self) {
         self.declared_as_fn_param = true;
     }
