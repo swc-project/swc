@@ -1,6 +1,5 @@
 use std::mem;
 
-use once_cell::sync::Lazy;
 use rustc_hash::FxHashSet;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
@@ -13,7 +12,8 @@ use crate::{strip_import_export::StripImportExport, strip_type::StripType, trans
 #[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
+        static VAL: once_cell::sync::Lazy<Lrc<String>> =
+            once_cell::sync::Lazy::new(|| Lrc::new($s.into()));
         VAL.clone()
     }};
 }

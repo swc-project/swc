@@ -93,7 +93,8 @@
                   "raw": "\"tty\""
                 },
                 "qualifier": null,
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               },
               "typeArguments": null
             }

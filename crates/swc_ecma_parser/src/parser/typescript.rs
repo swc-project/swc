@@ -316,6 +316,15 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
+        // the "assert" keyword is deprecated and this syntax is niche, so
+        // don't support it
+        let attributes =
+            if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
+                Some(self.parse_ts_call_options()?)
+            } else {
+                None
+            };
+
         expect!(self, ')');
 
         let qualifier = if eat!(self, '.') {
@@ -340,6 +349,27 @@ impl<I: Tokens> Parser<I> {
             arg,
             qualifier,
             type_args,
+            attributes,
+        })
+    }
+
+    fn parse_ts_call_options(&mut self) -> PResult<TsImportCallOptions> {
+        debug_assert!(self.input.syntax().typescript());
+        let start = cur_pos!(self);
+        assert_and_bump!(self, '{');
+
+        expect!(self, "with");
+        expect!(self, ':');
+
+        let value = match self.parse_object::<Expr>()? {
+            Expr::Object(v) => v,
+            _ => unreachable!(),
+        };
+        eat!(self, ',');
+        expect!(self, '}');
+        Ok(TsImportCallOptions {
+            span: span!(self, start),
+            with: Box::new(value),
         })
     }
 

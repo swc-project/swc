@@ -1310,7 +1310,8 @@
                                         "kind": "number"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "attributes": null
                                 }
                               }
                             },
@@ -1528,10 +1529,12 @@
                                           "kind": "number"
                                         }
                                       ]
-                                    }
+                                    },
+                                    "attributes": null
                                   }
                                 ]
-                              }
+                              },
+                              "attributes": null
                             }
                           }
                         }
