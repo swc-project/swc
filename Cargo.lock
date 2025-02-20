@@ -4578,6 +4578,7 @@ dependencies = [
 name = "swc_allocator"
 version = "3.0.0"
 dependencies = [
+ "allocator-api2",
  "bumpalo",
  "codspeed-criterion-compat",
  "criterion",
