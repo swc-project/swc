@@ -4974,7 +4974,7 @@ __metadata:
     source-map: "npm:^0.7.3"
     source-map-support: "npm:^0.5.19"
     sourcemap-validator: "npm:^2.1.0"
-    swc-plugin-coverage-instrument: "npm:^0.0.25"
+    swc-plugin-coverage-instrument: "npm:^0.0.26"
     terser: "npm:^5.7.1"
     ts-node: "npm:^10.5.0"
     typescript: "npm:^5.3.3"
@@ -16736,10 +16736,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"swc-plugin-coverage-instrument@npm:^0.0.25":
-  version: 0.0.25
-  resolution: "swc-plugin-coverage-instrument@npm:0.0.25"
-  checksum: 110cf8074a2932c9cc370dbd833db4b71dca5a386ab13ca1116811fcf3be5498f98ab755cdf7395cf19cdd0da711119ac3edc9ab3c8bc26e50ca60ca07ae834d
+"swc-plugin-coverage-instrument@npm:^0.0.26":
+  version: 0.0.26
+  resolution: "swc-plugin-coverage-instrument@npm:0.0.26"
+  checksum: a366e7f92941ec5c290ee462014714afba70cbc3eddc759d4af27d543ad035da99f01601d6586ccf55e6c0101a0288a6ef1ea30be70b58cb79400f391f306363
   languageName: node
   linkType: hard
 
