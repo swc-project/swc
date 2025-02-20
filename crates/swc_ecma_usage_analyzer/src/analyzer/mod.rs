@@ -31,9 +31,10 @@ where
     let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
+        arena,
         data: S::new(arena),
         marks,
-        scope: Default::default(),
+        scope: S::ScopeData::new(arena),
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
