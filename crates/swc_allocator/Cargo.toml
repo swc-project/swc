@@ -16,6 +16,7 @@ version       = "3.0.0"
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
 nightly = [
+  "skip-warning",
   "allocator-api2/nightly",
   "bumpalo/allocator_api",
   "hashbrown/nightly",
@@ -23,6 +24,9 @@ nightly = [
 rkyv = ["dep:rkyv", "dep:rancor"]
 scoped = ["nightly"]
 serde = ["dep:serde"]
+# This feature is used to suppress warnings about slowness caused by stable rustc.
+# It's recommended to use nightly rustc until the allocator APIs are stabilized.
+skip-warning = []
 
 
 [dependencies]
