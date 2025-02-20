@@ -16,15 +16,15 @@ mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-#[repr(transparent)]
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg(feature = "nightly")]
-pub struct Box<T: ?Sized, A: Allocator>(std::boxed::Box<T, A>);
+type Inner<T, A> = std::boxed::Box<T, A>;
+
+#[cfg(not(feature = "nightly"))]
+type Inner<T, A> = allocator_api2::boxed::Box<T, A>;
 
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg(not(feature = "nightly"))]
-pub struct Box<T: ?Sized, A: Allocator>(allocator_api2::boxed::Box<T, A>);
+pub struct Box<T: ?Sized, A: Allocator>(Inner<T, A>);
 
 impl<T, A> From<T> for Box<T, A> {
     #[inline(always)]
