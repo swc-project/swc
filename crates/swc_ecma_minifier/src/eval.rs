@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{ExprCtx, ExprExt};
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit_std::VisitMutWith;
 
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
@@ -210,10 +210,10 @@ impl Evaluator {
                 }
                 .into();
 
-                e.visit_mut_with(&mut expr_simplifier(
-                    self.marks.unresolved_mark,
-                    ExprSimplifierConfig {},
-                ));
+                swc_ecma_visit::VisitMutWith::visit_mut_with(
+                    &mut e,
+                    &mut expr_simplifier(self.marks.unresolved_mark, ExprSimplifierConfig {}),
+                );
                 return Some(Box::new(e));
             }
             _ => {}

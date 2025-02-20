@@ -2,7 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit_std::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;
 

@@ -12,7 +12,7 @@ use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith, VisitWith};
+use swc_ecma_visit_std::{VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::{debug, error};
 
@@ -55,10 +55,7 @@ where
         compressor,
         Optional {
             enabled: options.evaluate || options.side_effects,
-            visitor: visit_mut_pass(expr_simplifier(
-                marks.unresolved_mark,
-                ExprSimplifierConfig {},
-            )),
+            visitor: expr_simplifier(marks.unresolved_mark, ExprSimplifierConfig {}),
         },
     )
 }
@@ -183,7 +180,7 @@ impl Compressor<'_> {
             let start = n.dump();
 
             let mut visitor = expr_simplifier(self.marks.unresolved_mark, ExprSimplifierConfig {});
-            n.visit_mut_with(&mut visitor);
+            n.mutate(&mut visitor);
 
             self.changed |= visitor.changed();
             if visitor.changed() {
@@ -285,7 +282,7 @@ impl Compressor<'_> {
             let start_time = now();
 
             let mut v = dead_branch_remover(self.marks.unresolved_mark);
-            n.visit_mut_with(&mut v);
+            n.mutate(&mut v);
 
             if let Some(start_time) = start_time {
                 let end_time = Instant::now();

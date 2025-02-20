@@ -9,7 +9,7 @@ use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
@@ -263,7 +263,7 @@ impl Finalizer<'_> {
 
                 if !remap.is_empty() {
                     let mut remapper = Remapper::new(&remap);
-                    value.visit_mut_with(&mut remapper);
+                    swc_ecma_visit::VisitMutWith::visit_mut_with(&mut value, &mut remapper);
                 }
 
                 value

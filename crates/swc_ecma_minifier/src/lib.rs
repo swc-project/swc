@@ -45,7 +45,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::ExprCtx;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit_std::VisitMutWith;
 use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
@@ -137,10 +137,7 @@ pub fn optimize(
     }
 
     if options.compress.is_some() {
-        swc_ecma_visit_std::VisitMutWith::visit_mut_with(
-            &mut n,
-            &mut info_marker(options.compress.as_ref(), comments, marks),
-        );
+        n.visit_mut_with(&mut info_marker(options.compress.as_ref(), comments, marks));
         debug_assert_valid(&n);
     }
 
@@ -284,7 +281,7 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
         #[cfg(feature = "debug")]
         let start = crate::debug::dump(&*m, false);
 
-        m.visit_mut_with(&mut visitor);
+        m.mutate(&mut visitor);
 
         #[cfg(feature = "debug")]
         if visitor.changed() {

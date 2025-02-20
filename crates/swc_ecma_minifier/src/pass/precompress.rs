@@ -4,7 +4,7 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{ExprCtx, ExprExt, Value::Known};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::HEAVY_TASK_PARALLELS;
 

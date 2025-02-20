@@ -8,7 +8,7 @@ use swc_ecma_utils::{
     parallel::{cpu_count, Parallel, ParallelExt},
     ExprCtx,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
 

@@ -4,7 +4,7 @@ use fxhash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit_std::{noop_visit_type, Node, Visit, VisitWith};
 
 #[derive(Default)]
 pub(super) struct All {

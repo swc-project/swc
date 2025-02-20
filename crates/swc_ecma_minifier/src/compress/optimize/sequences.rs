@@ -10,7 +10,7 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit_std::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::{span, Level};
 
@@ -2725,7 +2725,7 @@ impl MergeSequenceCache {
         }
     }
 
-    fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
+    fn is_ident_used_by<N: swc_ecma_visit::VisitWith<IdentUsageCollector>>(
         &mut self,
         ident: &Id,
         node: &N,

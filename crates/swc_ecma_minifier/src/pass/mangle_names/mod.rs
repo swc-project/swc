@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::{renamer, RenameMap, Renamer};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(crate) use self::preserver::idents_to_preserve;
 use crate::{
@@ -43,7 +43,7 @@ pub(crate) fn mangle_names(
         cache = Some(c);
     }
 
-    program.visit_mut_with(&mut renamer(
+    program.mutate(renamer(
         swc_ecma_transforms_base::hygiene::Config {
             keep_class_names: options.keep_class_names,
             top_level_mark,

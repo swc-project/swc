@@ -1,7 +1,7 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Base54Chars;
 

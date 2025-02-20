@@ -4,7 +4,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{class_has_side_effect, collect_decls, find_pat_ids, ExprExt, Remapper};
-use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
@@ -816,10 +815,14 @@ impl Optimizer<'_> {
                                 me.obj.clone_from(new);
                                 // TODO(kdy1): Optimize performance by skipping visiting of children
                                 // nodes.
-                                e.visit_mut_with(&mut expr_simplifier(
-                                    self.marks.unresolved_mark,
-                                    Default::default(),
-                                ));
+
+                                swc_ecma_visit::VisitMutWith::visit_mut_with(
+                                    e,
+                                    &mut expr_simplifier(
+                                        self.marks.unresolved_mark,
+                                        Default::default(),
+                                    ),
+                                );
                             }
                         }
                     }
@@ -870,7 +873,7 @@ impl Optimizer<'_> {
 
                     if !remap.is_empty() {
                         let mut remapper = Remapper::new(&remap);
-                        value.visit_mut_with(&mut remapper);
+                        swc_ecma_visit::VisitMutWith::visit_mut_with(&mut value, &mut remapper);
                     }
 
                     self.changed = true;
