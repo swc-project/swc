@@ -36,6 +36,7 @@
 
 pub mod allocators;
 pub mod api;
+mod types;
 mod util;
 
 /// Box<T> and Vec<T> depeding on the feature.
