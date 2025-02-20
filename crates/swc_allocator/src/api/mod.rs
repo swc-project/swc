@@ -4,44 +4,52 @@
 #[cfg(feature = "hashbrown")]
 pub extern crate hashbrown;
 
-macro_rules! impl_api {
-    ($alloc:ident) => {
-        /// See [`hashbrown::HashMap`].
-        #[cfg(feature = "hashbrown")]
-        pub type HashMap<K, V, S = rustc_hash::FxBuildHasher, A = $alloc> =
-            hashbrown::HashMap<K, V, S, A>;
-
-        /// See [`hashbrown::HashSet`].
-        #[cfg(feature = "hashbrown")]
-        pub type HashSet<T, S = rustc_hash::FxBuildHasher, A = $alloc> =
-            hashbrown::HashSet<T, S, A>;
-
-        // /// See [`crate::Box`].
-        // pub type Box<T, A = $alloc> = crate::Box<T, A>;
-
-        // /// See [`std::vec::Vec`].
-        // pub type Vec<T, A = $alloc> = crate::Vec<T, A>;
-    };
-}
-
 /// Types for arena allocator
 pub mod arena {
     #[allow(unused_imports)]
     use crate::allocators::Arena;
-    impl_api!(Arena);
+
+    /// See [`hashbrown::HashMap`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashMap<'alloc, K, V, S = rustc_hash::FxBuildHasher> =
+        hashbrown::HashMap<K, V, S, &'alloc Arena>;
+
+    /// See [`hashbrown::HashSet`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashSet<'alloc, T, S = rustc_hash::FxBuildHasher> =
+        hashbrown::HashSet<T, S, &'alloc Arena>;
+
+    // /// See [`crate::Box`].
+    // pub type Box<T, A = $alloc> = crate::Box<T, A>;
+
+    // /// See [`std::vec::Vec`].
+    // pub type Vec<T, A = $alloc> = crate::Vec<T, A>;
 }
 
 /// Types for scoped allocator
 pub mod scoped {
-    // #[allow(unused_imports)]
-    // use crate::allocators::Scoped;
-    // impl_api!(Scoped);
+
+    #[allow(unused_imports)]
+    use crate::allocators::Scoped;
+
+    /// See [`hashbrown::HashMap`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashMap<'alloc, K, V, S = rustc_hash::FxBuildHasher> =
+        hashbrown::HashMap<K, V, S, Scoped>;
+
+    /// See [`hashbrown::HashSet`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashSet<'alloc, T, S = rustc_hash::FxBuildHasher> = hashbrown::HashSet<T, S, Scoped>;
 }
 
 /// Types for global allocator
 pub mod global {
-    #[allow(unused_imports)]
-    use crate::allocators::Global;
 
-    impl_api!(Global);
+    /// See [`hashbrown::HashMap`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashMap<K, V, S = rustc_hash::FxBuildHasher> = hashbrown::HashMap<K, V, S>;
+
+    /// See [`hashbrown::HashSet`].
+    #[cfg(feature = "hashbrown")]
+    pub type HashSet<T, S = rustc_hash::FxBuildHasher> = hashbrown::HashSet<T, S>;
 }
