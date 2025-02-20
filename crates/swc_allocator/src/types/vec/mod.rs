@@ -39,7 +39,7 @@ where
     /// let mut vec: Vec<i32> = Vec::new();
     /// ```
     ///
-    /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
+    /// Note: This is slower than using [Self::new_in] with cached [A].
     #[inline(always)]
     pub fn new() -> Self {
         Self::new_in(Default::default())
@@ -51,7 +51,7 @@ where
     ///
     /// See [std::vec::Vec::new_in] for more information.
     #[inline(always)]
-    pub fn new_in(alloc: FastAlloc) -> Self {
+    pub fn new_in(alloc: A) -> Self {
         Self(std::vec::Vec::new_in(alloc))
     }
 
@@ -107,7 +107,7 @@ where
     /// ```
     ///
     /// Note: This is slower than using [Self::with_capacity_in] with cached
-    /// [FastAlloc].
+    /// [A].
     #[inline(always)]
     pub fn with_capacity(capacity: usize) -> Self {
         Self::with_capacity_in(capacity, Default::default())
@@ -140,7 +140,7 @@ where
     ///
     /// See [std::vec::Vec::with_capacity_in] for more information.
     #[inline(always)]
-    pub fn with_capacity_in(capacity: usize, alloc: FastAlloc) -> Self {
+    pub fn with_capacity_in(capacity: usize, alloc: A) -> Self {
         Self(std::vec::Vec::with_capacity_in(capacity, alloc))
     }
 
@@ -289,13 +289,13 @@ where
             ptr,
             length,
             capacity,
-            FastAlloc::default(),
+            A::default(),
         ))
     }
 }
 
 impl<T> Deref for Vec<T> {
-    type Target = std::vec::Vec<T, FastAlloc>;
+    type Target = std::vec::Vec<T, A>;
 
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
@@ -313,12 +313,12 @@ impl<T> DerefMut for Vec<T> {
 impl<T> Default for Vec<T> {
     #[inline(always)]
     fn default() -> Self {
-        Self(std::vec::Vec::new_in(FastAlloc::default()))
+        Self(std::vec::Vec::new_in(A::default()))
     }
 }
 
 impl<T> IntoIterator for Vec<T> {
-    type IntoIter = std::vec::IntoIter<T, FastAlloc>;
+    type IntoIter = std::vec::IntoIter<T, A>;
     type Item = T;
 
     #[inline(always)]
