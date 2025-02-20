@@ -6,6 +6,7 @@ use std::{borrow::Cow, fmt::Write, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
+use swc_allocator::allocators::Arena;
 use swc_common::pass::{CompilerPass, Optional, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{
@@ -95,7 +96,8 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks));
+            let arena = Arena::default();
+            let data = analyze(&arena, &*n, Some(self.marks));
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -256,7 +258,9 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks));
+            let arena = Arena::default();
+
+            let mut data = analyze(&arena, &*n, Some(self.marks));
 
             // TODO: reset_opt_flags
             //

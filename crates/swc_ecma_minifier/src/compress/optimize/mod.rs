@@ -63,7 +63,7 @@ pub(super) fn optimizer<'a: 'alloc, 'alloc>(
     data: &'a mut ProgramData<'alloc>,
     mode: &'a dyn Mode,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated {
+) -> impl 'a + 'alloc + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
