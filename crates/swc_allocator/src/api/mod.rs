@@ -24,18 +24,21 @@ macro_rules! impl_api {
     };
 }
 
+/// Types for arena allocator
 pub mod arena {
     #[allow(unused_imports)]
     use crate::allocators::Arena;
     impl_api!(Arena);
 }
 
+/// Types for scoped allocator
 pub mod scoped {
-    #[allow(unused_imports)]
-    use crate::allocators::Scoped;
-    impl_api!(Scoped);
+    // #[allow(unused_imports)]
+    // use crate::allocators::Scoped;
+    // impl_api!(Scoped);
 }
 
+/// Types for global allocator
 pub mod global {
     #[allow(unused_imports)]
     use crate::allocators::Global;

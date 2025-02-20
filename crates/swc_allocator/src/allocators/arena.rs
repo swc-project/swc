@@ -2,6 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use bumpalo::Bump;
 
+/// Arena allocator
 #[derive(Default)]
 pub struct Arena {
     inner: Bump,
