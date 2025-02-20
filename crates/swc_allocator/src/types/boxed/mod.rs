@@ -9,17 +9,22 @@ use std::{
     pin::Pin,
 };
 
-use crate::FastAlloc;
+use crate::util::Allocator;
 
 #[cfg(feature = "rkyv")]
 mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-/// Faster alterantive for [`std::boxed::Box`].
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Box<T: ?Sized>(pub(crate) std::boxed::Box<T, FastAlloc>);
+#[cfg(feature = "nightly")]
+pub struct Box<T: ?Sized, A: std::alloc::Allocator>(std::boxed::Box<T, A>);
+
+#[repr(transparent)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg(not(feature = "nightly"))]
+pub struct Box<T: ?Sized, A: allocator_api2::alloc::Allocator>(allocator_api2::boxed::Box<T, A>);
 
 impl<T> From<T> for Box<T> {
     #[inline(always)]
