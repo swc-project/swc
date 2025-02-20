@@ -40,6 +40,8 @@ mod alloc;
 #[cfg(feature = "nightly")]
 pub mod boxed;
 pub mod collections;
+#[cfg(feature = "hashbrown")]
+pub mod hashbrown;
 #[cfg(feature = "nightly")]
 pub mod vec;
 
@@ -111,28 +113,4 @@ macro_rules! nightly_only {
     (
         $($item:item)*
     ) => {};
-}
-
-/// Usage: `swc_allocator::Type!(Vec<T>)` or `swc_allocator::Type!(Box<T>)`.
-#[macro_export]
-macro_rules! Type {
-    (Box<$($tt:tt)*>) => {
-        #[cfg(feature = "nightly")]
-        $crate::boxed::Box<$crate::Type!($($tt)*)>
-
-        #[cfg(not(feature = "nightly"))]
-        std::boxed::Box<$crate::Type!($($tt)*)>
-    };
-
-    (Vec<$($tt:tt)*>) => {
-        #[cfg(feature = "nightly")]
-        $crate::vec::Vec<$crate::Type!($($tt)*)>
-
-        #[cfg(not(feature = "nightly"))]
-        std::vec::Vec<$crate::Type!($($tt)*)>
-    };
-
-    ($t:ty) => {
-        $t
-    };
 }
