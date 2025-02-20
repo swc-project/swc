@@ -17,7 +17,7 @@ macro_rules! impl_api {
         #[cfg(feature = "hashbrown")]
         pub type HashSet<T, S = FxBuildHasher, A = $alloc> = hashbrown::HashSet<T, S, A>;
 
-        /// See [`std::boxed::Box`].
+        /// See [`crate::Box`].
         pub type Box<T, A = $alloc> = crate::Box<T, A>;
 
         /// See [`std::vec::Vec`].
@@ -26,16 +26,22 @@ macro_rules! impl_api {
 }
 
 pub mod arena {
+    #![allow(deprecated)]
+
     use crate::allocators::Arena;
     impl_api!(Arena);
 }
 
 pub mod scoped {
+    #![allow(deprecated)]
+
     use crate::allocators::Scoped;
     impl_api!(Scoped);
 }
 
 pub mod global {
+    #![allow(deprecated)]
     use crate::allocators::Global;
+
     impl_api!(Global);
 }
