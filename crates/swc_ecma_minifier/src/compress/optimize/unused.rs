@@ -19,7 +19,7 @@ pub(crate) struct PropertyAccessOpts {
 }
 
 /// Methods related to the option `unused`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_var_declarator(
         &mut self,

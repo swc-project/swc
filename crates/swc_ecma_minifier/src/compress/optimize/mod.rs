@@ -56,11 +56,11 @@ mod unused;
 mod util;
 
 /// This pass is similar to `node.optimize` of terser.
-pub(super) fn optimizer<'a>(
+pub(super) fn optimizer<'a: 'alloc, 'alloc>(
     marks: Marks,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
-    data: &'a mut ProgramData,
+    data: &'a mut ProgramData<'alloc>,
     mode: &'a dyn Mode,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated {
@@ -216,7 +216,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a> {
+struct Optimizer<'a, 'alloc> {
     marks: Marks,
 
     changed: bool,
@@ -234,7 +234,7 @@ struct Optimizer<'a> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: &'a mut ProgramData,
+    data: &'a mut ProgramData<'alloc>,
     ctx: Ctx,
 
     mode: &'a dyn Mode,
@@ -317,7 +317,7 @@ impl Vars {
     }
 }
 
-impl Repeated for Optimizer<'_> {
+impl<'alloc> Repeated for Optimizer<'_, 'alloc> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -344,7 +344,7 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
         if let Some(VarUsageInfo { exported: true, .. }) =
             self.data.vars.get(&id.clone().to_id()).map(|v| &**v)
@@ -431,7 +431,9 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>: VisitMutWith<Self>
+            + VisitWith<UsageAnalyzer<ProgramData<'alloc>>>
+            + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
@@ -1526,7 +1528,7 @@ impl Optimizer<'_> {
     }
 }
 
-impl VisitMut for Optimizer<'_> {
+impl<'alloc> VisitMut for Optimizer<'_, 'alloc> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
