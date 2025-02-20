@@ -9,7 +9,7 @@ use crate::{
     util::{make_bool, ValueExt},
 };
 
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
     pub(super) fn optimize_bin_equal(&mut self, e: &mut BinExpr) {
