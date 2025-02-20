@@ -11,7 +11,6 @@ use ascii::AsciiChar;
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
-use swc_allocator::maybe::vec::Vec;
 use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},

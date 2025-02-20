@@ -2,7 +2,6 @@ use std::{cell::RefCell, fmt::Display, rc::Rc};
 
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
-use swc_allocator::maybe::vec::Vec;
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
