@@ -1,3 +1,5 @@
+#![cfg(feature = "nightly")]
+
 use criterion::black_box;
 use swc_allocator::{boxed::Box, Allocator, FastAlloc};
 
