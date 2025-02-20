@@ -14,7 +14,7 @@ version       = "3.0.0"
 
 
 [features]
-default = ["scoped", "rkyv"]
+default = []
 nightly = ["bumpalo/allocator_api", "hashbrown/nightly"]
 rkyv    = ["dep:rkyv", "dep:rancor"]
 scoped  = ["nightly"]
@@ -43,5 +43,6 @@ swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
 
 
 [[bench]]
-harness = false
-name    = "bench"
+harness           = false
+name              = "bench"
+required-features = ["nightly"]
