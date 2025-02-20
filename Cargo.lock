@@ -5373,6 +5373,7 @@ dependencies = [
  "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_ecma_visit_std",
  "swc_malloc",
  "swc_parallel",
  "swc_timer",
@@ -5648,6 +5649,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_ecma_visit_std",
  "swc_fast_graph",
  "testing",
  "tracing",
@@ -5768,6 +5770,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_ecma_visit_std",
  "swc_timer",
  "tracing",
 ]
