@@ -37,11 +37,13 @@
 pub use crate::alloc::Allocator;
 
 mod alloc;
+pub mod api;
 #[cfg(feature = "nightly")]
 pub mod boxed;
 pub mod collections;
 #[cfg(feature = "hashbrown")]
 pub mod hashbrown;
+mod util;
 #[cfg(feature = "nightly")]
 pub mod vec;
 
