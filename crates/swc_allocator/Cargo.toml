@@ -15,10 +15,14 @@ version       = "3.0.1"
 
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
-nightly   = ["bumpalo/allocator_api", "hashbrown/nightly"]
-rkyv      = ["dep:rkyv", "dep:rancor"]
-scoped    = ["nightly"]
-serde     = ["dep:serde"]
+nightly = [
+  "allocator-api2/nightly",
+  "bumpalo/allocator_api",
+  "hashbrown/nightly",
+]
+rkyv = ["dep:rkyv", "dep:rancor"]
+scoped = ["nightly"]
+serde = ["dep:serde"]
 
 
 [dependencies]
