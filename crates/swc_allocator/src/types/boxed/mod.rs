@@ -24,23 +24,31 @@ type Inner<T, A> = allocator_api2::boxed::Box<T, A>;
 
 #[repr(transparent)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(
+    not(feature = "skip-warning"),
+    deprecated(
+        note = "This type is slow if the cargo feature `nightly` is not enabled. You can enable \
+                `swc_allocator/nightly` to make this type faster, or `swc_allocator/skip-warning` \
+                to suppress this warning."
+    )
+)]
 pub struct Box<T: ?Sized, A: Allocator>(Inner<T, A>);
 
-impl<T, A> From<T> for Box<T, A> {
+impl<T, A: Allocator> From<T> for Box<T, A> {
     #[inline(always)]
     fn from(v: T) -> Self {
         Box::new(v)
     }
 }
 
-impl<T: ?Sized> From<std::boxed::Box<T, FastAlloc>> for Box<T> {
+impl<T: ?Sized, A: Allocator> From<std::boxed::Box<T, A>> for Box<T> {
     #[inline(always)]
-    fn from(v: std::boxed::Box<T, FastAlloc>) -> Self {
+    fn from(v: std::boxed::Box<T, A>) -> Self {
         Box(v)
     }
 }
 
-impl<T> Default for Box<T>
+impl<T, A: Allocator> Default for Box<T, A>
 where
     T: Default,
 {
@@ -60,7 +68,7 @@ impl<T> Box<T> {
     /// let five = Box::new(5);
     /// ```
     ///
-    /// Note: This is slower than using [Self::new_in] with cached [FastAlloc].
+    /// Note: This is slower than using [Self::new_in] with cached [A].
     #[inline(always)]
     pub fn new(value: T) -> Self {
         Self::new_in(value, Default::default())
@@ -80,7 +88,7 @@ impl<T> Box<T> {
     /// let five = Box::new_in(5, System);
     /// ```
     #[inline(always)]
-    pub fn new_in(value: T, alloc: FastAlloc) -> Self {
+    pub fn new_in(value: T, alloc: A) -> Self {
         Self(std::boxed::Box::new_in(value, alloc))
     }
 
@@ -133,7 +141,7 @@ impl<T: ?Sized> Box<T> {
     /// [memory layout]: self#memory-layout
     /// [`Layout`]: crate::Layout
     pub unsafe fn from_raw(raw: *mut T) -> Self {
-        Self(std::boxed::Box::from_raw_in(raw, FastAlloc::default()))
+        Self(std::boxed::Box::from_raw_in(raw, A::default()))
     }
 
     /// Consumes the `Box`, returning a wrapped raw pointer.
