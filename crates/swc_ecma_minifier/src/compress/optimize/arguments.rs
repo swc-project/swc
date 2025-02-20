@@ -9,7 +9,7 @@ use super::Optimizer;
 use crate::compress::optimize::is_left_access_to_arguments;
 
 /// Methods related to the option `arguments`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     ///
     /// - `arguments['foo']` => `arguments.foo`
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {

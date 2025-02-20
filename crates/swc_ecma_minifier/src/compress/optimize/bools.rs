@@ -11,7 +11,7 @@ use crate::compress::{optimize::Ctx, util::negate_cost};
 use crate::debug::dump;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.

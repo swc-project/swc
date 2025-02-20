@@ -120,12 +120,12 @@ pub(crate) fn mangle_properties(
 }
 
 // Step 1 -- collect candidates to mangle
-pub struct PropertyCollector<'a> {
-    data: ProgramData,
+pub struct PropertyCollector<'a, 'alloc> {
+    data: ProgramData<'alloc>,
     state: &'a mut ManglePropertiesState,
 }
 
-impl VisitMut for PropertyCollector<'_> {
+impl<'alloc> VisitMut for PropertyCollector<'alloc> {
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
