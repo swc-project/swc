@@ -15,7 +15,7 @@ use tracing::debug;
 use super::{Ctx, Optimizer};
 use crate::HEAVY_TASK_PARALLELS;
 
-impl<'b> Optimizer<'b> {
+impl<'b, 'alloc> Optimizer<'b, 'alloc> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
@@ -78,7 +78,7 @@ impl<'b> Optimizer<'b> {
     }
 
     /// RAII guard to change context temporarically
-    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, 'b> {
+    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, '_, 'alloc> {
         let mut scope_ctxt = ctx.scope;
 
         if self.ctx.scope != scope_ctxt {
@@ -136,26 +136,26 @@ impl<'b> Optimizer<'b> {
     }
 }
 
-pub(super) struct WithCtx<'a, 'b> {
-    reducer: &'a mut Optimizer<'b>,
+pub(super) struct WithCtx<'a, 'b, 'alloc> {
+    reducer: &'a mut Optimizer<'b, 'alloc>,
     orig_ctx: Ctx,
 }
 
-impl<'b> Deref for WithCtx<'_, 'b> {
-    type Target = Optimizer<'b>;
+impl<'b, 'alloc> Deref for WithCtx<'_, 'b, 'alloc> {
+    type Target = Optimizer<'b, 'alloc>;
 
     fn deref(&self) -> &Self::Target {
         self.reducer
     }
 }
 
-impl DerefMut for WithCtx<'_, '_> {
+impl<'a, 'b, 'alloc> DerefMut for WithCtx<'a, 'b, 'alloc> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.reducer
     }
 }
 
-impl Drop for WithCtx<'_, '_> {
+impl<'a, 'b, 'alloc> Drop for WithCtx<'a, 'b, 'alloc> {
     fn drop(&mut self) {
         self.reducer.ctx = self.orig_ctx.clone();
     }

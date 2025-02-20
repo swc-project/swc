@@ -125,7 +125,7 @@ pub struct PropertyCollector<'a, 'alloc> {
     state: &'a mut ManglePropertiesState,
 }
 
-impl<'alloc> VisitMut for PropertyCollector<'alloc> {
+impl<'alloc> VisitMut for PropertyCollector<'_, 'alloc> {
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
