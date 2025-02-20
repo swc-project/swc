@@ -13,6 +13,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "Identifier",
         "span": {
@@ -145,6 +146,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "Identifier",
         "span": {
@@ -269,6 +271,7 @@
               },
               "declare": false,
               "global": false,
+              "namespace": false,
               "id": {
                 "type": "Identifier",
                 "span": {

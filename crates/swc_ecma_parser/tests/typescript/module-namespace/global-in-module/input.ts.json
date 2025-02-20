@@ -13,6 +13,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -37,6 +38,7 @@
             },
             "declare": false,
             "global": true,
+            "namespace": false,
             "id": {
               "type": "Identifier",
               "span": {

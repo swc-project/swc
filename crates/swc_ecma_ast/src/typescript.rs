@@ -978,6 +978,8 @@ pub struct TsModuleDecl {
     pub declare: bool,
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
+    pub namespace: bool,
+
     pub id: TsModuleName,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<TsNamespaceBody>,
