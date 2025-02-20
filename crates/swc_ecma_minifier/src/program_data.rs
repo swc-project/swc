@@ -2,6 +2,7 @@ use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
+use swc_allocator::api::arena;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -27,12 +28,12 @@ where
 
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
-pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+pub(crate) struct ProgramData<'alloc> {
+    pub(crate) vars: arena::HashMap<'alloc, UnsafeId, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
-    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub(crate) scopes: arena::HashMap<'alloc, SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 }
