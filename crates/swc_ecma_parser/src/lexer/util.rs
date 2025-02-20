@@ -272,7 +272,7 @@ impl Lexer<'_> {
 
                 self.skip_space::<false>();
 
-                if self.input.is_byte(b';') {
+                if !self.state.had_line_break && self.input.is_byte(b';') {
                     is_for_next = false;
                 }
 

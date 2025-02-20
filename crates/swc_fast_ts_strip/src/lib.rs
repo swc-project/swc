@@ -17,9 +17,9 @@ use swc_ecma_ast::{
     ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, Param, Pat,
     PrivateMethod, PrivateProp, Program, ReturnStmt, SetterProp, Stmt, ThrowStmt, TsAsExpr,
     TsConstAssertion, TsEnumDecl, TsExportAssignment, TsImportEqualsDecl, TsIndexSignature,
-    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
+    TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNonNullExpr, TsParamPropParam,
+    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
     lexer::Lexer,
@@ -55,6 +55,9 @@ pub struct Options {
     pub transform: Option<typescript::Config>,
 
     #[serde(default)]
+    pub deprecated_ts_module_as_error: Option<bool>,
+
+    #[serde(default)]
     pub source_map: bool,
 }
 
@@ -66,6 +69,7 @@ interface Options {
     filename?: string;
     mode?: Mode;
     transform?: TransformConfig;
+    deprecatedTsModuleAsError?: boolean;
     sourceMap?: boolean;
 }
 
@@ -239,14 +243,24 @@ pub fn operate(
 
     drop(parser);
 
+    let deprecated_ts_module_as_error = options.deprecated_ts_module_as_error.unwrap_or_default();
+
     match options.mode {
         Mode::StripOnly => {
             let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
 
             tokens.sort_by_key(|t| t.span);
 
+            if deprecated_ts_module_as_error {
+                program.visit_with(&mut ErrorOnTsModule {
+                    src: &fm.src,
+                    tokens: &tokens,
+                });
+            }
+
             // Strip typescript types
             let mut ts_strip = TsStrip::new(fm.src.clone(), tokens);
+
             program.visit_with(&mut ts_strip);
             if handler.has_errors() {
                 return Err(TsError {
@@ -343,6 +357,17 @@ pub fn operate(
             HELPERS.set(&Helpers::new(false), || {
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
+                if deprecated_ts_module_as_error {
+                    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
+
+                    tokens.sort_by_key(|t| t.span);
+
+                    program.visit_with(&mut ErrorOnTsModule {
+                        src: &fm.src,
+                        tokens: &tokens,
+                    });
+                }
+
                 program.mutate(&mut typescript::typescript(
                     options.transform.unwrap_or_default(),
                     unresolved_mark,
@@ -401,6 +426,76 @@ pub fn operate(
                 })
             }
         }
+    }
+}
+
+struct ErrorOnTsModule<'a> {
+    src: &'a str,
+    tokens: &'a [TokenAndSpan],
+}
+
+// All namespaces or modules are either at the top level or nested within
+// another namespace or module.
+impl Visit for ErrorOnTsModule<'_> {
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if n.is_decl() {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_decl(&mut self, n: &Decl) {
+        if n.is_ts_module() {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_module_decl(&mut self, n: &ModuleDecl) {
+        if n.is_export_decl() {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
+        n.visit_children_with(self);
+
+        if n.global || n.id.is_str() {
+            return;
+        }
+
+        let mut pos = n.span.lo;
+
+        if n.declare {
+            let declare_index = self
+                .tokens
+                .binary_search_by_key(&pos, |t| t.span.lo)
+                .unwrap();
+
+            debug_assert_eq!(
+                self.tokens[declare_index].token,
+                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+            );
+
+            let TokenAndSpan { token, span, .. } = &self.tokens[declare_index + 1];
+            // declare global
+            // declare module
+            // declare namespace
+            if let Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace))) = token {
+                return;
+            }
+
+            pos = span.lo;
+        } else if self.src.as_bytes()[pos.0 as usize - 1] != b'm' {
+            return;
+        }
+
+        HANDLER.with(|handler| {
+            handler
+                .struct_span_err(
+                    span(pos, pos + BytePos(6)),
+                    "`module` keyword is not supported. Use `namespace` instead.",
+                )
+                .emit();
+        });
     }
 }
 
@@ -1215,17 +1310,6 @@ impl Visit for TsStrip {
                 .struct_span_err(
                     n.span(),
                     "TypeScript namespace declaration is not supported in strip-only mode",
-                )
-                .emit();
-        });
-    }
-
-    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span(),
-                    "TypeScript module declaration is not supported in strip-only mode",
                 )
                 .emit();
         });

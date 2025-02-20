@@ -124,6 +124,7 @@ fn opts(mode: Mode) -> Options {
             native_class_properties: true,
             ..Default::default()
         }),
+        deprecated_ts_module_as_error: true.into(),
         ..Default::default()
     }
 }

@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
+use swc_cached::regex::CachedRegex;
 use syn::{Ident, Item};
 
 use crate::types::qualify_types;
@@ -39,7 +40,7 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> Result<()> {
+fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String]) -> Result<()> {
     let crate_name = Ident::new(
         input_dir.file_name().unwrap().to_str().unwrap(),
         Span::call_site(),
@@ -72,7 +73,14 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
             _ => return false,
         };
 
-        !excludes.contains(&ident.to_string())
+        for type_name in excluded_types {
+            let regex = CachedRegex::new(type_name).expect("failed to create regex");
+            if regex.is_match(&ident.to_string()) {
+                return false;
+            }
+        }
+
+        true
     });
 
     all_type_defs.sort_by_key(|item| match item {
@@ -81,7 +89,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excludes: &[String]) -> 
         _ => None,
     });
 
-    let file = generators::visitor::generate(&crate_name, &all_type_defs);
+    let file = generators::visitor::generate(&crate_name, &all_type_defs, excluded_types);
 
     let output_content = quote::quote!(#file).to_string();
 
@@ -120,6 +128,23 @@ fn test_ecmascript() {
             "EncodeBigInt".into(),
             "EsVersion".into(),
             "FnPass".into(),
+        ],
+    )
+    .unwrap();
+}
+
+#[test]
+fn test_ecmascript_std() {
+    run_visitor_codegen(
+        Path::new("../../crates/swc_ecma_ast"),
+        Path::new("../../crates/swc_ecma_visit_std/src/generated.rs"),
+        &[
+            "Align64".into(),
+            "EncodeBigInt".into(),
+            "EsVersion".into(),
+            "FnPass".into(),
+            "Accessibility".into(),
+            "^Ts.*".into(),
         ],
     )
     .unwrap();

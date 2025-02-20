@@ -13,7 +13,7 @@
             });
             // UNUSED EXPORTS: CacheProvider, ClassNames, ThemeContext, ThemeProvider, __unsafe_useEmotionCache, createElement, css, jsx, keyframes, useTheme, withEmotionCache, withTheme
             // EXTERNAL MODULE: ./node_modules/react/index.js
-            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
+            var cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -347,7 +347,6 @@
                  * @param {number} length
                  * @return {string}
                  */ function prefix(value, length) {
-                                var search, search1;
                                 switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     // color-adjust
                                     case 5103:
@@ -457,7 +456,7 @@
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             // (s)tretch
                                             case 115:
-                                                return ~(search = "stretch", value.indexOf(search)) ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     // position: sticky
@@ -466,7 +465,7 @@
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     // display: (flex|inline-flex)
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~(search1 = "!important", value.indexOf(search1)) && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
                                             // stic(k)y
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
@@ -499,28 +498,25 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) {
-                                var array, callback1;
-                                return array = element.props, callback1 = function(value) {
-                                    var value1;
-                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                        // :read-(only|write)
-                                        case ":read-only":
-                                        case ":read-write":
-                                            return serialize([
-                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
-                                            ], callback);
-                                        // :placeholder
-                                        case "::placeholder":
-                                            return serialize([
-                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
-                                            ], callback);
-                                    }
-                                    return "";
-                                }, array.map(callback1).join("");
-                            }
+                            if (element.length) return element.props.map(function(value) {
+                                var value1;
+                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                    // :read-(only|write)
+                                    case ":read-only":
+                                    case ":read-write":
+                                        return serialize([
+                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
+                                        ], callback);
+                                    // :placeholder
+                                    case "::placeholder":
+                                        return serialize([
+                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
+                                        ], callback);
+                                }
+                                return "";
+                            }).join("");
                     }
                 }
             ], hash_browser_esm = /* eslint-disable */ // Inspired by https://github.com/garycourt/murmurhash-js
@@ -594,10 +590,8 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = (fn = function(styleName) {
-                return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
-            }, cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
+            }, processStyleName = (cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -690,7 +684,7 @@
             // but this is much easier and the native packages
             // might use a different theme context in the future anyway
             "undefined" != typeof HTMLElement ? /* #__PURE__ */ function(options) {
-                var callback, container, _insert, currentSheet, collection, length, key = options.key;
+                var callback, container, currentSheet, collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])"); // get SSRed styles out of the way of React's hydration
                     // document.head is a safe place to move them to(though note document.head is not necessarily the last place they will be)
@@ -865,11 +859,7 @@
                     ], value = alloc(value = styles), 0, [
                         0
                     ], value), characters = "", value1), serializer);
-                };
-                _insert = function(selector, serialized, sheet, shouldCache) {
-                    currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
-                };
-                var cache = {
+                }, cache = {
                     key: key,
                     sheet: new StyleSheet({
                         key: key,
@@ -881,7 +871,9 @@
                     nonce: options.nonce,
                     inserted: inserted,
                     registered: {},
-                    insert: _insert
+                    insert: function(selector, serialized, sheet, shouldCache) {
+                        currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
+                    }
                 };
                 return cache.sheet.hydrate(nodesToHydrate), cache;
             }({
@@ -1133,10 +1125,8 @@
                 }(arr, 0) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }, id = (ref = function(options) {
+                    var ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -1153,7 +1143,9 @@
                     } //# sourceMappingURL=use-intersection.js.map
                     ({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [

@@ -6,13 +6,13 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{stack_size::maybe_grow_default, ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
+use swc_ecma_utils::{stack_size::maybe_grow_default, DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod size;
 pub(crate) mod sort;
-pub(crate) mod unit;
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");
@@ -518,6 +518,30 @@ impl Visit for EvalFinder {
             s.visit_children_with(self);
         }
     }
+}
+
+#[allow(unused)]
+pub(crate) fn dump_program(p: &Program) -> String {
+    #[cfg(feature = "debug")]
+    {
+        force_dump_program(p)
+    }
+    #[cfg(not(feature = "debug"))]
+    {
+        String::new()
+    }
+}
+
+pub(crate) fn force_dump_program(p: &Program) -> String {
+    let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
+
+    crate::debug::dump(
+        &p.clone()
+            .apply(fixer(None))
+            .apply(hygiene())
+            .apply(visit_mut_pass(DropSpan {})),
+        true,
+    )
 }
 
 #[cfg(feature = "concurrent")]

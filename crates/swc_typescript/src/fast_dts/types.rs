@@ -20,12 +20,12 @@ impl FastDts {
     pub(crate) fn transform_expr_to_ts_type(&mut self, expr: &Expr) -> Option<Box<TsType>> {
         match expr {
             Expr::Ident(ident) if ident.sym == "undefined" => {
-                Some(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
+                Some(ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword))
             }
             Expr::Lit(lit) => match lit {
                 Lit::Str(string) => Some(ts_lit_type(TsLit::Str(string.clone()))),
                 Lit::Bool(b) => Some(ts_lit_type(TsLit::Bool(*b))),
-                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword)),
+                Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
                 Lit::Num(number) => Some(ts_lit_type(TsLit::Number(number.clone()))),
                 Lit::BigInt(big_int) => Some(ts_lit_type(TsLit::BigInt(big_int.clone()))),
                 Lit::Regex(_) | Lit::JSXText(_) => None,
@@ -274,7 +274,7 @@ impl FastDts {
                 elements.push(TsTupleElement {
                     span: DUMMY_SP,
                     label: None,
-                    ty: ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword),
+                    ty: ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
                 });
                 continue;
             };

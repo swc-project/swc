@@ -6,10 +6,11 @@ var Blocks = {
         return React.createElement(React.Fragment, null, "'Block2xx'");
     },
     Layout1: function() {
-        return [
+        var e;
+        return e = Blocks, [
             'Block1'
-        ].map(function(e) {
-            return Blocks[e];
+        ].map(function(t) {
+            return e[t];
         });
     }
 };

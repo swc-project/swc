@@ -1,3 +1,11 @@
-module aModuleKeywordNamespace { export const m = 1; }
+module aModuleKeywordNamespace { }
 
-export module aModuleKeywordExportedNamespace { export const m = 1; }
+declare module aModuleKeywordDeclareNamespace { }
+
+export module aModuleKeywordExportedNamespace { }
+
+export declare module aModuleKeywordExportedDeclareNamespace { }
+
+namespace foo {
+    export module aModuleKeywordExportedNamespaceInNamespace { }
+}
