@@ -66,11 +66,11 @@ enum RecursiveUsage {
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
-#[derive(Debug)]
 pub struct UsageAnalyzer<'alloc, S>
 where
     S: Storage<'alloc>,
 {
+    arena: &'alloc Arena,
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
@@ -88,14 +88,15 @@ where
         F: FnOnce(&mut UsageAnalyzer<'alloc, S>) -> Ret,
     {
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            arena: self.arena,
+            data: S::new(self.arena),
             marks: self.marks,
             ctx: Ctx {
                 is_top_level: false,
                 ..self.ctx
             },
             expr_ctx: self.expr_ctx,
-            scope: Default::default(),
+            scope: S::ScopeData::new(self.arena),
             used_recursively: self.used_recursively.clone(),
         };
 
