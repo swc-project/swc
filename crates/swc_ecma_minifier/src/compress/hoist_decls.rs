@@ -51,7 +51,7 @@ impl<'alloc> Hoister<'_, 'alloc> {
     where
         T: StmtLike + IsModuleItem + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<Hoister<'aa, 'alloc>>
-            + VisitWith<UsageAnalyzer<ProgramData<'alloc>>>,
+            + VisitWith<UsageAnalyzer<'alloc, ProgramData<'alloc>>>,
     {
         stmts.visit_mut_children_with(self);
         let len = stmts.len();

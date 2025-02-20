@@ -26,7 +26,7 @@ pub(crate) fn analyze<'alloc, N>(
     marks: Option<Marks>,
 ) -> ProgramData<'alloc>
 where
-    N: VisitWith<UsageAnalyzer<ProgramData<'alloc>>>,
+    N: VisitWith<UsageAnalyzer<'alloc, ProgramData<'alloc>>>,
 {
     analyze_with_storage::<ProgramData<'alloc>, _>(n, marks)
 }
@@ -192,7 +192,7 @@ impl VarUsageInfo {
     }
 }
 
-impl<'alloc> Storage for ProgramData<'alloc> {
+impl<'alloc> Storage<'alloc> for ProgramData<'alloc> {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
