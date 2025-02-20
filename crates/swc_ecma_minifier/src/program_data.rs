@@ -1,9 +1,8 @@
-use std::collections::hash_map::Entry;
-
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
 use swc_allocator::api::arena;
+use swc_allocator::api::{arena, hashbrown::hash_map::Entry};
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -20,17 +19,17 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<'alloc, N>(n: &N, marks: Option<Marks>) -> ProgramData<'alloc>
 where
-    N: VisitWith<UsageAnalyzer<ProgramData>>,
+    N: VisitWith<UsageAnalyzer<ProgramData<'alloc>>>,
 {
-    analyze_with_storage::<ProgramData, _>(n, marks)
+    analyze_with_storage::<ProgramData<'alloc>, _>(n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub(crate) struct ProgramData<'alloc> {
-    pub(crate) vars: arena::HashMap<'alloc, UnsafeId, Box<VarUsageInfo>>,
+    pub(crate) vars: arena::HashMap<'alloc, Id, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
@@ -188,7 +187,7 @@ impl VarUsageInfo {
     }
 }
 
-impl Storage for ProgramData {
+impl<'alloc> Storage for ProgramData<'alloc> {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
@@ -586,7 +585,7 @@ impl VarDataLike for VarUsageInfo {
     }
 }
 
-impl ProgramData {
+impl<'alloc> ProgramData<'alloc> {
     /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
