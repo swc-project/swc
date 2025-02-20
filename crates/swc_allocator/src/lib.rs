@@ -37,6 +37,7 @@
 pub use crate::alloc::Allocator;
 
 mod alloc;
+pub mod allocators;
 pub mod api;
 #[cfg(feature = "nightly")]
 pub mod boxed;
