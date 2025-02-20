@@ -23,7 +23,7 @@ pub mod storage;
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<'alloc, S, N>(arena: &'alloc Arena, n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<'alloc, S, N>(alloc: &'alloc Arena, n: &N, marks: Option<Marks>) -> S
 where
     S: Storage<'alloc>,
     N: VisitWith<UsageAnalyzer<'alloc, S>>,
@@ -31,10 +31,10 @@ where
     let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
-        arena,
-        data: S::new(arena),
+        alloc,
+        data: S::new(alloc),
         marks,
-        scope: S::ScopeData::new(arena),
+        scope: S::ScopeData::new(alloc),
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
@@ -71,7 +71,7 @@ pub struct UsageAnalyzer<'alloc, S>
 where
     S: Storage<'alloc>,
 {
-    arena: &'alloc Arena,
+    alloc: &'alloc Arena,
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
@@ -89,15 +89,15 @@ where
         F: FnOnce(&mut UsageAnalyzer<'alloc, S>) -> Ret,
     {
         let mut child = UsageAnalyzer {
-            arena: self.arena,
-            data: S::new(self.arena),
+            alloc: self.alloc,
+            data: S::new(self.alloc),
             marks: self.marks,
             ctx: Ctx {
                 is_top_level: false,
                 ..self.ctx
             },
             expr_ctx: self.expr_ctx,
-            scope: S::ScopeData::new(self.arena),
+            scope: S::ScopeData::new(self.alloc),
             used_recursively: self.used_recursively.clone(),
         };
 
