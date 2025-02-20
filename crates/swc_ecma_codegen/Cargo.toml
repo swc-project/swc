@@ -28,7 +28,7 @@ serde       = { workspace = true }
 sourcemap   = { workspace = true }
 tracing     = { workspace = true }
 
-swc_allocator           = { version = "3.0.0", path = "../swc_allocator", default-features = false }
+swc_allocator           = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms               = { version = "4.0.0", path = "../swc_atoms" }
 swc_common              = { version = "7.0.0", path = "../swc_common" }
 swc_ecma_ast            = { version = "7.0.0", path = "../swc_ecma_ast" }
@@ -40,7 +40,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_allocator = { version = "3.0.0", path = "../swc_allocator" }
+swc_allocator = { version = "3.0.1", path = "../swc_allocator" }
 swc_common = { version = "7.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }

@@ -15,7 +15,7 @@ anyhow       = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 wasm-bindgen = { workspace = true, optional = true }
 
-swc_allocator = { version = "3.0.0", path = "../swc_allocator", default-features = false }
+swc_allocator = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 
 swc_common = { version = "7.0.0", path = "../swc_common", features = [
   "sourcemap",

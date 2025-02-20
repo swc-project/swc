@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "11.0.0"
+version       = "11.1.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -52,7 +52,7 @@ serde_json        = { workspace = true }
 tracing           = { workspace = true }
 
 
-swc_allocator = { version = "3.0.0", path = "../swc_allocator", default-features = false }
+swc_allocator = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "4.0.0", path = "../swc_atoms" }
 swc_common = { version = "7.0.0", path = "../swc_common" }
 swc_config = { version = "2.0.0", path = "../swc_config", features = [
@@ -79,7 +79,7 @@ pretty_assertions = { workspace = true }
 walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_allocator             = { version = "3.0.0", path = "../swc_allocator" }
+swc_allocator             = { version = "3.0.1", path = "../swc_allocator" }
 swc_ecma_testing          = { version = "7.0.0", path = "../swc_ecma_testing" }
 swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
 testing                   = { version = "7.0.0", path = "../testing" }

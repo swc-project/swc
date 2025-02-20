@@ -28,7 +28,7 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 sha1       = { workspace = true }
 
 string_enum                = { version = "1.0.0", path = "../string_enum" }
-swc_allocator              = { version = "3.0.0", path = "../swc_allocator", default-features = false }
+swc_allocator              = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms                  = { version = "4.0.0", path = "../swc_atoms" }
 swc_common                 = { version = "7.0.0", path = "../swc_common" }
 swc_config                 = { version = "2.0.0", path = "../swc_config" }

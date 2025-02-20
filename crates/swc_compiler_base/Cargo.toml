@@ -21,7 +21,7 @@ rustc-hash    = { workspace = true }
 serde         = { workspace = true, features = ["derive"] }
 serde_json    = { workspace = true }
 sourcemap     = { workspace = true }
-swc_allocator = { version = "3.0.0", path = "../swc_allocator", default-features = false }
+swc_allocator = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 
 swc_atoms = { version = "4.0.0", path = "../swc_atoms" }
 swc_common = { version = "7.0.0", path = "../swc_common", features = [
@@ -30,7 +30,7 @@ swc_common = { version = "7.0.0", path = "../swc_common", features = [
 swc_config = { version = "2.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "7.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "7.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "11.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "11.1.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "9.0.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "7.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
