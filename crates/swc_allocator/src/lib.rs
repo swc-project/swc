@@ -36,6 +36,7 @@
 
 // TODO: Add types back
 // pub use crate::types::*;
+pub use crate::types::*;
 
 pub mod allocators;
 pub mod api;
