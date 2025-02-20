@@ -41,6 +41,10 @@ pub trait Emitter: crate::sync::Send {
     fn should_show_explain(&self) -> bool {
         true
     }
+
+    fn take_diagnostics(&mut self) -> Vec<String> {
+        vec![]
+    }
 }
 
 impl Emitter for EmitterWriter {

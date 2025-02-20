@@ -23,6 +23,8 @@ pub struct PrettyEmitter {
     reporter: GraphicalReportHandler,
 
     config: PrettyEmitterConfig,
+
+    diagnostics: Vec<String>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -42,6 +44,7 @@ impl PrettyEmitter {
             wr: WriterWrapper(wr),
             reporter,
             config,
+            diagnostics: vec![],
         }
     }
 }
@@ -175,9 +178,19 @@ impl Emitter for PrettyEmitter {
             children,
         };
 
+        let mut format_result = String::new();
+
         self.reporter
-            .render_report(&mut self.wr, &diagnostic)
+            .render_report(&mut format_result, &diagnostic)
             .unwrap();
+
+        self.diagnostics.push(format_result.clone());
+
+        self.wr.write_str(&format_result).unwrap()
+    }
+
+    fn take_diagnostics(&mut self) -> Vec<String> {
+        std::mem::take(&mut self.diagnostics)
     }
 }
 
