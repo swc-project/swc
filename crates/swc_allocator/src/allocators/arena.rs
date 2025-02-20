@@ -29,7 +29,7 @@ impl From<Bump> for Arena {
 }
 
 #[cfg(feature = "nightly")]
-unsafe impl std::alloc::Allocator for Arena {
+unsafe impl std::alloc::Allocator for &'_ Arena {
     fn allocate(
         &self,
         layout: std::alloc::Layout,
@@ -77,7 +77,7 @@ unsafe impl std::alloc::Allocator for Arena {
 }
 
 #[cfg(not(feature = "nightly"))]
-unsafe impl allocator_api2::alloc::Allocator for Arena {
+unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
     fn allocate(
         &self,
         layout: std::alloc::Layout,
