@@ -1,7 +1,7 @@
 use std::io::Write;
 
 use rustc_hash::FxBuildHasher;
-use swc_allocator::{collections::HashSet, maybe::vec::Vec};
+use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{Result, WriteJs};

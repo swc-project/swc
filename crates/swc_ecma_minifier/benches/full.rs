@@ -5,7 +5,6 @@ extern crate swc_malloc;
 use std::fs::read_to_string;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
-use swc_allocator::Allocator;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -26,8 +25,6 @@ pub fn bench_files(c: &mut Criterion) {
         group.bench_function(format!("es/minifier/libs/{}", name), |b| {
             b.iter(|| {
                 // We benchmark full time, including time for creating cm, handler
-                let allocator = Allocator::default();
-                let _guard = unsafe { allocator.guard() };
 
                 run(&src)
             })

@@ -38,7 +38,7 @@ doctest = false
 ## but changes internal logics to perform differently. These flag should be turned on in combination with
 ## actual features. Refer build.rs for more details.
 
-scoped-alloc = ["swc_allocator/scoped"]
+nightly = ["swc_allocator/nightly"]
 
 transform_common = []
 
