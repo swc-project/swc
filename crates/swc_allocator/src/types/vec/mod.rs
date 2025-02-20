@@ -17,14 +17,14 @@ mod serde;
 #[cfg(feature = "nightly")]
 pub struct Vec<T, A>(std::vec::Vec<T, A>)
 where
-    A: std::alloc::Allocator;
+    A: Allocator;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 #[cfg(not(feature = "nightly"))]
 pub struct Vec<T, A>(allocator_api2::vec::Vec<T, A>)
 where
-    A: allocator_api2::alloc::Allocator;
+    A: Allocator;
 
 impl<T, A> Vec<T, A>
 where
