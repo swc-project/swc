@@ -28,7 +28,7 @@ pub(crate) fn analyze<'alloc, N>(
 where
     N: VisitWith<UsageAnalyzer<'alloc, ProgramData<'alloc>>>,
 {
-    analyze_with_storage::<ProgramData<'alloc>, _>(n, marks)
+    analyze_with_storage::<ProgramData<'alloc>, _>(&alloc, n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -195,6 +195,15 @@ impl VarUsageInfo {
 impl<'alloc> Storage<'alloc> for ProgramData<'alloc> {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
+
+    fn new(alloc: &'alloc Arena) -> Self {
+        Self {
+            vars: arena::HashMap::with_hasher_in(FxBuildHasher::default(), alloc),
+            top: ScopeData::default(),
+            scopes: arena::HashMap::with_hasher_in(FxBuildHasher::default(), alloc),
+            initialized_vars: IndexSet::default(),
+        }
+    }
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
         self.scopes.entry(ctxt).or_default()
@@ -498,6 +507,14 @@ impl<'alloc> Storage<'alloc> for ProgramData<'alloc> {
 }
 
 impl<'alloc> ScopeDataLike<'alloc> for ScopeData {
+    fn new(_alloc: &'alloc Arena) -> Self {
+        Self {
+            has_with_stmt: false,
+            has_eval_call: false,
+            used_arguments: false,
+        }
+    }
+
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
     fn merge(&mut self, other: Self, _: bool) {
