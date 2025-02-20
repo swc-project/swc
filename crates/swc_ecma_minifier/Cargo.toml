@@ -24,6 +24,7 @@ concurrent = [
   "swc_ecma_transforms_optimization/concurrent",
   "rayon",
   "indexmap/rayon",
+  "hashbrown/rayon",
 ]
 debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
 default = ["serde-impl"]
@@ -35,6 +36,7 @@ trace-ast   = []
 [dependencies]
 arrayvec          = { workspace = true }
 backtrace         = { workspace = true, optional = true }
+hashbrown         = { workspace = true }
 indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
