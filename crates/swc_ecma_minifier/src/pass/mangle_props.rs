@@ -2,6 +2,8 @@ use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
+use swc_allocator::allocators::Arena;
 use swc_atoms::JsWord;
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
@@ -101,6 +103,8 @@ pub(crate) fn mangle_properties(
     options: ManglePropertiesOptions,
     chars: Base54Chars,
 ) {
+    let arena = Arena::default();
+
     let mut state = ManglePropertiesState {
         options,
         chars,
@@ -110,7 +114,7 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    let data = analyze(&*m, None);
+    let data = analyze(&arena, &*m, None);
     m.visit_mut_with(&mut PropertyCollector {
         state: &mut state,
         data,
