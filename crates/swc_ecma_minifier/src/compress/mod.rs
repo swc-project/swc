@@ -2,7 +2,7 @@
 use std::fmt::{self, Debug, Display, Formatter};
 #[cfg(feature = "debug")]
 use std::thread;
-use std::{borrow::Cow, fmt::Write, time::Instant};
+use std::{borrow::Cow, fmt::Write, mem::transmute, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -24,7 +24,7 @@ use crate::{
     debug::{dump, AssertValid},
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::analyze,
+    program_data::{analyze, ProgramData},
     util::{force_dump_program, now},
 };
 
@@ -266,17 +266,19 @@ impl Compressor<'_> {
             //
             // This is swc version of `node.optimize(this);`.
 
-            let mut visitor = optimizer(
-                self.marks,
-                self.options,
-                self.mangle_options,
-                &mut data,
-                self.mode,
-                !self.dump_for_infinite_loop.is_empty(),
-            );
-            n.visit_mut_with(&mut visitor);
+            {
+                let mut visitor = optimizer(
+                    self.marks,
+                    self.options,
+                    self.mangle_options,
+                    unsafe { transmute::<&mut ProgramData, &mut ProgramData>(&mut data) },
+                    self.mode,
+                    !self.dump_for_infinite_loop.is_empty(),
+                );
+                n.visit_mut_with(&mut visitor);
 
-            self.changed |= visitor.changed();
+                self.changed |= visitor.changed();
+            }
 
             // let done = dump(&*n);
             // debug!("===== Result =====\n{}", done);
