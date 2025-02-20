@@ -14,19 +14,21 @@ version       = "3.0.1"
 
 
 [features]
-default = []
-nightly = ["bumpalo/allocator_api", "hashbrown/nightly"]
-rkyv    = ["dep:rkyv", "dep:rancor"]
-scoped  = ["nightly"]
-serde   = ["dep:serde"]
+hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
+nightly   = ["bumpalo/allocator_api", "hashbrown/nightly"]
+rkyv      = ["dep:rkyv", "dep:rancor"]
+scoped    = ["nightly"]
+serde     = ["dep:serde"]
+
 
 [dependencies]
+allocator-api2 = { workspace = true }
 bumpalo = { workspace = true, features = [
   "boxed",
   "collections",
   "allocator-api2",
 ] }
-hashbrown = { workspace = true }
+hashbrown = { workspace = true, optional = true }
 ptr_meta = { workspace = true }
 rancor = { workspace = true, optional = true }
 rkyv = { workspace = true, optional = true }
@@ -36,10 +38,10 @@ triomphe = { workspace = true }
 
 
 [dev-dependencies]
-criterion = { workspace = true }
-
 codspeed-criterion-compat = { workspace = true }
-swc_malloc                = { version = "1.0.0", path = "../swc_malloc" }
+criterion                 = { workspace = true }
+
+swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 
 
 [[bench]]
