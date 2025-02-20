@@ -6313,13 +6313,13 @@
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (e1 = e.resumeToken, t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && // TODO(wuandy): Consider removing above check because it is most likely true.
+                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? (e1 = e.resumeToken, n.resumeToken = t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (e2 = e.snapshotVersion.toTimestamp(), // TODO(wuandy): Consider removing above check because it is most likely true.
                         // Right now, many tests depend on this behaviour though (leaving min() out
                         // of serialization).
-                        (n.readTime = (e2 = e.snapshotVersion.toTimestamp(), t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
+                        n.readTime = t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
                             seconds: "" + e2.seconds,
                             nanos: e2.nanoseconds
-                        })), n;
+                        }), n;
                     }(this.N, t);
                     const n = function(t, e) {
                         const n = function(t, e) {
@@ -6683,7 +6683,7 @@
                  */ function Co(t) {
                 var t1, e, n;
                 return t.Yr || // Create stream (but note that it is not started yet).
-                (t.Yr = (t1 = /**
+                (t1 = /**
                                  * @license
                                  * Copyright 2018 Google LLC
                                  *
@@ -6702,7 +6702,7 @@
                     Si: mo.bind(null, t),
                     Ci: go.bind(null, t),
                     Rr: yo.bind(null, t)
-                }, t1.$r(), new to(e, t1.sr, t1.credentials, t1.N, n)), t.Gr.push(async (e)=>{
+                }, t1.$r(), t.Yr = new to(e, t1.sr, t1.credentials, t1.N, n), t.Gr.push(async (e)=>{
                     e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown" /* Unknown */ )) : (await t.Yr.stop(), t.Jr = void 0);
                 })), t.Yr;
             }

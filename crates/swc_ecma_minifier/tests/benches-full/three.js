@@ -7435,12 +7435,12 @@ function(global, factory) {
                 return;
             } else // only rebuild uniform list
             programChange = !1;
-            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.program = program, materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
+            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), materialProperties.program = program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
             var uniforms = materialProperties.uniforms;
             (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (// wire up the material to this renderer's lighting state
             uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
-            var progUniforms = materialProperties.program.getUniforms(), uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
-            materialProperties.uniformsList = uniformsList;
+            var progUniforms = materialProperties.program.getUniforms();
+            materialProperties.uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
         }
         function setProgram(camera, scene, material, object) {
             !0 !== scene.isScene && (scene = _emptyScene), textures.resetTextureUnits();
@@ -11772,9 +11772,7 @@ function(global, factory) {
         load: function(url, onLoad, onProgress, onError) {
             var texture = new Texture(), loader = new ImageLoader(this.manager);
             return loader.setCrossOrigin(this.crossOrigin), loader.setPath(this.path), loader.load(url, function(image) {
-                texture.image = image;
-                var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/);
-                texture.format = isJPEG ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
+                texture.image = image, texture.format = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/) ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
             }, onProgress, onError), texture;
         }
     }), Object.assign(Curve.prototype, {
@@ -14803,12 +14801,10 @@ function(global, factory) {
                 var p1 = i / 32 * Math.PI * 2, p2 = j / 32 * Math.PI * 2;
                 positions.push(Math.cos(p1), Math.sin(p1), 1, Math.cos(p2), Math.sin(p2), 1);
             }
-            geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
-            var material = new LineBasicMaterial({
+            return geometry.setAttribute('position', new Float32BufferAttribute(positions, 3)), _this.cone = new LineSegments(geometry, new LineBasicMaterial({
                 fog: !1,
                 toneMapped: !1
-            });
-            return _this.cone = new LineSegments(geometry, material), _this.add(_this.cone), _this.update(), _this;
+            })), _this.add(_this.cone), _this.update(), _this;
         }
         _inheritsLoose(SpotLightHelper, _Object3D);
         var _proto = SpotLightHelper.prototype;

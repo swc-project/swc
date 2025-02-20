@@ -1,7 +1,7 @@
 //// [parserRealSource5.ts]
-var TypeScript, TypeScript1, PrintContext;
+var TypeScript, TypeScript1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-TypeScript1 = TypeScript || (TypeScript = {}), PrintContext = /*#__PURE__*/ function() {
+(TypeScript1 = TypeScript || (TypeScript = {})).PrintContext = /*#__PURE__*/ function() {
     function PrintContext(outfile, parser) {
         _class_call_check(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
     }
@@ -24,7 +24,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), PrintContext = /*#__PURE__*/ func
     }, _proto.writeLine = function(s) {
         this.builder += s, this.outfile.WriteLine(this.builder), this.builder = "";
     }, PrintContext;
-}(), TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker) {
+}(), TypeScript1.prePrintAST = function(ast, parent, walker) {
     var pc = walker.state;
     return ast.print(pc), pc.increaseIndent(), ast;
 }, TypeScript1.postPrintAST = function(ast, parent, walker) {

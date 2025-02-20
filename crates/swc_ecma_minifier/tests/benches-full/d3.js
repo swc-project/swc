@@ -4534,7 +4534,7 @@ function(global, factory) {
         };
     }
     function defaultLocale(definition) {
-        return locale = formatLocale(definition), exports1.format = locale.format, exports1.formatPrefix = locale.formatPrefix, locale;
+        return exports1.format = (locale = formatLocale(definition)).format, exports1.formatPrefix = locale.formatPrefix, locale;
     }
     function precisionFixed(step) {
         return Math.max(0, -exponent$1(Math.abs(step)));
@@ -7458,7 +7458,7 @@ function(global, factory) {
                 // Convert day-of-week and week-of-year to day-of-year.
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
-                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), d.y = (week = utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), d.y = (week = day.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                 } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return(// If a time zone is specified, all fields are interpreted as UTC and then
                 // offset according to the specified time zone.
@@ -7740,7 +7740,7 @@ function(global, factory) {
         return Math.floor(+d / 1000);
     }
     function defaultLocale$1(definition) {
-        return locale$1 = formatLocale$1(definition), exports1.timeFormat = locale$1.format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
+        return exports1.timeFormat = (locale$1 = formatLocale$1(definition)).format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
     }
     defaultLocale$1({
         dateTime: "%x, %X",
@@ -10337,7 +10337,7 @@ function(global, factory) {
         return c$1.h = 360 * t - 100, c$1.s = 1.5 - 1.5 * ts, c$1.l = 0.8 - 0.9 * ts, c$1 + "";
     }, exports1.interpolateRdBu = RdBu, exports1.interpolateRdGy = RdGy, exports1.interpolateRdPu = RdPu, exports1.interpolateRdYlBu = RdYlBu, exports1.interpolateRdYlGn = RdYlGn, exports1.interpolateReds = Reds, exports1.interpolateRgb = interpolateRgb, exports1.interpolateRgbBasis = rgbBasis, exports1.interpolateRgbBasisClosed = rgbBasisClosed, exports1.interpolateRound = interpolateRound, exports1.interpolateSinebow = function(t) {
         var x;
-        return t = (0.5 - t) * Math.PI, c$2.r = 255 * (x = Math.sin(t)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
+        return c$2.r = 255 * (x = Math.sin(t = (0.5 - t) * Math.PI)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
     }, exports1.interpolateSpectral = Spectral, exports1.interpolateString = interpolateString, exports1.interpolateTransformCss = interpolateTransformCss, exports1.interpolateTransformSvg = interpolateTransformSvg, exports1.interpolateTurbo = function(t) {
         return "rgb(" + Math.max(0, Math.min(255, Math.round(34.61 + (t = Math.max(0, Math.min(1, t))) * (1172.33 - t * (10793.56 - t * (33300.12 - t * (38394.49 - 14825.05 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(23.31 + t * (557.33 + t * (1225.33 - t * (3574.96 - t * (1073.77 + 707.56 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(27.2 + t * (3211.1 - t * (15327.97 - t * (27814 - t * (22569.18 - 6838.66 * t))))))) + ")";
     }, exports1.interpolateViridis = viridis, exports1.interpolateWarm = warm, exports1.interpolateYlGn = YlGn, exports1.interpolateYlGnBu = YlGnBu, exports1.interpolateYlOrBr = YlOrBr, exports1.interpolateYlOrRd = YlOrRd, exports1.interpolateZoom = interpolateZoom, exports1.interrupt = interrupt, exports1.intersection = function(values, ...others) {

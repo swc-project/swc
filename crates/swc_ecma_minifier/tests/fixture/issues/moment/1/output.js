@@ -2027,7 +2027,7 @@ function(global, factory) {
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
         return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(monthsToDays(months) + days), days = 0, months = 0), // The following code bubbles up values, see the tests for
         // examples of what that means.
-        data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += // convert days to months
+        data.milliseconds = milliseconds % 1000, data.seconds = (seconds = absFloor(milliseconds / 1000)) % 60, data.minutes = (minutes = absFloor(seconds / 60)) % 60, data.hours = (hours = absFloor(minutes / 60)) % 24, days += absFloor(hours / 24), months += // convert days to months
         monthsFromDays = absFloor(daysToMonths(days)), days -= absCeil(monthsToDays(monthsFromDays)), // 12 months -> 1 year
         years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
     }, proto$2.clone = function() {

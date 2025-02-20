@@ -261,9 +261,7 @@
             __webpack_require__(1598)/* ["default"] */ .Z, __webpack_require__(37);
             var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119);
             const ReactDOM = __webpack_require__(745);
-            exports.version = "12.3.2-canary.13", exports.router = router;
-            const emitter = _mitt.default();
-            exports.emitter = emitter;
+            exports.version = "12.3.2-canary.13", exports.router = router, exports.emitter = _mitt.default();
             const looseToArray = (input)=>[].slice.call(input);
             let initialMatchesMiddleware = !1;
             self.__next_require__ = __webpack_require__;
@@ -392,7 +390,7 @@
                 return(// Make sure we log the error to the console, otherwise users can't track down issues.
                 console.error(err), console.error("A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred"), pageLoader.loadPage("/_error").then((param)=>{
                     let { page: ErrorComponent, styleSheets } = param;
-                    return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(__webpack_require__(9185))).then((errorModule)=>Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(__webpack_require__(6029))).then((appModule)=>(App = appModule.default, renderErrorProps.App = App, errorModule))).then((m)=>({
+                    return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(__webpack_require__(9185))).then((errorModule)=>Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(__webpack_require__(6029))).then((appModule)=>(renderErrorProps.App = App = appModule.default, errorModule))).then((m)=>({
                             ErrorComponent: m.default,
                             styleSheets: []
                         })) : {
@@ -778,8 +776,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0;
-            const requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
+            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 let start = Date.now();
                 return setTimeout(function() {
                     cb({
@@ -789,12 +786,9 @@
                         }
                     });
                 }, 1);
-            };
-            exports.requestIdleCallback = requestIdleCallback;
-            const cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
+            }, exports.cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
-            };
-            exports.cancelIdleCallback = cancelIdleCallback, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -1365,9 +1359,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.AmpStateContext = void 0;
-            const AmpStateContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext({});
-            exports.AmpStateContext = AmpStateContext;
+            }), exports.AmpStateContext = void 0, exports.AmpStateContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext({});
         /***/ },
         /***/ 7363: /***/ function(__unused_webpack_module, exports) {
             "use strict";
@@ -1395,9 +1387,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.HeadManagerContext = void 0;
-            const HeadManagerContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext({});
-            exports.HeadManagerContext = HeadManagerContext;
+            }), exports.HeadManagerContext = void 0, exports.HeadManagerContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext({});
         /***/ },
         /***/ 5443: /***/ function(module, exports, __webpack_require__) {
             "use strict";
@@ -1518,8 +1508,7 @@
                 value: !0
             }), exports.ImageConfigContext = void 0;
             var _react = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)), _imageConfig = __webpack_require__(9309);
-            const ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
-            exports.ImageConfigContext = ImageConfigContext;
+            exports.ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
         /***/ },
         /***/ 9309: /***/ function(__unused_webpack_module, exports) {
             "use strict";
@@ -1635,9 +1624,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.RouterContext = void 0;
-            const RouterContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext(null);
-            exports.RouterContext = RouterContext;
+            }), exports.RouterContext = void 0, exports.RouterContext = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)).default.createContext(null);
         /***/ },
         /***/ 6273: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2245,7 +2232,7 @@
                                                         const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
                                                             parseData: !0
                                                         });
-                                                        as = _addBasePath.addBasePath(parsedSource.pathname), parsedRewriteTarget.pathname = as;
+                                                        parsedRewriteTarget.pathname = as = _addBasePath.addBasePath(parsedSource.pathname);
                                                     }
                                                     if (!pages.includes(fsPathname)) {
                                                         const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
@@ -2422,7 +2409,7 @@
                         return;
                         let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
                         const pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
-                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
+                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (parsed.pathname = pathname = parsed.pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
                         const route = _removeTrailingSlash.removeTrailingSlash(pathname);
                         yield Promise.all([
                             _this.pageLoader._isSsg(route).then((isSsg)=>!!isSsg && fetchNextData({
@@ -3181,13 +3168,11 @@
             }
             exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
             const SP = "undefined" != typeof performance;
-            exports.SP = SP;
-            const ST = SP && [
+            exports.SP = SP, exports.ST = SP && [
                 "mark",
                 "measure",
                 "getEntriesByName"
-            ].every((method)=>"function" == typeof performance[method]);
-            exports.ST = ST, exports.DecodeError = class extends Error {
+            ].every((method)=>"function" == typeof performance[method]), exports.DecodeError = class extends Error {
             }, exports.NormalizeError = class extends Error {
             }, exports.PageNotFoundError = class extends Error {
                 constructor(page){

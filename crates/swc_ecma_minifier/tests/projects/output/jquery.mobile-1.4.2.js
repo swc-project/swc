@@ -2069,10 +2069,10 @@
         reset: function() {
             base.element.attr("href", jQuery.mobile.path.documentBase.hrefNoSearch);
         }
-    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
+    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, orig = jQuery.widget, jQuery.widget = function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = constructor.prototype.initSelector !== undefined6 ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
-    }), // Make sure $.widget still has bridge and extend methods
+    }, // Make sure $.widget still has bridge and extend methods
     jQuery.extend(jQuery.widget, originalWidget), // For backcompat remove in 1.5
     jQuery.mobile.document.on("create", function(event1) {
         jQuery(event1.target).enhanceWithin();
@@ -5493,8 +5493,8 @@
                     top: 0,
                     right: 0,
                     bottom: 0
-                }), gdOffset = ar.gd.offset(), state.contentBox = {
-                    x: gdOffset.left - offset.left,
+                }), state.contentBox = {
+                    x: (gdOffset = ar.gd.offset()).left - offset.left,
                     y: gdOffset.top - offset.top,
                     cx: ar.gd.width(),
                     cy: ar.gd.height()

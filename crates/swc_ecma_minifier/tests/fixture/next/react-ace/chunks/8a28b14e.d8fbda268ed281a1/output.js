@@ -1754,8 +1754,8 @@
             ], function(require, exports, module) {
                 var lang = require("./lib/lang");
                 require("./lib/oop");
-                var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
-                module.exports = exports = new AppConfig();
+                var net = require("./lib/net"), dom = require("./lib/dom");
+                module.exports = exports = new (require("./lib/app_config")).AppConfig();
                 var global = function() {
                     return this || "undefined" != typeof window && window;
                 }(), options = {
@@ -2833,7 +2833,7 @@
                         this.session.$selectLongWords ? this.moveCursorLongWordLeft() : this.moveCursorShortWordLeft();
                     }, this.moveCursorBy = function(rows, chars) {
                         var offsetX, screenPos = this.session.documentToScreenPosition(this.lead.row, this.lead.column);
-                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? (offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column), screenPos.column = Math.round(offsetX / this.session.$bidiHandler.charWidths[0])) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
+                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? screenPos.column = Math.round((offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column)) / this.session.$bidiHandler.charWidths[0]) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
                             var widget = this.session.lineWidgets[this.lead.row];
                             rows < 0 ? rows -= widget.rowsAbove || 0 : rows > 0 && (rows += widget.rowCount - (widget.rowsAbove || 0));
                         }
@@ -6087,7 +6087,7 @@
                                 var ch = tokens[i];
                                 (12 === ch || 2 === ch) && (len -= 1);
                             }
-                            splits.length || (indent = function() {
+                            splits.length || (splits.indent = indent = function() {
                                 var indentation = 0;
                                 if (0 === maxIndent) return indentation;
                                 if (indentedSoftWrap) for(var i = 0; i < tokens.length; i++){
@@ -6098,7 +6098,7 @@
                                     else break;
                                 }
                                 return isCode && !1 !== indentedSoftWrap && (indentation += tabSize), Math.min(indentation, maxIndent);
-                            }(), splits.indent = indent), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
+                            }()), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
                         }
                         for(var indent = 0; displayLength - lastSplit > wrapLimit - indent;){
                             var split = lastSplit + wrapLimit - indent;
@@ -11517,9 +11517,7 @@ margin: 0 10px;\
                             return editor && editor.inMultiSelectMode;
                         }
                     }
-                ];
-                var HashHandler = require("../keyboard/hash_handler").HashHandler;
-                exports.keyboardHandler = new HashHandler(exports.multiSelectCommands);
+                ], exports.keyboardHandler = new (require("../keyboard/hash_handler")).HashHandler(exports.multiSelectCommands);
             }), ace.define("ace/multi_select", [
                 "require",
                 "exports",

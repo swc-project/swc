@@ -2860,33 +2860,25 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/category10.js ***!
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js");
-            /* harmony default export */ __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("1f77b4ff7f0e2ca02cd627289467bd8c564be377c27f7f7fbcbd2217becf");
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = Object(__webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js").default)("1f77b4ff7f0e2ca02cd627289467bd8c564be377c27f7f7fbcbd2217becf");
         /***/ },
         /***/ "../../../node_modules/d3-scale/src/category20.js": /*!***********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/category20.js ***!
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js");
-            /* harmony default export */ __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("1f77b4aec7e8ff7f0effbb782ca02c98df8ad62728ff98969467bdc5b0d58c564bc49c94e377c2f7b6d27f7f7fc7c7c7bcbd22dbdb8d17becf9edae5");
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = Object(__webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js").default)("1f77b4aec7e8ff7f0effbb782ca02c98df8ad62728ff98969467bdc5b0d58c564bc49c94e377c2f7b6d27f7f7fc7c7c7bcbd22dbdb8d17becf9edae5");
         /***/ },
         /***/ "../../../node_modules/d3-scale/src/category20b.js": /*!************************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/category20b.js ***!
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js");
-            /* harmony default export */ __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("393b795254a36b6ecf9c9ede6379398ca252b5cf6bcedb9c8c6d31bd9e39e7ba52e7cb94843c39ad494ad6616be7969c7b4173a55194ce6dbdde9ed6");
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = Object(__webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js").default)("393b795254a36b6ecf9c9ede6379398ca252b5cf6bcedb9c8c6d31bd9e39e7ba52e7cb94843c39ad494ad6616be7969c7b4173a55194ce6dbdde9ed6");
         /***/ },
         /***/ "../../../node_modules/d3-scale/src/category20c.js": /*!************************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/category20c.js ***!
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js");
-            /* harmony default export */ __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("3182bd6baed69ecae1c6dbefe6550dfd8d3cfdae6bfdd0a231a35474c476a1d99bc7e9c0756bb19e9ac8bcbddcdadaeb636363969696bdbdbdd9d9d9");
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = Object(__webpack_require__(/*! ./colors */ "../../../node_modules/d3-scale/src/colors.js").default)("3182bd6baed69ecae1c6dbefe6550dfd8d3cfdae6bfdd0a231a35474c476a1d99bc7e9c0756bb19e9ac8bcbddcdadaeb636363969696bdbdbdd9d9d9");
         /***/ },
         /***/ "../../../node_modules/d3-scale/src/colors.js": /*!*******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/colors.js ***!
@@ -2985,8 +2977,8 @@
   \**********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var d3_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-color */ "../../../node_modules/d3-color/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-interpolate */ "../../../node_modules/d3-interpolate/src/index.js");
-            /* harmony default export */ __webpack_exports__.default = Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_1__.interpolateCubehelixLong)(Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(300, 0.5, 0.0), Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(-240, 0.5, 1.0));
+            /* harmony import */ var d3_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-color */ "../../../node_modules/d3-color/src/index.js");
+            /* harmony default export */ __webpack_exports__.default = Object(__webpack_require__(/*! d3-interpolate */ "../../../node_modules/d3-interpolate/src/index.js").interpolateCubehelixLong)(Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(300, 0.5, 0.0), Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(-240, 0.5, 1.0));
         /***/ },
         /***/ "../../../node_modules/d3-scale/src/identity.js": /*!*********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-scale/src/identity.js ***!
@@ -5423,21 +5415,21 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isoSpecifier", function() {
                 return isoSpecifier;
             });
-            /* harmony import */ var _defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defaultLocale.js */ "../../../node_modules/d3-time-format/src/defaultLocale.js"), isoSpecifier = "%Y-%m-%dT%H:%M:%S.%LZ", formatIso = Date.prototype.toISOString ? function(date) {
+            /* harmony import */ var _defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defaultLocale.js */ "../../../node_modules/d3-time-format/src/defaultLocale.js"), isoSpecifier = "%Y-%m-%dT%H:%M:%S.%LZ";
+            /* harmony default export */ __webpack_exports__.default = Date.prototype.toISOString ? function(date) {
                 return date.toISOString();
             } : Object(_defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__.utcFormat)(isoSpecifier);
-            /* harmony default export */ __webpack_exports__.default = formatIso;
         /***/ },
         /***/ "../../../node_modules/d3-time-format/src/isoParse.js": /*!***************************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-time-format/src/isoParse.js ***!
   \***************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _isoFormat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isoFormat.js */ "../../../node_modules/d3-time-format/src/isoFormat.js"), _defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultLocale.js */ "../../../node_modules/d3-time-format/src/defaultLocale.js"), parseIso = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
+            /* harmony import */ var _isoFormat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isoFormat.js */ "../../../node_modules/d3-time-format/src/isoFormat.js"), _defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultLocale.js */ "../../../node_modules/d3-time-format/src/defaultLocale.js");
+            /* harmony default export */ __webpack_exports__.default = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
                 var date = new Date(string);
                 return isNaN(date) ? null : date;
             } : Object(_defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__.utcParse)(_isoFormat_js__WEBPACK_IMPORTED_MODULE_0__.isoSpecifier);
-            /* harmony default export */ __webpack_exports__.default = parseIso;
         /***/ },
         /***/ "../../../node_modules/d3-time-format/src/locale.js": /*!*************************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-time-format/src/locale.js ***!
@@ -5629,7 +5621,7 @@
                         // Convert day-of-week and week-of-year to day-of-year.
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
-                            "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                            "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), d.y = (week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), d.y = (week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                         } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
                         return(// If a time zone is specified, all fields are interpreted as UTC and then
                         // offset according to the specified time zone.
@@ -7591,8 +7583,7 @@
         /***/ "../../../node_modules/lodash/_Symbol.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_Symbol.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /** Built-in value references. */ var Symbol1 = __webpack_require__(/*! ./_root */ "../../../node_modules/lodash/_root.js").Symbol;
-            module1.exports = Symbol1;
+            module1.exports = __webpack_require__(/*! ./_root */ "../../../node_modules/lodash/_root.js").Symbol;
         /***/ },
         /***/ "../../../node_modules/lodash/_apply.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_apply.js ***!
@@ -7887,18 +7878,7 @@
         /***/ "../../../node_modules/lodash/_baseFor.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseFor.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` and invokes `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */ var baseFor = __webpack_require__(/*! ./_createBaseFor */ "../../../node_modules/lodash/_createBaseFor.js")();
-            module1.exports = baseFor;
+            module1.exports = __webpack_require__(/*! ./_createBaseFor */ "../../../node_modules/lodash/_createBaseFor.js")();
         /***/ },
         /***/ "../../../node_modules/lodash/_baseForOwn.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseForOwn.js ***!
@@ -8138,8 +8118,7 @@
         /***/ "../../../node_modules/lodash/_baseKeys.js": /*!****************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseKeys.js ***!
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /* Built-in method references for those with the same name as other `lodash` methods. */ var nativeKeys = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         /***/ },
         /***/ "../../../node_modules/lodash/_baseMap.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseMap.js ***!
@@ -8855,13 +8834,13 @@
         /***/ "../../../node_modules/lodash/_defineProperty.js": /*!**********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_defineProperty.js ***!
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var getNative = __webpack_require__(/*! ./_getNative */ "../../../node_modules/lodash/_getNative.js"), defineProperty = function() {
+            var getNative = __webpack_require__(/*! ./_getNative */ "../../../node_modules/lodash/_getNative.js");
+            module1.exports = function() {
                 try {
                     var func = getNative(Object, 'defineProperty');
                     return func({}, '', {}), func;
                 } catch (e) {}
             }();
-            module1.exports = defineProperty;
         /***/ },
         /***/ "../../../node_modules/lodash/_equalArrays.js": /*!*******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_equalArrays.js ***!
@@ -9013,15 +8992,13 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_freeGlobal.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             /* WEBPACK VAR INJECTION */ (function(global) {
-                var freeGlobal = 'object' == typeof global && global && global.Object === Object && global;
-                module1.exports = freeGlobal;
+                module1.exports = 'object' == typeof global && global && global.Object === Object && global;
             /* WEBPACK VAR INJECTION */ }).call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "../../../node_modules/webpack/buildin/global.js"));
         /***/ },
         /***/ "../../../node_modules/lodash/_getAllKeys.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getAllKeys.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /* Built-in method references for those with the same name as other `lodash` methods. */ var nativeKeys = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         /***/ },
         /***/ "../../../node_modules/lodash/_getAllKeysIn.js": /*!********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getAllKeysIn.js ***!
@@ -9116,8 +9093,7 @@
         /***/ "../../../node_modules/lodash/_getPrototype.js": /*!********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getPrototype.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /** Built-in value references. */ var getPrototype = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.getPrototypeOf, Object);
-            module1.exports = getPrototype;
+            module1.exports = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.getPrototypeOf, Object);
         /***/ },
         /***/ "../../../node_modules/lodash/_getTag.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getTag.js ***!
@@ -9429,7 +9405,8 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_nodeUtil.js ***!
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             /* WEBPACK VAR INJECTION */ (function(module1) {
-                var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+                var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process;
+                module1.exports = function() {
                     try {
                         // Use `util.types` for Node.js 10+.
                         var types = freeModule && freeModule.require && freeModule.require('util').types;
@@ -9438,7 +9415,6 @@
                         return freeProcess && freeProcess.binding && freeProcess.binding('util');
                     } catch (e) {}
                 }();
-                module1.exports = nodeUtil;
             /* WEBPACK VAR INJECTION */ }).call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "../../../node_modules/webpack/buildin/module.js")(module1));
         /***/ },
         /***/ "../../../node_modules/lodash/_overArg.js": /*!***************************************************************************!*\
@@ -9481,8 +9457,8 @@
         /***/ "../../../node_modules/lodash/_root.js": /*!************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_root.js ***!
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeSelf = 'object' == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function('return this')();
-            module1.exports = root;
+            var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeSelf = 'object' == typeof self && self && self.Object === Object && self;
+            module1.exports = freeGlobal || freeSelf || Function('return this')();
         /***/ },
         /***/ "../../../node_modules/lodash/_setToArray.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_setToArray.js ***!
@@ -9557,13 +9533,13 @@
         /***/ "../../../node_modules/lodash/_stringToPath.js": /*!********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_stringToPath.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var memoizeCapped = __webpack_require__(/*! ./_memoizeCapped */ "../../../node_modules/lodash/_memoizeCapped.js"), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
+            var memoizeCapped = __webpack_require__(/*! ./_memoizeCapped */ "../../../node_modules/lodash/_memoizeCapped.js"), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g;
+            module1.exports = memoizeCapped(function(string) {
                 var result = [];
                 return 46 /* . */  === string.charCodeAt(0) && result.push(''), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, '$1') : number || match);
                 }), result;
             });
-            module1.exports = stringToPath;
         /***/ },
         /***/ "../../../node_modules/lodash/_toKey.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_toKey.js ***!
@@ -9600,14 +9576,14 @@
         /***/ "../../../node_modules/lodash/assign.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/assign.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var assignValue = __webpack_require__(/*! ./_assignValue */ "../../../node_modules/lodash/_assignValue.js"), copyObject = __webpack_require__(/*! ./_copyObject */ "../../../node_modules/lodash/_copyObject.js"), createAssigner = __webpack_require__(/*! ./_createAssigner */ "../../../node_modules/lodash/_createAssigner.js"), isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), isPrototype = __webpack_require__(/*! ./_isPrototype */ "../../../node_modules/lodash/_isPrototype.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js"), hasOwnProperty = Object.prototype.hasOwnProperty, assign = createAssigner(function(object, source) {
+            var assignValue = __webpack_require__(/*! ./_assignValue */ "../../../node_modules/lodash/_assignValue.js"), copyObject = __webpack_require__(/*! ./_copyObject */ "../../../node_modules/lodash/_copyObject.js"), createAssigner = __webpack_require__(/*! ./_createAssigner */ "../../../node_modules/lodash/_createAssigner.js"), isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), isPrototype = __webpack_require__(/*! ./_isPrototype */ "../../../node_modules/lodash/_isPrototype.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
+            module1.exports = createAssigner(function(object, source) {
                 if (isPrototype(source) || isArrayLike(source)) {
                     copyObject(source, keys(source), object);
                     return;
                 }
                 for(var key in source)hasOwnProperty.call(source, key) && assignValue(object, key, source[key]);
             });
-            module1.exports = assign;
         /***/ },
         /***/ "../../../node_modules/lodash/constant.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/constant.js ***!
@@ -9739,7 +9715,8 @@
         /***/ "../../../node_modules/lodash/defaults.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/defaults.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), eq = __webpack_require__(/*! ./eq */ "../../../node_modules/lodash/eq.js"), isIterateeCall = __webpack_require__(/*! ./_isIterateeCall */ "../../../node_modules/lodash/_isIterateeCall.js"), keysIn = __webpack_require__(/*! ./keysIn */ "../../../node_modules/lodash/keysIn.js"), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, defaults = baseRest(function(object, sources) {
+            var baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), eq = __webpack_require__(/*! ./eq */ "../../../node_modules/lodash/eq.js"), isIterateeCall = __webpack_require__(/*! ./_isIterateeCall */ "../../../node_modules/lodash/_isIterateeCall.js"), keysIn = __webpack_require__(/*! ./keysIn */ "../../../node_modules/lodash/keysIn.js"), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty;
+            module1.exports = baseRest(function(object, sources) {
                 object = Object(object);
                 var index = -1, length = sources.length, guard = length > 2 ? sources[2] : void 0;
                 for(guard && isIterateeCall(sources[0], sources[1], guard) && (length = 1); ++index < length;)for(var source = sources[index], props = keysIn(source), propsIndex = -1, propsLength = props.length; ++propsIndex < propsLength;){
@@ -9748,23 +9725,22 @@
                 }
                 return object;
             });
-            module1.exports = defaults;
         /***/ },
         /***/ "../../../node_modules/lodash/delay.js": /*!************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/delay.js ***!
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseDelay = __webpack_require__(/*! ./_baseDelay */ "../../../node_modules/lodash/_baseDelay.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js"), delay = baseRest(function(func, wait, args) {
+            var baseDelay = __webpack_require__(/*! ./_baseDelay */ "../../../node_modules/lodash/_baseDelay.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js");
+            module1.exports = baseRest(function(func, wait, args) {
                 return baseDelay(func, toNumber(wait) || 0, args);
             });
-            module1.exports = delay;
         /***/ },
         /***/ "../../../node_modules/lodash/difference.js": /*!*****************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/difference.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseDifference = __webpack_require__(/*! ./_baseDifference */ "../../../node_modules/lodash/_baseDifference.js"), baseFlatten = __webpack_require__(/*! ./_baseFlatten */ "../../../node_modules/lodash/_baseFlatten.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__(/*! ./isArrayLikeObject */ "../../../node_modules/lodash/isArrayLikeObject.js"), difference = baseRest(function(array, values) {
+            var baseDifference = __webpack_require__(/*! ./_baseDifference */ "../../../node_modules/lodash/_baseDifference.js"), baseFlatten = __webpack_require__(/*! ./_baseFlatten */ "../../../node_modules/lodash/_baseFlatten.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__(/*! ./isArrayLikeObject */ "../../../node_modules/lodash/isArrayLikeObject.js");
+            module1.exports = baseRest(function(array, values) {
                 return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, !0)) : [];
             });
-            module1.exports = difference;
         /***/ },
         /***/ "../../../node_modules/lodash/eq.js": /*!*********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/eq.js ***!
@@ -9807,43 +9783,7 @@
         /***/ "../../../node_modules/lodash/find.js": /*!***********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/find.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /**
- * Iterates over elements of `collection`, returning the first element
- * `predicate` returns truthy for. The predicate is invoked with three
- * arguments: (value, index|key, collection).
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to inspect.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @param {number} [fromIndex=0] The index to search from.
- * @returns {*} Returns the matched element, else `undefined`.
- * @example
- *
- * var users = [
- *   { 'user': 'barney',  'age': 36, 'active': true },
- *   { 'user': 'fred',    'age': 40, 'active': false },
- *   { 'user': 'pebbles', 'age': 1,  'active': true }
- * ];
- *
- * _.find(users, function(o) { return o.age < 40; });
- * // => object for 'barney'
- *
- * // The `_.matches` iteratee shorthand.
- * _.find(users, { 'age': 1, 'active': true });
- * // => object for 'pebbles'
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.find(users, ['active', false]);
- * // => object for 'fred'
- *
- * // The `_.property` iteratee shorthand.
- * _.find(users, 'active');
- * // => object for 'barney'
- */ var find = __webpack_require__(/*! ./_createFind */ "../../../node_modules/lodash/_createFind.js")(__webpack_require__(/*! ./findIndex */ "../../../node_modules/lodash/findIndex.js"));
-            module1.exports = find;
+            module1.exports = __webpack_require__(/*! ./_createFind */ "../../../node_modules/lodash/_createFind.js")(__webpack_require__(/*! ./findIndex */ "../../../node_modules/lodash/findIndex.js"));
         /***/ },
         /***/ "../../../node_modules/lodash/findIndex.js": /*!****************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/findIndex.js ***!
@@ -9914,29 +9854,7 @@
         /***/ "../../../node_modules/lodash/flow.js": /*!***********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/flow.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /**
- * Creates a function that returns the result of invoking the given functions
- * with the `this` binding of the created function, where each successive
- * invocation is supplied the return value of the previous.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Util
- * @param {...(Function|Function[])} [funcs] The functions to invoke.
- * @returns {Function} Returns the new composite function.
- * @see _.flowRight
- * @example
- *
- * function square(n) {
- *   return n * n;
- * }
- *
- * var addSquare = _.flow([_.add, square]);
- * addSquare(1, 2);
- * // => 9
- */ var flow = __webpack_require__(/*! ./_createFlow */ "../../../node_modules/lodash/_createFlow.js")();
-            module1.exports = flow;
+            module1.exports = __webpack_require__(/*! ./_createFlow */ "../../../node_modules/lodash/_createFlow.js")();
         /***/ },
         /***/ "../../../node_modules/lodash/forOwn.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/forOwn.js ***!
@@ -10034,12 +9952,12 @@
         /***/ "../../../node_modules/lodash/groupBy.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/groupBy.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseAssignValue = __webpack_require__(/*! ./_baseAssignValue */ "../../../node_modules/lodash/_baseAssignValue.js"), createAggregator = __webpack_require__(/*! ./_createAggregator */ "../../../node_modules/lodash/_createAggregator.js"), hasOwnProperty = Object.prototype.hasOwnProperty, groupBy = createAggregator(function(result, value, key) {
+            var baseAssignValue = __webpack_require__(/*! ./_baseAssignValue */ "../../../node_modules/lodash/_baseAssignValue.js"), createAggregator = __webpack_require__(/*! ./_createAggregator */ "../../../node_modules/lodash/_createAggregator.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
+            module1.exports = createAggregator(function(result, value, key) {
                 hasOwnProperty.call(result, key) ? result[key].push(value) : baseAssignValue(result, key, [
                     value
                 ]);
             });
-            module1.exports = groupBy;
         /***/ },
         /***/ "../../../node_modules/lodash/hasIn.js": /*!************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/hasIn.js ***!
@@ -10115,10 +10033,10 @@
         /***/ "../../../node_modules/lodash/invert.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/invert.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var constant = __webpack_require__(/*! ./constant */ "../../../node_modules/lodash/constant.js"), createInverter = __webpack_require__(/*! ./_createInverter */ "../../../node_modules/lodash/_createInverter.js"), identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js"), nativeObjectToString = Object.prototype.toString, invert = createInverter(function(result, value, key) {
+            var constant = __webpack_require__(/*! ./constant */ "../../../node_modules/lodash/constant.js"), createInverter = __webpack_require__(/*! ./_createInverter */ "../../../node_modules/lodash/_createInverter.js"), identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js"), nativeObjectToString = Object.prototype.toString;
+            module1.exports = createInverter(function(result, value, key) {
                 null != value && 'function' != typeof value.toString && (value = nativeObjectToString.call(value)), result[value] = key;
             }, constant(identity));
-            module1.exports = invert;
         /***/ },
         /***/ "../../../node_modules/lodash/isArguments.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isArguments.js ***!
@@ -10142,30 +10060,7 @@
         /***/ "../../../node_modules/lodash/isArray.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isArray.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
-            /**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */ var isArray = Array.isArray;
-            module1.exports = isArray;
+            module1.exports = Array.isArray;
         /***/ },
         /***/ "../../../node_modules/lodash/isArrayLike.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isArrayLike.js ***!
@@ -10253,8 +10148,8 @@
         /***/ "../../../node_modules/lodash/isDate.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isDate.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseIsDate = __webpack_require__(/*! ./_baseIsDate */ "../../../node_modules/lodash/_baseIsDate.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__(/*! ./_nodeUtil */ "../../../node_modules/lodash/_nodeUtil.js"), nodeIsDate = nodeUtil && nodeUtil.isDate, isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
-            module1.exports = isDate;
+            var baseIsDate = __webpack_require__(/*! ./_baseIsDate */ "../../../node_modules/lodash/_baseIsDate.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__(/*! ./_nodeUtil */ "../../../node_modules/lodash/_nodeUtil.js"), nodeIsDate = nodeUtil && nodeUtil.isDate;
+            module1.exports = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
         /***/ },
         /***/ "../../../node_modules/lodash/isEmpty.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isEmpty.js ***!
@@ -10598,8 +10493,8 @@
         /***/ "../../../node_modules/lodash/isRegExp.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isRegExp.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseIsRegExp = __webpack_require__(/*! ./_baseIsRegExp */ "../../../node_modules/lodash/_baseIsRegExp.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__(/*! ./_nodeUtil */ "../../../node_modules/lodash/_nodeUtil.js"), nodeIsRegExp = nodeUtil && nodeUtil.isRegExp, isRegExp = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
-            module1.exports = isRegExp;
+            var baseIsRegExp = __webpack_require__(/*! ./_baseIsRegExp */ "../../../node_modules/lodash/_baseIsRegExp.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__(/*! ./_nodeUtil */ "../../../node_modules/lodash/_nodeUtil.js"), nodeIsRegExp = nodeUtil && nodeUtil.isRegExp;
+            module1.exports = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
         /***/ },
         /***/ "../../../node_modules/lodash/isString.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isString.js ***!
@@ -10689,8 +10584,7 @@
         /***/ "../../../node_modules/lodash/keys.js": /*!***********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/keys.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /* Built-in method references for those with the same name as other `lodash` methods. */ var nativeKeys = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__(/*! ./_overArg */ "../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         /***/ },
         /***/ "../../../node_modules/lodash/keysIn.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/keysIn.js ***!
@@ -10886,10 +10780,10 @@
         /***/ "../../../node_modules/lodash/pick.js": /*!***********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/pick.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var basePick = __webpack_require__(/*! ./_basePick */ "../../../node_modules/lodash/_basePick.js"), pick = __webpack_require__(/*! ./_flatRest */ "../../../node_modules/lodash/_flatRest.js")(function(object, paths) {
+            var basePick = __webpack_require__(/*! ./_basePick */ "../../../node_modules/lodash/_basePick.js");
+            module1.exports = __webpack_require__(/*! ./_flatRest */ "../../../node_modules/lodash/_flatRest.js")(function(object, paths) {
                 return null == object ? {} : basePick(object, paths);
             });
-            module1.exports = pick;
         /***/ },
         /***/ "../../../node_modules/lodash/pickBy.js": /*!*************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/pickBy.js ***!
@@ -10956,48 +10850,7 @@
         /***/ "../../../node_modules/lodash/range.js": /*!************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/range.js ***!
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /**
- * Creates an array of numbers (positive and/or negative) progressing from
- * `start` up to, but not including, `end`. A step of `-1` is used if a negative
- * `start` is specified without an `end` or `step`. If `end` is not specified,
- * it's set to `start` with `start` then set to `0`.
- *
- * **Note:** JavaScript follows the IEEE-754 standard for resolving
- * floating-point values which can produce unexpected results.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {number} [start=0] The start of the range.
- * @param {number} end The end of the range.
- * @param {number} [step=1] The value to increment or decrement by.
- * @returns {Array} Returns the range of numbers.
- * @see _.inRange, _.rangeRight
- * @example
- *
- * _.range(4);
- * // => [0, 1, 2, 3]
- *
- * _.range(-4);
- * // => [0, -1, -2, -3]
- *
- * _.range(1, 5);
- * // => [1, 2, 3, 4]
- *
- * _.range(0, 20, 5);
- * // => [0, 5, 10, 15]
- *
- * _.range(0, -4, -1);
- * // => [0, -1, -2, -3]
- *
- * _.range(1, 4, 0);
- * // => [1, 1, 1]
- *
- * _.range(0);
- * // => []
- */ var range = __webpack_require__(/*! ./_createRange */ "../../../node_modules/lodash/_createRange.js")();
-            module1.exports = range;
+            module1.exports = __webpack_require__(/*! ./_createRange */ "../../../node_modules/lodash/_createRange.js")();
         /***/ },
         /***/ "../../../node_modules/lodash/some.js": /*!***********************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/some.js ***!
@@ -11222,31 +11075,7 @@
         /***/ "../../../node_modules/lodash/toPairs.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/toPairs.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            /**
- * Creates an array of own enumerable string keyed-value pairs for `object`
- * which can be consumed by `_.fromPairs`. If `object` is a map or set, its
- * entries are returned.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @alias entries
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the key-value pairs.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.toPairs(new Foo);
- * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
- */ var toPairs = __webpack_require__(/*! ./_createToPairs */ "../../../node_modules/lodash/_createToPairs.js")(__webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js"));
-            module1.exports = toPairs;
+            module1.exports = __webpack_require__(/*! ./_createToPairs */ "../../../node_modules/lodash/_createToPairs.js")(__webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js"));
         /***/ },
         /***/ "../../../node_modules/lodash/toString.js": /*!***************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/toString.js ***!
@@ -11392,10 +11221,10 @@
         /***/ "../../../node_modules/lodash/without.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/without.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            var baseDifference = __webpack_require__(/*! ./_baseDifference */ "../../../node_modules/lodash/_baseDifference.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__(/*! ./isArrayLikeObject */ "../../../node_modules/lodash/isArrayLikeObject.js"), without = baseRest(function(array, values) {
+            var baseDifference = __webpack_require__(/*! ./_baseDifference */ "../../../node_modules/lodash/_baseDifference.js"), baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__(/*! ./isArrayLikeObject */ "../../../node_modules/lodash/isArrayLikeObject.js");
+            module1.exports = baseRest(function(array, values) {
                 return isArrayLikeObject(array) ? baseDifference(array, values) : [];
             });
-            module1.exports = without;
         /***/ },
         /***/ "../../../node_modules/object-assign/index.js": /*!*******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/object-assign/index.js ***!
@@ -19920,8 +19749,8 @@ object-assign
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
-                    var call, _this, child = _this.props.children, polar = child.props.polar;
-                    return _this.continuous = !polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
+                    var call, _this, child = _this.props.children;
+                    return _this.continuous = !child.props.polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -20725,205 +20554,205 @@ object-assign
                     prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
                     prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string)
                 ])
-            }, baseProps = {
-                animate: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                ]),
-                containerComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
-                domain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
-                    })
-                ]),
-                maxDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ])
-                    })
-                ]),
-                minDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ])
-                    })
-                ]),
-                domainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                        ])
-                    }),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                ]),
-                eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                    ]),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                ]),
-                events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf([
-                        "data",
-                        "labels",
-                        "parent"
-                    ]),
-                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                        ]),
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                    ]),
-                    eventHandlers: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                })),
-                externalEventMutations: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    callback: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
-                    childName: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
-                    ]),
-                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                        ]),
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                    ]),
-                    mutation: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
-                    target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
-                    ])
-                })),
-                groupComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
-                height: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative,
-                name: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                }),
-                padding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        top: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        bottom: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        left: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        right: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                    })
-                ]),
-                polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                range: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
-                    })
-                ]),
-                scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
-                    })
-                ]),
-                sharedEvents: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                    getEventState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                }),
-                singleQuadrantDomainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
-                        ])
-                    })
-                ]),
-                standalone: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                theme: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                width: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-            }, primitiveProps = {
-                active: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                ariaLabel: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                clipPath: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                data: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                ]),
-                desc: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                id: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                index: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                ]),
-                origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                }),
-                polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                role: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
-                    })
-                ]),
-                shapeRendering: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                style: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                tabIndex: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                transform: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
             };
             /* harmony default export */ __webpack_exports__.default = {
-                baseProps: baseProps,
+                baseProps: {
+                    animate: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    ]),
+                    containerComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
+                    domain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
+                        })
+                    ]),
+                    maxDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ])
+                        })
+                    ]),
+                    minDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ])
+                        })
+                    ]),
+                    domainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                            ])
+                        }),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                    ]),
+                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                        ]),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                    ]),
+                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf([
+                            "data",
+                            "labels",
+                            "parent"
+                        ]),
+                        eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                            ]),
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                        ]),
+                        eventHandlers: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    })),
+                    externalEventMutations: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        callback: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
+                        childName: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
+                        ]),
+                        eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                            ]),
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                        ]),
+                        mutation: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
+                        target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
+                        ])
+                    })),
+                    groupComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
+                    height: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative,
+                    name: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                    }),
+                    padding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            top: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            bottom: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            left: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            right: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                        })
+                    ]),
+                    polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    range: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
+                        })
+                    ]),
+                    scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
+                        })
+                    ]),
+                    sharedEvents: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                        getEventState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    }),
+                    singleQuadrantDomainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+                            ])
+                        })
+                    ]),
+                    standalone: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    theme: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    width: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                },
                 dataProps: dataProps,
-                primitiveProps: primitiveProps
+                primitiveProps: {
+                    active: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    ariaLabel: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    clipPath: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    data: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    ]),
+                    desc: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    id: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    index: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                    ]),
+                    origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                    }),
+                    polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    role: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
+                        })
+                    ]),
+                    shapeRendering: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    style: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    tabIndex: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    transform: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                }
             };
         /***/ },
         /***/ "../../victory-core/es/victory-util/data.js": /*!*****************************************************************************************!*\

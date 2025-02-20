@@ -922,13 +922,8 @@
                         sheetRefCurrent[1] = !1;
                         return;
                     }
-                    if (void 0 !== serialized.next && // insert keyframes
-                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length) {
-                        // if this doesn't exist then it will be null so the style element will be appended
-                        var element = sheet.tags[sheet.tags.length - 1].nextElementSibling;
-                        sheet.before = element, sheet.flush();
-                    }
-                    cache.insert("", serialized, sheet, !1);
+                    void 0 !== serialized.next && // insert keyframes
+                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length && (sheet.before = sheet.tags[sheet.tags.length - 1].nextElementSibling, sheet.flush()), cache.insert("", serialized, sheet, !1);
                 }, [
                     cache,
                     serialized.name
@@ -1095,8 +1090,8 @@
                         priority: !0
                     }));
                 }, props.passHref || "a" === child.type && !("href" in child.props)) {
-                    var curLocale1 = void 0 !== locale ? locale : router && router.locale, localeDomain = router && router.isLocaleDomain && _router.getDomainLocale(as, curLocale1, router && router.locales, router && router.domainLocales);
-                    childProps.href = localeDomain || _router.addBasePath(_router.addLocale(as, curLocale1, router && router.defaultLocale));
+                    var curLocale1 = void 0 !== locale ? locale : router && router.locale;
+                    childProps.href = router && router.isLocaleDomain && _router.getDomainLocale(as, curLocale1, router && router.locales, router && router.domainLocales) || _router.addBasePath(_router.addLocale(as, curLocale1, router && router.defaultLocale));
                 }
                 return /*#__PURE__*/ _react.default.cloneElement(child, childProps);
             };
@@ -1126,7 +1121,7 @@
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -1145,9 +1140,9 @@
                         rootMargin: rootMargin
                     })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
+                    }), observer.observe(el), unobserve.current = function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                    }));
+                    });
                 }, [
                     isDisabled,
                     rootMargin,

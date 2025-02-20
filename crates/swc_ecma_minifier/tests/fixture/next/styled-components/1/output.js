@@ -3791,8 +3791,7 @@
         /***/ },
         /***/ 6086: /***/ function(module) {
             "use strict";
-            var assign = Object.assign.bind(Object);
-            module.exports = assign, module.exports.default = module.exports;
+            module.exports = Object.assign.bind(Object), module.exports.default = module.exports;
         //# sourceMappingURL=object-assign.js.map
         /***/ },
         /***/ 3454: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -6682,9 +6681,7 @@
                     }
                     return i.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var r = __nccwpck_require__(162);
-                module.exports = r;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(162);
             }();
         /***/ },
         /***/ 9921: /***/ function(__unused_webpack_module, exports) {

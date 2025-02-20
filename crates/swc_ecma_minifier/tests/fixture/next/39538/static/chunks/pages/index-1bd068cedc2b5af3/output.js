@@ -503,7 +503,7 @@
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
                             var ref, id, observer, elements;
-                            return element && element.tagName && (unobserve.current = (id = (ref = function(options) {
+                            return element && element.tagName && (id = (ref = function(options) {
                                 var instance, id = {
                                     root: options.root || null,
                                     margin: options.rootMargin || ""
@@ -527,7 +527,7 @@
                                 rootMargin: rootMargin
                             })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
                                 return isVisible && setVisible(isVisible);
-                            }), observer.observe(element), function() {
+                            }), observer.observe(element), unobserve.current = function() {
                                 // Destroy observer when there's nothing left to watch:
                                 if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);
@@ -536,7 +536,7 @@
                                     });
                                     index > -1 && idList.splice(index, 1);
                                 }
-                            })), function() {
+                            }), function() {
                                 null == unobserve.current || unobserve.current(), unobserve.current = void 0;
                             };
                         }
