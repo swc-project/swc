@@ -3,6 +3,10 @@ use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
 use swc_allocator::api::arena;
 use swc_allocator::api::{arena, hashbrown::hash_map::Entry};
+use swc_allocator::{
+    allocators::Arena,
+    api::{arena, hashbrown::hash_map::Entry},
+};
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -19,7 +23,11 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<'alloc, N>(n: &N, marks: Option<Marks>) -> ProgramData<'alloc>
+pub(crate) fn analyze<'alloc, N>(
+    alloc: &'alloc Arena,
+    n: &N,
+    marks: Option<Marks>,
+) -> ProgramData<'alloc>
 where
     N: VisitWith<UsageAnalyzer<ProgramData<'alloc>>>,
 {
