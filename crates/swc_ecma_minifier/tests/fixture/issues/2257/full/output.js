@@ -221,11 +221,11 @@
                     createHistory: _createAppShared.createHistory,
                     getSearchParams: _createAppShared.getSearchParams
                 }
-            }), _default = {
+            });
+            exports.default = {
                 createBaseApp: frameworkAppBase,
                 initAppLifeCycles: _createAppShared.initAppLifeCycles
             };
-            exports.default = _default;
         /***/ },
         /***/ 66902: /***/ function(__unused_webpack_module, exports) {
             "use strict";
@@ -465,7 +465,7 @@
                     ]), mergedRouteWrappers = children ? [] : routeWrappers;
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
                     var parsedRoute = swcHelpers.objectSpread({}, others);
-                    return component && (parsedRoute.component = (routerWrappers = mergedRouteWrappers, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, ref.__LOADABLE__ ? _component.default(dynamicImport, {
+                    return component && (routerWrappers = mergedRouteWrappers, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, parsedRoute.component = ref.__LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
                             return(// 适配中心化路由配置（react-loadable）
@@ -484,7 +484,7 @@
                             return mod;
                         });
                     }) : (// 适配中心化路由配置（非按需加载）
-                    setComponentAttr(component, route), wrapperRoute(component, routerWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
+                    setComponentAttr(component, route), wrapperRoute(component, routerWrappers))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
                 });
             }
             function Routes(param) {
@@ -677,14 +677,12 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.default = void 0;
-            var routerConfig = [
+            }), exports.default = void 0, exports.default = [
                 {
                     path: "/",
                     component: __webpack_require__(547).interopRequireDefault(__webpack_require__(43361)).default
                 }
             ];
-            exports.default = routerConfig;
         /***/ },
         /***/ 56128: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -2034,11 +2032,7 @@
                     var requestData = config.data, requestHeaders = config.headers, responseType = config.responseType;
                     utils.isFormData(requestData) && delete requestHeaders["Content-Type"];
                     var request = new XMLHttpRequest();
-                    // HTTP basic authentication
-                    if (config.auth) {
-                        var username = config.auth.username || "", password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : "";
-                        requestHeaders.Authorization = "Basic " + btoa(username + ":" + password);
-                    }
+                    config.auth && (requestHeaders.Authorization = "Basic " + btoa((config.auth.username || "") + ":" + (config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : "")));
                     var fullPath = buildFullPath(config.baseURL, config.url);
                     function onloadend() {
                         if (request) {
@@ -3413,10 +3407,10 @@
         /***/ },
         /***/ 85811: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $forEach = __webpack_require__(48499).forEach, STRICT_METHOD = __webpack_require__(12707)("forEach");
+            var $forEach = __webpack_require__(48499).forEach;
             // `Array.prototype.forEach` method implementation
             // https://tc39.es/ecma262/#sec-array.prototype.foreach
-            module.exports = STRICT_METHOD ? [].forEach : function(callbackfn /* , thisArg */ ) {
+            module.exports = __webpack_require__(12707)("forEach") ? [].forEach : function(callbackfn /* , thisArg */ ) {
                 return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : void 0);
             // eslint-disable-next-line es/no-array-prototype-foreach -- safe
             };
@@ -3994,8 +3988,7 @@
             };
         /***/ },
         /***/ 81577: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var fails = __webpack_require__(60232);
-            module.exports = !fails(function() {
+            module.exports = !__webpack_require__(60232)(function() {
                 function F() {
                 /* empty */ }
                 // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
@@ -4129,9 +4122,8 @@
             };
         /***/ },
         /***/ 87122: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var fails = __webpack_require__(60232);
             // Detect IE8's incomplete defineProperty implementation
-            module.exports = !fails(function() {
+            module.exports = !__webpack_require__(60232)(function() {
                 // eslint-disable-next-line es/no-object-defineproperty -- required for testing
                 return 7 != Object.defineProperty({}, 1, {
                     get: function() {
@@ -4207,16 +4199,14 @@
             module.exports = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent);
         /***/ },
         /***/ 96590: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var classof = __webpack_require__(82020), global = __webpack_require__(19514);
-            module.exports = "process" == classof(global.process);
+            module.exports = "process" == __webpack_require__(82020)(__webpack_require__(19514).process);
         /***/ },
         /***/ 5853: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var userAgent = __webpack_require__(59116);
             module.exports = /web0s(?!.*chrome)/i.test(userAgent);
         /***/ },
         /***/ 59116: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var getBuiltIn = __webpack_require__(44990);
-            module.exports = getBuiltIn("navigator", "userAgent") || "";
+            module.exports = __webpack_require__(44990)("navigator", "userAgent") || "";
         /***/ },
         /***/ 50661: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var match, version, global = __webpack_require__(19514), userAgent = __webpack_require__(59116), process = global.process, Deno = global.Deno, versions = process && process.versions || Deno && Deno.version, v8 = versions && versions.v8;
@@ -4339,8 +4329,7 @@
             module.exports = flattenIntoArray;
         /***/ },
         /***/ 85469: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var fails = __webpack_require__(60232);
-            module.exports = !fails(function() {
+            module.exports = !__webpack_require__(60232)(function() {
                 // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
                 return Object.isExtensible(Object.preventExtensions({}));
             });
@@ -4496,8 +4485,7 @@
             };
         /***/ },
         /***/ 40969: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var getBuiltIn = __webpack_require__(44990);
-            module.exports = getBuiltIn("document", "documentElement");
+            module.exports = __webpack_require__(44990)("document", "documentElement");
         /***/ },
         /***/ 10002: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var DESCRIPTORS = __webpack_require__(87122), fails = __webpack_require__(60232), createElement = __webpack_require__(28554);
@@ -4755,8 +4743,8 @@
             };
         /***/ },
         /***/ 17679: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var isCallable = __webpack_require__(67106), getBuiltIn = __webpack_require__(44990), USE_SYMBOL_AS_UID = __webpack_require__(93102);
-            module.exports = USE_SYMBOL_AS_UID ? function(it) {
+            var isCallable = __webpack_require__(67106), getBuiltIn = __webpack_require__(44990);
+            module.exports = __webpack_require__(93102) ? function(it) {
                 return "symbol" == typeof it;
             } : function(it) {
                 var $Symbol = getBuiltIn("Symbol");
@@ -4905,8 +4893,7 @@
             };
         /***/ },
         /***/ 91591: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514);
-            module.exports = global.Promise;
+            module.exports = __webpack_require__(19514).Promise;
         /***/ },
         /***/ 11382: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             /* eslint-disable es/no-symbol -- required for testing */ var V8_VERSION = __webpack_require__(50661), fails = __webpack_require__(60232);
@@ -4969,25 +4956,25 @@
             };
         /***/ },
         /***/ 45220: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514), fails = __webpack_require__(60232), toString1 = __webpack_require__(72729), trim = __webpack_require__(62034).trim, whitespaces = __webpack_require__(88443), $parseFloat = global.parseFloat, Symbol1 = global.Symbol, ITERATOR = Symbol1 && Symbol1.iterator, FORCED = 1 / $parseFloat(whitespaces + "-0") != -1 / 0 || // MS Edge 18- broken with boxed symbols
-            ITERATOR && !fails(function() {
-                $parseFloat(Object(ITERATOR));
-            });
+            var global = __webpack_require__(19514), fails = __webpack_require__(60232), toString1 = __webpack_require__(72729), trim = __webpack_require__(62034).trim, whitespaces = __webpack_require__(88443), $parseFloat = global.parseFloat, Symbol1 = global.Symbol, ITERATOR = Symbol1 && Symbol1.iterator;
             // `parseFloat` method
             // https://tc39.es/ecma262/#sec-parsefloat-string
-            module.exports = FORCED ? function(string) {
+            module.exports = 1 / $parseFloat(whitespaces + "-0") != -1 / 0 || // MS Edge 18- broken with boxed symbols
+            ITERATOR && !fails(function() {
+                $parseFloat(Object(ITERATOR));
+            }) ? function(string) {
                 var trimmedString = trim(toString1(string)), result = $parseFloat(trimmedString);
                 return 0 === result && "-" == trimmedString.charAt(0) ? -0 : result;
             } : $parseFloat;
         /***/ },
         /***/ 33279: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514), fails = __webpack_require__(60232), toString1 = __webpack_require__(72729), trim = __webpack_require__(62034).trim, whitespaces = __webpack_require__(88443), $parseInt = global.parseInt, Symbol1 = global.Symbol, ITERATOR = Symbol1 && Symbol1.iterator, hex = /^[+-]?0[Xx]/, FORCED = 8 !== $parseInt(whitespaces + "08") || 22 !== $parseInt(whitespaces + "0x16") || // MS Edge 18- broken with boxed symbols
-            ITERATOR && !fails(function() {
-                $parseInt(Object(ITERATOR));
-            });
+            var global = __webpack_require__(19514), fails = __webpack_require__(60232), toString1 = __webpack_require__(72729), trim = __webpack_require__(62034).trim, whitespaces = __webpack_require__(88443), $parseInt = global.parseInt, Symbol1 = global.Symbol, ITERATOR = Symbol1 && Symbol1.iterator, hex = /^[+-]?0[Xx]/;
             // `parseInt` method
             // https://tc39.es/ecma262/#sec-parseint-string-radix
-            module.exports = FORCED ? function(string, radix) {
+            module.exports = 8 !== $parseInt(whitespaces + "08") || 22 !== $parseInt(whitespaces + "0x16") || // MS Edge 18- broken with boxed symbols
+            ITERATOR && !fails(function() {
+                $parseInt(Object(ITERATOR));
+            }) ? function(string, radix) {
                 var S = trim(toString1(string));
                 return $parseInt(S, radix >>> 0 || (hex.test(S) ? 16 : 10));
             } : $parseInt;
@@ -5149,12 +5136,12 @@
         /***/ },
         /***/ 44096: /***/ function(__unused_webpack_module, exports) {
             "use strict";
-            var $propertyIsEnumerable = {}.propertyIsEnumerable, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, NASHORN_BUG = getOwnPropertyDescriptor && !$propertyIsEnumerable.call({
-                1: 2
-            }, 1);
+            var $propertyIsEnumerable = {}.propertyIsEnumerable, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
             // `Object.prototype.propertyIsEnumerable` method implementation
             // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
-            exports.f = NASHORN_BUG ? function(V) {
+            exports.f = getOwnPropertyDescriptor && !$propertyIsEnumerable.call({
+                1: 2
+            }, 1) ? function(V) {
                 var descriptor = getOwnPropertyDescriptor(this, V);
                 return !!descriptor && descriptor.enumerable;
             } : $propertyIsEnumerable;
@@ -5240,8 +5227,7 @@
             };
         /***/ },
         /***/ 79574: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514);
-            module.exports = global;
+            module.exports = __webpack_require__(19514);
         /***/ },
         /***/ 68275: /***/ function(module) {
             module.exports = function(exec) {
@@ -5416,8 +5402,8 @@
             };
         /***/ },
         /***/ 88986: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514), setGlobal = __webpack_require__(65933), SHARED = "__core-js_shared__", store = global[SHARED] || setGlobal(SHARED, {});
-            module.exports = store;
+            var global = __webpack_require__(19514), setGlobal = __webpack_require__(65933), SHARED = "__core-js_shared__";
+            module.exports = global[SHARED] || setGlobal(SHARED, {});
         /***/ },
         /***/ 61011: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var IS_PURE = __webpack_require__(80627), store = __webpack_require__(88986);
@@ -5876,12 +5862,10 @@
             };
         /***/ },
         /***/ 93102: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            /* eslint-disable es/no-symbol -- required for testing */ var NATIVE_SYMBOL = __webpack_require__(11382);
-            module.exports = NATIVE_SYMBOL && !Symbol.sham && "symbol" == typeof Symbol.iterator;
+            module.exports = __webpack_require__(11382) && !Symbol.sham && "symbol" == typeof Symbol.iterator;
         /***/ },
         /***/ 52301: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
-            var wellKnownSymbol = __webpack_require__(81019);
-            exports.f = wellKnownSymbol;
+            exports.f = __webpack_require__(81019);
         /***/ },
         /***/ 81019: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var global = __webpack_require__(19514), shared = __webpack_require__(61011), has = __webpack_require__(1521), uid = __webpack_require__(67045), NATIVE_SYMBOL = __webpack_require__(11382), USE_SYMBOL_AS_UID = __webpack_require__(93102), WellKnownSymbolsStore = shared("wks"), Symbol1 = global.Symbol, createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol1 : Symbol1 && Symbol1.withoutSetter || uid;
@@ -6713,14 +6697,13 @@
         /***/ },
         /***/ 3767: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var collection = __webpack_require__(6807), collectionStrong = __webpack_require__(67318);
             // `Map` constructor
             // https://tc39.es/ecma262/#sec-map-objects
-            module.exports = collection("Map", function(init) {
+            module.exports = __webpack_require__(6807)("Map", function(init) {
                 return function() {
                     return init(this, arguments.length ? arguments[0] : void 0);
                 };
-            }, collectionStrong);
+            }, __webpack_require__(67318));
         /***/ },
         /***/ 28499: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $ = __webpack_require__(35437), log1p = __webpack_require__(41571), $acosh = Math.acosh, log = Math.log, sqrt = Math.sqrt, LN2 = Math.LN2;
@@ -8328,14 +8311,13 @@
         /***/ },
         /***/ 93120: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var collection = __webpack_require__(6807), collectionStrong = __webpack_require__(67318);
             // `Set` constructor
             // https://tc39.es/ecma262/#sec-set-objects
-            module.exports = collection("Set", function(init) {
+            module.exports = __webpack_require__(6807)("Set", function(init) {
                 return function() {
                     return init(this, arguments.length ? arguments[0] : void 0);
                 };
-            }, collectionStrong);
+            }, __webpack_require__(67318));
         /***/ },
         /***/ 37544: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -10806,10 +10788,10 @@
                 }).apply(this, arguments);
             }, lib_emitLifeCycles = function() {
                 // Get history
-                var history = getHistory(), pathname = history && history.location ? history.location.pathname : "undefined" != typeof window && window.location.pathname;
+                var history = getHistory();
                 // Set current router
                 router.current = {
-                    pathname: pathname,
+                    pathname: history && history.location ? history.location.pathname : "undefined" != typeof window && window.location.pathname,
                     visibilityState: !0
                 }, // Emit app lifecycle
                 emit(LAUNCH), emit(SHOW), history && history.listen && // Listen history change
@@ -11857,7 +11839,7 @@
              */ function tokensToRegExp(tokens, keys, options) {
                 isarray(keys) || (options = /** @type {!Object} */ keys || options, keys = []);
                 // Iterate over the tokens and create our regexp string.
-                for(var re, keys1, strict = (options = options || {}).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
+                for(var re, strict = (options = options || {}).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
                     var token = tokens[i];
                     if ("string" == typeof token) route += escapeString(token);
                     else {
@@ -11868,7 +11850,7 @@
                 var delimiter = escapeString(options.delimiter || "/"), endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
                 return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : // In non-ending mode, we need the capturing groups to match as much as
                 // possible by using a positive lookahead to the end or next path segment.
-                route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", re = RegExp("^" + route, flags(options)), keys1 = keys, re.keys = keys1, re;
+                route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", (re = RegExp("^" + route, flags(options))).keys = keys, re;
             }
         /***/ },
         /***/ 97671: /***/ function(module) {
@@ -12787,10 +12769,10 @@
                 });
             }
             function Za(a, b) {
-                var c = null == b.defaultValue ? "" : b.defaultValue, d = null != b.checked ? b.checked : b.defaultChecked;
-                c = Sa(null != b.value ? b.value : c), a._wrapperState = {
-                    initialChecked: d,
-                    initialValue: c,
+                var c = null == b.defaultValue ? "" : b.defaultValue;
+                a._wrapperState = {
+                    initialChecked: null != b.checked ? b.checked : b.defaultChecked,
+                    initialValue: c = Sa(null != b.value ? b.value : c),
                     controlled: "checkbox" === b.type || "radio" === b.type ? null != b.checked : null != b.value
                 };
             }
@@ -14367,7 +14349,7 @@
             function Kf(a, b, c) {
                 var d = a.stateNode;
                 if (!d) throw Error(y(169));
-                c ? (a = If(a, b, Df), d.__reactInternalMemoizedMergedChildContext = a, H(N), H(M), I(M, a)) : H(N), I(N, c);
+                c ? (d.__reactInternalMemoizedMergedChildContext = a = If(a, b, Df), H(N), H(M), I(M, a)) : H(N), I(N, c);
             }
             var Lf = null, Mf = null, Nf = r.unstable_runWithPriority, Of = r.unstable_scheduleCallback, Pf = r.unstable_cancelCallback, Qf = r.unstable_shouldYield, Rf = r.unstable_requestPaint, Sf = r.unstable_now, Tf = r.unstable_getCurrentPriorityLevel, Uf = r.unstable_ImmediatePriority, Vf = r.unstable_UserBlockingPriority, Wf = r.unstable_NormalPriority, Xf = r.unstable_LowPriority, Yf = r.unstable_IdlePriority, Zf = {}, $f = void 0 !== Rf ? Rf : function() {}, ag = null, bg = null, cg = !1, dg = Sf(), O = 1e4 > dg ? Sf : function() {
                 return Sf() - dg;
@@ -14623,7 +14605,7 @@
             }
             var Fg = new aa.Component().refs;
             function Gg(a, b, c, d) {
-                c = null == (c = c(d, b = a.memoizedState)) ? b : m({}, b, c), a.memoizedState = c, 0 === a.lanes && (a.updateQueue.baseState = c);
+                a.memoizedState = c = null == (c = c(d, b = a.memoizedState)) ? b : m({}, b, c), 0 === a.lanes && (a.updateQueue.baseState = c);
             }
             var Kg = {
                 isMounted: function(a) {
@@ -14659,7 +14641,7 @@
                 var e = a.stateNode;
                 e.props = c, e.state = a.memoizedState, e.refs = Fg, xg(a);
                 var f = b.contextType;
-                "object" == typeof f && null !== f ? e.context = vg(f) : (f = Ff(b) ? Df : M.current, e.context = Ef(a, f)), Cg(a, c, e, d), e.state = a.memoizedState, "function" == typeof (f = b.getDerivedStateFromProps) && (Gg(a, b, f, c), e.state = a.memoizedState), "function" == typeof b.getDerivedStateFromProps || "function" == typeof e.getSnapshotBeforeUpdate || "function" != typeof e.UNSAFE_componentWillMount && "function" != typeof e.componentWillMount || (b = e.state, "function" == typeof e.componentWillMount && e.componentWillMount(), "function" == typeof e.UNSAFE_componentWillMount && e.UNSAFE_componentWillMount(), b !== e.state && Kg.enqueueReplaceState(e, e.state, null), Cg(a, c, e, d), e.state = a.memoizedState), "function" == typeof e.componentDidMount && (a.flags |= 4);
+                "object" == typeof f && null !== f ? e.context = vg(f) : e.context = Ef(a, f = Ff(b) ? Df : M.current), Cg(a, c, e, d), e.state = a.memoizedState, "function" == typeof (f = b.getDerivedStateFromProps) && (Gg(a, b, f, c), e.state = a.memoizedState), "function" == typeof b.getDerivedStateFromProps || "function" == typeof e.getSnapshotBeforeUpdate || "function" != typeof e.UNSAFE_componentWillMount && "function" != typeof e.componentWillMount || (b = e.state, "function" == typeof e.componentWillMount && e.componentWillMount(), "function" == typeof e.UNSAFE_componentWillMount && e.UNSAFE_componentWillMount(), b !== e.state && Kg.enqueueReplaceState(e, e.state, null), Cg(a, c, e, d), e.state = a.memoizedState), "function" == typeof e.componentDidMount && (a.flags |= 4);
             }
             var Pg = Array.isArray;
             function Qg(a, b, c) {
@@ -15177,9 +15159,9 @@
                 }, R.updateQueue = b, b.lastEffect = a.next = a) : null === (c = b.lastEffect) ? b.lastEffect = a.next = a : (d = c.next, c.next = a, a.next = d, b.lastEffect = a), a;
             }
             function Sh(a) {
-                return a = {
+                return Hh().memoizedState = a = {
                     current: a
-                }, Hh().memoizedState = a;
+                };
             }
             function Th() {
                 return Ih().memoizedState;
@@ -15213,7 +15195,7 @@
             function Zh(a, b) {
                 return "function" == typeof b ? (b(a = a()), function() {
                     b(null);
-                }) : null != b ? (a = a(), b.current = a, function() {
+                }) : null != b ? (b.current = a = a(), function() {
                     b.current = null;
                 }) : void 0;
             }
@@ -15236,8 +15218,8 @@
                 var c = Ih();
                 b = void 0 === b ? null : b;
                 var d = c.memoizedState;
-                return null !== d && null !== b && Bh(b, d[1]) ? d[0] : (a = a(), c.memoizedState = [
-                    a,
+                return null !== d && null !== b && Bh(b, d[1]) ? d[0] : (c.memoizedState = [
+                    a = a(),
                     b
                 ], a);
             }
@@ -15308,15 +15290,14 @@
                     return Uh(4, 2, a, b);
                 },
                 useMemo: function(a, b) {
-                    var c = Hh();
-                    return b = void 0 === b ? null : b, a = a(), c.memoizedState = [
-                        a,
+                    return b = void 0 === b ? null : b, Hh().memoizedState = [
+                        a = a(),
                         b
                     ], a;
                 },
                 useReducer: function(a, b, c) {
                     var d = Hh();
-                    return b = void 0 !== c ? c(b) : b, d.memoizedState = d.baseState = b, a = (a = d.queue = {
+                    return d.memoizedState = d.baseState = b = void 0 !== c ? c(b) : b, a = (a = d.queue = {
                         pending: null,
                         dispatch: null,
                         lastRenderedReducer: a,
@@ -15638,7 +15619,7 @@
                 if (null !== a && (b.dependencies = a.dependencies), Dg |= b.lanes, 0 != (c & b.childLanes)) {
                     if (null !== a && b.child !== a.child) throw Error(y(153));
                     if (null !== b.child) {
-                        for(c = Tg(a = b.child, a.pendingProps), b.child = c, c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = Tg(a, a.pendingProps)).return = b;
+                        for(b.child = c = Tg(a = b.child, a.pendingProps), c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = Tg(a, a.pendingProps)).return = b;
                         c.sibling = null;
                     }
                     return b.child;
@@ -17836,7 +17817,7 @@
                 var key, _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider = /*#__PURE__*/ function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
-                        return _this = _Component.apply(this, arguments) || this, _this.emitter = (value = _this.props.value, handlers = [], {
+                        return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
                             on: function(handler) {
                                 handlers.push(handler);
                             },
@@ -17853,7 +17834,7 @@
                                     return handler(value, changedBits);
                                 });
                             }
-                        }), _this;
+                        }, _this;
                     }
                     (0, inheritsLoose /* default */ .Z)(Provider, _Component);
                     var _proto = Provider.prototype;
@@ -17869,7 +17850,7 @@
                         return this.props.children;
                     }, Provider;
                 }(_react_17_0_2_react.Component);
-                Provider.childContextTypes = ((_Provider$childContex = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object.isRequired, _Provider$childContex);
+                (_Provider$childContex = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object.isRequired, Provider.childContextTypes = _Provider$childContex;
                 var Consumer = /*#__PURE__*/ function(_Component2) {
                     function Consumer() {
                         var _this2;
@@ -17899,7 +17880,7 @@
                         return (Array.isArray(children = this.props.children) ? children[0] : children)(this.state.value);
                     }, Consumer;
                 }(_react_17_0_2_react.Component);
-                return Consumer.contextTypes = ((_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, _Consumer$contextType), {
+                return (_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, Consumer.contextTypes = _Consumer$contextType, {
                     Provider: Provider,
                     Consumer: Consumer
                 };
@@ -18134,9 +18115,9 @@
                 var _proto = StaticRouter.prototype;
                 return _proto.navigateTo = function(location, action) {
                     var basename, location1, _this$props = this.props, _this$props$basename = _this$props.basename, _this$props$context = _this$props.context, context = void 0 === _this$props$context ? {} : _this$props$context;
-                    context.action = action, context.location = (basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), basename ? (0, esm_extends /* default */ .Z)({}, location1, {
+                    context.action = action, basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), context.location = basename ? (0, esm_extends /* default */ .Z)({}, location1, {
                         pathname: addLeadingSlash(basename) + location1.pathname
-                    }) : location1), context.url = createURL(context.location);
+                    }) : location1, context.url = createURL(context.location);
                 }, _proto.render = function() {
                     var _this$props2 = this.props, _this$props2$basename = _this$props2.basename, basename = void 0 === _this$props2$basename ? "" : _this$props2$basename, _this$props2$context = _this$props2.context, _this$props2$location = _this$props2.location, rest = (0, objectWithoutPropertiesLoose /* default */ .Z)(_this$props2, [
                         "basename",
@@ -18557,10 +18538,10 @@
                     };
                 }
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return(// The ._invoke method unifies the implementations of the .next,
+                    var context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype);
+                    return context = new Context(tryLocsList || []), state = GenStateSuspendedStart, // The ._invoke method unifies the implementations of the .next,
                     // .throw, and .return methods.
-                    generator._invoke = (state = GenStateSuspendedStart, function(method, arg) {
+                    generator._invoke = function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -18628,7 +18609,7 @@
                             // context.dispatchException(context.arg) call above.
                             context.method = "throw", context.arg = record.arg);
                         }
-                    }), generator);
+                    }, generator;
                 }
                 // Try/catch helper to minimize deoptimizations. Returns a completion
                 // record like context.tryEntries[i].completion. This interface could

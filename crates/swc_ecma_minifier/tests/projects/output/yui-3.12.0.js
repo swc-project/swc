@@ -97,7 +97,7 @@ available.
         success: !0
     };
     // inheritance utilities are not available yet
-    for(prop in docEl && -1 == docClass.indexOf(DOC_LABEL) && (docClass && (docClass += " "), docClass += DOC_LABEL, docEl.className = docClass), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
+    for(prop in docEl && -1 == docClass.indexOf(DOC_LABEL) && (docClass && (docClass += " "), docEl.className = docClass += DOC_LABEL), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), YUI.prototype = proto = {
         /**
     Applies a new configuration object to the config of this YUI instance. This
     will merge new group/module definitions, and will also update the loader
@@ -675,7 +675,7 @@ with any configuration info required for the module.
     **/ destroy: function() {
             this.Event && this.Event._unload(), delete instances[this.id], delete this.Env, delete this.config;
         }
-    }, YUI.prototype = proto, proto)proto.hasOwnProperty(prop) && (YUI[prop] = proto[prop]);
+    }, proto)proto.hasOwnProperty(prop) && (YUI[prop] = proto[prop]);
     /**
     Applies a configuration to all YUI instances in this execution context.
 
@@ -4133,7 +4133,7 @@ Contains the core of YUI's feature test architecture.
                 }
             }
             if (// fix filter
-            f = self.filter, L.isString(f) && (f = f.toUpperCase(), self.filterName = f, self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
+            f = self.filter, L.isString(f) && (self.filterName = f = f.toUpperCase(), self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
                 for(i = 0; i < self.coverage.length; i++)mod = self.coverage[i], self.moduleInfo[mod] && self.moduleInfo[mod].use ? mods = [].concat(mods, self.moduleInfo[mod].use) : mods.push(mod);
                 self.filters = self.filters || {}, Y.Array.each(mods, function(mod) {
                     self.filters[mod] = self.FILTER_DEFS.COVERAGE;
@@ -4215,7 +4215,7 @@ Contains the core of YUI's feature test architecture.
        *      }, 'davglass');
        */ addGroup: function(o, name) {
             var i, v, mods = o.modules;
-            if (name = name || o.name, o.name = name, this.groups[name] = o, o.patterns) for(i in o.patterns)o.patterns.hasOwnProperty(i) && (o.patterns[i].group = name, this.patterns[i] = o.patterns[i]);
+            if (o.name = name = name || o.name, this.groups[name] = o, o.patterns) for(i in o.patterns)o.patterns.hasOwnProperty(i) && (o.patterns[i].group = name, this.patterns[i] = o.patterns[i]);
             if (mods) for(i in mods)mods.hasOwnProperty(i) && ("string" == typeof (v = mods[i]) && (v = {
                 name: i,
                 fullpath: v
@@ -4854,8 +4854,8 @@ Contains the core of YUI's feature test architecture.
     @param {Callback} cb Executed after all load operations are complete
     */ load: function(cb) {
             if (cb) {
-                var self = this, out = self.resolve(!0);
-                self.data = out, self.onEnd = function() {
+                var self = this;
+                self.data = self.resolve(!0), self.onEnd = function() {
                     cb.apply(self.context || self, arguments);
                 }, self.insert();
             }

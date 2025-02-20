@@ -1333,12 +1333,12 @@
             }
             // Node Types
             var NodeType = {}, ELEMENT_NODE = NodeType.ELEMENT_NODE = 1, ATTRIBUTE_NODE = NodeType.ATTRIBUTE_NODE = 2, TEXT_NODE = NodeType.TEXT_NODE = 3, CDATA_SECTION_NODE = NodeType.CDATA_SECTION_NODE = 4, ENTITY_REFERENCE_NODE = NodeType.ENTITY_REFERENCE_NODE = 5, ENTITY_NODE = NodeType.ENTITY_NODE = 6, PROCESSING_INSTRUCTION_NODE = NodeType.PROCESSING_INSTRUCTION_NODE = 7, COMMENT_NODE = NodeType.COMMENT_NODE = 8, DOCUMENT_NODE = NodeType.DOCUMENT_NODE = 9, DOCUMENT_TYPE_NODE = NodeType.DOCUMENT_TYPE_NODE = 10, DOCUMENT_FRAGMENT_NODE = NodeType.DOCUMENT_FRAGMENT_NODE = 11, NOTATION_NODE = NodeType.NOTATION_NODE = 12, ExceptionCode = {}, ExceptionMessage = {};
-            ExceptionCode.INDEX_SIZE_ERR = (ExceptionMessage[1] = "Index size error", 1), ExceptionCode.DOMSTRING_SIZE_ERR = (ExceptionMessage[2] = "DOMString size error", 2);
-            var HIERARCHY_REQUEST_ERR = ExceptionCode.HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", 3);
-            ExceptionCode.WRONG_DOCUMENT_ERR = (ExceptionMessage[4] = "Wrong document", 4), ExceptionCode.INVALID_CHARACTER_ERR = (ExceptionMessage[5] = "Invalid character", 5), ExceptionCode.NO_DATA_ALLOWED_ERR = (ExceptionMessage[6] = "No data allowed", 6), ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = (ExceptionMessage[7] = "No modification allowed", 7);
-            var NOT_FOUND_ERR = ExceptionCode.NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", 8);
-            ExceptionCode.NOT_SUPPORTED_ERR = (ExceptionMessage[9] = "Not supported", 9);
-            var INUSE_ATTRIBUTE_ERR = ExceptionCode.INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", 10);
+            ExceptionMessage[1] = "Index size error", ExceptionCode.INDEX_SIZE_ERR = 1, ExceptionMessage[2] = "DOMString size error", ExceptionCode.DOMSTRING_SIZE_ERR = 2;
+            var HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", ExceptionCode.HIERARCHY_REQUEST_ERR = 3);
+            ExceptionMessage[4] = "Wrong document", ExceptionCode.WRONG_DOCUMENT_ERR = 4, ExceptionMessage[5] = "Invalid character", ExceptionCode.INVALID_CHARACTER_ERR = 5, ExceptionMessage[6] = "No data allowed", ExceptionCode.NO_DATA_ALLOWED_ERR = 6, ExceptionMessage[7] = "No modification allowed", ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = 7;
+            var NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", ExceptionCode.NOT_FOUND_ERR = 8);
+            ExceptionMessage[9] = "Not supported", ExceptionCode.NOT_SUPPORTED_ERR = 9;
+            var INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", ExceptionCode.INUSE_ATTRIBUTE_ERR = 10);
             /**
              * DOM Level 2
              * Object DOMException
@@ -1651,7 +1651,7 @@
             function __set__(object, key, value) {
                 object[key] = value;
             }
-            ExceptionCode.INVALID_STATE_ERR = (ExceptionMessage[11] = "Invalid state", 11), ExceptionCode.SYNTAX_ERR = (ExceptionMessage[12] = "Syntax error", 12), ExceptionCode.INVALID_MODIFICATION_ERR = (ExceptionMessage[13] = "Invalid modification", 13), ExceptionCode.NAMESPACE_ERR = (ExceptionMessage[14] = "Invalid namespace", 14), ExceptionCode.INVALID_ACCESS_ERR = (ExceptionMessage[15] = "Invalid access", 15), DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
+            ExceptionMessage[11] = "Invalid state", ExceptionCode.INVALID_STATE_ERR = 11, ExceptionMessage[12] = "Syntax error", ExceptionCode.SYNTAX_ERR = 12, ExceptionMessage[13] = "Invalid modification", ExceptionCode.INVALID_MODIFICATION_ERR = 13, ExceptionMessage[14] = "Invalid namespace", ExceptionCode.NAMESPACE_ERR = 14, ExceptionMessage[15] = "Invalid access", ExceptionCode.INVALID_ACCESS_ERR = 15, DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
                 /**
                  * The number of nodes in the list. The range of valid child node indices is 0 to length-1 inclusive.
                  * @standard level1
@@ -2786,8 +2786,7 @@
             "undefined" != typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
         /***/ },
         /***/ 8908: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var win;
-            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
+            module.exports = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {};
         /***/ },
         /***/ 7376: /***/ function(module) {
             module.exports = function(fn) {
@@ -3741,10 +3740,10 @@
                     resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
                 };
                 if (range || indexRange) {
-                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10), endRange = parseInt(ranges[1], 10);
+                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10);
                     // RFC 2616, Clause 14.35.1
                     segment.byterange = {
-                        length: endRange - startRange + 1,
+                        length: parseInt(ranges[1], 10) - startRange + 1,
                         offset: startRange
                     };
                 }
@@ -4584,20 +4583,20 @@
              * Copyright (c) Brightcove
              * Licensed Apache-2.0 https://github.com/videojs/mux.js/blob/master/LICENSE
              */ var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
-            secondsToVideoTs = function(seconds) {
-                return 90000 * seconds;
-            }, secondsToAudioTs = function(seconds, sampleRate) {
-                return seconds * sampleRate;
-            }, videoTsToSeconds = function(timestamp) {
-                return timestamp / 90000;
-            }, audioTsToSeconds = function(timestamp, sampleRate) {
-                return timestamp / sampleRate;
-            }, module.exports = {
+            module.exports = {
                 ONE_SECOND_IN_TS: 90000,
-                secondsToVideoTs: secondsToVideoTs,
-                secondsToAudioTs: secondsToAudioTs,
-                videoTsToSeconds: videoTsToSeconds,
-                audioTsToSeconds: audioTsToSeconds,
+                secondsToVideoTs: secondsToVideoTs = function(seconds) {
+                    return 90000 * seconds;
+                },
+                secondsToAudioTs: secondsToAudioTs = function(seconds, sampleRate) {
+                    return seconds * sampleRate;
+                },
+                videoTsToSeconds: videoTsToSeconds = function(timestamp) {
+                    return timestamp / 90000;
+                },
+                audioTsToSeconds: audioTsToSeconds = function(timestamp, sampleRate) {
+                    return timestamp / sampleRate;
+                },
                 audioTsToVideoTs: function(timestamp, sampleRate) {
                     return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
                 },
@@ -4724,7 +4723,7 @@
         /***/ },
         /***/ 9945: /***/ function(module) {
             var URL_REGEX, FIRST_SEGMENT_REGEX, SLASH_DOT_REGEX, SLASH_DOT_DOT_REGEX, URLToolkit;
-            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, URLToolkit = {
+            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, module.exports = URLToolkit = {
                 // If opts.alwaysNormalize is true then the path will always be normalized even when it starts with / or //
                 // E.g
                 // With opts.alwaysNormalize = false (default, spec compliant)
@@ -4815,7 +4814,7 @@
                 buildURLFromParts: function(parts) {
                     return parts.scheme + parts.netLoc + parts.path + parts.params + parts.query + parts.fragment;
                 }
-            }, module.exports = URLToolkit;
+            };
         /***/ },
         /***/ 3407: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             /**
@@ -5021,7 +5020,7 @@
                         continue;
                     }
                     // Text nodes are leaf nodes.
-                    current.appendChild(window1.document.createTextNode((s = t, TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
+                    current.appendChild(window1.document.createTextNode((TEXTAREA_ELEMENT.innerHTML = s = t, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
                 }
                 return rootDiv;
             }

@@ -1,7 +1,6 @@
 export default function(r, t, e) {
     var n, o, s, a, i, h, c, l, f, u;
-    // CommonJS
-    r.exports = (n = e(8249), o = Math, a = (s = n.lib).WordArray, i = s.Hasher, h = n.algo, c = [], l = [], // Compute constants
+    n = e(8249), o = Math, a = (s = n.lib).WordArray, i = s.Hasher, h = n.algo, c = [], l = [], // Compute constants
     function() {
         function r(r) {
             return (r - (0 | r)) * 0x100000000 | 0;
@@ -66,5 +65,6 @@ export default function(r, t, e) {
 			 * @example
 			 *
 			 *     var hmac = CryptoJS.HmacSHA256(message, key);
-			 */ n.HmacSHA256 = i._createHmacHelper(u), n.SHA256);
+			 */ n.HmacSHA256 = i._createHmacHelper(u), // CommonJS
+    r.exports = n.SHA256;
 /***/ }

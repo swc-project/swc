@@ -16008,8 +16008,8 @@
                     if (master.mediaGroups[mediaType]) for(var groupKey in master.mediaGroups[mediaType])for(var labelKey in master.mediaGroups[mediaType][groupKey])callback(master.mediaGroups[mediaType][groupKey][labelKey], mediaType, groupKey, labelKey);
                 });
             }, setupMediaPlaylist = function(_ref2) {
-                var playlist = _ref2.playlist, uri = _ref2.uri, id = _ref2.id;
-                playlist.id = id, playlist.playlistErrors_ = 0, uri && // For media playlists, m3u8-parser does not have access to a URI, as HLS media
+                var playlist = _ref2.playlist, uri = _ref2.uri;
+                playlist.id = _ref2.id, playlist.playlistErrors_ = 0, uri && // For media playlists, m3u8-parser does not have access to a URI, as HLS media
                 // playlists do not contain their own source URI, but one is needed for consistency in
                 // VHS.
                 (playlist.uri = uri), // stream may still be played without them.
@@ -18677,7 +18677,7 @@
                     var packetData = this.current708Packet.data, b = packetData[i], windowNum = 0x07 & b;
                     service.setCurrentWindow(windowNum);
                     var win = service.currentWindow;
-                    return b = packetData[++i], win.visible = (0x20 & b) >> 5, win.rowLock = (0x10 & b) >> 4, win.columnLock = (0x08 & b) >> 3, win.priority = 0x07 & b, b = packetData[++i], win.relativePositioning = (0x80 & b) >> 7, win.anchorVertical = 0x7f & b, b = packetData[++i], win.anchorHorizontal = b, b = packetData[++i], win.anchorPoint = (0xf0 & b) >> 4, win.rowCount = 0x0f & b, b = packetData[++i], win.columnCount = 0x3f & b, b = packetData[++i], win.windowStyle = (0x38 & b) >> 3, win.penStyle = 0x07 & b, // The spec says there are (rowCount+1) "virtual rows"
+                    return win.visible = (0x20 & (b = packetData[++i])) >> 5, win.rowLock = (0x10 & b) >> 4, win.columnLock = (0x08 & b) >> 3, win.priority = 0x07 & b, win.relativePositioning = (0x80 & (b = packetData[++i])) >> 7, win.anchorVertical = 0x7f & b, win.anchorHorizontal = b = packetData[++i], win.anchorPoint = (0xf0 & (b = packetData[++i])) >> 4, win.rowCount = 0x0f & b, win.columnCount = 0x3f & (b = packetData[++i]), win.windowStyle = (0x38 & (b = packetData[++i])) >> 3, win.penStyle = 0x07 & b, // The spec says there are (rowCount+1) "virtual rows"
                     win.virtualRowCount = win.rowCount + 1, i;
                 }, /**
                      * Parse and execute the SWA command.
@@ -18689,7 +18689,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setWindowAttributes = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], winAttr = service.currentWindow.winAttr;
-                    return b = packetData[++i], winAttr.fillOpacity = (0xc0 & b) >> 6, winAttr.fillRed = (0x30 & b) >> 4, winAttr.fillGreen = (0x0c & b) >> 2, winAttr.fillBlue = 0x03 & b, b = packetData[++i], winAttr.borderType = (0xc0 & b) >> 6, winAttr.borderRed = (0x30 & b) >> 4, winAttr.borderGreen = (0x0c & b) >> 2, winAttr.borderBlue = 0x03 & b, b = packetData[++i], winAttr.borderType += (0x80 & b) >> 5, winAttr.wordWrap = (0x40 & b) >> 6, winAttr.printDirection = (0x30 & b) >> 4, winAttr.scrollDirection = (0x0c & b) >> 2, winAttr.justify = 0x03 & b, b = packetData[++i], winAttr.effectSpeed = (0xf0 & b) >> 4, winAttr.effectDirection = (0x0c & b) >> 2, winAttr.displayEffect = 0x03 & b, i;
+                    return winAttr.fillOpacity = (0xc0 & (b = packetData[++i])) >> 6, winAttr.fillRed = (0x30 & b) >> 4, winAttr.fillGreen = (0x0c & b) >> 2, winAttr.fillBlue = 0x03 & b, winAttr.borderType = (0xc0 & (b = packetData[++i])) >> 6, winAttr.borderRed = (0x30 & b) >> 4, winAttr.borderGreen = (0x0c & b) >> 2, winAttr.borderBlue = 0x03 & b, b = packetData[++i], winAttr.borderType += (0x80 & b) >> 5, winAttr.wordWrap = (0x40 & b) >> 6, winAttr.printDirection = (0x30 & b) >> 4, winAttr.scrollDirection = (0x0c & b) >> 2, winAttr.justify = 0x03 & b, winAttr.effectSpeed = (0xf0 & (b = packetData[++i])) >> 4, winAttr.effectDirection = (0x0c & b) >> 2, winAttr.displayEffect = 0x03 & b, i;
                 }, /**
                      * Gather text from all displayed windows and push a caption to output.
                      *
@@ -18785,7 +18785,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenAttributes = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], penAttr = service.currentWindow.penAttr;
-                    return b = packetData[++i], penAttr.textTag = (0xf0 & b) >> 4, penAttr.offset = (0x0c & b) >> 2, penAttr.penSize = 0x03 & b, b = packetData[++i], penAttr.italics = (0x80 & b) >> 7, penAttr.underline = (0x40 & b) >> 6, penAttr.edgeType = (0x38 & b) >> 3, penAttr.fontStyle = 0x07 & b, i;
+                    return penAttr.textTag = (0xf0 & (b = packetData[++i])) >> 4, penAttr.offset = (0x0c & b) >> 2, penAttr.penSize = 0x03 & b, penAttr.italics = (0x80 & (b = packetData[++i])) >> 7, penAttr.underline = (0x40 & b) >> 6, penAttr.edgeType = (0x38 & b) >> 3, penAttr.fontStyle = 0x07 & b, i;
                 }, /**
                      * Parse and execute the SPC command.
                      *
@@ -18796,7 +18796,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenColor = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], penColor = service.currentWindow.penColor;
-                    return b = packetData[++i], penColor.fgOpacity = (0xc0 & b) >> 6, penColor.fgRed = (0x30 & b) >> 4, penColor.fgGreen = (0x0c & b) >> 2, penColor.fgBlue = 0x03 & b, b = packetData[++i], penColor.bgOpacity = (0xc0 & b) >> 6, penColor.bgRed = (0x30 & b) >> 4, penColor.bgGreen = (0x0c & b) >> 2, penColor.bgBlue = 0x03 & b, b = packetData[++i], penColor.edgeRed = (0x30 & b) >> 4, penColor.edgeGreen = (0x0c & b) >> 2, penColor.edgeBlue = 0x03 & b, i;
+                    return penColor.fgOpacity = (0xc0 & (b = packetData[++i])) >> 6, penColor.fgRed = (0x30 & b) >> 4, penColor.fgGreen = (0x0c & b) >> 2, penColor.fgBlue = 0x03 & b, penColor.bgOpacity = (0xc0 & (b = packetData[++i])) >> 6, penColor.bgRed = (0x30 & b) >> 4, penColor.bgGreen = (0x0c & b) >> 2, penColor.bgBlue = 0x03 & b, penColor.edgeRed = (0x30 & (b = packetData[++i])) >> 4, penColor.edgeGreen = (0x0c & b) >> 2, penColor.edgeBlue = 0x03 & b, i;
                 }, /**
                      * Parse and execute the SPL command.
                      *
@@ -18806,8 +18806,8 @@
                      * @param  {Service} service  The service object to be affected
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenLocation = function(i, service) {
-                    var packetData = this.current708Packet.data, b = packetData[i], penLoc = service.currentWindow.penLoc;
-                    return service.currentWindow.pendingNewLine = !0, b = packetData[++i], penLoc.row = 0x0f & b, b = packetData[++i], penLoc.column = 0x3f & b, i;
+                    var packetData = this.current708Packet.data, penLoc = (packetData[i], service.currentWindow.penLoc);
+                    return service.currentWindow.pendingNewLine = !0, penLoc.row = 0x0f & packetData[++i], penLoc.column = 0x3f & packetData[++i], i;
                 }, /**
                      * Execute the RST command.
                      *
@@ -19376,7 +19376,7 @@
                                         data: tag.data.subarray(frameStart + 10, frameStart + frameSize + 10)
                                     }).key = frame.id, tagParsers[frame.id] && (tagParsers[frame.id](frame), "com.apple.streaming.transportStreamTimestamp" === frame.owner)) {
                                         var d = frame.data, size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                        size *= 4, size += 0x03 & d[7], frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
+                                        size *= 4, frame.timeStamp = size += 0x03 & d[7], void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
                                     }
                                     tag.frames.push(frame), frameStart += 10, frameStart += frameSize;
                                 }while (frameStart < tagSize)
@@ -20438,7 +20438,7 @@
                     }, this)) : this.audioTrack && (timelineStartPts = this.audioTrack.timelineStartInfo.pts, audioProperties.forEach(function(prop) {
                         event.info[prop] = this.audioTrack[prop];
                     }, this)), this.videoTrack || this.audioTrack) {
-                        for(1 === this.pendingTracks.length ? event.type = this.pendingTracks[0].type : event.type = "combined", this.emittedTracks += this.pendingTracks.length, initSegment = mp4Generator.initSegment(this.pendingTracks), event.initSegment = new Uint8Array(initSegment.byteLength), // and track definitions
+                        for(1 === this.pendingTracks.length ? event.type = this.pendingTracks[0].type : event.type = "combined", this.emittedTracks += this.pendingTracks.length, event.initSegment = new Uint8Array((initSegment = mp4Generator.initSegment(this.pendingTracks)).byteLength), // and track definitions
                         event.initSegment.set(initSegment), event.data = new Uint8Array(this.pendingBytes), i = 0; i < this.pendingBoxes.length; i++)event.data.set(this.pendingBoxes[i], offset), offset += this.pendingBoxes[i].byteLength;
                          // Translate caption PTS times into second offsets to match the
                         // video timeline for the segment, and add track info
@@ -20817,7 +20817,7 @@
                         var track = {}, tkhd = findBox_1(trak, [
                             "tkhd"
                         ])[0];
-                        tkhd && (tkhdVersion = (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0), track.id = 0 === tkhdVersion ? view.getUint32(12) : view.getUint32(20));
+                        tkhd && (track.id = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20));
                         var hdlr = findBox_1(trak, [
                             "mdia",
                             "hdlr"
@@ -20833,7 +20833,7 @@
                             "stsd"
                         ])[0];
                         if (stsd) {
-                            var view, tkhdVersion, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
+                            var view, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
                             track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
                             var codecBox = findBox_1(sampleDescriptions, [
                                 track.codec
@@ -25875,7 +25875,7 @@
                     // the playlist we were trying to load (but failed) and that should be
                     // blacklisted instead of the currently selected playlist which is likely
                     // out-of-date in this scenario
-                    var excludeUntil, currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
+                    var currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
                     // trying to load the master OR while we were disposing of the tech
                     if (blacklistDuration = blacklistDuration || error.blacklistDuration || this.blacklistDuration, !currentPlaylist) {
                         this.error = error, "open" !== this.mediaSource.readyState ? this.trigger("error") : this.sourceUpdater_.endOfStream("network");
@@ -25901,7 +25901,7 @@
                         // case where the player might be stuck and looping through "dead" playlists.
                         this.tech_.trigger("retryplaylist"));
                     } // Blacklist this playlist
-                    excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, currentPlaylist.excludeUntil = excludeUntil, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
+                    currentPlaylist.excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-rendition-blacklisted"
                     }), this.tech_.trigger({
@@ -27247,9 +27247,7 @@
                     return VhsSourceHandler.canPlayType(srcObj.type, localOptions);
                 },
                 handleSource: function(source, tech, options) {
-                    void 0 === options && (options = {});
-                    var localOptions = videojs.mergeOptions(videojs.options, options);
-                    return tech.vhs = new VhsHandler(source, tech, localOptions), videojs.hasOwnProperty("hls") || Object.defineProperty(tech, "hls", {
+                    return void 0 === options && (options = {}), tech.vhs = new VhsHandler(source, tech, videojs.mergeOptions(videojs.options, options)), videojs.hasOwnProperty("hls") || Object.defineProperty(tech, "hls", {
                         get: function() {
                             return videojs.log.warn("player.tech().hls is deprecated. Use player.tech().vhs instead."), tech.vhs;
                         },

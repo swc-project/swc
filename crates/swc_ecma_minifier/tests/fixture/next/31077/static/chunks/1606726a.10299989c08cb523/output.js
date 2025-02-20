@@ -1974,7 +1974,7 @@
             }
             function clearComposition(view) {
                 var event;
-                for(view.composing && (view.composing = !1, view.compositionEndedAt = ((event = document.createEvent("Event")).initEvent("event", !0, !0), event.timeStamp)); view.compositionNodes.length > 0;)view.compositionNodes.pop().markParentsDirty();
+                for(view.composing && (view.composing = !1, (event = document.createEvent("Event")).initEvent("event", !0, !0), view.compositionEndedAt = event.timeStamp); view.compositionNodes.length > 0;)view.compositionNodes.pop().markParentsDirty();
             }
             function endComposition(view, forceUpdate) {
                 if (view.domObserver.forceFlush(), clearComposition(view), forceUpdate || view.docView.dirty) {

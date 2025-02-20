@@ -887,7 +887,7 @@
         observer.observe(textNode, {
             characterData: !0
         }), timerFunc = function() {
-            counter = (counter + 1) % 2, textNode.data = String(counter);
+            textNode.data = String(counter = (counter + 1) % 2);
         }, isUsingMicroTask = !0;
     } else // Fallback to setImmediate.
     // Technically it leverages the (macro) task queue,
@@ -945,8 +945,8 @@
     initProxy = function(vm) {
         if (hasProxy) {
             // determine which proxy handler to use
-            var options = vm.$options, handlers = options.render && options.render._withStripped ? getHandler : hasHandler;
-            vm._renderProxy = new Proxy(vm, handlers);
+            var options = vm.$options;
+            vm._renderProxy = new Proxy(vm, options.render && options.render._withStripped ? getHandler : hasHandler);
         } else vm._renderProxy = vm;
     };
     /*  */ var seenObjects = new _Set();
@@ -1275,11 +1275,11 @@
     var componentVNodeHooks = {
         init: function(vnode, hydrating) {
             var options, inlineTemplate;
-            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (options = {
+            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (options = {
                 _isComponent: !0,
                 _parentVnode: vnode,
                 parent: activeInstance
-            }, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
+            }, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), vnode.componentInstance = new vnode.componentOptions.Ctor(options)).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
             var options = vnode.componentOptions;
@@ -1774,7 +1774,7 @@
         var startTag, endTag, listeners, vm, options1, parentVnode, renderContext, parentData, opts, provide, opts1, parentVnode1, vnodeComponentOptions, vm1, result;
         // a uid
         this._uid = uid$3++, config.performance && mark && (startTag = "vue-perf-start:" + this._uid, endTag = "vue-perf-end:" + this._uid, mark(startTag)), // a flag to avoid this being observed
-        this._isVue = !0, options && options._isComponent ? (opts1 = this.$options = Object.create(this.constructor.options), parentVnode1 = options._parentVnode, opts1.parent = options.parent, opts1._parentVnode = parentVnode1, vnodeComponentOptions = parentVnode1.componentOptions, opts1.propsData = vnodeComponentOptions.propsData, opts1._parentListeners = vnodeComponentOptions.listeners, opts1._renderChildren = vnodeComponentOptions.children, opts1._componentTag = vnodeComponentOptions.tag, options.render && (opts1.render = options.render, opts1.staticRenderFns = options.staticRenderFns)) : this.$options = mergeOptions(resolveConstructorOptions(this.constructor), options || {}, this), initProxy(this), // expose real self
+        this._isVue = !0, options && options._isComponent ? (opts1 = this.$options = Object.create(this.constructor.options), parentVnode1 = options._parentVnode, opts1.parent = options.parent, opts1._parentVnode = parentVnode1, opts1.propsData = (vnodeComponentOptions = parentVnode1.componentOptions).propsData, opts1._parentListeners = vnodeComponentOptions.listeners, opts1._renderChildren = vnodeComponentOptions.children, opts1._componentTag = vnodeComponentOptions.tag, options.render && (opts1.render = options.render, opts1.staticRenderFns = options.staticRenderFns)) : this.$options = mergeOptions(resolveConstructorOptions(this.constructor), options || {}, this), initProxy(this), // expose real self
         this._self = this, function(vm) {
             var options = vm.$options, parent = options.parent;
             if (parent && !options.abstract) {
@@ -1782,7 +1782,7 @@
                 parent.$children.push(vm);
             }
             vm.$parent = parent, vm.$root = parent ? parent.$root : vm, vm.$children = [], vm.$refs = {}, vm._watcher = null, vm._inactive = null, vm._directInactive = !1, vm._isMounted = !1, vm._isDestroyed = !1, vm._isBeingDestroyed = !1;
-        }(this), this._events = Object.create(null), this._hasHookEvent = !1, (listeners = this.$options._parentListeners) && updateComponentListeners(this, listeners), vm = this, vm._vnode = null, vm._staticTrees = null, options1 = vm.$options, renderContext = (parentVnode = vm.$vnode = options1._parentVnode) && parentVnode.context, vm.$slots = resolveSlots(options1._renderChildren, renderContext), vm.$scopedSlots = emptyObject, // bind the createElement fn to this instance
+        }(this), this._events = Object.create(null), this._hasHookEvent = !1, (listeners = this.$options._parentListeners) && updateComponentListeners(this, listeners), vm = this, vm._vnode = null, vm._staticTrees = null, renderContext = (parentVnode = vm.$vnode = (options1 = vm.$options)._parentVnode) && parentVnode.context, vm.$slots = resolveSlots(options1._renderChildren, renderContext), vm.$scopedSlots = emptyObject, // bind the createElement fn to this instance
         // so that we get proper render context inside it.
         // args order: tag, data, children, normalizationType, alwaysNormalize
         // internal version is used by render functions compiled from templates

@@ -5300,7 +5300,7 @@
     }
     var hasForceUpdate = !1;
     function initializeUpdateQueue(fiber) {
-        var queue = {
+        fiber.updateQueue = {
             baseState: fiber.memoizedState,
             firstBaseUpdate: null,
             lastBaseUpdate: null,
@@ -5309,21 +5309,17 @@
             },
             effects: null
         };
-        fiber.updateQueue = queue;
     }
     function cloneUpdateQueue(current, workInProgress) {
         // Clone the update queue from current. Unless it's already a clone.
         var queue = workInProgress.updateQueue, currentQueue = current.updateQueue;
-        if (queue === currentQueue) {
-            var clone = {
-                baseState: currentQueue.baseState,
-                firstBaseUpdate: currentQueue.firstBaseUpdate,
-                lastBaseUpdate: currentQueue.lastBaseUpdate,
-                shared: currentQueue.shared,
-                effects: currentQueue.effects
-            };
-            workInProgress.updateQueue = clone;
-        }
+        queue === currentQueue && (workInProgress.updateQueue = {
+            baseState: currentQueue.baseState,
+            firstBaseUpdate: currentQueue.firstBaseUpdate,
+            lastBaseUpdate: currentQueue.lastBaseUpdate,
+            shared: currentQueue.shared,
+            effects: currentQueue.effects
+        });
     }
     function createUpdate(eventTime, lane) {
         return {
@@ -5375,13 +5371,13 @@
                     null === newLast ? newFirst = newLast = capturedUpdate : (newLast.next = capturedUpdate, newLast = capturedUpdate);
                 } else // There are no base updates.
                 newFirst = newLast = capturedUpdate;
-                queue = {
+                workInProgress.updateQueue = queue = {
                     baseState: currentQueue.baseState,
                     firstBaseUpdate: newFirst,
                     lastBaseUpdate: newLast,
                     shared: currentQueue.shared,
                     effects: currentQueue.effects
-                }, workInProgress.updateQueue = queue;
+                };
                 return;
             }
         } // Append the update to the end of the list.
@@ -6454,7 +6450,7 @@
     }
     function mountReducer(reducer, initialArg, init) {
         var initialState, hook = mountWorkInProgressHook();
-        initialState = void 0 !== init ? init(initialArg) : initialArg, hook.memoizedState = hook.baseState = initialState;
+        hook.memoizedState = hook.baseState = initialState = void 0 !== init ? init(initialArg) : initialArg;
         var queue = hook.queue = {
             pending: null,
             dispatch: null,
@@ -6652,7 +6648,7 @@
                 lastRenderedReducer: basicStateReducer,
                 lastRenderedState: snapshot
             };
-            newQueue.dispatch = setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue), stateHook.queue = newQueue, stateHook.baseQueue = null, snapshot = readFromUnsubcribedMutableSource(root, source, getSnapshot), stateHook.memoizedState = stateHook.baseState = snapshot;
+            newQueue.dispatch = setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue), stateHook.queue = newQueue, stateHook.baseQueue = null, stateHook.memoizedState = stateHook.baseState = snapshot = readFromUnsubcribedMutableSource(root, source, getSnapshot);
         }
         return snapshot;
     }
@@ -6744,16 +6740,11 @@
         return updateEffectImpl(4, 2, create, deps);
     }
     function imperativeHandleEffect(create, ref) {
-        if ("function" == typeof ref) return ref(create()), function() {
+        return "function" == typeof ref ? (ref(create()), function() {
             ref(null);
-        };
-        if (null != ref) {
-            ref.hasOwnProperty("current") || error("Expected useImperativeHandle() first argument to either be a ref callback or React.createRef() object. Instead received: %s.", "an object with keys {" + Object.keys(ref).join(", ") + "}");
-            var _inst2 = create();
-            return ref.current = _inst2, function() {
-                ref.current = null;
-            };
-        }
+        }) : null != ref ? (ref.hasOwnProperty("current") || error("Expected useImperativeHandle() first argument to either be a ref callback or React.createRef() object. Instead received: %s.", "an object with keys {" + Object.keys(ref).join(", ") + "}"), ref.current = create(), function() {
+            ref.current = null;
+        }) : void 0;
     }
     function mountImperativeHandle(ref, create, deps) {
         "function" != typeof create && error("Expected useImperativeHandle() second argument to be a function that creates a handle. Instead received: %s.", null !== create ? typeof create : "null");
@@ -7582,16 +7573,14 @@
             if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
                 baseLanes: 0
             }, pushRenderLanes(workInProgress, renderLanes);
-            else if ((1073741824 & renderLanes) != 0) workInProgress.memoizedState = {
-                baseLanes: 0
-            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
             else {
-                nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-                var _nextState = {
+                if ((1073741824 & renderLanes) == 0) return nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {
                     baseLanes: nextBaseLanes
-                };
-                return workInProgress.memoizedState = _nextState, // to avoid a push/pop misalignment.
+                }, // to avoid a push/pop misalignment.
                 pushRenderLanes(workInProgress, nextBaseLanes), null;
+                else workInProgress.memoizedState = {
+                    baseLanes: 0
+                }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
             }
         } else null !== prevState ? (_subtreeRenderLanes = prevState.baseLanes | renderLanes, workInProgress.memoizedState = null) : // We weren't previously hidden, and we still aren't, so there's nothing
         // special to do. Need to push to the stack regardless, though, to avoid
@@ -8486,7 +8475,7 @@
                     if (popHydrationState(workInProgress)) {
                         // TODO: Move this and createInstance step into the beginPhase
                         // to consolidate.
-                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props1 = workInProgress.memoizedProps, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props = props1, node[internalPropsKey] = props, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props1 = workInProgress.memoizedProps, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props = props1, node[internalPropsKey] = props, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -8686,7 +8675,7 @@
                                     trapClickOnNonInteractiveElement(domElement);
                             }
                             return updatePayload;
-                        }(instance, type1, props1, currentHostContext.namespace), workInProgress.updateQueue = updatePayload, null !== updatePayload) // If changes to the hydrated node need to be applied at the
+                        }(instance, type1, props1, currentHostContext.namespace), null !== updatePayload) // If changes to the hydrated node need to be applied at the
                         // commit-phase we mark this as such.
                         markUpdate(workInProgress);
                     } else {
@@ -8857,7 +8846,7 @@
                         return shouldUpdate;
                     })(workInProgress) && markUpdate(workInProgress);
                     else {
-                        workInProgress.stateNode = (validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, textNode);
+                        validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, workInProgress.stateNode = textNode;
                     }
                 }
                 return null;
@@ -9275,8 +9264,8 @@
                     instance.style.display = dangerousStyleValue("display", display);
                 }(node.stateNode, node.memoizedProps);
             } else if (6 === node.tag) {
-                var text, _instance3 = node.stateNode;
-                isHidden ? _instance3.nodeValue = "" : (text = node.memoizedProps, _instance3.nodeValue = text);
+                var _instance3 = node.stateNode;
+                isHidden ? _instance3.nodeValue = "" : _instance3.nodeValue = node.memoizedProps;
             } else if ((23 === node.tag || 24 === node.tag) && null !== node.memoizedState && node !== finishedWork) ;
             else if (null !== node.child) {
                 node.child.return = node, node = node.child;
@@ -9849,9 +9838,7 @@
                 var fatalError = workInProgressRootFatalError;
                 throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
             } // We now have a consistent tree. The next step is either to commit it,
-            // or, if something suspended, wait to commit it after a timeout.
-            var finishedWork = root.current.alternate;
-            root.finishedWork = finishedWork, root.finishedLanes = lanes, function(root, exitStatus, lanes) {
+            root.finishedWork = root.current.alternate, root.finishedLanes = lanes, function(root, exitStatus, lanes) {
                 switch(exitStatus){
                     case 0:
                     case 1:
@@ -9957,9 +9944,7 @@
             var a, lanes, exitStatus, fatalError = workInProgressRootFatalError;
             throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
         } // We now have a consistent tree. Because this is a sync render, we
-        // will commit it even if something suspended.
-        var finishedWork = root.current.alternate;
-        return root.finishedWork = finishedWork, root.finishedLanes = lanes, commitRoot(root), // pending level.
+        return root.finishedWork = root.current.alternate, root.finishedLanes = lanes, commitRoot(root), // pending level.
         ensureRootIsScheduled(root, now()), null;
     }
     function batchedUpdates$1(fn, a) {
@@ -10771,8 +10756,7 @@
         }));
     }
     function invokePassiveEffectCreate(effect) {
-        var create = effect.create;
-        effect.destroy = create();
+        effect.destroy = (0, effect.create)();
     }
     function flushPassiveEffectsImpl() {
         if (null === rootWithPendingPassiveEffects) return !1;
@@ -11438,10 +11422,10 @@
         // Tag is either LegacyRoot or Concurrent Root
         var root, mode, uninitializedFiber, hostRoot, hydrate = null != options && !0 === options.hydrate;
         null != options && options.hydrationOptions;
-        var mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = (root = new FiberRootNode(container, tag, hydrate), mode = 2 === tag ? 7 : 3 * (1 === tag), isDevToolsPresent && // Always collect profile timings when DevTools are present.
+        var mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root1 = ((root = new FiberRootNode(container, tag, hydrate)).current = (mode = 2 === tag ? 7 : 3 * (1 === tag), isDevToolsPresent && // Always collect profile timings when DevTools are present.
         // This enables DevTools to start capturing timing at any point–
         // Without some nodes in the tree having empty base times.
-        (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
+        (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode)), uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
         if (hostRoot = root1.current, container[internalContainerInstanceKey] = hostRoot, container.nodeType, listenToAllSupportedEvents(8 === container.nodeType ? container.parentNode : container), mutableSources) for(var i = 0; i < mutableSources.length; i++)!// This ensures that the version used for server rendering matches the one
         // that is eventually read during hydration.
         // If they don't match there's a potential tear and a full deopt render is required.

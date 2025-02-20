@@ -6,7 +6,7 @@ export function a(module, exports, farmRequire, farmDynamicRequire) {
     const _interop_require_default = farmRequire("@swc/helpers/_/_interop_require_default"), _typeof = _interop_require_default._(farmRequire("8178b9bd")), _dep734fea04 = farmRequire("92648bed"), _dayjs = _interop_require_default._(farmRequire("d0dc4dad"));
     return farmRequire("15d5169f"), (0, _dep734fea04.c)(function(module, exports) {
         var e, t, d;
-        _dep734fea04.a, module.exports = (t = (e = _dayjs.default) && "object" == (0, _typeof.default)(e) && "default" in e ? e : {
+        _dep734fea04.a, t = (e = _dayjs.default) && "object" == (0, _typeof.default)(e) && "default" in e ? e : {
             default: e
         }, d = {
             name: "zh-cn",
@@ -51,6 +51,6 @@ export function a(module, exports, farmRequire, farmDynamicRequire) {
                 var t = 100 * e + _;
                 return t < 600 ? "凌晨" : t < 900 ? "早上" : t < 1100 ? "上午" : t < 1300 ? "中午" : t < 1800 ? "下午" : "晚上";
             }
-        }, t.default.locale(d, null, !0), d);
+        }, t.default.locale(d, null, !0), module.exports = d;
     });
 }

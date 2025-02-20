@@ -799,7 +799,7 @@
                                     const G = m[4];
                                     null != G && (c.za = G, c.h.info("SVER=" + c.za));
                                     const Da = m[5];
-                                    null != Da && "number" == typeof Da && 0 < Da && (d = 1.5 * Da, c.K = d, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
+                                    null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
                                     const ca = a.g;
                                     if (ca) {
                                         const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
@@ -1410,7 +1410,7 @@
                         }
                     }
                 }
-                return a = a.l.splice(0, c), b.D = a, d;
+                return b.D = a = a.l.splice(0, c), d;
             }
             function Gc(a) {
                 a.g || a.u || (a.Y = 1, zb(a.Ga, a), a.A = 0);
@@ -2169,7 +2169,7 @@
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -2188,9 +2188,9 @@
                         rootMargin: rootMargin
                     })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
+                    }), observer.observe(el), unobserve.current = function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                    }));
+                    });
                 }, [
                     isDisabled,
                     rootMargin,

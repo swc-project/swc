@@ -3108,7 +3108,7 @@
                 baseStyle: function(props) {
                     var _rtl, _container;
                     return {
-                        container: ((_container = {})[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, _container._rtl = ((_rtl = {})[$translateX.variable] = calc($diff).negate().toString(), _rtl), _container),
+                        container: ((_container = {})[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, (_rtl = {})[$translateX.variable] = calc($diff).negate().toString(), _container._rtl = _rtl, _container),
                         track: baseStyleTrack(props),
                         thumb: baseStyleThumb
                     };

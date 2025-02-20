@@ -1,6 +1,6 @@
 export default function(module, __unused_webpack_exports, __webpack_require__) {
-    var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, splice, Bottleneck_1;
-    module.exports = (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
+    var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, require$$8, splice, Bottleneck_1;
+    commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
         load: function(received, defaults, onto = {}) {
             var k, ref, v;
             for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
@@ -456,7 +456,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             maxSize: null,
             Promise: Promise
         }, Batcher;
-    }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Bottleneck_1 = (function() {
+    }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), module.exports = Bottleneck_1 = (function() {
         class Bottleneck {
             constructor(options = {}, ...invalid){
                 var storeOptions;
@@ -708,5 +708,5 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             dropWaitingJobs: !0,
             dropErrorMessage: "This limiter has been stopped."
         }, Bottleneck;
-    }).call(commonjsGlobal));
+    }).call(commonjsGlobal);
 /***/ }
