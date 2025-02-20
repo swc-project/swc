@@ -1,7 +1,35 @@
 //! Various flavors of allocator.
 
-pub mod arena {}
+/// Re-export for convenience.
+#[cfg(feature = "hashbrown")]
+pub extern crate hashbrown;
 
-pub mod scoped {}
+macro_rules! impl_api {
+    ($alloc:ident) => {
+        #[cfg(feature = "hashbrown")]
+        use rustc_hash::FxBuildHasher;
 
-pub mod global {}
+        /// See [hashbrown::HashMap].
+        #[cfg(feature = "hashbrown")]
+        pub type HashMap<K, V, S = FxBuildHasher, A = $alloc> = hashbrown::HashMap<K, V, S, A>;
+
+        /// See [hashbrown::HashSet].
+        #[cfg(feature = "hashbrown")]
+        pub type HashSet<T, S = FxBuildHasher, A = $alloc> = hashbrown::HashSet<T, S, A>;
+    };
+}
+
+pub mod arena {
+    use crate::allocators::Arena;
+    impl_api!(Arena);
+}
+
+pub mod scoped {
+    use crate::allocators::Scoped;
+    impl_api!(Scoped);
+}
+
+pub mod global {
+    use crate::allocators::Global;
+    impl_api!(Global);
+}
