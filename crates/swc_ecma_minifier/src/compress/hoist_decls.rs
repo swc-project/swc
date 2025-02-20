@@ -19,7 +19,10 @@ pub(super) struct DeclHoisterConfig {
     pub _top_level: bool,
 }
 
-pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
+pub(super) fn decl_hoister<'a, 'alloc>(
+    config: DeclHoisterConfig,
+    data: &'a ProgramData<'alloc>,
+) -> Hoister<'a, 'alloc> {
     Hoister {
         config,
         changed: false,
@@ -27,13 +30,13 @@ pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoi
     }
 }
 
-pub(super) struct Hoister<'a> {
+pub(super) struct Hoister<'a, 'alloc> {
     config: DeclHoisterConfig,
     changed: bool,
-    data: &'a ProgramData,
+    data: &'a ProgramData<'alloc>,
 }
 
-impl Repeated for Hoister<'_> {
+impl Repeated for Hoister<'_, '_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -43,11 +46,12 @@ impl Repeated for Hoister<'_> {
     }
 }
 
-impl Hoister<'_> {
+impl<'alloc> Hoister<'_, 'alloc> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem + ModuleItemExt,
-        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer<ProgramData>>,
+        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa, 'alloc>>
+            + VisitWith<UsageAnalyzer<ProgramData<'alloc>>>,
     {
         stmts.visit_mut_children_with(self);
         let len = stmts.len();
@@ -279,7 +283,7 @@ impl Hoister<'_> {
     }
 }
 
-impl VisitMut for Hoister<'_> {
+impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
