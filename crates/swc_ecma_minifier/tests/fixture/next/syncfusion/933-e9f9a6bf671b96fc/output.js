@@ -6993,11 +6993,9 @@
      * @param {MouseEventArgs | TouchEventArgs} evt ?
      * @returns {void} ?
      */ Touch.prototype.tapHoldEvent = function(evt) {
-                    var eTapArgs;
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), // eslint-disable-next-line
-                    eTapArgs = {
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
                         originalEvent: evt
-                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
