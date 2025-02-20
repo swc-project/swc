@@ -33,18 +33,18 @@ unsafe impl std::alloc::Allocator for Arena {
         &self,
         layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::allocate(&self.inner, layout)
+        std::alloc::Allocator::allocate(&&self.inner, layout)
     }
 
     unsafe fn deallocate(&self, ptr: std::ptr::NonNull<u8>, layout: std::alloc::Layout) {
-        std::alloc::Allocator::deallocate(&self.inner, ptr, layout)
+        std::alloc::Allocator::deallocate(&&self.inner, ptr, layout)
     }
 
     fn allocate_zeroed(
         &self,
         layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::allocate_zeroed(&self.inner, layout)
+        std::alloc::Allocator::allocate_zeroed(&&self.inner, layout)
     }
 
     unsafe fn grow(
@@ -53,7 +53,7 @@ unsafe impl std::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::grow(&self.inner, ptr, old_layout, new_layout)
+        std::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout)
     }
 
     unsafe fn grow_zeroed(
@@ -62,7 +62,7 @@ unsafe impl std::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::grow_zeroed(&self.inner, ptr, old_layout, new_layout)
+        std::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout)
     }
 
     unsafe fn shrink(
@@ -71,7 +71,7 @@ unsafe impl std::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::shrink(&self.inner, ptr, old_layout, new_layout)
+        std::alloc::Allocator::shrink(&&self.inner, ptr, old_layout, new_layout)
     }
 }
 
@@ -81,18 +81,18 @@ unsafe impl allocator_api2::alloc::Allocator for Arena {
         &self,
         layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        allocator_api2::alloc::Allocator::allocate(&self.inner, layout)
+        allocator_api2::alloc::Allocator::allocate(&&self.inner, layout)
     }
 
     unsafe fn deallocate(&self, ptr: std::ptr::NonNull<u8>, layout: std::alloc::Layout) {
-        allocator_api2::alloc::Allocator::deallocate(&self.inner, ptr, layout)
+        allocator_api2::alloc::Allocator::deallocate(&&self.inner, ptr, layout)
     }
 
     fn allocate_zeroed(
         &self,
         layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        allocator_api2::alloc::Allocator::allocate_zeroed(&self.inner, layout)
+        allocator_api2::alloc::Allocator::allocate_zeroed(&&self.inner, layout)
     }
 
     unsafe fn grow(
@@ -101,7 +101,7 @@ unsafe impl allocator_api2::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        allocator_api2::alloc::Allocator::grow(&self.inner, ptr, old_layout, new_layout)
+        allocator_api2::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout)
     }
 
     unsafe fn grow_zeroed(
@@ -110,7 +110,7 @@ unsafe impl allocator_api2::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        allocator_api2::alloc::Allocator::grow_zeroed(&self.inner, ptr, old_layout, new_layout)
+        allocator_api2::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout)
     }
 
     unsafe fn shrink(
@@ -119,6 +119,6 @@ unsafe impl allocator_api2::alloc::Allocator for Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, allocator_api2::alloc::AllocError> {
-        allocator_api2::alloc::Allocator::shrink(&self.inner, ptr, old_layout, new_layout)
+        allocator_api2::alloc::Allocator::shrink(&&self.inner, ptr, old_layout, new_layout)
     }
 }
