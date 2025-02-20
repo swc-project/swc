@@ -1,3 +1,5 @@
+use swc_atoms::Atom;
+use swc_allocator::allocators::Arena;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -6,9 +8,11 @@ use swc_ecma_utils::{Type, Value};
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
-pub trait Storage: Sized + Default {
-    type ScopeData: ScopeDataLike;
-    type VarData: VarDataLike;
+pub trait Storage<'alloc>: Sized {
+    type ScopeData: ScopeDataLike<'alloc>;
+    type VarData: VarDataLike<'alloc>;
+
+    fn new(alloc: &'alloc Arena) -> Self;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
@@ -36,7 +40,9 @@ pub trait Storage: Sized + Default {
     fn mark_property_mutation(&mut self, id: Id);
 }
 
-pub trait ScopeDataLike: Sized + Default + Clone {
+pub trait ScopeDataLike<'alloc>: Sized + Clone {
+    fn new(alloc: &'alloc Arena) -> Self;
+
     fn add_declared_symbol(&mut self, id: &Ident);
 
     fn merge(&mut self, other: Self, is_child: bool);
@@ -48,7 +54,7 @@ pub trait ScopeDataLike: Sized + Default + Clone {
     fn mark_with_stmt(&mut self);
 }
 
-pub trait VarDataLike: Sized {
+pub trait VarDataLike<'alloc>: Sized {
     /// See `declared_as_fn_param` of [crate::analyzer::VarUsageInfo].
     fn mark_declared_as_fn_param(&mut self);
 
