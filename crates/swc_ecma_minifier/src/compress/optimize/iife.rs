@@ -964,7 +964,7 @@ impl<'alloc> Optimizer<'_, 'alloc> {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
-                            let ids = find_pat_ids(decl);
+                            let ids: Vec<Id> = find_pat_ids(decl);
 
                             for id in ids {
                                 if let Some(usage) = self.data.vars.get_mut(&id) {
