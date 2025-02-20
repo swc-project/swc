@@ -5,21 +5,31 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
+use crate::util::Allocator;
+
 #[cfg(feature = "rkyv")]
 mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-use crate::{boxed::Box, FastAlloc};
-
-/// Faster version of [`std::vec::Vec`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
+#[cfg(feature = "nightly")]
+pub struct Vec<T, A>(std::vec::Vec<T, A>)
+where
+    A: std::alloc::Allocator;
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+#[cfg(not(feature = "nightly"))]
 pub struct Vec<T, A>(allocator_api2::vec::Vec<T, A>)
 where
     A: allocator_api2::alloc::Allocator;
 
-impl<T> Vec<T> {
+impl<T, A> Vec<T, A>
+where
+    A: Allocator,
+{
     /// Constructs a new, empty `Vec<T>`.
     ///
     /// The vector will not allocate until elements are pushed onto it.
