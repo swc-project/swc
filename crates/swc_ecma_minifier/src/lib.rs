@@ -137,12 +137,10 @@ pub fn optimize(
     }
 
     if options.compress.is_some() {
-        n.visit_mut_with(&mut info_marker(
-            options.compress.as_ref(),
-            comments,
-            marks,
-            // extra.unresolved_mark,
-        ));
+        swc_ecma_visit_std::VisitMutWith::visit_mut_with(
+            &mut n,
+            &mut info_marker(options.compress.as_ref(), comments, marks),
+        );
         debug_assert_valid(&n);
     }
 

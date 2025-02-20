@@ -2,7 +2,7 @@
 // use swc_ecma_ast::*;
 // use swc_ecma_parser::{lexer::Lexer, Parser};
 // use swc_ecma_transforms::resolver_with_mark;
-// use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
+// use swc_ecma_visit_std::{Node, Visit, VisitMutWith, VisitWith};
 
 // use crate::marks::Marks;
 

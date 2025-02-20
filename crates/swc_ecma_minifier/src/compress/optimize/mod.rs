@@ -431,7 +431,9 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>: VisitMutWith<Self>
+            + swc_ecma_visit_std::VisitWith<UsageAnalyzer<ProgramData>>
+            + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();

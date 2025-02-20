@@ -16,7 +16,7 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{Merge, Type, Value};
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit_std::VisitWith;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
