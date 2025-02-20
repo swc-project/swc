@@ -34,19 +34,9 @@
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 
-pub use crate::alloc::Allocator;
-
-mod alloc;
 pub mod allocators;
 pub mod api;
-#[cfg(feature = "nightly")]
-pub mod boxed;
-pub mod collections;
-#[cfg(feature = "hashbrown")]
-pub mod hashbrown;
 mod util;
-#[cfg(feature = "nightly")]
-pub mod vec;
 
 /// Box<T> and Vec<T> depeding on the feature.
 pub mod maybe {
