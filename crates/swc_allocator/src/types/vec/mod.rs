@@ -12,17 +12,15 @@ mod rkyv;
 #[cfg(feature = "serde")]
 mod serde;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
 #[cfg(feature = "nightly")]
-pub struct Vec<T, A>(std::vec::Vec<T, A>)
-where
-    A: Allocator;
+type Inner<T, A> = std::vec::Vec<T, A>;
+
+#[cfg(not(feature = "nightly"))]
+type Inner<T, A> = allocator_api2::vec::Vec<T, A>;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-#[cfg(not(feature = "nightly"))]
-pub struct Vec<T, A>(allocator_api2::vec::Vec<T, A>)
+pub struct Vec<T, A>(Inner<T, A>)
 where
     A: Allocator;
 
