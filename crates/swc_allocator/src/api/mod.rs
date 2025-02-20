@@ -9,13 +9,19 @@ macro_rules! impl_api {
         #[cfg(feature = "hashbrown")]
         use rustc_hash::FxBuildHasher;
 
-        /// See [hashbrown::HashMap].
+        /// See [`hashbrown::HashMap`].
         #[cfg(feature = "hashbrown")]
         pub type HashMap<K, V, S = FxBuildHasher, A = $alloc> = hashbrown::HashMap<K, V, S, A>;
 
-        /// See [hashbrown::HashSet].
+        /// See [`hashbrown::HashSet`].
         #[cfg(feature = "hashbrown")]
         pub type HashSet<T, S = FxBuildHasher, A = $alloc> = hashbrown::HashSet<T, S, A>;
+
+        /// See [`std::boxed::Box`].
+        pub type Box<T, A = $alloc> = allocator_api2::boxed::Box<T, A>;
+
+        /// See [`std::vec::Vec`].
+        pub type Vec<T, A = $alloc> = allocator_api2::vec::Vec<T, A>;
     };
 }
 
