@@ -1923,9 +1923,6 @@ name = "hashbrown"
 version = "0.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289"
-dependencies = [
- "allocator-api2",
-]
 
 [[package]]
 name = "heapless"
@@ -3187,19 +3184,6 @@ name = "owo-colors"
 version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "caff54706df99d2a78a5a4e3455ff45448d81ef1bb63c22cd14052ca0e993a3f"
-
-[[package]]
-name = "oxc_allocator"
-version = "0.51.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a6d450673da14c60c6946deb0c06d68377d2d6f2ee41ad5b462fa9894001560"
-dependencies = [
- "allocator-api2",
- "bumpalo",
- "hashbrown 0.15.2",
- "rustc-hash 2.1.0",
- "simdutf8",
-]
 
 [[package]]
 name = "parking_lot"
@@ -5366,7 +5350,6 @@ dependencies = [
  "num-bigint",
  "num_cpus",
  "once_cell",
- "oxc_allocator",
  "parking_lot",
  "phf",
  "pretty_assertions",
