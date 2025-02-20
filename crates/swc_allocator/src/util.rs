@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 #[cfg(feature = "nightly")]
 pub use std::alloc::Allocator;
 
