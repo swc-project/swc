@@ -34,57 +34,12 @@
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 
+pub use crate::types::*;
+
 pub mod allocators;
 pub mod api;
 mod types;
 mod util;
-
-/// Box<T> and Vec<T> depeding on the feature.
-pub mod maybe {
-    #[cfg(not(feature = "nightly"))]
-    pub use std::{boxed, vec};
-
-    #[cfg(feature = "nightly")]
-    pub use crate::{boxed, vec};
-}
-
-/// Fast allocator, effectively working as a cache.
-///
-/// This type implements [Default] and [Copy]. This type is intended to stored
-/// in a variable or a field in a struct before allocating code, and used as the
-/// seocnd argument in [crate::boxed::Box::new_in] and
-/// [crate::vec::Vec::new_in].
-///
-/// [crate::boxed::Box::new] and [crate::vec::Vec::new] are slower than using
-/// this field because they use [FastAlloc::default] internally, which is slower
-/// than store [FastAlloc] in a variable.
-///
-///
-///
-/// # Misc
-///
-/// It implements [`std::alloc::Allocator`]. So it can be used as the
-/// second argument for [`std::boxed::Box`] and
-/// [`std::vec::Vec`]. But you should prefer using
-/// [`crate::boxed::Box`] and [`crate::vec::Vec`], which is a wrapper around the
-/// original types.
-#[derive(Clone, Copy)]
-pub struct FastAlloc {
-    #[cfg(feature = "scoped")]
-    alloc: Option<&'static Allocator>,
-}
-
-impl FastAlloc {
-    /// [crate::boxed::Box] or [crate::vec::Vec] created with this instance is
-    /// managed by the global allocator and it can outlive the
-    /// [crate::Allocator] instance used for [Allocator::scope].
-    pub const fn global() -> Self {
-        Self {
-            #[cfg(feature = "scoped")]
-            alloc: None,
-        }
-    }
-}
 
 /// This expands to the given tokens if the `nightly` feature is enabled.
 #[cfg(feature = "nightly")]

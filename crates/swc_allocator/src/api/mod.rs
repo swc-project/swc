@@ -18,10 +18,10 @@ macro_rules! impl_api {
         pub type HashSet<T, S = FxBuildHasher, A = $alloc> = hashbrown::HashSet<T, S, A>;
 
         /// See [`std::boxed::Box`].
-        pub type Box<T, A = $alloc> = allocator_api2::boxed::Box<T, A>;
+        pub type Box<T, A = $alloc> = crate::Box<T, A>;
 
         /// See [`std::vec::Vec`].
-        pub type Vec<T, A = $alloc> = allocator_api2::vec::Vec<T, A>;
+        pub type Vec<T, A = $alloc> = crate::Vec<T, A>;
     };
 }
 
