@@ -432,7 +432,7 @@ impl<'alloc> Optimizer<'_, 'alloc> {
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self>
-            + VisitWith<UsageAnalyzer<ProgramData<'alloc>>>
+            + VisitWith<UsageAnalyzer<'alloc, ProgramData<'alloc>>>
             + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
