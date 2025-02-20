@@ -19,7 +19,7 @@ use crate::{
 pub struct Evaluator {
     expr_ctx: ExprCtx,
 
-    module: Module,
+    program: Program,
     marks: Marks,
     data: Eval,
     /// We run minification only once.
@@ -36,7 +36,7 @@ impl Evaluator {
                 remaining_depth: 3,
             },
 
-            module,
+            program: Program::Module(module),
             marks,
             data: Default::default(),
             done: Default::default(),
@@ -88,7 +88,7 @@ impl Evaluator {
             let marks = self.marks;
             let data = self.data.clone();
             //
-            self.module.visit_mut_with(&mut compressor(
+            self.program.mutate(&mut compressor(
                 marks,
                 &CompressOptions {
                     // We should not drop unused variables.

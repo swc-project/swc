@@ -186,7 +186,7 @@ pub fn optimize(
         {
             let _timer = timer!("compress ast");
 
-            n.visit_mut_with(&mut compressor(
+            n.mutate(&mut compressor(
                 marks,
                 c,
                 options.mangle.as_ref(),

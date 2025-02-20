@@ -520,6 +520,7 @@ impl Visit for EvalFinder {
     }
 }
 
+#[allow(unused)]
 pub(crate) fn dump_program(p: &Program) -> String {
     #[cfg(feature = "debug")]
     {
