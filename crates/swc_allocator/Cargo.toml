@@ -22,7 +22,6 @@ nightly = [
   "hashbrown/nightly",
 ]
 rkyv = ["dep:rkyv", "dep:rancor"]
-scoped = ["nightly"]
 serde = ["dep:serde"]
 # This feature is used to suppress warnings about slowness caused by stable rustc.
 # It's recommended to use nightly rustc until the allocator APIs are stabilized.
@@ -31,18 +30,14 @@ skip-warning = []
 
 [dependencies]
 allocator-api2 = { workspace = true }
-bumpalo = { workspace = true, features = [
-  "boxed",
-  "collections",
-  "allocator-api2",
-] }
-hashbrown = { workspace = true, optional = true }
-ptr_meta = { workspace = true }
-rancor = { workspace = true, optional = true }
-rkyv = { workspace = true, optional = true }
-rustc-hash = { workspace = true }
-serde = { workspace = true, optional = true }
-triomphe = { workspace = true }
+bumpalo        = { workspace = true, features = ["allocator-api2"] }
+hashbrown      = { workspace = true, optional = true }
+ptr_meta       = { workspace = true }
+rancor         = { workspace = true, optional = true }
+rkyv           = { workspace = true, optional = true }
+rustc-hash     = { workspace = true }
+serde          = { workspace = true, optional = true }
+triomphe       = { workspace = true }
 
 
 [dev-dependencies]
