@@ -5766,6 +5766,7 @@ version = "11.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.0",
+ "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
