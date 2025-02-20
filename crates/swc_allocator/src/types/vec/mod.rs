@@ -15,7 +15,9 @@ use crate::{boxed::Box, FastAlloc};
 /// Faster version of [`std::vec::Vec`].
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-pub struct Vec<T>(std::vec::Vec<T, FastAlloc>);
+pub struct Vec<T, A>(allocator_api2::vec::Vec<T, A>)
+where
+    A: allocator_api2::alloc::Allocator;
 
 impl<T> Vec<T> {
     /// Constructs a new, empty `Vec<T>`.
