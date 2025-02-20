@@ -26,11 +26,10 @@ type Inner<T, A> = allocator_api2::boxed::Box<T, A>;
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(
     not(feature = "skip-warning"),
-    deprecated(
-        note = "This type is slow if the cargo feature `nightly` is not enabled. You can enable \
-                `swc_allocator/nightly` to make this type faster, or `swc_allocator/skip-warning` \
-                to suppress this warning."
-    )
+    deprecated(note = "This type is slow due to less optimizations (due to lack of \
+                       specialization in stable rust) if the cargo feature `nightly` is not \
+                       enabled. You can enable `swc_allocator/nightly` to make this type \
+                       faster, or `swc_allocator/skip-warning` to suppress this warning.")
 )]
 pub struct Box<T: ?Sized, A: Allocator>(Inner<T, A>);
 
