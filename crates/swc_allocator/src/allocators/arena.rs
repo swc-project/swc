@@ -30,6 +30,7 @@ impl From<Bump> for Arena {
 
 #[cfg(feature = "nightly")]
 unsafe impl std::alloc::Allocator for &'_ Arena {
+    #[inline]
     fn allocate(
         &self,
         layout: std::alloc::Layout,
@@ -37,10 +38,12 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         std::alloc::Allocator::allocate(&&self.inner, layout)
     }
 
+    #[inline]
     unsafe fn deallocate(&self, ptr: std::ptr::NonNull<u8>, layout: std::alloc::Layout) {
         std::alloc::Allocator::deallocate(&&self.inner, ptr, layout)
     }
 
+    #[inline]
     fn allocate_zeroed(
         &self,
         layout: std::alloc::Layout,
@@ -48,6 +51,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         std::alloc::Allocator::allocate_zeroed(&&self.inner, layout)
     }
 
+    #[inline]
     unsafe fn grow(
         &self,
         ptr: std::ptr::NonNull<u8>,
@@ -57,6 +61,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         std::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout)
     }
 
+    #[inline]
     unsafe fn grow_zeroed(
         &self,
         ptr: std::ptr::NonNull<u8>,
@@ -66,6 +71,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         std::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout)
     }
 
+    #[inline]
     unsafe fn shrink(
         &self,
         ptr: std::ptr::NonNull<u8>,
@@ -78,6 +84,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
 
 #[cfg(not(feature = "nightly"))]
 unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
+    #[inline]
     fn allocate(
         &self,
         layout: std::alloc::Layout,
@@ -85,10 +92,12 @@ unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
         allocator_api2::alloc::Allocator::allocate(&&self.inner, layout)
     }
 
+    #[inline]
     unsafe fn deallocate(&self, ptr: std::ptr::NonNull<u8>, layout: std::alloc::Layout) {
         allocator_api2::alloc::Allocator::deallocate(&&self.inner, ptr, layout)
     }
 
+    #[inline]
     fn allocate_zeroed(
         &self,
         layout: std::alloc::Layout,
@@ -96,6 +105,7 @@ unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
         allocator_api2::alloc::Allocator::allocate_zeroed(&&self.inner, layout)
     }
 
+    #[inline]
     unsafe fn grow(
         &self,
         ptr: std::ptr::NonNull<u8>,
@@ -105,6 +115,7 @@ unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
         allocator_api2::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout)
     }
 
+    #[inline]
     unsafe fn grow_zeroed(
         &self,
         ptr: std::ptr::NonNull<u8>,
@@ -114,6 +125,7 @@ unsafe impl allocator_api2::alloc::Allocator for &'_ Arena {
         allocator_api2::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout)
     }
 
+    #[inline]
     unsafe fn shrink(
         &self,
         ptr: std::ptr::NonNull<u8>,
