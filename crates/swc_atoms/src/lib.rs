@@ -22,8 +22,9 @@ use once_cell::sync::Lazy;
 use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
+pub use crate::fast::UnsafeAtom;
 
-pub mod fast;
+mod fast;
 
 /// Clone-on-write string.
 ///
