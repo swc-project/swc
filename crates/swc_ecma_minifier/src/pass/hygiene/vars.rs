@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
 use fxhash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
@@ -27,7 +27,7 @@ where
 
 #[derive(Debug, Default)]
 pub(super) struct VarHygieneData {
-    pub decls: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
+    pub decls: FxHashMap<Atom, FxHashSet<SyntaxContext>>,
 }
 
 #[derive(Default)]

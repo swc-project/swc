@@ -1,5 +1,5 @@
 use phf::phf_set;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::Spanned;
 use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
@@ -265,7 +265,7 @@ impl Pure<'_> {
             /// ({}).foo
             ///
             /// ({}).length
-            IndexStr(JsWord),
+            IndexStr(Atom),
         }
 
         let op = match prop {
@@ -292,7 +292,7 @@ impl Pure<'_> {
                     if let Ok(n) = s.parse::<f64>() {
                         KnownOp::Index(n)
                     } else {
-                        KnownOp::IndexStr(JsWord::from(s))
+                        KnownOp::IndexStr(Atom::from(s))
                     }
                 }
             },
