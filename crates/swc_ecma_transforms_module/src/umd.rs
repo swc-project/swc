@@ -1,5 +1,5 @@
 use anyhow::Context;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext,
     DUMMY_SP,
@@ -60,7 +60,7 @@ pub struct Umd {
 
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
+    dep_list: Vec<(Ident, Atom, SpanCtx)>,
 
     exports: Option<Ident>,
 }

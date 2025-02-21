@@ -1,12 +1,12 @@
 //! Import/export analyzer
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_css_ast::{
     ComponentValue, Declaration, DeclarationName, ImportHref, ImportPrelude, Stylesheet, UrlValue,
 };
 use swc_css_visit::{Visit, VisitWith};
 
-pub fn analyze_imports(ss: &Stylesheet) -> Vec<JsWord> {
+pub fn analyze_imports(ss: &Stylesheet) -> Vec<Atom> {
     let mut v = Analyzer {
         imports: Default::default(),
     };
@@ -17,7 +17,7 @@ pub fn analyze_imports(ss: &Stylesheet) -> Vec<JsWord> {
 }
 
 struct Analyzer {
-    imports: Vec<JsWord>,
+    imports: Vec<Atom>,
 }
 
 impl Visit for Analyzer {

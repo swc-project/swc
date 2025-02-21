@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitMutWith, VisitWith};
@@ -15,9 +15,9 @@ enum ParentNode<'a> {
 
 #[derive(Eq, Hash, PartialEq)]
 enum Name {
-    CounterStyle(JsWord),
+    CounterStyle(Atom),
     // We need to keep prefixed keyframes, i.e. `@-webkit-keyframes`
-    Keyframes(JsWord, JsWord),
+    Keyframes(Atom, Atom),
 }
 
 struct CompatibilityChecker {
@@ -50,7 +50,7 @@ impl Visit for CompatibilityChecker {
 }
 
 impl Compressor {
-    fn get_at_rule_name(&self, at_rule: &AtRule) -> JsWord {
+    fn get_at_rule_name(&self, at_rule: &AtRule) -> Atom {
         match &at_rule.name {
             AtRuleName::Ident(Ident { value, .. }) => value.clone(),
             AtRuleName::DashedIdent(DashedIdent { value, .. }) => value.clone(),
@@ -664,6 +664,6 @@ impl Compressor {
 }
 
 #[inline]
-fn need_keep_by_name(name: &JsWord) -> bool {
+fn need_keep_by_name(name: &Atom) -> bool {
     *name == "color-profile"
 }

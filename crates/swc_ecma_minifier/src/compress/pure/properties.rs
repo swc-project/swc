@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::atom;
 use swc_ecma_ast::*;
 
 use super::Pure;
@@ -110,7 +110,7 @@ impl Pure<'_> {
 
         match &*c.expr {
             Expr::Lit(Lit::Str(s)) => {
-                if s.value == js_word!("")
+                if s.value == atom!("")
                     || s.value.starts_with(|c: char| c.is_ascii_digit())
                     || s.value
                         .contains(|c: char| !matches!(c, '0'..='9' | 'a'..='z' | 'A'..='Z' | '$'))

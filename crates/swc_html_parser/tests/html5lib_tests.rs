@@ -6,7 +6,7 @@ use std::{fs, mem::take, path::PathBuf};
 use common::{document_span_visualizer, DomVisualizer};
 use rustc_hash::FxHashSet;
 use serde_json::Value;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     input::{SourceFileInput, StringInput},
     BytePos,
@@ -140,7 +140,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             lexer.set_input_state(state.clone());
 
             if let Some(last_start_tag) = test.get("lastStartTag") {
-                let last_start_tag: JsWord = serde_json::from_value(last_start_tag.clone())
+                let last_start_tag: Atom = serde_json::from_value(last_start_tag.clone())
                     .expect("failed to get lastStartTag in test");
 
                 lexer.set_last_start_tag_name(&last_start_tag);
@@ -169,7 +169,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         *raw_tag_name = None;
 
                         let mut new_attributes = Vec::new();
-                        let mut already_seen: FxHashSet<JsWord> = Default::default();
+                        let mut already_seen: FxHashSet<Atom> = Default::default();
 
                         for mut attribute in take(attributes) {
                             if already_seen.contains(&attribute.name) {

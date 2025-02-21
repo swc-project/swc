@@ -438,8 +438,8 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-fn get_qualified_jsx_name(name: &JSXElementName) -> JsWord {
-    fn get_qualified_obj_name(obj: &JSXObject) -> JsWord {
+fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
+    fn get_qualified_obj_name(obj: &JSXObject) -> Atom {
         match *obj {
             JSXObject::Ident(ref i) => i.sym.clone(),
             JSXObject::JSXMemberExpr(ref member) => format!(

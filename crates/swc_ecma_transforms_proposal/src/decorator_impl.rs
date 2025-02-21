@@ -1,7 +1,7 @@
 use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -1030,7 +1030,7 @@ impl VisitMut for DecoratorPass {
 
                     let name;
                     let init;
-                    let field_name_like: JsWord;
+                    let field_name_like: Atom;
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
                         key: match &mut accessor.key {

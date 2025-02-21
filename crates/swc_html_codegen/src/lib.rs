@@ -6,7 +6,7 @@
 pub use std::fmt::Result;
 use std::{borrow::Cow, iter::Peekable, str::Chars};
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::Spanned;
 use swc_html_ast::*;
 use swc_html_codegen_macros::emitter;
@@ -1164,7 +1164,7 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> Cow<'_, str> {
     Cow::Owned(result)
 }
 
-fn is_html_tag_name(namespace: Namespace, tag_name: &JsWord) -> bool {
+fn is_html_tag_name(namespace: Namespace, tag_name: &Atom) -> bool {
     if namespace != Namespace::HTML {
         return false;
     }

@@ -3,7 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -63,7 +63,7 @@ pub struct Config {
     pub top_level: bool,
 
     /// Declarations with a symbol in this set will be preserved.
-    pub top_retain: Vec<JsWord>,
+    pub top_retain: Vec<Atom>,
 
     /// If false, imports with side effects will be removed.
     pub preserve_imports_with_side_effects: bool,

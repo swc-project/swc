@@ -717,7 +717,7 @@ macro_rules! declare_keyword {
         $name:ident => $value:tt,
     )*) => {
         impl Keyword {
-            pub(crate)  fn into_js_word(self) -> Atom {
+            pub(crate)  fn into_atom(self) -> Atom {
                 match self {
                     $(Keyword::$name => atom!($value),)*
                 }
@@ -878,7 +878,7 @@ impl Keyword {
 
 impl Debug for Keyword {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "keyword '{}'", self.into_js_word())?;
+        write!(f, "keyword '{}'", self.into_atom())?;
 
         Ok(())
     }
@@ -935,7 +935,7 @@ impl TokenKind {
 impl Word {
     pub(crate) fn cow(&self) -> Cow<Atom> {
         match self {
-            Word::Keyword(k) => Cow::Owned(k.into_js_word()),
+            Word::Keyword(k) => Cow::Owned(k.into_atom()),
             Word::Ident(IdentLike::Known(w)) => Cow::Owned((*w).into()),
             Word::Ident(IdentLike::Other(w)) => Cow::Borrowed(w),
             Word::False => Cow::Owned(atom!("false")),

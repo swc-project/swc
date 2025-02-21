@@ -1,5 +1,5 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{source_map::PLACEHOLDER_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
@@ -17,7 +17,7 @@ impl ClassStaticBlock {
     fn transform_static_block(
         &mut self,
         mut static_block: StaticBlock,
-        private_id: JsWord,
+        private_id: Atom,
     ) -> PrivateProp {
         let mut stmts = static_block.body.stmts.take();
         let span = static_block.span;
@@ -86,10 +86,10 @@ impl VisitMut for ClassStaticBlock {
     }
 }
 
-fn generate_uid(deny_list: &FxHashSet<JsWord>, i: &mut u32) -> JsWord {
+fn generate_uid(deny_list: &FxHashSet<Atom>, i: &mut u32) -> Atom {
     *i += 1;
 
-    let mut uid: JsWord = if *i == 1 {
+    let mut uid: Atom = if *i == 1 {
         "_".to_string()
     } else {
         format!("_{i}")

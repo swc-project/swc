@@ -10,7 +10,7 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{atom, Atom, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -1349,7 +1349,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 #[inline]
-fn jsx_text_to_str(t: Atom) -> JsWord {
+fn jsx_text_to_str(t: Atom) -> Atom {
     let mut buf = String::new();
     let replaced = t.replace('\t', " ");
 

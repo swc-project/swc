@@ -5,7 +5,7 @@ use std::{
 };
 
 use phf::phf_set;
-use swc_atoms::{js_word, Atom, UnsafeAtom};
+use swc_atoms::{atom, Atom, UnsafeAtom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -374,7 +374,7 @@ impl Ident {
 
     #[inline]
     pub fn is_dummy(&self) -> bool {
-        self.sym == js_word!("") && self.span.is_dummy()
+        self.sym == atom!("") && self.span.is_dummy()
     }
 
     /// Create a new identifier with the given position.
@@ -506,7 +506,7 @@ pub type Id = (Atom, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {
-        Ident::new_no_ctxt(js_word!(""), DUMMY_SP)
+        Ident::new_no_ctxt(atom!(""), DUMMY_SP)
     }
 }
 

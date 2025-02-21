@@ -6,7 +6,7 @@ use std::{
     rc::{Rc, Weak},
 };
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::Span;
 use swc_xml_ast::*;
 
@@ -21,13 +21,13 @@ pub struct TokenAndInfo {
 pub enum Data {
     Document,
     DocumentType {
-        name: Option<JsWord>,
-        public_id: Option<JsWord>,
-        system_id: Option<JsWord>,
-        raw: Option<JsWord>,
+        name: Option<Atom>,
+        public_id: Option<Atom>,
+        system_id: Option<Atom>,
+        raw: Option<Atom>,
     },
     Element {
-        tag_name: JsWord,
+        tag_name: Atom,
         attributes: RefCell<Vec<Attribute>>,
     },
     Text {
@@ -35,16 +35,16 @@ pub enum Data {
         raw: RefCell<String>,
     },
     ProcessingInstruction {
-        target: JsWord,
-        data: JsWord,
+        target: Atom,
+        data: Atom,
     },
     CdataSection {
-        data: JsWord,
-        raw: Option<JsWord>,
+        data: Atom,
+        raw: Option<Atom>,
     },
     Comment {
-        data: JsWord,
-        raw: Option<JsWord>,
+        data: Atom,
+        raw: Option<Atom>,
     },
 }
 

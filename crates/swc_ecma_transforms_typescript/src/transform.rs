@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
@@ -1443,7 +1443,7 @@ impl QueryRef for ExportQuery {
 
 struct EnumMemberItem {
     span: Span,
-    name: JsWord,
+    name: Atom,
     value: TsEnumRecordValue,
 }
 
@@ -1513,13 +1513,13 @@ fn get_enum_id(e: &Expr) -> Option<Id> {
     }
 }
 
-fn get_member_key(prop: &MemberProp) -> Option<JsWord> {
+fn get_member_key(prop: &MemberProp) -> Option<Atom> {
     match prop {
         MemberProp::Ident(ident) => Some(ident.sym.clone()),
         MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.clone()),
             Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0].cooked.as_ref().map(|v| JsWord::from(&**v)),
+                (0, 1) => quasis[0].cooked.as_ref().map(|v| Atom::from(&**v)),
                 _ => None,
             },
             _ => None,

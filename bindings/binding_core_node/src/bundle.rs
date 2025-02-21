@@ -11,7 +11,7 @@ use napi::{
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_core::{
-    atoms::JsWord,
+    atoms::Atom,
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
@@ -61,7 +61,7 @@ impl Task for BundleTask {
             NODE_BUILTINS
                 .iter()
                 .copied()
-                .map(JsWord::from)
+                .map(Atom::from)
                 .collect::<Vec<_>>()
         } else {
             Vec::new()

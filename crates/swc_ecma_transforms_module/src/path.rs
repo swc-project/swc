@@ -10,7 +10,7 @@ use std::{
 use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
@@ -28,7 +28,7 @@ pub enum Resolver {
 }
 
 impl Resolver {
-    pub(crate) fn resolve(&self, src: JsWord) -> JsWord {
+    pub(crate) fn resolve(&self, src: Atom) -> Atom {
         match self {
             Self::Real { resolver, base } => resolver
                 .resolve_import(base, &src)
@@ -41,7 +41,7 @@ impl Resolver {
     pub(crate) fn make_require_call(
         &self,
         unresolved_mark: Mark,
-        src: JsWord,
+        src: Atom,
         src_span: Span,
     ) -> Expr {
         let src = self.resolve(src);
@@ -69,7 +69,7 @@ pub trait ImportResolver {
     /// Resolves `target` as a string usable by the modules pass.
     ///
     /// The returned string will be used as a module specifier.
-    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error>;
+    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error>;
 }
 
 /// [ImportResolver] implementation which just uses original source.
@@ -77,7 +77,7 @@ pub trait ImportResolver {
 pub struct NoopImportResolver;
 
 impl ImportResolver for NoopImportResolver {
-    fn resolve_import(&self, _: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+    fn resolve_import(&self, _: &FileName, module_specifier: &str) -> Result<Atom, Error> {
         Ok(module_specifier.into())
     }
 }
@@ -142,7 +142,7 @@ impl<R> NodeImportResolver<R>
 where
     R: Resolve,
 {
-    fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
+    fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> Atom {
         debug!(
             "Creating a specifier for `{}` with original filename `{:?}`",
             target_path.display(),
@@ -228,7 +228,7 @@ where
         }
     }
 
-    fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+    fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -357,7 +357,7 @@ impl<R> ImportResolver for NodeImportResolver<R>
 where
     R: Resolve,
 {
-    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
         self.try_resolve_import(base, module_specifier)
             .or_else(|err| {
                 warn!("Failed to resolve import: {}", err);
@@ -372,7 +372,7 @@ macro_rules! impl_ref {
         where
             $P: ImportResolver,
         {
-            fn resolve_import(&self, base: &FileName, target: &str) -> Result<JsWord, Error> {
+            fn resolve_import(&self, base: &FileName, target: &str) -> Result<Atom, Error> {
                 (**self).resolve_import(base, target)
             }
         }

@@ -1,7 +1,7 @@
 use std::collections::hash_map::Entry;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -35,7 +35,7 @@ struct DuplicateBindings {
 
 impl DuplicateBindings {
     /// Add a binding.
-    fn add(&mut self, id: JsWord, info: BindingInfo) {
+    fn add(&mut self, id: Atom, info: BindingInfo) {
         match self.bindings.entry((id.clone(), info.ctxt)) {
             Entry::Occupied(mut prev) => {
                 if !(info.is_function && prev.get().is_function)

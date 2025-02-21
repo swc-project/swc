@@ -3,7 +3,7 @@ use std::{iter::once, mem::take};
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -646,9 +646,9 @@ struct FlowHelper<'a> {
     has_yield: bool,
     has_await: bool,
 
-    // label cannot be shadowed, so it's pretty safe to use JsWord
-    label: IndexMap<JsWord, Label>,
-    inner_label: FxHashSet<JsWord>,
+    // label cannot be shadowed, so it's pretty safe to use Atom
+    label: IndexMap<Atom, Label>,
+    inner_label: FxHashSet<Atom>,
     all: &'a Vec<Id>,
     mutated: FxHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
@@ -767,7 +767,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
                 let value = if let Some(label) = label {
-                    let value: JsWord = format!("continue|{}", label.sym).into();
+                    let value: Atom = format!("continue|{}", label.sym).into();
                     self.label
                         .insert(value.clone(), Label::Continue(label.clone()));
                     value
@@ -793,7 +793,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
                 let value = if let Some(label) = label {
-                    let value: JsWord = format!("break|{}", label.sym).into();
+                    let value: Atom = format!("break|{}", label.sym).into();
                     self.label
                         .insert(value.clone(), Label::Break(label.clone()));
                     value

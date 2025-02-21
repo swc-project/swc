@@ -2,7 +2,7 @@ use std::mem;
 
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -12,7 +12,7 @@ use crate::ExprFactory;
 #[derive(Default)]
 struct SuperField {
     computed: Option<Ident>,
-    ident: IndexMap<JsWord, Ident, FxBuildHasher>,
+    ident: IndexMap<Atom, Ident, FxBuildHasher>,
 }
 
 /// Don't use it against function, it will stop if come across any function
@@ -203,7 +203,7 @@ impl FnEnvHoister {
             .clone()
     }
 
-    fn super_get(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+    fn super_get(&mut self, prop_name: &Atom, prop_span: Span) -> Ident {
         if let Some(callee) = self.super_get.ident.get(prop_name) {
             callee.clone()
         } else {
@@ -222,7 +222,7 @@ impl FnEnvHoister {
             .clone()
     }
 
-    fn super_set(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+    fn super_set(&mut self, prop_name: &Atom, prop_span: Span) -> Ident {
         if let Some(callee) = self.super_set.ident.get(prop_name) {
             callee.clone()
         } else {
@@ -241,7 +241,7 @@ impl FnEnvHoister {
             .clone()
     }
 
-    fn super_update(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+    fn super_update(&mut self, prop_name: &Atom, prop_span: Span) -> Ident {
         if let Some(callee) = self.super_update.ident.get(prop_name) {
             callee.clone()
         } else {

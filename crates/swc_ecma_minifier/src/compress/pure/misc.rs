@@ -1,7 +1,7 @@
 use std::{fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -280,7 +280,7 @@ impl Pure<'_> {
             let mut res = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
-                value: js_word!(""),
+                value: atom!(""),
             })
             .into();
 
@@ -379,7 +379,7 @@ impl Pure<'_> {
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
     fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
-        fn valid_pattern(pattern: &Expr) -> Option<JsWord> {
+        fn valid_pattern(pattern: &Expr) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = pattern {
                 if s.value.contains(|c: char| {
                     // whitelist
@@ -394,7 +394,7 @@ impl Pure<'_> {
                 None
             }
         }
-        fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<JsWord> {
+        fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = flag {
                 let mut set = FxHashSet::default();
                 for c in s.value.chars() {

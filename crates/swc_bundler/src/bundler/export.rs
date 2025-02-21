@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -69,7 +69,7 @@ where
     R: Resolve,
 {
     /// Returns `(local, export)`.
-    fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
+    fn ctxt_for(&self, src: &Atom) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self
             .bundler
@@ -89,7 +89,7 @@ where
         ))
     }
 
-    fn mark_as_wrapping_required(&self, src: &JsWord) {
+    fn mark_as_wrapping_required(&self, src: &Atom) {
         // Don't apply mark if it's a core module.
         if self
             .bundler

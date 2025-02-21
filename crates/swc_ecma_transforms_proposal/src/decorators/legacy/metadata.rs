@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
     BytePos, Spanned, DUMMY_SP,
@@ -101,7 +101,7 @@ pub(super) fn remove_span(e: &mut Expr) {
     }
 }
 
-type EnumMapType = FxHashMap<JsWord, EnumKind>;
+type EnumMapType = FxHashMap<Atom, EnumKind>;
 
 pub(super) struct EnumMap<'a>(&'a EnumMapType);
 

@@ -1,10 +1,10 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum HashKey {
-    Str(JsWord),
+    Str(Atom),
     /// Not for key merging
     Computed(Span),
 }

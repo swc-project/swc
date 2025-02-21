@@ -1,4 +1,4 @@
-//! See [JsWord] and [Atom]
+//! See [Atom] and [UnsafeAtom]
 
 #![allow(clippy::unreadable_literal)]
 
@@ -21,7 +21,6 @@ use std::{
 use once_cell::sync::Lazy;
 use serde::Serializer;
 
-pub use self::{atom as js_word, Atom as JsWord};
 pub use crate::fast::UnsafeAtom;
 
 mod fast;

@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -27,7 +27,7 @@ struct NoLoopFunc {
     inside_loop_decl: bool,
     scopes: Vec<Span>,
     scoped_unsafe_vars: FxHashMap<Span, FxHashSet<Id>>,
-    current_fn_unsafe_vars: FxHashSet<JsWord>,
+    current_fn_unsafe_vars: FxHashSet<Atom>,
 }
 
 impl NoLoopFunc {
@@ -53,7 +53,7 @@ impl NoLoopFunc {
         let mut names = self
             .current_fn_unsafe_vars
             .iter()
-            .map(|js_word| js_word as &str)
+            .map(|atom| atom as &str)
             .collect::<Vec<&str>>();
 
         let message = if names.len() == 1 {

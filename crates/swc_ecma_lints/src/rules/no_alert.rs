@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -38,8 +38,8 @@ struct NoAlert {
     classes_depth: usize,
     objects_depth: usize,
     arrow_fns_depth: usize,
-    obj: Option<JsWord>,
-    prop: Option<JsWord>,
+    obj: Option<Atom>,
+    prop: Option<Atom>,
 }
 
 impl NoAlert {
@@ -87,7 +87,7 @@ impl NoAlert {
         self.arrow_fns_depth > 0
     }
 
-    fn check(&self, call_span: Span, obj: &Option<JsWord>, prop: &JsWord) {
+    fn check(&self, call_span: Span, obj: &Option<Atom>, prop: &Atom) {
         if let Some(obj) = obj {
             let obj_name: &str = obj;
 

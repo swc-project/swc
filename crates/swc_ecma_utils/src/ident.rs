@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, UnsafeId};
 
@@ -8,7 +8,7 @@ pub trait IdentLike: Sized + Send + Sync + 'static {
     fn into_id(self) -> Id;
 }
 
-impl IdentLike for JsWord {
+impl IdentLike for Atom {
     fn from_ident(i: &Ident) -> Self {
         i.sym.clone()
     }
@@ -36,7 +36,7 @@ impl IdentLike for BindingIdent {
     }
 }
 
-impl IdentLike for (JsWord, SyntaxContext) {
+impl IdentLike for (Atom, SyntaxContext) {
     #[inline]
     fn from_ident(i: &Ident) -> Self {
         (i.sym.clone(), i.ctxt)

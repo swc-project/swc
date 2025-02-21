@@ -1,6 +1,6 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_cached::regex::CachedRegex;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -119,7 +119,7 @@ pub struct LazyObjectConfig {
 }
 
 impl LazyObjectConfig {
-    pub fn is_lazy(&self, src: &JsWord) -> bool {
+    pub fn is_lazy(&self, src: &Atom) -> bool {
         self.patterns.iter().any(|pat| pat.is_match(src))
     }
 }
@@ -128,12 +128,12 @@ impl LazyObjectConfig {
 #[serde(untagged, deny_unknown_fields, rename_all = "camelCase")]
 pub enum Lazy {
     Bool(bool),
-    List(Vec<JsWord>),
+    List(Vec<Atom>),
     Object(LazyObjectConfig),
 }
 
 impl Lazy {
-    pub fn is_lazy(&self, src: &JsWord) -> bool {
+    pub fn is_lazy(&self, src: &Atom) -> bool {
         match *self {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
@@ -149,7 +149,7 @@ impl Default for Lazy {
     }
 }
 
-pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
+pub(super) fn local_name_for_src(src: &Atom) -> Atom {
     let src = src.split('/').last().unwrap();
     let src = src
         .strip_suffix(".js")

@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -28,7 +28,7 @@ where
 #[derive(Debug, Default)]
 struct NoDuplicateAtImportRules {
     ctx: LintRuleContext<()>,
-    imports: FxHashSet<(JsWord, Option<JsWord>)>,
+    imports: FxHashSet<(Atom, Option<Atom>)>,
     import_at_rules: Option<AtRule>,
 }
 

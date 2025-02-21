@@ -6,7 +6,7 @@ use std::{
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::{atom, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_common::{
     errors::HANDLER,
     sync::Lrc,
@@ -20,7 +20,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
-    globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
+    globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
 ) -> impl Pass {
     visit_mut_pass(ConstModules {
         globals: globals
@@ -81,14 +81,14 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
 }
 
 struct ConstModules {
-    globals: HashMap<JsWord, HashMap<JsWord, Arc<Expr>>>,
+    globals: HashMap<Atom, HashMap<Atom, Arc<Expr>>>,
     scope: Scope,
 }
 
 #[derive(Default)]
 struct Scope {
     namespace: HashSet<Id>,
-    imported: HashMap<JsWord, Arc<Expr>>,
+    imported: HashMap<Atom, Arc<Expr>>,
 }
 
 impl VisitMut for ConstModules {

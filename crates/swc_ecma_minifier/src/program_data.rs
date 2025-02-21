@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -120,7 +120,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: Box<FxHashMap<JsWord, u32>>,
+    pub(crate) accessed_props: Box<FxHashMap<Atom, u32>>,
 
     pub(crate) used_recursively: bool,
 }
@@ -547,7 +547,7 @@ impl VarDataLike for VarUsageInfo {
         self.indexed_with_dynamic_key = true;
     }
 
-    fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
+    fn add_accessed_property(&mut self, name: swc_atoms::Atom) {
         *self.accessed_props.entry(name).or_default() += 1;
     }
 

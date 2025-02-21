@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -223,7 +223,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
+    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -671,7 +671,7 @@ impl Drop for SynthesizedStmts {
 
 #[derive(Default)]
 struct LabelAnalyzer {
-    label: JsWord,
+    label: Atom,
     /// If top level is a normal block, labelled break must be preserved
     top_breakable: bool,
     count: usize,

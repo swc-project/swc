@@ -4,7 +4,7 @@ use std::{
     rc::{Rc, Weak},
 };
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -21,14 +21,14 @@ pub enum Data {
         mode: RefCell<DocumentMode>,
     },
     DocumentType {
-        name: Option<JsWord>,
-        public_id: Option<JsWord>,
-        system_id: Option<JsWord>,
+        name: Option<Atom>,
+        public_id: Option<Atom>,
+        system_id: Option<Atom>,
         raw: Option<Atom>,
     },
     Element {
         namespace: Namespace,
-        tag_name: JsWord,
+        tag_name: Atom,
         attributes: RefCell<Vec<Attribute>>,
         is_self_closing: bool,
     },
@@ -37,7 +37,7 @@ pub enum Data {
         raw: RefCell<String>,
     },
     Comment {
-        data: JsWord,
+        data: Atom,
         raw: Option<Atom>,
     },
 }

@@ -120,7 +120,7 @@ impl<I: Tokens> Parser<I> {
                 Word::Keyword(name @ Keyword::Yield) | Word::Keyword(name @ Keyword::Let) => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(name.into_js_word()),
+                        SyntaxError::InvalidIdentInStrict(name.into_atom()),
                     );
                 }
 

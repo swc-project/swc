@@ -3,7 +3,7 @@
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -229,7 +229,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<FxHashMap<Id, JsWord>>,
+    typeofs: Box<FxHashMap<Id, Atom>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -253,7 +253,7 @@ struct Vars {
     lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
+    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -379,7 +379,7 @@ impl Optimizer<'_> {
         self.options.top_level()
     }
 
-    fn ident_reserved(&self, sym: &JsWord) -> bool {
+    fn ident_reserved(&self, sym: &Atom) -> bool {
         if let Some(MangleOptions { reserved, .. }) = self.mangle_options {
             reserved.contains(sym)
         } else {

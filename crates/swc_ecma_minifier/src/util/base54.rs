@@ -2,7 +2,7 @@ use std::{cmp::Reverse, io, ops::AddAssign};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, SyntaxContext,
 };
@@ -406,7 +406,7 @@ impl AddAssign for CharFreq {
 impl Base54Chars {
     /// givin a number, return a base54 encoded string
     /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
-    pub(crate) fn encode(&self, init: &mut usize, skip_reserved: bool) -> JsWord {
+    pub(crate) fn encode(&self, init: &mut usize, skip_reserved: bool) -> Atom {
         let mut n = *init;
 
         *init += 1;
@@ -435,8 +435,8 @@ impl Base54Chars {
 
         let s = unsafe {
             // Safety: We are only using ascii characters
-            // Safety: The stack memory for ret is alive while creating JsWord
-            JsWord::from(std::str::from_utf8_unchecked(&ret))
+            // Safety: The stack memory for ret is alive while creating Atom
+            Atom::from(std::str::from_utf8_unchecked(&ret))
         };
 
         if skip_reserved

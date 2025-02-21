@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -19,7 +19,7 @@ struct PrivateNameMangler {
     keep_private_props: bool,
     private_n: usize,
 
-    renamed_private: FxHashMap<JsWord, JsWord>,
+    renamed_private: FxHashMap<Atom, Atom>,
 }
 
 impl PrivateNameMangler {

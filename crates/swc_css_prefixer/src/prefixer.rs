@@ -6,7 +6,7 @@ use std::{mem::take, sync::Arc};
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -642,7 +642,7 @@ impl VisitMut for FontFaceFormatOldSyntax {
         }
 
         if let Some(ComponentValue::Ident(ident)) = n.value.first() {
-            let new_value: JsWord = ident.value.to_ascii_lowercase();
+            let new_value: Atom = ident.value.to_ascii_lowercase();
             let new_value = match &*new_value {
                 "woff" | "truetype" | "opentype" | "woff2" | "embedded-opentype" | "collection"
                 | "svg" => new_value,

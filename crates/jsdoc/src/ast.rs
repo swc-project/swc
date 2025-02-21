@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{ast_node, Span};
 
 /// Spanned text
@@ -6,7 +6,7 @@ use swc_common::{ast_node, Span};
 #[derive(Eq)]
 pub struct Text {
     pub span: Span,
-    pub value: JsWord,
+    pub value: Atom,
 }
 
 #[ast_node]

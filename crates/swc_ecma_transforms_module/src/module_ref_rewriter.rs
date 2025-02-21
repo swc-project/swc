@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::HELPERS;
@@ -8,7 +8,7 @@ use swc_ecma_visit::VisitMutWith;
 
 use crate::util::prop_name;
 
-pub type ImportMap = FxHashMap<Id, (Ident, Option<JsWord>)>;
+pub type ImportMap = FxHashMap<Id, (Ident, Option<Atom>)>;
 
 pub(crate) struct ImportQuery {
     /// ```javascript

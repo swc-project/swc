@@ -3,7 +3,7 @@ use std::sync::Arc;
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
 use rustc_hash::FxBuildHasher;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -102,7 +102,7 @@ impl UsageVisitor {
         }
     }
 
-    fn add_property_deps(&mut self, obj: &Expr, prop: &JsWord) {
+    fn add_property_deps(&mut self, obj: &Expr, prop: &Atom) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
             _ => {
@@ -114,7 +114,7 @@ impl UsageVisitor {
         self.add_property_deps_inner(Some(obj), prop)
     }
 
-    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+    fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
             if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
                 self.add_builtin(prop);
