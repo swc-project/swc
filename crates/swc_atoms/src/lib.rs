@@ -1,4 +1,4 @@
-//! See [JsWord] and [Atom]
+//! See [Atom] and [UnsafeAtom]
 
 #![allow(clippy::unreadable_literal)]
 
