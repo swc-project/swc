@@ -21,7 +21,7 @@ runs:
     - name: Install git-cliff
       uses: taiki-e/install-action@v2
       with:
-        tool: git-cliff@1.3.1
+        tool: git-cliff@2.8.0
 
     - name: Install cargo-edit
       uses: taiki-e/install-action@v2
