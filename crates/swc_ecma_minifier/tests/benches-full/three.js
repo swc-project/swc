@@ -11818,9 +11818,7 @@ function(global, factory) {
         },
         // Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equidistant
         getUtoTmapping: function(u, distance) {
-            var arcLengths = this.getLengths(), i = 0, il = arcLengths.length;
-            targetArcLength = distance || u * arcLengths[il - 1]; // binary search for the index with largest value smaller than target u distance
-            for(var targetArcLength, comparison, low = 0, high = il - 1; low <= high;)if ((comparison = arcLengths[i = Math.floor(low + (high - low) / 2)] - targetArcLength) < 0) low = i + 1;
+            for(var comparison, arcLengths = this.getLengths(), i = 0, il = arcLengths.length, targetArcLength = distance || u * arcLengths[il - 1], low = 0, high = il - 1; low <= high;)if ((comparison = arcLengths[i = Math.floor(low + (high - low) / 2)] - targetArcLength) < 0) low = i + 1;
             else if (comparison > 0) high = i - 1;
             else {
                 high = i;
@@ -13057,8 +13055,7 @@ function(global, factory) {
                     object = new Mesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material));
                     break;
                 case 'InstancedMesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material);
-                    var object, geometry, material, count = data.count, instanceMatrix = data.instanceMatrix;
+                    var object, geometry = getGeometry(data.geometry), material = getMaterial(data.material), count = data.count, instanceMatrix = data.instanceMatrix;
                     (object = new InstancedMesh(geometry, material, count)).instanceMatrix = new BufferAttribute(new Float32Array(instanceMatrix.array), 16);
                     break;
                 case 'LOD':

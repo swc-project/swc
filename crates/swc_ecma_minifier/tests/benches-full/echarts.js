@@ -17551,8 +17551,7 @@
             each(sysDims, function(sysDimItemRaw) {
                 if (isString(sysDimItemRaw)) coordDim = sysDimItemRaw, sysDimItem = {};
                 else {
-                    coordDim = (sysDimItem = sysDimItemRaw).name;
-                    var coordDim, sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, ordinalMeta = sysDimItem.ordinalMeta;
+                    var sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, coordDim = (sysDimItem = sysDimItemRaw).name, ordinalMeta = sysDimItem.ordinalMeta;
                     sysDimItem.ordinalMeta = null, (sysDimItem = clone(sysDimItem)).ordinalMeta = ordinalMeta, sysDimItemDimsDef = sysDimItem.dimsDef, sysDimItemOtherDims = sysDimItem.otherDims, sysDimItem.name = sysDimItem.coordDim = sysDimItem.coordDimIndex = sysDimItem.dimsDef = sysDimItem.otherDims = null;
                 }
                 var dataDims = encodeDefMap.get(coordDim); // negative resultDimIdx means no need to mapping.
@@ -26551,8 +26550,8 @@
     }
     function getEdgeShape(layoutOpt, orient, curvature, sourceLayout, targetLayout) {
         if ('radial' === layoutOpt) {
-            x1 = sourceLayout.rawX, y1 = sourceLayout.rawY, x2 = targetLayout.rawX, y2 = targetLayout.rawY;
-            var cpx1, cpy1, cpx2, cpy2, x1, x2, y1, y2, radialCoor1 = radialCoordinate(x1, y1), radialCoor2 = radialCoordinate(x1, y1 + (y2 - y1) * curvature), radialCoor3 = radialCoordinate(x2, y2 + (y1 - y2) * curvature), radialCoor4 = radialCoordinate(x2, y2);
+            x1 = sourceLayout.rawX, y1 = sourceLayout.rawY, x2 = targetLayout.rawX;
+            var cpx1, cpy1, cpx2, cpy2, x1, x2, y1, y2 = targetLayout.rawY, radialCoor1 = radialCoordinate(x1, y1), radialCoor2 = radialCoordinate(x1, y1 + (y2 - y1) * curvature), radialCoor3 = radialCoordinate(x2, y2 + (y1 - y2) * curvature), radialCoor4 = radialCoordinate(x2, y2);
             return {
                 x1: radialCoor1.x || 0,
                 y1: radialCoor1.y || 0,

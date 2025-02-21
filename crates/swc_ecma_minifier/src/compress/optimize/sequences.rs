@@ -1,7 +1,7 @@
 use std::{iter::once, mem::take};
 
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{try_collect_infects_from, AccessKind, AliasConfig},
@@ -946,7 +946,39 @@ impl Optimizer<'_> {
                                     break;
                                 }
                             }
-                            None => continue,
+                            None => {
+                                if let Mergable::Expr(Expr::Assign(a_exp)) = a {
+                                    if let (Some(a_id), Some(b_id)) =
+                                        (a_exp.left.as_ident(), b.name.as_ident())
+                                    {
+                                        if a_id.id.eq_ignore_span(&b_id.id)
+                                            && a_exp.op == op!("=")
+                                            && self
+                                                .data
+                                                .vars
+                                                .get(&a_id.id.to_id())
+                                                .map(|u| {
+                                                    !u.inline_prevented && !u.declared_as_fn_expr
+                                                })
+                                                .unwrap_or(false)
+                                        {
+                                            changed = true;
+                                            report_change!("merge assign and var decl");
+                                            b.init = Some(a_exp.right.take());
+                                            merge_seq_cache.invalidate(a_idx);
+                                            merge_seq_cache.invalidate(b_idx);
+
+                                            if let Mergable::Expr(e) = a {
+                                                e.take();
+                                            }
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                continue;
+                            }
                         },
                         Mergable::Expr(b) => {
                             if !merge_seq_cache.is_top_retain(self, a, a_idx)
@@ -2573,6 +2605,7 @@ impl Optimizer<'_> {
                 in_abort: false,
             };
             b.visit_with(&mut v);
+            println!("{:#?}", v.abort);
             if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
