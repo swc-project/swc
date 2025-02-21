@@ -16,7 +16,7 @@ use crate::{
 };
 
 /// Methods related to the option `negate_iife`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
@@ -112,7 +112,7 @@ impl Optimizer<'_> {
 }
 
 /// Methods related to iife.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// # Example
     ///
     /// ## Input
@@ -964,7 +964,7 @@ impl Optimizer<'_> {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
-                            let ids = find_pat_ids(decl);
+                            let ids: Vec<Id> = find_pat_ids(decl);
 
                             for id in ids {
                                 if let Some(usage) = self.data.vars.get_mut(&id) {

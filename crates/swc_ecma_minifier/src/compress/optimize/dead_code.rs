@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use super::Optimizer;
 
 /// Methods related to option `dead_code`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// Optimize return value or argument of throw.
     ///
     /// This methods removes some useless assignments.

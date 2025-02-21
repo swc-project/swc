@@ -7,11 +7,11 @@ use swc_ecma_utils::{Type, Value};
 
 use super::{storage::Storage, UsageAnalyzer};
 
-impl<S> UsageAnalyzer<S>
+impl<'alloc, S> UsageAnalyzer<'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<S> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'alloc, S> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -47,37 +47,37 @@ pub struct Ctx {
     pub is_top_level: bool,
 }
 
-pub(super) struct WithCtx<'a, S>
+pub(super) struct WithCtx<'a, 'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
-    analyzer: &'a mut UsageAnalyzer<S>,
+    analyzer: &'a mut UsageAnalyzer<'alloc, S>,
     orig_ctx: Ctx,
 }
 
-impl<S> Deref for WithCtx<'_, S>
+impl<'alloc, S> Deref for WithCtx<'_, 'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
-    type Target = UsageAnalyzer<S>;
+    type Target = UsageAnalyzer<'alloc, S>;
 
     fn deref(&self) -> &Self::Target {
         self.analyzer
     }
 }
 
-impl<S> DerefMut for WithCtx<'_, S>
+impl<'alloc, S> DerefMut for WithCtx<'_, 'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.analyzer
     }
 }
 
-impl<S> Drop for WithCtx<'_, S>
+impl<'alloc, S> Drop for WithCtx<'_, 'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
     fn drop(&mut self) {
         self.analyzer.ctx = self.orig_ctx;

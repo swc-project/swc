@@ -4,7 +4,7 @@ use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
 
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
         if !self.options.unsafe_passes {
             return;

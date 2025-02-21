@@ -1,8 +1,10 @@
-use std::collections::hash_map::Entry;
-
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::JsWord;
+use swc_allocator::{
+    allocators::Arena,
+    api::{arena, hashbrown::hash_map::Entry},
+};
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -18,21 +20,25 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<'alloc, N>(
+    alloc: &'alloc Arena,
+    n: &N,
+    marks: Option<Marks>,
+) -> ProgramData<'alloc>
 where
-    N: VisitWith<UsageAnalyzer<ProgramData>>,
+    N: VisitWith<UsageAnalyzer<'alloc, ProgramData<'alloc>>>,
 {
-    analyze_with_storage::<ProgramData, _>(n, marks)
+    analyze_with_storage::<ProgramData<'alloc>, _>(&alloc, n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
-#[derive(Debug, Default)]
-pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+#[derive(Debug)]
+pub(crate) struct ProgramData<'alloc> {
+    pub(crate) vars: arena::HashMap<'alloc, Id, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
-    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub(crate) scopes: arena::HashMap<'alloc, SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 }
@@ -120,7 +126,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: Box<FxHashMap<JsWord, u32>>,
+    pub(crate) accessed_props: Box<FxHashMap<Atom, u32>>,
 
     pub(crate) used_recursively: bool,
 }
@@ -186,9 +192,18 @@ impl VarUsageInfo {
     }
 }
 
-impl Storage for ProgramData {
+impl<'alloc> Storage<'alloc> for ProgramData<'alloc> {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
+
+    fn new(alloc: &'alloc Arena) -> Self {
+        Self {
+            vars: arena::HashMap::with_hasher_in(FxBuildHasher::default(), alloc),
+            top: ScopeData::default(),
+            scopes: arena::HashMap::with_hasher_in(FxBuildHasher::default(), alloc),
+            initialized_vars: IndexSet::default(),
+        }
+    }
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
         self.scopes.entry(ctxt).or_default()
@@ -491,7 +506,15 @@ impl Storage for ProgramData {
     }
 }
 
-impl ScopeDataLike for ScopeData {
+impl<'alloc> ScopeDataLike<'alloc> for ScopeData {
+    fn new(_alloc: &'alloc Arena) -> Self {
+        Self {
+            has_with_stmt: false,
+            has_eval_call: false,
+            used_arguments: false,
+        }
+    }
+
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
     fn merge(&mut self, other: Self, _: bool) {
@@ -513,7 +536,7 @@ impl ScopeDataLike for ScopeData {
     }
 }
 
-impl VarDataLike for VarUsageInfo {
+impl<'alloc> VarDataLike<'alloc> for VarUsageInfo {
     fn mark_declared_as_fn_param(&mut self) {
         self.declared_as_fn_param = true;
     }
@@ -547,7 +570,7 @@ impl VarDataLike for VarUsageInfo {
         self.indexed_with_dynamic_key = true;
     }
 
-    fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
+    fn add_accessed_property(&mut self, name: swc_atoms::Atom) {
         *self.accessed_props.entry(name).or_default() += 1;
     }
 
@@ -584,7 +607,7 @@ impl VarDataLike for VarUsageInfo {
     }
 }
 
-impl ProgramData {
+impl<'alloc> ProgramData<'alloc> {
     /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {

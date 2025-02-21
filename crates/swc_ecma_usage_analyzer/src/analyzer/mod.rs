@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_allocator::allocators::Arena;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -22,17 +23,18 @@ pub mod storage;
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<'alloc, S, N>(alloc: &'alloc Arena, n: &N, marks: Option<Marks>) -> S
 where
-    S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
+    S: Storage<'alloc>,
+    N: VisitWith<UsageAnalyzer<'alloc, S>>,
 {
     let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        alloc,
+        data: S::new(alloc),
         marks,
-        scope: Default::default(),
+        scope: S::ScopeData::new(alloc),
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
@@ -65,11 +67,11 @@ enum RecursiveUsage {
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
-#[derive(Debug)]
-pub struct UsageAnalyzer<S>
+pub struct UsageAnalyzer<'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
+    alloc: &'alloc Arena,
     data: S,
     marks: Option<Marks>,
     scope: S::ScopeData,
@@ -78,23 +80,24 @@ where
     used_recursively: FxHashMap<Id, RecursiveUsage>,
 }
 
-impl<S> UsageAnalyzer<S>
+impl<'alloc, S> UsageAnalyzer<'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
     fn with_child<F, Ret>(&mut self, child_ctxt: SyntaxContext, kind: ScopeKind, op: F) -> Ret
     where
-        F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
+        F: FnOnce(&mut UsageAnalyzer<'alloc, S>) -> Ret,
     {
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            alloc: self.alloc,
+            data: S::new(self.alloc),
             marks: self.marks,
             ctx: Ctx {
                 is_top_level: false,
                 ..self.ctx
             },
             expr_ctx: self.expr_ctx,
-            scope: Default::default(),
+            scope: S::ScopeData::new(self.alloc),
             used_recursively: self.used_recursively.clone(),
         };
 
@@ -221,9 +224,9 @@ where
     }
 }
 
-impl<S> Visit for UsageAnalyzer<S>
+impl<'alloc, S> Visit for UsageAnalyzer<'alloc, S>
 where
-    S: Storage,
+    S: Storage<'alloc>,
 {
     noop_visit_type!();
 

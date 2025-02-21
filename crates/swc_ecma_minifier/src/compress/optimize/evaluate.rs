@@ -9,7 +9,7 @@ use super::Optimizer;
 use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// Evaluate expression if possible.
     ///
     /// This method call appropriate methods for each ast types.

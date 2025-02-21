@@ -5,7 +5,7 @@ use swc_ecma_utils::{ExprExt, Value::Known};
 use crate::compress::{optimize::Optimizer, util::UnreachableHandler};
 
 /// Methods related to the option `loops`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// `for(a;b;c;) break;` => `a;b;`
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {

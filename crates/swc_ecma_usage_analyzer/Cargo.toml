@@ -27,6 +27,7 @@ indexmap   = { workspace = true }
 rustc-hash = { workspace = true }
 tracing    = { workspace = true }
 
+swc_allocator  = { version = "3.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms      = { version = "4.0.0", path = "../swc_atoms" }
 swc_common     = { version = "7.0.0", path = "../swc_common" }
 swc_ecma_ast   = { version = "7.0.0", path = "../swc_ecma_ast" }

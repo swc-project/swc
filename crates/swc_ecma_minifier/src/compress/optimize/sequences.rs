@@ -31,7 +31,7 @@ use crate::{
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     ///
     /// # Example
     ///

@@ -17,7 +17,7 @@ use crate::{
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {

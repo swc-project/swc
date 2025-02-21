@@ -6,7 +6,7 @@ use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     pub(super) fn hoist_props_of_var(
         &mut self,
         n: &mut VarDeclarator,
@@ -241,7 +241,7 @@ fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
     }
 }
 
-impl Optimizer<'_> {
+impl<'alloc> Optimizer<'_, 'alloc> {
     /// Converts `{ a: 1 }.a` into `1`.
     pub(super) fn handle_property_access(&mut self, e: &mut Expr) {
         if !self.options.props {
