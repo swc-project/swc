@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
@@ -62,7 +62,7 @@ pub(super) struct BuiltConfig {
 }
 
 impl BuiltConfig {
-    pub fn global_name(&self, src: &str) -> JsWord {
+    pub fn global_name(&self, src: &str) -> Atom {
         if !src.contains('/') {
             return src.to_camel_case().into();
         }

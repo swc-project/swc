@@ -340,11 +340,11 @@ impl error::Error for ExplicitBug {
 ///         handler
 ///             .struct_span_err(
 ///                 span,
-///                 &format!("`{}` used as parameter more than once", js_word),
+///                 &format!("`{}` used as parameter more than once", atom),
 ///             )
 ///             .span_note(
 ///                 old_span,
-///                 &format!("previous definition of `{}` here", js_word),
+///                 &format!("previous definition of `{}` here", atom),
 ///             )
 ///             .emit();
 ///     });

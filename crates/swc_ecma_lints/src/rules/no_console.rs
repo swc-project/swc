@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -31,7 +31,7 @@ pub fn no_console(
 struct NoConsole {
     expected_reaction: LintRuleReaction,
     unresolved_ctxt: SyntaxContext,
-    allow: Option<FxHashSet<JsWord>>,
+    allow: Option<FxHashSet<Atom>>,
 }
 
 impl NoConsole {
@@ -41,14 +41,14 @@ impl NoConsole {
             allow: config.get_rule_config().allow.as_ref().map(|method_names| {
                 method_names
                     .iter()
-                    .map(|method_name| JsWord::from(method_name.as_str()))
+                    .map(|method_name| Atom::from(method_name.as_str()))
                     .collect()
             }),
             unresolved_ctxt,
         }
     }
 
-    fn check(&self, span: Span, ident: &Ident, method: &JsWord) {
+    fn check(&self, span: Span, ident: &Ident, method: &Atom) {
         if &*ident.sym == "console" && ident.ctxt == self.unresolved_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {

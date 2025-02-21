@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -180,7 +180,7 @@ where
         Ok(tokens)
     }
 
-    // TODO use `JsWord`
+    // TODO use `Atom`
     pub fn parse_function_values(
         &mut self,
         function_name: &FunctionName,
@@ -3327,7 +3327,7 @@ where
     }
 }
 
-pub(crate) fn is_math_function(name: &JsWord) -> bool {
+pub(crate) fn is_math_function(name: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
         "calc",
@@ -3356,7 +3356,7 @@ pub(crate) fn is_math_function(name: &JsWord) -> bool {
     )
 }
 
-fn is_absolute_color_base_function(name: &JsWord) -> bool {
+fn is_absolute_color_base_function(name: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
         "rgb",
@@ -3374,7 +3374,7 @@ fn is_absolute_color_base_function(name: &JsWord) -> bool {
     )
 }
 
-fn is_system_color(name: &JsWord) -> bool {
+fn is_system_color(name: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
         "canvas",
@@ -3464,7 +3464,7 @@ fn is_system_color(name: &JsWord) -> bool {
     )
 }
 
-fn is_named_color(name: &JsWord) -> bool {
+fn is_named_color(name: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
         "aliceblue",
@@ -3618,7 +3618,7 @@ fn is_named_color(name: &JsWord) -> bool {
     )
 }
 
-fn is_length_unit(unit: &JsWord) -> bool {
+fn is_length_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         unit, "em", "rem", "ex", "rex", "cap", "rcap", "ch", "rch", "ic", "ric", "lh", "rlh",
         //  Viewport-percentage Lengths
@@ -3629,26 +3629,26 @@ fn is_length_unit(unit: &JsWord) -> bool {
     )
 }
 
-fn is_container_lengths_unit(unit: &JsWord) -> bool {
+fn is_container_lengths_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "cqw", "cqh", "cqi", "cqb", "cqmin", "cqmax")
 }
 
-fn is_angle_unit(unit: &JsWord) -> bool {
+fn is_angle_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "deg", "grad", "rad", "turn")
 }
 
-fn is_time_unit(unit: &JsWord) -> bool {
+fn is_time_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "s", "ms")
 }
 
-fn is_frequency_unit(unit: &JsWord) -> bool {
+fn is_frequency_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "hz", "khz")
 }
 
-fn is_resolution_unit(unit: &JsWord) -> bool {
+fn is_resolution_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "dpi", "dpcm", "dppx", "x")
 }
 
-fn is_flex_unit(unit: &JsWord) -> bool {
+fn is_flex_unit(unit: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(unit, "fr")
 }

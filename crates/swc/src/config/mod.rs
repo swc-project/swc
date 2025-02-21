@@ -11,7 +11,7 @@ use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
@@ -1490,7 +1490,7 @@ pub struct HiddenTransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
+    pub globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1551,19 +1551,19 @@ pub struct ErrorConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: IndexMap<JsWord, JsWord, FxBuildHasher>,
+    pub vars: IndexMap<Atom, Atom, FxBuildHasher>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
 
     #[serde(default)]
-    pub typeofs: FxHashMap<JsWord, JsWord>,
+    pub typeofs: FxHashMap<Atom, Atom>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
     List(FxHashSet<String>),
-    Map(FxHashMap<JsWord, JsWord>),
+    Map(FxHashMap<Atom, Atom>),
 }
 
 impl Default for GlobalInliningPassEnvs {
@@ -1578,7 +1578,7 @@ impl Default for GlobalInliningPassEnvs {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
-        type ValuesMap = Arc<FxHashMap<JsWord, Expr>>;
+        type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
@@ -1605,7 +1605,7 @@ impl GlobalPassOption {
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
-            values: impl Iterator<Item = (JsWord, JsWord)>,
+            values: impl Iterator<Item = (Atom, Atom)>,
             is_env: bool,
         ) -> ValuesMap {
             let mut m = HashMap::default();
@@ -1652,7 +1652,7 @@ impl GlobalPassOption {
                 }
 
                 GlobalInliningPassEnvs::Map(map) => {
-                    static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, FxBuildHasher>> =
+                    static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, ValuesMap, FxBuildHasher>> =
                         Lazy::new(Default::default);
 
                     let cache_key = self
@@ -1677,7 +1677,7 @@ impl GlobalPassOption {
         };
 
         let global_exprs = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, FxBuildHasher>> =
+            static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, GlobalExprMap, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1708,7 +1708,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, FxBuildHasher>> =
+            static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, ValuesMap, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             let cache_key = self

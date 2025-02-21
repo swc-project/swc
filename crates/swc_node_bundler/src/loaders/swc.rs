@@ -7,7 +7,7 @@ use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
     try_with_handler,
 };
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
     comments::{NoopComments, SingleThreadedComments},
@@ -41,7 +41,7 @@ impl SwcLoader {
         SwcLoader { compiler, options }
     }
 
-    fn env_map(&self) -> Lrc<FxHashMap<JsWord, Expr>> {
+    fn env_map(&self) -> Lrc<FxHashMap<Atom, Expr>> {
         let mut m = HashMap::default();
 
         let envs = self

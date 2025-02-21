@@ -3,7 +3,7 @@ use std::sync::Arc;
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
 use rustc_hash::FxBuildHasher;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -78,7 +78,7 @@ impl UsageVisitor {
         }));
     }
 
-    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+    fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
             if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
                 if let Some(features) = map.get_data(prop) {

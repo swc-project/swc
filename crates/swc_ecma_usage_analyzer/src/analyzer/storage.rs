@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
@@ -66,7 +66,7 @@ pub trait VarDataLike: Sized {
 
     fn mark_indexed_with_dynamic_key(&mut self);
 
-    fn add_accessed_property(&mut self, name: JsWord);
+    fn add_accessed_property(&mut self, name: Atom);
 
     fn mark_used_as_ref(&mut self);
 

@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use serde::{ser::SerializeMap, Deserialize, Serialize};
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
@@ -168,7 +168,7 @@ struct AcornLiteral<'a> {
 #[derive(Serialize)]
 #[serde(untagged)]
 enum AcornLiteralValue {
-    String(JsWord),
+    String(Atom),
     Numeric(f64),
     Null(Option<()>),
     Boolean(bool),
@@ -181,7 +181,7 @@ enum AcornLiteralValue {
 pub struct StringLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: JsWord,
+    pub value: Atom,
     pub raw: Atom,
 }
 
@@ -233,9 +233,9 @@ pub struct RegExpLiteral {
 pub struct RegexLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub pattern: JsWord,
+    pub pattern: Atom,
     #[serde(default)]
-    pub flags: JsWord,
+    pub flags: Atom,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

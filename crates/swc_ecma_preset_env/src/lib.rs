@@ -8,7 +8,7 @@ use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use rustc_hash::FxHashSet;
 use serde::Deserialize;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
@@ -362,7 +362,7 @@ struct Polyfills {
     unresolved_mark: Mark,
 }
 impl Polyfills {
-    fn collect<T>(&mut self, m: &mut T) -> Vec<JsWord>
+    fn collect<T>(&mut self, m: &mut T) -> Vec<Atom>
     where
         T: VisitWith<corejs2::UsageVisitor>
             + VisitWith<corejs3::UsageVisitor>
@@ -421,7 +421,7 @@ impl Polyfills {
                 !s.starts_with("esnext") || !required.contains(&s.replace("esnext", "es").as_str())
             })
             .filter(|s| !self.excludes.contains(&***s))
-            .map(|s| -> JsWord {
+            .map(|s| -> Atom {
                 if *s != "regenerator-runtime/runtime.js" {
                     format!("core-js/modules/{}.js", s).into()
                 } else {
@@ -486,7 +486,7 @@ impl VisitMut for Polyfills {
             );
         }
 
-        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == atom!("")));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -581,7 +581,7 @@ pub struct Config {
     /// e.g.)
     ///  - `core-js/modules/foo`
     #[serde(default)]
-    pub skip: Vec<JsWord>,
+    pub skip: Vec<Atom>,
 
     #[serde(default)]
     pub include: Vec<FeatureOrModule>,

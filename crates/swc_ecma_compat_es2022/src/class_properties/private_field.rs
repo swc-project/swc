@@ -1,7 +1,7 @@
 use std::iter;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -15,7 +15,7 @@ use crate::optional_chaining_impl::optional_chaining_impl;
 pub(super) struct Private {
     pub mark: Mark,
     pub class_name: Ident,
-    pub ident: FxHashMap<JsWord, PrivateKind>,
+    pub ident: FxHashMap<Atom, PrivateKind>,
 }
 
 pub(super) struct PrivateRecord(Vec<Private>);
@@ -42,7 +42,7 @@ impl PrivateRecord {
         self.0.pop();
     }
 
-    pub fn get(&self, span: Span, name: &JsWord) -> (Mark, PrivateKind, &Ident) {
+    pub fn get(&self, span: Span, name: &Atom) -> (Mark, PrivateKind, &Ident) {
         for p in self.0.iter().rev() {
             if let Some(kind) = p.ident.get(name) {
                 return (p.mark, *kind, &p.class_name);

@@ -2,7 +2,7 @@ use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
@@ -548,7 +548,7 @@ impl VisitMut for InjectHelpers {
 
 struct Marker {
     base: SyntaxContext,
-    decls: FxHashMap<JsWord, SyntaxContext>,
+    decls: FxHashMap<Atom, SyntaxContext>,
 
     decl_ctxt: SyntaxContext,
 }

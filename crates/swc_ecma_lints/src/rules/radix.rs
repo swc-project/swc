@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     errors::{DiagnosticBuilder, HANDLER},
     Span, SyntaxContext,
@@ -118,7 +118,7 @@ impl Radix {
         self.arrow_fns_depth > 0
     }
 
-    fn check(&self, call_expr: &CallExpr, obj: Option<JsWord>, prop: JsWord) {
+    fn check(&self, call_expr: &CallExpr, obj: Option<Atom>, prop: Atom) {
         if let Some(obj) = obj {
             let obj: &str = &obj;
 
@@ -185,7 +185,7 @@ impl Radix {
         true
     }
 
-    fn extract_prop_value(&mut self, prop: &MemberProp) -> Option<JsWord> {
+    fn extract_prop_value(&mut self, prop: &MemberProp) -> Option<Atom> {
         match prop {
             MemberProp::Ident(IdentName { sym, .. }) => Some(sym.clone()),
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
@@ -202,7 +202,7 @@ impl Radix {
     fn extract_obj_and_prop_member_case(
         &mut self,
         member_expr: &MemberExpr,
-    ) -> (Option<JsWord>, Option<JsWord>) {
+    ) -> (Option<Atom>, Option<Atom>) {
         let MemberExpr { obj, prop, .. } = member_expr;
 
         match obj.as_ref() {
@@ -233,7 +233,7 @@ impl Radix {
         (None, None)
     }
 
-    fn extract_obj_and_prop(&mut self, callee_expr: &Expr) -> (Option<JsWord>, Option<JsWord>) {
+    fn extract_obj_and_prop(&mut self, callee_expr: &Expr) -> (Option<Atom>, Option<Atom>) {
         match callee_expr {
             Expr::Ident(ident) => {
                 if self.is_satisfying_indent(ident) {

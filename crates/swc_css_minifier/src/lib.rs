@@ -3,7 +3,7 @@
 #![allow(clippy::needless_update)]
 #![allow(clippy::mutable_key_type)]
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
@@ -18,7 +18,7 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
 }
 
 #[inline]
-fn is_css_wide_keyword(ident: &JsWord) -> bool {
+fn is_css_wide_keyword(ident: &Atom) -> bool {
     matches_eq_ignore_ascii_case!(
         ident,
         // CSS Values and Units Level 3: https://drafts.csswg.org/css-values-3/#common-keywords

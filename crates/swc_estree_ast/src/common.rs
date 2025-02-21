@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::{
@@ -362,7 +362,7 @@ pub struct Identifier {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub name: JsWord,
+    pub name: Atom,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(
@@ -553,7 +553,7 @@ pub struct DirectiveLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: JsWord,
+    pub value: Atom,
 }
 
 #[derive(Debug, Clone, PartialEq)]

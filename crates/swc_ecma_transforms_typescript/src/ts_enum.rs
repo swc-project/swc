@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -11,14 +11,14 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(crate) struct TsEnumRecordKey {
     pub enum_id: Id,
-    pub member_name: JsWord,
+    pub member_name: Atom,
 }
 
 pub(crate) type TsEnumRecord = FxHashMap<TsEnumRecordKey, TsEnumRecordValue>;
 
 #[derive(Debug, Clone)]
 pub(crate) enum TsEnumRecordValue {
-    String(JsWord),
+    String(Atom),
     Number(JsNumber),
     Opaque(Box<Expr>),
     Void,

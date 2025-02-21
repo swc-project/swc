@@ -1,7 +1,7 @@
 use anyhow::Context;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -31,8 +31,8 @@ struct SystemJs {
     config: Config,
 
     declare_var_idents: Vec<Ident>,
-    export_map: FxHashMap<Id, Vec<JsWord>>,
-    export_names: Vec<JsWord>,
+    export_map: FxHashMap<Id, Vec<Atom>>,
+    export_names: Vec<Atom>,
     export_values: Vec<Box<Expr>>,
     tla: bool,
     enter_async_fn: u32,
@@ -63,15 +63,15 @@ pub fn system_js(resolver: Resolver, unresolved_mark: Mark, config: Config) -> i
 }
 
 struct ModuleItemMeta {
-    export_names: Vec<JsWord>,
+    export_names: Vec<Atom>,
     export_values: Vec<Box<Expr>>,
     has_export_all: bool,
-    src: JsWord,
+    src: Atom,
     setter_fn_stmts: Vec<Stmt>,
 }
 
 impl SystemJs {
-    fn export_call(&self, name: JsWord, span: Span, expr: Expr) -> CallExpr {
+    fn export_call(&self, name: Atom, span: Span, expr: Expr) -> CallExpr {
         CallExpr {
             span,
             callee: self.export_ident.clone().as_callee(),
@@ -182,7 +182,7 @@ impl SystemJs {
         }
     }
 
-    fn add_export_name(&mut self, key: Id, value: JsWord) {
+    fn add_export_name(&mut self, key: Id, value: Atom) {
         let mut find = false;
         for (k, v) in self.export_map.iter_mut() {
             if key == *k {
@@ -202,7 +202,7 @@ impl SystemJs {
 
     fn build_export_call(
         &mut self,
-        export_names: &mut Vec<JsWord>,
+        export_names: &mut Vec<Atom>,
         export_values: &mut Vec<Box<Expr>>,
     ) -> Vec<Stmt> {
         match export_names.len() {

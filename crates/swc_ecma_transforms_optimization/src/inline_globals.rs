@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::sync::Lrc;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
@@ -13,9 +13,9 @@ pub type GlobalExprMap = Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 /// Create a global inlining pass, which replaces expressions with the specified
 /// value.
 pub fn inline_globals(
-    envs: Lrc<FxHashMap<JsWord, Expr>>,
-    globals: Lrc<FxHashMap<JsWord, Expr>>,
-    typeofs: Lrc<FxHashMap<JsWord, JsWord>>,
+    envs: Lrc<FxHashMap<Atom, Expr>>,
+    globals: Lrc<FxHashMap<Atom, Expr>>,
+    typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
     inline_globals2(envs, globals, Default::default(), typeofs)
 }
@@ -27,10 +27,10 @@ pub fn inline_globals(
 ///
 /// Note: Values specified in `global_exprs` have higher precedence than
 pub fn inline_globals2(
-    envs: Lrc<FxHashMap<JsWord, Expr>>,
-    globals: Lrc<FxHashMap<JsWord, Expr>>,
+    envs: Lrc<FxHashMap<Atom, Expr>>,
+    globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: GlobalExprMap,
-    typeofs: Lrc<FxHashMap<JsWord, JsWord>>,
+    typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
     visit_mut_pass(InlineGlobals {
         envs,
@@ -43,11 +43,11 @@ pub fn inline_globals2(
 
 #[derive(Clone)]
 struct InlineGlobals {
-    envs: Lrc<FxHashMap<JsWord, Expr>>,
-    globals: Lrc<FxHashMap<JsWord, Expr>>,
+    envs: Lrc<FxHashMap<Atom, Expr>>,
+    globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>,
 
-    typeofs: Lrc<FxHashMap<JsWord, JsWord>>,
+    typeofs: Lrc<FxHashMap<Atom, Atom>>,
 
     bindings: Lrc<FxHashSet<Id>>,
 }
@@ -212,7 +212,7 @@ mod tests {
         tester: &mut Tester<'_>,
         values: &[(&str, &str)],
         is_env: bool,
-    ) -> FxHashMap<JsWord, Expr> {
+    ) -> FxHashMap<Atom, Expr> {
         let mut m = FxHashMap::default();
 
         for (k, v) in values {
@@ -248,11 +248,11 @@ mod tests {
         m
     }
 
-    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+    fn envs(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<Atom, Expr>> {
         Lrc::new(mk_map(tester, values, true))
     }
 
-    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<JsWord, Expr>> {
+    fn globals(tester: &mut Tester<'_>, values: &[(&str, &str)]) -> Lrc<FxHashMap<Atom, Expr>> {
         Lrc::new(mk_map(tester, values, false))
     }
 

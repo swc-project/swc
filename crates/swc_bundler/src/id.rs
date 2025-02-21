@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_utils::ident::IdentLike;
@@ -49,7 +49,7 @@ impl ModuleIdGenerator {
 }
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Id(JsWord, SyntaxContext);
+pub struct Id(Atom, SyntaxContext);
 
 impl fmt::Debug for Id {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -58,11 +58,11 @@ impl fmt::Debug for Id {
 }
 
 impl Id {
-    pub fn new(sym: JsWord, ctxt: SyntaxContext) -> Self {
+    pub fn new(sym: Atom, ctxt: SyntaxContext) -> Self {
         Id(sym, ctxt)
     }
 
-    pub fn sym(&self) -> &JsWord {
+    pub fn sym(&self) -> &Atom {
         &self.0
     }
 
@@ -85,11 +85,11 @@ impl IdentLike for Id {
         i.into()
     }
 
-    fn to_id(&self) -> (JsWord, SyntaxContext) {
+    fn to_id(&self) -> (Atom, SyntaxContext) {
         (self.0.clone(), self.1)
     }
 
-    fn into_id(self) -> (JsWord, SyntaxContext) {
+    fn into_id(self) -> (Atom, SyntaxContext) {
         (self.0, self.1)
     }
 }
@@ -112,8 +112,8 @@ impl PartialEq<Ident> for Id {
     }
 }
 
-impl PartialEq<JsWord> for Id {
-    fn eq(&self, other: &JsWord) -> bool {
+impl PartialEq<Atom> for Id {
+    fn eq(&self, other: &Atom) -> bool {
         self.0 == *other
     }
 }

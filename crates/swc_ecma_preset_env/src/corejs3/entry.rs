@@ -7,7 +7,7 @@ use preset_env_base::{
     Versions,
 };
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::js_word;
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
@@ -100,7 +100,7 @@ impl VisitMut for Entry {
 
         if remove {
             i.src.span = DUMMY_SP;
-            i.src.value = js_word!("");
+            i.src.value = atom!("");
         }
     }
 }

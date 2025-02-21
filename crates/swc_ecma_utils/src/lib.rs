@@ -16,7 +16,7 @@ use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -1568,7 +1568,7 @@ where
     }
 }
 
-pub fn is_valid_ident(s: &JsWord) -> bool {
+pub fn is_valid_ident(s: &Atom) -> bool {
     if s.len() == 0 {
         return false;
     }

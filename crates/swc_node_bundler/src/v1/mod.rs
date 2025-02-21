@@ -3,7 +3,7 @@ use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_loader::TargetEnv;
@@ -50,7 +50,7 @@ pub struct Config {
     pub options: Option<swc::config::Options>,
 
     #[serde(default)]
-    pub external_modules: Vec<JsWord>,
+    pub external_modules: Vec<Atom>,
 
     #[serde(default)]
     pub alias: FxHashMap<TargetEnv, FxHashMap<String, String>>,

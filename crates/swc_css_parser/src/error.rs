@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
@@ -115,7 +115,7 @@ pub enum ErrorKind {
     InvalidLayerBlockAtRule,
     InvalidMediaQuery,
     InvalidAnPlusBMicrosyntax,
-    InvalidCustomIdent(JsWord),
+    InvalidCustomIdent(Atom),
     InvalidKeyframesName(&'static str),
     InvalidScopeAtRule,
 

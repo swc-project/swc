@@ -1,7 +1,7 @@
 use std::{collections::hash_map::Entry, mem};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -14,7 +14,7 @@ pub fn duplicate_exports() -> Box<dyn Rule> {
 
 #[derive(Debug, Default)]
 struct DuplicateExports {
-    exports: FxHashMap<JsWord, Span>,
+    exports: FxHashMap<Atom, Span>,
     export_assign: Option<Span>,
 }
 

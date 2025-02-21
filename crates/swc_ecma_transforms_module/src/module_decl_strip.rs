@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
@@ -9,9 +9,9 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::{module_ref_rewriter::ImportMap, SpanCtx};
 
 /// key: module path
-pub type Link = IndexMap<JsWord, LinkItem>;
+pub type Link = IndexMap<Atom, LinkItem>;
 /// key: export binding name
-pub type Export = FxHashMap<JsWord, ExportItem>;
+pub type Export = FxHashMap<Atom, ExportItem>;
 
 #[derive(Debug)]
 pub struct ModuleDeclStrip {
@@ -352,7 +352,7 @@ pub enum LinkSpecifier {
     /// import { "imported" as local } from "mod";
     /// ```
     /// Note: imported will never be `default`
-    ImportNamed { imported: Option<JsWord>, local: Id },
+    ImportNamed { imported: Option<Atom>, local: Id },
 
     /// ```javascript
     /// import foo from "mod";
@@ -370,8 +370,8 @@ pub enum LinkSpecifier {
     /// ```
     /// Note: orig will never be `default`
     ExportNamed {
-        orig: (JsWord, SpanCtx),
-        exported: Option<(JsWord, SpanCtx)>,
+        orig: (Atom, SpanCtx),
+        exported: Option<(Atom, SpanCtx)>,
     },
 
     /// ```javascript
@@ -380,13 +380,13 @@ pub enum LinkSpecifier {
     /// export { default as foo } from "mod";
     /// ```
     /// (default_span, local_sym, local_span)
-    ExportDefaultAs(SpanCtx, JsWord, SpanCtx),
+    ExportDefaultAs(SpanCtx, Atom, SpanCtx),
 
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
-    ExportStarAs(JsWord, SpanCtx),
+    ExportStarAs(Atom, SpanCtx),
 
     /// ```javascript
     /// export * from "mod";
@@ -758,4 +758,4 @@ impl ExportItem {
     }
 }
 
-pub type ExportKV = (JsWord, ExportItem);
+pub type ExportKV = (Atom, ExportItem);

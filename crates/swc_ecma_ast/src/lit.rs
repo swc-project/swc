@@ -6,7 +6,7 @@ use std::{
 
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::{atom, Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -196,7 +196,7 @@ impl Take for Str {
     fn dummy() -> Self {
         Str {
             span: DUMMY_SP,
-            value: js_word!(""),
+            value: atom!(""),
             raw: None,
         }
     }

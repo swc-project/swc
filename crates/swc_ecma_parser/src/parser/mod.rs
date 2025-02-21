@@ -4,7 +4,7 @@
 use std::ops::{Deref, DerefMut};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 
@@ -51,7 +51,7 @@ pub struct Parser<I: Tokens> {
 
 #[derive(Clone, Default)]
 struct State {
-    labels: Vec<JsWord>,
+    labels: Vec<Atom>,
     /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
 

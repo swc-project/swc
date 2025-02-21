@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::js_word;
+use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::*;
@@ -801,7 +801,7 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(self, ']');
 
-                TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), span!(self, start)))
             }
             _ => self
                 .parse_ident_name()
@@ -2535,7 +2535,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_export_decl(
         &mut self,
         decorators: Vec<Decorator>,
-        value: JsWord,
+        value: Atom,
     ) -> Option<Decl> {
         if !cfg!(feature = "typescript") {
             return None;
@@ -2556,7 +2556,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-        value: JsWord,
+        value: Atom,
         next: bool,
     ) -> PResult<Option<Decl>> {
         if !cfg!(feature = "typescript") {

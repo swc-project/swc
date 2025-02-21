@@ -1,6 +1,6 @@
 use anyhow::{Context, Error};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -92,7 +92,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: FxHashSet<JsWord>,
+    pub forced_ns: FxHashSet<Atom>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -146,7 +146,7 @@ where
     R: Resolve,
 {
     /// Returns (local, export)
-    fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
+    fn ctxt_for(&self, src: &Atom) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
         if self.bundler.is_external(src) {
             return None;
@@ -160,7 +160,7 @@ where
         ))
     }
 
-    fn mark_as_wrapping_required(&self, src: &JsWord) {
+    fn mark_as_wrapping_required(&self, src: &Atom) {
         // Don't apply mark if it's a core module.
         if self.bundler.is_external(src) {
             return;
@@ -175,7 +175,7 @@ where
         self.bundler.scope.mark_as_wrapping_required(id);
     }
 
-    fn mark_as_cjs(&self, src: &JsWord) {
+    fn mark_as_cjs(&self, src: &Atom) {
         let path = self.bundler.resolve(self.path, src);
         let path = match path {
             Ok(v) => v,

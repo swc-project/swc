@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -92,17 +92,17 @@ struct ClassData {
     /// This is modified by the class visitor.
     mark: Mark,
 
-    privates: FxHashSet<JsWord>,
+    privates: FxHashSet<Atom>,
 
     /// Name of private methods.
-    methods: Vec<JsWord>,
+    methods: Vec<Atom>,
 
     /// Name of private statics.
-    statics: Vec<JsWord>,
+    statics: Vec<Atom>,
 
     constructor_exprs: Vec<Box<Expr>>,
 
-    names_used_for_brand_checks: FxHashSet<JsWord>,
+    names_used_for_brand_checks: FxHashSet<Atom>,
 }
 
 impl CompilerPass for PrivateInObject {
@@ -491,7 +491,7 @@ impl VisitMut for PrivateInObject {
 }
 
 struct ClassAnalyzer<'a> {
-    brand_check_names: &'a mut FxHashSet<JsWord>,
+    brand_check_names: &'a mut FxHashSet<Atom>,
     ignore_class: bool,
 }
 

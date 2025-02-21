@@ -12,7 +12,7 @@ impl VisitMut for ConsoleOutputReplacer {
                     if ident.sym == *"console" {
                         call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: JsWord::from("plugin_transform_schema_v1"),
+                            value: Atom::from("plugin_transform_schema_v1"),
                             raw: Some(Atom::new("\"plugin_transform_schema_v1\"")),
                         })));
                     }
