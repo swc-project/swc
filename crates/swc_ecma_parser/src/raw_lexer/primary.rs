@@ -317,25 +317,25 @@ const ZER: ByteHandler = |lex| {
     // peek_byte must be '0';
     let value = match lex.peek_2_byte() {
         Some(b'b' | b'B') => {
-            lex.consume_byte();
-            lex.consume_byte();
+            lex.consume_n_byte(2);
 
             lex.read_binary()
         }
         Some(b'o' | b'O') => {
-            lex.consume_byte();
-            lex.consume_byte();
+            lex.consume_n_byte(2);
 
             lex.read_octal()
         }
         Some(b'x' | b'X') => {
-            lex.consume_byte();
-            lex.consume_byte();
+            lex.consume_n_byte(2);
 
             lex.read_hex()
         }
         Some(b'.') => lex.decimal_literal(),
-        _ => Ok(0.0),
+        _ => {
+            lex.consume_byte();
+            Ok(0.0)
+        }
     }?;
 
     lex.token.value = Some(RawTokenValue::Number(value));
@@ -378,6 +378,7 @@ const SEM: ByteHandler = |lex| {
 
 /// '<'
 const LSS: ByteHandler = |lex| {
+    let start = lex.offset();
     lex.consume_byte();
 
     match lex.peek_byte() {
@@ -387,8 +388,12 @@ const LSS: ByteHandler = |lex| {
         }
         // check whether is `<!--`
         Some(b'!') if (1..3).all(|n| lex.peek_n_byte(n) == Some(b'-')) => {
-            lex.consume_n_byte(3);
-            Ok(RawTokenKind::LegacyCommentOpen)
+            lex.consume_single_line();
+
+            lex.add_error(start, lex.offset(), SyntaxError::LegacyCommentInModule);
+
+            // skip LegacyCommentInModule, return next token
+            lex.read_next_token_kind()
         }
         Some(b'<') => {
             lex.consume_byte();

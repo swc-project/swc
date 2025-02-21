@@ -164,6 +164,21 @@ impl<'source> Source<'source> {
 
     /// Peeks two characters ahead without advancing the source position.
     ///
+    /// This method checks if the source has reached the end (EOF) or if there
+    /// is at least one more character ahead. If the source has reached the
+    /// end (EOF), it returns `None`. Otherwise, it returns the second
+    /// character.
+    fn peek_2_char(&self) -> Option<char> {
+        if self.pos.add(1) >= self.end {
+            None
+        } else {
+            // If there is at least one more character ahead, return the second character.
+            self.remainder().chars().skip(1).next()
+        }
+    }
+
+    /// Peeks two characters ahead without advancing the source position.
+    ///
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the second character.
     // fn peek_2_char(&self) -> Option<char> {
@@ -254,8 +269,20 @@ impl RawLexer<'_> {
         self.source.peek_2_byte()
     }
 
+    /// Peeks the next character without advancing the source position.
+    ///
+    /// It returns the character at the next position
+    /// if it exists, otherwise returns `None`.
     pub(super) fn peek_char(&self) -> Option<char> {
         self.source.peek_char()
+    }
+
+    /// Peeks two characters ahead without advancing the source position.
+    ///
+    /// It returns the character at the second
+    /// position ahead if it exists, otherwise returns `None`.
+    pub(super) fn peek_2_char(&self) -> Option<char> {
+        self.source.peek_2_char()
     }
 
     // pub(super) fn peek_2_char(&self) -> Option<char> {

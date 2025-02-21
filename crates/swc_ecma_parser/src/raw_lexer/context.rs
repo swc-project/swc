@@ -1,6 +1,6 @@
 use super::{jsx, primary, template, ByteHandler, RawLexResult, RawLexer, RawTokenKind};
 
-#[derive(Clone, Default, PartialEq, Eq)]
+#[derive(Clone, Default, PartialEq, Eq, Debug)]
 pub enum RawLexerContext {
     #[default]
     JsLiteral,

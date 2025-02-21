@@ -2,6 +2,8 @@ use std::fmt::Debug;
 
 use swc_atoms::Atom;
 
+use super::error::Error;
+
 #[derive(PartialEq, Eq, Default, Clone)]
 pub enum RawTokenKind {
     #[default]
@@ -181,9 +183,6 @@ pub enum RawTokenKind {
 
     /// `<<=`
     LShiftAssignOp,
-
-    /// `<!--`
-    LegacyCommentOpen,
 
     /// `>`
     GtOp,
@@ -390,7 +389,6 @@ impl RawTokenKind {
             RawTokenKind::LtEqOp => "<=",
             RawTokenKind::LShiftOp => "<<",
             RawTokenKind::LShiftAssignOp => "<<=",
-            RawTokenKind::LegacyCommentOpen => "<!--",
             RawTokenKind::GtOp => ">",
             RawTokenKind::GtEqOp => ">=",
             RawTokenKind::RShiftOp => ">>",
@@ -497,6 +495,8 @@ pub enum RawTokenValue {
     String(Atom),
     /// Represents a number value.
     Number(f64),
+
+    Err(Error),
 }
 
 impl RawTokenValue {
@@ -513,6 +513,8 @@ impl RawTokenValue {
             _ => None,
         }
     }
+
+    // pub fn as_error(&self) ->
 }
 
 #[derive(Debug, Default, Clone)]

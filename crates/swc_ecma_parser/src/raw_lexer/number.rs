@@ -140,10 +140,93 @@ impl RawLexer<'_> {
     pub(super) fn decimal_literal(&mut self) -> LexResult<f64> {
         let start = self.offset();
 
-        loop {
-            match self.peek_byte() {
-                Some(b'_') => {
-                    if matches!(self.peek_byte(), Some(b'0'..=b'9')) {
+        // consume one digit byte.
+        self.next_byte();
+
+        self.decimal_digits_after_first_digit()?;
+
+        match self.peek_byte() {
+            Some(b'.') => {
+                // consume .
+                self.consume_byte();
+                self.decimal_digits_after_dot(start)
+            }
+            Some(b'e' | b'E') => {
+                let s = self.str_from_start_to_current(start).replace("_", "");
+
+                let mut value = s.parse::<f64>().or(self.error(
+                    start,
+                    self.offset(),
+                    SyntaxError::NumLitTerminatedWithExp,
+                ))?;
+
+                let (sign, count) = self.exponent_part()?;
+
+                let weight = 10u32.pow(count) as f64;
+
+                if sign {
+                    value *= weight;
+                } else {
+                    value /= weight;
+                }
+                return Ok(value);
+            }
+            _ => {
+                let s = self.str_from_start_to_current(start).replace("_", "");
+
+                return s.parse::<f64>().or(self.error(
+                    start,
+                    self.offset(),
+                    SyntaxError::NumLitTerminatedWithExp,
+                ));
+            }
+        }
+    }
+
+    pub(super) fn decimal_digits_after_dot(&mut self, start: u32) -> LexResult<f64> {
+        let s = self.str_from_start_to_current(start).replace("_", "");
+
+        self.optional_decimal_digits()?;
+
+        let mut value = s.parse::<f64>().or(self.error(
+            start,
+            self.offset(),
+            SyntaxError::NumLitTerminatedWithExp,
+        ))?;
+
+        if matches!(self.peek_byte(), Some(b'e' | b'E')) {
+            let (sign, count) = self.exponent_part()?;
+            let weight = 10u32.pow(count) as f64;
+
+            if sign {
+                value *= weight;
+            } else {
+                value /= weight;
+            }
+            Ok(value)
+        } else {
+            Ok(value)
+        }
+    }
+
+    fn optional_decimal_digits(&mut self) -> LexResult<()> {
+        if let Some(b'0'..=b'9') = self.peek_byte() {
+            self.consume_byte();
+        } else {
+            return Ok(());
+        }
+
+        self.decimal_digits_after_first_digit()
+    }
+
+    fn decimal_digits_after_first_digit(&mut self) -> LexResult<()> {
+        let start = self.offset();
+        while let Some(next) = self.peek_byte() {
+            match next {
+                b'_' => {
+                    self.consume_byte();
+
+                    if matches!(self.peek_byte(), Some(b'0'..=b'0')) {
                         self.consume_byte();
                     } else {
                         return self.error(
@@ -153,41 +236,14 @@ impl RawLexer<'_> {
                         );
                     }
                 }
-                Some(b'0'..=b'9' | b'.') => {
+                b'0'..=b'9' => {
                     self.consume_byte();
                 }
-                Some(b'e' | b'E') => {
-                    // TODO: using more performance replace
-                    let s = self.str_from_start_to_current(start).replace("_", "");
-
-                    let mut value = s.parse::<f64>().or(self.error(
-                        start,
-                        self.offset(),
-                        SyntaxError::NumLitTerminatedWithExp,
-                    ))?;
-
-                    let (sign, count) = self.exponent_part()?;
-
-                    let weight = 10u32.pow(count) as f64;
-
-                    if sign {
-                        value *= weight;
-                    } else {
-                        value /= weight;
-                    }
-                    return Ok(value);
-                }
-                _ => {
-                    let s = self.str_from_start_to_current(start).replace("_", "");
-
-                    return s.parse::<f64>().or(self.error(
-                        start,
-                        self.offset(),
-                        SyntaxError::NumLitTerminatedWithExp,
-                    ));
-                }
+                _ => break,
             }
         }
+
+        Ok(())
     }
 
     /// Parses the exponent part of a number in JavaScript syntax.

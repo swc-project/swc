@@ -14,10 +14,7 @@ fn main() {
     //     .load_file(Path::new("test.js"))
     //     .expect("failed to load test.js");
 
-    let fm = cm.new_source_file(
-        FileName::Custom("test.js".into()).into(),
-        "`hello world ${app}`".into(),
-    );
+    let fm = cm.new_source_file(FileName::Custom("test.js".into()).into(), r"`\xhex`".into());
 
     let mut lexer = Lexer::new(
         Syntax::Es(Default::default()),

@@ -70,7 +70,6 @@ impl RawLexer<'_> {
                     };
 
                     let ch = self.unicode_escape_sequence_without_u()?;
-                    dbg!(&ch);
 
                     if is_identifier_part(ch) {
                         text.push(ch);

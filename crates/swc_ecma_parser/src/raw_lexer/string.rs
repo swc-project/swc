@@ -1,7 +1,10 @@
 use std::ops::Sub;
 
+use swc_common::Spanned;
+
 // implement string literal parse
 use super::{
+    error::Error,
     unicode::{CR, FF, LF, LS, PS, TAB, VT},
     RawLexer,
 };
@@ -71,7 +74,11 @@ impl RawLexer<'_> {
     }
 
     // fork from jsparagus
-    fn escape_sequence(&mut self, text: &mut String) -> LexResult<()> {
+    /// ``` text
+    /// LineContinuation ::
+    ///     \ LineTerminatorSequence
+    /// ```
+    pub(super) fn escape_sequence(&mut self, text: &mut String) -> LexResult<()> {
         // escape_sequence start with '\'
         let start = self.offset().sub(1);
         match self.next_char() {
@@ -100,12 +107,35 @@ impl RawLexer<'_> {
                 'x' => {
                     // HexEscapeSequence ::
                     //     `x` HexDigit HexDigit
-                    let mut value = self.hex_digit()?;
-                    value = (value << 4) | self.hex_digit()?;
+                    let mut value = self.hex_digit().map_err(|_| {
+                        self.create_error(
+                            start,
+                            self.offset(),
+                            SyntaxError::BadCharacterEscapeSequence {
+                                expected: "2 hex characters",
+                            },
+                        )
+                    })?;
+                    value = (value << 4)
+                        | self.hex_digit().map_err(|_| {
+                            self.create_error(
+                                start,
+                                self.offset(),
+                                SyntaxError::BadCharacterEscapeSequence {
+                                    expected: "2 hex characters",
+                                },
+                            )
+                        })?;
 
                     match char::try_from(value) {
                         Err(_) => {
-                            return self.error(start, self.offset(), SyntaxError::InvalidStrEscape);
+                            return self.error(
+                                start,
+                                self.offset(),
+                                SyntaxError::BadCharacterEscapeSequence {
+                                    expected: "2 hex characters",
+                                },
+                            );
                         }
                         Ok(c) => {
                             text.push(c);
@@ -114,19 +144,45 @@ impl RawLexer<'_> {
                 }
 
                 'u' => {
-                    let ch = self.unicode_escape_sequence_without_u()?;
+                    let ch = self
+                        .unicode_escape_sequence_without_u()
+                        .map_err(|e| self.create_error(start, self.offset(), e.kind().clone()))?;
 
                     text.push(ch);
                 }
                 '0' => match self.peek_byte() {
-                    Some(b'0'..=b'7') => todo!("legacy octal escape sequence in string"),
-                    Some(b'8'..=b'9') => todo!("digit immediately following \\0 escape sequence"),
+                    Some(b'0'..=b'7') => {
+                        // SAFETY: xx
+                        let mut value: u32 = (self.next_byte().unwrap() - b'0').into();
+
+                        if matches!(self.peek_byte(), Some(b'0'..=b'7')) {
+                            value = value << 3 | (self.next_byte().unwrap() - b'0') as u32;
+                        }
+
+                        let ch = char::try_from(value).or(self.error(
+                            start,
+                            self.offset(),
+                            SyntaxError::InvalidUnicodeEscape,
+                        ))?;
+
+                        text.push(ch);
+                    }
                     _ => {
                         text.push('\u{0000}');
                     }
                 },
-                '1'..='7' => {
-                    todo!("parse octal escape sequence")
+                ch @ '1'..='7' => {
+                    let mut value = ch as u32 - '0' as u32;
+                    if matches!(self.peek_byte(), Some(b'0'..=b'7')) {
+                        value = value << 3 | (self.next_byte().unwrap() - b'0') as u32;
+                    }
+                    let ch = char::try_from(value).or(self.error(
+                        start,
+                        self.offset(),
+                        SyntaxError::InvalidUnicodeEscape,
+                    ))?;
+
+                    text.push(ch);
                 }
                 other => text.push(other),
             },
@@ -142,7 +198,12 @@ impl RawLexer<'_> {
             Some('{') => {
                 self.consume_char();
 
-                let value = self.code_point()?;
+                let value = self.code_point().map_err(|mut e| {
+                    e.set_kind(SyntaxError::BadCharacterEscapeSequence {
+                        expected: "1-6 hex characters",
+                    });
+                    e
+                })?;
 
                 if self.next_char() != Some('}') {
                     return self.error(start, self.offset(), SyntaxError::InvalidUnicodeEscape);
@@ -158,7 +219,14 @@ impl RawLexer<'_> {
     fn hex_4_digits(&mut self) -> LexResult<char> {
         let mut value = 0;
         for _ in 0..4 {
-            value = (value << 4) | self.hex_digit()?;
+            value = (value << 4)
+                | self.hex_digit().map_err(|mut e| {
+                    e.set_kind(SyntaxError::BadCharacterEscapeSequence {
+                        expected: "4 hex characters",
+                    });
+
+                    e
+                })?;
         }
 
         self.code_point_to_char(value)
@@ -203,10 +271,19 @@ impl RawLexer<'_> {
     fn hex_digit(&mut self) -> LexResult<u32> {
         let start = self.offset();
 
-        match self.next_char() {
-            Some(c @ '0'..='9') => Ok(c as u32 - '0' as u32),
-            Some(c @ 'a'..='f') => Ok(10 + (c as u32 - 'a' as u32)),
-            Some(c @ 'A'..='F') => Ok(10 + (c as u32 - 'A' as u32)),
+        match self.peek_char() {
+            Some(c @ '0'..='9') => {
+                self.consume_char();
+                Ok(c as u32 - '0' as u32)
+            }
+            Some(c @ 'a'..='f') => {
+                self.consume_char();
+                Ok(10 + (c as u32 - 'a' as u32))
+            }
+            Some(c @ 'A'..='F') => {
+                self.consume_char();
+                Ok(10 + (c as u32 - 'A' as u32))
+            }
             None | Some(_) => self.error(start, self.offset(), SyntaxError::InvalidStrEscape),
         }
     }

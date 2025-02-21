@@ -31,10 +31,10 @@ const IDT: ByteHandler = |lex| {
 
     let primary_handler = primary::handler_from_byte(byte);
 
-    primary_handler(lex).map(|r| match lex.context {
+    primary_handler(lex).map(|kind| match lex.context {
         RawLexerContext::Jsx => RawTokenKind::JsxText,
         RawLexerContext::JsxTag => RawTokenKind::JSXName,
-        _ => r,
+        _ => kind,
     })
 };
 
@@ -52,13 +52,13 @@ const LSS: ByteHandler = |lex| {
 
     let primary_handler = primary::handler_from_byte(byte);
 
-    primary_handler(lex).map(|token| {
-        if matches!(token, RawTokenKind::LtOp) {
+    primary_handler(lex).map(|kind| {
+        if matches!(kind, RawTokenKind::LtOp) {
             lex.set_context(RawLexerContext::JsxTag);
 
             RawTokenKind::JsxTagStart
         } else {
-            token
+            kind
         }
     })
 };
@@ -69,12 +69,12 @@ const MOR: ByteHandler = |lex| {
 
     let primary_handler = primary::handler_from_byte(byte);
 
-    primary_handler(lex).map(|token| {
-        if matches!(token, RawTokenKind::GtOp) {
+    primary_handler(lex).map(|kind| {
+        if matches!(kind, RawTokenKind::GtOp) {
             lex.set_context(RawLexerContext::Jsx);
             RawTokenKind::JsxTagEnd
         } else {
-            token
+            kind
         }
     })
 };

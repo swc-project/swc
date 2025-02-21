@@ -447,7 +447,6 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::LtEqOp => Token::BinOp(BinOpToken::LtEq),
                 RawTokenKind::LShiftOp => Token::BinOp(BinOpToken::LShift),
                 RawTokenKind::LShiftAssignOp => Token::AssignOp(AssignOp::LShiftAssign),
-                RawTokenKind::LegacyCommentOpen => todo!(),
                 RawTokenKind::GtOp => Token::BinOp(BinOpToken::Gt),
                 RawTokenKind::GtEqOp => Token::BinOp(BinOpToken::GtEq),
                 RawTokenKind::RShiftOp => Token::BinOp(BinOpToken::RShift),
@@ -613,7 +612,13 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::DollarLBrace => Token::DollarLBrace,
                 RawTokenKind::TemplateLiteral => Token::Template {
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
-                    cooked: Ok(self.raw_lexer.str_from_pos(start, end).into()),
+                    cooked: match next_token.value.unwrap() {
+                        crate::raw_lexer::RawTokenValue::String(atom) => Ok(atom),
+                        crate::raw_lexer::RawTokenValue::Err(e) => Err(e),
+                        crate::raw_lexer::RawTokenValue::Number(_) => {
+                            unreachable!("Should not get number value")
+                        }
+                    },
                 },
                 RawTokenKind::JsxTagStart => Token::JSXTagStart,
                 RawTokenKind::JsxTagEnd => Token::JSXTagEnd,

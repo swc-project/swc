@@ -53,13 +53,7 @@ impl<'source> RawLexer<'source> {
     pub fn read_next_token(&mut self) -> RawLexResult<RawToken> {
         loop {
             let start = self.offset();
-            let kind = match self.peek_byte() {
-                Some(byte) => {
-                    let handler = self.handler_from_byte(byte);
-                    handler(self)?
-                }
-                None => RawTokenKind::Eof,
-            };
+            let kind = self.read_next_token_kind()?;
 
             if kind == RawTokenKind::Skip {
                 continue;
@@ -67,6 +61,16 @@ impl<'source> RawLexer<'source> {
 
             let end = self.offset();
             return Ok(self.build_token(kind, start, end));
+        }
+    }
+
+    fn read_next_token_kind(&mut self) -> RawLexResult<RawTokenKind> {
+        match self.peek_byte() {
+            Some(byte) => {
+                let handler = self.handler_from_byte(byte);
+                handler(self)
+            }
+            None => Ok(RawTokenKind::Eof),
         }
     }
 

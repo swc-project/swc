@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::{mem, ops::Add};
 
 use super::RawLexer;
 pub use crate::error::Error;
@@ -7,9 +7,13 @@ pub(super) type RawLexResult<T> = Result<T, Error>;
 
 impl RawLexer<'_> {
     pub(super) fn error<T>(&self, start: u32, end: u32, error: SyntaxError) -> RawLexResult<T> {
+        Err(self.create_error(start, end, error))
+    }
+
+    pub(super) fn create_error(&self, start: u32, end: u32, error: SyntaxError) -> Error {
         let span =
             swc_common::Span::new(swc_common::BytePos(start + 1), swc_common::BytePos(end + 1));
-        Err(Error::new(span, error))
+        Error::new(span, error)
     }
 
     pub(super) fn error_with_single_byte<T>(
@@ -28,7 +32,6 @@ impl RawLexer<'_> {
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
-        // FIXME:
-        self.errors.clone()
+        mem::take(&mut self.errors)
     }
 }
