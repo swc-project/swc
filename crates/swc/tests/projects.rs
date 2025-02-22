@@ -1256,6 +1256,38 @@ fn issue_8701_1() {
     );
 }
 
+#[test]
+fn issue_9854_1() {
+    static INPUT: &str = "import classNames from \"classnames\";\nconsole.log(classNames);";
+
+    let base_url = current_dir()
+        .unwrap()
+        .join("tests/projects/issue-9854")
+        .canonicalize()
+        .unwrap();
+
+    let output = str_with_opt(
+        INPUT,
+        Options {
+            filename: "app/src/index.ts".into(),
+            config: Config {
+                jsc: JscConfig {
+                    base_url,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+
+    assert_eq!(
+        output.to_string(),
+        "import classNames from \"classnames\";\nconsole.log(classNames);\n"
+    );
+}
+
 #[testing::fixture("tests/minify/**/input.js")]
 fn minify(input_js: PathBuf) {
     let input_dir = input_js.parent().unwrap();

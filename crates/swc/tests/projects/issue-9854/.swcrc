@@ -2,9 +2,6 @@
     "$schema": "https://swc.rs/schema.json",
     "jsc": {
         "target": "es2022",
-        "baseUrl": "./app",
-        "parser": {
-            "syntax": "typescript"
-        }
+        "baseUrl": "./app"
     }
 }
