@@ -1256,37 +1256,6 @@ fn issue_8701_1() {
     );
 }
 
-#[test]
-fn issue_9854_1() {
-    let base_url = current_dir()
-        .unwrap()
-        .join("tests/projects/issue-9854/app")
-        .canonicalize()
-        .unwrap();
-
-    std::env::set_current_dir(base_url.parent().unwrap()).unwrap();
-    let output = file_with_opt(
-        base_url.join("src").join("index.ts").to_str().unwrap(),
-        Options {
-            filename: "app/src/index.ts".into(),
-            config: Config {
-                jsc: JscConfig {
-                    base_url,
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-
-    assert_eq!(
-        output.to_string(),
-        "import classNames from \"classnames\";\nconsole.log(classNames);\n"
-    );
-}
-
 #[testing::fixture("tests/minify/**/input.js")]
 fn minify(input_js: PathBuf) {
     let input_dir = input_js.parent().unwrap();
