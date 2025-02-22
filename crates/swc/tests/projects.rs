@@ -1258,16 +1258,15 @@ fn issue_8701_1() {
 
 #[test]
 fn issue_9854_1() {
-    static INPUT: &str = "import classNames from \"classnames\";\nconsole.log(classNames);";
-
     let base_url = current_dir()
         .unwrap()
-        .join("tests/projects/issue-9854")
+        .join("tests/projects/issue-9854/app")
         .canonicalize()
         .unwrap();
 
-    let output = str_with_opt(
-        INPUT,
+    std::env::set_current_dir(base_url.parent().unwrap()).unwrap();
+    let output = file_with_opt(
+        base_url.join("src").join("index.ts").to_str().unwrap(),
         Options {
             filename: "app/src/index.ts".into(),
             config: Config {
