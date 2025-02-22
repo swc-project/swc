@@ -326,7 +326,8 @@ where
             }
         }
 
-        if !module_specifier.starts_with('.') && !module_specifier.starts_with('/') {
+        let path = Path::new(module_specifier);
+        if matches!(path.components().next(), Some(Component::Normal(_))) {
             let path = self.base_url.join(module_specifier);
 
             // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
