@@ -417,11 +417,8 @@ impl NodeModulesResolver {
             module_specifier, base, self.target_env
         );
 
-        if !module_specifier.starts_with('.') {
-            // Handle absolute path
-
-            let path = Path::new(module_specifier);
-
+        let path = Path::new(module_specifier);
+        if path.is_absolute() {
             if let Ok(file) = self
                 .resolve_as_file(path)
                 .or_else(|_| self.resolve_as_directory(path, false))
