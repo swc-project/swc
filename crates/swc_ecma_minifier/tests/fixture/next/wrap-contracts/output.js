@@ -398,8 +398,7 @@
                 ];
                 BN.prototype.toString = function(base, padding) {
                     if (padding = 0 | padding || 1, 16 === (base = base || 10) || 'hex' === base) {
-                        out = '';
-                        for(var out, off = 0, carry = 0, i = 0; i < this.length; i++){
+                        for(var out = '', off = 0, carry = 0, i = 0; i < this.length; i++){
                             var w = this.words[i], word = ((w << off | carry) & 0xffffff).toString(16);
                             carry = w >>> 24 - off & 0xffffff, (off += 2) >= 26 && (off -= 26, i--), out = 0 !== carry || i !== this.length - 1 ? zeros[6 - word.length] + word + out : word + out;
                         }
@@ -787,8 +786,8 @@
                 // NOTE: `hint` is a lowest bit before trailing zeroes
                 // NOTE: if `extended` is present - it will be filled with destroyed bits
                 BN.prototype.iushrn = function(bits, hint, extended) {
-                    assert('number' == typeof bits && bits >= 0), h = hint ? (hint - hint % 26) / 26 : 0;
-                    var h, r = bits % 26, s = Math.min((bits - r) / 26, this.length), mask = 0x3ffffff ^ 0x3ffffff >>> r << r, maskedWords = extended;
+                    assert('number' == typeof bits && bits >= 0);
+                    var h = hint ? (hint - hint % 26) / 26 : 0, r = bits % 26, s = Math.min((bits - r) / 26, this.length), mask = 0x3ffffff ^ 0x3ffffff >>> r << r, maskedWords = extended;
                     // Extended mode, copy masked part
                     if (h -= s, h = Math.max(0, h), maskedWords) {
                         for(var i = 0; i < s; i++)maskedWords.words[i] = this.words[i];
@@ -9447,8 +9446,7 @@
                 }
                 BN.prototype.toString = function(base, padding) {
                     if (padding = 0 | padding || 1, 16 === (base = base || 10) || 'hex' === base) {
-                        out = '';
-                        for(var out, off = 0, carry = 0, i = 0; i < this.length; i++){
+                        for(var out = '', off = 0, carry = 0, i = 0; i < this.length; i++){
                             var w = this.words[i], word = ((w << off | carry) & 0xffffff).toString(16);
                             out = 0 != (carry = w >>> 24 - off & 0xffffff) || i !== this.length - 1 ? zeros[6 - word.length] + word + out : word + out, (off += 2) >= 26 && (off -= 26, i--);
                         }
@@ -9800,8 +9798,8 @@
                 // NOTE: `hint` is a lowest bit before trailing zeroes
                 // NOTE: if `extended` is present - it will be filled with destroyed bits
                 BN.prototype.iushrn = function(bits, hint, extended) {
-                    assert('number' == typeof bits && bits >= 0), h = hint ? (hint - hint % 26) / 26 : 0;
-                    var h, r = bits % 26, s = Math.min((bits - r) / 26, this.length), mask = 0x3ffffff ^ 0x3ffffff >>> r << r, maskedWords = extended;
+                    assert('number' == typeof bits && bits >= 0);
+                    var h = hint ? (hint - hint % 26) / 26 : 0, r = bits % 26, s = Math.min((bits - r) / 26, this.length), mask = 0x3ffffff ^ 0x3ffffff >>> r << r, maskedWords = extended;
                     // Extended mode, copy masked part
                     if (h -= s, h = Math.max(0, h), maskedWords) {
                         for(var i = 0; i < s; i++)maskedWords.words[i] = this.words[i];

@@ -5299,7 +5299,7 @@
                             }, this), folds;
                             range = location;
                         }
-                        for(var range, folds, outermostFolds = folds = this.getFoldsInRangeList(range); 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range.start) && Range.comparePoints(folds[0].end, range.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range);
+                        for(var range, folds = this.getFoldsInRangeList(range), outermostFolds = folds; 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range.start) && Range.comparePoints(folds[0].end, range.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range);
                         if (!1 != expandInner ? this.removeFolds(folds) : this.expandFolds(folds), outermostFolds.length) return outermostFolds;
                     }, this.isRowFolded = function(docRow, startFoldRow) {
                         return !!this.getFoldLine(docRow, startFoldRow);
@@ -10798,11 +10798,10 @@ margin: 0 10px;\
                         if (deltaY < 0 && this.session.getScrollTop() >= 1 - this.scrollMargin.top || deltaY > 0 && this.session.getScrollTop() + this.$size.scrollerHeight - this.layerConfig.maxHeight < -1 + this.scrollMargin.bottom || deltaX < 0 && this.session.getScrollLeft() >= 1 - this.scrollMargin.left || deltaX > 0 && this.session.getScrollLeft() + this.$size.scrollerWidth - this.layerConfig.width < -1 + this.scrollMargin.right) return !0;
                     }, this.pixelToScreenCoordinates = function(x, y) {
                         if (this.$hasCssTransforms) {
-                            canvasPos = {
+                            var canvasPos = {
                                 top: 0,
                                 left: 0
-                            };
-                            var canvasPos, p = this.$fontMetrics.transformCoordinates([
+                            }, p = this.$fontMetrics.transformCoordinates([
                                 x,
                                 y
                             ]);
@@ -10817,11 +10816,10 @@ margin: 0 10px;\
                         };
                     }, this.screenToTextCoordinates = function(x, y) {
                         if (this.$hasCssTransforms) {
-                            canvasPos = {
+                            var canvasPos = {
                                 top: 0,
                                 left: 0
-                            };
-                            var canvasPos, p = this.$fontMetrics.transformCoordinates([
+                            }, p = this.$fontMetrics.transformCoordinates([
                                 x,
                                 y
                             ]);

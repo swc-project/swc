@@ -2037,8 +2037,7 @@
                  *         `Component` will get created by this process.
                  */ _proto.addChild = function(child, options, index) {
                     if (void 0 === options && (options = {}), void 0 === index && (index = this.children_.length), "string" == typeof child) {
-                        componentName = toTitleCase$1(child);
-                        var component, componentName, componentClassName = options.componentClass || componentName; // Set name through options
+                        var component, componentName = toTitleCase$1(child), componentClassName = options.componentClass || componentName; // Set name through options
                         options.name = componentName; // Create a new object & element for this controls set
                         // If there's no .player_, this is a player
                         var ComponentClass = Component.getComponent(componentClassName);
@@ -3792,8 +3791,8 @@
                  *
                  * @abstract
                  */ function Track(options) {
-                    void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var _this, trackProps = {
+                    void 0 === options && (options = {});
+                    var _this = _EventTarget.call(this) || this, trackProps = {
                         id: options.id || "vjs_track_" + _guid++,
                         kind: options.kind || "",
                         language: options.language || ""
@@ -4220,8 +4219,8 @@
                  * @param {boolean} [options.default]
                  *        If this track should default to on or off.
                  */ function HTMLTrackElement(options) {
-                    void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var _this, readyState, track = new TextTrack(options);
+                    void 0 === options && (options = {});
+                    var readyState, _this = _EventTarget.call(this) || this, track = new TextTrack(options);
                     return _this.kind = track.kind, _this.src = track.src, _this.srclang = track.language, _this.label = track.label, _this.default = track.default, Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), {
                         /**
                              * @memberof HTMLTrackElement
@@ -5593,8 +5592,7 @@
                  * @param {Component~ReadyCallback} [ready]
                  *        The function to call when `TextTrackDisplay` is ready.
                  */ function TextTrackDisplay(player, options, ready) {
-                    _this = _Component.call(this, player, options, ready) || this;
-                    var _this, updateDisplayHandler = function(e) {
+                    var _this = _Component.call(this, player, options, ready) || this, updateDisplayHandler = function(e) {
                         return _this.updateDisplay(e);
                     };
                     return player.on("loadstart", function(e) {
@@ -6259,8 +6257,7 @@
                  * @param {Object} [options]
                  *        The key/value store of player options.
                  */ function DurationDisplay(player, options) {
-                    _this = _TimeDisplay.call(this, player, options) || this;
-                    var _this, updateContent = function(e) {
+                    var _this = _TimeDisplay.call(this, player, options) || this, updateContent = function(e) {
                         return _this.updateContent(e);
                     }; // we do not want to/need to throttle duration changes,
                     return(// as they should always display the changed duration as
@@ -8991,8 +8988,7 @@
                  * @param {Component~ReadyCallback} [ready]
                  *        The function to call when this component is ready.
                  */ function DescriptionsButton(player, options, ready) {
-                    _this = _TextTrackButton.call(this, player, options, ready) || this;
-                    var _this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleTracksChange);
+                    var _this = _TextTrackButton.call(this, player, options, ready) || this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleTracksChange);
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
@@ -10612,8 +10608,7 @@
                  * @param {Component~ReadyCallback} ready
                  *        Callback function to call when the `HTML5` Tech is ready.
                  */ function Html5(options, ready) {
-                    _this = _Tech.call(this, options, ready) || this;
-                    var _this, source = options.source, crossoriginTracks = !1;
+                    var _this = _Tech.call(this, options, ready) || this, source = options.source, crossoriginTracks = !1;
                     if (source && (_this.el_.currentSrc !== source.src || options.tag && 3 === options.tag.initNetworkState_) ? _this.setSource(source) : _this.handleLateInit_(_this.el_), options.enableSourceset && _this.setupSourcesetHandling_(), _this.isScrubbing_ = !1, _this.el_.hasChildNodes()) {
                         for(var nodes = _this.el_.childNodes, nodesLength = nodes.length, removeNodes = []; nodesLength--;){
                             var node = nodes[nodesLength];
@@ -25349,8 +25344,7 @@
                 return log("not " + sharedLogLine + " as no switching criteria met"), !1;
             }, MasterPlaylistController = /*#__PURE__*/ function(_videojs$EventTarget) {
                 function MasterPlaylistController(options) {
-                    _this = _videojs$EventTarget.call(this) || this;
-                    var _this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
+                    var _this = _videojs$EventTarget.call(this) || this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
                     if (!src) throw Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
                     null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = !!experimentalBufferBasedABR, _this.experimentalLeastPixelDiffSelector = !!experimentalLeastPixelDiffSelector, _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {

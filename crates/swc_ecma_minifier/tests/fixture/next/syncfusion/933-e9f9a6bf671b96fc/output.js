@@ -4342,9 +4342,7 @@
      * @param  {string} key Key to search in the response header
      * @returns {string} ?
      */ Ajax.prototype.getResponseHeader = function(key) {
-                    // eslint-disable-next-line
-                    responseHeaders = {};
-                    for(var responseHeaders, header, headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders()); headers;)responseHeaders[headers[1].toLowerCase()] = headers[2], headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders());
+                    for(var header, responseHeaders = {}, headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders()); headers;)responseHeaders[headers[1].toLowerCase()] = headers[2], headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders());
                     return util_isNullOrUndefined(// eslint-disable-next-line
                     header = responseHeaders[key.toLowerCase()]) ? null : header;
                 }, Ajax);
@@ -26363,14 +26361,14 @@
                 }, Slider.prototype.sliderBarUp = function(event) {
                     this.changeEvent('changed', event), this.handleFocusOut(), this.firstHandle.classList.remove(slider_classNames.sliderActiveHandle), 'Range' === this.type && (this.initialTooltip = !1, this.secondHandle.classList.remove(slider_classNames.sliderActiveHandle)), this.closeTooltip(), this.isMaterial && (this.getHandle().classList.remove('e-large-thumb-size'), this.isMaterialTooltip && this.tooltipElement.classList.remove(slider_classNames.materialTooltipActive)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.sliderBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.sliderBarUp);
                 }, Slider.prototype.sliderBarMove = function(evt) {
-                    'touchmove' !== evt.type && evt.preventDefault(), pos = 'mousemove' === evt.type ? {
+                    'touchmove' !== evt.type && evt.preventDefault();
+                    var pos = 'mousemove' === evt.type ? {
                         x: evt.clientX,
                         y: evt.clientY
                     } : {
                         x: evt.changedTouches[0].clientX,
                         y: evt.changedTouches[0].clientY
-                    };
-                    var pos, handlepos = this.xyToPosition(pos), handleVal = this.positionToValue(handlepos);
+                    }, handlepos = this.xyToPosition(pos), handleVal = this.positionToValue(handlepos);
                     if (handlepos = Math.round(handlepos), 'Range' !== this.type && 1 === this.activeHandle) {
                         if (!(this.limits.enabled && this.limits.startHandleFixed)) {
                             if (this.limits.enabled) {

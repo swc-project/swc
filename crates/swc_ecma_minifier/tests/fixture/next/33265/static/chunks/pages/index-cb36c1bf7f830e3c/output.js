@@ -948,9 +948,8 @@
                 function loadFunc() {
                     if (!aborted) {
                         clearTimeout(timeoutTimer);
-                        var status, response = failureResponse, err = null;
-                        return 0 !== (//IE8 CORS GET successful response doesn't have a status field, but body is fine
-                        status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
+                        var status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status, response = failureResponse, err = null;
+                        return 0 !== status ? (response = {
                             body: function() {
                                 // Chrome with requestType=blob throws errors arround when even testing access to responseText
                                 var body = void 0;
@@ -5791,7 +5790,7 @@
                         if ("INITIAL" === self1.state) {
                             // We can't start parsing until we have the first line.
                             if (!/\r\n|\n/.test(self1.buffer)) return this;
-                            var input, line, m = (line = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
+                            var input, line = collectNextLine(), m = line.match(/^WEBVTT([ \t].*)?$/);
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self1.state = "HEADER";
                         }
