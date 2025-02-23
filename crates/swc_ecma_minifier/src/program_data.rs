@@ -120,7 +120,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: Box<FxHashMap<Atom, u32>>,
+    pub(crate) accessed_props: FxHashMap<Atom, u32>,
 
     pub(crate) used_recursively: bool,
 }
@@ -294,7 +294,7 @@ impl Storage for ProgramData {
 
                     e.get_mut().assigned_fn_local &= var_info.assigned_fn_local;
 
-                    for (k, v) in *var_info.accessed_props {
+                    for (k, v) in var_info.accessed_props {
                         *e.get_mut().accessed_props.entry(k).or_default() += v;
                     }
 
