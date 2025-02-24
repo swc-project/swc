@@ -3,7 +3,7 @@
 use std::{fmt::Debug, mem::forget};
 
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit_std::{noop_visit_type, Visit, VisitWith};
 
 /// Assert in debug mode. This is noop in release build.
 #[cfg_attr(not(debug_assertions), inline(always))]

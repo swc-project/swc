@@ -7,7 +7,7 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
     option::ManglePropertiesOptions,

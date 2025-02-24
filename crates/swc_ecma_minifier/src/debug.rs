@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 pub use swc_ecma_transforms_optimization::AssertValid;
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit_std::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(crate) struct Debugger {}
 
@@ -26,7 +26,10 @@ impl VisitMut for Debugger {
 
 pub(crate) fn dump<N>(node: &N, force: bool) -> String
 where
-    N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
+    N: swc_ecma_codegen::Node
+        + Clone
+        + swc_ecma_visit::VisitMutWith<DropSpan>
+        + VisitMutWith<Debugger>,
 {
     if !force {
         #[cfg(not(feature = "debug"))]
@@ -36,7 +39,7 @@ where
     }
 
     let mut node = node.clone();
-    node.visit_mut_with(&mut Debugger {});
+    swc_ecma_visit_std::VisitMutWith::visit_mut_with(&mut node, &mut Debugger {});
     node = drop_span(node);
     let mut buf = Vec::new();
     let cm = Lrc::new(SourceMap::default());

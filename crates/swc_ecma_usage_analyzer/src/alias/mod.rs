@@ -3,7 +3,7 @@
 use rustc_hash::FxHashSet;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit_std::{Visit, VisitWith};
 
 use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
@@ -201,8 +201,6 @@ impl InfectionCollector {
 }
 
 impl Visit for InfectionCollector {
-    noop_visit_type!();
-
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         let old = self.ctx.is_pat_decl;
 

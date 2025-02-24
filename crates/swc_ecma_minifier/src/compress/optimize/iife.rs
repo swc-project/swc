@@ -4,7 +4,7 @@ use rustc_hash::FxHashMap;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit_std::VisitMutWith;
 
 use super::{util::NormalMultiReplacer, Optimizer};
 #[cfg(feature = "debug")]

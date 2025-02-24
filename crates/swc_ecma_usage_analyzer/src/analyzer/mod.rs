@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit_std::{Visit, VisitWith};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
@@ -225,8 +225,6 @@ impl<S> Visit for UsageAnalyzer<S>
 where
     S: Storage,
 {
-    noop_visit_type!();
-
     fn visit_array_lit(&mut self, n: &ArrayLit) {
         let ctx = Ctx {
             is_id_ref: true,

@@ -3,7 +3,7 @@ use std::{cmp::Ordering, f64};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Type, Value};
-use swc_ecma_visit::{
+use swc_ecma_visit_std::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
@@ -525,7 +525,7 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
 
 pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
 where
-    N: for<'aa> VisitWith<IdentUsageFinder<'aa>>,
+    N: for<'aa> swc_ecma_visit::VisitWith<IdentUsageFinder<'aa>>,
 {
     IdentUsageFinder::find(&id, node)
 }
