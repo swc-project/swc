@@ -55,7 +55,7 @@ impl<'source> RawLexer<'source> {
             let start = self.offset();
             let kind = self.read_next_token_kind()?;
 
-            if kind == RawTokenKind::Skip {
+            if kind == RawTokenKind::Skip || kind == RawTokenKind::WhiteSpace {
                 continue;
             }
 

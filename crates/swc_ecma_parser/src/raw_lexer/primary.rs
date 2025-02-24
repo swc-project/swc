@@ -54,7 +54,7 @@ impl RawLexer<'_> {
 }
 
 pub(super) fn handler_from_byte(byte: u8) -> ByteHandler {
-    unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) }
+    unsafe { BYTE_HANDLERS[byte as usize] }
 }
 
 /// Lookup table mapping any incoming byte to a handler function defined below.

@@ -141,6 +141,14 @@ impl<'source> Source<'source> {
         if self.is_eof() {
             None
         } else {
+            let next_byte = self.peek_byte()?;
+
+            if next_byte.is_ascii() {
+                self.pos = self.pos.add(1);
+
+                return Some(next_byte as char);
+            }
+
             let remain = self.remainder();
 
             remain.chars().next().and_then(|ch| {
@@ -158,6 +166,11 @@ impl<'source> Source<'source> {
         if self.is_eof() {
             None
         } else {
+            let next_byte = self.peek_byte()?;
+            if next_byte.is_ascii() {
+                return Some(next_byte as char);
+            }
+
             self.remainder().chars().next()
         }
     }
@@ -176,18 +189,6 @@ impl<'source> Source<'source> {
             self.remainder().chars().skip(1).next()
         }
     }
-
-    /// Peeks two characters ahead without advancing the source position.
-    ///
-    /// If the source has reached the end (EOF), it returns `None`. Otherwise,
-    /// it returns the second character.
-    // fn peek_2_char(&self) -> Option<char> {
-    //     if self.is_eof() {
-    //         None
-    //     } else {
-    //         self.remainder().chars().skip(1).next()
-    //     }
-    // }
 
     /// Returns the remaining part of the source as a string slice.
     ///

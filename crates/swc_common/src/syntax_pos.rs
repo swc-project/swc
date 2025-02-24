@@ -380,9 +380,10 @@ impl Span {
 
     #[inline]
     pub fn new(mut lo: BytePos, mut hi: BytePos) -> Self {
-        if lo > hi {
-            std::mem::swap(&mut lo, &mut hi);
-        }
+        // TODO: perf remove the core::cmp
+        // if lo > hi {
+        // std::mem::swap(&mut lo, &mut hi);
+        // }
 
         Span { lo, hi }
     }

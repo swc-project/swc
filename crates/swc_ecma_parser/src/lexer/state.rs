@@ -375,6 +375,7 @@ impl Iterator for Lexer<'_> {
         } else {
             let raw_span = next_token.span;
             let RawTokenSpan { start, end } = raw_span;
+            // TODO: perf
             let span = Span::new(BytePos(start + 1), BytePos(end + 1));
             let token = match next_token.kind {
                 RawTokenKind::Eof => return None,
@@ -463,12 +464,14 @@ impl Iterator for Lexer<'_> {
                     value: next_token.value.unwrap().as_number().unwrap(),
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
-                RawTokenKind::BigIntLiteral => todo!(),
+                RawTokenKind::BigIntLiteral => todo!("should implement bit ing literal"),
                 RawTokenKind::Await => Token::Word(Word::Keyword(Keyword::Await)),
                 RawTokenKind::Async => {
                     Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)))
                 }
-                RawTokenKind::Accessor => todo!(),
+                RawTokenKind::Accessor => {
+                    Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Accessor)))
+                }
                 RawTokenKind::Break => Token::Word(Word::Keyword(Keyword::Break)),
                 RawTokenKind::BigInt => {
                     Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Bigint)))
