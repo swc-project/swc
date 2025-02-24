@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -122,7 +122,7 @@ impl SimplifyExpr {
             Index(f64),
 
             /// ({}).foo
-            IndexStr(JsWord),
+            IndexStr(Atom),
         }
         let op = match prop {
             MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {

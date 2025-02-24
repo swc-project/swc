@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
@@ -6,7 +6,7 @@ use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLOR
 use super::Compressor;
 use crate::compressor::alpha_value::compress_alpha_value;
 
-fn compress_alpha_in_hex(value: &JsWord) -> Option<&str> {
+fn compress_alpha_in_hex(value: &Atom) -> Option<&str> {
     let length = value.len();
 
     if length == 3 || length == 6 {

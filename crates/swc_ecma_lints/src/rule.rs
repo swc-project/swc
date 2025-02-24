@@ -1,11 +1,7 @@
-use std::{fmt::Debug, sync::Arc};
+use std::fmt::Debug;
 
 use auto_impl::auto_impl;
-use parking_lot::Mutex;
-use swc_common::{
-    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
-    GLOBALS,
-};
+use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_parallel::join;
@@ -39,34 +35,34 @@ impl<R: Rule> LintNode<R> for Script {
     }
 }
 
-fn join_lint_rules<N: LintNode<R>, R: Rule>(rules: &mut [R], program: &N) -> Vec<Diagnostic> {
+fn join_lint_rules<N: LintNode<R>, R: Rule>(rules: &mut [R], program: &N) {
     let len = rules.len();
     if len == 0 {
-        return vec![];
+        return;
     }
     if len == 1 {
-        let emitter = Capturing::default();
-        {
-            let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
-            HANDLER.set(&handler, || {
-                program.lint(&mut rules[0]);
-            });
-        }
-        return Arc::try_unwrap(emitter.errors).unwrap().into_inner();
+        program.lint(&mut rules[0]);
+        return;
     }
 
     let (ra, rb) = rules.split_at_mut(len / 2);
 
-    let (mut da, db) = GLOBALS.with(|globals| {
-        join(
-            || GLOBALS.set(globals, || join_lint_rules(ra, program)),
-            || GLOBALS.set(globals, || join_lint_rules(rb, program)),
-        )
+    GLOBALS.with(|globals| {
+        HANDLER.with(|handler| {
+            join(
+                || {
+                    GLOBALS.set(globals, || {
+                        HANDLER.set(handler, || join_lint_rules(ra, program))
+                    })
+                },
+                || {
+                    GLOBALS.set(globals, || {
+                        HANDLER.set(handler, || join_lint_rules(rb, program))
+                    })
+                },
+            )
+        })
     });
-
-    da.extend(db);
-
-    da
 }
 
 fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
@@ -79,13 +75,7 @@ fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
             program.lint(rule);
         }
     } else {
-        let errors = join_lint_rules(rules, program);
-
-        HANDLER.with(|handler| {
-            for error in errors {
-                DiagnosticBuilder::new_diagnostic(handler, error).emit();
-            }
-        });
+        join_lint_rules(rules, program);
     }
 }
 
@@ -100,17 +90,6 @@ where
 
     fn lint_script(&mut self, program: &Script) {
         lint_rules(self, program)
-    }
-}
-
-#[derive(Default, Clone)]
-struct Capturing {
-    errors: Arc<Mutex<Vec<Diagnostic>>>,
-}
-
-impl Emitter for Capturing {
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
-        self.errors.lock().push((**db).clone());
     }
 }
 

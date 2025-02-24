@@ -1359,7 +1359,7 @@
             props: "button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
             filter: function(event, original) {
                 var body, eventDoc, doc, button = original.button, fromElement = original.fromElement;
-                return null == event.pageX && null != original.clientX && (doc = (eventDoc = event.target.ownerDocument || document).documentElement, body = eventDoc.body, event.pageX = original.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0), event.pageY = original.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0)), !event.relatedTarget && fromElement && (event.relatedTarget = fromElement === event.target ? original.toElement : fromElement), event.which || undefined === button || (event.which = 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button)), event;
+                return null == event.pageX && null != original.clientX && (doc = (eventDoc = event.target.ownerDocument || document).documentElement, body = eventDoc.body, event.pageX = original.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0), event.pageY = original.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0)), !event.relatedTarget && fromElement && (event.relatedTarget = fromElement === event.target ? original.toElement : fromElement), event.which || undefined === button || (event.which = 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0), event;
             }
         },
         special: {
@@ -1746,7 +1746,7 @@
         // Returns a function to use in pseudos for positionals
         function createPositionalPseudo(fn) {
             return markFunction(function(argument) {
-                return argument = +argument, markFunction(function(seed, matches) {
+                return argument *= 1, markFunction(function(seed, matches) {
                     // Match elements found at the specified indexes
                     for(var j, matchIndexes = fn([], seed.length, argument), i = matchIndexes.length; i--;)seed[j = matchIndexes[i]] && (seed[j] = !(matches[j] = seed[j]));
                 });
@@ -1890,7 +1890,7 @@
             sortOrder = docElem.compareDocumentPosition ? function(a, b) {
                 var compare;
                 if (a === b) return hasDuplicate = !0, 0;
-                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : +!!(b === doc || contains(preferredDoc, b)) : 4 & compare ? -1 : 1;
+                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1;
                 return a.compareDocumentPosition ? -1 : 1;
             } : function(a, b) {
                 var cur, i = 0, aup = a.parentNode, bup = b.parentNode, ap = [
@@ -3433,7 +3433,7 @@
             s.type = options.method || options.type || s.method || s.type, // Extract dataTypes list
             s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(core_rnotwhite) || [
                 ""
-            ], null == s.crossDomain && (parts = rurl.exec(s.url.toLowerCase()), s.crossDomain = !!(parts && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), // Apply prefilters
+            ], null == s.crossDomain && (s.crossDomain = !!((parts = rurl.exec(s.url.toLowerCase())) && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), // Apply prefilters
             inspectPrefiltersOrTransports(prefilters, s, options, jqXHR), 2 === state) return jqXHR;
             // Check for headers option
             for(i in // We can fire global events as of now if asked to

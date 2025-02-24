@@ -9,14 +9,13 @@ use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
@@ -37,8 +36,6 @@ use swc_ecma_loader::resolvers::{
 };
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
-#[allow(deprecated)]
-pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
@@ -53,7 +50,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
-        export_default_from, import_assertions,
+        export_default_from, import_attributes,
     },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
@@ -473,13 +470,13 @@ impl Options {
                 match opts {
                     SimplifyOption::Bool(allow_simplify) => {
                         if *allow_simplify {
-                            Some(simplifier(top_level_mark, Default::default()))
+                            Some(simplifier(unresolved_mark, Default::default()))
                         } else {
                             None
                         }
                     }
                     SimplifyOption::Json(cfg) => Some(simplifier(
-                        top_level_mark,
+                        unresolved_mark,
                         SimplifyConfig {
                             dce: DceConfig {
                                 preserve_imports_with_side_effects: cfg
@@ -729,7 +726,7 @@ impl Options {
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
                 (
-                    Optional::new(import_assertions(), !keep_import_attributes),
+                    Optional::new(import_attributes(), !keep_import_attributes),
                     Optional::new(
                         typescript::tsx::<Option<&dyn Comments>>(
                             cm.clone(),
@@ -1312,7 +1309,7 @@ impl Default for ErrorFormat {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = IndexMap<String, Vec<String>, ARandomState>;
+pub type Paths = IndexMap<String, Vec<String>, FxBuildHasher>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1493,7 +1490,7 @@ pub struct HiddenTransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
+    pub globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1554,19 +1551,19 @@ pub struct ErrorConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: IndexMap<JsWord, JsWord, ARandomState>,
+    pub vars: IndexMap<Atom, Atom, FxBuildHasher>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
 
     #[serde(default)]
-    pub typeofs: AHashMap<JsWord, JsWord>,
+    pub typeofs: FxHashMap<Atom, Atom>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GlobalInliningPassEnvs {
-    List(AHashSet<String>),
-    Map(AHashMap<JsWord, JsWord>),
+    List(FxHashSet<String>),
+    Map(FxHashMap<Atom, Atom>),
 }
 
 impl Default for GlobalInliningPassEnvs {
@@ -1581,7 +1578,7 @@ impl Default for GlobalInliningPassEnvs {
 
 impl GlobalPassOption {
     pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
-        type ValuesMap = Arc<AHashMap<JsWord, Expr>>;
+        type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon.into(), src);
@@ -1608,7 +1605,7 @@ impl GlobalPassOption {
         fn mk_map(
             cm: &SourceMap,
             handler: &Handler,
-            values: impl Iterator<Item = (JsWord, JsWord)>,
+            values: impl Iterator<Item = (Atom, Atom)>,
             is_env: bool,
         ) -> ValuesMap {
             let mut m = HashMap::default();
@@ -1634,7 +1631,7 @@ impl GlobalPassOption {
         } else {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
-                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ARandomState>> =
+                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, FxBuildHasher>> =
                         Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
@@ -1655,7 +1652,7 @@ impl GlobalPassOption {
                 }
 
                 GlobalInliningPassEnvs::Map(map) => {
-                    static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
+                    static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, ValuesMap, FxBuildHasher>> =
                         Lazy::new(Default::default);
 
                     let cache_key = self
@@ -1680,7 +1677,7 @@ impl GlobalPassOption {
         };
 
         let global_exprs = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ARandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, GlobalExprMap, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1703,7 +1700,7 @@ impl GlobalPassOption {
                             *expr(cm, handler, v.to_string()),
                         )
                     })
-                    .collect::<AHashMap<_, _>>();
+                    .collect::<FxHashMap<_, _>>();
                 let map = Arc::new(map);
                 CACHE.insert(cache_key, map.clone());
                 map
@@ -1711,7 +1708,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(Atom, Atom)>, ValuesMap, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1755,7 +1752,7 @@ fn build_resolver(
     resolve_fully: bool,
     file_extension: &str,
 ) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, FxBuildHasher>> =
         Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.

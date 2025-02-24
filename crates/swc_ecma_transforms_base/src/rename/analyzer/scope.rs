@@ -11,7 +11,7 @@ use indexmap::IndexSet;
 use rayon::prelude::*;
 use rustc_hash::{FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
-use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
+use swc_common::{util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
@@ -199,7 +199,10 @@ impl Scope {
         true
     }
 
-    #[cfg_attr(not(feature = "concurrent-renamer"), allow(unused))]
+    #[cfg_attr(
+        not(feature = "concurrent-renamer"),
+        allow(unused, clippy::only_used_in_recursion)
+    )]
     pub(crate) fn rename_in_mangle_mode<R>(
         &mut self,
         renamer: &R,

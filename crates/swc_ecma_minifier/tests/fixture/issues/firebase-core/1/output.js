@@ -799,7 +799,7 @@
                                     const G = m[4];
                                     null != G && (c.za = G, c.h.info("SVER=" + c.za));
                                     const Da = m[5];
-                                    null != Da && "number" == typeof Da && 0 < Da && (d = 1.5 * Da, c.K = d, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
+                                    null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
                                     const ca = a.g;
                                     if (ca) {
                                         const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
@@ -1410,7 +1410,7 @@
                         }
                     }
                 }
-                return a = a.l.splice(0, c), b.D = a, d;
+                return b.D = a = a.l.splice(0, c), d;
             }
             function Gc(a) {
                 a.g || a.u || (a.Y = 1, zb(a.Ga, a), a.A = 0);
@@ -1565,8 +1565,8 @@
                     this.g.setRequestHeader(h, f);
                 }, this), this.J && (this.g.responseType = this.J), "withCredentials" in this.g && this.g.withCredentials !== this.L && (this.g.withCredentials = this.L);
                 try {
-                    var a1, a2;
-                    Ad(this), 0 < this.B && ((this.K = (a1 = this.g, y && (a2 = function() {
+                    var a1;
+                    Ad(this), 0 < this.B && ((this.K = (a1 = this.g, y && (Object.prototype.hasOwnProperty.call(Ga, 9) ? Ga[9] : Ga[9] = function() {
                         let a = 0;
                         const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
@@ -1587,7 +1587,7 @@
                             }while (0 == a)
                         }
                         return 0 <= a;
-                    }, Object.prototype.hasOwnProperty.call(Ga, 9) ? Ga[9] : Ga[9] = a2(9)) && "number" == typeof a1.timeout && void 0 !== a1.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a), this.v = !1;
+                    }(9)) && "number" == typeof a1.timeout && void 0 !== a1.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a), this.v = !1;
                 } catch (f) {
                     zd(this, f);
                 }
@@ -2168,10 +2168,8 @@
                 }(arr, 0) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }, id = (ref = function(options) {
+                    var ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -2188,9 +2186,11 @@
                     } //# sourceMappingURL=use-intersection.js.map
                     ({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }), observer.observe(el), unobserve.current = function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                    }));
+                    });
                 }, [
                     isDisabled,
                     rootMargin,

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 pub use self::{
     decorators::decorators, export_default_from::export_default_from,
-    import_assertions::import_assertions,
+    import_attributes::import_attributes,
 };
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
@@ -27,4 +27,4 @@ mod decorator_impl;
 pub mod decorators;
 pub mod explicit_resource_management;
 mod export_default_from;
-mod import_assertions;
+mod import_attributes;

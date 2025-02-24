@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
@@ -120,7 +120,7 @@ impl VisitMut for ExportNamespaceFrom {
     }
 }
 
-fn normalize_name(module_export_name: &ModuleExportName) -> &JsWord {
+fn normalize_name(module_export_name: &ModuleExportName) -> &Atom {
     match module_export_name {
         ModuleExportName::Ident(Ident { sym: name, .. })
         | ModuleExportName::Str(Str { value: name, .. }) => name,

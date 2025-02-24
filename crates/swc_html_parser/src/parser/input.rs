@@ -1,6 +1,6 @@
 use std::{fmt::Debug, mem::take};
 
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_html_ast::{Token, TokenAndSpan};
 
@@ -14,7 +14,7 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    fn set_last_start_tag_name(&mut self, tag_name: &JsWord);
+    fn set_last_start_tag_name(&mut self, tag_name: &Atom);
 
     fn set_input_state(&mut self, state: State);
 

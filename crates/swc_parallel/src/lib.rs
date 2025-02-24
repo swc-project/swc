@@ -3,6 +3,7 @@
 use std::{cell::RefCell, mem::transmute};
 
 pub mod items;
+pub mod merge;
 
 #[derive(Default)]
 pub struct MaybeScope<'a>(ScopeLike<'a>);

@@ -1,8 +1,9 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use base64::prelude::{Engine, BASE64_STANDARD};
+use rustc_hash::FxBuildHasher;
 use sourcemap::SourceMap;
-use swc_allocator::{collections::FxHashSet, maybe::vec::Vec};
+use swc_allocator::api::global::HashSet;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -83,6 +84,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "d9eb39b11bc766f4.js",
     "f9888fa1a1e366e7.js",
     "78cf02220fb0937c.js",
+    "5e7ca8611aaa4d53.js",
     // TODO(kdy1): Non-ascii char count
     "58cb05d17f7ec010.js",
     "4d2c7020de650d40.js",
@@ -368,7 +370,7 @@ fn identity(entry: PathBuf) {
             .iter()
             .filter(|a| expected_tokens.contains(&**a))
             .map(|v| v.to_string())
-            .collect::<FxHashSet<_>>();
+            .collect::<HashSet<_, FxBuildHasher>>();
 
         let actual_tokens_diff = actual_tokens
             .iter()

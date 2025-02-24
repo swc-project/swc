@@ -1,5 +1,5 @@
-use rustc_hash::FxHashMap;
-use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark};
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
@@ -107,9 +107,6 @@ impl Optimizer<'_> {
                 && !usage.used_as_ref
             {
                 if let Expr::Array(arr) = init {
-                    self.vars.inline_with_multi_replacer(arr);
-                    inlined_into_init = true;
-
                     if arr.elems.len() < 32
                         && arr.elems.iter().all(|e| match e {
                             Some(ExprOrSpread { spread: None, expr }) => match &**expr {
@@ -119,6 +116,8 @@ impl Optimizer<'_> {
                             _ => false,
                         })
                     {
+                        inlined_into_init = true;
+                        self.vars.inline_with_multi_replacer(arr);
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
@@ -656,8 +655,6 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
-                    self.vars.inline_with_multi_replacer(&mut f.function.body);
-
                     if let Some(body) = &f.function.body {
                         if !usage.used_recursively
                             // only callees can be inlined multiple times
@@ -683,13 +680,13 @@ impl Optimizer<'_> {
                                 f.ident.ctxt
                             );
 
+                            self.vars.inline_with_multi_replacer(&mut f.function.body);
+
                             for i in collect_infects_from(
                                 &f.function,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: false,
-                                    need_all: true,
-                                },
+                                AliasConfig::default()
+                                    .marks(Some(self.marks))
+                                    .need_all(true),
                             ) {
                                 if let Some(usage) = self.data.vars.get_mut(&i.0) {
                                     usage.ref_count += 1;
@@ -851,7 +848,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: AHashSet<Id> = collect_decls(&*value);
+                    let bindings: FxHashSet<Id> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();

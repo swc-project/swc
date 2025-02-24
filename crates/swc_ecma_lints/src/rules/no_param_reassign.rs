@@ -1,12 +1,8 @@
 use dashmap::DashMap;
 use regex::Regex;
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
-    errors::HANDLER,
-    sync::Lazy,
-    Span,
-};
+use swc_common::{errors::HANDLER, sync::Lazy, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -21,7 +17,7 @@ const INVALID_REGEX_MESSAGE: &str = "no-param-reassign: invalid regex pattern in
 #[serde(rename_all = "camelCase")]
 pub struct NoParamReassignConfig {
     props: Option<bool>,
-    ignore_property_modifications_for: Option<AHashSet<String>>,
+    ignore_property_modifications_for: Option<FxHashSet<String>>,
     ignore_property_modifications_for_regex: Option<Vec<String>>,
 }
 
@@ -35,10 +31,10 @@ pub fn no_param_reassign(config: &RuleConfig<NoParamReassignConfig>) -> Option<B
 #[derive(Debug, Default)]
 struct NoParamReassign {
     expected_reaction: LintRuleReaction,
-    scoped_params: AHashMap<Span, AHashSet<Id>>,
+    scoped_params: FxHashMap<Span, FxHashSet<Id>>,
     scopes: Vec<Span>,
     check_props: bool,
-    ignore_names: Option<AHashSet<String>>,
+    ignore_names: Option<FxHashSet<String>>,
     ignore_names_patterns: Option<Vec<String>>,
 }
 
@@ -120,7 +116,7 @@ impl NoParamReassign {
         }
 
         if let Some(ignore_names_patterns) = &self.ignore_names_patterns {
-            static REGEX_CACHE: Lazy<DashMap<String, Regex, ARandomState>> =
+            static REGEX_CACHE: Lazy<DashMap<String, Regex, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             let sym = &*ident.sym;

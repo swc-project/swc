@@ -4,8 +4,8 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_atoms::Atom;
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
@@ -223,7 +223,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
+    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -247,7 +247,7 @@ impl Finalizer<'_> {
                 let mut value = self.simple_functions.get(i).cloned()?;
                 let mut cache = FxHashMap::default();
                 let mut remap = FxHashMap::default();
-                let bindings: AHashSet<Id> = collect_decls(&*value);
+                let bindings: FxHashSet<Id> = collect_decls(&*value);
                 let new_mark = Mark::new();
 
                 // at this point, var usage no longer matter
@@ -671,7 +671,7 @@ impl Drop for SynthesizedStmts {
 
 #[derive(Default)]
 struct LabelAnalyzer {
-    label: JsWord,
+    label: Atom,
     /// If top level is a normal block, labelled break must be preserved
     top_breakable: bool,
     count: usize,

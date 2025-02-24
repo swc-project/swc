@@ -1598,8 +1598,8 @@
      * @link https://nodejs.org/dist/latest/docs/api/util.html#util_custom_inspect_function_on_objects
      */ function() {
         if (!this.isValid()) return 'moment.invalid(/* ' + this._i + ' */)';
-        var prefix, year, datetime, suffix, func = 'moment', zone = '';
-        return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', datetime = '-MM-DD[T]HH:mm:ss.SSS', suffix = zone + '[")]', this.format(prefix + year + datetime + suffix);
+        var prefix, year, suffix, func = 'moment', zone = '';
+        return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', suffix = zone + '[")]', this.format(prefix + year + '-MM-DD[T]HH:mm:ss.SSS' + suffix);
     }, 'undefined' != typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
         return 'Moment<' + this.format() + '>';
     }), proto.toJSON = function() {
@@ -2031,7 +2031,7 @@
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
         return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(monthsToDays(months) + days), days = 0, months = 0), // The following code bubbles up values, see the tests for
         // examples of what that means.
-        data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += // convert days to months
+        data.milliseconds = milliseconds % 1000, data.seconds = (seconds = absFloor(milliseconds / 1000)) % 60, data.minutes = (minutes = absFloor(seconds / 60)) % 60, data.hours = (hours = absFloor(minutes / 60)) % 24, days += absFloor(hours / 24), months += // convert days to months
         monthsFromDays = absFloor(daysToMonths(days)), days -= absCeil(monthsToDays(monthsFromDays)), // 12 months -> 1 year
         years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
     }, proto$2.clone = function() {

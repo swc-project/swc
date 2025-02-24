@@ -12,7 +12,7 @@
         "./bindings/binding_core_wasm/*"
     ],
     "scripts": {
-        "changelog": "git cliff --output CHANGELOG.md",
+        "changelog": "git cliff --output CHANGELOG.md; git cliff --output CHANGELOG-CORE.md --config cliff-core.toml",
         "prepare": "husky install . && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
         "build": "cd ./packages/core && yarn build",
         "build:dev": "cd ./packages/core && yarn build:dev",
@@ -67,7 +67,7 @@
         "source-map": "^0.7.3",
         "source-map-support": "^0.5.19",
         "sourcemap-validator": "^2.1.0",
-        "swc-plugin-coverage-instrument": "^0.0.25",
+        "swc-plugin-coverage-instrument": "^0.0.26",
         "terser": "^5.7.1",
         "ts-node": "^10.5.0",
         "typescript": "^5.3.3",
@@ -79,7 +79,7 @@
             "taplo format"
         ],
         "*.rs": [
-            "rustfmt --"
+            "cargo fmt --"
         ],
         "*.json": [
             "prettier --write"

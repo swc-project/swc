@@ -8,16 +8,17 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Status, Task,
 };
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_core::{
-    atoms::JsWord,
+    atoms::Atom,
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
         Compiler, PrintArgs, TransformOutput,
     },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
-    common::{collections::AHashMap, Globals, Span, GLOBALS},
+    common::{Globals, Span, GLOBALS},
     ecma::{
         ast::{
             Bool, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
@@ -52,15 +53,15 @@ pub(crate) struct BundleTask {
 #[cfg(feature = "swc_v1")]
 #[napi]
 impl Task for BundleTask {
-    type JsValue = AHashMap<String, TransformOutput>;
-    type Output = AHashMap<String, TransformOutput>;
+    type JsValue = FxHashMap<String, TransformOutput>;
+    type Output = FxHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
             NODE_BUILTINS
                 .iter()
                 .copied()
-                .map(JsWord::from)
+                .map(Atom::from)
                 .collect::<Vec<_>>()
         } else {
             Vec::new()
@@ -172,8 +173,8 @@ impl Task for BundleTask {
 
 #[cfg(feature = "swc_v2")]
 impl Task for BundleTask {
-    type JsValue = AHashMap<String, TransformOutput>;
-    type Output = AHashMap<String, TransformOutput>;
+    type JsValue = FxHashMap<String, TransformOutput>;
+    type Output = FxHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         todo!()

@@ -21,10 +21,11 @@ use std::{
     fmt,
 };
 
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
-use crate::{collections::AHashMap, EqIgnoreSpan};
+use crate::EqIgnoreSpan;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -36,6 +37,7 @@ use crate::{collections::AHashMap, EqIgnoreSpan};
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32);
 
 #[cfg(feature = "arbitrary")]
@@ -269,7 +271,7 @@ impl Mark {
 #[derive(Debug)]
 pub(crate) struct HygieneData {
     syntax_contexts: Vec<SyntaxContextData>,
-    markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
+    markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
 
 impl Default for HygieneData {

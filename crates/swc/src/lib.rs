@@ -19,13 +19,13 @@
 //!
 //!
 //!
-//! ### What is [JsWord](swc_atoms::JsWord)?
+//! ### What is [Atom](swc_atoms::Atom)?
 //!
 //! It's basically an interned string. See [swc_atoms].
 //!
-//! ### Choosing between [JsWord](swc_atoms::JsWord) vs String
+//! ### Choosing between [Atom](swc_atoms::Atom) vs String
 //!
-//! You should  prefer [JsWord](swc_atoms::JsWord) over [String] if it's going
+//! You should  prefer [Atom](swc_atoms::Atom) over [String] if it's going
 //! to be stored in an AST node.
 //!
 //! See [swc_atoms] for detailed description.
@@ -173,7 +173,7 @@ mod plugin;
 pub mod resolver {
     use std::path::PathBuf;
 
-    use swc_common::collections::AHashMap;
+    use rustc_hash::FxHashMap;
     use swc_ecma_loader::{
         resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
         TargetEnv,
@@ -185,7 +185,7 @@ pub mod resolver {
 
     pub fn paths_resolver(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         base_url: PathBuf,
         paths: CompiledPaths,
         preserve_symlinks: bool,
@@ -200,7 +200,7 @@ pub mod resolver {
 
     pub fn environment_resolver(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         preserve_symlinks: bool,
     ) -> NodeResolver {
         CachingResolver::new(
@@ -894,7 +894,7 @@ impl Compiler {
                 opts.format.preserve_annotations,
             );
 
-            self.print(
+            let ret = self.print(
                 &program,
                 PrintArgs {
                     source_root: None,
@@ -917,7 +917,13 @@ impl Compiler {
                         .with_inline_script(opts.format.inline_script),
                     output: None,
                 },
-            )
+            );
+
+            ret.map(|mut output| {
+                output.diagnostics = handler.take_diagnostics();
+
+                output
+            })
         })
     }
 

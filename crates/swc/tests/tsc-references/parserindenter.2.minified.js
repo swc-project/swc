@@ -1,7 +1,7 @@
 //// [parserindenter.ts]
-var Formatting, Formatting1, Indenter;
+var Formatting;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-Formatting1 = Formatting || (Formatting = {}), Indenter = /*#__PURE__*/ function() {
+(Formatting || (Formatting = {})).Indenter = /*#__PURE__*/ function() {
     function Indenter(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent) {
         _class_call_check(this, Indenter), this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
     }
@@ -19,7 +19,7 @@ Formatting1 = Formatting || (Formatting = {}), Indenter = /*#__PURE__*/ function
         if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber() || !sameLineIndent && this.IsMultiLineString(token)) return result;
         if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, node))) {
             for(; !node.CanIndent() && null != node.Parent && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset;)node = node.Parent;
-            node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? indentationInfo = node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? indentationInfo = node.GetEffectiveChildrenIndentation(this) : indentationInfo = this.ApplyIndentationDeltaFromParent(token, node);
+            indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, node);
         }
         if (null != indentationInfo) {
             var edit = this.GetIndentEdit(indentationInfo, token.Span.startPosition(), sameLineIndent);
@@ -235,4 +235,4 @@ Formatting1 = Formatting || (Formatting = {}), Indenter = /*#__PURE__*/ function
         }
         return indentSize;
     }, Indenter;
-}(), Formatting1.Indenter = Indenter;
+}();

@@ -1,8 +1,6 @@
-use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    SyntaxContext,
-};
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::HELPERS;
 use swc_ecma_utils::{ExprFactory, QueryRef, RefRewriter};
@@ -10,7 +8,7 @@ use swc_ecma_visit::VisitMutWith;
 
 use crate::util::prop_name;
 
-pub type ImportMap = AHashMap<Id, (Ident, Option<JsWord>)>;
+pub type ImportMap = FxHashMap<Id, (Ident, Option<Atom>)>;
 
 pub(crate) struct ImportQuery {
     /// ```javascript
@@ -32,7 +30,7 @@ pub(crate) struct ImportQuery {
     /// )
     /// ```
     import_map: ImportMap,
-    lazy_record: AHashSet<Id>,
+    lazy_record: FxHashSet<Id>,
     helper_ctxt: Option<SyntaxContext>,
 }
 
@@ -91,7 +89,7 @@ impl QueryRef for ImportQuery {
 pub(crate) fn rewrite_import_bindings<V>(
     node: &mut V,
     import_map: ImportMap,
-    lazy_record: AHashSet<Id>,
+    lazy_record: FxHashSet<Id>,
 ) where
     V: VisitMutWith<RefRewriter<ImportQuery>>,
 {

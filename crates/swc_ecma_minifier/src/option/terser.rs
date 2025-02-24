@@ -1,9 +1,10 @@
 //! Compatibility for terser config.
 
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceMap, DUMMY_SP};
+use swc_atoms::Atom;
+use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
@@ -65,7 +66,7 @@ pub enum TerserSequenceOptions {
 #[serde(untagged)]
 pub enum TerserTopRetainOption {
     Str(String),
-    Seq(Vec<JsWord>),
+    Seq(Vec<Atom>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -120,7 +121,7 @@ pub struct TerserCompressorOptions {
     pub expression: bool,
 
     #[serde(default)]
-    pub global_defs: AHashMap<JsWord, Value>,
+    pub global_defs: FxHashMap<Atom, Value>,
 
     #[serde(default)]
     pub hoist_funs: bool,
@@ -441,7 +442,7 @@ impl From<TerserEcmaVersion> for EsVersion {
     }
 }
 
-impl From<TerserTopRetainOption> for Vec<JsWord> {
+impl From<TerserTopRetainOption> for Vec<Atom> {
     fn from(v: TerserTopRetainOption) -> Self {
         match v {
             TerserTopRetainOption::Str(s) => s
@@ -473,7 +474,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             .into()
         }
         Value::String(v) => {
-            let value: JsWord = v.into();
+            let value: Atom = v.into();
 
             Lit::Str(Str {
                 span: DUMMY_SP,

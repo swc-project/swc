@@ -2,16 +2,14 @@
 #![allow(dead_code)]
 #![recursion_limit = "256"]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
+use rustc_hash::FxHashSet;
 use serde::Deserialize;
-use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::AHashSet, comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_atoms::{atom, Atom};
+use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{
@@ -47,7 +45,7 @@ where
     C: Comments + Clone,
 {
     let loose = c.loose;
-    let targets: Versions = targets_to_versions(c.targets).expect("failed to parse targets");
+    let targets = targets_to_versions(c.targets).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
@@ -62,7 +60,7 @@ where
                 && (c.force_all_transforms
                     || (is_any_target
                         || include.contains(&f)
-                        || f.should_enable(targets, c.bugfixes, $default)))
+                        || f.should_enable(&targets, c.bugfixes, $default)))
         }};
     }
 
@@ -355,16 +353,16 @@ where
 #[derive(Debug)]
 struct Polyfills {
     mode: Option<Mode>,
-    targets: Versions,
+    targets: Arc<Versions>,
     shipped_proposals: bool,
     corejs: Version,
     regenerator: bool,
-    includes: AHashSet<String>,
-    excludes: AHashSet<String>,
+    includes: FxHashSet<String>,
+    excludes: FxHashSet<String>,
     unresolved_mark: Mark,
 }
 impl Polyfills {
-    fn collect<T>(&mut self, m: &mut T) -> Vec<JsWord>
+    fn collect<T>(&mut self, m: &mut T) -> Vec<Atom>
     where
         T: VisitWith<corejs2::UsageVisitor>
             + VisitWith<corejs3::UsageVisitor>
@@ -376,14 +374,14 @@ impl Polyfills {
             Some(Mode::Usage) => {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
-                        let mut v = corejs2::UsageVisitor::new(self.targets);
+                        let mut v = corejs2::UsageVisitor::new(self.targets.clone());
                         m.visit_with(&mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v = corejs3::UsageVisitor::new(
-                            self.targets,
+                            self.targets.clone(),
                             self.shipped_proposals,
                             self.corejs,
                         );
@@ -402,13 +400,14 @@ impl Polyfills {
             }
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 2, .. } => {
-                    let mut v = corejs2::Entry::new(self.targets, self.regenerator);
+                    let mut v = corejs2::Entry::new(self.targets.clone(), self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }
 
                 Version { major: 3, .. } => {
-                    let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
+                    let mut v =
+                        corejs3::Entry::new(self.targets.clone(), self.corejs, !self.regenerator);
                     m.visit_mut_with(&mut v);
                     v.imports
                 }
@@ -422,7 +421,7 @@ impl Polyfills {
                 !s.starts_with("esnext") || !required.contains(&s.replace("esnext", "es").as_str())
             })
             .filter(|s| !self.excludes.contains(&***s))
-            .map(|s| -> JsWord {
+            .map(|s| -> Atom {
                 if *s != "regenerator-runtime/runtime.js" {
                     format!("core-js/modules/{}.js", s).into()
                 } else {
@@ -487,7 +486,7 @@ impl VisitMut for Polyfills {
             );
         }
 
-        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == atom!("")));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -582,7 +581,7 @@ pub struct Config {
     /// e.g.)
     ///  - `core-js/modules/foo`
     #[serde(default)]
-    pub skip: Vec<JsWord>,
+    pub skip: Vec<Atom>,
 
     #[serde(default)]
     pub include: Vec<FeatureOrModule>,
@@ -626,9 +625,9 @@ pub enum FeatureOrModule {
 }
 
 impl FeatureOrModule {
-    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, AHashSet<String>) {
+    pub fn split(vec: Vec<FeatureOrModule>) -> (Vec<Feature>, FxHashSet<String>) {
         let mut features: Vec<_> = Default::default();
-        let mut modules: AHashSet<_> = Default::default();
+        let mut modules: FxHashSet<_> = Default::default();
 
         for v in vec {
             match v {

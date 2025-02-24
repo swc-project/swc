@@ -7,7 +7,10 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::util::negate_cost, util::make_bool};
+use crate::{
+    compress::util::{can_absorb_negate, negate_cost},
+    util::make_bool,
+};
 
 impl Pure<'_> {
     ///
@@ -145,7 +148,10 @@ impl Pure<'_> {
             (
                 Expr::Lit(Lit::Num(Number { value, .. })),
                 Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
-            ) if *value > 0.0 => {
+            ) if *value > 0.0
+                && (!cond.test.is_bin()
+                    || cond.test.get_type(self.expr_ctx) == Value::Known(Type::Bool)) =>
+            {
                 report_change!("conditionals: `foo ? num : 0` => `num * !!foo`");
                 self.changed = true;
 
@@ -163,7 +169,9 @@ impl Pure<'_> {
             (
                 Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
                 Expr::Lit(Lit::Num(Number { value, .. })),
-            ) if *value > 0.0 => {
+            ) if *value > 0.0
+                && (!cond.test.is_bin() || can_absorb_negate(&cond.test, self.expr_ctx)) =>
+            {
                 report_change!("conditionals: `foo ? 0 : num` => `num * !foo`");
                 self.changed = true;
 

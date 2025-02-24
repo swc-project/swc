@@ -7,7 +7,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_node_bundler"
 repository    = { workspace = true }
-version       = "10.0.0"
+version       = "15.0.0"
 
 [lib]
 bench = false
@@ -24,29 +24,30 @@ dashmap    = { workspace = true }
 is-macro   = { workspace = true }
 once_cell  = { workspace = true }
 regex      = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.0", path = "../string_enum" }
-swc = { version = "10.0.0", path = "../swc" }
-swc_atoms = { version = "3.0.3", path = "../swc_atoms" }
-swc_bundler = { version = "7.0.0", path = "../swc_bundler", features = [
+swc = { version = "15.0.0", path = "../swc" }
+swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
+swc_bundler = { version = "11.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "5.0.0", path = "../swc_common", features = [
+swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "5.0.3", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "5.1.0", path = "../swc_ecma_codegen" }
-swc_ecma_loader = { version = "5.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "6.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "9.0.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "7.0.4", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "5.0.0", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "8.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "13.0.0", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }
 
-testing = { version = "5.0.0", path = "../testing" }
+testing = { version = "8.0.0", path = "../testing" }

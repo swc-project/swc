@@ -1,7 +1,8 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take, rc::Rc};
 
-use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
+use rustc_hash::FxHashSet;
+use swc_atoms::{atom, Atom};
+use swc_common::{input::Input, BytePos, Span};
 use swc_html_ast::{AttributeToken, Raw, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
 
@@ -108,12 +109,12 @@ where
     state: State,
     return_state: State,
     errors: Vec<Error>,
-    last_start_tag_name: Option<JsWord>,
+    last_start_tag_name: Option<Atom>,
     pending_tokens: VecDeque<TokenAndSpan>,
     buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     current_token: Option<Token>,
-    attributes_validator: AHashSet<JsWord>,
+    attributes_validator: FxHashSet<Atom>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,
@@ -195,7 +196,7 @@ where
         take(&mut self.errors)
     }
 
-    fn set_last_start_tag_name(&mut self, tag_name: &JsWord) {
+    fn set_last_start_tag_name(&mut self, tag_name: &Atom) {
         self.last_start_tag_name = Some(tag_name.clone());
     }
 
@@ -548,7 +549,7 @@ where
     #[inline(always)]
     fn set_doctype_token_public_id(&mut self) {
         if let Some(Token::Doctype { public_id, .. }) = &mut self.current_token {
-            *public_id = Some(js_word!(""));
+            *public_id = Some(atom!(""));
         }
     }
 
@@ -556,7 +557,7 @@ where
     fn set_doctype_token_system_id(&mut self) {
         if let Some(Token::Doctype { system_id, .. }) = &mut self.current_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
-            *system_id = Some(js_word!(""));
+            *system_id = Some(atom!(""));
         }
     }
 
@@ -617,7 +618,7 @@ where
     fn create_start_tag_token(&mut self) {
         self.current_token = Some(Token::StartTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: js_word!(""),
+            tag_name: atom!(""),
             raw_tag_name: None,
             is_self_closing: false,
             attributes: Vec::new(),
@@ -628,7 +629,7 @@ where
     fn create_end_tag_token(&mut self) {
         self.current_token = Some(Token::EndTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: js_word!(""),
+            tag_name: atom!(""),
             raw_tag_name: None,
             is_self_closing: false,
             // In valid HTML code closed tags do not have attributes
@@ -699,7 +700,7 @@ where
         {
             attributes.push(AttributeToken {
                 span: Default::default(),
-                name: js_word!(""),
+                name: atom!(""),
                 raw_name: None,
                 value: None,
                 raw_value: None,
@@ -776,7 +777,7 @@ where
                     let b = self.sub_buf.clone();
                     let mut sub_buf = b.borrow_mut();
 
-                    let name: JsWord = buf.clone().into();
+                    let name: Atom = buf.clone().into();
                     let raw_name = Atom::new(sub_buf.clone());
                     let span = Span::new(attribute_start_position, self.cur_pos);
 

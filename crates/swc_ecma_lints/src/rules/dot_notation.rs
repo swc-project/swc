@@ -1,7 +1,8 @@
 use dashmap::DashMap;
 use regex::Regex;
+use rustc_hash::FxBuildHasher;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::ARandomState, errors::HANDLER, sync::Lazy, Span};
+use swc_common::{errors::HANDLER, sync::Lazy, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -76,7 +77,7 @@ impl DotNotation {
         }
 
         if let Some(pattern) = &self.pattern {
-            static REGEX_CACHE: Lazy<DashMap<String, Regex, ARandomState>> =
+            static REGEX_CACHE: Lazy<DashMap<String, Regex, FxBuildHasher>> =
                 Lazy::new(Default::default);
 
             if !REGEX_CACHE.contains_key(pattern) {

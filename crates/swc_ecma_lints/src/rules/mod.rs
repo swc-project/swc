@@ -3,8 +3,6 @@ use std::sync::Arc;
 use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 
-#[deprecated = "Use lint_pass instead"]
-pub use self::lint_pass as lint_to_fold;
 use crate::{config::LintConfig, rule::Rule};
 
 mod const_assign;

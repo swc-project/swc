@@ -1,21 +1,21 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use preset_env_base::{
     version::{should_enable, Version},
     Versions,
 };
-use swc_atoms::js_word;
-use swc_common::{
-    collections::{AHashMap, ARandomState},
-    DUMMY_SP,
-};
+use rustc_hash::{FxBuildHasher, FxHashMap};
+use swc_atoms::atom;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
-static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!(
+static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
+    serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!(
         "../../data/core-js-compat/entries.json"
     ))
     .expect("failed to parse entries.json from core js 3")
@@ -34,14 +34,14 @@ static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
 #[derive(Debug)]
 pub struct Entry {
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, ARandomState>,
+    pub imports: IndexSet<&'static str, FxBuildHasher>,
     remove_regenerator: bool,
 }
 
 impl Entry {
-    pub fn new(target: Versions, corejs_version: Version, remove_regenerator: bool) -> Self {
+    pub fn new(target: Arc<Versions>, corejs_version: Version, remove_regenerator: bool) -> Self {
         assert_eq!(corejs_version.major, 3);
 
         Entry {
@@ -74,7 +74,7 @@ impl Entry {
 
                 if !*is_any_target {
                     if let Some(feature) = feature {
-                        if !should_enable(*target, *feature, true) {
+                        if !should_enable(target, feature, true) {
                             return false;
                         }
                     }
@@ -100,7 +100,7 @@ impl VisitMut for Entry {
 
         if remove {
             i.src.span = DUMMY_SP;
-            i.src.value = js_word!("");
+            i.src.value = atom!("");
         }
     }
 }

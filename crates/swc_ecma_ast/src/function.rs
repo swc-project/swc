@@ -12,6 +12,7 @@ use crate::{
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Function {
     pub params: Vec<Param>,
 
@@ -51,6 +52,7 @@ impl Take for Function {
 #[ast_node("Parameter")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Param {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -71,6 +73,7 @@ impl From<Pat> for Param {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]
     TsParamProp(TsParamProp),

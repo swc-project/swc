@@ -958,7 +958,7 @@
             if (!getterIfNoArguments || null != param) for(; list.length;)for(setIndex = 0, setLength = (set = list.shift()).length; setIndex < setLength; setIndex++)for(element = jqLite(set[setIndex]), fireEvent ? element.triggerHandler("$destroy") : fireEvent = !fireEvent, childIndex = 0, childLength = (children = element.children()).length; childIndex < childLength; childIndex++)list.push(jQuery(children[childIndex]));
             return originalJqFn.apply(this, arguments);
         }
-        originalJqFn = originalJqFn.$original || originalJqFn, removePatch.$original = originalJqFn, jQuery.fn[name] = removePatch;
+        removePatch.$original = originalJqFn = originalJqFn.$original || originalJqFn, jQuery.fn[name] = removePatch;
     }
     /////////////////////////////////////////////
     function JQLite(element) {
@@ -5834,7 +5834,7 @@
                 }
                 this.index++;
             }
-            number = +number, this.tokens.push({
+            number *= 1, this.tokens.push({
                 index: start,
                 text: number,
                 json: !0,
@@ -7451,7 +7451,7 @@
                         ], arguments, 1);
                         //down while you can, then up and next sibling or up and next sibling until back at root
                         do {
-                            for(i = 0, current = next, event.currentScope = current, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
+                            for(i = 0, event.currentScope = current = next, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
                                 // if listeners were deregistered, defragment the array
                                 if (!listeners[i]) {
                                     listeners.splice(i, 1), i--, length--;
@@ -8611,7 +8611,7 @@
       </doc:example>
       */ function timeout(fn, delay, invokeApply) {
                     var timeoutId, deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply;
-                    return timeoutId = $browser.defer(function() {
+                    return promise.$$timeoutId = timeoutId = $browser.defer(function() {
                         try {
                             deferred.resolve(fn());
                         } catch (e) {
@@ -8620,7 +8620,7 @@
                             delete deferreds[promise.$$timeoutId];
                         }
                         skipApply || $rootScope.$apply();
-                    }, delay), promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
+                    }, delay), deferreds[timeoutId] = deferred, promise;
                 }
                 return(/**
          * @ngdoc function

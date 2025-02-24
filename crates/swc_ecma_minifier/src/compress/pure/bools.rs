@@ -6,7 +6,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
 use super::Pure;
 use crate::{
-    compress::util::{is_pure_undefined, negate, negate_cost},
+    compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
     option::CompressOptions,
     util::make_bool,
 };
@@ -81,27 +81,6 @@ impl Pure<'_> {
     }
 
     pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
-        fn is_eq(op: BinaryOp) -> bool {
-            matches!(op, op!("==") | op!("===") | op!("!=") | op!("!=="))
-        }
-
-        fn can_absorb_negate(e: &Expr, ctx: ExprCtx) -> bool {
-            match e {
-                Expr::Lit(_) => true,
-                Expr::Bin(BinExpr {
-                    op: op!("&&") | op!("||"),
-                    left,
-                    right,
-                    ..
-                }) => can_absorb_negate(left, ctx) && can_absorb_negate(right, ctx),
-                Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => true,
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => arg.get_type(ctx) == Value::Known(Type::Bool),
-                _ => false,
-            }
-        }
-
         fn negate_eq(op: BinaryOp) -> BinaryOp {
             match op {
                 op!("==") => op!("!="),

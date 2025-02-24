@@ -9,16 +9,6 @@
       "text": "/* Invalid, more than one space */"
     }
   ],
-  "65": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 24,
-        "end": 64
-      },
-      "text": "/* Invalid, wrong quoting style used */"
-    }
-  ],
   "212": [
     {
       "kind": "Block",
@@ -27,6 +17,16 @@
         "end": 211
       },
       "text": "/* Invalid, there is a character (a space) before the at-rule */"
+    }
+  ],
+  "65": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 24,
+        "end": 64
+      },
+      "text": "/* Invalid, wrong quoting style used */"
     }
   ]
 }

@@ -1,6 +1,6 @@
 use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{Atom, AtomStoreCell, JsWord};
+use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::Input,
@@ -180,7 +180,7 @@ where
         Some(self.input.last_pos())
     }
 
-    fn atom(&self, s: Cow<str>) -> JsWord {
+    fn atom(&self, s: Cow<str>) -> Atom {
         self.atoms.atom(s)
     }
 }
@@ -789,7 +789,7 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self, name: (JsWord, Atom), before: String) -> LexResult<Token> {
+    fn read_url(&mut self, name: (Atom, Atom), before: String) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         self.with_buf_and_raw_buf(|l, out, raw| {
             raw.push_str(&before);
@@ -1160,7 +1160,7 @@ where
     // This section describes how to consume an ident sequence from a stream of code
     // points. It returns a string containing the largest name that can be formed
     // from adjacent code points in the stream, starting from the first.
-    fn read_ident_sequence(&mut self) -> LexResult<(JsWord, Atom)> {
+    fn read_ident_sequence(&mut self) -> LexResult<(Atom, Atom)> {
         self.with_buf_and_raw_buf(|l, buf, raw| {
             // Let result initially be an empty string.
             // Done above

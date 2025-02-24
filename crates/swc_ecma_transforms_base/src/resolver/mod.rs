@@ -1,9 +1,6 @@
-use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    Mark, SyntaxContext,
-};
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
@@ -117,7 +114,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 ///
 /// # FAQ
 ///
-/// ## Does a pair `(JsWord, SyntaxContext)` always uniquely identifiers a
+/// ## Does a pair `(Atom, SyntaxContext)` always uniquely identifiers a
 /// variable binding?
 ///
 /// Yes, but multiple variables can have the exactly same name.
@@ -128,7 +125,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 /// var a = 1, a = 2;
 /// ```
 ///
-/// both of them have the same name, so the `(JsWord, SyntaxContext)` pair will
+/// both of them have the same name, so the `(Atom, SyntaxContext)` pair will
 /// be also identical.
 pub fn resolver(
     unresolved_mark: Mark,
@@ -172,10 +169,10 @@ struct Scope<'a> {
     mark: Mark,
 
     /// All declarations in the scope
-    declared_symbols: AHashMap<JsWord, DeclKind>,
+    declared_symbols: FxHashMap<Atom, DeclKind>,
 
     /// All types declared in the scope
-    declared_types: AHashSet<JsWord>,
+    declared_types: FxHashSet<Atom>,
 }
 
 impl<'a> Scope<'a> {
@@ -189,7 +186,7 @@ impl<'a> Scope<'a> {
         }
     }
 
-    fn is_declared(&self, symbol: &JsWord) -> Option<&DeclKind> {
+    fn is_declared(&self, symbol: &Atom) -> Option<&DeclKind> {
         self.declared_symbols
             .get(symbol)
             .or_else(|| self.parent?.is_declared(symbol))
@@ -269,11 +266,11 @@ impl<'a> Resolver<'a> {
     }
 
     /// Returns a [Mark] for an identifier reference.
-    fn mark_for_ref(&self, sym: &JsWord) -> Option<Mark> {
+    fn mark_for_ref(&self, sym: &Atom) -> Option<Mark> {
         self.mark_for_ref_inner(sym, false)
     }
 
-    fn mark_for_ref_inner(&self, sym: &JsWord, stop_an_fn_scope: bool) -> Option<Mark> {
+    fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<Mark> {
         if self.config.handle_types && self.in_type {
             let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
@@ -1538,8 +1535,8 @@ struct Hoister<'a, 'b> {
 
     in_catch_body: bool,
 
-    excluded_from_catch: FxHashSet<JsWord>,
-    catch_param_decls: FxHashSet<JsWord>,
+    excluded_from_catch: FxHashSet<Atom>,
+    catch_param_decls: FxHashSet<Atom>,
 }
 
 impl Hoister<'_, '_> {

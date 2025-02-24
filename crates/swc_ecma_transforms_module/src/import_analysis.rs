@@ -1,5 +1,5 @@
-use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
@@ -21,7 +21,7 @@ pub struct ImportAnalyzer {
     import_interop: ImportInterop,
     ignore_dynamic: bool,
 
-    flag_record: AHashMap<JsWord, LinkFlag>,
+    flag_record: FxHashMap<Atom, LinkFlag>,
     dynamic_import_found: bool,
 }
 

@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::{
@@ -147,7 +147,7 @@ pub struct AssignmentExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub operator: JsWord,
+    pub operator: Atom,
     pub left: Box<LVal>,
     pub right: Box<Expression>,
 }
@@ -250,7 +250,7 @@ pub struct V8IntrinsicIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub name: JsWord,
+    pub name: Atom,
 }
 
 #[derive(Debug, Clone, PartialEq)]

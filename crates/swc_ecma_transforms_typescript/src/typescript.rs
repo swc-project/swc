@@ -1,15 +1,29 @@
 use std::mem;
 
-use swc_common::{
-    collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span,
-    Spanned,
-};
+use rustc_hash::FxHashSet;
+use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+
+#[cfg(feature = "concurrent")]
+macro_rules! static_str {
+    ($s:expr) => {{
+        static VAL: once_cell::sync::Lazy<Lrc<String>> =
+            once_cell::sync::Lazy::new(|| Lrc::new($s.into()));
+        VAL.clone()
+    }};
+}
+
+#[cfg(not(feature = "concurrent"))]
+macro_rules! static_str {
+    ($s:expr) => {
+        Lrc::new($s.into())
+    };
+}
 
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
@@ -31,7 +45,7 @@ pub(crate) struct TypeScript {
     pub unresolved_mark: Mark,
     pub top_level_mark: Mark,
 
-    id_usage: AHashSet<Id>,
+    id_usage: FxHashSet<Id>,
 }
 
 impl VisitMut for TypeScript {
@@ -176,7 +190,7 @@ where
 {
     config: Config,
     tsx_config: TsxConfig,
-    id_usage: AHashSet<Id>,
+    id_usage: FxHashSet<Id>,
     comments: C,
     cm: Lrc<SourceMap>,
     top_level_mark: Mark,
@@ -199,7 +213,7 @@ where
                 self.tsx_config
                     .pragma
                     .clone()
-                    .unwrap_or_else(|| "React.createElement".to_string()),
+                    .unwrap_or_else(|| static_str!("React.createElement")),
                 self.top_level_mark,
             );
 
@@ -209,7 +223,7 @@ where
                 self.tsx_config
                     .pragma_frag
                     .clone()
-                    .unwrap_or_else(|| "React.Fragment".to_string()),
+                    .unwrap_or_else(|| static_str!("React.Fragment")),
                 self.top_level_mark,
             );
 

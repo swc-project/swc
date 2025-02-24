@@ -3,12 +3,13 @@
 use std::{borrow::Cow, cmp::Ordering, mem::take};
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 use serde_json::Value;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{atom, Atom};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
-    collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName,
-    FilePathMapping, Mark, SourceMap, DUMMY_SP,
+    comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
+    SourceMap, DUMMY_SP,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -232,7 +233,7 @@ struct Minifier<'a, C: MinifyCss> {
     current_element: Option<Element>,
     latest_element: Option<Child>,
     descendant_of_pre: bool,
-    attribute_name_counter: Option<AHashMap<JsWord, usize>>,
+    attribute_name_counter: Option<FxHashMap<Atom, usize>>,
 
     css_minifier: &'a C,
 }
@@ -358,7 +359,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             return false;
         }
 
-        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&js_word!("*")) {
+        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&atom!("*")) {
             if let Some(element) = global_pseudo_element.other.get(&attribute.name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
@@ -569,7 +570,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
         }
     }
 
-    fn is_type_text_css(&self, value: &JsWord) -> bool {
+    fn is_type_text_css(&self, value: &Atom) -> bool {
         let value = value.trim().to_ascii_lowercase();
 
         matches!(&*value, "text/css")
@@ -650,7 +651,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     with_namespace.push(':');
                     with_namespace.push_str(&attribute.name);
 
-                    attributes.other.get(&JsWord::from(with_namespace))
+                    attributes.other.get(&Atom::from(with_namespace))
                 } else {
                     attributes.other.get(&attribute.name)
                 };
@@ -734,7 +735,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
         false
     }
 
-    fn is_preserved_comment(&self, data: &JsWord) -> bool {
+    fn is_preserved_comment(&self, data: &Atom) -> bool {
         if let Some(preserve_comments) = &self.options.preserve_comments {
             return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
@@ -742,7 +743,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
         false
     }
 
-    fn is_conditional_comment(&self, data: &JsWord) -> bool {
+    fn is_conditional_comment(&self, data: &Atom) -> bool {
         if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
             return true;
         }
@@ -1138,7 +1139,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
         Cow::Owned(collapsed)
     }
 
-    fn is_additional_minifier_attribute(&self, name: &JsWord) -> Option<MinifierType> {
+    fn is_additional_minifier_attribute(&self, name: &Atom) -> Option<MinifierType> {
         if let Some(minify_additional_attributes) = &self.options.minify_additional_attributes {
             for item in minify_additional_attributes {
                 if item.0.is_match(name) {
@@ -1736,7 +1737,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
         &self,
         attributes: &'a Vec<Attribute>,
         name: &str,
-    ) -> Option<&'a JsWord> {
+    ) -> Option<&'a Atom> {
         let mut type_attribute_value = None;
 
         for attribute in attributes {
@@ -2306,7 +2307,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     && n.name == "contenteditable"
                     && n.value.as_deref() == Some("true") =>
                 {
-                    n.value = Some(js_word!(""));
+                    n.value = Some(atom!(""));
                 }
                 _ if self.options.normalize_attributes
                     && self.is_semicolon_separated_attribute(element, n) =>
@@ -2661,7 +2662,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                             .iter()
                             .any(|attribute| matches!(&*attribute.name, "src")) =>
                 {
-                    let type_attribute_value: Option<JsWord> = self
+                    let type_attribute_value: Option<Atom> = self
                         .get_attribute_value(&current_element.attributes, "type")
                         .map(|v| v.to_ascii_lowercase().trim().into());
 
@@ -2818,7 +2819,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
 }
 
 struct AttributeNameCounter {
-    tree: AHashMap<JsWord, usize>,
+    tree: FxHashMap<Atom, usize>,
 }
 
 impl VisitMut for AttributeNameCounter {

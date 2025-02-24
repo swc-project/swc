@@ -1,7 +1,8 @@
 use std::{collections::VecDeque, mem::take};
 
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
+use swc_common::{input::Input, BytePos, Span};
 use swc_xml_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
@@ -651,10 +652,10 @@ where
         };
 
         let token = Token::Doctype {
-            name: current_doctype_token.name.map(JsWord::from),
-            public_id: current_doctype_token.public_id.map(JsWord::from),
-            system_id: current_doctype_token.system_id.map(JsWord::from),
-            raw: Some(JsWord::from(raw)),
+            name: current_doctype_token.name.map(Atom::from),
+            public_id: current_doctype_token.public_id.map(Atom::from),
+            system_id: current_doctype_token.system_id.map(Atom::from),
+            raw: Some(Atom::from(raw)),
         };
 
         self.emit_token(token);
@@ -804,13 +805,13 @@ where
                 current_tag_token.kind = kind;
             }
 
-            let mut already_seen: AHashSet<JsWord> = Default::default();
+            let mut already_seen: FxHashSet<Atom> = Default::default();
 
             let attributes = current_tag_token
                 .attributes
                 .drain(..)
                 .map(|attribute| {
-                    let name = JsWord::from(attribute.name);
+                    let name = Atom::from(attribute.name);
 
                     if already_seen.contains(&name) {
                         self.errors
@@ -822,9 +823,9 @@ where
                     AttributeToken {
                         span: attribute.span,
                         name,
-                        raw_name: attribute.raw_name.map(JsWord::from),
-                        value: attribute.value.map(JsWord::from),
-                        raw_value: attribute.raw_value.map(JsWord::from),
+                        raw_name: attribute.raw_name.map(Atom::from),
+                        value: attribute.value.map(Atom::from),
+                        raw_value: attribute.raw_value.map(Atom::from),
                     }
                 })
                 .collect();

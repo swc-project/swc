@@ -1,4 +1,5 @@
 use either::Either;
+use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
@@ -39,34 +40,32 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
-        if self.input.syntax().typescript() && self.input.syntax().jsx() {
+        if self.input.syntax().typescript() && is!(self, JSXTagStart) {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
 
-            if is!(self, JSXTagStart) {
-                let cur_context = self.input.token_context().current();
-                debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
-                // Only time j_oTag is pushed is right after j_expr.
-                debug_assert_eq!(
-                    self.input.token_context().0[self.input.token_context().len() - 2],
-                    TokenContext::JSXExpr
-                );
+            let cur_context = self.input.token_context().current();
+            debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
+            // Only time j_oTag is pushed is right after j_expr.
+            debug_assert_eq!(
+                self.input.token_context().0[self.input.token_context().len() - 2],
+                TokenContext::JSXExpr
+            );
 
-                let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
-                if let Some(res) = res {
-                    return Ok(res);
-                } else {
-                    debug_assert_eq!(
-                        self.input.token_context().current(),
-                        Some(TokenContext::JSXOpeningTag)
-                    );
-                    self.input.token_context_mut().pop();
-                    debug_assert_eq!(
-                        self.input.token_context().current(),
-                        Some(TokenContext::JSXExpr)
-                    );
-                    self.input.token_context_mut().pop();
-                }
+            let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
+            if let Some(res) = res {
+                return Ok(res);
+            } else {
+                debug_assert_eq!(
+                    self.input.token_context().current(),
+                    Some(TokenContext::JSXOpeningTag)
+                );
+                self.input.token_context_mut().pop();
+                debug_assert_eq!(
+                    self.input.token_context().current(),
+                    Some(TokenContext::JSXExpr)
+                );
+                self.input.token_context_mut().pop();
             }
         }
 
@@ -309,7 +308,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 tok!('{') => {
-                    return self.parse_object();
+                    return self.parse_object::<Expr>().map(Box::new);
                 }
 
                 // Handle FunctionExpression and GeneratorExpression
@@ -341,7 +340,7 @@ impl<I: Tokens> Parser<I> {
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(
-                                    AHashMap::<char, usize>::default(),
+                                    FxHashMap::<char, usize>::default(),
                                     |mut map, flag| {
                                         let key = match flag {
                                             // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
@@ -2004,7 +2003,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, ';')
-            || (!is!(self, '*')
+            || (!is!(self, '<')
+                && !is!(self, '*')
                 && !is!(self, '/')
                 && !is!(self, "/=")
                 && !cur!(self, false)

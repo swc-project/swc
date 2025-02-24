@@ -3,10 +3,9 @@
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
-    SyntaxContext, DUMMY_SP,
+    iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -230,7 +229,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<AHashMap<Id, JsWord>>,
+    typeofs: Box<FxHashMap<Id, Atom>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -254,7 +253,7 @@ struct Vars {
     lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
+    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -380,7 +379,7 @@ impl Optimizer<'_> {
         self.options.top_level()
     }
 
-    fn ident_reserved(&self, sym: &JsWord) -> bool {
+    fn ident_reserved(&self, sym: &Atom) -> bool {
         if let Some(MangleOptions { reserved, .. }) = self.mangle_options {
             reserved.contains(sym)
         } else {
@@ -960,8 +959,30 @@ impl Optimizer<'_> {
             }
 
             Expr::Assign(AssignExpr {
-                op, left, right, ..
-            }) if left.is_simple() && !op.may_short_circuit() => {
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
+                right,
+                ..
+            }) => {
+                let old = i.id.to_id();
+                self.store_var_for_inlining(&mut i.id, right, true);
+
+                if i.is_dummy() && self.options.unused {
+                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
+                    self.vars.removed.insert(old);
+                }
+
+                if right.is_invalid() {
+                    return None;
+                }
+            }
+
+            Expr::Assign(AssignExpr {
+                op,
+                left: left @ AssignTarget::Simple(_),
+                right,
+                ..
+            }) if !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
                     if let SimpleAssignTarget::Member(m) = expr {
                         if !m.obj.may_have_side_effects(self.ctx.expr_ctx)
@@ -989,25 +1010,6 @@ impl Optimizer<'_> {
                     }
                 }
                 return Some(e.take());
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
-                right,
-                ..
-            }) => {
-                let old = i.id.to_id();
-                self.store_var_for_inlining(&mut i.id, right, true);
-
-                if i.is_dummy() && self.options.unused {
-                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
-                    self.vars.removed.insert(old);
-                }
-
-                if right.is_invalid() {
-                    return None;
-                }
             }
 
             // We drop `f.g` in

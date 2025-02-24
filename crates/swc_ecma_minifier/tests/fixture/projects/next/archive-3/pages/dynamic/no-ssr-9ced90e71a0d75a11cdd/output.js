@@ -52,13 +52,12 @@
         /***/ },
         /***/ 8183: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.LoadableContext = void 0;
-            var obj, LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
+            }), exports.LoadableContext = void 0, exports.LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
                 default: obj
             }).default.createContext(null);
-            exports.LoadableContext = LoadableContext;
         /***/ },
         /***/ 880: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -318,8 +317,7 @@
         /***/ },
         /***/ 6318: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var Hello = (0, __webpack_require__(4652).default)(function() {
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = (0, __webpack_require__(4652).default)(function() {
                 return Promise.all(/* import() */ [
                     __webpack_require__.e(774),
                     __webpack_require__.e(974)
@@ -337,7 +335,6 @@
                     ]
                 }
             });
-            /* harmony default export */ __webpack_exports__.default = Hello;
         /***/ },
         /***/ 8996: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([

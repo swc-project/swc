@@ -587,7 +587,7 @@
                     }, this.insideEnd = function(row, column) {
                         return !(0 != this.compare(row, column) || this.isStart(row, column));
                     }, this.compare = function(row, column) {
-                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? +!(column <= this.end.column) : 0 : column < this.start.column ? -1 : +(column > this.end.column);
+                        return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? column <= this.end.column ? 0 : 1 : 0 : column < this.start.column ? -1 : +(column > this.end.column);
                     }, this.compareStart = function(row, column) {
                         return this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
                     }, this.compareEnd = function(row, column) {
@@ -1754,8 +1754,8 @@
             ], function(require, exports, module) {
                 var lang = require("./lib/lang");
                 require("./lib/oop");
-                var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
-                module.exports = exports = new AppConfig();
+                var net = require("./lib/net"), dom = require("./lib/dom");
+                module.exports = exports = new (require("./lib/app_config")).AppConfig();
                 var global = function() {
                     return this || "undefined" != typeof window && window;
                 }(), options = {
@@ -2833,7 +2833,7 @@
                         this.session.$selectLongWords ? this.moveCursorLongWordLeft() : this.moveCursorShortWordLeft();
                     }, this.moveCursorBy = function(rows, chars) {
                         var offsetX, screenPos = this.session.documentToScreenPosition(this.lead.row, this.lead.column);
-                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? (offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column), screenPos.column = Math.round(offsetX / this.session.$bidiHandler.charWidths[0])) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
+                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? screenPos.column = Math.round((offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column)) / this.session.$bidiHandler.charWidths[0]) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
                             var widget = this.session.lineWidgets[this.lead.row];
                             rows < 0 ? rows -= widget.rowsAbove || 0 : rows > 0 && (rows += widget.rowCount - (widget.rowsAbove || 0));
                         }
@@ -5299,7 +5299,7 @@
                             }, this), folds;
                             range = location;
                         }
-                        for(var range, folds, outermostFolds = folds = this.getFoldsInRangeList(range); 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range.start) && Range.comparePoints(folds[0].end, range.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range);
+                        for(var range, folds = this.getFoldsInRangeList(range), outermostFolds = folds; 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range.start) && Range.comparePoints(folds[0].end, range.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range);
                         if (!1 != expandInner ? this.removeFolds(folds) : this.expandFolds(folds), outermostFolds.length) return outermostFolds;
                     }, this.isRowFolded = function(docRow, startFoldRow) {
                         return !!this.getFoldLine(docRow, startFoldRow);
@@ -6087,7 +6087,7 @@
                                 var ch = tokens[i];
                                 (12 === ch || 2 === ch) && (len -= 1);
                             }
-                            splits.length || (indent = function() {
+                            splits.length || (splits.indent = indent = function() {
                                 var indentation = 0;
                                 if (0 === maxIndent) return indentation;
                                 if (indentedSoftWrap) for(var i = 0; i < tokens.length; i++){
@@ -6098,7 +6098,7 @@
                                     else break;
                                 }
                                 return isCode && !1 !== indentedSoftWrap && (indentation += tabSize), Math.min(indentation, maxIndent);
-                            }(), splits.indent = indent), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
+                            }()), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
                         }
                         for(var indent = 0; displayLength - lastSplit > wrapLimit - indent;){
                             var split = lastSplit + wrapLimit - indent;
@@ -10798,11 +10798,10 @@ margin: 0 10px;\
                         if (deltaY < 0 && this.session.getScrollTop() >= 1 - this.scrollMargin.top || deltaY > 0 && this.session.getScrollTop() + this.$size.scrollerHeight - this.layerConfig.maxHeight < -1 + this.scrollMargin.bottom || deltaX < 0 && this.session.getScrollLeft() >= 1 - this.scrollMargin.left || deltaX > 0 && this.session.getScrollLeft() + this.$size.scrollerWidth - this.layerConfig.width < -1 + this.scrollMargin.right) return !0;
                     }, this.pixelToScreenCoordinates = function(x, y) {
                         if (this.$hasCssTransforms) {
-                            canvasPos = {
+                            var canvasPos = {
                                 top: 0,
                                 left: 0
-                            };
-                            var canvasPos, p = this.$fontMetrics.transformCoordinates([
+                            }, p = this.$fontMetrics.transformCoordinates([
                                 x,
                                 y
                             ]);
@@ -10817,11 +10816,10 @@ margin: 0 10px;\
                         };
                     }, this.screenToTextCoordinates = function(x, y) {
                         if (this.$hasCssTransforms) {
-                            canvasPos = {
+                            var canvasPos = {
                                 top: 0,
                                 left: 0
-                            };
-                            var canvasPos, p = this.$fontMetrics.transformCoordinates([
+                            }, p = this.$fontMetrics.transformCoordinates([
                                 x,
                                 y
                             ]);
@@ -11517,9 +11515,7 @@ margin: 0 10px;\
                             return editor && editor.inMultiSelectMode;
                         }
                     }
-                ];
-                var HashHandler = require("../keyboard/hash_handler").HashHandler;
-                exports.keyboardHandler = new HashHandler(exports.multiSelectCommands);
+                ], exports.keyboardHandler = new (require("../keyboard/hash_handler")).HashHandler(exports.multiSelectCommands);
             }), ace.define("ace/multi_select", [
                 "require",
                 "exports",

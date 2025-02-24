@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_common"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "8.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -19,7 +19,6 @@ bench = false
 __plugin         = []
 __plugin_mode    = []
 __plugin_rt      = []
-ahash            = ["dep:ahash"]
 concurrent       = ["parking_lot"]
 debug            = []
 default          = []
@@ -36,8 +35,10 @@ tty-emitter = ["termcolor"]
 __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck", "rancor"]
 
+shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
+
+
 [dependencies]
-ahash                 = { workspace = true, optional = true }
 anyhow                = { workspace = true, optional = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
 bytecheck             = { workspace = true, optional = true }
@@ -51,6 +52,7 @@ rancor                = { workspace = true, optional = true }
 rkyv                  = { workspace = true, optional = true }
 rustc-hash            = { workspace = true }
 serde                 = { workspace = true, features = ["derive"] }
+shrink-to-fit         = { workspace = true, optional = true }
 siphasher             = { workspace = true }
 sourcemap             = { workspace = true, optional = true }
 termcolor             = { workspace = true, optional = true }
@@ -61,8 +63,8 @@ url                   = { workspace = true }
 ast_node             = { version = "3.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.0", path = "../better_scoped_tls" }
 from_variant         = { version = "2.0.0", path = "../from_variant" }
-swc_allocator        = { version = "2.0.0", path = "../swc_allocator", default-features = false }
-swc_atoms            = { version = "3.0.3", path = "../swc_atoms" }
+swc_allocator        = { version = "4.0.0", path = "../swc_allocator", default-features = false }
+swc_atoms            = { version = "5.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.0", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.0", path = "../swc_visit" }
 

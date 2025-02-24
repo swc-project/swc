@@ -337,7 +337,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("dom".into()),
+            pragma: Some(Lrc::new("dom".into())),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -808,7 +808,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("h".into()),
+            pragma: Some(Lrc::new("h".into())),
             throw_if_namespace: false.into(),
             ..Default::default()
         },

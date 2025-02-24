@@ -13,6 +13,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -195,7 +196,8 @@
                   "raw": "\"fo\""
                 },
                 "qualifier": null,
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           },

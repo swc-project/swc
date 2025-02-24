@@ -1,4 +1,4 @@
-//! See [JsWord] and [Atom]
+//! See [Atom] and [UnsafeAtom]
 
 #![allow(clippy::unreadable_literal)]
 
@@ -21,9 +21,9 @@ use std::{
 use once_cell::sync::Lazy;
 use serde::Serializer;
 
-pub use self::{atom as js_word, Atom as JsWord};
+pub use crate::fast::UnsafeAtom;
 
-pub mod fast;
+mod fast;
 
 /// Clone-on-write string.
 ///
@@ -270,4 +270,11 @@ impl AtomStoreCell {
         // only to this block.
         unsafe { (*self.0.get()).atom(s) }
     }
+}
+
+/// noop
+#[cfg(feature = "shrink-to-fit")]
+impl shrink_to_fit::ShrinkToFit for Atom {
+    #[inline(always)]
+    fn shrink_to_fit(&mut self) {}
 }

@@ -6,7 +6,7 @@ use std::{
 };
 
 use is_macro::Is;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
     SyntaxContext, DUMMY_SP,
@@ -227,7 +227,7 @@ impl CodeBlock {
         }
     }
 
-    fn label_text(&self) -> Option<JsWord> {
+    fn label_text(&self) -> Option<Atom> {
         match self {
             Self::Labeled(s) => Some(s.label_text.clone()),
             _ => None,
@@ -266,7 +266,7 @@ struct ExceptionBlock {
 /// LabeledStatement.
 #[derive(Debug)]
 struct LabeledBlock {
-    label_text: JsWord,
+    label_text: Atom,
     is_script: bool,
     break_label: Label,
 }
@@ -2149,7 +2149,7 @@ impl Generator {
         }
     }
 
-    fn declare_local(&mut self, name: Option<JsWord>) -> Ident {
+    fn declare_local(&mut self, name: Option<Atom>) -> Ident {
         let temp = name
             .map(|name| private_ident!(name))
             .unwrap_or_else(|| private_ident!("_tmp"));
@@ -2489,7 +2489,7 @@ impl Generator {
         }
     }
 
-    fn begin_script_labeled_block(&mut self, label_text: JsWord) {
+    fn begin_script_labeled_block(&mut self, label_text: Atom) {
         self.begin_block(CodeBlock::Labeled(LabeledBlock {
             is_script: true,
             label_text,
@@ -2497,7 +2497,7 @@ impl Generator {
         }));
     }
 
-    fn begin_labeled_block(&mut self, label_text: JsWord) {
+    fn begin_labeled_block(&mut self, label_text: Atom) {
         let break_label = self.define_label();
         self.begin_block(CodeBlock::Labeled(LabeledBlock {
             is_script: false,
@@ -2533,7 +2533,7 @@ impl Generator {
         matches!(block, CodeBlock::Loop(..))
     }
 
-    fn has_immediate_containing_labeled_block(&self, label_text: &JsWord, start: usize) -> bool {
+    fn has_immediate_containing_labeled_block(&self, label_text: &Atom, start: usize) -> bool {
         for i in (0..=start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block.borrow()) {
@@ -2555,7 +2555,7 @@ impl Generator {
     /// Finds the label that is the target for a `break` statement.
     ///
     ///  - `label_text`: An optional name of a containing labeled statement.
-    fn find_break_target(&self, label_text: Option<JsWord>) -> Label {
+    fn find_break_target(&self, label_text: Option<Atom>) -> Label {
         #[cfg(debug_assertions)]
         debug!("find_break_target: label_text={:?}", label_text);
 
@@ -2587,7 +2587,7 @@ impl Generator {
     /// Finds the label that is the target for a `continue` statement.
     ///
     /// - `labelText` An optional name of a containing labeled statement.
-    fn find_continue_target(&self, label_text: Option<JsWord>) -> Label {
+    fn find_continue_target(&self, label_text: Option<Atom>) -> Label {
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
                 for i in (0..=block_stack.len() - 1).rev() {

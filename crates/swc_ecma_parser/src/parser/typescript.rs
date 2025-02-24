@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::js_word;
+use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::*;
@@ -316,6 +316,15 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
+        // the "assert" keyword is deprecated and this syntax is niche, so
+        // don't support it
+        let attributes =
+            if eat!(self, ',') && self.input.syntax().import_attributes() && is!(self, '{') {
+                Some(self.parse_ts_call_options()?)
+            } else {
+                None
+            };
+
         expect!(self, ')');
 
         let qualifier = if eat!(self, '.') {
@@ -340,6 +349,27 @@ impl<I: Tokens> Parser<I> {
             arg,
             qualifier,
             type_args,
+            attributes,
+        })
+    }
+
+    fn parse_ts_call_options(&mut self) -> PResult<TsImportCallOptions> {
+        debug_assert!(self.input.syntax().typescript());
+        let start = cur_pos!(self);
+        assert_and_bump!(self, '{');
+
+        expect!(self, "with");
+        expect!(self, ':');
+
+        let value = match self.parse_object::<Expr>()? {
+            Expr::Object(v) => v,
+            _ => unreachable!(),
+        };
+        eat!(self, ',');
+        expect!(self, '}');
+        Ok(TsImportCallOptions {
+            span: span!(self, start),
+            with: Box::new(value),
         })
     }
 
@@ -771,7 +801,7 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(self, ']');
 
-                TsEnumMemberId::Ident(Ident::new_no_ctxt(js_word!(""), span!(self, start)))
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), span!(self, start)))
             }
             _ => self
                 .parse_ident_name()
@@ -844,13 +874,17 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseModuleOrNamespaceDeclaration`
-    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<Box<TsModuleDecl>> {
+    fn parse_ts_module_or_ns_decl(
+        &mut self,
+        start: BytePos,
+        namespace: bool,
+    ) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
         let body: TsNamespaceBody = if eat!(self, '.') {
             let inner_start = cur_pos!(self);
-            let inner = self.parse_ts_module_or_ns_decl(inner_start)?;
+            let inner = self.parse_ts_module_or_ns_decl(inner_start, namespace)?;
             let inner = TsNamespaceDecl {
                 span: inner.span,
                 id: match inner.id {
@@ -872,6 +906,7 @@ impl<I: Tokens> Parser<I> {
             id: TsModuleName::Ident(id.into()),
             body: Some(body),
             global: false,
+            namespace,
         }))
     }
 
@@ -908,6 +943,7 @@ impl<I: Tokens> Parser<I> {
             id,
             global,
             body,
+            namespace: false,
         }))
     }
 
@@ -2354,6 +2390,7 @@ impl<I: Tokens> Parser<I> {
                             span: span!(self, start),
                             global,
                             declare: false,
+                            namespace: false,
                             id,
                             body,
                         }
@@ -2498,7 +2535,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_export_decl(
         &mut self,
         decorators: Vec<Decorator>,
-        value: JsWord,
+        value: Atom,
     ) -> Option<Decl> {
         if !cfg!(feature = "typescript") {
             return None;
@@ -2519,7 +2556,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
-        value: JsWord,
+        value: Atom,
         next: bool,
     ) -> PResult<Option<Decl>> {
         if !cfg!(feature = "typescript") {
@@ -2573,7 +2610,7 @@ impl<I: Tokens> Parser<I> {
                         .map(Some);
                 } else if next || is!(self, IdentRef) {
                     return self
-                        .parse_ts_module_or_ns_decl(start)
+                        .parse_ts_module_or_ns_decl(start, false)
                         .map(From::from)
                         .map(Some);
                 }
@@ -2585,7 +2622,7 @@ impl<I: Tokens> Parser<I> {
                         bump!(self);
                     }
                     return self
-                        .parse_ts_module_or_ns_decl(start)
+                        .parse_ts_module_or_ns_decl(start, true)
                         .map(From::from)
                         .map(Some);
                 }

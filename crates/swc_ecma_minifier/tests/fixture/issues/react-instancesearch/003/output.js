@@ -13,7 +13,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         multiIndexContext: widget.props.indexContextValue
     }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, isIndexWidget = (widget)=>!!widget.props.indexId, isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
-    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : +(!isFirstWidgetIndex && !!isSecondWidgetIndex);
+    return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 /**
  * Creates a new instance of the InstantSearchManager which controls the widgets and

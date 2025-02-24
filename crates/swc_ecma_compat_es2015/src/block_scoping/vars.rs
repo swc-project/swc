@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
-use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
-use swc_common::{collections::ARandomState, Mark, SyntaxContext};
+use rustc_hash::{FxBuildHasher, FxHashMap};
+use swc_atoms::Atom;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -23,7 +23,7 @@ struct BlockScopedVars {
 struct Scope {
     kind: ScopeKind,
 
-    vars: IndexMap<Id, VarDeclKind, ARandomState>,
+    vars: IndexMap<Id, VarDeclKind, FxBuildHasher>,
     usages: Vec<Id>,
 
     children: Vec<Scope>,
@@ -33,7 +33,7 @@ struct Scope {
 struct ParentScope<'a> {
     parent: Option<&'a ParentScope<'a>>,
 
-    vars: &'a IndexMap<Id, VarDeclKind, ARandomState>,
+    vars: &'a IndexMap<Id, VarDeclKind, FxBuildHasher>,
 }
 
 #[swc_trace]
@@ -165,7 +165,7 @@ impl Scope {
 
     /// If a used identifier is declared in a child scope using `let` or
     /// `const`, add it to `rename_map`.
-    fn collect_candidates(&mut self, parent: ParentScope, symbols: &mut Vec<JsWord>) {
+    fn collect_candidates(&mut self, parent: ParentScope, symbols: &mut Vec<Atom>) {
         for id in &self.usages {
             if self.can_access(id, parent, false) {
                 self.children.iter_mut().for_each(|s| {
@@ -187,7 +187,7 @@ impl Scope {
             .for_each(|s| s.collect_candidates(parent, symbols));
     }
 
-    fn rename_decls(&self, symbols: &[JsWord], rename_map: &mut FxHashMap<Id, Id>) {
+    fn rename_decls(&self, symbols: &[Atom], rename_map: &mut FxHashMap<Id, Id>) {
         for (id, _) in &self.vars {
             if !symbols.contains(&id.0) {
                 continue;

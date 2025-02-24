@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
@@ -88,7 +88,7 @@ where
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 
-    dep_list: Vec<(Ident, JsWord, SpanCtx)>,
+    dep_list: Vec<(Ident, Atom, SpanCtx)>,
     require: Ident,
     exports: Option<Ident>,
     module: Option<Ident>,

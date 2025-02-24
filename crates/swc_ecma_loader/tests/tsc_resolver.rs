@@ -3,7 +3,8 @@
 use std::collections::HashMap;
 
 use anyhow::{anyhow, Error};
-use swc_common::{collections::AHashMap, FileName};
+use rustc_hash::FxHashMap;
+use swc_common::FileName;
 use swc_ecma_loader::{
     resolve::{Resolution, Resolve},
     resolvers::tsc::TsConfigResolver,
@@ -280,7 +281,7 @@ fn pattern_length_precedence() {
     }
 }
 
-struct TestResolver(AHashMap<String, String>);
+struct TestResolver(FxHashMap<String, String>);
 
 impl Resolve for TestResolver {
     fn resolve(&self, _: &FileName, src: &str) -> Result<Resolution, Error> {

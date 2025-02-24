@@ -1,7 +1,9 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
-use swc_atoms::JsWord;
-use swc_common::collections::ARandomState;
+use rustc_hash::FxBuildHasher;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -18,12 +20,12 @@ mod entry;
 
 pub(crate) struct UsageVisitor {
     is_any_target: bool,
-    target: Versions,
-    pub required: IndexSet<&'static str, ARandomState>,
+    target: Arc<Versions>,
+    pub required: IndexSet<&'static str, FxBuildHasher>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions) -> Self {
+    pub fn new(target: Arc<Versions>) -> Self {
         //        let mut v = Self { required: Vec::new() };
         //
         //
@@ -66,7 +68,7 @@ impl UsageVisitor {
             if !*is_any_target {
                 if let Some(v) = BUILTINS.get(&***f) {
                     // Skip
-                    if !should_enable(*target, *v, true) {
+                    if !should_enable(target, v, true) {
                         return false;
                     }
                 }
@@ -76,7 +78,7 @@ impl UsageVisitor {
         }));
     }
 
-    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+    fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
             if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
                 if let Some(features) = map.get_data(prop) {

@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{
@@ -86,7 +86,7 @@ fn is_reserved(sym: &str) -> bool {
     )
 }
 
-fn rename_ident(sym: &mut JsWord, _strict: bool) {
+fn rename_ident(sym: &mut Atom, _strict: bool) {
     // Es
     if is_reserved(&*sym) {
         let s = format!("_{}", sym).into();

@@ -38,6 +38,7 @@ pub mod hygiene;
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Span {
     #[serde(rename = "start")]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
@@ -700,7 +701,7 @@ pub enum NonNarrowChar {
     /// Represents a zero-width character
     ZeroWidth(BytePos),
     /// Represents a wide (fullwidth) character
-    Wide(BytePos),
+    Wide(BytePos, usize),
     /// Represents a tab character, represented visually with a width of 4
     /// characters
     Tab(BytePos),
@@ -710,16 +711,15 @@ impl NonNarrowChar {
     fn new(pos: BytePos, width: usize) -> Self {
         match width {
             0 => NonNarrowChar::ZeroWidth(pos),
-            2 => NonNarrowChar::Wide(pos),
             4 => NonNarrowChar::Tab(pos),
-            _ => panic!("width {} given for non-narrow character", width),
+            w => NonNarrowChar::Wide(pos, w),
         }
     }
 
     /// Returns the absolute offset of the character in the SourceMap
     pub fn pos(self) -> BytePos {
         match self {
-            NonNarrowChar::ZeroWidth(p) | NonNarrowChar::Wide(p) | NonNarrowChar::Tab(p) => p,
+            NonNarrowChar::ZeroWidth(p) | NonNarrowChar::Wide(p, _) | NonNarrowChar::Tab(p) => p,
         }
     }
 
@@ -727,7 +727,7 @@ impl NonNarrowChar {
     pub fn width(self) -> usize {
         match self {
             NonNarrowChar::ZeroWidth(_) => 0,
-            NonNarrowChar::Wide(_) => 2,
+            NonNarrowChar::Wide(_, width) => width,
             NonNarrowChar::Tab(_) => 4,
         }
     }
@@ -739,7 +739,7 @@ impl Add<BytePos> for NonNarrowChar {
     fn add(self, rhs: BytePos) -> Self {
         match self {
             NonNarrowChar::ZeroWidth(pos) => NonNarrowChar::ZeroWidth(pos + rhs),
-            NonNarrowChar::Wide(pos) => NonNarrowChar::Wide(pos + rhs),
+            NonNarrowChar::Wide(pos, width) => NonNarrowChar::Wide(pos + rhs, width),
             NonNarrowChar::Tab(pos) => NonNarrowChar::Tab(pos + rhs),
         }
     }
@@ -751,7 +751,7 @@ impl Sub<BytePos> for NonNarrowChar {
     fn sub(self, rhs: BytePos) -> Self {
         match self {
             NonNarrowChar::ZeroWidth(pos) => NonNarrowChar::ZeroWidth(pos - rhs),
-            NonNarrowChar::Wide(pos) => NonNarrowChar::Wide(pos - rhs),
+            NonNarrowChar::Wide(pos, width) => NonNarrowChar::Wide(pos - rhs, width),
             NonNarrowChar::Tab(pos) => NonNarrowChar::Tab(pos - rhs),
         }
     }
@@ -1062,6 +1062,7 @@ pub trait SmallPos {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BytePos(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] pub u32);
 
 impl BytePos {

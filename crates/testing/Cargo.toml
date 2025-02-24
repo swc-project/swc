@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "testing"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "8.0.0"
 
 [lib]
 bench = false
@@ -18,13 +18,14 @@ difference         = { workspace = true }
 once_cell          = { workspace = true }
 pretty_assertions  = { workspace = true }
 regex              = { workspace = true }
+rustc-hash         = { workspace = true }
 serde              = { workspace = true }
 serde_json         = { workspace = true }
 tracing            = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_common = { version = "5.0.0", path = "../swc_common", features = [
+swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "tty-emitter",
 ] }
-swc_error_reporters = { version = "6.0.0", path = "../swc_error_reporters" }
+swc_error_reporters = { version = "9.0.0", path = "../swc_error_reporters" }
 testing_macros = { version = "1.0.0", path = "../testing_macros" }

@@ -16,11 +16,9 @@ use normpath::BasePath;
 use once_cell::sync::Lazy;
 use path_clean::PathClean;
 use pathdiff::diff_paths;
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::Deserialize;
-use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
-    FileName,
-};
+use swc_common::FileName;
 use tracing::{debug, trace, Level};
 
 use crate::{
@@ -36,15 +34,15 @@ static PACKAGE: &str = "package.json";
 /// directory containing the package.json file which is important
 /// to ensure we only apply these `browser` rules to modules in
 /// the owning package.
-static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ARandomState>> =
+static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, FxBuildHasher>> =
     Lazy::new(Default::default);
 
 #[derive(Debug, Default)]
 struct BrowserCache {
-    rewrites: AHashMap<PathBuf, PathBuf>,
-    ignores: AHashSet<PathBuf>,
-    module_rewrites: AHashMap<String, PathBuf>,
-    module_ignores: AHashSet<String>,
+    rewrites: FxHashMap<PathBuf, PathBuf>,
+    ignores: FxHashSet<PathBuf>,
+    module_rewrites: FxHashMap<String, PathBuf>,
+    module_ignores: FxHashSet<String>,
 }
 
 /// Helper to find the nearest `package.json` file to get
@@ -90,7 +88,7 @@ struct PackageJson {
 #[serde(untagged)]
 enum Browser {
     Str(String),
-    Obj(AHashMap<String, StringOrBool>),
+    Obj(FxHashMap<String, StringOrBool>),
 }
 
 #[derive(Deserialize, Clone)]
@@ -103,7 +101,7 @@ enum StringOrBool {
 #[derive(Debug, Default)]
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
-    alias: AHashMap<String, String>,
+    alias: FxHashMap<String, String>,
     // if true do not resolve symlink
     preserve_symlinks: bool,
     ignore_node_modules: bool,
@@ -115,7 +113,7 @@ impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
     pub fn new(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         preserve_symlinks: bool,
     ) -> Self {
         Self {
@@ -129,7 +127,7 @@ impl NodeModulesResolver {
     /// Create a node modules resolver which does not care about `node_modules`
     pub fn without_node_modules(
         target_env: TargetEnv,
-        alias: AHashMap<String, String>,
+        alias: FxHashMap<String, String>,
         preserve_symlinks: bool,
     ) -> Self {
         Self {
@@ -419,11 +417,8 @@ impl NodeModulesResolver {
             module_specifier, base, self.target_env
         );
 
-        if !module_specifier.starts_with('.') {
-            // Handle absolute path
-
-            let path = Path::new(module_specifier);
-
+        let path = Path::new(module_specifier);
+        if path.is_absolute() {
             if let Ok(file) = self
                 .resolve_as_file(path)
                 .or_else(|_| self.resolve_as_directory(path, false))

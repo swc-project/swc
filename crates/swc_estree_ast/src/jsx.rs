@@ -1,4 +1,4 @@
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::ast_serde;
 
 use crate::{
@@ -134,7 +134,7 @@ pub struct JSXIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub name: JsWord,
+    pub name: Atom,
 }
 
 impl From<Identifier> for JSXIdentifier {

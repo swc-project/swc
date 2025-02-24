@@ -2,14 +2,14 @@ use std::{collections::HashMap, env, sync::Arc};
 
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
+use rustc_hash::FxHashMap;
 use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
     try_with_handler,
 };
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
-    collections::AHashMap,
     comments::{NoopComments, SingleThreadedComments},
     errors::{Handler, HANDLER},
     sync::Lrc,
@@ -41,7 +41,7 @@ impl SwcLoader {
         SwcLoader { compiler, options }
     }
 
-    fn env_map(&self) -> Lrc<AHashMap<JsWord, Expr>> {
+    fn env_map(&self) -> Lrc<FxHashMap<Atom, Expr>> {
         let mut m = HashMap::default();
 
         let envs = self
@@ -55,7 +55,7 @@ impl SwcLoader {
             .map(|g| g.envs.clone())
             .unwrap_or_default();
 
-        let envs_map: AHashMap<_, _> = match envs {
+        let envs_map: FxHashMap<_, _> = match envs {
             GlobalInliningPassEnvs::Map(m) => m,
             GlobalInliningPassEnvs::List(envs) => envs
                 .into_iter()

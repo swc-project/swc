@@ -7,8 +7,9 @@ use std::{collections::HashMap, fs::write, path::PathBuf, process::Command};
 
 use anyhow::Error;
 use ntest::timeout;
+use rustc_hash::FxHashSet;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{collections::AHashSet, errors::HANDLER, FileName, Mark, Span, GLOBALS};
+use swc_common::{errors::HANDLER, FileName, Mark, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -1139,7 +1140,7 @@ impl swc_bundler::Hook for Hook {
     }
 }
 
-fn collect_exports(module: &Module) -> AHashSet<String> {
+fn collect_exports(module: &Module) -> FxHashSet<String> {
     let mut v = ExportCollector::default();
     module.visit_with(&mut v);
 
@@ -1148,7 +1149,7 @@ fn collect_exports(module: &Module) -> AHashSet<String> {
 
 #[derive(Default)]
 struct ExportCollector {
-    exports: AHashSet<String>,
+    exports: FxHashSet<String>,
 }
 
 impl Visit for ExportCollector {

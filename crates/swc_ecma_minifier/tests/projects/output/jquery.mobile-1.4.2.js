@@ -2069,10 +2069,10 @@
         reset: function() {
             base.element.attr("href", jQuery.mobile.path.documentBase.hrefNoSearch);
         }
-    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
+    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, orig = jQuery.widget, jQuery.widget = function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = constructor.prototype.initSelector !== undefined6 ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
-    }), // Make sure $.widget still has bridge and extend methods
+    }, // Make sure $.widget still has bridge and extend methods
     jQuery.extend(jQuery.widget, originalWidget), // For backcompat remove in 1.5
     jQuery.mobile.document.on("create", function(event1) {
         jQuery(event1.target).enhanceWithin();
@@ -3003,9 +3003,9 @@
     jQuery.mobile.degradeInputsWithin = function(target) {
         // Degrade inputs to avoid poorly implemented native functionality
         (target = jQuery(target)).find("input").not(jQuery.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, findstr, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
-            jQuery.mobile.degradeInputs[type] && (findstr = // In IE browsers, the type sometimes doesn't exist in the cloned markup, so we replace the closing tag instead
-            (hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            var html, hasType, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
+            jQuery.mobile.degradeInputs[type] && (// In IE browsers, the type sometimes doesn't exist in the cloned markup, so we replace the closing tag instead
+            hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -4240,12 +4240,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), height = scrollHeight + (borderTop + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), height += paddingTop + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""
@@ -5493,8 +5493,8 @@
                     top: 0,
                     right: 0,
                     bottom: 0
-                }), gdOffset = ar.gd.offset(), state.contentBox = {
-                    x: gdOffset.left - offset.left,
+                }), state.contentBox = {
+                    x: (gdOffset = ar.gd.offset()).left - offset.left,
                     y: gdOffset.top - offset.top,
                     cx: ar.gd.width(),
                     cy: ar.gd.height()
@@ -6472,7 +6472,7 @@
             $.support.inlineSVG(), $.mobile.hideUrlBar && window.scrollTo(0, 1), // if defaultHomeScroll hasn't been set yet, see if scrollTop is 1
             // it should be 1 in most browsers, but android treats 1 as 0 (for hiding addr bar)
             // so if it's 1, use 0 from now on
-            $.mobile.defaultHomeScroll = +(!!$.support.scrollTop && 1 !== $.mobile.window.scrollTop()), $.mobile.autoInitializePage && $.mobile.initializePage(), $.mobile.hideUrlBar && $window.load($.mobile.silentScroll), $.support.cssPointerEvents || // IE and Opera don't support CSS pointer-events: none that we use to disable link-based buttons
+            $.mobile.defaultHomeScroll = $.support.scrollTop && 1 !== $.mobile.window.scrollTop() ? 1 : 0, $.mobile.autoInitializePage && $.mobile.initializePage(), $.mobile.hideUrlBar && $window.load($.mobile.silentScroll), $.support.cssPointerEvents || // IE and Opera don't support CSS pointer-events: none that we use to disable link-based buttons
             // by adding the 'ui-disabled' class to them. Using a JavaScript workaround for those browser.
             // https://github.com/jquery/jquery-mobile/issues/3558
             // DEPRECATED as of 1.4.0 - remove ui-disabled after 1.4.0 release

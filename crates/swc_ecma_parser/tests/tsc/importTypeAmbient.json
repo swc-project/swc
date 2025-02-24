@@ -13,6 +13,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -195,7 +196,8 @@
                   "raw": "\"foo\""
                 },
                 "qualifier": null,
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           },
@@ -260,6 +262,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -284,6 +287,7 @@
             },
             "declare": false,
             "global": false,
+            "namespace": true,
             "id": {
               "type": "Identifier",
               "span": {
@@ -411,6 +415,7 @@
             },
             "declare": false,
             "global": false,
+            "namespace": true,
             "id": {
               "type": "Identifier",
               "span": {
@@ -775,7 +780,8 @@
                     "value": "I"
                   }
                 },
-                "typeArguments": null
+                "typeArguments": null,
+                "attributes": null
               }
             }
           },
@@ -1120,7 +1126,8 @@
                     "raw": "\"foo2\""
                   },
                   "qualifier": null,
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 },
                 "typeArguments": null
               }

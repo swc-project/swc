@@ -4548,10 +4548,7 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) {
-                var back;
-                print((back = 0.5 * !!half, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
-            }
+            options.beautify && print(" ".repeat(options.indent_start + indentation - 0.5 * !!half * options.indent_level));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -8507,7 +8504,7 @@
                 //    https://github.com/mishoo/UglifyJS2/issues/1838
                 // that's an invalid AST.
                 // We fix it at this stage by moving the `var` outside the `for`.
-                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (block = node.init, node.init = block.body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
+                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (node.init = (block = node.init).body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
                 if (node instanceof AST_LabeledStatement && node.body instanceof AST_For) {
                     if (descend(node, this), node.body instanceof AST_BlockStatement) {
                         var block = node.body;
@@ -18920,9 +18917,9 @@
                         return value.length ? value.map(symdef) : void 0;
                     case "variables":
                     case "globals":
-                        var callback, result;
-                        return value.size ? (callback = symdef, result = [], value.forEach(function(def) {
-                            result.push(callback(def));
+                        var result;
+                        return value.size ? (result = [], value.forEach(function(def) {
+                            result.push(symdef(def));
                         }), result) : void 0;
                 }
                 if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {

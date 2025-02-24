@@ -129,6 +129,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": true,
       "id": {
         "type": "Identifier",
         "span": {
@@ -269,6 +270,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
@@ -659,7 +661,8 @@
                     "raw": "\"./fo\""
                   },
                   "qualifier": null,
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -794,7 +797,8 @@
                       "value": "I"
                     }
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -929,7 +933,8 @@
                       "value": "Q"
                     }
                   },
-                  "typeArguments": null
+                  "typeArguments": null,
+                  "attributes": null
                 }
               }
             },
@@ -1288,7 +1293,8 @@
                       "raw": "\"./fo2\""
                     },
                     "qualifier": null,
-                    "typeArguments": null
+                    "typeArguments": null,
+                    "attributes": null
                   },
                   "typeArguments": null
                 }

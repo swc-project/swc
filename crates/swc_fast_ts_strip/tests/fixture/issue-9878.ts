@@ -16,3 +16,22 @@ function f3() {
 		(x: T): Promise<
         T>=>x;
 }
+
+(function () {
+    return<T>
+        (v: T) => v
+});
+(function () {
+    return/**/<
+        T
+    >/**/(v: T)/**/:
+    T/**/=> v
+});
+(function* () {
+    yield<T>
+(v: T)=>v;
+});
+(function* () {
+    throw<T>
+(v: T)=>v;
+});

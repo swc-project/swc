@@ -5,7 +5,7 @@ use std::{
 };
 
 use phf::phf_set;
-use swc_atoms::{fast::FastAtom, js_word, Atom};
+use swc_atoms::{atom, Atom, UnsafeAtom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -37,6 +37,7 @@ use crate::{typescript::TsTypeAnn, Expr};
 )]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
@@ -168,6 +169,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// distinguish identifiers.
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default)]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Ident {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
@@ -372,7 +374,7 @@ impl Ident {
 
     #[inline]
     pub fn is_dummy(&self) -> bool {
-        self.sym == js_word!("") && self.span.is_dummy()
+        self.sym == atom!("") && self.span.is_dummy()
     }
 
     /// Create a new identifier with the given position.
@@ -385,6 +387,7 @@ impl Ident {
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, Default, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct IdentName {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,
@@ -472,30 +475,30 @@ impl From<IdentName> for BindingIdent {
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
-pub type UnsafeId = (FastAtom, SyntaxContext);
+pub type UnsafeId = (UnsafeAtom, SyntaxContext);
 
 /// This is extremely unsafe so don't use it unless you know what you are doing.
 ///
 /// # Safety
 ///
-/// See [`FastAtom::new`] for constraints.
+/// See [`UnsafeAtom::new`] for constraints.
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
 pub unsafe fn unsafe_id(id: &Id) -> UnsafeId {
-    (FastAtom::new(&id.0), id.1)
+    (UnsafeAtom::new(&id.0), id.1)
 }
 
 /// This is extremely unsafe so don't use it unless you know what you are doing.
 ///
 /// # Safety
 ///
-/// See [`FastAtom::new`] for constraints.
+/// See [`UnsafeAtom::new`] for constraints.
 ///
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
 pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
-    (FastAtom::new(&id.sym), id.ctxt)
+    (UnsafeAtom::new(&id.sym), id.ctxt)
 }
 
 /// See [Ident] for documentation.
@@ -503,7 +506,7 @@ pub type Id = (Atom, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {
-        Ident::new_no_ctxt(js_word!(""), DUMMY_SP)
+        Ident::new_no_ctxt(atom!(""), DUMMY_SP)
     }
 }
 
@@ -546,6 +549,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
 #[ast_node("PrivateName")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct PrivateName {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]

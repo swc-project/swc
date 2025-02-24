@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SyntaxContext};
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -13,9 +14,9 @@ pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
 
 #[derive(Default, Clone)]
 struct SafariIdDestructuringCollisionInFunctionExpression {
-    fn_expr_name: JsWord,
+    fn_expr_name: Atom,
     destructured_id_span: Option<SyntaxContext>,
-    other_ident_symbols: AHashSet<JsWord>,
+    other_ident_symbols: FxHashSet<Atom>,
     in_body: bool,
 }
 
@@ -57,8 +58,8 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
 
             if let Some(id_ctxt) = self.destructured_id_span.take() {
                 let mut rename_map = HashMap::default();
-                let new_id: JsWord = {
-                    let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
+                let new_id: Atom = {
+                    let mut id_value: Atom = format!("_{}", self.fn_expr_name).into();
                     let mut count = 0;
                     while self.other_ident_symbols.contains(&id_value) {
                         count += 1;

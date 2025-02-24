@@ -2,12 +2,8 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
-use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
-    sync::Lrc,
-    util::take::Take,
-    SourceMap, SyntaxContext,
-};
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use swc_common::{sync::Lrc, util::take::Take, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -115,8 +111,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = AHashSet::default();
-    let mut done = AHashSet::default();
+    let mut moves = FxHashSet::default();
+    let mut done = FxHashSet::default();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -353,7 +349,7 @@ fn iter<'a>(
 struct FieldInitFinder {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: AHashSet<Id>,
+    accessed: FxHashSet<Id>,
 }
 
 impl FieldInitFinder {
@@ -518,11 +514,11 @@ impl Visit for InitializerFinder {
 /// But we care about modifications.
 #[derive(Default)]
 struct RequirementCalculator {
-    required_ids: IndexSet<(Id, Required), ARandomState>,
+    required_ids: IndexSet<(Id, Required), FxBuildHasher>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
     /// graph.
-    excluded: IndexSet<Id, ARandomState>,
+    excluded: IndexSet<Id, FxBuildHasher>,
 
     in_weak: bool,
     in_var_decl: bool,
@@ -659,8 +655,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = AHashMap::<Id, usize>::default();
+    let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = FxHashMap::<Id, usize>::default();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);

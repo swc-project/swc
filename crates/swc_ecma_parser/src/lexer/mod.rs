@@ -5,18 +5,19 @@ use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
-use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
+use swc_common::{
+    comments::Comments,
+    input::{Input, StringInput},
+    BytePos, Span,
+};
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
+pub use self::state::{TokenContext, TokenContexts};
 use self::{
     comments_buffer::CommentsBuffer,
     state::State,
     table::{ByteHandler, BYTE_HANDLERS},
     util::*,
-};
-pub use self::{
-    input::Input,
-    state::{TokenContext, TokenContexts},
 };
 use crate::{
     error::{Error, SyntaxError},
@@ -26,8 +27,6 @@ use crate::{
 };
 
 mod comments_buffer;
-#[deprecated = "Directly use swc_common::input instead"]
-pub mod input;
 mod jsx;
 mod number;
 mod state;

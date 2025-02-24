@@ -456,7 +456,7 @@
  * @param {Function} fn
  */ function createPositionalPseudo(fn) {
             return markFunction(function(argument) {
-                return argument = +argument, markFunction(function(seed, matches) {
+                return argument *= 1, markFunction(function(seed, matches) {
                     // Match elements found at the specified indexes
                     for(var j, matchIndexes = fn([], seed.length, argument), i = matchIndexes.length; i--;)seed[j = matchIndexes[i]] && (seed[j] = !(matches[j] = seed[j]));
                 });
@@ -2467,7 +2467,7 @@
         which: function(event) {
             var button = event.button;
             return(// Add which for key events
-            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 2 * !!(4 & button) : event.which);
+            null == event.which && rkeyEvent.test(event.type) ? null != event.charCode ? event.charCode : event.keyCode : !event.which && void 0 !== button && rmouseEvent.test(event.type) ? 1 & button ? 1 : 2 & button ? 3 : 4 & button ? 2 : 0 : event.which);
         }
     }, jQuery.event.addProp), jQuery.each({
         focus: "focusin",
@@ -4159,8 +4159,9 @@
                 if (xhr.open(options.type, options.url, options.async, options.username, options.password), options.xhrFields) for(i in options.xhrFields)xhr[i] = options.xhrFields[i];
                 // Set headers
                 for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), options.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
-                // Callback
-                callback = function(type) {
+                // Listen to events
+                xhr.onload = // Callback
+                (callback = function(type) {
                     return function() {
                         callback && (callback = errorCallback = xhr.onload = xhr.onerror = xhr.onabort = xhr.ontimeout = xhr.onreadystatechange = null, "abort" === type ? xhr.abort() : "error" === type ? "number" != typeof xhr.status ? complete(0, "error") : complete(// File: protocol always yields status 0; see #8605, #14207
                         xhr.status, xhr.statusText) : complete(xhrSuccessStatus[xhr.status] || xhr.status, xhr.statusText, "text" !== // Support: IE <=9 only
@@ -4172,8 +4173,7 @@
                             text: xhr.responseText
                         }, xhr.getAllResponseHeaders()));
                     };
-                }, // Listen to events
-                xhr.onload = callback(), errorCallback = xhr.onerror = xhr.ontimeout = callback("error"), void 0 !== xhr.onabort ? xhr.onabort = errorCallback : xhr.onreadystatechange = function() {
+                })(), errorCallback = xhr.onerror = xhr.ontimeout = callback("error"), void 0 !== xhr.onabort ? xhr.onabort = errorCallback : xhr.onreadystatechange = function() {
                     // Check readyState before timeout as it changes
                     4 === xhr.readyState && // Allow onerror to be called first,
                     // but that will not handle a native abort
@@ -4263,12 +4263,12 @@
             s.jsonpCallback = originalSettings.jsonpCallback, // Save the callback name for future use
             oldCallbacks.push(callbackName)), responseContainer && isFunction(overwritten) && overwritten(responseContainer[0]), responseContainer = overwritten = void 0;
         }), "script");
-    }), // Support: Safari 8 only
+    }), (body = document.implementation.createHTMLDocument("").body).innerHTML = "<form></form><form></form>", // Support: Safari 8 only
     // In Safari 8 documents created via document.implementation.createHTMLDocument
     // collapse sibling forms: the second one becomes a child of the first one.
     // Because of that, this security measure has to be disabled in Safari 8.
     // https://bugs.webkit.org/show_bug.cgi?id=137337
-    support.createHTMLDocument = ((body = document.implementation.createHTMLDocument("").body).innerHTML = "<form></form><form></form>", 2 === body.childNodes.length), // Argument "data" should be string of html
+    support.createHTMLDocument = 2 === body.childNodes.length, // Argument "data" should be string of html
     // context (optional): If specified, the fragment will be created in this context,
     // defaults to document
     // keepScripts (optional): If true, will include scripts passed in the html string

@@ -3,8 +3,9 @@
 
 use std::ops::{Deref, DerefMut};
 
-use swc_atoms::{Atom, JsWord};
-use swc_common::{collections::AHashMap, comments::Comments, input::StringInput, BytePos, Span};
+use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
+use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 
 pub use self::input::{Capturing, Tokens, TokensInput};
@@ -50,13 +51,13 @@ pub struct Parser<I: Tokens> {
 
 #[derive(Clone, Default)]
 struct State {
-    labels: Vec<JsWord>,
+    labels: Vec<Atom>,
     /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
 
     found_module_item: bool,
     /// Start position of an AST node and the span of its trailing comma.
-    trailing_commas: AHashMap<BytePos, Span>,
+    trailing_commas: FxHashMap<BytePos, Span>,
 }
 
 impl<'a> Parser<Lexer<'a>> {

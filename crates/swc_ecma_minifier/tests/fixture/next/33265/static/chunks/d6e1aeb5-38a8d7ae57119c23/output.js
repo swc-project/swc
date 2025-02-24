@@ -1078,7 +1078,7 @@
                     } // Handle key presses
                     event.which = event.charCode || event.keyCode, null !== event.button && void 0 !== event.button && // The following is disabled because it does not pass videojs-standard
                     // and... yikes.
-                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 * !!(2 & event.button));
+                    /* eslint-disable */ (event.button = 1 & event.button ? 0 : 4 & event.button ? 1 : 2 & event.button ? 2 : 0);
                 }
                 return event.fixed_ = !0, event;
             }
@@ -2037,8 +2037,7 @@
                  *         `Component` will get created by this process.
                  */ _proto.addChild = function(child, options, index) {
                     if (void 0 === options && (options = {}), void 0 === index && (index = this.children_.length), "string" == typeof child) {
-                        componentName = toTitleCase$1(child);
-                        var component, componentName, componentClassName = options.componentClass || componentName; // Set name through options
+                        var component, componentName = toTitleCase$1(child), componentClassName = options.componentClass || componentName; // Set name through options
                         options.name = componentName; // Create a new object & element for this controls set
                         // If there's no .player_, this is a player
                         var ComponentClass = Component.getComponent(componentClassName);
@@ -3792,8 +3791,8 @@
                  *
                  * @abstract
                  */ function Track(options) {
-                    void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var _this, trackProps = {
+                    void 0 === options && (options = {});
+                    var _this = _EventTarget.call(this) || this, trackProps = {
                         id: options.id || "vjs_track_" + _guid++,
                         kind: options.kind || "",
                         language: options.language || ""
@@ -4220,8 +4219,8 @@
                  * @param {boolean} [options.default]
                  *        If this track should default to on or off.
                  */ function HTMLTrackElement(options) {
-                    void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
-                    var _this, readyState, track = new TextTrack(options);
+                    void 0 === options && (options = {});
+                    var readyState, _this = _EventTarget.call(this) || this, track = new TextTrack(options);
                     return _this.kind = track.kind, _this.src = track.src, _this.srclang = track.language, _this.label = track.label, _this.default = track.default, Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), {
                         /**
                              * @memberof HTMLTrackElement
@@ -5593,8 +5592,7 @@
                  * @param {Component~ReadyCallback} [ready]
                  *        The function to call when `TextTrackDisplay` is ready.
                  */ function TextTrackDisplay(player, options, ready) {
-                    _this = _Component.call(this, player, options, ready) || this;
-                    var _this, updateDisplayHandler = function(e) {
+                    var _this = _Component.call(this, player, options, ready) || this, updateDisplayHandler = function(e) {
                         return _this.updateDisplay(e);
                     };
                     return player.on("loadstart", function(e) {
@@ -6259,8 +6257,7 @@
                  * @param {Object} [options]
                  *        The key/value store of player options.
                  */ function DurationDisplay(player, options) {
-                    _this = _TimeDisplay.call(this, player, options) || this;
-                    var _this, updateContent = function(e) {
+                    var _this = _TimeDisplay.call(this, player, options) || this, updateContent = function(e) {
                         return _this.updateContent(e);
                     }; // we do not want to/need to throttle duration changes,
                     return(// as they should always display the changed duration as
@@ -8991,8 +8988,7 @@
                  * @param {Component~ReadyCallback} [ready]
                  *        The function to call when this component is ready.
                  */ function DescriptionsButton(player, options, ready) {
-                    _this = _TextTrackButton.call(this, player, options, ready) || this;
-                    var _this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleTracksChange);
+                    var _this = _TextTrackButton.call(this, player, options, ready) || this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleTracksChange);
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
@@ -10113,13 +10109,13 @@
                  * @return {Object}
                  *         An object with config values parsed from the DOM or localStorage.
                  */ _proto.getValues = function() {
-                    var fn, initial, _this3 = this;
+                    var fn, _this3 = this;
                     return fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, initial = {}, keys(selectConfigs).reduce(function(accum, key) {
+                    }, keys(selectConfigs).reduce(function(accum, key) {
                         return fn(accum, selectConfigs[key], key);
-                    }, initial);
+                    }, {});
                 }, /**
                  * Sets text track settings from an object of values.
                  *
@@ -10612,8 +10608,7 @@
                  * @param {Component~ReadyCallback} ready
                  *        Callback function to call when the `HTML5` Tech is ready.
                  */ function Html5(options, ready) {
-                    _this = _Tech.call(this, options, ready) || this;
-                    var _this, source = options.source, crossoriginTracks = !1;
+                    var _this = _Tech.call(this, options, ready) || this, source = options.source, crossoriginTracks = !1;
                     if (source && (_this.el_.currentSrc !== source.src || options.tag && 3 === options.tag.initNetworkState_) ? _this.setSource(source) : _this.handleLateInit_(_this.el_), options.enableSourceset && _this.setupSourcesetHandling_(), _this.isScrubbing_ = !1, _this.el_.hasChildNodes()) {
                         for(var nodes = _this.el_.childNodes, nodesLength = nodes.length, removeNodes = []; nodesLength--;){
                             var node = nodes[nodesLength];
@@ -16008,8 +16003,8 @@
                     if (master.mediaGroups[mediaType]) for(var groupKey in master.mediaGroups[mediaType])for(var labelKey in master.mediaGroups[mediaType][groupKey])callback(master.mediaGroups[mediaType][groupKey][labelKey], mediaType, groupKey, labelKey);
                 });
             }, setupMediaPlaylist = function(_ref2) {
-                var playlist = _ref2.playlist, uri = _ref2.uri, id = _ref2.id;
-                playlist.id = id, playlist.playlistErrors_ = 0, uri && // For media playlists, m3u8-parser does not have access to a URI, as HLS media
+                var playlist = _ref2.playlist, uri = _ref2.uri;
+                playlist.id = _ref2.id, playlist.playlistErrors_ = 0, uri && // For media playlists, m3u8-parser does not have access to a URI, as HLS media
                 // playlists do not contain their own source URI, but one is needed for consistency in
                 // VHS.
                 (playlist.uri = uri), // stream may still be played without them.
@@ -17066,7 +17061,7 @@
                      *
                      * A lightweight readable stream implemention that handles event dispatching.
                      * Objects that inherit from streams should call init in their constructors.
-                     */ var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, ExpGolomb, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, startTime, getTimescaleFromMediaHeader, Stream = function() {
+                     */ var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, getTimescaleFromMediaHeader, Stream = function() {
                     this.init = function() {
                         var listeners = {};
                         /**
@@ -17356,53 +17351,6 @@
                     for(i = payload.length; i--;)size += payload[i].byteLength;
                     for(new DataView((result = new Uint8Array(size + 8)).buffer, result.byteOffset, result.byteLength).setUint32(0, result.byteLength), result.set(type, 4), i = 0, size = 8; i < payload.length; i++)result.set(payload[i], size), size += payload[i].byteLength;
                     return result;
-                }, dinf = function() {
-                    return box(types.dinf, box(types.dref, DREF));
-                }, esds = function(track) {
-                    return box(types.esds, new Uint8Array([
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x00,
-                        // ES_Descriptor
-                        0x03,
-                        0x19,
-                        0x00,
-                        0x00,
-                        0x00,
-                        // DecoderConfigDescriptor
-                        0x04,
-                        0x11,
-                        0x40,
-                        0x15,
-                        0x00,
-                        0x06,
-                        0x00,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        // DecoderSpecificInfo
-                        0x05,
-                        0x02,
-                        // ISO/IEC 14496-3, AudioSpecificConfig
-                        // for samplingFrequencyIndex see ISO/IEC 13818-7:2006, 8.1.3.2.2, Table 35
-                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
-                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
-                        0x06,
-                        0x01,
-                        0x02
-                    ]));
-                }, ftyp = function() {
-                    return box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND);
-                }, hdlr = function(type) {
-                    return box(types.hdlr, HDLR_TYPES[type]);
-                }, mdat = function(data) {
-                    return box(types.mdat, data);
                 }, mdhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -17432,26 +17380,10 @@
                     ]); // Use the sample rate from the track metadata, when it is
                     return track.samplerate && (result[12] = track.samplerate >>> 24 & 0xff, result[13] = track.samplerate >>> 16 & 0xff, result[14] = track.samplerate >>> 8 & 0xff, result[15] = 0xff & track.samplerate), box(types.mdhd, result);
                 }, mdia = function(track) {
-                    return box(types.mdia, mdhd(track), hdlr(track.type), minf(track));
-                }, mfhd = function(sequenceNumber) {
-                    return box(types.mfhd, new Uint8Array([
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x00,
-                        (0xff000000 & sequenceNumber) >> 24,
-                        (0xff0000 & sequenceNumber) >> 16,
-                        (0xff00 & sequenceNumber) >> 8,
-                        0xff & sequenceNumber
-                    ]));
+                    var type;
+                    return box(types.mdia, mdhd(track), (type = track.type, box(types.hdlr, HDLR_TYPES[type])), minf(track));
                 }, minf = function(track) {
-                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), dinf(), stbl(track));
-                }, moof = function(sequenceNumber, tracks) {
-                    for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
-                    return box.apply(null, [
-                        types.moof,
-                        mfhd(sequenceNumber)
-                    ].concat(trackFragments));
+                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), box(types.dinf, box(types.dref, DREF)), stbl(track));
                 }, /**
                      * Returns a movie box.
                      * @param tracks {array} the tracks associated with this movie
@@ -17748,7 +17680,44 @@
                         0xff & track.samplerate,
                         0x00,
                         0x00
-                    ]), esds(track));
+                    ]), box(types.esds, new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        // ES_Descriptor
+                        0x03,
+                        0x19,
+                        0x00,
+                        0x00,
+                        0x00,
+                        // DecoderConfigDescriptor
+                        0x04,
+                        0x11,
+                        0x40,
+                        0x15,
+                        0x00,
+                        0x06,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        // DecoderSpecificInfo
+                        0x05,
+                        0x02,
+                        // ISO/IEC 14496-3, AudioSpecificConfig
+                        // for samplingFrequencyIndex see ISO/IEC 13818-7:2006, 8.1.3.2.2, Table 35
+                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
+                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
+                        0x06,
+                        0x01,
+                        0x02
+                    ])));
                 }, tkhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -17949,10 +17918,27 @@
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
                 };
                 var mp4Generator = {
-                    mdat: mdat,
-                    moof: moof,
+                    mdat: function(data) {
+                        return box(types.mdat, data);
+                    },
+                    moof: function(sequenceNumber, tracks) {
+                        for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
+                        return box.apply(null, [
+                            types.moof,
+                            box(types.mfhd, new Uint8Array([
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                (0xff000000 & sequenceNumber) >> 24,
+                                (0xff0000 & sequenceNumber) >> 16,
+                                (0xff00 & sequenceNumber) >> 8,
+                                0xff & sequenceNumber
+                            ]))
+                        ].concat(trackFragments));
+                    },
                     initSegment: function(tracks) {
-                        var result, fileType = ftyp(), movie = moov(tracks);
+                        var result, fileType = box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND), movie = moov(tracks);
                         return (result = new Uint8Array(fileType.byteLength + movie.byteLength)).set(fileType), result.set(movie, fileType.byteLength), result;
                     }
                 }, sampleForFrame = function(frame, dataOffset) {
@@ -18253,32 +18239,23 @@
                         }, {});
                     }
                     return silence;
-                };
-                secondsToVideoTs = function(seconds) {
-                    return 90000 * seconds;
-                }, secondsToAudioTs = function(seconds, sampleRate) {
-                    return seconds * sampleRate;
-                }, videoTsToSeconds = function(timestamp) {
-                    return timestamp / 90000;
-                }, audioTsToSeconds = function(timestamp, sampleRate) {
-                    return timestamp / sampleRate;
-                }, audioTsToVideoTs = function(timestamp, sampleRate) {
-                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                }, videoTsToAudioTs = function(timestamp, sampleRate) {
-                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                }, /**
-                     * Adjust ID3 tag or caption timing information by the timeline pts values
-                     * (if keepOriginalTimestamps is false) and convert to seconds
-                     */ metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                };
-                var clock = {
+                }, clock = {
                     ONE_SECOND_IN_TS: 90000,
-                    secondsToVideoTs: secondsToVideoTs,
-                    videoTsToSeconds: videoTsToSeconds,
-                    audioTsToVideoTs: audioTsToVideoTs,
-                    videoTsToAudioTs: videoTsToAudioTs,
-                    metadataTsToSeconds: metadataTsToSeconds
+                    secondsToVideoTs: secondsToVideoTs = function(seconds) {
+                        return 90000 * seconds;
+                    },
+                    videoTsToSeconds: videoTsToSeconds = function(timestamp) {
+                        return timestamp / 90000;
+                    },
+                    audioTsToVideoTs: function(timestamp, sampleRate) {
+                        return secondsToVideoTs(timestamp / sampleRate);
+                    },
+                    videoTsToAudioTs: function(timestamp, sampleRate) {
+                        return videoTsToSeconds(timestamp) * sampleRate;
+                    },
+                    metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                        return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                    }
                 }, sumFrameByteLengths = function(array) {
                     var i, sum = 0; // sum the byteLength's all each nal unit in the frame
                     for(i = 0; i < array.length; i++)sum += array[i].data.byteLength;
@@ -18695,7 +18672,7 @@
                     var packetData = this.current708Packet.data, b = packetData[i], windowNum = 0x07 & b;
                     service.setCurrentWindow(windowNum);
                     var win = service.currentWindow;
-                    return b = packetData[++i], win.visible = (0x20 & b) >> 5, win.rowLock = (0x10 & b) >> 4, win.columnLock = (0x08 & b) >> 3, win.priority = 0x07 & b, b = packetData[++i], win.relativePositioning = (0x80 & b) >> 7, win.anchorVertical = 0x7f & b, b = packetData[++i], win.anchorHorizontal = b, b = packetData[++i], win.anchorPoint = (0xf0 & b) >> 4, win.rowCount = 0x0f & b, b = packetData[++i], win.columnCount = 0x3f & b, b = packetData[++i], win.windowStyle = (0x38 & b) >> 3, win.penStyle = 0x07 & b, // The spec says there are (rowCount+1) "virtual rows"
+                    return win.visible = (0x20 & (b = packetData[++i])) >> 5, win.rowLock = (0x10 & b) >> 4, win.columnLock = (0x08 & b) >> 3, win.priority = 0x07 & b, win.relativePositioning = (0x80 & (b = packetData[++i])) >> 7, win.anchorVertical = 0x7f & b, win.anchorHorizontal = b = packetData[++i], win.anchorPoint = (0xf0 & (b = packetData[++i])) >> 4, win.rowCount = 0x0f & b, win.columnCount = 0x3f & (b = packetData[++i]), win.windowStyle = (0x38 & (b = packetData[++i])) >> 3, win.penStyle = 0x07 & b, // The spec says there are (rowCount+1) "virtual rows"
                     win.virtualRowCount = win.rowCount + 1, i;
                 }, /**
                      * Parse and execute the SWA command.
@@ -18707,7 +18684,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setWindowAttributes = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], winAttr = service.currentWindow.winAttr;
-                    return b = packetData[++i], winAttr.fillOpacity = (0xc0 & b) >> 6, winAttr.fillRed = (0x30 & b) >> 4, winAttr.fillGreen = (0x0c & b) >> 2, winAttr.fillBlue = 0x03 & b, b = packetData[++i], winAttr.borderType = (0xc0 & b) >> 6, winAttr.borderRed = (0x30 & b) >> 4, winAttr.borderGreen = (0x0c & b) >> 2, winAttr.borderBlue = 0x03 & b, b = packetData[++i], winAttr.borderType += (0x80 & b) >> 5, winAttr.wordWrap = (0x40 & b) >> 6, winAttr.printDirection = (0x30 & b) >> 4, winAttr.scrollDirection = (0x0c & b) >> 2, winAttr.justify = 0x03 & b, b = packetData[++i], winAttr.effectSpeed = (0xf0 & b) >> 4, winAttr.effectDirection = (0x0c & b) >> 2, winAttr.displayEffect = 0x03 & b, i;
+                    return winAttr.fillOpacity = (0xc0 & (b = packetData[++i])) >> 6, winAttr.fillRed = (0x30 & b) >> 4, winAttr.fillGreen = (0x0c & b) >> 2, winAttr.fillBlue = 0x03 & b, winAttr.borderType = (0xc0 & (b = packetData[++i])) >> 6, winAttr.borderRed = (0x30 & b) >> 4, winAttr.borderGreen = (0x0c & b) >> 2, winAttr.borderBlue = 0x03 & b, b = packetData[++i], winAttr.borderType += (0x80 & b) >> 5, winAttr.wordWrap = (0x40 & b) >> 6, winAttr.printDirection = (0x30 & b) >> 4, winAttr.scrollDirection = (0x0c & b) >> 2, winAttr.justify = 0x03 & b, winAttr.effectSpeed = (0xf0 & (b = packetData[++i])) >> 4, winAttr.effectDirection = (0x0c & b) >> 2, winAttr.displayEffect = 0x03 & b, i;
                 }, /**
                      * Gather text from all displayed windows and push a caption to output.
                      *
@@ -18803,7 +18780,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenAttributes = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], penAttr = service.currentWindow.penAttr;
-                    return b = packetData[++i], penAttr.textTag = (0xf0 & b) >> 4, penAttr.offset = (0x0c & b) >> 2, penAttr.penSize = 0x03 & b, b = packetData[++i], penAttr.italics = (0x80 & b) >> 7, penAttr.underline = (0x40 & b) >> 6, penAttr.edgeType = (0x38 & b) >> 3, penAttr.fontStyle = 0x07 & b, i;
+                    return penAttr.textTag = (0xf0 & (b = packetData[++i])) >> 4, penAttr.offset = (0x0c & b) >> 2, penAttr.penSize = 0x03 & b, penAttr.italics = (0x80 & (b = packetData[++i])) >> 7, penAttr.underline = (0x40 & b) >> 6, penAttr.edgeType = (0x38 & b) >> 3, penAttr.fontStyle = 0x07 & b, i;
                 }, /**
                      * Parse and execute the SPC command.
                      *
@@ -18814,7 +18791,7 @@
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenColor = function(i, service) {
                     var packetData = this.current708Packet.data, b = packetData[i], penColor = service.currentWindow.penColor;
-                    return b = packetData[++i], penColor.fgOpacity = (0xc0 & b) >> 6, penColor.fgRed = (0x30 & b) >> 4, penColor.fgGreen = (0x0c & b) >> 2, penColor.fgBlue = 0x03 & b, b = packetData[++i], penColor.bgOpacity = (0xc0 & b) >> 6, penColor.bgRed = (0x30 & b) >> 4, penColor.bgGreen = (0x0c & b) >> 2, penColor.bgBlue = 0x03 & b, b = packetData[++i], penColor.edgeRed = (0x30 & b) >> 4, penColor.edgeGreen = (0x0c & b) >> 2, penColor.edgeBlue = 0x03 & b, i;
+                    return penColor.fgOpacity = (0xc0 & (b = packetData[++i])) >> 6, penColor.fgRed = (0x30 & b) >> 4, penColor.fgGreen = (0x0c & b) >> 2, penColor.fgBlue = 0x03 & b, penColor.bgOpacity = (0xc0 & (b = packetData[++i])) >> 6, penColor.bgRed = (0x30 & b) >> 4, penColor.bgGreen = (0x0c & b) >> 2, penColor.bgBlue = 0x03 & b, penColor.edgeRed = (0x30 & (b = packetData[++i])) >> 4, penColor.edgeGreen = (0x0c & b) >> 2, penColor.edgeBlue = 0x03 & b, i;
                 }, /**
                      * Parse and execute the SPL command.
                      *
@@ -18824,8 +18801,8 @@
                      * @param  {Service} service  The service object to be affected
                      * @return {Integer}          New index after parsing
                      */ Cea708Stream.prototype.setPenLocation = function(i, service) {
-                    var packetData = this.current708Packet.data, b = packetData[i], penLoc = service.currentWindow.penLoc;
-                    return service.currentWindow.pendingNewLine = !0, b = packetData[++i], penLoc.row = 0x0f & b, b = packetData[++i], penLoc.column = 0x3f & b, i;
+                    var packetData = this.current708Packet.data, penLoc = (packetData[i], service.currentWindow.penLoc);
+                    return service.currentWindow.pendingNewLine = !0, penLoc.row = 0x0f & packetData[++i], penLoc.column = 0x3f & packetData[++i], i;
                 }, /**
                      * Execute the RST command.
                      *
@@ -19303,8 +19280,8 @@
                     };
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
-                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, dinf, esds, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, hdlr, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
-                secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, percentEncode$1 = function(bytes, start, end) {
+                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
+                secondsToVideoTs, videoTsToSeconds, _MetadataStream, percentEncode$1 = function(bytes, start, end) {
                     var i, result = "";
                     for(i = start; i < end; i++)result += "%" + ("00" + bytes[i].toString(16)).slice(-2);
                     return result;
@@ -19394,7 +19371,7 @@
                                         data: tag.data.subarray(frameStart + 10, frameStart + frameSize + 10)
                                     }).key = frame.id, tagParsers[frame.id] && (tagParsers[frame.id](frame), "com.apple.streaming.transportStreamTimestamp" === frame.owner)) {
                                         var d = frame.data, size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                        size *= 4, size += 0x03 & d[7], frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
+                                        size *= 4, frame.timeStamp = size += 0x03 & d[7], void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
                                     }
                                     tag.frames.push(frame), frameStart += 10, frameStart += frameSize;
                                 }while (frameStart < tagSize)
@@ -19712,11 +19689,7 @@
                         buffer = void 0, this.trigger("endedtimeline");
                     };
                 }).prototype = new Stream();
-                var adts = _AdtsStream;
-                /**
-                     * Parser for exponential Golomb codes, a variable-bitwidth number encoding
-                     * scheme used by h264.
-                     */ ExpGolomb = function(workingData) {
+                var adts = _AdtsStream, expGolomb = function(workingData) {
                     var workingBytesAvailable = workingData.byteLength, // the current word being examined
                     workingWord = 0, // :uint
                     // the number of bits left to examine in the current word
@@ -19760,7 +19733,8 @@
                     }, this.readUnsignedByte = function() {
                         return this.readBits(8);
                     }, this.loadWord();
-                }, /**
+                };
+                /**
                      * Accepts a NAL unit byte stream and unpacks the embedded NAL units.
                      */ (_NalByteStream = function() {
                     var i, buffer, syncPoint = 0;
@@ -19950,7 +19924,7 @@
                             1
                         ];
                         // some profiles have more optional data we don't need
-                        if (profileIdc = (expGolombDecoder = new ExpGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
+                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
                         scalingListCount = 3 !== chromaFormatIdc ? 8 : 12; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
                         if (expGolombDecoder.skipUnsignedExpGolomb(), 0 === (picOrderCntType = expGolombDecoder.readUnsignedExpGolomb())) expGolombDecoder.readUnsignedExpGolomb(); // log2_max_pic_order_cnt_lsb_minus4
                         else if (1 === picOrderCntType) for(expGolombDecoder.skipBits(1), expGolombDecoder.skipExpGolomb(), expGolombDecoder.skipExpGolomb(), numRefFramesInPicOrderCntCycle = expGolombDecoder.readUnsignedExpGolomb(), i = 0; i < numRefFramesInPicOrderCntCycle; i++)expGolombDecoder.skipExpGolomb(); // offset_for_ref_frame[ i ]
@@ -20459,7 +20433,7 @@
                     }, this)) : this.audioTrack && (timelineStartPts = this.audioTrack.timelineStartInfo.pts, audioProperties.forEach(function(prop) {
                         event.info[prop] = this.audioTrack[prop];
                     }, this)), this.videoTrack || this.audioTrack) {
-                        for(1 === this.pendingTracks.length ? event.type = this.pendingTracks[0].type : event.type = "combined", this.emittedTracks += this.pendingTracks.length, initSegment = mp4Generator.initSegment(this.pendingTracks), event.initSegment = new Uint8Array(initSegment.byteLength), // and track definitions
+                        for(1 === this.pendingTracks.length ? event.type = this.pendingTracks[0].type : event.type = "combined", this.emittedTracks += this.pendingTracks.length, event.initSegment = new Uint8Array((initSegment = mp4Generator.initSegment(this.pendingTracks)).byteLength), // and track definitions
                         event.initSegment.set(initSegment), event.data = new Uint8Array(this.pendingBytes), i = 0; i < this.pendingBoxes.length; i++)event.data.set(this.pendingBoxes[i], offset), offset += this.pendingBoxes[i].byteLength;
                          // Translate caption PTS times into second offsets to match the
                         // video timeline for the segment, and add track info
@@ -20807,22 +20781,11 @@
                 }, toHexString = function(value) {
                     return ("00" + value.toString(16)).slice(-2);
                 };
-                /**
-                     * Determine the base media decode start time, in seconds, for an MP4
-                     * fragment. If multiple fragments are specified, the earliest time is
-                     * returned.
-                     *
-                     * The base media decode time can be parsed from track fragment
-                     * metadata:
-                     * ```
-                     * moof > traf > tfdt.baseMediaDecodeTime
-                     * ```
-                     * It requires the timescale value from the mdhd to interpret.
-                     *
-                     * @param timescale {object} a hash of track ids to timescale values.
-                     * @return {number} the earliest base media decode start time for the
-                     * fragment, in seconds
-                     */ startTime = function(timescale, fragment) {
+                getTimescaleFromMediaHeader = function(mdhd) {
+                    var index = 0 === mdhd[0] ? 12 : 20;
+                    return bin_toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
+                };
+                var probe$2_startTime = function(timescale, fragment) {
                     var trafs, baseTimes, result; // we need info from two childrend of each track fragment box
                     return trafs = findBox_1(fragment, [
                         "moof",
@@ -20840,11 +20803,7 @@
                             })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
                         });
                     })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
-                }, getTimescaleFromMediaHeader = function(mdhd) {
-                    var index = 0 === mdhd[0] ? 12 : 20;
-                    return bin_toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
-                };
-                var probe$2_tracks = function(init) {
+                }, probe$2_tracks = function(init) {
                     var traks = findBox_1(init, [
                         "moov",
                         "trak"
@@ -20853,7 +20812,7 @@
                         var track = {}, tkhd = findBox_1(trak, [
                             "tkhd"
                         ])[0];
-                        tkhd && (tkhdVersion = (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0), track.id = 0 === tkhdVersion ? view.getUint32(12) : view.getUint32(20));
+                        tkhd && (track.id = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20));
                         var hdlr = findBox_1(trak, [
                             "mdia",
                             "hdlr"
@@ -20869,7 +20828,7 @@
                             "stsd"
                         ])[0];
                         if (stsd) {
-                            var view, tkhdVersion, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
+                            var view, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
                             track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
                             var codecBox = findBox_1(sampleDescriptions, [
                                 track.codec
@@ -21299,10 +21258,10 @@
                             segment.buffer
                         ]);
                     }, _proto.probeMp4StartTime = function(_ref) {
-                        var timescales = _ref.timescales, data = _ref.data, startTime1 = startTime(timescales, data);
+                        var timescales = _ref.timescales, data = _ref.data, startTime = probe$2_startTime(timescales, data);
                         this.self.postMessage({
                             action: "probeMp4StartTime",
-                            startTime: startTime1,
+                            startTime: startTime,
                             data: data
                         }, [
                             data.buffer
@@ -25385,8 +25344,7 @@
                 return log("not " + sharedLogLine + " as no switching criteria met"), !1;
             }, MasterPlaylistController = /*#__PURE__*/ function(_videojs$EventTarget) {
                 function MasterPlaylistController(options) {
-                    _this = _videojs$EventTarget.call(this) || this;
-                    var _this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
+                    var _this = _videojs$EventTarget.call(this) || this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
                     if (!src) throw Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
                     null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = !!experimentalBufferBasedABR, _this.experimentalLeastPixelDiffSelector = !!experimentalLeastPixelDiffSelector, _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {
@@ -25911,7 +25869,7 @@
                     // the playlist we were trying to load (but failed) and that should be
                     // blacklisted instead of the currently selected playlist which is likely
                     // out-of-date in this scenario
-                    var excludeUntil, currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
+                    var currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
                     // trying to load the master OR while we were disposing of the tech
                     if (blacklistDuration = blacklistDuration || error.blacklistDuration || this.blacklistDuration, !currentPlaylist) {
                         this.error = error, "open" !== this.mediaSource.readyState ? this.trigger("error") : this.sourceUpdater_.endOfStream("network");
@@ -25937,7 +25895,7 @@
                         // case where the player might be stuck and looping through "dead" playlists.
                         this.tech_.trigger("retryplaylist"));
                     } // Blacklist this playlist
-                    excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, currentPlaylist.excludeUntil = excludeUntil, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
+                    currentPlaylist.excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-rendition-blacklisted"
                     }), this.tech_.trigger({
@@ -27283,9 +27241,7 @@
                     return VhsSourceHandler.canPlayType(srcObj.type, localOptions);
                 },
                 handleSource: function(source, tech, options) {
-                    void 0 === options && (options = {});
-                    var localOptions = videojs.mergeOptions(videojs.options, options);
-                    return tech.vhs = new VhsHandler(source, tech, localOptions), videojs.hasOwnProperty("hls") || Object.defineProperty(tech, "hls", {
+                    return void 0 === options && (options = {}), tech.vhs = new VhsHandler(source, tech, videojs.mergeOptions(videojs.options, options)), videojs.hasOwnProperty("hls") || Object.defineProperty(tech, "hls", {
                         get: function() {
                             return videojs.log.warn("player.tech().hls is deprecated. Use player.tech().vhs instead."), tech.vhs;
                         },

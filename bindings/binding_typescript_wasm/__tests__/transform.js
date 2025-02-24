@@ -13,7 +13,7 @@ describe("transform", () => {
         export const foo: number = 1;
         type Foo = number;
     `,
-            {}
+            {},
         );
         expect(code).toMatchSnapshot();
     });
@@ -21,15 +21,15 @@ describe("transform", () => {
     describe("in strip-only mode", () => {
         it("should remove declare enum", async () => {
             await expect(
-                swc.transform(`declare enum Foo {}`, {})
+                swc.transform(`declare enum Foo {}`, {}),
             ).resolves.toMatchSnapshot();
             await expect(
                 swc.transform(
                     `declare enum Foo {
                     A
                 }`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
             expect(
                 swc.transform(
@@ -37,8 +37,8 @@ describe("transform", () => {
                     a = 2,
                     b,
                     }`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -49,8 +49,8 @@ describe("transform", () => {
                     type Foo = number;
                     type Bar = string;
                     const bar: Bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -59,8 +59,8 @@ describe("transform", () => {
                 swc.transform(
                     `const foo = 1;
                     const bar: Bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -69,8 +69,8 @@ describe("transform", () => {
                 swc.transform(
                     `const foo = 1 as number;
                     const bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -79,8 +79,8 @@ describe("transform", () => {
                 swc.transform(
                     `const foo = 1!;
                     const bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -89,8 +89,8 @@ describe("transform", () => {
                 swc.transform(
                     `const foo = 1 satisfies number;
                     const bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -102,8 +102,8 @@ describe("transform", () => {
                         bar: "bar" as any as number,
                     } satisfies number;
                     const bar = "bar";`,
-                    {}
-                )
+                    {},
+                ),
             ).resolves.toMatchSnapshot();
         });
 
@@ -111,23 +111,33 @@ describe("transform", () => {
             await expect(
                 swc.transform("enum Foo {}", {
                     mode: "strip-only",
-                })
+                }),
             ).rejects.toMatchSnapshot();
         });
 
         it("should throw an error when it encounters a namespace", async () => {
             await expect(
-                swc.transform("namespace Foo {}", {
+                swc.transform("namespace Foo { export const m = 1; }", {
                     mode: "strip-only",
-                })
+                }),
             ).rejects.toMatchSnapshot();
         });
 
         it("should throw an error when it encounters a module", async () => {
             await expect(
-                swc.transform("module foo {}", {
+                swc.transform("module foo { }", {
                     mode: "strip-only",
-                })
+                    deprecatedTsModuleAsError: true,
+                }),
+            ).rejects.toMatchSnapshot();
+        });
+
+        it("should throw an error when it encounters a module", async () => {
+            await expect(
+                swc.transform("declare module foo { }", {
+                    mode: "strip-only",
+                    deprecatedTsModuleAsError: true,
+                }),
             ).rejects.toMatchSnapshot();
         });
 
@@ -135,26 +145,48 @@ describe("transform", () => {
             await expect(
                 swc.transform("function foo() { await Promise.resolve(1); }", {
                     mode: "strip-only",
-                })
+                }),
             ).rejects.toMatchSnapshot();
         });
-
 
         it("should report correct error for syntax error", async () => {
             await expect(
                 swc.transform("function foo() { invalid syntax }", {
                     mode: "strip-only",
-                })
+                }),
             ).rejects.toMatchSnapshot();
         });
 
         it("should report correct error for unsupported syntax", async () => {
             await expect(
-                swc.transform(`enum Foo {
+                swc.transform(
+                    `enum Foo {
                     a, b    
-                    }`, {
-                    mode: "strip-only",
-                })
+                    }`,
+                    {
+                        mode: "strip-only",
+                    },
+                ),
+            ).rejects.toMatchSnapshot();
+        });
+    });
+
+    describe("in transform mode", () => {
+        it("should throw an error when it encounters a module", async () => {
+            await expect(
+                swc.transform("module foo { }", {
+                    mode: "transform",
+                    deprecatedTsModuleAsError: true,
+                }),
+            ).rejects.toMatchSnapshot();
+        });
+
+        it("should throw an error when it encounters a declared module", async () => {
+            await expect(
+                swc.transform("declare module foo { }", {
+                    mode: "transform",
+                    deprecatedTsModuleAsError: true,
+                }),
             ).rejects.toMatchSnapshot();
         });
     });

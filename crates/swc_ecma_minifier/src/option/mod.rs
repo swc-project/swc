@@ -5,8 +5,8 @@ use std::sync::Arc;
 use parking_lot::RwLock;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{Atom, JsWord};
-use swc_common::{collections::AHashMap, Mark};
+use swc_atoms::Atom;
+use swc_common::Mark;
 use swc_config::{merge::Merge, CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr, Id};
 
@@ -85,7 +85,7 @@ pub struct MangleOptions {
     pub safari10: bool,
 
     #[serde(default, alias = "reserved")]
-    pub reserved: Vec<JsWord>,
+    pub reserved: Vec<Atom>,
 
     /// mangle names visible in scopes where eval or with are used
     #[serde(default)]
@@ -96,7 +96,7 @@ pub struct MangleOptions {
 #[serde(rename_all = "camelCase")]
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
-    pub reserved: Vec<JsWord>,
+    pub reserved: Vec<Atom>,
     #[serde(default, alias = "undeclared")]
     pub undeclared: Option<bool>,
     #[serde(default)]
@@ -110,7 +110,7 @@ pub enum PureGetterOption {
     Bool(bool),
     #[serde(rename = "strict")]
     Strict,
-    Str(Vec<JsWord>),
+    Str(Vec<Atom>),
 }
 
 impl Default for PureGetterOption {
@@ -188,7 +188,7 @@ pub struct CompressOptions {
     /// to remove spans.
     #[cfg_attr(feature = "extra-serde", serde(skip))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "global_defs"))]
-    pub global_defs: AHashMap<Box<Expr>, Box<Expr>>,
+    pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_funs"))]
@@ -292,7 +292,7 @@ pub struct CompressOptions {
     /// Top level symbols to retain.
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "top_retain"))]
-    pub top_retain: Vec<JsWord>,
+    pub top_retain: Vec<Atom>,
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "toplevel"))]
@@ -367,7 +367,7 @@ const fn true_by_default() -> bool {
 }
 
 const fn default_passes() -> usize {
-    3
+    2
 }
 
 const fn three_by_default() -> u8 {
@@ -469,12 +469,12 @@ impl MangleCache for SimpleMangleCache {
         op(&props);
     }
 
-    fn update_vars_cache(&self, new_data: &FxHashMap<Id, JsWord>) {
+    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>) {
         let mut vars = self.vars.write();
         vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }
 
-    fn update_props_cache(&self, new_data: &FxHashMap<JsWord, JsWord>) {
+    fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>) {
         let mut props = self.props.write();
         props.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }

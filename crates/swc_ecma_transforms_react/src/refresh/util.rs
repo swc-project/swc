@@ -1,4 +1,5 @@
-use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
+use rustc_hash::FxHashSet;
+use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -89,7 +90,7 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
     }
 }
 
-pub struct UsedInJsx(AHashSet<Id>);
+pub struct UsedInJsx(FxHashSet<Id>);
 
 impl Visit for UsedInJsx {
     noop_visit_type!();
@@ -126,8 +127,8 @@ impl Visit for UsedInJsx {
     }
 }
 
-pub fn collect_ident_in_jsx<V: VisitWith<UsedInJsx>>(item: &V) -> AHashSet<Id> {
-    let mut visitor = UsedInJsx(AHashSet::default());
+pub fn collect_ident_in_jsx<V: VisitWith<UsedInJsx>>(item: &V) -> FxHashSet<Id> {
+    let mut visitor = UsedInJsx(FxHashSet::default());
     item.visit_with(&mut visitor);
     visitor.0
 }

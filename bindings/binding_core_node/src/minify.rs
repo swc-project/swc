@@ -4,13 +4,14 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
     Env, JsExternal, JsObject, JsUnknown, Task,
 };
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_core::{
     base::{
         config::{ErrorFormat, JsMinifyOptions},
         JsMinifyExtras, TransformOutput,
     },
-    common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    common::{sync::Lrc, FileName, SourceFile, SourceMap},
     ecma::minifier::option::{MangleCache, SimpleMangleCache},
     node::{deserialize_json, get_deserialized, MapErr},
 };
@@ -36,7 +37,7 @@ enum MinifyTarget {
     /// Code to minify.
     Single(String),
     /// `{ filename: code }`
-    Map(AHashMap<String, String>),
+    Map(FxHashMap<String, String>),
 }
 
 impl MinifyTarget {

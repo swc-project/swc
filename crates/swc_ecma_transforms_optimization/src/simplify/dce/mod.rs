@@ -2,10 +2,9 @@ use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
-use rustc_hash::FxHashSet;
-use swc_atoms::{atom, JsWord};
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use swc_atoms::{atom, Atom};
 use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, SyntaxContext, DUMMY_SP,
@@ -64,7 +63,7 @@ pub struct Config {
     pub top_level: bool,
 
     /// Declarations with a symbol in this set will be preserved.
-    pub top_retain: Vec<JsWord>,
+    pub top_retain: Vec<Atom>,
 
     /// If false, imports with side effects will be removed.
     pub preserve_imports_with_side_effects: bool,
@@ -94,7 +93,7 @@ struct TreeShaker {
 
     data: Arc<Data>,
 
-    bindings: Arc<AHashSet<Id>>,
+    bindings: Arc<FxHashSet<Id>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -105,7 +104,7 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    used_names: AHashMap<Id, VarInfo>,
+    used_names: FxHashMap<Id, VarInfo>,
 
     /// Variable usage graph
     ///
@@ -115,7 +114,7 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, ARandomState>,
+    graph_ix: IndexSet<Id, FxBuildHasher>,
 }
 
 impl Data {
@@ -224,7 +223,7 @@ struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
     kind: ScopeKind,
 
-    bindings_affected_by_eval: AHashSet<Id>,
+    bindings_affected_by_eval: FxHashSet<Id>,
     found_direct_eval: bool,
 
     found_arguemnts: bool,

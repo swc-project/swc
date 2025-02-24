@@ -120,10 +120,22 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
 {
   "code": "UnsupportedSyntax",
-  "message": "  x TypeScript namespace declaration is not supported in strip-only mode
+  "message": "  x \`module\` keyword is not supported. Use \`namespace\` instead.
    ,----
- 1 | module foo {}
-   : ^^^^^^^^^^^^^
+ 1 | module foo { }
+   : ^^^^^^
+   \`----
+",
+}
+`;
+
+exports[`transform in strip-only mode should throw an error when it encounters a module 2`] = `
+{
+  "code": "UnsupportedSyntax",
+  "message": "  x \`module\` keyword is not supported. Use \`namespace\` instead.
+   ,----
+ 1 | declare module foo { }
+   :         ^^^^^^
    \`----
 ",
 }
@@ -134,8 +146,8 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "code": "UnsupportedSyntax",
   "message": "  x TypeScript namespace declaration is not supported in strip-only mode
    ,----
- 1 | namespace Foo {}
-   : ^^^^^^^^^^^^^^^^
+ 1 | namespace Foo { export const m = 1; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    \`----
 ",
 }
@@ -151,6 +163,24 @@ exports[`transform in strip-only mode should throw an error when it encounters a
    \`----
 ",
 }
+`;
+
+exports[`transform in transform mode should throw an error when it encounters a declared module 1`] = `
+"  x \`module\` keyword is not supported. Use \`namespace\` instead.
+   ,----
+ 1 | declare module foo { }
+   :         ^^^^^^
+   \`----
+"
+`;
+
+exports[`transform in transform mode should throw an error when it encounters a module 1`] = `
+"  x \`module\` keyword is not supported. Use \`namespace\` instead.
+   ,----
+ 1 | module foo { }
+   : ^^^^^^
+   \`----
+"
 `;
 
 exports[`transform should strip types 1`] = `

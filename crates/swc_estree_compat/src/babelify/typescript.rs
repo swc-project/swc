@@ -1,6 +1,6 @@
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::Spanned;
 use swc_ecma_ast::{
     Accessibility, Expr, MemberProp, Pat, TruePlusMinus, TsArrayType, TsAsExpr,
@@ -725,7 +725,7 @@ impl Babelify for TsTypeOperator {
 }
 
 impl Babelify for TsTypeOperatorOp {
-    type Output = JsWord;
+    type Output = Atom;
 
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {

@@ -2523,7 +2523,7 @@
                     }, resPattern = option.format || intl_base_IntlBase.getResultantPattern(option.skeleton, dependable.dateObject, option.type, !1, '');
                     if (formatOptions.dateSeperator = intl_base_IntlBase.getDateSeparator(dependable.dateObject), util_isUndefined(resPattern)) throwError('Format options or type given must be invalid');
                     else {
-                        resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.pattern = resPattern, formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
+                        formatOptions.pattern = resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
                         for(var patternMatch = resPattern.match(abbreviateRegexGlobal) || [], _i = 0; _i < patternMatch.length; _i++){
                             var str = patternMatch[_i], len = str.length, char = str[0];
                             switch('K' === char && (char = 'h'), char){
@@ -2541,9 +2541,7 @@
                                     formatOptions.designator = util_getValue('dayPeriods.format.wide', dateObject);
                                     break;
                                 case 'G':
-                                    // eslint-disable-next-line
-                                    var eText = len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow';
-                                    formatOptions.era = util_getValue('eras.' + eText, dependable.dateObject);
+                                    formatOptions.era = util_getValue('eras.' + (len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow'), dependable.dateObject);
                                     break;
                                 case 'z':
                                     formatOptions.timeZone = util_getValue('dates.timeZoneNames', dependable.parserObject);
@@ -2606,7 +2604,7 @@
                                 break;
                             case 'G':
                                 // eslint-disable-next-line
-                                var dec = +!(0 > value.getFullYear()), retu = options.era[dec];
+                                var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
                                 util_isNullOrUndefined(retu) && // eslint-disable-next-line
                                 (retu = options.era[+!dec]), ret += retu || '';
                                 break;
@@ -2705,8 +2703,7 @@
                     if (match && match[4]) {
                         var pattern_1 = match[4], p = pattern_1.lastIndexOf(',');
                         if (-1 !== p) {
-                            var temp = pattern_1.split('.')[0];
-                            ret.primary = temp.length - p - 1;
+                            ret.primary = pattern_1.split('.')[0].length - p - 1;
                             var s = pattern_1.lastIndexOf(',', p - 1);
                             -1 !== s && (ret.secondary = p - 1 - s);
                         }
@@ -3444,7 +3441,7 @@
      * @returns {DateFormatOptions} ?
      */ function compareBlazorDateFormats(formatOptions, culture) {
                     var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
-                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper), formatOptions.format = curFormatMapper.replace(/tt/, 'a')), formatOptions;
+                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
                 }
                 /**
      * Returns proper numeric skeleton
@@ -4345,9 +4342,7 @@
      * @param  {string} key Key to search in the response header
      * @returns {string} ?
      */ Ajax.prototype.getResponseHeader = function(key) {
-                    // eslint-disable-next-line
-                    responseHeaders = {};
-                    for(var responseHeaders, header, headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders()); headers;)responseHeaders[headers[1].toLowerCase()] = headers[2], headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders());
+                    for(var header, responseHeaders = {}, headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders()); headers;)responseHeaders[headers[1].toLowerCase()] = headers[2], headers = headerRegex.exec(this.httpRequest.getAllResponseHeaders());
                     return util_isNullOrUndefined(// eslint-disable-next-line
                     header = responseHeaders[key.toLowerCase()]) ? null : header;
                 }, Ajax);
@@ -5421,10 +5416,7 @@
      */ Animation.prototype.animate = function(element, options) {
                     options = options || {};
                     var model = this.getModel(options);
-                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++){
-                        var element_1 = elements[_i];
-                        model.element = element_1, Animation_1.delayAnimation(model);
-                    }
+                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++)model.element = elements[_i], Animation_1.delayAnimation(model);
                     else model.element = element, Animation_1.delayAnimation(model);
                 }, /**
      * Stop the animation effect on animated element.
@@ -6993,11 +6985,9 @@
      * @param {MouseEventArgs | TouchEventArgs} evt ?
      * @returns {void} ?
      */ Touch.prototype.tapHoldEvent = function(evt) {
-                    var eTapArgs;
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), // eslint-disable-next-line
-                    eTapArgs = {
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
                         originalEvent: evt
-                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
@@ -7899,13 +7889,13 @@
                 }
                 function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
                     var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    isClear ? inputObject.clearButton = (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
+                    isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
                         className: CLASSNAMES.CLEARICON
                     }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         container
                     ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
+                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), inputObject.clearButton = button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
                 }
                 /**
      * Removing the multiple attributes from the given element such as "disabled","id" , etc.
@@ -8669,7 +8659,7 @@
                             var formatValue_1 = this.formatNumber();
                             this.setElementValue(formatValue_1), this.isPrevFocused || (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.version */ .AR.info.version ? setTimeout(function() {
                                 _this.element.setSelectionRange(0, formatValue_1.length);
-                            }, 600 * (!!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && !!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos)) : this.element.setSelectionRange(0, formatValue_1.length));
+                            }, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos ? 600 : 0) : this.element.setSelectionRange(0, formatValue_1.length));
                         }
                         _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
                     }
@@ -9249,34 +9239,33 @@
  * @param {OffsetPosition} pos - specifies the position
  * @returns {OffsetPosition} - returns the postion
  */ function(posX, posY, pos) {
-                    var value, value1, value2, value3, value4, value5, value6, value7, value8;
                     switch(elementRect = element.getBoundingClientRect(), posY + posX){
                         case 'topcenter':
-                            setPosx(getElementHCenter(), pos), value = getElementTop(), pos.top = value;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementTop();
                             break;
                         case 'topright':
-                            setPosx(getElementRight(), pos), value1 = getElementTop(), pos.top = value1;
+                            setPosx(getElementRight(), pos), pos.top = getElementTop();
                             break;
                         case 'centercenter':
-                            setPosx(getElementHCenter(), pos), value2 = getElementVCenter(), pos.top = value2;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementVCenter();
                             break;
                         case 'centerright':
-                            setPosx(getElementRight(), pos), value3 = getElementVCenter(), pos.top = value3;
+                            setPosx(getElementRight(), pos), pos.top = getElementVCenter();
                             break;
                         case 'centerleft':
-                            setPosx(getElementLeft(), pos), value4 = getElementVCenter(), pos.top = value4;
+                            setPosx(getElementLeft(), pos), pos.top = getElementVCenter();
                             break;
                         case 'bottomcenter':
-                            setPosx(getElementHCenter(), pos), value5 = getElementBottom(), pos.top = value5;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementBottom();
                             break;
                         case 'bottomright':
-                            setPosx(getElementRight(), pos), value6 = getElementBottom(), pos.top = value6;
+                            setPosx(getElementRight(), pos), pos.top = getElementBottom();
                             break;
                         case 'bottomleft':
-                            setPosx(getElementLeft(), pos), value7 = getElementBottom(), pos.top = value7;
+                            setPosx(getElementLeft(), pos), pos.top = getElementBottom();
                             break;
                         default:
-                            setPosx(getElementLeft(), pos), value8 = getElementTop(), pos.top = value8;
+                            setPosx(getElementLeft(), pos), pos.top = getElementTop();
                     }
                     return pos;
                 }(positionX.toLowerCase(), positionY.toLowerCase(), {
@@ -11640,7 +11629,7 @@
                                     } else if (_this.parent.inputElement === _this.range.startContainer) {
                                         var focusElem = _this.range.startContainer.childNodes[_this.range.startOffset];
                                         if ('#text' === focusElem.nodeName && 0 === focusElem.textContent.length) _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.previousSibling.textContent.length);
-                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, +!(focusElem.textContent.length >= 0)), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
+                                        else if (_this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), focusElem, focusElem.textContent.length >= 0 ? 0 : 1), 0 === focusElem.previousSibling.textContent.length) (0, ej2_base /* detach */ .og)(focusElem.previousSibling);
                                         else if (0 === focusElem.textContent.length) {
                                             for(var currentFocusElem = focusElem.previousSibling.lastChild; '#text' !== currentFocusElem.nodeName;)currentFocusElem = currentFocusElem.lastChild;
                                             _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), currentFocusElem, currentFocusElem.textContent.length), (0, ej2_base /* detach */ .og)(focusElem);
@@ -11674,7 +11663,7 @@
                                             insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
                                         } else {
                                             var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !1).cloneNode(!0);
-                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, +!(newElem.textContent.length >= 0));
+                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, newElem.textContent.length >= 0 ? 0 : 1);
                                         }
                                     } else {
                                         var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !0);
@@ -16249,8 +16238,7 @@
                     while (node && 0 > BLOCK_TAGS.indexOf(node.nodeName.toLocaleLowerCase()))
                     return node;
                 }, InsertHtml.removingComments = function(elm) {
-                    var innerElement = elm.innerHTML;
-                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
+                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
                 }, InsertHtml.findDetachEmptyElem = function(element) {
                     return (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'true' !== element.parentElement.contentEditable ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, InsertHtml.removeEmptyElements = function(element) {
@@ -18137,8 +18125,7 @@
                     }
                     return styleClassObject;
                 }, MsWordPaste.prototype.removingComments = function(elm) {
-                    var innerElement = elm.innerHTML;
-                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
+                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
                 }, MsWordPaste.prototype.cleanUp = function(node, listNodes) {
                     for(var prevflagState, tempCleaner = [], allNodes = node.querySelectorAll('*'), index = 0; index < allNodes.length; index++){
                         if (-1 === this.ignorableNodes.indexOf(allNodes[index].nodeName) || 3 === allNodes[index].nodeType && '' === allNodes[index].textContent.trim()) {
@@ -22161,10 +22148,7 @@
                 }, PasteCleanup.prototype.popupClose = function(popupObj, uploadObj, imgElem, e) {
                     var _this = this;
                     this.parent.inputElement.contentEditable = 'true', e.element = imgElem, this.parent.trigger(constant /* imageUploadSuccess */ .AL, e, function(e) {
-                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.insertImageSettings.path)) {
-                            var url = _this.parent.insertImageSettings.path + e.file.name;
-                            imgElem.src = url, imgElem.setAttribute('alt', e.file.name);
-                        }
+                        (0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.insertImageSettings.path) || (imgElem.src = _this.parent.insertImageSettings.path + e.file.name, imgElem.setAttribute('alt', e.file.name));
                     }), popupObj.close(), imgElem.style.opacity = '1', uploadObj.destroy(), this.toolbarEnableDisable(!1);
                 }, PasteCleanup.prototype.refreshPopup = function(imageElement, popupObj) {
                     (this.parent.iframeSettings.enable ? this.parent.element.offsetTop + imageElement.offsetTop : imageElement.offsetTop) > this.parent.element.offsetTop + this.parent.element.offsetHeight ? (popupObj.relateTo = this.parent.inputElement, popupObj.offsetY = this.parent.iframeSettings.enable ? -30 : -65, popupObj.element.style.display = 'block') : popupObj && (popupObj.refreshPosition(imageElement), popupObj.element.style.display = 'block');
@@ -25188,8 +25172,7 @@
                     ], POPUP_OPEN), this.adjustArrow(event.target, this.position, this.tooltipPositionX, this.tooltipPositionY);
                     var pos = this.calculateTooltipOffset(this.position), x = eventPageX + pos.left + this.offsetX, y = eventPageY + pos.top + this.offsetY, elePos = this.checkCollision(event.target, x, y);
                     if (this.tooltipPositionX !== elePos.horizontal || this.tooltipPositionY !== elePos.vertical) {
-                        var newpos = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical;
-                        elePos.position = newpos, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
+                        elePos.position = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
                         var colpos = this.calculateTooltipOffset(elePos.position);
                         elePos.left = eventPageX + colpos.left - this.offsetX, elePos.top = eventPageY + colpos.top - this.offsetY;
                     }
@@ -26378,14 +26361,14 @@
                 }, Slider.prototype.sliderBarUp = function(event) {
                     this.changeEvent('changed', event), this.handleFocusOut(), this.firstHandle.classList.remove(slider_classNames.sliderActiveHandle), 'Range' === this.type && (this.initialTooltip = !1, this.secondHandle.classList.remove(slider_classNames.sliderActiveHandle)), this.closeTooltip(), this.isMaterial && (this.getHandle().classList.remove('e-large-thumb-size'), this.isMaterialTooltip && this.tooltipElement.classList.remove(slider_classNames.materialTooltipActive)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.sliderBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.sliderBarUp);
                 }, Slider.prototype.sliderBarMove = function(evt) {
-                    'touchmove' !== evt.type && evt.preventDefault(), pos = 'mousemove' === evt.type ? {
+                    'touchmove' !== evt.type && evt.preventDefault();
+                    var pos = 'mousemove' === evt.type ? {
                         x: evt.clientX,
                         y: evt.clientY
                     } : {
                         x: evt.changedTouches[0].clientX,
                         y: evt.changedTouches[0].clientY
-                    };
-                    var pos, handlepos = this.xyToPosition(pos), handleVal = this.positionToValue(handlepos);
+                    }, handlepos = this.xyToPosition(pos), handleVal = this.positionToValue(handlepos);
                     if (handlepos = Math.round(handlepos), 'Range' !== this.type && 1 === this.activeHandle) {
                         if (!(this.limits.enabled && this.limits.startHandleFixed)) {
                             if (this.limits.enabled) {

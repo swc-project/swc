@@ -84,13 +84,12 @@
         /***/ },
         /***/ 8183: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.LoadableContext = void 0;
-            var obj, LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
+            }), exports.LoadableContext = void 0, exports.LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
                 default: obj
             }).default.createContext(null);
-            exports.LoadableContext = LoadableContext;
         /***/ },
         /***/ 880: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -351,7 +350,8 @@
         /***/ 1804: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843), Test = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
+            /* harmony import */ var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843);
+            /* harmony default export */ __webpack_exports__.default = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
                 loader: (_loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z)(/*#__PURE__*/ _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                     return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_context) {
                         for(;;)switch(_context.prev = _context.next){
@@ -381,7 +381,6 @@
                 }),
                 ssr: !1
             });
-            /* harmony default export */ __webpack_exports__.default = Test;
         /***/ },
         /***/ 2250: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([

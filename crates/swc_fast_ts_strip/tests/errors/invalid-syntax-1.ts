@@ -1,0 +1,1 @@
+interface Foo { }; const foo;

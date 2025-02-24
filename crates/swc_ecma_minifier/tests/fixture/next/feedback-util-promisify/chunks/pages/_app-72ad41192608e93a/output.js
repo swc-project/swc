@@ -276,7 +276,7 @@
                         function bidirectionalIndexOf(e, r, t, f, n) {
                             var e1;
                             if (0 === e.length) return -1;
-                            if ("string" == typeof t ? (f = t, t = 0) : t > 2147483647 ? t = 2147483647 : t < -2147483648 && (t = -2147483648), (e1 = t = +t) != e1 && (t = n ? 0 : e.length - 1), t < 0 && (t = e.length + t), t >= e.length) {
+                            if ("string" == typeof t ? (f = t, t = 0) : t > 2147483647 ? t = 2147483647 : t < -2147483648 && (t = -2147483648), (e1 = t *= 1) != e1 && (t = n ? 0 : e.length - 1), t < 0 && (t = e.length + t), t >= e.length) {
                                 if (n) return -1;
                                 t = e.length - 1;
                             } else if (t < 0) {
@@ -351,10 +351,10 @@
                             if (t + f > e.length || t < 0) throw RangeError("Index out of range");
                         }
                         function writeFloat(e, r, t, f, i) {
-                            return r = +r, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n.write(e, r, t, f, 23, 4), t + 4;
+                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n.write(e, r, t, f, 23, 4), t + 4;
                         }
                         function writeDouble(e, r, t, f, i) {
-                            return r = +r, t >>>= 0, i || checkIEEE754(e, r, t, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), n.write(e, r, t, f, 52, 8), t + 8;
+                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), n.write(e, r, t, f, 52, 8), t + 8;
                         }
                         r.Buffer = Buffer, r.SlowBuffer = function(e) {
                             return +e != e && (e = 0), Buffer.alloc(+e);
@@ -571,7 +571,7 @@
                         }, Buffer.prototype.readDoubleBE = function(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
                         }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                            if (e *= 1, r >>>= 0, t >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t) - 1;
                                 checkInt(this, e, r, t, n, 0);
                             }
@@ -579,7 +579,7 @@
                             for(this[r] = 255 & e; ++o < t && (i *= 256);)this[r + o] = e / i & 255;
                             return r + t;
                         }, Buffer.prototype.writeUIntBE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                            if (e *= 1, r >>>= 0, t >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t) - 1;
                                 checkInt(this, e, r, t, n, 0);
                             }
@@ -587,17 +587,17 @@
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                             return r + t;
                         }, Buffer.prototype.writeUInt8 = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 1, 255, 0), this[r] = 255 & e, r + 1;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 1, 255, 0), this[r] = 255 & e, r + 1;
                         }, Buffer.prototype.writeUInt16LE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
                         }, Buffer.prototype.writeUInt16BE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
                         }, Buffer.prototype.writeUInt32LE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r + 3] = e >>> 24, this[r + 2] = e >>> 16, this[r + 1] = e >>> 8, this[r] = 255 & e, r + 4;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r + 3] = e >>> 24, this[r + 2] = e >>> 16, this[r + 1] = e >>> 8, this[r] = 255 & e, r + 4;
                         }, Buffer.prototype.writeUInt32BE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
                         }, Buffer.prototype.writeIntLE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, !f) {
+                            if (e *= 1, r >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t - 1);
                                 checkInt(this, e, r, t, n - 1, -n);
                             }
@@ -605,7 +605,7 @@
                             for(this[r] = 255 & e; ++i < t && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i - 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
                             return r + t;
                         }, Buffer.prototype.writeIntBE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, !f) {
+                            if (e *= 1, r >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t - 1);
                                 checkInt(this, e, r, t, n - 1, -n);
                             }
@@ -613,15 +613,15 @@
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i + 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
                             return r + t;
                         }, Buffer.prototype.writeInt8 = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
                         }, Buffer.prototype.writeInt16LE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
                         }, Buffer.prototype.writeInt16BE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
                         }, Buffer.prototype.writeInt32LE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), this[r] = 255 & e, this[r + 1] = e >>> 8, this[r + 2] = e >>> 16, this[r + 3] = e >>> 24, r + 4;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), this[r] = 255 & e, this[r + 1] = e >>> 8, this[r + 2] = e >>> 16, this[r + 3] = e >>> 24, r + 4;
                         }, Buffer.prototype.writeInt32BE = function(e, r, t) {
-                            return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
+                            return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
                         }, Buffer.prototype.writeFloatLE = function(e, r, t) {
                             return writeFloat(this, e, r, !0, t);
                         }, Buffer.prototype.writeFloatBE = function(e, r, t) {
@@ -751,9 +751,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var t = __nccwpck_require__(293);
-                module.exports = t;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(293);
             }();
         /***/ },
         /***/ 6774: /***/ function() {
@@ -858,9 +856,7 @@
                     }
                     return i.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var r = __nccwpck_require__(162);
-                module.exports = r;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(162);
             }();
         /***/ },
         /***/ 9720: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1688,8 +1684,7 @@
                     },
                     793: function(r, t, e) {
                         "use strict";
-                        var o = e(517);
-                        r.exports = o.call(Function.call, Object.prototype.hasOwnProperty);
+                        r.exports = e(517).call(Function.call, Object.prototype.hasOwnProperty);
                     },
                     526: function(r) {
                         "function" == typeof Object.create ? r.exports = function(r, t) {
@@ -2645,9 +2640,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var e = __nccwpck_require__(650);
-                module.exports = e;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(650);
             }();
         /***/ }
     },

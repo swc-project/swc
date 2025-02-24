@@ -1,7 +1,9 @@
+use std::sync::Arc;
+
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
-use swc_atoms::JsWord;
-use swc_common::collections::ARandomState;
+use rustc_hash::FxBuildHasher;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -18,13 +20,13 @@ use crate::{
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
-    target: Versions,
+    target: Arc<Versions>,
     corejs_version: Version,
-    pub required: IndexSet<&'static str, ARandomState>,
+    pub required: IndexSet<&'static str, FxBuildHasher>,
 }
 
 impl UsageVisitor {
-    pub fn new(target: Versions, shipped_proposals: bool, corejs_version: Version) -> Self {
+    pub fn new(target: Arc<Versions>, shipped_proposals: bool, corejs_version: Version) -> Self {
         //        let mut v = Self { required: Vec::new() };
         //
         //
@@ -80,7 +82,7 @@ impl UsageVisitor {
 
             if !*is_any_target {
                 if let Some(feature) = feature {
-                    if !should_enable(*target, *feature, true) {
+                    if !should_enable(target, feature, true) {
                         return false;
                     }
                 }
@@ -100,7 +102,7 @@ impl UsageVisitor {
         }
     }
 
-    fn add_property_deps(&mut self, obj: &Expr, prop: &JsWord) {
+    fn add_property_deps(&mut self, obj: &Expr, prop: &Atom) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
             _ => {
@@ -112,7 +114,7 @@ impl UsageVisitor {
         self.add_property_deps_inner(Some(obj), prop)
     }
 
-    fn add_property_deps_inner(&mut self, obj: Option<&JsWord>, prop: &JsWord) {
+    fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
             if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
                 self.add_builtin(prop);

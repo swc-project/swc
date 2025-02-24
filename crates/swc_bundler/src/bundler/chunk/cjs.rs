@@ -1,7 +1,8 @@
 use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
-use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
+use rustc_hash::FxHashMap;
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -371,7 +372,7 @@ impl VisitMut for DefaultHandler {
 }
 
 struct Remapper {
-    vars: AHashMap<Id, SyntaxContext>,
+    vars: FxHashMap<Id, SyntaxContext>,
 }
 
 impl VisitMut for Remapper {

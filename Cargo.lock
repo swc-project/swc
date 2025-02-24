@@ -45,7 +45,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e89da841a80418a9b391ebaea17f5c112ffaaa96f621d2c285b5174da76b9011"
 dependencies = [
  "cfg-if",
- "const-random",
  "getrandom",
  "once_cell",
  "serde",
@@ -178,6 +177,12 @@ name = "arrayvec"
 version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
+
+[[package]]
+name = "ascii"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "assert_cmd"
@@ -334,14 +339,14 @@ dependencies = [
  "proc-macro2",
  "quote",
  "regex",
- "rustc-hash",
+ "rustc-hash 1.1.0",
  "shlex",
  "syn 2.0.87",
 ]
 
 [[package]]
 name = "binding_macros"
-version = "10.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -434,9 +439,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.16.0"
+version = "3.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79296716171880943b8470b5f8d03aa55eb2e645a4874bdbb28adb49162e012c"
+checksum = "1628fb46dfa0b37568d12e5edd512553eccf6a22a78e8bde00bb4aed84d5bdbf"
 dependencies = [
  "allocator-api2",
 ]
@@ -454,11 +459,11 @@ dependencies = [
 
 [[package]]
 name = "bytecheck"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50c8f430744b23b54ad15161fcbc22d82a29b73eacbe425fea23ec822600bc6f"
+checksum = "50690fb3370fb9fe3550372746084c46f2ac8c9685c583d2be10eefd89d3d1a3"
 dependencies = [
- "bytecheck_derive 0.8.0",
+ "bytecheck_derive 0.8.1",
  "ptr_meta 0.3.0",
  "rancor",
  "simdutf8",
@@ -477,9 +482,9 @@ dependencies = [
 
 [[package]]
 name = "bytecheck_derive"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "523363cbe1df49b68215efdf500b103ac3b0fb4836aed6d15689a076eadb8fff"
+checksum = "efb7846e0cb180355c2dec69e721edafa36919850f1a9f52ffba4ebc0393cb71"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -570,10 +575,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "37b2a672a2cb129a2e41c10b1224bb368f9f37a2b16b612598138befd7b37eb5"
 
 [[package]]
-name = "cc"
-version = "1.1.15"
+name = "castaway"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57b6a275aa2903740dc87da01c62040406b8812552e97129a63ea8850a17c6e6"
+checksum = "0abae9be0aaf9ea96a3b1b8b1b55c602ca751eba1b1500220cea4ecbafe7c0d5"
+dependencies = [
+ "rustversion",
+]
+
+[[package]]
+name = "cc"
+version = "1.2.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7777341816418c02e033934a09f20dc0ccaf65a5201ef8a450ae0105a573fda"
 dependencies = [
  "jobserver",
  "libc",
@@ -797,6 +811,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "compact_str"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f86b9c4c00838774a6d902ef931eff7470720c51d90c2e32cfe15dc304737b3f"
+dependencies = [
+ "castaway",
+ "cfg-if",
+ "itoa",
+ "ryu",
+ "static_assertions",
+]
+
+[[package]]
 name = "console"
 version = "0.15.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -817,26 +844,6 @@ checksum = "a06aeb73f470f66dcdbf7223caeebb85984942f22f1adb2a088cf9668146bbbc"
 dependencies = [
  "cfg-if",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "const-random"
-version = "0.1.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aaf16c9c2c612020bcfd042e170f6e32de9b9d75adb5277cdbbd2e2c8c8299a"
-dependencies = [
- "const-random-macro",
-]
-
-[[package]]
-name = "const-random-macro"
-version = "0.1.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9d839f2a20b0aee515dc581a6172f2321f96cab76c1a38a4c584a194955390e"
-dependencies = [
- "getrandom",
- "once_cell",
- "tiny-keccak",
 ]
 
 [[package]]
@@ -937,7 +944,7 @@ dependencies = [
  "hashbrown 0.14.5",
  "log",
  "regalloc2",
- "rustc-hash",
+ "rustc-hash 1.1.0",
  "smallvec",
  "target-lexicon",
 ]
@@ -1248,7 +1255,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "7.0.0"
+version = "12.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -1761,6 +1768,7 @@ dependencies = [
  "clap 4.5.9",
  "proc-macro2",
  "quote",
+ "swc_cached",
  "syn 2.0.87",
  "walkdir",
 ]
@@ -1982,15 +1990,25 @@ dependencies = [
 
 [[package]]
 name = "hstr"
-version = "0.2.15"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63d6824358c0fd9a68bb23999ed2ef76c84f79408a26ef7ae53d5f370c94ad36"
+version = "1.0.0"
 dependencies = [
+ "compact_str",
+ "criterion",
  "hashbrown 0.14.5",
+ "kstring",
  "new_debug_unreachable",
+ "num_cpus",
  "once_cell",
  "phf",
- "rustc-hash",
+ "rand",
+ "rayon",
+ "rkyv",
+ "rustc-hash 2.1.0",
+ "serde",
+ "smartstring",
+ "smol_str",
+ "string_cache",
+ "swc_malloc",
  "triomphe",
 ]
 
@@ -2421,7 +2439,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -2447,6 +2465,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7b56a20e76235284255a09fcd1f45cf55d3c524ea657ebd3854735925c57743d"
 dependencies = [
  "serde_json",
+]
+
+[[package]]
+name = "kstring"
+version = "2.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "558bf9508a558512042d3095138b1f7b8fe90c5467d94f9f1da28b3731c5dbd1"
+dependencies = [
+ "static_assertions",
 ]
 
 [[package]]
@@ -2845,13 +2872,14 @@ dependencies = [
  "once_cell",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]
 name = "napi-derive"
-version = "2.16.12"
+version = "2.16.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17435f7a00bfdab20b0c27d9c56f58f6499e418252253081bfff448099da31d1"
+checksum = "7cbe2585d8ac223f7d34f13701434b9d5f4eb9c332cccce8dee57ea18ab8ab0c"
 dependencies = [
  "cfg-if",
  "convert_case",
@@ -2863,9 +2891,9 @@ dependencies = [
 
 [[package]]
 name = "napi-derive-backend"
-version = "1.0.74"
+version = "1.0.75"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "967c485e00f0bf3b1bdbe510a38a4606919cf1d34d9a37ad41f25a81aa077abe"
+checksum = "1639aaa9eeb76e91c6ae66da8ce3e89e921cd3885e99ec85f4abacae72fc91bf"
 dependencies = [
  "convert_case",
  "once_cell",
@@ -3091,9 +3119,9 @@ checksum = "0ab1bc2a289d34bd04a330323ac98a1b4bc82c9d9fcb1e66b63caa84da26b575"
 
 [[package]]
 name = "openssl"
-version = "0.10.66"
+version = "0.10.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9529f4786b70a3e8c61e11179af17ab6188ad8d0ded78c5529441ed39d4bd9c1"
+checksum = "61cfb4e166a8bb8c9b55c500bc2308550148ece889be90f609377e58140f42c6"
 dependencies = [
  "bitflags 2.6.0",
  "cfg-if",
@@ -3123,9 +3151,9 @@ checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.103"
+version = "0.9.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f9e8deee91df40a943c71b917e5874b951d32a802526c85721ce3b776c929d6"
+checksum = "8b22d5b84be05a8d6947c7cb71f7c849aa0f112acd4bf51c2a7c1c988ac0a9dc"
 dependencies = [
  "cc",
  "libc",
@@ -3249,7 +3277,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1fd6780a80ae0c52cc120a26a1a42c1ae51b247a253e4e06113d23d2c2edd078"
 dependencies = [
  "phf_macros",
- "phf_shared",
+ "phf_shared 0.11.3",
 ]
 
 [[package]]
@@ -3258,7 +3286,7 @@ version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48e4cc64c2ad9ebe670cb8fd69dd50ae301650392e81c05f9bfcb2d5bdbc24b0"
 dependencies = [
- "phf_shared",
+ "phf_shared 0.11.3",
  "rand",
 ]
 
@@ -3269,10 +3297,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f84ac04429c13a7ff43785d75ad27569f2951ce0ffd30a3321230db2fc727216"
 dependencies = [
  "phf_generator",
- "phf_shared",
+ "phf_shared 0.11.3",
  "proc-macro2",
  "quote",
  "syn 2.0.87",
+]
+
+[[package]]
+name = "phf_shared"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6796ad771acdc0123d2a88dc428b5e38ef24456743ddb1744ed628f9815c096"
+dependencies = [
+ "siphasher 0.3.11",
 ]
 
 [[package]]
@@ -3366,6 +3403,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "precomputed-hash"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
+
+[[package]]
 name = "predicates"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3394,14 +3437,14 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "1.0.0"
+version = "2.0.1"
 dependencies = [
- "ahash",
  "anyhow",
  "browserslist-rs",
  "dashmap 5.5.3",
  "from_variant",
  "once_cell",
+ "rustc-hash 2.1.0",
  "semver 1.0.23",
  "serde",
  "st-map",
@@ -3650,7 +3693,7 @@ checksum = "ad156d539c879b7a24a363a2016d77961786e71f48f2e2fc8302a92abd2429a6"
 dependencies = [
  "hashbrown 0.13.2",
  "log",
- "rustc-hash",
+ "rustc-hash 1.1.0",
  "slice-group-by",
  "smallvec",
 ]
@@ -3723,7 +3766,7 @@ version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a35e8a6bf28cd121053a66aa2e6a2e3eaffad4a60012179f0e864aa5ffeff215"
 dependencies = [
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
 ]
 
 [[package]]
@@ -3793,7 +3836,7 @@ version = "0.8.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b11a153aec4a6ab60795f8ebe2923c597b16b05bb1504377451e705ef1a45323"
 dependencies = [
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "bytes",
  "hashbrown 0.15.2",
  "indexmap 2.7.1",
@@ -3828,6 +3871,12 @@ name = "rustc-hash"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
+
+[[package]]
+name = "rustc-hash"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7fb8039b3032c191086b10f11f319a6e99e1e82889c5cc6046f515c9db1d497"
 
 [[package]]
 name = "rustc_version"
@@ -4209,6 +4258,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
+name = "shrink-to-fit"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "040f84743f19cf4a481c2580f4d9d12beab78f401773314ff18835ef78c930ea"
+dependencies = [
+ "shrink-to-fit-macro",
+]
+
+[[package]]
+name = "shrink-to-fit-macro"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5e9bca0d4a99ce6c7296fea5972a9327a5e70c062b73f38e11c7894cf7ec72c"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
 name = "simd-abstraction"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4225,9 +4294,9 @@ checksum = "d66dc143e6b11c1eddc06d5c423cfc97062865baf299914ab64caa38182078fe"
 
 [[package]]
 name = "simdutf8"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f27f6278552951f1f2b8cf9da965d10969b2efdea95a6ec47987ab46edfe263a"
+checksum = "e3a9fe34e3e7a50316060351f37187a3f546bce95496156754b601a5fa71b76e"
 
 [[package]]
 name = "similar"
@@ -4286,6 +4355,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b7c388c1b5e93756d0c740965c41e8822f866621d41acbdf6336a6a168f8840c"
 
 [[package]]
+name = "smol_str"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dd538fb6910ac1099850255cf94a94df6551fbdd602454387d0adb2d1ca6dead"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "smoltcp"
 version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4317,7 +4395,7 @@ dependencies = [
  "data-encoding",
  "debugid",
  "if_chain",
- "rustc-hash",
+ "rustc-hash 1.1.0",
  "rustc_version 0.2.3",
  "serde",
  "serde_json",
@@ -4352,9 +4430,9 @@ checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
 name = "stacker"
-version = "0.1.17"
+version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "799c883d55abdb5e98af1a7b3f23b9b6de8ecada0ecac058672d7635eb48ca7b"
+checksum = "1d08feb8f695b465baed819b03c128dc23f57a694510ab1f06c77f763975685e"
 dependencies = [
  "cc",
  "cfg-if",
@@ -4379,6 +4457,20 @@ name = "static_assertions"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
+
+[[package]]
+name = "string_cache"
+version = "0.8.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f91138e76242f575eb1d3b38b4f1362f10d3a43f47d182a5b359af488a02293b"
+dependencies = [
+ "new_debug_unreachable",
+ "once_cell",
+ "parking_lot",
+ "phf_shared 0.10.0",
+ "precomputed-hash",
+ "serde",
+]
 
 [[package]]
 name = "string_enum"
@@ -4411,7 +4503,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "10.0.0"
+version = "15.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4430,7 +4522,7 @@ dependencies = [
  "pathdiff",
  "rayon",
  "regex",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "sourcemap",
@@ -4484,8 +4576,9 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "2.0.0"
+version = "4.0.0"
 dependencies = [
+ "allocator-api2",
  "bumpalo",
  "codspeed-criterion-compat",
  "criterion",
@@ -4493,7 +4586,7 @@ dependencies = [
  "ptr_meta 0.3.0",
  "rancor",
  "rkyv",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_malloc",
  "triomphe",
@@ -4501,21 +4594,22 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "3.0.3"
+version = "5.0.0"
 dependencies = [
  "arbitrary",
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "hstr",
  "once_cell",
  "rancor",
  "rkyv",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
+ "shrink-to-fit",
 ]
 
 [[package]]
 name = "swc_bundler"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "crc 2.1.0",
@@ -4532,6 +4626,7 @@ dependencies = [
  "rayon",
  "relative-path",
  "reqwest",
+ "rustc-hash 2.1.0",
  "sha1",
  "swc_atoms",
  "swc_common",
@@ -4558,19 +4653,19 @@ dependencies = [
 
 [[package]]
 name = "swc_cached"
-version = "1.0.0"
+version = "2.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "dashmap 5.5.3",
  "once_cell",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
 ]
 
 [[package]]
 name = "swc_cli_impl"
-version = "10.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4593,14 +4688,13 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "arbitrary",
  "ast_node",
  "better_scoped_tls",
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "cfg-if",
  "codspeed-criterion-compat",
  "criterion",
@@ -4613,9 +4707,10 @@ dependencies = [
  "rancor",
  "rayon",
  "rkyv",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "siphasher 0.3.11",
  "sourcemap",
  "swc_allocator",
@@ -4630,7 +4725,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "8.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -4638,7 +4733,7 @@ dependencies = [
  "napi-derive",
  "once_cell",
  "pathdiff",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "sourcemap",
@@ -4656,7 +4751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "1.0.0"
+version = "2.0.0"
 dependencies = [
  "anyhow",
  "indexmap 2.7.1",
@@ -4679,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "10.7.0"
+version = "15.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4734,7 +4829,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "5.0.0"
+version = "9.0.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -4749,9 +4844,9 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "is-macro",
  "rancor",
  "rkyv",
@@ -4763,11 +4858,11 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -4791,7 +4886,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "bitflags 2.6.0",
  "once_cell",
@@ -4809,11 +4904,12 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "parking_lot",
  "rayon",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -4828,10 +4924,11 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -4846,10 +4943,10 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "indexmap 2.7.1",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -4864,7 +4961,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -4881,10 +4978,11 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "5.0.0"
+version = "9.0.0"
 dependencies = [
  "once_cell",
  "preset_env_base",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -4899,9 +4997,10 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -4912,7 +5011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4923,11 +5022,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "5.0.3"
+version = "8.0.0"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "is-macro",
  "num-bigint",
  "phf",
@@ -4936,6 +5035,7 @@ dependencies = [
  "scoped-tls",
  "serde",
  "serde_json",
+ "shrink-to-fit",
  "string_enum",
  "swc_atoms",
  "swc_common",
@@ -4945,15 +5045,18 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "5.1.0"
+version = "8.0.1"
 dependencies = [
+ "ascii",
  "base64 0.21.7",
  "codspeed-criterion-compat",
+ "compact_str",
  "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "sourcemap",
@@ -4971,7 +5074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4981,8 +5084,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4998,7 +5102,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -5009,12 +5113,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
  "is-macro",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_derive",
  "smallvec",
@@ -5036,7 +5140,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5053,7 +5157,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5071,7 +5175,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5090,7 +5194,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5106,7 +5210,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "8.0.0"
+version = "12.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5124,7 +5228,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5138,8 +5242,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "8.0.0"
+version = "12.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5155,7 +5260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -5170,7 +5275,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -5182,7 +5287,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "7.0.1"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5192,6 +5297,7 @@ dependencies = [
  "parking_lot",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -5211,7 +5317,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -5222,6 +5328,7 @@ dependencies = [
  "parking_lot",
  "path-clean 0.1.0",
  "pathdiff",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5232,7 +5339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "7.5.0"
+version = "12.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5250,7 +5357,7 @@ dependencies = [
  "radix_fmt",
  "rayon",
  "regex",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "ryu-js",
  "serde",
  "serde_json",
@@ -5277,7 +5384,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "6.0.2"
+version = "10.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5287,6 +5394,7 @@ dependencies = [
  "num-traits",
  "phf",
  "pretty_assertions",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "smallvec",
@@ -5305,7 +5413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "9.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5315,7 +5423,7 @@ dependencies = [
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "semver 1.0.23",
  "serde",
  "serde_json",
@@ -5334,7 +5442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "6.0.0"
+version = "10.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5345,11 +5453,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "6.0.0"
+version = "10.0.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
  "quote",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5360,7 +5469,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -5371,7 +5480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "9.0.0"
+version = "13.0.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -5396,7 +5505,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "7.1.1"
+version = "11.0.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5406,7 +5515,7 @@ dependencies = [
  "once_cell",
  "phf",
  "rayon",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "smallvec",
  "swc_atoms",
@@ -5425,7 +5534,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5437,7 +5546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "8.0.0"
+version = "12.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -5486,7 +5595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "8.0.0"
+version = "12.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5496,6 +5605,7 @@ dependencies = [
  "path-clean 1.0.1",
  "pathdiff",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5516,14 +5626,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "7.1.1"
+version = "11.0.0"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
  "petgraph",
  "rayon",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde_json",
  "swc_atoms",
  "swc_common",
@@ -5546,10 +5656,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "7.0.1"
+version = "11.0.0"
 dependencies = [
  "either",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "smallvec",
@@ -5571,13 +5681,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
  "rayon",
+ "rustc-hash 2.1.0",
  "serde",
  "sha1",
  "string_enum",
@@ -5599,7 +5710,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "7.0.1"
+version = "11.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5624,10 +5735,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "once_cell",
+ "rustc-hash 2.1.0",
  "ryu-js",
  "serde",
  "swc_atoms",
@@ -5647,10 +5760,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "7.0.0"
+version = "12.0.0"
 dependencies = [
  "indexmap 2.7.1",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5662,13 +5775,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "7.0.4"
+version = "11.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
  "once_cell",
  "rayon",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "ryu-js",
  "stacker",
  "swc_atoms",
@@ -5684,7 +5797,21 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "5.0.0"
+version = "8.0.0"
+dependencies = [
+ "new_debug_unreachable",
+ "num-bigint",
+ "serde",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_visit",
+ "tracing",
+]
+
+[[package]]
+name = "swc_ecma_visit_std"
+version = "2.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -5698,7 +5825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "9.0.0"
+version = "14.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5722,7 +5849,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "6.0.0"
+version = "9.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -5733,7 +5860,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "better_scoped_tls",
  "serde",
@@ -5744,14 +5871,14 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "7.0.0"
+version = "11.0.0"
 dependencies = [
- "ahash",
  "anyhow",
  "codspeed-criterion-compat",
  "copyless",
  "criterion",
  "pretty_assertions",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc",
@@ -5770,17 +5897,17 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "6.0.0"
+version = "9.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "petgraph",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "swc_common",
 ]
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "7.2.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5800,10 +5927,11 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "petgraph",
+ "rustc-hash 2.1.0",
  "swc_common",
  "swc_fast_graph",
  "testing",
@@ -5812,7 +5940,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "7.0.0"
+version = "12.0.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5823,9 +5951,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "is-macro",
  "rkyv",
  "serde",
@@ -5836,11 +5964,11 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
@@ -5863,11 +5991,12 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "7.0.0"
+version = "12.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5894,10 +6023,11 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5911,9 +6041,10 @@ dependencies = [
 
 [[package]]
 name = "swc_html_utils"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "once_cell",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5922,13 +6053,35 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
  "swc_visit",
+]
+
+[[package]]
+name = "swc_interop_babel"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "napi-derive",
+ "serde",
+ "serde_json",
+ "swc_interop_nodejs",
+]
+
+[[package]]
+name = "swc_interop_nodejs"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]
@@ -5950,7 +6103,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "10.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -5958,6 +6111,7 @@ dependencies = [
  "once_cell",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "string_enum",
@@ -5979,9 +6133,10 @@ dependencies = [
 
 [[package]]
 name = "swc_node_comments"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "dashmap 5.5.3",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
 ]
@@ -6000,10 +6155,11 @@ dependencies = [
 
 [[package]]
 name = "swc_parallel"
-version = "1.1.0"
+version = "1.2.0"
 dependencies = [
  "chili",
  "hstr",
+ "indexmap 2.7.1",
  "once_cell",
  "scoped-tls",
 ]
@@ -6026,12 +6182,13 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "better_scoped_tls",
- "bytecheck 0.8.0",
+ "bytecheck 0.8.1",
  "rancor",
  "rkyv",
+ "rustc-hash 2.1.0",
  "swc_common",
  "swc_ecma_ast",
  "swc_trace_macro",
@@ -6040,7 +6197,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "5.1.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6049,6 +6206,7 @@ dependencies = [
  "futures",
  "once_cell",
  "parking_lot",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -6095,21 +6253,21 @@ dependencies = [
 
 [[package]]
 name = "swc_transform_common"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "swc_typescript"
-version = "6.1.1"
+version = "10.0.0"
 dependencies = [
  "petgraph",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -6136,7 +6294,7 @@ version = "0.1.0"
 
 [[package]]
 name = "swc_xml"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -6146,7 +6304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_ast"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -6157,11 +6315,11 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
- "rustc-hash",
+ "rustc-hash 2.1.0",
  "swc_atoms",
  "swc_common",
  "swc_xml_ast",
@@ -6183,8 +6341,9 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_parser"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -6196,7 +6355,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -6347,7 +6506,7 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "5.0.0"
+version = "8.0.0"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
@@ -6355,6 +6514,7 @@ dependencies = [
  "once_cell",
  "pretty_assertions",
  "regex",
+ "rustc-hash 2.1.0",
  "serde",
  "serde_json",
  "swc_common",
@@ -6471,15 +6631,6 @@ checksum = "3f252a68540fde3a3877aeea552b832b40ab9a69e318efd078774a01ddee1ccf"
 dependencies = [
  "num-conv",
  "time-core",
-]
-
-[[package]]
-name = "tiny-keccak"
-version = "2.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c9d3793400a45f954c52e73d068316d76b6f4e36977e3fcebb13a2721e80237"
-dependencies = [
- "crunchy",
 ]
 
 [[package]]

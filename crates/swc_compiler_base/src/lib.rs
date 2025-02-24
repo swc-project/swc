@@ -9,10 +9,8 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
-use swc_allocator::maybe::vec::Vec;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
-    collections::AHashMap,
     comments::{Comment, CommentKind, Comments, SingleThreadedComments},
     errors::Handler,
     source_map::SourceMapGenConfig,
@@ -38,17 +36,22 @@ pub struct TransformOutput {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
 }
 
 #[cfg(not(feature = "node"))]
 #[derive(Debug, Serialize)]
 pub struct TransformOutput {
     pub code: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+
+    pub diagnostics: std::vec::Vec<String>,
 }
 
 /// This method parses a javascript / typescript file
@@ -109,7 +112,7 @@ pub struct PrintArgs<'a> {
     pub output_path: Option<PathBuf>,
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
-    pub source_map_names: &'a AHashMap<BytePos, JsWord>,
+    pub source_map_names: &'a FxHashMap<BytePos, Atom>,
     pub orig: Option<&'a sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
@@ -120,7 +123,7 @@ pub struct PrintArgs<'a> {
 
 impl Default for PrintArgs<'_> {
     fn default() -> Self {
-        static DUMMY_NAMES: Lazy<AHashMap<BytePos, JsWord>> = Lazy::new(Default::default);
+        static DUMMY_NAMES: Lazy<FxHashMap<BytePos, Atom>> = Lazy::new(Default::default);
 
         PrintArgs {
             source_root: None,
@@ -274,6 +277,7 @@ where
         output: output
             .map(|v| serde_json::to_string(&v).context("failed to serilaize output"))
             .transpose()?,
+        diagnostics: Default::default(),
     })
 }
 
@@ -282,7 +286,7 @@ struct SwcSourceMapConfig<'a> {
     /// Output path of the `.map` file.
     output_path: Option<&'a Path>,
 
-    names: &'a AHashMap<BytePos, JsWord>,
+    names: &'a FxHashMap<BytePos, Atom>,
 
     inline_sources_content: bool,
 
@@ -407,7 +411,7 @@ impl Default for SourceMapsConfig {
 }
 
 pub struct IdentCollector {
-    pub names: AHashMap<BytePos, JsWord>,
+    pub names: FxHashMap<BytePos, Atom>,
 }
 
 impl Visit for IdentCollector {

@@ -512,7 +512,7 @@ function(global, factory) {
                     uv.x = uv.x - Math.floor(uv.x);
                     break;
                 case 1001:
-                    uv.x = +!(uv.x < 0);
+                    uv.x = uv.x < 0 ? 0 : 1;
                     break;
                 case 1002:
                     1 === Math.abs(Math.floor(uv.x) % 2) ? uv.x = Math.ceil(uv.x) - uv.x : uv.x = uv.x - Math.floor(uv.x);
@@ -522,7 +522,7 @@ function(global, factory) {
                     uv.y = uv.y - Math.floor(uv.y);
                     break;
                 case 1001:
-                    uv.y = +!(uv.y < 0);
+                    uv.y = uv.y < 0 ? 0 : 1;
                     break;
                 case 1002:
                     1 === Math.abs(Math.floor(uv.y) % 2) ? uv.y = Math.ceil(uv.y) - uv.y : uv.y = uv.y - Math.floor(uv.y);
@@ -7435,12 +7435,12 @@ function(global, factory) {
                 return;
             } else // only rebuild uniform list
             programChange = !1;
-            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.program = program, materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
+            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), materialProperties.program = program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
             var uniforms = materialProperties.uniforms;
             (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (// wire up the material to this renderer's lighting state
             uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
-            var progUniforms = materialProperties.program.getUniforms(), uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
-            materialProperties.uniformsList = uniformsList;
+            var progUniforms = materialProperties.program.getUniforms();
+            materialProperties.uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
         }
         function setProgram(camera, scene, material, object) {
             !0 !== scene.isScene && (scene = _emptyScene), textures.resetTextureUnits();
@@ -11772,9 +11772,7 @@ function(global, factory) {
         load: function(url, onLoad, onProgress, onError) {
             var texture = new Texture(), loader = new ImageLoader(this.manager);
             return loader.setCrossOrigin(this.crossOrigin), loader.setPath(this.path), loader.load(url, function(image) {
-                texture.image = image;
-                var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/);
-                texture.format = isJPEG ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
+                texture.image = image, texture.format = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/) ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
             }, onProgress, onError), texture;
         }
     }), Object.assign(Curve.prototype, {
@@ -11820,9 +11818,7 @@ function(global, factory) {
         },
         // Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equidistant
         getUtoTmapping: function(u, distance) {
-            var arcLengths = this.getLengths(), i = 0, il = arcLengths.length;
-            targetArcLength = distance || u * arcLengths[il - 1]; // binary search for the index with largest value smaller than target u distance
-            for(var targetArcLength, comparison, low = 0, high = il - 1; low <= high;)if ((comparison = arcLengths[i = Math.floor(low + (high - low) / 2)] - targetArcLength) < 0) low = i + 1;
+            for(var comparison, arcLengths = this.getLengths(), i = 0, il = arcLengths.length, targetArcLength = distance || u * arcLengths[il - 1], low = 0, high = il - 1; low <= high;)if ((comparison = arcLengths[i = Math.floor(low + (high - low) / 2)] - targetArcLength) < 0) low = i + 1;
             else if (comparison > 0) high = i - 1;
             else {
                 high = i;
@@ -13059,8 +13055,7 @@ function(global, factory) {
                     object = new Mesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material));
                     break;
                 case 'InstancedMesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material);
-                    var object, geometry, material, count = data.count, instanceMatrix = data.instanceMatrix;
+                    var object, geometry = getGeometry(data.geometry), material = getMaterial(data.material), count = data.count, instanceMatrix = data.instanceMatrix;
                     (object = new InstancedMesh(geometry, material, count)).instanceMatrix = new BufferAttribute(new Float32Array(instanceMatrix.array), 16);
                     break;
                 case 'LOD':
@@ -13111,7 +13106,7 @@ function(global, factory) {
                     void 0 === skeleton ? console.warn('THREE.ObjectLoader: No skeleton found with UUID:', child.skeleton) : child.bind(skeleton, child.bindMatrix);
                 }
             });
-        } /* DEPRECATED */ , _proto.setTexturePath = function(value) {
+        }, _proto.setTexturePath = function(value) {
             return console.warn('THREE.ObjectLoader: .setTexturePath() has been renamed to .setResourcePath().'), this.setResourcePath(value);
         }, ObjectLoader;
     }(Loader), TEXTURE_MAPPING = {
@@ -14803,12 +14798,10 @@ function(global, factory) {
                 var p1 = i / 32 * Math.PI * 2, p2 = j / 32 * Math.PI * 2;
                 positions.push(Math.cos(p1), Math.sin(p1), 1, Math.cos(p2), Math.sin(p2), 1);
             }
-            geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
-            var material = new LineBasicMaterial({
+            return geometry.setAttribute('position', new Float32BufferAttribute(positions, 3)), _this.cone = new LineSegments(geometry, new LineBasicMaterial({
                 fog: !1,
                 toneMapped: !1
-            });
-            return _this.cone = new LineSegments(geometry, material), _this.add(_this.cone), _this.update(), _this;
+            })), _this.add(_this.cone), _this.update(), _this;
         }
         _inheritsLoose(SpotLightHelper, _Object3D);
         var _proto = SpotLightHelper.prototype;
@@ -15420,33 +15413,15 @@ function(global, factory) {
             void 0 === sigma && (sigma = 0), void 0 === near && (near = 0.1), void 0 === far && (far = 100), _oldTarget = this._renderer.getRenderTarget();
             var cubeUVRenderTarget = this._allocateTargets();
             return this._sceneToCubeUV(scene, near, far, cubeUVRenderTarget), sigma > 0 && this._blur(cubeUVRenderTarget, 0, 0, sigma), this._applyPMREM(cubeUVRenderTarget), this._cleanup(cubeUVRenderTarget), cubeUVRenderTarget;
-        } /**
-		 * Generates a PMREM from an equirectangular texture, which can be either LDR
-		 * (RGBFormat) or HDR (RGBEFormat). The ideal input image size is 1k (1024 x 512),
-		 * as this matches best with the 256 x 256 cubemap output.
-		 */ , _proto.fromEquirectangular = function(equirectangular) {
+        }, _proto.fromEquirectangular = function(equirectangular) {
             return this._fromTexture(equirectangular);
-        } /**
-		 * Generates a PMREM from an cubemap texture, which can be either LDR
-		 * (RGBFormat) or HDR (RGBEFormat). The ideal input cube size is 256 x 256,
-		 * as this matches best with the 256 x 256 cubemap output.
-		 */ , _proto.fromCubemap = function(cubemap) {
+        }, _proto.fromCubemap = function(cubemap) {
             return this._fromTexture(cubemap);
-        } /**
-		 * Pre-compiles the cubemap shader. You can get faster start-up by invoking this method during
-		 * your texture's network fetch for increased concurrency.
-		 */ , _proto.compileCubemapShader = function() {
+        }, _proto.compileCubemapShader = function() {
             null === this._cubemapShader && (this._cubemapShader = _getCubemapShader(), this._compileMaterial(this._cubemapShader));
-        } /**
-		 * Pre-compiles the equirectangular shader. You can get faster start-up by invoking this method during
-		 * your texture's network fetch for increased concurrency.
-		 */ , _proto.compileEquirectangularShader = function() {
+        }, _proto.compileEquirectangularShader = function() {
             null === this._equirectShader && (this._equirectShader = _getEquirectShader(), this._compileMaterial(this._equirectShader));
-        } /**
-		 * Disposes of the PMREMGenerator's internal memory. Note that PMREMGenerator is a static class,
-		 * so you should not need more than one PMREMGenerator object. If you do, calling dispose() on
-		 * one of them will cause any others to also become unusable.
-		 */ , _proto.dispose = function() {
+        }, _proto.dispose = function() {
             this._blurMaterial.dispose(), null !== this._cubemapShader && this._cubemapShader.dispose(), null !== this._equirectShader && this._equirectShader.dispose();
             for(var i = 0; i < _lodPlanes.length; i++)_lodPlanes[i].dispose();
         } // private interface
@@ -15514,13 +15489,7 @@ function(global, factory) {
                 this._blur(cubeUVRenderTarget, i - 1, i, sigma, poleAxis);
             }
             renderer.autoClear = autoClear;
-        } /**
-		 * This is a two-pass Gaussian blur for a cubemap. Normally this is done
-		 * vertically and horizontally, but this breaks down on a cube. Here we apply
-		 * the blur latitudinally (around the poles), and then longitudinally (towards
-		 * the poles) to approximate the orthogonally-separable blur. It is least
-		 * accurate at the poles, but still does a decent job.
-		 */ , _proto._blur = function(cubeUVRenderTarget, lodIn, lodOut, sigma, poleAxis) {
+        }, _proto._blur = function(cubeUVRenderTarget, lodIn, lodOut, sigma, poleAxis) {
             var pingPongRenderTarget = this._pingPongRenderTarget;
             this._halfBlur(cubeUVRenderTarget, pingPongRenderTarget, lodIn, lodOut, sigma, 'latitudinal', poleAxis), this._halfBlur(pingPongRenderTarget, cubeUVRenderTarget, lodOut, lodOut, sigma, 'longitudinal', poleAxis);
         }, _proto._halfBlur = function(targetIn, targetOut, lodIn, lodOut, sigmaRadians, direction, poleAxis) {

@@ -1,5 +1,6 @@
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, Span};
+use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -25,8 +26,8 @@ pub fn no_bitwise(config: &RuleConfig<NoBitwiseConfig>) -> Option<Box<dyn Rule>>
 #[derive(Debug, Default)]
 struct NoBitwise {
     expected_reaction: LintRuleReaction,
-    allow_binary_ops: Option<AHashSet<BinaryOp>>,
-    allow_assign_ops: Option<AHashSet<AssignOp>>,
+    allow_binary_ops: Option<FxHashSet<BinaryOp>>,
+    allow_assign_ops: Option<FxHashSet<AssignOp>>,
     allow_bitwise_not: bool,
     allow_int_32_hint: bool,
 }
@@ -35,8 +36,8 @@ impl NoBitwise {
     fn new(config: &RuleConfig<NoBitwiseConfig>) -> Self {
         let rule_config = config.get_rule_config();
 
-        let mut allow_binary_ops: Option<AHashSet<BinaryOp>> = None;
-        let mut allow_assign_ops: Option<AHashSet<AssignOp>> = None;
+        let mut allow_binary_ops: Option<FxHashSet<BinaryOp>> = None;
+        let mut allow_assign_ops: Option<FxHashSet<AssignOp>> = None;
         let mut allow_bitwise_not: bool = false;
 
         if let Some(allow) = &rule_config.allow {

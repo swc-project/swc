@@ -117,6 +117,7 @@
       },
       "declare": true,
       "global": false,
+      "namespace": false,
       "id": {
         "type": "StringLiteral",
         "span": {
@@ -442,7 +443,8 @@
             "raw": "\"./decl\""
           },
           "qualifier": null,
-          "typeArguments": null
+          "typeArguments": null,
+          "attributes": null
         },
         "typeArguments": null
       }
@@ -585,6 +587,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
@@ -654,6 +657,7 @@
         },
         "declare": false,
         "global": false,
+        "namespace": true,
         "id": {
           "type": "Identifier",
           "span": {
@@ -836,6 +840,7 @@
       },
       "declare": false,
       "global": false,
+      "namespace": true,
       "id": {
         "type": "Identifier",
         "span": {

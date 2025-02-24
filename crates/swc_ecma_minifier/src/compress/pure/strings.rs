@@ -1,6 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -570,7 +570,7 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
+pub(super) fn convert_str_value_to_tpl_cooked(value: &Atom) -> Cow<str> {
     value
         .replace("\\\\", "\\")
         .replace("\\`", "`")
@@ -578,7 +578,7 @@ pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
         .into()
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
+pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Cow<str> {
     value
         .replace('\\', "\\\\")
         .replace('`', "\\`")

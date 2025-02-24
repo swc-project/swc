@@ -948,9 +948,8 @@
                 function loadFunc() {
                     if (!aborted) {
                         clearTimeout(timeoutTimer);
-                        var status, response = failureResponse, err = null;
-                        return 0 !== (//IE8 CORS GET successful response doesn't have a status field, but body is fine
-                        status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
+                        var status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status, response = failureResponse, err = null;
+                        return 0 !== status ? (response = {
                             body: function() {
                                 // Chrome with requestType=blob throws errors arround when even testing access to responseText
                                 var body = void 0;
@@ -1333,12 +1332,12 @@
             }
             // Node Types
             var NodeType = {}, ELEMENT_NODE = NodeType.ELEMENT_NODE = 1, ATTRIBUTE_NODE = NodeType.ATTRIBUTE_NODE = 2, TEXT_NODE = NodeType.TEXT_NODE = 3, CDATA_SECTION_NODE = NodeType.CDATA_SECTION_NODE = 4, ENTITY_REFERENCE_NODE = NodeType.ENTITY_REFERENCE_NODE = 5, ENTITY_NODE = NodeType.ENTITY_NODE = 6, PROCESSING_INSTRUCTION_NODE = NodeType.PROCESSING_INSTRUCTION_NODE = 7, COMMENT_NODE = NodeType.COMMENT_NODE = 8, DOCUMENT_NODE = NodeType.DOCUMENT_NODE = 9, DOCUMENT_TYPE_NODE = NodeType.DOCUMENT_TYPE_NODE = 10, DOCUMENT_FRAGMENT_NODE = NodeType.DOCUMENT_FRAGMENT_NODE = 11, NOTATION_NODE = NodeType.NOTATION_NODE = 12, ExceptionCode = {}, ExceptionMessage = {};
-            ExceptionCode.INDEX_SIZE_ERR = (ExceptionMessage[1] = "Index size error", 1), ExceptionCode.DOMSTRING_SIZE_ERR = (ExceptionMessage[2] = "DOMString size error", 2);
-            var HIERARCHY_REQUEST_ERR = ExceptionCode.HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", 3);
-            ExceptionCode.WRONG_DOCUMENT_ERR = (ExceptionMessage[4] = "Wrong document", 4), ExceptionCode.INVALID_CHARACTER_ERR = (ExceptionMessage[5] = "Invalid character", 5), ExceptionCode.NO_DATA_ALLOWED_ERR = (ExceptionMessage[6] = "No data allowed", 6), ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = (ExceptionMessage[7] = "No modification allowed", 7);
-            var NOT_FOUND_ERR = ExceptionCode.NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", 8);
-            ExceptionCode.NOT_SUPPORTED_ERR = (ExceptionMessage[9] = "Not supported", 9);
-            var INUSE_ATTRIBUTE_ERR = ExceptionCode.INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", 10);
+            ExceptionMessage[1] = "Index size error", ExceptionCode.INDEX_SIZE_ERR = 1, ExceptionMessage[2] = "DOMString size error", ExceptionCode.DOMSTRING_SIZE_ERR = 2;
+            var HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", ExceptionCode.HIERARCHY_REQUEST_ERR = 3);
+            ExceptionMessage[4] = "Wrong document", ExceptionCode.WRONG_DOCUMENT_ERR = 4, ExceptionMessage[5] = "Invalid character", ExceptionCode.INVALID_CHARACTER_ERR = 5, ExceptionMessage[6] = "No data allowed", ExceptionCode.NO_DATA_ALLOWED_ERR = 6, ExceptionMessage[7] = "No modification allowed", ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = 7;
+            var NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", ExceptionCode.NOT_FOUND_ERR = 8);
+            ExceptionMessage[9] = "Not supported", ExceptionCode.NOT_SUPPORTED_ERR = 9;
+            var INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", ExceptionCode.INUSE_ATTRIBUTE_ERR = 10);
             /**
              * DOM Level 2
              * Object DOMException
@@ -1651,7 +1650,7 @@
             function __set__(object, key, value) {
                 object[key] = value;
             }
-            ExceptionCode.INVALID_STATE_ERR = (ExceptionMessage[11] = "Invalid state", 11), ExceptionCode.SYNTAX_ERR = (ExceptionMessage[12] = "Syntax error", 12), ExceptionCode.INVALID_MODIFICATION_ERR = (ExceptionMessage[13] = "Invalid modification", 13), ExceptionCode.NAMESPACE_ERR = (ExceptionMessage[14] = "Invalid namespace", 14), ExceptionCode.INVALID_ACCESS_ERR = (ExceptionMessage[15] = "Invalid access", 15), DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
+            ExceptionMessage[11] = "Invalid state", ExceptionCode.INVALID_STATE_ERR = 11, ExceptionMessage[12] = "Syntax error", ExceptionCode.SYNTAX_ERR = 12, ExceptionMessage[13] = "Invalid modification", ExceptionCode.INVALID_MODIFICATION_ERR = 13, ExceptionMessage[14] = "Invalid namespace", ExceptionCode.NAMESPACE_ERR = 14, ExceptionMessage[15] = "Invalid access", ExceptionCode.INVALID_ACCESS_ERR = 15, DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
                 /**
                  * The number of nodes in the list. The range of valid child node indices is 0 to length-1 inclusive.
                  * @standard level1
@@ -2786,8 +2785,7 @@
             "undefined" != typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
         /***/ },
         /***/ 8908: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var win;
-            "undefined" != typeof window ? win = window : void 0 !== __webpack_require__.g ? win = __webpack_require__.g : "undefined" != typeof self ? win = self : win = {}, module.exports = win;
+            module.exports = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {};
         /***/ },
         /***/ 7376: /***/ function(module) {
             module.exports = function(fn) {
@@ -3741,10 +3739,10 @@
                     resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
                 };
                 if (range || indexRange) {
-                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10), endRange = parseInt(ranges[1], 10);
+                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10);
                     // RFC 2616, Clause 14.35.1
                     segment.byterange = {
-                        length: endRange - startRange + 1,
+                        length: parseInt(ranges[1], 10) - startRange + 1,
                         offset: startRange
                     };
                 }
@@ -4583,33 +4581,30 @@
              *
              * Copyright (c) Brightcove
              * Licensed Apache-2.0 https://github.com/videojs/mux.js/blob/master/LICENSE
-             */ var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
-            secondsToVideoTs = function(seconds) {
-                return 90000 * seconds;
-            }, secondsToAudioTs = function(seconds, sampleRate) {
-                return seconds * sampleRate;
-            }, videoTsToSeconds = function(timestamp) {
-                return timestamp / 90000;
-            }, audioTsToSeconds = function(timestamp, sampleRate) {
-                return timestamp / sampleRate;
-            }, audioTsToVideoTs = function(timestamp, sampleRate) {
-                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-            }, videoTsToAudioTs = function(timestamp, sampleRate) {
-                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-            }, /**
-             * Adjust ID3 tag or caption timing information by the timeline pts values
-             * (if keepOriginalTimestamps is false) and convert to seconds
-             */ metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-            }, module.exports = {
+             */ var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
+            module.exports = {
                 ONE_SECOND_IN_TS: 90000,
-                secondsToVideoTs: secondsToVideoTs,
-                secondsToAudioTs: secondsToAudioTs,
-                videoTsToSeconds: videoTsToSeconds,
-                audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: audioTsToVideoTs,
-                videoTsToAudioTs: videoTsToAudioTs,
-                metadataTsToSeconds: metadataTsToSeconds
+                secondsToVideoTs: secondsToVideoTs = function(seconds) {
+                    return 90000 * seconds;
+                },
+                secondsToAudioTs: secondsToAudioTs = function(seconds, sampleRate) {
+                    return seconds * sampleRate;
+                },
+                videoTsToSeconds: videoTsToSeconds = function(timestamp) {
+                    return timestamp / 90000;
+                },
+                audioTsToSeconds: audioTsToSeconds = function(timestamp, sampleRate) {
+                    return timestamp / sampleRate;
+                },
+                audioTsToVideoTs: function(timestamp, sampleRate) {
+                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+                },
+                videoTsToAudioTs: function(timestamp, sampleRate) {
+                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+                },
+                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                }
             };
         /***/ },
         /***/ 8581: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -4727,7 +4722,7 @@
         /***/ },
         /***/ 9945: /***/ function(module) {
             var URL_REGEX, FIRST_SEGMENT_REGEX, SLASH_DOT_REGEX, SLASH_DOT_DOT_REGEX, URLToolkit;
-            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, URLToolkit = {
+            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, module.exports = URLToolkit = {
                 // If opts.alwaysNormalize is true then the path will always be normalized even when it starts with / or //
                 // E.g
                 // With opts.alwaysNormalize = false (default, spec compliant)
@@ -4818,7 +4813,7 @@
                 buildURLFromParts: function(parts) {
                     return parts.scheme + parts.netLoc + parts.path + parts.params + parts.query + parts.fragment;
                 }
-            }, module.exports = URLToolkit;
+            };
         /***/ },
         /***/ 3407: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             /**
@@ -5024,7 +5019,7 @@
                         continue;
                     }
                     // Text nodes are leaf nodes.
-                    current.appendChild(window1.document.createTextNode((s = t, TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
+                    current.appendChild(window1.document.createTextNode((TEXTAREA_ELEMENT.innerHTML = s = t, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
                 }
                 return rootDiv;
             }
@@ -5795,7 +5790,7 @@
                         if ("INITIAL" === self1.state) {
                             // We can't start parsing until we have the first line.
                             if (!/\r\n|\n/.test(self1.buffer)) return this;
-                            var input, line, m = (line = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
+                            var input, line = collectNextLine(), m = line.match(/^WEBVTT([ \t].*)?$/);
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self1.state = "HEADER";
                         }
@@ -6528,7 +6523,7 @@
                 var obj;
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
-                if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset = +byteOffset) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+                if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
                 (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
                     byteOffset = buffer.length - 1;
@@ -6612,10 +6607,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && // eslint-disable-line eqeqeq
@@ -6872,7 +6867,7 @@
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     var maxBytes = Math.pow(2, 8 * byteLength) - 1;
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
@@ -6880,7 +6875,7 @@
                 for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeUIntBE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     var maxBytes = Math.pow(2, 8 * byteLength) - 1;
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
@@ -6888,17 +6883,17 @@
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeIntLE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, !noAssert) {
                     var limit = Math.pow(2, 8 * byteLength - 1);
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
@@ -6906,7 +6901,7 @@
                 for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeIntBE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, !noAssert) {
+                if (value *= 1, offset >>>= 0, !noAssert) {
                     var limit = Math.pow(2, 8 * byteLength - 1);
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
@@ -6914,15 +6909,15 @@
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
                 return writeFloat(this, value, offset, !0, noAssert);
             }, Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {

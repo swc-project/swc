@@ -1,4 +1,5 @@
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use rustc_hash::FxHashMap;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
@@ -9,7 +10,7 @@ use crate::{id::Id, modules::Modules, util::Readonly};
 
 #[derive(Debug, Default)]
 pub(crate) struct InlineData {
-    ids: AHashMap<Id, Id>,
+    ids: FxHashMap<Id, Id>,
 }
 
 /// Inline **injected** variables.

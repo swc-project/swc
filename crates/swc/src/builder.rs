@@ -3,7 +3,7 @@ use std::sync::Arc;
 use compat::es2015::regenerator;
 use either::Either;
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark, SourceMap,
 };
@@ -124,7 +124,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
 
     pub fn const_modules(
         self,
-        globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
+        globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
     ) -> PassBuilder<'a, 'b, (P, impl Pass)> {
         let cm = self.cm.clone();
         self.then(const_modules(cm, globals))
