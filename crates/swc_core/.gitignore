@@ -1,2 +1,1 @@
-tests/**/Cargo.lock
 tests/**/target/
