@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_codegen"
 repository    = { workspace = true }
-version       = "7.0.0"
+version       = "8.0.0"
 
 [features]
 # This does not enable serde for ast nodes.
@@ -28,12 +28,12 @@ serde       = { workspace = true }
 sourcemap   = { workspace = true }
 tracing     = { workspace = true }
 
-swc_allocator = { version = "3.0.1", path = "../swc_allocator", default-features = false, features = [
+swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false, features = [
   "hashbrown",
 ] }
-swc_atoms = { version = "4.0.0", path = "../swc_atoms" }
-swc_common = { version = "7.0.0", path = "../swc_common" }
-swc_ecma_ast = { version = "7.0.0", path = "../swc_ecma_ast" }
+swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
+swc_common = { version = "8.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "1.0.0", path = "../swc_ecma_codegen_macros" }
 
 [dev-dependencies]
@@ -42,14 +42,14 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_allocator = { version = "3.0.1", path = "../swc_allocator" }
-swc_common = { version = "7.0.0", path = "../swc_common", features = [
+swc_allocator = { version = "4.0.0", path = "../swc_allocator" }
+swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "9.0.0", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "7.0.0", path = "../swc_ecma_testing" }
+swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
+swc_ecma_testing = { version = "8.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
-testing = { version = "7.0.0", path = "../testing" }
+testing = { version = "8.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

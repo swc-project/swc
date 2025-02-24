@@ -6,22 +6,22 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "9.0.0"
+version       = "10.0.0"
 
 [dependencies]
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 thiserror  = { workspace = true }
 
-swc_atoms      = { version = "4.0.0", path = "../swc_atoms" }
-swc_common     = { version = "7.0.0", path = "../swc_common" }
-swc_ecma_ast   = { version = "7.0.0", path = "../swc_ecma_ast" }
-swc_ecma_utils = { version = "10.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "7.0.0", path = "../swc_ecma_visit" }
+swc_atoms      = { version = "5.0.0", path = "../swc_atoms" }
+swc_common     = { version = "8.0.0", path = "../swc_common" }
+swc_ecma_ast   = { version = "8.0.0", path = "../swc_ecma_ast" }
+swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
 
 
 [dev-dependencies]
-swc_ecma_codegen         = { version = "7.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "9.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "10.0.0", path = "../swc_ecma_transforms_base" }
-testing                  = { version = "7.0.0", path = "../testing" }
+swc_ecma_codegen         = { version = "8.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser          = { version = "10.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "11.0.0", path = "../swc_ecma_transforms_base" }
+testing                  = { version = "8.0.0", path = "../testing" }

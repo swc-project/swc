@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_graph_analyzer"
 repository  = { workspace = true }
-version     = "7.0.0"
+version     = "8.0.0"
 
 [lib]
 bench = false
@@ -15,9 +15,9 @@ bench = false
 auto_impl      = { workspace = true }
 petgraph       = { workspace = true }
 rustc-hash     = { workspace = true }
-swc_common     = { version = "7.0.0", path = "../swc_common/" }
-swc_fast_graph = { version = "8.0.0", path = "../swc_fast_graph/" }
+swc_common     = { version = "8.0.0", path = "../swc_common/" }
+swc_fast_graph = { version = "9.0.0", path = "../swc_fast_graph/" }
 tracing        = { workspace = true }
 
 [dev-dependencies]
-testing = { version = "7.0.0", path = "../testing" }
+testing = { version = "8.0.0", path = "../testing" }

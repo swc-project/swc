@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_visit_std"
 repository    = { workspace = true }
-version       = "1.0.0"
+version       = "2.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -27,7 +27,7 @@ num-bigint            = { workspace = true, features = ["serde"] }
 serde                 = { workspace = true, optional = true, features = ["derive"] }
 tracing               = { workspace = true }
 
-swc_atoms    = { version = "4.0.0", path = "../swc_atoms" }
-swc_common   = { version = "7.0.0", path = "../swc_common" }
-swc_ecma_ast = { version = "7.0.0", path = "../swc_ecma_ast" }
+swc_atoms    = { version = "5.0.0", path = "../swc_atoms" }
+swc_common   = { version = "8.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 swc_visit    = { version = "2.0.0", path = "../swc_visit" }
