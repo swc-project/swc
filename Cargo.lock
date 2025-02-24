@@ -4774,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "15.0.0"
+version = "15.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5045,7 +5045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "8.0.0"
+version = "8.0.1"
 dependencies = [
  "ascii",
  "base64 0.21.7",
@@ -5074,7 +5074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
