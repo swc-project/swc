@@ -1271,9 +1271,6 @@
 - **(bindings/wasm)** Fix typing ([#9469](https://github.com/swc-project/swc/issues/9469)) ([8c007c4](https://github.com/swc-project/swc/commit/8c007c402f73c0839e45066eaa8a01b98edf2f94))
 
 
-- **(ci)** Fix CI of `peff ([#9216](https://github.com/swc-project/swc/issues/9216)) ([602e0e5](https://github.com/swc-project/swc/commit/602e0e5aa14ecb3a7bc20bfe77aac2badaa54bb2))
-
-
 - **(ci)** FIx pattern for `actions/download-artifact` ([ac7bd31](https://github.com/swc-project/swc/commit/ac7bd31e8cd79f9df7f3bf6ac05e84b67b0f4546))
 
 
