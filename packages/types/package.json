@@ -3,6 +3,7 @@
     "packageManager": "yarn@4.0.2",
     "version": "0.1.18",
     "description": "Typings for the swc project.",
+    "types": "./index.d.ts",
     "sideEffects": false,
     "scripts": {
         "build": "tsc",
