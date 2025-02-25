@@ -322,8 +322,8 @@ impl Optimizer<'_> {
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
-                    trace_op!(
-                        "inline: Decided to copy '{}{:?}' because it's simple",
+                    report_change!(
+                        "inline: Decided to inline '{}{:?}' because it's simple",
                         ident.sym,
                         ident.ctxt
                     );
