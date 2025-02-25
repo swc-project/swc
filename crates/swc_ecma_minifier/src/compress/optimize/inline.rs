@@ -653,6 +653,7 @@ impl Optimizer<'_> {
             }
 
             // Inline very simple functions.
+            self.vars.inline_with_multi_replacer(decl);
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     if let Some(body) = &f.function.body {
@@ -679,8 +680,6 @@ impl Optimizer<'_> {
                                 i.sym,
                                 i.ctxt
                             );
-
-                            self.vars.inline_with_multi_replacer(&mut f.function.body);
 
                             for i in collect_infects_from(
                                 &f.function,
