@@ -678,6 +678,10 @@ impl Optimizer<'_> {
                                 "inline: Decided to inline function '{}{:?}' as it's very simple",
                                 f.ident.sym,
                                 f.ident.ctxt
+                            report_change!(
+                                "inline: Decided to inline function `{}{:?}` as it's very simple",
+                                i.sym,
+                                i.ctxt
                             );
 
                             self.vars.inline_with_multi_replacer(&mut f.function.body);
