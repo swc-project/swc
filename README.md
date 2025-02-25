@@ -72,7 +72,15 @@ Please see [comparison with babel](https://swc.rs/docs/migrating-from-babel).
 
 Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the website.
 
+# Supporting development
+
 <h2 align="center">Supporting swc</h2>
+
+## Powered by
+
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
+
+## Sponsors
 
 <p align="center">
   <a href="https://opencollective.com/swc">
