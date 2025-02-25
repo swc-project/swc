@@ -166,7 +166,7 @@ impl Compressor<'_> {
 
         #[cfg(feature = "debug")]
         let start = {
-            let start = n.dump();
+            let start = force_dump_program(n);
             debug!("===== Start =====\n{}", start);
             start
         };
@@ -180,7 +180,7 @@ impl Compressor<'_> {
             let start_time = now();
 
             #[cfg(feature = "debug")]
-            let start = n.dump();
+            let start = force_dump_program(n);
 
             let mut visitor = expr_simplifier(self.marks.unresolved_mark, ExprSimplifierConfig {});
             n.visit_mut_with(&mut visitor);
@@ -192,7 +192,7 @@ impl Compressor<'_> {
                 {
                     debug!(
                         "===== Simplified =====\n{start}===== ===== ===== =====\n{}",
-                        n.dump()
+                        force_dump_program(n)
                     );
                 }
             }
@@ -209,7 +209,7 @@ impl Compressor<'_> {
 
             #[cfg(feature = "debug")]
             if !visitor.changed() {
-                let simplified = n.dump();
+                let simplified = force_dump_program(n);
                 if start != simplified {
                     assert_eq!(
                         DebugUsingDisplay(&start),
@@ -240,7 +240,7 @@ impl Compressor<'_> {
 
             #[cfg(feature = "debug")]
             if visitor.changed() {
-                let src = n.dump();
+                let src = force_dump_program(n);
                 debug!(
                     "===== Before pure =====\n{}\n===== After pure =====\n{}",
                     start, src
