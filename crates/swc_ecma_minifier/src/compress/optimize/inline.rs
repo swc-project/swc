@@ -942,7 +942,7 @@ fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> Option<u8> {
             return ret
                 .arg
                 .as_deref()
-                .and_then(is_arrow_body_simple_enough_for_copy);
+                .map_or(Some(0), is_arrow_body_simple_enough_for_copy);
         }
     }
 
