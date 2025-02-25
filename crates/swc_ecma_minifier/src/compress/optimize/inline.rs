@@ -322,8 +322,8 @@ impl Optimizer<'_> {
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
-                    trace_op!(
-                        "inline: Decided to copy '{}{:?}' because it's simple",
+                    report_change!(
+                        "inline: Decided to inline '{}{:?}' because it's simple",
                         ident.sym,
                         ident.ctxt
                     );
@@ -674,10 +674,10 @@ impl Optimizer<'_> {
                             {
                                 return;
                             }
-                            trace_op!(
-                                "inline: Decided to inline function '{}{:?}' as it's very simple",
-                                f.ident.sym,
-                                f.ident.ctxt
+                            report_change!(
+                                "inline: Decided to inline function `{}{:?}` as it's very simple",
+                                i.sym,
+                                i.ctxt
                             );
 
                             self.vars.inline_with_multi_replacer(&mut f.function.body);
