@@ -536,8 +536,7 @@ impl VisitMut for Resolver<'_> {
                     .params
                     .iter()
                     .filter(|p| !p.is_rest())
-                    .flat_map(find_pat_ids)
-                    .collect::<Vec<Id>>();
+                    .flat_map(find_pat_ids::<_, Id>);
 
                 for id in params {
                     child.current.declared_symbols.insert(id.0, DeclKind::Param);
@@ -722,8 +721,7 @@ impl VisitMut for Resolver<'_> {
                         ParamOrTsParamProp::TsParamProp(_) => false,
                         ParamOrTsParamProp::Param(p) => !p.pat.is_rest(),
                     })
-                    .flat_map(find_pat_ids)
-                    .collect::<Vec<Id>>();
+                    .flat_map(find_pat_ids::<_, Id>);
 
                 for id in params {
                     child.current.declared_symbols.insert(id.0, DeclKind::Param);
@@ -877,8 +875,7 @@ impl VisitMut for Resolver<'_> {
                 .params
                 .iter()
                 .filter(|p| !p.pat.is_rest())
-                .flat_map(find_pat_ids)
-                .collect::<Vec<Id>>();
+                .flat_map(find_pat_ids::<_, Id>);
 
             for id in params {
                 self.current.declared_symbols.insert(id.0, DeclKind::Param);
