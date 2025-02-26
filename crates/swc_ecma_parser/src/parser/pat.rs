@@ -195,13 +195,17 @@ impl<I: Tokens> Parser<I> {
                                 ref mut optional, ..
                             },
                         ..
-                    })
-                    | Pat::Array(ArrayPat {
-                        ref mut optional, ..
-                    })
-                    | Pat::Object(ObjectPat {
-                        ref mut optional, ..
                     }) => {
+                        *optional = true;
+                        opt = true;
+                    }
+                    Pat::Array(ref mut boxed) => {
+                        let ArrayPat { optional, .. } = &mut **boxed;
+                        *optional = true;
+                        opt = true;
+                    }
+                    Pat::Object(ref mut boxed) => {
+                        let ObjectPat { optional, .. } = &mut **boxed;
                         *optional = true;
                         opt = true;
                     }
