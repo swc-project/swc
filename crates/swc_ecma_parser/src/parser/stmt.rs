@@ -757,10 +757,9 @@ impl<'a, I: Tokens> Parser<I> {
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
-                    Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(ArrayPat { type_ann, .. })
-                    | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. }) => {
+                    Pat::Ident(..) | Pat::Array(..) | Pat::Rest(..) | Pat::Object(..) => {
+                        let (type_ann, _span) =
+                            self.get_type_ann_and_span_of_pat(&mut pat).unwrap();
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
@@ -976,9 +975,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
-                Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
-                })
+                Pat::Array(..)
                 | Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 })
