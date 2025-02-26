@@ -18,13 +18,13 @@ pub enum Pat {
     Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
 
     #[tag("RestElement")]
     Rest(RestPat),
 
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
 
     #[tag("AssignmentPattern")]
     Assign(AssignPat),
@@ -77,8 +77,8 @@ macro_rules! pat_to_other {
 }
 
 pat_to_other!(BindingIdent);
-pat_to_other!(ArrayPat);
-pat_to_other!(ObjectPat);
+pat_to_other!(Box<ArrayPat>);
+pat_to_other!(Box<ObjectPat>);
 pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
 pat_to_other!(Box<Expr>);
