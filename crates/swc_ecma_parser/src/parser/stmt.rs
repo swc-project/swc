@@ -1525,7 +1525,7 @@ mod tests {
                 },
                 handler: Some(CatchClause {
                     span,
-                    param: Pat::Object(ObjectPat {
+                    param: Some(Pat::Object(Box::new(ObjectPat {
                         span,
                         optional: false,
                         props: vec![ObjectPatProp::Rest(RestPat {
@@ -1537,8 +1537,7 @@ mod tests {
                             type_ann: None
                         })],
                         type_ann: None,
-                    })
-                    .into(),
+                    }))),
                     body: BlockStmt {
                         span,
                         ..Default::default()
@@ -2058,7 +2057,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Array(ArrayPat {
+                        name: Pat::Array(Box::new(ArrayPat {
                             span,
                             type_ann: None,
                             optional: false,
@@ -2067,7 +2066,7 @@ export default function waitUntil(callback, options = {}) {
                                 None,
                                 Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
-                        }),
+                        })),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "simple_array".into(),
                             span
@@ -2090,7 +2089,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Object(ObjectPat {
+                        name: Pat::Object(Box::new(ObjectPat {
                             optional: false,
                             type_ann: None,
                             span,
@@ -2099,7 +2098,7 @@ export default function waitUntil(callback, options = {}) {
                                 key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
                             })]
-                        }),
+                        })),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "obj".into(),
                             span
