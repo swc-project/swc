@@ -217,21 +217,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             match pat {
-                Pat::Array(ArrayPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
-                | Pat::Object(ObjectPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                })
-                | Pat::Rest(RestPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                }) => {
+                Pat::Array(..) | Pat::Object(..) | Pat::Rest(..) => {
+                    let (type_ann, span) = self.get_type_ann_and_span_of_pat(&mut pat).unwrap();
+
                     let new_type_ann = self.try_parse_ts_type_ann()?;
                     if new_type_ann.is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi);

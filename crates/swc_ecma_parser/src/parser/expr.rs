@@ -11,7 +11,7 @@ mod tests;
 mod verifier;
 
 impl<I: Tokens> Parser<I> {
-    fn get_type_ann_and_span_of_pat<'a>(
+    pub(super) fn get_type_ann_and_span_of_pat<'a>(
         &self,
         pat: &'a mut Pat,
     ) -> Option<(&'a mut Option<Box<TsTypeAnn>>, &'a mut Span)> {
