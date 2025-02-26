@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use num_bigint::BigInt;
 use smallvec::{smallvec, SmallVec};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::AssignOp;
@@ -374,6 +375,7 @@ impl Iterator for Lexer<'_> {
             None
         } else {
             let raw_span = next_token.span;
+            let raw_value = next_token.value;
             let RawTokenSpan { start, end } = raw_span;
             // TODO: perf
             let span = Span::new(BytePos(start + 1), BytePos(end + 1));
@@ -411,13 +413,11 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::Comma => Token::Comma,
                 RawTokenKind::Colon => Token::Colon,
                 RawTokenKind::HashbangComment => {
-                    Token::Shebang(next_token.value.unwrap().as_string().unwrap())
+                    Token::Shebang(raw_value.unwrap().as_string().unwrap())
                 }
                 RawTokenKind::Identifier => Token::Word(Word::Ident(IdentLike::Other(
-                    next_token
-                        .value
-                        .expect("Should have a value")
-                        .as_string()
+                    raw_value
+                        .and_then(|val| val.as_string())
                         .expect("Should be atom"),
                 ))),
                 RawTokenKind::QuestionMark => Token::QuestionMark,
@@ -457,14 +457,17 @@ impl Iterator for Lexer<'_> {
                     Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
                 }
                 RawTokenKind::Str => Token::Str {
-                    value: next_token.value.unwrap().as_string().unwrap(),
+                    value: raw_value.and_then(|val| val.as_string()).unwrap(),
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
                 RawTokenKind::Num => Token::Num {
-                    value: next_token.value.unwrap().as_number().unwrap(),
+                    value: raw_value.and_then(|val| val.as_number()).unwrap(),
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
-                RawTokenKind::BigIntLiteral => todo!("should implement bit ing literal"),
+                RawTokenKind::BigIntLiteral => Token::BigInt {
+                    value: Box::new(BigInt::new(num_bigint::Sign::Plus, vec![1, 2, 3])),
+                    raw: self.raw_lexer.str_from_pos(start, end).into(),
+                },
                 RawTokenKind::Await => Token::Word(Word::Keyword(Keyword::Await)),
                 RawTokenKind::Async => {
                     Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)))
@@ -615,7 +618,7 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::DollarLBrace => Token::DollarLBrace,
                 RawTokenKind::TemplateLiteral => Token::Template {
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
-                    cooked: match next_token.value.unwrap() {
+                    cooked: match raw_value.unwrap() {
                         crate::raw_lexer::RawTokenValue::String(atom) => Ok(atom),
                         crate::raw_lexer::RawTokenValue::Err(e) => Err(e),
                         crate::raw_lexer::RawTokenValue::Number(_) => {

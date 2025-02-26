@@ -2,6 +2,13 @@ use super::RawLexer;
 use crate::{error::SyntaxError, lexer::LexResult};
 
 impl RawLexer<'_> {
+    pub(super) fn parse_number(&self, start: u32) -> LexResult<f64> {
+        let s = self.str_from_start_to_current(start).replace("_", "");
+
+        s.parse::<f64>()
+            .or(self.error(start, self.offset(), SyntaxError::NumLitTerminatedWithExp))
+    }
+
     /// ```text
     /// NumericLiteralSeparator::
     ///     _
@@ -149,76 +156,75 @@ impl RawLexer<'_> {
             Some(b'.') => {
                 // consume .
                 self.consume_byte();
-                self.decimal_digits_after_dot(start)
+                self.decimal_literal_after_decimal_point()?;
             }
             Some(b'e' | b'E') => {
-                let s = self.str_from_start_to_current(start).replace("_", "");
-
-                let mut value = s.parse::<f64>().or(self.error(
-                    start,
-                    self.offset(),
-                    SyntaxError::NumLitTerminatedWithExp,
-                ))?;
-
-                let (sign, count) = self.exponent_part()?;
-
-                let weight = 10u32.pow(count) as f64;
-
-                if sign {
-                    value *= weight;
-                } else {
-                    value /= weight;
-                }
-                return Ok(value);
+                self.consume_byte();
+                self.signed_interger_after_exponenet_part()?;
             }
-            _ => {
-                let s = self.str_from_start_to_current(start).replace("_", "");
-
-                return s.parse::<f64>().or(self.error(
-                    start,
-                    self.offset(),
-                    SyntaxError::NumLitTerminatedWithExp,
-                ));
-            }
+            _ => {}
         }
+        self.parse_number(start)
     }
 
-    pub(super) fn decimal_digits_after_dot(&mut self, start: u32) -> LexResult<f64> {
-        let s = self.str_from_start_to_current(start).replace("_", "");
+    /// ```text
+    /// DecimalLiteral ::
+    ///     DecimalIntegerLiteral . DecimalDigits? ExponentPart?
+    ///     . DecimalDigits[+Sep] ExponentPart?
+    ///     DecimalIntegerLiteral ExponentPart?
+    /// ```
+    pub(super) fn decimal_literal_after_first_digit(&mut self) -> LexResult<()> {
+        self.decimal_digits_after_first_digit()?;
 
-        self.optional_decimal_digits()?;
-
-        let mut value = s.parse::<f64>().or(self.error(
-            start,
-            self.offset(),
-            SyntaxError::NumLitTerminatedWithExp,
-        ))?;
-
-        if matches!(self.peek_byte(), Some(b'e' | b'E')) {
-            let (sign, count) = self.exponent_part()?;
-            let weight = 10u32.pow(count) as f64;
-
-            if sign {
-                value *= weight;
-            } else {
-                value /= weight;
-            }
-            Ok(value)
-        } else {
-            Ok(value)
-        }
+        Ok(())
     }
 
-    fn optional_decimal_digits(&mut self) -> LexResult<()> {
+    /// ```text
+    /// DecimalDigits ::
+    ///     DecimalDigit
+    ///     DecimalDigits DecimalDigit
+    ///     DecimalDigits NumericLiteralSeparator DecimalDigit
+    ///
+    /// DecimalDigit :: one of
+    ///     0 1 2 3 4 5 6 7 8 9
+    /// ```
+    fn decimal_digits(&mut self) -> LexResult<()> {
+        let start = self.offset();
+
         if let Some(b'0'..=b'9') = self.peek_byte() {
             self.consume_byte();
         } else {
-            return Ok(());
+            return self.error(start, self.offset(), SyntaxError::NumLitTerminatedWithExp);
         }
 
         self.decimal_digits_after_first_digit()
     }
 
+    /// ```text
+    /// DecimalLiteral ::
+    ///     DecimalIntegerLiteral . DecimalDigits? ExponentPart?
+    /// ```
+    pub(super) fn decimal_literal_after_decimal_point(&mut self) -> LexResult<()> {
+        // The parts after `.` in
+        //
+        //     `.` DecimalDigits? ExponentPart?
+        self.optional_decimal_digits()?;
+        self.optional_exponent()?;
+        Ok(())
+    }
+
+    fn optional_decimal_digits(&mut self) -> LexResult<()> {
+        if matches!(self.peek_byte(), Some(b'0'..=b'9')) {
+            self.decimal_digits()
+        } else {
+            Ok(())
+        }
+    }
+
+    /// ```text
+    /// DecimalIntegerLiteral ::
+    ///     NonZeroDigit NumericLiteralSeparator(opt) DecimalDigits
+    /// ```
     fn decimal_digits_after_first_digit(&mut self) -> LexResult<()> {
         let start = self.offset();
         while let Some(next) = self.peek_byte() {
@@ -246,69 +252,35 @@ impl RawLexer<'_> {
         Ok(())
     }
 
-    /// Parses the exponent part of a number in JavaScript syntax.
-    /// Consumes the exponent indicator ('e' or 'E'), then the sign of the
-    /// exponent (+ or -), and finally the decimal digits of the exponent.
-    /// Returns a tuple indicating the sign of the exponent and the value
-    /// of the exponent.
-    ///
-    /// ## Example
-    /// Returns (bool, u32) indicating `+, -` and DecimalDigits
-    ///
-    /// (true, 13) -> +13
-    ///
-    /// (false, 14) -> -14
-    pub(super) fn exponent_part(&mut self) -> LexResult<(bool, u32)> {
-        // Consume 'e' or 'E'
-        let exponent_indicator = self.next_byte();
+    /// ```text
+    /// 
+    /// ExponentPart ::
+    ///     ExponentIndicator SignedInteger
+    /// ExponentIndicator :: one of
+    ///     e E
+    /// ```
+    fn optional_exponent(&mut self) -> LexResult<bool> {
+        if matches!(self.peek_byte(), Some(b'e' | b'E')) {
+            self.consume_byte();
+            self.signed_interger_after_exponenet_part()?;
+            Ok(true)
+        } else {
+            Ok(false)
+        }
+    }
 
-        assert!(exponent_indicator == Some(b'e') || exponent_indicator == Some(b'E'));
-
-        let start = self.offset();
-
-        let sign = match self.next_byte() {
-            Some(b'+') => true,
-            Some(b'-') => false,
-            _ => {
-                return self
-                    .error_with_single_byte(self.offset(), SyntaxError::InvalidNameInUsingDecl)
-            }
-        };
-
-        // First byte must be 0..=9
-        let mut value = match self.next_byte() {
-            Some(b'0'..=b'9') => (self.next_byte().unwrap() - b'0') as u32,
-            _ => {
-                return self
-                    .error_with_single_byte(self.offset(), SyntaxError::InvalidNameInUsingDecl)
-            }
-        };
-
-        loop {
-            match self.peek_byte() {
-                Some(b'_') => {
-                    if matches!(self.peek_byte(), Some(b'0'..=b'9')) {
-                        self.consume_byte();
-                    } else {
-                        return self.error(
-                            start,
-                            self.offset(),
-                            SyntaxError::InvalidNameInUsingDecl,
-                        );
-                    }
-                }
-                Some(b'0'..=b'9') => {
-                    let next_decimal = (self.next_byte().unwrap() - b'0') as u32;
-
-                    value = value * 10 + next_decimal;
-                }
-                Some(b'n') => {
-                    return self.error(start, self.offset(), SyntaxError::InvalidNameInUsingDecl)
-                }
-                _ => break,
-            }
+    /// ```text
+    /// 
+    /// SignedInteger ::
+    ///     DecimalDigits
+    ///     + DecimalDigits
+    ///     - DecimalDigits
+    /// ```
+    fn signed_interger_after_exponenet_part(&mut self) -> LexResult<()> {
+        if matches!(self.peek_byte(), Some(b'+' | b'-')) {
+            self.consume_byte();
         }
 
-        Ok((sign, value))
+        self.decimal_digits()
     }
 }

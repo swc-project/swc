@@ -39,6 +39,7 @@ impl<'source> Source<'source> {
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the byte at the current position, increments the position
     /// by one, and returns the byte.
+    #[inline(always)]
     fn next_byte(&mut self) -> Option<u8> {
         if self.is_eof() {
             None
@@ -53,6 +54,7 @@ impl<'source> Source<'source> {
     ///
     /// This method checks if the current position is less than the end
     /// position. If it is, it increments the position by one.
+    #[inline(always)]
     fn consume_byte(&mut self) -> bool {
         if self.pos < self.end {
             self.pos = self.pos.add(1);
@@ -67,6 +69,7 @@ impl<'source> Source<'source> {
     /// This method checks if the current position plus `n` is less than the end
     /// position. If it is, it increments the position by `n` and returns
     /// `true`. Otherwise, it returns `false`.
+    #[inline(always)]
     fn consume_n_byte(&mut self, n: u32) -> bool {
         if self.pos.add(n) < self.end {
             self.pos = self.pos.add(n);
@@ -81,6 +84,7 @@ impl<'source> Source<'source> {
     ///
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the byte at the current position.
+    #[inline(always)]
     fn peek_byte(&self) -> Option<u8> {
         if self.is_eof() {
             None
@@ -95,6 +99,7 @@ impl<'source> Source<'source> {
     /// This method is not implemented yet. It should return the next two bytes
     /// as a `u8` if they are available, or `None` if the source has
     /// reached the end (EOF).
+    #[inline(always)]
     fn peek_2_byte(&self) -> Option<u8> {
         if self.pos.add(1) >= self.end {
             None
@@ -109,6 +114,7 @@ impl<'source> Source<'source> {
     /// This method checks if the current position plus `n` is beyond the end
     /// position. If it is, it returns `None`. Otherwise, it returns the byte
     /// at the position `n` bytes ahead.
+    #[inline(always)]
     fn peek_n_byte(&self, n: u32) -> Option<u8> {
         if self.pos.add(n) >= self.end {
             None
@@ -128,7 +134,7 @@ impl<'source> Source<'source> {
     /// `true`. Otherwise, it returns `false`.
     #[inline(always)]
     pub fn is_eof(&self) -> bool {
-        self.pos == self.end
+        self.pos >= self.end
     }
 
     /// Advances the source position by the length of the next character and
@@ -137,42 +143,35 @@ impl<'source> Source<'source> {
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the next character, advances the position by the length
     /// of the character in UTF-8, and returns the character.
+    #[inline(always)]
     fn next_char(&mut self) -> Option<char> {
-        if self.is_eof() {
-            None
-        } else {
-            let next_byte = self.peek_byte()?;
-
+        self.peek_byte().and_then(|next_byte| {
             if next_byte.is_ascii() {
                 self.pos = self.pos.add(1);
 
                 return Some(next_byte as char);
             }
 
-            let remain = self.remainder();
-
-            remain.chars().next().and_then(|ch| {
+            self.remainder().chars().next().and_then(|ch| {
                 self.pos += ch.len_utf8() as u32;
                 Some(ch)
             })
-        }
+        })
     }
 
     /// Returns the next character without advancing the source position.
     ///
     /// If the source has reached the end (EOF), it returns `None`. Otherwise,
     /// it returns the next character.
+    #[inline(always)]
     fn peek_char(&self) -> Option<char> {
-        if self.is_eof() {
-            None
-        } else {
-            let next_byte = self.peek_byte()?;
+        self.peek_byte().and_then(|next_byte| {
             if next_byte.is_ascii() {
                 return Some(next_byte as char);
             }
 
             self.remainder().chars().next()
-        }
+        })
     }
 
     /// Peeks two characters ahead without advancing the source position.
@@ -181,6 +180,7 @@ impl<'source> Source<'source> {
     /// is at least one more character ahead. If the source has reached the
     /// end (EOF), it returns `None`. Otherwise, it returns the second
     /// character.
+    #[inline(always)]
     fn peek_2_char(&self) -> Option<char> {
         if self.pos.add(1) >= self.end {
             None
@@ -195,6 +195,7 @@ impl<'source> Source<'source> {
     /// This method returns a string slice starting from the current position to
     /// the end of the source. It uses `std::str::from_utf8_unchecked` to
     /// convert the byte slice to a string slice.
+    #[inline(always)]
     fn remainder(&self) -> &str {
         let start = self.pos;
 
@@ -212,6 +213,7 @@ impl<'source> Source<'source> {
     }
 
     /// Consumes the next character from the source and returns true if
+    #[inline(always)]
     fn consume_until(&mut self, f: impl Fn(char) -> bool) -> &str {
         let start = self.pos;
         while let Some(ch) = self.next_char() {
@@ -261,11 +263,13 @@ impl<'source> Source<'source> {
 impl RawLexer<'_> {
     /// Returns the byte at the current position without advancing the source
     /// position.
+    #[inline(always)]
     pub(super) fn peek_byte(&self) -> Option<u8> {
         self.source.peek_byte()
     }
 
     /// Peeks two bytes ahead without advancing the source position.
+    #[inline(always)]
     pub(super) fn peek_2_byte(&self) -> Option<u8> {
         self.source.peek_2_byte()
     }
@@ -274,6 +278,7 @@ impl RawLexer<'_> {
     ///
     /// It returns the character at the next position
     /// if it exists, otherwise returns `None`.
+    #[inline(always)]
     pub(super) fn peek_char(&self) -> Option<char> {
         self.source.peek_char()
     }
@@ -282,6 +287,7 @@ impl RawLexer<'_> {
     ///
     /// It returns the character at the second
     /// position ahead if it exists, otherwise returns `None`.
+    #[inline(always)]
     pub(super) fn peek_2_char(&self) -> Option<char> {
         self.source.peek_2_char()
     }
@@ -296,6 +302,7 @@ impl RawLexer<'_> {
     /// This method attempts to consume the next character from the source. If a
     /// character is successfully consumed, it returns `Some(char)`. If the
     /// source has reached the end (EOF), it returns `None`.
+    #[inline(always)]
     pub(super) fn next_char(&mut self) -> Option<char> {
         self.source.next_char()
     }
@@ -305,12 +312,14 @@ impl RawLexer<'_> {
     /// This method peeks ahead `n` bytes in the source without advancing the
     /// current position. It returns the byte at the `n`th position ahead if
     /// it exists, otherwise returns `None`.
+    #[inline(always)]
     pub(super) fn peek_n_byte(&self, n: u32) -> Option<u8> {
         self.source.peek_n_byte(n)
     }
 
     /// Advances the source position by one byte and returns the byte at the old
     /// position.
+    #[inline(always)]
     pub(super) fn next_byte(&mut self) -> Option<u8> {
         self.source.next_byte()
     }
@@ -320,11 +329,13 @@ impl RawLexer<'_> {
     /// This method checks if the current position plus `n` is less than the end
     /// position. If it is, it increments the position by `n` and returns
     /// `true`. Otherwise, it returns `false`.
+    #[inline(always)]
     pub(super) fn consume_n_byte(&mut self, n: u32) -> bool {
         self.source.consume_n_byte(n)
     }
 
     /// Advances the source position by the length of the next character and
+    #[inline(always)]
     pub(super) fn consume_until(&mut self, f: impl Fn(char) -> bool) -> &str {
         self.source.consume_until(f)
     }
@@ -340,6 +351,7 @@ impl RawLexer<'_> {
     /// This method attempts to consume the next byte from the source. If a byte
     /// is successfully consumed, it returns `true`. If the source has
     /// reached the end (EOF), it returns `false`.
+    #[inline(always)]
     pub(super) fn consume_byte(&mut self) -> bool {
         self.source.consume_byte()
     }
@@ -367,6 +379,7 @@ impl RawLexer<'_> {
         self.source.str_from_pos(start, end)
     }
 
+    #[inline(always)]
     pub fn consume_single_line(&mut self) -> &str {
         self.token.is_on_new_line = true;
         let line = self.consume_until(|ch| matches!(ch, LF | CR | LS | PS));

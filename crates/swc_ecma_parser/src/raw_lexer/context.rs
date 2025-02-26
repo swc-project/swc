@@ -13,6 +13,7 @@ pub enum RawLexerContext {
 
 impl RawLexer<'_> {
     pub(super) fn handler_from_byte(&self, byte: u8) -> ByteHandler {
+        // TODO: perf improvement by using array
         match self.context {
             RawLexerContext::JsLiteral => primary::handler_from_byte(byte),
             RawLexerContext::JsTemplateLiteral => template::handler_for_byte,

@@ -500,10 +500,9 @@ pub enum RawTokenValue {
 }
 
 impl RawTokenValue {
-    pub fn as_string(&self) -> Option<Atom> {
+    pub fn as_string(self) -> Option<Atom> {
         match self {
-            // TODO:"Remove Clone
-            RawTokenValue::String(atom) => Some(atom.clone()),
+            RawTokenValue::String(atom) => Some(atom),
             _ => None,
         }
     }

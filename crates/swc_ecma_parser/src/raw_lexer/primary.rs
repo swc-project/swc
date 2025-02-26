@@ -284,14 +284,24 @@ const COM: ByteHandler = |lex| {
 
 /// '.'
 const PRD: ByteHandler = |lex| {
+    let start = lex.offset();
     lex.consume_byte();
 
-    if lex.peek_byte() == Some(b'.') && lex.peek_2_byte() == Some(b'.') {
-        lex.consume_byte();
-        lex.consume_byte();
-        Ok(RawTokenKind::DotDotDot)
-    } else {
-        Ok(RawTokenKind::Dot)
+    match lex.peek_byte() {
+        Some(b'.') if matches!(lex.peek_2_byte(), Some(b'.')) => {
+            lex.consume_n_byte(2);
+            Ok(RawTokenKind::DotDotDot)
+        }
+        Some(b'0'..=b'9') => {
+            lex.decimal_literal_after_decimal_point()?;
+
+            let value = lex.parse_number(start)?;
+
+            lex.token.value = Some(RawTokenValue::Number(value));
+
+            Ok(RawTokenKind::Num)
+        }
+        _ => Ok(RawTokenKind::Dot),
     }
 };
 
@@ -314,28 +324,34 @@ const SLH: ByteHandler = |lex| {
 
 /// '0'
 const ZER: ByteHandler = |lex| {
-    // peek_byte must be '0';
-    let value = match lex.peek_2_byte() {
+    let start = lex.offset();
+    // consume '0' byte
+    lex.consume_byte();
+    let value = match lex.peek_byte() {
         Some(b'b' | b'B') => {
-            lex.consume_n_byte(2);
+            lex.consume_byte();
 
             lex.read_binary()
         }
         Some(b'o' | b'O') => {
-            lex.consume_n_byte(2);
+            lex.consume_byte();
 
             lex.read_octal()
         }
         Some(b'x' | b'X') => {
-            lex.consume_n_byte(2);
+            lex.consume_byte();
 
             lex.read_hex()
         }
-        Some(b'.') => lex.decimal_literal(),
-        _ => {
+        Some(b'.') => {
             lex.consume_byte();
-            Ok(0.0)
+            lex.decimal_literal_after_decimal_point()?;
+            lex.parse_number(start)
         }
+        Some(b'0'..=b'9') => {
+            todo!("LegacyOctalIntegerLiteral")
+        }
+        _ => Ok(0.0),
     }?;
 
     lex.token.value = Some(RawTokenValue::Number(value));
