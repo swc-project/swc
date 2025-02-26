@@ -975,16 +975,8 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
-                Pat::Array(..)
-                | Pat::Ident(BindingIdent {
-                    ref mut type_ann, ..
-                })
-                | Pat::Object(ObjectPat {
-                    ref mut type_ann, ..
-                })
-                | Pat::Rest(RestPat {
-                    ref mut type_ann, ..
-                }) => {
+                Pat::Array(..) | Pat::Ident(..) | Pat::Object(..) | Pat::Rest(..) => {
+                    let (type_ann, _span) = self.get_type_ann_and_span_of_pat(&mut name).unwrap();
                     *type_ann = type_annotation;
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
