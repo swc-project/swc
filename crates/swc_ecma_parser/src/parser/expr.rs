@@ -11,6 +11,29 @@ mod tests;
 mod verifier;
 
 impl<I: Tokens> Parser<I> {
+    fn get_type_ann_and_span_of_pat<'a>(
+        &self,
+        pat: &'a mut Pat,
+    ) -> Option<(&'a mut Option<Box<TsTypeAnn>>, &'a mut Span)> {
+        match pat {
+            Pat::Ident(BindingIdent {
+                id: Ident { span, .. },
+                type_ann,
+                ..
+            }) => Some((type_ann, span)),
+            Pat::Array(boxed) => {
+                let ArrayPat { type_ann, span, .. } = &mut **boxed;
+                Some((type_ann, span))
+            }
+            Pat::Object(boxed) => {
+                let ObjectPat { type_ann, span, .. } = &mut **boxed;
+                Some((type_ann, span))
+            }
+            Pat::Rest(RestPat { type_ann, span, .. }) => Some((type_ann, span)),
+            _ => None,
+        }
+    }
+
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
@@ -1867,42 +1890,12 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into();
                 }
-                match pat {
-                    Pat::Ident(BindingIdent {
-                        id: Ident { ref mut span, .. },
-                        ref mut type_ann,
-                        ..
-                    })
-                    | Pat::Array(ArrayPat {
-                        ref mut type_ann,
-                        ref mut span,
-                        ..
-                    })
-                    | Pat::Object(ObjectPat {
-                        ref mut type_ann,
-                        ref mut span,
-                        ..
-                    })
-                    | Pat::Rest(RestPat {
-                        ref mut type_ann,
-                        ref mut span,
-                        ..
-                    }) => {
-                        let new_type_ann = self.try_parse_ts_type_ann()?;
-                        if new_type_ann.is_some() {
-                            *span = Span::new(pat_start, self.input.prev_span().hi);
-                        }
-                        *type_ann = new_type_ann;
+                if let Some((type_ann, span)) = self.get_type_ann_and_span_of_pat(&mut pat) {
+                    let new_type_ann = self.try_parse_ts_type_ann()?;
+                    if new_type_ann.is_some() {
+                        *span = Span::new(pat_start, self.input.prev_span().hi);
                     }
-                    Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Assign(..) | Pat::Invalid(..) => {
-                        // We don't have to panic here.
-                        // See: https://github.com/swc-project/swc/issues/1170
-                        //
-                        // Also, as an exact error is added to the errors while
-                        // creating `Invalid`, we don't have to emit a new
-                        // error.
-                    }
+                    *type_ann = new_type_ann;
                 }
 
                 if eat!(self, '=') {
