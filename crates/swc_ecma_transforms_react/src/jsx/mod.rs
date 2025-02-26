@@ -136,7 +136,7 @@ pub fn parse_expr_for_jsx(
     name: &str,
     src: Lrc<String>,
     top_level_mark: Mark,
-) -> Lrc<Box<Expr>> {
+) -> Box<Expr> {
     let fm = cm.new_source_file_from(
         FileName::Internal(format!("jsx-config-{}.js", name)).into(),
         src,
@@ -163,7 +163,6 @@ pub fn parse_expr_for_jsx(
         apply_mark(&mut expr, top_level_mark);
         expr
     })
-    .map(Lrc::new)
     .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
@@ -225,19 +224,19 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        pragma: parse_expr_for_jsx(
+        pragma: Lrc::new(parse_expr_for_jsx(
             &cm,
             "pragma",
             options.pragma.unwrap_or_else(default_pragma),
             top_level_mark,
-        ),
+        )),
         comments,
-        pragma_frag: parse_expr_for_jsx(
+        pragma_frag: Lrc::new(parse_expr_for_jsx(
             &cm,
             "pragmaFrag",
             options.pragma_frag.unwrap_or_else(default_pragma_frag),
             top_level_mark,
-        ),
+        )),
         development: options.development.unwrap_or_default(),
         throw_if_namespace: options
             .throw_if_namespace
@@ -360,13 +359,12 @@ impl JsxDirectives {
                             if let Some(src) = val {
                                 if is_valid_for_pragma(src) {
                                     // TODO: Optimize
-                                    let mut e = (*parse_expr_for_jsx(
+                                    let mut e = parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma-frag",
                                         cache_source(src),
                                         top_level_mark,
-                                    ))
-                                    .clone();
+                                    );
                                     respan(&mut e, cmt.span);
                                     res.pragma_frag = Some(e.into())
                                 }
@@ -376,13 +374,12 @@ impl JsxDirectives {
                             if let Some(src) = val {
                                 if is_valid_for_pragma(src) {
                                     // TODO: Optimize
-                                    let mut e = (*parse_expr_for_jsx(
+                                    let mut e = parse_expr_for_jsx(
                                         cm,
                                         "module-jsx-pragma",
                                         cache_source(src),
                                         top_level_mark,
-                                    ))
-                                    .clone();
+                                    );
                                     respan(&mut e, cmt.span);
                                     res.pragma = Some(e.into());
                                 }
