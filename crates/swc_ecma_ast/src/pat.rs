@@ -83,6 +83,9 @@ pat_to_other!(AssignPat);
 pat_to_other!(RestPat);
 pat_to_other!(Box<Expr>);
 
+bridge_from!(Pat, Box<ArrayPat>, ArrayPat);
+bridge_from!(Pat, Box<ObjectPat>, ObjectPat);
+
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
