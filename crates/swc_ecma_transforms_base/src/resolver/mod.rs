@@ -643,6 +643,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        if n.declare && !self.config.handle_types {
+            return;
+        }
         self.modify(&mut n.ident, DeclKind::Lexical);
 
         n.class.decorators.visit_mut_with(self);
@@ -809,6 +812,10 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        if node.declare && !self.config.handle_types {
+            return;
+        }
+
         // We don't fold ident as Hoister handles this.
         node.function.decorators.visit_mut_with(self);
 
@@ -1235,6 +1242,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
@@ -1365,6 +1375,10 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+
         match &mut decl.id {
             TsModuleName::Ident(i) => {
                 self.modify(i, DeclKind::Lexical);
@@ -1380,6 +1394,10 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
+        if n.declare && !self.config.handle_types {
+            return;
+        }
+
         self.modify(&mut n.id, DeclKind::Lexical);
 
         n.body.visit_mut_with(self);
@@ -1492,7 +1510,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
-        if decl.declare {
+        if decl.declare && !self.config.handle_types {
             return;
         }
 
@@ -1648,6 +1666,9 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if node.declare && !self.resolver.config.handle_types {
+            return;
+        }
         if self.in_block {
             return;
         }
@@ -1748,6 +1769,10 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        if node.declare && !self.resolver.config.handle_types {
+            return;
+        }
+
         if self.catch_param_decls.contains(&node.ident.sym) {
             return;
         }
@@ -1852,7 +1877,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        if node.declare {
+        if node.declare && !self.resolver.config.handle_types {
             return;
         }
 

@@ -199,9 +199,8 @@ var Animal = /*#__PURE__*/ function(Animal) {
     return Animal;
 }(Animal || {});
 function expression() {
-    var _zoo;
     var _zoo_animal;
-    switch((_zoo_animal = (_zoo = zoo) === null || _zoo === void 0 ? void 0 : _zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : 0){
+    switch((_zoo_animal = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : 0){
         case 0:
             return 0;
         case 1:
