@@ -149,14 +149,18 @@ impl NoUseBeforeDefine {
             Pat::Ident(id) => {
                 self.check_ident(es6_var_check, &Ident::from(id));
             }
-            Pat::Array(ArrayPat { elems, .. }) => {
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
+
                 elems.iter().for_each(|elem| {
                     if let Some(elem) = elem {
                         self.check_pat(es6_var_check, elem);
                     }
                 });
             }
-            Pat::Object(ObjectPat { props, .. }) => {
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
                 props.iter().for_each(|prop| match prop {
                     ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                         self.check_ident(es6_var_check, &Ident::from(key));
