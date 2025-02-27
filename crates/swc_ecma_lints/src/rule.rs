@@ -1,7 +1,11 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, mem::take, sync::Arc};
 
 use auto_impl::auto_impl;
-use swc_common::{errors::HANDLER, GLOBALS};
+use parking_lot::Mutex;
+use swc_common::{
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
+    GLOBALS,
+};
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_parallel::join;
@@ -75,7 +79,36 @@ fn lint_rules<N: LintNode<R>, R: Rule>(rules: &mut Vec<R>, program: &N) {
             program.lint(rule);
         }
     } else {
-        join_lint_rules(rules, program);
+        let capturing = Capturing::default();
+
+        {
+            HANDLER.set(
+                &Handler::with_emitter(true, false, Box::new(capturing.clone())),
+                || {
+                    join_lint_rules(rules, program);
+                },
+            );
+
+            let mut errors = take(&mut *capturing.errors.lock());
+            errors.sort_by_key(|error| error.span.primary_span());
+
+            HANDLER.with(|handler| {
+                for error in errors {
+                    DiagnosticBuilder::new_diagnostic(handler, error).emit();
+                }
+            });
+        }
+    }
+}
+
+#[derive(Default, Clone)]
+struct Capturing {
+    errors: Arc<Mutex<Vec<Diagnostic>>>,
+}
+
+impl Emitter for Capturing {
+    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
+        self.errors.lock().push((**db).clone());
     }
 }
 

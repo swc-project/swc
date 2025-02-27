@@ -140,7 +140,7 @@
  27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
  28 | 
  29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
-    :                                 ^^^^^^^^^^^^^^
+    :      ^^^^^^^^^^^^^^
  30 | 
  31 | foo['hasOwnProperty']('bar');
     `----
@@ -150,7 +150,7 @@
  27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
  28 | 
  29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
-    :      ^^^^^^^^^^^^^^
+    :                                 ^^^^^^^^^^^^^^
  30 | 
  31 | foo['hasOwnProperty']('bar');
     `----

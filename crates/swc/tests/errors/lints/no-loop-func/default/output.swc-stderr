@@ -1,37 +1,3 @@
-  x the name `a` is defined multiple times
-    ,-[36:1]
- 33 | }
- 34 | 
- 35 | // Not ok
- 36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
-    :     |
-    :     `-- previous definition of `a` here
- 37 | 
- 38 | // interview example =)
- 39 | for (var i = 0; i < 10; i++) {
- 40 |     setTimeout(() => {
- 41 |         console.log(i);
- 42 |     })
- 43 | }
- 44 | 
- 45 | // it's ok
- 46 | while (cond) {
- 47 |     let x = 10;
- 48 | 
- 49 |     function ee() {
- 50 |         alert(x);
- 51 |     }
- 52 | }
- 53 | 
- 54 | // not ok
- 55 | while (true) {
- 56 |     var a = 0;
-    :         |
-    :         `-- `a` redefined here
- 57 | 
- 58 |     while (true) {
- 59 |         setTimeout(() => {
-    `----
   x Function declared in a loop contains unsafe references to variable i
     ,-[9:1]
   6 |     
@@ -76,6 +42,40 @@
  43 |     }
  44 |     
  45 |     // it's ok
+    `----
+  x the name `a` is defined multiple times
+    ,-[36:1]
+ 33 | }
+ 34 | 
+ 35 | // Not ok
+ 36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
+    :     |
+    :     `-- previous definition of `a` here
+ 37 | 
+ 38 | // interview example =)
+ 39 | for (var i = 0; i < 10; i++) {
+ 40 |     setTimeout(() => {
+ 41 |         console.log(i);
+ 42 |     })
+ 43 | }
+ 44 | 
+ 45 | // it's ok
+ 46 | while (cond) {
+ 47 |     let x = 10;
+ 48 | 
+ 49 |     function ee() {
+ 50 |         alert(x);
+ 51 |     }
+ 52 | }
+ 53 | 
+ 54 | // not ok
+ 55 | while (true) {
+ 56 |     var a = 0;
+    :         |
+    :         `-- `a` redefined here
+ 57 | 
+ 58 |     while (true) {
+ 59 |         setTimeout(() => {
     `----
   x Function declared in a loop contains unsafe references to variable a
     ,-[59:1]
