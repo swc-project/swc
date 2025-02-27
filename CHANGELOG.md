@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.4] - 2025-02-27
 
 ### Bug Fixes
 
@@ -1723,9 +1723,6 @@
 
 ### Performance
 
-
-
-- **(allocator)** Drop `scoped_tls` ([#9240](https://github.com/swc-project/swc/issues/9240)) ([4ce2514](https://github.com/swc-project/swc/commit/4ce2514d1bbf1be3972cd620c3a5f6ffd25ffa9d))
 
 
 - **(es/codegen)** Use scoped allocator ([#9248](https://github.com/swc-project/swc/issues/9248)) ([970f323](https://github.com/swc-project/swc/commit/970f32398c6ff444540a31e1172a33b6155ed18b))
