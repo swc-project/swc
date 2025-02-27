@@ -32,7 +32,7 @@ swc_css_ast = { version = "8.0.0", path = "../swc_css_ast", features = [
   "serde-impl",
 ] }
 swc_css_visit = { version = "8.0.0", path = "../swc_css_visit" }
-swc_malloc = { version = "1.1.0", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.0", path = "../swc_malloc" }
 testing = { version = "8.0.0", path = "../testing" }
 
 [[bench]]
