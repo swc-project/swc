@@ -1957,39 +1957,30 @@ impl VisitMut for Hoister<'_, '_> {
     /// that there is already an global declaration of Ic when deal with the try
     /// block.
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let others = items
-            .iter_mut()
-            .filter_map(|item| match item {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(v),
+        items.iter_mut().for_each(|item| match item {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(v),
+                ..
+            })) if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
                     ..
-                })) if matches!(
-                    &**v,
-                    VarDecl {
-                        kind: VarDeclKind::Var,
-                        ..
-                    }
-                ) =>
-                {
-                    item.visit_mut_with(self);
-                    None
                 }
+            ) =>
+            {
+                item.visit_mut_with(self);
+            }
 
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Fn(..),
-                    ..
-                })) => {
-                    item.visit_mut_with(self);
-                    None
-                }
-                _ => Some(item),
-            })
-            .collect::<Vec<_>>();
-
-        others.into_iter().for_each(|item| {
-            item.visit_mut_with(self);
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Fn(..),
+                ..
+            })) => {
+                item.visit_mut_with(self);
+            }
+            _ => item.visit_mut_with(self),
         });
     }
 
