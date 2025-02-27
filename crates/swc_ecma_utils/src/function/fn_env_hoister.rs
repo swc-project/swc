@@ -464,19 +464,24 @@ impl VisitMut for FnEnvHoister {
                 e.visit_mut_children_with(self)
             }
             // super.foo() => super_get_foo = () => super.foo
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(expr),
-                args,
-                ..
-            }) => {
+            Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+                let CallExpr {
+                    span,
+                    args,
+                    callee: Callee::Expr(expr),
+                    ..
+                } = &mut **call
+                else {
+                    unreachable!()
+                };
+
                 if !self.super_disabled {
                     if let Expr::SuperProp(super_prop) = &mut **expr {
                         match &mut super_prop.prop {
                             SuperProp::Computed(c) => {
                                 let callee = self.super_get_computed(super_prop.span);
                                 let call: Expr = CallExpr {
-                                    span: *span,
+                                    span: super_prop.span,
                                     args: vec![c.expr.take().as_arg()],
                                     callee: callee.as_callee(),
                                     ..Default::default()
@@ -610,31 +615,28 @@ impl VisitMut for InitThis<'_> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Call(
-            call_expr @ CallExpr {
-                callee: Callee::Super(..),
-                ..
-            },
-        ) = expr
-        {
-            let span = call_expr.span;
-            *expr = ParenExpr {
-                span,
-                expr: SeqExpr {
+        match expr {
+            Expr::Call(call) if matches!(call.callee, Callee::Super(..)) => {
+                let span = call.span;
+                *expr = ParenExpr {
                     span,
-                    exprs: vec![
-                        Box::new(Expr::Call(call_expr.take())),
-                        Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            left: self.this_id.clone().into(),
-                            op: AssignOp::Assign,
-                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                        })),
-                    ],
+                    expr: SeqExpr {
+                        span,
+                        exprs: vec![
+                            Box::new(Expr::Call(call.take())),
+                            Box::new(Expr::Assign(Box::new(AssignExpr {
+                                span: DUMMY_SP,
+                                left: self.this_id.clone().into(),
+                                op: AssignOp::Assign,
+                                right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            }))),
+                        ],
+                    }
+                    .into(),
                 }
-                .into(),
+                .into()
             }
-            .into()
+            _ => (),
         }
     }
 }
