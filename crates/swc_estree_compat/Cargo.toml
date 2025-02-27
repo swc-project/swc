@@ -41,7 +41,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "16.0.0", path = "../swc" }
+swc                 = { version = "16.1.0", path = "../swc" }
 swc_ecma_ast        = { version = "8.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "10.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms/" }

@@ -30,7 +30,7 @@ serde_json = { workspace = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.0", path = "../string_enum" }
-swc = { version = "16.0.0", path = "../swc" }
+swc = { version = "16.1.0", path = "../swc" }
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
 swc_bundler = { version = "11.0.0", path = "../swc_bundler", features = [
   "concurrent",
@@ -45,7 +45,7 @@ swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
+swc_malloc = { version = "1.1.0", path = "../swc_malloc" }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }
