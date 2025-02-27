@@ -381,13 +381,8 @@ impl VisitMut for FnEnvHoister {
                 *e = target.clone().into();
             }
             // super.foo = 123 => super_get_foo = (value) => super.foo = value
-            Expr::Assign(AssignExpr {
-                left,
-                right,
-                span,
-                op,
-            }) => {
-                let expr = match left {
+            Expr::Assign(assign) => {
+                let expr = match &mut assign.left {
                     AssignTarget::Simple(e) => e,
                     AssignTarget::Pat(..) => {
                         e.visit_mut_children_with(self);
@@ -401,39 +396,39 @@ impl VisitMut for FnEnvHoister {
                             SuperProp::Computed(c) => {
                                 let callee = self.super_set_computed(left_span);
 
-                                let op = op.to_update();
+                                let op = assign.op.to_update();
 
                                 let args = if let Some(op) = op {
                                     let tmp = private_ident!("tmp");
                                     self.extra_ident.push(tmp.clone());
                                     vec![
-                                        Expr::Assign(AssignExpr {
+                                        Expr::Assign(Box::new(AssignExpr {
                                             span: DUMMY_SP,
                                             left: tmp.clone().into(),
                                             op: op!("="),
                                             right: c.expr.take(),
-                                        })
+                                        }))
                                         .as_arg(),
                                         Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
-                                            left: Box::new(Expr::Call(CallExpr {
+                                            left: Box::new(Expr::Call(Box::new(CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: self
                                                     .super_get_computed(DUMMY_SP)
                                                     .as_callee(),
                                                 args: vec![tmp.as_arg()],
                                                 ..Default::default()
-                                            })),
+                                            }))),
                                             op,
-                                            right: right.take(),
+                                            right: assign.right.take(),
                                         })
                                         .as_arg(),
                                     ]
                                 } else {
-                                    vec![c.expr.take().as_arg(), right.take().as_arg()]
+                                    vec![c.expr.take().as_arg(), assign.right.take().as_arg()]
                                 };
                                 *e = CallExpr {
-                                    span: *span,
+                                    span: assign.span,
                                     args,
                                     callee: callee.as_callee(),
                                     ..Default::default()
@@ -443,8 +438,8 @@ impl VisitMut for FnEnvHoister {
                             SuperProp::Ident(id) => {
                                 let callee = self.super_set(&id.sym, left_span);
                                 *e = CallExpr {
-                                    span: *span,
-                                    args: vec![(if let Some(op) = op.to_update() {
+                                    span: assign.span,
+                                    args: vec![(if let Some(op) = assign.op.to_update() {
                                         Box::new(Expr::Bin(BinExpr {
                                             span: DUMMY_SP,
                                             left: Box::new(
@@ -452,10 +447,10 @@ impl VisitMut for FnEnvHoister {
                                                     .as_call(id.span, Vec::new()),
                                             ),
                                             op,
-                                            right: right.take(),
+                                            right: assign.right.take(),
                                         }))
                                     } else {
-                                        right.take()
+                                        assign.right.take()
                                     })
                                     .as_arg()],
                                     callee: callee.as_callee(),
