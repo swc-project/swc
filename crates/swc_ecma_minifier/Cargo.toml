@@ -81,7 +81,7 @@ walkdir           = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 swc_allocator             = { version = "4.0.0", path = "../swc_allocator" }
 swc_ecma_testing          = { version = "8.0.0", path = "../swc_ecma_testing" }
-swc_malloc                = { version = "1.2.0", path = "../swc_malloc" }
+swc_malloc                = { version = "1.2.1", path = "../swc_malloc" }
 testing                   = { version = "8.0.0", path = "../testing" }
 
 [[bench]]

@@ -43,7 +43,7 @@ rayon                     = { workspace = true }
 
 swc_ecma_codegen           = { version = "8.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "1.0.0", path = "../swc_ecma_transforms_macros" }
-swc_malloc                 = { version = "1.2.0", path = "../swc_malloc" }
+swc_malloc                 = { version = "1.2.1", path = "../swc_malloc" }
 testing                    = { version = "8.0.0", path = "../testing" }
 
 [[bench]]
