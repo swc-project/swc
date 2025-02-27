@@ -82,12 +82,12 @@ fn regex_multi_line_comment_with_lines() {
 fn arrow_assign() {
     assert_eq_ignore_span!(
         expr("a = b => false"),
-        Box::new(Expr::Assign(AssignExpr {
+        Box::new(Expr::Assign(Box::new(AssignExpr {
             span,
             left: Ident::new_no_ctxt("a".into(), span).into(),
             op: op!("="),
             right: expr("b => false"),
-        }))
+        })))
     );
 }
 
@@ -95,12 +95,12 @@ fn arrow_assign() {
 fn async_call() {
     assert_eq_ignore_span!(
         expr("async()"),
-        Box::new(Expr::Call(CallExpr {
+        Box::new(Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("async")),
             args: Vec::new(),
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -108,14 +108,14 @@ fn async_call() {
 fn async_arrow() {
     assert_eq_ignore_span!(
         expr("async () => foo"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: true,
             is_generator: false,
             params: Vec::new(),
             body: Box::new(BlockStmtOrExpr::Expr(expr("foo"))),
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -123,7 +123,7 @@ fn async_arrow() {
 fn object_rest_pat() {
     assert_eq_ignore_span!(
         expr("({ ...a34 }) => {}"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
@@ -143,7 +143,7 @@ fn object_rest_pat() {
                 ..Default::default()
             })),
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -151,7 +151,7 @@ fn object_rest_pat() {
 fn object_spread() {
     assert_eq_ignore_span!(
         expr("foo = {a, ...bar, b}"),
-        Box::new(Expr::Assign(AssignExpr {
+        Box::new(Expr::Assign(Box::new(AssignExpr {
             span,
             left: Ident::new_no_ctxt("foo".into(), span).into(),
             op: op!("="),
@@ -166,7 +166,7 @@ fn object_spread() {
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
                 ]
             }))
-        }))
+        })))
     );
 }
 
@@ -198,12 +198,12 @@ fn lhs_expr_as_new_expr_prod() {
 fn lhs_expr_as_call() {
     assert_eq_ignore_span!(
         lhs("new Date.toString()()"),
-        Box::new(Expr::Call(CallExpr {
+        Box::new(Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(lhs("new Date.toString()")),
             args: Vec::new(),
             ..Default::default()
-        }))
+        })))
     )
 }
 
@@ -211,35 +211,35 @@ fn lhs_expr_as_call() {
 fn arrow_fn_no_args() {
     assert_eq_ignore_span!(
         expr("() => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
             params: Vec::new(),
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
-        }))
+        })))
     );
 }
 #[test]
 fn arrow_fn() {
     assert_eq_ignore_span!(
         expr("(a) => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
             params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
-        }))
+        })))
     );
 }
 #[test]
 fn arrow_fn_rest() {
     assert_eq_ignore_span!(
         expr("(...a) => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             is_async: false,
             is_generator: false,
@@ -252,19 +252,19 @@ fn arrow_fn_rest() {
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
 
             ..Default::default()
-        }))
+        })))
     );
 }
 #[test]
 fn arrow_fn_no_paren() {
     assert_eq_ignore_span!(
         expr("a => 1"),
-        Box::new(Expr::Arrow(ArrowExpr {
+        Box::new(Expr::Arrow(Box::new(ArrowExpr {
             span,
             params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -339,12 +339,12 @@ fn max_integer() {
 fn iife() {
     assert_eq_ignore_span!(
         expr("(function(){})()"),
-        Box::new(Expr::Call(CallExpr {
+        Box::new(Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("(function(){})")),
             args: Vec::new(),
             ..Default::default()
-        }))
+        })))
     )
 }
 
@@ -352,7 +352,7 @@ fn iife() {
 fn issue_319_1() {
     assert_eq_ignore_span!(
         expr("obj(({ async f() { await g(); } }));"),
-        Box::new(Expr::Call(CallExpr {
+        Box::new(Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(expr("obj")),
             args: vec![ExprOrSpread {
@@ -360,7 +360,7 @@ fn issue_319_1() {
                 expr: expr("({ async f() { await g(); } })"),
             }],
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -372,7 +372,7 @@ fn issue_328() {
         }),
         Stmt::Expr(ExprStmt {
             span,
-            expr: Box::new(Expr::Call(CallExpr {
+            expr: Box::new(Expr::Call(Box::new(CallExpr {
                 span,
                 callee: Callee::Import(Import {
                     span,
@@ -387,7 +387,7 @@ fn issue_328() {
                     }))),
                 }],
                 ..Default::default()
-            }))
+            })))
         })
     );
 }
@@ -438,7 +438,7 @@ fn issue_675() {
 fn super_expr() {
     assert_eq_ignore_span!(
         expr("super.foo();"),
-        Box::new(Expr::Call(CallExpr {
+        Box::new(Expr::Call(Box::new(CallExpr {
             span,
             callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
                 span,
@@ -449,7 +449,7 @@ fn super_expr() {
                 })
             }))),
             ..Default::default()
-        }))
+        })))
     );
 }
 
@@ -457,7 +457,7 @@ fn super_expr() {
 fn super_expr_computed() {
     assert_eq_ignore_span!(
         expr("super[a] ??= 123;"),
-        Box::new(Expr::Assign(AssignExpr {
+        Box::new(Expr::Assign(Box::new(AssignExpr {
             span,
             op: AssignOp::NullishAssign,
             left: SuperPropExpr {
@@ -478,7 +478,7 @@ fn super_expr_computed() {
                 value: 123f64,
                 raw: Some("123".into()),
             })))
-        }))
+        })))
     );
 }
 
