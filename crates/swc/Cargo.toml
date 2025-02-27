@@ -80,7 +80,7 @@ swc_config = { version = "2.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "8.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "11.0.0", path = "../swc_ecma_ext_transforms" }
-swc_ecma_lints = { version = "11.0.0", path = "../swc_ecma_lints" }
+swc_ecma_lints = { version = "11.0.1", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
@@ -137,7 +137,7 @@ codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_lints = { version = "11.0.0", path = "../swc_ecma_lints", features = [
+swc_ecma_lints = { version = "11.0.1", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "8.0.0", path = "../swc_ecma_testing" }

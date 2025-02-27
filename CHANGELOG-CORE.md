@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/lints)** Capture errors and emit from the original thread ([#10119](https://github.com/swc-project/swc/issues/10119)) ([2304cd8](https://github.com/swc-project/swc/commit/2304cd8cfd6555c57ddcf3f41a2c427387a38b4a))
+
 ## [swc_core@v16.2.2] - 2025-02-27
 
 ### Bug Fixes
