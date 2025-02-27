@@ -1196,10 +1196,9 @@ fn sym_for_expr(expr: &Expr) -> Option<String> {
             )),
             _ => None,
         },
-        Expr::Call(CallExpr {
-            callee: Callee::Expr(expr),
-            ..
-        }) => sym_for_expr(expr),
+        Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+            sym_for_expr(call.callee.as_expr().unwrap())
+        }
 
         Expr::SuperProp(SuperPropExpr {
             prop: SuperProp::Ident(ident),
@@ -2522,11 +2521,7 @@ fn is_str(expr: &Expr) -> bool {
             right,
             ..
         }) => left.is_str() || right.is_str(),
-        Expr::Assign(AssignExpr {
-            op: op!("=") | op!("+="),
-            right,
-            ..
-        }) => right.is_str(),
+        Expr::Assign(assign) if matches!(assign.op, op!("=") | op!("+=")) => assign.right.is_str(),
         Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
         Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
         _ => false,
@@ -2592,12 +2587,8 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     let val = match expr {
         Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
 
-        Expr::Assign(AssignExpr {
-            ref right,
-            op: op!("="),
-            ..
-        }) => {
-            let (_, v) = right.cast_to_bool(ctx);
+        Expr::Assign(assign) if matches!(assign.op, op!("=")) => {
+            let (_, v) = assign.right.cast_to_bool(ctx);
             return (MayBeImpure, v);
         }
 
@@ -3001,11 +2992,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
     };
 
     match expr {
-        Expr::Assign(AssignExpr {
-            ref right,
-            op: op!("="),
-            ..
-        }) => right.get_type(ctx),
+        Expr::Assign(assign) if matches!(assign.op, op!("=")) => assign.right.get_type(ctx),
 
         Expr::Member(MemberExpr {
             obj,
@@ -3077,12 +3064,8 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Assign(AssignExpr {
-            op: op!("+="),
-            ref right,
-            ..
-        }) => {
-            if right.get_type(ctx) == Known(StringType) {
+        Expr::Assign(assign) if matches!(assign.op, op!("+=")) => {
+            if assign.right.get_type(ctx) == Known(StringType) {
                 return Known(StringType);
             }
             Unknown
@@ -3094,20 +3077,26 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             _ => return Unknown,
         }),
 
+        Expr::Assign(assign)
+            if matches!(
+                assign.op,
+                op!("&=")
+                    | op!("^=")
+                    | op!("|=")
+                    | op!("<<=")
+                    | op!(">>=")
+                    | op!(">>>=")
+                    | op!("-=")
+                    | op!("*=")
+                    | op!("**=")
+                    | op!("/=")
+                    | op!("%=")
+                    | op!("%=")
+            ) =>
+        {
+            Known(NumberType)
+        }
         Expr::Lit(Lit::Num(..))
-        | Expr::Assign(AssignExpr { op: op!("&="), .. })
-        | Expr::Assign(AssignExpr { op: op!("^="), .. })
-        | Expr::Assign(AssignExpr { op: op!("|="), .. })
-        | Expr::Assign(AssignExpr { op: op!("<<="), .. })
-        | Expr::Assign(AssignExpr { op: op!(">>="), .. })
-        | Expr::Assign(AssignExpr {
-            op: op!(">>>="), ..
-        })
-        | Expr::Assign(AssignExpr { op: op!("-="), .. })
-        | Expr::Assign(AssignExpr { op: op!("*="), .. })
-        | Expr::Assign(AssignExpr { op: op!("**="), .. })
-        | Expr::Assign(AssignExpr { op: op!("/="), .. })
-        | Expr::Assign(AssignExpr { op: op!("%="), .. })
         | Expr::Unary(UnaryExpr { op: op!("~"), .. })
         | Expr::Bin(BinExpr { op: op!("|"), .. })
         | Expr::Bin(BinExpr { op: op!("^"), .. })
@@ -3356,12 +3345,15 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         // TODO
         Expr::New(_) => true,
 
-        Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
-            ref args,
-            ..
-        }) if callee.is_pure_callee(ctx) => {
-            args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
+        Expr::Call(call)
+            if call
+                .callee
+                .as_expr()
+                .map_or(false, |callee| callee.is_pure_callee(ctx)) =>
+        {
+            call.args
+                .iter()
+                .any(|arg| arg.expr.may_have_side_effects(ctx))
         }
         Expr::OptChain(OptChainExpr { base, .. })
             if matches!(&**base, OptChainBase::Call(..))

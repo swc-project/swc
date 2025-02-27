@@ -38,10 +38,8 @@ impl Jest {
             match item.try_into_stmt() {
                 Ok(stmt) => match &stmt {
                     Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                        Expr::Call(CallExpr {
-                            callee: Callee::Expr(callee),
-                            ..
-                        }) => {
+                        Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+                            let callee = call.callee.as_expr().unwrap();
                             if self.should_hoist(callee) {
                                 hoisted.push(T::from(stmt))
                             } else {
@@ -130,10 +128,9 @@ fn is_global_jest(e: &Expr) -> bool {
     match e {
         Expr::Ident(i) => i.sym == *"jest",
         Expr::Member(MemberExpr { obj, .. }) => is_global_jest(obj),
-        Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
-            ..
-        }) => is_global_jest(callee),
+        Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+            is_global_jest(call.callee.as_expr().unwrap())
+        }
         _ => false,
     }
 }

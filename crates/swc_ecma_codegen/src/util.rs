@@ -194,12 +194,12 @@ impl StartsWithAlphaNum for Expr {
                 .unwrap_or(false),
 
             //
-            Expr::Assign(AssignExpr { ref left, .. }) => left.starts_with_alpha_num(),
+            Expr::Assign(expr) => expr.left.starts_with_alpha_num(),
 
             Expr::Bin(BinExpr { ref left, .. }) | Expr::Cond(CondExpr { test: ref left, .. }) => {
                 left.starts_with_alpha_num()
             }
-            Expr::Call(CallExpr { callee: left, .. }) => left.starts_with_alpha_num(),
+            Expr::Call(expr) => expr.callee.starts_with_alpha_num(),
             Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
 
             Expr::Unary(UnaryExpr { op, .. }) => {

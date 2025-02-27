@@ -55,7 +55,7 @@ pub enum Expr {
     Bin(BinExpr),
 
     #[tag("AssignmentExpression")]
-    Assign(AssignExpr),
+    Assign(Box<AssignExpr>),
 
     //
     // Logical {
@@ -79,7 +79,7 @@ pub enum Expr {
     Cond(CondExpr),
 
     #[tag("CallExpression")]
-    Call(CallExpr),
+    Call(Box<CallExpr>),
 
     /// `new Cat()`
     #[tag("NewExpression")]
@@ -107,7 +107,7 @@ pub enum Expr {
     TaggedTpl(TaggedTpl),
 
     #[tag("ArrowFunctionExpression")]
-    Arrow(ArrowExpr),
+    Arrow(Box<ArrowExpr>),
 
     #[tag("ClassExpression")]
     Class(ClassExpr),
@@ -449,18 +449,18 @@ boxed_expr!(FnExpr);
 boxed_expr!(UnaryExpr);
 boxed_expr!(UpdateExpr);
 boxed_expr!(BinExpr);
-boxed_expr!(AssignExpr);
+boxed_expr!(Box<AssignExpr>);
 boxed_expr!(MemberExpr);
 boxed_expr!(SuperPropExpr);
 boxed_expr!(CondExpr);
-boxed_expr!(CallExpr);
+boxed_expr!(Box<CallExpr>);
 boxed_expr!(NewExpr);
 boxed_expr!(SeqExpr);
 bridge_from!(Box<Expr>, Expr, Ident);
 boxed_expr!(Lit);
 boxed_expr!(Tpl);
 boxed_expr!(TaggedTpl);
-boxed_expr!(ArrowExpr);
+boxed_expr!(Box<ArrowExpr>);
 boxed_expr!(ClassExpr);
 boxed_expr!(YieldExpr);
 boxed_expr!(MetaPropExpr);
@@ -826,6 +826,8 @@ pub struct AssignExpr {
     pub right: Box<Expr>,
 }
 
+bridge_expr_from!(Box<AssignExpr>, AssignExpr);
+
 impl Take for AssignExpr {
     fn dummy() -> Self {
         AssignExpr {
@@ -979,6 +981,8 @@ pub struct CallExpr {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
+bridge_expr_from!(Box<CallExpr>, CallExpr);
+
 impl Take for CallExpr {
     fn dummy() -> Self {
         Default::default()
@@ -1056,6 +1060,8 @@ pub struct ArrowExpr {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
+
+bridge_expr_from!(Box<ArrowExpr>, ArrowExpr);
 
 impl Take for ArrowExpr {
     fn dummy() -> Self {
@@ -1706,13 +1712,13 @@ impl From<OptChainBase> for Expr {
                 callee,
                 args,
                 type_args,
-            }) => Self::Call(CallExpr {
+            }) => Self::Call(Box::new(CallExpr {
                 callee: Callee::Expr(callee),
                 args,
                 span,
                 type_args,
                 ctxt,
-            }),
+            })),
             OptChainBase::Member(member) => Self::Member(member),
         }
     }

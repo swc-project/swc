@@ -431,7 +431,7 @@ impl Actual {
         expr.visit_mut_children_with(self);
 
         match expr {
-            Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
+            Expr::Arrow(arrow_expr) if arrow_expr.is_async => {
                 arrow_expr.visit_mut_with(&mut self.hoister);
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());

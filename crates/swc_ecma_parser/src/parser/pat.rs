@@ -592,15 +592,10 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
             }
-            Expr::Assign(
-                assign_expr @ AssignExpr {
-                    op: AssignOp::Assign,
-                    ..
-                },
-            ) => {
+            Expr::Assign(assign_expr) if assign_expr.op == AssignOp::Assign => {
                 let AssignExpr {
                     span, left, right, ..
-                } = assign_expr;
+                } = *assign_expr;
                 Ok(AssignPat {
                     span,
                     left: match left {

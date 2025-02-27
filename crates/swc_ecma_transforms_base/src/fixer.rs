@@ -7,6 +7,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+use crate::ext::AsOptExpr;
+
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
 /// You don't have to bother to create appropriate parenthesis.
@@ -920,10 +922,12 @@ impl Fixer<'_> {
                 if self.ctx == Context::Default {
                     if let Some(expr) = exprs.first_mut() {
                         match &mut **expr {
-                            Expr::Call(CallExpr {
-                                callee: Callee::Expr(callee_expr),
-                                ..
-                            }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
+                            Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+                                let callee = call.callee.as_expr_mut().unwrap();
+                                if callee.is_fn_expr() {
+                                    self.wrap(callee);
+                                }
+                            }
                             _ => (),
                         }
                     }
@@ -967,15 +971,15 @@ impl Fixer<'_> {
                 }
             }
 
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            }) if callee.is_seq()
-                || callee.is_arrow()
-                || callee.is_await_expr()
-                || callee.is_assign() =>
-            {
-                self.wrap(callee);
+            Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+                let callee = call.callee.as_expr_mut().unwrap();
+                if callee.is_seq()
+                    || callee.is_arrow()
+                    || callee.is_await_expr()
+                    || callee.is_assign()
+                {
+                    self.wrap(callee);
+                }
             }
             Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
                 OptChainBase::Call(OptCall { callee, .. })
@@ -1000,16 +1004,18 @@ impl Fixer<'_> {
             },
 
             // Function expression cannot start with `function`
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr | Context::FreeExpr => {}
+            Expr::Call(call) if matches!(call.callee, Callee::Expr(..)) => {
+                let callee = call.callee.as_expr_mut().unwrap();
+                if callee.is_fn_expr() {
+                    match self.ctx {
+                        Context::ForcedExpr | Context::FreeExpr => {}
 
-                Context::Callee { is_new: true } => self.wrap(e),
+                        Context::Callee { is_new: true } => self.wrap(e),
 
-                _ => self.wrap(callee),
-            },
+                        _ => self.wrap(callee),
+                    }
+                }
+            }
 
             Expr::Member(MemberExpr { obj, .. }) => match &**obj {
                 Expr::Lit(Lit::Num(num)) if num.value.signum() == -1. => {
@@ -1072,10 +1078,15 @@ impl Fixer<'_> {
             Expr::Object(..) | Expr::Class(..) | Expr::Fn(..) => self.wrap(expr),
 
             // ({ a } = foo)
-            Expr::Assign(AssignExpr {
-                left: AssignTarget::Pat(left),
-                ..
-            }) if left.is_object() => self.wrap(expr),
+            Expr::Assign(assign)
+                if assign
+                    .left
+                    .as_pat()
+                    .and_then(|pat| pat.as_object())
+                    .is_some() =>
+            {
+                self.wrap(expr)
+            }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
                 debug_assert!(

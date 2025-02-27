@@ -127,14 +127,10 @@ impl<I: Tokens> Parser<I> {
 
                 let type_parameters = p.parse_ts_type_params(false, true)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
-                        ref mut span,
-                        ref mut type_params,
-                        ..
-                    }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi);
-                        *type_params = Some(type_parameters);
+                match &mut *arrow {
+                    Expr::Arrow(expr) => {
+                        expr.span = Span::new(type_parameters.span.lo, expr.span.hi);
+                        expr.type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),
                 }
