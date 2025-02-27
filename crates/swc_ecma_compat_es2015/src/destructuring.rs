@@ -290,7 +290,7 @@ impl AssignFolder {
                 }
             }
             Pat::Object(obj) if obj.props.is_empty() => {
-                let ObjectPat { span, props, .. } = *obj;
+                let ObjectPat { span, .. } = *obj;
 
                 // We should convert
                 //
@@ -896,14 +896,16 @@ impl VisitMut for AssignFolder {
                     }
                     .into()
                 }
-                AssignTargetPat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                AssignTargetPat::Object(obj) if obj.props.is_empty() => {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
                     *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
-                AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
+                AssignTargetPat::Object(obj) => {
+                    let ObjectPat { span, props, .. } = &mut **obj;
+
                     if props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
