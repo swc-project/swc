@@ -826,6 +826,8 @@ pub struct AssignExpr {
     pub right: Box<Expr>,
 }
 
+bridge_expr_from!(Box<AssignExpr>, AssignExpr);
+
 impl Take for AssignExpr {
     fn dummy() -> Self {
         AssignExpr {
@@ -979,6 +981,8 @@ pub struct CallExpr {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
+bridge_expr_from!(Box<CallExpr>, CallExpr);
+
 impl Take for CallExpr {
     fn dummy() -> Self {
         Default::default()
@@ -1056,6 +1060,8 @@ pub struct ArrowExpr {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
+
+bridge_expr_from!(Box<ArrowExpr>, ArrowExpr);
 
 impl Take for ArrowExpr {
     fn dummy() -> Self {
@@ -1746,7 +1752,6 @@ impl From<OptCall> for CallExpr {
     }
 }
 
-bridge_expr_from!(Box<CallExpr>, CallExpr);
 bridge_expr_from!(CallExpr, OptCall);
 
 test_de!(
