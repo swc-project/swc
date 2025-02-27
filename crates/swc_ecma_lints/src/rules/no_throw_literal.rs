@@ -61,14 +61,12 @@ impl NoThrowLiteral {
             | Expr::Await(_)
             | Expr::OptChain(_) => true,
 
-            Expr::Assign(AssignExpr {
-                op, left, right, ..
-            }) => match op {
-                op!("=") | op!("&&=") => self.could_be_error(right.as_ref()),
+            Expr::Assign(assign) => match assign.op {
+                op!("=") | op!("&&=") => self.could_be_error(assign.right.as_ref()),
                 op!("||=") | op!("??=") => {
-                    if let AssignTarget::Simple(left) = left {
+                    if let AssignTarget::Simple(left) = &assign.left {
                         self.could_simple_target_be_error(left)
-                            || self.could_be_error(right.as_ref())
+                            || self.could_be_error(assign.right.as_ref())
                     } else {
                         false
                     }
