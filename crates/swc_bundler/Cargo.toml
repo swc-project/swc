@@ -44,7 +44,7 @@ swc_ecma_ast                     = { version = "8.0.0", path = "../swc_ecma_ast"
 swc_ecma_codegen                 = { version = "8.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_loader                  = { version = "8.0.0", path = "../swc_ecma_loader" }
 swc_ecma_parser                  = { version = "10.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "11.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { version = "11.1.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "11.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils                   = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "8.0.0", path = "../swc_ecma_visit" }
@@ -64,11 +64,11 @@ swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "12.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "12.0.1", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_proposal = { version = "11.0.0", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "11.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "11.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_react = { version = "12.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "12.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "1.0.0", path = "../swc_malloc" }
 testing = { version = "8.0.0", path = "../testing" }

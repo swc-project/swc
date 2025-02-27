@@ -346,7 +346,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -4503,7 +4503,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4665,7 +4665,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4774,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "15.0.1"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5339,7 +5339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.0.0"
+version = "12.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5413,7 +5413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5480,7 +5480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -5505,7 +5505,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "11.0.0"
+version = "11.1.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5681,7 +5681,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
@@ -5735,7 +5735,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5825,7 +5825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "14.0.0"
+version = "15.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5907,7 +5907,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6103,7 +6103,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
