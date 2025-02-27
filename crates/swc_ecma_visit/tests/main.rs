@@ -4,7 +4,7 @@ use swc_ecma_visit::NodeRef;
 
 #[test]
 fn traverse_lookup() {
-    let node = Expr::Call(CallExpr {
+    let node = Expr::Call(Box::new(CallExpr {
         span: DUMMY_SP,
         callee: Callee::Expr(
             AwaitExpr {
@@ -15,7 +15,7 @@ fn traverse_lookup() {
         ),
         args: Vec::new(),
         ..Default::default()
-    });
+    }));
 
     let node_ref = NodeRef::from(&node);
     let iter = node_ref.experimental_traverse();
