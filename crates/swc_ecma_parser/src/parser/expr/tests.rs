@@ -127,7 +127,7 @@ fn object_rest_pat() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Object(ObjectPat {
+            params: vec![Pat::Object(Box::new(ObjectPat {
                 span,
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
@@ -137,7 +137,7 @@ fn object_rest_pat() {
                     type_ann: None,
                 })],
                 type_ann: None
-            })],
+            }))],
             body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span,
                 ..Default::default()
