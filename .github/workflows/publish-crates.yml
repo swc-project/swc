@@ -23,8 +23,11 @@ concurrency:
 
 jobs:
   publish-cargo:
+    # Run only on `chore: Publish` prefix
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
+    if: >-
+      ${{ startsWith(github.event.head_commit.message, 'chore: Publish') }}
     steps:
       - uses: actions/checkout@v4
 
