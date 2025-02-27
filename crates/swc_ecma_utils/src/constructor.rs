@@ -78,41 +78,37 @@ impl VisitMut for Injector {
         node.visit_mut_children_with(self);
         self.ignore_return_value = ignore_return_value;
 
-        if let Expr::Call(CallExpr {
-            callee: Callee::Super(..),
-            ..
-        }) = node
-        {
-            self.injected = true;
-
-            let super_call = node.take();
-            let exprs = self.exprs.clone();
-
-            let exprs = iter::once(Box::new(super_call)).chain(exprs);
-
-            *node = if ignore_return_value {
-                SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: exprs.collect(),
-                }
-                .into()
-            } else {
-                let array = ArrayLit {
-                    span: DUMMY_SP,
-                    elems: exprs.map(ExprOrSpread::from).map(Some).collect(),
-                };
-
-                MemberExpr {
-                    span: DUMMY_SP,
-                    obj: array.into(),
-                    prop: ComputedPropName {
+        match node {
+            Expr::Call(call) if matches!(call.callee, Callee::Super(..)) => {
+                self.injected = true;
+                let super_call = node.take();
+                let exprs = self.exprs.clone();
+                let exprs = iter::once(Box::new(super_call)).chain(exprs);
+                *node = if ignore_return_value {
+                    SeqExpr {
                         span: DUMMY_SP,
-                        expr: 0.into(),
+                        exprs: exprs.collect(),
                     }
-                    .into(),
+                    .into()
+                } else {
+                    let array = ArrayLit {
+                        span: DUMMY_SP,
+                        elems: exprs.map(ExprOrSpread::from).map(Some).collect(),
+                    };
+
+                    MemberExpr {
+                        span: DUMMY_SP,
+                        obj: array.into(),
+                        prop: ComputedPropName {
+                            span: DUMMY_SP,
+                            expr: 0.into(),
+                        }
+                        .into(),
+                    }
+                    .into()
                 }
-                .into()
             }
+            _ => (),
         }
     }
 }
