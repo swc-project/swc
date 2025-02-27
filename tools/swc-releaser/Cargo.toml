@@ -10,6 +10,6 @@ version           = "0.1.0"
 anyhow         = { workspace = true }
 cargo_metadata = { workspace = true }
 changesets     = { workspace = true }
-clap           = { version = "4.5.9", features = ["derive"] }
+clap           = { workspace = true, features = ["derive"] }
 indexmap       = { workspace = true }
 petgraph       = { workspace = true }
