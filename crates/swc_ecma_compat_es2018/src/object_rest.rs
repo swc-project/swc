@@ -86,8 +86,8 @@ macro_rules! impl_for_for_stmt {
 
                     // initialize (or destructure)
                     match &*pat {
-                        Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                        Pat::Object(ObjectPat { .. }) => {
+                        Pat::Object(obj) if obj.props.is_empty() => {}
+                        Pat::Object(..) => {
                             stmt = Some(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr: Box::new(
@@ -247,7 +247,7 @@ impl VisitMut for ObjectRest {
             );
 
             match pat {
-                Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                Pat::Object(obj) if obj.props.is_empty() => {}
                 _ => self.exprs.push(
                     AssignExpr {
                         span: *span,
@@ -358,9 +358,12 @@ impl VisitMut for ObjectRest {
             if let Some(init) = decl.init {
                 match decl.name {
                     // Optimize { ...props } = this.props
-                    Pat::Object(ObjectPat { props, .. })
-                        if props.len() == 1 && matches!(props[0], ObjectPatProp::Rest(..)) =>
+                    Pat::Object(obj)
+                        if obj.props.len() == 1
+                            && matches!(obj.props[0], ObjectPatProp::Rest(..)) =>
                     {
+                        let ObjectPat { props, .. } = *obj;
+
                         let prop = match props.into_iter().next().unwrap() {
                             ObjectPatProp::Rest(r) => r,
                             _ => unreachable!(),
@@ -414,7 +417,7 @@ impl VisitMut for ObjectRest {
                 self.fold_rest(&mut index, decl.name, var_ident.clone().into(), false, true);
             match pat {
                 // skip `{} = z`
-                Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                Pat::Object(obj) if obj.props.is_empty() => {}
 
                 _ => {
                     // insert at index to create
@@ -535,7 +538,8 @@ impl ObjectRest {
             decl.init = Some(e1);
         }
 
-        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
+        if let Pat::Object(obj) = &decl.name {
+            let ObjectPat { props, .. } = &**obj;
             if props.is_empty() {
                 return;
             }
@@ -676,7 +680,7 @@ impl ObjectRest {
             type_ann,
             ..
         } = match pat {
-            Pat::Object(pat) => pat,
+            Pat::Object(pat) => *pat,
             Pat::Assign(n) => {
                 let AssignPat {
                     span, left, right, ..
@@ -691,7 +695,7 @@ impl ObjectRest {
                 return AssignPat { span, left, right }.into();
             }
             Pat::Array(n) => {
-                let ArrayPat { span, elems, .. } = n;
+                let ArrayPat { span, elems, .. } = *n;
                 let elems = elems
                     .into_iter()
                     .enumerate()
@@ -712,7 +716,7 @@ impl ObjectRest {
                     })
                     .collect();
 
-                return ArrayPat { span, elems, ..n }.into();
+                return ArrayPat { span, elems, ..*n }.into();
             }
             _ => return pat,
         };
@@ -1022,7 +1026,7 @@ impl VisitMut for PatSimplifier {
             o.props.retain(|prop| {
                 if let ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) = prop {
                     match &**value {
-                        Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                        Pat::Object(obj) if obj.props.is_empty() => {
                             return false;
                         }
                         _ => {}
