@@ -224,6 +224,10 @@ impl Visit for TscDecorator {
             .map(|member| member.init.as_ref())
             .map(|init| match init {
                 Some(e) => match &**e {
+                    Expr::Unary(UnaryExpr {
+                        op: op!(unary, "-"),
+                        ..
+                    }) => EnumKind::Num,
                     Expr::Lit(lit) => match lit {
                         Lit::Str(_) => EnumKind::Str,
                         Lit::Num(_) => EnumKind::Num,
