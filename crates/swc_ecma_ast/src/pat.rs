@@ -85,6 +85,8 @@ pat_to_other!(Box<Expr>);
 
 bridge_from!(Pat, Box<ArrayPat>, ArrayPat);
 bridge_from!(Pat, Box<ObjectPat>, ObjectPat);
+bridge_from!(Box<crate::Pat>, crate::Pat, ArrayPat);
+bridge_from!(Box<crate::Pat>, crate::Pat, ObjectPat);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
