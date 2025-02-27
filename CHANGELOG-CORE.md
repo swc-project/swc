@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(swc_malloc)** Add `target_env = "gnu"` check ([#10118](https://github.com/swc-project/swc/issues/10118)) ([da81e11](https://github.com/swc-project/swc/commit/da81e112df25dca8f94c18eb3d60ddc9bb63248a))
+
 ## [swc_core@v16.2.1] - 2025-02-27
 
 ### Bug Fixes
@@ -1630,9 +1638,6 @@
 - **(es/parser)** Disallow `let let` ([#9484](https://github.com/swc-project/swc/issues/9484)) ([1121bc0](https://github.com/swc-project/swc/commit/1121bc0dc161520a418945dbc610c30adc7ab3aa))
 
 
-- **(es/typescript)** Add `transform` mode back to fast TS strip ([#9237](https://github.com/swc-project/swc/issues/9237)) ([8231e3c](https://github.com/swc-project/swc/commit/8231e3cd4f72ad120735f6a21d9616e98d61eed1))
-
-
 - **(es/typescript)** Add esm build for fast ts strip ([#9286](https://github.com/swc-project/swc/issues/9286)) ([d10cb9f](https://github.com/swc-project/swc/commit/d10cb9ffa29033048d242fc3fb4a35ea5fb1bf16))
 
 
@@ -1769,9 +1774,6 @@
 
 ### Refactor
 
-
-
-- **(allocator)** Use `&` instead of a thread-local ([#9235](https://github.com/swc-project/swc/issues/9235)) ([8d5670e](https://github.com/swc-project/swc/commit/8d5670e72bb930f18c5d1d4262caa80cae0be03a))
 
 
 - **(allocator)** Use RAII guard instead of `scope` ([#9254](https://github.com/swc-project/swc/issues/9254)) ([6e098ae](https://github.com/swc-project/swc/commit/6e098aeeb5976292e43786f72bd91f1de50a9daa))

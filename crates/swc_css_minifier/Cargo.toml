@@ -28,5 +28,5 @@ criterion                 = { workspace = true }
 
 swc_css_codegen = { version = "8.0.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "8.0.0", path = "../swc_css_parser" }
-swc_malloc      = { version = "1.2.1", path = "../swc_malloc" }
+swc_malloc      = { version = "1.2.2", path = "../swc_malloc" }
 testing         = { version = "8.0.0", path = "../testing" }

@@ -26,6 +26,9 @@
 - **(swc_malloc)** Fix build issue due to malloc, really ([#10117](https://github.com/swc-project/swc/issues/10117)) ([207a13f](https://github.com/swc-project/swc/commit/207a13f2ddc12503174a71c5cf0fc65fdf96c906))
 
 
+- **(swc_malloc)** Add `target_env = "gnu"` check ([#10118](https://github.com/swc-project/swc/issues/10118)) ([da81e11](https://github.com/swc-project/swc/commit/da81e112df25dca8f94c18eb3d60ddc9bb63248a))
+
+
 - Use `jemalloc` on platforms that `mimalloc` fails to build ([#10116](https://github.com/swc-project/swc/issues/10116)) ([fb75b98](https://github.com/swc-project/swc/commit/fb75b9827902d2ac5481357c965e2bc20075fd2e))
 
 ### Miscellaneous Tasks
@@ -1718,9 +1721,6 @@
 
 - **(allocator)** Implement `default` mode ([#9242](https://github.com/swc-project/swc/issues/9242)) ([b6333db](https://github.com/swc-project/swc/commit/b6333dbcfcc8f25d08a1187704796732366ac9d7))
 
-
-- **(es/typescript)** Add `transform` mode back to fast TS strip ([#9237](https://github.com/swc-project/swc/issues/9237)) ([8231e3c](https://github.com/swc-project/swc/commit/8231e3cd4f72ad120735f6a21d9616e98d61eed1))
-
 ### Performance
 
 
@@ -1732,9 +1732,6 @@
 
 ### Refactor
 
-
-
-- **(allocator)** Use `&` instead of a thread-local ([#9235](https://github.com/swc-project/swc/issues/9235)) ([8d5670e](https://github.com/swc-project/swc/commit/8d5670e72bb930f18c5d1d4262caa80cae0be03a))
 
 
 - **(allocator)** Use RAII guard instead of `scope` ([#9254](https://github.com/swc-project/swc/issues/9254)) ([6e098ae](https://github.com/swc-project/swc/commit/6e098aeeb5976292e43786f72bd91f1de50a9daa))

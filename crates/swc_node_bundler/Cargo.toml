@@ -45,7 +45,7 @@ swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.1", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }
