@@ -37,6 +37,10 @@ impl Error {
     pub fn into_kind(self) -> SyntaxError {
         self.error.1
     }
+
+    pub fn set_kind(&mut self, kind: SyntaxError) {
+        self.error.1 = kind;
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]

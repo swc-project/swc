@@ -40,7 +40,7 @@ impl<'a> StringInput<'a> {
     }
 
     #[inline(always)]
-    pub fn as_str(&self) -> &str {
+    pub fn as_str(&self) -> &'a str {
         self.iter.as_str()
     }
 
