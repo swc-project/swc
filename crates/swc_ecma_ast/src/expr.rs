@@ -1595,6 +1595,10 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 
 bridge_from!(AssignTarget, AssignTargetPat, Box<ArrayPat>);
 bridge_from!(AssignTarget, AssignTargetPat, Box<ObjectPat>);
+bridge_from!(AssignTargetPat, Box<ArrayPat>, ArrayPat);
+bridge_from!(AssignTargetPat, Box<ObjectPat>, ObjectPat);
+bridge_from!(AssignTarget, AssignTargetPat, ArrayPat);
+bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 
 impl From<SimpleAssignTarget> for Box<Expr> {
     fn from(s: SimpleAssignTarget) -> Self {
