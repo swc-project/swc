@@ -41,73 +41,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cargo-bump:
-    name: "Bump crates"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-
-      - name: Install cargo-edit
-        uses: taiki-e/install-action@v2
-        if: inputs.skipBuild == false
-        with:
-          tool: cargo-edit@0.12.2
-
-      - run: cargo bump
-        if: inputs.skipBuild == false
-        continue-on-error: true
-
-      - uses: webfactory/ssh-agent@v0.9.0
-        if: inputs.skipBuild == false
-        with:
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
-
-      - name: Push bump commit
-        if: inputs.skipBuild == false
-        run: |
-          git push git@github.com:swc-project/swc.git --no-verify
-
-  publish-cargo:
-    name: "Publish cargo crates"
-    runs-on: ubuntu-latest
-    needs:
-      - cargo-bump
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-node
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-
-      - name: Install cargo-edit
-        if: inputs.skipBuild == false
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-edit@0.12.2
-
-      - name: Install cargo-mono
-        if: inputs.skipBuild == false
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-mono@0.4.1
-
-      - name: Update constant of swc_core
-        if: inputs.skipBuild == false
-        run: npx ts-node .github/bot/src/cargo/update-constants.ts
-
-      - name: Publish crates
-        if: inputs.skipBuild == false
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: |
-          cargo mono publish --no-verify
-
   determine-nightly-version:
     name: "Determine nightly version"
     runs-on: ubuntu-latest
@@ -126,7 +59,6 @@ jobs:
     name: "Git tag nightly"
     runs-on: ubuntu-latest
     needs:
-      - publish-cargo
       - determine-nightly-version
     steps:
       - uses: actions/checkout@v4
@@ -146,7 +78,6 @@ jobs:
           - html
     needs:
       - git-tag-nightly
-      - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
@@ -175,7 +106,6 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.onlyNightly == false
     needs:
-      - publish-cargo
       - run-ecosystem-ci-with-nightly
     steps:
       - uses: actions/checkout@v4
@@ -194,7 +124,6 @@ jobs:
           - core
           - html
     needs:
-      - publish-cargo
       - run-ecosystem-ci-with-nightly
       - git-tag-stable
 
