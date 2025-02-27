@@ -9,7 +9,7 @@ version    = "0.1.0"
 [dependencies]
 Inflector   = { workspace = true }
 anyhow      = { workspace = true }
-clap        = { version = "4.5.9", features = ["derive"] }
+clap        = { workspace = true, features = ["derive"] }
 proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 swc_cached  = { version = "2.0.0", path = "../../crates/swc_cached" }
