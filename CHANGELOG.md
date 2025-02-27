@@ -1746,9 +1746,6 @@
 - **(es/codegen)** Revert #9248 ([#9266](https://github.com/swc-project/swc/issues/9266)) ([b9b233c](https://github.com/swc-project/swc/commit/b9b233cacd9d326afb806d856c91e38474b237c2))
 
 
-- **(es/helpers)** Remove unnecessary exports ([#9225](https://github.com/swc-project/swc/issues/9225)) ([69719c2](https://github.com/swc-project/swc/commit/69719c2acb6f0eaacd4e3f7739ce8f9ae5d95e76))
-
-
 - **(visit)** Pre-generate visitor code ([#9262](https://github.com/swc-project/swc/issues/9262)) ([9c17663](https://github.com/swc-project/swc/commit/9c176632b1e0d6edec10929486ca514fa992415b))
 
 ### Testing
