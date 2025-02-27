@@ -272,6 +272,12 @@ impl From<FnExpr> for FunctionWrapper<Expr> {
     }
 }
 
+impl From<Box<ArrowExpr>> for FunctionWrapper<Expr> {
+    fn from(arrow_expr: Box<ArrowExpr>) -> Self {
+        Self::from(*arrow_expr)
+    }
+}
+
 impl From<ArrowExpr> for FunctionWrapper<Expr> {
     fn from(
         ArrowExpr {
