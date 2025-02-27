@@ -1525,7 +1525,7 @@ dependencies = [
 
 [[package]]
 name = "hstr"
-version = "0.3.1"
+version = "1.0.0"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -1866,9 +1866,9 @@ checksum = "078e285eafdfb6c4b434e0d31e8cfcb5115b651496faca5749b88fafd4f23bfd"
 
 [[package]]
 name = "jsonc-parser"
-version = "0.21.1"
+version = "0.26.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b56a20e76235284255a09fcd1f45cf55d3c524ea657ebd3854735925c57743d"
+checksum = "b558af6b49fd918e970471374e7a798b2c9bbcda624a210ffa3901ee5614bc8e"
 dependencies = [
  "serde_json",
 ]
@@ -2167,18 +2167,18 @@ checksum = "7843ec2de400bcbc6a6328c958dc38e5359da6e93e72e37bc5246bf1ae776389"
 
 [[package]]
 name = "munge"
-version = "0.4.1"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "64142d38c84badf60abf06ff9bd80ad2174306a5b11bd4706535090a30a419df"
+checksum = "a0091202c98cf06da46c279fdf50cccb6b1c43b4521abdf6a27b4c7e71d5d9d7"
 dependencies = [
  "munge_macro",
 ]
 
 [[package]]
 name = "munge_macro"
-version = "0.4.1"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1bb5c1d8184f13f7d0ccbeeca0def2f9a181bce2624302793005f5ca8aa62e5e"
+checksum = "734799cf91479720b2f970c61a22850940dd91e27d4f02b1c6fc792778df2459"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3453,7 +3453,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "14.0.0"
+version = "16.1.0"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -3506,7 +3506,7 @@ dependencies = [
 
 [[package]]
 name = "swc_allocator"
-version = "3.0.1"
+version = "4.0.0"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -3518,7 +3518,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "4.0.0"
+version = "5.0.0"
 dependencies = [
  "bytecheck 0.8.1",
  "hstr",
@@ -3531,7 +3531,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "crc 2.1.0",
@@ -3574,7 +3574,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -3604,7 +3604,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "base64 0.21.7",
@@ -3653,7 +3653,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "14.1.0"
+version = "16.2.3"
 dependencies = [
  "swc",
  "swc_allocator",
@@ -3673,7 +3673,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "bitflags 2.8.0",
  "bytecheck 0.8.1",
@@ -3693,7 +3693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "7.0.0"
+version = "8.0.1"
 dependencies = [
  "ascii",
  "compact_str",
@@ -3714,7 +3714,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3724,7 +3724,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3740,7 +3740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3751,7 +3751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -3776,7 +3776,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3791,7 +3791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3807,7 +3807,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3824,7 +3824,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3838,7 +3838,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3854,7 +3854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3868,7 +3868,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -3886,7 +3886,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -3899,7 +3899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "10.0.0"
+version = "11.0.1"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
@@ -3930,7 +3930,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -3951,7 +3951,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "11.1.0"
+version = "12.0.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -3986,7 +3986,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "9.0.0"
+version = "10.0.0"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -4007,7 +4007,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "12.0.0"
+version = "14.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -4030,7 +4030,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "12.0.0"
+version = "14.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4048,7 +4048,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "10.0.0"
+version = "11.1.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.8.0",
@@ -4071,7 +4071,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4083,7 +4083,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -4128,7 +4128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4154,7 +4154,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.7.1",
@@ -4177,7 +4177,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "10.0.0"
+version = "11.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -4195,7 +4195,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "10.0.0"
+version = "12.0.0"
 dependencies = [
  "base64 0.21.7",
  "dashmap 5.5.3",
@@ -4220,7 +4220,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "10.0.0"
+version = "12.0.0"
 dependencies = [
  "once_cell",
  "rustc-hash 2.1.1",
@@ -4237,7 +4237,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.1",
@@ -4252,7 +4252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
@@ -4271,7 +4271,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -4293,7 +4293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "8.0.0"
+version = "9.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -4304,7 +4304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "8.0.0"
+version = "9.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "petgraph",
@@ -4314,7 +4314,7 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "auto_impl",
  "petgraph",
@@ -4335,7 +4335,7 @@ dependencies = [
 
 [[package]]
 name = "swc_malloc"
-version = "1.0.0"
+version = "1.2.2"
 dependencies = [
  "mimalloc",
  "tikv-jemallocator",
@@ -4343,7 +4343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "14.0.0"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -4371,7 +4371,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_comments"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "dashmap 5.5.3",
  "rustc-hash 2.1.1",
@@ -4401,7 +4401,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck 0.8.1",
@@ -4416,7 +4416,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "enumset",
@@ -4467,7 +4467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "9.0.0"
+version = "10.0.0"
 dependencies = [
  "petgraph",
  "rustc-hash 2.1.1",
