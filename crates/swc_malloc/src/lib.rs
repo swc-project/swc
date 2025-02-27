@@ -24,6 +24,10 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 // On linux aarch64, mimalloc fails to build.
 // So we use tikv-jemallocator instead.
 
-#[cfg(all(target_os = "linux", any(target_arch = "aarch64", target_arch = "arm")))]
+#[cfg(all(
+    target_os = "linux",
+    target_env = "gnu",
+    any(target_arch = "aarch64", target_arch = "arm")
+))]
 #[global_allocator]
 static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
