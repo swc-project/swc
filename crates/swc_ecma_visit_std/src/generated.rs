@@ -7872,7 +7872,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Expr {
                 <BinExpr as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::Assign { 0: _field_0 } => {
-                <AssignExpr as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<AssignExpr> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::Member { 0: _field_0 } => {
                 <MemberExpr as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -7884,7 +7884,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Expr {
                 <CondExpr as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::Call { 0: _field_0 } => {
-                <CallExpr as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<CallExpr> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::New { 0: _field_0 } => {
                 <NewExpr as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -7905,7 +7905,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Expr {
                 <TaggedTpl as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::Arrow { 0: _field_0 } => {
-                <ArrowExpr as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<ArrowExpr> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Expr::Class { 0: _field_0 } => {
                 <ClassExpr as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -25219,7 +25219,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Expr {
                     self,
                     self::fields::ExprField::Assign,
                 ));
-                <AssignExpr as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<AssignExpr> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -25259,7 +25259,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Expr {
             Expr::Call { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Expr(self, self::fields::ExprField::Call));
-                <CallExpr as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<CallExpr> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -25324,7 +25324,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Expr {
             Expr::Arrow { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Expr(self, self::fields::ExprField::Arrow));
-                <ArrowExpr as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<ArrowExpr> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -41023,7 +41023,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Expr {
                 <BinExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::Assign { 0: _field_0 } => {
-                <AssignExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<AssignExpr> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::Member { 0: _field_0 } => {
                 <MemberExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -41035,7 +41035,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Expr {
                 <CondExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::Call { 0: _field_0 } => {
-                <CallExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<CallExpr> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::New { 0: _field_0 } => {
                 <NewExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -41056,7 +41056,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Expr {
                 <TaggedTpl as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::Arrow { 0: _field_0 } => {
-                <ArrowExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<ArrowExpr> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Expr::Class { 0: _field_0 } => {
                 <ClassExpr as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -55705,7 +55705,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Expr {
             Expr::Assign { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Assign));
-                <AssignExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<AssignExpr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -55741,7 +55741,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Expr {
             Expr::Call { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Call));
-                <CallExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<CallExpr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -55804,7 +55804,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Expr {
             Expr::Arrow { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Arrow));
-                <ArrowExpr as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<ArrowExpr> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -69959,7 +69959,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 Expr::Bin { 0: _field_0 }
             }
             Expr::Assign { 0: _field_0 } => {
-                let _field_0 = <AssignExpr as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<AssignExpr> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::Assign { 0: _field_0 }
             }
             Expr::Member { 0: _field_0 } => {
@@ -69975,7 +69975,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 Expr::Cond { 0: _field_0 }
             }
             Expr::Call { 0: _field_0 } => {
-                let _field_0 = <CallExpr as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<CallExpr> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::Call { 0: _field_0 }
             }
             Expr::New { 0: _field_0 } => {
@@ -70003,7 +70003,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 Expr::TaggedTpl { 0: _field_0 }
             }
             Expr::Arrow { 0: _field_0 } => {
-                let _field_0 = <ArrowExpr as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<ArrowExpr> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::Arrow { 0: _field_0 }
             }
             Expr::Class { 0: _field_0 } => {
@@ -85359,7 +85359,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Expr {
             Expr::Assign { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Assign));
-                let _field_0 = <AssignExpr as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<AssignExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -85399,7 +85399,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Expr {
             Expr::Call { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Call));
-                let _field_0 = <CallExpr as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<CallExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -85469,7 +85469,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Expr {
             Expr::Arrow { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Expr(self::fields::ExprField::Arrow));
-                let _field_0 = <ArrowExpr as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<ArrowExpr> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
