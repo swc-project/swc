@@ -2605,7 +2605,6 @@ impl Optimizer<'_> {
                 in_abort: false,
             };
             b.visit_with(&mut v);
-            println!("{:#?}", v.abort);
             if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
