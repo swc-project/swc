@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v16.2.1] - 2025-02-27
 
 ### Bug Fixes
 
@@ -1325,9 +1325,6 @@
 
 ### Bug Fixes
 
-
-
-- **(allocator)** Fix allocator & add benchmark ([#9234](https://github.com/swc-project/swc/issues/9234)) ([037dad5](https://github.com/swc-project/swc/commit/037dad52f44235590a0bcd5287d5118bca9da111))
 
 
 - **(allocator)** Remove wrong assertions and add tests ([#9252](https://github.com/swc-project/swc/issues/9252)) ([d8e8b04](https://github.com/swc-project/swc/commit/d8e8b04cd877bcf00157eeee9b7af0b4244a1827))
