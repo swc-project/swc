@@ -6,7 +6,7 @@ use std::{
     mem::{take, transmute_copy, ManuallyDrop},
 };
 
-use indexmap::IndexSet;
+use indexmap::{IndexMap, IndexSet};
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashSet, FxHasher};
@@ -38,7 +38,7 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
-pub(super) type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
+pub(super) type FxIndexMap<K, V> = IndexMap<K, V, BuildHasherDefault<FxHasher>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -50,7 +50,7 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
-    queue: FxIndexSet<Id>,
+    queue: FxIndexMap<Id, u32>,
 }
 
 impl Scope {
@@ -61,13 +61,11 @@ impl Scope {
 
         self.data.all.insert(id.clone());
 
-        if !self.data.queue.contains(id) {
-            if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
-                return;
-            }
-
-            self.data.queue.insert(id.clone());
+        if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
+            return;
         }
+
+        *self.data.queue.entry(id.clone()).or_default() += 1;
     }
 
     pub(crate) fn reserve_decl(&mut self, len: usize) {
@@ -140,7 +138,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: FxIndexSet<Id>,
+        queue: FxIndexMap<Id, u32>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
@@ -148,7 +146,7 @@ impl Scope {
     {
         let mut n = 0;
 
-        for id in queue {
+        for (id, _) in queue {
             if preserved.contains(&id)
                 || to.get(&id).is_some()
                 || previous.get(&id).is_some()
@@ -279,7 +277,7 @@ impl Scope {
         to: &mut RenameMap,
         previous: &RenameMap,
         reverse: &mut ReverseMap,
-        queue: FxIndexSet<Id>,
+        mut queue: FxIndexMap<Id, u32>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
     ) where
@@ -287,7 +285,9 @@ impl Scope {
     {
         let mut n = 0;
 
-        for id in queue {
+        queue.sort_by(|_, a, _, b| b.cmp(a));
+
+        for (id, _) in queue {
             if preserved.contains(&id)
                 || to.get(&id).is_some()
                 || previous.get(&id).is_some()
