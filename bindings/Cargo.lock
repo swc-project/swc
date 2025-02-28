@@ -209,12 +209,6 @@ dependencies = [
 
 [[package]]
 name = "base64"
-version = "0.21.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
-
-[[package]]
-name = "base64"
 version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
@@ -255,7 +249,7 @@ dependencies = [
  "bitflags 2.6.0",
  "cexpr",
  "clang-sys",
- "itertools 0.13.0",
+ "itertools 0.10.5",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -290,7 +284,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.4"
+version = "1.11.5-nightly-20250228.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -401,7 +395,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.4"
+version = "1.11.5-nightly-20250228.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -414,7 +408,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.4"
+version = "1.11.5-nightly-20250228.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -4149,12 +4143,12 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "16.1.0"
+version = "16.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5972bd6b22d5fe9790913b4dcb579e117f7e18ed37d209d8dbe8dbb46ee64efe"
+checksum = "afca37a21a7f4eed3a77bb067e5693fa7dedb98bb85fd90a9bd9a04df4882174"
 dependencies = [
  "anyhow",
- "base64 0.21.7",
+ "base64",
  "dashmap 5.5.3",
  "either",
  "indexmap 2.7.1",
@@ -4280,7 +4274,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.494"
+version = "0.91.495"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -4343,12 +4337,12 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "13.0.0"
+version = "13.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4cc6e0eaba5b6410fda9c3189145616b3146ac14328ffc000cfe8319e0dea530"
+checksum = "278d50af64cf07f4e9893a294b5b25488de48de56e352fc5cdebff985854ecd8"
 dependencies = [
  "anyhow",
- "base64 0.21.7",
+ "base64",
  "napi",
  "napi-derive",
  "once_cell",
@@ -4398,9 +4392,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.2.2"
+version = "16.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae9e74b37565470e563a15c5c665e9dbe09beda87c64f257653eed592ba44e6b"
+checksum = "3b2d5e3623c45fe6b28e8e2838cae56aed4259d998628a98707f76a3c506dccf"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4546,9 +4540,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "8.0.1"
+version = "8.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "874889c00e41e5ae487886ff4af2533944584e8b479bc469a3f9708cab7ecdb7"
+checksum = "92103aa982740f265d6850bb3ffffbf6c3c1dee30ab0ed25117ca553f0d7467d"
 dependencies = [
  "ascii",
  "compact_str",
@@ -4792,9 +4786,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "11.0.0"
+version = "11.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aa46331be775b9ab6f114251ceb79cf7adb8e43d27183673615752a7ac828e5"
+checksum = "39c61cc0dd2b072152de9cdb6eaf6cb57e979b359ed8d0eb86ce8c3450308b2e"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
@@ -4836,9 +4830,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.0.1"
+version = "12.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5fc1b838f90630f1c620113c3517eed44f1b36b09274ada47ed7e4cb4ec10899"
+checksum = "617824047b0804f01f74161bb8efff7371abd7281b73d8213d92ac633eda8efb"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -4941,9 +4935,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "11.1.1"
+version = "11.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53f823fb2ba61099c06f1557f4d7bc3a957147f2e39f92419204682aa62b46fc"
+checksum = "39889063ff4819eae414dfe6426aa5cd72ebb0f9f48739a1fa1e7eb82d0adc78"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5102,11 +5096,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "12.0.0"
+version = "12.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "311218980029ea376a1f53292418d852d50b461d15d9d39f830abf0d1c3bdd6c"
+checksum = "3db098e259f9543aaa0f77961e64d351a7fd1394ab7588a691eb15aee2ab236e"
 dependencies = [
- "base64 0.21.7",
+ "base64",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -5237,9 +5231,9 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "12.0.0"
+version = "12.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25191f36fab332b8e01651fa859d2516345e8bbec6543ede87922e53c56d8009"
+checksum = "17523cfca0c089eb47f38309530a640ba52872d180a976e844c2a276a55142e2"
 dependencies = [
  "anyhow",
  "serde",
@@ -6133,7 +6127,7 @@ version = "2.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b30e6f97efe1fa43535ee241ee76967d3ff6ff3953ebb430d8d55c5393029e7b"
 dependencies = [
- "base64 0.22.1",
+ "base64",
  "flate2",
  "litemap",
  "log",
@@ -6301,7 +6295,7 @@ checksum = "33d71eb6f3cb7c0c48f9b989cbdcc21bb4face7c96cb8cce8f9234009e742c66"
 dependencies = [
  "anyhow",
  "async-trait",
- "base64 0.22.1",
+ "base64",
  "bincode",
  "bytecheck 0.6.12",
  "bytes",
@@ -6654,7 +6648,7 @@ checksum = "73163004796997a188704dbaf7a5d23c83acdc73c341cf817e28fce5e2eaa048"
 dependencies = [
  "anyhow",
  "async-trait",
- "base64 0.22.1",
+ "base64",
  "bincode",
  "bytecheck 0.6.12",
  "bytes",
@@ -6780,7 +6774,7 @@ checksum = "1191dad138aff02e330b75918a4ec34332b2974f9012e0959463400a8a84102d"
 dependencies = [
  "anyhow",
  "async-trait",
- "base64 0.22.1",
+ "base64",
  "bincode",
  "blake3",
  "bytecheck 0.6.12",
@@ -6915,7 +6909,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6893cbe58d5b97a0daa2dd77055d621db1c8b94fe0f2bbd719c8de747226ea6"
 dependencies = [
  "anyhow",
- "base64 0.22.1",
+ "base64",
  "bytes",
  "cfg-if",
  "ciborium",
