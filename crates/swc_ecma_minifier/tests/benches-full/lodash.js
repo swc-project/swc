@@ -2972,7 +2972,7 @@
      * @returns {Function} Returns the new wrapped function.
      */ function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
             var isAry = 128 & bitmask, isBind = 1 & bitmask, isBindKey = 2 & bitmask, isCurried = 24 & bitmask, isFlip = 512 & bitmask, Ctor = isBindKey ? undefined : createCtor(func);
-            return function wrapper() {
+            function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length; index--;)args[index] = arguments[index];
                 if (isCurried) var placeholder = getHolder(wrapper), holdersCount = /**
    * Gets the number of `placeholder` occurrences in `array`.
@@ -3006,7 +3006,8 @@
                     }
                     return array;
                 }(args, argPos) : isFlip && length > 1 && args.reverse(), isAry && ary < length && (args.length = ary), this && this !== root && this instanceof wrapper && (fn = Ctor || createCtor(fn)), fn.apply(thisBinding, args);
-            };
+            }
+            return wrapper;
         }
         /**
      * Creates a function like `_.invertBy`.
@@ -3268,17 +3269,29 @@
                     (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), // Use source `func` and merge bitmasks.
                     data[0] = source[0], data[1] = newBitmask;
                 }
-            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
-                for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
-                var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
-                return (length -= holders.length) < arity1 ? createRecurry(func1, bitmask1, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity1 - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func1, this, args);
-            }) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func2 = func, bitmask2 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask2, Ctor1 = createCtor(func2), result = function wrapper() {
-                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor1 : func2; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
+            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? result = /**
+     * Creates a function that wraps `func` to enable currying.
+     *
+     * @private
+     * @param {Function} func The function to wrap.
+     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+     * @param {number} arity The arity of `func`.
+     * @returns {Function} Returns the new wrapped function.
+     */ function(func, bitmask, arity) {
+                var Ctor = createCtor(func);
+                function wrapper() {
+                    for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
+                    var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
+                    return (length -= holders.length) < arity ? createRecurry(func, bitmask, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func, this, args);
+                }
+                return wrapper;
+            }(func, bitmask, arity) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func1 = func, bitmask1 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask1, Ctor = createCtor(func1), result = function wrapper() {
+                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor : func1; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
                 for(; argsLength--;)args[leftIndex++] = arguments[++argsIndex];
                 return apply(fn, isBind ? thisArg1 : this, args);
             });
-            else var func1, bitmask1, arity1, Ctor, func2, bitmask2, thisArg1, partials1, isBind, Ctor1, func3, bitmask3, thisArg2, isBind1, Ctor2, result = (func3 = func, bitmask3 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask3, Ctor2 = createCtor(func3), function wrapper() {
-                return (this && this !== root && this instanceof wrapper ? Ctor2 : func3).apply(isBind1 ? thisArg2 : this, arguments);
+            else var func1, bitmask1, thisArg1, partials1, isBind, Ctor, func2, bitmask2, thisArg2, isBind1, Ctor1, result = (func2 = func, bitmask2 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask2, Ctor1 = createCtor(func2), function wrapper() {
+                return (this && this !== root && this instanceof wrapper ? Ctor1 : func2).apply(isBind1 ? thisArg2 : this, arguments);
             });
             return setWrapToString((data ? baseSetData : setData)(result, newData), func, bitmask);
         }
@@ -4562,6 +4575,93 @@
             }
             return createWrap(key, bitmask, object, partials, holders);
         });
+        /**
+     * Creates a function that accepts arguments of `func` and either invokes
+     * `func` returning its result, if at least `arity` number of arguments have
+     * been provided, or returns a function that accepts the remaining `func`
+     * arguments, and so on. The arity of `func` may be specified if `func.length`
+     * is not sufficient.
+     *
+     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
+     * may be used as a placeholder for provided arguments.
+     *
+     * **Note:** This method doesn't set the "length" property of curried functions.
+     *
+     * @static
+     * @memberOf _
+     * @since 2.0.0
+     * @category Function
+     * @param {Function} func The function to curry.
+     * @param {number} [arity=func.length] The arity of `func`.
+     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+     * @returns {Function} Returns the new curried function.
+     * @example
+     *
+     * var abc = function(a, b, c) {
+     *   return [a, b, c];
+     * };
+     *
+     * var curried = _.curry(abc);
+     *
+     * curried(1)(2)(3);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2)(3);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2, 3);
+     * // => [1, 2, 3]
+     *
+     * // Curried with placeholders.
+     * curried(1)(_, 3)(2);
+     * // => [1, 2, 3]
+     */ function curry(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curry.placeholder, result;
+        }
+        /**
+     * This method is like `_.curry` except that arguments are applied to `func`
+     * in the manner of `_.partialRight` instead of `_.partial`.
+     *
+     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
+     * builds, may be used as a placeholder for provided arguments.
+     *
+     * **Note:** This method doesn't set the "length" property of curried functions.
+     *
+     * @static
+     * @memberOf _
+     * @since 3.0.0
+     * @category Function
+     * @param {Function} func The function to curry.
+     * @param {number} [arity=func.length] The arity of `func`.
+     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+     * @returns {Function} Returns the new curried function.
+     * @example
+     *
+     * var abc = function(a, b, c) {
+     *   return [a, b, c];
+     * };
+     *
+     * var curried = _.curryRight(abc);
+     *
+     * curried(3)(2)(1);
+     * // => [1, 2, 3]
+     *
+     * curried(2, 3)(1);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2, 3);
+     * // => [1, 2, 3]
+     *
+     * // Curried with placeholders.
+     * curried(3)(1, _)(2);
+     * // => [1, 2, 3]
+     */ function curryRight(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curryRight.placeholder, result;
+        }
         /**
      * Creates a debounced function that delays invoking `func` until after `wait`
      * milliseconds have elapsed since the last time the debounced function was
@@ -6596,92 +6696,7 @@
      */ function(prototype, properties) {
             var result = baseCreate(prototype);
             return null == properties ? result : baseAssign(result, properties);
-        }, lodash.curry = /**
-     * Creates a function that accepts arguments of `func` and either invokes
-     * `func` returning its result, if at least `arity` number of arguments have
-     * been provided, or returns a function that accepts the remaining `func`
-     * arguments, and so on. The arity of `func` may be specified if `func.length`
-     * is not sufficient.
-     *
-     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
-     * may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method doesn't set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @since 2.0.0
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curry(abc);
-     *
-     * curried(1)(2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // Curried with placeholders.
-     * curried(1)(_, 3)(2);
-     * // => [1, 2, 3]
-     */ function curry(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curry.placeholder, result;
-        }, lodash.curryRight = /**
-     * This method is like `_.curry` except that arguments are applied to `func`
-     * in the manner of `_.partialRight` instead of `_.partial`.
-     *
-     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method doesn't set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @since 3.0.0
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curryRight(abc);
-     *
-     * curried(3)(2)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(2, 3)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // Curried with placeholders.
-     * curried(3)(1, _)(2);
-     * // => [1, 2, 3]
-     */ function curryRight(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curryRight.placeholder, result;
-        }, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = /**
+        }, lodash.curry = curry, lodash.curryRight = curryRight, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = /**
      * Creates a slice of `array` with `n` elements dropped from the beginning.
      *
      * @static
