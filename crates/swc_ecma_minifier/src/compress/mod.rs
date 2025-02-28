@@ -12,7 +12,9 @@ use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith, VisitWith};
+#[cfg(debug_assertions)]
+use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_timer::timer;
 use tracing::{debug, error};
 
