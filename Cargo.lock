@@ -4507,7 +4507,7 @@ version = "16.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64 0.21.7",
+ "base64 0.22.1",
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
@@ -4728,7 +4728,7 @@ name = "swc_compiler_base"
 version = "13.0.0"
 dependencies = [
  "anyhow",
- "base64 0.21.7",
+ "base64 0.22.1",
  "napi",
  "napi-derive",
  "once_cell",
@@ -5048,7 +5048,7 @@ name = "swc_ecma_codegen"
 version = "8.0.1"
 dependencies = [
  "ascii",
- "base64 0.21.7",
+ "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
  "criterion",
@@ -5683,7 +5683,7 @@ dependencies = [
 name = "swc_ecma_transforms_react"
 version = "12.0.0"
 dependencies = [
- "base64 0.21.7",
+ "base64 0.22.1",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -5714,7 +5714,7 @@ version = "11.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64 0.21.7",
+ "base64 0.22.1",
  "hex",
  "serde",
  "serde_json",
