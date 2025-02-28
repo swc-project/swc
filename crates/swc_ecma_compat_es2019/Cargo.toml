@@ -19,7 +19,7 @@ tracing = { workspace = true }
 swc_atoms                = { version = "5.0.0", path = "../swc_atoms" }
 swc_common               = { version = "8.0.0", path = "../swc_common" }
 swc_ecma_ast             = { version = "8.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base = { version = "11.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "11.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "8.0.0", path = "../swc_ecma_visit" }
 swc_trace_macro          = { version = "2.0.0", path = "../swc_trace_macro" }

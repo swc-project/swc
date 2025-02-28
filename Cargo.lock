@@ -4774,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.2.3"
+version = "16.3.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5339,7 +5339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.0.1"
+version = "12.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5505,7 +5505,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "11.1.1"
+version = "11.2.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5907,7 +5907,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "12.0.0"
+version = "12.0.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
