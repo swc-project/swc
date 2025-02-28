@@ -189,5 +189,14 @@ describe("transform", () => {
                 }),
             ).rejects.toMatchSnapshot();
         });
+
+        it('shoud throw an object even with deprecatedTsModuleAsError = true', async () => {
+            await expect(
+                swc.transform("module F { export type x = number }", {
+                    mode: "transform",
+                    deprecatedTsModuleAsError: true,
+                }),
+            ).rejects.toMatchSnapshot();
+        })
     });
 });
