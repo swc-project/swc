@@ -3,7 +3,7 @@
 
 use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
-use anyhow::{Context, Error};
+use anyhow::{anyhow, Context, Error};
 use dashmap::DashMap;
 use from_variant::FromVariant;
 use once_cell::sync::Lazy;
@@ -113,14 +113,14 @@ pub fn targets_to_versions(
                     .clone()
                     .into_os_string()
                     .into_string()
-                    .unwrap_or_else(|_| panic!("Invalid path \"{:?}\"", path))
+                    .map_err(|_| anyhow!("Invalid path \"{:?}\"", path))?
                     .into();
             }
             let distribs = browserslist::execute(&browserslist_opts)
                 .with_context(|| "failed to resolve browserslist query from browserslist config")?;
 
-            let versions =
-                BrowserData::parse_versions(distribs).expect("failed to parse browser version");
+            let versions = BrowserData::parse_versions(distribs)
+                .with_context(|| "failed to parse browser version")?;
 
             Ok(Arc::new(versions))
         }
