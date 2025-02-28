@@ -382,10 +382,11 @@
  *	deleting the oldest entry
  */ function createCache() {
             var keys = [];
-            return function cache(key, value) {
+            function cache(key, value) {
                 return keys.push(key + " ") > Expr.cacheLength && // Only keep the most recent entries
                 delete cache[keys.shift()], cache[key + " "] = value;
-            };
+            }
+            return cache;
         }
         /**
  * Mark a function for special use by Sizzle

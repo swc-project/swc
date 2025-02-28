@@ -16123,6 +16123,13 @@
                                 throw t;
                             }
                         }
+                        function I() {
+                            for(var e = arguments.length, t = Array(e), r = 0; r < e; r++)t[r] = arguments[r];
+                            S.apply(void 0, [
+                                I,
+                                t.length
+                            ].concat(t));
+                        }
                         E.throws = function e(t) {
                             for(var r = arguments.length, n = Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++)n[i - 1] = arguments[i];
                             F.apply(void 0, [
@@ -16176,13 +16183,7 @@
                                 }
                                 throw n;
                             }
-                        }, E.strict = b(function e() {
-                            for(var t = arguments.length, r = Array(t), n = 0; n < t; n++)r[n] = arguments[n];
-                            S.apply(void 0, [
-                                e,
-                                r.length
-                            ].concat(r));
-                        }, E, {
+                        }, E.strict = b(I, E, {
                             equal: E.strictEqual,
                             deepEqual: E.deepStrictEqual,
                             notEqual: E.notStrictEqual,
