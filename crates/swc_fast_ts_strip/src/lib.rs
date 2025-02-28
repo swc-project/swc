@@ -255,6 +255,12 @@ pub fn operate(
                     src: &fm.src,
                     tokens: &tokens,
                 });
+                if handler.has_errors() {
+                    return Err(TsError {
+                        message: "Unsupported syntax".to_string(),
+                        code: ErrorCode::UnsupportedSyntax,
+                    });
+                }
             }
 
             // Strip typescript types
@@ -365,6 +371,12 @@ pub fn operate(
                         src: &fm.src,
                         tokens: &tokens,
                     });
+                    if handler.has_errors() {
+                        return Err(TsError {
+                            message: "Unsupported syntax".to_string(),
+                            code: ErrorCode::UnsupportedSyntax,
+                        });
+                    }
                 }
 
                 program.mutate(&mut typescript::typescript(
@@ -378,7 +390,9 @@ pub fn operate(
                 program.mutate(&mut hygiene());
 
                 program.mutate(&mut fixer(Some(&comments)));
-            });
+
+                Ok(())
+            })?;
 
             let mut src = std::vec::Vec::new();
             let mut src_map_buf = if options.source_map {
