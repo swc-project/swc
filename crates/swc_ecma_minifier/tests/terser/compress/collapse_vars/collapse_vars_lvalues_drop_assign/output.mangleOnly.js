@@ -6,9 +6,9 @@ function r(n) {
     var r = (n -= 3);
     return (n += r);
 }
-function e(n) {
-    var r = n, e = ++r;
-    return (r += e);
+function e(r) {
+    var n = r, e = ++n;
+    return (n += e);
 }
 function t(n) {
     var r = (n -= 3), e = n + r;

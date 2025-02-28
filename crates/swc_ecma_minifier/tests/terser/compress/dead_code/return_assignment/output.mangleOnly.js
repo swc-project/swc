@@ -1,47 +1,47 @@
-function n(n, o, t) {
-    return (n = f()), (o = l()), (o = n && (t >>= 5));
+function o(n, o, t) {
+    return (n = f()), (o = e()), (o = n && (t >>= 5));
 }
-function o() {
+function t() {
     return (i = f());
 }
-function t(n) {
+function r(n) {
     return (n = f());
 }
-function r() {
+function c() {
     var n;
     return (n = f());
 }
-function c(n) {
+function u(n) {
     try {
         return (n = f());
     } catch (o) {
         console.log(n);
     }
 }
-function u(n) {
+function l(n) {
     try {
         return (n = f());
     } finally{
         console.log(n);
     }
 }
-function l() {
+function e() {
     console.log("y");
 }
-function e(l) {
+function n(n) {
     var e = 0;
     f = function() {
-        e += l;
-        if (l < 0) throw e;
+        e += n;
+        if (n < 0) throw e;
         return e;
     };
     [
-        n,
         o,
         t,
         r,
         c,
-        u
+        u,
+        l
     ].forEach(function(n, o) {
         i = null;
         try {
@@ -54,5 +54,5 @@ function e(l) {
     });
 }
 var f, i;
-e(1);
-e(-1);
+n(1);
+n(-1);

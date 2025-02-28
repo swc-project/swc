@@ -8,12 +8,12 @@ global.getExtFn = function n() {
         return t(n);
     };
 };
-function t(n) {
-    let t;
-    if (!t) {
-        t = e(n);
+function t(t) {
+    let n;
+    if (!n) {
+        n = e(t);
     }
-    return t;
+    return n;
 }
 function e(t) {
     return n.extname(t);

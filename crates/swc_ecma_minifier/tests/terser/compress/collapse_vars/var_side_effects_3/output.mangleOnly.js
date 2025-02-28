@@ -1,8 +1,8 @@
-var o = console.log.bind(console);
-function n(n) {
-    var c = n.y * 2;
-    o("Foo:", c);
+var n = console.log.bind(console);
+function o(o) {
+    var c = o.y * 2;
+    n("Foo:", c);
 }
-n({
+o({
     y: 10
 });

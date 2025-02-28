@@ -1,7 +1,7 @@
 "use strict";
-const t = (t, r)=>{
-    return r;
+const t = (r, t)=>{
+    return t;
 };
-const r = (t, r, n)=>{
-    return n;
+const r = (r, n, t)=>{
+    return t;
 };

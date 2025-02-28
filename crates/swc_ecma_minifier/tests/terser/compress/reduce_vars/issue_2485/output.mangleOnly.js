@@ -8,9 +8,9 @@ var r = function(r) {
     var u = function(r) {
         return t(r);
     };
-    r.baz = function(r) {
-        var n = u(r);
-        return (n.get = 1), n;
+    r.baz = function(n) {
+        var r = u(n);
+        return (r.get = 1), r;
     };
     return r;
 };

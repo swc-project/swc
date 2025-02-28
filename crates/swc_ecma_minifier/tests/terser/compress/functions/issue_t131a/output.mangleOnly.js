@@ -1,17 +1,17 @@
 (function() {
-    function n() {
+    function t() {
         return {
             a: 1
         };
     }
+    function n() {
+        return t();
+    }
     function r() {
-        return n();
+        var n = t();
+        n.a = 2;
+        n.b = 3;
+        return n;
     }
-    function t() {
-        var r = n();
-        r.a = 2;
-        r.b = 3;
-        return r;
-    }
-    console.log(JSON.stringify(r()), JSON.stringify(t()));
+    console.log(JSON.stringify(n()), JSON.stringify(r()));
 })();

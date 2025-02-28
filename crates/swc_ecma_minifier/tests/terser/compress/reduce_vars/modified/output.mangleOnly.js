@@ -1,30 +1,30 @@
 function o() {
-    var o = 1, l = 2;
-    l++;
-    console.log(o + 1);
+    var l = 1, o = 2;
+    o++;
     console.log(l + 1);
+    console.log(o + 1);
 }
 function l() {
-    var o = 1, l = 2;
-    --l;
-    console.log(o + 1);
+    var l = 1, o = 2;
+    --o;
     console.log(l + 1);
+    console.log(o + 1);
 }
 function n() {
-    var o = 1, l = 2, n = 3;
-    l = n;
+    var n = 1, o = 2, l = 3;
+    o = l;
+    console.log(n + o);
     console.log(o + l);
-    console.log(l + n);
-    console.log(o + n);
-    console.log(o + l + n);
+    console.log(n + l);
+    console.log(n + o + l);
 }
 function c() {
-    var o = 1, l = 2, n = 3;
-    l *= n;
+    var n = 1, o = 2, l = 3;
+    o *= l;
+    console.log(n + o);
     console.log(o + l);
-    console.log(l + n);
-    console.log(o + n);
-    console.log(o + l + n);
+    console.log(n + l);
+    console.log(n + o + l);
 }
 function e() {
     var o = 1, l = 2, n = 3;

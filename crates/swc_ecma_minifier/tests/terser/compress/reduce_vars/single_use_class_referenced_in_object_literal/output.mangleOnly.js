@@ -1,21 +1,21 @@
 (function() {
-    class n {
+    class a {
         data() {
             return 123;
         }
     }
-    function o(o) {
+    function o(n) {
         return [
             {
-                prop: o || n
+                prop: n || a
             }.prop
         ].concat([
             2
         ]);
     }
-    var a = [
+    var n = [
         o(),
         o()
     ];
-    console.log(a[0][0] === a[1][0], new a[0][0]().data());
+    console.log(n[0][0] === n[1][0], new n[0][0]().data());
 })();

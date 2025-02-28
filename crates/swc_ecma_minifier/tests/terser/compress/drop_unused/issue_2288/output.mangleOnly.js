@@ -1,4 +1,4 @@
-function r(r) {
-    for(var a = r.a, f = 0; f < 0; f++);
-    for(var f = 0; f < 0; f++);
+function r(a) {
+    for(var f = a.a, r = 0; r < 0; r++);
+    for(var r = 0; r < 0; r++);
 }

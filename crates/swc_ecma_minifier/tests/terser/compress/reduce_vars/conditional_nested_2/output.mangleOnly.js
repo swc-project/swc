@@ -1,8 +1,8 @@
 var n = 0;
-(function(o) {
-    function c() {
-        o && n++;
+(function(c) {
+    function o() {
+        c && n++;
     }
-    c(!n && c(), (o = 1));
+    o(!n && o(), (c = 1));
 })();
 console.log(n);

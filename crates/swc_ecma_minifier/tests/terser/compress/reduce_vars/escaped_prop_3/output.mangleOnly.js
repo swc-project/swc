@@ -1,13 +1,13 @@
-var c;
-function n(n) {
-    if (c) console.log(c === n.c);
-    c = n.c;
+var n;
+function o(c) {
+    if (n) console.log(n === c.c);
+    n = c.c;
 }
-function o() {}
-function f() {
-    n({
-        c: o
+function f() {}
+function c() {
+    o({
+        c: f
     });
 }
-f();
-f();
+c();
+c();

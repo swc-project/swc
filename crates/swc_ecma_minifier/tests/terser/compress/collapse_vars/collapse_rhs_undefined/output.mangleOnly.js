@@ -1,8 +1,8 @@
 var o, v;
-function i() {
+function n() {
     o = void 0;
     v = void 0;
     return void 0;
 }
-var n = i();
-console.log(o === v, v === n, n === o);
+var i = n();
+console.log(o === v, v === i, i === o);

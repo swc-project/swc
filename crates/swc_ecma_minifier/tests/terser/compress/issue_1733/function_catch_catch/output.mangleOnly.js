@@ -1,5 +1,5 @@
-var o = 0;
-function c() {
+var c = 0;
+function o() {
     try {
         throw 1;
     } catch (c) {
@@ -12,4 +12,4 @@ function c() {
     }
     console.log(o);
 }
-c();
+o();

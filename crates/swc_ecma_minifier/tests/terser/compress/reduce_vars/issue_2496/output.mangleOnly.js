@@ -1,7 +1,7 @@
-function s(s) {
+function e(s) {
     s();
 }
-class e {
+class s {
     constructor(s){
         this.message = s;
     }
@@ -10,9 +10,9 @@ class e {
         console.log(this.message);
     }
     run() {
-        s(()=>{
+        e(()=>{
             this.go();
         });
     }
 }
-new e("FAIL").run();
+new s("FAIL").run();

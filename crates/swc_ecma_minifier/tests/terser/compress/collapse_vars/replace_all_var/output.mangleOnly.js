@@ -1,5 +1,5 @@
 var o = "PASS";
 (function() {
-    var n = n || (a && a[(o = "FAIL")]), a = o;
+    var a = a || (n && n[(o = "FAIL")]), n = o;
 })();
 console.log(o);

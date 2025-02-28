@@ -1,15 +1,15 @@
 function n(n) {
     if (n) {
-        return u(1);
-        var r = not_called(1);
+        return e(1);
+        var u = not_called(1);
     } else {
-        return u(2);
-        var t = not_called(2);
+        return e(2);
+        var r = not_called(2);
     }
-    var e = u(3);
-    function u(n) {
+    var t = e(3);
+    function e(n) {
         return 7 - n;
     }
     function a() {}
-    return t || e;
+    return r || t;
 }

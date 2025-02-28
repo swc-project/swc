@@ -1,12 +1,12 @@
 "use strict";
-const n = (n)=>n;
-const c = {
+const c = (n)=>n;
+const n = {
     func: function() {
         return this === undefined ? "PASS" : "FAIL";
     }
 };
-c.func2 = function() {
+n.func2 = function() {
     return this === undefined ? "PASS" : "FAIL";
 };
-console.log(n(c.func)());
-console.log(n(c.func2)());
+console.log(c(n.func)());
+console.log(c(n.func2)());

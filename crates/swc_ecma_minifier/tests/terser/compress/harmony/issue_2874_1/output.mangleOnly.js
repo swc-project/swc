@@ -1,16 +1,16 @@
 (function() {
     function n() {
-        let n = [
+        let o = [
             "A",
             "B",
             "C"
         ];
-        let o = [
+        let n = [
             2,
             1,
             0
-        ].map((o)=>t(n[o] + o));
-        return o;
+        ].map((n)=>t(o[n] + n));
+        return n;
     }
     function t(n) {
         return ()=>console.log(n);

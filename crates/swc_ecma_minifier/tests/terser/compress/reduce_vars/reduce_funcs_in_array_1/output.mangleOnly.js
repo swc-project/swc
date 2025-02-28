@@ -1,17 +1,17 @@
 (function() {
-    function n() {
+    function c() {
         return 123;
     }
     function o() {
         return [
-            n
+            c
         ].concat([
             2
         ]);
     }
-    var c = [
+    var n = [
         o(),
         o()
     ];
-    console.log(c[0][0] === c[1][0], c[0][0]());
+    console.log(n[0][0] === n[1][0], n[0][0]());
 })();

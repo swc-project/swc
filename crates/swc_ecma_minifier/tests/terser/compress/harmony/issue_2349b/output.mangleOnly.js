@@ -1,6 +1,6 @@
-function n(n, t) {
-    const o = n.get();
-    return o.map(function({ [t]: n  }) {
+function n(n, o) {
+    const t = n.get();
+    return t.map(function({ [o]: n }) {
         return n;
     });
 }

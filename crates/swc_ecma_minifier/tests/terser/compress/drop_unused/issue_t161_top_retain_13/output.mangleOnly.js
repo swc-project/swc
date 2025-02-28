@@ -1,5 +1,5 @@
-const o = ()=>s;
-const c = ()=>t;
-const n = ()=>l;
-const s = 2, t = 3, l = 4;
-console.log(s, t, l, s * t, s * l, t * l, o(), c(), n());
+const s = ()=>o;
+const t = ()=>c;
+const l = ()=>n;
+const o = 2, c = 3, n = 4;
+console.log(o, c, n, o * c, o * n, c * n, s(), t(), l());

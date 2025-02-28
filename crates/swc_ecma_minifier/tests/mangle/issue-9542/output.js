@@ -4,12 +4,12 @@ function test() {
         eval();
     })();
     function n(r) {
-        var o = t[r];
-        if (void 0 !== o) return o.exports;
-        var i = (t[r] = {
+        var i = t[r];
+        if (void 0 !== i) return i.exports;
+        var o = (t[r] = {
             exports: {}
         });
-        return e[r](i, i.exports, n), i.exports;
+        return e[r](o, o.exports, n), o.exports;
     }
 }
 test();

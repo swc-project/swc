@@ -1,12 +1,12 @@
 var n = 0;
 (function() {
-    function o() {
-        while(i());
-    }
-    var c;
     function i() {
-        c && c[n++];
+        while(c());
     }
-    i((c = 1));
+    var o;
+    function c() {
+        o && o[n++];
+    }
+    c((o = 1));
 })();
 console.log(n);

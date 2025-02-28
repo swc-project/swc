@@ -1,32 +1,32 @@
-function e(t, n = {}, r = false) {
+function t(e, n = {}, r = false) {
     return {
-        rule: t,
+        rule: e,
         params: n,
         implicit: r
     };
 }
-function t(t) {
-    if (typeof t === "undefined") {
-        return e("nullable", {
-            value: t
+function u(e) {
+    if (typeof e === "undefined") {
+        return t("nullable", {
+            value: e
         }, true);
     }
 }
-function n(e) {
-    return e.find((e)=>e === t) ? true : false;
+function o(e) {
+    return e.find((e)=>e === u) ? true : false;
 }
-function r(e) {
+function l(e) {
     return e === undefined || e === null || e === "";
 }
-function a(t) {
-    return r(t) ? e("required", {
-        value: t
+function e(e) {
+    return l(e) ? t("required", {
+        value: e
     }, true) : undefined;
 }
-function s(e) {
-    return e.find((e)=>e === a) ? false : true;
+function c(t) {
+    return t.find((t)=>t === e) ? false : true;
 }
-const i = (e, t, n, r)=>{
+const f = (e, t, n, r)=>{
     t.attr = n;
     if (typeof e === "function") {
         return e(t, r || "");
@@ -37,46 +37,46 @@ const i = (e, t, n, r)=>{
         return e;
     }
 };
-const u = (e)=>{
-    const t = e.split(":");
-    t.shift();
-    return t.join(":");
+const m = (t)=>{
+    const e = t.split(":");
+    e.shift();
+    return e.join(":");
 };
-const o = (e, t, n, r, a)=>{
+const d = (e, t, n, r, a)=>{
     return (e[`${t}.${n}`] || e[`${t}.${r}`] || e[t] || e[n] || e[r] || a);
 };
-const l = (e, { messages: t, attributes: n })=>{
-    const r = {};
-    const a = (t || {})["default"] || ":attr is invalid";
-    for(let s in e){
-        const c = e[s];
-        const f = (n || {})[s] || s;
-        r[s] = {};
-        for (let e of c){
-            const c = u(e.rule);
-            const m = c ? e.rule.substr(0, e.rule.length - c.length - 1) : e.rule;
-            if (e.rule === "validateObject" && e.params.errors) {
-                r[s][m] = l(e.params.errors, {
-                    messages: t,
-                    attributes: n
+const h = (n, { messages: e, attributes: r })=>{
+    const t = {};
+    const a = (e || {})["default"] || ":attr is invalid";
+    for(let s in n){
+        const i = n[s];
+        const u = (r || {})[s] || s;
+        t[s] = {};
+        for (let n of i){
+            const i = m(n.rule);
+            const o = i ? n.rule.substr(0, n.rule.length - i.length - 1) : n.rule;
+            if (n.rule === "validateObject" && n.params.errors) {
+                t[s][o] = h(n.params.errors, {
+                    messages: e,
+                    attributes: r
                 });
-            } else if (e.rule === "validateArray" && e.params.errors) {
-                r[s][m] = l(e.params.errors, {
-                    messages: t,
-                    attributes: n
+            } else if (n.rule === "validateArray" && n.params.errors) {
+                t[s][o] = h(n.params.errors, {
+                    messages: e,
+                    attributes: r
                 });
             } else {
-                const n = o(t || {}, s, e.rule, m, a);
-                r[s][m] = i(n, e.params, f, c);
+                const r = d(e || {}, s, n.rule, o, a);
+                t[s][o] = f(r, n.params, u, i);
             }
         }
     }
-    return r;
+    return t;
 };
-const c = (e)=>{
+const b = (e)=>{
     return e.match(/^\d+$/) ? true : false;
 };
-const f = (e, t)=>{
+const g = (e, t)=>{
     if (typeof e[t] !== "undefined") {
         return e[t];
     }
@@ -84,7 +84,7 @@ const f = (e, t)=>{
     const r = n.reduce((e, t)=>{
         if (e && typeof e === "object") {
             return e[t];
-        } else if (e instanceof Array && c(t)) {
+        } else if (e instanceof Array && b(t)) {
             const n = parseInt(t);
             return e[n];
         }
@@ -93,17 +93,17 @@ const f = (e, t)=>{
     });
     return r;
 };
-const m = (e, t)=>{
-    const n = f(e, t);
+const p = (e, t)=>{
+    const n = g(e, t);
     return typeof n !== "undefined";
 };
-const d = (e)=>{
+const y = (e)=>{
     return {
-        getValue: (t)=>f(e, t),
-        hasValue: (t)=>m(e, t)
+        getValue: (t)=>g(e, t),
+        hasValue: (t)=>p(e, t)
     };
 };
-const h = {
+const w = {
     "fileExists:pathCheck": "file :value doesn't exists",
     "fileExists:stringCheck": "file path must be a string",
     isArray: ":attr must be an array",
@@ -127,23 +127,23 @@ const h = {
     required: ":attr is required",
     default: ":attr is invalid"
 };
-const b = (e, t)=>{
+const x = (e, t)=>{
     return e[t];
 };
-const g = new Set([
+const v = new Set([
     "requiredWhenRule",
     "requiredIfRule",
     "requiredUnlessRule"
 ]);
-const p = async (e, t, a)=>{
-    const i = [];
-    if (r(e) && s(t)) {
-        const n = t.filter((e)=>g.has(e.name));
-        if (n.length === 0) {
+const V = async (e, t, r)=>{
+    const n = [];
+    if (l(e) && c(t)) {
+        const a = t.filter((e)=>v.has(e.name));
+        if (a.length === 0) {
             return [];
         }
-        for (let n of t.filter((e)=>g.has(e.name))){
-            let t = n(e, a);
+        for (let a of t.filter((e)=>v.has(e.name))){
+            let t = a(e, r);
             if (t instanceof Promise) {
                 t = await t;
             }
@@ -151,76 +151,76 @@ const p = async (e, t, a)=>{
                 return [];
             }
             if (t !== undefined) {
-                i.push(t);
+                n.push(t);
                 if (t.implicit) {
-                    return i;
+                    return n;
                 }
             }
         }
-        t = t.filter((e)=>!g.has(e.name));
+        t = t.filter((e)=>!v.has(e.name));
     }
-    if (typeof e === "object" && e === null && n(t)) {
+    if (typeof e === "object" && e === null && o(t)) {
         return [];
     }
-    for (let n of t){
-        let t = n(e, a);
+    for (let a of t){
+        let t = a(e, r);
         if (t instanceof Promise) {
             t = await t;
         }
         if (t !== undefined && !t.noContext) {
-            i.push(t);
+            n.push(t);
             if (t.implicit === true) {
                 break;
             }
         }
     }
-    return i;
-};
-const y = async (e, t)=>{
-    const n = {};
-    const r = d(e);
-    for(let a in t){
-        const s = t[a] instanceof Array ? t[a] : [
-            t[a]
-        ];
-        const i = b(e, a);
-        const u = await p(i, s, r);
-        if (u.length) {
-            n[a] = u;
-        }
-    }
     return n;
 };
-const w = async (e, t, n = {
-    messages: h
+const q = async (e, n)=>{
+    const t = {};
+    const r = y(e);
+    for(let a in n){
+        const s = n[a] instanceof Array ? n[a] : [
+            n[a]
+        ];
+        const i = x(e, a);
+        const u = await V(i, s, r);
+        if (u.length) {
+            t[a] = u;
+        }
+    }
+    return t;
+};
+const n = async (n, r, a = {
+    messages: w
 })=>{
-    const r = await y(e, t);
-    const a = Object.keys(r).length === 0;
-    const s = a ? {} : l(r, n);
+    const e = await q(n, r);
+    const t = Object.keys(e).length === 0;
+    const s = t ? {} : h(e, a);
     return [
-        a,
+        t,
         s
     ];
 };
-function x(t) {
-    if (typeof t !== "number") {
-        return e("isNumber", {
-            value: t
+function r(e) {
+    if (typeof e !== "number") {
+        return t("isNumber", {
+            value: e
         });
     }
 }
-const v = {
+const a = {
     name: "",
     age: "20"
 };
-const [V, q] = await w(v, {
-    name: a,
+const [s, i] = await n(a, {
+    name: e,
     age: [
-        a,
-        x
+        e,
+        r
     ]
 });
 console.log({
-    passes: V,
-    errors: q
+    passes: s,
+    errors: i
 });

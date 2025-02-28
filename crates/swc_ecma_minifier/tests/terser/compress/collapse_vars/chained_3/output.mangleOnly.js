@@ -1,5 +1,5 @@
-console.log((function(n, o) {
-    var r = n, r = o;
-    o++;
-    return r;
+console.log((function(r, n) {
+    var o = r, o = n;
+    n++;
+    return o;
 })(1, 2));

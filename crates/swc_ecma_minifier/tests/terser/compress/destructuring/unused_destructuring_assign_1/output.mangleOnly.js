@@ -1,8 +1,8 @@
-function o(o) {
-    var a;
-    let b;
-    ({ a: a , b: b  } = o);
-    console.log(b);
+function o(a) {
+    var b;
+    let o;
+    ({ a: b, b: o } = a);
+    console.log(o);
 }
 o({
     a: 1,

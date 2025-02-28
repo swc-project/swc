@@ -1,9 +1,9 @@
 "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
 "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
-const A = Symbol("foo");
-const B = {
-    [A]: "bar",
+const B = Symbol("foo");
+const A = {
+    [B]: "bar",
     baz: 1,
     qux: 2,
     [3 + 4]: "seven",
@@ -15,5 +15,5 @@ const B = {
     NaN: "nan",
     void: "Void"
 };
-console.log(B[A], B["baz"], B.qux, B[7], B[0], B[1 + 0], B[null], B[undefined], B[1 / 0], B[NaN], B.void);
-console.log(B.null, B.undefined, B.Infinity, B.NaN);
+console.log(A[B], A["baz"], A.qux, A[7], A[0], A[1 + 0], A[null], A[undefined], A[1 / 0], A[NaN], A.void);
+console.log(A.null, A.undefined, A.Infinity, A.NaN);

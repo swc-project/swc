@@ -1,22 +1,22 @@
 function r() {
-    var r = [
+    var n = [
         1,
         2,
         3
     ];
-    var n = 0;
-    for(var o = 0; o < r.length; o++)n += r[o];
-    return n;
+    var r = 0;
+    for(var o = 0; o < n.length; o++)r += n[o];
+    return r;
 }
 function n() {
-    var r = [
+    var n = [
         1,
         2,
         3
     ];
-    var n = 0;
-    for(var o = 0, t = r.length; o < t; o++)n += r[o];
-    return n;
+    var r = 0;
+    for(var o = 0, t = n.length; o < t; o++)r += n[o];
+    return r;
 }
 function o() {
     var r = [

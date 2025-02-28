@@ -1,9 +1,9 @@
 "use strict";
-const s = ()=>42;
-const t = (s)=>({
+const t = ()=>42;
+const c = (s)=>({
         val: s
     });
-const c = (c = t(s()))=>{
-    c.val === 42 && pass();
+const s = (s = c(t()))=>{
+    s.val === 42 && pass();
 };
-c();
+s();

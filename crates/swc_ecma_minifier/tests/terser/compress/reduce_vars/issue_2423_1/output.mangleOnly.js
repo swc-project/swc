@@ -1,8 +1,8 @@
-function n() {
+function o() {
     return 1;
 }
-function o() {
-    console.log(n());
+function n() {
+    console.log(o());
 }
-o();
-o();
+n();
+n();

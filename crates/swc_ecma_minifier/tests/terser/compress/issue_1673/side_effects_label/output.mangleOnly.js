@@ -1,10 +1,10 @@
-function n(n) {
-    function o() {
+function n(o) {
+    function n() {
         n: {
             console.log("PASS");
             break n;
         }
     }
-    o();
+    n();
 }
 n(0);

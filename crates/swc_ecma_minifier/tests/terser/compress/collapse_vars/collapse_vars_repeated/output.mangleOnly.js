@@ -1,15 +1,15 @@
 function n() {
-    var n = 3, o = 5, r = 2, o = 1, o = 3;
-    return -o;
+    var o = 3, n = 5, r = 2, n = 1, n = 3;
+    return -n;
 }
-function o(n) {
-    var o = 3, o = n;
-    return o;
+function o(o) {
+    var n = 3, n = o;
+    return n;
 }
-(function(n) {
-    var o = "GOOD" + n, r = "BAD", c = "!", r = o;
-    console.log(r + c);
+(function(o) {
+    var r = "GOOD" + o, n = "BAD", c = "!", n = r;
+    console.log(n + c);
 })("!"), (function(n) {
-    var o = "GOOD" + n, r = "BAD" + n, c = "!", r = o;
-    console.log(r + c);
+    var r = "GOOD" + n, o = "BAD" + n, c = "!", o = r;
+    console.log(o + c);
 })("!");

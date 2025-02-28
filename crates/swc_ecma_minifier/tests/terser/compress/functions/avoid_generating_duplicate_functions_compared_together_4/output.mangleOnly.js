@@ -1,12 +1,12 @@
-const o = ()=>null;
-const n = ()=>o;
-const c = [
-    n(),
-    n()
+const l = ()=>null;
+const o = ()=>l;
+const n = [
+    o(),
+    o()
 ];
-console.log(c[0] === c[1]);
-const l = {
-    a: n(),
-    b: n()
+console.log(n[0] === n[1]);
+const c = {
+    a: o(),
+    b: o()
 };
-console.log(l.a === l.b);
+console.log(c.a === c.b);

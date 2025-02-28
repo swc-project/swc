@@ -1,5 +1,5 @@
-export function func(o, c) {
-    const { c: n } = o;
-    console.log(n);
+export function func(o, n) {
+    const { c: c } = o;
+    console.log(c);
 }
 eval("");

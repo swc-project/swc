@@ -5,14 +5,14 @@
         n()().prop();
     })(function() {
         function n() {
-            var n = function() {
+            var o = function() {
                 console.log("PASS");
-            }, o = function() {
+            }, n = function() {
                 console.log;
-                n();
+                o();
             };
             return {
-                prop: o
+                prop: n
             };
         }
         return n;

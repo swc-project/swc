@@ -1,9 +1,9 @@
-function o(o) {
+function a(o) {
     var a = o.a;
     o.b = "PASS";
     o.c;
 }
-var a = {};
-a.d;
-o(a);
-console.log(a.b);
+var o = {};
+o.d;
+a(o);
+console.log(o.b);

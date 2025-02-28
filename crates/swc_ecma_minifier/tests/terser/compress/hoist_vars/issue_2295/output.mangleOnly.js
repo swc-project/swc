@@ -1,5 +1,5 @@
-function r(r) {
-    var a = r.a;
-    if (a) return a;
-    var a = 1;
+function r(a) {
+    var r = a.a;
+    if (r) return r;
+    var r = 1;
 }

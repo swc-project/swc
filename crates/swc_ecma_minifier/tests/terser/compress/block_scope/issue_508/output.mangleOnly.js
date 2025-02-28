@@ -7,10 +7,10 @@ const l = ()=>{
         }
         l = o;
         {
-            let o = l;
-            let e = 123456;
-            console.log(e);
-            o.push(e);
+            let e = l;
+            let o = 123456;
+            console.log(o);
+            e.push(o);
         }
     }
 };

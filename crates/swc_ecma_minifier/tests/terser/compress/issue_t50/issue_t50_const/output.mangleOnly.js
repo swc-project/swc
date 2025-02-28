@@ -8,7 +8,7 @@
             }
         ]
     ];
-    const n = [
+    const c = [
         4,
         [
             {
@@ -17,7 +17,7 @@
             }
         ]
     ];
-    const c = [
+    const a = [
         4,
         [
             {
@@ -26,7 +26,7 @@
             }
         ]
     ];
-    const a = [
+    const s = [
         4,
         [
             {
@@ -35,7 +35,7 @@
             }
         ]
     ];
-    const s = [
+    const t = [
         4,
         [
             {
@@ -44,7 +44,7 @@
             }
         ]
     ];
-    const t = [
+    const b = [
         4,
         [
             {
@@ -53,7 +53,7 @@
             }
         ]
     ];
-    const b = [
+    const p = [
         4,
         [
             {
@@ -62,7 +62,7 @@
             }
         ]
     ];
-    const p = [
+    const l = [
         4,
         [
             {
@@ -71,7 +71,7 @@
             }
         ]
     ];
-    const l = [
+    const e = [
         4,
         [
             {
@@ -80,7 +80,7 @@
             }
         ]
     ];
-    const e = [
+    const n = [
         4,
         [
             {
@@ -181,15 +181,15 @@
     ];
     const r = {
         p1: o,
-        p2: n,
-        p3: c,
-        p4: a,
-        p5: s,
-        p6: t,
-        p7: b,
-        p8: p,
-        p9: l,
-        p10: e,
+        p2: c,
+        p3: a,
+        p4: s,
+        p5: t,
+        p6: b,
+        p7: p,
+        p8: l,
+        p9: e,
+        p10: n,
         p11: f,
         p12: g,
         p13: i,
@@ -201,5 +201,5 @@
         p19: m,
         p20: q
     };
-    console.log(o[1][0].a, e[1][0].a);
+    console.log(o[1][0].a, n[1][0].a);
 })();

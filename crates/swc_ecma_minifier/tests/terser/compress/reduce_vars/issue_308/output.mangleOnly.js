@@ -1,14 +1,14 @@
-exports.withStyles = n;
-function t(t) {
+exports.withStyles = t;
+function n(t) {
     if (typeof t !== "function") {
         throw new TypeError();
     }
     Object.create(t);
 }
-function n() {
-    var n = EXTERNAL();
-    return (function(n) {
-        t(n);
+function t() {
+    var t = EXTERNAL();
+    return (function(t) {
+        n(t);
         function e() {}
-    })(n);
+    })(t);
 }

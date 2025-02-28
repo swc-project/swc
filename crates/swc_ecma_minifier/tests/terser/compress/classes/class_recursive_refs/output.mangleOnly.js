@@ -1,15 +1,15 @@
-class s {
+class c {
     set() {
         class s {
             set [s](s) {}
         }
     }
 }
-class c {
+class a {
     constructor(){
-        c();
+        a();
     }
 }
-class a {
-    [a] = 42;
+class s {
+    [s] = 42;
 }

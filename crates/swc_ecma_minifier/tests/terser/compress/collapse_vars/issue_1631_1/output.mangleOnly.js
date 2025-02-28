@@ -1,11 +1,11 @@
-var n = 0;
-function r(r) {
-    n = 200;
+var r = 0;
+function o(n) {
+    r = 200;
     return 100;
 }
-function o() {
-    var o = r();
-    n += o;
-    return n;
+function n() {
+    var n = o();
+    r += n;
+    return r;
 }
-console.log(o());
+console.log(n());

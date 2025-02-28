@@ -1,7 +1,7 @@
-var r = 1;
-var a = {
+var a = 1;
+var r = {
     bar: function() {
-        return r + r;
+        return a + a;
     }
 };
-console.log(a.bar());
+console.log(r.bar());

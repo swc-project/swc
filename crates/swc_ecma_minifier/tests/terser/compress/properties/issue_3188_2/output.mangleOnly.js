@@ -1,13 +1,13 @@
 (function() {
-    var n = function() {
+    var o = function() {
         console.log(this.p);
     };
-    function o() {
-        var o = {
+    function n() {
+        var n = {
             p: "PASS",
-            f: n
+            f: o
         };
-        o.f();
+        n.f();
     }
-    o();
+    n();
 })();

@@ -1,10 +1,10 @@
 function r(r) {
-    var n = foo(), o = bar();
-    return o || r;
+    var o = foo(), n = bar();
+    return n || r;
 }
 function n(r) {
-    var n = foo(), o = bar();
-    return o && r;
+    var o = foo(), n = bar();
+    return n && r;
 }
 function o(r) {
     var n = foo(), o = bar();

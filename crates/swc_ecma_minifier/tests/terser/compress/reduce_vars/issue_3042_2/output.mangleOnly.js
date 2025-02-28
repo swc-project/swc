@@ -1,6 +1,6 @@
-function o() {
-    this.isFoo = function(s) {
-        return s instanceof o;
+function n() {
+    this.isFoo = function(o) {
+        return o instanceof n;
     };
 }
 function s() {
@@ -8,11 +8,11 @@ function s() {
         1,
         1
     ].map(function() {
-        return new o();
+        return new n();
     });
 }
-var n = new s();
-console.log(n.foos[0].isFoo(n.foos[0]));
-console.log(n.foos[0].isFoo(n.foos[1]));
-console.log(n.foos[1].isFoo(n.foos[0]));
-console.log(n.foos[1].isFoo(n.foos[1]));
+var o = new s();
+console.log(o.foos[0].isFoo(o.foos[0]));
+console.log(o.foos[0].isFoo(o.foos[1]));
+console.log(o.foos[1].isFoo(o.foos[0]));
+console.log(o.foos[1].isFoo(o.foos[1]));

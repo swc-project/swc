@@ -3,13 +3,13 @@ function n() {
     if (n !== (n = e())) console.log("FAIL");
     else console.log("PASS");
 }
-function o() {}
-function c(...n) {
+function c() {}
+function o(...n) {
     return n[0];
 }
 function e() {
-    return c(...[
-        o
+    return o(...[
+        c
     ]);
 }
 n();

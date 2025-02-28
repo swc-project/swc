@@ -1,8 +1,8 @@
-function n(n) {
-    var r = 5, t = 3;
-    return (r += t);
+function n(t) {
+    var n = 5, r = 3;
+    return (n += r);
 }
-function r(n) {
-    var r = 5, t = 3;
-    return (r += --t);
+function r(t) {
+    var n = 5, r = 3;
+    return (n += --r);
 }

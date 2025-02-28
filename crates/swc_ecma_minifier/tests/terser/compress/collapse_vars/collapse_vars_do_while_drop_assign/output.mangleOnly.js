@@ -1,6 +1,6 @@
-function o(o) {
-    var n = 9;
-    do {}while (n === 77)
+function o(n) {
+    var o = 9;
+    do {}while (o === 77)
 }
 function n(o) {
     var n = 5 - o;

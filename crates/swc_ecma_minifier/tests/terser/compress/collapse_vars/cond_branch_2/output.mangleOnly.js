@@ -1,20 +1,20 @@
-function o(o, n) {
-    var a = console.log;
-    var c = ++n;
-    if (o) o += c;
-    a(c, o);
+function o(o, a) {
+    var c = console.log;
+    var n = ++a;
+    if (o) o += n;
+    c(n, o);
 }
-function n(o, n) {
-    var a = console.log;
-    var c = ++n;
-    o && (o += c);
-    a(c, o);
+function n(o, a) {
+    var c = console.log;
+    var n = ++a;
+    o && (o += n);
+    c(n, o);
 }
-function a(o, n) {
-    var a = console.log;
-    var c = ++n;
-    o ? (o += c) : o--;
-    a(c, o);
+function a(o, a) {
+    var c = console.log;
+    var n = ++a;
+    o ? (o += n) : o--;
+    c(n, o);
 }
 o(1, 2);
 n(3, 4);

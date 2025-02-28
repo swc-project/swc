@@ -1,4 +1,4 @@
-var o, b = {};
-b[o] = 1;
-b.b = 2;
-console.log(b[o] + b.b);
+var b, o = {};
+o[b] = 1;
+o.b = 2;
+console.log(o[b] + o.b);

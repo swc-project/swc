@@ -1,16 +1,16 @@
 function r() {
-    var r = sideeffect(), e = g1 + g2;
-    var a = e / 4, c = "Bar" + a;
-    switch(c){
+    var c = sideeffect(), r = g1 + g2;
+    var e = r / 4, a = "Bar" + e;
+    switch(a){
         case 0:
             return g9;
     }
 }
 function e() {
-    var r = g1 + g2, e = sideeffect();
-    var a = r / 4;
-    var c = "Bar" + a;
-    switch(c){
+    var r = g1 + g2, c = sideeffect();
+    var e = r / 4;
+    var a = "Bar" + e;
+    switch(a){
         case 0:
             return g9;
     }

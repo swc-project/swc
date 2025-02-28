@@ -1,8 +1,8 @@
-function n(n) {
-    function o() {
-        if (n) ;
+function n(o) {
+    function n() {
+        if (o) ;
         else console.log("PASS");
     }
-    o();
+    n();
 }
 n(0);

@@ -7,8 +7,8 @@ console.log((function n() {
 console.log((function n(n, o, r) {
     return 123;
 })());
-console.log((function(n, o, r) {
-    return r;
+console.log((function(o, r, n) {
+    return n;
 })());
 console.log((function(n, o, r) {
     if (n) return o;

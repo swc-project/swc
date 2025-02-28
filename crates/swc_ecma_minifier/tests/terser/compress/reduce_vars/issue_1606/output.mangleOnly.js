@@ -1,6 +1,6 @@
 function n() {
-    var n;
-    function a() {}
-    var c = 2;
-    x(c);
+    var a;
+    function c() {}
+    var n = 2;
+    x(n);
 }

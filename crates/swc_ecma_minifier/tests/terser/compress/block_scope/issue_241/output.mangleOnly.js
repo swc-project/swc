@@ -1,17 +1,17 @@
 var n = {};
 (function(n) {
-    function o(n) {
-        var o = {};
+    function o(o) {
+        var n = {};
         function e() {
             return r({
-                one: n.one,
-                two: n.two
+                one: o.one,
+                two: o.two
             });
         }
-        o.inner = function() {
+        n.inner = function() {
             return e();
         };
-        return o;
+        return n;
     }
     function r(n) {
         var o;

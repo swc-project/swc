@@ -1,5 +1,5 @@
-var a;
-var e = false;
-if (e) {
+var e;
+var a = false;
+if (a) {
     console.log("reachable");
 }

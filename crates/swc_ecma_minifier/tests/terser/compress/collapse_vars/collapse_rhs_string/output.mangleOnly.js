@@ -1,8 +1,8 @@
 var o, f;
-function n() {
+function r() {
     o = "foo";
     f = "foo";
     return "foo";
 }
-var r = n();
-console.log(o === f, f === r, r === o);
+var n = r();
+console.log(o === f, f === n, n === o);

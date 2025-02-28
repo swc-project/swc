@@ -1,29 +1,21 @@
-function o() {
+function n() {
     throw (w = a());
 }
-function n(o) {
-    throw (o = a());
-}
-function t() {
-    var o;
+function t(o) {
     throw (o = a());
 }
 function c() {
+    var o;
+    throw (o = a());
+}
+function l() {
     try {
         throw (w = a());
     } catch (o) {
         console.log(w);
     }
 }
-function l(o) {
-    try {
-        throw (o = a());
-    } catch (n) {
-        console.log(o);
-    }
-}
-function r() {
-    var o;
+function r(o) {
     try {
         throw (o = a());
     } catch (n) {
@@ -31,20 +23,28 @@ function r() {
     }
 }
 function f() {
+    var o;
+    try {
+        throw (o = a());
+    } catch (n) {
+        console.log(o);
+    }
+}
+function i() {
     try {
         throw (w = a());
     } finally{
         console.log(w);
     }
 }
-function i(o) {
+function h(o) {
     try {
         throw (o = a());
     } finally{
         console.log(o);
     }
 }
-function h() {
+function u() {
     var o;
     try {
         throw (o = a());
@@ -52,15 +52,14 @@ function h() {
         console.log(o);
     }
 }
-function u(u) {
+function o(o) {
     var y = 0;
     a = function() {
-        y += u;
-        if (u < 0) throw y;
+        y += o;
+        if (o < 0) throw y;
         return y;
     };
     [
-        o,
         n,
         t,
         c,
@@ -68,7 +67,8 @@ function u(u) {
         r,
         f,
         i,
-        h
+        h,
+        u
     ].forEach(function(o, n) {
         w = null;
         try {
@@ -80,5 +80,5 @@ function u(u) {
     });
 }
 var a, w;
-u(1);
-u(-1);
+o(1);
+o(-1);

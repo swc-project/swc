@@ -1,10 +1,10 @@
-var n, o = 1, c = u;
-function t(n) {
+var n, o = 1, t = c;
+function u(n) {
     return function() {
-        c = 2;
+        t = 2;
     };
 }
 n = 2;
-function u() {}
+function c() {}
 function f() {}
 console.log((o = 3));

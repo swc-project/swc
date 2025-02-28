@@ -3,9 +3,9 @@ function n() {
     if (n !== (n = l.next().value)) console.log("FAIL");
     else console.log("PASS");
 }
-function o() {}
-function* e(n) {
-    for(;;)yield o;
+function e() {}
+function* o(n) {
+    for(;;)yield e;
 }
-var l = e();
+var l = o();
 n();

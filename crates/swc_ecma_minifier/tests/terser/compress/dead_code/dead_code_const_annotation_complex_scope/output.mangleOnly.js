@@ -1,13 +1,13 @@
-var o;
-var a = "test";
-var e = false;
+var e;
+var o = "test";
+var a = false;
 var r;
-if (e) {
+if (a) {
     console.log("unreachable");
     var l;
     function n() {}
 }
-if (a === "test") {
+if (o === "test") {
     var s = "good";
     var c = "beef";
     var v = "bad";

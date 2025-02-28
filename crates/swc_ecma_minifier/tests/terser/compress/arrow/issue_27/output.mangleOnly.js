@@ -1,5 +1,5 @@
-(function(o) {
-    var a;
-    a = o;
-    a("body").addClass("foo");
+(function(a) {
+    var o;
+    o = a;
+    o("body").addClass("foo");
 })(jQuery);

@@ -1,12 +1,12 @@
-function r(r) {
-    var a = 0;
+function r(a) {
     var n = 0;
+    var r = 0;
     var o = 0;
-    while(n < 32){
-        var v = r[a++];
-        o = (127 & v) << n;
+    while(r < 32){
+        var v = a[n++];
+        o = (127 & v) << r;
         if (0 === (128 & v)) return o;
-        n += 7;
+        r += 7;
     }
 }
 console.log(r([

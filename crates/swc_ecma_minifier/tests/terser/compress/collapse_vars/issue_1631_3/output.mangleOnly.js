@@ -1,11 +1,11 @@
 function n() {
-    var n = 0, r = 1;
+    var r = 0, n = 1;
     function o() {
-        n = 2;
+        r = 2;
         return 4;
     }
     var t = o();
-    r = n + t;
-    return r;
+    n = r + t;
+    return n;
 }
 console.log(n());

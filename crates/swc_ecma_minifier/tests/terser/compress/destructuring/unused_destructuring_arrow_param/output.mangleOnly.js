@@ -1,5 +1,5 @@
-let e = ({ w: e = console.log("side effect") , x: o , y: l  })=>{
-    console.log(o);
+let e = ({ w: o = console.log("side effect"), x: e, y: l })=>{
+    console.log(e);
 };
 e({
     x: 4,

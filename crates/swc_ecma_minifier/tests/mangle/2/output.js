@@ -1,4 +1,4 @@
-const a = 1234123;
-var m = mn.dateTime, n = mn.date, i = mn.time, s = mn.periods, t = mn.days, o = mn.shortDays, e = mn.months, j = mn.shortMonths, $ = $i(s), d = aj(s), h = $i(t), r = aj(t), y = $i(o), c = aj(o), p = $i(e), v = aj(e), D = $i(j), M = aj(j), T = {
-    a: a
+const t = 1234123;
+var o = mn.dateTime, e = mn.date, j = mn.time, a = mn.periods, m = mn.days, n = mn.shortDays, i = mn.months, s = mn.shortMonths, $ = $i(a), d = aj(a), h = $i(m), r = aj(m), y = $i(n), c = aj(n), p = $i(i), v = aj(i), D = $i(s), M = aj(s), T = {
+    a: t
 };

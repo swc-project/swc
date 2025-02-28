@@ -1,14 +1,14 @@
-function n() {
-    o();
-}
 function o() {
-    console.log(1);
+    c();
 }
 function c() {
-    function o() {
+    console.log(1);
+}
+function n() {
+    function n() {
         console.log(2);
     }
-    n();
+    o();
 }
-c();
-c();
+n();
+n();

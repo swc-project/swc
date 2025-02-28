@@ -1,11 +1,11 @@
-function n(n) {
+function o(n) {
     console.log(n);
 }
-function o() {
-    return n;
-}
 function i() {
-    if (c !== (c = o())) {
+    return o;
+}
+function n() {
+    if (c !== (c = i())) {
         c(1);
     } else {
         c(2);
@@ -14,5 +14,5 @@ function i() {
 var c = function() {
     console.log("init");
 };
-i();
-i();
+n();
+n();

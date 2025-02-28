@@ -1,11 +1,11 @@
-function e() {
-    return l + n;
+function l() {
+    return n + o;
 }
-let l, n;
-let o = (o)=>{
-    l = "A";
-    n = o;
-    console.log(e());
+let n, o;
+let e = (e)=>{
+    n = "A";
+    o = e;
+    console.log(l());
 };
-o(1);
-o(2);
+e(1);
+e(2);

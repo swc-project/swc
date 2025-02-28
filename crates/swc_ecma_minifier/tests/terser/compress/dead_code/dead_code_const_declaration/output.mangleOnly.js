@@ -1,6 +1,6 @@
-var a;
-const n = false;
-if (n) {
+var n;
+const a = false;
+if (a) {
     console.log("unreachable");
     var o;
     function c() {}

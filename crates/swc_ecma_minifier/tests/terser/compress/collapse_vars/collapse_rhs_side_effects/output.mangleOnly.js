@@ -1,6 +1,6 @@
-var n = 1, o = 0;
+var o = 1, n = 0;
 new (function c() {
-    this[n-- && c()] = 1;
-    o += 1;
+    this[o-- && c()] = 1;
+    n += 1;
 })();
-console.log(o);
+console.log(n);

@@ -1,7 +1,7 @@
 console.log((function() {
-    var n = 1, r = 2, o = 3;
-    var n = o++, r = (r /= n);
+    var r = 1, n = 2, o = 3;
+    var r = o++, n = (n /= r);
     return ((function() {
-        return n;
-    })() + r);
+        return r;
+    })() + n);
 })());

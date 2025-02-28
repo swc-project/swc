@@ -6,13 +6,13 @@ function r(n) {
     var r = !!n;
     return n > +r;
 }
-function t(n) {
-    var r = 7;
-    return r--;
+function t(r) {
+    var n = 7;
+    return n--;
 }
-function u(n) {
-    var r = 7;
-    return ++r;
+function u(r) {
+    var n = 7;
+    return ++n;
 }
 function e(n) {
     var r = 8 - n;

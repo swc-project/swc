@@ -1,11 +1,11 @@
-function n() {
-    return t;
+function t() {
+    return n;
 }
-function r() {
-    return u;
+function u() {
+    return r;
 }
-function o() {
-    return c;
+function c() {
+    return o;
 }
-var t = 2, u = 3, c = 4;
-console.log(t, u, c, t * u, t * c, u * c, n(), r(), o());
+var n = 2, r = 3, o = 4;
+console.log(n, r, o, n * r, n * o, r * o, t(), u(), c());

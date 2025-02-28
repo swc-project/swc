@@ -1,7 +1,7 @@
-function n(n, e) {
+function e(n, e) {
     return new n(e).value;
 }
-var e = {
+var n = {
     p: class n {
         constructor(n){
             this.value = n * 10;
@@ -10,4 +10,4 @@ var e = {
     x: 1,
     y: 2
 };
-console.log(e.p.name, e.p === e.p, n(e.p, e.x), n(e.p, e.y));
+console.log(n.p.name, n.p === n.p, e(n.p, n.x), e(n.p, n.y));

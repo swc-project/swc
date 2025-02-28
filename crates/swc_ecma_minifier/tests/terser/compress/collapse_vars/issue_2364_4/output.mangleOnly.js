@@ -1,12 +1,12 @@
-function n(n) {
+function u(n) {
     return n.count++;
 }
-function o(t, u) {
-    var r = n(t);
-    return (o.amount = u.count), r;
+function n(o, t) {
+    var r = u(o);
+    return (n.amount = t.count), r;
 }
-var t = {
+var o = {
     count: 0
 };
-var u = o(t, t);
-console.log(o.amount, u);
+var t = n(o, o);
+console.log(n.amount, t);

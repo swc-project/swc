@@ -2,13 +2,13 @@ var r = "PASS";
 (function(n) {
     var t = 2;
     while(--n + (function() {
-        t && (r = "FAIL");
-        t = 5;
+        n && (r = "FAIL");
+        n = 5;
         return 1;
         try {
-            var n = 5;
-        } catch (t) {
-            var t;
+            var t = 5;
+        } catch (n) {
+            var n;
         }
     })().toString() && --t > 0);
 })(2);

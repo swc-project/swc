@@ -1,16 +1,16 @@
 (function() {
-    function n(n) {
+    function o(n) {
         return n[n[0]];
     }
-    function o() {
+    function n() {
         if (true) {
-            const o = n([
+            const n = o([
                 1,
                 2,
                 3
             ]);
-            console.log(o);
+            console.log(n);
         }
     }
-    return o();
+    return n();
 })();

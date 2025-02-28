@@ -1,6 +1,6 @@
 function n(n) {
     console.log(n);
 }
-!(function(o, ...c) {
-    n(c[0]);
+!(function(c, ...o) {
+    n(o[0]);
 })(1, 2, 3);

@@ -1,12 +1,12 @@
-var n = 2, o = 1;
+var o = 2, n = 1;
 (function() {
-    function c(o) {
+    function c(n) {
         f();
-        --n >= 0 && c({});
+        --o >= 0 && c({});
     }
-    c(o++);
+    c(n++);
     function f() {
-        o++;
+        n++;
     }
 })();
-console.log(o);
+console.log(n);

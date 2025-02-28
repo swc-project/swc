@@ -1,10 +1,10 @@
-var e = 1;
-var r = {
+var r = 1;
+var e = {
     get true () {
-        return e;
+        return r;
     },
     set false (c){
-        e = c;
+        r = c;
     }
 };
-console.log(r.true, (r.false = 2), r.true);
+console.log(e.true, (e.false = 2), e.true);

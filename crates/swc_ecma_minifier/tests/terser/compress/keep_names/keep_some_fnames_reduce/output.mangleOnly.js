@@ -1,13 +1,13 @@
 function a() {
     var a = [];
-    function n() {}
+    function p() {}
+    a.map(p);
+    function c() {}
+    a.map(c);
+    var n = ()=>{};
     a.map(n);
-    function m() {}
+    a.map(n);
+    var m = function() {};
     a.map(m);
-    var p = ()=>{};
-    a.map(p);
-    a.map(p);
-    var c = function() {};
-    a.map(c);
-    a.map(c);
+    a.map(m);
 }

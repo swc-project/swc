@@ -1,5 +1,5 @@
 "use strict";
-var t = (this && this.__importDefault) || function(t) {
+var e = (this && this.__importDefault) || function(t) {
     return t && t.__esModule ? t : {
         default: t
     };
@@ -7,27 +7,27 @@ var t = (this && this.__importDefault) || function(t) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const e = t(require("./config.json"));
-function n({ config: t = e.default } = {}) {
-    function r(e) {
-        const n = t[e] || null;
-        if (!n) {
+const n = e(require("./config.json"));
+function t({ config: e = n.default } = {}) {
+    function r(r) {
+        const t = e[r] || null;
+        if (!t) {
             return false;
         }
-        const { available: r, availableBy: u } = n;
-        if (!u) {
-            return r;
+        const { available: u, availableBy: n } = t;
+        if (!n) {
+            return u;
         }
-        return Date.now() >= u && r;
+        return Date.now() >= n && u;
     }
-    function u(e) {
-        const n = t[e] || null;
+    function u(t) {
+        const n = e[t] || null;
         return n;
     }
     return {
         longlong10: u,
         longlong2: r,
-        longlong100: t
+        longlong100: e
     };
 }
-exports.default = n;
+exports.default = t;

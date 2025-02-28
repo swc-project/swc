@@ -1,15 +1,15 @@
 var c = "FAIL";
 (function() {
-    function n(n, o) {
-        function a() {
-            switch(n){
-                case n:
+    function n(o, a) {
+        function n() {
+            switch(o){
+                case o:
                     break;
-                case ((c = "PASS"), o):
+                case ((c = "PASS"), a):
                     break;
             }
         }
-        a();
+        n();
     }
     n(0 / 0);
 })();

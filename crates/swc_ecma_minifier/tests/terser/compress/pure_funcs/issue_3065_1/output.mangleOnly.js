@@ -1,13 +1,13 @@
-function n(n, r, t) {
-    t.a = n;
-    t.f = r;
-    return t;
+function r(r, t, n) {
+    n.a = r;
+    n.f = t;
+    return n;
 }
-function r(r) {
-    return n(1, r, function(n) {
-        return r(n);
+function n(n) {
+    return r(1, n, function(r) {
+        return n(r);
     });
 }
-var t = r(function(n) {
+var t = n(function(n) {
     return n;
 });

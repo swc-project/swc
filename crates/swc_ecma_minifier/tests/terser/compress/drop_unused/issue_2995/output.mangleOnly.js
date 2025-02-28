@@ -1,8 +1,8 @@
-function c(c) {
-    var n;
-    c.b = n = function() {};
-    n.c = "PASS";
+function n(n) {
+    var c;
+    n.b = c = function() {};
+    c.c = "PASS";
 }
-var n = {};
-c(n);
-console.log(n.b.c);
+var c = {};
+n(c);
+console.log(c.b.c);

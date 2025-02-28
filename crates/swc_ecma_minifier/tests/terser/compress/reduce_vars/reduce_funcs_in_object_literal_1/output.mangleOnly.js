@@ -1,19 +1,19 @@
 (function() {
-    function n() {
+    function r() {
         return 123;
     }
     function o() {
         return [
             {
-                prop: n
+                prop: r
             }.prop
         ].concat([
             2
         ]);
     }
-    var r = [
+    var n = [
         o(),
         o()
     ];
-    console.log(r[0][0] === r[1][0], r[0][0]());
+    console.log(n[0][0] === n[1][0], n[0][0]());
 })();

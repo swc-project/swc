@@ -1,7 +1,7 @@
-function o() {
+function l() {
     console.log("bar:");
 }
-var l = 3;
+var o = 3;
 do {
-    o();
-}while (l)
+    l();
+}while (o)

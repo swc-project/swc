@@ -1,6 +1,6 @@
-var n = function(n, o) {
-    var r, a, c = n + o, e = c * c, l = e - c;
-    (r = l), (a = 7);
-    return r + a;
+var n = function(a, c) {
+    var o, r, n = a + c, e = n * n, l = e - n;
+    (o = l), (r = 7);
+    return o + r;
 };
 console.log(n(1, 2));

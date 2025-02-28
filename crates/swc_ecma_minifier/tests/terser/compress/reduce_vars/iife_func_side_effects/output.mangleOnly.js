@@ -1,17 +1,17 @@
 function n() {
     console.log("x");
 }
-function o() {
+function c() {
     console.log("y");
 }
-function c() {
+function o() {
     console.log("z");
 }
-(function(n, o, c) {
-    function l() {
+(function(c, n, l) {
+    function o() {
         console.log("FAIL");
     }
-    return l + o();
+    return o + n();
 })(n(), function() {
-    return o();
-}, c());
+    return c();
+}, o());

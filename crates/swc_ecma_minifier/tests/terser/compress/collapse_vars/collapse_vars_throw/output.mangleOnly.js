@@ -1,7 +1,7 @@
-var o = function(o, c) {
-    var r, t, a = o + c, n = a * a, h = n - a;
-    (r = h), (t = 7);
-    throw r + t;
+var o = function(t, a) {
+    var c, r, o = t + a, n = o * o, h = n - o;
+    (c = h), (r = 7);
+    throw c + r;
 };
 try {
     o(1, 2);

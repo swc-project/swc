@@ -1,18 +1,18 @@
-function n(n, r, t) {
-    t.a = n;
-    t.f = r;
-    return t;
+function t(r, t, n) {
+    n.a = r;
+    n.f = t;
+    return n;
 }
-function r(r) {
-    return n(1, r, function(n) {
-        return r(n);
+function r(n) {
+    return t(1, n, function(r) {
+        return n(r);
     });
 }
-var t = r(function(n) {
+var u = r(function(n) {
     return n;
 });
-function u(n) {
+function n(n) {
     console.log(n);
 }
-u(2);
-u(3);
+n(2);
+n(3);

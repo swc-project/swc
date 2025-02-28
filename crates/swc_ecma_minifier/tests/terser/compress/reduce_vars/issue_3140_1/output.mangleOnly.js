@@ -1,15 +1,15 @@
 (function() {
-    var n;
-    function t() {}
-    t.g = function t() {
+    var t;
+    function n() {}
+    n.g = function n() {
         function o() {
-            console.log(n ? "PASS" : "FAIL");
+            console.log(t ? "PASS" : "FAIL");
         }
-        n = true;
+        t = true;
         this();
-        n = false;
-        o.g = t;
+        t = false;
+        o.g = n;
         return o;
     };
-    return t;
+    return n;
 })().g().g();

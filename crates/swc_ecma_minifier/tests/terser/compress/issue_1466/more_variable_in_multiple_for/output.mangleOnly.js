@@ -1,7 +1,7 @@
-for(let o = 9, l = 0; l < 20; l += o){
-    let e = o++ + l;
-    console.log(o, e, l);
-    for(let l = e, t = e * e, c = 0; c < 10; c++){
-        console.log(o, e, t, l, c);
+for(let l = 9, o = 0; o < 20; o += l){
+    let e = l++ + o;
+    console.log(l, e, o);
+    for(let t = e, c = e * e, o = 0; o < 10; o++){
+        console.log(l, e, c, t, o);
     }
 }

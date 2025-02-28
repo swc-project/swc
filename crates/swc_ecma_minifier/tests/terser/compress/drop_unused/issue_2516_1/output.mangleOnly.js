@@ -2,11 +2,11 @@ function n() {
     function n(n) {
         a.call(null, n);
     }
-    function a(n) {
-        var l = 4;
-        var a = n || never_called();
-        var c = (l - 1) * a;
-        console.log(c == 6 ? "PASS" : c);
+    function a(l) {
+        var a = 4;
+        var c = l || never_called();
+        var n = (a - 1) * c;
+        console.log(n == 6 ? "PASS" : n);
     }
     l = n;
 }

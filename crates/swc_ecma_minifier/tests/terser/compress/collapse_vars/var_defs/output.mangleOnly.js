@@ -1,5 +1,5 @@
-var o = function(o, n) {
-    var a, c, l = o + n, r = l * l, v = r - l, a = v, c = 7;
-    console.log(a + c);
+var o = function(c, l) {
+    var n, a, o = c + l, r = o * o, v = r - o, n = v, a = 7;
+    console.log(n + a);
 };
 o("1", 0);

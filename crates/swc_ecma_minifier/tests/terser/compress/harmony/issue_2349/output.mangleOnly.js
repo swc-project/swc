@@ -1,6 +1,6 @@
-function n(n, o) {
-    const t = n.get();
-    return t.map(({ [o]: n  })=>n);
+function n(n, t) {
+    const o = n.get();
+    return o.map(({ [t]: n })=>n);
 }
 console.log(n({
     get: ()=>[

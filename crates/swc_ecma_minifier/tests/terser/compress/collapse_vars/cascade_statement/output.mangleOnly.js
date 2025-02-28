@@ -1,14 +1,14 @@
-function i(i, n) {
-    var r;
-    if (i) return (r = n), r || i;
-    else (r = i), r(n);
+function i(n, r) {
+    var i;
+    if (n) return (i = r), i || n;
+    else (i = n), i(r);
 }
-function n(i, n) {
-    var r;
-    while(i)(r = n), (i = r + n);
+function n(n, r) {
+    var i;
+    while(n)(i = r), (n = i + r);
     do {
-        throw ((r = i + n), r);
-    }while (r)
+        throw ((i = n + r), i);
+    }while (i)
 }
 function r(i, n) {
     for(; i < n; i++)if (((r = i), r && n)) var r = ((r = n(i)), r);

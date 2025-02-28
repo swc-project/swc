@@ -2,8 +2,8 @@
 ()=>{};
 (r)=>1;
 (r)=>-b;
-(r)=>{
-    return a;
-    var a;
+(a)=>{
+    return r;
+    var r;
 };
 (r, a)=>r - a;

@@ -9,21 +9,21 @@ function t(n) {
     t = typeof n === "function" ? n() : n;
     return "stirng" == typeof t && d();
 }
-function r(n) {
-    var t;
-    t = b(t / 2);
-    if (t < 0) {
-        t++;
-        ++n;
-        return n / 2;
+function r(t) {
+    var n;
+    n = b(n / 2);
+    if (n < 0) {
+        n++;
+        ++t;
+        return t / 2;
     }
 }
-function f(n) {
-    var t;
-    t = b(t / 2);
-    if (t < 0) {
-        t++;
+function f(t) {
+    var n;
+    n = b(n / 2);
+    if (n < 0) {
         n++;
-        return n / 2;
+        t++;
+        return t / 2;
     }
 }

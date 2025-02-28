@@ -1,8 +1,8 @@
-var r = console.log;
-function e(e, n) {
+var e = console.log;
+function r(r, n) {
     var o = n;
-    if (e) return e;
-    r(o);
+    if (r) return r;
+    e(o);
 }
-e(false, 1);
-e(true, 2);
+r(false, 1);
+r(true, 2);

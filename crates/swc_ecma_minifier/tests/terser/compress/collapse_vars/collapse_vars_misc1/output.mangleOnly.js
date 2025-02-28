@@ -18,13 +18,13 @@ function t(n) {
     var r = foo(), o = (5 - n) / r;
     return o;
 }
-function a(n) {
-    var r = foo(), o = (5 - u) / r;
-    return o;
+function a(o) {
+    var n = foo(), r = (5 - u) / n;
+    return r;
 }
-function i(n) {
-    const r = foo(), o = (5 - window.x) / r;
-    return o;
+function i(o) {
+    const n = foo(), r = (5 - window.x) / n;
+    return r;
 }
 function w() {
     var n = window.a * window.z;
@@ -43,11 +43,11 @@ function c() {
     var n = window.a * window.z;
     return bar() || n;
 }
-function e(n) {
-    var r = 5, o = 3;
-    return (r += o);
+function e(o) {
+    var n = 5, r = 3;
+    return (n += r);
 }
-function d(n) {
-    var r = 5, o = 3;
-    return (r += --o);
+function d(o) {
+    var n = 5, r = 3;
+    return (n += --r);
 }

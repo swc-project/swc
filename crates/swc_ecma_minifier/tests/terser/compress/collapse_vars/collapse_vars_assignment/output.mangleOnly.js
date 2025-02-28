@@ -1,9 +1,9 @@
 function n(n) {
     return console.log(n), n;
 }
-function r(n) {
-    var r = 3 / n;
-    return (r = r);
+function r(r) {
+    var n = 3 / r;
+    return (n = n);
 }
 function t(n) {
     const r = 3 / n;

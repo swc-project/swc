@@ -1,6 +1,6 @@
 function t() {}
 function n() {
-    var n = this.$$lastCommittedViewValue;
-    var i = n;
-    return t(i) ? i : null;
+    var i = this.$$lastCommittedViewValue;
+    var n = i;
+    return t(n) ? n : null;
 }

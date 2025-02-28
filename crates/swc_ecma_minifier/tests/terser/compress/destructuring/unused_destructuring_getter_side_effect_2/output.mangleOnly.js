@@ -1,6 +1,6 @@
 function o(o) {
-    const { a: e , b: n  } = o;
-    console.log(n);
+    const { a: n, b: e } = o;
+    console.log(e);
 }
 o({
     a: 1,

@@ -1,8 +1,8 @@
 var o = "PASS";
 (function() {
-    var o = 42;
-    for(var r = 5; r > 0;)r--;
-    a = "FAIL";
-    var a;
+    var r = 42;
+    for(var a = 5; a > 0;)a--;
+    o = "FAIL";
+    var o;
 })();
 console.log(o);

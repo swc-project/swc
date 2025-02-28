@@ -1,5 +1,5 @@
-function n() {}
-function l(l) {
-    return l || n;
+function l() {}
+function n(n) {
+    return n || l;
 }
-console.log(l(false) === l(null));
+console.log(n(false) === n(null));

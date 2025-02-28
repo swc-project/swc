@@ -1,5 +1,5 @@
-function n(n) {
+function l(n) {
     return n.split(/[\\/]/);
 }
-var l = n("A/B\\C\\D/E\\F");
-console.log(l[5], l[4], l[3], l[2], l[1], l[0], l.length);
+var n = l("A/B\\C\\D/E\\F");
+console.log(n[5], n[4], n[3], n[2], n[1], n[0], n.length);
