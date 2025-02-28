@@ -11375,3 +11375,77 @@ fn isssue_9498() {
 ",
     )
 }
+
+#[test]
+fn issue_10095() {
+    run_exec_test(
+        "
+    function module() {
+        function a() {
+            if (a.isInit) return;
+            a.isInit = true;
+
+            console.log('run')
+        }
+
+        function b() {
+            a();
+
+            console.log('after');
+        }
+
+        b();
+        b();
+    }
+
+    module();
+    ",
+        r#"{
+        "arguments": false,
+        "arrows": false,
+        "booleans": false,
+        "booleans_as_integers": false,
+        "collapse_vars": false,
+        "comparisons": false,
+        "computed_props": false,
+        "conditionals": false,
+        "dead_code": false,
+        "directives": false,
+        "drop_console": false,
+        "drop_debugger": false,
+        "evaluate": false,
+        "expression": false,
+        "hoist_funs": false,
+        "hoist_props": false,
+        "hoist_vars": false,
+        "if_return": false,
+        "join_vars": false,
+        "keep_classnames": false,
+        "keep_fargs": false,
+        "keep_fnames": false,
+        "keep_infinity": false,
+        "loops": false,
+        "negate_iife": false,
+        "properties": false,
+        "reduce_funcs": false,
+        "reduce_vars": false,
+        "side_effects": false,
+        "switches": false,
+        "typeofs": false,
+        "unsafe": false,
+        "unsafe_arrows": false,
+        "unsafe_comps": false,
+        "unsafe_Function": false,
+        "unsafe_math": false,
+        "unsafe_symbols": false,
+        "unsafe_methods": false,
+        "unsafe_proto": false,
+        "unsafe_regexp": false,
+        "unsafe_undefined": false,
+        "unused": false,
+        "const_to_let": false,
+        "pristine_globals": false
+      }"#,
+        false,
+    );
+}
