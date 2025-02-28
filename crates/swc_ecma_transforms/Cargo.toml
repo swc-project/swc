@@ -36,12 +36,12 @@ typescript = ["swc_ecma_transforms_typescript"]
 swc_atoms                        = { version = "5.0.0", path = "../swc_atoms" }
 swc_common                       = { version = "8.0.0", path = "../swc_common" }
 swc_ecma_ast                     = { version = "8.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base         = { version = "11.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { version = "11.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { version = "12.0.0", path = "../swc_ecma_transforms_compat", optional = true }
 swc_ecma_transforms_module       = { version = "12.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "11.0.0", path = "../swc_ecma_transforms_optimization", optional = true }
 swc_ecma_transforms_proposal     = { version = "11.0.1", path = "../swc_ecma_transforms_proposal", optional = true }
-swc_ecma_transforms_react        = { version = "12.0.0", path = "../swc_ecma_transforms_react", optional = true }
+swc_ecma_transforms_react        = { version = "12.0.1", path = "../swc_ecma_transforms_react", optional = true }
 swc_ecma_transforms_typescript   = { version = "12.0.0", path = "../swc_ecma_transforms_typescript", optional = true }
 swc_ecma_utils                   = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "8.0.0", path = "../swc_ecma_visit" }
@@ -51,7 +51,7 @@ pretty_assertions = { workspace = true }
 sourcemap         = { workspace = true }
 tempfile          = { workspace = true }
 
-swc_ecma_codegen            = { version = "8.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen            = { version = "8.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser             = { version = "10.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_testing = { version = "11.0.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_testing = { version = "11.0.1", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "8.0.0", path = "../testing" }

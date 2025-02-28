@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "16.1.0"
+version       = "16.1.1"
 
 [lib]
 bench = false
@@ -75,10 +75,10 @@ swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "13.0.0", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "13.0.1", path = "../swc_compiler_base" }
 swc_config = { version = "2.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "8.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "8.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "11.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "11.0.1", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader", features = [
@@ -86,7 +86,7 @@ swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "12.0.1", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "12.0.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "14.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms", features = [
@@ -97,7 +97,7 @@ swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "11.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "11.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "12.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "11.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
