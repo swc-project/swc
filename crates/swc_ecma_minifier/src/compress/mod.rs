@@ -18,9 +18,11 @@ use tracing::{debug, error};
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
+#[cfg(debug_assertions)]
+use crate::debug::AssertValid;
 use crate::{
     compress::hoist_decls::decl_hoister,
-    debug::{dump, AssertValid},
+    debug::dump,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
