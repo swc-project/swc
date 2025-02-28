@@ -4,18 +4,18 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
-        return l;
+        return e;
     }
 });
-var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_class_call_check"), r = require("@swc/helpers/_/_create_class"), i = require("@swc/helpers/_/_define_property"), s = require("@swc/helpers/_/_inherits"), n = require("@swc/helpers/_/_interop_require_wildcard"), c = require("@swc/helpers/_/_object_spread"), _ = require("@swc/helpers/_/_object_spread_props"), o = require("react/jsx-runtime"), l = /*#__PURE__*/ function(n) {
+var i = require("@swc/helpers/_/_call_super"), s = require("@swc/helpers/_/_class_call_check"), n = require("@swc/helpers/_/_create_class"), t = require("@swc/helpers/_/_define_property"), c = require("@swc/helpers/_/_inherits"), r = require("@swc/helpers/_/_interop_require_wildcard"), _ = require("@swc/helpers/_/_object_spread"), o = require("@swc/helpers/_/_object_spread_props"), l = require("react/jsx-runtime"), e = /*#__PURE__*/ function(r) {
     "use strict";
-    function l() {
+    function e() {
         var r;
-        return t._(this, l), r = e._(this, l, arguments), i._(r, "storeHighlightedItemReference", function(e) {
+        return s._(this, e), r = i._(this, e, arguments), t._(r, "storeHighlightedItemReference", function(e) {
             r.props.onHighlightedItemChange(null === e ? null : e.item);
         }), r;
     }
-    return s._(l, n), r._(l, [
+    return c._(e, r), n._(e, [
         {
             key: "shouldComponentUpdate",
             value: function(e) {
@@ -27,34 +27,34 @@ var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_clas
         {
             key: "render",
             value: function() {
-                var e = this, t = this.props, r = t.items, i = t.itemProps, s = t.renderItem, n = t.renderItemData, l = t.sectionIndex, u = t.highlightedItemIndex, p = t.getItemId, a = t.theme, d = t.keyPrefix, h = null === l ? d : "".concat(d, "section-").concat(l, "-"), m = "function" == typeof i;
-                return (0, o.jsx)("ul", _._(c._({
+                var u = this, e = this.props, i = e.items, s = e.itemProps, p = e.renderItem, a = e.renderItemData, t = e.sectionIndex, d = e.highlightedItemIndex, h = e.getItemId, n = e.theme, r = e.keyPrefix, c = null === t ? r : "".concat(r, "section-").concat(t, "-"), m = "function" == typeof s;
+                return (0, l.jsx)("ul", o._(_._({
                     role: "listbox"
-                }, a("".concat(h, "items-list"), "itemsList")), {
-                    children: r.map(function(t, r) {
-                        var d = 0 === r, f = r === u, I = "".concat(h, "item-").concat(r), g = m ? i({
-                            sectionIndex: l,
-                            itemIndex: r
-                        }) : i, x = c._({
-                            id: p(l, r),
-                            "aria-selected": f
-                        }, a(I, "item", d && "itemFirst", f && "itemHighlighted"), g);
-                        return f && (x.ref = e.storeHighlightedItemReference), (0, o.jsx)(Item, _._(c._({}, x), {
-                            sectionIndex: l,
-                            isHighlighted: f,
-                            itemIndex: r,
-                            item: t,
-                            renderItem: s,
-                            renderItemData: n
+                }, n("".concat(c, "items-list"), "itemsList")), {
+                    children: i.map(function(f, e) {
+                        var I = 0 === e, r = e === d, g = "".concat(c, "item-").concat(e), x = m ? s({
+                            sectionIndex: t,
+                            itemIndex: e
+                        }) : s, i = _._({
+                            id: h(t, e),
+                            "aria-selected": r
+                        }, n(g, "item", I && "itemFirst", r && "itemHighlighted"), x);
+                        return r && (i.ref = u.storeHighlightedItemReference), (0, l.jsx)(Item, o._(_._({}, i), {
+                            sectionIndex: t,
+                            isHighlighted: r,
+                            itemIndex: e,
+                            item: f,
+                            renderItem: p,
+                            renderItemData: a
                         }));
                     })
                 }));
             }
         }
-    ]), l;
-}(/*#__PURE__*/ n._(require("react")).Component);
-i._(l, "propTypes", {
+    ]), e;
+}(/*#__PURE__*/ r._(require("react")).Component);
+t._(e, "propTypes", {
     items: 500
-}), i._(l, "defaultProps", {
+}), t._(e, "defaultProps", {
     sectionIndex: null
-}), new l();
+}), new e();

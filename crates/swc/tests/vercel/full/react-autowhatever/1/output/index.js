@@ -4,18 +4,18 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
-        return o;
+        return t;
     }
 });
-var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_class_call_check"), r = require("@swc/helpers/_/_create_class"), i = require("@swc/helpers/_/_define_property"), n = require("@swc/helpers/_/_inherits"), s = require("@swc/helpers/_/_interop_require_default"), u = require("@swc/helpers/_/_interop_require_wildcard"), d = require("@swc/helpers/_/_object_spread"), c = require("@swc/helpers/_/_object_spread_props"), l = require("react/jsx-runtime"), _ = /*#__PURE__*/ u._(require("react")), a = /*#__PURE__*/ s._(require("prop-types")), o = /*#__PURE__*/ function(s) {
+var u = require("@swc/helpers/_/_call_super"), d = require("@swc/helpers/_/_class_call_check"), c = require("@swc/helpers/_/_create_class"), r = require("@swc/helpers/_/_define_property"), l = require("@swc/helpers/_/_inherits"), i = require("@swc/helpers/_/_interop_require_default"), n = require("@swc/helpers/_/_interop_require_wildcard"), _ = require("@swc/helpers/_/_object_spread"), a = require("@swc/helpers/_/_object_spread_props"), o = require("react/jsx-runtime"), s = /*#__PURE__*/ n._(require("react")), e = /*#__PURE__*/ i._(require("prop-types")), t = /*#__PURE__*/ function(t) {
     "use strict";
-    function u() {
-        var r;
-        return t._(this, u), r = e._(this, u, arguments), i._(r, "storeHighlightedItemReference", function(e) {
-            r.props.onHighlightedItemChange(null === e ? null : e.item);
-        }), r;
+    function e() {
+        var t;
+        return d._(this, e), t = u._(this, e, arguments), r._(t, "storeHighlightedItemReference", function(e) {
+            t.props.onHighlightedItemChange(null === e ? null : e.item);
+        }), t;
     }
-    return n._(u, s), r._(u, [
+    return l._(e, t), c._(e, [
         {
             key: "shouldComponentUpdate",
             value: function(e) {
@@ -25,46 +25,46 @@ var e = require("@swc/helpers/_/_call_super"), t = require("@swc/helpers/_/_clas
         {
             key: "render",
             value: function() {
-                var e = this, t = this.props, r = t.items, i = t.itemProps, n = t.renderItem, s = t.renderItemData, u = t.sectionIndex, _ = t.highlightedItemIndex, a = t.getItemId, o = t.theme, p = t.keyPrefix, h = null === u ? p : "".concat(p, "section-").concat(u, "-"), f = "function" == typeof i;
-                return (0, l.jsx)("ul", c._(d._({
+                var d = this, e = this.props, i = e.items, n = e.itemProps, c = e.renderItem, l = e.renderItemData, t = e.sectionIndex, p = e.highlightedItemIndex, h = e.getItemId, s = e.theme, r = e.keyPrefix, u = null === t ? r : "".concat(r, "section-").concat(t, "-"), f = "function" == typeof n;
+                return (0, o.jsx)("ul", a._(_._({
                     role: "listbox"
-                }, o("".concat(h, "items-list"), "itemsList")), {
-                    children: r.map(function(t, r) {
-                        var p = 0 === r, m = r === _, I = "".concat(h, "item-").concat(r), g = f ? i({
-                            sectionIndex: u,
-                            itemIndex: r
-                        }) : i, q = d._({
-                            id: a(u, r),
-                            "aria-selected": m
-                        }, o(I, "item", p && "itemFirst", m && "itemHighlighted"), g);
-                        return m && (q.ref = e.storeHighlightedItemReference), (0, l.jsx)(Item, c._(d._({}, q), {
-                            sectionIndex: u,
-                            isHighlighted: m,
-                            itemIndex: r,
-                            item: t,
-                            renderItem: n,
-                            renderItemData: s
+                }, s("".concat(u, "items-list"), "itemsList")), {
+                    children: i.map(function(m, e) {
+                        var I = 0 === e, r = e === p, g = "".concat(u, "item-").concat(e), q = f ? n({
+                            sectionIndex: t,
+                            itemIndex: e
+                        }) : n, i = _._({
+                            id: h(t, e),
+                            "aria-selected": r
+                        }, s(g, "item", I && "itemFirst", r && "itemHighlighted"), q);
+                        return r && (i.ref = d.storeHighlightedItemReference), (0, o.jsx)(Item, a._(_._({}, i), {
+                            sectionIndex: t,
+                            isHighlighted: r,
+                            itemIndex: e,
+                            item: m,
+                            renderItem: c,
+                            renderItemData: l
                         }));
                     })
                 }));
             }
         }
-    ]), u;
-}(_.Component);
-i._(o, "propTypes", {
-    items: a.default.array.isRequired,
-    itemProps: a.default.oneOfType([
-        a.default.object,
-        a.default.func
+    ]), e;
+}(s.Component);
+r._(t, "propTypes", {
+    items: e.default.array.isRequired,
+    itemProps: e.default.oneOfType([
+        e.default.object,
+        e.default.func
     ]),
-    renderItem: a.default.func.isRequired,
-    renderItemData: a.default.object.isRequired,
-    sectionIndex: a.default.number,
-    highlightedItemIndex: a.default.number,
-    onHighlightedItemChange: a.default.func.isRequired,
-    getItemId: a.default.func.isRequired,
-    theme: a.default.func.isRequired,
-    keyPrefix: a.default.string.isRequired
-}), i._(o, "defaultProps", {
+    renderItem: e.default.func.isRequired,
+    renderItemData: e.default.object.isRequired,
+    sectionIndex: e.default.number,
+    highlightedItemIndex: e.default.number,
+    onHighlightedItemChange: e.default.func.isRequired,
+    getItemId: e.default.func.isRequired,
+    theme: e.default.func.isRequired,
+    keyPrefix: e.default.string.isRequired
+}), r._(t, "defaultProps", {
     sectionIndex: null
-}), new o();
+}), new t();

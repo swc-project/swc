@@ -2,50 +2,50 @@ import { _ as e } from "@swc/helpers/_/_type_of";
 export default function(c, a) {
     var r, n, t, o, u;
     try {
-        if ("string" == typeof c && c.length > 0) return function(e) {
-            if ((e = String(e)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
-            var s = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(e);
-            if (!s) return NaN;
-            var c = parseFloat(s[1]), a = (s[2] || "ms").toLowerCase();
+        if ("string" == typeof c && c.length > 0) return function(s) {
+            if ((s = String(s)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
+            var c = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(s);
+            if (!c) return NaN;
+            var e = parseFloat(c[1]), a = (c[2] || "ms").toLowerCase();
             switch(a){
                 case "years":
                 case "year":
                 case "yrs":
                 case "yr":
                 case "y":
-                    return 31557600000 * c;
+                    return 31557600000 * e;
                 case "weeks":
                 case "week":
                 case "w":
-                    return 604800000 * c;
+                    return 604800000 * e;
                 case "days":
                 case "day":
                 case "d":
-                    return 86400000 * c;
+                    return 86400000 * e;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 3600000 * c;
+                    return 3600000 * e;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 60000 * c;
+                    return 60000 * e;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return 1000 * c;
+                    return 1000 * e;
                 case "milliseconds":
                 case "millisecond":
                 case "msecs":
                 case "msec":
                 case "ms":
-                    return c;
+                    return e;
                 default:
                     throw Error("The unit ".concat(a, " was matched, but no matching case exists."));
             }
@@ -58,6 +58,6 @@ export default function(c, a) {
         throw Error((void 0 === (u = s) ? "undefined" : e(u)) === "object" && null !== u && "message" in u ? "".concat(s.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occurred.");
     }
 }
-function s(e, s, c, a) {
-    return "".concat(Math.round(e / c), " ").concat(a).concat(s >= 1.5 * c ? "s" : "");
+function s(s, c, e, a) {
+    return "".concat(Math.round(s / e), " ").concat(a).concat(c >= 1.5 * e ? "s" : "");
 }

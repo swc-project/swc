@@ -1,26 +1,26 @@
-function n(n, e, t, r, o, i, u) {
+function n(i, e, u, t, r, a, c) {
     try {
-        var a = n[i](u);
-        var c = a.value;
+        var o = i[a](c);
+        var n = o.value;
     } catch (n) {
-        t(n);
+        u(n);
         return;
     }
-    if (a.done) e(c);
-    else Promise.resolve(c).then(r, o);
+    if (o.done) e(n);
+    else Promise.resolve(n).then(t, r);
 }
 function e(e) {
     return function() {
         var t = this, r = arguments;
-        return new Promise(function(o, i) {
-            var u = e.apply(t, r);
-            function a(e) {
-                n(u, o, i, a, c, "next", e);
+        return new Promise(function(i, u) {
+            var a = e.apply(t, r);
+            function o(e) {
+                n(a, i, u, o, c, "next", e);
             }
             function c(e) {
-                n(u, o, i, a, c, "throw", e);
+                n(a, i, u, o, c, "throw", e);
             }
-            a(void 0);
+            o(void 0);
         });
     };
 }

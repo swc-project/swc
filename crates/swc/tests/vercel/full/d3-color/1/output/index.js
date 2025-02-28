@@ -1,28 +1,28 @@
-import { _ as t } from "@swc/helpers/_/_instanceof";
-import i, { extend as h } from "./define.js";
-import { Color as e, rgbConvert as s, Rgb as r, darker as n, brighter as o } from "./color.js";
-import { deg2rad as a, rad2deg as u } from "./math.js";
-var l = -1.78277 * 0.29227 - 0.1347134789;
-export default function c(i, h, e, n) {
-    return 1 == arguments.length ? function(i) {
-        if (t(i, Cubehelix)) return new Cubehelix(i.h, i.s, i.l, i.opacity);
-        t(i, r) || (i = s(i));
-        var h = i.r / 255, e = i.g / 255, n = i.b / 255, o = (l * n + -1.7884503806 * h - 3.5172982438 * e) / (l + -1.7884503806 - 3.5172982438), a = n - o, c = -((1.97294 * (e - o) - -0.29227 * a) / 0.90649), p = Math.sqrt(c * c + a * a) / (1.97294 * o * (1 - o)), f = p ? Math.atan2(c, a) * u - 120 : NaN;
-        return new Cubehelix(f < 0 ? f + 360 : f, p, o, i.opacity);
-    }(i) : new Cubehelix(i, h, e, null == n ? 1 : n);
+import { _ as s } from "@swc/helpers/_/_instanceof";
+import t, { extend as i } from "./define.js";
+import { Color as h, rgbConvert as r, Rgb as n, darker as o, brighter as a } from "./color.js";
+import { deg2rad as u, rad2deg as l } from "./math.js";
+var c = -1.78277 * 0.29227 - 0.1347134789;
+export default function e(t, h, e, i) {
+    return 1 == arguments.length ? function(t) {
+        if (s(t, Cubehelix)) return new Cubehelix(t.h, t.s, t.l, t.opacity);
+        s(t, n) || (t = r(t));
+        var f = t.r / 255, a = t.g / 255, u = t.b / 255, i = (c * u + -1.7884503806 * f - 3.5172982438 * a) / (c + -1.7884503806 - 3.5172982438), h = u - i, e = -((1.97294 * (a - i) - -0.29227 * h) / 0.90649), p = Math.sqrt(e * e + h * h) / (1.97294 * i * (1 - i)), o = p ? Math.atan2(e, h) * l - 120 : NaN;
+        return new Cubehelix(o < 0 ? o + 360 : o, p, i, t.opacity);
+    }(t) : new Cubehelix(t, h, e, null == i ? 1 : i);
 }
 export function Cubehelix(t, i, h, e) {
     this.h = +t, this.s = +i, this.l = +h, this.opacity = +e;
 }
-i(Cubehelix, c, h(e, {
+t(Cubehelix, e, i(h, {
     brighter: function(t) {
-        return t = null == t ? o : Math.pow(o, t), new Cubehelix(this.h, this.s, this.l * t, this.opacity);
+        return t = null == t ? a : Math.pow(a, t), new Cubehelix(this.h, this.s, this.l * t, this.opacity);
     },
     darker: function(t) {
-        return t = null == t ? n : Math.pow(n, t), new Cubehelix(this.h, this.s, this.l * t, this.opacity);
+        return t = null == t ? o : Math.pow(o, t), new Cubehelix(this.h, this.s, this.l * t, this.opacity);
     },
     rgb: function() {
-        var t = isNaN(this.h) ? 0 : (this.h + 120) * a, i = +this.l, h = isNaN(this.s) ? 0 : this.s * i * (1 - i), e = Math.cos(t), s = Math.sin(t);
-        return new r(255 * (i + h * (-0.14861 * e + 1.78277 * s)), 255 * (i + h * (-0.29227 * e + -0.90649 * s)), 255 * (i + 1.97294 * e * h), this.opacity);
+        var e = isNaN(this.h) ? 0 : (this.h + 120) * u, t = +this.l, i = isNaN(this.s) ? 0 : this.s * t * (1 - t), h = Math.cos(e), s = Math.sin(e);
+        return new n(255 * (t + i * (-0.14861 * h + 1.78277 * s)), 255 * (t + i * (-0.29227 * h + -0.90649 * s)), 255 * (t + 1.97294 * h * i), this.opacity);
     }
 }));

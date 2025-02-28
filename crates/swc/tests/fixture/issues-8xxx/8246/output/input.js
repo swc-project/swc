@@ -1,12 +1,12 @@
-function withLog(t) {
-    let e = {};
-    for(let o in t){
+function withLog(e) {
+    let t = {};
+    for(let o in e){
         let n;
-        e[o] = (n = o, function() {
-            return console.log(n + ' invoked'), t[n].apply(this, arguments);
+        t[o] = (n = o, function() {
+            return console.log(n + ' invoked'), e[n].apply(this, arguments);
         });
     }
-    return e;
+    return t;
 }
 function main() {
     withLog({

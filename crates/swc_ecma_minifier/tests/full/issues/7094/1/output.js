@@ -1,1 +1,1 @@
-export function useSyncExternalStore$2(e,n,r){return n()}eval();
+export function useSyncExternalStore$2(n,e,r){return e()}eval();

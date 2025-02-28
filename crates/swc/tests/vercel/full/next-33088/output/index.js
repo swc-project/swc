@@ -6,7 +6,7 @@ import * as i from "react";
 export default function c() {
     var c = e(i.useState({
         hits: []
-    }), 2), o = c[0], u = c[1], l = e(i.useState("react"), 2), h = l[0], f = l[1];
+    }), 2), l = c[0], h = c[1], o = e(i.useState("react"), 2), u = o[0], f = o[1];
     return i.useEffect(function() {
         function e() {
             return (e = t(function() {
@@ -15,7 +15,7 @@ export default function c() {
                         case 0:
                             return [
                                 4,
-                                fetch("https://hn.algolia.com/api/v1/search?query=" + h)
+                                fetch("https://hn.algolia.com/api/v1/search?query=" + u)
                             ];
                         case 1:
                             return [
@@ -23,28 +23,28 @@ export default function c() {
                                 t.sent().json()
                             ];
                         case 2:
-                            return u(t.sent()), [
+                            return h(t.sent()), [
                                 2
                             ];
                     }
                 });
             })).apply(this, arguments);
         }
-        "" !== h && function() {
+        "" !== u && function() {
             e.apply(this, arguments);
         }();
     }, [
-        h
+        u
     ]), s(a, {
         children: [
             n("input", {
-                value: h,
+                value: u,
                 onChange: function(t) {
                     return f(t.target.value);
                 }
             }),
             n("ul", {
-                children: o.hits.map(function(t) {
+                children: l.hits.map(function(t) {
                     return n("li", {
                         children: n("a", {
                             href: t.url,

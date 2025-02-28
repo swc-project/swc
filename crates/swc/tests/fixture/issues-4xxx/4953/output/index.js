@@ -1,7 +1,7 @@
 "use strict";
-function _default(e, t) {
+function _default(t, e) {
     "use strict";
-    t.vr = function(e, t, r) {
+    e.vr = function(e, t, r) {
         return function() {
             return '123';
         };

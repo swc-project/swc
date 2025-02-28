@@ -1,1 +1,1 @@
-export function testme(){for(var t=arguments.length,o=Array(t),e=0;e<t;e++)o[e]=arguments[e];/^toto.+/.test(o.join(""))&&global.other(!0)}
+export function testme(){for(var o=arguments.length,t=Array(o),e=0;e<o;e++)t[e]=arguments[e];/^toto.+/.test(t.join(""))&&global.other(!0)}

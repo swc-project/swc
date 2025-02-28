@@ -6,28 +6,28 @@
         1973: function(module) {
             eval(module.code);
         },
-        1985: function(t, e, n) {
+        1985: function(n, t, c) {
             "use strict";
-            var c = 0, r = (t)=>"checkbox" === t.type;
-            var u = (t, e)=>{
-                let n;
-                return t.has((n = e).substring(0, n.search(/\.\d+(\.|$)/)) || n);
-            }, o = ()=>{};
-            function s(t, e, n) {}
-            var a = (t)=>"radio" === t.type;
-            function f(t = {}) {
-                let e, n = {
+            var r = 0, u = (t)=>"checkbox" === t.type;
+            var o = (e, n)=>{
+                let t;
+                return e.has((t = n).substring(0, t.search(/\.\d+(\.|$)/)) || t);
+            }, s = ()=>{};
+            function a(t, e, n) {}
+            var f = (t)=>"radio" === t.type;
+            function e(t = {}) {
+                let n, c = {
                     ...t
-                }, c = {}, r = 0, u = {}, o = {};
-                const s = 0, a = async (t)=>{
+                }, r = {}, u = 0, o = {}, s = {};
+                const a = 0, f = async (t)=>{
                     let e = t.target.name;
                     const n = 0;
                 };
             }
-            e.useForm = function(t = {}) {
-                const e = c.default.useRef();
-                e.current ? e.current.control._options = t : e.current = {
-                    ...f(t)
+            t.useForm = function(n = {}) {
+                const t = r.default.useRef();
+                t.current ? t.current.control._options = n : t.current = {
+                    ...e(n)
                 };
             };
         }

@@ -1,4 +1,4 @@
-function f(n) {
-    var r = 1;
-    return void 0 === r;
+function f(r) {
+    var n = 1;
+    return void 0 === n;
 }

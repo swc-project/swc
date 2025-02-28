@@ -51,18 +51,18 @@ Promise.all(assignAll).then((r = e(function(r) {
 }), function(e) {
     return r.apply(this, arguments);
 }));
-export var listOfUser = function(r) {
-    var n;
-    return new Promise((n = e(function(e, n) {
+export var listOfUser = function(n) {
+    var r;
+    return new Promise((r = e(function(r, e) {
         var s;
         return t(this, function(t) {
-            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(r, "' And user_id IS not null"), postgreSQL.query(s, null, function(r, t) {
-                r ? n(r) : e(t.rows);
+            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(n, "' And user_id IS not null"), postgreSQL.query(s, null, function(t, n) {
+                t ? e(t) : r(n.rows);
             }), [
                 2
             ];
         });
-    }), function(r, e) {
-        return n.apply(this, arguments);
+    }), function(e, t) {
+        return r.apply(this, arguments);
     }));
 };
