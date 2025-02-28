@@ -11401,6 +11401,7 @@ fn issue_10095() {
     module();
     ",
         r#"{
+        "defaults": true,
         "arguments": false,
         "arrows": false,
         "booleans": false,
