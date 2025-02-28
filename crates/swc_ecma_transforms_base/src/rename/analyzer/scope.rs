@@ -1,15 +1,11 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::{
-    fmt::{Display, Formatter},
-    hash::BuildHasherDefault,
-    mem::{take, transmute_copy, ManuallyDrop},
-};
+use std::mem::take;
 
-use indexmap::IndexSet;
+use indexmap::{IndexMap, IndexSet};
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::{FxHashSet, FxHasher};
+use rustc_hash::{FxBuildHasher, FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -38,7 +34,9 @@ pub(crate) struct Scope {
     pub(super) children: Vec<Scope>,
 }
 
-pub(super) type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
+pub(super) type FxIndexSet<T> = IndexSet<T, FxBuildHasher>;
+
+pub(super) type FxIndexMap<K, V> = IndexMap<K, V, FxBuildHasher>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -51,6 +49,8 @@ pub(super) struct ScopeData {
     all: FxHashSet<Id>,
 
     queue: FxIndexSet<Id>,
+
+    usage_count: FxIndexMap<Id, u32>,
 }
 
 impl Scope {
@@ -60,6 +60,7 @@ impl Scope {
         }
 
         self.data.all.insert(id.clone());
+        *self.data.usage_count.entry(id.clone()).or_default() += 1;
 
         if !self.data.queue.contains(id) {
             if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
@@ -81,6 +82,7 @@ impl Scope {
             return;
         }
 
+        *self.data.usage_count.entry(id.clone()).or_default() += 1;
         self.data.all.insert(id);
     }
 
@@ -215,7 +217,10 @@ impl Scope {
     ) where
         R: Renamer,
     {
-        let queue = take(&mut self.data.queue);
+        let mut queue = take(&mut self.data.queue);
+
+        // More usage: higher priority
+        queue.sort_by(|a, b| self.data.usage_count[b].cmp(&self.data.usage_count[a]));
 
         let mut cloned_reverse = reverse.next();
 
