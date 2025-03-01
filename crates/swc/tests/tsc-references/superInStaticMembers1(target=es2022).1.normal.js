@@ -2,7 +2,6 @@
 //// [external.ts]
 export class Reflect {
 }
-;
 export default class {
 }
 //// [locals.ts]
@@ -42,7 +41,6 @@ class C extends B {
                 super.w();
             })(),
             (()=>{
-                ;
                 super.w();
             })(),
             (()=>{
@@ -96,7 +94,6 @@ class C extends B {
         super.w();
     }
     static{
-        ;
         super.w();
     }
     static{
@@ -245,7 +242,6 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-;
 class C extends B {
     static{
         this._ = super.w();
@@ -253,7 +249,6 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-;
 class C extends B {
     static{
         super.w();

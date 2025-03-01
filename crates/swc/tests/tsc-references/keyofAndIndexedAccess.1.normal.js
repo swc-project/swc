@@ -23,7 +23,6 @@ var Options = function Options() {
     "use strict";
     _class_call_check(this, Options);
 };
-;
 function getProperty(obj, key) {
     return obj[key];
 }
