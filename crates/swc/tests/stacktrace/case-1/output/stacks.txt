@@ -6,4 +6,3 @@ $DIR/tests/stacktrace/case-1/input/index.js:5
 Error: Boom
     at <anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:5:15)
     at Object.<anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:6:5)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
