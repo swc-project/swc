@@ -254,7 +254,7 @@ impl VisitMut for Transform {
         let var_list = self.var_list.take();
         node.retain_mut(|item| {
             let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
-            item.visit_mut_children_with(self);
+            item.visit_mut_with(self);
             // Remove those folded into Empty
             is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
         });
@@ -354,7 +354,7 @@ impl VisitMut for Transform {
         let var_list = self.var_list.take();
         node.retain_mut(|stmt| {
             let is_empty = stmt.is_empty();
-            stmt.visit_mut_children_with(self);
+            stmt.visit_mut_with(self);
             // Remove those folded into Empty
             is_empty || !stmt.is_empty()
         });
