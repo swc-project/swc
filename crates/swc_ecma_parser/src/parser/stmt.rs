@@ -757,10 +757,9 @@ impl<'a, I: Tokens> Parser<I> {
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
-                    Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(ArrayPat { type_ann, .. })
-                    | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. }) => {
+                    Pat::Ident(..) | Pat::Array(..) | Pat::Rest(..) | Pat::Object(..) => {
+                        let (type_ann, _span) =
+                            self.get_type_ann_and_span_of_pat(&mut pat).unwrap();
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
@@ -976,18 +975,8 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
-                Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
-                })
-                | Pat::Ident(BindingIdent {
-                    ref mut type_ann, ..
-                })
-                | Pat::Object(ObjectPat {
-                    ref mut type_ann, ..
-                })
-                | Pat::Rest(RestPat {
-                    ref mut type_ann, ..
-                }) => {
+                Pat::Array(..) | Pat::Ident(..) | Pat::Object(..) | Pat::Rest(..) => {
+                    let (type_ann, _span) = self.get_type_ann_and_span_of_pat(&mut name).unwrap();
                     *type_ann = type_annotation;
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
@@ -1536,7 +1525,7 @@ mod tests {
                 },
                 handler: Some(CatchClause {
                     span,
-                    param: Pat::Object(ObjectPat {
+                    param: Some(Pat::Object(Box::new(ObjectPat {
                         span,
                         optional: false,
                         props: vec![ObjectPatProp::Rest(RestPat {
@@ -1548,8 +1537,7 @@ mod tests {
                             type_ann: None
                         })],
                         type_ann: None,
-                    })
-                    .into(),
+                    }))),
                     body: BlockStmt {
                         span,
                         ..Default::default()
@@ -2069,7 +2057,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Array(ArrayPat {
+                        name: Pat::Array(Box::new(ArrayPat {
                             span,
                             type_ann: None,
                             optional: false,
@@ -2078,7 +2066,7 @@ export default function waitUntil(callback, options = {}) {
                                 None,
                                 Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
                             ]
-                        }),
+                        })),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "simple_array".into(),
                             span
@@ -2101,7 +2089,7 @@ export default function waitUntil(callback, options = {}) {
                     kind: VarDeclKind::Let,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Object(ObjectPat {
+                        name: Pat::Object(Box::new(ObjectPat {
                             optional: false,
                             type_ann: None,
                             span,
@@ -2110,7 +2098,7 @@ export default function waitUntil(callback, options = {}) {
                                 key: Ident::new_no_ctxt("num".into(), span).into(),
                                 value: None
                             })]
-                        }),
+                        })),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
                             "obj".into(),
                             span

@@ -6947,10 +6947,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for AssignTargetPat {
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
             AssignTargetPat::Array { 0: _field_0 } => {
-                <ArrayPat as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<ArrayPat> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             AssignTargetPat::Object { 0: _field_0 } => {
-                <ObjectPat as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<ObjectPat> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             AssignTargetPat::Invalid { 0: _field_0 } => {
                 <Invalid as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -9527,13 +9527,13 @@ impl<V: ?Sized + Visit> VisitWith<V> for Pat {
                 <BindingIdent as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Pat::Array { 0: _field_0 } => {
-                <ArrayPat as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<ArrayPat> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Pat::Rest { 0: _field_0 } => {
                 <RestPat as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Pat::Object { 0: _field_0 } => {
-                <ObjectPat as VisitWith<V>>::visit_with(_field_0, visitor);
+                <Box<ObjectPat> as VisitWith<V>>::visit_with(_field_0, visitor);
             }
             Pat::Assign { 0: _field_0 } => {
                 <AssignPat as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -23006,7 +23006,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignTargetPat {
                     self,
                     self::fields::AssignTargetPatField::Array,
                 ));
-                <ArrayPat as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<ArrayPat> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -23017,7 +23017,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AssignTargetPat {
                     self,
                     self::fields::AssignTargetPatField::Object,
                 ));
-                <ObjectPat as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<ObjectPat> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -29303,7 +29303,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Pat {
             Pat::Array { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Pat(self, self::fields::PatField::Array));
-                <ArrayPat as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<ArrayPat> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -29321,7 +29321,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Pat {
             Pat::Object { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentNodeRef::Pat(self, self::fields::PatField::Object));
-                <ObjectPat as VisitWithAstPath<V>>::visit_with_ast_path(
+                <Box<ObjectPat> as VisitWithAstPath<V>>::visit_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -40098,10 +40098,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AssignTargetPat {
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
             AssignTargetPat::Array { 0: _field_0 } => {
-                <ArrayPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<ArrayPat> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             AssignTargetPat::Object { 0: _field_0 } => {
-                <ObjectPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<ObjectPat> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             AssignTargetPat::Invalid { 0: _field_0 } => {
                 <Invalid as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -42678,13 +42678,13 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Pat {
                 <BindingIdent as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Pat::Array { 0: _field_0 } => {
-                <ArrayPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<ArrayPat> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Pat::Rest { 0: _field_0 } => {
                 <RestPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Pat::Object { 0: _field_0 } => {
-                <ObjectPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
+                <Box<ObjectPat> as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
             Pat::Assign { 0: _field_0 } => {
                 <AssignPat as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -53947,7 +53947,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignTargetPat {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::AssignTargetPat(
                     self::fields::AssignTargetPatField::Array,
                 ));
-                <ArrayPat as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<ArrayPat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -53957,7 +53957,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AssignTargetPat {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::AssignTargetPat(
                     self::fields::AssignTargetPatField::Object,
                 ));
-                <ObjectPat as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<ObjectPat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -58940,7 +58940,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Pat {
             Pat::Array { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Pat(self::fields::PatField::Array));
-                <ArrayPat as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<ArrayPat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -58958,7 +58958,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Pat {
             Pat::Object { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Pat(self::fields::PatField::Object));
-                <ObjectPat as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                <Box<ObjectPat> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -69035,11 +69035,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for AssignTargetPat {
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
             AssignTargetPat::Array { 0: _field_0 } => {
-                let _field_0 = <ArrayPat as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<ArrayPat> as FoldWith<V>>::fold_with(_field_0, visitor);
                 AssignTargetPat::Array { 0: _field_0 }
             }
             AssignTargetPat::Object { 0: _field_0 } => {
-                let _field_0 = <ObjectPat as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<ObjectPat> as FoldWith<V>>::fold_with(_field_0, visitor);
                 AssignTargetPat::Object { 0: _field_0 }
             }
             AssignTargetPat::Invalid { 0: _field_0 } => {
@@ -71608,7 +71608,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Pat {
                 Pat::Ident { 0: _field_0 }
             }
             Pat::Array { 0: _field_0 } => {
-                let _field_0 = <ArrayPat as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<ArrayPat> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Pat::Array { 0: _field_0 }
             }
             Pat::Rest { 0: _field_0 } => {
@@ -71616,7 +71616,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for Pat {
                 Pat::Rest { 0: _field_0 }
             }
             Pat::Object { 0: _field_0 } => {
-                let _field_0 = <ObjectPat as FoldWith<V>>::fold_with(_field_0, visitor);
+                let _field_0 = <Box<ObjectPat> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Pat::Object { 0: _field_0 }
             }
             Pat::Assign { 0: _field_0 } => {
@@ -83458,7 +83458,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignTargetPat {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::AssignTargetPat(
                     self::fields::AssignTargetPatField::Array,
                 ));
-                let _field_0 = <ArrayPat as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<ArrayPat> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -83469,7 +83469,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AssignTargetPat {
                 let mut __ast_path = __ast_path.with_guard(AstParentKind::AssignTargetPat(
                     self::fields::AssignTargetPatField::Object,
                 ));
-                let _field_0 = <ObjectPat as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<ObjectPat> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -88839,7 +88839,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Pat {
             Pat::Array { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Pat(self::fields::PatField::Array));
-                let _field_0 = <ArrayPat as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<ArrayPat> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,
@@ -88859,7 +88859,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Pat {
             Pat::Object { 0: _field_0 } => {
                 let mut __ast_path =
                     __ast_path.with_guard(AstParentKind::Pat(self::fields::PatField::Object));
-                let _field_0 = <ObjectPat as FoldWithAstPath<V>>::fold_with_ast_path(
+                let _field_0 = <Box<ObjectPat> as FoldWithAstPath<V>>::fold_with_ast_path(
                     _field_0,
                     visitor,
                     &mut *__ast_path,

@@ -156,7 +156,9 @@ impl AssignFolder {
                 "rest pattern should handled by array pattern handler: {:?}",
                 decl.name
             ),
-            Pat::Array(ArrayPat { elems, .. }) => {
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = *arr;
+
                 assert!(
                     decl.init.is_some(),
                     "destructuring pattern binding requires initializer"
@@ -287,7 +289,9 @@ impl AssignFolder {
                     decls.extend(var_decls);
                 }
             }
-            Pat::Object(ObjectPat { span, props, .. }) if props.is_empty() => {
+            Pat::Object(obj) if obj.props.is_empty() => {
+                let ObjectPat { span, .. } = *obj;
+
                 // We should convert
                 //
                 //      var {} = null;
@@ -316,7 +320,9 @@ impl AssignFolder {
                 decls.push(var_decl);
             }
 
-            Pat::Object(ObjectPat { props, .. }) => {
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = *obj;
+
                 assert!(
                     decl.init.is_some(),
                     "destructuring pattern binding requires initializer"
@@ -659,7 +665,9 @@ impl VisitMut for AssignFolder {
                 //         right: right.take(),
                 //     });
                 // }
-                AssignTargetPat::Array(ArrayPat { elems, .. }) => {
+                AssignTargetPat::Array(arr) => {
+                    let ArrayPat { elems, .. } = &mut **arr;
+
                     let mut exprs = Vec::with_capacity(elems.len() + 1);
 
                     if is_literal(right) && ignore_return_value {
@@ -888,14 +896,16 @@ impl VisitMut for AssignFolder {
                     }
                     .into()
                 }
-                AssignTargetPat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                AssignTargetPat::Object(obj) if obj.props.is_empty() => {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
                     *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
-                AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
+                AssignTargetPat::Object(obj) => {
+                    let ObjectPat { span, props, .. } = &mut **obj;
+
                     if props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
