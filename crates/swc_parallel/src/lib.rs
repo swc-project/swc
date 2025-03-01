@@ -3,6 +3,7 @@
 use std::{cell::RefCell, mem::transmute};
 
 pub mod items;
+pub mod iter;
 pub mod merge;
 
 #[derive(Default)]
