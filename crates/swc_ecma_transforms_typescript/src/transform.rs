@@ -251,25 +251,13 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        node.retain_mut(|item| {
-            let Some(decl) = item.as_mut_stmt().and_then(Stmt::as_mut_decl) else {
-                return true;
-            };
-            match self.fold_decl(decl.take(), false) {
-                FoldedDecl::Decl(var_decl) => {
-                    *decl = var_decl;
-                    true
-                }
-                FoldedDecl::Expr(stmt) => {
-                    *item = stmt.into();
-                    true
-                }
-                FoldedDecl::Empty => false,
-            }
-        });
-
         let var_list = self.var_list.take();
-        node.visit_mut_children_with(self);
+        node.retain_mut(|item| {
+            let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
+            item.visit_mut_children_with(self);
+            // Remove those folded into Empty
+            is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
+        });
         let var_list = mem::replace(&mut self.var_list, var_list);
 
         if !var_list.is_empty() {
@@ -363,26 +351,13 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        node.retain_mut(|stmt| {
-            let Stmt::Decl(decl) = stmt else {
-                return true;
-            };
-
-            match self.fold_decl(decl.take(), false) {
-                FoldedDecl::Decl(var_decl) => {
-                    *decl = var_decl;
-                    true
-                }
-                FoldedDecl::Expr(folded_stmt) => {
-                    *stmt = folded_stmt;
-                    true
-                }
-                FoldedDecl::Empty => false,
-            }
-        });
-
         let var_list = self.var_list.take();
-        node.visit_mut_children_with(self);
+        node.retain_mut(|stmt| {
+            let is_empty = stmt.is_empty();
+            stmt.visit_mut_children_with(self);
+            // Remove those folded into Empty
+            is_empty || !stmt.is_empty()
+        });
         let var_list = mem::replace(&mut self.var_list, var_list);
         if !var_list.is_empty() {
             let decls = var_list.into_iter().map(id_to_var_declarator).collect();
