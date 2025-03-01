@@ -102,7 +102,6 @@ var E = /*#__PURE__*/ function(E) {
     E[E["b"] = 1] = "b";
     return E;
 }(E || {});
-;
 function foo1() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
         a[_key] = arguments[_key];

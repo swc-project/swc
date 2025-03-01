@@ -1,5 +1,4 @@
 //// [constEnum3.ts]
-;
 function f1(f) {}
 function f2(f) {}
 f1(0);

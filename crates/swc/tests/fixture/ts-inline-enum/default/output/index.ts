@@ -8,4 +8,3 @@ var Foo2 = /*#__PURE__*/ function(Foo2) {
 }(Foo2 || {});
 console.log(42, "42");
 console.log("hello", "こんにちは", "안녕하세요", "你好");
-;
