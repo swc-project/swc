@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, Tokens};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -14,10 +14,7 @@ fn main() {
     //     .load_file(Path::new("test.js"))
     //     .expect("failed to load test.js");
 
-    let fm = cm.new_source_file(
-        FileName::Custom("test.js".into()).into(),
-        "function foo() {}".into(),
-    );
+    let fm = cm.new_source_file(FileName::Custom("test.js".into()).into(), "08e1".into());
 
     let lexer = Lexer::new(
         Syntax::Es(Default::default()),
@@ -26,18 +23,27 @@ fn main() {
         None,
     );
 
-    let capturing = Capturing::new(lexer);
-
-    let mut parser = Parser::new_from(capturing);
-
-    for e in parser.take_errors() {
-        e.into_diagnostic(&handler).emit();
+    for token in lexer {
+        println!("{:?}", token);
     }
 
-    let _module = parser
-        .parse_module()
-        .map_err(|e| e.into_diagnostic(&handler).emit())
-        .expect("Failed to parse module.");
+    // let errors =
+    // let errors = lexer.take_errors();
 
-    println!("Tokens: {:?}", parser.input().take());
+    // println!("error: \n", errors);
+
+    // let capturing = Capturing::new(lexer);
+
+    // let mut parser = Parser::new_from(capturing);
+
+    // for e in parser.take_errors() {
+    //     e.into_diagnostic(&handler).emit();
+    // }
+
+    // let _module = parser
+    //     .parse_module()
+    //     .map_err(|e| e.into_diagnostic(&handler).emit())
+    //     .expect("Failed to parse module.");
+
+    // println!("Tokens: {:?}", parser.input().take());
 }
