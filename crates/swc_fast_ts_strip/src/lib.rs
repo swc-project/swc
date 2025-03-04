@@ -4,7 +4,7 @@ use anyhow::Context;
 use serde::{Deserialize, Serialize};
 use swc_common::{
     comments::SingleThreadedComments,
-    errors::{Handler, HANDLER},
+    errors::{DiagnosticId, Handler, HANDLER},
     source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, Mark, SourceMap, Span, Spanned,
@@ -216,10 +216,14 @@ pub fn operate(
     let mut program = match program {
         Ok(program) => program,
         Err(err) => {
-            err.into_diagnostic(handler).emit();
+            err.into_diagnostic(handler)
+                .code(DiagnosticId::Error("InvalidSyntax".into()))
+                .emit();
 
             for e in errors {
-                e.into_diagnostic(handler).emit();
+                e.into_diagnostic(handler)
+                    .code(DiagnosticId::Error("InvalidSyntax".into()))
+                    .emit();
             }
 
             return Err(TsError {
@@ -231,7 +235,9 @@ pub fn operate(
 
     if !errors.is_empty() {
         for e in errors {
-            e.into_diagnostic(handler).emit();
+            e.into_diagnostic(handler)
+                .code(DiagnosticId::Error("InvalidSyntax".into()))
+                .emit();
         }
 
         return Err(TsError {
@@ -507,6 +513,7 @@ impl Visit for ErrorOnTsModule<'_> {
                     span(pos, pos + BytePos(6)),
                     "`module` keyword is not supported. Use `namespace` instead.",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1275,6 +1282,7 @@ impl Visit for TsStrip {
                     n.span,
                     "TypeScript export assignment is not supported in strip-only mode",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1292,6 +1300,7 @@ impl Visit for TsStrip {
                     n.span,
                     "TypeScript import equals declaration is not supported in strip-only mode",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1313,6 +1322,7 @@ impl Visit for TsStrip {
                     e.span,
                     "TypeScript enum is not supported in strip-only mode",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1324,6 +1334,7 @@ impl Visit for TsStrip {
                     n.span(),
                     "TypeScript namespace declaration is not supported in strip-only mode",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1341,6 +1352,7 @@ impl Visit for TsStrip {
                     n.span(),
                     "TypeScript parameter property is not supported in strip-only mode",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
     }
@@ -1382,6 +1394,7 @@ impl Visit for TsStrip {
                     "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
                      type strip mode. Instead, use the 'as' syntax: `expr as T`.",
                 )
+                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
                 .emit();
         });
 
