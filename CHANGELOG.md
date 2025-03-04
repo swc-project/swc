@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.7] - 2025-03-04
 
 ### Features
 
@@ -1741,12 +1741,6 @@
 
 
 - **(es/typescript)** Workaround `wasm-bindgen` ([#9272](https://github.com/swc-project/swc/issues/9272)) ([6b1d2ff](https://github.com/swc-project/swc/commit/6b1d2ff66b5ef73374c3932c0c505e08b9879a18))
-
-### Documentation
-
-
-
-- **(contributing)** Fix deno installation url ([#9249](https://github.com/swc-project/swc/issues/9249)) ([ff5bbda](https://github.com/swc-project/swc/commit/ff5bbdae6ad16309efe592788f4cb14956ffc3b1))
 
 ### Performance
 
