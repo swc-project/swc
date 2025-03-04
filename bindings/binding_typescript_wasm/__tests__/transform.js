@@ -205,9 +205,7 @@ describe("transform", () => {
                     mode: "transform",
                     deprecatedTsModuleAsError: true,
                 }),
-            ).rejects.toMatchObject({
-                code: "UnsupportedSyntax",
-            });
+            ).rejects.toMatchSnapshot();
         })
     });
 });
