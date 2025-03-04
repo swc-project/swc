@@ -1,13 +1,13 @@
-use std::{f128::consts::E, fmt::Write};
+use std::fmt::Write;
 
 use serde_derive::Serialize;
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter},
     sync::Lrc,
     SourceMap,
 };
 
-use crate::{MietteDiagnostic, MietteSourceCode, MietteSubdiagnostic, WriterWrapper};
+use crate::WriterWrapper;
 
 pub struct JsonEmitter {
     cm: Lrc<SourceMap>,
@@ -32,7 +32,6 @@ impl Emitter for JsonEmitter {
             .children
             .iter()
             .map(|d| JsonSubdiagnostic {
-                code: &d.code,
                 message: &d.message,
                 snippet: d.snippet,
                 filename: d.filename(),
@@ -46,11 +45,16 @@ impl Emitter for JsonEmitter {
             None => None,
         };
 
+        let loc = d
+            .span
+            .primary_span()
+            .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
+
         let error = JsonDiagnostic {
             code: error_code,
             message: &d.message,
             filename: d.filename(),
-            line: d.line(),
+            line: d.span,
             column: d.column(),
             children,
         };
@@ -91,9 +95,8 @@ struct JsonDiagnostic<'a> {
 
 #[derive(Serialize)]
 struct JsonSubdiagnostic<'a> {
-    code: &'a str,
     message: &'a str,
-    snippet: &'a str,
+    snippet: Option<&'a str>,
     filename: &'a str,
     line: usize,
 }
