@@ -1232,19 +1232,75 @@ impl Lexer<'_> {
 
         debug_assert_eq!(self.cur(), Some('/'));
 
-        let start = self.cur_pos();
+        let start_pos = self.cur_pos();
+        self.bump(); // '/' 건너뛰기
 
-        self.bump();
+        // 정규식 내용을 위한 빠른 스캔 시도
+        let input_str = self.input.as_str();
+        let bytes = input_str.as_bytes();
 
+        // 정규식 내용 종료 찾기 - 간단한 경우만 빠른 경로 사용
+        // 경로: 문자 클래스나 이스케이프가 없고, ASCII만 포함하는 간단한 정규식
+        let mut pos = 0;
+        let mut found_end = false;
+        let mut has_complex = false;
+
+        while pos < bytes.len() {
+            let c = bytes[pos];
+
+            // 빠른 경로를 포기해야 하는 경우
+            if c == b'/' {
+                // 가능한 종료 슬래시 발견
+                found_end = true;
+                break;
+            } else if c == b'\\' || c == b'[' || c == b'\r' || c == b'\n' || c > 127 {
+                // 이스케이프, 문자 클래스, 줄바꿈, 비ASCII 문자 발견 - 복잡한 경우
+                has_complex = true;
+                break;
+            }
+
+            pos += 1;
+        }
+
+        // 간단한 정규식의 빠른 경로
+        if found_end && !has_complex && pos > 0 {
+            // 내용 추출
+            let content_slice = unsafe {
+                // Safety: 인덱스는 이미 검증됨
+                std::slice::from_raw_parts(bytes.as_ptr(), pos)
+            };
+            let content = self.atoms.atom(std::str::from_utf8(content_slice).unwrap());
+
+            // 닫는 슬래시로 위치 이동
+            self.input.bump_bytes(pos + 1);
+
+            // 플래그 읽기
+            let flags = {
+                match self.cur() {
+                    Some(c) if c.is_ident_start() => self
+                        .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
+                        .map(Some),
+                    _ => Ok(None),
+                }
+            }?
+            .map(|(value, _)| value)
+            .unwrap_or_default();
+
+            return Ok(Token::Regex(content, flags));
+        }
+
+        // 느린 경로: 복잡한 정규식 처리
         let (mut escaped, mut in_class) = (false, false);
 
         let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    let span = l.span(start);
+            // 버퍼 용량 예약 - 대부분의 정규식은 작은 편
+            let capacity = l.input.as_str().len().min(128);
+            buf.reserve(capacity);
 
+            while let Some(c) = l.cur() {
+                // 줄바꿈 문자는 정규식에 허용되지 않음
+                if c.is_line_terminator() {
+                    let span = l.span(start_pos);
                     return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
                 }
 
@@ -1254,7 +1310,7 @@ impl Lexer<'_> {
                     match c {
                         '[' => in_class = true,
                         ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
+                        // 정규식 내용의 종료
                         '/' if !in_class => break,
                         _ => {}
                     }
@@ -1269,21 +1325,18 @@ impl Lexer<'_> {
             Ok(l.atoms.atom(&**buf))
         })?;
 
-        // input is terminated without following `/`
+        // 입력이 닫는 슬래시 없이 종료되었는지 확인
         if !self.is(b'/') {
-            let span = self.span(start);
-
+            let span = self.span(start_pos);
             return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
         }
 
-        self.bump(); // '/'
+        self.bump(); // '/' 건너뛰기
 
-        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence." TODO: check for escape
+        // Spec: "IdentifierPart에 유니코드 이스케이프 시퀀스가 포함되어 있으면 구문
+        // 오류입니다." TODO: 이스케이프 확인
 
-        // Need to use `read_word` because '\uXXXX' sequences are allowed
-        // here (don't ask).
-        // let flags_start = self.cur_pos();
+        // 플래그 읽기
         let flags = {
             match self.cur() {
                 Some(c) if c.is_ident_start() => self
