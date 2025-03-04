@@ -5286,6 +5286,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_fast_parser"
+version = "1.0.0"
+dependencies = [
+ "num-bigint",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
 name = "swc_ecma_lints"
 version = "11.0.1"
 dependencies = [
