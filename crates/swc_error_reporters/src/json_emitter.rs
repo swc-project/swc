@@ -45,18 +45,28 @@ impl Emitter for JsonEmitter {
             .primary_span()
             .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
 
-        let filename = loc.map(|loc| loc.file.name.to_string());
+        let snippet = d
+            .span
+            .primary_span()
+            .and_then(|span| self.cm.span_to_next_source(span).ok());
+
+        let filename = if self.config.skip_filename {
+            None
+        } else {
+            loc.as_ref().map(|loc| loc.file.name.to_string())
+        };
 
         let error = JsonDiagnostic {
             code: error_code,
-            message: &d.message,
+            message: &d.message[0].0,
+            snippet: snippet.as_deref(),
             filename: filename.as_deref(),
-            line: loc.map(|loc| loc.line),
-            column: loc.map(|loc| loc.col_display),
+            line: loc.as_ref().map(|loc| loc.line),
+            column: loc.as_ref().map(|loc| loc.col_display),
             children,
         };
 
-        let result = serde_json::to_string(&mut error).unwrap();
+        let result = serde_json::to_string(&error).unwrap();
 
         self.wr.write_str(&result).unwrap();
 
