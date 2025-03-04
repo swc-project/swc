@@ -510,7 +510,7 @@ impl Visit for ErrorOnTsModule<'_> {
         HANDLER.with(|handler| {
             handler
                 .struct_span_err(
-                    span(pos, pos + BytePos(6)),
+                    span(pos, n.id.span().hi),
                     "`module` keyword is not supported. Use `namespace` instead.",
                 )
                 .code(DiagnosticId::Error("UnsupportedSyntax".into()))
