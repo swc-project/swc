@@ -84,6 +84,7 @@ impl Emitter for JsonEmitter {
         let result = serde_json::to_string(&error).unwrap();
 
         self.wr.write_str(&result).unwrap();
+        write!(self.wr, "\n").unwrap();
 
         self.diagnostics.push(result);
     }

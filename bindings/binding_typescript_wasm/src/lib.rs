@@ -2,7 +2,7 @@ use anyhow::Error;
 use js_sys::Uint8Array;
 use serde::Serialize;
 use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::{try_with_json_handler, HandlerOpts};
 use swc_fast_ts_strip::{ErrorCode, Options, TransformOutput, TsError};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
@@ -54,7 +54,7 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
 fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
     let cm = Lrc::new(SourceMap::default());
 
-    try_with_handler(
+    try_with_json_handler(
         cm.clone(),
         HandlerOpts {
             color: ColorConfig::Never,
@@ -66,20 +66,6 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
     )
 }
 
-#[derive(Debug, Serialize)]
-struct ErrorObject {
-    code: ErrorCode,
-    message: String,
-}
-
 pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
-    if let Some(ts_error) = err.downcast_ref::<TsError>() {
-        return serde_wasm_bindgen::to_value(&ErrorObject {
-            code: ts_error.code,
-            message: err.to_string(),
-        })
-        .unwrap();
-    }
-
     format!("{}", err).into()
 }
