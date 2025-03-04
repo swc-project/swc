@@ -31,12 +31,7 @@ impl Emitter for JsonEmitter {
         let children = d
             .children
             .iter()
-            .map(|d| JsonSubdiagnostic {
-                message: &d.message,
-                snippet: d.snippet,
-                filename: d.filename(),
-                line: d.line(),
-            })
+            .map(|d| todo!("json subdiagnostic: {d:?}"))
             .collect::<Vec<_>>();
 
         let error_code = match &d.code {
@@ -50,12 +45,14 @@ impl Emitter for JsonEmitter {
             .primary_span()
             .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
 
+        let filename = loc.map(|loc| loc.file.name.to_string());
+
         let error = JsonDiagnostic {
             code: error_code,
             message: &d.message,
-            filename: d.filename(),
-            line: d.span,
-            column: d.column(),
+            filename: filename.as_deref(),
+            line: loc.map(|loc| loc.line),
+            column: loc.map(|loc| loc.col_display),
             children,
         };
 
