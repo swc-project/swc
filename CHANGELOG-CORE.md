@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v16.4.0] - 2025-03-04
 
 ### Features
 
@@ -1834,9 +1834,6 @@
 
 
 - **(es/typescript)** Verify TypeScript stripped output ([#9398](https://github.com/swc-project/swc/issues/9398)) ([4c4c860](https://github.com/swc-project/swc/commit/4c4c86014f7827e92731c0d60ef1613238648b30))
-
-
-- Enable scoped API by default ([#9247](https://github.com/swc-project/swc/issues/9247)) ([e7ce94b](https://github.com/swc-project/swc/commit/e7ce94b5ee713dc76383c35d99dd6a707c90339c))
 
 ### Build
 
