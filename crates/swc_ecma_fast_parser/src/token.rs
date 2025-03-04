@@ -7,7 +7,7 @@
 use std::fmt;
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::JsWord;
+use swc_atoms::Atom;
 use swc_common::Span;
 
 /// Performance-optimized token type
@@ -474,31 +474,28 @@ pub enum TokenValue {
     None,
 
     /// Identifier or keyword (managed as atoms to minimize duplicate strings)
-    Word(JsWord),
+    Word(Atom),
 
     /// String literal
-    Str { value: JsWord, raw: JsWord },
+    Str { value: Atom, raw: Atom },
 
     /// Number literal
-    Num { value: f64, raw: JsWord },
+    Num { value: f64, raw: Atom },
 
     /// BigInt literal
-    BigInt {
-        value: Box<BigIntValue>,
-        raw: JsWord,
-    },
+    BigInt { value: Box<BigIntValue>, raw: Atom },
 
     /// Regular expression literal
-    Regex { exp: JsWord, flags: JsWord },
+    Regex { exp: Atom, flags: Atom },
 
     /// Template literal
-    Template { raw: JsWord, cooked: Option<JsWord> },
+    Template { raw: Atom, cooked: Option<Atom> },
 
     /// JSX text
-    JSXText { value: JsWord, raw: JsWord },
+    JSXText { value: Atom, raw: Atom },
 
     /// Shebang comment
-    Shebang(JsWord),
+    Shebang(Atom),
 }
 
 impl Default for TokenValue {
@@ -570,7 +567,7 @@ impl Token {
     }
 
     /// Return the value if this is an identifier token
-    pub fn ident_value(&self) -> Option<&JsWord> {
+    pub fn ident_value(&self) -> Option<&Atom> {
         if let (TokenType::Ident, TokenValue::Word(word)) = (&self.token_type, &self.value) {
             Some(word)
         } else {
