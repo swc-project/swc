@@ -23,7 +23,7 @@ tempfile   = { workspace = true }
 tracing    = { workspace = true }
 url        = { workspace = true }
 
-clap               = { version = "3", features = ["derive"] }
+clap               = { workspace = true, features = ["derive"] }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
