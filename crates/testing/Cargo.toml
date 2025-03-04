@@ -27,5 +27,5 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "tty-emitter",
 ] }
-swc_error_reporters = { version = "9.0.0", path = "../swc_error_reporters" }
+swc_error_reporters = { version = "9.1.0", path = "../swc_error_reporters" }
 testing_macros = { version = "1.0.0", path = "../testing_macros" }

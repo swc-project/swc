@@ -4774,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.3.1"
+version = "16.4.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5849,7 +5849,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "9.0.0"
+version = "9.1.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -5910,7 +5910,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "12.0.1"
+version = "12.1.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

@@ -102,7 +102,7 @@ swc_ecma_transforms_compat = { version = "12.0.0", path = "../swc_ecma_transform
 swc_ecma_transforms_optimization = { version = "11.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "9.0.0", path = "../swc_error_reporters" }
+swc_error_reporters = { version = "9.1.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "8.0.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "8.0.0", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "8.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }

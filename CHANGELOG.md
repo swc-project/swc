@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(ts/fast-strip)** Emit json errors ([#10144](https://github.com/swc-project/swc/issues/10144)) ([740bd57](https://github.com/swc-project/swc/commit/740bd579ae8d081604be606fd69e92298a5d6862))
+
 ## [1.11.6] - 2025-03-04
 
 ### Bug Fixes
