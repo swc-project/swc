@@ -1,9 +1,8 @@
 use anyhow::Error;
 use js_sys::Uint8Array;
-use serde::Serialize;
 use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_json_handler, HandlerOpts};
-use swc_fast_ts_strip::{ErrorCode, Options, TransformOutput, TsError};
+use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
@@ -67,5 +66,5 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 }
 
 pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
-    format!("{}", err).into()
+    err.to_string().into()
 }
