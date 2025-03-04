@@ -4,7 +4,7 @@ use serde_derive::Serialize;
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter},
     sync::Lrc,
-    SourceMap,
+    SourceMap, SourceMapper,
 };
 
 use crate::WriterWrapper;
@@ -63,7 +63,7 @@ impl Emitter for JsonEmitter {
         let snippet = d
             .span
             .primary_span()
-            .and_then(|span| self.cm.span_to_next_source(span).ok());
+            .and_then(|span| self.cm.span_to_snippet(span).ok());
 
         let filename = if self.config.skip_filename {
             None
