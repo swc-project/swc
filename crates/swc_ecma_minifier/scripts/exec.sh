@@ -3,7 +3,7 @@
 set -eu
 
 
-export RUST_LOG=trace
+export RUST_LOG=debug
 # export SWC_CHECK=1
 
 cargo test --features concurrent --features debug --test exec --test terser_exec $@
