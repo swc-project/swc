@@ -12,10 +12,13 @@ version       = "9.0.0"
 bench = false
 
 [dependencies]
-anyhow      = { workspace = true }
-miette      = { workspace = true, features = ["fancy-no-syscall"] }
-once_cell   = { workspace = true }
-parking_lot = { workspace = true }
+anyhow       = { workspace = true }
+miette       = { workspace = true, features = ["fancy-no-syscall"] }
+once_cell    = { workspace = true }
+parking_lot  = { workspace = true }
+serde        = { workspace = true }
+serde_derive = { workspace = true }
+serde_json   = { workspace = true }
 
 swc_common = { version = "8.0.0", path = "../swc_common", features = [
   "concurrent",
