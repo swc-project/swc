@@ -10,9 +10,8 @@ mod template;
 mod token;
 mod unicode;
 
-use context::RawLexerContext;
+pub use context::RawLexerContext;
 use error::{Error, RawLexResult};
-use jsx::is_jsx;
 use source::Source;
 pub use token::{RawToken, RawTokenKind, RawTokenSpan, RawTokenValue};
 
@@ -26,24 +25,15 @@ pub struct RawLexer<'source> {
 
     token: RawToken,
 
-    context: RawLexerContext,
-
-    syntax: Syntax,
+    pub context: RawLexerContext,
 
     pub errors: Vec<Error>,
 }
 
 impl<'source> RawLexer<'source> {
-    pub fn new(source: &'source str, syntax: Syntax) -> Self {
-        let context = if is_jsx(&syntax) {
-            RawLexerContext::Jsx
-        } else {
-            Default::default()
-        };
-
+    pub fn new(source: &'source str) -> Self {
         Self {
-            syntax,
-            context,
+            context: RawLexerContext::default(),
             source: Source::new(source),
             token: RawToken::first_default_token(),
             errors: Default::default(),
@@ -81,9 +71,17 @@ impl<'source> RawLexer<'source> {
     /// is used to move the token out of the `self` context, effectively
     /// "taking" ownership of the token.
     fn build_token(&mut self, kind: RawTokenKind, start: u32, end: u32) -> RawToken {
+        self.update(kind);
         self.token.kind = kind;
         self.token.span = RawTokenSpan { start, end };
 
         std::mem::take(&mut self.token)
+    }
+
+    fn update(&mut self, kind: RawTokenKind) {
+        match kind {
+            RawTokenKind::Identifier => {}
+            _ => {}
+        }
     }
 }

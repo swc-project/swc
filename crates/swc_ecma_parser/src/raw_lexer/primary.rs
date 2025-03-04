@@ -54,7 +54,7 @@ impl RawLexer<'_> {
 }
 
 pub(super) fn handler_from_byte(byte: u8) -> ByteHandler {
-    unsafe { BYTE_HANDLERS[byte as usize] }
+    BYTE_HANDLERS[byte as usize]
 }
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
@@ -123,7 +123,7 @@ const EXL: ByteHandler = |lex| {
 };
 
 // `"`
-const QOD: ByteHandler = |lex| {
+pub(super) const QOD: ByteHandler = |lex| {
     let string_literal = lex.read_string_literal('"')?;
     lex.token.value = Some(RawTokenValue::String(string_literal.into()));
 
@@ -131,7 +131,7 @@ const QOD: ByteHandler = |lex| {
 };
 
 // `'`
-const QOS: ByteHandler = |lex| {
+pub(super) const QOS: ByteHandler = |lex| {
     let string_literal = lex.read_string_literal('\'')?;
     lex.token.value = Some(RawTokenValue::String(string_literal.into()));
 
@@ -348,8 +348,18 @@ const ZER: ByteHandler = |lex| {
             lex.decimal_literal_after_decimal_point()?;
             lex.parse_number(start)
         }
-        Some(b'0'..=b'9') => {
-            todo!("LegacyOctalIntegerLiteral")
+        ch @ Some(b'0'..=b'9') => {
+            if matches!(ch, Some(b'8' | b'9')) {
+                // lex.offset() + 1, due to we eat b'8' | b'9'
+                lex.add_error(start, lex.offset() + 1, SyntaxError::LegacyDecimal);
+            }
+            lex.decimal_literal()?;
+            lex.parse_number(start)
+        }
+        Some(b'e' | b'E') => {
+            lex.consume_byte();
+            lex.signed_interger_after_exponenet_part()?;
+            lex.parse_number(start)
         }
         _ => Ok(0.0),
     }?;
@@ -366,7 +376,9 @@ const ZER: ByteHandler = |lex| {
 
 /// digit
 const DIG: ByteHandler = |lex| {
-    let value = lex.decimal_literal()?;
+    let start = lex.offset();
+    lex.decimal_literal()?;
+    let value = lex.parse_number(start)?;
 
     lex.token.value = Some(RawTokenValue::Number(value));
 
@@ -851,6 +863,10 @@ const BEC: ByteHandler = |lex| {
     // continue parsing the rest of the template string.
     if lex.context == RawLexerContext::JsTemplateQuasiLiteral {
         lex.set_context(RawLexerContext::JsTemplateLiteral);
+    }
+
+    if lex.context == RawLexerContext::JSXSpan {
+        lex.set_context(RawLexerContext::JSXExpr);
     }
 
     Ok(RawTokenKind::RBrace)

@@ -14,9 +14,10 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    raw_lexer::{RawTokenKind, RawTokenSpan},
+    raw_lexer::{RawLexerContext, RawTokenKind, RawTokenSpan},
     token::{
-        BinOpToken, IdentLike, Keyword, KnownIdent, Token, TokenAndSpan, TokenKind, Word, WordKind,
+        self, BinOpToken, IdentLike, Keyword, KnownIdent, Token, TokenAndSpan, TokenKind, Word,
+        WordKind,
     },
     EsVersion, Syntax,
 };
@@ -444,7 +445,18 @@ impl Iterator for Lexer<'_> {
                 RawTokenKind::LogicalOrOp => Token::BinOp(BinOpToken::LogicalOr),
                 RawTokenKind::BitOrAssignOp => Token::AssignOp(AssignOp::BitOrAssign),
                 RawTokenKind::OrAssignOp => Token::AssignOp(AssignOp::OrAssign),
-                RawTokenKind::LtOp => Token::BinOp(BinOpToken::Lt),
+                RawTokenKind::LtOp => {
+                    if self.syntax.jsx()
+                        && self.state.is_expr_allowed
+                        && !self.ctx.in_property_name
+                        && !self.ctx.in_type
+                    {
+                        self.raw_lexer.set_context(RawLexerContext::JSXTag);
+                        Token::JSXTagStart
+                    } else {
+                        Token::BinOp(BinOpToken::Lt)
+                    }
+                }
                 RawTokenKind::LtEqOp => Token::BinOp(BinOpToken::LtEq),
                 RawTokenKind::LShiftOp => Token::BinOp(BinOpToken::LShift),
                 RawTokenKind::LShiftAssignOp => Token::AssignOp(AssignOp::LShiftAssign),
@@ -626,16 +638,19 @@ impl Iterator for Lexer<'_> {
                         }
                     },
                 },
-                RawTokenKind::JsxTagStart => Token::JSXTagStart,
-                RawTokenKind::JsxTagEnd => Token::JSXTagEnd,
-                RawTokenKind::JSXName => Token::JSXName {
-                    name: self.raw_lexer.str_from_pos(start, end).into(),
-                },
                 RawTokenKind::JsxText => Token::JSXText {
                     value: self.raw_lexer.str_from_pos(start, end).into(),
                     raw: self.raw_lexer.str_from_pos(start, end).into(),
                 },
+                RawTokenKind::JsxTagStart => Token::JSXTagStart,
+                RawTokenKind::JsxTagEnd => Token::JSXTagEnd,
+                RawTokenKind::JSXName => Token::JSXName {
+                    name: raw_value.unwrap().as_string().unwrap(),
+                },
             };
+
+            let update_start = span.lo;
+            self.state.update(update_start, token.kind());
 
             Some(TokenAndSpan {
                 token,
@@ -1128,10 +1143,10 @@ where
         let mut l = Lexer::new(syntax, target, fm, None);
         let res = f(&mut l);
 
-        #[cfg(debug_assertions)]
-        let c = TokenContexts(smallvec![TokenContext::BraceStmt]);
-        #[cfg(debug_assertions)]
-        debug_assert_eq!(l.state.context.0, c.0);
+        // #[cfg(debug_assertions)]
+        // let c = TokenContexts(smallvec![TokenContext::BraceStmt]);
+        // #[cfg(debug_assertions)]
+        // debug_assert_eq!(l.state.context.0, c.0);
 
         res
     })

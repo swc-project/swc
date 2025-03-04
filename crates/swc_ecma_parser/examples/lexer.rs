@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax, Tokens};
+use swc_ecma_parser::{lexer::Lexer, Capturing, EsSyntax, Parser, StringInput, Syntax, Tokens};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -14,10 +14,16 @@ fn main() {
     //     .load_file(Path::new("test.js"))
     //     .expect("failed to load test.js");
 
-    let fm = cm.new_source_file(FileName::Custom("test.js".into()).into(), "08e1".into());
+    let fm = cm.new_source_file(
+        FileName::Custom("test.js".into()).into(),
+        "<Page num='\\ '>ABC</Page>;".into(),
+    );
 
     let lexer = Lexer::new(
-        Syntax::Es(Default::default()),
+        Syntax::Es(EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
         Default::default(),
         StringInput::from(&*fm),
         None,

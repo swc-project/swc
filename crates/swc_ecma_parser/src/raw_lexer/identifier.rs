@@ -102,7 +102,7 @@ impl RawLexer<'_> {
 ///     > any Unicode code point with the Unicode property "ID_Start"
 /// ```
 /// fork from jsparagus
-fn is_identifier_start(ch: char) -> bool {
+pub(super) fn is_identifier_start(ch: char) -> bool {
     // Escaped case is handled separately.
     if ch.is_ascii() {
         ch == '$' || ch == '_' || ch.is_ascii_alphabetic()

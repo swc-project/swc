@@ -144,9 +144,7 @@ impl RawLexer<'_> {
         Ok(value)
     }
 
-    pub(super) fn decimal_literal(&mut self) -> LexResult<f64> {
-        let start = self.offset();
-
+    pub(super) fn decimal_literal(&mut self) -> LexResult<()> {
         // consume one digit byte.
         self.next_byte();
 
@@ -164,7 +162,8 @@ impl RawLexer<'_> {
             }
             _ => {}
         }
-        self.parse_number(start)
+
+        Ok(())
     }
 
     /// ```text
@@ -223,7 +222,18 @@ impl RawLexer<'_> {
 
     /// ```text
     /// DecimalIntegerLiteral ::
+    ///     0
+    ///     NonZeroDigit
     ///     NonZeroDigit NumericLiteralSeparator(opt) DecimalDigits
+    ///     NonOctalDecimalIntegerLiteral
+    ///     
+    /// NonOctalDecimalIntegerLiteral ::
+    ///     0 NonOctalDigit
+    ///     LegacyOctalLikeDecimalIntegerLiteral NonOctalDigit
+    ///     NonOctalDecimalIntegerLiteral DecimalDigit
+    ///
+    /// NonOctalDigit :: one of
+    ///     8 9
     /// ```
     fn decimal_digits_after_first_digit(&mut self) -> LexResult<()> {
         let start = self.offset();
@@ -276,7 +286,7 @@ impl RawLexer<'_> {
     ///     + DecimalDigits
     ///     - DecimalDigits
     /// ```
-    fn signed_interger_after_exponenet_part(&mut self) -> LexResult<()> {
+    pub(super) fn signed_interger_after_exponenet_part(&mut self) -> LexResult<()> {
         if matches!(self.peek_byte(), Some(b'+' | b'-')) {
             self.consume_byte();
         }

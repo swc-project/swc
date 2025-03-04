@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 
 use super::error::Error;
 
-#[derive(PartialEq, Eq, Default, Clone)]
+#[derive(PartialEq, Eq, Default, Clone, Copy)]
 pub enum RawTokenKind {
     #[default]
     Eof,
@@ -301,8 +301,7 @@ pub enum RawTokenKind {
     Readonly,
     Using,
     Unique,
-
-    // Jsx
+    // TODO: implment Jsx in RawLexer
     JsxTagStart,
     JsxTagEnd,
     JSXName,
