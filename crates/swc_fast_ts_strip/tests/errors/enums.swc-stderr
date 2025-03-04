@@ -1,8 +1,12 @@
+UnsupportedSyntax
+
   x TypeScript enum is not supported in strip-only mode
    ,----
  1 | enum Foo { }
    : ^^^^^^^^^^^^
    `----
+UnsupportedSyntax
+
   x TypeScript enum is not supported in strip-only mode
    ,-[3:1]
  2 | 

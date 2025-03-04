@@ -1,3 +1,5 @@
+UnsupportedSyntax
+
   x TypeScript export assignment is not supported in strip-only mode
    ,-[2:1]
  1 | 

@@ -1,26 +1,36 @@
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,----
  1 | module aModuleKeywordNamespace { }
    : ^^^^^^
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[3:1]
  2 | 
  3 | declare module aModuleKeywordDeclareNamespace { }
    :         ^^^^^^
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[5:1]
  4 | 
  5 | export module aModuleKeywordExportedNamespace { }
    :        ^^^^^^
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[7:1]
  6 | 
  7 | export declare module aModuleKeywordExportedDeclareNamespace { }
    :                ^^^^^^
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
     ,-[10:1]
   9 | namespace foo {
