@@ -790,7 +790,74 @@ impl Lexer<'_> {
         let mut slice_start = self.cur_pos();
         let mut has_escape = false;
 
+        // 대부분의 식별자는 이스케이프 없이 ASCII 문자만 포함함
+        // 이런 일반적인 경우에 대한 빠른 경로 최적화
+
+        // ASCII 빠른 경로 시도
+        let input_str = self.input.as_str();
+
+        // 최대한 많은 유효한 식별자 문자를 빠르게 건너뜀
+        let mut i = 0;
+        let bytes = input_str.as_bytes();
+        let len = bytes.len();
+
+        while i < len {
+            let c = bytes[i];
+
+            // ASCII 식별자 문자 체크
+            let is_valid = if first {
+                // 첫 문자는 시작 문자여야 함
+                c.is_ascii_lowercase() || c.is_ascii_uppercase() || c == b'_' || c == b'$'
+            } else {
+                // 나머지 문자는 계속 문자일 수 있음
+                c.is_ascii_lowercase()
+                    || c.is_ascii_uppercase()
+                    || c.is_ascii_digit()
+                    || c == b'_'
+                    || c == b'$'
+            };
+
+            if !is_valid {
+                // \u 이스케이프 시퀀스 확인
+                if c == b'\\' && i + 1 < len && bytes[i + 1] == b'u' {
+                    has_escape = true;
+                    break;
+                }
+                // 그렇지 않으면 단어 끝에 도달
+                break;
+            }
+
+            // 성능 최적화: 키워드 체크
+            if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
+                can_be_keyword = false;
+            }
+
+            first = false;
+            i += 1;
+        }
+
+        // 이스케이프 없는 일반적인 케이스의 빠른 경로
+        if !has_escape && i > 0 {
+            // 일반적인 케이스: 이스케이프 없는 식별자
+            self.input.bump_bytes(i);
+
+            let end = self.input.cur_pos();
+
+            let s = unsafe {
+                // Safety: slice_start과 end는 self.input에서 가져온 유효한 위치
+                let s = self.input.slice(slice_start, end);
+                // Safety: 우리는 'static을 사용하지 않음. 단지 수명 검사를 우회함
+                transmute::<&str, &'static str>(s)
+            };
+
+            let value = convert(self, s, false, can_be_keyword);
+            return Ok((value, false));
+        }
+
+        // 느린 경로: 이스케이프가 있거나 비 ASCII 문자 처리
         self.with_buf(|l, buf| {
+            first = true; // 리셋
+
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
                     // Performance optimization
@@ -855,7 +922,6 @@ impl Lexer<'_> {
                     }
 
                     // ASCII but not a valid identifier
-
                     break;
                 }
 
@@ -877,7 +943,6 @@ impl Lexer<'_> {
 
             let value = if !has_escape {
                 // Fast path: raw slice is enough if there's no escape.
-
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
