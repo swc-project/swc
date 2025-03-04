@@ -442,22 +442,51 @@ impl Lexer<'_> {
         let mut total: Ret = Default::default();
         let mut prev = None;
 
+        // ASCII 숫자에 대한 빠른 검사 함수 (컴파일러 인라인 최적화)
+        #[inline]
+        fn is_digit_for_radix(byte: u8, radix: u8) -> Option<u32> {
+            match byte {
+                b'0'..=b'9' => {
+                    let val = (byte - b'0') as u32;
+                    if val < (radix as u32) {
+                        Some(val)
+                    } else {
+                        None
+                    }
+                }
+                b'a'..=b'f' => {
+                    if radix == 16 {
+                        Some((byte - b'a' + 10) as u32)
+                    } else {
+                        None
+                    }
+                }
+                b'A'..=b'F' => {
+                    if radix == 16 {
+                        Some((byte - b'A' + 10) as u32)
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            }
+        }
+
         while let Some(c) = self.cur() {
+            // 언더스코어(숫자 분리자) 처리
             if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
                         return false;
                     }
-
                     let c = c.unwrap();
-
                     c.is_digit(RADIX as _)
                 };
+
                 let is_forbidden = |c: Option<char>| {
                     if c.is_none() {
                         return true;
                     }
-
                     if RADIX == 16 {
                         matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
                     } else {
@@ -474,26 +503,36 @@ impl Lexer<'_> {
                     );
                 }
 
-                // Ignore this _ character
+                // 이 _ 문자 무시
                 unsafe {
-                    // Safety: cur() returns Some(c) where c is a valid char
+                    // Safety: cur()가 Some(c)를 반환하므로 c는 유효한 문자
                     self.input.bump();
                 }
-
                 continue;
             }
 
-            // e.g. (val for a) = 10  where radix = 16
-            let val = if let Some(val) = c.to_digit(RADIX as _) {
-                val
+            // 빠른 경로: ASCII 숫자 케이스의 효율적인 처리
+            let val = if c.is_ascii() {
+                // ASCII 숫자에 대한 빠른 경로
+                if let Some(val) = is_digit_for_radix(c as u8, RADIX) {
+                    val
+                } else {
+                    // 숫자가 아니면 처리 종료
+                    return Ok(total);
+                }
             } else {
-                return Ok(total);
+                // 비 ASCII 문자는 일반적인 방법으로 처리 (덜 빈번한 케이스)
+                if let Some(val) = c.to_digit(RADIX as _) {
+                    val
+                } else {
+                    return Ok(total);
+                }
             };
 
             self.bump();
 
+            // 콜백 함수 실행
             let (t, cont) = op(total, RADIX, val)?;
-
             total = t;
 
             if !cont {
