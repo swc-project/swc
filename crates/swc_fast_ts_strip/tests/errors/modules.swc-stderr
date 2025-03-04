@@ -3,7 +3,7 @@ UnsupportedSyntax
   x `module` keyword is not supported. Use `namespace` instead.
    ,----
  1 | module aModuleKeywordNamespace { }
-   : ^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 UnsupportedSyntax
 
@@ -11,7 +11,7 @@ UnsupportedSyntax
    ,-[3:1]
  2 | 
  3 | declare module aModuleKeywordDeclareNamespace { }
-   :         ^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 UnsupportedSyntax
 
@@ -19,7 +19,7 @@ UnsupportedSyntax
    ,-[5:1]
  4 | 
  5 | export module aModuleKeywordExportedNamespace { }
-   :        ^^^^^^
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 UnsupportedSyntax
 
@@ -27,7 +27,7 @@ UnsupportedSyntax
    ,-[7:1]
  6 | 
  7 | export declare module aModuleKeywordExportedDeclareNamespace { }
-   :                ^^^^^^
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 UnsupportedSyntax
 
@@ -35,6 +35,6 @@ UnsupportedSyntax
     ,-[10:1]
   9 | namespace foo {
  10 |     export module aModuleKeywordExportedNamespaceInNamespace { }
-    :            ^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | }
     `----
