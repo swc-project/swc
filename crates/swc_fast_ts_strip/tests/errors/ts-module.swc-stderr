@@ -1,20 +1,26 @@
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[3:1]
  2 | 
  3 | module Foo {
-   : ^^^^^^
+   : ^^^^^^^^^^
  4 |     export const foo = 1;
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[7:1]
  6 | 
  7 | module Foo { }
-   : ^^^^^^
+   : ^^^^^^^^^^
  8 | declare module Bar { }
    `----
+UnsupportedSyntax
+
   x `module` keyword is not supported. Use `namespace` instead.
    ,-[8:1]
  7 | module Foo { }
  8 | declare module Bar { }
-   :         ^^^^^^
+   :         ^^^^^^^^^^
    `----
