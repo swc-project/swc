@@ -193,9 +193,9 @@ impl Emitter for PrettyEmitter {
             .render_report(&mut format_result, &diagnostic)
             .unwrap();
 
-        self.diagnostics.push(format_result.clone());
+        self.wr.write_str(&format_result).unwrap();
 
-        self.wr.write_str(&format_result).unwrap()
+        self.diagnostics.push(format_result);
     }
 
     fn take_diagnostics(&mut self) -> Vec<String> {
