@@ -114,6 +114,11 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 "
 `;
 
+exports[`transform in transform mode shoud throw an object even with deprecatedTsModuleAsError = true 1`] = `
+"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module","filename":"<anon>","line":1,"column":0}
+"
+`;
+
 exports[`transform in transform mode should throw an error when it encounters a declared module 1`] = `
 "{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module","filename":"test.ts","line":1,"column":8}
 "
