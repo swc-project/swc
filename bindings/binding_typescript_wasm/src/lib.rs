@@ -57,7 +57,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
         cm.clone(),
         HandlerOpts {
             color: ColorConfig::Never,
-            skip_filename: true,
+            skip_filename: false,
         },
         |handler| {
             swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
