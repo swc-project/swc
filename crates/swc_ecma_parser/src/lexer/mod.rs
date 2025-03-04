@@ -13,12 +13,7 @@ use swc_common::{
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
 pub use self::state::{TokenContext, TokenContexts};
-use self::{
-    comments_buffer::CommentsBuffer,
-    state::State,
-    table::{ByteHandler, BYTE_HANDLERS},
-    util::*,
-};
+use self::{comments_buffer::CommentsBuffer, state::State, table::BYTE_HANDLERS, util::*};
 use crate::{
     error::{Error, SyntaxError},
     token::{BinOpToken, IdentLike, Token, Word},
@@ -1369,7 +1364,106 @@ impl Lexer<'_> {
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = self.cur_pos();
 
-        let mut cooked = Ok(String::new());
+        let input_str_len = self.input.as_str().len();
+        {
+            // 빠른 경로 시도: 이스케이프나 표현식이 없는 간단한 템플릿
+            let input_str = self.input.as_str();
+            let bytes = input_str.as_bytes();
+
+            // 템플릿 종료 또는 표현식 시작 찾기
+            let mut pos = 0;
+            let mut found_end = false;
+            let mut found_expr = false;
+            let mut needs_full_parse = false;
+
+            while pos < bytes.len() {
+                let c = bytes[pos];
+
+                if c == b'`' {
+                    // 템플릿 종료 발견
+                    found_end = true;
+                    break;
+                } else if c == b'$' && pos + 1 < bytes.len() && bytes[pos + 1] == b'{' {
+                    // 표현식 시작 발견
+                    found_expr = true;
+                    pos += 1; // 추가로 { 문자까지 포함
+                    break;
+                } else if c == b'\\' || c == b'\r' || c == b'\n' || c > 127 {
+                    // 이스케이프 시퀀스나 줄바꿈 또는 비ASCII 문자 발견
+                    needs_full_parse = true;
+                    break;
+                }
+
+                pos += 1;
+            }
+
+            // 빠른 처리 가능 여부 확인
+            if (found_end || found_expr) && !needs_full_parse && pos > 0 {
+                let token_content = unsafe {
+                    std::str::from_utf8_unchecked(std::slice::from_raw_parts(bytes.as_ptr(), pos))
+                };
+
+                // 클로징 틱 또는 표현식 시작 문자까지 위치 이동
+                self.input.bump_bytes(pos + 1);
+
+                let is_start_of_expr = found_expr;
+                let is_at_start = start == start_of_tpl && self.state.last_was_tpl_element();
+
+                // bump 하기 전에 결과 생성
+                let result = if is_start_of_expr {
+                    if is_at_start {
+                        // '${' 문자 건너뛰기
+                        unsafe {
+                            self.input.bump();
+                        } // '{' 건너뛰기
+                        tok!("${")
+                    } else {
+                        Token::Template {
+                            cooked: Ok(self.atoms.atom(token_content)),
+                            raw: self.atoms.atom(token_content),
+                        }
+                    }
+                } else {
+                    // 종료 틱 발견
+                    if is_at_start {
+                        tok!('`')
+                    } else {
+                        Token::Template {
+                            cooked: Ok(self.atoms.atom(token_content)),
+                            raw: self.atoms.atom(token_content),
+                        }
+                    }
+                };
+
+                // 이미 bump_bytes로 다음 위치로 이동했으므로 추가 작업 불필요
+                return Ok(result);
+            }
+        }
+
+        // 시작 확인 (템플릿의 시작 부분에서 곧바로 템플릿이 끝나는 경우)
+        let is_at_start = start == self.cur_pos() && self.state.last_was_tpl_element();
+        let is_expr_start = self.cur() == Some('$') && self.peek() == Some('{');
+        let is_template_end = self.cur() == Some('`');
+
+        if is_at_start {
+            if is_expr_start {
+                unsafe {
+                    self.input.bump();
+                } // '$'
+                unsafe {
+                    self.input.bump();
+                } // '{'
+                return Ok(tok!("${"));
+            } else if is_template_end {
+                unsafe {
+                    self.input.bump();
+                } // '`'
+                return Ok(tok!('`'));
+            }
+        }
+
+        // 느린 경로: 복잡한 템플릿 처리
+        let mut cooked = Ok(String::with_capacity(input_str_len.min(256)));
         let mut cooked_slice_start = start;
         let raw_slice_start = start;
 
@@ -1377,55 +1471,35 @@ impl Lexer<'_> {
             () => {{
                 if let Ok(cooked) = &mut cooked {
                     let last_pos = self.cur_pos();
-                    cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    });
+                    let s = unsafe { self.input.slice(cooked_slice_start, last_pos) };
+                    cooked.push_str(s);
                 }
             }};
         }
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    if c == '$' {
-                        self.bump();
-                        self.bump();
-                        return Ok(tok!("${"));
-                    } else {
-                        self.bump();
-                        return Ok(tok!('`'));
-                    }
-                }
-
-                // If we don't have any escape
-                let cooked = if cooked_slice_start == raw_slice_start {
-                    let last_pos = self.cur_pos();
-                    let s = unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    };
-
-                    Ok(self.atoms.atom(s))
-                } else {
-                    consume_cooked!();
-
-                    cooked.map(|s| self.atoms.atom(s))
-                };
+                // 템플릿 종료 또는 표현식 시작
+                consume_cooked!();
 
                 // TODO: Handle error
                 let end = self.input.cur_pos();
-                let raw = unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, end)
-                };
-                return Ok(Token::Template {
-                    cooked,
+                let raw = unsafe { self.input.slice(raw_slice_start, end) };
+
+                let result = Token::Template {
+                    cooked: cooked.map(|s| self.atoms.atom(&s)),
                     raw: self.atoms.atom(raw),
-                });
+                };
+
+                // 다음 위치로 이동
+                if c == '`' {
+                    self.bump();
+                } else {
+                    self.bump(); // '$'
+                    self.bump(); // '{'
+                }
+
+                return Ok(result);
             }
 
             if c == '\\' {
