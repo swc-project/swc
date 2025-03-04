@@ -1048,12 +1048,66 @@ impl Lexer<'_> {
         let start = self.cur_pos();
         let quote = self.cur().unwrap() as u8;
 
-        self.bump(); // '"'
+        self.bump(); // 따옴표 건너뛰기
 
+        // 빠른 경로 시도: 문자열에 이스케이프 시퀀스가 없는지 빠르게 검사
+        let value_start = self.cur_pos();
+        let input_str = self.input.as_str();
+        let bytes = input_str.as_bytes();
+
+        // 문자열 끝을 찾기 위한 간단한 스캔
+        let mut i = 0;
+        let len = bytes.len();
+        let mut found_end = false;
+
+        while i < len {
+            let c = bytes[i];
+
+            if c == quote {
+                // 문자열 끝 찾음
+                found_end = true;
+                break;
+            }
+
+            if c == b'\\' || c == b'\r' || c == b'\n' || c > 127 {
+                // 이스케이프 시퀀스나 줄바꿈 또는 비ASCII 문자 발견
+                // 일반적인 경로로 돌아감
+                break;
+            }
+
+            i += 1;
+        }
+
+        // 이스케이프 시퀀스나 특수 문자 없이 문자열 끝을 찾았으면 빠른 경로 사용
+        if found_end && i > 0 {
+            // 빠른 경로: 단순 문자열
+            let value_slice = unsafe {
+                // Safety: 인덱스는 이미 검증됨
+                std::slice::from_raw_parts(bytes.as_ptr(), i)
+            };
+
+            let value = self.atoms.atom(std::str::from_utf8(value_slice).unwrap());
+
+            // 따옴표 건너뛰기
+            self.input.bump_bytes(i + 1);
+
+            let end = self.cur_pos();
+            let raw = unsafe { self.input.slice(start, end) };
+
+            return Ok(Token::Str {
+                value,
+                raw: self.atoms.atom(raw),
+            });
+        }
+
+        // 느린 경로: 이스케이프 시퀀스나 특수 문자가 있는 경우
         let mut has_escape = false;
-        let mut slice_start = self.input.cur_pos();
+        let mut slice_start = value_start;
 
         self.with_buf(|l, buf| {
+            let buf_capacity = l.input.as_str().len().min(256);
+            buf.reserve(buf_capacity);
+
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
                     if c == quote {
