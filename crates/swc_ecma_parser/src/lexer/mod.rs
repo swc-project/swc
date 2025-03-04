@@ -912,23 +912,59 @@ impl Lexer<'_> {
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = Vec::new();
-        let mut is_curly = false;
-
         self.bump(); // 'u'
 
-        if self.eat(b'{') {
-            is_curly = true;
-        }
+        // 일반적으로 \u0000 형식의 유니코드 이스케이프가 더 많으므로
+        // \u{...} 형식보다 먼저 처리하는 것이 효율적
+        let is_curly = self.eat(b'{');
+
+        // 미리 적절한 용량으로 벡터 초기화 (대부분 한 문자만 반환)
+        let mut chars = Vec::with_capacity(1);
 
         let state = self.input.cur_pos();
+
+        // 속도 향상을 위해 직접 16진수 문자 읽기 시도
+        if !is_curly {
+            // 고정 크기 \u0000 형식 처리 (빠른 경로)
+            let input_str = self.input.as_str();
+            let bytes = input_str.as_bytes();
+
+            // 충분한 16진수 문자가 있는지 확인
+            if input_str.len() >= 4 {
+                // 4개 문자를 직접 읽어 16진수로 변환
+                let mut val: u32 = 0;
+                let mut valid = true;
+
+                for &byte in bytes[..4].iter() {
+                    let digit = match byte {
+                        b'0'..=b'9' => byte - b'0',
+                        b'a'..=b'f' => byte - b'a' + 10,
+                        b'A'..=b'F' => byte - b'A' + 10,
+                        _ => {
+                            valid = false;
+                            break;
+                        }
+                    };
+                    val = (val << 4) | (digit as u32);
+                }
+
+                if valid {
+                    if let Some(c) = char::from_u32(val) {
+                        self.input.bump_bytes(4);
+                        chars.push(c.into());
+                        return Ok(chars);
+                    }
+                }
+            }
+        }
+
+        // 위의 빠른 경로가 실패하면 일반적인 방법으로 돌아감
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }) {
             Ok(Some(val)) => {
                 if 0x0010_ffff >= val {
                     char::from_u32(val)
                 } else {
                     let start = self.cur_pos();
-
                     self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -943,7 +979,6 @@ impl Lexer<'_> {
             }
             _ => {
                 let start = self.cur_pos();
-
                 self.error(
                     start,
                     SyntaxError::BadCharacterEscapeSequence {
