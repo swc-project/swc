@@ -2,7 +2,7 @@ use std::{f128::consts::E, fmt::Write};
 
 use serde_derive::Serialize;
 use swc_common::{
-    errors::{DiagnosticBuilder, Emitter, Level},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level},
     sync::Lrc,
     SourceMap,
 };
@@ -40,8 +40,14 @@ impl Emitter for JsonEmitter {
             })
             .collect::<Vec<_>>();
 
+        let error_code = match &d.code {
+            Some(DiagnosticId::Error(s)) => Some(&**s),
+            Some(DiagnosticId::Lint(s)) => Some(&**s),
+            None => None,
+        };
+
         let error = JsonDiagnostic {
-            code: &d.code,
+            code: error_code,
             message: &d.message,
             filename: d.filename(),
             line: d.line(),
@@ -64,7 +70,8 @@ impl Emitter for JsonEmitter {
 #[derive(Serialize)]
 struct JsonDiagnostic<'a> {
     /// Error code
-    code: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    code: Option<&'a str>,
     message: &'a str,
 
     #[serde(skip_serializing_if = "Option::is_none")]
