@@ -1838,9 +1838,29 @@ impl Optimizer<'_> {
                             if let Some(left_obj) = b_left.obj.as_ident() {
                                 if let Some(usage) = self.data.vars.get(&left_obj.to_id()) {
                                     if left_obj.ctxt != self.ctx.expr_ctx.unresolved_ctxt
+                                        && !usage.inline_prevented
                                         && !usage.reassigned
                                         && !b_left.prop.is_computed()
                                     {
+                                        match &*a {
+                                            Mergable::Var(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::Expr(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::FnDecl(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::Drop => return Ok(false),
+                                        }
+
                                         return self.merge_sequential_expr(a, &mut b_assign.right);
                                     }
                                 }
