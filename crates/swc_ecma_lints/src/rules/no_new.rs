@@ -81,16 +81,22 @@ impl NoNew {
             Pat::Assign(AssignPat { right, .. }) => {
                 self.check_and_pass_new_expr(right.as_ref());
             }
-            Pat::Array(ArrayPat { elems, .. }) => elems.iter().for_each(|elem| {
-                if let Some(elem) = elem {
-                    // cases
-                    // var [ x = new A() ] = arr;
-                    // var [ a, [ y = new A() ] ] = arr;
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
 
-                    self.check_var_name(elem);
-                }
-            }),
-            Pat::Object(ObjectPat { props, .. }) => {
+                elems.iter().for_each(|elem| {
+                    if let Some(elem) = elem {
+                        // cases
+                        // var [ x = new A() ] = arr;
+                        // var [ a, [ y = new A() ] ] = arr;
+
+                        self.check_var_name(elem);
+                    }
+                });
+            }
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
                 props.iter().for_each(|prop| match prop {
                     ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
                         self.check_var_name(value.as_ref());
