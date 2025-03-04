@@ -11,10 +11,7 @@ mod token;
 pub use error::{Error, ErrorKind, Result};
 pub use lexer::Lexer;
 pub use parser::Parser;
-use swc_common::{
-    errors::{DiagnosticBuilder, Handler},
-    FileName, SourceMap, Span, DUMMY_SP,
-};
+use swc_common::{errors::Handler, SourceMap};
 
 /// Parse source code into an ECMAScript/TypeScript AST
 pub fn parse_file(
@@ -25,7 +22,7 @@ pub fn parse_file(
     syntax: Syntax,
     is_module: bool,
     comments: Option<&mut SingleThreadedComments>,
-) -> Result<ast::Program> {
+) -> Result<Program> {
     let lexer = Lexer::new(fm.src.as_ref(), target, syntax, comments.clone());
     let mut parser = Parser::new(lexer, handler, syntax);
 
