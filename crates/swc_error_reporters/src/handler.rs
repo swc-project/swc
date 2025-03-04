@@ -5,12 +5,15 @@ use miette::{GraphicalReportHandler, GraphicalTheme};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use swc_common::{
-    errors::{ColorConfig, Handler, HANDLER},
+    errors::{ColorConfig, Emitter, Handler, HANDLER},
     sync::Lrc,
     SourceMap,
 };
 
-use crate::{PrettyEmitter, PrettyEmitterConfig};
+use crate::{
+    json_emitter::{JsonEmitter, JsonEmitterConfig},
+    PrettyEmitter, PrettyEmitterConfig,
+};
 
 #[derive(Clone, Default)]
 struct LockedWriter(Arc<Mutex<Vec<u8>>>);
@@ -88,19 +91,54 @@ pub fn try_with_handler<F, Ret>(
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
+    try_with_handler_inner(cm, config, op, false)
+}
+
+/// Try operation with a [Handler] and prints the errors as a [String] wrapped
+/// by [Err].
+pub fn try_with_json_handler<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    try_with_handler_inner(cm, config, op, true)
+}
+
+fn try_with_handler_inner<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+    json: bool,
+) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
     let wr = Box::<LockedWriter>::default();
 
-    let emitter = PrettyEmitter::new(
-        cm,
-        wr.clone(),
-        to_miette_reporter(config.color),
-        PrettyEmitterConfig {
-            skip_filename: config.skip_filename,
-        },
-    );
+    let emitter: Box<dyn Emitter> = if json {
+        Box::new(PrettyEmitter::new(
+            cm,
+            wr.clone(),
+            to_miette_reporter(config.color),
+            PrettyEmitterConfig {
+                skip_filename: config.skip_filename,
+            },
+        ))
+    } else {
+        Box::new(JsonEmitter::new(
+            cm,
+            wr.clone(),
+            JsonEmitterConfig {
+                skip_filename: config.skip_filename,
+            },
+        ))
+    };
     // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
     // true).skip_filename(skip_filename);
-    let handler = Handler::with_emitter(true, false, Box::new(emitter));
+    let handler = Handler::with_emitter(true, false, emitter);
 
     let ret = HANDLER.set(&handler, || op(&handler));
 

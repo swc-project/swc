@@ -19,6 +19,21 @@ pub struct JsonEmitter {
     diagnostics: Vec<String>,
 }
 
+impl JsonEmitter {
+    pub fn new(
+        cm: Lrc<SourceMap>,
+        wr: Box<dyn Write + Send + Sync>,
+        config: JsonEmitterConfig,
+    ) -> Self {
+        Self {
+            cm,
+            wr: WriterWrapper(wr),
+            config,
+            diagnostics: vec![],
+        }
+    }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct JsonEmitterConfig {
     pub skip_filename: bool,

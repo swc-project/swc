@@ -13,10 +13,8 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span,
 };
 
-pub use crate::json_emitter::*;
-
 pub mod handler;
-mod json_emitter;
+pub mod json_emitter;
 
 pub struct PrettyEmitter {
     cm: Lrc<SourceMap>,
