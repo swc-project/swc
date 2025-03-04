@@ -19314,10 +19314,10 @@
                         }
                     },
                     PRIV: function(tag) {
-                        var i;
+                        var i, bytes;
                         for(i = 0; i < tag.data.length; i++)if (0 === tag.data[i]) {
                             // parse the description and URL fields
-                            tag.owner = unescape(percentEncode$1(tag.data, 0, i));
+                            bytes = tag.data, tag.owner = unescape(percentEncode$1(bytes, 0, i));
                             break;
                         }
                         tag.privateData = tag.data.subarray(i + 1), tag.data = tag.privateData;
@@ -25869,7 +25869,7 @@
                     // the playlist we were trying to load (but failed) and that should be
                     // blacklisted instead of the currently selected playlist which is likely
                     // out-of-date in this scenario
-                    var currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
+                    var excludeUntil, currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
                     // trying to load the master OR while we were disposing of the tech
                     if (blacklistDuration = blacklistDuration || error.blacklistDuration || this.blacklistDuration, !currentPlaylist) {
                         this.error = error, "open" !== this.mediaSource.readyState ? this.trigger("error") : this.sourceUpdater_.endOfStream("network");
@@ -25895,7 +25895,7 @@
                         // case where the player might be stuck and looping through "dead" playlists.
                         this.tech_.trigger("retryplaylist"));
                     } // Blacklist this playlist
-                    currentPlaylist.excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
+                    excludeUntil = currentPlaylist.playlistErrors_ > this.maxPlaylistRetries ? 1 / 0 : Date.now() + 1000 * blacklistDuration, currentPlaylist.excludeUntil = excludeUntil, error.reason && (currentPlaylist.lastExcludeReason_ = error.reason), this.tech_.trigger("blacklistplaylist"), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-rendition-blacklisted"
                     }), this.tech_.trigger({

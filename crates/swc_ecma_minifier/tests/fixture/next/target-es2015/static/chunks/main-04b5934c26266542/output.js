@@ -2409,7 +2409,7 @@
                         return;
                         let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
                         const pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
-                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (parsed.pathname = pathname = parsed.pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
+                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
                         const route = _removeTrailingSlash.removeTrailingSlash(pathname);
                         yield Promise.all([
                             _this.pageLoader._isSsg(route).then((isSsg)=>!!isSsg && fetchNextData({
@@ -3281,7 +3281,7 @@
                 var w, P;
                 return function(I) {
                     var n1;
-                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > T[1] ? "poor" : n1 > T[0] ? "needs-improvement" : "good", n(y));
+                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, n1 = y.value, y.rating = n1 > T[1] ? "poor" : n1 > T[0] ? "needs-improvement" : "good", n(y));
                 };
             }, N = -1, v = function() {
                 return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;

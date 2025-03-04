@@ -922,8 +922,13 @@
                         sheetRefCurrent[1] = !1;
                         return;
                     }
-                    void 0 !== serialized.next && // insert keyframes
-                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length && (sheet.before = sheet.tags[sheet.tags.length - 1].nextElementSibling, sheet.flush()), cache.insert("", serialized, sheet, !1);
+                    if (void 0 !== serialized.next && // insert keyframes
+                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length) {
+                        // if this doesn't exist then it will be null so the style element will be appended
+                        var element = sheet.tags[sheet.tags.length - 1].nextElementSibling;
+                        sheet.before = element, sheet.flush();
+                    }
+                    cache.insert("", serialized, sheet, !1);
                 }, [
                     cache,
                     serialized.name

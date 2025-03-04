@@ -5261,11 +5261,11 @@
     function scheduleWorkOnParentPath(parent, renderLanes) {
         for(// Update the child lanes of all the ancestors, including the alternates.
         var node = parent; null !== node;){
-            var alternate = node.alternate;
+            var a, a1, alternate = node.alternate;
             if ((node.childLanes & renderLanes) === renderLanes) {
                 if (null === alternate || (alternate.childLanes & renderLanes) === renderLanes) break;
-                alternate.childLanes = alternate.childLanes | renderLanes;
-            } else node.childLanes = node.childLanes | renderLanes, null !== alternate && (alternate.childLanes = alternate.childLanes | renderLanes);
+                a = alternate.childLanes, alternate.childLanes = a | renderLanes;
+            } else node.childLanes = node.childLanes | renderLanes, null !== alternate && (a1 = alternate.childLanes, alternate.childLanes = a1 | renderLanes);
             node = node.return;
         }
     }
@@ -5300,7 +5300,7 @@
     }
     var hasForceUpdate = !1;
     function initializeUpdateQueue(fiber) {
-        fiber.updateQueue = {
+        var queue = {
             baseState: fiber.memoizedState,
             firstBaseUpdate: null,
             lastBaseUpdate: null,
@@ -5309,6 +5309,7 @@
             },
             effects: null
         };
+        fiber.updateQueue = queue;
     }
     function cloneUpdateQueue(current, workInProgress) {
         // Clone the update queue from current. Unless it's already a clone.
@@ -6387,7 +6388,8 @@
         return children;
     }
     function bailoutHooks(current, workInProgress, lanes) {
-        workInProgress.updateQueue = current.updateQueue, workInProgress.flags &= -517, current.lanes = current.lanes & ~lanes;
+        var set;
+        workInProgress.updateQueue = current.updateQueue, workInProgress.flags &= -517, set = current.lanes, current.lanes = set & ~lanes;
     }
     function resetHooksAfterThrow() {
         if (// We can assume the previous dispatcher is always this one, since we set it
@@ -7878,9 +7880,9 @@
         fallbackChildFragment.flags |= 2), fallbackChildFragment.return = workInProgress, primaryChildFragment.return = workInProgress, primaryChildFragment.sibling = fallbackChildFragment, workInProgress.child = primaryChildFragment, fallbackChildFragment;
     }
     function scheduleWorkOnFiber(fiber, renderLanes) {
-        fiber.lanes = fiber.lanes | renderLanes;
-        var alternate = fiber.alternate;
-        null !== alternate && (alternate.lanes = alternate.lanes | renderLanes), scheduleWorkOnParentPath(fiber.return, renderLanes);
+        a = fiber.lanes, fiber.lanes = a | renderLanes;
+        var a, a1, alternate = fiber.alternate;
+        null !== alternate && (a1 = alternate.lanes, alternate.lanes = a1 | renderLanes), scheduleWorkOnParentPath(fiber.return, renderLanes);
     }
     function validateSuspenseListNestedChild(childSlot, index) {
         var isArray = Array.isArray(childSlot), isIterable = !isArray && "function" == typeof getIteratorFn(childSlot);
@@ -8326,7 +8328,7 @@
                                             // Match! Schedule an update on this fiber.
                                             if (1 === fiber.tag) {
                                                 // Schedule a force update on the work-in-progress.
-                                                var update = createUpdate(-1, pickArbitraryLane(renderLanes));
+                                                var a, a1, update = createUpdate(-1, pickArbitraryLane(renderLanes));
                                                 update.tag = 2, // update to the current fiber, too, which means it will persist even if
                                                 // this render is thrown away. Since it's a race condition, not sure it's
                                                 // worth fixing.
@@ -8334,7 +8336,7 @@
                                             }
                                             fiber.lanes = fiber.lanes | renderLanes;
                                             var alternate = fiber.alternate;
-                                            null !== alternate && (alternate.lanes = alternate.lanes | renderLanes), scheduleWorkOnParentPath(fiber.return, renderLanes), list.lanes = list.lanes | renderLanes;
+                                            null !== alternate && (a = alternate.lanes, alternate.lanes = a | renderLanes), scheduleWorkOnParentPath(fiber.return, renderLanes), a1 = list.lanes, list.lanes = a1 | renderLanes;
                                             break;
                                         }
                                         dependency = dependency.next;
@@ -9712,9 +9714,9 @@
     // e.g. retrying a Suspense boundary isn't an update, but it does schedule work
     // on a fiber.
     function markUpdateLaneFromFiberToRoot(sourceFiber, lane) {
-        // Update the source fiber's lanes
-        sourceFiber.lanes = sourceFiber.lanes | lane;
-        var alternate = sourceFiber.alternate;
+        a = sourceFiber.lanes, // Update the source fiber's lanes
+        sourceFiber.lanes = a | lane;
+        var a, alternate = sourceFiber.alternate;
         null !== alternate && (alternate.lanes = alternate.lanes | lane), null === alternate && (1026 & sourceFiber.flags) != 0 && warnAboutUpdateOnNotYetMountedFiberInDEV(sourceFiber);
         for(var node = sourceFiber, parent = sourceFiber.return; null !== parent;)(parent.childLanes = parent.childLanes | lane, null !== (alternate = parent.alternate)) ? alternate.childLanes = alternate.childLanes | lane : (1026 & parent.flags) != 0 && warnAboutUpdateOnNotYetMountedFiberInDEV(sourceFiber), node = parent, parent = parent.return;
         return 3 === node.tag ? node.stateNode : null;
@@ -9838,7 +9840,9 @@
                 var fatalError = workInProgressRootFatalError;
                 throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
             } // We now have a consistent tree. The next step is either to commit it,
-            root.finishedWork = root.current.alternate, root.finishedLanes = lanes, function(root, exitStatus, lanes) {
+            // or, if something suspended, wait to commit it after a timeout.
+            var finishedWork = root.current.alternate;
+            root.finishedWork = finishedWork, root.finishedLanes = lanes, function(root, exitStatus, lanes) {
                 switch(exitStatus){
                     case 0:
                     case 1:
@@ -9944,7 +9948,9 @@
             var a, lanes, exitStatus, fatalError = workInProgressRootFatalError;
             throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
         } // We now have a consistent tree. Because this is a sync render, we
-        return root.finishedWork = root.current.alternate, root.finishedLanes = lanes, commitRoot(root), // pending level.
+        // will commit it even if something suspended.
+        var finishedWork = root.current.alternate;
+        return root.finishedWork = finishedWork, root.finishedLanes = lanes, commitRoot(root), // pending level.
         ensureRootIsScheduled(root, now()), null;
     }
     function batchedUpdates$1(fn, a) {
@@ -10756,7 +10762,8 @@
         }));
     }
     function invokePassiveEffectCreate(effect) {
-        effect.destroy = (0, effect.create)();
+        var create = effect.create;
+        effect.destroy = create();
     }
     function flushPassiveEffectsImpl() {
         if (null === rootWithPendingPassiveEffects) return !1;
@@ -11347,7 +11354,7 @@
     }
     function markRetryLaneImpl(fiber, retryLane) {
         var a, suspenseState = fiber.memoizedState;
-        null !== suspenseState && null !== suspenseState.dehydrated && (suspenseState.retryLane = 0 !== (a = suspenseState.retryLane) && a < retryLane ? a : retryLane);
+        null !== suspenseState && null !== suspenseState.dehydrated && (a = suspenseState.retryLane, suspenseState.retryLane = 0 !== a && a < retryLane ? a : retryLane);
     } // Increases the priority of thennables when they resolve within this boundary.
     function markRetryLaneIfNotHydrated(fiber, retryLane) {
         markRetryLaneImpl(fiber, retryLane);

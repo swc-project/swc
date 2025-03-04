@@ -14605,7 +14605,7 @@
             }
             var Fg = new aa.Component().refs;
             function Gg(a, b, c, d) {
-                a.memoizedState = c = null == (c = c(d, b = a.memoizedState)) ? b : m({}, b, c), 0 === a.lanes && (a.updateQueue.baseState = c);
+                c = null == (c = c(d, b = a.memoizedState)) ? b : m({}, b, c), a.memoizedState = c, 0 === a.lanes && (a.updateQueue.baseState = c);
             }
             var Kg = {
                 isMounted: function(a) {
@@ -15619,7 +15619,7 @@
                 if (null !== a && (b.dependencies = a.dependencies), Dg |= b.lanes, 0 != (c & b.childLanes)) {
                     if (null !== a && b.child !== a.child) throw Error(y(153));
                     if (null !== b.child) {
-                        for(b.child = c = Tg(a = b.child, a.pendingProps), c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = Tg(a, a.pendingProps)).return = b;
+                        for(c = Tg(a = b.child, a.pendingProps), b.child = c, c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = Tg(a, a.pendingProps)).return = b;
                         c.sibling = null;
                     }
                     return b.child;

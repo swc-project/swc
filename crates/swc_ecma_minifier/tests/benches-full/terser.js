@@ -8504,7 +8504,7 @@
                 //    https://github.com/mishoo/UglifyJS2/issues/1838
                 // that's an invalid AST.
                 // We fix it at this stage by moving the `var` outside the `for`.
-                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (node.init = (block = node.init).body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
+                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (block = node.init, node.init = block.body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
                 if (node instanceof AST_LabeledStatement && node.body instanceof AST_For) {
                     if (descend(node, this), node.body instanceof AST_BlockStatement) {
                         var block = node.body;

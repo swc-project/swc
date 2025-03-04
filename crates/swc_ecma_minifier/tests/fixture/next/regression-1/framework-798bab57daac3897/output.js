@@ -2218,7 +2218,7 @@
             }
             var Hg = new aa.Component().refs;
             function Ig(a, b, c, d) {
-                a.memoizedState = c = null == (c = c(d, b = a.memoizedState)) ? b : A({}, b, c), 0 === a.lanes && (a.updateQueue.baseState = c);
+                c = null == (c = c(d, b = a.memoizedState)) ? b : A({}, b, c), a.memoizedState = c, 0 === a.lanes && (a.updateQueue.baseState = c);
             }
             var Mg = {
                 isMounted: function(a) {
@@ -3540,7 +3540,7 @@
                 if (null !== a && (b.dependencies = a.dependencies), Fg |= b.lanes, 0 == (c & b.childLanes)) return null;
                 if (null !== a && b.child !== a.child) throw Error(p(153));
                 if (null !== b.child) {
-                    for(b.child = c = th(a = b.child, a.pendingProps), c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = th(a, a.pendingProps)).return = b;
+                    for(c = th(a = b.child, a.pendingProps), b.child = c, c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = th(a, a.pendingProps)).return = b;
                     c.sibling = null;
                 }
                 return b.child;
@@ -4820,8 +4820,8 @@
                                                     break;
                                                 case 1:
                                                     if (null !== m) {
-                                                        var w = m.memoizedProps, J = m.memoizedState, v = b.stateNode;
-                                                        v.__reactInternalSnapshotBeforeUpdate = v.getSnapshotBeforeUpdate(b.elementType === b.type ? w : kg(b.type, w), J);
+                                                        var w = m.memoizedProps, J = m.memoizedState, v = b.stateNode, x = v.getSnapshotBeforeUpdate(b.elementType === b.type ? w : kg(b.type, w), J);
+                                                        v.__reactInternalSnapshotBeforeUpdate = x;
                                                     }
                                                     break;
                                                 case 3:

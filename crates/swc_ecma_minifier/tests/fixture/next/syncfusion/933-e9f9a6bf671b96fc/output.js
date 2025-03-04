@@ -16238,7 +16238,8 @@
                     while (node && 0 > BLOCK_TAGS.indexOf(node.nodeName.toLocaleLowerCase()))
                     return node;
                 }, InsertHtml.removingComments = function(elm) {
-                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
+                    var innerElement = elm.innerHTML;
+                    elm.innerHTML = innerElement.replace(/<!--[\s\S]*?-->/g, '');
                 }, InsertHtml.findDetachEmptyElem = function(element) {
                     return (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'true' !== element.parentElement.contentEditable ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, InsertHtml.removeEmptyElements = function(element) {
@@ -18125,7 +18126,8 @@
                     }
                     return styleClassObject;
                 }, MsWordPaste.prototype.removingComments = function(elm) {
-                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
+                    var innerElement = elm.innerHTML;
+                    elm.innerHTML = innerElement.replace(/<!--[\s\S]*?-->/g, '');
                 }, MsWordPaste.prototype.cleanUp = function(node, listNodes) {
                     for(var prevflagState, tempCleaner = [], allNodes = node.querySelectorAll('*'), index = 0; index < allNodes.length; index++){
                         if (-1 === this.ignorableNodes.indexOf(allNodes[index].nodeName) || 3 === allNodes[index].nodeType && '' === allNodes[index].textContent.trim()) {
@@ -25172,7 +25174,8 @@
                     ], POPUP_OPEN), this.adjustArrow(event.target, this.position, this.tooltipPositionX, this.tooltipPositionY);
                     var pos = this.calculateTooltipOffset(this.position), x = eventPageX + pos.left + this.offsetX, y = eventPageY + pos.top + this.offsetY, elePos = this.checkCollision(event.target, x, y);
                     if (this.tooltipPositionX !== elePos.horizontal || this.tooltipPositionY !== elePos.vertical) {
-                        elePos.position = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
+                        var newpos = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical;
+                        elePos.position = newpos, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
                         var colpos = this.calculateTooltipOffset(elePos.position);
                         elePos.left = eventPageX + colpos.left - this.offsetX, elePos.top = eventPageY + colpos.top - this.offsetY;
                     }

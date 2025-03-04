@@ -11450,3 +11450,34 @@ fn issue_10095() {
         false,
     );
 }
+
+#[test]
+fn issue_10133() {
+    run_default_exec_test(
+        "
+    function splineCurve(firstPoint, middlePoint, afterPoint) {
+        const previous = firstPoint.skip ? middlePoint : firstPoint;
+        const current = middlePoint;
+        const next = afterPoint;
+        return {
+                x: current.x - (next.x - previous.x),
+                y: current.y - (next.y - previous.y)
+        };
+    }
+
+    function _updateBezierControlPoints(points) {
+        let i, ilen, point, controlPoints;
+            let prev = points[0];
+            for(i = 0, ilen = points.length; i < ilen; ++i){
+                point = points[i];
+                controlPoints = splineCurve(prev, point, points[Math.min(i + 1, ilen - 1)]);
+                point.cp1x = controlPoints.x;
+                prev = point;
+            }
+    }
+    let points = [{x: 1, y: 2}, {x: 2, y: 1}, {x: 3, y: 2}];
+    _updateBezierControlPoints(points);
+    console.log(points)
+    ",
+    );
+}
