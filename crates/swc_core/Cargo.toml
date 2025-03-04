@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "16.3.0"
+version       = "16.3.1"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -356,7 +356,7 @@ swc_ecma_ast                     = { optional = true, version = "8.0.0", path = 
 swc_ecma_codegen                 = { optional = true, version = "8.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "11.0.1", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "8.0.0", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "12.0.2", path = "../swc_ecma_minifier" }
+swc_ecma_minifier                = { optional = true, version = "12.0.3", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "10.0.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "14.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "10.0.0", path = "../swc_ecma_quote_macros" }
@@ -367,7 +367,7 @@ swc_ecma_transforms_optimization = { optional = true, version = "11.0.0", path =
 swc_ecma_transforms_proposal     = { optional = true, version = "11.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react        = { optional = true, version = "12.0.1", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "11.0.1", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript   = { optional = true, version = "12.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript   = { optional = true, version = "12.0.1", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_usage_analyzer          = { optional = true, version = "12.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "8.0.0", path = "../swc_ecma_visit" }

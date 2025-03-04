@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix regression due to #10056 ([#10134](https://github.com/swc-project/swc/issues/10134)) ([b145275](https://github.com/swc-project/swc/commit/b1452757f3ff0b05330578b4e7607db3ee874bd5))
+
+
+- **(es/typescript)** Remove empty statements that const enum decls are folded into ([#10128](https://github.com/swc-project/swc/issues/10128)) ([7bea830](https://github.com/swc-project/swc/commit/7bea830a0e6f73ab0ba5032d13d5e58e4674bc72))
+
 ## [1.11.5] - 2025-02-28
 
 ### Bug Fixes
@@ -1721,9 +1732,6 @@
 - **(es/quote)** Fix macro ([#9270](https://github.com/swc-project/swc/issues/9270)) ([93d9e44](https://github.com/swc-project/swc/commit/93d9e44f1c7a3afea673f056d99001a026c0a6d3))
 
 
-- **(es/typescript)** Fix `transform` mode ([#9243](https://github.com/swc-project/swc/issues/9243)) ([0e79a5b](https://github.com/swc-project/swc/commit/0e79a5b428c811c46c69f7f4a84fcff31c98db67))
-
-
 - **(es/typescript)** Workaround `wasm-bindgen` ([#9272](https://github.com/swc-project/swc/issues/9272)) ([6b1d2ff](https://github.com/swc-project/swc/commit/6b1d2ff66b5ef73374c3932c0c505e08b9879a18))
 
 ### Documentation
@@ -1731,12 +1739,6 @@
 
 
 - **(contributing)** Fix deno installation url ([#9249](https://github.com/swc-project/swc/issues/9249)) ([ff5bbda](https://github.com/swc-project/swc/commit/ff5bbdae6ad16309efe592788f4cb14956ffc3b1))
-
-### Features
-
-
-
-- **(allocator)** Implement `default` mode ([#9242](https://github.com/swc-project/swc/issues/9242)) ([b6333db](https://github.com/swc-project/swc/commit/b6333dbcfcc8f25d08a1187704796732366ac9d7))
 
 ### Performance
 
