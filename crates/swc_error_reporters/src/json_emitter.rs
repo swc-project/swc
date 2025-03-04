@@ -1,5 +1,18 @@
+use miette::GraphicalReportHandler;
+use swc_common::{sync::Lrc, SourceMap};
+
+use crate::WriterWrapper;
+
 pub struct JsonEmitter {
-    pub config: JsonEmitterConfig,
+    cm: Lrc<SourceMap>,
+
+    wr: WriterWrapper,
+
+    reporter: GraphicalReportHandler,
+
+    config: JsonEmitterConfig,
+
+    diagnostics: Vec<String>,
 }
 
 #[derive(Debug, Clone, Default)]
