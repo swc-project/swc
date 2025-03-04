@@ -69,7 +69,10 @@ impl Write for WriterWrapper {
 }
 
 #[derive(Clone, Copy)]
-struct MietteSourceCode<'a>(&'a SourceMap, &'a PrettyEmitterConfig);
+struct MietteSourceCode<'a> {
+    cm: &'a SourceMap,
+    skip_filename: bool,
+}
 
 impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
@@ -84,7 +87,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let mut span = Span::new(BytePos(lo as _), BytePos(hi as _));
 
         span = self
-            .0
+            .cm
             .with_span_to_prev_source(span, |src| {
                 let len = src
                     .rsplit('\n')
@@ -98,7 +101,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         span = self
-            .0
+            .cm
             .with_span_to_next_source(span, |src| {
                 let len = src
                     .split('\n')
@@ -112,7 +115,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         span = self
-            .0
+            .cm
             .with_snippet_of_span(span, |src| {
                 if src.lines().next().is_some() {
                     return span;
@@ -128,7 +131,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         let mut src = self
-            .0
+            .cm
             .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
             .unwrap_or(" ");
 
@@ -136,10 +139,10 @@ impl SourceCode for MietteSourceCode<'_> {
             src = " ";
         }
 
-        let loc = self.0.lookup_char_pos(span.lo());
+        let loc = self.cm.lookup_char_pos(span.lo());
         let line_count = loc.file.analyze().lines.len();
 
-        let name = if self.1.skip_filename {
+        let name = if self.skip_filename {
             None
         } else {
             match &*loc.file.name {
@@ -151,7 +154,7 @@ impl SourceCode for MietteSourceCode<'_> {
         };
 
         Ok(Box::new(SpanContentsImpl {
-            _cm: self.0,
+            _cm: self.cm,
             data: src,
             span: convert_span(span),
             line: loc.line.saturating_sub(1),
@@ -166,7 +169,10 @@ impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
-        let source_code = MietteSourceCode(&self.cm, &self.config);
+        let source_code = MietteSourceCode {
+            cm: &self.cm,
+            skip_filename: self.config.skip_filename,
+        };
 
         let children = d
             .children
