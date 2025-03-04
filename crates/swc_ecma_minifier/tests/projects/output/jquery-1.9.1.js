@@ -3433,7 +3433,7 @@
             s.type = options.method || options.type || s.method || s.type, // Extract dataTypes list
             s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(core_rnotwhite) || [
                 ""
-            ], null == s.crossDomain && (s.crossDomain = !!((parts = rurl.exec(s.url.toLowerCase())) && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), // Apply prefilters
+            ], null == s.crossDomain && (parts = rurl.exec(s.url.toLowerCase()), s.crossDomain = !!(parts && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), // Apply prefilters
             inspectPrefiltersOrTransports(prefilters, s, options, jqXHR), 2 === state) return jqXHR;
             // Check for headers option
             for(i in // We can fire global events as of now if asked to

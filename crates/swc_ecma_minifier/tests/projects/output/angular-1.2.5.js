@@ -8611,7 +8611,7 @@
       </doc:example>
       */ function timeout(fn, delay, invokeApply) {
                     var timeoutId, deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply;
-                    return promise.$$timeoutId = timeoutId = $browser.defer(function() {
+                    return timeoutId = $browser.defer(function() {
                         try {
                             deferred.resolve(fn());
                         } catch (e) {
@@ -8620,7 +8620,7 @@
                             delete deferreds[promise.$$timeoutId];
                         }
                         skipApply || $rootScope.$apply();
-                    }, delay), deferreds[timeoutId] = deferred, promise;
+                    }, delay), promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
                 }
                 return(/**
          * @ngdoc function

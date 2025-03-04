@@ -13811,6 +13811,9 @@
         /***/ 953: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             var utils = exports, BN = __webpack_require__(3550), minAssert = __webpack_require__(9746), minUtils = __webpack_require__(4504);
+            function parseBytes(bytes) {
+                return 'string' == typeof bytes ? utils.toArray(bytes, 'hex') : bytes;
+            }
             utils.assert = minAssert, utils.toArray = minUtils.toArray, utils.zero2 = minUtils.zero2, utils.toHex = minUtils.toHex, utils.encode = minUtils.encode, utils.getNAF = // Represent num in a w-NAF form
             function(num, w, bits) {
                 var naf = Array(Math.max(num.bitLength(), bits) + 1);
@@ -13838,9 +13841,7 @@
                 obj.prototype[name] = function() {
                     return void 0 !== this[key] ? this[key] : this[key] = computer.call(this);
                 };
-            }, utils.parseBytes = function(bytes) {
-                return 'string' == typeof bytes ? utils.toArray(bytes, 'hex') : bytes;
-            }, utils.intFromLE = function(bytes) {
+            }, utils.parseBytes = parseBytes, utils.intFromLE = function(bytes) {
                 return new BN(bytes, 'hex', 'le');
             };
         /***/ },
@@ -14512,8 +14513,8 @@
                             return;
                         }
                         if (s.left && s.left._color === RED) {
-                            if (p.right = (z = //console.log("case 1: left sibling child red")
-                            (s = p.right = cloneNode(s)).left = cloneNode(s.left)).left, s.left = z.right, z.left = p, z.right = s, z._color = p._color, p._color = BLACK, s._color = BLACK, n._color = BLACK, recount(p), recount(s), recount(z), i > 1) {
+                            if (z = //console.log("case 1: left sibling child red")
+                            (s = p.right = cloneNode(s)).left = cloneNode(s.left), p.right = z.left, s.left = z.right, z.left = p, z.right = s, z._color = p._color, p._color = BLACK, s._color = BLACK, n._color = BLACK, recount(p), recount(s), recount(z), i > 1) {
                                 var pp = stack[i - 2];
                                 pp.left === p ? pp.left = z : pp.right = z;
                             }
@@ -14548,8 +14549,8 @@
                             return;
                         }
                         if (s.right && s.right._color === RED) {
-                            if (p.left = (z = //console.log("case 1: right sibling child red")
-                            (s = p.left = cloneNode(s)).right = cloneNode(s.right)).right, s.right = z.left, z.right = p, z.left = s, z._color = p._color, p._color = BLACK, s._color = BLACK, n._color = BLACK, recount(p), recount(s), recount(z), i > 1) {
+                            if (z = //console.log("case 1: right sibling child red")
+                            (s = p.left = cloneNode(s)).right = cloneNode(s.right), p.left = z.right, s.right = z.left, z.right = p, z.left = s, z._color = p._color, p._color = BLACK, s._color = BLACK, n._color = BLACK, recount(p), recount(s), recount(z), i > 1) {
                                 var pp = stack[i - 2];
                                 pp.right === p ? pp.right = z : pp.left = z;
                             }
@@ -26011,9 +26012,9 @@ class Zip {
                                     const wasmInstanceExports = {
                                         exports: null
                                     };
-                                    // note: well, exports are required by some imports
+                                    wasmInstance = await loader_1.default.instantiateStreaming(wasmResponse, (0, as_wasm_imports_1.asWasmImports)(swGlobal, wasmInstanceExports)), // note: well, exports are required by some imports
                                     // - e.g. those that use wasmModule.exports.__newString underneath (like Block.indep_hash)
-                                    wasmInstanceExports.exports = (wasmInstance = await loader_1.default.instantiateStreaming(wasmResponse, (0, as_wasm_imports_1.asWasmImports)(swGlobal, wasmInstanceExports))).exports;
+                                    wasmInstanceExports.exports = wasmInstance.exports;
                                     break;
                                 }
                             case 'rust':
@@ -26253,7 +26254,8 @@ class Zip {
                         });
                         if (null == result.srcBinary || result.srcBinary instanceof Buffer || (result.srcBinary = Buffer.from(result.srcBinary.data)), result.srcBinary) {
                             let sourceTx;
-                            result.srcBinary = new WasmSrc_1.WasmSrc(result.srcBinary).wasmBinary(), sourceTx = result.srcTx ? new transaction_1.default({
+                            const wasmSrc = new WasmSrc_1.WasmSrc(result.srcBinary);
+                            result.srcBinary = wasmSrc.wasmBinary(), sourceTx = result.srcTx ? new transaction_1.default({
                                 ...result.srcTx
                             }) : await this.arweaveWrapper.tx(result.srcTxId), result.metadata = JSON.parse((0, utils_1.getTag)(sourceTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
                         }
@@ -27837,6 +27839,9 @@ class Zip {
         /***/ },
         /***/ 5629: /***/ function(__unused_webpack_module, exports) {
             "use strict";
+            function lvlToOrder(logLevel) {
+                return exports.LogLevelOrder[logLevel];
+            }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.lvlToOrder = exports.LogLevelOrder = void 0, exports.LogLevelOrder = {
@@ -27847,9 +27852,7 @@ class Zip {
                 warn: 4,
                 error: 5,
                 fatal: 6
-            }, exports.lvlToOrder = function(logLevel) {
-                return exports.LogLevelOrder[logLevel];
-            };
+            }, exports.lvlToOrder = lvlToOrder;
         //# sourceMappingURL=LoggerSettings.js.map
         /***/ },
         /***/ 2393: /***/ function(__unused_webpack_module, exports) {

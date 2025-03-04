@@ -4160,9 +4160,8 @@
                 if (xhr.open(options.type, options.url, options.async, options.username, options.password), options.xhrFields) for(i in options.xhrFields)xhr[i] = options.xhrFields[i];
                 // Set headers
                 for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), options.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
-                // Listen to events
-                xhr.onload = // Callback
-                (callback = function(type) {
+                // Callback
+                callback = function(type) {
                     return function() {
                         callback && (callback = errorCallback = xhr.onload = xhr.onerror = xhr.onabort = xhr.ontimeout = xhr.onreadystatechange = null, "abort" === type ? xhr.abort() : "error" === type ? "number" != typeof xhr.status ? complete(0, "error") : complete(// File: protocol always yields status 0; see #8605, #14207
                         xhr.status, xhr.statusText) : complete(xhrSuccessStatus[xhr.status] || xhr.status, xhr.statusText, "text" !== // Support: IE <=9 only
@@ -4174,7 +4173,8 @@
                             text: xhr.responseText
                         }, xhr.getAllResponseHeaders()));
                     };
-                })(), errorCallback = xhr.onerror = xhr.ontimeout = callback("error"), void 0 !== xhr.onabort ? xhr.onabort = errorCallback : xhr.onreadystatechange = function() {
+                }, // Listen to events
+                xhr.onload = callback(), errorCallback = xhr.onerror = xhr.ontimeout = callback("error"), void 0 !== xhr.onabort ? xhr.onabort = errorCallback : xhr.onreadystatechange = function() {
                     // Check readyState before timeout as it changes
                     4 === xhr.readyState && // Allow onerror to be called first,
                     // but that will not handle a native abort

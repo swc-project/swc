@@ -1,8 +1,9 @@
 class Class1 {
 }
-Class1.isClass2 = function(node) {
+function isClass2(node) {
     return node instanceof Class2;
-};
+}
+Class1.isClass2 = isClass2;
 export class Class2 extends Class1 {
     constructor(){
         super();
