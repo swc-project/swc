@@ -131,6 +131,7 @@ pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
+    ignore_declare: bool,
 ) -> impl 'static + Pass + VisitMut {
     assert_ne!(
         unresolved_mark,
@@ -153,6 +154,7 @@ pub fn resolver(
             handle_types: typescript,
             unresolved_mark,
             top_level_mark,
+            ignore_declare,
         },
     })
 }
@@ -215,6 +217,7 @@ struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
     top_level_mark: Mark,
+    ignore_declare: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]
