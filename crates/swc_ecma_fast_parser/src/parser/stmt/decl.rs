@@ -231,7 +231,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a binding pattern
-    fn parse_binding_pattern(&mut self) -> Result<ast::Pat> {
+    pub(crate) fn parse_binding_pattern(&mut self) -> Result<ast::Pat> {
         match self.cur_token.token_type {
             // Identifier pattern
             TokenType::Ident => {

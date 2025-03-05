@@ -5,7 +5,7 @@
 
 use std::collections::HashSet;
 
-use swc_common::{errors::Handler, Span};
+use swc_common::errors::Handler;
 use swc_ecma_ast as ast;
 
 use crate::{
