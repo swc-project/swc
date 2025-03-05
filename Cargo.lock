@@ -5292,6 +5292,7 @@ dependencies = [
  "num-bigint",
  "swc_atoms",
  "swc_common",
+ "swc_ecma_ast",
 ]
 
 [[package]]
