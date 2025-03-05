@@ -5,7 +5,7 @@
 
 use swc_ecma_ast as ast;
 
-use super::{super::Parser, StmtParser};
+use super::super::Parser;
 use crate::{error::Result, token::TokenType};
 
 impl<'a> Parser<'a> {
