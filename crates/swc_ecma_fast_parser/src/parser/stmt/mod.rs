@@ -17,9 +17,9 @@ mod control;
 mod decl;
 mod expr;
 
-impl<'a> Parser<'a> {
+impl<'a> StmtParser<'a> for Parser<'a> {
     /// Parse a statement
-    fn parse_statement(&mut self) -> Result<ast::Stmt> {
+    pub(crate) fn parse_statement(&mut self) -> Result<ast::Stmt> {
         match self.cur_token.token_type {
             // Block statement: { ... }
             TokenType::LBrace => {
@@ -28,7 +28,7 @@ impl<'a> Parser<'a> {
             }
 
             // Empty statement: ;
-            TokenType::Semicolon => {
+            TokenType::Semi => {
                 let empty = self.parse_empty_statement()?;
                 Ok(ast::Stmt::Empty(empty))
             }
@@ -173,7 +173,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a module
-    fn parse_module(&mut self) -> Result<ast::Program> {
+    pub(crate) fn parse_module(&mut self) -> Result<ast::Program> {
         // Set module mode
         self.in_module = true;
 
@@ -225,7 +225,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a script
-    fn parse_script(&mut self) -> Result<ast::Program> {
+    pub(crate) fn parse_script(&mut self) -> Result<ast::Program> {
         // Set script mode
         self.in_module = false;
 
@@ -268,7 +268,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an empty statement (;)
-    fn parse_empty_statement(&mut self) -> Result<ast::EmptyStmt> {
+    pub(crate) fn parse_empty_statement(&mut self) -> Result<ast::EmptyStmt> {
         let span = self.cur_token.span;
         self.expect(TokenType::Semicolon)?; // Expect ';'
 
@@ -276,7 +276,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a debugger statement
-    fn parse_debugger_statement(&mut self) -> Result<ast::DebuggerStmt> {
+    pub(crate) fn parse_debugger_statement(&mut self) -> Result<ast::DebuggerStmt> {
         let span = self.cur_token.span;
         self.expect(TokenType::Debugger)?; // Expect 'debugger'
 
@@ -288,7 +288,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a labeled statement: label: stmt
-    fn parse_labeled_statement(&mut self) -> Result<ast::LabeledStmt> {
+    pub(crate) fn parse_labeled_statement(&mut self) -> Result<ast::LabeledStmt> {
         let label = self.parse_identifier_name()?;
 
         self.expect(TokenType::Colon)?; // Expect ':'
@@ -386,7 +386,7 @@ impl<'a> Parser<'a> {
 
 impl<'a> Parser<'a> {
     /// Parse module items
-    fn parse_module_items(&mut self) -> Result<Vec<ast::ModuleItem>> {
+    pub(crate) fn parse_module_items(&mut self) -> Result<Vec<ast::ModuleItem>> {
         let mut body = Vec::new();
 
         while !self.is_token_type(TokenType::EOF) {
@@ -405,7 +405,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a module item (statement or module-specific declaration)
-    fn parse_module_item(&mut self) -> Result<ast::ModuleItem> {
+    pub(crate) fn parse_module_item(&mut self) -> Result<ast::ModuleItem> {
         // Check for import or export declarations
         match self.cur_token.token_type {
             TokenType::Import => {

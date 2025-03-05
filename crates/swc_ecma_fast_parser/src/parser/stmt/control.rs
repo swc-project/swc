@@ -14,7 +14,7 @@ use crate::{
 
 impl<'a> Parser<'a> {
     /// Parse an if statement: if (test) consequent else alternate
-    fn parse_if_statement(&mut self) -> Result<ast::IfStmt> {
+    pub(crate) fn parse_if_statement(&mut self) -> Result<ast::IfStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::If)?; // Expect 'if'
 
@@ -49,7 +49,7 @@ impl<'a> Parser<'a> {
 
     /// Parse a switch statement: switch (discriminant) { case1: ... case2: ...
     /// }
-    fn parse_switch_statement(&mut self) -> Result<ast::SwitchStmt> {
+    pub(crate) fn parse_switch_statement(&mut self) -> Result<ast::SwitchStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Switch)?; // Expect 'switch'
 
@@ -162,7 +162,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a for statement: for ([init]; [test]; [update]) body
-    fn parse_for_statement(&mut self) -> Result<ast::Stmt> {
+    pub(crate) fn parse_for_statement(&mut self) -> Result<ast::Stmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::For)?; // Expect 'for'
 
@@ -312,7 +312,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a while statement: while (test) body
-    fn parse_while_statement(&mut self) -> Result<ast::WhileStmt> {
+    pub(crate) fn parse_while_statement(&mut self) -> Result<ast::WhileStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::While)?; // Expect 'while'
 
@@ -332,7 +332,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a do-while statement: do body while (test);
-    fn parse_do_while_statement(&mut self) -> Result<ast::DoWhileStmt> {
+    pub(crate) fn parse_do_while_statement(&mut self) -> Result<ast::DoWhileStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Do)?; // Expect 'do'
 
@@ -355,7 +355,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a try statement: try block catch finally
-    fn parse_try_statement(&mut self) -> Result<ast::TryStmt> {
+    pub(crate) fn parse_try_statement(&mut self) -> Result<ast::TryStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Try)?; // Expect 'try'
 
@@ -437,7 +437,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a with statement: with (object) body
-    fn parse_with_statement(&mut self) -> Result<ast::WithStmt> {
+    pub(crate) fn parse_with_statement(&mut self) -> Result<ast::WithStmt> {
         // With statements are not allowed in strict mode
         if self.strict_mode {
             return Err(self.error(ErrorKind::General {
@@ -464,7 +464,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a break statement: break [label];
-    fn parse_break_statement(&mut self) -> Result<ast::BreakStmt> {
+    pub(crate) fn parse_break_statement(&mut self) -> Result<ast::BreakStmt> {
         // Break statements are only allowed in loops or switch statements
         if !self.in_iteration && !self.in_switch {
             return Err(self.error(ErrorKind::General {
@@ -501,7 +501,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a continue statement: continue [label];
-    fn parse_continue_statement(&mut self) -> Result<ast::ContinueStmt> {
+    pub(crate) fn parse_continue_statement(&mut self) -> Result<ast::ContinueStmt> {
         // Continue statements are only allowed in loops
         if !self.in_iteration {
             return Err(self.error(ErrorKind::General {
@@ -538,7 +538,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a return statement: return [expr];
-    fn parse_return_statement(&mut self) -> Result<ast::ReturnStmt> {
+    pub(crate) fn parse_return_statement(&mut self) -> Result<ast::ReturnStmt> {
         // Return statements are only allowed in functions
         if !self.in_function {
             return Err(self.error(ErrorKind::General {
@@ -569,7 +569,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a throw statement: throw expr;
-    fn parse_throw_statement(&mut self) -> Result<ast::ThrowStmt> {
+    pub(crate) fn parse_throw_statement(&mut self) -> Result<ast::ThrowStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Throw)?; // Expect 'throw'
 
@@ -595,7 +595,7 @@ impl<'a> Parser<'a> {
 
 impl<'a> Parser<'a> {
     /// Parse a for-in or for-of statement with a left-hand expression
-    fn parse_for_in_of_statement(
+    pub(crate) fn parse_for_in_of_statement(
         &mut self,
         start_span: Span,
         left: ast::Expr,
@@ -646,7 +646,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a for-in or for-of statement with a variable declaration
-    fn parse_for_in_of_statement_var(
+    pub(crate) fn parse_for_in_of_statement_var(
         &mut self,
         start_span: Span,
         left: ast::VarDecl,

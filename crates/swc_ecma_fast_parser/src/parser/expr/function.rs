@@ -77,7 +77,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an arrow function: (param1, param2) => body
-    fn parse_arrow_function_expression(&mut self, is_async: bool) -> Result<ast::Expr> {
+    pub(crate) fn parse_arrow_function_expression(&mut self, is_async: bool) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
 
         // Create a new scope for the arrow function

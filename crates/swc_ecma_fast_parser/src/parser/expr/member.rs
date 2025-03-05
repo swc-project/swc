@@ -67,7 +67,11 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse property access: obj.prop
-    fn parse_property_access(&mut self, object: ast::Expr, optional: bool) -> Result<ast::Expr> {
+    pub(crate) fn parse_property_access(
+        &mut self,
+        object: ast::Expr,
+        optional: bool,
+    ) -> Result<ast::Expr> {
         // Property name must be an identifier
         if !self.is_token_identifier() {
             return Err(self.error(ErrorKind::UnexpectedToken {
@@ -90,7 +94,11 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse computed member access: obj[expr]
-    fn parse_computed_member(&mut self, object: ast::Expr, optional: bool) -> Result<ast::Expr> {
+    pub(crate) fn parse_computed_member(
+        &mut self,
+        object: ast::Expr,
+        optional: bool,
+    ) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBracket)?; // Expect '['
 

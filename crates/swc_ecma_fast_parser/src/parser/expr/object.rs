@@ -3,7 +3,7 @@
 //! This module provides the implementation for parsing object expressions,
 //! which are enclosed by curly braces and can contain multiple properties.
 
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast as ast;
 
 use super::super::Parser;
@@ -50,7 +50,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an object property
-    fn parse_object_property(&mut self) -> Result<ast::PropOrSpread> {
+    pub(crate) fn parse_object_property(&mut self) -> Result<ast::PropOrSpread> {
         // Check for spread element
         if self.is_token_type(TokenType::Ellipsis) {
             let start_span = self.cur_token.span;

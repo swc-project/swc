@@ -40,7 +40,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a block statement with a new lexical scope
-    fn parse_block_stmt_with_scope(&mut self) -> Result<ast::BlockStmt> {
+    pub(crate) fn parse_block_stmt_with_scope(&mut self) -> Result<ast::BlockStmt> {
         // Create a new scope for the block statement
         self.enter_scope(super::super::ScopeKind::Block);
 

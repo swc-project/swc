@@ -87,7 +87,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a literal expression (string, number, boolean, null, regex)
-    fn parse_literal(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_literal(&mut self) -> Result<ast::Expr> {
         let span = self.cur_token.span;
 
         let expr = match self.cur_token.token_type {
@@ -165,13 +165,13 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an identifier expression
-    fn parse_identifier_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_identifier_expression(&mut self) -> Result<ast::Expr> {
         let ident = self.parse_identifier_name()?;
         Ok(ast::Expr::Ident(ident))
     }
 
     /// Parse a this expression
-    fn parse_this_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_this_expression(&mut self) -> Result<ast::Expr> {
         let span = self.cur_token.span;
         self.next_token(); // Skip 'this'
 
@@ -179,7 +179,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a parenthesized expression
-    fn parse_parenthesized_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_parenthesized_expression(&mut self) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.next_token(); // Skip '('
 
@@ -204,7 +204,10 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a template literal
-    fn parse_template_literal(&mut self, tag: Option<Box<ast::Expr>>) -> Result<ast::Expr> {
+    pub(crate) fn parse_template_literal(
+        &mut self,
+        tag: Option<Box<ast::Expr>>,
+    ) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         let is_tagged = tag.is_some();
 
@@ -299,7 +302,7 @@ impl<'a> Parser<'a> {
 // Additional methods that would be implemented elsewhere
 impl<'a> Parser<'a> {
     // These methods will be implemented in other files
-    fn parse_new_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_new_expression(&mut self) -> Result<ast::Expr> {
         // Will be implemented in call.rs
         unimplemented!()
     }
@@ -310,22 +313,22 @@ impl<'a> Parser<'a> {
         unimplemented!()
     }
 
-    fn parse_class_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_class_expression(&mut self) -> Result<ast::Expr> {
         // Will be implemented in class.rs
         unimplemented!()
     }
 
-    fn parse_jsx_fragment(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_jsx_fragment(&mut self) -> Result<ast::Expr> {
         // Will be implemented in jsx.rs
         unimplemented!()
     }
 
-    fn parse_jsx_element(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_jsx_element(&mut self) -> Result<ast::Expr> {
         // Will be implemented in jsx.rs
         unimplemented!()
     }
 
-    fn parse_super_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_super_expression(&mut self) -> Result<ast::Expr> {
         // Will be implemented in call.rs or member.rs
         unimplemented!()
     }

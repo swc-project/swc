@@ -4,7 +4,7 @@
 
 use swc_ecma_ast as ast;
 
-use super::{BlockStmtParser, Parser};
+use super::Parser;
 use crate::{
     error::{ErrorKind, Result},
     token::TokenType,
@@ -484,7 +484,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a JSX expression (stub implementation)
-    fn parse_jsx_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_jsx_expression(&mut self) -> Result<ast::Expr> {
         // This is a stub implementation, actual JSX parsing would be more complex
         if !self.syntax.jsx {
             return Err(self.error(ErrorKind::General {
@@ -498,7 +498,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a TypeScript as expression: expr as Type
-    fn parse_ts_as_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr> {
+    pub(crate) fn parse_ts_as_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr> {
         if !self.syntax.typescript {
             return Err(self.error(ErrorKind::General {
                 message: "TypeScript syntax is not enabled".into(),
@@ -529,7 +529,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a TypeScript non-null expression: expr!
-    fn parse_ts_non_null_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr> {
+    pub(crate) fn parse_ts_non_null_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr> {
         if !self.syntax.typescript {
             return Err(self.error(ErrorKind::General {
                 message: "TypeScript syntax is not enabled".into(),
@@ -548,7 +548,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a TypeScript type assertion: <Type>expr
-    fn parse_ts_type_assertion(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_ts_type_assertion(&mut self) -> Result<ast::Expr> {
         if !self.syntax.typescript {
             return Err(self.error(ErrorKind::General {
                 message: "TypeScript syntax is not enabled".into(),

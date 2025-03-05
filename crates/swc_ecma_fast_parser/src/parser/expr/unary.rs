@@ -151,7 +151,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an update expression: ++expr, --expr, expr++, expr--
-    fn parse_update_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_update_expression(&mut self) -> Result<ast::Expr> {
         // Check for prefix increment/decrement
         match self.cur_token.token_type {
             // Prefix increment: ++expr
@@ -237,7 +237,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an await expression: await expr
-    fn parse_await_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_await_expression(&mut self) -> Result<ast::Expr> {
         // Await is only allowed in async functions
         if !self.in_async {
             return Err(self.error(ErrorKind::General {

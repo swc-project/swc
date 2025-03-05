@@ -11,7 +11,7 @@ use crate::{error::Result, token::TokenType};
 
 impl<'a> Parser<'a> {
     /// Parse an expression statement: expr;
-    fn parse_expression_statement(&mut self) -> Result<ast::ExprStmt> {
+    pub(crate) fn parse_expression_statement(&mut self) -> Result<ast::ExprStmt> {
         // Check for directive prologue (string literal at the beginning of a program or
         // function)
         let is_directive = if self.is_token_type(TokenType::Str)

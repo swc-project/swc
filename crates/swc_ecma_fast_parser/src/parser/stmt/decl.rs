@@ -7,7 +7,7 @@
 use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::{super::Parser, StmtParser};
+use super::super::Parser;
 use crate::{
     error::{Error, ErrorKind, Result},
     token::{Token, TokenType, TokenValue},
@@ -15,7 +15,7 @@ use crate::{
 
 impl<'a> Parser<'a> {
     /// Parse a variable declaration: var id = init;
-    fn parse_var_declaration(&mut self) -> Result<ast::VarDecl> {
+    pub(crate) fn parse_var_declaration(&mut self) -> Result<ast::VarDecl> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Var)?; // Expect 'var'
 
@@ -34,7 +34,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse let declarations: let id = init;
-    fn parse_let_declaration(&mut self) -> Result<ast::VarDecl> {
+    pub(crate) fn parse_let_declaration(&mut self) -> Result<ast::VarDecl> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Let)?; // Expect 'let'
 
@@ -54,7 +54,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse const declarations: const id = init;
-    fn parse_const_declaration(&mut self) -> Result<ast::VarDecl> {
+    pub(crate) fn parse_const_declaration(&mut self) -> Result<ast::VarDecl> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Const)?; // Expect 'const'
 
@@ -73,7 +73,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse variable declarators: id = init, id2 = init2, ...
-    fn parse_var_declarations(&mut self) -> Result<Vec<ast::VarDeclarator>> {
+    pub(crate) fn parse_var_declarations(&mut self) -> Result<Vec<ast::VarDeclarator>> {
         let mut decls = Vec::new();
 
         // Parse the first declarator
@@ -93,7 +93,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a variable declarator: id = init
-    fn parse_var_declarator(&mut self, is_const: bool) -> Result<ast::VarDeclarator> {
+    pub(crate) fn parse_var_declarator(&mut self, is_const: bool) -> Result<ast::VarDeclarator> {
         // Parse the pattern
         let name = self.parse_binding_pattern()?;
         let name_span = name.span();
@@ -128,7 +128,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a function declaration: function id(params) { body }
-    fn parse_function_declaration(
+    pub(crate) fn parse_function_declaration(
         &mut self,
         is_async: bool,
         is_generator: bool,
@@ -187,7 +187,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a class declaration: class id { ... }
-    fn parse_class_declaration(&mut self) -> Result<ast::ClassDecl> {
+    pub(crate) fn parse_class_declaration(&mut self) -> Result<ast::ClassDecl> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::Class)?; // Expect 'class'
 
@@ -254,7 +254,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a binding identifier
-    fn parse_binding_identifier(&mut self) -> Result<ast::BindingIdent> {
+    pub(crate) fn parse_binding_identifier(&mut self) -> Result<ast::BindingIdent> {
         // Parse the identifier
         let id = self.parse_identifier_name()?;
 
@@ -278,7 +278,9 @@ impl<'a> Parser<'a> {
 
 impl<'a> Parser<'a> {
     /// Parse function parameters and body
-    fn parse_function_params_and_body(&mut self) -> Result<(Vec<ast::Param>, ast::BlockStmt)> {
+    pub(crate) fn parse_function_params_and_body(
+        &mut self,
+    ) -> Result<(Vec<ast::Param>, ast::BlockStmt)> {
         self.expect(TokenType::LParen)?; // Expect '('
 
         // Parse the parameters
@@ -351,7 +353,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an array pattern: [a, b, ...rest]
-    fn parse_array_pattern(&mut self) -> Result<ast::Pat> {
+    pub(crate) fn parse_array_pattern(&mut self) -> Result<ast::Pat> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBracket)?; // Expect '['
 
@@ -426,7 +428,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an object pattern: { a, b: c, ...rest }
-    fn parse_object_pattern(&mut self) -> Result<ast::Pat> {
+    pub(crate) fn parse_object_pattern(&mut self) -> Result<ast::Pat> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBrace)?; // Expect '{'
 
@@ -487,7 +489,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse an object pattern property: key, key: value, or [computed]: value
-    fn parse_object_pattern_property(&mut self) -> Result<ast::ObjectPatProp> {
+    pub(crate) fn parse_object_pattern_property(&mut self) -> Result<ast::ObjectPatProp> {
         match self.cur_token.token_type {
             // Identifier property
             TokenType::Ident => {
@@ -600,7 +602,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a class body: { method() {}, field = value, ... }
-    fn parse_class_body(&mut self) -> Result<ast::ClassBody> {
+    pub(crate) fn parse_class_body(&mut self) -> Result<ast::ClassBody> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBrace)?; // Expect '{'
 
@@ -667,7 +669,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a class element: method, getter, setter, or field
-    fn parse_class_element(
+    pub(crate) fn parse_class_element(
         &mut self,
         is_static: bool,
         accessibility: Option<ast::Accessibility>,
@@ -808,7 +810,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse a property name: identifier, string, number, or computed property
-    fn parse_property_name(&mut self) -> Result<ast::PropName> {
+    pub(crate) fn parse_property_name(&mut self) -> Result<ast::PropName> {
         match self.cur_token.token_type {
             // Identifier property
             TokenType::Ident => {
