@@ -4,18 +4,17 @@
 //! including prefix operators like !, -, +, typeof, void, delete,
 //! and prefix/postfix increment and decrement operators (++, --).
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
 use super::super::Parser;
 use crate::{
-    error::{Error, ErrorKind, Result},
+    error::{ErrorKind, Result},
     token::TokenType,
 };
 
 impl<'a> Parser<'a> {
     /// Parse a unary expression: !expr, -expr, +expr, typeof expr, etc.
-    fn parse_unary_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_unary_expression(&mut self) -> Result<ast::Expr> {
         // Check for unary operators
         match self.cur_token.token_type {
             // Logical not: !expr

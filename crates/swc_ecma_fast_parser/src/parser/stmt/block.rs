@@ -3,14 +3,10 @@
 //! This module provides the implementation for parsing block statements,
 //! which are enclosed by curly braces and can contain multiple statements.
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
 use super::{super::Parser, StmtParser};
-use crate::{
-    error::{Error, ErrorKind, Result},
-    token::TokenType,
-};
+use crate::{error::Result, token::TokenType};
 
 impl<'a> Parser<'a> {
     /// Parse a block statement: { stmt1; stmt2; ... }
@@ -39,6 +35,7 @@ impl<'a> Parser<'a> {
         Ok(ast::BlockStmt {
             span: start_span.merge_with(end_span),
             stmts,
+            ..Default::default()
         })
     }
 
