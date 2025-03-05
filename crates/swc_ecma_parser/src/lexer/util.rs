@@ -202,18 +202,42 @@ impl Lexer<'_> {
         //
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
 
-        let idx = self
-            .input
-            .as_str()
-            .find(['\r', '\n', '\u{2028}', '\u{2029}'])
-            .map_or(self.input.as_str().len(), |v| {
+        // Optimization: Performance improvement with byte-based termination character
+        // search
+        let input_str = self.input.as_str();
+        let bytes = input_str.as_bytes();
+        let mut idx = 0;
+        let len = bytes.len();
+
+        // Direct search for line termination characters (ASCII case optimization)
+        while idx < len {
+            let b = bytes[idx];
+            if b == b'\r' || b == b'\n' {
                 self.state.had_line_break = true;
-                v
-            });
+                break;
+            } else if b > 127 {
+                // non-ASCII case: Check for Unicode line termination characters
+                let s = &input_str[idx..];
+                if let Some(first_char) = s.chars().next() {
+                    if first_char == '\u{2028}' || first_char == '\u{2029}' {
+                        self.state.had_line_break = true;
+                        break;
+                    }
+                    idx += first_char.len_utf8() - 1; // -1은 아래 증가분 고려
+                }
+            }
+            idx += 1;
+        }
+
+        // Process until the end of string if no line termination character is found
+        if idx == len {
+            idx = len;
+        }
 
         self.input.bump_bytes(idx);
         let end = self.cur_pos();
 
+        // Create and process slice only if comments need to be stored
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = unsafe {
                 // Safety: We know that the start and the end are valid
@@ -254,6 +278,8 @@ impl Lexer<'_> {
 
         // jsdoc
         let slice_start = self.cur_pos();
+
+        // Check if there's an asterisk at the beginning (JSDoc style)
         let mut was_star = if self.input.is_byte(b'*') {
             self.bump();
             true
@@ -263,15 +289,25 @@ impl Lexer<'_> {
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        while let Some(c) = self.cur() {
-            if was_star && c == '/' {
-                debug_assert_eq!(self.cur(), Some('/'));
-                self.bump(); // '/'
+        // Optimization for finding block comment end position
+        let input_str = self.input.as_str();
+        let bytes = input_str.as_bytes();
+        let mut pos = 0;
+        let len = bytes.len();
+
+        // Byte-based scanning for faster search
+        while pos < len {
+            let b = bytes[pos];
+
+            if was_star && b == b'/' {
+                // Found comment end: "*/"
+                self.input.bump_bytes(pos + 1); // 종료 '/' 포함해서 이동
 
                 let end = self.cur_pos();
 
                 self.skip_space::<false>();
 
+                // Check if this is a comment before semicolon
                 if !self.state.had_line_break && self.input.is_byte(b';') {
                     is_for_next = false;
                 }
@@ -280,14 +316,29 @@ impl Lexer<'_> {
 
                 return;
             }
-            if c.is_line_terminator() {
+
+            // Check for line break characters - ASCII case
+            if b == b'\r' || b == b'\n' {
                 self.state.had_line_break = true;
             }
+            // Check for Unicode line breaks (rare case)
+            else if b > 127 {
+                let remaining = &input_str[pos..];
+                if let Some(c) = remaining.chars().next() {
+                    if c == '\u{2028}' || c == '\u{2029}' {
+                        self.state.had_line_break = true;
+                    }
+                    // Skip multibyte characters
+                    pos += c.len_utf8() - 1; // -1은 아래 증가분 고려
+                }
+            }
 
-            was_star = c == '*';
-            self.bump();
+            was_star = b == b'*';
+            pos += 1;
         }
 
+        // If we reached here, it's an unterminated block comment
+        self.input.bump_bytes(len); // 남은 입력 건너뛰기
         let end = self.input.end_pos();
         let span = Span::new(end, end);
         self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
