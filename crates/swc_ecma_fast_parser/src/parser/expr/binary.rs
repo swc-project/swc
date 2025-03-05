@@ -3,14 +3,10 @@
 //! This module handles parsing of binary expressions like a + b, a * b, etc.
 //! It uses the Pratt parsing algorithm for handling operator precedence.
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::{super::Parser, ExprParser};
-use crate::{
-    error::{Error, ErrorKind, Result},
-    token::TokenType,
-};
+use super::super::Parser;
+use crate::{error::Result, token::TokenType};
 
 impl<'a> Parser<'a> {
     /// Parse a binary expression with a given minimum precedence

@@ -4,14 +4,10 @@
 //! which are statements consisting of a single expression followed by a
 //! semicolon.
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
 use super::{super::Parser, StmtParser};
-use crate::{
-    error::{Error, ErrorKind, Result},
-    token::TokenType,
-};
+use crate::{error::Result, token::TokenType};
 
 /// Expression statement parser implementation
 pub(crate) trait ExprStmtParser<'a> {
