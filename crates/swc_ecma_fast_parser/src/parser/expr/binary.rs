@@ -12,18 +12,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Binary expression parser implementation
-pub(crate) trait BinaryExprParser<'a> {
-    /// Parse a binary expression with a given precedence
-    fn parse_binary_expression(&mut self, precedence: u8) -> Result<ast::Expr>;
-
-    /// Get the precedence of a binary operator
-    fn get_binary_precedence(&self, token_type: TokenType) -> u8;
-}
-
-impl<'a> BinaryExprParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a binary expression with a given minimum precedence
-    fn parse_binary_expression(&mut self, min_precedence: u8) -> Result<ast::Expr> {
+    pub(crate) fn parse_binary_expression(&mut self, min_precedence: u8) -> Result<ast::Expr> {
         // Parse the left-hand side expression
         let mut left = self.parse_unary_expression()?;
 

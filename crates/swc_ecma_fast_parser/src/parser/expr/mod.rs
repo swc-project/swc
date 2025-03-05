@@ -5,7 +5,7 @@
 use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::Parser;
+use super::{BlockStmtParser, Parser};
 use crate::{
     error::{Error, ErrorKind, Result},
     token::{Token, TokenType, TokenValue},
@@ -23,8 +23,6 @@ mod unary;
 
 // Re-export the expression parser traits
 pub(crate) use array::ArrayExprParser;
-pub(crate) use binary::BinaryExprParser;
-pub(crate) use call::CallExprParser;
 pub(crate) use function::FunctionExprParser;
 pub(crate) use member::MemberExprParser;
 pub(crate) use object::ObjectExprParser;
@@ -38,9 +36,7 @@ pub(crate) trait ExprParser<'a>:
     + ObjectExprParser<'a>
     + FunctionExprParser<'a>
     + UnaryExprParser<'a>
-    + BinaryExprParser<'a>
     + MemberExprParser<'a>
-    + CallExprParser<'a>
 {
     /// Parse an expression
     fn parse_expression(&mut self) -> Result<ast::Expr>;
@@ -77,9 +73,9 @@ pub(crate) trait ExprParser<'a>:
     fn parse_ts_type_assertion(&mut self) -> Result<ast::Expr>;
 }
 
-impl<'a> ExprParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse an expression (sequence expression)
-    fn parse_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_expression(&mut self) -> Result<ast::Expr> {
         // Start with an assignment expression
         let mut exprs = vec![self.parse_assignment_expression()?];
 
@@ -111,7 +107,7 @@ impl<'a> ExprParser<'a> for Parser<'a> {
     }
 
     /// Parse an assignment expression
-    fn parse_assignment_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_assignment_expression(&mut self) -> Result<ast::Expr> {
         // First check for arrow function with parenthesized parameters
         if self.is_token_type(TokenType::LParen) {
             let start = self.lexer.get_pos();
@@ -369,7 +365,7 @@ impl<'a> ExprParser<'a> for Parser<'a> {
     }
 
     /// Parse a conditional expression: test ? consequent : alternate
-    fn parse_conditional_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_conditional_expression(&mut self) -> Result<ast::Expr> {
         // Parse binary expression first
         let expr = self.parse_binary_expression()?;
 
@@ -402,7 +398,7 @@ impl<'a> ExprParser<'a> for Parser<'a> {
     }
 
     /// Parse a sequence expression: expr1, expr2, expr3
-    fn parse_sequence_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_sequence_expression(&mut self) -> Result<ast::Expr> {
         // Start with an assignment expression
         let mut expr = self.parse_assignment_expression()?;
 
@@ -433,7 +429,7 @@ impl<'a> ExprParser<'a> for Parser<'a> {
     }
 
     /// Parse a yield expression: yield [expr]
-    fn parse_yield_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_yield_expression(&mut self) -> Result<ast::Expr> {
         // Only allowed in generator functions
         if !self.in_generator {
             return Err(self.error(ErrorKind::General {
@@ -480,7 +476,7 @@ impl<'a> ExprParser<'a> for Parser<'a> {
     }
 
     /// Parse an arrow function expression: (params) => body
-    fn parse_arrow_function_expression(
+    pub(crate) fn parse_arrow_function_expression(
         &mut self,
         is_async: bool,
         params: Vec<ast::Pat>,

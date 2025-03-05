@@ -13,21 +13,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Call expression parser implementation
-pub(crate) trait CallExprParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a call expression: callee(arg1, arg2)
-    fn parse_call_expression(&mut self, callee: ast::Expr) -> Result<ast::Expr>;
-
-    /// Parse a new expression: new Constructor(arg1, arg2)
-    fn parse_new_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse arguments for a call expression: (arg1, arg2)
-    fn parse_arguments(&mut self) -> Result<Vec<ast::ExprOrSpread>>;
-}
-
-impl<'a> CallExprParser<'a> for Parser<'a> {
-    /// Parse a call expression: callee(arg1, arg2)
-    fn parse_call_expression(&mut self, callee: ast::Expr) -> Result<ast::Expr> {
+    pub(crate) fn parse_call_expression(&mut self, callee: ast::Expr) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LParen)?; // Expect '('
 
@@ -54,7 +42,7 @@ impl<'a> CallExprParser<'a> for Parser<'a> {
     }
 
     /// Parse a new expression: new Constructor(arg1, arg2)
-    fn parse_new_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_new_expression(&mut self) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::New)?; // Expect 'new'
 
@@ -96,8 +84,8 @@ impl<'a> CallExprParser<'a> for Parser<'a> {
         // Create the new expression
         Ok(ast::Expr::New(ast::NewExpr {
             span: start_span.merge_with(match args.last() {
-                Some(arg) => match &arg.expr {
-                    box ast::Expr::Lit(lit) => lit.span(),
+                Some(arg) => match &*arg.expr {
+                    ast::Expr::Lit(lit) => lit.span(),
                     expr => expr.span(),
                 },
                 None => constructor.span(),
@@ -109,7 +97,7 @@ impl<'a> CallExprParser<'a> for Parser<'a> {
     }
 
     /// Parse arguments for a call expression: (arg1, arg2)
-    fn parse_arguments(&mut self) -> Result<Vec<ast::ExprOrSpread>> {
+    pub(crate) fn parse_arguments(&mut self) -> Result<Vec<ast::ExprOrSpread>> {
         let mut args = Vec::new();
 
         // Parse the arguments

@@ -12,18 +12,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Block statement parser implementation
-pub(crate) trait BlockStmtParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a block statement: { stmt1; stmt2; ... }
-    fn parse_block_stmt(&mut self) -> Result<ast::BlockStmt>;
-
-    /// Parse a block statement with a new lexical scope
-    fn parse_block_stmt_with_scope(&mut self) -> Result<ast::BlockStmt>;
-}
-
-impl<'a> BlockStmtParser<'a> for Parser<'a> {
-    /// Parse a block statement: { stmt1; stmt2; ... }
-    fn parse_block_stmt(&mut self) -> Result<ast::BlockStmt> {
+    pub(crate) fn parse_block_stmt(&mut self) -> Result<ast::BlockStmt> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBrace)?; // Expect '{'
 

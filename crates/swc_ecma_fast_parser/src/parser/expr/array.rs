@@ -6,7 +6,7 @@
 use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::super::Parser;
+use super::{super::Parser, ExprParser};
 use crate::{
     error::{Error, ErrorKind, Result},
     token::TokenType,
