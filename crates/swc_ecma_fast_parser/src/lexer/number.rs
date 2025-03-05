@@ -1,4 +1,4 @@
-//! Number literals processing for the lexer
+//! Number literal processing for the lexer
 //!
 //! This module handles the parsing of numeric literals in
 //! ECMAScript/TypeScript.
@@ -12,247 +12,365 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
+// Digit value lookup table for fast parsing
+static DIGIT_VALUES: [u8; 256] = {
+    let mut table = [255u8; 256];
+
+    // Decimal digits
+    let mut i = 0;
+    while i < 10 {
+        table[b'0' as usize + i] = i as u8;
+        i += 1;
+    }
+
+    // Hex digits
+    let mut i = 0;
+    while i < 6 {
+        table[b'a' as usize + i] = (10 + i) as u8;
+        table[b'A' as usize + i] = (10 + i) as u8;
+        i += 1;
+    }
+
+    table
+};
+
 impl<'a> Lexer<'a> {
     /// Read a numeric literal
+    #[inline]
     pub(super) fn read_number(&mut self) -> Result<Token> {
         let start_pos = self.start_pos;
         let start_idx = start_pos.0 as usize;
 
-        // Check if this is a hex, binary, or octal literal
-        let has_prefix = self.check_numeric_prefix();
+        // Check for leading dot (e.g. .123)
+        let starts_with_dot = self.cursor.peek() == Some(b'.');
+        if starts_with_dot {
+            self.cursor.advance();
 
-        // Read digits
-        self.read_digits();
+            // Make sure it's followed by a digit
+            if !matches!(self.cursor.peek(), Some(b'0'..=b'9')) {
+                // Just a dot, not a number
+                return Ok(Token::new(
+                    TokenType::Dot,
+                    self.span(),
+                    bool::from(self.had_line_break),
+                    TokenValue::None,
+                ));
+            }
+        }
 
-        // Check for decimal point and read fractional part
-        let has_decimal = self.check_decimal_point();
+        // First check for a binary, octal, or hex literal
+        let mut is_binary = false;
+        let mut is_octal = false;
+        let mut is_hex = false;
 
-        // Check for exponent
-        let has_exponent = self.check_exponent();
+        if !starts_with_dot && self.cursor.peek() == Some(b'0') {
+            self.cursor.advance();
 
-        // Check for BigInt suffix
-        let is_bigint = self.check_bigint_suffix();
+            match self.cursor.peek() {
+                // Binary literal: 0b or 0B
+                Some(b'b') | Some(b'B') => {
+                    self.cursor.advance();
+                    is_binary = true;
 
-        // Extract the raw number string
-        let end_idx = self.cursor.position();
-        let num_bytes = self.cursor.slice(start_idx, end_idx);
-        let raw_str = unsafe { std::str::from_utf8_unchecked(num_bytes) };
+                    // Must have at least one binary digit
+                    if !matches!(self.cursor.peek(), Some(b'0'..=b'1')) {
+                        let span = self.span();
+                        return Err(Error {
+                            kind: ErrorKind::InvalidNumber {
+                                reason: "expected binary digit",
+                            },
+                            span,
+                        });
+                    }
+                }
+                // Octal literal: 0o or 0O
+                Some(b'o') | Some(b'O') => {
+                    self.cursor.advance();
+                    is_octal = true;
 
-        let span = self.span();
+                    // Must have at least one octal digit
+                    if !matches!(self.cursor.peek(), Some(b'0'..=b'7')) {
+                        let span = self.span();
+                        return Err(Error {
+                            kind: ErrorKind::InvalidNumber {
+                                reason: "expected octal digit",
+                            },
+                            span,
+                        });
+                    }
+                }
+                // Hex literal: 0x or 0X
+                Some(b'x') | Some(b'X') => {
+                    self.cursor.advance();
+                    is_hex = true;
 
-        if is_bigint {
-            // Parse as BigInt
-            if has_decimal || has_exponent {
-                return Err(Error {
-                    kind: ErrorKind::InvalidNumber {
-                        reason: "BigInt literals cannot have decimal points or exponents",
-                    },
-                    span,
-                });
+                    // Must have at least one hex digit
+                    if !matches!(
+                        self.cursor.peek(),
+                        Some(b'0'..=b'9') | Some(b'a'..=b'f') | Some(b'A'..=b'F')
+                    ) {
+                        let span = self.span();
+                        return Err(Error {
+                            kind: ErrorKind::InvalidNumber {
+                                reason: "expected hex digit",
+                            },
+                            span,
+                        });
+                    }
+                }
+                // Decimal literal starting with 0
+                _ => {}
+            }
+        }
+
+        // Read the rest of the digits
+        if is_binary {
+            // Binary literals: 0b[01]+
+            self.cursor
+                .advance_while(|ch| matches!(ch, b'0'..=b'1' | b'_'));
+        } else if is_octal {
+            // Octal literals: 0o[0-7]+
+            self.cursor
+                .advance_while(|ch| matches!(ch, b'0'..=b'7' | b'_'));
+        } else if is_hex {
+            // Hex literals: 0x[0-9a-fA-F]+
+            self.cursor
+                .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F' | b'_'));
+        } else {
+            // Decimal literals
+
+            // Read integer part
+            if !starts_with_dot {
+                self.cursor
+                    .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'_'));
             }
 
-            // Remove 'n' suffix and parse
-            let bigint_str = &raw_str[0..raw_str.len() - 1];
+            // Read fractional part if present
+            if self.cursor.peek() == Some(b'.')
+                && (starts_with_dot || !matches!(self.cursor.peek_at(1), Some(b'.')))
+            {
+                // Consume the dot
+                self.cursor.advance();
 
-            // Parse the BigInt value - handling different bases
-            let value = if has_prefix && raw_str.len() > 2 {
-                match &raw_str[0..2] {
-                    "0x" | "0X" => parse_bigint_with_radix(&bigint_str[2..], 16, span)?,
-                    "0b" | "0B" => parse_bigint_with_radix(&bigint_str[2..], 2, span)?,
-                    "0o" | "0O" => parse_bigint_with_radix(&bigint_str[2..], 8, span)?,
-                    _ => parse_bigint_with_radix(bigint_str, 10, span)?,
+                // Read decimal digits after the dot
+                self.cursor
+                    .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'_'));
+            }
+
+            // Read exponent part if present
+            if matches!(self.cursor.peek(), Some(b'e') | Some(b'E')) {
+                self.cursor.advance();
+
+                // Optional sign
+                if matches!(self.cursor.peek(), Some(b'+') | Some(b'-')) {
+                    self.cursor.advance();
                 }
-            } else {
-                parse_bigint_with_radix(bigint_str, 10, span)?
-            };
 
+                // Must have at least one digit in exponent
+                if !matches!(self.cursor.peek(), Some(b'0'..=b'9')) {
+                    let span = self.span();
+                    return Err(Error {
+                        kind: ErrorKind::InvalidNumber {
+                            reason: "invalid numeric separator",
+                        },
+                        span,
+                    });
+                }
+
+                // Read exponent digits
+                self.cursor
+                    .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'_'));
+            }
+        }
+
+        // Check if this is a BigInt literal (ends with n)
+        let is_bigint = self.cursor.peek() == Some(b'n');
+        if is_bigint {
+            self.cursor.advance(); // Consume the 'n'
+
+            // BigInt can't have decimal points or exponents
+            if !is_binary && !is_octal && !is_hex {
+                let raw_str = self.extract_number_str(start_idx);
+                if raw_str.contains('.') || raw_str.contains('e') || raw_str.contains('E') {
+                    let span = self.span();
+                    return Err(Error {
+                        kind: ErrorKind::InvalidBigInt,
+                        span,
+                    });
+                }
+            }
+
+            return self.create_bigint_token(start_idx);
+        }
+
+        // Parse the number directly for faster processing
+        let value = if is_binary {
+            self.parse_binary_number(start_idx)
+        } else if is_octal {
+            self.parse_octal_number(start_idx)
+        } else if is_hex {
+            self.parse_hex_number(start_idx)
+        } else {
+            self.parse_decimal_number(start_idx, starts_with_dot)
+        };
+
+        // Extract the raw string representation
+        let raw_str = self.extract_number_str(start_idx);
+
+        // Create and return the token
+        let span = self.span();
+        Ok(Token::new(
+            TokenType::Num,
+            span,
+            bool::from(self.had_line_break),
+            TokenValue::Num {
+                value,
+                raw: Atom::from(raw_str),
+            },
+        ))
+    }
+
+    /// Extract the raw string representation of a number
+    #[inline]
+    fn extract_number_str(&self, start_idx: usize) -> String {
+        let end_idx = self.cursor.position();
+        let num_slice = self.cursor.slice(start_idx, end_idx);
+        // Filter out the underscore separators
+        if num_slice.contains(&b'_') {
+            let mut result = String::with_capacity(num_slice.len());
+            for &byte in num_slice {
+                if byte != b'_' {
+                    result.push(byte as char);
+                }
+            }
+            result
+        } else {
+            // Fast path: no underscores
+            unsafe { std::str::from_utf8_unchecked(num_slice) }.to_string()
+        }
+    }
+
+    /// Parse a binary number (0b...)
+    #[inline]
+    fn parse_binary_number(&self, start_idx: usize) -> f64 {
+        let start = start_idx + 2; // Skip '0b'
+        let end = self.cursor.position();
+
+        let mut value: u64 = 0;
+        for i in start..end {
+            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            if byte == b'_' {
+                continue;
+            }
+            value = value * 2 + (byte - b'0') as u64;
+        }
+
+        value as f64
+    }
+
+    /// Parse an octal number (0o...)
+    #[inline]
+    fn parse_octal_number(&self, start_idx: usize) -> f64 {
+        let start = start_idx + 2; // Skip '0o'
+        let end = self.cursor.position();
+
+        let mut value: u64 = 0;
+        for i in start..end {
+            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            if byte == b'_' {
+                continue;
+            }
+            value = value * 8 + (byte - b'0') as u64;
+        }
+
+        value as f64
+    }
+
+    /// Parse a hexadecimal number (0x...)
+    #[inline]
+    fn parse_hex_number(&self, start_idx: usize) -> f64 {
+        let start = start_idx + 2; // Skip '0x'
+        let end = self.cursor.position();
+
+        let mut value: u64 = 0;
+        for i in start..end {
+            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            if byte == b'_' {
+                continue;
+            }
+            let digit = DIGIT_VALUES[byte as usize];
+            value = value * 16 + digit as u64;
+        }
+
+        value as f64
+    }
+
+    /// Parse a decimal number
+    #[inline]
+    fn parse_decimal_number(&self, start_idx: usize, starts_with_dot: bool) -> f64 {
+        // For decimal numbers with possible fractional and exponent parts,
+        // use the Rust standard library's parser which is highly optimized
+        let raw_str = self.extract_number_str(start_idx);
+        raw_str.parse::<f64>().unwrap_or(f64::NAN)
+    }
+
+    /// Create a BigInt token
+    #[inline]
+    fn create_bigint_token(&self, start_idx: usize) -> Result<Token> {
+        use num_bigint::BigInt;
+
+        let end_idx = self.cursor.position();
+        let span = self.span();
+
+        // Extract the raw string excluding the 'n' suffix
+        let raw_str = {
+            let num_slice = self.cursor.slice(start_idx, end_idx - 1);
+            if num_slice.contains(&b'_') {
+                // Filter out underscores
+                let mut result = String::with_capacity(num_slice.len());
+                for &byte in num_slice {
+                    if byte != b'_' {
+                        result.push(byte as char);
+                    }
+                }
+                result
+            } else {
+                // Fast path: no underscores
+                unsafe { std::str::from_utf8_unchecked(num_slice) }.to_string()
+            }
+        };
+
+        // Parse the BigInt value
+        let value = if raw_str.starts_with("0b") || raw_str.starts_with("0B") {
+            // Binary
+            BigInt::parse_bytes(&raw_str.as_bytes()[2..], 2)
+        } else if raw_str.starts_with("0o") || raw_str.starts_with("0O") {
+            // Octal
+            BigInt::parse_bytes(&raw_str.as_bytes()[2..], 8)
+        } else if raw_str.starts_with("0x") || raw_str.starts_with("0X") {
+            // Hexadecimal
+            BigInt::parse_bytes(&raw_str.as_bytes()[2..], 16)
+        } else {
+            // Decimal
+            BigInt::parse_bytes(raw_str.as_bytes(), 10)
+        };
+
+        // Create the token
+        if let Some(value) = value {
             Ok(Token::new(
                 TokenType::BigInt,
                 span,
-                self.had_line_break,
+                bool::from(self.had_line_break),
                 TokenValue::BigInt {
                     value: Box::new(value),
                     raw: Atom::from(raw_str),
                 },
             ))
         } else {
-            // Parse as regular number
-            let value = if has_prefix && raw_str.len() > 2 {
-                match &raw_str[0..2] {
-                    "0x" | "0X" => u64::from_str_radix(&raw_str[2..], 16)
-                        .map(|v| v as f64)
-                        .map_err(|_| Error {
-                            kind: ErrorKind::InvalidNumber {
-                                reason: "Invalid hexadecimal number",
-                            },
-                            span,
-                        })?,
-                    "0b" | "0B" => u64::from_str_radix(&raw_str[2..], 2)
-                        .map(|v| v as f64)
-                        .map_err(|_| Error {
-                            kind: ErrorKind::InvalidNumber {
-                                reason: "Invalid binary number",
-                            },
-                            span,
-                        })?,
-                    "0o" | "0O" => u64::from_str_radix(&raw_str[2..], 8)
-                        .map(|v| v as f64)
-                        .map_err(|_| Error {
-                            kind: ErrorKind::InvalidNumber {
-                                reason: "Invalid octal number",
-                            },
-                            span,
-                        })?,
-                    _ => raw_str.parse::<f64>().map_err(|_| Error {
-                        kind: ErrorKind::InvalidNumber {
-                            reason: "Invalid numeric literal",
-                        },
-                        span,
-                    })?,
-                }
-            } else {
-                raw_str.parse::<f64>().map_err(|_| Error {
-                    kind: ErrorKind::InvalidNumber {
-                        reason: "Invalid numeric literal",
-                    },
-                    span,
-                })?
-            };
-
-            Ok(Token::new(
-                TokenType::Num,
+            Err(Error {
+                kind: ErrorKind::InvalidBigInt,
                 span,
-                self.had_line_break,
-                TokenValue::Num {
-                    value,
-                    raw: Atom::from(raw_str),
-                },
-            ))
+            })
         }
     }
-
-    /// Check if this is a numeric literal with prefix (hex, binary, octal)
-    fn check_numeric_prefix(&mut self) -> bool {
-        // If we see '0' as the first digit, check for prefix
-        if self.cursor.peek() == Some(b'0') {
-            self.cursor.advance();
-
-            // Check for hex, binary, or octal prefix
-            match self.cursor.peek() {
-                Some(b'x') | Some(b'X') => {
-                    // Hexadecimal
-                    self.cursor.advance();
-                    // Ensure we have at least one hex digit
-                    if matches!(
-                        self.cursor.peek(),
-                        Some(b'0'..=b'9') | Some(b'a'..=b'f') | Some(b'A'..=b'F')
-                    ) {
-                        return true;
-                    } else {
-                        // Error case: 0x with no hex digits
-                        // We've already consumed "0x", so don't backtrack
-                        return true;
-                    }
-                }
-                Some(b'b') | Some(b'B') => {
-                    // Binary
-                    self.cursor.advance();
-                    // Ensure we have at least one binary digit
-                    if matches!(self.cursor.peek(), Some(b'0'..=b'1')) {
-                        return true;
-                    } else {
-                        // Error case: 0b with no binary digits
-                        // We've already consumed "0b", so don't backtrack
-                        return true;
-                    }
-                }
-                Some(b'o') | Some(b'O') => {
-                    // Octal
-                    self.cursor.advance();
-                    // Ensure we have at least one octal digit
-                    if matches!(self.cursor.peek(), Some(b'0'..=b'7')) {
-                        return true;
-                    } else {
-                        // Error case: 0o with no octal digits
-                        // We've already consumed "0o", so don't backtrack
-                        return true;
-                    }
-                }
-                _ => {
-                    // Not a prefix, backtrack to before the '0'
-                    return false;
-                }
-            }
-        }
-
-        false
-    }
-
-    /// Read a sequence of digits
-    fn read_digits(&mut self) {
-        self.cursor.advance_while(|ch| matches!(ch, b'0'..=b'9'));
-    }
-
-    /// Check for decimal point and read fractional part
-    fn check_decimal_point(&mut self) -> bool {
-        if self.cursor.peek() == Some(b'.') {
-            self.cursor.advance();
-            self.read_digits();
-            true
-        } else {
-            false
-        }
-    }
-
-    /// Check for exponent and read exponent part
-    fn check_exponent(&mut self) -> bool {
-        match self.cursor.peek() {
-            Some(b'e') | Some(b'E') => {
-                self.cursor.advance();
-
-                // Optional sign
-                match self.cursor.peek() {
-                    Some(b'+') | Some(b'-') => self.cursor.advance(),
-                    _ => {}
-                }
-
-                // Must have at least one digit
-                if !matches!(self.cursor.peek(), Some(b'0'..=b'9')) {
-                    // Error: e/E not followed by a digit
-                    // But we've already consumed the 'e', so don't backtrack
-                    return true;
-                }
-
-                self.read_digits();
-                true
-            }
-            _ => false,
-        }
-    }
-
-    /// Check for BigInt suffix
-    fn check_bigint_suffix(&mut self) -> bool {
-        if self.cursor.peek() == Some(b'n') {
-            self.cursor.advance();
-            true
-        } else {
-            false
-        }
-    }
-}
-
-/// Parse a BigInt with a specific radix
-fn parse_bigint_with_radix(s: &str, radix: u32, span: Span) -> Result<num_bigint::BigInt> {
-    use num_bigint::BigInt;
-
-    // Remove underscores from the string for parsing
-    let s_without_underscores = s.replace('_', "");
-
-    // Parse the BigInt with the given radix
-    BigInt::parse_bytes(s_without_underscores.as_bytes(), radix).ok_or_else(|| Error {
-        kind: ErrorKind::InvalidNumber {
-            reason: "Invalid BigInt literal",
-        },
-        span,
-    })
 }

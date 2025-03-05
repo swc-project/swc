@@ -160,10 +160,10 @@ impl<'a> Lexer<'a> {
         Ok(Token::new(
             TokenType::JSXText,
             span,
-            had_line_break,
-            TokenValue::JSXText {
-                value: Atom::from(text),
-                raw: Atom::from(raw_str),
+            self.had_line_break.into(),
+            TokenValue::Str {
+                value: Atom::from(text.clone()),
+                raw: Atom::from(text),
             },
         ))
     }
@@ -202,7 +202,7 @@ impl<'a> Lexer<'a> {
         Ok(Token::new(
             TokenType::Ident,
             span,
-            self.had_line_break,
+            self.had_line_break.into(),
             TokenValue::Word(Atom::from(ident_str)),
         ))
     }

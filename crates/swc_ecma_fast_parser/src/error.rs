@@ -76,6 +76,18 @@ pub enum ErrorKind {
 
     /// General parser error
     General { message: String },
+
+    /// Unterminated string literal
+    UnterminatedString,
+
+    /// Invalid hex escape sequence in string
+    InvalidHexEscape,
+
+    /// Invalid unicode escape sequence in string
+    InvalidUnicodeEscape,
+
+    /// Invalid BigInt literal
+    InvalidBigInt,
 }
 
 impl fmt::Display for Error {
@@ -142,6 +154,18 @@ impl fmt::Display for Error {
             }
             ErrorKind::General { message } => {
                 write!(f, "{}", message)
+            }
+            ErrorKind::UnterminatedString => {
+                write!(f, "Unterminated string literal")
+            }
+            ErrorKind::InvalidHexEscape => {
+                write!(f, "Invalid hexadecimal escape sequence")
+            }
+            ErrorKind::InvalidUnicodeEscape => {
+                write!(f, "Invalid unicode escape sequence")
+            }
+            ErrorKind::InvalidBigInt => {
+                write!(f, "Invalid BigInt literal")
             }
         }
     }
