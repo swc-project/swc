@@ -37,17 +37,17 @@ const SPC: ByteHandler = Some(|_| 1);
 
 /// Unicode
 const UNI: ByteHandler = Some(|skip| {
-    // 더 효율적인 유니코드 문자 처리를 위해 바이트 패턴 직접 확인
+    // Check byte patterns directly for more efficient Unicode character processing
     let bytes = skip.input.as_bytes();
     let i = skip.offset as usize;
 
-    // 가용 바이트 수 확인
+    // Check available bytes
     let remaining_bytes = bytes.len() - i;
     if remaining_bytes < 1 {
         return 0;
     }
 
-    // 처음 바이트로 UTF-8 문자 길이 예측
+    // Predict UTF-8 character length from the first byte
     let first_byte = unsafe { *bytes.get_unchecked(i) };
     let char_len = if first_byte < 128 {
         1
@@ -68,8 +68,8 @@ const UNI: ByteHandler = Some(|skip| {
         4
     };
 
-    // 흔한 유니코드 공백 문자에 대한 빠른 경로
-    // UTF-8 바이트 패턴으로 직접 확인
+    // Fast path for common Unicode whitespace characters
+    // Check UTF-8 byte patterns directly
     if char_len == 3 {
         // LSEP (U+2028) - Line Separator: E2 80 A8
         if first_byte == 0xe2
@@ -90,27 +90,27 @@ const UNI: ByteHandler = Some(|skip| {
         }
     }
 
-    // 빠른 경로로 처리되지 않은 경우 일반적인 방법으로 처리
+    // Process with general method if not handled by fast path
     let s = unsafe {
-        // Safety: `skip.offset`는 항상 유효함
+        // Safety: `skip.offset` is always valid
         skip.input.get_unchecked(skip.offset as usize..)
     };
 
     let c = unsafe {
-        // Safety: 바이트 핸들러는 `skip.input`이 비어있지 않을 때만 호출됨
+        // Safety: byte handlers are only called when `skip.input` is not empty
         s.chars().next().unwrap_unchecked()
     };
 
     match c {
-        // 바이트 순서 표시 (BOM)
+        // Byte Order Mark (BOM)
         '\u{feff}' => {}
-        // 이미 위에서 처리된 줄바꿈 문자들
+        // Line break characters already handled above
         '\u{2028}' | '\u{2029}' => {
             skip.newline = true;
         }
-        // 다른 공백 문자들
+        // Other whitespace characters
         _ if c.is_whitespace() => {}
-        // 공백 문자가 아님
+        // Not a whitespace character
         _ => return 0,
     }
 
@@ -135,33 +135,33 @@ impl SkipWhitespace<'_> {
         let len = bytes.len();
         let mut pos = self.offset as usize;
 
-        // 최적화: 입력이 비어있는 경우 바로 반환
+        // Optimization: return immediately if input is empty
         if pos >= len {
             return;
         }
 
         loop {
-            // 최적화 1: 연속된 공백 (가장 흔한 경우) 한 번에 처리
+            // Optimization 1: Process consecutive spaces (most common case) at once
             let mut byte = unsafe { *bytes.get_unchecked(pos) };
 
-            // 스페이스 문자 연속 처리 (매우 흔한 케이스)
+            // Handle consecutive space characters (very common case)
             if byte == b' ' {
                 pos += 1;
-                // 반복적으로 스페이스 건너뛰기 (한 번에 여러 공백 처리)
+                // Skip spaces repeatedly (process multiple spaces at once)
                 while pos < len && unsafe { *bytes.get_unchecked(pos) } == b' ' {
                     pos += 1;
                 }
 
-                // 입력 끝에 도달했는지 확인
+                // Check if we've reached the end of input
                 if pos >= len {
                     break;
                 }
 
-                // 현재 바이트 다시 가져오기
+                // Get current byte again
                 byte = unsafe { *bytes.get_unchecked(pos) };
             }
 
-            // 최적화 2: 다른 일반적인 공백 문자 처리
+            // Optimization 2: Handle other common whitespace characters
             match byte {
                 b'\n' => {
                     pos += 1;
@@ -183,12 +183,13 @@ impl SkipWhitespace<'_> {
                 b'\r' => {
                     pos += 1;
 
-                    // CR+LF 시퀀스 처리 (Windows 줄바꿈)
+                    // Handle CR+LF sequence (Windows line break)
                     if pos < len && unsafe { *bytes.get_unchecked(pos) } == b'\n' {
                         pos += 1;
                         self.newline = true;
                     } else {
-                        self.newline = true; // 단독 CR도 줄바꿈으로 처리
+                        self.newline = true; // Treat standalone CR as line
+                                             // break too
                     }
 
                     if pos >= len {
@@ -196,20 +197,20 @@ impl SkipWhitespace<'_> {
                     }
                     continue;
                 }
-                // 핸들러 사용이 필요한 경우
+                // Case where handler is needed
                 _ => {
-                    // 임시로 offset 업데이트
+                    // Temporarily update offset
                     self.offset = pos as u32;
 
-                    // 핸들러 테이블 사용
+                    // Use handler table
                     let handler = unsafe { BYTE_HANDLERS.get_unchecked(byte as usize) };
 
                     match handler {
                         Some(handler) => {
                             let delta = handler(self);
                             if delta == 0 {
-                                // 공백이 아닌 문자 발견
-                                // offset은 이미 업데이트됨
+                                // Non-whitespace character found
+                                // offset is already updated
                                 return;
                             }
                             pos = self.offset as usize + delta as usize;
@@ -219,8 +220,8 @@ impl SkipWhitespace<'_> {
                             }
                         }
                         None => {
-                            // 공백이 아닌 문자 발견
-                            // offset은 이미 업데이트됨
+                            // Non-whitespace character found
+                            // offset is already updated
                             return;
                         }
                     }
@@ -228,7 +229,7 @@ impl SkipWhitespace<'_> {
             }
         }
 
-        // 최종 위치로 offset 업데이트
+        // Update offset to final position
         self.offset = pos as u32;
     }
 }
