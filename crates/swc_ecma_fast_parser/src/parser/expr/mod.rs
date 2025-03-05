@@ -21,58 +21,6 @@ mod object;
 mod primary;
 mod unary;
 
-// Re-export the expression parser traits
-pub(crate) use array::ArrayExprParser;
-pub(crate) use function::FunctionExprParser;
-pub(crate) use member::MemberExprParser;
-pub(crate) use object::ObjectExprParser;
-pub(crate) use primary::PrimaryExprParser;
-pub(crate) use unary::UnaryExprParser;
-
-/// Expression parser trait
-pub(crate) trait ExprParser<'a>:
-    PrimaryExprParser<'a>
-    + ArrayExprParser<'a>
-    + ObjectExprParser<'a>
-    + FunctionExprParser<'a>
-    + UnaryExprParser<'a>
-    + MemberExprParser<'a>
-{
-    /// Parse an expression
-    fn parse_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an assignment expression
-    fn parse_assignment_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a conditional expression
-    fn parse_conditional_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a sequence expression
-    fn parse_sequence_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a yield expression
-    fn parse_yield_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an arrow function expression
-    fn parse_arrow_function_expression(
-        &mut self,
-        is_async: bool,
-        params: Vec<ast::Pat>,
-    ) -> Result<ast::Expr>;
-
-    /// Parse a JSX expression
-    fn parse_jsx_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a TypeScript as expression
-    fn parse_ts_as_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr>;
-
-    /// Parse a TypeScript non-null expression
-    fn parse_ts_non_null_expression(&mut self, expr: ast::Expr) -> Result<ast::Expr>;
-
-    /// Parse a TypeScript type assertion
-    fn parse_ts_type_assertion(&mut self) -> Result<ast::Expr>;
-}
-
 impl<'a> Parser<'a> {
     /// Parse an expression (sequence expression)
     pub(crate) fn parse_expression(&mut self) -> Result<ast::Expr> {

@@ -17,31 +17,10 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
-/// Primary expression parser implementation
-pub(crate) trait PrimaryExprParser<'a> {
-    /// Parse a primary expression
-    fn parse_primary_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a literal expression
-    fn parse_literal(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an identifier expression
-    fn parse_identifier_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a this expression
-    fn parse_this_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a parenthesized expression
-    fn parse_parenthesized_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse a template literal
-    fn parse_template_literal(&mut self, tag: Option<Box<ast::Expr>>) -> Result<ast::Expr>;
-}
-
-impl<'a> PrimaryExprParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a primary expression (literal, identifier, this, parenthesized,
     /// etc.)
-    fn parse_primary_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_primary_expression(&mut self) -> Result<ast::Expr> {
         match self.cur_token.token_type {
             // Literals
             TokenType::Str

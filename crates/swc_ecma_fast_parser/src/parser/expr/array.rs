@@ -12,15 +12,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Array expression parser implementation
-pub(crate) trait ArrayExprParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse an array expression: [elem1, elem2, ...spread]
-    fn parse_array_expression(&mut self) -> Result<ast::Expr>;
-}
-
-impl<'a> ArrayExprParser<'a> for Parser<'a> {
-    /// Parse an array expression: [elem1, elem2, ...spread]
-    fn parse_array_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_array_expression(&mut self) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBracket)?; // Expect '['
 

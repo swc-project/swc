@@ -12,21 +12,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Member expression parser implementation
-pub(crate) trait MemberExprParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a member expression: obj.prop, obj[expr], obj?.prop
-    fn parse_member_expression(&mut self, object: ast::Expr) -> Result<ast::Expr>;
-
-    /// Parse property access: obj.prop
-    fn parse_property_access(&mut self, object: ast::Expr, optional: bool) -> Result<ast::Expr>;
-
-    /// Parse computed member access: obj[expr]
-    fn parse_computed_member(&mut self, object: ast::Expr, optional: bool) -> Result<ast::Expr>;
-}
-
-impl<'a> MemberExprParser<'a> for Parser<'a> {
-    /// Parse a member expression: obj.prop, obj[expr], obj?.prop
-    fn parse_member_expression(&mut self, object: ast::Expr) -> Result<ast::Expr> {
+    pub(crate) fn parse_member_expression(&mut self, object: ast::Expr) -> Result<ast::Expr> {
         let mut expr = object;
 
         loop {

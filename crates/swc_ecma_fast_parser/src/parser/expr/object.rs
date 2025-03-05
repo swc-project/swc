@@ -12,18 +12,9 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
-/// Object expression parser implementation
-pub(crate) trait ObjectExprParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse an object expression: { key: value, method() {}, ...spread }
-    fn parse_object_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an object property
-    fn parse_object_property(&mut self) -> Result<ast::PropOrSpread>;
-}
-
-impl<'a> ObjectExprParser<'a> for Parser<'a> {
-    /// Parse an object expression: { key: value, method() {}, ...spread }
-    fn parse_object_expression(&mut self) -> Result<ast::Expr> {
+    pub(crate) fn parse_object_expression(&mut self) -> Result<ast::Expr> {
         let start_span = self.cur_token.span;
         self.expect(TokenType::LBrace)?; // Expect '{'
 

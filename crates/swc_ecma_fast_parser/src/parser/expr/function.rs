@@ -13,29 +13,9 @@ use crate::{
     token::TokenType,
 };
 
-/// Function expression parser implementation
-pub(crate) trait FunctionExprParser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a function expression: function [name](params) { body }
-    fn parse_function_expression(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-    ) -> Result<ast::Expr>;
-
-    /// Parse an arrow function: (param1, param2) => body
-    fn parse_arrow_function_expression(&mut self, is_async: bool) -> Result<ast::Expr>;
-
-    /// Try to parse an arrow function starting from an identifier
-    fn try_parse_arrow_function_from_ident(
-        &mut self,
-        ident: ast::Ident,
-        is_async: bool,
-    ) -> Result<Option<ast::Expr>>;
-}
-
-impl<'a> FunctionExprParser<'a> for Parser<'a> {
-    /// Parse a function expression: function [name](params) { body }
-    fn parse_function_expression(
+    pub(crate) fn parse_function_expression(
         &mut self,
         is_async: bool,
         is_generator: bool,

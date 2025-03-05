@@ -13,19 +13,7 @@ use crate::{
     token::TokenType,
 };
 
-/// Unary expression parser implementation
-pub(crate) trait UnaryExprParser<'a> {
-    /// Parse a unary expression: !expr, -expr, +expr, typeof expr, etc.
-    fn parse_unary_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an update expression: ++expr, --expr, expr++, expr--
-    fn parse_update_expression(&mut self) -> Result<ast::Expr>;
-
-    /// Parse an await expression: await expr
-    fn parse_await_expression(&mut self) -> Result<ast::Expr>;
-}
-
-impl<'a> UnaryExprParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a unary expression: !expr, -expr, +expr, typeof expr, etc.
     fn parse_unary_expression(&mut self) -> Result<ast::Expr> {
         // Check for unary operators
