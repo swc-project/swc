@@ -202,20 +202,21 @@ impl Lexer<'_> {
         //
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
 
-        // 최적화: 바이트 기반 종료 문자 검색으로 성능 향상
+        // Optimization: Performance improvement with byte-based termination character
+        // search
         let input_str = self.input.as_str();
         let bytes = input_str.as_bytes();
         let mut idx = 0;
         let len = bytes.len();
 
-        // 줄 종료 문자를 직접 검색 (ASCII 케이스 최적화)
+        // Direct search for line termination characters (ASCII case optimization)
         while idx < len {
             let b = bytes[idx];
             if b == b'\r' || b == b'\n' {
                 self.state.had_line_break = true;
                 break;
             } else if b > 127 {
-                // non-ASCII 케이스: 유니코드 줄 종료 문자 확인
+                // non-ASCII case: Check for Unicode line termination characters
                 let s = &input_str[idx..];
                 if let Some(first_char) = s.chars().next() {
                     if first_char == '\u{2028}' || first_char == '\u{2029}' {
@@ -228,7 +229,7 @@ impl Lexer<'_> {
             idx += 1;
         }
 
-        // 줄 종료 문자가 없으면 문자열 끝까지 처리
+        // Process until the end of string if no line termination character is found
         if idx == len {
             idx = len;
         }
@@ -236,7 +237,7 @@ impl Lexer<'_> {
         self.input.bump_bytes(idx);
         let end = self.cur_pos();
 
-        // 주석을 저장해야 할 경우만 슬라이스 생성 및 처리
+        // Create and process slice only if comments need to be stored
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = unsafe {
                 // Safety: We know that the start and the end are valid
@@ -278,7 +279,7 @@ impl Lexer<'_> {
         // jsdoc
         let slice_start = self.cur_pos();
 
-        // 시작 부분에 별표가 있는지 확인 (JSDoc 스타일)
+        // Check if there's an asterisk at the beginning (JSDoc style)
         let mut was_star = if self.input.is_byte(b'*') {
             self.bump();
             true
@@ -288,25 +289,25 @@ impl Lexer<'_> {
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        // 블록 주석 종료 위치 찾기 최적화
+        // Optimization for finding block comment end position
         let input_str = self.input.as_str();
         let bytes = input_str.as_bytes();
         let mut pos = 0;
         let len = bytes.len();
 
-        // 빠른 검색을 위한 바이트 기반 스캔
+        // Byte-based scanning for faster search
         while pos < len {
             let b = bytes[pos];
 
             if was_star && b == b'/' {
-                // 주석 종료 찾음: "*/"
+                // Found comment end: "*/"
                 self.input.bump_bytes(pos + 1); // 종료 '/' 포함해서 이동
 
                 let end = self.cur_pos();
 
                 self.skip_space::<false>();
 
-                // 세미콜론 전 주석인지 확인
+                // Check if this is a comment before semicolon
                 if !self.state.had_line_break && self.input.is_byte(b';') {
                     is_for_next = false;
                 }
@@ -316,18 +317,18 @@ impl Lexer<'_> {
                 return;
             }
 
-            // 줄바꿈 문자 확인 - ASCII 케이스
+            // Check for line break characters - ASCII case
             if b == b'\r' || b == b'\n' {
                 self.state.had_line_break = true;
             }
-            // 유니코드 줄바꿈 확인 (드문 케이스)
+            // Check for Unicode line breaks (rare case)
             else if b > 127 {
                 let remaining = &input_str[pos..];
                 if let Some(c) = remaining.chars().next() {
                     if c == '\u{2028}' || c == '\u{2029}' {
                         self.state.had_line_break = true;
                     }
-                    // 멀티바이트 문자 건너뛰기
+                    // Skip multibyte characters
                     pos += c.len_utf8() - 1; // -1은 아래 증가분 고려
                 }
             }
@@ -336,7 +337,7 @@ impl Lexer<'_> {
             pos += 1;
         }
 
-        // 여기까지 왔다면 종료되지 않은 블록 주석
+        // If we reached here, it's an unterminated block comment
         self.input.bump_bytes(len); // 남은 입력 건너뛰기
         let end = self.input.end_pos();
         let span = Span::new(end, end);
