@@ -17,7 +17,7 @@ mod control;
 mod decl;
 mod expr;
 
-impl<'a> StmtParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a statement
     pub(crate) fn parse_statement(&mut self) -> Result<ast::Stmt> {
         match self.cur_token.token_type {
