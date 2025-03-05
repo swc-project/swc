@@ -334,11 +334,11 @@ impl<'a> Lexer<'a> {
             match self.cursor.peek() {
                 Some(c @ b'0'..=b'7') => {
                     // Ensure we don't overflow u8
-                    let next_value = value * 8 + (c - b'0');
+                    let next_value = (value as u16) * 8 + (c - b'0') as u16;
                     if next_value > 255 {
                         break;
                     }
-                    value = next_value;
+                    value = next_value as u8;
                     self.cursor.advance();
                 }
                 _ => break,
