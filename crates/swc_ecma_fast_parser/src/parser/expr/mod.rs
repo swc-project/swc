@@ -2,13 +2,12 @@
 //!
 //! This module contains implementations for parsing JavaScript expressions.
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
 use super::{BlockStmtParser, Parser};
 use crate::{
-    error::{Error, ErrorKind, Result},
-    token::{Token, TokenType, TokenValue},
+    error::{ErrorKind, Result},
+    token::TokenType,
 };
 
 // Sub-modules
@@ -315,7 +314,7 @@ impl<'a> Parser<'a> {
     /// Parse a conditional expression: test ? consequent : alternate
     pub(crate) fn parse_conditional_expression(&mut self) -> Result<ast::Expr> {
         // Parse binary expression first
-        let expr = self.parse_binary_expression()?;
+        let expr = self.parse_binary_expression(0)?;
 
         // Check for conditional operator
         if self.is_token_type(TokenType::Question) {
@@ -480,6 +479,7 @@ impl<'a> Parser<'a> {
             is_generator: false,
             type_params: None,
             return_type: None,
+            ctxt: Default::default(),
         }))
     }
 

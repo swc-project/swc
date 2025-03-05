@@ -3,14 +3,10 @@
 //! This module provides the implementation for parsing array expressions,
 //! which are enclosed by square brackets and can contain multiple elements.
 
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::{super::Parser, ExprParser};
-use crate::{
-    error::{Error, ErrorKind, Result},
-    token::TokenType,
-};
+use super::super::Parser;
+use crate::{error::Result, token::TokenType};
 
 impl<'a> Parser<'a> {
     /// Parse an array expression: [elem1, elem2, ...spread]

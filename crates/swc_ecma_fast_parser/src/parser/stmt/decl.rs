@@ -83,6 +83,7 @@ impl<'a> DeclParser<'a> for Parser<'a> {
             kind: ast::VarDeclKind::Let,
             decls,
             declare: false,
+            ..Default::default()
         })
     }
 
@@ -828,6 +829,7 @@ impl<'a> Parser<'a> {
                     is_async,
                     type_params: None,
                     return_type: None,
+                    ctxt: Default::default(),
                 },
                 kind,
                 is_static,

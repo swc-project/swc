@@ -134,6 +134,7 @@ impl<'a> Parser<'a> {
                             span: id.span,
                             sym: id.sym,
                             optional: false,
+                            ctxt: Default::default(),
                         },
                     ))));
                 }
@@ -300,6 +301,7 @@ impl<'a> Parser<'a> {
                 is_async,
                 type_params: None,
                 return_type: None,
+                ctxt: Default::default(),
             };
 
             return Ok(ast::PropOrSpread::Prop(Box::new(ast::Prop::Method(

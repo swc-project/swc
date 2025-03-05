@@ -7,14 +7,12 @@
 //! - Parenthesized expressions
 //! - Template literals
 
-use swc_atoms::Atom;
-use swc_common::Span;
 use swc_ecma_ast as ast;
 
-use super::{super::Parser, ExprParser};
+use super::super::Parser;
 use crate::{
-    error::{Error, ErrorKind, Result},
-    token::{Token, TokenType, TokenValue},
+    error::{ErrorKind, Result},
+    token::{TokenType, TokenValue},
 };
 
 impl<'a> Parser<'a> {

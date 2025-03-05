@@ -3,13 +3,8 @@
 //! This module contains shared functionality used across different lexer
 //! modules.
 
-use swc_common::Span;
-
 use super::Lexer;
-use crate::{
-    error::{Error, ErrorKind, Result},
-    token::{Token, TokenType, TokenValue},
-};
+use crate::error::{Error, ErrorKind, Result};
 
 impl<'a> Lexer<'a> {
     /// Read a hexadecimal escape sequence of specified length
