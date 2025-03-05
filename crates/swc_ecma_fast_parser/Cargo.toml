@@ -11,7 +11,8 @@ repository    = { workspace = true }
 version       = "1.0.0"
 
 [dependencies]
-swc_atoms  = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "8.0.0", path = "../swc_common" }
+swc_atoms    = { version = "5.0.0", path = "../swc_atoms" }
+swc_common   = { version = "8.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 
 num-bigint = { workspace = true }
