@@ -53,49 +53,50 @@ pub enum TokenType {
     MinusEq = 32,    // -=
 
     // More compound operators and keywords (starting from 33)
-    MulEq = 33,        // *=
-    DivEq = 34,        // /=
-    ModEq = 35,        // %=
-    BitOrEq = 36,      // |=
-    BitXorEq = 37,     // ^=
-    BitAndEq = 38,     // &=
-    ExpEq = 39,        // **=
-    LogicalOrEq = 40,  // ||=
-    LogicalAndEq = 41, // &&=
-    NullishEq = 42,    // ??=
+    MulEq = 33,         // *=
+    DivEq = 34,         // /=
+    ModEq = 35,         // %=
+    BitOrEq = 36,       // |=
+    BitXorEq = 37,      // ^=
+    BitAndEq = 38,      // &=
+    ExpEq = 39,         // **=
+    LogicalOrEq = 40,   // ||=
+    LogicalAndEq = 41,  // &&=
+    NullishEq = 42,     // ??=
+    OptionalChain = 43, // ?.
 
-    EqEq = 43,    // ==
-    NotEq = 44,   // !=
-    EqEqEq = 45,  // ===
-    NotEqEq = 46, // !==
+    EqEq = 44,    // ==
+    NotEq = 45,   // !=
+    EqEqEq = 46,  // ===
+    NotEqEq = 47, // !==
 
-    LtEq = 47,           // <=
-    GtEq = 48,           // >=
-    LShift = 49,         // <<
-    RShift = 50,         // >>
-    ZeroFillRShift = 51, // >>>
+    LtEq = 48,           // <=
+    GtEq = 49,           // >=
+    LShift = 50,         // <<
+    RShift = 51,         // >>
+    ZeroFillRShift = 52, // >>>
 
-    Exp = 52,               // **
-    LogicalOr = 53,         // ||
-    LogicalAnd = 54,        // &&
-    NullishCoalescing = 55, // ??
+    Exp = 53,               // **
+    LogicalOr = 54,         // ||
+    LogicalAnd = 55,        // &&
+    NullishCoalescing = 56, // ??
 
-    DollarLBrace = 56, // ${
+    DollarLBrace = 57, // ${
 
     // JSX-related tokens
-    JSXTagStart = 57,
-    JSXTagEnd = 58,
+    JSXTagStart = 58,
+    JSXTagEnd = 59,
 
     // Literals
-    Str = 59,      // String literal
-    Num = 60,      // Number literal
-    BigInt = 61,   // BigInt literal
-    Regex = 62,    // RegExp literal
-    Template = 63, // Template literal
-    JSXText = 64,  // JSX text
+    Str = 60,      // String literal
+    Num = 61,      // Number literal
+    BigInt = 62,   // BigInt literal
+    Regex = 63,    // RegExp literal
+    Template = 64, // Template literal
+    JSXText = 65,  // JSX text
 
     // Identifiers and keywords
-    Ident = 65, // Identifier
+    Ident = 66, // Identifier
 
     // Reserved keyword tokens (starting from 100)
     Await = 100,
@@ -189,75 +190,80 @@ impl TokenType {
     /// Checks if this token can precede an expression
     #[inline(always)]
     pub const fn before_expr(self) -> bool {
-        match self {
-            TokenType::LParen
-            | TokenType::LBrace
-            | TokenType::LBracket
-            | TokenType::Semi
-            | TokenType::Comma
-            | TokenType::Arrow
-            | TokenType::DotDotDot
-            | TokenType::Colon
-            | TokenType::QuestionMark
-            | TokenType::Bang
-            | TokenType::Tilde
-            | TokenType::Plus
-            | TokenType::Minus
-            | TokenType::Asterisk
-            | TokenType::Slash
-            | TokenType::Percent
-            | TokenType::Lt
-            | TokenType::Gt
-            | TokenType::Pipe
-            | TokenType::Caret
-            | TokenType::Ampersand
-            | TokenType::Eq
-            | TokenType::PlusPlus
-            | TokenType::MinusMinus
-            | TokenType::PlusEq
-            | TokenType::MinusEq
-            | TokenType::MulEq
-            | TokenType::DivEq
-            | TokenType::ModEq
-            | TokenType::BitOrEq
-            | TokenType::BitXorEq
-            | TokenType::BitAndEq
-            | TokenType::ExpEq
-            | TokenType::LogicalOrEq
-            | TokenType::LogicalAndEq
-            | TokenType::NullishEq
-            | TokenType::EqEq
-            | TokenType::NotEq
-            | TokenType::EqEqEq
-            | TokenType::NotEqEq
-            | TokenType::LtEq
-            | TokenType::GtEq
-            | TokenType::LShift
-            | TokenType::RShift
-            | TokenType::ZeroFillRShift
-            | TokenType::Exp
-            | TokenType::LogicalOr
-            | TokenType::LogicalAnd
-            | TokenType::NullishCoalescing
-            | TokenType::DollarLBrace
-            | TokenType::JSXText
-            | TokenType::Await
-            | TokenType::Case
-            | TokenType::Default
-            | TokenType::Do
-            | TokenType::Else
-            | TokenType::Return
-            | TokenType::Throw
-            | TokenType::New
-            | TokenType::Extends
-            | TokenType::Yield
-            | TokenType::In
-            | TokenType::InstanceOf
-            | TokenType::TypeOf
-            | TokenType::Void
-            | TokenType::Delete => true,
-            _ => false,
-        }
+        // Check if the token is one that is typically followed by an expression
+        matches!(
+            self,
+            TokenType::Semi
+                | TokenType::Comma
+                | TokenType::LParen
+                | TokenType::LBracket
+                | TokenType::LBrace
+                | TokenType::Colon
+                | TokenType::QuestionMark
+                | TokenType::Arrow
+                | TokenType::DollarLBrace
+                | TokenType::Template
+                | TokenType::Plus
+                | TokenType::Minus
+                | TokenType::Bang
+                | TokenType::Tilde
+                | TokenType::PlusPlus
+                | TokenType::MinusMinus
+                | TokenType::PlusEq
+                | TokenType::MinusEq
+                | TokenType::MulEq
+                | TokenType::DivEq
+                | TokenType::ModEq
+                | TokenType::ExpEq
+                | TokenType::BitOrEq
+                | TokenType::BitXorEq
+                | TokenType::BitAndEq
+                | TokenType::LogicalOrEq
+                | TokenType::LogicalAndEq
+                | TokenType::NullishEq
+                | TokenType::OptionalChain
+                | TokenType::Eq
+                | TokenType::EqEq
+                | TokenType::EqEqEq
+                | TokenType::NotEq
+                | TokenType::NotEqEq
+                | TokenType::Lt
+                | TokenType::Gt
+                | TokenType::LtEq
+                | TokenType::GtEq
+                | TokenType::LogicalOr
+                | TokenType::LogicalAnd
+                | TokenType::NullishCoalescing
+                | TokenType::Exp
+                | TokenType::Slash
+                | TokenType::Percent
+                | TokenType::Asterisk
+                | TokenType::LShift
+                | TokenType::RShift
+                | TokenType::ZeroFillRShift
+                | TokenType::Ampersand
+                | TokenType::Pipe
+                | TokenType::Caret
+                | TokenType::Return
+                | TokenType::Case
+                | TokenType::Delete
+                | TokenType::Throw
+                | TokenType::In
+                | TokenType::TypeOf
+                | TokenType::InstanceOf
+                | TokenType::Void
+                | TokenType::Do
+                | TokenType::New
+                | TokenType::Yield
+                | TokenType::Await
+                | TokenType::Extends
+                | TokenType::Of
+                | TokenType::As
+                | TokenType::Is
+                | TokenType::Asserts
+                | TokenType::Assert
+                | TokenType::Using
+        )
     }
 
     /// Constant method for compiler optimization
@@ -354,6 +360,7 @@ impl TokenType {
             TokenType::LogicalOrEq => "||=",
             TokenType::LogicalAndEq => "&&=",
             TokenType::NullishEq => "??=",
+            TokenType::OptionalChain => "?.",
             TokenType::EqEq => "==",
             TokenType::NotEq => "!=",
             TokenType::EqEqEq => "===",

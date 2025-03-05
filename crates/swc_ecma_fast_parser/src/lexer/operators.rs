@@ -71,6 +71,17 @@ impl<'a> Lexer<'a> {
             ));
         }
 
+        // Check for optional chaining operator '?.'
+        if self.cursor.peek() == Some(b'.') {
+            self.cursor.advance();
+            return Ok(Token::new(
+                TokenType::OptionalChain,
+                self.span(),
+                self.had_line_break,
+                TokenValue::None,
+            ));
+        }
+
         // Just a single question mark
         Ok(Token::new(
             TokenType::QuestionMark,
