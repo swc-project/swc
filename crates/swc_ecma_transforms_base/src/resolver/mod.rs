@@ -131,7 +131,6 @@ pub fn resolver(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
-    ignore_declare: bool,
 ) -> impl 'static + Pass + VisitMut {
     assert_ne!(
         unresolved_mark,
@@ -154,7 +153,39 @@ pub fn resolver(
             handle_types: typescript,
             unresolved_mark,
             top_level_mark,
-            ignore_declare,
+            ignore_declare: false,
+        },
+    })
+}
+
+/// See [resolver]
+pub fn resolver_ignore_declare(
+    unresolved_mark: Mark,
+    top_level_mark: Mark,
+    typescript: bool,
+) -> impl 'static + Pass + VisitMut {
+    assert_ne!(
+        unresolved_mark,
+        Mark::root(),
+        "Marker provided to resolver should not be the root mark"
+    );
+
+    let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
+    let _ = SyntaxContext::empty().apply_mark(top_level_mark);
+
+    visit_mut_pass(Resolver {
+        current: Scope::new(ScopeKind::Fn, top_level_mark, None),
+        ident_type: IdentType::Ref,
+        in_type: false,
+        is_module: false,
+        in_ts_module: false,
+        decl_kind: DeclKind::Lexical,
+        strict_mode: false,
+        config: InnerConfig {
+            handle_types: typescript,
+            unresolved_mark,
+            top_level_mark,
+            ignore_declare: true,
         },
     })
 }
