@@ -67,7 +67,7 @@ fn test_mark_for() {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark1,
-                ignore_declare: true,
+                resolve_declare: true,
             },
         );
         let mut folder2 = Resolver::new(
@@ -76,7 +76,7 @@ fn test_mark_for() {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark2,
-                ignore_declare: true,
+                resolve_declare: true,
             },
         );
         folder2
@@ -90,7 +90,7 @@ fn test_mark_for() {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark3,
-                ignore_declare: true,
+                resolve_declare: true,
             },
         );
         folder3
@@ -105,7 +105,7 @@ fn test_mark_for() {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
                 top_level_mark: mark4,
-                ignore_declare: true,
+                resolve_declare: true,
             },
         );
         folder4

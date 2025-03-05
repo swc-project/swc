@@ -153,13 +153,13 @@ pub fn resolver(
             handle_types: typescript,
             unresolved_mark,
             top_level_mark,
-            ignore_declare: false,
+            resolve_declare: false,
         },
     })
 }
 
 /// See [resolver]
-pub fn resolver_ignoring_declare(
+pub fn resolver_resolving_declare(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
@@ -185,7 +185,7 @@ pub fn resolver_ignoring_declare(
             handle_types: typescript,
             unresolved_mark,
             top_level_mark,
-            ignore_declare: true,
+            resolve_declare: true,
         },
     })
 }
@@ -248,7 +248,7 @@ struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
     top_level_mark: Mark,
-    ignore_declare: bool,
+    resolve_declare: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -677,7 +677,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        if n.declare && self.config.ignore_declare {
+        if n.declare && !self.config.resolve_declare {
             return;
         }
         self.modify(&mut n.ident, DeclKind::Lexical);
@@ -846,7 +846,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        if node.declare && self.config.ignore_declare {
+        if node.declare && !self.config.resolve_declare {
             return;
         }
 
@@ -1276,7 +1276,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        if decl.declare && self.config.ignore_declare {
+        if decl.declare && !self.config.resolve_declare {
             return;
         }
         self.modify(&mut decl.id, DeclKind::Lexical);
@@ -1409,7 +1409,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
-        if decl.declare && self.config.ignore_declare {
+        if decl.declare && !self.config.resolve_declare {
             return;
         }
 
@@ -1428,7 +1428,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        if n.declare && self.config.ignore_declare {
+        if n.declare && !self.config.resolve_declare {
             return;
         }
 
@@ -1544,7 +1544,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
-        if decl.declare && self.config.ignore_declare {
+        if decl.declare && !self.config.resolve_declare {
             return;
         }
 
@@ -1700,7 +1700,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if node.declare && self.resolver.config.ignore_declare {
+        if node.declare && !self.resolver.config.resolve_declare {
             return;
         }
         if self.in_block {
@@ -1803,7 +1803,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        if node.declare && self.resolver.config.ignore_declare {
+        if node.declare && !self.resolver.config.resolve_declare {
             return;
         }
 
@@ -1911,7 +1911,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        if node.declare && self.resolver.config.ignore_declare {
+        if node.declare && !self.resolver.config.resolve_declare {
             return;
         }
 
