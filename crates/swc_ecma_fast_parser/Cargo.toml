@@ -16,3 +16,21 @@ swc_common   = { version = "8.0.0", path = "../swc_common" }
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 
 num-bigint = { workspace = true }
+
+[dev-dependencies]
+criterion         = { workspace = true }
+pretty_assertions = { workspace = true }
+serde_json        = { workspace = true }
+walkdir           = { workspace = true }
+
+codspeed-criterion-compat = { workspace = true }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
+swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
+swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
+testing = { version = "8.0.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "lexer"
