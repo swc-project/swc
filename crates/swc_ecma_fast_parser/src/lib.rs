@@ -12,6 +12,7 @@ pub use error::{Error, ErrorKind, Result};
 pub use lexer::Lexer;
 pub use parser::Parser;
 use swc_common::{errors::Handler, SourceMap};
+use swc_ecma_ast::Program;
 
 /// Parse source code into an ECMAScript/TypeScript AST
 pub fn parse_file(
