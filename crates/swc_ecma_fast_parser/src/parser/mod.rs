@@ -1,18 +1,12 @@
-//! High-performance parser for ECMAScript/TypeScript
+//! ECMAScript/TypeScript parser implementation
 //!
-//! This parser is designed for maximum performance and operates directly on
-//! tokens produced by the lexer. It implements a recursive descent parser with
-//! precedence climbing for expressions.
+//! This module provides the core parser implementation for ECMAScript and
+//! TypeScript.
 
-// 모듈들은 향후 구현 예정
+use std::{collections::HashSet, ops::Range};
 
-use std::rc::Rc;
-
-use swc_atoms::Atom;
-use swc_common::{
-    errors::{DiagnosticBuilder, Handler},
-    FileName, SourceMap, Span, DUMMY_SP,
-};
+use swc_common::{errors::Handler, Span};
+use swc_ecma_ast as ast;
 
 use crate::{
     error::{Error, ErrorKind, Result},
@@ -21,19 +15,89 @@ use crate::{
     JscTarget, SingleThreadedComments, Syntax,
 };
 
-/// High-performance ECMAScript/TypeScript parser
-///
-/// This parser implements a recursive descent algorithm optimized for
-/// performance.
+// Sub-modules
+pub(crate) mod expr;
+mod stmt;
+
+// Re-export the parser traits
+pub(crate) use expr::{
+    ArrayExprParser, BinaryExprParser, CallExprParser, ExprParser, FunctionExprParser,
+    MemberExprParser, ObjectExprParser, PrimaryExprParser, UnaryExprParser,
+};
+pub(crate) use stmt::{BlockStmtParser, ControlStmtParser, DeclParser, ExprStmtParser, StmtParser};
+
+/// Scope kind for keeping track of different kinds of scopes
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ScopeKind {
+    /// Global scope
+    Global,
+    /// Module scope
+    Module,
+    /// Script scope
+    Script,
+    /// Function scope
+    Function,
+    /// Class scope
+    Class,
+    /// Block scope
+    Block,
+    /// Catch clause scope
+    Catch,
+    /// Loop scope (for for-in/of/loop)
+    For,
+    /// Switch scope
+    Switch,
+}
+
+/// Scope for tracking variables, labels, etc.
+#[derive(Debug, Clone)]
+pub(crate) struct Scope {
+    /// Kind of scope
+    kind: ScopeKind,
+
+    /// Set of labels declared in this scope
+    labels: HashSet<String>,
+
+    /// Parent scope
+    parent: Option<Box<Scope>>,
+}
+
+impl Scope {
+    /// Create a new scope
+    fn new(kind: ScopeKind, parent: Option<Box<Scope>>) -> Self {
+        Self {
+            kind,
+            labels: HashSet::new(),
+            parent,
+        }
+    }
+
+    /// Check if a label exists in this scope or any parent scope
+    fn has_label(&self, label: &str) -> bool {
+        if self.labels.contains(label) {
+            return true;
+        }
+
+        if let Some(ref parent) = self.parent {
+            return parent.has_label(label);
+        }
+
+        false
+    }
+
+    /// Add a label to this scope
+    fn add_label(&mut self, label: String) {
+        self.labels.insert(label);
+    }
+}
+
+/// ECMAScript/TypeScript parser
 pub struct Parser<'a> {
-    /// The lexer that provides tokens
+    /// Lexer for tokenizing the input
     lexer: Lexer<'a>,
 
     /// Error handler
     handler: &'a Handler,
-
-    /// Syntax configuration
-    syntax: Syntax,
 
     /// Current token
     cur_token: Token,
@@ -41,196 +105,305 @@ pub struct Parser<'a> {
     /// Previous token
     prev_token: Token,
 
-    /// Whether we're in strict mode
-    in_strict_mode: bool,
+    /// Syntax configuration
+    syntax: Syntax,
 
-    /// Whether we're in a function
-    in_function: bool,
+    /// Current scope
+    scope: Scope,
 
-    /// Whether we're in a loop
-    in_loop: bool,
+    /// Strict mode flag
+    pub(crate) strict_mode: bool,
 
-    /// Whether we're in a switch statement
-    in_switch: bool,
+    /// In module flag
+    pub(crate) in_module: bool,
 
-    /// Whether we're in an async function
-    in_async: bool,
+    /// In function flag
+    pub(crate) in_function: bool,
 
-    /// Whether we're in a generator function
-    in_generator: bool,
+    /// In async function flag
+    pub(crate) in_async: bool,
 
-    /// The label set for the current scope
-    label_set: Vec<Atom>,
+    /// In generator function flag
+    pub(crate) in_generator: bool,
 
-    /// Nesting level of classes (for this references)
-    class_level: usize,
+    /// In constructor flag
+    pub(crate) in_constructor: bool,
 
-    /// Whether we're currently in a TypeScript declaration context
-    in_type: bool,
+    /// In method flag
+    pub(crate) in_method: bool,
 
-    /// Whether we're in JSX context
-    in_jsx: bool,
+    /// In loop flag
+    pub(crate) in_loop: bool,
+
+    /// In switch flag
+    pub(crate) in_switch: bool,
 }
 
 impl<'a> Parser<'a> {
     /// Create a new parser
     pub fn new(lexer: Lexer<'a>, handler: &'a Handler, syntax: Syntax) -> Self {
-        let dummy_token = Token::new(TokenType::EOF, DUMMY_SP, false, TokenValue::None);
-
         let mut parser = Self {
             lexer,
             handler,
+            cur_token: Token::default(),
+            prev_token: Token::default(),
             syntax,
-            cur_token: dummy_token.clone(),
-            prev_token: dummy_token,
-            in_strict_mode: false,
+            scope: Scope::new(ScopeKind::Global, None),
+            strict_mode: false,
+            in_module: false,
             in_function: false,
-            in_loop: false,
-            in_switch: false,
             in_async: false,
             in_generator: false,
-            label_set: Vec::new(),
-            class_level: 0,
-            in_type: false,
-            in_jsx: false,
+            in_constructor: false,
+            in_method: false,
+            in_loop: false,
+            in_switch: false,
         };
 
-        // Prime the parser with the first token
+        // Initialize the current token
         parser.next_token();
 
         parser
     }
 
-    /// Get the next token
-    fn next_token(&mut self) -> Token {
-        let next = self.lexer.next_token().unwrap_or_else(|err| {
-            self.emit_error(err);
-            Token::new(TokenType::Invalid, DUMMY_SP, false, TokenValue::None)
+    /// Advance to the next token
+    pub fn next_token(&mut self) {
+        self.prev_token = std::mem::take(&mut self.cur_token);
+        self.cur_token = self.lexer.next_token().unwrap_or_else(|e| {
+            // Report the error but continue with a dummy token
+            self.report_error(e);
+            Token::default()
         });
-
-        std::mem::replace(
-            &mut self.prev_token,
-            std::mem::replace(&mut self.cur_token, next),
-        )
     }
 
-    /// Parse a script
-    pub fn parse_script(&mut self) -> Result<ast::Program> {
-        let script = self.parse_script_items()?;
-        Ok(ast::Program::Script(script))
+    /// Look ahead to the next token without consuming it
+    pub fn peek_token(&self) -> Token {
+        self.lexer.peek_token().unwrap_or_default()
     }
 
-    /// Parse a module
-    pub fn parse_module(&mut self) -> Result<ast::Program> {
-        let module = self.parse_module_items()?;
-        Ok(ast::Program::Module(module))
+    /// Look ahead n tokens without consuming them
+    pub fn peek_token_n(&self, n: usize) -> Option<Token> {
+        self.lexer.peek_token_n(n).ok()
     }
 
-    /// Parse script items
-    fn parse_script_items(&mut self) -> Result<ast::Script> {
-        let body = self.parse_statements(true)?;
-
-        Ok(ast::Script {
-            span: DUMMY_SP,
-            body,
-            shebang: None,
-        })
+    /// Create an error
+    pub fn error(&self, kind: ErrorKind) -> Error {
+        Error::new(kind, self.cur_token.span)
     }
 
-    /// Parse module items
-    fn parse_module_items(&mut self) -> Result<ast::Module> {
-        let body = self.parse_module_body()?;
-
-        Ok(ast::Module {
-            span: DUMMY_SP,
-            body,
-            shebang: None,
-        })
+    /// Report an error using the handler
+    pub fn report_error(&self, error: Error) {
+        self.handler.struct_err(&error.to_string()).emit();
     }
 
-    /// Parse statements
-    fn parse_statements(&mut self, _top_level: bool) -> Result<Vec<ast::Stmt>> {
-        let mut statements = Vec::new();
-
-        // Dummy implementation for now
-        while self.cur_token.token_type != TokenType::EOF
-            && self.cur_token.token_type != TokenType::RBrace
-        {
-            // Skip parsing logic for now
-            self.next_token();
-        }
-
-        Ok(statements)
-    }
-
-    /// Parse module body
-    fn parse_module_body(&mut self) -> Result<Vec<ast::ModuleItem>> {
-        let mut items = Vec::new();
-
-        // Dummy implementation for now
-        while self.cur_token.token_type != TokenType::EOF {
-            // Skip parsing logic for now
-            self.next_token();
-        }
-
-        Ok(items)
-    }
-
-    /// Emit error from the parser
-    fn emit_error(&self, err: Error) {
-        let msg = format!("{}", err);
-        self.handler.struct_span_err(err.span, &msg).emit();
-    }
-
-    /// Emit an error at the current token
-    fn error(&self, kind: ErrorKind) -> Error {
-        Error {
-            kind,
-            span: self.cur_token.span,
-        }
-    }
-
-    /// Check if the current token is of the specified type
-    fn is(&self, token_type: TokenType) -> bool {
+    /// Check if the current token has the given type
+    pub fn is_token_type(&self, token_type: TokenType) -> bool {
         self.cur_token.token_type == token_type
     }
 
-    /// Expect the current token to be of the specified type
-    fn expect(&mut self, token_type: TokenType) -> Result<Token> {
-        if self.is(token_type) {
-            Ok(self.next_token())
-        } else {
-            Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some(token_type.as_str()),
-                got: format!("{}", self.cur_token.token_type),
-            }))
-        }
+    /// Check if the current token is an identifier
+    pub fn is_token_identifier(&self) -> bool {
+        self.cur_token.token_type == TokenType::Ident
     }
 
-    /// Check if the current token is an identifier with the given value
-    fn is_identifier_eq(&self, value: &str) -> bool {
-        if let Some(ident) = self.cur_token.ident_value() {
-            ident.as_str() == value
+    /// Check if the current token is an identifier with the given name
+    pub fn is_token_identifier_eq(&self, name: &str) -> bool {
+        if let TokenValue::Ident(ref ident) = self.cur_token.value {
+            ident == name
         } else {
             false
         }
     }
 
-    /// Expect a semicolon (either explicit or inserted by ASI)
-    fn expect_semi(&mut self) -> Result<()> {
-        if self.is(TokenType::Semi) {
+    /// Expect the current token to have the given type and advance
+    pub fn expect(&mut self, token_type: TokenType) -> Result<()> {
+        if self.is_token_type(token_type) {
             self.next_token();
-            return Ok(());
+            Ok(())
+        } else {
+            Err(self.error(ErrorKind::UnexpectedToken {
+                expected: Some(format!("{}", token_type)),
+                got: format!("{}", self.cur_token.token_type),
+            }))
+        }
+    }
+
+    /// Enter a new scope
+    pub fn enter_scope(&mut self, kind: ScopeKind) {
+        let parent = Some(Box::new(std::mem::replace(
+            &mut self.scope,
+            Scope::new(kind, None),
+        )));
+        self.scope.parent = parent;
+    }
+
+    /// Exit the current scope
+    pub fn exit_scope(&mut self) {
+        if let Some(parent) = std::mem::take(&mut self.scope.parent) {
+            self.scope = *parent;
+        } else {
+            // This should never happen if scopes are balanced
+            self.scope = Scope::new(ScopeKind::Global, None);
+        }
+    }
+
+    /// Add a label to the current scope
+    pub fn add_label(&mut self, label: String) {
+        self.scope.add_label(label);
+    }
+
+    /// Check if a label exists in the current scope chain
+    pub fn has_label(&self, label: &str) -> bool {
+        self.scope.has_label(label)
+    }
+
+    /// Parse an identifier name
+    pub fn parse_identifier_name(&mut self) -> Result<ast::Ident> {
+        if !self.is_token_identifier() {
+            return Err(self.error(ErrorKind::UnexpectedToken {
+                expected: Some("identifier"),
+                got: format!("{}", self.cur_token.token_type),
+            }));
         }
 
-        // Apply automatic semicolon insertion (ASI) rules
-        if self.cur_token.had_line_break || self.is(TokenType::RBrace) || self.is(TokenType::EOF) {
-            return Ok(());
+        let span = self.cur_token.span;
+        let sym = match &self.cur_token.value {
+            TokenValue::Ident(name) => name.clone().into(),
+            _ => unreachable!("Token is not an identifier"),
+        };
+
+        self.next_token(); // Consume the identifier
+
+        Ok(ast::Ident {
+            span,
+            sym,
+            optional: false,
+        })
+    }
+
+    /// Parse an identifier reference
+    pub fn parse_identifier_reference(&mut self) -> Result<ast::Expr> {
+        let ident = self.parse_identifier_name()?;
+        Ok(ast::Expr::Ident(ident))
+    }
+
+    /// Parse a literal (string, number, boolean, null, etc.)
+    pub fn parse_literal(&mut self) -> Result<ast::Expr> {
+        let span = self.cur_token.span;
+
+        match self.cur_token.token_type {
+            TokenType::Str => {
+                let str_lit = self.parse_string_literal()?;
+                Ok(ast::Expr::Lit(ast::Lit::Str(str_lit)))
+            }
+            TokenType::Num => {
+                let num_lit = self.parse_number_literal()?;
+                Ok(ast::Expr::Lit(ast::Lit::Num(num_lit)))
+            }
+            TokenType::True => {
+                self.next_token(); // Consume 'true'
+                Ok(ast::Expr::Lit(ast::Lit::Bool(ast::Bool {
+                    span,
+                    value: true,
+                })))
+            }
+            TokenType::False => {
+                self.next_token(); // Consume 'false'
+                Ok(ast::Expr::Lit(ast::Lit::Bool(ast::Bool {
+                    span,
+                    value: false,
+                })))
+            }
+            TokenType::Null => {
+                self.next_token(); // Consume 'null'
+                Ok(ast::Expr::Lit(ast::Lit::Null(ast::Null { span })))
+            }
+            TokenType::BigInt => {
+                match &self.cur_token.value {
+                    TokenValue::BigInt(value) => {
+                        let value = value.clone();
+                        self.next_token(); // Consume BigInt
+                        Ok(ast::Expr::Lit(ast::Lit::BigInt(ast::BigInt {
+                            span,
+                            value,
+                        })))
+                    }
+                    _ => Err(self.error(ErrorKind::UnexpectedToken {
+                        expected: Some("BigInt literal"),
+                        got: format!("{}", self.cur_token.token_type),
+                    })),
+                }
+            }
+            TokenType::RegExp => {
+                match &self.cur_token.value {
+                    TokenValue::RegExp { pattern, flags } => {
+                        let pattern = pattern.clone();
+                        let flags = flags.clone();
+                        self.next_token(); // Consume RegExp
+                        Ok(ast::Expr::Lit(ast::Lit::Regex(ast::Regex {
+                            span,
+                            exp: pattern,
+                            flags,
+                        })))
+                    }
+                    _ => Err(self.error(ErrorKind::UnexpectedToken {
+                        expected: Some("RegExp literal"),
+                        got: format!("{}", self.cur_token.token_type),
+                    })),
+                }
+            }
+            _ => Err(self.error(ErrorKind::UnexpectedToken {
+                expected: Some("literal"),
+                got: format!("{}", self.cur_token.token_type),
+            })),
+        }
+    }
+
+    /// Parse a string literal
+    pub fn parse_string_literal(&mut self) -> Result<ast::Str> {
+        if !self.is_token_type(TokenType::Str) {
+            return Err(self.error(ErrorKind::UnexpectedToken {
+                expected: Some("string literal"),
+                got: format!("{}", self.cur_token.token_type),
+            }));
         }
 
-        Err(self.error(ErrorKind::UnexpectedToken {
-            expected: Some(";"),
-            got: format!("{}", self.cur_token.token_type),
-        }))
+        let span = self.cur_token.span;
+        let value = match &self.cur_token.value {
+            TokenValue::Str(s) => s.clone().into(),
+            _ => unreachable!("Token is not a string literal"),
+        };
+
+        self.next_token(); // Consume the string
+
+        Ok(ast::Str {
+            span,
+            value,
+            raw: None,
+        })
+    }
+
+    /// Parse a number literal
+    pub fn parse_number_literal(&mut self) -> Result<ast::Number> {
+        if !self.is_token_type(TokenType::Num) {
+            return Err(self.error(ErrorKind::UnexpectedToken {
+                expected: Some("number literal"),
+                got: format!("{}", self.cur_token.token_type),
+            }));
+        }
+
+        let span = self.cur_token.span;
+        let value = match &self.cur_token.value {
+            TokenValue::Num(n) => *n,
+            _ => unreachable!("Token is not a number literal"),
+        };
+
+        self.next_token(); // Consume the number
+
+        Ok(ast::Number {
+            span,
+            value,
+            raw: None,
+        })
     }
 }
