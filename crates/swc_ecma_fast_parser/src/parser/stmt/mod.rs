@@ -270,7 +270,7 @@ impl<'a> Parser<'a> {
     /// Parse an empty statement (;)
     pub(crate) fn parse_empty_statement(&mut self) -> Result<ast::EmptyStmt> {
         let span = self.cur_token.span;
-        self.expect(TokenType::Semicolon)?; // Expect ';'
+        self.expect(TokenType::Semi)?; // Expect ';'
 
         Ok(ast::EmptyStmt { span })
     }
@@ -316,7 +316,7 @@ impl<'a> Parser<'a> {
 
     /// Consume a semicolon (either explicit or automatic semicolon insertion)
     fn consume_semicolon(&mut self) -> bool {
-        if self.is_token_type(TokenType::Semicolon) {
+        if self.is_token_type(TokenType::Semi) {
             self.next_token(); // Skip explicit semicolon
             return true;
         }
@@ -356,7 +356,7 @@ impl<'a> Parser<'a> {
         // Skip tokens until we find a good synchronization point
         while !self.is_token_type(TokenType::EOF) {
             // Good synchronization points: semicolon, block start/end, some statements
-            if self.is_token_type(TokenType::Semicolon)
+            if self.is_token_type(TokenType::Semi)
                 || self.is_token_type(TokenType::RBrace)
                 || self.is_token_type(TokenType::LBrace)
                 || self.is_token_type(TokenType::Function)
@@ -372,7 +372,7 @@ impl<'a> Parser<'a> {
                 || self.is_token_type(TokenType::Const)
             {
                 // Found a synchronization point
-                if self.is_token_type(TokenType::Semicolon) {
+                if self.is_token_type(TokenType::Semi) {
                     self.next_token(); // Skip the semicolon
                 }
                 break;

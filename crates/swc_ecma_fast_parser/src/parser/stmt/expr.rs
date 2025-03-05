@@ -15,8 +15,7 @@ impl<'a> Parser<'a> {
         // Check for directive prologue (string literal at the beginning of a program or
         // function)
         let is_directive = if self.is_token_type(TokenType::Str)
-            && (self.peek_token().token_type == TokenType::Semicolon
-                || self.peek_token().had_line_break)
+            && (self.peek_token().token_type == TokenType::Semi || self.peek_token().had_line_break)
         {
             true
         } else {

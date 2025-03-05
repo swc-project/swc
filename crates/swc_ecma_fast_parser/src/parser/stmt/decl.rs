@@ -611,7 +611,7 @@ impl<'a> Parser<'a> {
         // Parse class elements
         while !self.is_token_type(TokenType::RBrace) && !self.is_token_type(TokenType::EOF) {
             // Skip empty elements (semicolons)
-            if self.is_token_type(TokenType::Semicolon) {
+            if self.is_token_type(TokenType::Semi) {
                 self.next_token(); // Skip ';'
                 continue;
             }

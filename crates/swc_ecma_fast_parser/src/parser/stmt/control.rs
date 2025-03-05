@@ -187,7 +187,7 @@ impl<'a> Parser<'a> {
         self.enter_scope(super::super::ScopeKind::Block);
 
         // Parse the initializer
-        let init = if self.is_token_type(TokenType::Semicolon) {
+        let init = if self.is_token_type(TokenType::Semi) {
             // No initializer
             None
         } else if self.is_token_type(TokenType::Var) {
@@ -275,16 +275,16 @@ impl<'a> Parser<'a> {
         }
 
         // Regular for loop
-        self.expect(TokenType::Semicolon)?; // Expect ';'
+        self.expect(TokenType::Semi)?; // Expect ';'
 
         // Parse the test expression
-        let test = if !self.is_token_type(TokenType::Semicolon) {
+        let test = if !self.is_token_type(TokenType::Semi) {
             Some(Box::new(self.parse_expression()?))
         } else {
             None
         };
 
-        self.expect(TokenType::Semicolon)?; // Expect ';'
+        self.expect(TokenType::Semi)?; // Expect ';'
 
         // Parse the update expression
         let update = if !self.is_token_type(TokenType::RParen) {
@@ -552,7 +552,7 @@ impl<'a> Parser<'a> {
         // Parse the return value if present
         let arg = if !self.can_insert_semicolon()
             && !self.is_token_type(TokenType::RBrace)
-            && !self.is_token_type(TokenType::Semicolon)
+            && !self.is_token_type(TokenType::Semi)
         {
             Some(Box::new(self.parse_expression()?))
         } else {
