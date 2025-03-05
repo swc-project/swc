@@ -2,7 +2,7 @@
 #![allow(clippy::mutable_key_type)]
 #![cfg_attr(not(test), allow(unused))]
 
-pub use self::resolver::{resolver, resolver_ignore_declare};
+pub use self::resolver::{resolver, resolver_ignoring_declare};
 
 #[doc(hidden)]
 pub mod ext;

@@ -159,7 +159,7 @@ pub fn resolver(
 }
 
 /// See [resolver]
-pub fn resolver_ignore_declare(
+pub fn resolver_ignoring_declare(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     typescript: bool,
