@@ -9,13 +9,7 @@ use swc_ecma_ast as ast;
 use super::{super::Parser, StmtParser};
 use crate::{error::Result, token::TokenType};
 
-/// Expression statement parser implementation
-pub(crate) trait ExprStmtParser<'a> {
-    /// Parse an expression statement: expr;
-    fn parse_expression_statement(&mut self) -> Result<ast::ExprStmt>;
-}
-
-impl<'a> ExprStmtParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse an expression statement: expr;
     fn parse_expression_statement(&mut self) -> Result<ast::ExprStmt> {
         // Check for directive prologue (string literal at the beginning of a program or

@@ -9,48 +9,10 @@ use swc_ecma_ast as ast;
 use super::{super::Parser, StmtParser};
 use crate::{
     error::{Error, ErrorKind, Result},
-    parser::expr::ExprParser,
     token::TokenType,
 };
 
-/// Control flow statement parser implementation
-pub(crate) trait ControlStmtParser<'a> {
-    /// Parse an if statement: if (test) consequent else alternate
-    fn parse_if_statement(&mut self) -> Result<ast::IfStmt>;
-
-    /// Parse a switch statement: switch (discriminant) { case1: ... case2: ...
-    /// }
-    fn parse_switch_statement(&mut self) -> Result<ast::SwitchStmt>;
-
-    /// Parse a for statement: for ([init]; [test]; [update]) body
-    fn parse_for_statement(&mut self) -> Result<ast::Stmt>;
-
-    /// Parse a while statement: while (test) body
-    fn parse_while_statement(&mut self) -> Result<ast::WhileStmt>;
-
-    /// Parse a do-while statement: do body while (test);
-    fn parse_do_while_statement(&mut self) -> Result<ast::DoWhileStmt>;
-
-    /// Parse a try statement: try block catch finally
-    fn parse_try_statement(&mut self) -> Result<ast::TryStmt>;
-
-    /// Parse a with statement: with (object) body
-    fn parse_with_statement(&mut self) -> Result<ast::WithStmt>;
-
-    /// Parse a break statement: break [label];
-    fn parse_break_statement(&mut self) -> Result<ast::BreakStmt>;
-
-    /// Parse a continue statement: continue [label];
-    fn parse_continue_statement(&mut self) -> Result<ast::ContinueStmt>;
-
-    /// Parse a return statement: return [expr];
-    fn parse_return_statement(&mut self) -> Result<ast::ReturnStmt>;
-
-    /// Parse a throw statement: throw expr;
-    fn parse_throw_statement(&mut self) -> Result<ast::ThrowStmt>;
-}
-
-impl<'a> ControlStmtParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse an if statement: if (test) consequent else alternate
     fn parse_if_statement(&mut self) -> Result<ast::IfStmt> {
         let start_span = self.cur_token.span;

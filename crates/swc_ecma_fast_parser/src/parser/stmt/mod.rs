@@ -17,45 +17,7 @@ mod control;
 mod decl;
 mod expr;
 
-// Re-export the statement parser traits
-pub(crate) use block::BlockStmtParser;
-pub(crate) use control::ControlStmtParser;
-pub(crate) use decl::DeclParser;
-pub(crate) use expr::ExprStmtParser;
-
-/// Statement parser trait
-pub(crate) trait StmtParser<'a>:
-    BlockStmtParser<'a> + ExprStmtParser<'a> + DeclParser<'a> + ControlStmtParser<'a>
-{
-    /// Parse a statement
-    fn parse_statement(&mut self) -> Result<ast::Stmt>;
-
-    /// Parse a module
-    fn parse_module(&mut self) -> Result<ast::Program>;
-
-    /// Parse a script
-    fn parse_script(&mut self) -> Result<ast::Program>;
-
-    /// Parse an empty statement (;)
-    fn parse_empty_statement(&mut self) -> Result<ast::EmptyStmt>;
-
-    /// Parse a debugger statement
-    fn parse_debugger_statement(&mut self) -> Result<ast::DebuggerStmt>;
-
-    /// Parse a labeled statement
-    fn parse_labeled_statement(&mut self) -> Result<ast::LabeledStmt>;
-
-    /// Consume a semicolon (either explicit or automatic semicolon insertion)
-    fn consume_semicolon(&mut self) -> bool;
-
-    /// Check if a semicolon can be automatically inserted
-    fn can_insert_semicolon(&self) -> bool;
-
-    /// Error recovery - skip to the next statement
-    fn error_recovery(&mut self);
-}
-
-impl<'a> StmtParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a statement
     fn parse_statement(&mut self) -> Result<ast::Stmt> {
         match self.cur_token.token_type {

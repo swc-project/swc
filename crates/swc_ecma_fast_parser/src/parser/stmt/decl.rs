@@ -13,41 +13,7 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
-/// Declaration parser implementation
-pub(crate) trait DeclParser<'a> {
-    /// Parse a variable declaration: var, let, or const
-    fn parse_var_declaration(&mut self) -> Result<ast::VarDecl>;
-
-    /// Parse let declarations
-    fn parse_let_declaration(&mut self) -> Result<ast::VarDecl>;
-
-    /// Parse const declarations
-    fn parse_const_declaration(&mut self) -> Result<ast::VarDecl>;
-
-    /// Parse variable declarators
-    fn parse_var_declarations(&mut self) -> Result<Vec<ast::VarDeclarator>>;
-
-    /// Parse a variable declarator
-    fn parse_var_declarator(&mut self, is_const: bool) -> Result<ast::VarDeclarator>;
-
-    /// Parse a function declaration
-    fn parse_function_declaration(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-    ) -> Result<ast::FnDecl>;
-
-    /// Parse a class declaration
-    fn parse_class_declaration(&mut self) -> Result<ast::ClassDecl>;
-
-    /// Parse a binding pattern
-    fn parse_binding_pattern(&mut self) -> Result<ast::Pat>;
-
-    /// Parse a binding identifier
-    fn parse_binding_identifier(&mut self) -> Result<ast::BindingIdent>;
-}
-
-impl<'a> DeclParser<'a> for Parser<'a> {
+impl<'a> Parser<'a> {
     /// Parse a variable declaration: var id = init;
     fn parse_var_declaration(&mut self) -> Result<ast::VarDecl> {
         let start_span = self.cur_token.span;

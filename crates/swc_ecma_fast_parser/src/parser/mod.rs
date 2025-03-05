@@ -3,7 +3,7 @@
 //! This module provides the core parser implementation for ECMAScript and
 //! TypeScript.
 
-use std::{collections::HashSet, ops::Range};
+use std::collections::HashSet;
 
 use swc_common::{errors::Handler, Span};
 use swc_ecma_ast as ast;
@@ -12,19 +12,12 @@ use crate::{
     error::{Error, ErrorKind, Result},
     lexer::Lexer,
     token::{Token, TokenType, TokenValue},
-    JscTarget, SingleThreadedComments, Syntax,
+    Syntax,
 };
 
 // Sub-modules
 pub(crate) mod expr;
 mod stmt;
-
-// Re-export the parser traits
-pub(crate) use expr::{
-    ArrayExprParser, BinaryExprParser, CallExprParser, ExprParser, FunctionExprParser,
-    MemberExprParser, ObjectExprParser, PrimaryExprParser, UnaryExprParser,
-};
-pub(crate) use stmt::{BlockStmtParser, ControlStmtParser, DeclParser, ExprStmtParser, StmtParser};
 
 /// Scope kind for keeping track of different kinds of scopes
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
