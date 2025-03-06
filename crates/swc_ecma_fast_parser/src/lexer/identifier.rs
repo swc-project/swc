@@ -485,12 +485,12 @@ impl Lexer<'_> {
     /// Super fast check for ASCII identifier start character
     #[inline(always)]
     pub(crate) fn is_ascii_id_start(ch: u8) -> bool {
-        ch < 128 && (IDENT_CHAR[ch as usize] & 1) != 0
+        ch < 128 && unsafe { (IDENT_CHAR.get_unchecked(ch as usize) & 1) != 0 }
     }
 
     /// Super fast check for ASCII identifier continue character  
     #[inline(always)]
     pub(crate) fn is_ascii_id_continue(ch: u8) -> bool {
-        ch < 128 && (IDENT_CHAR[ch as usize] & 2) != 0
+        ch < 128 && unsafe { (IDENT_CHAR.get_unchecked(ch as usize) & 2) != 0 }
     }
 }
