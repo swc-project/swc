@@ -3,6 +3,8 @@
 //! This module handles the parsing of numeric literals in
 //! ECMAScript/TypeScript.
 
+use std::borrow::Cow;
+
 use swc_atoms::Atom;
 
 use super::Lexer;
@@ -33,7 +35,7 @@ static DIGIT_VALUES: [u8; 256] = {
     table
 };
 
-impl Lexer<'_> {
+impl<'a> Lexer<'a> {
     /// Read a numeric literal
     #[inline]
     pub(super) fn read_number(&mut self) -> Result<Token> {
@@ -231,7 +233,7 @@ impl Lexer<'_> {
 
     /// Extract the raw string representation of a number
     #[inline]
-    fn extract_number_str(&self, start_idx: usize) -> String {
+    fn extract_number_str(&self, start_idx: usize) -> Cow<'a, str> {
         let end_idx = self.cursor.position();
         let num_slice = self.cursor.slice(start_idx, end_idx);
         // Filter out the underscore separators
@@ -242,10 +244,10 @@ impl Lexer<'_> {
                     result.push(byte as char);
                 }
             }
-            result
+            Cow::Owned(result)
         } else {
             // Fast path: no underscores
-            unsafe { std::str::from_utf8_unchecked(num_slice) }.to_string()
+            Cow::Borrowed(unsafe { std::str::from_utf8_unchecked(num_slice) })
         }
     }
 
@@ -332,10 +334,10 @@ impl Lexer<'_> {
                         result.push(byte as char);
                     }
                 }
-                result
+                Cow::Owned(result)
             } else {
                 // Fast path: no underscores
-                unsafe { std::str::from_utf8_unchecked(num_slice) }.to_string()
+                Cow::Borrowed(unsafe { std::str::from_utf8_unchecked(num_slice) })
             }
         };
 
