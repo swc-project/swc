@@ -374,3 +374,66 @@ fn test_lexer_class_declaration() {
 
     verify_tokens(input, expected_tokens);
 }
+
+#[test]
+fn test_lexer_destructuring_assignment() {
+    // JavaScript destructuring assignment with objects and arrays
+    let input = "const { name, age, [key]: value, ...rest } = person; const [first, second, \
+                 ...others] = items;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // Object destructuring
+        (TokenType::Const, None),
+        (TokenType::LBrace, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::Comma, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("age")))),
+        (TokenType::Comma, None),
+        (TokenType::LBracket, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("key")))),
+        (TokenType::RBracket, None),
+        (TokenType::Colon, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("value"))),
+        ),
+        (TokenType::Comma, None),
+        (TokenType::DotDotDot, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("rest")))),
+        (TokenType::RBrace, None),
+        (TokenType::Eq, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("person"))),
+        ),
+        (TokenType::Semi, None),
+        // Array destructuring
+        (TokenType::Const, None),
+        (TokenType::LBracket, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("first"))),
+        ),
+        (TokenType::Comma, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("second"))),
+        ),
+        (TokenType::Comma, None),
+        (TokenType::DotDotDot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("others"))),
+        ),
+        (TokenType::RBracket, None),
+        (TokenType::Eq, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("items"))),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
