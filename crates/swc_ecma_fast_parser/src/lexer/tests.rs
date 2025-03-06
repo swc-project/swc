@@ -126,8 +126,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                             );
                         }
                         (None, None) => {
-                            // 둘 다 None인 경우 - 유효하지 않은 템플릿이므로
-                            // 통과
+                            // Both are None - valid for invalid templates
                         }
                         _ => {
                             panic!(
