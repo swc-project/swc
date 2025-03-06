@@ -485,7 +485,7 @@ impl<'a> Lexer<'a> {
 
     #[inline(always)]
     fn skip_line_comment(&mut self) {
-        // Fast path using find_byte
+        // Fast path using find_byte (which uses SIMD internally when available)
         if let Some(newline_pos) = self.cursor.find_byte(b'\n') {
             // Skip to the newline
             let from_cursor = newline_pos - self.cursor.position();
