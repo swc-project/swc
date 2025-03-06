@@ -67,33 +67,6 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                         actual_val
                     );
                 }
-                (
-                    TokenValue::Regex {
-                        exp: expected_exp,
-                        flags: expected_flags,
-                    },
-                    TokenValue::Regex {
-                        exp: actual_exp,
-                        flags: actual_flags,
-                    },
-                ) => {
-                    assert_eq!(
-                        expected_exp.as_ref(),
-                        actual_exp.as_ref(),
-                        "Token #{}: Expected regex expression '{}', got '{}'",
-                        i,
-                        expected_exp,
-                        actual_exp
-                    );
-                    assert_eq!(
-                        expected_flags.as_ref(),
-                        actual_flags.as_ref(),
-                        "Token #{}: Expected regex flags '{}', got '{}'",
-                        i,
-                        expected_flags,
-                        actual_flags
-                    );
-                }
                 _ => panic!(
                     "Token #{}: Value type mismatch or unsupported value comparison",
                     i
@@ -273,13 +246,11 @@ fn test_lexer_arrow_function() {
 }
 
 #[test]
-#[ignore = "Template literal currently using different token pattern than expected"]
 fn test_lexer_template_literal() {
     // JavaScript template literal with expressions
     let input = "const greeting = `Hello, ${name}! You have ${messages.length} messages.`;";
 
-    // Expected token types and values - Note: current implementation handles
-    // templates differently
+    // Expected token types and values according to ECMAScript standard
     let expected_tokens = vec![
         (TokenType::Const, None),
         (
@@ -287,13 +258,47 @@ fn test_lexer_template_literal() {
             Some(TokenValue::Word(Atom::from("greeting"))),
         ),
         (TokenType::Eq, None),
-        (TokenType::BackQuote, None),
-        // The rest of the tokens are omitted as the current implementation
-        // handles template literals differently from what was expected
+        (TokenType::BackQuote, None), // Opening backtick
+        (
+            TokenType::Template,
+            Some(TokenValue::Template {
+                raw: "Hello, ".into(),
+                cooked: Some("Hello, ".into()),
+            }),
+        ),
+        (TokenType::DollarLBrace, None), // Start of expression
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::RBrace, None), // End of expression
+        (
+            TokenType::Template,
+            Some(TokenValue::Template {
+                raw: "! You have ".into(),
+                cooked: Some("! You have ".into()),
+            }),
+        ),
+        (TokenType::DollarLBrace, None), // Start of expression
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("messages"))),
+        ),
+        (TokenType::Dot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("length"))),
+        ),
+        (TokenType::RBrace, None), // End of expression
+        (
+            TokenType::Template,
+            Some(TokenValue::Template {
+                raw: " messages.".into(),
+                cooked: Some(" messages.".into()),
+            }),
+        ),
+        (TokenType::BackQuote, None), // Closing backtick
+        (TokenType::Semi, None),
     ];
 
-    // Test is ignored because the current lexer implementation handles template
-    // literals with different token patterns than originally expected
+    verify_tokens(input, expected_tokens);
 }
 
 #[test]
