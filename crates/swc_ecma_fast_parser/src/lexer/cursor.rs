@@ -2,10 +2,11 @@
 //!
 //! This cursor operates directly on UTF-8 bytes for maximum performance.
 
+use assume::assume;
 use swc_common::BytePos;
 use wide::u8x16;
 
-use crate::util::{likely, unlikely};
+use crate::util::unlikely;
 
 /// High-performance cursor for traversing input bytes
 #[repr(C)] // Ensure predictable memory layout for better cache behavior
@@ -78,9 +79,8 @@ impl<'a> Cursor<'a> {
     /// Advance the cursor by one byte
     #[inline(always)]
     pub fn advance(&mut self) {
-        if likely(!self.is_eof()) {
-            self.pos += 1;
-        }
+        assume!(unsafe: !self.is_eof());
+        self.pos += 1;
     }
 
     /// Advance the cursor by n bytes
