@@ -335,6 +335,10 @@ impl VisitMut for DeadCodeEliminator {
                     let id = (fn_decl.ident.sym.clone(), fn_decl.ident.ctxt);
                     self.register_declaration(id, false, true);
                 }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))) => {
+                    let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
+                    self.register_declaration(id, false, false);
+                }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                     match decl {
                         Decl::Var(var) => {
@@ -440,6 +444,16 @@ impl VisitMut for DeadCodeEliminator {
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl))) => {
                     let id = (fn_decl.ident.sym.clone(), fn_decl.ident.ctxt);
+                    if let Some(var_info) = self.vars.get(&id) {
+                        if !var_info.referenced && !var_info.exported {
+                            module.body.remove(i);
+                            self.changed = true;
+                            removed = true;
+                        }
+                    }
+                }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))) => {
+                    let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
                     if let Some(var_info) = self.vars.get(&id) {
                         if !var_info.referenced && !var_info.exported {
                             module.body.remove(i);
@@ -613,6 +627,80 @@ impl VisitMut for DeadCodeEliminator {
                 expr.visit_mut_children_with(self);
             }
         }
+    }
+
+    fn visit_mut_class(&mut self, class: &mut Class) {
+        // 클래스 내부 요소 방문 전에 상태 저장
+        let old_pure = self.in_pure_context;
+        self.in_pure_context = false;
+
+        // 상속(extends) 처리
+        if let Some(parent) = &mut class.super_class {
+            // 부모 클래스도 방문해서 참조 마킹
+            if let Expr::Ident(ident) = &**parent {
+                let id = (ident.sym.clone(), ident.ctxt);
+                self.register_reference(&id);
+            }
+            parent.visit_mut_with(self);
+        }
+
+        // 클래스 내부 요소 처리
+        for member in &mut class.body {
+            match member {
+                ClassMember::Constructor(constructor) => {
+                    // 생성자 파라미터 처리 - params는 Option이 아닌 Vec 타입
+                    for param in &constructor.params {
+                        if let ParamOrTsParamProp::Param(param) = param {
+                            let ids = find_pat_ids(&param.pat);
+                            for id in ids {
+                                self.register_declaration(id, false, false);
+                            }
+                        }
+                    }
+
+                    // 생성자 본문 방문
+                    if let Some(body) = &mut constructor.body {
+                        body.visit_mut_with(self);
+                    }
+                }
+                ClassMember::Method(method) => {
+                    // 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
+                    method.function.visit_mut_with(self);
+                }
+                ClassMember::PrivateMethod(priv_method) => {
+                    // 프라이빗 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
+                    priv_method.function.visit_mut_with(self);
+                }
+                ClassMember::ClassProp(prop) => {
+                    // 프로퍼티 초기화 값 방문
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+                ClassMember::PrivateProp(priv_prop) => {
+                    // 프라이빗 프로퍼티 초기화 값 방문
+                    if let Some(value) = &mut priv_prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+                _ => {
+                    // 기타 클래스 멤버 처리
+                    member.visit_mut_children_with(self);
+                }
+            }
+        }
+
+        // 원래 상태로 복원
+        self.in_pure_context = old_pure;
+    }
+
+    fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
+        // 클래스 이름 처리
+        let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
+        self.register_declaration(id, false, false);
+
+        // 클래스 내용 방문
+        class_decl.class.visit_mut_with(self);
     }
 }
 
