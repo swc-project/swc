@@ -181,7 +181,7 @@ impl<'a> Cursor<'a> {
             let data = _mm_loadu_si128(data_ptr as *const __m128i);
 
             // Check each byte individually
-            let mut mask = 0;
+            let mut mask: u32 = 0;
             for i in 0..VECTOR_SIZE {
                 let byte = *data_ptr.add(i);
                 if !predicate(byte) {
@@ -228,7 +228,7 @@ impl<'a> Cursor<'a> {
             let data = _mm256_loadu_si256(data_ptr as *const __m256i);
 
             // Check each byte individually
-            let mut mask = 0u32;
+            let mut mask: u32 = 0;
             for i in 0..VECTOR_SIZE {
                 let byte = *data_ptr.add(i);
                 if !predicate(byte) {
