@@ -742,28 +742,28 @@ impl VisitMut for DeadCodeEliminator {
                     }
                 }
                 _ => {
-                    // 기타 클래스 멤버 처리
+                    // Process other class members
                     member.visit_mut_children_with(self);
                 }
             }
         }
 
-        // 원래 상태로 복원
+        // Restore original state
         self.in_pure_context = old_pure;
     }
 
     fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
-        // 클래스 이름 처리
+        // Process class name
         let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
         let is_new = !self.vars.contains_key(&id);
         self.register_declaration(id, false, false);
 
-        // 새로운 클래스 선언을 추가했다면 변경 사항으로 표시
+        // Mark as changed if a new class declaration is added
         if is_new {
             self.changed = true;
         }
 
-        // 클래스 내용 방문
+        // Visit class contents
         class_decl.class.visit_mut_with(self);
     }
 }
