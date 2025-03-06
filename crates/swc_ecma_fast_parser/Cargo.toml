@@ -20,6 +20,7 @@ swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 
 num-bigint = { workspace = true }
 phf        = { workspace = true, features = ["macros"] }
+wide       = { workspace = true }
 
 [dev-dependencies]
 criterion         = { workspace = true }
