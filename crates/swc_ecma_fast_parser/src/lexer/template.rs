@@ -15,7 +15,7 @@ impl Lexer<'_> {
     /// Read a template literal content
     pub(super) fn read_template_content(&mut self, had_line_break: bool) -> Result<Token> {
         let start_pos = self.start_pos;
-        let start_idx = start_pos.0 as usize;
+        let start_idx = start_pos.0;
 
         // If it starts with "${", return a DollarLBrace token
         if self.cursor.peek_at(0) == Some(b'$') && self.cursor.peek_at(1) == Some(b'{') {

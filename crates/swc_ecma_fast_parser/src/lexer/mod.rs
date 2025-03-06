@@ -502,7 +502,7 @@ impl<'a> Lexer<'a> {
     #[inline]
     fn process_whitespace_simd(&mut self) -> bool {
         // Need at least 16 bytes to use SIMD
-        if self.cursor.position() + 16 > self.cursor.rest().len() {
+        if self.cursor.position() + 16 > self.cursor.rest().len() as u32 {
             return false;
         }
 

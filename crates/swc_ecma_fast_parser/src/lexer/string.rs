@@ -167,7 +167,7 @@ impl Lexer<'_> {
         };
 
         // Extract the raw string (including quotes)
-        let raw_start = start_pos.0 as usize;
+        let raw_start = start_pos.0;
         let raw_end = self.cursor.position();
         let raw_bytes = self.cursor.slice(raw_start, raw_end);
         let raw_str = unsafe { std::str::from_utf8_unchecked(raw_bytes) };
@@ -201,7 +201,7 @@ impl Lexer<'_> {
 
     /// Find the end of a string without processing escape sequences
     #[inline]
-    fn find_string_end(&self, quote: u8) -> Option<usize> {
+    fn find_string_end(&self, quote: u8) -> Option<u32> {
         let pos = 0;
         let rest = self.cursor.rest();
 
@@ -212,18 +212,18 @@ impl Lexer<'_> {
 
     /// SIMD-accelerated implementation for finding end of string
     #[inline]
-    fn find_string_end_simd(&self, start_pos: usize, rest: &[u8], quote: u8) -> Option<usize> {
+    fn find_string_end_simd(&self, start_pos: u32, rest: &[u8], quote: u8) -> Option<u32> {
         // Safety check for small inputs - process with standard method
-        if rest.len() < 32 || start_pos >= rest.len() {
+        if rest.len() < 32 || start_pos >= rest.len() as u32 {
             return None;
         }
 
         let mut pos = start_pos;
 
         // Process in chunks of 16 bytes using SIMD
-        while pos + 16 <= rest.len() {
+        while pos + 16 <= rest.len() as u32 {
             // Load 16 bytes
-            let chunk_bytes = &rest[pos..pos + 16];
+            let chunk_bytes = &rest[pos as usize..(pos + 16) as usize];
             let mut bytes = [0u8; 16];
             bytes.copy_from_slice(chunk_bytes);
             let chunk = u8x16::new(bytes);
@@ -255,7 +255,7 @@ impl Lexer<'_> {
                 {
                     // We found a character that needs special handling
                     // Process from here using the standard algorithm
-                    return self.find_string_end_standard(pos + i, rest, quote);
+                    return self.find_string_end_standard(pos + i as u32, rest, quote);
                 }
             }
 
@@ -264,7 +264,7 @@ impl Lexer<'_> {
         }
 
         // Process remainder with standard algorithm
-        if pos < rest.len() {
+        if pos < rest.len() as u32 {
             return self.find_string_end_standard(pos, rest, quote);
         }
 
@@ -273,17 +273,17 @@ impl Lexer<'_> {
 
     /// Standard (non-SIMD) implementation of string end finding
     #[inline]
-    fn find_string_end_standard(&self, start_pos: usize, rest: &[u8], quote: u8) -> Option<usize> {
+    fn find_string_end_standard(&self, start_pos: u32, rest: &[u8], quote: u8) -> Option<u32> {
         let mut pos = start_pos;
         let mut in_escape = false;
 
         // Safety check for empty input
-        if rest.is_empty() || pos >= rest.len() {
+        if rest.is_empty() || pos >= rest.len() as u32 {
             return None;
         }
 
-        while pos < rest.len() {
-            let ch = unsafe { *rest.get_unchecked(pos) };
+        while pos < rest.len() as u32 {
+            let ch = unsafe { *rest.get_unchecked(pos as usize) };
 
             if in_escape {
                 // Skip the escaped character
@@ -297,7 +297,7 @@ impl Lexer<'_> {
                 in_escape = true;
                 pos += 1;
                 // If we're at the end after a backslash, it's unterminated
-                if pos >= rest.len() {
+                if pos >= rest.len() as u32 {
                     return None;
                 }
             } else if ch == quote {

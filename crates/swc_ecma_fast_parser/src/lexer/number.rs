@@ -40,7 +40,7 @@ impl<'a> Lexer<'a> {
     #[inline]
     pub(super) fn read_number(&mut self) -> Result<Token> {
         let start_pos = self.start_pos;
-        let start_idx = start_pos.0 as usize;
+        let start_idx = start_pos.0;
 
         // Check for leading dot (e.g. .123)
         let starts_with_dot = self.cursor.peek() == Some(b'.');
@@ -233,7 +233,7 @@ impl<'a> Lexer<'a> {
 
     /// Extract the raw string representation of a number
     #[inline]
-    fn extract_number_str(&self, start_idx: usize) -> Cow<'a, str> {
+    fn extract_number_str(&self, start_idx: u32) -> Cow<'a, str> {
         let end_idx = self.cursor.position();
         let num_slice = self.cursor.slice(start_idx, end_idx);
         // Filter out the underscore separators
@@ -253,7 +253,7 @@ impl<'a> Lexer<'a> {
 
     /// Parse a binary number (0b...)
     #[inline]
-    fn parse_binary_number(&self, start_idx: usize) -> f64 {
+    fn parse_binary_number(&self, start_idx: u32) -> f64 {
         let start = start_idx + 2; // Skip '0b'
         let end = self.cursor.position();
 
@@ -271,7 +271,7 @@ impl<'a> Lexer<'a> {
 
     /// Parse an octal number (0o...)
     #[inline]
-    fn parse_octal_number(&self, start_idx: usize) -> f64 {
+    fn parse_octal_number(&self, start_idx: u32) -> f64 {
         let start = start_idx + 2; // Skip '0o'
         let end = self.cursor.position();
 
@@ -289,7 +289,7 @@ impl<'a> Lexer<'a> {
 
     /// Parse a hexadecimal number (0x...)
     #[inline]
-    fn parse_hex_number(&self, start_idx: usize) -> f64 {
+    fn parse_hex_number(&self, start_idx: u32) -> f64 {
         let start = start_idx + 2; // Skip '0x'
         let end = self.cursor.position();
 
@@ -308,7 +308,7 @@ impl<'a> Lexer<'a> {
 
     /// Parse a decimal number
     #[inline]
-    fn parse_decimal_number(&self, start_idx: usize, _starts_with_dot: bool) -> f64 {
+    fn parse_decimal_number(&self, start_idx: u32, _starts_with_dot: bool) -> f64 {
         // For decimal numbers with possible fractional and exponent parts,
         // use the Rust standard library's parser which is highly optimized
         let raw_str = self.extract_number_str(start_idx);
@@ -317,7 +317,7 @@ impl<'a> Lexer<'a> {
 
     /// Create a BigInt token
     #[inline]
-    fn create_bigint_token(&self, start_idx: usize) -> Result<Token> {
+    fn create_bigint_token(&self, start_idx: u32) -> Result<Token> {
         use num_bigint::BigInt;
 
         let end_idx = self.cursor.position();

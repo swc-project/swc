@@ -304,11 +304,12 @@ impl Lexer<'_> {
 
     /// Read a less-than token (< or <= or << or <=)
     pub(super) fn read_less_than(&mut self) -> Result<Token> {
+        let start_pos = self.start_pos;
         self.cursor.advance(); // Skip the initial '<'
 
         // Check for JSX mode
         if self.in_jsx_element {
-            self.cursor.advance_n(usize::MAX); // Reset cursor to start position
+            self.cursor.reset_to(start_pos);
             return self.read_jsx_token(self.had_line_break.into());
         }
 

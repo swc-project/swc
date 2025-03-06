@@ -14,10 +14,10 @@ pub struct Cursor<'a> {
     input: &'a [u8],
 
     /// Current position in bytes
-    pos: usize,
+    pos: u32,
 
     /// Length of the input in bytes
-    len: usize,
+    len: u32,
 }
 
 impl<'a> Cursor<'a> {
@@ -28,14 +28,14 @@ impl<'a> Cursor<'a> {
         Self {
             input: bytes,
             pos: 0,
-            len: bytes.len(),
+            len: bytes.len() as u32,
         }
     }
 
     /// Get the current position as BytePos
     #[inline(always)]
     pub fn pos(&self) -> BytePos {
-        BytePos(self.pos as u32)
+        BytePos(self.pos)
     }
 
     /// Check if the cursor is at the end of the input
@@ -51,28 +51,28 @@ impl<'a> Cursor<'a> {
             None
         } else {
             // SAFETY: We've checked that pos < len
-            Some(unsafe { *self.input.get_unchecked(self.pos) })
+            Some(unsafe { *self.input.get_unchecked(self.pos as usize) })
         }
     }
 
     /// Peek at a byte at a specific offset from the current position
     #[inline(always)]
-    pub fn peek_at(&self, offset: usize) -> Option<u8> {
+    pub fn peek_at(&self, offset: u32) -> Option<u8> {
         let target_pos = self.pos + offset;
         if unlikely(target_pos >= self.len) {
             None
         } else {
             // SAFETY: We've checked that target_pos < len
-            Some(unsafe { *self.input.get_unchecked(target_pos) })
+            Some(unsafe { *self.input.get_unchecked(target_pos as usize) })
         }
     }
 
     /// Peek at multiple bytes without advancing
     #[inline(always)]
-    pub fn peek_n(&self, n: usize) -> &[u8] {
+    pub fn peek_n(&self, n: u32) -> &[u8] {
         let end = (self.pos + n).min(self.len);
         // SAFETY: We've ensured end <= len
-        unsafe { self.input.get_unchecked(self.pos..end) }
+        unsafe { self.input.get_unchecked(self.pos as usize..end as usize) }
     }
 
     /// Advance the cursor by one byte
@@ -85,13 +85,13 @@ impl<'a> Cursor<'a> {
 
     /// Advance the cursor by n bytes
     #[inline(always)]
-    pub fn advance_n(&mut self, n: usize) {
+    pub fn advance_n(&mut self, n: u32) {
         self.pos = (self.pos + n).min(self.len);
     }
 
     /// Advance until the predicate returns false or EOF is reached
     #[inline]
-    pub fn advance_while<F>(&mut self, mut predicate: F) -> usize
+    pub fn advance_while<F>(&mut self, mut predicate: F) -> u32
     where
         F: FnMut(u8) -> bool,
     {
@@ -108,7 +108,7 @@ impl<'a> Cursor<'a> {
     where
         F: FnMut(u8) -> bool,
     {
-        const BATCH_SIZE: usize = 32;
+        const BATCH_SIZE: u32 = 32;
 
         // Process in batches if we have more than BATCH_SIZE bytes
         while self.pos + BATCH_SIZE <= self.len {
@@ -117,7 +117,7 @@ impl<'a> Cursor<'a> {
             // Check all bytes in the batch
             for i in 0..BATCH_SIZE {
                 // SAFETY: We've verified bounds above
-                let byte = unsafe { *self.input.get_unchecked(self.pos + i) };
+                let byte = unsafe { *self.input.get_unchecked((self.pos + i) as usize) };
                 if !predicate(byte) {
                     should_stop = true;
                     break;
@@ -146,33 +146,36 @@ impl<'a> Cursor<'a> {
     #[inline(always)]
     pub fn rest(&self) -> &'a [u8] {
         // SAFETY: pos is always <= len
-        unsafe { self.input.get_unchecked(self.pos..) }
+        unsafe { self.input.get_unchecked(self.pos as usize..) }
     }
 
     /// Get a slice of the input
     #[inline(always)]
-    pub fn slice(&self, start: usize, end: usize) -> &'a [u8] {
+    pub fn slice(&self, start: u32, end: u32) -> &'a [u8] {
         let real_start = start.min(self.len);
         let real_end = end.min(self.len);
         // SAFETY: We've validated bounds
-        unsafe { self.input.get_unchecked(real_start..real_end) }
+        unsafe {
+            self.input
+                .get_unchecked(real_start as usize..real_end as usize)
+        }
     }
 
     /// Get the current position
     #[inline(always)]
-    pub fn position(&self) -> usize {
+    pub fn position(&self) -> u32 {
         self.pos
     }
 
     /// Reset the cursor to a specific position
     #[inline(always)]
     pub fn reset_to(&mut self, pos: BytePos) {
-        self.pos = pos.0 as usize;
+        self.pos = pos.0;
     }
 
     /// Find the next occurrence of a byte
     #[inline]
-    pub fn find_byte(&self, byte: u8) -> Option<usize> {
+    pub fn find_byte(&self, byte: u8) -> Option<u32> {
         // If we're at or near EOF, use the standard implementation
         if unlikely(self.pos + 16 > self.len) {
             return self.find_byte_scalar(byte);
@@ -184,18 +187,18 @@ impl<'a> Cursor<'a> {
 
     /// SIMD-accelerated implementation of find_byte
     #[inline]
-    fn find_byte_simd(&self, byte: u8) -> Option<usize> {
-        let input = &self.input[self.pos..];
-        let mut position = 0;
+    fn find_byte_simd(&self, byte: u8) -> Option<u32> {
+        let input = &self.input[self.pos as usize..];
+        let mut position = 0u32;
 
         // Process 16 bytes at a time
-        while position + 16 <= input.len() {
+        while position + 16 <= input.len() as u32 {
             // Create a vector with our pattern
             let needle = u8x16::splat(byte);
 
             // Create a vector with current chunk of data
             let mut data = [0u8; 16];
-            data.copy_from_slice(&input[position..position + 16]);
+            data.copy_from_slice(&input[position as usize..(position + 16) as usize]);
             let chunk = u8x16::new(data);
 
             // Compare for equality
@@ -208,7 +211,7 @@ impl<'a> Cursor<'a> {
             #[allow(clippy::needless_range_loop)]
             for i in 0..16 {
                 if mask_array[i] != 0 {
-                    return Some(self.pos + position + i);
+                    return Some(self.pos + position + i as u32);
                 }
             }
 
@@ -216,11 +219,11 @@ impl<'a> Cursor<'a> {
         }
 
         // Handle the remainder with the scalar implementation
-        if position < input.len() {
-            return input[position..]
+        if position < input.len() as u32 {
+            return input[position as usize..]
                 .iter()
                 .position(|&b| b == byte)
-                .map(|pos| self.pos + position + pos);
+                .map(|pos| self.pos + position + pos as u32);
         }
 
         None
@@ -228,10 +231,10 @@ impl<'a> Cursor<'a> {
 
     /// Standard fallback implementation
     #[inline]
-    fn find_byte_scalar(&self, byte: u8) -> Option<usize> {
-        self.input[self.pos..]
+    fn find_byte_scalar(&self, byte: u8) -> Option<u32> {
+        self.input[self.pos as usize..]
             .iter()
             .position(|&b| b == byte)
-            .map(|pos| self.pos + pos)
+            .map(|pos| self.pos + pos as u32)
     }
 }

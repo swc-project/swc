@@ -15,7 +15,7 @@ impl Lexer<'_> {
     /// Assumes the initial '/' has been consumed
     pub(super) fn read_regex(&mut self, had_line_break: bool) -> Result<Token> {
         let start_pos = self.start_pos;
-        let start_idx = start_pos.0 as usize;
+        let start_idx = start_pos.0;
 
         // Read the pattern
         let mut in_class = false; // Whether we're in a character class [...]

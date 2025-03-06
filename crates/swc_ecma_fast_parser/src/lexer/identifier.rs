@@ -49,7 +49,7 @@ impl Lexer<'_> {
 
         // Extract the identifier text
         let span = self.span();
-        let ident_start = start_pos.0 as usize;
+        let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
         let ident_bytes = self.cursor.slice(ident_start, ident_end);
         let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
