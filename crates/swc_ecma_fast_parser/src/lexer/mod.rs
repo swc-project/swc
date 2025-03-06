@@ -114,9 +114,9 @@ static ASCII_LOOKUP: [u8; 128] = {
     let mut i = 0;
     while i < 26 {
         table[(b'a' + i) as usize] |=
-            CHAR_ID_START | CHAR_ID_CONTINUE | CHAR_HEX_DIGIT * ((i < 6) as u8);
+            CHAR_ID_START | CHAR_ID_CONTINUE | (CHAR_HEX_DIGIT * ((i < 6) as u8));
         table[(b'A' + i) as usize] |=
-            CHAR_ID_START | CHAR_ID_CONTINUE | CHAR_HEX_DIGIT * ((i < 6) as u8);
+            CHAR_ID_START | CHAR_ID_CONTINUE | (CHAR_HEX_DIGIT * ((i < 6) as u8));
         i += 1;
     }
     table[b'_' as usize] |= CHAR_ID_START | CHAR_ID_CONTINUE;
@@ -163,27 +163,6 @@ static ASCII_LOOKUP: [u8; 128] = {
     table[b'@' as usize] |= CHAR_SPECIAL;
 
     table
-};
-
-// Fast lookup for single-character tokens - allows direct array access instead
-// of match
-static SINGLE_CHAR_TOKENS: [TokenType; 128] = {
-    let mut tokens = [TokenType::Invalid; 128];
-
-    // Initialize with invalid tokens
-    tokens[b'(' as usize] = TokenType::LParen;
-    tokens[b')' as usize] = TokenType::RParen;
-    tokens[b'{' as usize] = TokenType::LBrace;
-    tokens[b'}' as usize] = TokenType::RBrace;
-    tokens[b'[' as usize] = TokenType::LBracket;
-    tokens[b']' as usize] = TokenType::RBracket;
-    tokens[b';' as usize] = TokenType::Semi;
-    tokens[b',' as usize] = TokenType::Comma;
-    tokens[b':' as usize] = TokenType::Colon;
-    tokens[b'~' as usize] = TokenType::Tilde;
-    tokens[b'@' as usize] = TokenType::At;
-
-    tokens
 };
 
 impl<'a> Lexer<'a> {
