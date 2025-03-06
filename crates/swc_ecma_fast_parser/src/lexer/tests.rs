@@ -15,12 +15,6 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
     for (i, (expected_type, expected_value)) in expected_tokens.into_iter().enumerate() {
         let token = lexer.next_token().expect("Failed to get next token");
 
-        // Debug output
-        println!(
-            "Input: '{}', Token #{}: type={:?}, value={:?}",
-            input, i, token.token_type, token.value
-        );
-
         assert_eq!(
             token.token_type, expected_type,
             "Token #{}: Expected token type {:?}, got {:?}",
