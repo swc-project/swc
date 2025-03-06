@@ -14,6 +14,8 @@ mod operators;
 mod regex;
 mod string;
 mod template;
+#[cfg(test)]
+mod tests;
 
 use std::rc::Rc;
 
