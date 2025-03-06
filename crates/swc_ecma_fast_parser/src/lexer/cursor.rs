@@ -97,9 +97,113 @@ impl<'a> Cursor<'a> {
     {
         let start = self.pos;
 
-        self.advance_while_scalar(&mut predicate);
+        // First try with SIMD if we have enough data
+        if self.pos + 32 <= self.len {
+            self.advance_while_simd(&mut predicate);
+        }
+
+        // Fall back to scalar implementation for remainder or if SIMD wasn't used
+        if self.pos < self.len {
+            self.advance_while_scalar(&mut predicate);
+        }
 
         self.pos - start
+    }
+
+    /// SIMD-accelerated implementation of advance_while
+    #[inline]
+    fn advance_while_simd<F>(&mut self, predicate: &mut F)
+    where
+        F: FnMut(u8) -> bool,
+    {
+        const VECTOR_SIZE: usize = 16;
+
+        // Ensure we have enough data to process with SIMD
+        if self.pos + VECTOR_SIZE > self.len {
+            return;
+        }
+
+        // First, manually check a batch of bytes to determine if all match
+        // This helps us build a bitmap for bytes that satisfy the predicate
+        let mut predicate_bitmap = [0u8; 256];
+
+        // Sample the first 32 bytes and build a bitmap
+        // This avoids calling the predicate for every byte in every chunk
+        let mut sample_count = 0;
+        let end = (self.pos + 32).min(self.len);
+
+        for i in self.pos..end {
+            let byte = unsafe { *self.input.get_unchecked(i) };
+            let index = byte as usize;
+
+            // Only evaluate each byte value once
+            if predicate_bitmap[index] == 0 {
+                predicate_bitmap[index] = if predicate(byte) { 1 } else { 2 };
+                sample_count += 1;
+            }
+
+            // Once we've sampled enough different byte values, break
+            if sample_count >= 32 {
+                break;
+            }
+        }
+
+        // Process in chunks of 16 bytes
+        'outer: while self.pos + VECTOR_SIZE <= self.len {
+            // Check if the next chunk requires predicate evaluation
+            // Fast path: simply check the bitmap for each byte
+            let mut all_match = true;
+            let mut any_mismatch = false;
+
+            // Check individual bytes against bitmap first
+            for i in 0..VECTOR_SIZE {
+                let pos = self.pos + i;
+                let byte = unsafe { *self.input.get_unchecked(pos) };
+                let bitmap_val = predicate_bitmap[byte as usize];
+
+                if bitmap_val == 0 {
+                    // Undetermined yet, need to check predicate
+                    let matches = predicate(byte);
+                    predicate_bitmap[byte as usize] = if matches { 1 } else { 2 };
+
+                    if !matches {
+                        all_match = false;
+                        any_mismatch = true;
+                        break;
+                    }
+                } else if bitmap_val == 2 {
+                    // Already known to not match
+                    all_match = false;
+                    any_mismatch = true;
+                    break;
+                }
+                // If bitmap_val == 1, it matches the predicate (continue)
+            }
+
+            if any_mismatch {
+                // We found a byte that doesn't match the predicate
+                // Find exact position of first mismatch
+                for i in 0..VECTOR_SIZE {
+                    let pos = self.pos + i;
+                    let byte = unsafe { *self.input.get_unchecked(pos) };
+
+                    if predicate_bitmap[byte as usize] == 2
+                        || (predicate_bitmap[byte as usize] == 0 && !predicate(byte))
+                    {
+                        // Found the first byte that doesn't match
+                        self.pos = pos;
+                        break 'outer;
+                    }
+                }
+                // Shouldn't get here, but just in case
+                break;
+            }
+
+            if all_match {
+                // All bytes in the chunk match, move to next chunk
+                self.pos += VECTOR_SIZE;
+            }
+        }
     }
 
     /// Scalar (non-SIMD) implementation of advance_while
