@@ -225,8 +225,10 @@ impl<'a> Lexer<'a> {
     /// Get the next token
     #[inline(always)]
     pub fn next_token(&mut self) -> Result<Token> {
-        // Skip whitespaces and comments
-        self.skip_whitespace();
+        if likely(!self.in_template || self.in_template_expr) {
+            // Skip whitespaces and comments
+            self.skip_whitespace();
+        }
 
         // Remember if there were line breaks before this token
         let had_line_break = self.had_line_break;

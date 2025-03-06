@@ -31,6 +31,19 @@ impl Lexer<'_> {
             ));
         }
 
+        if self.cursor.peek() == Some(b'`') {
+            self.cursor.advance();
+            self.in_template = false;
+            self.in_template_expr = false;
+
+            return Ok(Token::new(
+                TokenType::BackQuote,
+                self.span(),
+                had_line_break,
+                TokenValue::None,
+            ));
+        }
+
         // Buffer for the processed template value (with escapes handled)
         let mut value = String::new();
 
@@ -48,9 +61,6 @@ impl Lexer<'_> {
             match self.cursor.peek() {
                 // End of template
                 Some(b'`') => {
-                    self.cursor.advance();
-                    self.in_template = false;
-                    self.in_template_expr = false;
                     break;
                 }
 
