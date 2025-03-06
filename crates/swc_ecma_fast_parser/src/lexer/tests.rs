@@ -7,7 +7,6 @@ use crate::{
 };
 
 /// Utility function to verify lexer tokens
-#[track_caller]
 fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue>)>) {
     // Create a new lexer
     let mut lexer = Lexer::new(input, JscTarget::Es2020, Syntax::default(), None);
@@ -24,7 +23,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
 
         // If an expected value is provided, verify it
         if let Some(expected_value) = expected_value {
-            match (expected_value, &token.value) {
+            match (&expected_value, &token.value) {
                 (TokenValue::Word(expected), TokenValue::Word(actual)) => {
                     assert_eq!(
                         expected.as_ref(),
@@ -45,7 +44,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     },
                 ) => {
                     assert_eq!(
-                        expected_val, *actual_val,
+                        *expected_val, *actual_val,
                         "Token #{}: Expected number {}, got {}",
                         i, expected_val, actual_val
                     );
@@ -138,8 +137,9 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     }
                 }
                 _ => panic!(
-                    "Token #{}: Value type mismatch or unsupported value comparison",
-                    i
+                    "Token #{}: Value type mismatch or unsupported value comparison\nexpected: \
+                     {:?}\nactual: {:?}\ninput: {:?}",
+                    i, expected_value, token.value, input
                 ),
             }
         }
