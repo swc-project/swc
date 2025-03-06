@@ -437,3 +437,132 @@ fn test_lexer_destructuring_assignment() {
 
     verify_tokens(input, expected_tokens);
 }
+
+#[test]
+fn test_lexer_async_await() {
+    // JavaScript async/await syntax
+    let input = "async function fetchData() { try { const response = await fetch(url); return \
+                 await response.json(); } catch (error) { console.error(error); } }";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // async function declaration
+        (TokenType::Async, None),
+        (TokenType::Function, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("fetchData"))),
+        ),
+        (TokenType::LParen, None),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        // try block
+        (TokenType::Try, None),
+        (TokenType::LBrace, None),
+        // const response = await fetch(url);
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("response"))),
+        ),
+        (TokenType::Eq, None),
+        (TokenType::Await, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("fetch"))),
+        ),
+        (TokenType::LParen, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("url")))),
+        (TokenType::RParen, None),
+        (TokenType::Semi, None),
+        // return await response.json();
+        (TokenType::Return, None),
+        (TokenType::Await, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("response"))),
+        ),
+        (TokenType::Dot, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("json")))),
+        (TokenType::LParen, None),
+        (TokenType::RParen, None),
+        (TokenType::Semi, None),
+        // end of try block
+        (TokenType::RBrace, None),
+        // catch block
+        (TokenType::Catch, None),
+        (TokenType::LParen, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("error"))),
+        ),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        // console.error(error);
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("console"))),
+        ),
+        (TokenType::Dot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("error"))),
+        ),
+        (TokenType::LParen, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("error"))),
+        ),
+        (TokenType::RParen, None),
+        (TokenType::Semi, None),
+        // end of catch block and function
+        (TokenType::RBrace, None),
+        (TokenType::RBrace, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_spread_operator() {
+    // JavaScript spread operator in function calls and array literals
+    let input = "function sum(...numbers) { return Math.max(...numbers, ...moreNumbers); }";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // Function declaration with rest parameter
+        (TokenType::Function, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("sum")))),
+        (TokenType::LParen, None),
+        (TokenType::DotDotDot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("numbers"))),
+        ),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        // Return statement with spread in function call
+        (TokenType::Return, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("Math")))),
+        (TokenType::Dot, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("max")))),
+        (TokenType::LParen, None),
+        (TokenType::DotDotDot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("numbers"))),
+        ),
+        (TokenType::Comma, None),
+        (TokenType::DotDotDot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("moreNumbers"))),
+        ),
+        (TokenType::RParen, None),
+        (TokenType::Semi, None),
+        // End of function
+        (TokenType::RBrace, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
