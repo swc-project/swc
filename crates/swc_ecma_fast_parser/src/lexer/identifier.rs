@@ -331,7 +331,8 @@ impl Lexer<'_> {
             match len {
                 // Direct lookup for 2-letter keywords
                 2 => {
-                    let word_bytes = [ident_bytes[0], ident_bytes[1]];
+                    let word_bytes =
+                        unsafe { [*ident_bytes.get_unchecked(0), *ident_bytes.get_unchecked(1)] };
                     let word_value = u16::from_be_bytes(word_bytes);
 
                     for &(keyword_value, token_type) in &KEYWORDS_LEN2 {
@@ -348,7 +349,14 @@ impl Lexer<'_> {
 
                 // Direct lookup for 3-letter keywords
                 3 => {
-                    let word_bytes = [ident_bytes[0], ident_bytes[1], ident_bytes[2], 0];
+                    let word_bytes = unsafe {
+                        [
+                            *ident_bytes.get_unchecked(0),
+                            *ident_bytes.get_unchecked(1),
+                            *ident_bytes.get_unchecked(2),
+                            0,
+                        ]
+                    };
                     let word_value = (u32::from_be_bytes(word_bytes)) >> 8;
 
                     for &(keyword_value, token_type) in &KEYWORDS_LEN3 {
@@ -365,12 +373,14 @@ impl Lexer<'_> {
 
                 // Direct lookup for 4-letter keywords
                 4 => {
-                    let word_bytes = [
-                        ident_bytes[0],
-                        ident_bytes[1],
-                        ident_bytes[2],
-                        ident_bytes[3],
-                    ];
+                    let word_bytes = unsafe {
+                        [
+                            *ident_bytes.get_unchecked(0),
+                            *ident_bytes.get_unchecked(1),
+                            *ident_bytes.get_unchecked(2),
+                            *ident_bytes.get_unchecked(3),
+                        ]
+                    };
                     let word_value = u32::from_be_bytes(word_bytes);
 
                     for &(keyword_value, token_type) in &KEYWORDS_LEN4 {
@@ -387,16 +397,18 @@ impl Lexer<'_> {
 
                 // Direct lookup for 5-letter keywords
                 5 => {
-                    let word_bytes = [
-                        ident_bytes[0],
-                        ident_bytes[1],
-                        ident_bytes[2],
-                        ident_bytes[3],
-                        ident_bytes[4],
-                        0,
-                        0,
-                        0,
-                    ];
+                    let word_bytes = unsafe {
+                        [
+                            *ident_bytes.get_unchecked(0),
+                            *ident_bytes.get_unchecked(1),
+                            *ident_bytes.get_unchecked(2),
+                            *ident_bytes.get_unchecked(3),
+                            *ident_bytes.get_unchecked(4),
+                            0,
+                            0,
+                            0,
+                        ]
+                    };
                     let word_value = (u64::from_be_bytes(word_bytes)) >> 24;
 
                     for &(keyword_value, token_type) in &KEYWORDS_LEN5 {
@@ -413,16 +425,18 @@ impl Lexer<'_> {
 
                 // Direct lookup for 6-letter keywords
                 6 => {
-                    let word_bytes = [
-                        ident_bytes[0],
-                        ident_bytes[1],
-                        ident_bytes[2],
-                        ident_bytes[3],
-                        ident_bytes[4],
-                        ident_bytes[5],
-                        0,
-                        0,
-                    ];
+                    let word_bytes = unsafe {
+                        [
+                            *ident_bytes.get_unchecked(0),
+                            *ident_bytes.get_unchecked(1),
+                            *ident_bytes.get_unchecked(2),
+                            *ident_bytes.get_unchecked(3),
+                            *ident_bytes.get_unchecked(4),
+                            *ident_bytes.get_unchecked(5),
+                            0,
+                            0,
+                        ]
+                    };
                     let word_value = (u64::from_be_bytes(word_bytes)) >> 16;
 
                     for &(keyword_value, token_type) in &KEYWORDS_LEN6 {
@@ -440,11 +454,16 @@ impl Lexer<'_> {
                 // Fast path for longer keywords using the lookup table
                 7..=16 => {
                     // Get index in KEYWORD_LOOKUP using our index table
-                    let lookup_idx = KEYWORD_INDEX[len - 1][(ident_bytes[0] - b'a') as usize];
+                    let first_char_idx = unsafe { (*ident_bytes.get_unchecked(0) - b'a') as usize };
+                    let lookup_idx = unsafe {
+                        *KEYWORD_INDEX
+                            .get_unchecked(len - 1)
+                            .get_unchecked(first_char_idx)
+                    };
 
                     if lookup_idx != 255 {
                         // Check if the word matches the entry
-                        let entry = &KEYWORD_LOOKUP[lookup_idx as usize];
+                        let entry = unsafe { KEYWORD_LOOKUP.get_unchecked(lookup_idx as usize) };
                         if entry.keyword == ident_str {
                             if let Some(token_type) = entry.token_type {
                                 return Ok(Token::new(
