@@ -4,6 +4,7 @@
 
 use swc_atoms::Atom;
 use swc_common::Span;
+use wide::u8x16;
 
 use super::Lexer;
 use crate::{
@@ -204,7 +205,70 @@ impl Lexer<'_> {
         let pos = 0;
         let rest = self.cursor.rest();
 
-        self.find_string_end_standard(pos, rest, quote)
+        // Try the SIMD implementation first, falling back to standard if needed
+        self.find_string_end_simd(pos, rest, quote)
+            .or_else(|| self.find_string_end_standard(pos, rest, quote))
+    }
+
+    /// SIMD-accelerated implementation for finding end of string
+    #[inline]
+    fn find_string_end_simd(&self, start_pos: usize, rest: &[u8], quote: u8) -> Option<usize> {
+        // Safety check for small inputs - process with standard method
+        if rest.len() < 32 || start_pos >= rest.len() {
+            return None;
+        }
+
+        let mut pos = start_pos;
+
+        // Process in chunks of 16 bytes using SIMD
+        while pos + 16 <= rest.len() {
+            // Load 16 bytes
+            let chunk_bytes = &rest[pos..pos + 16];
+            let mut bytes = [0u8; 16];
+            bytes.copy_from_slice(chunk_bytes);
+            let chunk = u8x16::new(bytes);
+
+            // Create vectors for quick comparison
+            let quote_vec = u8x16::splat(quote);
+            let backslash_vec = u8x16::splat(b'\\');
+            let newline_vec = u8x16::splat(b'\n');
+            let carriage_vec = u8x16::splat(b'\r');
+
+            // Check for presence of special characters
+            let quote_mask = chunk.cmp_eq(quote_vec);
+            let backslash_mask = chunk.cmp_eq(backslash_vec);
+            let newline_mask = chunk.cmp_eq(newline_vec);
+            let carriage_mask = chunk.cmp_eq(carriage_vec);
+
+            // Convert masks to arrays for checking
+            let quote_arr = quote_mask.to_array();
+            let backslash_arr = backslash_mask.to_array();
+            let newline_arr = newline_mask.to_array();
+            let carriage_arr = carriage_mask.to_array();
+
+            // Check for any special character that requires detailed processing
+            for i in 0..16 {
+                if quote_arr[i] != 0
+                    || backslash_arr[i] != 0
+                    || newline_arr[i] != 0
+                    || carriage_arr[i] != 0
+                {
+                    // We found a character that needs special handling
+                    // Process from here using the standard algorithm
+                    return self.find_string_end_standard(pos + i, rest, quote);
+                }
+            }
+
+            // If we get here, the chunk doesn't contain any special characters
+            pos += 16;
+        }
+
+        // Process remainder with standard algorithm
+        if pos < rest.len() {
+            return self.find_string_end_standard(pos, rest, quote);
+        }
+
+        None
     }
 
     /// Standard (non-SIMD) implementation of string end finding
