@@ -1,11 +1,8 @@
-use std::rc::Rc;
-
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
 
 use crate::{
     lexer::Lexer,
-    token::{Token, TokenType, TokenValue},
+    token::{TokenType, TokenValue},
     JscTarget, Syntax,
 };
 
