@@ -35,179 +35,167 @@ static IDENT_CHAR: [u8; 128] = {
     table
 };
 
-/// Direct keyword lookup table for common keywords
+/// Direct lookup tables for common 2-6 letter keywords
+/// These give a huge performance benefit by allowing direct match without any
+/// loops Each table is specific to a keyword length for maximum performance
+// 2-letter keywords (do, if, in, of)
+static KEYWORDS_LEN2: [(u16, TokenType); 4] = [
+    (u16::from_be_bytes(*b"do"), TokenType::Do),
+    (u16::from_be_bytes(*b"if"), TokenType::If),
+    (u16::from_be_bytes(*b"in"), TokenType::In),
+    (u16::from_be_bytes(*b"of"), TokenType::Of),
+];
+
+// 3-letter keywords (for, let, new, try, var)
+static KEYWORDS_LEN3: [(u32, TokenType); 5] = [
+    (
+        (u32::from_be_bytes([0, 0, 0, 0]) | u32::from_be_bytes(*b"for\0")) >> 8,
+        TokenType::For,
+    ),
+    (
+        (u32::from_be_bytes([0, 0, 0, 0]) | u32::from_be_bytes(*b"let\0")) >> 8,
+        TokenType::Let,
+    ),
+    (
+        (u32::from_be_bytes([0, 0, 0, 0]) | u32::from_be_bytes(*b"new\0")) >> 8,
+        TokenType::New,
+    ),
+    (
+        (u32::from_be_bytes([0, 0, 0, 0]) | u32::from_be_bytes(*b"try\0")) >> 8,
+        TokenType::Try,
+    ),
+    (
+        (u32::from_be_bytes([0, 0, 0, 0]) | u32::from_be_bytes(*b"var\0")) >> 8,
+        TokenType::Var,
+    ),
+];
+
+// 4-letter keywords (case, else, this, true, null, void, with)
+static KEYWORDS_LEN4: [(u32, TokenType); 7] = [
+    (u32::from_be_bytes(*b"case"), TokenType::Case),
+    (u32::from_be_bytes(*b"else"), TokenType::Else),
+    (u32::from_be_bytes(*b"null"), TokenType::Null),
+    (u32::from_be_bytes(*b"this"), TokenType::This),
+    (u32::from_be_bytes(*b"true"), TokenType::True),
+    (u32::from_be_bytes(*b"void"), TokenType::Void),
+    (u32::from_be_bytes(*b"with"), TokenType::With),
+];
+
+// 5-letter keywords (async, await, break, class, const, false, super, throw,
+// while, yield)
+static KEYWORDS_LEN5: [(u64, TokenType); 10] = [
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"async\0\0\0")) >> 24,
+        TokenType::Async,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"await\0\0\0")) >> 24,
+        TokenType::Await,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"break\0\0\0")) >> 24,
+        TokenType::Break,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"class\0\0\0")) >> 24,
+        TokenType::Class,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"const\0\0\0")) >> 24,
+        TokenType::Const,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"false\0\0\0")) >> 24,
+        TokenType::False,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"super\0\0\0")) >> 24,
+        TokenType::Super,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"throw\0\0\0")) >> 24,
+        TokenType::Throw,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"while\0\0\0")) >> 24,
+        TokenType::While,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"yield\0\0\0")) >> 24,
+        TokenType::Yield,
+    ),
+];
+
+// 6-letter keywords (delete, export, import, return, static, switch, typeof)
+static KEYWORDS_LEN6: [(u64, TokenType); 7] = [
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"delete\0\0")) >> 16,
+        TokenType::Delete,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"export\0\0")) >> 16,
+        TokenType::Export,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"import\0\0")) >> 16,
+        TokenType::Import,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"return\0\0")) >> 16,
+        TokenType::Return,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"static\0\0")) >> 16,
+        TokenType::Static,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"switch\0\0")) >> 16,
+        TokenType::Switch,
+    ),
+    (
+        (u64::from_be_bytes([0, 0, 0, 0, 0, 0, 0, 0]) | u64::from_be_bytes(*b"typeof\0\0")) >> 16,
+        TokenType::TypeOf,
+    ),
+];
+
+/// Direct keyword lookup table for longer keywords
 /// This allows for much faster keyword checks without going through the PHF map
 /// Each entry contains the keyword and its corresponding TokenType (or None if
 /// not a keyword)
-///
-/// Format: (keyword, Some(token_type)) or (keyword, None)
-/// For performance reasons, we only include keywords we expect to be common
 struct KeywordEntry {
     keyword: &'static str,
     token_type: Option<TokenType>,
 }
 
-static KEYWORD_LOOKUP: [KeywordEntry; 46] = [
-    // Most common keywords first
+static KEYWORD_LOOKUP: [KeywordEntry; 25] = [
+    // Common longer keywords (length > 6)
     KeywordEntry {
         keyword: "function",
         token_type: Some(TokenType::Function),
-    },
-    KeywordEntry {
-        keyword: "return",
-        token_type: Some(TokenType::Return),
-    },
-    KeywordEntry {
-        keyword: "const",
-        token_type: Some(TokenType::Const),
-    },
-    KeywordEntry {
-        keyword: "let",
-        token_type: Some(TokenType::Let),
-    },
-    KeywordEntry {
-        keyword: "var",
-        token_type: Some(TokenType::Var),
-    },
-    KeywordEntry {
-        keyword: "if",
-        token_type: Some(TokenType::If),
-    },
-    KeywordEntry {
-        keyword: "else",
-        token_type: Some(TokenType::Else),
-    },
-    KeywordEntry {
-        keyword: "for",
-        token_type: Some(TokenType::For),
-    },
-    KeywordEntry {
-        keyword: "while",
-        token_type: Some(TokenType::While),
-    },
-    KeywordEntry {
-        keyword: "class",
-        token_type: Some(TokenType::Class),
-    },
-    KeywordEntry {
-        keyword: "import",
-        token_type: Some(TokenType::Import),
-    },
-    KeywordEntry {
-        keyword: "export",
-        token_type: Some(TokenType::Export),
-    },
-    KeywordEntry {
-        keyword: "true",
-        token_type: Some(TokenType::True),
-    },
-    KeywordEntry {
-        keyword: "false",
-        token_type: Some(TokenType::False),
-    },
-    KeywordEntry {
-        keyword: "null",
-        token_type: Some(TokenType::Null),
-    },
-    KeywordEntry {
-        keyword: "this",
-        token_type: Some(TokenType::This),
-    },
-    KeywordEntry {
-        keyword: "new",
-        token_type: Some(TokenType::New),
-    },
-    KeywordEntry {
-        keyword: "try",
-        token_type: Some(TokenType::Try),
-    },
-    KeywordEntry {
-        keyword: "catch",
-        token_type: Some(TokenType::Catch),
-    },
-    KeywordEntry {
-        keyword: "finally",
-        token_type: Some(TokenType::Finally),
-    },
-    KeywordEntry {
-        keyword: "throw",
-        token_type: Some(TokenType::Throw),
-    },
-    KeywordEntry {
-        keyword: "break",
-        token_type: Some(TokenType::Break),
     },
     KeywordEntry {
         keyword: "continue",
         token_type: Some(TokenType::Continue),
     },
     KeywordEntry {
-        keyword: "switch",
-        token_type: Some(TokenType::Switch),
-    },
-    KeywordEntry {
-        keyword: "case",
-        token_type: Some(TokenType::Case),
+        keyword: "debugger",
+        token_type: Some(TokenType::Debugger),
     },
     KeywordEntry {
         keyword: "default",
         token_type: Some(TokenType::Default),
     },
     KeywordEntry {
-        keyword: "typeof",
-        token_type: Some(TokenType::TypeOf),
-    },
-    KeywordEntry {
-        keyword: "instanceof",
-        token_type: Some(TokenType::InstanceOf),
-    },
-    KeywordEntry {
-        keyword: "in",
-        token_type: Some(TokenType::In),
-    },
-    KeywordEntry {
-        keyword: "do",
-        token_type: Some(TokenType::Do),
-    },
-    KeywordEntry {
-        keyword: "void",
-        token_type: Some(TokenType::Void),
-    },
-    KeywordEntry {
-        keyword: "await",
-        token_type: Some(TokenType::Await),
-    },
-    KeywordEntry {
-        keyword: "yield",
-        token_type: Some(TokenType::Yield),
-    },
-    KeywordEntry {
-        keyword: "async",
-        token_type: Some(TokenType::Async),
-    },
-    KeywordEntry {
-        keyword: "of",
-        token_type: Some(TokenType::Of),
+        keyword: "finally",
+        token_type: Some(TokenType::Finally),
     },
     KeywordEntry {
         keyword: "extends",
         token_type: Some(TokenType::Extends),
     },
     KeywordEntry {
-        keyword: "super",
-        token_type: Some(TokenType::Super),
-    },
-    KeywordEntry {
-        keyword: "delete",
-        token_type: Some(TokenType::Delete),
-    },
-    KeywordEntry {
-        keyword: "debugger",
-        token_type: Some(TokenType::Debugger),
-    },
-    KeywordEntry {
-        keyword: "with",
-        token_type: Some(TokenType::With),
+        keyword: "catch",
+        token_type: Some(TokenType::Catch),
     },
     // TypeScript-specific common keywords
     KeywordEntry {
@@ -231,8 +219,56 @@ static KEYWORD_LOOKUP: [KeywordEntry; 46] = [
         token_type: Some(TokenType::Protected),
     },
     KeywordEntry {
-        keyword: "static",
-        token_type: Some(TokenType::Static),
+        keyword: "abstract",
+        token_type: Some(TokenType::Abstract),
+    },
+    KeywordEntry {
+        keyword: "implements",
+        token_type: Some(TokenType::Implements),
+    },
+    KeywordEntry {
+        keyword: "readonly",
+        token_type: Some(TokenType::Readonly),
+    },
+    KeywordEntry {
+        keyword: "namespace",
+        token_type: Some(TokenType::Namespace),
+    },
+    KeywordEntry {
+        keyword: "declare",
+        token_type: Some(TokenType::Declare),
+    },
+    KeywordEntry {
+        keyword: "keyof",
+        token_type: Some(TokenType::Keyof),
+    },
+    KeywordEntry {
+        keyword: "enum",
+        token_type: Some(TokenType::Enum),
+    },
+    KeywordEntry {
+        keyword: "instanceof",
+        token_type: Some(TokenType::InstanceOf),
+    },
+    KeywordEntry {
+        keyword: "constructor",
+        token_type: Some(TokenType::Constructor),
+    },
+    KeywordEntry {
+        keyword: "undefined",
+        token_type: Some(TokenType::Undefined),
+    },
+    KeywordEntry {
+        keyword: "boolean",
+        token_type: Some(TokenType::Boolean),
+    },
+    KeywordEntry {
+        keyword: "number",
+        token_type: Some(TokenType::Number),
+    },
+    KeywordEntry {
+        keyword: "string",
+        token_type: Some(TokenType::String),
     },
 ];
 
@@ -286,19 +322,20 @@ impl Lexer<'_> {
         let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
         let had_line_break_bool: bool = self.had_line_break.into();
 
-        // Fast path for keyword checking using direct lookup tables
+        // Ultra-fast path for common 2-6 letter keywords using direct table lookup
         let len = ident_bytes.len();
-        if len > 0 && len <= 16 {
-            let first_byte = ident_bytes[0];
-            if first_byte >= b'a' && first_byte <= b'z' {
-                // Get index in KEYWORD_LOOKUP using our index table
-                let lookup_idx = KEYWORD_INDEX[len - 1][(first_byte - b'a') as usize];
 
-                if lookup_idx != 255 {
-                    // Check if the word matches the entry
-                    let entry = &KEYWORD_LOOKUP[lookup_idx as usize];
-                    if entry.keyword == ident_str {
-                        if let Some(token_type) = entry.token_type {
+        // Only process if first byte is an ASCII lowercase letter (all keywords start
+        // with a-z)
+        if len > 0 && ident_bytes[0] >= b'a' && ident_bytes[0] <= b'z' {
+            match len {
+                // Direct lookup for 2-letter keywords
+                2 => {
+                    let word_bytes = [ident_bytes[0], ident_bytes[1]];
+                    let word_value = u16::from_be_bytes(word_bytes);
+
+                    for &(keyword_value, token_type) in &KEYWORDS_LEN2 {
+                        if word_value == keyword_value {
                             return Ok(Token::new(
                                 token_type,
                                 span,
@@ -308,11 +345,125 @@ impl Lexer<'_> {
                         }
                     }
                 }
+
+                // Direct lookup for 3-letter keywords
+                3 => {
+                    let word_bytes = [ident_bytes[0], ident_bytes[1], ident_bytes[2], 0];
+                    let word_value = (u32::from_be_bytes(word_bytes)) >> 8;
+
+                    for &(keyword_value, token_type) in &KEYWORDS_LEN3 {
+                        if word_value == keyword_value {
+                            return Ok(Token::new(
+                                token_type,
+                                span,
+                                had_line_break_bool,
+                                TokenValue::None,
+                            ));
+                        }
+                    }
+                }
+
+                // Direct lookup for 4-letter keywords
+                4 => {
+                    let word_bytes = [
+                        ident_bytes[0],
+                        ident_bytes[1],
+                        ident_bytes[2],
+                        ident_bytes[3],
+                    ];
+                    let word_value = u32::from_be_bytes(word_bytes);
+
+                    for &(keyword_value, token_type) in &KEYWORDS_LEN4 {
+                        if word_value == keyword_value {
+                            return Ok(Token::new(
+                                token_type,
+                                span,
+                                had_line_break_bool,
+                                TokenValue::None,
+                            ));
+                        }
+                    }
+                }
+
+                // Direct lookup for 5-letter keywords
+                5 => {
+                    let word_bytes = [
+                        ident_bytes[0],
+                        ident_bytes[1],
+                        ident_bytes[2],
+                        ident_bytes[3],
+                        ident_bytes[4],
+                        0,
+                        0,
+                        0,
+                    ];
+                    let word_value = (u64::from_be_bytes(word_bytes)) >> 24;
+
+                    for &(keyword_value, token_type) in &KEYWORDS_LEN5 {
+                        if word_value == keyword_value {
+                            return Ok(Token::new(
+                                token_type,
+                                span,
+                                had_line_break_bool,
+                                TokenValue::None,
+                            ));
+                        }
+                    }
+                }
+
+                // Direct lookup for 6-letter keywords
+                6 => {
+                    let word_bytes = [
+                        ident_bytes[0],
+                        ident_bytes[1],
+                        ident_bytes[2],
+                        ident_bytes[3],
+                        ident_bytes[4],
+                        ident_bytes[5],
+                        0,
+                        0,
+                    ];
+                    let word_value = (u64::from_be_bytes(word_bytes)) >> 16;
+
+                    for &(keyword_value, token_type) in &KEYWORDS_LEN6 {
+                        if word_value == keyword_value {
+                            return Ok(Token::new(
+                                token_type,
+                                span,
+                                had_line_break_bool,
+                                TokenValue::None,
+                            ));
+                        }
+                    }
+                }
+
+                // Fast path for longer keywords using the lookup table
+                7..=16 => {
+                    // Get index in KEYWORD_LOOKUP using our index table
+                    let lookup_idx = KEYWORD_INDEX[len - 1][(ident_bytes[0] - b'a') as usize];
+
+                    if lookup_idx != 255 {
+                        // Check if the word matches the entry
+                        let entry = &KEYWORD_LOOKUP[lookup_idx as usize];
+                        if entry.keyword == ident_str {
+                            if let Some(token_type) = entry.token_type {
+                                return Ok(Token::new(
+                                    token_type,
+                                    span,
+                                    had_line_break_bool,
+                                    TokenValue::None,
+                                ));
+                            }
+                        }
+                    }
+                }
+
+                _ => {}
             }
         }
 
-        // Slow path: Check in the PHF map if this is a keyword
-        // Only runs for potential keywords not in our direct lookup table
+        // Fallback path: Check in the PHF map if this is a keyword
+        // Only runs for potential keywords not in our direct lookup tables
         if let Some(token_type) = keyword_to_token_type(ident_str) {
             return Ok(Token::new(
                 token_type,
