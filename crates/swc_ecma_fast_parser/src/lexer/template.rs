@@ -29,6 +29,9 @@ impl Lexer<'_> {
         // Flag to indicate if the template was invalid
         let mut is_invalid = false;
 
+        // Flag to indicate if we found a "${" sequence
+        let mut found_dollar_brace = false;
+
         // Read until the closing backtick or ${
         loop {
             match self.cursor.peek() {
@@ -41,8 +44,9 @@ impl Lexer<'_> {
                 // Start of template expression
                 Some(b'$') => {
                     if self.cursor.peek_at(1) == Some(b'{') {
-                        self.cursor.advance_n(2);
-                        self.in_template = true;
+                        // We found a "${" - mark the flag and break the loop
+                        found_dollar_brace = true;
+                        // Don't consume the characters yet
                         break;
                     } else {
                         // Just a regular $ character
@@ -230,7 +234,24 @@ impl Lexer<'_> {
 
         let span = self.span();
 
-        // Determine the token type
+        // If we found a "${", return the appropriate token
+        if found_dollar_brace {
+            // Move past the "${" sequence
+            self.cursor.advance_n(2);
+
+            // Set the in_template flag to true
+            self.in_template = true;
+
+            // Return a DollarLBrace token
+            return Ok(Token::new(
+                TokenType::DollarLBrace,
+                span,
+                had_line_break,
+                TokenValue::None,
+            ));
+        }
+
+        // Determine the token type for a regular template
         Ok(Token::new(
             TokenType::Template,
             span,
