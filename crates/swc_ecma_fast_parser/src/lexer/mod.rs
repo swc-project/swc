@@ -263,7 +263,7 @@ impl<'a> Lexer<'a> {
     #[inline(always)]
     fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<Token> {
         if unlikely(self.in_template) {
-            return self.read_template(had_line_break);
+            return self.read_template_content(had_line_break);
         }
 
         // Fast path for ASCII tokens using lookup table

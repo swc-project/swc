@@ -12,13 +12,10 @@ use crate::{
 };
 
 impl Lexer<'_> {
-    /// Read a template literal
-    pub(super) fn read_template(&mut self, had_line_break: bool) -> Result<Token> {
+    /// Read a template literal content
+    pub(super) fn read_template_content(&mut self, had_line_break: bool) -> Result<Token> {
         let start_pos = self.start_pos;
         let start_idx = start_pos.0 as usize;
-
-        // Skip the opening backtick
-        self.cursor.advance();
 
         // Buffer for the processed template value (with escapes handled)
         let mut value = String::new();
@@ -236,15 +233,12 @@ impl Lexer<'_> {
 
         // If we found a "${", return the appropriate token
         if found_dollar_brace {
-            // Move past the "${" sequence
-            self.cursor.advance_n(2);
+            // Set the in_template flag to false
+            self.in_template = false;
 
-            // Set the in_template flag to true
-            self.in_template = true;
-
-            // Return a DollarLBrace token
+            // Return a Template token
             return Ok(Token::new(
-                TokenType::DollarLBrace,
+                TokenType::Template,
                 span,
                 had_line_break,
                 TokenValue::None,
