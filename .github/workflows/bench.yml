@@ -38,8 +38,8 @@ jobs:
         id: list-crates
         run: echo "crates=$(./scripts/bench/list-crates-with-bench.sh)" >> $GITHUB_OUTPUT
 
-  build-crate:
-    name: Build benchmark for ${{ matrix.crate }}
+  benchmark-crate:
+    name: Benchmark ${{ matrix.crate }}
     runs-on: ubuntu-22.04
     needs: list-crates
     strategy:
@@ -68,47 +68,6 @@ jobs:
 
       - name: Build the benchmark target(s)
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
-
-      - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: bench-${{ matrix.crate }}
-          path: target/codspeed
-
-  bench-all:
-    name: Run benchmarks
-    needs: build-crate
-    runs-on:
-      - self-hosted
-      - linux
-      - x64
-    if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-
-      - name: Install cargo-codspeed
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-codspeed@2.7.2
-
-      - run: mkdir -p target/codspeed
-
-      - name: Download built artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: bench-*
-          path: target/codspeed
-          merge-multiple: true
-
-      - run: ls -alR target/codspeed
-
-      - run: chmod -R +x target/codspeed/*
 
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@v3
