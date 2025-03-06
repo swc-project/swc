@@ -1176,3 +1176,24 @@ pub fn keyword_to_token_type(word: &str) -> Option<TokenType> {
         _ => None,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_keyword_to_token_type() {
+        assert_eq!(keyword_to_token_type("const"), Some(TokenType::Const));
+        assert_eq!(keyword_to_token_type("function"), Some(TokenType::Function));
+        assert_eq!(keyword_to_token_type("class"), Some(TokenType::Class));
+        assert_eq!(keyword_to_token_type("async"), Some(TokenType::Async));
+        assert_eq!(keyword_to_token_type("export"), Some(TokenType::Export));
+        assert_eq!(keyword_to_token_type("for"), Some(TokenType::For));
+        assert_eq!(keyword_to_token_type("import"), Some(TokenType::Import));
+        assert_eq!(keyword_to_token_type("return"), Some(TokenType::Return));
+
+        // Non-keywords should return None
+        assert_eq!(keyword_to_token_type("notakeyword"), None);
+        assert_eq!(keyword_to_token_type("const1"), None);
+    }
+}
