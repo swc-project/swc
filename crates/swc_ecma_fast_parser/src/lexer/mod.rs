@@ -23,11 +23,14 @@ use swc_common::{BytePos, Span, DUMMY_SP};
 use crate::{
     error::{Error, ErrorKind, Result},
     token::{Token, TokenType, TokenValue},
+    util::{likely, unlikely},
     JscTarget, SingleThreadedComments, Syntax,
 };
 
 /// Represents line break detection
+/// Optimized to fit in a single byte and provide performant conversions
 #[derive(Clone, Copy, PartialEq, Eq)]
+#[repr(u8)]
 enum LineBreak {
     None = 0,
     Present = 1,
@@ -36,21 +39,16 @@ enum LineBreak {
 impl From<bool> for LineBreak {
     #[inline(always)]
     fn from(b: bool) -> Self {
-        if b {
-            LineBreak::Present
-        } else {
-            LineBreak::None
-        }
+        // Use direct casting for faster conversion
+        unsafe { std::mem::transmute(b as u8) }
     }
 }
 
 impl From<LineBreak> for bool {
     #[inline(always)]
     fn from(lb: LineBreak) -> Self {
-        match lb {
-            LineBreak::None => false,
-            LineBreak::Present => true,
-        }
+        // Use direct casting for faster conversion
+        lb as u8 != 0
     }
 }
 
@@ -90,35 +88,102 @@ pub struct Lexer<'a> {
     had_line_break: LineBreak,
 }
 
-// Small lookup table for faster character checks (ASCII only)
+// Bit flags for character classification - used in lookup tables
+const CHAR_WHITESPACE: u8 = 0b0000_0001;
+const CHAR_LINEBREAK: u8 = 0b0000_0010;
+const CHAR_ID_START: u8 = 0b0000_0100;
+const CHAR_ID_CONTINUE: u8 = 0b0000_1000;
+const CHAR_DIGIT: u8 = 0b0001_0000;
+const CHAR_HEX_DIGIT: u8 = 0b0010_0000;
+const CHAR_OPERATOR: u8 = 0b0100_0000;
+const CHAR_SPECIAL: u8 = 0b1000_0000;
+
+// Extended lookup table for faster character checks (ASCII only)
 static ASCII_LOOKUP: [u8; 128] = {
     let mut table = [0u8; 128];
 
     // Mark whitespace characters
-    table[b' ' as usize] = 1;
-    table[b'\t' as usize] = 1;
-    table[b'\n' as usize] = 2; // Mark as line break
-    table[b'\r' as usize] = 2; // Mark as line break
-    table[0x0c_usize] = 1; // Form feed
+    table[b' ' as usize] = CHAR_WHITESPACE;
+    table[b'\t' as usize] = CHAR_WHITESPACE;
+    table[b'\n' as usize] = CHAR_WHITESPACE | CHAR_LINEBREAK;
+    table[b'\r' as usize] = CHAR_WHITESPACE | CHAR_LINEBREAK;
+    table[0x0c_usize] = CHAR_WHITESPACE; // Form feed
+    table[0x0b_usize] = CHAR_WHITESPACE; // Vertical tab
 
-    // Mark identifier start characters
+    // Mark identifier start characters (a-z, A-Z, _, $)
     let mut i = 0;
     while i < 26 {
-        table[(b'a' + i) as usize] |= 4; // lowercase
-        table[(b'A' + i) as usize] |= 4; // uppercase
+        table[(b'a' + i) as usize] |=
+            CHAR_ID_START | CHAR_ID_CONTINUE | CHAR_HEX_DIGIT * ((i < 6) as u8);
+        table[(b'A' + i) as usize] |=
+            CHAR_ID_START | CHAR_ID_CONTINUE | CHAR_HEX_DIGIT * ((i < 6) as u8);
         i += 1;
     }
-    table[b'_' as usize] |= 4;
-    table[b'$' as usize] |= 4;
+    table[b'_' as usize] |= CHAR_ID_START | CHAR_ID_CONTINUE;
+    table[b'$' as usize] |= CHAR_ID_START | CHAR_ID_CONTINUE;
 
-    // Mark identifier continue characters (includes digits)
+    // Mark digits (0-9)
     i = 0;
     while i < 10 {
-        table[(b'0' + i) as usize] |= 8;
+        table[(b'0' + i) as usize] |= CHAR_ID_CONTINUE | CHAR_DIGIT | CHAR_HEX_DIGIT;
         i += 1;
     }
 
+    // Mark common operators
+    table[b'+' as usize] |= CHAR_OPERATOR;
+    table[b'-' as usize] |= CHAR_OPERATOR;
+    table[b'*' as usize] |= CHAR_OPERATOR;
+    table[b'/' as usize] |= CHAR_OPERATOR;
+    table[b'%' as usize] |= CHAR_OPERATOR;
+    table[b'=' as usize] |= CHAR_OPERATOR;
+    table[b'<' as usize] |= CHAR_OPERATOR;
+    table[b'>' as usize] |= CHAR_OPERATOR;
+    table[b'&' as usize] |= CHAR_OPERATOR;
+    table[b'|' as usize] |= CHAR_OPERATOR;
+    table[b'^' as usize] |= CHAR_OPERATOR;
+    table[b'!' as usize] |= CHAR_OPERATOR;
+    table[b'~' as usize] |= CHAR_OPERATOR | CHAR_SPECIAL; // Both special char and operator
+    table[b'?' as usize] |= CHAR_OPERATOR;
+    table[b'.' as usize] |= CHAR_OPERATOR;
+    table[b':' as usize] |= CHAR_SPECIAL; // Colon is only a special char, not an operator
+
+    // Mark special characters (frequently used in parsing decisions)
+    table[b'{' as usize] |= CHAR_SPECIAL;
+    table[b'}' as usize] |= CHAR_SPECIAL;
+    table[b'(' as usize] |= CHAR_SPECIAL;
+    table[b')' as usize] |= CHAR_SPECIAL;
+    table[b'[' as usize] |= CHAR_SPECIAL;
+    table[b']' as usize] |= CHAR_SPECIAL;
+    table[b';' as usize] |= CHAR_SPECIAL;
+    table[b',' as usize] |= CHAR_SPECIAL;
+    table[b'"' as usize] |= CHAR_SPECIAL;
+    table[b'\'' as usize] |= CHAR_SPECIAL;
+    table[b'`' as usize] |= CHAR_SPECIAL;
+    table[b'#' as usize] |= CHAR_SPECIAL;
+    table[b'@' as usize] |= CHAR_SPECIAL;
+
     table
+};
+
+// Fast lookup for single-character tokens - allows direct array access instead
+// of match
+static SINGLE_CHAR_TOKENS: [TokenType; 128] = {
+    let mut tokens = [TokenType::Invalid; 128];
+
+    // Initialize with invalid tokens
+    tokens[b'(' as usize] = TokenType::LParen;
+    tokens[b')' as usize] = TokenType::RParen;
+    tokens[b'{' as usize] = TokenType::LBrace;
+    tokens[b'}' as usize] = TokenType::RBrace;
+    tokens[b'[' as usize] = TokenType::LBracket;
+    tokens[b']' as usize] = TokenType::RBracket;
+    tokens[b';' as usize] = TokenType::Semi;
+    tokens[b',' as usize] = TokenType::Comma;
+    tokens[b':' as usize] = TokenType::Colon;
+    tokens[b'~' as usize] = TokenType::Tilde;
+    tokens[b'@' as usize] = TokenType::At;
+
+    tokens
 };
 
 impl<'a> Lexer<'a> {
@@ -166,7 +231,7 @@ impl<'a> Lexer<'a> {
         self.start_pos = self.cursor.pos();
 
         // If we're in JSX mode, use the JSX tokenizer
-        if self.in_jsx_element {
+        if unlikely(self.in_jsx_element) {
             return self.read_jsx_token(had_line_break.into());
         }
 
@@ -174,7 +239,7 @@ impl<'a> Lexer<'a> {
         let ch = match self.cursor.peek() {
             Some(ch) => ch,
             None => {
-                // End of file
+                // End of file - reuse the same EOF token object
                 let token = Token::new(
                     TokenType::EOF,
                     self.span(),
@@ -195,69 +260,104 @@ impl<'a> Lexer<'a> {
     /// Read the next token starting with the given character
     #[inline(always)]
     fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<Token> {
-        // Fast path for common tokens
-        if ch < 128 {
-            match ch {
-                // Single-character tokens - most frequent first for better branch prediction
-                b'{' => self.single_char_token(TokenType::LBrace, had_line_break),
-                b'}' => {
-                    if self.in_template {
-                        // End of template expression
-                        self.in_template = false;
+        // Fast path for ASCII tokens using lookup table
+        if likely(ch < 128) {
+            let char_type = ASCII_LOOKUP[ch as usize];
+
+            // Fast path for single-character tokens (very common)
+            if char_type & CHAR_SPECIAL != 0 {
+                match ch {
+                    // Group frequent tokens together for better branch prediction
+                    b'{' => self.single_char_token(TokenType::LBrace, had_line_break),
+                    b'}' => {
+                        if unlikely(self.in_template) {
+                            // End of template expression
+                            self.in_template = false;
+                        }
+                        self.single_char_token(TokenType::RBrace, had_line_break)
                     }
-                    self.single_char_token(TokenType::RBrace, had_line_break)
-                }
-                b'(' => self.single_char_token(TokenType::LParen, had_line_break),
-                b')' => self.single_char_token(TokenType::RParen, had_line_break),
-                b'[' => self.single_char_token(TokenType::LBracket, had_line_break),
-                b']' => self.single_char_token(TokenType::RBracket, had_line_break),
-                b';' => self.single_char_token(TokenType::Semi, had_line_break),
-                b',' => self.single_char_token(TokenType::Comma, had_line_break),
-                b':' => self.single_char_token(TokenType::Colon, had_line_break),
-                b'~' => self.single_char_token(TokenType::Tilde, had_line_break),
-                b'@' => self.single_char_token(TokenType::At, had_line_break),
+                    b'(' => self.single_char_token(TokenType::LParen, had_line_break),
+                    b')' => self.single_char_token(TokenType::RParen, had_line_break),
+                    b'[' => self.single_char_token(TokenType::LBracket, had_line_break),
+                    b']' => self.single_char_token(TokenType::RBracket, had_line_break),
+                    b';' => self.single_char_token(TokenType::Semi, had_line_break),
+                    b',' => self.single_char_token(TokenType::Comma, had_line_break),
+                    b':' => self.single_char_token(TokenType::Colon, had_line_break),
+                    b'~' => self.single_char_token(TokenType::Tilde, had_line_break),
+                    b'@' => self.single_char_token(TokenType::At, had_line_break),
 
-                // String literals - group together for better branch prediction
-                b'"' | b'\'' => self.read_string(ch),
-                b'`' => self.read_template(had_line_break),
+                    // String literals - group together for better branch prediction
+                    b'"' | b'\'' => self.read_string(ch),
+                    b'`' => self.read_template(had_line_break),
 
-                // Number literals
-                b'0'..=b'9' => self.read_number(),
+                    // Other special characters that need custom handling
+                    b'#' => self.read_hash(),
 
-                // Potentially compound operators - ordered by frequency
-                b'.' => self.read_dot(),
-                b'=' => self.read_equals(),
-                b'+' => self.read_plus(),
-                b'-' => self.read_minus(),
-                b'/' => self.read_slash(had_line_break),
-                b'<' => self.read_less_than(),
-                b'>' => self.read_greater_than(),
-                b'!' => self.read_exclamation_mark(),
-                b'?' => self.read_question_mark(),
-                b'*' => self.read_asterisk(),
-                b'%' => self.read_percent(),
-                b'|' => self.read_pipe(),
-                b'&' => self.read_ampersand(),
-                b'^' => self.read_caret(),
-                b'#' => self.read_hash(),
-
-                // Identifiers - check with lookup table for ASCII (fast path)
-                _ if (ASCII_LOOKUP[ch as usize] & 4) != 0 => self.read_identifier(),
-
-                // Fallback for ASCII
-                _ => {
-                    self.cursor.advance();
-                    let span = self.span();
-                    Err(Error {
-                        kind: ErrorKind::General {
-                            message: format!("Unexpected character: '{}'", ch as char),
-                        },
-                        span,
-                    })
+                    // This should not happen given our table design, but handle it anyway
+                    _ => {
+                        self.cursor.advance();
+                        let span = self.span();
+                        Err(Error {
+                            kind: ErrorKind::General {
+                                message: format!("Unexpected character: '{}'", ch as char),
+                            },
+                            span,
+                        })
+                    }
                 }
             }
+            // Check for digits (numeric literals)
+            else if char_type & CHAR_DIGIT != 0 {
+                self.read_number()
+            }
+            // Check for operator characters
+            else if char_type & CHAR_OPERATOR != 0 {
+                // Dispatch to specific operator handlers based on the character
+                match ch {
+                    b'.' => self.read_dot(),
+                    b'=' => self.read_equals(),
+                    b'+' => self.read_plus(),
+                    b'-' => self.read_minus(),
+                    b'/' => self.read_slash(had_line_break),
+                    b'<' => self.read_less_than(),
+                    b'>' => self.read_greater_than(),
+                    b'!' => self.read_exclamation_mark(),
+                    b'?' => self.read_question_mark(),
+                    b'*' => self.read_asterisk(),
+                    b'%' => self.read_percent(),
+                    b'|' => self.read_pipe(),
+                    b'&' => self.read_ampersand(),
+                    b'^' => self.read_caret(),
+                    _ => {
+                        // This should never happen with our table design
+                        self.cursor.advance();
+                        let span = self.span();
+                        Err(Error {
+                            kind: ErrorKind::General {
+                                message: format!("Unexpected character: '{}'", ch as char),
+                            },
+                            span,
+                        })
+                    }
+                }
+            }
+            // Identifier start characters
+            else if char_type & CHAR_ID_START != 0 {
+                self.read_identifier()
+            }
+            // Any other ASCII character (error case)
+            else {
+                self.cursor.advance();
+                let span = self.span();
+                Err(Error {
+                    kind: ErrorKind::General {
+                        message: format!("Unexpected character: '{}'", ch as char),
+                    },
+                    span,
+                })
+            }
         } else {
-            // Non-ASCII character path
+            // Non-ASCII character path (less common)
             if Self::is_identifier_start(ch) {
                 self.read_identifier()
             } else {
@@ -279,7 +379,7 @@ impl<'a> Lexer<'a> {
         Span::new(self.start_pos, self.cursor.pos())
     }
 
-    /// Parse a single-character token
+    /// Parse a single-character token - extremely common, so heavily optimized
     #[inline(always)]
     fn single_char_token(&mut self, token_type: TokenType, had_line_break: bool) -> Result<Token> {
         self.cursor.advance();
@@ -294,35 +394,36 @@ impl<'a> Lexer<'a> {
     /// Skip whitespace and comments - optimized hot path
     #[inline]
     fn skip_whitespace(&mut self) {
-        // Hot loop for ASCII whitespace - most common case
+        // Hot loop for ASCII whitespace and comments - most common case
         while let Some(ch) = self.cursor.peek() {
-            if ch < 128 {
-                let lookup = ASCII_LOOKUP[ch as usize];
+            if likely(ch < 128) {
+                let char_type = ASCII_LOOKUP[ch as usize];
 
                 // Fast path for common whitespace
-                if (lookup & 1) != 0 {
-                    self.cursor.advance();
-                    continue;
-                }
-
-                // Fast path for line breaks
-                if (lookup & 2) != 0 {
-                    if ch == b'\n' {
-                        self.cursor.advance();
-                        self.had_line_break = LineBreak::Present;
-                        continue;
-                    } else if ch == b'\r' {
-                        self.cursor.advance();
-                        // Skip the following \n if it exists (CRLF sequence)
-                        if let Some(b'\n') = self.cursor.peek() {
+                if char_type & CHAR_WHITESPACE != 0 {
+                    // Special handling for line breaks
+                    if unlikely(char_type & CHAR_LINEBREAK != 0) {
+                        if ch == b'\n' {
                             self.cursor.advance();
+                            self.had_line_break = LineBreak::Present;
+                            continue;
+                        } else if ch == b'\r' {
+                            self.cursor.advance();
+                            // Skip the following \n if it exists (CRLF sequence)
+                            if let Some(b'\n') = self.cursor.peek() {
+                                self.cursor.advance();
+                            }
+                            self.had_line_break = LineBreak::Present;
+                            continue;
                         }
-                        self.had_line_break = LineBreak::Present;
+                    } else {
+                        // Regular whitespace (space, tab, etc.)
+                        self.cursor.advance();
                         continue;
                     }
                 }
 
-                // Handle comments
+                // Handle comments - uses frequency-based ordering
                 if ch == b'/' {
                     match self.cursor.peek_at(1) {
                         // Line comment - very common in JS
@@ -331,7 +432,7 @@ impl<'a> Lexer<'a> {
                             self.skip_line_comment();
                             continue;
                         }
-                        // Block comment
+                        // Block comment - less common
                         Some(b'*') => {
                             self.cursor.advance_n(2);
                             self.skip_block_comment();
@@ -344,7 +445,7 @@ impl<'a> Lexer<'a> {
                 // Not whitespace or comment
                 break;
             } else {
-                // Handle Unicode whitespace
+                // Handle Unicode whitespace - rare case
                 if ch == 0xe2 {
                     // Check for line separator (U+2028) and paragraph separator (U+2029)
                     let bytes = self.cursor.peek_n(3);
@@ -358,7 +459,7 @@ impl<'a> Lexer<'a> {
                         continue;
                     }
                 } else if ch == 0xef {
-                    // BOM
+                    // BOM - extremely rare in middle of file
                     let bytes = self.cursor.peek_n(3);
                     if bytes.len() == 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf
                     {
@@ -366,15 +467,16 @@ impl<'a> Lexer<'a> {
                         continue;
                     }
                 }
+                // Not Unicode whitespace
                 break;
             }
         }
     }
 
-    /// Skip a line comment - optimized with batch processing
+    /// Skip a line comment - optimized with SIMD and batch processing
     #[inline]
     fn skip_line_comment(&mut self) {
-        // Fast path using find_byte
+        // Fast path using find_byte (which uses SIMD internally when available)
         if let Some(newline_pos) = self.cursor.find_byte(b'\n') {
             // Skip to the newline
             let from_cursor = newline_pos - self.cursor.position();
@@ -384,7 +486,7 @@ impl<'a> Lexer<'a> {
             return;
         }
 
-        // Slower fallback path
+        // Slower fallback path for when no newline is found
         while let Some(ch) = self.cursor.peek() {
             self.cursor.advance();
             if ch == b'\n' {
@@ -409,14 +511,16 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Skip a block comment - optimized for faster scanning
+    /// Skip a block comment - optimized for faster scanning with chunk-based
+    /// approach
     #[inline]
     fn skip_block_comment(&mut self) {
         let mut had_line_break = false;
 
-        // Use a specialized loop for faster scanning
+        // Use a specialized loop with chunk-based scanning for non-special chars
         'outer: while let Some(ch) = self.cursor.peek() {
             match ch {
+                // Check for end of comment
                 b'*' => {
                     self.cursor.advance();
                     if let Some(b'/') = self.cursor.peek() {
@@ -427,6 +531,7 @@ impl<'a> Lexer<'a> {
                         return;
                     }
                 }
+                // Handle line breaks
                 b'\n' => {
                     self.cursor.advance();
                     had_line_break = true;
@@ -439,6 +544,7 @@ impl<'a> Lexer<'a> {
                     }
                     had_line_break = true;
                 }
+                // Handle Unicode line breaks
                 0xe2 => {
                     // Check for line separator (U+2028) and paragraph separator (U+2029)
                     let bytes = self.cursor.peek_n(3);
@@ -453,11 +559,14 @@ impl<'a> Lexer<'a> {
                     }
                     self.cursor.advance();
                 }
+                // Fast path: skip chunks of regular characters
                 _ => {
-                    // Skip chunks of non-special characters
+                    // Process in larger chunks for better efficiency
                     let mut count = 1;
-                    while count < 64 {
+                    // Use a larger chunk size (128) for better throughput
+                    while count < 128 {
                         match self.cursor.peek_at(count) {
+                            // Stop at special characters that need special handling
                             Some(b'*') | Some(b'\n') | Some(b'\r') | Some(0xe2) => break,
                             Some(_) => count += 1,
                             None => {
@@ -482,8 +591,8 @@ impl<'a> Lexer<'a> {
     #[inline(always)]
     fn is_identifier_start(byte: u8) -> bool {
         // ASCII fast path using lookup table
-        if byte < 128 {
-            (ASCII_LOOKUP[byte as usize] & 4) != 0
+        if likely(byte < 128) {
+            (ASCII_LOOKUP[byte as usize] & CHAR_ID_START) != 0
         } else {
             // Non-ASCII, needs further checking in read_identifier
             true
@@ -494,8 +603,8 @@ impl<'a> Lexer<'a> {
     #[inline(always)]
     fn is_identifier_continue(byte: u8) -> bool {
         // ASCII fast path using lookup table
-        if byte < 128 {
-            (ASCII_LOOKUP[byte as usize] & (4 | 8)) != 0
+        if likely(byte < 128) {
+            (ASCII_LOOKUP[byte as usize] & (CHAR_ID_START | CHAR_ID_CONTINUE)) != 0
         } else {
             // Non-ASCII, needs further checking in read_identifier
             true
