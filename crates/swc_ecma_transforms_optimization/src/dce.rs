@@ -6,7 +6,6 @@ use swc_atoms::Atom;
 use swc_common::{pass::Repeated, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, IsDirective};
-use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 // Define Id type for our usage
@@ -47,6 +46,9 @@ struct DeadCodeEliminator {
 
     /// Flag to determine if code was changed
     changed: bool,
+
+    /// Track import specifiers and their usage
+    import_specifiers: FxHashMap<Id, bool>,
 }
 
 /// Information about a variable
@@ -314,7 +316,7 @@ impl VisitMut for DeadCodeEliminator {
             scope.is_module_scope = true;
         }
 
-        // First pass: collect all declarations
+        // First pass: collect all declarations and import specifiers
         for item in &module.body {
             match item {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
@@ -357,6 +359,31 @@ impl VisitMut for DeadCodeEliminator {
                         _ => {}
                     }
                 }
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                    // Track all imported specifiers
+                    for specifier in &import_decl.specifiers {
+                        match specifier {
+                            ImportSpecifier::Named(named) => {
+                                let local = &named.local;
+                                let id = (local.sym.clone(), local.ctxt);
+                                self.import_specifiers.insert(id.clone(), false);
+                                self.register_declaration(id, false, false);
+                            }
+                            ImportSpecifier::Default(default) => {
+                                let local = &default.local;
+                                let id = (local.sym.clone(), local.ctxt);
+                                self.import_specifiers.insert(id.clone(), false);
+                                self.register_declaration(id, false, false);
+                            }
+                            ImportSpecifier::Namespace(namespace) => {
+                                let local = &namespace.local;
+                                let id = (local.sym.clone(), local.ctxt);
+                                self.import_specifiers.insert(id.clone(), false);
+                                self.register_declaration(id, false, false);
+                            }
+                        }
+                    }
+                }
                 _ => {}
             }
         }
@@ -364,7 +391,16 @@ impl VisitMut for DeadCodeEliminator {
         // Visit the module to collect references
         module.visit_mut_children_with(self);
 
-        // Second pass: remove unused declarations
+        // Mark used import specifiers
+        for (id, var_info) in &self.vars {
+            if var_info.referenced && self.import_specifiers.contains_key(id) {
+                if let Some(used) = self.import_specifiers.get_mut(id) {
+                    *used = true;
+                }
+            }
+        }
+
+        // Second pass: remove unused declarations and unused import specifiers
         let mut i = 0;
         while i < module.body.len() {
             let mut removed = false;
@@ -414,6 +450,27 @@ impl VisitMut for DeadCodeEliminator {
                 }
                 ModuleItem::Stmt(stmt) => {
                     self.try_remove_pure_stmt(stmt);
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                    // Remove unused import specifiers
+                    import_decl.specifiers.retain(|specifier| {
+                        let local = match specifier {
+                            ImportSpecifier::Named(named) => &named.local,
+                            ImportSpecifier::Default(default) => &default.local,
+                            ImportSpecifier::Namespace(namespace) => &namespace.local,
+                        };
+
+                        let id = (local.sym.clone(), local.ctxt);
+                        // Keep the specifier if it's used or not tracked
+                        self.import_specifiers.get(&id).map_or(true, |used| {
+                            if !used {
+                                self.changed = true;
+                                false
+                            } else {
+                                true
+                            }
+                        })
+                    });
                 }
                 _ => {}
             }
@@ -493,6 +550,27 @@ impl VisitMut for DeadCodeEliminator {
             Expr::Ident(ident) => {
                 let id = (ident.sym.clone(), ident.ctxt);
                 self.register_reference(&id);
+
+                // Mark import specifier as used if this identifier is an import
+                if let Some(used) = self.import_specifiers.get_mut(&id) {
+                    *used = true;
+                }
+            }
+            // Also handle member expressions to catch namespace imports usage
+            Expr::Member(member) => {
+                // If we're accessing a property of a namespace import, mark it as used
+                if let Expr::Ident(obj) = &*member.obj {
+                    let id = (obj.sym.clone(), obj.ctxt);
+                    self.register_reference(&id);
+
+                    // Mark namespace import as used
+                    if let Some(used) = self.import_specifiers.get_mut(&id) {
+                        *used = true;
+                    }
+                }
+
+                // Continue normal visitation
+                member.visit_mut_children_with(self);
             }
             Expr::Assign(assign) => {
                 // Visit right side first
@@ -544,6 +622,12 @@ impl Repeated for DeadCodeEliminator {
     }
 
     fn reset(&mut self) {
-        *self = Self::default();
+        self.vars.clear();
+        self.scopes = vec![ScopeInfo::default()];
+        self.current_scope = 0;
+        self.ctx = SyntaxContext::empty();
+        self.in_pure_context = false;
+        self.changed = false;
+        self.import_specifiers.clear();
     }
 }
