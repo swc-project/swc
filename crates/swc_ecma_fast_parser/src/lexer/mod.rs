@@ -191,6 +191,31 @@ static TOKEN_DISPATCH: [TokenType; 128] = {
     table
 };
 
+// Extended token dispatch for all single-character operators
+// This provides O(1) lookup for all character tokens
+static OPERATOR_DISPATCH: [TokenType; 128] = {
+    let mut table = [TokenType::Invalid; 128];
+
+    // Basic operators
+    table[b'+' as usize] = TokenType::Plus;
+    table[b'-' as usize] = TokenType::Minus;
+    table[b'*' as usize] = TokenType::Asterisk;
+    table[b'/' as usize] = TokenType::Slash;
+    table[b'%' as usize] = TokenType::Percent;
+    table[b'=' as usize] = TokenType::Eq;
+    table[b'<' as usize] = TokenType::Lt;
+    table[b'>' as usize] = TokenType::Gt;
+    table[b'!' as usize] = TokenType::Bang;
+    table[b'&' as usize] = TokenType::Ampersand;
+    table[b'|' as usize] = TokenType::Pipe;
+    table[b'^' as usize] = TokenType::Caret;
+    table[b'?' as usize] = TokenType::QuestionMark;
+    table[b'.' as usize] = TokenType::Dot;
+    table[b'#' as usize] = TokenType::Hash;
+
+    table
+};
+
 impl<'a> Lexer<'a> {
     /// Create a new lexer from a string input
     #[inline(always)]
@@ -298,7 +323,6 @@ impl<'a> Lexer<'a> {
                             TokenValue::None,
                         ))
                     }
-
                     // String literals - group together for better branch prediction
                     b'"' | b'\'' => self.read_string(ch),
                     b'`' => {
@@ -335,34 +359,59 @@ impl<'a> Lexer<'a> {
             }
             // Check for operator characters
             else if char_type & CHAR_OPERATOR != 0 {
-                // Dispatch to specific operator handlers based on the character
-                match ch {
-                    b'.' => self.read_dot(),
-                    b'=' => self.read_equals(),
-                    b'+' => self.read_plus(),
-                    b'-' => self.read_minus(),
-                    b'/' => self.read_slash(had_line_break),
-                    b'<' => self.read_less_than(),
-                    b'>' => self.read_greater_than(),
-                    b'!' => self.read_exclamation_mark(),
-                    b'?' => self.read_question_mark(),
-                    b'*' => self.read_asterisk(),
-                    b'%' => self.read_percent(),
-                    b'|' => self.read_pipe(),
-                    b'&' => self.read_ampersand(),
-                    b'^' => self.read_caret(),
-                    _ => {
-                        // This should never happen with our table design
-                        self.cursor.advance();
-                        let span = self.span();
-                        Err(Error {
-                            kind: ErrorKind::General {
-                                message: format!("Unexpected character: '{}'", ch as char),
-                            },
-                            span,
-                        })
-                    }
+                // Try to handle common single-character operators directly
+                // For operators that need special handling, use dedicated methods
+                if ch == b'.' {
+                    return self.read_dot();
+                } else if ch == b'=' {
+                    return self.read_equals();
+                } else if ch == b'+' {
+                    return self.read_plus();
+                } else if ch == b'-' {
+                    return self.read_minus();
+                } else if ch == b'/' {
+                    return self.read_slash(had_line_break);
+                } else if ch == b'<' {
+                    return self.read_less_than();
+                } else if ch == b'>' {
+                    return self.read_greater_than();
+                } else if ch == b'!' {
+                    return self.read_exclamation_mark();
+                } else if ch == b'?' {
+                    return self.read_question_mark();
+                } else if ch == b'*' {
+                    return self.read_asterisk();
+                } else if ch == b'%' {
+                    return self.read_percent();
+                } else if ch == b'|' {
+                    return self.read_pipe();
+                } else if ch == b'&' {
+                    return self.read_ampersand();
+                } else if ch == b'^' {
+                    return self.read_caret();
                 }
+
+                // For any other operators, use the lookup table
+                let token_type = unsafe { *OPERATOR_DISPATCH.get_unchecked(ch as usize) };
+                if token_type != TokenType::Invalid {
+                    self.cursor.advance();
+                    return Ok(Token::new(
+                        token_type,
+                        self.span(),
+                        had_line_break,
+                        TokenValue::None,
+                    ));
+                }
+
+                // Should never reach here with our table design
+                self.cursor.advance();
+                let span = self.span();
+                Err(Error {
+                    kind: ErrorKind::General {
+                        message: format!("Unexpected character: '{}'", ch as char),
+                    },
+                    span,
+                })
             }
             // Identifier start characters
             else if char_type & CHAR_ID_START != 0 {
