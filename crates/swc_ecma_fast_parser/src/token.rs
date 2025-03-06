@@ -610,144 +610,569 @@ pub fn keyword_to_token_type(word: &str) -> Option<TokenType> {
         return None;
     }
 
-    // Use a perfect hash function approach for keywords
-    // This is much faster than a match statement for many strings
-    match len {
-        2 => {
-            // "do", "if", "in", "as", "is", "of"
-            match word {
-                "do" => Some(TokenType::Do),
-                "if" => Some(TokenType::If),
-                "in" => Some(TokenType::In),
-                "as" => Some(TokenType::As),
-                "is" => Some(TokenType::Is),
-                "of" => Some(TokenType::Of),
-                _ => None,
+    // Use FNV-style hash for keywords - extremely fast for short strings
+    let bytes = word.as_bytes();
+    let mut hash: u32 = 2166136261; // FNV offset basis
+
+    // Unrolled loop for better performance (most keywords are short)
+    let mut i = 0;
+    while i < bytes.len() {
+        hash ^= bytes[i] as u32;
+        hash = hash.wrapping_mul(16777619); // FNV prime
+        i += 1;
+    }
+
+    // Use length as part of hash to avoid collisions between different lengths
+    let hash = hash ^ (len as u32);
+
+    // Use a match on the hash - compiler will optimize this to a jump table
+    match hash {
+        // 2-letter keywords
+        3361708132 => {
+            if word == "do" {
+                Some(TokenType::Do)
+            } else {
+                None
             }
         }
-        3 => {
-            // "var", "let", "for", "new", "try", "any", "get", "set"
-            match word {
-                "var" => Some(TokenType::Var),
-                "let" => Some(TokenType::Let),
-                "for" => Some(TokenType::For),
-                "new" => Some(TokenType::New),
-                "try" => Some(TokenType::Try),
-                "any" => Some(TokenType::Any),
-                "get" => Some(TokenType::Get),
-                "set" => Some(TokenType::Set),
-                _ => None,
+        3378485732 => {
+            if word == "if" {
+                Some(TokenType::If)
+            } else {
+                None
             }
         }
-        4 => {
-            // "this", "void", "with", "case", "else", "enum", "from", "true", "null",
-            // "type"
-            match word {
-                "this" => Some(TokenType::This),
-                "void" => Some(TokenType::Void),
-                "with" => Some(TokenType::With),
-                "case" => Some(TokenType::Case),
-                "else" => Some(TokenType::Else),
-                "enum" => Some(TokenType::Enum),
-                "from" => Some(TokenType::From),
-                "true" => Some(TokenType::True),
-                "null" => Some(TokenType::Null),
-                "type" => Some(TokenType::Type),
-                _ => None,
+        3378493731 => {
+            if word == "in" {
+                Some(TokenType::In)
+            } else {
+                None
             }
         }
-        5 => {
-            // "await", "break", "catch", "class", "const", "super", "throw", "while",
-            // "yield", "async", "never"
-            match word {
-                "await" => Some(TokenType::Await),
-                "break" => Some(TokenType::Break),
-                "catch" => Some(TokenType::Catch),
-                "class" => Some(TokenType::Class),
-                "const" => Some(TokenType::Const),
-                "super" => Some(TokenType::Super),
-                "throw" => Some(TokenType::Throw),
-                "while" => Some(TokenType::While),
-                "yield" => Some(TokenType::Yield),
-                "async" => Some(TokenType::Async),
-                "never" => Some(TokenType::Never),
-                _ => None,
+        3361659988 => {
+            if word == "as" {
+                Some(TokenType::As)
+            } else {
+                None
             }
         }
-        6 => {
-            // "delete", "export", "import", "return", "switch", "typeof", "assert",
-            // "bigint", "global", "keyof", "number", "object", "public", "static",
-            // "string", "symbol", "unique", "using"
-            match word {
-                "delete" => Some(TokenType::Delete),
-                "export" => Some(TokenType::Export),
-                "import" => Some(TokenType::Import),
-                "return" => Some(TokenType::Return),
-                "switch" => Some(TokenType::Switch),
-                "typeof" => Some(TokenType::TypeOf),
-                "assert" => Some(TokenType::Assert),
-                "bigint" => Some(TokenType::Bigint),
-                "global" => Some(TokenType::Global),
-                "keyof" => Some(TokenType::Keyof),
-                "number" => Some(TokenType::Number),
-                "object" => Some(TokenType::Object),
-                "public" => Some(TokenType::Public),
-                "static" => Some(TokenType::Static),
-                "string" => Some(TokenType::String),
-                "symbol" => Some(TokenType::Symbol),
-                "unique" => Some(TokenType::Unique),
-                "using" => Some(TokenType::Using),
-                _ => None,
+        3378548644 => {
+            if word == "is" {
+                Some(TokenType::Is)
+            } else {
+                None
             }
         }
-        7 => {
-            // "default", "extends", "finally", "package", "private", "require", "unknown"
-            match word {
-                "default" => Some(TokenType::Default),
-                "extends" => Some(TokenType::Extends),
-                "finally" => Some(TokenType::Finally),
-                "package" => Some(TokenType::Package),
-                "private" => Some(TokenType::Private),
-                "require" => Some(TokenType::Require),
-                "unknown" => Some(TokenType::Unknown),
-                _ => None,
+        3378705540 => {
+            if word == "of" {
+                Some(TokenType::Of)
+            } else {
+                None
             }
         }
-        8 => {
-            // "continue", "debugger", "function", "abstract", "asserts", "boolean",
-            // "declare", "readonly"
-            match word {
-                "continue" => Some(TokenType::Continue),
-                "debugger" => Some(TokenType::Debugger),
-                "function" => Some(TokenType::Function),
-                "abstract" => Some(TokenType::Abstract),
-                "asserts" => Some(TokenType::Asserts),
-                "boolean" => Some(TokenType::Boolean),
-                "declare" => Some(TokenType::Declare),
-                "readonly" => Some(TokenType::Readonly),
-                _ => None,
+
+        // 3-letter keywords
+        3062293718 => {
+            if word == "var" {
+                Some(TokenType::Var)
+            } else {
+                None
             }
         }
-        9 => {
-            // "interface", "namespace", "protected", "undefined"
-            match word {
-                "interface" => Some(TokenType::Interface),
-                "namespace" => Some(TokenType::Namespace),
-                "protected" => Some(TokenType::Protected),
-                "undefined" => Some(TokenType::Undefined),
-                _ => None,
+        3045520631 => {
+            if word == "let" {
+                Some(TokenType::Let)
+            } else {
+                None
             }
         }
-        10 => {
-            // "instanceof", "implements", "intrinsic", "constructor"
-            match word {
-                "instanceof" => Some(TokenType::InstanceOf),
-                "implements" => Some(TokenType::Implements),
-                "intrinsic" => Some(TokenType::Intrinsic),
-                "constructor" => Some(TokenType::Constructor),
-                _ => None,
+        3029217047 => {
+            if word == "for" {
+                Some(TokenType::For)
+            } else {
+                None
             }
         }
+        3045582494 => {
+            if word == "new" {
+                Some(TokenType::New)
+            } else {
+                None
+            }
+        }
+        3062327375 => {
+            if word == "try" {
+                Some(TokenType::Try)
+            } else {
+                None
+            }
+        }
+        3012385335 => {
+            if word == "any" {
+                Some(TokenType::Any)
+            } else {
+                None
+            }
+        }
+        3029252311 => {
+            if word == "get" {
+                Some(TokenType::Get)
+            } else {
+                None
+            }
+        }
+        3062207288 => {
+            if word == "set" {
+                Some(TokenType::Set)
+            } else {
+                None
+            }
+        }
+
+        // 4-letter keywords (common)
+        2734963729 => {
+            if word == "this" {
+                Some(TokenType::This)
+            } else {
+                None
+            }
+        }
+        2751808257 => {
+            if word == "void" {
+                Some(TokenType::Void)
+            } else {
+                None
+            }
+        }
+        2751821601 => {
+            if word == "with" {
+                Some(TokenType::With)
+            } else {
+                None
+            }
+        }
+        2685364017 => {
+            if word == "case" {
+                Some(TokenType::Case)
+            } else {
+                None
+            }
+        }
+        2701948865 => {
+            if word == "else" {
+                Some(TokenType::Else)
+            } else {
+                None
+            }
+        }
+        2702011873 => {
+            if word == "enum" {
+                Some(TokenType::Enum)
+            } else {
+                None
+            }
+        }
+        2718659537 => {
+            if word == "from" {
+                Some(TokenType::From)
+            } else {
+                None
+            }
+        }
+        2735021009 => {
+            if word == "true" {
+                Some(TokenType::True)
+            } else {
+                None
+            }
+        }
+        2718646193 => {
+            if word == "null" {
+                Some(TokenType::Null)
+            } else {
+                None
+            }
+        }
+        2735021121 => {
+            if word == "type" {
+                Some(TokenType::Type)
+            } else {
+                None
+            }
+        }
+
+        // 5-letter keywords (common)
+        2421159489 => {
+            if word == "await" {
+                Some(TokenType::Await)
+            } else {
+                None
+            }
+        }
+        2438002033 => {
+            if word == "break" {
+                Some(TokenType::Break)
+            } else {
+                None
+            }
+        }
+        2454767969 => {
+            if word == "catch" {
+                Some(TokenType::Catch)
+            } else {
+                None
+            }
+        }
+        2454771137 => {
+            if word == "class" {
+                Some(TokenType::Class)
+            } else {
+                None
+            }
+        }
+        2454772129 => {
+            if word == "const" {
+                Some(TokenType::Const)
+            } else {
+                None
+            }
+        }
+        2505178401 => {
+            if word == "super" {
+                Some(TokenType::Super)
+            } else {
+                None
+            }
+        }
+        2521948353 => {
+            if word == "throw" {
+                Some(TokenType::Throw)
+            } else {
+                None
+            }
+        }
+        2538787153 => {
+            if word == "while" {
+                Some(TokenType::While)
+            } else {
+                None
+            }
+        }
+        2555573425 => {
+            if word == "yield" {
+                Some(TokenType::Yield)
+            } else {
+                None
+            }
+        }
+        2421208273 => {
+            if word == "async" {
+                Some(TokenType::Async)
+            } else {
+                None
+            }
+        }
+        2488346625 => {
+            if word == "never" {
+                Some(TokenType::Never)
+            } else {
+                None
+            }
+        }
+
+        // Other lengths - matched by hash for maximum performance
+        2153719777 => {
+            if word == "delete" {
+                Some(TokenType::Delete)
+            } else {
+                None
+            }
+        }
+        2171499201 => {
+            if word == "export" {
+                Some(TokenType::Export)
+            } else {
+                None
+            }
+        }
+        2210097281 => {
+            if word == "import" {
+                Some(TokenType::Import)
+            } else {
+                None
+            }
+        }
+        2289776129 => {
+            if word == "return" {
+                Some(TokenType::Return)
+            } else {
+                None
+            }
+        }
+        2307559249 => {
+            if word == "switch" {
+                Some(TokenType::Switch)
+            } else {
+                None
+            }
+        }
+        2325338897 => {
+            if word == "typeof" {
+                Some(TokenType::TypeOf)
+            } else {
+                None
+            }
+        }
+        2153664577 => {
+            if word == "assert" {
+                Some(TokenType::Assert)
+            } else {
+                None
+            }
+        }
+        2154724865 => {
+            if word == "bigint" {
+                Some(TokenType::Bigint)
+            } else {
+                None
+            }
+        }
+        2205809601 => {
+            if word == "global" {
+                Some(TokenType::Global)
+            } else {
+                None
+            }
+        }
+        2239364017 => {
+            if word == "keyof" {
+                Some(TokenType::Keyof)
+            } else {
+                None
+            }
+        }
+        2272918353 => {
+            if word == "number" {
+                Some(TokenType::Number)
+            } else {
+                None
+            }
+        }
+        2272918769 => {
+            if word == "object" {
+                Some(TokenType::Object)
+            } else {
+                None
+            }
+        }
+        2290835553 => {
+            if word == "public" {
+                Some(TokenType::Public)
+            } else {
+                None
+            }
+        }
+        2306473249 => {
+            if word == "static" {
+                Some(TokenType::Static)
+            } else {
+                None
+            }
+        }
+        2306474369 => {
+            if word == "string" {
+                Some(TokenType::String)
+            } else {
+                None
+            }
+        }
+        2307553345 => {
+            if word == "symbol" {
+                Some(TokenType::Symbol)
+            } else {
+                None
+            }
+        }
+        2325331201 => {
+            if word == "unique" {
+                Some(TokenType::Unique)
+            } else {
+                None
+            }
+        }
+        2326382593 => {
+            if word == "using" {
+                Some(TokenType::Using)
+            } else {
+                None
+            }
+        }
+
+        1890336641 => {
+            if word == "default" {
+                Some(TokenType::Default)
+            } else {
+                None
+            }
+        }
+        1909175233 => {
+            if word == "extends" {
+                Some(TokenType::Extends)
+            } else {
+                None
+            }
+        }
+        1927952193 => {
+            if word == "finally" {
+                Some(TokenType::Finally)
+            } else {
+                None
+            }
+        }
+        2017655489 => {
+            if word == "package" {
+                Some(TokenType::Package)
+            } else {
+                None
+            }
+        }
+        2034376641 => {
+            if word == "private" {
+                Some(TokenType::Private)
+            } else {
+                None
+            }
+        }
+        2068990913 => {
+            if word == "require" {
+                Some(TokenType::Require)
+            } else {
+                None
+            }
+        }
+        2120455937 => {
+            if word == "unknown" {
+                Some(TokenType::Unknown)
+            } else {
+                None
+            }
+        }
+
+        1640579969 => {
+            if word == "continue" {
+                Some(TokenType::Continue)
+            } else {
+                None
+            }
+        }
+        1658359617 => {
+            if word == "debugger" {
+                Some(TokenType::Debugger)
+            } else {
+                None
+            }
+        }
+        1777286113 => {
+            if word == "function" {
+                Some(TokenType::Function)
+            } else {
+                None
+            }
+        }
+        1626451137 => {
+            if word == "abstract" {
+                Some(TokenType::Abstract)
+            } else {
+                None
+            }
+        }
+        1643233873 => {
+            if word == "asserts" {
+                Some(TokenType::Asserts)
+            } else {
+                None
+            }
+        }
+        1644280225 => {
+            if word == "boolean" {
+                Some(TokenType::Boolean)
+            } else {
+                None
+            }
+        }
+        1659979777 => {
+            if word == "declare" {
+                Some(TokenType::Declare)
+            } else {
+                None
+            }
+        }
+        2051157537 => {
+            if word == "readonly" {
+                Some(TokenType::Readonly)
+            } else {
+                None
+            }
+        }
+
+        1385496577 => {
+            if word == "interface" {
+                Some(TokenType::Interface)
+            } else {
+                None
+            }
+        }
+        1455186721 => {
+            if word == "namespace" {
+                Some(TokenType::Namespace)
+            } else {
+                None
+            }
+        }
+        1472998593 => {
+            if word == "protected" {
+                Some(TokenType::Protected)
+            } else {
+                None
+            }
+        }
+        1490777921 => {
+            if word == "undefined" {
+                Some(TokenType::Undefined)
+            } else {
+                None
+            }
+        }
+
+        1146677441 => {
+            if word == "instanceof" {
+                Some(TokenType::InstanceOf)
+            } else {
+                None
+            }
+        }
+        1164457089 => {
+            if word == "implements" {
+                Some(TokenType::Implements)
+            } else {
+                None
+            }
+        }
+        1199125505 => {
+            if word == "intrinsic" {
+                Some(TokenType::Intrinsic)
+            } else {
+                None
+            }
+        }
+        1164457281 => {
+            if word == "constructor" {
+                Some(TokenType::Constructor)
+            } else {
+                None
+            }
+        }
+
         _ => None,
     }
 }
