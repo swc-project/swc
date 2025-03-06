@@ -262,6 +262,10 @@ impl<'a> Lexer<'a> {
     /// Read the next token starting with the given character
     #[inline(always)]
     fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<Token> {
+        if unlikely(self.in_template) {
+            return self.read_template(had_line_break);
+        }
+
         // Fast path for ASCII tokens using lookup table
         if likely(ch < 128) {
             let char_type = ASCII_LOOKUP[ch as usize];
@@ -291,7 +295,17 @@ impl<'a> Lexer<'a> {
 
                     // String literals - group together for better branch prediction
                     b'"' | b'\'' => self.read_string(ch),
-                    b'`' => self.read_template(had_line_break),
+                    b'`' => {
+                        self.in_template = true;
+                        self.cursor.advance();
+
+                        Ok(Token::new(
+                            TokenType::BackQuote,
+                            self.span(),
+                            had_line_break,
+                            TokenValue::None,
+                        ))
+                    }
 
                     // Other special characters that need custom handling
                     b'#' => self.read_hash(),
