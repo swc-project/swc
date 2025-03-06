@@ -294,14 +294,14 @@ impl<'a> Parser<'a> {
         self.expect(TokenType::Colon)?; // Expect ':'
 
         // Check for duplicate label
-        if self.has_label(&label.sym.to_string()) {
+        if self.has_label(&label.sym) {
             return Err(self.error(ErrorKind::General {
                 message: format!("Label '{}' has already been declared", label.sym),
             }));
         }
 
         // Add the label to the current scope
-        self.add_label(label.sym.to_string());
+        self.add_label(label.sym);
 
         // Parse the labeled statement
         let body = self.parse_statement()?;

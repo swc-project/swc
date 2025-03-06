@@ -28,7 +28,7 @@ impl<'a> Parser<'a> {
         // Check for strict mode directive
         if is_directive {
             if let ast::Expr::Lit(ast::Lit::Str(ref str_lit)) = expr {
-                if str_lit.value.to_string() == "use strict" {
+                if str_lit.value == "use strict" {
                     // Enable strict mode
                     self.strict_mode = true;
                 }

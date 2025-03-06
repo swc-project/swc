@@ -261,7 +261,7 @@ impl<'a> Parser<'a> {
         // Check for reserved words
         if self.strict_mode {
             // In strict mode, 'eval' and 'arguments' cannot be binding names
-            if id.sym.to_string() == "eval" || id.sym.to_string() == "arguments" {
+            if id.sym == "eval" || id.sym == "arguments" {
                 return Err(self.error(ErrorKind::General {
                     message: format!("Cannot use '{}' as a binding name in strict mode", id.sym),
                 }));
@@ -269,7 +269,7 @@ impl<'a> Parser<'a> {
         }
 
         // Add the identifier to the current scope
-        self.add_binding(id.sym.to_string());
+        self.add_binding(id.sym);
 
         // Create the binding identifier
         Ok(ast::BindingIdent { id, type_ann: None })

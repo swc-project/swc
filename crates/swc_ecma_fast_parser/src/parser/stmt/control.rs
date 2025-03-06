@@ -480,7 +480,7 @@ impl<'a> Parser<'a> {
             let label = self.parse_identifier_name()?;
 
             // Check if the label exists
-            if !self.has_label(&label.sym.to_string()) {
+            if !self.has_label(&label.sym) {
                 return Err(self.error(ErrorKind::General {
                     message: format!("Undefined label '{}'", label.sym),
                 }));
@@ -517,7 +517,7 @@ impl<'a> Parser<'a> {
             let label = self.parse_identifier_name()?;
 
             // Check if the label exists
-            if !self.has_label(&label.sym.to_string()) {
+            if !self.has_label(&label.sym) {
                 return Err(self.error(ErrorKind::General {
                     message: format!("Undefined label '{}'", label.sym),
                 }));
