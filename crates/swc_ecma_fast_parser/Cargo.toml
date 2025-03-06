@@ -10,6 +10,9 @@ publish       = false
 repository    = { workspace = true }
 version       = "1.0.0"
 
+[features]
+nightly = []
+
 [dependencies]
 swc_atoms    = { version = "5.0.0", path = "../swc_atoms" }
 swc_common   = { version = "8.0.0", path = "../swc_common" }

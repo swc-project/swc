@@ -3,10 +3,13 @@
 //! This parser is designed for maximum performance and memory efficiency,
 //! operating at the byte level for optimal throughput.
 
+#![cfg_attr(feature = "nightly", feature(core_intrinsics))]
+
 mod error;
 mod lexer;
 // mod parser;
 pub mod token;
+mod util;
 
 pub use error::{Error, ErrorKind, Result};
 pub use lexer::Lexer;
