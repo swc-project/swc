@@ -1,0 +1,41 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Feature-complete es2019 parser."
+documentation = "https://rustdoc.swc.rs/swc_ecma_fast_parser/"
+edition       = { workspace = true }
+include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
+license       = { workspace = true }
+name          = "swc_ecma_fast_parser"
+publish       = false
+repository    = { workspace = true }
+version       = "1.0.0"
+
+[features]
+nightly = []
+
+[dependencies]
+swc_atoms    = { version = "5.0.0", path = "../swc_atoms" }
+swc_common   = { version = "8.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
+
+num-bigint = { workspace = true }
+phf        = { workspace = true, features = ["macros"] }
+wide       = { workspace = true }
+
+[dev-dependencies]
+criterion         = { workspace = true }
+pretty_assertions = { workspace = true }
+serde_json        = { workspace = true }
+walkdir           = { workspace = true }
+
+codspeed-criterion-compat = { workspace = true }
+swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
+swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
+swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
+testing = { version = "8.0.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "lexer"
