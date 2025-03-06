@@ -1,3 +1,4 @@
 1. You should write performant code. Always prefer performance over other things.
-2. Do not use unstable, nightly only features.
-3. When creating Atom instances, it's better to use Cow<str> or &str instead of String. Note that `&str` is better than `Cow<str>` here.
+2. Always write comments in English.
+3. Do not use unstable, nightly only features.
+4. When creating Atom instances, it's better to use Cow<str> or &str instead of String. Note that `&str` is better than `Cow<str>` here.
