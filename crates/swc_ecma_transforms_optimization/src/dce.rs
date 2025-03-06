@@ -310,6 +310,10 @@ impl DeadCodeEliminator {
 
     /// Remove a statement if it has no side effects
     fn try_remove_pure_stmt(&mut self, stmt: &mut Stmt) -> bool {
+        if stmt.can_precede_directive() {
+            return false;
+        }
+
         match stmt {
             Stmt::Expr(ExprStmt { expr, .. }) if self.is_pure_expr(expr) => {
                 *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
