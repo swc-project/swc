@@ -2,6 +2,8 @@
 //!
 //! This module handles the parsing of string literals in ECMAScript/TypeScript.
 
+use std::borrow::Cow;
+
 use swc_atoms::Atom;
 use swc_common::Span;
 
@@ -176,12 +178,12 @@ impl<'a> Lexer<'a> {
             // Use the thread-local buffer for the string value
             STRING_BUFFER.with(|buffer| {
                 let buffer = buffer.borrow();
-                unsafe { std::str::from_utf8_unchecked(&buffer) }.to_string()
+                Cow::Owned(unsafe { std::str::from_utf8_unchecked(&buffer) }.to_string())
             })
         } else {
             // Direct extraction (excluding quotes)
             let value_bytes = self.cursor.slice(raw_start + 1, raw_end - 1);
-            unsafe { std::str::from_utf8_unchecked(value_bytes) }.to_string()
+            Cow::Borrowed(unsafe { std::str::from_utf8_unchecked(value_bytes) })
         };
 
         // Create token
