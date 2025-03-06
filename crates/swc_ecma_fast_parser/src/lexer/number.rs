@@ -360,25 +360,31 @@ impl<'a> Lexer<'a> {
         // Special case for dot-prefixed numbers
         if starts_with_dot {
             // High-performance parsing for .123 format
-            // Use a small static buffer for most numbers to avoid allocation
-            let bytes = raw_str.as_bytes();
-            if bytes.len() < 24 {
-                // Most numbers will be shorter than this
+            // Use a stack-allocated buffer to avoid heap allocation
+            const STACK_BUF_SIZE: usize = 32;
+            if raw_str.len() < STACK_BUF_SIZE - 1 {
                 // Create a stack-allocated buffer with a leading '0'
-                let mut buffer = [0u8; 32];
+                let mut buffer = [0u8; STACK_BUF_SIZE];
                 buffer[0] = b'0';
 
-                // Copy the original bytes (including the dot)
-                for (i, &b) in bytes.iter().enumerate() {
-                    buffer[i + 1] = b;
-                }
+                // Fast memcpy of the original bytes (including the dot)
+                let src_bytes = raw_str.as_bytes();
+                let src_len = src_bytes.len();
 
-                // Parse from the buffer
-                let str_to_parse =
-                    unsafe { std::str::from_utf8_unchecked(&buffer[0..bytes.len() + 1]) };
-                return str_to_parse.parse::<f64>().unwrap_or(f64::NAN);
+                // SAFETY: We've checked that src_len < STACK_BUF_SIZE - 1
+                unsafe {
+                    std::ptr::copy_nonoverlapping(
+                        src_bytes.as_ptr(),
+                        buffer.as_mut_ptr().add(1),
+                        src_len,
+                    );
+                    // Parse from the buffer - avoid allocation
+                    return std::str::from_utf8_unchecked(&buffer[0..src_len + 1])
+                        .parse::<f64>()
+                        .unwrap_or(f64::NAN);
+                }
             } else {
-                // For very long numbers, use heap allocation
+                // Fall back to string with capacity for very long numbers (rare case)
                 let mut with_leading_zero = String::with_capacity(raw_str.len() + 1);
                 with_leading_zero.push('0');
                 with_leading_zero.push_str(&raw_str);
