@@ -4,7 +4,6 @@
 //! ECMAScript/TypeScript.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
 use super::Lexer;
 use crate::{
@@ -12,7 +11,7 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a template literal
     pub(super) fn read_template(&mut self, had_line_break: bool) -> Result<Token> {
         let start_pos = self.start_pos;
@@ -232,14 +231,8 @@ impl<'a> Lexer<'a> {
         let span = self.span();
 
         // Determine the token type
-        let token_type = if self.in_template {
-            TokenType::Template
-        } else {
-            TokenType::Template
-        };
-
         Ok(Token::new(
-            token_type,
+            TokenType::Template,
             span,
             had_line_break,
             if is_invalid {

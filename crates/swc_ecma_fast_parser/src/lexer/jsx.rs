@@ -3,19 +3,16 @@
 //! This module handles the parsing of JSX syntax in React-style templates.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
 use super::Lexer;
 use crate::{
-    error::{Error, ErrorKind, Result},
+    error::Result,
     token::{Token, TokenType, TokenValue},
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a JSX token when inside JSX context
     pub(super) fn read_jsx_token(&mut self, had_line_break: bool) -> Result<Token> {
-        let start_pos = self.start_pos;
-
         match self.cursor.peek() {
             // Start of JSX element or fragment
             Some(b'<') => {
@@ -120,7 +117,7 @@ impl<'a> Lexer<'a> {
                 Some(b'<') | Some(b'{') | Some(b'>') | None => {
                     break;
                 }
-                Some(ch) => {
+                Some(_) => {
                     // For performance, read chunks of text at once if possible
                     let start = self.cursor.position();
                     self.cursor
@@ -162,48 +159,9 @@ impl<'a> Lexer<'a> {
             span,
             self.had_line_break.into(),
             TokenValue::Str {
-                value: Atom::from(text.clone()),
-                raw: Atom::from(text),
+                value: Atom::from(text),
+                raw: Atom::from(raw_str),
             },
-        ))
-    }
-
-    /// Enter JSX element context
-    pub(super) fn enter_jsx_element(&mut self) {
-        self.in_jsx_element = true;
-    }
-
-    /// Exit JSX element context
-    pub(super) fn exit_jsx_element(&mut self) {
-        self.in_jsx_element = false;
-    }
-
-    /// Process JSX identifiers (including namespaces)
-    pub(super) fn read_jsx_identifier(&mut self) -> Result<Token> {
-        let start_pos = self.start_pos;
-
-        // Skip the first character (already verified as identifier start)
-        self.cursor.advance();
-
-        // Read as many identifier continue chars as possible
-        self.cursor
-            .advance_while(|ch| Self::is_identifier_continue(ch) || ch == b'-' || ch == b':');
-
-        // Extract the identifier text
-        let span = self.span();
-        let ident_start = start_pos.0 as usize;
-        let ident_end = self.cursor.position();
-        let ident_bytes = self.cursor.slice(ident_start, ident_end);
-
-        // Convert to string (safe, as we know it's valid UTF-8 from the input)
-        let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
-
-        // JSX identifiers are never keywords
-        Ok(Token::new(
-            TokenType::Ident,
-            span,
-            self.had_line_break.into(),
-            TokenValue::Word(Atom::from(ident_str)),
         ))
     }
 }

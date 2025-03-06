@@ -77,25 +77,6 @@ impl<'a> Cursor<'a> {
         unsafe { self.input.get_unchecked(self.pos..end) }
     }
 
-    /// Peek at exactly n bytes, returning None if not enough bytes are
-    /// available
-    #[inline(always)]
-    pub fn peek_bytes(&self, n: usize) -> Option<&[u8]> {
-        if likely(self.pos + n <= self.len) {
-            // SAFETY: We've checked bounds
-            Some(unsafe { self.input.get_unchecked(self.pos..self.pos + n) })
-        } else {
-            None
-        }
-    }
-
-    /// Peek at the start byte of the current character (handles multi-byte
-    /// UTF-8)
-    #[inline(always)]
-    pub fn peek_char_start(&self) -> Option<u8> {
-        self.peek()
-    }
-
     /// Advance the cursor by one byte
     #[inline(always)]
     pub fn advance(&mut self) {
@@ -145,7 +126,7 @@ impl<'a> Cursor<'a> {
 
     /// Scalar (non-SIMD) implementation of advance_while
     #[inline]
-    fn advance_while_scalar<F>(&mut self, predicate: &mut F) -> ()
+    fn advance_while_scalar<F>(&mut self, predicate: &mut F)
     where
         F: FnMut(u8) -> bool,
     {
@@ -274,17 +255,6 @@ impl<'a> Cursor<'a> {
         }
     }
 
-    /// Read a specific number of bytes from the current position
-    /// and advance the cursor
-    #[inline(always)]
-    pub fn read_n(&mut self, n: usize) -> &'a [u8] {
-        let end = (self.pos + n).min(self.len);
-        // SAFETY: We've ensured end <= len
-        let bytes = unsafe { self.input.get_unchecked(self.pos..end) };
-        self.pos = end;
-        bytes
-    }
-
     /// Get slice from the current position to the end
     #[inline(always)]
     pub fn rest(&self) -> &'a [u8] {
@@ -299,37 +269,6 @@ impl<'a> Cursor<'a> {
         let real_end = end.min(self.len);
         // SAFETY: We've validated bounds
         unsafe { self.input.get_unchecked(real_start..real_end) }
-    }
-
-    /// Check if the current position matches the given string
-    #[inline]
-    pub fn matches_str(&self, s: &str) -> bool {
-        let bytes = s.as_bytes();
-        if unlikely(self.pos + bytes.len() > self.len) {
-            return false;
-        }
-
-        // Fast direct byte comparison
-        let input_slice = unsafe { self.input.get_unchecked(self.pos..(self.pos + bytes.len())) };
-
-        // Use SIMD comparison when available for longer strings
-        #[cfg(target_arch = "x86_64")]
-        if bytes.len() >= 16 && is_x86_feature_detected!("sse2") {
-            return unsafe { simd_memcmp(input_slice, bytes) };
-        }
-
-        // Fallback to standard comparison
-        input_slice == bytes
-    }
-
-    /// Check if the current position matches any of the given bytes
-    #[inline(always)]
-    pub fn matches_any(&self, bytes: &[u8]) -> bool {
-        if let Some(current) = self.peek() {
-            bytes.contains(&current)
-        } else {
-            false
-        }
     }
 
     /// Get the current position
@@ -353,103 +292,6 @@ impl<'a> Cursor<'a> {
             .position(|&b| b == byte)
             .map(|pos| self.pos + pos)
     }
-
-    /// Get the substring between the current position and the given byte
-    /// Returns None if the byte is not found
-    #[inline]
-    pub fn substring_until_byte(&self, byte: u8) -> Option<&'a str> {
-        self.find_byte(byte).map(|end| {
-            let bytes = unsafe { self.input.get_unchecked(self.pos..end) };
-            // Safety: we know this is valid UTF-8 because the original input was a &str
-            unsafe { std::str::from_utf8_unchecked(bytes) }
-        })
-    }
-
-    /// Fast advance until a whitespace character
-    #[inline]
-    pub fn skip_to_whitespace(&mut self) -> usize {
-        let start = self.pos;
-
-        // Process in chunks for better cache usage
-        #[cfg(target_arch = "x86_64")]
-        if is_x86_feature_detected!("sse2") {
-            // Use SIMD to find whitespace
-            if let Some(pos) = unsafe { simd_find_whitespace(self.input, self.pos, self.len) } {
-                self.pos = pos;
-                return pos - start;
-            }
-        }
-
-        // Fallback to byte-by-byte
-        while let Some(byte) = self.peek() {
-            match byte {
-                b' ' | b'\t' | b'\n' | b'\r' | 0x0c => break,
-                _ => self.advance(),
-            }
-        }
-
-        self.pos - start
-    }
-
-    /// Find the end of a line
-    #[inline]
-    pub fn find_line_end(&self) -> usize {
-        // Fast path with SIMD for x86_64
-        #[cfg(target_arch = "x86_64")]
-        if self.len - self.pos >= 16 && is_x86_feature_detected!("sse2") {
-            if let Some(pos) = unsafe { simd_find_line_end(self.input, self.pos, self.len) } {
-                return pos;
-            }
-        }
-
-        // Standard fallback implementation
-        for i in self.pos..self.len {
-            let byte = unsafe { *self.input.get_unchecked(i) };
-            if byte == b'\n' || byte == b'\r' {
-                return i;
-            }
-        }
-
-        self.len
-    }
-}
-
-/// SIMD-accelerated memory comparison
-#[cfg(target_arch = "x86_64")]
-#[target_feature(enable = "sse2")]
-#[inline]
-unsafe fn simd_memcmp(a: &[u8], b: &[u8]) -> bool {
-    debug_assert_eq!(a.len(), b.len());
-
-    let len = a.len();
-    let mut offset = 0;
-
-    // Compare 16 bytes at a time with SSE2
-    while offset + 16 <= len {
-        let a_chunk = _mm_loadu_si128(a.as_ptr().add(offset) as *const __m128i);
-        let b_chunk = _mm_loadu_si128(b.as_ptr().add(offset) as *const __m128i);
-
-        // Compare for equality
-        let cmp = _mm_cmpeq_epi8(a_chunk, b_chunk);
-        let mask = _mm_movemask_epi8(cmp);
-
-        // If not all bytes are equal, return false
-        if mask != 0xffff {
-            return false;
-        }
-
-        offset += 16;
-    }
-
-    // Compare remaining bytes
-    while offset < len {
-        if a[offset] != b[offset] {
-            return false;
-        }
-        offset += 1;
-    }
-
-    true
 }
 
 /// SIMD-accelerated byte search

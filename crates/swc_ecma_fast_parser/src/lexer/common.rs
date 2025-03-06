@@ -6,7 +6,7 @@
 use super::Lexer;
 use crate::error::{Error, ErrorKind, Result};
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a hexadecimal escape sequence of specified length
     pub(super) fn read_hex_escape(&mut self, len: usize) -> Result<u32> {
         let mut result = 0u32;

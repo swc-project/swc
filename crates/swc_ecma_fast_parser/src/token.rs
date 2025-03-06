@@ -270,41 +270,41 @@ impl TokenType {
     /// Checks if this token can start an expression
     #[inline(always)]
     pub const fn starts_expr(self) -> bool {
-        match self {
+        matches!(
+            self,
             TokenType::LParen
-            | TokenType::LBrace
-            | TokenType::LBracket
-            | TokenType::Plus
-            | TokenType::Minus
-            | TokenType::Bang
-            | TokenType::Tilde
-            | TokenType::PlusPlus
-            | TokenType::MinusMinus
-            | TokenType::BackQuote
-            | TokenType::DollarLBrace
-            | TokenType::Str
-            | TokenType::Num
-            | TokenType::BigInt
-            | TokenType::Regex
-            | TokenType::JSXTagStart
-            | TokenType::Ident
-            | TokenType::Await
-            | TokenType::Class
-            | TokenType::Function
-            | TokenType::Import
-            | TokenType::New
-            | TokenType::Super
-            | TokenType::This
-            | TokenType::Throw
-            | TokenType::True
-            | TokenType::False
-            | TokenType::Null
-            | TokenType::TypeOf
-            | TokenType::Void
-            | TokenType::Delete
-            | TokenType::Yield => true,
-            _ => false,
-        }
+                | TokenType::LBrace
+                | TokenType::LBracket
+                | TokenType::Plus
+                | TokenType::Minus
+                | TokenType::Bang
+                | TokenType::Tilde
+                | TokenType::PlusPlus
+                | TokenType::MinusMinus
+                | TokenType::BackQuote
+                | TokenType::DollarLBrace
+                | TokenType::Str
+                | TokenType::Num
+                | TokenType::BigInt
+                | TokenType::Regex
+                | TokenType::JSXTagStart
+                | TokenType::Ident
+                | TokenType::Await
+                | TokenType::Class
+                | TokenType::Function
+                | TokenType::Import
+                | TokenType::New
+                | TokenType::Super
+                | TokenType::This
+                | TokenType::Throw
+                | TokenType::True
+                | TokenType::False
+                | TokenType::Null
+                | TokenType::TypeOf
+                | TokenType::Void
+                | TokenType::Delete
+                | TokenType::Yield
+        )
     }
 
     /// Check if the token is a keyword
@@ -475,9 +475,10 @@ impl fmt::Display for TokenType {
 }
 
 /// Token value enum optimized for efficient representation
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub enum TokenValue {
     /// No value (for most tokens)
+    #[default]
     None,
 
     /// Identifier or keyword (managed as atoms to minimize duplicate strings)
@@ -503,12 +504,6 @@ pub enum TokenValue {
 
     /// Shebang comment
     Shebang(Atom),
-}
-
-impl Default for TokenValue {
-    fn default() -> Self {
-        TokenValue::None
-    }
 }
 
 impl fmt::Debug for TokenValue {

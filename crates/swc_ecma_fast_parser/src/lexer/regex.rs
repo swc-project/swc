@@ -3,7 +3,6 @@
 //! This module handles the parsing of RegExp literals in ECMAScript/TypeScript.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
 use super::Lexer;
 use crate::{
@@ -11,7 +10,7 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a regular expression literal
     /// Assumes the initial '/' has been consumed
     pub(super) fn read_regex(&mut self, had_line_break: bool) -> Result<Token> {

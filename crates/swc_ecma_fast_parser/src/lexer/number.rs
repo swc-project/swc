@@ -4,7 +4,6 @@
 //! ECMAScript/TypeScript.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
 use super::Lexer;
 use crate::{
@@ -34,7 +33,7 @@ static DIGIT_VALUES: [u8; 256] = {
     table
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a numeric literal
     #[inline]
     pub(super) fn read_number(&mut self) -> Result<Token> {
@@ -307,7 +306,7 @@ impl<'a> Lexer<'a> {
 
     /// Parse a decimal number
     #[inline]
-    fn parse_decimal_number(&self, start_idx: usize, starts_with_dot: bool) -> f64 {
+    fn parse_decimal_number(&self, start_idx: usize, _starts_with_dot: bool) -> f64 {
         // For decimal numbers with possible fractional and exponent parts,
         // use the Rust standard library's parser which is highly optimized
         let raw_str = self.extract_number_str(start_idx);

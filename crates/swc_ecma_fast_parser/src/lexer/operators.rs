@@ -3,15 +3,14 @@
 //! This module handles the parsing of operators in ECMAScript/TypeScript.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
 use super::Lexer;
 use crate::{
-    error::{Error, ErrorKind, Result},
+    error::Result,
     token::{Token, TokenType, TokenValue},
 };
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a dot token (. or ... or numeric with leading dot)
     pub(super) fn read_dot(&mut self) -> Result<Token> {
         self.cursor.advance(); // Skip the initial '.'
@@ -260,7 +259,7 @@ impl<'a> Lexer<'a> {
             return Ok(Token::new(
                 TokenType::DivEq,
                 self.span(),
-                had_line_break.into(),
+                had_line_break,
                 TokenValue::None,
             ));
         }
@@ -274,7 +273,7 @@ impl<'a> Lexer<'a> {
         Ok(Token::new(
             TokenType::Slash,
             self.span(),
-            had_line_break.into(),
+            had_line_break,
             TokenValue::None,
         ))
     }

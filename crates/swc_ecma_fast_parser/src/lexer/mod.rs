@@ -99,7 +99,7 @@ static ASCII_LOOKUP: [u8; 128] = {
     table[b'\t' as usize] = 1;
     table[b'\n' as usize] = 2; // Mark as line break
     table[b'\r' as usize] = 2; // Mark as line break
-    table[0x0c as usize] = 1; // Form feed
+    table[0x0c_usize] = 1; // Form feed
 
     // Mark identifier start characters
     let mut i = 0;
@@ -120,17 +120,6 @@ static ASCII_LOOKUP: [u8; 128] = {
 
     table
 };
-
-// Branch prediction hints for better compiler optimization
-#[inline(always)]
-pub(crate) fn likely(b: bool) -> bool {
-    b
-}
-
-#[inline(always)]
-pub(crate) fn unlikely(b: bool) -> bool {
-    b
-}
 
 impl<'a> Lexer<'a> {
     /// Create a new lexer from a string input

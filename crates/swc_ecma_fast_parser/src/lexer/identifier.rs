@@ -3,11 +3,10 @@
 //! This module handles the parsing of ECMAScript/TypeScript identifiers.
 
 use swc_atoms::Atom;
-use swc_common::Span;
 
-use super::{Cursor, Lexer};
+use super::Lexer;
 use crate::{
-    error::{Error, ErrorKind, Result},
+    error::Result,
     token::{keyword_to_token_type, Token, TokenType, TokenValue},
 };
 
@@ -41,7 +40,7 @@ const KEYWORD_FIRST_CHAR: [bool; 26] = [
     false, // z
 ];
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read an identifier or keyword
     pub(super) fn read_identifier(&mut self) -> Result<Token> {
         let start_pos = self.start_pos;
@@ -87,46 +86,5 @@ impl<'a> Lexer<'a> {
             had_line_break_bool,
             TokenValue::Word(Atom::from(ident_str)),
         ))
-    }
-
-    /// Check if an identifier can contain escaped unicode
-    #[inline]
-    pub(super) fn read_escaped_identifier(&mut self) -> Result<Token> {
-        // Implementation for escaped unicode identifiers
-        // (This is a placeholder - a full implementation would handle escaped
-        // sequences)
-        let span = self.span();
-        Err(Error {
-            kind: ErrorKind::InvalidIdentifier {
-                reason: "Unicode escape sequences in identifiers not implemented",
-            },
-            span,
-        })
-    }
-
-    /// Check if an identifier is a contextual keyword in the current context
-    #[inline(always)]
-    pub(super) fn check_contextual_keyword(&self, token: &Token, keyword: &str) -> bool {
-        if let Some(ident) = token.ident_value() {
-            ident.as_str() == keyword
-        } else {
-            false
-        }
-    }
-
-    /// Check if an identifier token matches a specific string
-    #[inline(always)]
-    pub(super) fn is_token_identifier_eq(&self, token: &Token, value: &str) -> bool {
-        if let Some(ident) = token.ident_value() {
-            ident.as_str() == value
-        } else {
-            false
-        }
-    }
-
-    /// Check if current token is specific identifier
-    #[inline(always)]
-    pub(super) fn is_current_identifier_eq(&self, value: &str) -> bool {
-        self.is_token_identifier_eq(&self.current, value)
     }
 }

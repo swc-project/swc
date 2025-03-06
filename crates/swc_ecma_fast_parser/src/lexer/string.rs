@@ -7,7 +7,7 @@ use std::borrow::Cow;
 use swc_atoms::Atom;
 use swc_common::Span;
 
-use super::{Cursor, Lexer};
+use super::Lexer;
 use crate::{
     error::{Error, ErrorKind, Result},
     token::{Token, TokenType, TokenValue},
@@ -35,7 +35,7 @@ thread_local! {
     static STRING_BUFFER: std::cell::RefCell<Vec<u8>> = std::cell::RefCell::new(Vec::with_capacity(1024));
 }
 
-impl<'a> Lexer<'a> {
+impl Lexer<'_> {
     /// Read a string literal
     #[inline]
     pub(super) fn read_string(&mut self, quote: u8) -> Result<Token> {
@@ -49,7 +49,7 @@ impl<'a> Lexer<'a> {
         let mut has_escapes = false;
 
         // Try to find the closing quote
-        let string_end = match self.find_string_end(quote) {
+        match self.find_string_end(quote) {
             Some(end) => {
                 // Fast path - no escapes
                 let end_pos = self.cursor.position() + end;
@@ -119,7 +119,7 @@ impl<'a> Lexer<'a> {
                                 let replacement = ESCAPE_LOOKUP[escape_char as usize];
                                 if replacement != 0 {
                                     buffer.push(replacement);
-                                } else if escape_char >= b'0' && escape_char <= b'7' {
+                                } else if (b'0'..=b'7').contains(&escape_char) {
                                     // Octal escape (legacy)
                                     buffer.push(self.read_octal_escape(escape_char)?);
                                 } else {
