@@ -7,6 +7,7 @@ use crate::{
 };
 
 /// Utility function to verify lexer tokens
+#[track_caller]
 fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue>)>) {
     // Create a new lexer
     let mut lexer = Lexer::new(input, JscTarget::Es2020, Syntax::default(), None);
