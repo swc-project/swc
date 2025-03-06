@@ -6,7 +6,7 @@ use swc_atoms::Atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 // Define Id type for our usage
 type Id = (Atom, SyntaxContext);
@@ -22,8 +22,8 @@ type Id = (Atom, SyntaxContext);
 ///
 /// The algorithm uses a fast, single-pass approach with efficient data
 /// structures for maximum performance.
-pub fn dce() -> impl Fold {
-    DeadCodeEliminator::default()
+pub fn dce() -> impl Pass {
+    visit_mut_pass(DeadCodeEliminator::default())
 }
 
 /// Fast dead code eliminator that focuses on performance.
@@ -533,14 +533,5 @@ impl VisitMut for DeadCodeEliminator {
                 expr.visit_mut_children_with(self);
             }
         }
-    }
-}
-
-// Create a Fold implementation that wraps VisitMut
-impl Fold for DeadCodeEliminator {
-    fn fold_module(&mut self, module: Module) -> Module {
-        let mut module = module;
-        module.visit_mut_with(self);
-        module
     }
 }
