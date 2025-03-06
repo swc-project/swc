@@ -136,3 +136,241 @@ fn test_lexer_function_declaration() {
 
     verify_tokens(input, expected_tokens);
 }
+
+#[test]
+fn test_lexer_object_literal() {
+    // JavaScript object literal
+    let input = "const obj = { name: 'John', age: 30, isActive: true };";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("obj")))),
+        (TokenType::Eq, None),
+        (TokenType::LBrace, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::Colon, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("John"),
+                raw: "'John'".into(),
+            }),
+        ),
+        (TokenType::Comma, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("age")))),
+        (TokenType::Colon, None),
+        (
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 30.0,
+                raw: "30".into(),
+            }),
+        ),
+        (TokenType::Comma, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("isActive"))),
+        ),
+        (TokenType::Colon, None),
+        (TokenType::True, None),
+        (TokenType::RBrace, None),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_array_literal() {
+    // JavaScript array literal with different types of elements
+    let input = "const arr = [1, 'two', true, null, undefined];";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("arr")))),
+        (TokenType::Eq, None),
+        (TokenType::LBracket, None),
+        (
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1.0,
+                raw: "1".into(),
+            }),
+        ),
+        (TokenType::Comma, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("two"),
+                raw: "'two'".into(),
+            }),
+        ),
+        (TokenType::Comma, None),
+        (TokenType::True, None),
+        (TokenType::Comma, None),
+        (TokenType::Null, None),
+        (TokenType::Comma, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("undefined"))),
+        ),
+        (TokenType::RBracket, None),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_arrow_function() {
+    // JavaScript arrow function
+    let input = "const multiply = (x, y) => x * y;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("multiply"))),
+        ),
+        (TokenType::Eq, None),
+        (TokenType::LParen, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("x")))),
+        (TokenType::Comma, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("y")))),
+        (TokenType::RParen, None),
+        (TokenType::Arrow, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("x")))),
+        (TokenType::Asterisk, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("y")))),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_template_literal() {
+    // JavaScript template literal with expressions
+    let input = "const greeting = `Hello, ${name}! You have ${messages.length} messages.`;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("greeting"))),
+        ),
+        (TokenType::Eq, None),
+        (TokenType::BackQuote, None),
+        (
+            TokenType::Template,
+            Some(TokenValue::Str {
+                value: Atom::from("Hello, "),
+                raw: "Hello, ".into(),
+            }),
+        ),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (
+            TokenType::Template,
+            Some(TokenValue::Str {
+                value: Atom::from("! You have "),
+                raw: "! You have ".into(),
+            }),
+        ),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("messages"))),
+        ),
+        (TokenType::Dot, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("length"))),
+        ),
+        (
+            TokenType::Template,
+            Some(TokenValue::Str {
+                value: Atom::from(" messages."),
+                raw: " messages.".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_conditional_operator() {
+    // JavaScript conditional (ternary) operator
+    let input = "const result = isValid ? 'Valid' : 'Invalid';";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("result"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("isValid"))),
+        ),
+        (TokenType::QuestionMark, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("Valid"),
+                raw: "'Valid'".into(),
+            }),
+        ),
+        (TokenType::Colon, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("Invalid"),
+                raw: "'Invalid'".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_class_declaration() {
+    // JavaScript class declaration with a method
+    let input = "class Person { constructor(name) { this.name = name; } }";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Class, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("Person"))),
+        ),
+        (TokenType::LBrace, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("constructor"))),
+        ),
+        (TokenType::LParen, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        (TokenType::This, None),
+        (TokenType::Dot, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::Eq, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::Semi, None),
+        (TokenType::RBrace, None),
+        (TokenType::RBrace, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
