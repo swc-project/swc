@@ -68,6 +68,76 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                         actual_val
                     );
                 }
+                (
+                    TokenValue::Regex {
+                        exp: expected_exp,
+                        flags: expected_flags,
+                    },
+                    TokenValue::Regex {
+                        exp: actual_exp,
+                        flags: actual_flags,
+                    },
+                ) => {
+                    assert_eq!(
+                        expected_exp.as_ref(),
+                        actual_exp.as_ref(),
+                        "Token #{}: Expected regex pattern '{}', got '{}'",
+                        i,
+                        expected_exp,
+                        actual_exp
+                    );
+                    assert_eq!(
+                        expected_flags.as_ref(),
+                        actual_flags.as_ref(),
+                        "Token #{}: Expected regex flags '{}', got '{}'",
+                        i,
+                        expected_flags,
+                        actual_flags
+                    );
+                }
+                (
+                    TokenValue::Template {
+                        raw: expected_raw,
+                        cooked: expected_cooked,
+                    },
+                    TokenValue::Template {
+                        raw: actual_raw,
+                        cooked: actual_cooked,
+                    },
+                ) => {
+                    assert_eq!(
+                        expected_raw.as_ref(),
+                        actual_raw.as_ref(),
+                        "Token #{}: Expected template raw '{}', got '{}'",
+                        i,
+                        expected_raw,
+                        actual_raw
+                    );
+
+                    match (expected_cooked, actual_cooked) {
+                        (Some(expected), Some(actual)) => {
+                            assert_eq!(
+                                expected.as_ref(),
+                                actual.as_ref(),
+                                "Token #{}: Expected template cooked '{}', got '{}'",
+                                i,
+                                expected,
+                                actual
+                            );
+                        }
+                        (None, None) => {
+                            // 둘 다 None인 경우 - 유효하지 않은 템플릿이므로
+                            // 통과
+                        }
+                        _ => {
+                            panic!(
+                                "Token #{}: Template cooked value mismatch, expected: {:?}, got: \
+                                 {:?}",
+                                i, expected_cooked, actual_cooked
+                            );
+                        }
+                    }
+                }
                 _ => panic!(
                     "Token #{}: Value type mismatch or unsupported value comparison",
                     i
