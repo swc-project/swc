@@ -277,6 +277,12 @@ impl<'a> Cursor<'a> {
         self.pos
     }
 
+    /// Reset the cursor to a specific position
+    #[inline(always)]
+    pub fn reset_to(&mut self, pos: BytePos) {
+        self.pos = pos.0 as usize;
+    }
+
     /// Find the next occurrence of a byte
     #[inline]
     pub fn find_byte(&self, byte: u8) -> Option<usize> {

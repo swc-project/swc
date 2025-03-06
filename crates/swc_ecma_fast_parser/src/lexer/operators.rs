@@ -29,7 +29,7 @@ impl Lexer<'_> {
         // Check for numeric literal with leading dot (e.g. .123)
         if let Some(b'0'..=b'9') = self.cursor.peek() {
             // Backtrack to include the dot in the number
-            self.cursor.advance_n(usize::MAX); // Reset cursor
+            self.cursor.reset_to(self.start_pos); // Reset cursor to start position
             return self.read_number();
         }
 
