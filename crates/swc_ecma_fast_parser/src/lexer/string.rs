@@ -225,12 +225,11 @@ impl Lexer<'_> {
                     let cmp_newline = _mm_cmpeq_epi8(chunk, newline_vector);
                     let cmp_carriage = _mm_cmpeq_epi8(chunk, carriage_vector);
 
-                    // Combine line terminators
-                    let cmp_lineterm = _mm_or_si128(cmp_newline, cmp_carriage);
-
                     // Combine all special characters
-                    let cmp_special =
-                        _mm_or_si128(_mm_or_si128(cmp_quote, cmp_escape), cmp_lineterm);
+                    let cmp_special = _mm_or_si128(
+                        _mm_or_si128(cmp_quote, cmp_escape),
+                        _mm_or_si128(cmp_newline, cmp_carriage),
+                    );
 
                     let mask = _mm_movemask_epi8(cmp_special);
 
@@ -238,12 +237,12 @@ impl Lexer<'_> {
                         // Found a special character
                         let offset = mask.trailing_zeros() as usize;
 
-                        // Check if it's a quote
-                        if *rest.get_unchecked(pos + offset) == quote {
-                            // Make sure it's not escaped
-                            let mut escape_count = 0;
+                        // Check what kind of special character we found
+                        let special_char = *rest.get_unchecked(pos + offset);
 
-                            // Count preceding backslashes
+                        if special_char == quote {
+                            // Check if it's escaped by counting backslashes
+                            let mut escape_count = 0;
                             if offset > 0 {
                                 let mut i = offset - 1;
                                 while i != usize::MAX && *rest.get_unchecked(pos + i) == b'\\' {
@@ -255,29 +254,15 @@ impl Lexer<'_> {
                                 }
                             }
 
-                            // Even number of backslashes means the quote is not escaped
+                            // If even number of backslashes, quote is not escaped
                             if escape_count % 2 == 0 {
                                 return Some(pos + offset);
                             }
-                        } else if *rest.get_unchecked(pos + offset) == b'\n'
-                            || *rest.get_unchecked(pos + offset) == b'\r'
-                        {
-                            // Line terminator in string is an error
-                            return None;
-                        } else if *rest.get_unchecked(pos + offset) == b'\\' {
-                            // For escape sequences, we must carefully handle them:
-                            // 1. If we're at the end of the input, it's an unterminated string
-                            if pos + offset + 1 >= rest.len() {
-                                return None;
-                            }
-
-                            // 2. Move past just this escape character and continue
-                            pos += offset + 1;
-                            continue;
                         }
 
-                        // Move past this special character and continue
-                        pos += offset + 1;
+                        // For all other cases, fall back to standard algorithm
+                        // This ensures we handle all edge cases correctly
+                        return self.find_string_end_standard(pos + offset, rest, quote);
                     } else {
                         // No special characters in this chunk
                         pos += 16;
@@ -287,45 +272,47 @@ impl Lexer<'_> {
         }
 
         // Standard fallback for the remaining characters
+        self.find_string_end_standard(pos, rest, quote)
+    }
+
+    /// Standard (non-SIMD) implementation of string end finding
+    #[inline]
+    fn find_string_end_standard(&self, start_pos: usize, rest: &[u8], quote: u8) -> Option<usize> {
+        let mut pos = start_pos;
+        let mut in_escape = false;
+
+        // Safety check for empty input
+        if rest.is_empty() || pos >= rest.len() {
+            return None;
+        }
+
         while pos < rest.len() {
             let ch = unsafe { *rest.get_unchecked(pos) };
 
-            if ch == quote {
-                // Check if it's escaped
-                let mut is_escaped = false;
-                if pos > 0 {
-                    let mut escape_count = 0;
-                    let mut i = pos - 1;
-
-                    // Count preceding backslashes
-                    while i != usize::MAX && unsafe { *rest.get_unchecked(i) } == b'\\' {
-                        escape_count += 1;
-                        if i == 0 {
-                            break;
-                        }
-                        i -= 1;
-                    }
-
-                    // Odd number of backslashes means the quote is escaped
-                    is_escaped = escape_count % 2 == 1;
-                }
-
-                if !is_escaped {
-                    return Some(pos);
-                }
-            } else if ch == b'\n' || ch == b'\r' {
-                // Line terminator in string is an error
-                return None;
-            } else if ch == b'\\' {
-                // Skip the escape character
+            if in_escape {
+                // Skip the escaped character
+                in_escape = false;
                 pos += 1;
-                // If we're at the end of the input, it's an unterminated string
+                continue;
+            }
+
+            if ch == b'\\' {
+                // Mark that we're in an escape sequence
+                in_escape = true;
+                pos += 1;
+                // If we're at the end after a backslash, it's unterminated
                 if pos >= rest.len() {
                     return None;
                 }
+            } else if ch == quote {
+                // Found unescaped quote
+                return Some(pos);
+            } else if ch == b'\n' || ch == b'\r' {
+                // Line terminator in string is an error
+                return None;
+            } else {
+                pos += 1;
             }
-
-            pos += 1;
         }
 
         // String is unterminated
