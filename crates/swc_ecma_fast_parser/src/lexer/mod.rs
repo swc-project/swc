@@ -420,7 +420,7 @@ impl<'a> Lexer<'a> {
 
             // Handle ASCII characters
             if likely(ch < 128) {
-                let char_type = ASCII_LOOKUP[ch as usize];
+                let char_type = unsafe { *ASCII_LOOKUP.get_unchecked(ch as usize) };
 
                 // Fast path for common whitespace
                 if char_type & CHAR_WHITESPACE != 0 {
@@ -518,7 +518,7 @@ impl<'a> Lexer<'a> {
         // Get current 16 bytes
         let input = self.cursor.rest();
         let mut data = [0u8; 16];
-        data.copy_from_slice(&input[0..16]);
+        data.copy_from_slice(unsafe { input.get_unchecked(0..16) });
         let chunk = u8x16::new(data);
 
         // Compare with our whitespace vectors
