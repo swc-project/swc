@@ -9,12 +9,14 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         b.iter(|| {
+            let mut count = 0;
             let mut lexer = Lexer::new(&fm.src, JscTarget::EsNext, syntax, None);
 
             loop {
                 if lexer.current.token_type == TokenType::EOF {
                     break;
                 }
+                count += 1;
                 let token = lexer.next_token();
 
                 black_box(token).unwrap_or_else(|err| {
@@ -22,6 +24,8 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
                     panic!("{err:?}: {loc:?}");
                 });
             }
+
+            assert_ne!(count, 0);
         });
         Ok(())
     });
