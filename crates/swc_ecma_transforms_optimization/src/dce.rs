@@ -3,7 +3,7 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Repeated, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -22,7 +22,7 @@ type Id = (Atom, SyntaxContext);
 ///
 /// The algorithm uses a fast, single-pass approach with efficient data
 /// structures for maximum performance.
-pub fn dce() -> impl Pass {
+pub fn dce() -> impl Pass + VisitMut + Repeated {
     visit_mut_pass(DeadCodeEliminator::default())
 }
 
@@ -533,5 +533,15 @@ impl VisitMut for DeadCodeEliminator {
                 expr.visit_mut_children_with(self);
             }
         }
+    }
+}
+
+impl Repeated for DeadCodeEliminator {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        *self = Self::default();
     }
 }

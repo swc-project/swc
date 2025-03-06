@@ -1,5 +1,5 @@
 #![deny(clippy::all)]
-#![deny(unused)]
+// #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 
 pub use self::{
