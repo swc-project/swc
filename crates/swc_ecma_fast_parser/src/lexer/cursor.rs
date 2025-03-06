@@ -333,5 +333,101 @@ unsafe fn simd_find_byte(haystack: &[u8], start: usize, end: usize, needle: u8) 
     None
 }
 
+/// SIMD optimized whitespace search
 #[cfg(target_arch = "x86_64")]
-use simd::*;
+#[target_feature(enable = "sse2")]
+#[inline]
+pub unsafe fn simd_find_whitespace(input: &[u8], start: usize, end: usize) -> Option<usize> {
+    let mut pos = start;
+
+    // Create vectors for whitespace bytes
+    let space = _mm_set1_epi8(b' ' as i8);
+    let tab = _mm_set1_epi8(b'\t' as i8);
+    let lf = _mm_set1_epi8(b'\n' as i8);
+    let cr = _mm_set1_epi8(b'\r' as i8);
+    let ff = _mm_set1_epi8(0x0c as i8);
+
+    // Process 16 bytes at a time
+    while pos + 16 <= end {
+        let chunk = _mm_loadu_si128(input.as_ptr().add(pos) as *const __m128i);
+
+        // Compare with each whitespace character
+        let cmp_space = _mm_cmpeq_epi8(chunk, space);
+        let cmp_tab = _mm_cmpeq_epi8(chunk, tab);
+        let cmp_lf = _mm_cmpeq_epi8(chunk, lf);
+        let cmp_cr = _mm_cmpeq_epi8(chunk, cr);
+        let cmp_ff = _mm_cmpeq_epi8(chunk, ff);
+
+        // Combine results
+        let cmp_space_tab = _mm_or_si128(cmp_space, cmp_tab);
+        let cmp_lf_cr = _mm_or_si128(cmp_lf, cmp_cr);
+        let cmp_combined = _mm_or_si128(cmp_space_tab, cmp_lf_cr);
+        let cmp_result = _mm_or_si128(cmp_combined, cmp_ff);
+
+        let mask = _mm_movemask_epi8(cmp_result);
+
+        if mask != 0 {
+            // Found a match, determine which byte
+            let trailing_zeros = mask.trailing_zeros() as usize;
+            return Some(pos + trailing_zeros);
+        }
+
+        pos += 16;
+    }
+
+    // Handle remaining bytes individually
+    while pos < end {
+        let byte = *input.get_unchecked(pos);
+        if matches!(byte, b' ' | b'\t' | b'\n' | b'\r' | 0x0c) {
+            return Some(pos);
+        }
+        pos += 1;
+    }
+
+    None
+}
+
+/// SIMD optimized line end search
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "sse2")]
+#[inline]
+pub unsafe fn simd_find_line_end(input: &[u8], start: usize, end: usize) -> Option<usize> {
+    let mut pos = start;
+
+    // Create vectors for line end bytes
+    let lf = _mm_set1_epi8(b'\n' as i8);
+    let cr = _mm_set1_epi8(b'\r' as i8);
+
+    // Process 16 bytes at a time
+    while pos + 16 <= end {
+        let chunk = _mm_loadu_si128(input.as_ptr().add(pos) as *const __m128i);
+
+        // Compare with each line end character
+        let cmp_lf = _mm_cmpeq_epi8(chunk, lf);
+        let cmp_cr = _mm_cmpeq_epi8(chunk, cr);
+
+        // Combine results
+        let cmp_result = _mm_or_si128(cmp_lf, cmp_cr);
+
+        let mask = _mm_movemask_epi8(cmp_result);
+
+        if mask != 0 {
+            // Found a match, determine which byte
+            let trailing_zeros = mask.trailing_zeros() as usize;
+            return Some(pos + trailing_zeros);
+        }
+
+        pos += 16;
+    }
+
+    // Handle remaining bytes individually
+    while pos < end {
+        let byte = *input.get_unchecked(pos);
+        if byte == b'\n' || byte == b'\r' {
+            return Some(pos);
+        }
+        pos += 1;
+    }
+
+    None
+}
