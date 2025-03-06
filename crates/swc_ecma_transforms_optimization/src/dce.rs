@@ -6,6 +6,7 @@ use swc_atoms::Atom;
 use swc_common::{pass::Repeated, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, IsDirective};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 // Define Id type for our usage
@@ -19,7 +20,6 @@ type Id = (Atom, SyntaxContext);
 /// 2. Unreachable code (after return, throw, etc.)
 /// 3. Pure code with no side effects (like pure function calls not used
 ///    anywhere)
-/// 4. Unused import specifiers and imports
 ///
 /// The algorithm uses a fast, single-pass approach with efficient data
 /// structures for maximum performance.
@@ -47,44 +47,6 @@ struct DeadCodeEliminator {
 
     /// Flag to determine if code was changed
     changed: bool,
-
-    /// Tracks imported specifiers
-    imported_specifiers: FxHashMap<Id, ImportSpecifierInfo>,
-}
-
-/// Information about an import specifier
-#[derive(Debug, Default, Clone)]
-struct ImportSpecifierInfo {
-    /// Whether the specifier is used anywhere
-    used: bool,
-
-    /// Source module of the import
-    source: String,
-
-    /// Local name (rename) if any
-    local: Option<Atom>,
-
-    /// Import specifier kind (named, default, namespace)
-    kind: ImportSpecifierKind,
-}
-
-/// Kind of import specifier
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum ImportSpecifierKind {
-    /// import { name } from 'module'
-    Named,
-
-    /// import defaultExport from 'module'
-    Default,
-
-    /// import * as name from 'module'
-    Namespace,
-}
-
-impl Default for ImportSpecifierKind {
-    fn default() -> Self {
-        ImportSpecifierKind::Named
-    }
 }
 
 /// Information about a variable
@@ -155,15 +117,9 @@ impl DeadCodeEliminator {
 
     /// Register a variable usage/reference
     fn register_reference(&mut self, id: &Id) {
-        // Register for regular variables
         if let Some(var) = self.vars.get_mut(id) {
             var.referenced = true;
             var.ref_count += 1;
-        }
-
-        // Register for imported specifiers
-        if let Some(import_info) = self.imported_specifiers.get_mut(id) {
-            import_info.used = true;
         }
     }
 
@@ -190,32 +146,15 @@ impl DeadCodeEliminator {
         var.is_fn = is_fn;
     }
 
-    /// Register an import specifier
-    fn register_import_specifier(
-        &mut self,
-        id: Id,
-        source: String,
-        local: Option<Atom>,
-        kind: ImportSpecifierKind,
-    ) {
-        let info = ImportSpecifierInfo {
-            used: false,
-            source,
-            local,
-            kind,
-        };
-        self.imported_specifiers.insert(id, info);
-    }
-
     /// Evaluate if expression is pure (no side effects)
     fn is_pure_expr(&self, expr: &Expr) -> bool {
         match expr {
             Expr::Lit(..) => true,
             Expr::This(..) => true,
             Expr::Ident(..) => true,
-            Expr::Bin(BinExpr {
-                op: _, left, right, ..
-            }) => self.is_pure_expr(left) && self.is_pure_expr(right),
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.is_pure_expr(left) && self.is_pure_expr(right)
+            }
             Expr::Paren(ParenExpr { expr, .. }) => self.is_pure_expr(expr),
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
@@ -347,109 +286,6 @@ impl DeadCodeEliminator {
             }
         }
     }
-
-    /// Process an import declaration to track specifiers
-    fn process_import_decl(&mut self, import: &ImportDecl) {
-        let source = import.src.value.to_string();
-
-        // Process all import specifiers
-        for specifier in &import.specifiers {
-            match specifier {
-                // Named imports: import { name, other as alias } from 'module'
-                ImportSpecifier::Named(named) => {
-                    let local_id = (named.local.sym.clone(), named.local.ctxt);
-                    let imported = named.imported.as_ref().map(|imp| match imp {
-                        ModuleExportName::Ident(ident) => ident.sym.clone(),
-                        ModuleExportName::Str(s) => Atom::from(&*s.value),
-                    });
-                    self.register_import_specifier(
-                        local_id,
-                        source.clone(),
-                        imported,
-                        ImportSpecifierKind::Named,
-                    );
-                }
-                // Default import: import Name from 'module'
-                ImportSpecifier::Default(default_spec) => {
-                    let id = (default_spec.local.sym.clone(), default_spec.local.ctxt);
-                    self.register_import_specifier(
-                        id,
-                        source.clone(),
-                        None,
-                        ImportSpecifierKind::Default,
-                    );
-                }
-                // Namespace import: import * as name from 'module'
-                ImportSpecifier::Namespace(ns_spec) => {
-                    let id = (ns_spec.local.sym.clone(), ns_spec.local.ctxt);
-                    self.register_import_specifier(
-                        id,
-                        source.clone(),
-                        None,
-                        ImportSpecifierKind::Namespace,
-                    );
-                }
-            }
-        }
-    }
-
-    /// Remove unused import specifiers but keep the import declaration
-    fn remove_unused_imports(&mut self, module: &mut Module) {
-        for item in &mut module.body {
-            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
-                let mut j = 0;
-                let mut modified = false;
-
-                // Filter out unused named import specifiers
-                while j < import.specifiers.len() {
-                    let should_keep = match &import.specifiers[j] {
-                        ImportSpecifier::Named(named) => {
-                            let id = (named.local.sym.clone(), named.local.ctxt);
-                            // Keep if used or no info available
-                            self.imported_specifiers
-                                .get(&id)
-                                .map_or(true, |info| info.used)
-                        }
-                        ImportSpecifier::Default(default_spec) => {
-                            let id = (default_spec.local.sym.clone(), default_spec.local.ctxt);
-                            // Keep if used or no info available
-                            self.imported_specifiers
-                                .get(&id)
-                                .map_or(true, |info| info.used)
-                        }
-                        ImportSpecifier::Namespace(ns_spec) => {
-                            let id = (ns_spec.local.sym.clone(), ns_spec.local.ctxt);
-                            // Keep if used or no info available
-                            self.imported_specifiers
-                                .get(&id)
-                                .map_or(true, |info| info.used)
-                        }
-                    };
-
-                    if should_keep {
-                        j += 1;
-                    } else {
-                        import.specifiers.remove(j);
-                        modified = true;
-                    }
-                }
-
-                if modified {
-                    self.changed = true;
-                }
-
-                // Important: We NEVER remove the entire import statement,
-                // even if all specifiers are unused, as per requirements
-                // If all specifiers were removed, add a dummy import comment
-                if import.specifiers.is_empty() {
-                    // Use a side-effect import (which keeps the import
-                    // statement) This is equivalent to:
-                    // import 'module'; We won't actually
-                    // add a comment here, just keep the empty import
-                }
-            }
-        }
-    }
 }
 
 /// Check if a statement is terminal (return, throw, etc.)
@@ -478,10 +314,9 @@ impl VisitMut for DeadCodeEliminator {
             scope.is_module_scope = true;
         }
 
-        // First pass: collect all declarations and import specifiers
+        // First pass: collect all declarations
         for item in &module.body {
             match item {
-                // Track variable declarations
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
                     for decl in &var.decls {
                         let ids = find_pat_ids(&decl.name);
@@ -494,12 +329,10 @@ impl VisitMut for DeadCodeEliminator {
                         }
                     }
                 }
-                // Track function declarations
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl))) => {
                     let id = (fn_decl.ident.sym.clone(), fn_decl.ident.ctxt);
                     self.register_declaration(id, false, true);
                 }
-                // Track exported declarations
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                     match decl {
                         Decl::Var(var) => {
@@ -523,10 +356,6 @@ impl VisitMut for DeadCodeEliminator {
                         }
                         _ => {}
                     }
-                }
-                // Track import declarations
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    self.process_import_decl(import);
                 }
                 _ => {}
             }
@@ -594,9 +423,6 @@ impl VisitMut for DeadCodeEliminator {
             }
         }
 
-        // Third pass: remove unused import specifiers
-        self.remove_unused_imports(module);
-
         // Exit module scope
         self.exit_scope(old_scope);
     }
@@ -653,7 +479,7 @@ impl VisitMut for DeadCodeEliminator {
         // Process variable name (destructuring pattern)
         let ids: Vec<Id> = find_pat_ids(&decl.name);
         for id in ids {
-            self.register_declaration(id.clone(), false, false);
+            self.register_declaration(id, false, false);
         }
 
         // Visit the initializer if exists
