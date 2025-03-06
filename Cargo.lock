@@ -5292,6 +5292,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "num-bigint",
+ "phf",
  "pretty_assertions",
  "serde_json",
  "swc_atoms",
