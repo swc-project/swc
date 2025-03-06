@@ -57,6 +57,51 @@ impl<'a> Lexer<'a> {
                     TokenValue::None,
                 ));
             }
+
+            // Read digits after the dot
+            self.cursor
+                .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'_'));
+
+            // Read exponent if present
+            if matches!(self.cursor.peek(), Some(b'e') | Some(b'E')) {
+                self.cursor.advance();
+
+                // Optional sign
+                if matches!(self.cursor.peek(), Some(b'+') | Some(b'-')) {
+                    self.cursor.advance();
+                }
+
+                // Must have at least one digit in exponent
+                if !matches!(self.cursor.peek(), Some(b'0'..=b'9')) {
+                    let span = self.span();
+                    return Err(Error {
+                        kind: ErrorKind::InvalidNumber {
+                            reason: "invalid numeric separator",
+                        },
+                        span,
+                    });
+                }
+
+                // Read exponent digits
+                self.cursor
+                    .advance_while(|ch| matches!(ch, b'0'..=b'9' | b'_'));
+            }
+
+            // Parse as decimal
+            let value = self.parse_decimal_number(start_idx, true);
+
+            // Create the token
+            let raw_str = self.extract_number_str(start_idx);
+            let span = self.span();
+            return Ok(Token::new(
+                TokenType::Num,
+                span,
+                bool::from(self.had_line_break),
+                TokenValue::Num {
+                    value,
+                    raw: Atom::from(raw_str),
+                },
+            ));
         }
 
         // First check for a binary, octal, or hex literal
@@ -308,10 +353,46 @@ impl<'a> Lexer<'a> {
 
     /// Parse a decimal number
     #[inline]
-    fn parse_decimal_number(&self, start_idx: u32, _starts_with_dot: bool) -> f64 {
-        // For decimal numbers with possible fractional and exponent parts,
-        // use the Rust standard library's parser which is highly optimized
+    fn parse_decimal_number(&self, start_idx: u32, starts_with_dot: bool) -> f64 {
+        // Extract the raw string representation
         let raw_str = self.extract_number_str(start_idx);
+
+        // Special case for dot-prefixed numbers
+        if starts_with_dot {
+            // High-performance parsing for .123 format
+            // Use a stack-allocated buffer to avoid heap allocation
+            const STACK_BUF_SIZE: usize = 32;
+            if raw_str.len() < STACK_BUF_SIZE - 1 {
+                // Create a stack-allocated buffer with a leading '0'
+                let mut buffer = [0u8; STACK_BUF_SIZE];
+                buffer[0] = b'0';
+
+                // Fast memcpy of the original bytes (including the dot)
+                let src_bytes = raw_str.as_bytes();
+                let src_len = src_bytes.len();
+
+                // SAFETY: We've checked that src_len < STACK_BUF_SIZE - 1
+                unsafe {
+                    std::ptr::copy_nonoverlapping(
+                        src_bytes.as_ptr(),
+                        buffer.as_mut_ptr().add(1),
+                        src_len,
+                    );
+                    // Parse from the buffer - avoid allocation
+                    return std::str::from_utf8_unchecked(&buffer[0..src_len + 1])
+                        .parse::<f64>()
+                        .unwrap_or(f64::NAN);
+                }
+            } else {
+                // Fall back to string with capacity for very long numbers (rare case)
+                let mut with_leading_zero = String::with_capacity(raw_str.len() + 1);
+                with_leading_zero.push('0');
+                with_leading_zero.push_str(&raw_str);
+                return with_leading_zero.parse::<f64>().unwrap_or(f64::NAN);
+            }
+        }
+
+        // Standard case - use Rust's parser
         raw_str.parse::<f64>().unwrap_or(f64::NAN)
     }
 

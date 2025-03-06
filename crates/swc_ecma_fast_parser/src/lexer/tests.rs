@@ -95,6 +95,24 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     );
                 }
                 (
+                    TokenValue::BigInt {
+                        value: expected_val,
+                        ..
+                    },
+                    TokenValue::BigInt {
+                        value: actual_val, ..
+                    },
+                ) => {
+                    assert_eq!(
+                        expected_val.as_ref(),
+                        actual_val.as_ref(),
+                        "Token #{}: Expected bigint {}, got {}",
+                        i,
+                        expected_val,
+                        actual_val
+                    );
+                }
+                (
                     TokenValue::Template {
                         raw: expected_raw,
                         cooked: expected_cooked,
@@ -931,4 +949,423 @@ fn test_lexer_nullish_coalescing() {
     ];
 
     verify_tokens(input, expected_tokens);
+}
+
+#[test]
+#[allow(clippy::excessive_precision)]
+fn test_lexer_number_literals() {
+    // Test decimal integers
+    verify_tokens(
+        "123",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 123.0,
+                raw: Atom::from("123"),
+            }),
+        )],
+    );
+
+    // Test decimal with underscores
+    verify_tokens(
+        "1_000_000",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1000000.0,
+                raw: Atom::from("1_000_000"),
+            }),
+        )],
+    );
+
+    // Test floating point
+    verify_tokens(
+        "123.456",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 123.456,
+                raw: Atom::from("123.456"),
+            }),
+        )],
+    );
+
+    // Test floating point with leading dot
+    verify_tokens(
+        ".456",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.456,
+                raw: Atom::from(".456"),
+            }),
+        )],
+    );
+
+    // Test floating point with underscores
+    verify_tokens(
+        "123_456.789_012",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 123456.789012,
+                raw: Atom::from("123_456.789_012"),
+            }),
+        )],
+    );
+
+    // Test exponential notation
+    verify_tokens(
+        "1.23e10",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1.23e10,
+                raw: Atom::from("1.23e10"),
+            }),
+        )],
+    );
+
+    // Test exponential notation with underscores
+    verify_tokens(
+        "1_234.5_67e1_0",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1234.567e10,
+                raw: Atom::from("1_234.5_67e1_0"),
+            }),
+        )],
+    );
+
+    // Test exponential notation with positive exponent
+    verify_tokens(
+        "1.23e+10",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1.23e10,
+                raw: Atom::from("1.23e+10"),
+            }),
+        )],
+    );
+
+    // Test exponential notation with negative exponent
+    verify_tokens(
+        "1.23e-10",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1.23e-10,
+                raw: Atom::from("1.23e-10"),
+            }),
+        )],
+    );
+
+    // Test binary literals
+    verify_tokens(
+        "0b1010",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 10.0,
+                raw: Atom::from("0b1010"),
+            }),
+        )],
+    );
+
+    // Test binary literals with underscores
+    verify_tokens(
+        "0b1010_1010",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 170.0,
+                raw: Atom::from("0b1010_1010"),
+            }),
+        )],
+    );
+
+    // Test octal literals
+    verify_tokens(
+        "0o755",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 493.0,
+                raw: Atom::from("0o755"),
+            }),
+        )],
+    );
+
+    // Test octal literals with underscores
+    verify_tokens(
+        "0o7_5_5",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 493.0,
+                raw: Atom::from("0o7_5_5"),
+            }),
+        )],
+    );
+
+    // Test hexadecimal literals
+    verify_tokens(
+        "0xABCD",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 43981.0,
+                raw: Atom::from("0xABCD"),
+            }),
+        )],
+    );
+
+    // Test hexadecimal literals with underscores
+    verify_tokens(
+        "0xA_BCD",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 43981.0,
+                raw: Atom::from("0xA_BCD"),
+            }),
+        )],
+    );
+
+    // Test BigInt literals
+    verify_tokens(
+        "123n",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(123)),
+                raw: Atom::from("123"),
+            }),
+        )],
+    );
+
+    // Test BigInt literals with underscores
+    verify_tokens(
+        "1_234_567n",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(1234567)),
+                raw: Atom::from("1_234_567"),
+            }),
+        )],
+    );
+
+    // Test binary BigInt literals
+    verify_tokens(
+        "0b1010n",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(10)),
+                raw: Atom::from("0b1010"),
+            }),
+        )],
+    );
+
+    // Test octal BigInt literals
+    verify_tokens(
+        "0o755n",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(493)),
+                raw: Atom::from("0o755"),
+            }),
+        )],
+    );
+
+    // Test hexadecimal BigInt literals
+    verify_tokens(
+        "0xABCDn",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(43981)),
+                raw: Atom::from("0xABCD"),
+            }),
+        )],
+    );
+
+    // Test large decimal integers
+    verify_tokens(
+        "9007199254740991", // Max safe integer
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 9007199254740991.0,
+                raw: Atom::from("9007199254740991"),
+            }),
+        )],
+    );
+
+    // Test large decimal floats
+    verify_tokens(
+        "1.7976931348623157e+308", // Close to max double
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 1.7976931348623157e+308,
+                raw: Atom::from("1.7976931348623157e+308"),
+            }),
+        )],
+    );
+
+    // Test special values
+    verify_tokens(
+        "0",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.0,
+                raw: Atom::from("0"),
+            }),
+        )],
+    );
+}
+
+#[test]
+fn test_lexer_number_edge_cases() {
+    // Test dot followed by non-digit
+    verify_tokens(
+        ".abc",
+        vec![
+            (TokenType::Dot, None),
+            (TokenType::Ident, Some(TokenValue::Word(Atom::from("abc")))),
+        ],
+    );
+
+    // Test number followed by dot-dot (range operator)
+    verify_tokens(
+        "123..",
+        vec![
+            (
+                TokenType::Num,
+                Some(TokenValue::Num {
+                    value: 123.0,
+                    raw: Atom::from("123"),
+                }),
+            ),
+            (TokenType::Dot, None),
+            (TokenType::Dot, None),
+        ],
+    );
+
+    // Test zero with leading decimal point
+    verify_tokens(
+        ".0",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.0,
+                raw: Atom::from(".0"),
+            }),
+        )],
+    );
+
+    // Test leading zeros
+    verify_tokens(
+        "0123",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 123.0,
+                raw: Atom::from("0123"),
+            }),
+        )],
+    );
+
+    // Test small number in scientific notation
+    verify_tokens(
+        "4.94065645841247e-324", // Min positive double
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 4.94065645841247e-324,
+                raw: Atom::from("4.94065645841247e-324"),
+            }),
+        )],
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_lexer_invalid_binary_number() {
+    verify_tokens(
+        "0b",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.0,
+                raw: Atom::from("0b"),
+            }),
+        )],
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_lexer_invalid_octal_number() {
+    verify_tokens(
+        "0o",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.0,
+                raw: Atom::from("0o"),
+            }),
+        )],
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_lexer_invalid_hex_number() {
+    verify_tokens(
+        "0x",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 0.0,
+                raw: Atom::from("0x"),
+            }),
+        )],
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_lexer_invalid_bigint_with_decimal() {
+    verify_tokens(
+        "123.456n",
+        vec![(
+            TokenType::BigInt,
+            Some(TokenValue::BigInt {
+                value: Box::new(num_bigint::BigInt::from(123)),
+                raw: Atom::from("123.456"),
+            }),
+        )],
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_lexer_invalid_exponent() {
+    verify_tokens(
+        "123e",
+        vec![(
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 123.0,
+                raw: Atom::from("123e"),
+            }),
+        )],
+    );
 }
