@@ -774,13 +774,6 @@ impl Repeated for DeadCodeEliminator {
     }
 
     fn reset(&mut self) {
-        self.vars.clear();
-        self.scopes = vec![ScopeInfo::default()];
-        self.current_scope = 0;
-        self.ctx = SyntaxContext::empty();
-        self.in_pure_context = false;
-        // changed 플래그 명시적으로 리셋
-        self.changed = false;
-        self.import_specifiers.clear();
+        *self = Default::default();
     }
 }
