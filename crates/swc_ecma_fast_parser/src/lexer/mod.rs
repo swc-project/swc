@@ -404,16 +404,6 @@ impl<'a> Lexer<'a> {
     /// Skip whitespace and comments - optimized hot path
     #[inline(always)]
     fn skip_whitespace(&mut self) {
-        // Fast path skipping of multiple spaces using SIMD (if available)
-        #[cfg(target_arch = "x86_64")]
-        if self.cursor.position() + 16 <= self.cursor.rest().len()
-            && is_x86_feature_detected!("sse2")
-        {
-            unsafe {
-                self.skip_whitespace_simd();
-            }
-        }
-
         // Hot loop for ASCII whitespace and comments - most common case
         while let Some(ch) = self.cursor.peek() {
             if likely(ch < 128) {
@@ -493,51 +483,9 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// SIMD-accelerated whitespace skipping (only used when applicable)
-    #[cfg(target_arch = "x86_64")]
-    #[inline(always)]
-    unsafe fn skip_whitespace_simd(&mut self) {
-        use std::arch::x86_64::*;
-
-        const VECTOR_SIZE: usize = 16;
-        let input = self.cursor.rest();
-
-        // While we have enough bytes to process with SIMD
-        while self.cursor.position() + VECTOR_SIZE <= input.len() {
-            let data_ptr = input.as_ptr().add(self.cursor.position());
-            let data = _mm_loadu_si128(data_ptr as *const __m128i);
-
-            // Create masks for common whitespace: space, tab, newline, carriage return
-            let space_mask = _mm_cmpeq_epi8(data, _mm_set1_epi8(b' ' as i8));
-            let tab_mask = _mm_cmpeq_epi8(data, _mm_set1_epi8(b'\t' as i8));
-
-            // Combine the masks
-            let whitespace_mask = _mm_or_si128(space_mask, tab_mask);
-
-            // Check if we have all whitespace
-            let mask = _mm_movemask_epi8(whitespace_mask);
-
-            if mask == 0xffff {
-                // All 16 bytes are whitespace, skip them all
-                self.cursor.advance_n(VECTOR_SIZE);
-                continue;
-            }
-
-            // Find the first non-whitespace character
-            let trailing_zeros = (!mask as u16).trailing_zeros() as usize;
-            if trailing_zeros > 0 {
-                self.cursor.advance_n(trailing_zeros);
-            }
-
-            // Check for line breaks or comments in normal path
-            break;
-        }
-    }
-
-    /// Skip a line comment - optimized with SIMD and batch processing
     #[inline(always)]
     fn skip_line_comment(&mut self) {
-        // Fast path using find_byte (which uses SIMD internally when available)
+        // Fast path using find_byte
         if let Some(newline_pos) = self.cursor.find_byte(b'\n') {
             // Skip to the newline
             let from_cursor = newline_pos - self.cursor.position();
@@ -622,23 +570,6 @@ impl<'a> Lexer<'a> {
                 }
                 // Fast path: skip chunks of regular characters
                 _ => {
-                    // SIMD-accelerated search for end marker
-                    #[cfg(target_arch = "x86_64")]
-                    if is_x86_feature_detected!("sse2") {
-                        let rest = self.cursor.rest();
-                        if let Some(pos) =
-                            unsafe { cursor::simd_find_byte(rest, 0, rest.len(), b'*') }
-                        {
-                            // Skip directly to the potential end marker
-                            self.cursor.advance_n(pos);
-                            continue;
-                        } else {
-                            // No end marker found, skip the entire rest
-                            self.cursor.advance_n(rest.len());
-                            break 'outer;
-                        }
-                    }
-
                     // Process in larger chunks for better efficiency
                     let mut count = 1;
                     // Use a much larger chunk size (512) for better throughput

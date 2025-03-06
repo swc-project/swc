@@ -2,9 +2,6 @@
 //!
 //! This cursor operates directly on UTF-8 bytes for maximum performance.
 
-#[cfg(target_arch = "x86_64")]
-use std::arch::x86_64::*;
-
 use swc_common::BytePos;
 
 use crate::util::{likely, unlikely};
@@ -92,7 +89,6 @@ impl<'a> Cursor<'a> {
     }
 
     /// Advance until the predicate returns false or EOF is reached
-    /// Optimized with SIMD when available
     #[inline]
     pub fn advance_while<F>(&mut self, mut predicate: F) -> usize
     where
@@ -100,26 +96,7 @@ impl<'a> Cursor<'a> {
     {
         let start = self.pos;
 
-        // First process in batches for common ASCII cases
-        #[cfg(target_arch = "x86_64")]
-        {
-            if is_x86_feature_detected!("avx2") {
-                unsafe {
-                    self.advance_while_avx2(&mut predicate);
-                }
-            } else if is_x86_feature_detected!("sse2") {
-                unsafe {
-                    self.advance_while_sse2(&mut predicate);
-                }
-            } else {
-                self.advance_while_scalar(&mut predicate);
-            }
-        }
-
-        #[cfg(not(target_arch = "x86_64"))]
-        {
-            self.advance_while_scalar(&mut predicate);
-        }
+        self.advance_while_scalar(&mut predicate);
 
         self.pos - start
     }
@@ -164,97 +141,6 @@ impl<'a> Cursor<'a> {
         }
     }
 
-    /// SSE2 implementation of advance_while for x86_64
-    #[cfg(target_arch = "x86_64")]
-    #[target_feature(enable = "sse2")]
-    #[inline]
-    unsafe fn advance_while_sse2<F>(&mut self, predicate: &mut F) -> ()
-    where
-        F: FnMut(u8) -> bool,
-    {
-        const VECTOR_SIZE: usize = 16;
-
-        // Process 16 bytes at a time with SSE2
-        while self.pos + VECTOR_SIZE <= self.len {
-            // Load 16 bytes
-            let data_ptr = self.input.as_ptr().add(self.pos);
-            let data = _mm_loadu_si128(data_ptr as *const __m128i);
-
-            // Check each byte individually
-            let mut mask: u32 = 0;
-            for i in 0..VECTOR_SIZE {
-                let byte = *data_ptr.add(i);
-                if !predicate(byte) {
-                    mask |= 1 << i;
-                    break;
-                }
-            }
-
-            // If any byte failed the predicate, stop
-            if mask != 0 {
-                // Find the first failing byte
-                let trailing_zeros = mask.trailing_zeros() as usize;
-                self.pos += trailing_zeros;
-                return;
-            }
-
-            // All bytes passed, advance by vector size
-            self.pos += VECTOR_SIZE;
-        }
-
-        // Handle remaining bytes one by one
-        while let Some(byte) = self.peek() {
-            if !predicate(byte) {
-                break;
-            }
-            self.advance();
-        }
-    }
-
-    /// AVX2 implementation of advance_while for x86_64
-    #[cfg(target_arch = "x86_64")]
-    #[target_feature(enable = "avx2")]
-    #[inline]
-    unsafe fn advance_while_avx2<F>(&mut self, predicate: &mut F) -> ()
-    where
-        F: FnMut(u8) -> bool,
-    {
-        const VECTOR_SIZE: usize = 32;
-
-        // Process 32 bytes at a time with AVX2
-        while self.pos + VECTOR_SIZE <= self.len {
-            // Load 32 bytes
-            let data_ptr = self.input.as_ptr().add(self.pos);
-            let data = _mm256_loadu_si256(data_ptr as *const __m256i);
-
-            // Check each byte individually
-            let mut mask: u32 = 0;
-            for i in 0..VECTOR_SIZE {
-                let byte = *data_ptr.add(i);
-                if !predicate(byte) {
-                    mask |= 1 << i;
-                    break;
-                }
-            }
-
-            // If any byte failed the predicate, stop
-            if mask != 0 {
-                // Find the first failing byte
-                let trailing_zeros = mask.trailing_zeros() as usize;
-                self.pos += trailing_zeros;
-                return;
-            }
-
-            // All bytes passed, advance by vector size
-            self.pos += VECTOR_SIZE;
-        }
-
-        // Handle smaller chunks with SSE2
-        unsafe {
-            self.advance_while_sse2(predicate);
-        }
-    }
-
     /// Get slice from the current position to the end
     #[inline(always)]
     pub fn rest(&self) -> &'a [u8] {
@@ -286,159 +172,10 @@ impl<'a> Cursor<'a> {
     /// Find the next occurrence of a byte
     #[inline]
     pub fn find_byte(&self, byte: u8) -> Option<usize> {
-        // Fast path with SIMD for x86_64
-        #[cfg(target_arch = "x86_64")]
-        if self.len - self.pos >= 16 && is_x86_feature_detected!("sse2") {
-            return unsafe { simd_find_byte(self.input, self.pos, self.len, byte) };
-        }
-
         // Standard fallback implementation
         self.input[self.pos..]
             .iter()
             .position(|&b| b == byte)
             .map(|pos| self.pos + pos)
     }
-}
-
-/// SIMD-accelerated byte search
-#[cfg(target_arch = "x86_64")]
-#[target_feature(enable = "sse2")]
-#[inline]
-pub(crate) unsafe fn simd_find_byte(
-    haystack: &[u8],
-    start: usize,
-    end: usize,
-    needle: u8,
-) -> Option<usize> {
-    let mut pos = start;
-
-    // Create a vector with the needle byte repeated 16 times
-    let needle_vec = _mm_set1_epi8(needle as i8);
-
-    // Process 16 bytes at a time
-    while pos + 16 <= end {
-        // Load 16 bytes from the haystack
-        let chunk = _mm_loadu_si128(haystack.as_ptr().add(pos) as *const __m128i);
-
-        // Compare each byte with the needle
-        let cmp = _mm_cmpeq_epi8(chunk, needle_vec);
-        let mask = _mm_movemask_epi8(cmp);
-
-        // If any byte matches, find the first match
-        if mask != 0 {
-            let trailing_zeros = mask.trailing_zeros() as usize;
-            return Some(pos + trailing_zeros);
-        }
-
-        pos += 16;
-    }
-
-    // Check remaining bytes one by one
-    while pos < end {
-        if *haystack.get_unchecked(pos) == needle {
-            return Some(pos);
-        }
-        pos += 1;
-    }
-
-    None
-}
-
-/// SIMD optimized whitespace search
-#[cfg(target_arch = "x86_64")]
-#[target_feature(enable = "sse2")]
-#[inline]
-pub unsafe fn simd_find_whitespace(input: &[u8], start: usize, end: usize) -> Option<usize> {
-    let mut pos = start;
-
-    // Create vectors for whitespace bytes
-    let space = _mm_set1_epi8(b' ' as i8);
-    let tab = _mm_set1_epi8(b'\t' as i8);
-    let lf = _mm_set1_epi8(b'\n' as i8);
-    let cr = _mm_set1_epi8(b'\r' as i8);
-    let ff = _mm_set1_epi8(0x0c as i8);
-
-    // Process 16 bytes at a time
-    while pos + 16 <= end {
-        let chunk = _mm_loadu_si128(input.as_ptr().add(pos) as *const __m128i);
-
-        // Compare with each whitespace character
-        let cmp_space = _mm_cmpeq_epi8(chunk, space);
-        let cmp_tab = _mm_cmpeq_epi8(chunk, tab);
-        let cmp_lf = _mm_cmpeq_epi8(chunk, lf);
-        let cmp_cr = _mm_cmpeq_epi8(chunk, cr);
-        let cmp_ff = _mm_cmpeq_epi8(chunk, ff);
-
-        // Combine results
-        let cmp_space_tab = _mm_or_si128(cmp_space, cmp_tab);
-        let cmp_lf_cr = _mm_or_si128(cmp_lf, cmp_cr);
-        let cmp_combined = _mm_or_si128(cmp_space_tab, cmp_lf_cr);
-        let cmp_result = _mm_or_si128(cmp_combined, cmp_ff);
-
-        let mask = _mm_movemask_epi8(cmp_result);
-
-        if mask != 0 {
-            // Found a match, determine which byte
-            let trailing_zeros = mask.trailing_zeros() as usize;
-            return Some(pos + trailing_zeros);
-        }
-
-        pos += 16;
-    }
-
-    // Handle remaining bytes individually
-    while pos < end {
-        let byte = *input.get_unchecked(pos);
-        if matches!(byte, b' ' | b'\t' | b'\n' | b'\r' | 0x0c) {
-            return Some(pos);
-        }
-        pos += 1;
-    }
-
-    None
-}
-
-/// SIMD optimized line end search
-#[cfg(target_arch = "x86_64")]
-#[target_feature(enable = "sse2")]
-#[inline]
-pub unsafe fn simd_find_line_end(input: &[u8], start: usize, end: usize) -> Option<usize> {
-    let mut pos = start;
-
-    // Create vectors for line end bytes
-    let lf = _mm_set1_epi8(b'\n' as i8);
-    let cr = _mm_set1_epi8(b'\r' as i8);
-
-    // Process 16 bytes at a time
-    while pos + 16 <= end {
-        let chunk = _mm_loadu_si128(input.as_ptr().add(pos) as *const __m128i);
-
-        // Compare with each line end character
-        let cmp_lf = _mm_cmpeq_epi8(chunk, lf);
-        let cmp_cr = _mm_cmpeq_epi8(chunk, cr);
-
-        // Combine results
-        let cmp_result = _mm_or_si128(cmp_lf, cmp_cr);
-
-        let mask = _mm_movemask_epi8(cmp_result);
-
-        if mask != 0 {
-            // Found a match, determine which byte
-            let trailing_zeros = mask.trailing_zeros() as usize;
-            return Some(pos + trailing_zeros);
-        }
-
-        pos += 16;
-    }
-
-    // Handle remaining bytes individually
-    while pos < end {
-        let byte = *input.get_unchecked(pos);
-        if byte == b'\n' || byte == b'\r' {
-            return Some(pos);
-        }
-        pos += 1;
-    }
-
-    None
 }

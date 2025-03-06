@@ -201,77 +201,9 @@ impl Lexer<'_> {
     /// Find the end of a string without processing escape sequences
     #[inline]
     fn find_string_end(&self, quote: u8) -> Option<usize> {
-        let mut pos = 0;
+        let pos = 0;
         let rest = self.cursor.rest();
 
-        // Use SIMD for longer strings when available
-        #[cfg(target_arch = "x86_64")]
-        if rest.len() >= 16 && is_x86_feature_detected!("sse2") {
-            // Fast SIMD search to find either quote or escape character
-            use std::arch::x86_64::*;
-
-            unsafe {
-                let quote_vector = _mm_set1_epi8(quote as i8);
-                let escape_vector = _mm_set1_epi8(b'\\' as i8);
-                let newline_vector = _mm_set1_epi8(b'\n' as i8);
-                let carriage_vector = _mm_set1_epi8(b'\r' as i8);
-
-                while pos + 16 <= rest.len() {
-                    let chunk = _mm_loadu_si128(rest.as_ptr().add(pos) as *const __m128i);
-
-                    // Check for quote, escape, or line terminators
-                    let cmp_quote = _mm_cmpeq_epi8(chunk, quote_vector);
-                    let cmp_escape = _mm_cmpeq_epi8(chunk, escape_vector);
-                    let cmp_newline = _mm_cmpeq_epi8(chunk, newline_vector);
-                    let cmp_carriage = _mm_cmpeq_epi8(chunk, carriage_vector);
-
-                    // Combine all special characters
-                    let cmp_special = _mm_or_si128(
-                        _mm_or_si128(cmp_quote, cmp_escape),
-                        _mm_or_si128(cmp_newline, cmp_carriage),
-                    );
-
-                    let mask = _mm_movemask_epi8(cmp_special);
-
-                    if mask != 0 {
-                        // Found a special character
-                        let offset = mask.trailing_zeros() as usize;
-
-                        // Check what kind of special character we found
-                        let special_char = *rest.get_unchecked(pos + offset);
-
-                        if special_char == quote {
-                            // Check if it's escaped by counting backslashes
-                            let mut escape_count = 0;
-                            if offset > 0 {
-                                let mut i = offset - 1;
-                                while i != usize::MAX && *rest.get_unchecked(pos + i) == b'\\' {
-                                    escape_count += 1;
-                                    if i == 0 {
-                                        break;
-                                    }
-                                    i -= 1;
-                                }
-                            }
-
-                            // If even number of backslashes, quote is not escaped
-                            if escape_count % 2 == 0 {
-                                return Some(pos + offset);
-                            }
-                        }
-
-                        // For all other cases, fall back to standard algorithm
-                        // This ensures we handle all edge cases correctly
-                        return self.find_string_end_standard(pos + offset, rest, quote);
-                    } else {
-                        // No special characters in this chunk
-                        pos += 16;
-                    }
-                }
-            }
-        }
-
-        // Standard fallback for the remaining characters
         self.find_string_end_standard(pos, rest, quote)
     }
 
