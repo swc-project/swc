@@ -1,0 +1,1 @@
+1. When creating Atom instances, it's better to use Cow<str> or &str instead of String.
