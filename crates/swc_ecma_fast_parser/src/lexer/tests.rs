@@ -566,3 +566,303 @@ fn test_lexer_spread_operator() {
 
     verify_tokens(input, expected_tokens);
 }
+
+#[test]
+fn test_lexer_for_of_loop() {
+    // JavaScript for-of loop
+    let input = "for (const item of items) { console.log(item); }";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // for-of loop header
+        (TokenType::For, None),
+        (TokenType::LParen, None),
+        (TokenType::Const, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("item")))),
+        (TokenType::Of, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("items"))),
+        ),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        // Loop body
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("console"))),
+        ),
+        (TokenType::Dot, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("log")))),
+        (TokenType::LParen, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("item")))),
+        (TokenType::RParen, None),
+        (TokenType::Semi, None),
+        // End of loop
+        (TokenType::RBrace, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_import_statement() {
+    // JavaScript import statements with various syntax forms
+    let input = "import defaultExport from 'module'; import * as name from 'module'; import { \
+                 export1, export2 as alias } from 'module';";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // Default import
+        (TokenType::Import, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("defaultExport"))),
+        ),
+        (TokenType::From, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("module"),
+                raw: "'module'".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+        // Namespace import
+        (TokenType::Import, None),
+        (TokenType::Asterisk, None),
+        (TokenType::As, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("name")))),
+        (TokenType::From, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("module"),
+                raw: "'module'".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+        // Named imports
+        (TokenType::Import, None),
+        (TokenType::LBrace, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("export1"))),
+        ),
+        (TokenType::Comma, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("export2"))),
+        ),
+        (TokenType::As, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("alias"))),
+        ),
+        (TokenType::RBrace, None),
+        (TokenType::From, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("module"),
+                raw: "'module'".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_export_statement() {
+    // JavaScript export statements with various syntax forms
+    let input = "export const value = 42; export default function() {}; export { name1, name2 as \
+                 alias }; export * from 'module';";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // Named export with declaration
+        (TokenType::Export, None),
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("value"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Num,
+            Some(TokenValue::Num {
+                value: 42.0,
+                raw: "42".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+        // Default export
+        (TokenType::Export, None),
+        (TokenType::Default, None),
+        (TokenType::Function, None),
+        (TokenType::LParen, None),
+        (TokenType::RParen, None),
+        (TokenType::LBrace, None),
+        (TokenType::RBrace, None),
+        (TokenType::Semi, None),
+        // Named exports
+        (TokenType::Export, None),
+        (TokenType::LBrace, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("name1"))),
+        ),
+        (TokenType::Comma, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("name2"))),
+        ),
+        (TokenType::As, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("alias"))),
+        ),
+        (TokenType::RBrace, None),
+        (TokenType::Semi, None),
+        // Re-export
+        (TokenType::Export, None),
+        (TokenType::Asterisk, None),
+        (TokenType::From, None),
+        (
+            TokenType::Str,
+            Some(TokenValue::Str {
+                value: Atom::from("module"),
+                raw: "'module'".into(),
+            }),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_regular_expressions() {
+    // JavaScript regular expressions with various flags
+    let input = "const pattern1 = /[a-z]+/; const pattern2 = /\\d+/g; const pattern3 = /^test$/i;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        // First regex
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("pattern1"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Regex,
+            Some(TokenValue::Regex {
+                exp: Atom::from("[a-z]+"),
+                flags: Atom::from(""),
+            }),
+        ),
+        (TokenType::Semi, None),
+        // Second regex with global flag
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("pattern2"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Regex,
+            Some(TokenValue::Regex {
+                exp: Atom::from("\\d+"),
+                flags: Atom::from("g"),
+            }),
+        ),
+        (TokenType::Semi, None),
+        // Third regex with case-insensitive flag
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("pattern3"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Regex,
+            Some(TokenValue::Regex {
+                exp: Atom::from("^test$"),
+                flags: Atom::from("i"),
+            }),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_optional_chaining() {
+    // JavaScript optional chaining
+    let input = "const value = obj?.prop?.method?.()?.nested;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("value"))),
+        ),
+        (TokenType::Eq, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("obj")))),
+        (TokenType::OptionalChain, None),
+        (TokenType::Ident, Some(TokenValue::Word(Atom::from("prop")))),
+        (TokenType::OptionalChain, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("method"))),
+        ),
+        (TokenType::OptionalChain, None),
+        (TokenType::LParen, None),
+        (TokenType::RParen, None),
+        (TokenType::OptionalChain, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("nested"))),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
+
+#[test]
+fn test_lexer_nullish_coalescing() {
+    // JavaScript nullish coalescing operator
+    let input = "const value = first ?? second ?? defaultValue;";
+
+    // Expected token types and values
+    let expected_tokens = vec![
+        (TokenType::Const, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("value"))),
+        ),
+        (TokenType::Eq, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("first"))),
+        ),
+        (TokenType::NullishCoalescing, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("second"))),
+        ),
+        (TokenType::NullishCoalescing, None),
+        (
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("defaultValue"))),
+        ),
+        (TokenType::Semi, None),
+    ];
+
+    verify_tokens(input, expected_tokens);
+}
