@@ -86,7 +86,8 @@ impl<'a> Cursor<'a> {
     /// Advance the cursor by n bytes
     #[inline(always)]
     pub fn advance_n(&mut self, n: u32) {
-        self.pos = (self.pos + n).min(self.len);
+        assume!(unsafe: self.pos + n <= self.len);
+        self.pos += n;
     }
 
     /// Advance until the predicate returns false or EOF is reached
