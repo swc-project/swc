@@ -309,6 +309,7 @@ impl<'a> Cursor<'a> {
             let mask_array = mask.to_array();
 
             // Check for any matches
+            #[allow(clippy::needless_range_loop)]
             for i in 0..16 {
                 if mask_array[i] != 0 {
                     return Some(self.pos + position + i);
