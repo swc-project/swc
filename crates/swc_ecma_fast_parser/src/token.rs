@@ -698,17 +698,6 @@ mod tests {
 
     #[test]
     fn test_keyword_to_token_type() {
-        // Test the "const" keyword hash calculation
-        let word = "const";
-        let bytes = word.as_bytes();
-        let mut hash: u32 = 2166136261; // FNV offset basis
-        for &b in bytes {
-            hash ^= b as u32;
-            hash = hash.wrapping_mul(16777619); // FNV prime
-        }
-        let hash = hash ^ (word.len() as u32);
-        println!("const hash: {}", hash);
-
         assert_eq!(keyword_to_token_type("const"), Some(TokenType::Const));
         assert_eq!(keyword_to_token_type("function"), Some(TokenType::Function));
         assert_eq!(keyword_to_token_type("class"), Some(TokenType::Class));
