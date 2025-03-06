@@ -5,8 +5,8 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith};
+use swc_ecma_utils::{find_pat_ids, IsDirective};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 // Define Id type for our usage
 type Id = (Atom, SyntaxContext);
@@ -240,13 +240,14 @@ impl DeadCodeEliminator {
 
     /// Should we keep this statement even if it's not used
     fn should_preserve_stmt(&self, stmt: &Stmt) -> bool {
-        match stmt {
-            Stmt::Expr(ExprStmt { expr, .. }) => !self.is_pure_expr(expr),
-            // Preserve declarations by default
-            Stmt::Decl(..) => true,
-            // Preserve most statements by default unless we know they're unused
-            _ => true,
-        }
+        stmt.can_precede_directive()
+            || match stmt {
+                Stmt::Expr(ExprStmt { expr, .. }) => !self.is_pure_expr(expr),
+                // Preserve declarations by default
+                Stmt::Decl(..) => true,
+                // Preserve most statements by default unless we know they're unused
+                _ => true,
+            }
     }
 
     /// Process a pattern (destructuring assignment) to find and register
@@ -630,11 +631,7 @@ impl VisitMut for DeadCodeEliminator {
         self.remove_unreachable_stmts(stmts);
 
         // Remove empty statements and pure expressions with no side effects
-        stmts.retain(|stmt| match stmt {
-            Stmt::Empty(..) => false,
-            Stmt::Expr(ExprStmt { expr, .. }) => !self.is_pure_expr(expr),
-            _ => true,
-        });
+        stmts.retain(|stmt| self.should_preserve_stmt(stmt));
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
