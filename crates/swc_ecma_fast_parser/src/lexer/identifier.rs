@@ -67,10 +67,7 @@ impl<'a> Lexer<'a> {
             let first_char = ident_bytes[0];
 
             // Fast path: check if the first character could be a keyword
-            if first_char >= b'a'
-                && first_char <= b'z'
-                && KEYWORD_FIRST_CHAR[(first_char - b'a') as usize]
-            {
+            if first_char.is_ascii_lowercase() && KEYWORD_FIRST_CHAR[(first_char - b'a') as usize] {
                 // It could be a keyword, check the full string
                 if let Some(token_type) = keyword_to_token_type(ident_str) {
                     return Ok(Token::new(
