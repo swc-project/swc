@@ -120,15 +120,29 @@ impl DeadCodeEliminator {
     /// Register a variable usage/reference
     fn register_reference(&mut self, id: &Id) {
         if let Some(var) = self.vars.get_mut(id) {
+            let was_referenced = var.referenced;
+            let prev_ref_count = var.ref_count;
+
             var.referenced = true;
             var.ref_count += 1;
+
+            // 참조 상태가 변경되었으면 변경 사항으로 표시
+            if !was_referenced || prev_ref_count != var.ref_count {
+                self.changed = true;
+            }
         }
     }
 
     /// Register a variable mutation
     fn register_mutation(&mut self, id: &Id) {
         if let Some(var) = self.vars.get_mut(id) {
+            let was_mutated = var.mutated;
             var.mutated = true;
+
+            // 변이 상태가 변경되었으면 변경 사항으로 표시
+            if !was_mutated {
+                self.changed = true;
+            }
         }
     }
 
@@ -138,14 +152,25 @@ impl DeadCodeEliminator {
 
         // Add to current scope's declarations
         if let Some(scope_info) = self.scopes.get_mut(scope) {
-            scope_info.declared_vars.insert(id.clone());
+            let is_new = scope_info.declared_vars.insert(id.clone());
+            if is_new {
+                self.changed = true;
+            }
         }
 
         // Update variable info
         let var = self.vars.entry(id).or_default();
+        let prev_has_side_effects = var.has_side_effects;
+        let prev_is_fn = var.is_fn;
+
         var.scope = scope;
         var.has_side_effects = has_side_effects;
         var.is_fn = is_fn;
+
+        // 속성이 변경되었으면 변경 사항으로 표시
+        if prev_has_side_effects != has_side_effects || prev_is_fn != is_fn {
+            self.changed = true;
+        }
     }
 
     /// Evaluate if expression is pure (no side effects)
@@ -283,8 +308,12 @@ impl DeadCodeEliminator {
         if found_terminal {
             i += 1; // Skip the terminal statement itself
             if i < stmts.len() {
+                let original_len = stmts.len();
                 stmts.drain(i..);
-                self.changed = true;
+                // stmts 길이가 변경되었다면 changed 설정
+                if stmts.len() != original_len {
+                    self.changed = true;
+                }
             }
         }
     }
@@ -457,7 +486,7 @@ impl VisitMut for DeadCodeEliminator {
                     if let Some(var_info) = self.vars.get(&id) {
                         if !var_info.referenced && !var_info.exported {
                             module.body.remove(i);
-                            self.changed = true;
+                            self.changed = true; // 클래스 제거 시 명시적으로 changed 설정
                             removed = true;
                         }
                     }
@@ -466,7 +495,11 @@ impl VisitMut for DeadCodeEliminator {
                     self.try_remove_pure_stmt(stmt);
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                    // Store original count to check if we've removed all specifiers
+                    let original_count = import_decl.specifiers.len();
+
                     // Remove unused import specifiers
+                    let mut removed_any = false;
                     import_decl.specifiers.retain(|specifier| {
                         let local = match specifier {
                             ImportSpecifier::Named(named) => &named.local,
@@ -476,15 +509,35 @@ impl VisitMut for DeadCodeEliminator {
 
                         let id = (local.sym.clone(), local.ctxt);
                         // Keep the specifier if it's used or not tracked
-                        self.import_specifiers.get(&id).map_or(true, |used| {
-                            if !used {
-                                self.changed = true;
-                                false
-                            } else {
-                                true
-                            }
-                        })
+                        let keep = self.import_specifiers.get(&id).map_or(true, |used| *used);
+                        if !keep {
+                            removed_any = true;
+                        }
+                        keep
                     });
+
+                    // 정말로 import specifier가 제거되었는지 확인하고 변경 사항 표시
+                    if removed_any && original_count != import_decl.specifiers.len() {
+                        self.changed = true;
+                    }
+
+                    // If we removed all specifiers but there were some originally,
+                    // keep one to maintain a valid import statement
+                    if original_count > 0 && import_decl.specifiers.is_empty() {
+                        import_decl
+                            .specifiers
+                            .push(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local: Ident {
+                                    span: DUMMY_SP,
+                                    sym: "_unused".into(),
+                                    ctxt: self.ctx,
+                                    optional: false,
+                                },
+                                imported: None,
+                                is_type_only: false,
+                            }));
+                    }
                 }
                 _ => {}
             }
@@ -532,7 +585,12 @@ impl VisitMut for DeadCodeEliminator {
         self.remove_unreachable_stmts(stmts);
 
         // Remove empty statements and pure expressions with no side effects
+        let original_len = stmts.len();
         stmts.retain(|stmt| self.should_preserve_stmt(stmt));
+        // 길이가 변경되었다면 changed 설정
+        if stmts.len() != original_len {
+            self.changed = true;
+        }
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
@@ -697,7 +755,13 @@ impl VisitMut for DeadCodeEliminator {
     fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
         // 클래스 이름 처리
         let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
+        let is_new = !self.vars.contains_key(&id);
         self.register_declaration(id, false, false);
+
+        // 새로운 클래스 선언을 추가했다면 변경 사항으로 표시
+        if is_new {
+            self.changed = true;
+        }
 
         // 클래스 내용 방문
         class_decl.class.visit_mut_with(self);
@@ -710,6 +774,13 @@ impl Repeated for DeadCodeEliminator {
     }
 
     fn reset(&mut self) {
-        *self = Default::default();
+        self.vars.clear();
+        self.scopes = vec![ScopeInfo::default()];
+        self.current_scope = 0;
+        self.ctx = SyntaxContext::empty();
+        self.in_pure_context = false;
+        // changed 플래그 명시적으로 리셋
+        self.changed = false;
+        self.import_specifiers.clear();
     }
 }
