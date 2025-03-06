@@ -17,7 +17,10 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
                 }
                 let token = lexer.next_token();
 
-                black_box(token).unwrap();
+                black_box(token).unwrap_or_else(|err| {
+                    let loc = cm.lookup_char_pos(err.span.lo);
+                    panic!("{err:?}: {loc:?}");
+                });
             }
         });
         Ok(())
