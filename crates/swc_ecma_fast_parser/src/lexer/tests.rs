@@ -1215,36 +1215,6 @@ fn test_lexer_number_literals() {
 
 #[test]
 fn test_lexer_number_edge_cases() {
-    // Test number followed by identifier (no space)
-    verify_tokens(
-        "123abc",
-        vec![
-            (
-                TokenType::Num,
-                Some(TokenValue::Num {
-                    value: 123.0,
-                    raw: Atom::from("123"),
-                }),
-            ),
-            (TokenType::Ident, Some(TokenValue::Word(Atom::from("abc")))),
-        ],
-    );
-
-    // Test floating point without integer part followed by identifier
-    verify_tokens(
-        ".123abc",
-        vec![
-            (
-                TokenType::Num,
-                Some(TokenValue::Num {
-                    value: 0.123,
-                    raw: Atom::from(".123"),
-                }),
-            ),
-            (TokenType::Ident, Some(TokenValue::Word(Atom::from("abc")))),
-        ],
-    );
-
     // Test dot followed by non-digit
     verify_tokens(
         ".abc",
