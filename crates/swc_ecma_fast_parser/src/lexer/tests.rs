@@ -114,7 +114,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                         actual_raw
                     );
 
-                    match (expected_cooked, actual_cooked) {
+                    match (&expected_cooked, &actual_cooked) {
                         (Some(expected), Some(actual)) => {
                             assert_eq!(
                                 expected.as_ref(),
