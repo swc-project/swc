@@ -120,29 +120,23 @@ impl DeadCodeEliminator {
     /// Register a variable usage/reference
     fn register_reference(&mut self, id: &Id) {
         if let Some(var) = self.vars.get_mut(id) {
-            let was_referenced = var.referenced;
-            let prev_ref_count = var.ref_count;
-
             var.referenced = true;
             var.ref_count += 1;
 
-            // 참조 상태가 변경되었으면 변경 사항으로 표시
-            if !was_referenced || prev_ref_count != var.ref_count {
-                self.changed = true;
-            }
+            // Note: We don't set self.changed=true here since this is just
+            // tracking variable usage and not an actual AST
+            // transformation
         }
     }
 
     /// Register a variable mutation
     fn register_mutation(&mut self, id: &Id) {
         if let Some(var) = self.vars.get_mut(id) {
-            let was_mutated = var.mutated;
             var.mutated = true;
 
-            // 변이 상태가 변경되었으면 변경 사항으로 표시
-            if !was_mutated {
-                self.changed = true;
-            }
+            // Note: We don't set self.changed=true here since this is just
+            // tracking variable state and not an actual AST
+            // transformation
         }
     }
 
@@ -152,10 +146,7 @@ impl DeadCodeEliminator {
 
         // Add to current scope's declarations
         if let Some(scope_info) = self.scopes.get_mut(scope) {
-            let is_new = scope_info.declared_vars.insert(id.clone());
-            if is_new {
-                self.changed = true;
-            }
+            scope_info.declared_vars.insert(id.clone());
         }
 
         // Update variable info
@@ -167,7 +158,8 @@ impl DeadCodeEliminator {
         var.has_side_effects = has_side_effects;
         var.is_fn = is_fn;
 
-        // 속성이 변경되었으면 변경 사항으로 표시
+        // Only mark changed if there's an actual difference in behavior
+        // that might affect code elimination
         if prev_has_side_effects != has_side_effects || prev_is_fn != is_fn {
             self.changed = true;
         }
@@ -755,13 +747,7 @@ impl VisitMut for DeadCodeEliminator {
     fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
         // Process class name
         let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
-        let is_new = !self.vars.contains_key(&id);
         self.register_declaration(id, false, false);
-
-        // Mark as changed if a new class declaration is added
-        if is_new {
-            self.changed = true;
-        }
 
         // Visit class contents
         class_decl.class.visit_mut_with(self);
