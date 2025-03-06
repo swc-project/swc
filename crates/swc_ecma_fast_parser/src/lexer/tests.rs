@@ -67,6 +67,33 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                         actual_val
                     );
                 }
+                (
+                    TokenValue::Regex {
+                        exp: expected_exp,
+                        flags: expected_flags,
+                    },
+                    TokenValue::Regex {
+                        exp: actual_exp,
+                        flags: actual_flags,
+                    },
+                ) => {
+                    assert_eq!(
+                        expected_exp.as_ref(),
+                        actual_exp.as_ref(),
+                        "Token #{}: Expected regex expression '{}', got '{}'",
+                        i,
+                        expected_exp,
+                        actual_exp
+                    );
+                    assert_eq!(
+                        expected_flags.as_ref(),
+                        actual_flags.as_ref(),
+                        "Token #{}: Expected regex flags '{}', got '{}'",
+                        i,
+                        expected_flags,
+                        actual_flags
+                    );
+                }
                 _ => panic!(
                     "Token #{}: Value type mismatch or unsupported value comparison",
                     i
