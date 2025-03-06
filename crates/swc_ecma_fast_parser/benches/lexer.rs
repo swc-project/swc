@@ -32,7 +32,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 }
 
 fn bench_files(c: &mut Criterion) {
-    c.bench_function("es/lexer/angular", |b| {
+    c.bench_function("fast-es/lexer/angular", |b| {
         bench_module(
             b,
             Default::default(),
@@ -40,7 +40,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/backbone", |b| {
+    c.bench_function("fast-es/lexer/backbone", |b| {
         bench_module(
             b,
             Default::default(),
@@ -48,7 +48,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/jquery", |b| {
+    c.bench_function("fast-es/lexer/jquery", |b| {
         bench_module(
             b,
             Default::default(),
@@ -56,14 +56,14 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/jquery mobile", |b| {
+    c.bench_function("fast-es/lexer/jquery mobile", |b| {
         bench_module(
             b,
             Default::default(),
             include_str!("../../swc_ecma_parser/benches/files/jquery.mobile-1.4.2.js"),
         )
     });
-    c.bench_function("es/lexer/mootools", |b| {
+    c.bench_function("fast-es/lexer/mootools", |b| {
         bench_module(
             b,
             Default::default(),
@@ -71,7 +71,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/underscore", |b| {
+    c.bench_function("fast-es/lexer/underscore", |b| {
         bench_module(
             b,
             Default::default(),
@@ -79,7 +79,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/three", |b| {
+    c.bench_function("fast-es/lexer/three", |b| {
         bench_module(
             b,
             Default::default(),
@@ -87,7 +87,7 @@ fn bench_files(c: &mut Criterion) {
         )
     });
 
-    c.bench_function("es/lexer/yui", |b| {
+    c.bench_function("fast-es/lexer/yui", |b| {
         bench_module(
             b,
             Default::default(),
