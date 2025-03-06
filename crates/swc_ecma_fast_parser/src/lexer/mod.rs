@@ -39,7 +39,7 @@ enum LineBreak {
 impl From<bool> for LineBreak {
     #[inline(always)]
     fn from(b: bool) -> Self {
-        // Use direct casting for faster conversion
+        // Use direct transmute for faster conversion - avoid branching
         unsafe { std::mem::transmute(b as u8) }
     }
 }
@@ -47,7 +47,7 @@ impl From<bool> for LineBreak {
 impl From<LineBreak> for bool {
     #[inline(always)]
     fn from(lb: LineBreak) -> Self {
-        // Use direct casting for faster conversion
+        // Direct conversion to boolean with no branching
         lb as u8 != 0
     }
 }
@@ -99,8 +99,8 @@ const CHAR_OPERATOR: u8 = 0b0100_0000;
 const CHAR_SPECIAL: u8 = 0b1000_0000;
 
 // Extended lookup table for faster character checks (ASCII only)
-static ASCII_LOOKUP: [u8; 128] = {
-    let mut table = [0u8; 128];
+static ASCII_LOOKUP: [u8; 256] = {
+    let mut table = [0u8; 256];
 
     // Mark whitespace characters
     table[b' ' as usize] = CHAR_WHITESPACE;
@@ -165,9 +165,30 @@ static ASCII_LOOKUP: [u8; 128] = {
     table
 };
 
+// Token type dispatch table to avoid large match statements - this stores
+// TokenType by character
+static TOKEN_DISPATCH: [TokenType; 128] = {
+    let mut table = [TokenType::Invalid; 128];
+
+    // Single-character tokens
+    table[b'(' as usize] = TokenType::LParen;
+    table[b')' as usize] = TokenType::RParen;
+    table[b'{' as usize] = TokenType::LBrace;
+    table[b'}' as usize] = TokenType::RBrace;
+    table[b'[' as usize] = TokenType::LBracket;
+    table[b']' as usize] = TokenType::RBracket;
+    table[b';' as usize] = TokenType::Semi;
+    table[b',' as usize] = TokenType::Comma;
+    table[b':' as usize] = TokenType::Colon;
+    table[b'~' as usize] = TokenType::Tilde;
+    table[b'@' as usize] = TokenType::At;
+
+    table
+};
+
 impl<'a> Lexer<'a> {
     /// Create a new lexer from a string input
-    #[inline]
+    #[inline(always)]
     pub fn new(
         input: &'a str,
         target: JscTarget,
@@ -197,7 +218,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// Get the next token
-    #[inline]
+    #[inline(always)]
     pub fn next_token(&mut self) -> Result<Token> {
         // Skip whitespaces and comments
         self.skip_whitespace();
@@ -247,23 +268,24 @@ impl<'a> Lexer<'a> {
             if char_type & CHAR_SPECIAL != 0 {
                 match ch {
                     // Group frequent tokens together for better branch prediction
-                    b'{' => self.single_char_token(TokenType::LBrace, had_line_break),
-                    b'}' => {
-                        if unlikely(self.in_template) {
+                    // Use direct table lookup for single-character tokens
+                    b'{' | b'}' | b'(' | b')' | b'[' | b']' | b';' | b',' | b':' | b'~' | b'@' => {
+                        // Special case for closing brace in template
+                        if unlikely(ch == b'}' && self.in_template) {
                             // End of template expression
                             self.in_template = false;
                         }
-                        self.single_char_token(TokenType::RBrace, had_line_break)
+
+                        let token_type = unsafe { *TOKEN_DISPATCH.get_unchecked(ch as usize) };
+                        self.cursor.advance();
+
+                        Ok(Token::new(
+                            token_type,
+                            self.span(),
+                            had_line_break,
+                            TokenValue::None,
+                        ))
                     }
-                    b'(' => self.single_char_token(TokenType::LParen, had_line_break),
-                    b')' => self.single_char_token(TokenType::RParen, had_line_break),
-                    b'[' => self.single_char_token(TokenType::LBracket, had_line_break),
-                    b']' => self.single_char_token(TokenType::RBracket, had_line_break),
-                    b';' => self.single_char_token(TokenType::Semi, had_line_break),
-                    b',' => self.single_char_token(TokenType::Comma, had_line_break),
-                    b':' => self.single_char_token(TokenType::Colon, had_line_break),
-                    b'~' => self.single_char_token(TokenType::Tilde, had_line_break),
-                    b'@' => self.single_char_token(TokenType::At, had_line_break),
 
                     // String literals - group together for better branch prediction
                     b'"' | b'\'' => self.read_string(ch),
@@ -358,21 +380,19 @@ impl<'a> Lexer<'a> {
         Span::new(self.start_pos, self.cursor.pos())
     }
 
-    /// Parse a single-character token - extremely common, so heavily optimized
-    #[inline(always)]
-    fn single_char_token(&mut self, token_type: TokenType, had_line_break: bool) -> Result<Token> {
-        self.cursor.advance();
-        Ok(Token::new(
-            token_type,
-            self.span(),
-            had_line_break,
-            TokenValue::None,
-        ))
-    }
-
     /// Skip whitespace and comments - optimized hot path
-    #[inline]
+    #[inline(always)]
     fn skip_whitespace(&mut self) {
+        // Fast path skipping of multiple spaces using SIMD (if available)
+        #[cfg(target_arch = "x86_64")]
+        if self.cursor.position() + 16 <= self.cursor.rest().len()
+            && is_x86_feature_detected!("sse2")
+        {
+            unsafe {
+                self.skip_whitespace_simd();
+            }
+        }
+
         // Hot loop for ASCII whitespace and comments - most common case
         while let Some(ch) = self.cursor.peek() {
             if likely(ch < 128) {
@@ -452,8 +472,49 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    /// SIMD-accelerated whitespace skipping (only used when applicable)
+    #[cfg(target_arch = "x86_64")]
+    #[inline(always)]
+    unsafe fn skip_whitespace_simd(&mut self) {
+        use std::arch::x86_64::*;
+
+        const VECTOR_SIZE: usize = 16;
+        let input = self.cursor.rest();
+
+        // While we have enough bytes to process with SIMD
+        while self.cursor.position() + VECTOR_SIZE <= input.len() {
+            let data_ptr = input.as_ptr().add(self.cursor.position());
+            let data = _mm_loadu_si128(data_ptr as *const __m128i);
+
+            // Create masks for common whitespace: space, tab, newline, carriage return
+            let space_mask = _mm_cmpeq_epi8(data, _mm_set1_epi8(b' ' as i8));
+            let tab_mask = _mm_cmpeq_epi8(data, _mm_set1_epi8(b'\t' as i8));
+
+            // Combine the masks
+            let whitespace_mask = _mm_or_si128(space_mask, tab_mask);
+
+            // Check if we have all whitespace
+            let mask = _mm_movemask_epi8(whitespace_mask);
+
+            if mask == 0xffff {
+                // All 16 bytes are whitespace, skip them all
+                self.cursor.advance_n(VECTOR_SIZE);
+                continue;
+            }
+
+            // Find the first non-whitespace character
+            let trailing_zeros = (!mask as u16).trailing_zeros() as usize;
+            if trailing_zeros > 0 {
+                self.cursor.advance_n(trailing_zeros);
+            }
+
+            // Check for line breaks or comments in normal path
+            break;
+        }
+    }
+
     /// Skip a line comment - optimized with SIMD and batch processing
-    #[inline]
+    #[inline(always)]
     fn skip_line_comment(&mut self) {
         // Fast path using find_byte (which uses SIMD internally when available)
         if let Some(newline_pos) = self.cursor.find_byte(b'\n') {
@@ -492,7 +553,7 @@ impl<'a> Lexer<'a> {
 
     /// Skip a block comment - optimized for faster scanning with chunk-based
     /// approach
-    #[inline]
+    #[inline(always)]
     fn skip_block_comment(&mut self) {
         let mut had_line_break = false;
 
@@ -540,10 +601,27 @@ impl<'a> Lexer<'a> {
                 }
                 // Fast path: skip chunks of regular characters
                 _ => {
+                    // SIMD-accelerated search for end marker
+                    #[cfg(target_arch = "x86_64")]
+                    if is_x86_feature_detected!("sse2") {
+                        let rest = self.cursor.rest();
+                        if let Some(pos) =
+                            unsafe { cursor::simd_find_byte(rest, 0, rest.len(), b'*') }
+                        {
+                            // Skip directly to the potential end marker
+                            self.cursor.advance_n(pos);
+                            continue;
+                        } else {
+                            // No end marker found, skip the entire rest
+                            self.cursor.advance_n(rest.len());
+                            break 'outer;
+                        }
+                    }
+
                     // Process in larger chunks for better efficiency
                     let mut count = 1;
-                    // Use a larger chunk size (128) for better throughput
-                    while count < 128 {
+                    // Use a much larger chunk size (512) for better throughput
+                    while count < 512 {
                         match self.cursor.peek_at(count) {
                             // Stop at special characters that need special handling
                             Some(b'*') | Some(b'\n') | Some(b'\r') | Some(0xe2) => break,
@@ -569,9 +647,9 @@ impl<'a> Lexer<'a> {
     /// Check if a byte is a valid identifier start character
     #[inline(always)]
     fn is_identifier_start(byte: u8) -> bool {
-        // ASCII fast path using lookup table
+        // ASCII fast path using optimized identifier functions
         if likely(byte < 128) {
-            (ASCII_LOOKUP[byte as usize] & CHAR_ID_START) != 0
+            Self::is_ascii_id_start(byte)
         } else {
             // Non-ASCII, needs further checking in read_identifier
             true
@@ -581,9 +659,9 @@ impl<'a> Lexer<'a> {
     /// Check if a byte is a valid identifier continue character
     #[inline(always)]
     fn is_identifier_continue(byte: u8) -> bool {
-        // ASCII fast path using lookup table
+        // ASCII fast path using optimized identifier functions
         if likely(byte < 128) {
-            (ASCII_LOOKUP[byte as usize] & (CHAR_ID_START | CHAR_ID_CONTINUE)) != 0
+            Self::is_ascii_id_continue(byte)
         } else {
             // Non-ASCII, needs further checking in read_identifier
             true
