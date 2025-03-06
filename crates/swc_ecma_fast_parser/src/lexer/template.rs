@@ -21,7 +21,7 @@ impl Lexer<'_> {
         if self.cursor.peek_at(0) == Some(b'$') && self.cursor.peek_at(1) == Some(b'{') {
             self.cursor.advance_n(2);
             // We are now expecting normal javascript syntax
-            self.in_template = false;
+            self.in_template_expr = true;
 
             return Ok(Token::new(
                 TokenType::DollarLBrace,
@@ -71,7 +71,7 @@ impl Lexer<'_> {
                     let span = self.span();
                     return Err(Error {
                         kind: ErrorKind::InvalidTemplate {
-                            reason: "Unterminated template literal",
+                            reason: "Unterminated template literal (eof)",
                         },
                         span,
                     });
@@ -253,7 +253,11 @@ impl Lexer<'_> {
                 had_line_break,
                 TokenValue::Template {
                     raw: Atom::from(raw_str),
-                    cooked: Some(Atom::from(value)),
+                    cooked: if is_invalid {
+                        None
+                    } else {
+                        Some(Atom::from(value))
+                    },
                 },
             ));
         }

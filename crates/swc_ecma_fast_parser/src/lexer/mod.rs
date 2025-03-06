@@ -86,6 +86,8 @@ pub struct Lexer<'a> {
     /// Whether the lexer is in template literal context
     pub in_template: bool,
 
+    pub in_template_expr: bool,
+
     /// Whether we had a line break before the current token
     had_line_break: LineBreak,
 }
@@ -208,6 +210,7 @@ impl<'a> Lexer<'a> {
             strict_mode: false,
             in_jsx_element: false,
             in_template: false,
+            in_template_expr: false,
             comments,
             start_pos: BytePos(0),
             had_line_break: LineBreak::None,
@@ -262,7 +265,7 @@ impl<'a> Lexer<'a> {
     /// Read the next token starting with the given character
     #[inline(always)]
     fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<Token> {
-        if unlikely(self.in_template) {
+        if unlikely(self.in_template && !self.in_template_expr) {
             return self.read_template_content(had_line_break);
         }
 
@@ -279,7 +282,7 @@ impl<'a> Lexer<'a> {
                         // Special case for closing brace in template
                         if unlikely(ch == b'}' && self.in_template) {
                             // End of template expression
-                            self.in_template = false;
+                            self.in_template_expr = false;
                         }
 
                         let token_type = unsafe { *TOKEN_DISPATCH.get_unchecked(ch as usize) };
