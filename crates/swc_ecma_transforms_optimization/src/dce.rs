@@ -157,12 +157,6 @@ impl DeadCodeEliminator {
         var.scope = scope;
         var.has_side_effects = has_side_effects;
         var.is_fn = is_fn;
-
-        // Only mark changed if there's an actual difference in behavior
-        // that might affect code elimination
-        if prev_has_side_effects != has_side_effects || prev_is_fn != is_fn {
-            self.changed = true;
-        }
     }
 
     /// Evaluate if expression is pure (no side effects)
@@ -511,24 +505,6 @@ impl VisitMut for DeadCodeEliminator {
                     // 정말로 import specifier가 제거되었는지 확인하고 변경 사항 표시
                     if removed_any && original_count != import_decl.specifiers.len() {
                         self.changed = true;
-                    }
-
-                    // If we removed all specifiers but there were some originally,
-                    // keep one to maintain a valid import statement
-                    if original_count > 0 && import_decl.specifiers.is_empty() {
-                        import_decl
-                            .specifiers
-                            .push(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local: Ident {
-                                    span: DUMMY_SP,
-                                    sym: "_unused".into(),
-                                    ctxt: self.ctx,
-                                    optional: false,
-                                },
-                                imported: None,
-                                is_type_only: false,
-                            }));
                     }
                 }
                 _ => {}
