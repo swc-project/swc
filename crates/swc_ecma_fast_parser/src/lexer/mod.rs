@@ -274,7 +274,7 @@ impl<'a> Lexer<'a> {
 
         // Fast path for ASCII tokens using lookup table
         if likely(ch < 128) {
-            let char_type = ASCII_LOOKUP[ch as usize];
+            let char_type = unsafe { *ASCII_LOOKUP.get_unchecked(ch as usize) };
 
             // Fast path for single-character tokens (very common)
             if char_type & CHAR_SPECIAL != 0 {
@@ -420,7 +420,7 @@ impl<'a> Lexer<'a> {
 
             // Handle ASCII characters
             if likely(ch < 128) {
-                let char_type = ASCII_LOOKUP[ch as usize];
+                let char_type = unsafe { *ASCII_LOOKUP.get_unchecked(ch as usize) };
 
                 // Fast path for common whitespace
                 if char_type & CHAR_WHITESPACE != 0 {
@@ -518,7 +518,7 @@ impl<'a> Lexer<'a> {
         // Get current 16 bytes
         let input = self.cursor.rest();
         let mut data = [0u8; 16];
-        data.copy_from_slice(&input[0..16]);
+        data.copy_from_slice(unsafe { input.get_unchecked(0..16) });
         let chunk = u8x16::new(data);
 
         // Compare with our whitespace vectors
@@ -543,20 +543,20 @@ impl<'a> Lexer<'a> {
         // This is more efficient than trying to process the entire chunk at once
         // when we need to handle special cases like CR+LF and comments
 
-        if is_basic_ws_arr[0] != 0 {
+        if unsafe { *is_basic_ws_arr.get_unchecked(0) } != 0 {
             // Regular whitespace - just advance
             self.cursor.advance();
             return true;
         }
 
-        if is_newline_arr[0] != 0 {
+        if unsafe { *is_newline_arr.get_unchecked(0) } != 0 {
             // Newline - need to set had_line_break
             self.cursor.advance();
             self.had_line_break = LineBreak::Present;
             return true;
         }
 
-        if is_cr_arr[0] != 0 {
+        if unsafe { *is_cr_arr.get_unchecked(0) } != 0 {
             // Carriage return - need to check for CRLF sequence
             self.cursor.advance();
             if let Some(b'\n') = self.cursor.peek() {
@@ -566,7 +566,7 @@ impl<'a> Lexer<'a> {
             return true;
         }
 
-        if is_slash_arr[0] != 0 {
+        if unsafe { *is_slash_arr.get_unchecked(0) } != 0 {
             // Potential comment - need to check next character
             if let Some(b'/') | Some(b'*') = self.cursor.peek_at(1) {
                 return false; // Let the caller handle comments
