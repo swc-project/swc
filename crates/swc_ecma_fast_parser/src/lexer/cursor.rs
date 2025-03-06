@@ -298,7 +298,12 @@ impl<'a> Cursor<'a> {
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "sse2")]
 #[inline]
-unsafe fn simd_find_byte(haystack: &[u8], start: usize, end: usize, needle: u8) -> Option<usize> {
+pub(crate) unsafe fn simd_find_byte(
+    haystack: &[u8],
+    start: usize,
+    end: usize,
+    needle: u8,
+) -> Option<usize> {
     let mut pos = start;
 
     // Create a vector with the needle byte repeated 16 times
