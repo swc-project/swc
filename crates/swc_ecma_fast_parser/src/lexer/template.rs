@@ -49,6 +49,8 @@ impl Lexer<'_> {
                 // End of template
                 Some(b'`') => {
                     self.cursor.advance();
+                    self.in_template = false;
+                    self.in_template_expr = false;
                     break;
                 }
 
