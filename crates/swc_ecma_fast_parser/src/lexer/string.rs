@@ -241,7 +241,6 @@ impl Lexer<'_> {
                         // Check if it's a quote
                         if *rest.get_unchecked(pos + offset) == quote {
                             // Make sure it's not escaped
-                            let mut is_escaped = false;
                             let mut escape_count = 0;
 
                             // Count preceding backslashes
@@ -265,9 +264,15 @@ impl Lexer<'_> {
                         {
                             // Line terminator in string is an error
                             return None;
-                        } else {
-                            // Escape sequence or other special character, move past it
-                            pos += offset + 2; // Skip the escape and the escaped character
+                        } else if *rest.get_unchecked(pos + offset) == b'\\' {
+                            // For escape sequences, we must carefully handle them:
+                            // 1. If we're at the end of the input, it's an unterminated string
+                            if pos + offset + 1 >= rest.len() {
+                                return None;
+                            }
+
+                            // 2. Move past just this escape character and continue
+                            pos += offset + 1;
                             continue;
                         }
 
@@ -312,9 +317,12 @@ impl Lexer<'_> {
                 // Line terminator in string is an error
                 return None;
             } else if ch == b'\\' {
-                // Skip the escape and the escaped character
-                pos += 2;
-                continue;
+                // Skip the escape character
+                pos += 1;
+                // If we're at the end of the input, it's an unterminated string
+                if pos >= rest.len() {
+                    return None;
+                }
             }
 
             pos += 1;
