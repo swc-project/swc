@@ -11,7 +11,7 @@ pub use self::{
 };
 
 mod const_modules;
-mod dce;
+pub mod dce;
 mod debug;
 mod inline_globals;
 mod json_parse;
