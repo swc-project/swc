@@ -2872,7 +2872,6 @@ dependencies = [
  "once_cell",
  "serde",
  "serde_json",
- "tokio",
 ]
 
 [[package]]
@@ -6066,28 +6065,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_interop_babel"
-version = "0.1.0"
-dependencies = [
- "napi",
- "napi-derive",
- "serde",
- "serde_json",
- "swc_interop_nodejs",
-]
-
-[[package]]
-name = "swc_interop_nodejs"
-version = "0.1.0"
-dependencies = [
- "napi",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
-]
-
-[[package]]
 name = "swc_macros_common"
 version = "1.0.0"
 dependencies = [
@@ -6290,10 +6267,6 @@ dependencies = [
  "either",
  "new_debug_unreachable",
 ]
-
-[[package]]
-name = "swc_x_optimizer"
-version = "0.1.0"
 
 [[package]]
 name = "swc_xml"
