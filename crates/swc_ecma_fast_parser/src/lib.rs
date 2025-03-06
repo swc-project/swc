@@ -3,6 +3,7 @@
 //! This parser is designed for maximum performance and memory efficiency,
 //! operating at the byte level for optimal throughput.
 
+#![cfg_attr(feature = "nightly", allow(internal_features))]
 #![cfg_attr(feature = "nightly", feature(core_intrinsics))]
 
 mod error;
