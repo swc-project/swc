@@ -17,6 +17,20 @@ impl Lexer<'_> {
         let start_pos = self.start_pos;
         let start_idx = start_pos.0 as usize;
 
+        // If it starts with "${", return a DollarLBrace token
+        if self.cursor.peek_at(0) == Some(b'$') && self.cursor.peek_at(1) == Some(b'{') {
+            self.cursor.advance_n(2);
+            // We are now expecting normal javascript syntax
+            self.in_template = false;
+
+            return Ok(Token::new(
+                TokenType::DollarLBrace,
+                self.span(),
+                had_line_break,
+                TokenValue::None,
+            ));
+        }
+
         // Buffer for the processed template value (with escapes handled)
         let mut value = String::new();
 
@@ -231,17 +245,16 @@ impl Lexer<'_> {
 
         let span = self.span();
 
-        // If we found a "${", return the appropriate token
+        // If we found a "${", return the content before "${"
         if found_dollar_brace {
-            // Set the in_template flag to false
-            self.in_template = false;
-
-            // Return a Template token
             return Ok(Token::new(
                 TokenType::Template,
                 span,
                 had_line_break,
-                TokenValue::None,
+                TokenValue::Template {
+                    raw: Atom::from(raw_str),
+                    cooked: Some(Atom::from(value)),
+                },
             ));
         }
 
