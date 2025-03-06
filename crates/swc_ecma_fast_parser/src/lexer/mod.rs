@@ -21,6 +21,7 @@ use std::rc::Rc;
 
 use cursor::Cursor;
 use swc_common::{BytePos, Span, DUMMY_SP};
+use wide::u8x16;
 
 use crate::{
     error::{Error, ErrorKind, Result},
@@ -404,8 +405,20 @@ impl<'a> Lexer<'a> {
     /// Skip whitespace and comments - optimized hot path
     #[inline(always)]
     fn skip_whitespace(&mut self) {
-        // Hot loop for ASCII whitespace and comments - most common case
-        while let Some(ch) = self.cursor.peek() {
+        // Process whitespace in SIMD batches when possible
+        while !self.cursor.is_eof() {
+            // First, handle SIMD optimized whitespace skipping for common ASCII whitespace
+            if self.process_whitespace_simd() {
+                continue;
+            }
+
+            // Fallback to standard processing for comments and special cases
+            let ch = match self.cursor.peek() {
+                Some(c) => c,
+                None => break,
+            };
+
+            // Handle ASCII characters
             if likely(ch < 128) {
                 let char_type = ASCII_LOOKUP[ch as usize];
 
@@ -481,6 +494,89 @@ impl<'a> Lexer<'a> {
                 break;
             }
         }
+    }
+
+    /// Process whitespace using SIMD acceleration
+    /// Returns true if it processed something, false if it found a
+    /// non-whitespace character
+    #[inline]
+    fn process_whitespace_simd(&mut self) -> bool {
+        // Need at least 16 bytes to use SIMD
+        if self.cursor.position() + 16 > self.cursor.rest().len() {
+            return false;
+        }
+
+        // Create SIMD vectors for common whitespace characters
+        let space_vec = u8x16::splat(b' ');
+        let tab_vec = u8x16::splat(b'\t');
+        let newline_vec = u8x16::splat(b'\n');
+        let carriage_return_vec = u8x16::splat(b'\r');
+        let form_feed_vec = u8x16::splat(0x0c); // Form feed
+        let vert_tab_vec = u8x16::splat(0x0b); // Vertical tab
+        let slash_vec = u8x16::splat(b'/'); // For detecting comments
+
+        // Get current 16 bytes
+        let input = self.cursor.rest();
+        let mut data = [0u8; 16];
+        data.copy_from_slice(&input[0..16]);
+        let chunk = u8x16::new(data);
+
+        // Compare with our whitespace vectors
+        let is_space = chunk.cmp_eq(space_vec);
+        let is_tab = chunk.cmp_eq(tab_vec);
+        let is_newline = chunk.cmp_eq(newline_vec);
+        let is_cr = chunk.cmp_eq(carriage_return_vec);
+        let is_ff = chunk.cmp_eq(form_feed_vec);
+        let is_vt = chunk.cmp_eq(vert_tab_vec);
+        let is_slash = chunk.cmp_eq(slash_vec);
+
+        // Combine masks for regular whitespace
+        let is_basic_ws = is_space | is_tab | is_ff | is_vt;
+
+        // Convert masks to arrays
+        let is_basic_ws_arr = is_basic_ws.to_array();
+        let is_newline_arr = is_newline.to_array();
+        let is_cr_arr = is_cr.to_array();
+        let is_slash_arr = is_slash.to_array();
+
+        // Check the first byte only - we'll process one character at a time
+        // This is more efficient than trying to process the entire chunk at once
+        // when we need to handle special cases like CR+LF and comments
+
+        if is_basic_ws_arr[0] != 0 {
+            // Regular whitespace - just advance
+            self.cursor.advance();
+            return true;
+        }
+
+        if is_newline_arr[0] != 0 {
+            // Newline - need to set had_line_break
+            self.cursor.advance();
+            self.had_line_break = LineBreak::Present;
+            return true;
+        }
+
+        if is_cr_arr[0] != 0 {
+            // Carriage return - need to check for CRLF sequence
+            self.cursor.advance();
+            if let Some(b'\n') = self.cursor.peek() {
+                self.cursor.advance();
+            }
+            self.had_line_break = LineBreak::Present;
+            return true;
+        }
+
+        if is_slash_arr[0] != 0 {
+            // Potential comment - need to check next character
+            if let Some(b'/') | Some(b'*') = self.cursor.peek_at(1) {
+                return false; // Let the caller handle comments
+            }
+            // Not a comment, just a slash
+            return false;
+        }
+
+        // Not whitespace or a special character
+        false
     }
 
     #[inline(always)]
