@@ -934,6 +934,7 @@ fn test_lexer_nullish_coalescing() {
 }
 
 #[test]
+#[allow(clippy::excessive_precision)]
 fn test_lexer_number_literals() {
     // Test decimal integers
     verify_tokens(
