@@ -322,7 +322,186 @@ fn is_terminal_stmt(stmt: &Stmt) -> bool {
 impl VisitMut for DeadCodeEliminator {
     noop_visit_mut_type!();
 
+    fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
+        // Create a new scope for the block
+        let old_scope = self.enter_scope(Some(self.current_scope));
+
+        // Visit all statements in the block
+        self.visit_mut_stmts(&mut block.stmts);
+
+        // Exit block scope
+        self.exit_scope(old_scope);
+    }
+
     // Implementation for all the necessary visit_mut_* methods
+
+    fn visit_mut_class(&mut self, class: &mut Class) {
+        // 클래스 내부 요소 방문 전에 상태 저장
+        let old_pure = self.in_pure_context;
+        self.in_pure_context = false;
+
+        // 상속(extends) 처리
+        if let Some(parent) = &mut class.super_class {
+            // 부모 클래스도 방문해서 참조 마킹
+            if let Expr::Ident(ident) = &**parent {
+                let id = (ident.sym.clone(), ident.ctxt);
+                self.register_reference(&id);
+            }
+            parent.visit_mut_with(self);
+        }
+
+        // 클래스 내부 요소 처리
+        for member in &mut class.body {
+            match member {
+                ClassMember::Constructor(constructor) => {
+                    // 생성자 파라미터 처리 - params는 Option이 아닌 Vec 타입
+                    for param in &constructor.params {
+                        if let ParamOrTsParamProp::Param(param) = param {
+                            let ids = find_pat_ids(&param.pat);
+                            for id in ids {
+                                self.register_declaration(id, false, false);
+                            }
+                        }
+                    }
+
+                    // 생성자 본문 방문
+                    if let Some(body) = &mut constructor.body {
+                        body.visit_mut_with(self);
+                    }
+                }
+                ClassMember::Method(method) => {
+                    // 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
+                    method.function.visit_mut_with(self);
+                }
+                ClassMember::PrivateMethod(priv_method) => {
+                    // 프라이빗 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
+                    priv_method.function.visit_mut_with(self);
+                }
+                ClassMember::ClassProp(prop) => {
+                    // 프로퍼티 초기화 값 방문
+                    if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+                ClassMember::PrivateProp(priv_prop) => {
+                    // 프라이빗 프로퍼티 초기화 값 방문
+                    if let Some(value) = &mut priv_prop.value {
+                        value.visit_mut_with(self);
+                    }
+                }
+                _ => {
+                    // Process other class members
+                    member.visit_mut_children_with(self);
+                }
+            }
+        }
+
+        // Restore original state
+        self.in_pure_context = old_pure;
+    }
+
+    fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
+        // Process class name
+        let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
+        self.register_declaration(id, false, false);
+
+        // Visit class contents
+        class_decl.class.visit_mut_with(self);
+    }
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Ident(ident) => {
+                let id = (ident.sym.clone(), ident.ctxt);
+                self.register_reference(&id);
+
+                // Mark import specifier as used if this identifier is an import
+                if let Some(used) = self.import_specifiers.get_mut(&id) {
+                    *used = true;
+                }
+            }
+            // Also handle member expressions to catch namespace imports usage
+            Expr::Member(member) => {
+                // If we're accessing a property of a namespace import, mark it as used
+                if let Expr::Ident(obj) = &*member.obj {
+                    let id = (obj.sym.clone(), obj.ctxt);
+                    self.register_reference(&id);
+
+                    // Mark namespace import as used
+                    if let Some(used) = self.import_specifiers.get_mut(&id) {
+                        *used = true;
+                    }
+                }
+
+                // Continue normal visitation
+                member.visit_mut_children_with(self);
+            }
+            Expr::Assign(assign) => {
+                // Visit right side first
+                self.visit_mut_expr(&mut assign.right);
+
+                // 왼쪽 변이를 직접 처리하는 것은 복잡하므로 이 구현에서는 이 부분을
+                // 단순화합니다. 대신 right의 참조를 처리한 다음, 방문 시스템이
+                // 나머지를 처리하게 합니다.
+
+                // 자식 노드 방문
+                assign.visit_mut_children_with(self);
+            }
+            Expr::Update(update) => {
+                if let Expr::Ident(ident) = &*update.arg {
+                    let id = (ident.sym.clone(), ident.ctxt);
+                    self.register_mutation(&id);
+                } else {
+                    update.arg.visit_mut_with(self);
+                }
+            }
+            // Save and restore pure context state
+            Expr::Arrow(arrow) => {
+                let old_pure = self.in_pure_context;
+                self.in_pure_context = false;
+
+                let old_scope = self.enter_scope(Some(self.current_scope));
+
+                // Process parameters
+                for pat in &arrow.params {
+                    self.process_pat(pat, false);
+                }
+
+                arrow.body.visit_mut_with(self);
+
+                self.exit_scope(old_scope);
+                self.in_pure_context = old_pure;
+            }
+            // For all other expressions, just visit children normally
+            _ => {
+                expr.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        // Create a new scope for the function
+        let old_scope = self.enter_scope(Some(self.current_scope));
+
+        // Process parameters
+        for param in &f.params {
+            let ids = find_pat_ids(&param.pat);
+            for id in ids {
+                self.register_declaration(id, false, false);
+            }
+        }
+
+        // Visit function body
+        f.body.visit_mut_with(self);
+
+        // Remove unreachable code in function body
+        if let Some(body) = &mut f.body {
+            self.remove_unreachable_stmts(&mut body.stmts);
+        }
+
+        // Exit function scope
+        self.exit_scope(old_scope);
+    }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         // Initialize the top-level module scope
@@ -519,30 +698,6 @@ impl VisitMut for DeadCodeEliminator {
         self.exit_scope(old_scope);
     }
 
-    fn visit_mut_function(&mut self, f: &mut Function) {
-        // Create a new scope for the function
-        let old_scope = self.enter_scope(Some(self.current_scope));
-
-        // Process parameters
-        for param in &f.params {
-            let ids = find_pat_ids(&param.pat);
-            for id in ids {
-                self.register_declaration(id, false, false);
-            }
-        }
-
-        // Visit function body
-        f.body.visit_mut_with(self);
-
-        // Remove unreachable code in function body
-        if let Some(body) = &mut f.body {
-            self.remove_unreachable_stmts(&mut body.stmts);
-        }
-
-        // Exit function scope
-        self.exit_scope(old_scope);
-    }
-
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // First pass: visit all statements to collect references
         for stmt in stmts.iter_mut() {
@@ -561,17 +716,6 @@ impl VisitMut for DeadCodeEliminator {
         }
     }
 
-    fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
-        // Create a new scope for the block
-        let old_scope = self.enter_scope(Some(self.current_scope));
-
-        // Visit all statements in the block
-        self.visit_mut_stmts(&mut block.stmts);
-
-        // Exit block scope
-        self.exit_scope(old_scope);
-    }
-
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
         // Process variable name (destructuring pattern)
         let ids: Vec<Id> = find_pat_ids(&decl.name);
@@ -583,150 +727,6 @@ impl VisitMut for DeadCodeEliminator {
         if let Some(init) = &mut decl.init {
             self.visit_mut_expr(init);
         }
-    }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Ident(ident) => {
-                let id = (ident.sym.clone(), ident.ctxt);
-                self.register_reference(&id);
-
-                // Mark import specifier as used if this identifier is an import
-                if let Some(used) = self.import_specifiers.get_mut(&id) {
-                    *used = true;
-                }
-            }
-            // Also handle member expressions to catch namespace imports usage
-            Expr::Member(member) => {
-                // If we're accessing a property of a namespace import, mark it as used
-                if let Expr::Ident(obj) = &*member.obj {
-                    let id = (obj.sym.clone(), obj.ctxt);
-                    self.register_reference(&id);
-
-                    // Mark namespace import as used
-                    if let Some(used) = self.import_specifiers.get_mut(&id) {
-                        *used = true;
-                    }
-                }
-
-                // Continue normal visitation
-                member.visit_mut_children_with(self);
-            }
-            Expr::Assign(assign) => {
-                // Visit right side first
-                self.visit_mut_expr(&mut assign.right);
-
-                // 왼쪽 변이를 직접 처리하는 것은 복잡하므로 이 구현에서는 이 부분을
-                // 단순화합니다. 대신 right의 참조를 처리한 다음, 방문 시스템이
-                // 나머지를 처리하게 합니다.
-
-                // 자식 노드 방문
-                assign.visit_mut_children_with(self);
-            }
-            Expr::Update(update) => {
-                if let Expr::Ident(ident) = &*update.arg {
-                    let id = (ident.sym.clone(), ident.ctxt);
-                    self.register_mutation(&id);
-                } else {
-                    update.arg.visit_mut_with(self);
-                }
-            }
-            // Save and restore pure context state
-            Expr::Arrow(arrow) => {
-                let old_pure = self.in_pure_context;
-                self.in_pure_context = false;
-
-                let old_scope = self.enter_scope(Some(self.current_scope));
-
-                // Process parameters
-                for pat in &arrow.params {
-                    self.process_pat(pat, false);
-                }
-
-                arrow.body.visit_mut_with(self);
-
-                self.exit_scope(old_scope);
-                self.in_pure_context = old_pure;
-            }
-            // For all other expressions, just visit children normally
-            _ => {
-                expr.visit_mut_children_with(self);
-            }
-        }
-    }
-
-    fn visit_mut_class(&mut self, class: &mut Class) {
-        // 클래스 내부 요소 방문 전에 상태 저장
-        let old_pure = self.in_pure_context;
-        self.in_pure_context = false;
-
-        // 상속(extends) 처리
-        if let Some(parent) = &mut class.super_class {
-            // 부모 클래스도 방문해서 참조 마킹
-            if let Expr::Ident(ident) = &**parent {
-                let id = (ident.sym.clone(), ident.ctxt);
-                self.register_reference(&id);
-            }
-            parent.visit_mut_with(self);
-        }
-
-        // 클래스 내부 요소 처리
-        for member in &mut class.body {
-            match member {
-                ClassMember::Constructor(constructor) => {
-                    // 생성자 파라미터 처리 - params는 Option이 아닌 Vec 타입
-                    for param in &constructor.params {
-                        if let ParamOrTsParamProp::Param(param) = param {
-                            let ids = find_pat_ids(&param.pat);
-                            for id in ids {
-                                self.register_declaration(id, false, false);
-                            }
-                        }
-                    }
-
-                    // 생성자 본문 방문
-                    if let Some(body) = &mut constructor.body {
-                        body.visit_mut_with(self);
-                    }
-                }
-                ClassMember::Method(method) => {
-                    // 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
-                    method.function.visit_mut_with(self);
-                }
-                ClassMember::PrivateMethod(priv_method) => {
-                    // 프라이빗 메서드 방문 - function은 Option이 아닌 Box<Function> 타입
-                    priv_method.function.visit_mut_with(self);
-                }
-                ClassMember::ClassProp(prop) => {
-                    // 프로퍼티 초기화 값 방문
-                    if let Some(value) = &mut prop.value {
-                        value.visit_mut_with(self);
-                    }
-                }
-                ClassMember::PrivateProp(priv_prop) => {
-                    // 프라이빗 프로퍼티 초기화 값 방문
-                    if let Some(value) = &mut priv_prop.value {
-                        value.visit_mut_with(self);
-                    }
-                }
-                _ => {
-                    // Process other class members
-                    member.visit_mut_children_with(self);
-                }
-            }
-        }
-
-        // Restore original state
-        self.in_pure_context = old_pure;
-    }
-
-    fn visit_mut_class_decl(&mut self, class_decl: &mut ClassDecl) {
-        // Process class name
-        let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
-        self.register_declaration(id, false, false);
-
-        // Visit class contents
-        class_decl.class.visit_mut_with(self);
     }
 }
 
