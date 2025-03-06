@@ -1,1 +1,2 @@
-1. When creating Atom instances, it's better to use Cow<str> or &str instead of String.
+1. You should write performant code. Always prefer performance over other things.
+2. When creating Atom instances, it's better to use Cow<str> or &str instead of String.
