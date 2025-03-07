@@ -516,12 +516,6 @@ impl<'a> Lexer<'a> {
             u8x16::new(bytes)
         };
 
-        // Create SIMD vectors for common whitespace characters
-        let space_vec = u8x16::splat(b' ');
-        let tab_vec = u8x16::splat(b'\t');
-        let form_feed_vec = u8x16::splat(0x0c); // Form feed
-        let vert_tab_vec = u8x16::splat(0x0b); // Vertical tab
-
         // Handle special characters separately for better branch prediction
         let first_byte = unsafe { *input.get_unchecked(0) };
 
@@ -563,6 +557,12 @@ impl<'a> Lexer<'a> {
             }
             _ => {}
         }
+
+        // Create SIMD vectors for common whitespace characters
+        let space_vec = u8x16::splat(b' ');
+        let tab_vec = u8x16::splat(b'\t');
+        let form_feed_vec = u8x16::splat(0x0c); // Form feed
+        let vert_tab_vec = u8x16::splat(0x0b); // Vertical tab
 
         // Fast path for regular whitespace (space, tab, form feed, vertical tab)
         // Compare with our whitespace vectors
