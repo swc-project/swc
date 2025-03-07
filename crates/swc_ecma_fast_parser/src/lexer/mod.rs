@@ -507,14 +507,14 @@ impl<'a> Lexer<'a> {
             return false;
         }
 
-        // Get current 16 bytes
+        // Get current 16 bytes and load them directly into SIMD vector
         let input = self.cursor.rest();
-        let data = [0u8; 16];
-        unsafe {
+        let data = unsafe {
             // SAFETY: We've checked that we have at least 16 bytes
-            std::ptr::copy_nonoverlapping(input.as_ptr(), data.as_mut_ptr(), 16);
-        }
-        let data = u8x16::new(data);
+            let mut bytes = [0u8; 16];
+            std::ptr::copy_nonoverlapping(input.as_ptr(), bytes.as_mut_ptr(), 16);
+            u8x16::new(bytes)
+        };
 
         // Create SIMD vectors for common whitespace characters
         let space_vec = u8x16::splat(b' ');
@@ -574,14 +574,19 @@ impl<'a> Lexer<'a> {
         // Combine masks for regular whitespace
         let is_basic_ws = is_space | is_tab | is_ff | is_vt;
 
-        // If the first byte is whitespace, process consecutive whitespace
-        if is_basic_ws.to_array()[0] != 0 {
-            // Use trailing_zeros to count consecutive whitespace efficiently
-            let ws_mask = is_basic_ws.to_bitmask();
-            let trailing_zeros = (!ws_mask).trailing_zeros();
+        // Convert SIMD mask to array to process consecutive whitespace
+        let ws_array = is_basic_ws.to_array();
 
-            // Limit to 16 bytes (our SIMD width)
-            let count = trailing_zeros.min(16) as u32;
+        // If the first byte is whitespace, process consecutive whitespace
+        if ws_array[0] != 0 {
+            // Count consecutive whitespace characters
+            let mut count = 0;
+            for ws_char in ws_array {
+                if ws_char == 0 {
+                    break;
+                }
+                count += 1;
+            }
 
             // Skip all consecutive basic whitespace characters at once
             if count > 0 {
