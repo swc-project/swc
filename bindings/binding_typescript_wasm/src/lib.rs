@@ -56,7 +56,7 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
 
     match result {
         Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
-        Err(v) => Err(serde_wasm_bindgen::to_value(&v)?),
+        Err(v) => Err(serde_wasm_bindgen::to_value(&v[0])?),
     }
 }
 
