@@ -509,11 +509,12 @@ impl<'a> Lexer<'a> {
 
         // Get current 16 bytes
         let input = self.cursor.rest();
-        let data = unsafe {
+        let data = [0u8; 16];
+        unsafe {
             // SAFETY: We've checked that we have at least 16 bytes
-            let ptr = input.as_ptr();
-            u8x16::from_ptr_aligned_unaligned(ptr)
-        };
+            std::ptr::copy_nonoverlapping(input.as_ptr(), data.as_mut_ptr(), 16);
+        }
+        let data = u8x16::new(data);
 
         // Create SIMD vectors for common whitespace characters
         let space_vec = u8x16::splat(b' ');
