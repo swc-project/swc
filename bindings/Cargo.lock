@@ -394,7 +394,6 @@ dependencies = [
  "serde-wasm-bindgen 0.6.5",
  "serde_json",
  "swc_common",
- "swc_error_reporters",
  "swc_fast_ts_strip",
  "tracing",
  "wasm-bindgen",
