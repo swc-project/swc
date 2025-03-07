@@ -238,7 +238,8 @@ impl<'a> Cursor<'a> {
     /// Standard fallback implementation
     #[inline]
     fn find_byte_scalar(&self, byte: u8) -> Option<u32> {
-        self.input[self.pos as usize..]
+        let input = unsafe { self.input.get_unchecked(self.pos as usize..) };
+        input
             .iter()
             .position(|&b| b == byte)
             .map(|pos| self.pos + pos as u32)
