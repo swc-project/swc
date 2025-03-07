@@ -586,115 +586,102 @@ impl VisitMut for DeadCodeEliminator {
             }
         }
 
-        // Visit the module to collect references
-        module.visit_mut_children_with(self);
+        // Process module items
+        module.body.visit_mut_with(self);
 
-        // Mark used import specifiers
-        for (id, var_info) in &self.vars {
-            if var_info.referenced && self.import_specifiers.contains_key(id) {
-                if let Some(used) = self.import_specifiers.get_mut(id) {
-                    *used = true;
+        // Clean up unreferenced import specifiers
+        for i in 0..module.body.len() {
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &mut module.body[i] {
+                import.specifiers.retain(|s| match s {
+                    ImportSpecifier::Named(named) => {
+                        let imported = match &named.imported {
+                            Some(imported) => match imported {
+                                ModuleExportName::Ident(i) => i.sym.clone(),
+                                ModuleExportName::Str(s) => s.value.clone(),
+                            },
+                            None => named.local.sym.clone(),
+                        };
+                        let id = (imported, named.local.ctxt);
+                        self.import_specifiers.get(&id).copied().unwrap_or(true)
+                    }
+                    ImportSpecifier::Default(default) => {
+                        let id = (Atom::from("default"), default.local.ctxt);
+                        self.import_specifiers.get(&id).copied().unwrap_or(true)
+                    }
+                    ImportSpecifier::Namespace(_) => true, // Always keep namespace imports
+                });
+
+                // Remove empty imports (but keep side-effect imports)
+                if import.specifiers.is_empty() && !import.src.value.is_empty() {
+                    self.changed = true;
+                    // Replace with empty statement to maintain AST structure
+                    module.body[i] = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
                 }
             }
         }
 
-        // Second pass: remove unused declarations and unused import specifiers
-        let mut i = 0;
-        while i < module.body.len() {
-            let mut removed = false;
-
-            match &mut module.body[i] {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                    let mut j = 0;
-                    while j < var.decls.len() {
-                        let decl = &var.decls[j];
-                        let ids = find_pat_ids(&decl.name);
-
-                        // If all identifiers in this declaration are unused and have no side
-                        // effects, we can remove it
-                        let all_unused = ids.iter().all(|id| {
-                            if let Some(var_info) = self.vars.get(id) {
-                                !var_info.referenced
-                                    && !var_info.has_side_effects
-                                    && !var_info.exported
-                            } else {
-                                false
-                            }
-                        });
-
-                        let no_side_effects = decl
-                            .init
-                            .as_ref()
-                            .map_or(true, |init| self.is_pure_expr(init));
-
-                        if all_unused && no_side_effects {
-                            var.decls.remove(j);
-                            self.changed = true;
-                            removed = var.decls.is_empty();
-                        } else {
-                            j += 1;
-                        }
-                    }
+        // Remove unreachable statements in the module
+        for i in 0..module.body.len() {
+            if let ModuleItem::Stmt(stmt) = &mut module.body[i] {
+                // Try to remove pure statements that have no side effects
+                if self.try_remove_pure_stmt(stmt) {
+                    self.changed = true;
+                    module.body[i] = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
                 }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl))) => {
-                    let id = (fn_decl.ident.sym.clone(), fn_decl.ident.ctxt);
-                    if let Some(var_info) = self.vars.get(&id) {
-                        if !var_info.referenced && !var_info.exported {
-                            module.body.remove(i);
-                            self.changed = true;
-                            removed = true;
-                        }
-                    }
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))) => {
-                    let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
-                    if let Some(var_info) = self.vars.get(&id) {
-                        if !var_info.referenced && !var_info.exported {
-                            module.body.remove(i);
-                            self.changed = true; // 클래스 제거 시 명시적으로 changed 설정
-                            removed = true;
-                        }
-                    }
-                }
-                ModuleItem::Stmt(stmt) => {
-                    self.try_remove_pure_stmt(stmt);
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
-                    // Store original count to check if we've removed all specifiers
-                    let original_count = import_decl.specifiers.len();
-
-                    // Remove unused import specifiers
-                    let mut removed_any = false;
-                    import_decl.specifiers.retain(|specifier| {
-                        let local = match specifier {
-                            ImportSpecifier::Named(named) => &named.local,
-                            ImportSpecifier::Default(default) => &default.local,
-                            ImportSpecifier::Namespace(namespace) => &namespace.local,
-                        };
-
-                        let id = (local.sym.clone(), local.ctxt);
-                        // Keep the specifier if it's used or not tracked
-                        let keep = self.import_specifiers.get(&id).map_or(true, |used| *used);
-                        if !keep {
-                            removed_any = true;
-                        }
-                        keep
-                    });
-
-                    // 정말로 import specifier가 제거되었는지 확인하고 변경 사항 표시
-                    if removed_any && original_count != import_decl.specifiers.len() {
-                        self.changed = true;
-                    }
-                }
-                _ => {}
-            }
-
-            if !removed {
-                i += 1;
             }
         }
 
         // Exit module scope
+        self.exit_scope(old_scope);
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        // Initialize the top-level script scope
+        let old_scope = self.enter_scope(None);
+        if let Some(scope) = self.scopes.last_mut() {
+            scope.is_module_scope = true;
+        }
+
+        // First pass: collect all declarations
+        for stmt in &script.body {
+            match stmt {
+                Stmt::Decl(Decl::Var(var)) => {
+                    for decl in &var.decls {
+                        let ids = find_pat_ids(&decl.name);
+                        let has_effects = decl
+                            .init
+                            .as_ref()
+                            .map_or(false, |init| !self.is_pure_expr(init));
+                        for id in ids {
+                            // Mark all top-level declarations in scripts as referenced
+                            self.register_reference(&id);
+                            self.register_declaration(id, has_effects, false);
+                        }
+                    }
+                }
+                Stmt::Decl(Decl::Fn(fn_decl)) => {
+                    let id = (fn_decl.ident.sym.clone(), fn_decl.ident.ctxt);
+                    // Mark all top-level declarations in scripts as referenced
+                    self.register_reference(&id);
+                    self.register_declaration(id, false, true);
+                }
+                Stmt::Decl(Decl::Class(class_decl)) => {
+                    let id = (class_decl.ident.sym.clone(), class_decl.ident.ctxt);
+                    // Mark all top-level declarations in scripts as referenced
+                    self.register_reference(&id);
+                    self.register_declaration(id, false, false);
+                }
+                _ => {}
+            }
+        }
+
+        // Visit the script to process nested statements and expressions
+        script.visit_mut_children_with(self);
+
+        // Remove unreachable statements in the script
+        self.remove_unreachable_stmts(&mut script.body);
+
+        // Exit script scope
         self.exit_scope(old_scope);
     }
 
