@@ -1,8 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`transform in strip-only mode should not emit 'Caused by: failed to parse' 1`] = `
-"{"code":"InvalidSyntax","message":"await isn't allowed in non-async function","snippet":"Promise","filename":"test.ts","line":1,"column":23}
-"
+[
+  Map {
+    "code" => "InvalidSyntax",
+    "column" => 23,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "await isn't allowed in non-async function",
+    "snippet" => "Promise",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should remove declare enum 1`] = `
@@ -32,13 +40,31 @@ exports[`transform in strip-only mode should remove declare enum 3`] = `
 `;
 
 exports[`transform in strip-only mode should report correct error for syntax error 1`] = `
-"{"code":"InvalidSyntax","message":"Expected ';', '}' or <eof>","snippet":"syntax","filename":"test.ts","line":1,"column":25}
-"
+[
+  Map {
+    "code" => "InvalidSyntax",
+    "column" => 25,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "Expected ';', '}' or <eof>",
+    "snippet" => "syntax",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should report correct error for unsupported syntax 1`] = `
-"{"code":"UnsupportedSyntax","message":"TypeScript enum is not supported in strip-only mode","snippet":"enum Foo {\\n                    a, b    \\n                    }","filename":"test.ts","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "TypeScript enum is not supported in strip-only mode",
+    "snippet" => "enum Foo {
+                    a, b    
+                    }",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should strip complex expressions 1`] = `
@@ -95,38 +121,94 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
-"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module foo","filename":"test.ts","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "\`module\` keyword is not supported. Use \`namespace\` instead.",
+    "snippet" => "module foo",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a module 2`] = `
-"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module foo","filename":"test.ts","line":1,"column":8}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 8,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "\`module\` keyword is not supported. Use \`namespace\` instead.",
+    "snippet" => "module foo",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters a namespace 1`] = `
-"{"code":"UnsupportedSyntax","message":"TypeScript namespace declaration is not supported in strip-only mode","snippet":"namespace Foo { export const m = 1; }","filename":"test.ts","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "TypeScript namespace declaration is not supported in strip-only mode",
+    "snippet" => "namespace Foo { export const m = 1; }",
+  },
+]
 `;
 
 exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
-"{"code":"UnsupportedSyntax","message":"TypeScript enum is not supported in strip-only mode","snippet":"enum Foo {}","filename":"test.ts","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "TypeScript enum is not supported in strip-only mode",
+    "snippet" => "enum Foo {}",
+  },
+]
 `;
 
 exports[`transform in transform mode shoud throw an object even with deprecatedTsModuleAsError = true 1`] = `
-"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module F","filename":"<anon>","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "<anon>",
+    "line" => 1,
+    "message" => "\`module\` keyword is not supported. Use \`namespace\` instead.",
+    "snippet" => "module F",
+  },
+]
 `;
 
 exports[`transform in transform mode should throw an error when it encounters a declared module 1`] = `
-"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module foo","filename":"test.ts","line":1,"column":8}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 8,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "\`module\` keyword is not supported. Use \`namespace\` instead.",
+    "snippet" => "module foo",
+  },
+]
 `;
 
 exports[`transform in transform mode should throw an error when it encounters a module 1`] = `
-"{"code":"UnsupportedSyntax","message":"\`module\` keyword is not supported. Use \`namespace\` instead.","snippet":"module foo","filename":"test.ts","line":1,"column":0}
-"
+[
+  Map {
+    "code" => "UnsupportedSyntax",
+    "column" => 0,
+    "filename" => "test.ts",
+    "line" => 1,
+    "message" => "\`module\` keyword is not supported. Use \`namespace\` instead.",
+    "snippet" => "module foo",
+  },
+]
 `;
 
 exports[`transform should strip types 1`] = `
