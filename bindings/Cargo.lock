@@ -249,7 +249,7 @@ dependencies = [
  "bitflags 2.6.0",
  "cexpr",
  "clang-sys",
- "itertools 0.13.0",
+ "itertools 0.10.5",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -284,7 +284,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.7"
+version = "1.11.8-nightly-20250307.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -372,7 +372,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.7"
+version = "1.11.8-nightly-20250307.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -385,7 +385,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.7"
+version = "1.11.8-nightly-20250307.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -4249,7 +4249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.500"
+version = "0.91.501"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -4367,9 +4367,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.4.0"
+version = "16.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ee84d0cb86de8dae582aab106dbf2ea5e0045232656f2f4c149126f561caf57"
+checksum = "5407a21dfcf04a0f27cad439e62e1476658716b1e6e2cb5ddb4268319b018e40"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4842,9 +4842,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "10.0.0"
+version = "10.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9e336f2b460882df2c132328b3c29ab3e680e1db681a05ec3e406940d98320a"
+checksum = "9576fd56e613f83990190778878139ab1a8d5ff0b316318ba34204407a0142a2"
 dependencies = [
  "either",
  "new_debug_unreachable",
