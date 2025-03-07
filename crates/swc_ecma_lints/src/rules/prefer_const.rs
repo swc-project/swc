@@ -116,12 +116,16 @@ impl PreferConst {
             Pat::Assign(AssignPat { left, .. }) => {
                 self.collect_decl_pat(initialized, left.as_ref());
             }
-            Pat::Array(ArrayPat { elems, .. }) => {
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
+
                 elems.iter().flatten().for_each(|elem| {
                     self.collect_decl_pat(initialized, elem);
                 });
             }
-            Pat::Object(ObjectPat { props, .. }) => {
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
                 props.iter().for_each(|prop| {
                     match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
@@ -169,10 +173,16 @@ impl PreferConst {
             Pat::Ident(id) => {
                 self.consider_mutation_for_ident(&Ident::from(id), destructuring_assign);
             }
-            Pat::Array(ArrayPat { elems, .. }) => elems.iter().flatten().for_each(|elem| {
-                self.consider_mutation(elem, destructuring_assign);
-            }),
-            Pat::Object(ObjectPat { props, .. }) => {
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
+
+                elems.iter().flatten().for_each(|elem| {
+                    self.consider_mutation(elem, destructuring_assign);
+                });
+            }
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
                 props.iter().for_each(|prop| match prop {
                     ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
                         self.consider_mutation(value.as_ref(), true);
@@ -241,12 +251,16 @@ impl Visit for PreferConst {
                 }
 
                 AssignTarget::Pat(pat) => match pat {
-                    AssignTargetPat::Array(ArrayPat { elems, .. }) => {
+                    AssignTargetPat::Array(arr) => {
+                        let ArrayPat { elems, .. } = &**arr;
+
                         elems.iter().flatten().for_each(|elem| {
                             self.consider_mutation(elem, true);
                         })
                     }
-                    AssignTargetPat::Object(ObjectPat { props, .. }) => {
+                    AssignTargetPat::Object(obj) => {
+                        let ObjectPat { props, .. } = &**obj;
+
                         props.iter().for_each(|prop| match prop {
                             ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
                                 self.consider_mutation(value.as_ref(), true);

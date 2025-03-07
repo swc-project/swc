@@ -327,12 +327,12 @@ where
                 declare: false,
                 decls: vec![VarDeclarator {
                     span: i.span,
-                    name: Pat::Object(ObjectPat {
+                    name: Pat::Object(Box::new(ObjectPat {
                         span: DUMMY_SP,
                         props,
                         optional: false,
                         type_ann: None,
-                    }),
+                    })),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: load_var.as_callee(),
