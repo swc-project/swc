@@ -12,6 +12,13 @@ use crate::{
     token::{Token, TokenType, TokenValue},
 };
 
+// Thread-local SIMD vectors for string processing
+thread_local! {
+    static BACKSLASH_VEC: u8x16 = u8x16::splat(b'\\');
+    static NEWLINE_VEC: u8x16 = u8x16::splat(b'\n');
+    static CARRIAGE_VEC: u8x16 = u8x16::splat(b'\r');
+}
+
 // Pre-computed lookup table for escape sequences
 static ESCAPE_LOOKUP: [u8; 128] = {
     let mut table = [0u8; 128];
@@ -228,11 +235,14 @@ impl Lexer<'_> {
             bytes.copy_from_slice(chunk_bytes);
             let chunk = u8x16::new(bytes);
 
-            // Create vectors for quick comparison
+            // Create quote vector (needs to be created each time as it depends on
+            // parameter)
             let quote_vec = u8x16::splat(quote);
-            let backslash_vec = u8x16::splat(b'\\');
-            let newline_vec = u8x16::splat(b'\n');
-            let carriage_vec = u8x16::splat(b'\r');
+
+            // Use thread-local vectors for constants
+            let backslash_vec = BACKSLASH_VEC.with(|v| *v);
+            let newline_vec = NEWLINE_VEC.with(|v| *v);
+            let carriage_vec = CARRIAGE_VEC.with(|v| *v);
 
             // Check for presence of special characters
             let quote_mask = chunk.cmp_eq(quote_vec);
