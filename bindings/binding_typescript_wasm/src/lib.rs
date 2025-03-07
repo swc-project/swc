@@ -1,21 +1,15 @@
 use std::{
-    fmt,
-    io::Write,
     mem::take,
     sync::{Arc, Mutex},
 };
 
 use anyhow::Error;
 use js_sys::Uint8Array;
-use serde_wasm_bindgen::to_value;
+use serde::Serialize;
 use swc_common::{
-    errors::{ColorConfig, Handler, HANDLER},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
-    SourceMap, GLOBALS,
-};
-use swc_error_reporters::{
-    handler::HandlerOpts,
-    json_emitter::{JsonEmitter, JsonEmitterConfig},
+    SourceMap, SourceMapper, GLOBALS,
 };
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
@@ -58,78 +52,44 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
         }
     };
 
-    let result = GLOBALS
-        .set(&Default::default(), || operate(input, options))
-        .map_err(convert_err)?;
+    let result = GLOBALS.set(&Default::default(), || operate(input, options));
 
-    Ok(serde_wasm_bindgen::to_value(&result)?)
+    match result {
+        Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
+        Err(v) => Err(serde_wasm_bindgen::to_value(&v)?),
+    }
 }
 
 fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<serde_json::Value>> {
     let cm = Lrc::new(SourceMap::default());
 
-    try_with_json_handler(
-        cm.clone(),
-        HandlerOpts {
-            color: ColorConfig::Never,
-            skip_filename: false,
-        },
-        |handler| {
-            swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
-        },
-    )
+    try_with_json_handler(cm.clone(), |handler| {
+        swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
+    })
 }
 
-#[derive(Clone, Default)]
-struct LockedWriter(Arc<Mutex<Vec<serde_json::Value>>>);
-
-impl Write for LockedWriter {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        let mut lock = self.0.lock().unwrap();
-
-        lock.push(serde_json::from_slice(buf)?);
-
-        Ok(buf.len())
-    }
-
-    fn flush(&mut self) -> std::io::Result<()> {
-        Ok(())
-    }
-}
-
-impl fmt::Write for LockedWriter {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
-
-        Ok(())
-    }
-}
-
-fn try_with_json_handler<F, Ret>(
+#[derive(Clone)]
+struct LockedWriter {
+    errors: Arc<Mutex<Vec<serde_json::Value>>>,
     cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-) -> Result<Ret, Vec<serde_json::Value>>
+}
+
+fn try_with_json_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Vec<serde_json::Value>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let wr = Box::<LockedWriter>::default();
-
-    let emitter = Box::new(JsonEmitter::new(
+    let wr = LockedWriter {
+        errors: Default::default(),
         cm,
-        wr.clone(),
-        JsonEmitterConfig {
-            skip_filename: config.skip_filename,
-        },
-    ));
-    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
-    // true).skip_filename(skip_filename);
+    };
+    let emitter: Box<dyn Emitter> = Box::new(wr.clone());
+
     let handler = Handler::with_emitter(true, false, emitter);
 
     let ret = HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
-        let mut lock = wr.0.lock().unwrap();
+        let mut lock = wr.errors.lock().unwrap();
         let error = take(&mut *lock);
 
         Err(error)
@@ -138,6 +98,81 @@ where
     }
 }
 
-pub fn convert_err(err: Vec<serde_json::Value>) -> wasm_bindgen::prelude::JsValue {
-    to_value(&err).unwrap()
+impl Emitter for LockedWriter {
+    fn emit(&mut self, db: &DiagnosticBuilder) {
+        let d = &**db;
+
+        let children = d
+            .children
+            .iter()
+            .map(|d| todo!("json subdiagnostic: {d:?}"))
+            .collect::<Vec<_>>();
+
+        let error_code = match &d.code {
+            Some(DiagnosticId::Error(s)) => Some(&**s),
+            Some(DiagnosticId::Lint(s)) => Some(&**s),
+            None => None,
+        };
+
+        let loc = d
+            .span
+            .primary_span()
+            .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
+
+        let snippet = d
+            .span
+            .primary_span()
+            .and_then(|span| self.cm.span_to_snippet(span).ok());
+
+        let filename = loc.as_ref().map(|loc| loc.file.name.to_string());
+
+        let error = JsonDiagnostic {
+            code: error_code,
+            message: &d.message[0].0,
+            snippet: snippet.as_deref(),
+            filename: filename.as_deref(),
+            line: loc.as_ref().map(|loc| loc.line),
+            column: loc.as_ref().map(|loc| loc.col_display),
+            children,
+        };
+
+        self.errors
+            .lock()
+            .unwrap()
+            .push(serde_json::to_value(&error).unwrap());
+    }
+
+    fn take_diagnostics(&mut self) -> Vec<String> {
+        Default::default()
+    }
+}
+
+#[derive(Serialize)]
+struct JsonDiagnostic<'a> {
+    /// Error code
+    #[serde(skip_serializing_if = "Option::is_none")]
+    code: Option<&'a str>,
+    message: &'a str,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    snippet: Option<&'a str>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    filename: Option<&'a str>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    line: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    column: Option<usize>,
+
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    children: Vec<JsonSubdiagnostic<'a>>,
+}
+
+#[derive(Serialize)]
+struct JsonSubdiagnostic<'a> {
+    message: &'a str,
+    snippet: Option<&'a str>,
+    filename: &'a str,
+    line: usize,
 }
