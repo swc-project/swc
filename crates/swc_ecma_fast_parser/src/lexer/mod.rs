@@ -191,6 +191,17 @@ static TOKEN_DISPATCH: [TokenType; 128] = {
     table
 };
 
+// Thread-local SIMD vectors for whitespace processing
+thread_local! {
+    static SPACE_VEC: u8x16 = u8x16::splat(b' ');
+    static TAB_VEC: u8x16 = u8x16::splat(b'\t');
+    static NEWLINE_VEC: u8x16 = u8x16::splat(b'\n');
+    static CARRIAGE_RETURN_VEC: u8x16 = u8x16::splat(b'\r');
+    static FORM_FEED_VEC: u8x16 = u8x16::splat(0x0c); // Form feed
+    static VERT_TAB_VEC: u8x16 = u8x16::splat(0x0b); // Vertical tab
+    static SLASH_VEC: u8x16 = u8x16::splat(b'/'); // For detecting comments
+}
+
 impl<'a> Lexer<'a> {
     /// Create a new lexer from a string input
     #[inline(always)]
@@ -502,100 +513,80 @@ impl<'a> Lexer<'a> {
     #[inline]
     fn process_whitespace_simd(&mut self) -> bool {
         // Need at least 16 bytes to use SIMD
-        let rest_len = self.cursor.rest().len();
-        if rest_len < 16 || self.cursor.position() + 16 > rest_len as u32 {
+        if self.cursor.position() + 16 > self.cursor.rest().len() as u32 {
             return false;
         }
 
-        // Get current 16 bytes and load them directly into SIMD vector
+        // Use thread-local SIMD vectors for common whitespace characters
+        let space_vec = SPACE_VEC.with(|v| *v);
+        let tab_vec = TAB_VEC.with(|v| *v);
+        let newline_vec = NEWLINE_VEC.with(|v| *v);
+        let carriage_return_vec = CARRIAGE_RETURN_VEC.with(|v| *v);
+        let form_feed_vec = FORM_FEED_VEC.with(|v| *v);
+        let vert_tab_vec = VERT_TAB_VEC.with(|v| *v);
+        let slash_vec = SLASH_VEC.with(|v| *v);
+
+        // Get current 16 bytes
         let input = self.cursor.rest();
-        let data = unsafe {
-            // SAFETY: We've checked that we have at least 16 bytes
-            let mut bytes = [0u8; 16];
-            std::ptr::copy_nonoverlapping(input.as_ptr(), bytes.as_mut_ptr(), 16);
-            u8x16::new(bytes)
-        };
+        let mut data = [0u8; 16];
+        data.copy_from_slice(unsafe { input.get_unchecked(0..16) });
+        let chunk = u8x16::new(data);
 
-        // Handle special characters separately for better branch prediction
-        let first_byte = unsafe { *input.get_unchecked(0) };
-
-        // Check for special cases that need individual handling
-        match first_byte {
-            b'\n' => {
-                self.cursor.advance();
-                self.had_line_break = LineBreak::Present;
-                return true;
-            }
-            b'\r' => {
-                self.cursor.advance();
-                if let Some(b'\n') = self.cursor.peek() {
-                    self.cursor.advance();
-                }
-                self.had_line_break = LineBreak::Present;
-                return true;
-            }
-            b'/' => {
-                // Check if this could be a comment start
-                if let Some(b'/') | Some(b'*') = self.cursor.peek_at(1) {
-                    return false; // Let the caller handle comments
-                }
-                return false; // Not a whitespace
-            }
-            0xe2 => {
-                // Check for line separator (U+2028) and paragraph separator (U+2029)
-                let bytes = self.cursor.peek_n(3);
-                if bytes.len() == 3
-                    && bytes[0] == 0xe2
-                    && bytes[1] == 0x80
-                    && (bytes[2] == 0xa8 || bytes[2] == 0xa9)
-                {
-                    self.cursor.advance_n(3);
-                    self.had_line_break = LineBreak::Present;
-                    return true;
-                }
-                return false;
-            }
-            _ => {}
-        }
-
-        // Create SIMD vectors for common whitespace characters
-        let space_vec = u8x16::splat(b' ');
-        let tab_vec = u8x16::splat(b'\t');
-        let form_feed_vec = u8x16::splat(0x0c); // Form feed
-        let vert_tab_vec = u8x16::splat(0x0b); // Vertical tab
-
-        // Fast path for regular whitespace (space, tab, form feed, vertical tab)
         // Compare with our whitespace vectors
-        let is_space = data.cmp_eq(space_vec);
-        let is_tab = data.cmp_eq(tab_vec);
-        let is_ff = data.cmp_eq(form_feed_vec);
-        let is_vt = data.cmp_eq(vert_tab_vec);
+        let is_space = chunk.cmp_eq(space_vec);
+        let is_tab = chunk.cmp_eq(tab_vec);
+        let is_newline = chunk.cmp_eq(newline_vec);
+        let is_cr = chunk.cmp_eq(carriage_return_vec);
+        let is_ff = chunk.cmp_eq(form_feed_vec);
+        let is_vt = chunk.cmp_eq(vert_tab_vec);
+        let is_slash = chunk.cmp_eq(slash_vec);
 
         // Combine masks for regular whitespace
         let is_basic_ws = is_space | is_tab | is_ff | is_vt;
 
-        // Convert SIMD mask to array to process consecutive whitespace
-        let ws_array = is_basic_ws.to_array();
+        // Convert masks to arrays
+        let is_basic_ws_arr = is_basic_ws.to_array();
+        let is_newline_arr = is_newline.to_array();
+        let is_cr_arr = is_cr.to_array();
+        let is_slash_arr = is_slash.to_array();
 
-        // If the first byte is whitespace, process consecutive whitespace
-        if ws_array[0] != 0 {
-            // Count consecutive whitespace characters
-            let mut count = 0;
-            for ws_char in ws_array {
-                if ws_char == 0 {
-                    break;
-                }
-                count += 1;
-            }
+        // Check the first byte only - we'll process one character at a time
+        // This is more efficient than trying to process the entire chunk at once
+        // when we need to handle special cases like CR+LF and comments
 
-            // Skip all consecutive basic whitespace characters at once
-            if count > 0 {
-                self.cursor.advance_n(count);
-                return true;
-            }
+        if unsafe { *is_basic_ws_arr.get_unchecked(0) } != 0 {
+            // Regular whitespace - just advance
+            self.cursor.advance();
+            return true;
         }
 
-        // No whitespace found
+        if unsafe { *is_newline_arr.get_unchecked(0) } != 0 {
+            // Newline - need to set had_line_break
+            self.cursor.advance();
+            self.had_line_break = LineBreak::Present;
+            return true;
+        }
+
+        if unsafe { *is_cr_arr.get_unchecked(0) } != 0 {
+            // Carriage return - need to check for CRLF sequence
+            self.cursor.advance();
+            if let Some(b'\n') = self.cursor.peek() {
+                self.cursor.advance();
+            }
+            self.had_line_break = LineBreak::Present;
+            return true;
+        }
+
+        if unsafe { *is_slash_arr.get_unchecked(0) } != 0 {
+            // Potential comment - need to check next character
+            if let Some(b'/') | Some(b'*') = self.cursor.peek_at(1) {
+                return false; // Let the caller handle comments
+            }
+            // Not a comment, just a slash
+            return false;
+        }
+
+        // Not whitespace or a special character
         false
     }
 
