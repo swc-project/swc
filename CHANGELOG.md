@@ -1,4 +1,57 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/fast-lexer)** Fix lexing of numeric literals ([#10153](https://github.com/swc-project/swc/issues/10153)) ([65d23fe](https://github.com/swc-project/swc/commit/65d23febaaa6334c9e9477a3d5af82ebea66259b))
+
+
+- **(es/parser)** Rescan `<<` in new expression ([#10159](https://github.com/swc-project/swc/issues/10159)) ([35bd6d9](https://github.com/swc-project/swc/commit/35bd6d9e1c0bcb1e1fd58fe086b68a9b7c40a596))
+
+### Features
+
+
+
+- **(ts/fast-strip)** Throw an object instead of string ([#10162](https://github.com/swc-project/swc/issues/10162)) ([241b881](https://github.com/swc-project/swc/commit/241b8810ab551072c22cec077f9aa3155dbaec6f))
+
+### Performance
+
+
+
+- **(es/fast-lexer)** Optimize lexing of keywords ([#10155](https://github.com/swc-project/swc/issues/10155)) ([fb610b0](https://github.com/swc-project/swc/commit/fb610b096f4b5a8661b1e35e63b6ae327d4725ed))
+
+
+- **(es/fast-lexer)** Optimize bound checks ([#10157](https://github.com/swc-project/swc/issues/10157)) ([d74360e](https://github.com/swc-project/swc/commit/d74360ed26fb7bdad448523e1ffa64d59aa11673))
+
+
+- **(es/fast-lexer)** Make whitespace skipper use SIMD properly ([#10158](https://github.com/swc-project/swc/issues/10158)) ([15ea059](https://github.com/swc-project/swc/commit/15ea059712f6726d52b6304870f337a93272bb53))
+
+
+- **(es/lexer)** Optimize whitespace scanning ([#10136](https://github.com/swc-project/swc/issues/10136)) ([8a59753](https://github.com/swc-project/swc/commit/8a59753429538c62490dde54c56a964b6faa50ec))
+
+
+- **(es/lexer)** Optimize comment scanning ([#10137](https://github.com/swc-project/swc/issues/10137)) ([9676c9a](https://github.com/swc-project/swc/commit/9676c9acc83cca4297f07abdc203f0ab8da36b2b))
+
+### Refactor
+
+
+
+- **(es/lexer)** Add fast lexer implementation ([#10145](https://github.com/swc-project/swc/issues/10145)) ([b993f86](https://github.com/swc-project/swc/commit/b993f8621c41ff4752d8634e9de7ed7a48f23eb9))
+
+
+- Drop unused crates ([#10151](https://github.com/swc-project/swc/issues/10151)) ([58e4279](https://github.com/swc-project/swc/commit/58e4279fae94a9958ad4229cfa0c9b89b9d0fde4))
+
+
+- Drop unused js interop bindings ([#10161](https://github.com/swc-project/swc/issues/10161)) ([0ceefaf](https://github.com/swc-project/swc/commit/0ceefafbf3485ddfc831913114a7978e06c9ce5c))
+
+### Ci
+
+
+
+- Add swc_plugins test to ecosystem CI ([#10164](https://github.com/swc-project/swc/issues/10164)) ([b23d133](https://github.com/swc-project/swc/commit/b23d133959687161726bd6d08d101e5f57a6f8d9))
+
 ## [1.11.7] - 2025-03-04
 
 ### Features
@@ -1725,45 +1778,15 @@
 
 
 
-- **(allocator)** Remove wrong assertions and add tests ([#9252](https://github.com/swc-project/swc/issues/9252)) ([d8e8b04](https://github.com/swc-project/swc/commit/d8e8b04cd877bcf00157eeee9b7af0b4244a1827))
-
-
-- **(es/minifier)** Fix exponentiate operator ([#9251](https://github.com/swc-project/swc/issues/9251)) ([06bb533](https://github.com/swc-project/swc/commit/06bb5338cea8aef941907933319fbff1d29f9939))
-
-
-- **(es/minifier)** Fix panic in bitwise logic and incorrect values ([#9258](https://github.com/swc-project/swc/issues/9258)) ([baeb9e2](https://github.com/swc-project/swc/commit/baeb9e2df92892f9486c72cdc787bca8c3858f30))
-
-
-- **(es/minifier)** Collect raw str values for new Tpl element ([#9261](https://github.com/swc-project/swc/issues/9261)) ([6ddbfa0](https://github.com/swc-project/swc/commit/6ddbfa04db63bf3afbdec5d47f5bdbf7c7ea222f))
-
-
 - **(es/quote)** Fix macro ([#9270](https://github.com/swc-project/swc/issues/9270)) ([93d9e44](https://github.com/swc-project/swc/commit/93d9e44f1c7a3afea673f056d99001a026c0a6d3))
 
 
 - **(es/typescript)** Workaround `wasm-bindgen` ([#9272](https://github.com/swc-project/swc/issues/9272)) ([6b1d2ff](https://github.com/swc-project/swc/commit/6b1d2ff66b5ef73374c3932c0c505e08b9879a18))
 
-### Performance
-
-
-
-- **(es/codegen)** Use scoped allocator ([#9248](https://github.com/swc-project/swc/issues/9248)) ([970f323](https://github.com/swc-project/swc/commit/970f32398c6ff444540a31e1172a33b6155ed18b))
-
 ### Refactor
 
 
 
-- **(allocator)** Use RAII guard instead of `scope` ([#9254](https://github.com/swc-project/swc/issues/9254)) ([6e098ae](https://github.com/swc-project/swc/commit/6e098aeeb5976292e43786f72bd91f1de50a9daa))
-
-
-- **(es/codegen)** Revert #9248 ([#9266](https://github.com/swc-project/swc/issues/9266)) ([b9b233c](https://github.com/swc-project/swc/commit/b9b233cacd9d326afb806d856c91e38474b237c2))
-
-
 - **(visit)** Pre-generate visitor code ([#9262](https://github.com/swc-project/swc/issues/9262)) ([9c17663](https://github.com/swc-project/swc/commit/9c176632b1e0d6edec10929486ca514fa992415b))
-
-### Testing
-
-
-
-- **(allocator)** Merge test ([#9267](https://github.com/swc-project/swc/issues/9267)) ([efc3963](https://github.com/swc-project/swc/commit/efc396377ff95b0c464fe4bf793dc3da59abd36e))
 
 <!-- generated by git-cliff -->

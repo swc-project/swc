@@ -41,7 +41,7 @@ swc_common = { version = "8.0.0", path = "../swc_common", features = [
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "8.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "10.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "10.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "14.0.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
