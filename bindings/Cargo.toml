@@ -3,7 +3,6 @@ members = [
   "binding_core_node",
   "binding_core_wasm",
   "binding_html_node",
-  "binding_js_interop_node",
   "binding_minifier_node",
   "binding_minifier_wasm",
   "binding_typescript_wasm",
@@ -145,5 +144,5 @@ strip = "symbols"
     opt-level = "s"
 
 
-[profile.dev.package."*"]
-debug-assertions = false
+    [profile.dev.package."*"]
+    debug-assertions = false

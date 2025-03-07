@@ -323,29 +323,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "binding_js_interop_node"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "backtrace",
- "napi",
- "napi-build",
- "napi-derive",
- "node_macro_deps",
- "path-clean 1.0.1",
- "serde",
- "serde_json",
- "swc_core",
- "swc_interop_babel",
- "swc_interop_nodejs",
- "swc_malloc",
- "tracing",
- "tracing-chrome 0.7.2",
- "tracing-futures",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "binding_macros"
 version = "16.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2648,7 +2625,6 @@ dependencies = [
  "once_cell",
  "serde",
  "serde_json",
- "tokio",
 ]
 
 [[package]]
@@ -5387,21 +5363,6 @@ dependencies = [
  "swc_html_ast",
  "swc_visit",
 ]
-
-[[package]]
-name = "swc_interop_babel"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "93e4dbc7d95428117dab24e3855000bcb6c31742946a8575f6202c4df801b532"
-dependencies = [
- "swc_interop_nodejs",
-]
-
-[[package]]
-name = "swc_interop_nodejs"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ce3abed2181a16c5bb94026de4ebe805b025353f71425cc65c5f29f145139fd"
 
 [[package]]
 name = "swc_macros_common"
