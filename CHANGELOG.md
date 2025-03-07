@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.8] - 2025-03-07
 
 ### Bug Fixes
 
