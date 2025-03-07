@@ -188,7 +188,10 @@ impl<'a> Cursor<'a> {
     /// SIMD-accelerated implementation of find_byte
     #[inline]
     fn find_byte_simd(&self, byte: u8) -> Option<u32> {
-        let input = &self.input[self.pos as usize..];
+        let input = unsafe {
+            // Safety: This function is only called when pos + 16 <= len
+            self.input.get_unchecked(self.pos as usize..)
+        };
         let mut position = 0u32;
 
         // Process 16 bytes at a time
@@ -198,7 +201,10 @@ impl<'a> Cursor<'a> {
 
             // Create a vector with current chunk of data
             let mut data = [0u8; 16];
-            data.copy_from_slice(&input[position as usize..(position + 16) as usize]);
+            data.copy_from_slice(unsafe {
+                // SAFETY: We've verified bounds above
+                input.get_unchecked(position as usize..(position + 16) as usize)
+            });
             let chunk = u8x16::new(data);
 
             // Compare for equality
