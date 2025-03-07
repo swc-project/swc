@@ -14,7 +14,7 @@ version     = "0.1.0"
 anyhow         = { workspace = true }
 cargo_metadata = { workspace = true }
 chrono         = { workspace = true }
-clap           = { version = "4.4.6", features = ["derive"] }
+clap           = { workspace = true, features = ["derive"] }
 semver         = { workspace = true }
 serde          = { workspace = true }
 serde_derive   = { workspace = true }
