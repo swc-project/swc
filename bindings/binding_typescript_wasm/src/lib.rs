@@ -1,7 +1,22 @@
+use std::{
+    fmt,
+    io::Write,
+    mem::take,
+    sync::{Arc, Mutex},
+};
+
 use anyhow::Error;
 use js_sys::Uint8Array;
-use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
-use swc_error_reporters::handler::{try_with_json_handler, HandlerOpts};
+use serde_wasm_bindgen::to_value;
+use swc_common::{
+    errors::{ColorConfig, Handler, HANDLER},
+    sync::Lrc,
+    SourceMap, GLOBALS,
+};
+use swc_error_reporters::{
+    handler::HandlerOpts,
+    json_emitter::{JsonEmitter, JsonEmitterConfig},
+};
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
@@ -50,7 +65,7 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
     Ok(serde_wasm_bindgen::to_value(&result)?)
 }
 
-fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
+fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<serde_json::Value>> {
     let cm = Lrc::new(SourceMap::default());
 
     try_with_json_handler(
@@ -65,6 +80,64 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
     )
 }
 
-pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
-    err.to_string().into()
+#[derive(Clone, Default)]
+struct LockedWriter(Arc<Mutex<Vec<serde_json::Value>>>);
+
+impl Write for LockedWriter {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        let mut lock = self.0.lock().unwrap();
+
+        lock.push(serde_json::from_slice(buf)?);
+
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
+impl fmt::Write for LockedWriter {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
+
+        Ok(())
+    }
+}
+
+fn try_with_json_handler<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Vec<serde_json::Value>>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    let wr = Box::<LockedWriter>::default();
+
+    let emitter = Box::new(JsonEmitter::new(
+        cm,
+        wr.clone(),
+        JsonEmitterConfig {
+            skip_filename: config.skip_filename,
+        },
+    ));
+    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
+    // true).skip_filename(skip_filename);
+    let handler = Handler::with_emitter(true, false, emitter);
+
+    let ret = HANDLER.set(&handler, || op(&handler));
+
+    if handler.has_errors() {
+        let mut lock = wr.0.lock().unwrap();
+        let error = take(&mut *lock);
+
+        Err(error)
+    } else {
+        Ok(ret.expect("it should not fail without emitting errors to handler"))
+    }
+}
+
+pub fn convert_err(err: Vec<serde_json::Value>) -> wasm_bindgen::prelude::JsValue {
+    to_value(&err).unwrap()
 }
