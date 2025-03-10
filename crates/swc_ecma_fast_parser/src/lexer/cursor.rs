@@ -149,18 +149,6 @@ impl<'a> Cursor<'a> {
         unsafe { self.input.get_unchecked(self.pos as usize..) }
     }
 
-    /// Get a slice of the input
-    #[inline(always)]
-    pub fn slice(&self, start: u32, end: u32) -> &'a [u8] {
-        let real_start = start.min(self.len);
-        let real_end = end.min(self.len);
-        // SAFETY: We've validated bounds
-        unsafe {
-            self.input
-                .get_unchecked(real_start as usize..real_end as usize)
-        }
-    }
-
     /// Get a slice of the input without bounds checking.
     ///
     /// # Safety
