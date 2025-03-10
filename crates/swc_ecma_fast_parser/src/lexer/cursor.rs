@@ -3,9 +3,7 @@
 //! This cursor operates directly on UTF-8 bytes for maximum performance.
 
 use assume::assume;
-use memchr::memchr;
 use swc_common::BytePos;
-use wide::u8x16;
 
 use crate::util::unlikely;
 
@@ -173,12 +171,5 @@ impl<'a> Cursor<'a> {
     #[inline(always)]
     pub fn reset_to(&mut self, pos: BytePos) {
         self.pos = pos.0;
-    }
-
-    /// Find the next occurrence of a byte
-    #[inline]
-    pub fn find_byte(&self, byte: u8) -> Option<u32> {
-        // Use memchr for optimal performance
-        memchr(byte, &self.input[self.pos as usize..]).map(|pos| self.pos + pos as u32)
     }
 }

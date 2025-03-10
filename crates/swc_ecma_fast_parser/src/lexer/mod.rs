@@ -20,6 +20,7 @@ mod tests;
 use std::rc::Rc;
 
 use cursor::Cursor;
+use memchr::memchr2;
 use swc_common::{BytePos, Span, DUMMY_SP};
 use wide::u8x16;
 
@@ -606,30 +607,30 @@ impl<'a> Lexer<'a> {
 
     #[inline(always)]
     fn skip_line_comment(&mut self) {
-        // Fast path using find_byte (which uses SIMD internally when available)
-        if let Some(newline_pos) = self.cursor.find_byte(b'\n') {
-            // Skip to the newline
-            let from_cursor = newline_pos - self.cursor.position();
-            self.cursor.advance_n(from_cursor);
-            self.cursor.advance(); // Skip the newline
-            self.had_line_break = LineBreak::Present;
+        // Fast path using memchr2 to find either \n or \r
+        if let Some(pos) = memchr2(b'\n', b'\r', self.cursor.rest()) {
+            let ch = self.cursor.rest()[pos];
+            self.cursor.advance_n(pos as u32);
+
+            if ch == b'\n' {
+                // Simple newline
+                self.cursor.advance(); // Skip the newline
+                self.had_line_break = LineBreak::Present;
+            } else {
+                // Carriage return - check if followed by newline (CRLF)
+                self.cursor.advance(); // Skip the \r
+                if let Some(b'\n') = self.cursor.peek() {
+                    self.cursor.advance(); // Skip the \n in CRLF
+                }
+                self.had_line_break = LineBreak::Present;
+            }
             return;
         }
 
-        // Slower fallback path for when no newline is found
+        // Slower fallback path for Unicode line breaks or when no line break is found
         while let Some(ch) = self.cursor.peek() {
             self.cursor.advance();
-            if ch == b'\n' {
-                self.had_line_break = LineBreak::Present;
-                break;
-            } else if ch == b'\r' {
-                self.had_line_break = LineBreak::Present;
-                // Skip the following \n if it exists (CRLF sequence)
-                if let Some(b'\n') = self.cursor.peek() {
-                    self.cursor.advance();
-                }
-                break;
-            } else if ch == 0xe2 {
+            if ch == 0xe2 {
                 // Check for line separator (U+2028) and paragraph separator (U+2029)
                 let bytes = self.cursor.peek_n(2);
                 if bytes.len() == 2 && bytes[0] == 0x80 && (bytes[1] == 0xa8 || bytes[1] == 0xa9) {
