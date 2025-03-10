@@ -366,7 +366,12 @@ impl<'a> Lexer<'a> {
             }
             // Identifier start characters
             else if char_type & CHAR_ID_START != 0 {
-                self.read_identifier()
+                // Fast path for identifiers that can't be keywords
+                if Self::is_non_keyword_start(ch) {
+                    self.read_non_keyword_identifier()
+                } else {
+                    self.read_identifier()
+                }
             }
             // Any other ASCII character (error case)
             else {
@@ -382,7 +387,12 @@ impl<'a> Lexer<'a> {
         } else {
             // Non-ASCII character path (less common)
             if Self::is_identifier_start(ch) {
-                self.read_identifier()
+                // Fast path for identifiers that can't be keywords
+                if Self::is_non_keyword_start(ch) {
+                    self.read_non_keyword_identifier()
+                } else {
+                    self.read_identifier()
+                }
             } else {
                 self.cursor.advance();
                 let span = self.span();
