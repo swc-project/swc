@@ -501,6 +501,36 @@ impl Lexer<'_> {
         ))
     }
 
+    /// Fast path for reading identifiers that cannot be keywords
+    /// This function skips all keyword checks for better performance
+    #[inline(always)]
+    pub(super) fn read_non_keyword_identifier(&mut self) -> Result<Token> {
+        let start_pos = self.start_pos;
+
+        // Skip the first character (already verified as identifier start)
+        self.cursor.advance();
+
+        // Read as many identifier continue chars as possible
+        self.cursor.advance_while(Self::is_identifier_continue);
+
+        // Extract the identifier text
+        let span = self.span();
+        let ident_start = start_pos.0;
+        let ident_end = self.cursor.position();
+        let ident_bytes = self.cursor.slice(ident_start, ident_end);
+        let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
+        let had_line_break_bool: bool = self.had_line_break.into();
+
+        // Skip all keyword checks - this is a fast path for identifiers
+        // that can never be keywords (uppercase, certain lowercase, etc.)
+        Ok(Token::new(
+            TokenType::Ident,
+            span,
+            had_line_break_bool,
+            TokenValue::Word(Atom::from(ident_str)),
+        ))
+    }
+
     /// Super fast check for ASCII identifier continue character  
     #[inline(always)]
     pub(crate) fn is_ascii_id_continue(ch: u8) -> bool {

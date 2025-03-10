@@ -307,7 +307,7 @@ fn handle_non_keyword_identifier(
     _had_line_break: bool,
 ) -> Result<Token> {
     // Fast path for identifiers that can never be keywords
-    lexer.read_identifier()
+    lexer.read_non_keyword_identifier()
 }
 
 fn handle_invalid(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<Token> {
