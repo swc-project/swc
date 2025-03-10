@@ -294,7 +294,19 @@ fn handle_caret(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result
     lexer.read_caret()
 }
 
-fn handle_identifier(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+/// Handler for identifiers that might be keywords
+fn handle_possible_keyword(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_identifier()
+}
+
+/// Handler for identifiers that cannot be keywords
+#[inline(always)]
+fn handle_non_keyword_identifier(
+    lexer: &mut Lexer<'_>,
+    _ch: u8,
+    _had_line_break: bool,
+) -> Result<Token> {
+    // Fast path for identifiers that can never be keywords
     lexer.read_identifier()
 }
 
@@ -351,16 +363,48 @@ static BYTE_HANDLERS: [ByteHandler; 256] = {
     table[b'&' as usize] = handle_ampersand;
     table[b'^' as usize] = handle_caret;
 
-    // Identifier and number handlers
-    // Set handler for a-z, A-Z, _, $
+    // Identifier handlers - split by whether they can start a keyword or not
+
+    // Alphabets that can start a keyword
+    table[b'a' as usize] = handle_possible_keyword; // abstract, await, async
+    table[b'b' as usize] = handle_possible_keyword; // break
+    table[b'c' as usize] = handle_possible_keyword; // case, catch, class, const, continue
+    table[b'd' as usize] = handle_possible_keyword; // debugger, default, delete, do
+    table[b'e' as usize] = handle_possible_keyword; // else, enum, export, extends
+    table[b'f' as usize] = handle_possible_keyword; // false, finally, for, function
+    table[b'g' as usize] = handle_possible_keyword; // get
+    table[b'i' as usize] = handle_possible_keyword; // if, implements, import, in, instanceof, interface
+    table[b'k' as usize] = handle_possible_keyword; // keyof
+    table[b'l' as usize] = handle_possible_keyword; // let
+    table[b'n' as usize] = handle_possible_keyword; // new, null, namespace, never, number
+    table[b'o' as usize] = handle_possible_keyword; // of, object
+    table[b'p' as usize] = handle_possible_keyword; // package, private, protected, public
+    table[b'r' as usize] = handle_possible_keyword; // return, readonly, require
+    table[b's' as usize] = handle_possible_keyword; // super, switch, static, string, symbol, set
+    table[b't' as usize] = handle_possible_keyword; // this, throw, true, try, typeof, type
+    table[b'u' as usize] = handle_possible_keyword; // undefined, unique, unknown, using
+    table[b'v' as usize] = handle_possible_keyword; // var, void
+    table[b'w' as usize] = handle_possible_keyword; // while, with
+    table[b'y' as usize] = handle_possible_keyword; // yield
+
+    // Alphabets that cannot start a keyword - fast path
+    table[b'h' as usize] = handle_non_keyword_identifier;
+    table[b'j' as usize] = handle_non_keyword_identifier;
+    table[b'm' as usize] = handle_non_keyword_identifier;
+    table[b'q' as usize] = handle_non_keyword_identifier;
+    table[b'x' as usize] = handle_non_keyword_identifier;
+    table[b'z' as usize] = handle_non_keyword_identifier;
+
+    // Handle uppercase letters (never keywords)
     let mut i = 0;
     while i < 26 {
-        table[(b'a' + i) as usize] = handle_identifier;
-        table[(b'A' + i) as usize] = handle_identifier;
+        table[(b'A' + i) as usize] = handle_non_keyword_identifier;
         i += 1;
     }
-    table[b'_' as usize] = handle_identifier;
-    table[b'$' as usize] = handle_identifier;
+
+    // Other identifier characters
+    table[b'_' as usize] = handle_non_keyword_identifier;
+    table[b'$' as usize] = handle_non_keyword_identifier;
 
     // Set handler for digits 0-9
     i = 0;
