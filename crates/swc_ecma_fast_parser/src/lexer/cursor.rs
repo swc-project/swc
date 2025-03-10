@@ -3,6 +3,7 @@
 //! This cursor operates directly on UTF-8 bytes for maximum performance.
 
 use assume::assume;
+use memchr::memchr;
 use swc_common::BytePos;
 use wide::u8x16;
 
@@ -177,65 +178,7 @@ impl<'a> Cursor<'a> {
     /// Find the next occurrence of a byte
     #[inline]
     pub fn find_byte(&self, byte: u8) -> Option<u32> {
-        // If we're at or near EOF, use the standard implementation
-        if unlikely(self.pos + 16 > self.len) {
-            return self.find_byte_scalar(byte);
-        }
-
-        // SIMD implementation using wide crate
-        self.find_byte_simd(byte)
-    }
-
-    /// SIMD-accelerated implementation of find_byte
-    #[inline]
-    fn find_byte_simd(&self, byte: u8) -> Option<u32> {
-        let input = &self.input[self.pos as usize..];
-        let mut position = 0u32;
-
-        // Process 16 bytes at a time
-        while position + 16 <= input.len() as u32 {
-            // Create a vector with our pattern
-            let needle = u8x16::splat(byte);
-
-            // Create a vector with current chunk of data
-            let mut data = [0u8; 16];
-            data.copy_from_slice(&input[position as usize..(position + 16) as usize]);
-            let chunk = u8x16::new(data);
-
-            // Compare for equality
-            let mask = chunk.cmp_eq(needle);
-
-            // Converting to array to check byte-by-byte (no move_mask available)
-            let mask_array = mask.to_array();
-
-            // Check for any matches
-            #[allow(clippy::needless_range_loop)]
-            for i in 0..16 {
-                if mask_array[i] != 0 {
-                    return Some(self.pos + position + i as u32);
-                }
-            }
-
-            position += 16;
-        }
-
-        // Handle the remainder with the scalar implementation
-        if position < input.len() as u32 {
-            return input[position as usize..]
-                .iter()
-                .position(|&b| b == byte)
-                .map(|pos| self.pos + position + pos as u32);
-        }
-
-        None
-    }
-
-    /// Standard fallback implementation
-    #[inline]
-    fn find_byte_scalar(&self, byte: u8) -> Option<u32> {
-        self.input[self.pos as usize..]
-            .iter()
-            .position(|&b| b == byte)
-            .map(|pos| self.pos + pos as u32)
+        // Use memchr for optimal performance
+        memchr(byte, &self.input[self.pos as usize..]).map(|pos| self.pos + pos as u32)
     }
 }
