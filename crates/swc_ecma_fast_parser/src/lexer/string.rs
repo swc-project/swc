@@ -234,25 +234,22 @@ impl Lexer<'_> {
             let newline_vec = u8x16::splat(b'\n');
             let carriage_vec = u8x16::splat(b'\r');
 
-            // Check for presence of special characters
+            // Check for presence of special characters with a single combined mask
             let quote_mask = chunk.cmp_eq(quote_vec);
             let backslash_mask = chunk.cmp_eq(backslash_vec);
             let newline_mask = chunk.cmp_eq(newline_vec);
             let carriage_mask = chunk.cmp_eq(carriage_vec);
 
-            // Convert masks to arrays for checking
-            let quote_arr = quote_mask.to_array();
-            let backslash_arr = backslash_mask.to_array();
-            let newline_arr = newline_mask.to_array();
-            let carriage_arr = carriage_mask.to_array();
+            // Combine all masks with OR operation
+            let combined_mask = quote_mask | backslash_mask | newline_mask | carriage_mask;
 
-            // Check for any special character that requires detailed processing
+            // Convert combined mask to array to check if any special character was found
+            let mask_array = combined_mask.to_array();
+
+            // Check if any element in the mask array is non-zero
+            #[allow(clippy::needless_range_loop)]
             for i in 0..16 {
-                if quote_arr[i] != 0
-                    || backslash_arr[i] != 0
-                    || newline_arr[i] != 0
-                    || carriage_arr[i] != 0
-                {
+                if mask_array[i] != 0 {
                     // We found a character that needs special handling
                     // Process from here using the standard algorithm
                     return self.find_string_end_standard(pos + i as u32, rest, quote);
