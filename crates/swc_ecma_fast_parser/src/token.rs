@@ -546,6 +546,12 @@ pub struct Token {
     pub value: TokenValue,
 }
 
+impl Default for Token {
+    fn default() -> Self {
+        Self::new(TokenType::Invalid, Span::default(), false, TokenValue::None)
+    }
+}
+
 impl Token {
     /// Create a new token
     pub fn new(token_type: TokenType, span: Span, had_line_break: bool, value: TokenValue) -> Self {

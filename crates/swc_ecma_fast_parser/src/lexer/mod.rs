@@ -17,7 +17,7 @@ mod template;
 #[cfg(test)]
 mod tests;
 
-use std::rc::Rc;
+use std::{mem::take, rc::Rc};
 
 use cursor::Cursor;
 use swc_atoms::Atom;
@@ -510,7 +510,7 @@ impl<'a> Lexer<'a> {
 
     /// Get the next token
     pub fn next_token(&mut self) -> Result<Token> {
-        let prev_token = self.current.clone();
+        let prev_token = take(&mut self.current);
 
         // Skip any whitespace and comments at the current position
         let had_line_break = self.skip_whitespace();
