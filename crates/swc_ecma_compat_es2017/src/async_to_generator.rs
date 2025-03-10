@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_this_expr, find_pat_ids,
+    find_pat_ids,
     function::{init_this, FnEnvHoister, FnWrapperResult, FunctionWrapper},
     prepend_stmt, private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
@@ -339,54 +339,52 @@ impl VisitMut for Actual {
             return;
         }
 
-        let is_this_used = contains_this_expr(&prop.function.body);
-
-        let original_fn_params = prop.function.params.take();
-
-        let prop_method_span = prop.function.span;
-        let prop_method_body_span = if let Some(body) = &prop.function.body {
-            body.span
-        } else {
-            DUMMY_SP
+        let Function {
+            span,
+            params,
+            body: Some(body),
+            ..
+        } = &mut *prop.function
+        else {
+            return;
         };
-        prop.function.span = prop_method_body_span;
 
-        let fn_ref = make_fn_ref(
-            Function {
-                params: Vec::new(),
-                ..*prop.function.take()
-            }
-            .into(),
-        );
+        let span = *span;
+        let params = params.take();
+        let mut visitor = FnEnvHoister::new(self.unresolved_ctxt);
+        body.visit_mut_with(&mut visitor);
 
-        let fn_ref = if is_this_used {
-            fn_ref.apply(DUMMY_SP, ThisExpr { span: DUMMY_SP }.into(), Vec::new())
-        } else {
-            CallExpr {
-                span: DUMMY_SP,
-                callee: fn_ref.as_callee(),
-                args: Vec::new(),
-                ..Default::default()
-            }
-            .into()
-        };
+        let expr = make_fn_ref(FnExpr {
+            ident: None,
+            function: prop.function.take(),
+        });
 
         prop.function = Function {
-            params: original_fn_params,
-            span: prop_method_span,
-            is_async: false,
-            is_generator: false,
+            span,
+            params,
             body: Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(Box::new(fn_ref)),
-                })],
+                stmts: visitor
+                    .to_stmt()
+                    .into_iter()
+                    .chain(iter::once(
+                        ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(
+                                CallExpr {
+                                    callee: expr.as_callee(),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    ))
+                    .collect(),
                 ..Default::default()
             }),
             ..Default::default()
         }
-        .into()
+        .into();
     }
 
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
