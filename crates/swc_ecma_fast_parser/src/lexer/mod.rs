@@ -20,6 +20,7 @@ mod tests;
 use std::rc::Rc;
 
 use cursor::Cursor;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span, DUMMY_SP};
 use wide::u8x16;
 
@@ -40,7 +41,7 @@ enum LineBreak {
 }
 
 /// Function pointer type for handling different byte values in the lexer
-type ByteHandler = fn(&mut Lexer<'_>, u8, bool) -> Result<Token>;
+type ByteHandler = fn(&mut Lexer<'_>, u8, bool) -> Result<()>;
 
 impl From<bool> for LineBreak {
     #[inline(always)]
@@ -196,107 +197,162 @@ static TOKEN_DISPATCH: [TokenType; 128] = {
 
 // Handler functions for different byte types - defined outside of Lexer impl to
 // avoid lifetime issues
-fn handle_special(lexer: &mut Lexer<'_>, ch: u8, had_line_break: bool) -> Result<Token> {
+fn handle_special(lexer: &mut Lexer<'_>, ch: u8, had_line_break: bool) -> Result<()> {
     // Special case for closing brace in template
     if unlikely(ch == b'}' && lexer.in_template) {
-        // End of template expression
         lexer.in_template_expr = false;
+        lexer.cursor.advance();
+        lexer.current = Token::new(
+            TokenType::RBrace,
+            lexer.span(),
+            had_line_break,
+            TokenValue::None,
+        );
+        return Ok(());
     }
 
-    let token_type = unsafe { *TOKEN_DISPATCH.get_unchecked(ch as usize) };
+    // Fixed token type lookup
+    let token_type = match ch {
+        b'(' => TokenType::LParen,
+        b')' => TokenType::RParen,
+        b'{' => TokenType::LBrace,
+        b'}' => TokenType::RBrace,
+        b'[' => TokenType::LBracket,
+        b']' => TokenType::RBracket,
+        b';' => TokenType::Semi,
+        b',' => TokenType::Comma,
+        b':' => TokenType::Colon,
+        b'~' => TokenType::Tilde,
+        b'@' => TokenType::At,
+        _ => unreachable!(),
+    };
+
     lexer.cursor.advance();
 
-    Ok(Token::new(
-        token_type,
-        lexer.span(),
-        had_line_break,
-        TokenValue::None,
-    ))
+    lexer.current = Token::new(token_type, lexer.span(), had_line_break, TokenValue::None);
+    Ok(())
 }
 
-fn handle_string(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_string(ch)
+fn handle_string(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_string(ch)?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_template(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<Token> {
+fn handle_template(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<()> {
     lexer.in_template = true;
     lexer.cursor.advance();
 
-    Ok(Token::new(
+    lexer.current = Token::new(
         TokenType::BackQuote,
         lexer.span(),
         had_line_break,
         TokenValue::None,
-    ))
+    );
+    Ok(())
 }
 
-fn handle_hash(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_hash()
+fn handle_hash(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_hash()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_number(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_number()
+fn handle_number(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_number()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_dot(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_dot()
+fn handle_dot(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_dot()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_equals(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_equals()
+fn handle_equals(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_equals()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_plus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_plus()
+fn handle_plus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_plus()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_minus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_minus()
+fn handle_minus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_minus()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_slash(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<Token> {
-    lexer.read_slash(had_line_break)
+fn handle_slash(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<()> {
+    let token = lexer.read_slash(had_line_break)?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_less_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_less_than()
+fn handle_less_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_less_than()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_greater_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_greater_than()
+fn handle_greater_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_greater_than()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_exclamation_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_exclamation_mark()
+fn handle_exclamation_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_exclamation_mark()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_question_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_question_mark()
+fn handle_question_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_question_mark()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_asterisk(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_asterisk()
+fn handle_asterisk(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_asterisk()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_percent(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_percent()
+fn handle_percent(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_percent()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_pipe(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_pipe()
+fn handle_pipe(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_pipe()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_ampersand(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_ampersand()
+fn handle_ampersand(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_ampersand()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_caret(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_caret()
+fn handle_caret(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_caret()?;
+    lexer.current = token;
+    Ok(())
 }
 
 /// Handler for identifiers that might be keywords
-fn handle_possible_keyword(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
-    lexer.read_identifier()
+fn handle_possible_keyword(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<()> {
+    let token = lexer.read_identifier()?;
+    lexer.current = token;
+    Ok(())
 }
 
 /// Handler for identifiers that cannot be keywords
@@ -305,20 +361,24 @@ fn handle_non_keyword_identifier(
     lexer: &mut Lexer<'_>,
     _ch: u8,
     _had_line_break: bool,
-) -> Result<Token> {
+) -> Result<()> {
     // Fast path for identifiers that can never be keywords
-    lexer.read_non_keyword_identifier()
+    let token = lexer.read_non_keyword_identifier()?;
+    lexer.current = token;
+    Ok(())
 }
 
-fn handle_invalid(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<Token> {
+fn handle_invalid(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<()> {
     lexer.cursor.advance();
     let span = lexer.span();
-    Err(Error {
-        kind: ErrorKind::General {
-            message: format!("Unexpected character: '{}'", ch as char),
-        },
+
+    lexer.current = Token::new(
+        TokenType::Invalid,
         span,
-    })
+        false,
+        TokenValue::Word(Atom::from(format!("INVALID_CHAR_CODE_{}", ch))),
+    );
+    Ok(())
 }
 
 // Byte handler dispatch table - for fast lookup of handler functions
@@ -449,23 +509,20 @@ impl<'a> Lexer<'a> {
     }
 
     /// Get the next token
-    #[inline(always)]
     pub fn next_token(&mut self) -> Result<Token> {
-        if likely(!self.in_template || self.in_template_expr) {
-            // Skip whitespaces and comments
-            self.skip_whitespace();
-        }
+        let prev_token = self.current.clone();
 
-        // Remember if there were line breaks before this token
-        let had_line_break = self.had_line_break;
-        self.had_line_break = LineBreak::None;
+        // Skip any whitespace and comments at the current position
+        let had_line_break = self.skip_whitespace();
 
         // Remember the start position of this token
         self.start_pos = self.cursor.pos();
 
         // If we're in JSX mode, use the JSX tokenizer
         if unlikely(self.in_jsx_element) {
-            return self.read_jsx_token(had_line_break.into());
+            let token = self.read_jsx_token(had_line_break.into())?;
+            self.current = token;
+            return Ok(prev_token);
         }
 
         // Get the next character - fast path for EOF
@@ -473,36 +530,36 @@ impl<'a> Lexer<'a> {
             Some(ch) => ch,
             None => {
                 // End of file - reuse the same EOF token object
-                let token = Token::new(
+                self.current = Token::new(
                     TokenType::EOF,
                     self.span(),
                     had_line_break.into(),
                     TokenValue::None,
                 );
-                return Ok(std::mem::replace(&mut self.current, token));
+                return Ok(prev_token);
             }
         };
 
         // Process the character to determine the token type
-        let token = self.read_token(ch, had_line_break.into())?;
+        self.read_token(ch, had_line_break.into())?;
 
-        // Update the current token and return a clone of the previous one
-        Ok(std::mem::replace(&mut self.current, token))
+        // Return the previous token
+        Ok(prev_token)
     }
 
     /// Read the next token starting with the given character
     #[inline(always)]
-    fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<Token> {
+    fn read_token(&mut self, ch: u8, had_line_break: bool) -> Result<()> {
         if unlikely(self.in_template && !self.in_template_expr) {
-            return self.read_template_content(had_line_break);
+            let token = self.read_template_content(had_line_break)?;
+            self.current = token;
+            return Ok(());
         }
 
         // Use the jump table to directly call the appropriate handler function
         // This avoids the need for a large match statement or cascading if-else checks
-        unsafe {
-            let handler = *BYTE_HANDLERS.get_unchecked(ch as usize);
-            handler(self, ch, had_line_break)
-        }
+        let handler = unsafe { *BYTE_HANDLERS.get_unchecked(ch as usize) };
+        handler(self, ch, had_line_break)
     }
 
     /// Create a span from the start position to the current position
@@ -513,96 +570,42 @@ impl<'a> Lexer<'a> {
 
     /// Skip whitespace and comments - optimized hot path
     #[inline(always)]
-    fn skip_whitespace(&mut self) {
-        // Process whitespace in SIMD batches when possible
-        while !self.cursor.is_eof() {
-            // First, handle SIMD optimized whitespace skipping for common ASCII whitespace
-            if self.process_whitespace_simd() {
-                continue;
-            }
+    fn skip_whitespace(&mut self) -> LineBreak {
+        // Remember if there were line breaks before this token
+        let had_line_break = self.had_line_break;
+        self.had_line_break = LineBreak::None;
 
-            // Fallback to standard processing for comments and special cases
-            let ch = match self.cursor.peek() {
-                Some(c) => c,
-                None => break,
-            };
+        if likely(!self.in_template || self.in_template_expr) {
+            // Process whitespace in SIMD batches when possible
+            while !self.cursor.is_eof() {
+                // First, handle SIMD optimized whitespace skipping for common ASCII whitespace
+                if self.process_whitespace_simd() {
+                    continue;
+                }
 
-            // Handle ASCII characters
-            if likely(ch < 128) {
-                let char_type = unsafe { *ASCII_LOOKUP.get_unchecked(ch as usize) };
-
-                // Fast path for common whitespace
-                if char_type & CHAR_WHITESPACE != 0 {
-                    // Special handling for line breaks
-                    if unlikely(char_type & CHAR_LINEBREAK != 0) {
-                        if ch == b'\n' {
-                            self.cursor.advance();
-                            self.had_line_break = LineBreak::Present;
-                            continue;
-                        } else if ch == b'\r' {
-                            self.cursor.advance();
-                            // Skip the following \n if it exists (CRLF sequence)
-                            if let Some(b'\n') = self.cursor.peek() {
-                                self.cursor.advance();
-                            }
-                            self.had_line_break = LineBreak::Present;
-                            continue;
-                        }
-                    } else {
-                        // Regular whitespace (space, tab, etc.)
+                // Fall back to byte-by-byte processing for complex cases
+                match self.cursor.peek() {
+                    Some(b' ' | b'\t' | b'\x0B' | b'\x0C' | b'\r') => {
                         self.cursor.advance();
-                        continue;
                     }
-                }
-
-                // Handle comments - uses frequency-based ordering
-                if ch == b'/' {
-                    match self.cursor.peek_at(1) {
-                        // Line comment - very common in JS
-                        Some(b'/') => {
-                            self.cursor.advance_n(2);
-                            self.skip_line_comment();
-                            continue;
-                        }
-                        // Block comment - less common
-                        Some(b'*') => {
-                            self.cursor.advance_n(2);
-                            self.skip_block_comment();
-                            continue;
-                        }
-                        _ => break,
-                    }
-                }
-
-                // Not whitespace or comment
-                break;
-            } else {
-                // Handle Unicode whitespace - rare case
-                if ch == 0xe2 {
-                    // Check for line separator (U+2028) and paragraph separator (U+2029)
-                    let bytes = self.cursor.peek_n(3);
-                    if bytes.len() == 3
-                        && bytes[0] == 0xe2
-                        && bytes[1] == 0x80
-                        && (bytes[2] == 0xa8 || bytes[2] == 0xa9)
-                    {
-                        self.cursor.advance_n(3);
+                    Some(b'\n') => {
+                        self.cursor.advance();
                         self.had_line_break = LineBreak::Present;
-                        continue;
                     }
-                } else if ch == 0xef {
-                    // BOM - extremely rare in middle of file
-                    let bytes = self.cursor.peek_n(3);
-                    if bytes.len() == 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf
-                    {
-                        self.cursor.advance_n(3);
-                        continue;
+                    // Handle line comments
+                    Some(b'/') if self.cursor.peek_at(1) == Some(b'/') => {
+                        self.skip_line_comment();
                     }
+                    // Handle block comments
+                    Some(b'/') if self.cursor.peek_at(1) == Some(b'*') => {
+                        self.skip_block_comment();
+                    }
+                    // Not a whitespace or comment, stop skipping
+                    _ => break,
                 }
-                // Not Unicode whitespace
-                break;
             }
         }
+        had_line_break
     }
 
     /// Process whitespace using SIMD acceleration
