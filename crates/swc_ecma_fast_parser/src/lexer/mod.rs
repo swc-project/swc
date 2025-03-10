@@ -39,6 +39,9 @@ enum LineBreak {
     Present = 1,
 }
 
+/// Function pointer type for handling different byte values in the lexer
+type ByteHandler = fn(&mut Lexer<'_>, u8, bool) -> Result<Token>;
+
 impl From<bool> for LineBreak {
     #[inline(always)]
     fn from(b: bool) -> Self {
@@ -191,6 +194,184 @@ static TOKEN_DISPATCH: [TokenType; 128] = {
     table
 };
 
+// Handler functions for different byte types - defined outside of Lexer impl to
+// avoid lifetime issues
+fn handle_special(lexer: &mut Lexer<'_>, ch: u8, had_line_break: bool) -> Result<Token> {
+    // Special case for closing brace in template
+    if unlikely(ch == b'}' && lexer.in_template) {
+        // End of template expression
+        lexer.in_template_expr = false;
+    }
+
+    let token_type = unsafe { *TOKEN_DISPATCH.get_unchecked(ch as usize) };
+    lexer.cursor.advance();
+
+    Ok(Token::new(
+        token_type,
+        lexer.span(),
+        had_line_break,
+        TokenValue::None,
+    ))
+}
+
+fn handle_string(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_string(ch)
+}
+
+fn handle_template(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<Token> {
+    lexer.in_template = true;
+    lexer.cursor.advance();
+
+    Ok(Token::new(
+        TokenType::BackQuote,
+        lexer.span(),
+        had_line_break,
+        TokenValue::None,
+    ))
+}
+
+fn handle_hash(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_hash()
+}
+
+fn handle_number(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_number()
+}
+
+fn handle_dot(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_dot()
+}
+
+fn handle_equals(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_equals()
+}
+
+fn handle_plus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_plus()
+}
+
+fn handle_minus(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_minus()
+}
+
+fn handle_slash(lexer: &mut Lexer<'_>, _ch: u8, had_line_break: bool) -> Result<Token> {
+    lexer.read_slash(had_line_break)
+}
+
+fn handle_less_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_less_than()
+}
+
+fn handle_greater_than(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_greater_than()
+}
+
+fn handle_exclamation_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_exclamation_mark()
+}
+
+fn handle_question_mark(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_question_mark()
+}
+
+fn handle_asterisk(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_asterisk()
+}
+
+fn handle_percent(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_percent()
+}
+
+fn handle_pipe(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_pipe()
+}
+
+fn handle_ampersand(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_ampersand()
+}
+
+fn handle_caret(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_caret()
+}
+
+fn handle_identifier(lexer: &mut Lexer<'_>, _ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.read_identifier()
+}
+
+fn handle_invalid(lexer: &mut Lexer<'_>, ch: u8, _had_line_break: bool) -> Result<Token> {
+    lexer.cursor.advance();
+    let span = lexer.span();
+    Err(Error {
+        kind: ErrorKind::General {
+            message: format!("Unexpected character: '{}'", ch as char),
+        },
+        span,
+    })
+}
+
+// Byte handler dispatch table - for fast lookup of handler functions
+static BYTE_HANDLERS: [ByteHandler; 256] = {
+    // Initialize all handlers to the invalid handler by default
+    let mut table = [handle_invalid as ByteHandler; 256];
+
+    // Special character handlers
+    table[b'(' as usize] = handle_special;
+    table[b')' as usize] = handle_special;
+    table[b'{' as usize] = handle_special;
+    table[b'}' as usize] = handle_special;
+    table[b'[' as usize] = handle_special;
+    table[b']' as usize] = handle_special;
+    table[b';' as usize] = handle_special;
+    table[b',' as usize] = handle_special;
+    table[b':' as usize] = handle_special;
+    table[b'~' as usize] = handle_special;
+    table[b'@' as usize] = handle_special;
+
+    // String literal handlers
+    table[b'"' as usize] = handle_string;
+    table[b'\'' as usize] = handle_string;
+    table[b'`' as usize] = handle_template;
+
+    // Other special handlers
+    table[b'#' as usize] = handle_hash;
+
+    // Operator handlers
+    table[b'.' as usize] = handle_dot;
+    table[b'=' as usize] = handle_equals;
+    table[b'+' as usize] = handle_plus;
+    table[b'-' as usize] = handle_minus;
+    table[b'/' as usize] = handle_slash;
+    table[b'<' as usize] = handle_less_than;
+    table[b'>' as usize] = handle_greater_than;
+    table[b'!' as usize] = handle_exclamation_mark;
+    table[b'?' as usize] = handle_question_mark;
+    table[b'*' as usize] = handle_asterisk;
+    table[b'%' as usize] = handle_percent;
+    table[b'|' as usize] = handle_pipe;
+    table[b'&' as usize] = handle_ampersand;
+    table[b'^' as usize] = handle_caret;
+
+    // Identifier and number handlers
+    // Set handler for a-z, A-Z, _, $
+    let mut i = 0;
+    while i < 26 {
+        table[(b'a' + i) as usize] = handle_identifier;
+        table[(b'A' + i) as usize] = handle_identifier;
+        i += 1;
+    }
+    table[b'_' as usize] = handle_identifier;
+    table[b'$' as usize] = handle_identifier;
+
+    // Set handler for digits 0-9
+    i = 0;
+    while i < 10 {
+        table[(b'0' + i) as usize] = handle_number;
+        i += 1;
+    }
+
+    table
+};
+
 impl<'a> Lexer<'a> {
     /// Create a new lexer from a string input
     #[inline(always)]
@@ -272,127 +453,11 @@ impl<'a> Lexer<'a> {
             return self.read_template_content(had_line_break);
         }
 
-        // Fast path for ASCII tokens using lookup table
-        if likely(ch < 128) {
-            let char_type = unsafe { *ASCII_LOOKUP.get_unchecked(ch as usize) };
-
-            // Fast path for single-character tokens (very common)
-            if char_type & CHAR_SPECIAL != 0 {
-                match ch {
-                    // Group frequent tokens together for better branch prediction
-                    // Use direct table lookup for single-character tokens
-                    b'{' | b'}' | b'(' | b')' | b'[' | b']' | b';' | b',' | b':' | b'~' | b'@' => {
-                        // Special case for closing brace in template
-                        if unlikely(ch == b'}' && self.in_template) {
-                            // End of template expression
-                            self.in_template_expr = false;
-                        }
-
-                        let token_type = unsafe { *TOKEN_DISPATCH.get_unchecked(ch as usize) };
-                        self.cursor.advance();
-
-                        Ok(Token::new(
-                            token_type,
-                            self.span(),
-                            had_line_break,
-                            TokenValue::None,
-                        ))
-                    }
-
-                    // String literals - group together for better branch prediction
-                    b'"' | b'\'' => self.read_string(ch),
-                    b'`' => {
-                        self.in_template = true;
-                        self.cursor.advance();
-
-                        Ok(Token::new(
-                            TokenType::BackQuote,
-                            self.span(),
-                            had_line_break,
-                            TokenValue::None,
-                        ))
-                    }
-
-                    // Other special characters that need custom handling
-                    b'#' => self.read_hash(),
-
-                    // This should not happen given our table design, but handle it anyway
-                    _ => {
-                        self.cursor.advance();
-                        let span = self.span();
-                        Err(Error {
-                            kind: ErrorKind::General {
-                                message: format!("Unexpected character: '{}'", ch as char),
-                            },
-                            span,
-                        })
-                    }
-                }
-            }
-            // Check for digits (numeric literals)
-            else if char_type & CHAR_DIGIT != 0 {
-                self.read_number()
-            }
-            // Check for operator characters
-            else if char_type & CHAR_OPERATOR != 0 {
-                // Dispatch to specific operator handlers based on the character
-                match ch {
-                    b'.' => self.read_dot(),
-                    b'=' => self.read_equals(),
-                    b'+' => self.read_plus(),
-                    b'-' => self.read_minus(),
-                    b'/' => self.read_slash(had_line_break),
-                    b'<' => self.read_less_than(),
-                    b'>' => self.read_greater_than(),
-                    b'!' => self.read_exclamation_mark(),
-                    b'?' => self.read_question_mark(),
-                    b'*' => self.read_asterisk(),
-                    b'%' => self.read_percent(),
-                    b'|' => self.read_pipe(),
-                    b'&' => self.read_ampersand(),
-                    b'^' => self.read_caret(),
-                    _ => {
-                        // This should never happen with our table design
-                        self.cursor.advance();
-                        let span = self.span();
-                        Err(Error {
-                            kind: ErrorKind::General {
-                                message: format!("Unexpected character: '{}'", ch as char),
-                            },
-                            span,
-                        })
-                    }
-                }
-            }
-            // Identifier start characters
-            else if char_type & CHAR_ID_START != 0 {
-                self.read_identifier()
-            }
-            // Any other ASCII character (error case)
-            else {
-                self.cursor.advance();
-                let span = self.span();
-                Err(Error {
-                    kind: ErrorKind::General {
-                        message: format!("Unexpected character: '{}'", ch as char),
-                    },
-                    span,
-                })
-            }
-        } else {
-            // Non-ASCII character path (less common)
-            if Self::is_identifier_start(ch) {
-                self.read_identifier()
-            } else {
-                self.cursor.advance();
-                let span = self.span();
-                Err(Error {
-                    kind: ErrorKind::General {
-                        message: format!("Unexpected character: '{}'", ch as char),
-                    },
-                    span,
-                })
-            }
+        // Use the jump table to directly call the appropriate handler function
+        // This avoids the need for a large match statement or cascading if-else checks
+        unsafe {
+            let handler = *BYTE_HANDLERS.get_unchecked(ch as usize);
+            handler(self, ch, had_line_break)
         }
     }
 
@@ -709,18 +774,6 @@ impl<'a> Lexer<'a> {
         // If we reach here, the comment was not closed
         if had_line_break {
             self.had_line_break = LineBreak::Present;
-        }
-    }
-
-    /// Check if a byte is a valid identifier start character
-    #[inline(always)]
-    fn is_identifier_start(byte: u8) -> bool {
-        // ASCII fast path using optimized identifier functions
-        if likely(byte < 128) {
-            Self::is_ascii_id_start(byte)
-        } else {
-            // Non-ASCII, needs further checking in read_identifier
-            true
         }
     }
 
