@@ -479,17 +479,17 @@ impl Lexer<'_> {
 
                 _ => {}
             }
-        }
 
-        // Fallback path: Check in the PHF map if this is a keyword
-        // Only runs for potential keywords not in our direct lookup tables
-        if let Some(token_type) = keyword_to_token_type(ident_str) {
-            return Ok(Token::new(
-                token_type,
-                span,
-                had_line_break_bool,
-                TokenValue::None,
-            ));
+            // Fallback path: Check in the PHF map if this is a keyword
+            // Only runs for potential keywords not in our direct lookup tables
+            if let Some(token_type) = keyword_to_token_type(ident_str) {
+                return Ok(Token::new(
+                    token_type,
+                    span,
+                    had_line_break_bool,
+                    TokenValue::None,
+                ));
+            }
         }
 
         // Not a keyword, return as identifier with the word value
