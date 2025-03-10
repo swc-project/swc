@@ -5311,6 +5311,7 @@ dependencies = [
  "assume",
  "codspeed-criterion-compat",
  "criterion",
+ "memchr",
  "num-bigint",
  "phf",
  "pretty_assertions",
