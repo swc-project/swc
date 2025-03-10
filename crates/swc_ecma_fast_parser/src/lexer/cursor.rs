@@ -161,6 +161,18 @@ impl<'a> Cursor<'a> {
         }
     }
 
+    /// Get a slice of the input without bounds checking.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that `start <= end <= self.len`.
+    #[inline(always)]
+    pub unsafe fn slice_unchecked(&self, start: u32, end: u32) -> &'a [u8] {
+        debug_assert!(start <= end);
+        debug_assert!(end <= self.len);
+        self.input.get_unchecked(start as usize..end as usize)
+    }
+
     /// Get the current position
     #[inline(always)]
     pub fn position(&self) -> u32 {

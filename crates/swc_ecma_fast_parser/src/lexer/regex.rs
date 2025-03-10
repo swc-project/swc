@@ -108,7 +108,7 @@ impl Lexer<'_> {
 
         // Extract the raw regex
         let end_idx = self.cursor.position();
-        let regex_bytes = self.cursor.slice(start_idx, end_idx);
+        let regex_bytes = unsafe { self.cursor.slice_unchecked(start_idx, end_idx) };
         let regex_str = unsafe { std::str::from_utf8_unchecked(regex_bytes) };
 
         // Split into pattern and flags (skip the leading and trailing '/')

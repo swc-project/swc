@@ -71,7 +71,7 @@ impl Lexer<'_> {
         let span = self.span();
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
-        let ident_bytes = self.cursor.slice(ident_start, ident_end);
+        let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
         let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
         let had_line_break_bool: bool = self.had_line_break.into();
 
@@ -100,7 +100,7 @@ impl Lexer<'_> {
         let span = self.span();
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
-        let ident_bytes = self.cursor.slice(ident_start, ident_end);
+        let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
         let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
         let had_line_break_bool: bool = self.had_line_break.into();
 
