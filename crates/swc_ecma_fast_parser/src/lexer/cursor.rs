@@ -10,14 +10,14 @@ use crate::util::unlikely;
 /// High-performance cursor for traversing input bytes
 #[repr(C)] // Ensure predictable memory layout for better cache behavior
 pub struct Cursor<'a> {
-    /// Input source as bytes
-    input: &'a [u8],
-
     /// Current position in bytes
     pos: u32,
 
     /// Length of the input in bytes
     len: u32,
+
+    /// Input source as bytes
+    input: &'a [u8],
 }
 
 impl<'a> Cursor<'a> {
