@@ -125,7 +125,7 @@ impl Lexer<'_> {
                     let end = self.cursor.position();
 
                     if end > start {
-                        let slice = self.cursor.slice(start, end);
+                        let slice = unsafe { self.cursor.slice_unchecked(start, end) };
                         text.push_str(unsafe { std::str::from_utf8_unchecked(slice) });
                     }
                 }
@@ -149,7 +149,7 @@ impl Lexer<'_> {
 
         // Extract the raw text
         let end_idx = self.cursor.position();
-        let raw_bytes = self.cursor.slice(start_idx, end_idx);
+        let raw_bytes = unsafe { self.cursor.slice_unchecked(start_idx, end_idx) };
         let raw_str = unsafe { std::str::from_utf8_unchecked(raw_bytes) };
 
         let span = self.span();

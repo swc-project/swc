@@ -280,7 +280,7 @@ impl<'a> Lexer<'a> {
     #[inline]
     fn extract_number_str(&self, start_idx: u32) -> Cow<'a, str> {
         let end_idx = self.cursor.position();
-        let num_slice = self.cursor.slice(start_idx, end_idx);
+        let num_slice = unsafe { self.cursor.slice_unchecked(start_idx, end_idx) };
         // Filter out the underscore separators
         if num_slice.contains(&b'_') {
             let mut result = String::with_capacity(num_slice.len());
@@ -304,7 +304,7 @@ impl<'a> Lexer<'a> {
 
         let mut value: u64 = 0;
         for i in start..end {
-            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            let byte = unsafe { *self.cursor.slice_unchecked(i, i + 1).get_unchecked(0) };
             if byte == b'_' {
                 continue;
             }
@@ -322,7 +322,7 @@ impl<'a> Lexer<'a> {
 
         let mut value: u64 = 0;
         for i in start..end {
-            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            let byte = unsafe { *self.cursor.slice_unchecked(i, i + 1).get_unchecked(0) };
             if byte == b'_' {
                 continue;
             }
@@ -340,7 +340,7 @@ impl<'a> Lexer<'a> {
 
         let mut value: u64 = 0;
         for i in start..end {
-            let byte = unsafe { *self.cursor.slice(i, i + 1).get_unchecked(0) };
+            let byte = unsafe { *self.cursor.slice_unchecked(i, i + 1).get_unchecked(0) };
             if byte == b'_' {
                 continue;
             }
@@ -406,7 +406,7 @@ impl<'a> Lexer<'a> {
 
         // Extract the raw string excluding the 'n' suffix
         let raw_str = {
-            let num_slice = self.cursor.slice(start_idx, end_idx - 1);
+            let num_slice = unsafe { self.cursor.slice_unchecked(start_idx, end_idx - 1) };
             if num_slice.contains(&b'_') {
                 // Filter out underscores
                 let mut result = String::with_capacity(num_slice.len());

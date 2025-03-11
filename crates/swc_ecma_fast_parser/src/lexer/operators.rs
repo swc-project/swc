@@ -624,7 +624,7 @@ impl Lexer<'_> {
             }
             let end = self.cursor.position();
             let shebang_str =
-                unsafe { std::str::from_utf8_unchecked(self.cursor.slice(start, end)) };
+                unsafe { std::str::from_utf8_unchecked(self.cursor.slice_unchecked(start, end)) };
 
             return Ok(Token::new(
                 TokenType::Shebang,

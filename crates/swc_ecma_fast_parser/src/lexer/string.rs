@@ -169,7 +169,7 @@ impl Lexer<'_> {
         // Extract the raw string (including quotes)
         let raw_start = start_pos.0;
         let raw_end = self.cursor.position();
-        let raw_bytes = self.cursor.slice(raw_start, raw_end);
+        let raw_bytes = unsafe { self.cursor.slice_unchecked(raw_start, raw_end) };
         let raw_str = unsafe { std::str::from_utf8_unchecked(raw_bytes) };
 
         // Extract the string value if we used the fast path
@@ -181,7 +181,7 @@ impl Lexer<'_> {
             })
         } else {
             // Direct extraction (excluding quotes)
-            let value_bytes = self.cursor.slice(raw_start + 1, raw_end - 1);
+            let value_bytes = unsafe { self.cursor.slice_unchecked(raw_start + 1, raw_end - 1) };
             Atom::from(unsafe { std::str::from_utf8_unchecked(value_bytes) })
         };
 
