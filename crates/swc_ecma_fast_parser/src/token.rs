@@ -687,8 +687,92 @@ static KEYWORDS: phf::Map<&'static str, TokenType> = phf_map! {
 
 /// Convert a keyword string to TokenType
 /// Uses a PHF map for O(1) time complexity with zero runtime overhead
+/// Optimized with fast-path checks for common keywords
 #[inline(always)]
 pub fn keyword_to_token_type(word: &str) -> Option<TokenType> {
+    // Fast path for the most common keywords
+    // Check length first as it's a very cheap operation
+    match word.len() {
+        2 => {
+            // Common 2-letter keywords: if, in, do
+            match word {
+                "if" => return Some(TokenType::If),
+                "in" => return Some(TokenType::In),
+                "do" => return Some(TokenType::Do),
+                "as" => return Some(TokenType::As),
+                "of" => return Some(TokenType::Of),
+                "is" => return Some(TokenType::Is),
+                _ => {}
+            }
+        }
+        3 => {
+            // Common 3-letter keywords: let, var, for, new, try
+            match word {
+                "let" => return Some(TokenType::Let),
+                "var" => return Some(TokenType::Var),
+                "for" => return Some(TokenType::For),
+                "new" => return Some(TokenType::New),
+                "try" => return Some(TokenType::Try),
+                "get" => return Some(TokenType::Get),
+                "set" => return Some(TokenType::Set),
+                _ => {}
+            }
+        }
+        4 => {
+            // Common 4-letter keywords: this, null, true, void, else
+            match word {
+                "this" => return Some(TokenType::This),
+                "null" => return Some(TokenType::Null),
+                "true" => return Some(TokenType::True),
+                "void" => return Some(TokenType::Void),
+                "else" => return Some(TokenType::Else),
+                "from" => return Some(TokenType::From),
+                "enum" => return Some(TokenType::Enum),
+                "type" => return Some(TokenType::Type),
+                _ => {}
+            }
+        }
+        5 => {
+            // Common 5-letter keywords: const, class, super, break, await, yield
+            match word {
+                "const" => return Some(TokenType::Const),
+                "class" => return Some(TokenType::Class),
+                "super" => return Some(TokenType::Super),
+                "break" => return Some(TokenType::Break),
+                "await" => return Some(TokenType::Await),
+                "yield" => return Some(TokenType::Yield),
+                "async" => return Some(TokenType::Async),
+                _ => {}
+            }
+        }
+        6 => {
+            // Common 6-letter keywords: return, import, export, switch, static
+            match word {
+                "return" => return Some(TokenType::Return),
+                "import" => return Some(TokenType::Import),
+                "export" => return Some(TokenType::Export),
+                "switch" => return Some(TokenType::Switch),
+                "static" => return Some(TokenType::Static),
+                "typeof" => return Some(TokenType::TypeOf),
+                "public" => return Some(TokenType::Public),
+                _ => {}
+            }
+        }
+        8 => {
+            // Common 8-letter keywords: function, continue
+            match word {
+                "function" => return Some(TokenType::Function),
+                "continue" => return Some(TokenType::Continue),
+                "debugger" => return Some(TokenType::Debugger),
+                "abstract" => return Some(TokenType::Abstract),
+                "interface" => return Some(TokenType::Interface),
+                _ => {}
+            }
+        }
+        _ => {}
+    }
+
+    // Fallback to the PHF map for less common keywords
     KEYWORDS.get(word).copied()
 }
 
