@@ -21,6 +21,7 @@ swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast" }
 assume     = { workspace = true }
 memchr     = { workspace = true }
 num-bigint = { workspace = true }
+once_cell  = { workspace = true }
 wide       = { workspace = true }
 
 [dev-dependencies]

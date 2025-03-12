@@ -2,6 +2,7 @@
 //!
 //! This module handles the parsing of string literals in ECMAScript/TypeScript.
 
+use once_cell::sync::Lazy;
 use swc_atoms::Atom;
 use swc_common::Span;
 use wide::u8x16;
@@ -28,6 +29,11 @@ static ESCAPE_LOOKUP: [u8; 128] = {
     table[b'0' as usize] = b'\0';
     table
 };
+
+// SIMD vectors for common string end characters
+static BACKSLASH_SMID_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(b'\\'));
+static NEWLINE_SMID_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(b'\n'));
+static CARRIAGE_SMID_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(b'\r'));
 
 // Buffer for string construction - using thread_local to avoid allocation
 thread_local! {
@@ -220,6 +226,9 @@ impl Lexer<'_> {
 
         let mut pos = start_pos;
 
+        // Create vectors for quick comparison
+        let quote_vec = u8x16::splat(quote);
+
         // Process in chunks of 16 bytes using SIMD
         while pos + 16 <= rest.len() as u32 {
             // Load 16 bytes
@@ -228,18 +237,11 @@ impl Lexer<'_> {
             bytes.copy_from_slice(chunk_bytes);
             let chunk = u8x16::new(bytes);
 
-            // Create vectors for quick comparison
-            let quote_vec = u8x16::splat(quote);
-            let backslash_vec = u8x16::splat(b'\\');
-            let newline_vec = u8x16::splat(b'\n');
-            let carriage_vec = u8x16::splat(b'\r');
-
             // Check for presence of special characters with a single combined mask
             let quote_mask = chunk.cmp_eq(quote_vec);
-            let backslash_mask = chunk.cmp_eq(backslash_vec);
-            let newline_mask = chunk.cmp_eq(newline_vec);
-            let carriage_mask = chunk.cmp_eq(carriage_vec);
-
+            let backslash_mask = chunk.cmp_eq(*BACKSLASH_SMID_VEC);
+            let newline_mask = chunk.cmp_eq(*NEWLINE_SMID_VEC);
+            let carriage_mask = chunk.cmp_eq(*CARRIAGE_SMID_VEC);
             // Combine all masks with OR operation
             let combined_mask = quote_mask | backslash_mask | newline_mask | carriage_mask;
 

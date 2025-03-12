@@ -91,22 +91,22 @@ impl<'a> Cursor<'a> {
 
     /// Advance until the predicate returns false or EOF is reached
     #[inline]
-    pub fn advance_while<F>(&mut self, mut predicate: F) -> u32
+    pub fn advance_while<F>(&mut self, predicate: F) -> u32
     where
-        F: FnMut(u8) -> bool,
+        F: Fn(u8) -> bool,
     {
         let start = self.pos;
 
-        self.advance_while_scalar(&mut predicate);
+        self.advance_while_scalar(&predicate);
 
         self.pos - start
     }
 
     /// Scalar (non-SIMD) implementation of advance_while
     #[inline]
-    fn advance_while_scalar<F>(&mut self, predicate: &mut F)
+    fn advance_while_scalar<F>(&mut self, predicate: &F)
     where
-        F: FnMut(u8) -> bool,
+        F: Fn(u8) -> bool,
     {
         // Warning: Do not scalarize if we do not use SIMD
         // const BATCH_SIZE: u32 = 32;
