@@ -8,7 +8,7 @@
 
 mod error;
 mod lexer;
-// mod parser;
+mod parser;
 pub mod token;
 mod util;
 
