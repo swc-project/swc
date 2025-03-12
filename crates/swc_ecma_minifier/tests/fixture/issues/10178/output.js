@@ -1,0 +1,1 @@
+//// [indexerWithTuple.ts]

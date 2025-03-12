@@ -102,6 +102,7 @@ impl Optimizer<'_> {
             if usage.declared
                 && !usage.mutated()
                 && usage.accessed_props.is_empty()
+                && !usage.indexed_with_dynamic_key
                 && !usage.is_infected()
                 && is_inline_enabled
                 && !usage.used_as_ref

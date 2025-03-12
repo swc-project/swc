@@ -367,6 +367,7 @@ where
                             var.add_accessed_property(prop.value.clone());
                         }
 
+                        Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
                         _ => {
                             var.mark_indexed_with_dynamic_key();
                         }
@@ -972,6 +973,8 @@ where
                     Expr::Lit(Lit::Str(s)) if s.value.parse::<f64>().is_err() => {
                         v.add_accessed_property(s.value.clone());
                     }
+
+                    Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
                     _ => {
                         v.mark_indexed_with_dynamic_key();
                     }
