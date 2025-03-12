@@ -56,11 +56,11 @@ pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsVal
 
     match result {
         Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
-        Err(v) => Err(serde_wasm_bindgen::to_value(&v[0])?),
+        Err(errors) => Err(serde_wasm_bindgen::to_value(&errors[0])?),
     }
 }
 
-fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<serde_json::Value>> {
+fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonDiagnostic>> {
     let cm = Lrc::new(SourceMap::default());
 
     try_with_json_handler(cm.clone(), |handler| {
@@ -70,11 +70,11 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<serde
 
 #[derive(Clone)]
 struct LockedWriter {
-    errors: Arc<Mutex<Vec<serde_json::Value>>>,
+    errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
     cm: Lrc<SourceMap>,
 }
 
-fn try_with_json_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Vec<serde_json::Value>>
+fn try_with_json_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Vec<JsonDiagnostic>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
@@ -127,19 +127,16 @@ impl Emitter for LockedWriter {
         let filename = loc.as_ref().map(|loc| loc.file.name.to_string());
 
         let error = JsonDiagnostic {
-            code: error_code,
-            message: &d.message[0].0,
-            snippet: snippet.as_deref(),
-            filename: filename.as_deref(),
+            code: error_code.map(|s| s.to_string()),
+            message: d.message[0].0.to_string(),
+            snippet,
+            filename,
             line: loc.as_ref().map(|loc| loc.line),
             column: loc.as_ref().map(|loc| loc.col_display),
             children,
         };
 
-        self.errors
-            .lock()
-            .unwrap()
-            .push(serde_json::to_value(&error).unwrap());
+        self.errors.lock().unwrap().push(error);
     }
 
     fn take_diagnostics(&mut self) -> Vec<String> {
@@ -148,17 +145,17 @@ impl Emitter for LockedWriter {
 }
 
 #[derive(Serialize)]
-struct JsonDiagnostic<'a> {
+struct JsonDiagnostic {
     /// Error code
     #[serde(skip_serializing_if = "Option::is_none")]
-    code: Option<&'a str>,
-    message: &'a str,
+    code: Option<String>,
+    message: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    snippet: Option<&'a str>,
+    snippet: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    filename: Option<&'a str>,
+    filename: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     line: Option<usize>,
@@ -166,13 +163,13 @@ struct JsonDiagnostic<'a> {
     column: Option<usize>,
 
     #[serde(skip_serializing_if = "Vec::is_empty")]
-    children: Vec<JsonSubdiagnostic<'a>>,
+    children: Vec<JsonSubdiagnostic>,
 }
 
 #[derive(Serialize)]
-struct JsonSubdiagnostic<'a> {
-    message: &'a str,
-    snippet: Option<&'a str>,
-    filename: &'a str,
+struct JsonSubdiagnostic {
+    message: String,
+    snippet: Option<String>,
+    filename: String,
     line: usize,
 }
