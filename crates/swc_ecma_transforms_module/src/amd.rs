@@ -6,7 +6,7 @@ use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
     util::take::Take,
-    Mark, Span, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -283,17 +283,75 @@ where
                 );
             }
             Expr::Member(MemberExpr { span, obj, prop })
-                if prop.is_ident_with("url")
-                    && !self.config.preserve_import_meta
+                if !self.config.preserve_import_meta
                     && obj
                         .as_meta_prop()
                         .map(|p| p.kind == MetaPropKind::ImportMeta)
                         .unwrap_or_default() =>
             {
-                obj.visit_mut_with(self);
-
-                *n = amd_import_meta_url(*span, self.module());
+                let p = match prop {
+                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        _ => return,
+                    },
+                    MemberProp::PrivateName(..) => return,
+                };
                 self.found_import_meta = true;
+
+                match p {
+                    // new URL(module.uri, document.baseURI).href
+                    "url" => {
+                        *n = amd_import_meta_url(*span, self.module());
+                    }
+                    // require.toUrl()
+                    "resolve" => {
+                        let mut require = self.require.clone();
+                        require.span = obj.span();
+                        *obj = require.into();
+
+                        match prop {
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                                match &mut **expr {
+                                    Expr::Lit(Lit::Str(s)) => {
+                                        s.value = "toUrl".into();
+                                        s.raw = None;
+                                    }
+                                    _ => unreachable!(),
+                                }
+                            }
+                            MemberProp::PrivateName(..) => unreachable!(),
+                        }
+                    }
+                    // module.uri.split("/").pop()
+                    "filename" => {
+                        *n = amd_import_meta_filename(*span, self.module());
+                    }
+                    // require.toUrl(".")
+                    "dirname" => {
+                        let mut require = self.require.clone();
+                        require.span = obj.span();
+                        *obj = require.into();
+
+                        match prop {
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                                match &mut **expr {
+                                    Expr::Lit(Lit::Str(s)) => {
+                                        s.value = "toUrl".into();
+                                        s.raw = None;
+                                    }
+                                    _ => unreachable!(),
+                                }
+                            }
+                            MemberProp::PrivateName(..) => unreachable!(),
+                        }
+
+                        *n = n.take().as_call(n.span(), vec![quote_str!(".").as_arg()]);
+                    }
+                    _ => {}
+                }
             }
             _ => n.visit_mut_children_with(self),
         }
@@ -512,4 +570,14 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
         prop: MemberProp::Ident("href".into()),
     }
     .into()
+}
+
+// module.uri.split("/").pop()
+fn amd_import_meta_filename(span: Span, module: Ident) -> Expr {
+    module
+        .make_member(quote_ident!("uri"))
+        .make_member(quote_ident!("split"))
+        .as_call(DUMMY_SP, vec![quote_str!("/").as_arg()])
+        .make_member(quote_ident!("pop"))
+        .as_call(span, vec![])
 }
