@@ -1,4 +1,48 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Hoist `arguments` in object method while lowering async functions ([#10167](https://github.com/swc-project/swc/issues/10167)) ([e764df2](https://github.com/swc-project/swc/commit/e764df24807d667e581fdc3e1018ab7491104195))
+
+
+- **(es/minifier)** Check array inline for indexed with dynamic key ([#10184](https://github.com/swc-project/swc/issues/10184)) ([c2fe4bf](https://github.com/swc-project/swc/commit/c2fe4bf2d34033959070c922ce1c2d46a79de62c))
+
+### Features
+
+
+
+- **(es/module)** Support more `import.meta` properties ([#10179](https://github.com/swc-project/swc/issues/10179)) ([11727a6](https://github.com/swc-project/swc/commit/11727a62e4a615039d11d8cc250d53f128e40eff))
+
+### Performance
+
+
+
+- **(es/fast-lexer)** Optimize `read_identifier` ([#10170](https://github.com/swc-project/swc/issues/10170)) ([d97f7b2](https://github.com/swc-project/swc/commit/d97f7b233ff88405710cb3281178fd8e035c40ab))
+
+
+- **(es/fast-lexer)** Use `memchr` for `skip_line_comments` ([#10173](https://github.com/swc-project/swc/issues/10173)) ([35194e3](https://github.com/swc-project/swc/commit/35194e30086de55a52ebad32474b6c571cdd0b9f))
+
+
+- **(es/fast-lexer)** Use SIMD properly for string literals ([#10172](https://github.com/swc-project/swc/issues/10172)) ([be60338](https://github.com/swc-project/swc/commit/be60338267eb27c0b96c52fb32ddbf8699d4fe91))
+
+
+- **(es/fast-lexer)** Add length-based fast path for keywords ([#10176](https://github.com/swc-project/swc/issues/10176)) ([1f70af8](https://github.com/swc-project/swc/commit/1f70af842e3d09614c8187685e2fc503ac1f272a))
+
+
+- **(es/fast-lexer)** Optimize memory layout of cursor ([#10175](https://github.com/swc-project/swc/issues/10175)) ([aa20494](https://github.com/swc-project/swc/commit/aa204949827e7ef0cb83ab1c0ae589270fc1fd2d))
+
+
+- **(es/fast-lexer)** Remove bound checks ([#10174](https://github.com/swc-project/swc/issues/10174)) ([bccdafc](https://github.com/swc-project/swc/commit/bccdafc0c394bf3979da3c6a06d974c7d2c9bcee))
+
+
+- **(es/fast-lexer)** Replace PHF with static keyword lookup table ([#10181](https://github.com/swc-project/swc/issues/10181)) ([56d065e](https://github.com/swc-project/swc/commit/56d065ebcbcddd18cc9ea9406fd0de1e716318fc))
+
+
+- **(es/fast-lexer)** Optimize SIMD vector initialization with initialing `u8x16` once. ([#10183](https://github.com/swc-project/swc/issues/10183)) ([435197c](https://github.com/swc-project/swc/commit/435197cc84f10095063bbc983969449653e1fc90))
+
 ## [swc_core@v16.4.1] - 2025-03-07
 
 ### Bug Fixes
@@ -1589,12 +1633,6 @@
 - **(es/parser)** Fix failure of TS instantiation followed by satisfies ([#9583](https://github.com/swc-project/swc/issues/9583)) ([77900d8](https://github.com/swc-project/swc/commit/77900d808e2a3be2e62b74022c88a81b26a73f86))
 
 
-- **(es/quote)** Fix macro ([#9270](https://github.com/swc-project/swc/issues/9270)) ([93d9e44](https://github.com/swc-project/swc/commit/93d9e44f1c7a3afea673f056d99001a026c0a6d3))
-
-
-- **(es/typescript)** Workaround `wasm-bindgen` ([#9272](https://github.com/swc-project/swc/issues/9272)) ([6b1d2ff](https://github.com/swc-project/swc/commit/6b1d2ff66b5ef73374c3932c0c505e08b9879a18))
-
-
 - **(es/typescript)** Fix typings ([#9301](https://github.com/swc-project/swc/issues/9301)) ([27ca712](https://github.com/swc-project/swc/commit/27ca712812421ce7cef7770b1dde790080ce09ea))
 
 
@@ -1842,9 +1880,6 @@
 
 
 - **(es/utils)** Unify `prepend_stmts` ([#9493](https://github.com/swc-project/swc/issues/9493)) ([faec8c1](https://github.com/swc-project/swc/commit/faec8c134d950d10a9f2dce0e5680d9230f87ceb))
-
-
-- **(visit)** Pre-generate visitor code ([#9262](https://github.com/swc-project/swc/issues/9262)) ([9c17663](https://github.com/swc-project/swc/commit/9c176632b1e0d6edec10929486ca514fa992415b))
 
 
 - **(visit)** Remove `VisitAll` ([#9448](https://github.com/swc-project/swc/issues/9448)) ([8845b76](https://github.com/swc-project/swc/commit/8845b76ac40b36791c79618c5ee89f05d2d08c96))

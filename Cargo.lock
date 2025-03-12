@@ -4793,7 +4793,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.4.1"
+version = "16.5.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5176,7 +5176,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "11.0.0"
+version = "11.0.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5379,7 +5379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.0.3"
+version = "12.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5635,7 +5635,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "12.0.0"
+version = "12.1.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5800,7 +5800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "12.0.0"
+version = "12.0.1"
 dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.0",

@@ -37,7 +37,7 @@ swc_ecma_compat_bugfixes    = { version = "11.0.0", path = "../swc_ecma_compat_b
 swc_ecma_compat_common      = { version = "11.0.0", path = "../swc_ecma_compat_common" }
 swc_ecma_compat_es2015      = { version = "11.0.0", path = "../swc_ecma_compat_es2015" }
 swc_ecma_compat_es2016      = { version = "11.0.0", path = "../swc_ecma_compat_es2016" }
-swc_ecma_compat_es2017      = { version = "11.0.0", path = "../swc_ecma_compat_es2017" }
+swc_ecma_compat_es2017      = { version = "11.0.1", path = "../swc_ecma_compat_es2017" }
 swc_ecma_compat_es2018      = { version = "11.0.0", path = "../swc_ecma_compat_es2018" }
 swc_ecma_compat_es2019      = { version = "11.0.0", path = "../swc_ecma_compat_es2019" }
 swc_ecma_compat_es2020      = { version = "12.0.0", path = "../swc_ecma_compat_es2020" }
