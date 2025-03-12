@@ -21,7 +21,6 @@ use std::rc::Rc;
 
 use cursor::Cursor;
 use memchr::memchr2;
-use once_cell::sync::Lazy;
 use swc_common::{BytePos, Span, DUMMY_SP};
 use wide::u8x16;
 
@@ -106,10 +105,10 @@ const CHAR_OPERATOR: u8 = 0b0100_0000;
 const CHAR_SPECIAL: u8 = 0b1000_0000;
 
 // SIMD vectors for common whitespace characters
-static SPACE_SIMD_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(b' '));
-static TAB_SIMD_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(b'\t'));
-static FORM_FEED_SMID_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(0x0c));
-static VECR_TAB_SMID_VEC: Lazy<u8x16> = Lazy::new(|| u8x16::splat(0x0b));
+static SPACE_SIMD_VEC: u8x16 = u8x16::new([b' '; 16]);
+static TAB_SIMD_VEC: u8x16 = u8x16::new([b'\t'; 16]);
+static FORM_FEED_SMID_VEC: u8x16 = u8x16::new([0x0c; 16]);
+static VECR_TAB_SMID_VEC: u8x16 = u8x16::new([0x0b; 16]);
 
 // Extended lookup table for faster character checks (ASCII only)
 static ASCII_LOOKUP: [u8; 256] = {
@@ -573,10 +572,10 @@ impl<'a> Lexer<'a> {
 
         // Fast path for regular whitespace (space, tab, form feed, vertical tab)
         // Compare with our whitespace vectors
-        let is_space = data.cmp_eq(*SPACE_SIMD_VEC);
-        let is_tab = data.cmp_eq(*TAB_SIMD_VEC);
-        let is_ff = data.cmp_eq(*FORM_FEED_SMID_VEC);
-        let is_vt = data.cmp_eq(*VECR_TAB_SMID_VEC);
+        let is_space = data.cmp_eq(SPACE_SIMD_VEC);
+        let is_tab = data.cmp_eq(TAB_SIMD_VEC);
+        let is_ff = data.cmp_eq(FORM_FEED_SMID_VEC);
+        let is_vt = data.cmp_eq(VECR_TAB_SMID_VEC);
 
         // Combine masks for regular whitespace
         let is_basic_ws = is_space | is_tab | is_ff | is_vt;
