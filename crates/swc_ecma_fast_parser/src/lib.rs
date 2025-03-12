@@ -16,26 +16,6 @@ pub use error::{Error, ErrorKind, Result};
 pub use lexer::Lexer;
 // pub use parser::Parser;
 
-// /// Parse source code into an ECMAScript/TypeScript AST
-// pub fn parse_file(
-//     source_map: &SourceMap,
-//     handler: &Handler,
-//     fm: &swc_common::SourceFile,
-//     target: JscTarget,
-//     syntax: Syntax,
-//     is_module: bool,
-//     comments: Option<&mut SingleThreadedComments>,
-// ) -> Result<Program> {
-//     let lexer = Lexer::new(fm.src.as_ref(), target, syntax,
-// comments.clone());     let mut parser = Parser::new(lexer, handler, syntax);
-
-//     if is_module {
-//         parser.parse_module()
-//     } else {
-//         parser.parse_script()
-//     }
-// }
-
 /// Target ECMAScript version
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum JscTarget {
