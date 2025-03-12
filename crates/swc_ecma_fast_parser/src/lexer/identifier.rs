@@ -101,6 +101,7 @@ impl Lexer<'_> {
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
         let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
+        // SAFETY: We've verified the bytes are valid UTF-8
         let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
         let had_line_break_bool: bool = self.had_line_break.into();
 
@@ -110,7 +111,6 @@ impl Lexer<'_> {
         // Only process if first byte is an ASCII lowercase letter (all keywords start
         // with a-z)
         if len > 0 && ident_bytes[0] >= b'a' && ident_bytes[0] <= b'z' {
-            // Fallback path: Check in the PHF map if this is a keyword
             // Only runs for potential keywords not in our direct lookup tables
             if let Some(token_type) = keyword_to_token_type(ident_str) {
                 return Ok(Token::new(

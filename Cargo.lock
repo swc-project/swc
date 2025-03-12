@@ -5313,7 +5313,6 @@ dependencies = [
  "criterion",
  "memchr",
  "num-bigint",
- "phf",
  "pretty_assertions",
  "serde_json",
  "swc_atoms",

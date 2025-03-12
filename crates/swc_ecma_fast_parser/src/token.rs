@@ -7,7 +7,6 @@
 use std::fmt;
 
 use num_bigint::BigInt as BigIntValue;
-use phf::phf_map;
 use swc_atoms::Atom;
 use swc_common::Span;
 
@@ -138,6 +137,7 @@ pub enum TokenType {
     While = 135,
     With = 136,
     Yield = 137,
+    Module = 138,
 
     // TypeScript-related keywords (starting from 150)
     Abstract = 150,
@@ -465,6 +465,7 @@ impl TokenType {
             TokenType::Shebang => "#!",
             TokenType::EOF => "EOF",
             TokenType::Invalid => "invalid token",
+            TokenType::Module => "module",
         }
     }
 }
@@ -601,93 +602,177 @@ impl fmt::Debug for Token {
     }
 }
 
-// Compile-time keyword to token type mapping using PHF
-static KEYWORDS: phf::Map<&'static str, TokenType> = phf_map! {
-    // JavaScript keywords
-    "await" => TokenType::Await,
-    "break" => TokenType::Break,
-    "case" => TokenType::Case,
-    "catch" => TokenType::Catch,
-    "class" => TokenType::Class,
-    "const" => TokenType::Const,
-    "continue" => TokenType::Continue,
-    "debugger" => TokenType::Debugger,
-    "default" => TokenType::Default,
-    "delete" => TokenType::Delete,
-    "do" => TokenType::Do,
-    "else" => TokenType::Else,
-    "export" => TokenType::Export,
-    "extends" => TokenType::Extends,
-    "false" => TokenType::False,
-    "finally" => TokenType::Finally,
-    "for" => TokenType::For,
-    "function" => TokenType::Function,
-    "if" => TokenType::If,
-    "import" => TokenType::Import,
-    "in" => TokenType::In,
-    "instanceof" => TokenType::InstanceOf,
-    "let" => TokenType::Let,
-    "new" => TokenType::New,
-    "null" => TokenType::Null,
-    "return" => TokenType::Return,
-    "super" => TokenType::Super,
-    "switch" => TokenType::Switch,
-    "this" => TokenType::This,
-    "throw" => TokenType::Throw,
-    "true" => TokenType::True,
-    "try" => TokenType::Try,
-    "typeof" => TokenType::TypeOf,
-    "var" => TokenType::Var,
-    "void" => TokenType::Void,
-    "while" => TokenType::While,
-    "with" => TokenType::With,
-    "yield" => TokenType::Yield,
+struct KeywordEntry(&'static str, TokenType);
 
-    // TypeScript-related keywords
-    "abstract" => TokenType::Abstract,
-    "any" => TokenType::Any,
-    "as" => TokenType::As,
-    "asserts" => TokenType::Asserts,
-    "assert" => TokenType::Assert,
-    "async" => TokenType::Async,
-    "bigint" => TokenType::Bigint,
-    "boolean" => TokenType::Boolean,
-    "constructor" => TokenType::Constructor,
-    "declare" => TokenType::Declare,
-    "enum" => TokenType::Enum,
-    "from" => TokenType::From,
-    "get" => TokenType::Get,
-    "global" => TokenType::Global,
-    "implements" => TokenType::Implements,
-    "interface" => TokenType::Interface,
-    "intrinsic" => TokenType::Intrinsic,
-    "is" => TokenType::Is,
-    "keyof" => TokenType::Keyof,
-    "namespace" => TokenType::Namespace,
-    "never" => TokenType::Never,
-    "number" => TokenType::Number,
-    "object" => TokenType::Object,
-    "of" => TokenType::Of,
-    "package" => TokenType::Package,
-    "private" => TokenType::Private,
-    "protected" => TokenType::Protected,
-    "public" => TokenType::Public,
-    "readonly" => TokenType::Readonly,
-    "require" => TokenType::Require,
-    "set" => TokenType::Set,
-    "static" => TokenType::Static,
-    "string" => TokenType::String,
-    "symbol" => TokenType::Symbol,
-    "type" => TokenType::Type,
-    "undefined" => TokenType::Undefined,
-    "unique" => TokenType::Unique,
-    "unknown" => TokenType::Unknown,
-    "using" => TokenType::Using,
+/// A static array of KeywordEntry tuples, each containing a keyword
+/// string and its corresponding TokenType.
+static KEYWORD_LOOKUP: [KeywordEntry; 78] = [
+    KeywordEntry("await", TokenType::Await),
+    KeywordEntry("break", TokenType::Break),
+    KeywordEntry("case", TokenType::Case),
+    KeywordEntry("catch", TokenType::Catch),
+    KeywordEntry("class", TokenType::Class),
+    KeywordEntry("const", TokenType::Const),
+    KeywordEntry("continue", TokenType::Continue),
+    KeywordEntry("debugger", TokenType::Debugger),
+    KeywordEntry("default", TokenType::Default),
+    KeywordEntry("delete", TokenType::Delete),
+    KeywordEntry("do", TokenType::Do),
+    KeywordEntry("else", TokenType::Else),
+    KeywordEntry("export", TokenType::Export),
+    KeywordEntry("extends", TokenType::Extends),
+    KeywordEntry("false", TokenType::False),
+    KeywordEntry("finally", TokenType::Finally),
+    KeywordEntry("for", TokenType::For),
+    KeywordEntry("function", TokenType::Function),
+    KeywordEntry("if", TokenType::If),
+    KeywordEntry("import", TokenType::Import),
+    KeywordEntry("in", TokenType::In),
+    KeywordEntry("instanceof", TokenType::InstanceOf),
+    KeywordEntry("let", TokenType::Let),
+    KeywordEntry("new", TokenType::New),
+    KeywordEntry("null", TokenType::Null),
+    KeywordEntry("return", TokenType::Return),
+    KeywordEntry("super", TokenType::Super),
+    KeywordEntry("switch", TokenType::Switch),
+    KeywordEntry("this", TokenType::This),
+    KeywordEntry("throw", TokenType::Throw),
+    KeywordEntry("true", TokenType::True),
+    KeywordEntry("try", TokenType::Try),
+    KeywordEntry("typeof", TokenType::TypeOf),
+    KeywordEntry("var", TokenType::Var),
+    KeywordEntry("void", TokenType::Void),
+    KeywordEntry("while", TokenType::While),
+    KeywordEntry("with", TokenType::With),
+    KeywordEntry("yield", TokenType::Yield),
+    KeywordEntry("module", TokenType::Module),
+    KeywordEntry("abstract", TokenType::Abstract),
+    KeywordEntry("any", TokenType::Any),
+    KeywordEntry("as", TokenType::As),
+    KeywordEntry("asserts", TokenType::Asserts),
+    KeywordEntry("assert", TokenType::Assert),
+    KeywordEntry("async", TokenType::Async),
+    KeywordEntry("bigint", TokenType::Bigint),
+    KeywordEntry("boolean", TokenType::Boolean),
+    KeywordEntry("constructor", TokenType::Constructor),
+    KeywordEntry("declare", TokenType::Declare),
+    KeywordEntry("enum", TokenType::Enum),
+    KeywordEntry("from", TokenType::From),
+    KeywordEntry("get", TokenType::Get),
+    KeywordEntry("global", TokenType::Global),
+    KeywordEntry("implements", TokenType::Implements),
+    KeywordEntry("interface", TokenType::Interface),
+    KeywordEntry("intrinsic", TokenType::Intrinsic),
+    KeywordEntry("is", TokenType::Is),
+    KeywordEntry("keyof", TokenType::Keyof),
+    KeywordEntry("namespace", TokenType::Namespace),
+    KeywordEntry("never", TokenType::Never),
+    KeywordEntry("number", TokenType::Number),
+    KeywordEntry("object", TokenType::Object),
+    KeywordEntry("of", TokenType::Of),
+    KeywordEntry("package", TokenType::Package),
+    KeywordEntry("private", TokenType::Private),
+    KeywordEntry("protected", TokenType::Protected),
+    KeywordEntry("public", TokenType::Public),
+    KeywordEntry("readonly", TokenType::Readonly),
+    KeywordEntry("require", TokenType::Require),
+    KeywordEntry("set", TokenType::Set),
+    KeywordEntry("static", TokenType::Static),
+    KeywordEntry("string", TokenType::String),
+    KeywordEntry("symbol", TokenType::Symbol),
+    KeywordEntry("type", TokenType::Type),
+    KeywordEntry("undefined", TokenType::Undefined),
+    KeywordEntry("unique", TokenType::Unique),
+    KeywordEntry("unknown", TokenType::Unknown),
+    KeywordEntry("using", TokenType::Using),
+];
+
+const MAX_KEYWORD_LEN: usize = 16;
+
+const MAX_KEYWORD_SLOT_LEN: usize = 4;
+
+/// Static keyword table for fast keyword lookup
+static KEYWORD_TABLE: [[[u8; MAX_KEYWORD_SLOT_LEN]; 26]; MAX_KEYWORD_LEN] = {
+    // Initialize the table with 255 (u8) at each position
+    let mut table = [[[255u8; MAX_KEYWORD_SLOT_LEN]; 26]; MAX_KEYWORD_LEN];
+
+    // Iterate over the keyword lookup table
+    let mut i = 0;
+    while i < KEYWORD_LOOKUP.len() {
+        let word = KEYWORD_LOOKUP[i].0;
+        let len = word.len();
+
+        // Check if the length of the word is within the valid range
+        if len > 0 && len <= 16 {
+            let first_char = word.as_bytes()[0];
+            let len_idx = len - 1;
+            let char_idx = (first_char - b'a') as usize;
+
+            // Find an empty slot in the table for the current word
+            let mut slot_idx = 0;
+            while slot_idx < MAX_KEYWORD_SLOT_LEN && table[len_idx][char_idx][slot_idx] != 255 {
+                slot_idx += 1;
+            }
+
+            // If an empty slot is found, store the index of the keyword entry in the table
+            if slot_idx < MAX_KEYWORD_SLOT_LEN {
+                table[len_idx][char_idx][slot_idx] = i as u8;
+            }
+        }
+        i += 1;
+    }
+
+    // Return the initialized table
+    table
 };
 
+/// Attempts to find a keyword in the static keyword table and returns its
+/// corresponding TokenType.
+///
+/// This function takes a word as input and checks if it matches any of the
+/// keywords stored in the KEYWORD_TABLE. If a match is found, it returns the
+/// TokenType associated with the keyword. Otherwise, it returns None.
+fn find_keyword_from_table(word: &str) -> Option<TokenType> {
+    // Determine the length of the word to check if it's within the valid range
+    let len = word.len();
+    if len > 0 && len <= 16 {
+        // SAFETY: word len is within 1..=16 bounds
+        let first_byte = *unsafe { word.as_bytes().get_unchecked(0) };
+        let len_idx = len - 1;
+        let byte_idx = (first_byte - b'a') as usize;
+
+        let mut slot_idx = 0;
+        while slot_idx < MAX_KEYWORD_SLOT_LEN {
+            // Retrieve the index of the keyword entry from the table
+            let idx = *unsafe {
+                KEYWORD_TABLE
+                    .get_unchecked(len_idx)
+                    .get_unchecked(byte_idx)
+                    .get_unchecked(slot_idx)
+            };
+            // If the index is 255, it means we've reached the end of the slot
+            if idx == 255 {
+                break;
+            }
+
+            // SAFETY: idx is within bounds
+            let entry = unsafe { KEYWORD_LOOKUP.get_unchecked(idx as usize) };
+
+            // Check if the word matches the keyword in the entry
+            if entry.0 == word {
+                return Some(entry.1);
+            }
+
+            slot_idx += 1;
+        }
+    }
+
+    None
+}
+
 /// Convert a keyword string to TokenType
-/// Uses a PHF map for O(1) time complexity with zero runtime overhead
-/// Optimized with fast-path checks for common keywords
+/// Utilizes the first byte and word length to quickly locate the keyword in the
+/// table Optimized with fast-path checks for common keywords
 #[inline(always)]
 pub fn keyword_to_token_type(word: &str) -> Option<TokenType> {
     // Fast path for the most common keywords
@@ -772,8 +857,8 @@ pub fn keyword_to_token_type(word: &str) -> Option<TokenType> {
         _ => {}
     }
 
-    // Fallback to the PHF map for less common keywords
-    KEYWORDS.get(word).copied()
+    // Fallback to KEYWORD_TABLE for less common keywords
+    find_keyword_from_table(word)
 }
 
 #[cfg(test)]

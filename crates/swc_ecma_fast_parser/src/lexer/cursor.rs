@@ -108,30 +108,31 @@ impl<'a> Cursor<'a> {
     where
         F: FnMut(u8) -> bool,
     {
-        const BATCH_SIZE: u32 = 32;
+        // Warning: Do not scalarize if we do not use SIMD
+        // const BATCH_SIZE: u32 = 32;
 
-        // Process in batches if we have more than BATCH_SIZE bytes
-        while self.pos + BATCH_SIZE <= self.len {
-            let mut should_stop = false;
+        // // Process in batches if we have more than BATCH_SIZE bytes
+        // while self.pos + BATCH_SIZE <= self.len {
+        //     let mut should_stop = false;
 
-            // Check all bytes in the batch
-            for i in 0..BATCH_SIZE {
-                // SAFETY: We've verified bounds above
-                let byte = unsafe { *self.input.get_unchecked((self.pos + i) as usize) };
-                if !predicate(byte) {
-                    should_stop = true;
-                    break;
-                }
-            }
+        //     // Check all bytes in the batch
+        //     for i in 0..BATCH_SIZE {
+        //         // SAFETY: We've verified bounds above
+        //         let byte = unsafe { *self.input.get_unchecked((self.pos + i) as
+        // usize) };         if !predicate(byte) {
+        //             should_stop = true;
+        //             break;
+        //         }
+        //     }
 
-            if should_stop {
-                // Found stopping byte, switch to byte-by-byte
-                break;
-            }
+        //     if should_stop {
+        //         // Found stopping byte, switch to byte-by-byte
+        //         break;
+        //     }
 
-            // Skip the entire batch
-            self.pos += BATCH_SIZE;
-        }
+        //     // Skip the entire batch
+        //     self.pos += BATCH_SIZE;
+        // }
 
         // Byte-by-byte for the remainder
         while let Some(byte) = self.peek() {
