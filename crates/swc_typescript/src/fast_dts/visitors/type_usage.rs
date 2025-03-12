@@ -53,7 +53,6 @@ impl TypeUsageAnalyzer<'_> {
                 used_refs.insert(analyzer.graph[node_id].clone());
             }
         }
-        dbg!(&used_refs);
         used_refs
     }
 
