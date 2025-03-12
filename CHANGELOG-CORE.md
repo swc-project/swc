@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(ts/fast-strip)** Throw js object instead of map ([#10186](https://github.com/swc-project/swc/issues/10186)) ([2da0142](https://github.com/swc-project/swc/commit/2da0142217842bf85d84645beeafc7f706215469))
+
+## [swc_core@v16.5.0] - 2025-03-12
+
 ### Bug Fixes
 
 

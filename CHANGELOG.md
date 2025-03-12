@@ -16,6 +16,9 @@
 
 - **(es/module)** Support more `import.meta` properties ([#10179](https://github.com/swc-project/swc/issues/10179)) ([11727a6](https://github.com/swc-project/swc/commit/11727a62e4a615039d11d8cc250d53f128e40eff))
 
+
+- **(ts/fast-strip)** Throw js object instead of map ([#10186](https://github.com/swc-project/swc/issues/10186)) ([2da0142](https://github.com/swc-project/swc/commit/2da0142217842bf85d84645beeafc7f706215469))
+
 ### Performance
 
 
