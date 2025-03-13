@@ -3486,6 +3486,8 @@ dependencies = [
 name = "print-es-rkyv"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "clap 4.5.9",
  "rkyv",
  "serde",
  "serde_json",
