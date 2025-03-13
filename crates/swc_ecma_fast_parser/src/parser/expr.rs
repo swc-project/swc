@@ -2,25 +2,20 @@
 //!
 //! This module contains methods for parsing JavaScript expressions.
 
-use swc_atoms::Atom;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::Span;
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, AssignExpr, AssignOp, AssignTarget, AwaitExpr, BinExpr, BinaryOp,
-    BlockStmtOrExpr, Bool, CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr,
-    Ident, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, Null, Number,
-    ObjectLit, OptCall, OptChainBase, OptChainExpr, ParenExpr, PrivateName, PropName, PropOrSpread,
-    SeqExpr, SpreadElement, Str, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl,
-    TplElement, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp, YieldExpr,
+    ArrayLit, AwaitExpr, BinExpr, BinaryOp, Bool, Expr, ExprOrSpread, Lit, Null, ObjectLit,
+    ParenExpr, PropOrSpread, SpreadElement, ThisExpr, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp,
+    YieldExpr,
 };
 
 use crate::{
     error::{Error, ErrorKind, Result},
     parser::{util, util::GetSpan, Parser},
-    token::{Token, TokenType, TokenValue},
-    util::{likely, unlikely},
+    token::{TokenType, TokenValue},
 };
 
-impl<'a> Parser<'a> {
+impl Parser<'_> {
     /// Parse an expression
     pub fn parse_expr(&mut self) -> Result<Box<Expr>> {
         self.parse_expr_with_precedence(0)
@@ -166,7 +161,7 @@ impl<'a> Parser<'a> {
         };
 
         // Consume the operator token
-        self.next()?;
+        self.lexer.next_token()?;
 
         // Parse the right-hand side with higher precedence to ensure
         // right-associativity for exponentiation and correct associativity for
@@ -260,7 +255,7 @@ impl<'a> Parser<'a> {
     /// Parse a this expression
     fn parse_this_expr(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
-        self.next()?; // Consume 'this'
+        self.lexer.next_token()?; // Consume 'this'
 
         Ok(Box::new(Expr::This(ThisExpr { span })))
     }
@@ -269,7 +264,7 @@ impl<'a> Parser<'a> {
     fn parse_identifier_expr(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
         let ident = util::token_value_to_ident(self.current(), span);
-        self.next()?; // Consume identifier
+        self.lexer.next_token()?; // Consume identifier
 
         Ok(Box::new(Expr::Ident(ident)))
     }
@@ -278,7 +273,7 @@ impl<'a> Parser<'a> {
     fn parse_string_literal(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
         let str_lit = util::token_value_to_str(self.current(), span);
-        self.next()?; // Consume string
+        self.lexer.next_token()?; // Consume string
 
         Ok(Box::new(Expr::Lit(Lit::Str(str_lit))))
     }
@@ -287,7 +282,7 @@ impl<'a> Parser<'a> {
     fn parse_number_literal(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
         let num_lit = util::token_value_to_number(self.current(), span);
-        self.next()?; // Consume number
+        self.lexer.next_token()?; // Consume number
 
         Ok(Box::new(Expr::Lit(Lit::Num(num_lit))))
     }
@@ -302,7 +297,7 @@ impl<'a> Parser<'a> {
                 value: value.clone(),
                 raw: Some(raw.clone()),
             };
-            self.next()?; // Consume BigInt
+            self.lexer.next_token()?; // Consume BigInt
 
             Ok(Box::new(Expr::Lit(Lit::BigInt(bigint))))
         } else {
@@ -318,7 +313,7 @@ impl<'a> Parser<'a> {
     fn parse_boolean_literal(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
         let value = self.is(TokenType::True);
-        self.next()?; // Consume boolean
+        self.lexer.next_token()?; // Consume boolean
 
         Ok(Box::new(Expr::Lit(Lit::Bool(Bool { span, value }))))
     }
@@ -326,7 +321,7 @@ impl<'a> Parser<'a> {
     /// Parse a null literal
     fn parse_null_literal(&mut self) -> Result<Box<Expr>> {
         let span = self.current_span();
-        self.next()?; // Consume 'null'
+        self.lexer.next_token()?; // Consume 'null'
 
         Ok(Box::new(Expr::Lit(Lit::Null(Null { span }))))
     }
@@ -334,7 +329,7 @@ impl<'a> Parser<'a> {
     /// Parse a parenthesized expression
     fn parse_paren_expr(&mut self) -> Result<Box<Expr>> {
         let start_span = self.current_span();
-        self.next()?; // Consume '('
+        self.lexer.next_token()?; // Consume '('
 
         let expr = self.parse_expr()?;
 
@@ -349,7 +344,7 @@ impl<'a> Parser<'a> {
     /// Parse an array expression
     fn parse_array_expr(&mut self) -> Result<Box<Expr>> {
         let start_span = self.current_span();
-        self.next()?; // Consume '['
+        self.lexer.next_token()?; // Consume '['
 
         let mut elements = Vec::new();
 
@@ -358,13 +353,13 @@ impl<'a> Parser<'a> {
             if self.is(TokenType::Comma) {
                 // Empty element (hole)
                 elements.push(None);
-                self.next()?; // Consume ','
+                self.lexer.next_token()?; // Consume ','
             } else {
                 // Parse element
                 let element = if self.is(TokenType::DotDotDot) {
                     // Spread element
                     let dot3_span = self.current_span();
-                    self.next()?; // Consume '...'
+                    self.lexer.next_token()?; // Consume '...'
                     let expr = self.parse_expr()?;
                     Some(ExprOrSpread {
                         spread: Some(dot3_span),
@@ -386,7 +381,7 @@ impl<'a> Parser<'a> {
         }
 
         let end_span = self.current_span();
-        self.next()?; // Consume ']'
+        self.lexer.next_token()?; // Consume ']'
 
         let span = Span::new(start_span.lo, end_span.hi);
         Ok(Box::new(Expr::Array(ArrayLit {
@@ -398,7 +393,7 @@ impl<'a> Parser<'a> {
     /// Parse an object expression
     fn parse_object_expr(&mut self) -> Result<Box<Expr>> {
         let start_span = self.current_span();
-        self.next()?; // Consume '{'
+        self.lexer.next_token()?; // Consume '{'
 
         let mut properties = Vec::new();
 
@@ -408,7 +403,7 @@ impl<'a> Parser<'a> {
             let property = if self.is(TokenType::DotDotDot) {
                 // Spread property
                 let dot3_span = self.current_span();
-                self.next()?; // Consume '...'
+                self.lexer.next_token()?; // Consume '...'
                 let expr = self.parse_expr()?;
                 PropOrSpread::Spread(SpreadElement {
                     dot3_token: dot3_span,
@@ -429,7 +424,7 @@ impl<'a> Parser<'a> {
         }
 
         let end_span = self.current_span();
-        self.next()?; // Consume '}'
+        self.lexer.next_token()?; // Consume '}'
 
         let span = Span::new(start_span.lo, end_span.hi);
         Ok(Box::new(Expr::Object(ObjectLit {
@@ -541,7 +536,7 @@ impl<'a> Parser<'a> {
             }
         };
 
-        self.next()?; // Consume operator
+        self.lexer.next_token()?; // Consume operator
 
         // Parse the argument
         let arg = self.parse_expr_with_precedence(15)?; // Unary has precedence 15
@@ -571,7 +566,7 @@ impl<'a> Parser<'a> {
             }
         };
 
-        self.next()?; // Consume operator
+        self.lexer.next_token()?; // Consume operator
 
         // Parse the argument
         let arg = self.parse_expr_with_precedence(15)?; // Update has precedence 15
@@ -589,7 +584,7 @@ impl<'a> Parser<'a> {
     /// Parse an await expression
     fn parse_await_expr(&mut self) -> Result<Box<Expr>> {
         let start_span = self.current_span();
-        self.next()?; // Consume 'await'
+        self.lexer.next_token()?; // Consume 'await'
 
         // Parse the argument
         let arg = self.parse_expr_with_precedence(15)?; // Await has precedence 15
@@ -602,7 +597,7 @@ impl<'a> Parser<'a> {
     /// Parse a yield expression
     fn parse_yield_expr(&mut self) -> Result<Box<Expr>> {
         let start_span = self.current_span();
-        self.next()?; // Consume 'yield'
+        self.lexer.next_token()?; // Consume 'yield'
 
         // Check for yield*
         let delegate = self.eat(TokenType::Asterisk)?;

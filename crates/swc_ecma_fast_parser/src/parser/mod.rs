@@ -15,14 +15,13 @@ mod util;
 use std::rc::Rc;
 
 use swc_atoms::Atom;
-use swc_common::{BytePos, Span, DUMMY_SP};
-use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script, Stmt};
+use swc_common::Span;
+use swc_ecma_ast::{Module, ModuleItem, Program, Script, Stmt};
 
 use crate::{
     error::{Error, ErrorKind, Result},
     lexer::Lexer,
-    token::{Token, TokenType, TokenValue},
-    util::{likely, unlikely},
+    token::{Token, TokenType},
     JscTarget, SingleThreadedComments, Syntax,
 };
 
@@ -118,7 +117,7 @@ impl<'a> Parser<'a> {
     /// Parse a script
     fn parse_script(&mut self) -> Result<Script> {
         let span_start = self.current_span().lo;
-        let body = self.parse_statements(false)?;
+        let body = self.parse_statements()?;
         let span = Span::new(span_start, self.current_span().hi);
 
         Ok(Script {
@@ -142,7 +141,7 @@ impl<'a> Parser<'a> {
     }
 
     /// Parse statements until end of input or closing brace
-    fn parse_statements(&mut self, is_top_level: bool) -> Result<Vec<Stmt>> {
+    fn parse_statements(&mut self) -> Result<Vec<Stmt>> {
         let mut stmts = Vec::new();
 
         while !self.is(TokenType::EOF) && !self.is(TokenType::RBrace) {
@@ -197,18 +196,11 @@ impl<'a> Parser<'a> {
         token_types.contains(&self.current_token_type())
     }
 
-    /// Advance to the next token
-    #[inline(always)]
-    pub fn next(&mut self) -> Result<()> {
-        self.lexer.next_token()?;
-        Ok(())
-    }
-
     /// Expect a specific token type and advance to the next token
     #[inline]
     pub fn expect(&mut self, token_type: TokenType) -> Result<()> {
         if self.is(token_type) {
-            self.next()?;
+            self.lexer.next_token()?;
             Ok(())
         } else {
             let span = self.current_span();
@@ -226,21 +218,10 @@ impl<'a> Parser<'a> {
     #[inline]
     pub fn eat(&mut self, token_type: TokenType) -> Result<bool> {
         if self.is(token_type) {
-            self.next()?;
+            self.lexer.next_token()?;
             Ok(true)
         } else {
             Ok(false)
         }
-    }
-
-    /// Create an invalid node with the current span
-    #[inline]
-    fn error_node<T>(&self) -> T
-    where
-        T: From<Invalid>,
-    {
-        T::from(Invalid {
-            span: self.current_span(),
-        })
     }
 }

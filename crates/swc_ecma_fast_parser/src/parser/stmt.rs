@@ -2,20 +2,16 @@
 //!
 //! This module contains methods for parsing JavaScript statements.
 
-use swc_atoms::Atom;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::{
-    BlockStmt, Expr, ExprStmt, Ident, Pat, ReturnStmt, Stmt, VarDecl, VarDeclKind, VarDeclarator,
-};
+use swc_common::{Span, SyntaxContext};
+use swc_ecma_ast::{BlockStmt, ExprStmt, ReturnStmt, Stmt, VarDecl, VarDeclKind, VarDeclarator};
 
 use crate::{
-    error::{Error, ErrorKind, Result},
-    parser::{util, util::GetSpan, Parser},
-    token::{Token, TokenType, TokenValue},
-    util::{likely, unlikely},
+    error::Result,
+    parser::{util::GetSpan, Parser},
+    token::TokenType,
 };
 
-impl<'a> Parser<'a> {
+impl Parser<'_> {
     /// Parse a statement
     pub fn parse_stmt(&mut self) -> Result<Stmt> {
         match self.current_token_type() {
@@ -32,7 +28,7 @@ impl<'a> Parser<'a> {
     /// Parse a block statement
     fn parse_block_stmt(&mut self) -> Result<Stmt> {
         let start_span = self.current_span();
-        self.next()?; // Consume '{'
+        self.lexer.next_token()?; // Consume '{'
 
         let mut stmts = Vec::new();
 
@@ -43,7 +39,7 @@ impl<'a> Parser<'a> {
         }
 
         let end_span = self.current_span();
-        self.next()?; // Consume '}'
+        self.lexer.next_token()?; // Consume '}'
 
         let span = Span::new(start_span.lo, end_span.hi);
         Ok(Stmt::Block(BlockStmt {
@@ -56,7 +52,7 @@ impl<'a> Parser<'a> {
     /// Parse a return statement
     fn parse_return_stmt(&mut self) -> Result<Stmt> {
         let start_span = self.current_span();
-        self.next()?; // Consume 'return'
+        self.lexer.next_token()?; // Consume 'return'
 
         // Check if there's an expression after 'return'
         let arg = if self.is(TokenType::Semi)
@@ -70,7 +66,7 @@ impl<'a> Parser<'a> {
 
         // Consume semicolon if present
         if self.is(TokenType::Semi) {
-            self.next()?;
+            self.lexer.next_token()?;
         }
 
         let end_span = match &arg {
@@ -89,7 +85,7 @@ impl<'a> Parser<'a> {
 
         // Consume semicolon if present
         if self.is(TokenType::Semi) {
-            self.next()?;
+            self.lexer.next_token()?;
         }
 
         Ok(Stmt::Expr(ExprStmt { span, expr }))
@@ -98,7 +94,7 @@ impl<'a> Parser<'a> {
     /// Parse a variable declaration statement
     fn parse_var_decl_stmt(&mut self, kind: VarDeclKind) -> Result<Stmt> {
         let start_span = self.current_span();
-        self.next()?; // Consume 'var', 'let', or 'const'
+        self.lexer.next_token()?; // Consume 'var', 'let', or 'const'
 
         let mut decls = Vec::new();
 
@@ -109,7 +105,7 @@ impl<'a> Parser<'a> {
 
             // Check if there are more declarations
             if self.is(TokenType::Comma) {
-                self.next()?; // Consume ','
+                self.lexer.next_token()?; // Consume ','
             } else {
                 break;
             }
@@ -117,7 +113,7 @@ impl<'a> Parser<'a> {
 
         // Consume semicolon if present
         if self.is(TokenType::Semi) {
-            self.next()?;
+            self.lexer.next_token()?;
         }
 
         let end_span = match decls.last() {
@@ -146,7 +142,7 @@ impl<'a> Parser<'a> {
 
         // Check if there's an initializer
         let init = if self.is(TokenType::Eq) {
-            self.next()?; // Consume '='
+            self.lexer.next_token()?; // Consume '='
             Some(self.parse_expr()?)
         } else {
             None

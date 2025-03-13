@@ -1,10 +1,8 @@
 //! Utility functions for the parser
 
 use swc_atoms::Atom;
-use swc_common::{BytePos, Span, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::{
-    BindingIdent, Bool, Expr, Ident, IdentName, Lit, Number, Pat, Str, ThrowStmt, TryStmt,
-};
+use swc_common::{Span, SyntaxContext};
+use swc_ecma_ast::{BindingIdent, Expr, Ident, Number, Pat, Str};
 
 use crate::{
     error::{Error, ErrorKind},

@@ -3,21 +3,19 @@
 //! This module contains methods for parsing JavaScript patterns (destructuring,
 //! etc.).
 
-use swc_atoms::Atom;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::Span;
 use swc_ecma_ast::{
-    ArrayPat, AssignPat, AssignPatProp, BindingIdent, ComputedPropName, Expr, Ident, IdentName,
-    KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, PropName, RestPat,
+    ArrayPat, AssignPat, AssignPatProp, BindingIdent, ComputedPropName, IdentName, KeyValuePatProp,
+    ObjectPat, ObjectPatProp, Pat, PropName, RestPat,
 };
 
 use crate::{
     error::{Error, ErrorKind, Result},
     parser::{util, util::GetSpan, Parser},
-    token::{Token, TokenType, TokenValue},
-    util::{likely, unlikely},
+    token::TokenType,
 };
 
-impl<'a> Parser<'a> {
+impl Parser<'_> {
     /// Parse a pattern (destructuring pattern or binding identifier)
     pub fn parse_pat(&mut self) -> Result<Pat> {
         // Check if the pattern starts with a destructuring pattern
@@ -28,11 +26,11 @@ impl<'a> Parser<'a> {
                 // Parse a binding identifier
                 let span = self.current_span();
                 let ident = util::token_value_to_binding_ident(self.current(), span);
-                self.next()?; // Consume identifier
+                self.lexer.next_token()?; // Consume identifier
 
                 // Check for assignment pattern
                 if self.is(TokenType::Eq) {
-                    self.next()?; // Consume '='
+                    self.lexer.next_token()?; // Consume '='
                     let right = self.parse_expr()?;
                     let ident_span = ident.span();
                     let right_span = right.span();
@@ -63,7 +61,7 @@ impl<'a> Parser<'a> {
     /// Parse an array pattern
     fn parse_array_pat(&mut self) -> Result<Pat> {
         let start_span = self.current_span();
-        self.next()?; // Consume '['
+        self.lexer.next_token()?; // Consume '['
 
         let mut elements = Vec::new();
 
@@ -72,11 +70,11 @@ impl<'a> Parser<'a> {
             if self.is(TokenType::Comma) {
                 // Empty element
                 elements.push(None);
-                self.next()?; // Consume ','
+                self.lexer.next_token()?; // Consume ','
             } else if self.is(TokenType::DotDotDot) {
                 // Rest element
                 let dot3_span = self.current_span();
-                self.next()?; // Consume '...'
+                self.lexer.next_token()?; // Consume '...'
 
                 // Parse the rest element
                 let arg = self.parse_pat()?;
@@ -115,7 +113,7 @@ impl<'a> Parser<'a> {
         }
 
         let end_span = self.current_span();
-        self.next()?; // Consume ']'
+        self.lexer.next_token()?; // Consume ']'
 
         let span = Span::new(start_span.lo, end_span.hi);
         Ok(Pat::Array(ArrayPat {
@@ -129,7 +127,7 @@ impl<'a> Parser<'a> {
     /// Parse an object pattern
     fn parse_object_pat(&mut self) -> Result<Pat> {
         let start_span = self.current_span();
-        self.next()?; // Consume '{'
+        self.lexer.next_token()?; // Consume '{'
 
         let mut properties = Vec::new();
 
@@ -138,7 +136,7 @@ impl<'a> Parser<'a> {
             if self.is(TokenType::DotDotDot) {
                 // Rest property
                 let dot3_span = self.current_span();
-                self.next()?; // Consume '...'
+                self.lexer.next_token()?; // Consume '...'
 
                 // Parse the rest element
                 let arg = self.parse_pat()?;
@@ -177,7 +175,7 @@ impl<'a> Parser<'a> {
         }
 
         let end_span = self.current_span();
-        self.next()?; // Consume '}'
+        self.lexer.next_token()?; // Consume '}'
 
         let span = Span::new(start_span.lo, end_span.hi);
         Ok(Pat::Object(ObjectPat {
@@ -196,14 +194,12 @@ impl<'a> Parser<'a> {
         if self.is(TokenType::Ident) {
             let key_span = self.current_span();
             let key = util::token_value_to_ident(self.current(), key_span);
-            self.next()?; // Consume identifier
+            self.lexer.next_token()?; // Consume identifier
 
             // Check for key-value pattern
             if self.is(TokenType::Colon) {
-                self.next()?; // Consume ':'
+                self.lexer.next_token()?; // Consume ':'
                 let value = self.parse_pat()?;
-                let value_span = value.span();
-                let span = Span::new(start_span.lo, value_span.hi);
 
                 // Convert Ident to IdentName for PropName::Ident
                 let ident_name = IdentName {
@@ -217,7 +213,7 @@ impl<'a> Parser<'a> {
                 }))
             } else if self.is(TokenType::Eq) {
                 // Shorthand with default value
-                self.next()?; // Consume '='
+                self.lexer.next_token()?; // Consume '='
                 let right = self.parse_expr()?;
                 let right_span = right.span();
                 let span = Span::new(start_span.lo, right_span.hi);
@@ -249,13 +245,11 @@ impl<'a> Parser<'a> {
             }
         } else if self.is(TokenType::LBracket) {
             // Computed property name
-            self.next()?; // Consume '['
+            self.lexer.next_token()?; // Consume '['
             let key_expr = self.parse_expr()?;
             self.expect(TokenType::RBracket)?;
             self.expect(TokenType::Colon)?;
             let value = self.parse_pat()?;
-            let value_span = value.span();
-            let span = Span::new(start_span.lo, value_span.hi);
 
             // Create a computed property name
             let computed_key = ComputedPropName {
@@ -272,18 +266,16 @@ impl<'a> Parser<'a> {
             let key_span = self.current_span();
             let key = if self.is(TokenType::Str) {
                 let str_lit = util::token_value_to_str(self.current(), key_span);
-                self.next()?; // Consume string
+                self.lexer.next_token()?; // Consume string
                 PropName::Str(str_lit)
             } else {
                 let num_lit = util::token_value_to_number(self.current(), key_span);
-                self.next()?; // Consume number
+                self.lexer.next_token()?; // Consume number
                 PropName::Num(num_lit)
             };
 
             self.expect(TokenType::Colon)?;
             let value = self.parse_pat()?;
-            let value_span = value.span();
-            let span = Span::new(start_span.lo, value_span.hi);
 
             Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key,
