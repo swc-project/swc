@@ -7,7 +7,7 @@ use anyhow::{anyhow, Result};
 use clap::{Parser, ValueEnum};
 use swc_common::{sync::Lrc, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::parse_file_as_program;
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 
 #[derive(Debug, Clone, ValueEnum)]
 enum OutputFormat {
@@ -41,15 +41,20 @@ fn main() -> Result<()> {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.load_file(&args.file_path)?;
 
+    let file_name = PathBuf::from(fm.name.to_string());
+
+    let syntax = match file_name.extension().map(|s| s.to_str()) {
+        Some(Some("ts")) => Syntax::Typescript(TsSyntax::default()),
+        Some(Some("tsx")) => Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        _ => Syntax::Es(Default::default()),
+    };
+
     // Parse the ECMAScript file
-    let program = parse_file_as_program(
-        &fm,
-        Default::default(),
-        EsVersion::latest(),
-        None,
-        &mut vec![],
-    )
-    .map_err(|e| anyhow!("Parse error: {:?}", e))?;
+    let program = parse_file_as_program(&fm, syntax, EsVersion::latest(), None, &mut vec![])
+        .map_err(|e| anyhow!("Parse error: {:?}", e))?;
 
     // Output the parsed AST in the specified format
     match args.output {
