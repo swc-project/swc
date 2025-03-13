@@ -3487,7 +3487,10 @@ name = "print-es-rkyv"
 version = "0.1.0"
 dependencies = [
  "rkyv",
+ "serde",
+ "serde_json",
  "swc_ecma_ast",
+ "swc_ecma_parser",
 ]
 
 [[package]]
