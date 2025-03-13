@@ -3,7 +3,7 @@
 //! This module contains methods for parsing JavaScript patterns (destructuring,
 //! etc.).
 
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     ArrayPat, AssignPat, AssignPatProp, BindingIdent, ComputedPropName, IdentName, KeyValuePatProp,
     ObjectPat, ObjectPatProp, Pat, PropName, RestPat,
@@ -11,7 +11,7 @@ use swc_ecma_ast::{
 
 use crate::{
     error::{Error, ErrorKind, Result},
-    parser::{util, util::GetSpan, Parser},
+    parser::{util, Parser},
     token::TokenType,
 };
 

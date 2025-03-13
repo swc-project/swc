@@ -2,7 +2,7 @@
 //!
 //! This module contains methods for parsing JavaScript expressions.
 
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, AwaitExpr, BinExpr, BinaryOp, Bool, Expr, ExprOrSpread, Lit, Null, ObjectLit,
     ParenExpr, PropOrSpread, SpreadElement, ThisExpr, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp,
@@ -11,7 +11,7 @@ use swc_ecma_ast::{
 
 use crate::{
     error::{Error, ErrorKind, Result},
-    parser::{util, util::GetSpan, Parser},
+    parser::{util, Parser},
     token::{TokenType, TokenValue},
 };
 

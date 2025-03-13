@@ -2,14 +2,10 @@
 //!
 //! This module contains methods for parsing JavaScript statements.
 
-use swc_common::{Span, SyntaxContext};
+use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{BlockStmt, ExprStmt, ReturnStmt, Stmt, VarDecl, VarDeclKind, VarDeclarator};
 
-use crate::{
-    error::Result,
-    parser::{util::GetSpan, Parser},
-    token::TokenType,
-};
+use crate::{error::Result, parser::Parser, token::TokenType};
 
 impl Parser<'_> {
     /// Parse a statement
