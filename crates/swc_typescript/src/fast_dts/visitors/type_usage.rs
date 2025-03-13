@@ -6,9 +6,9 @@ use petgraph::{
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    Accessibility, Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    Function, Id, Ident, ModuleExportName, ModuleItem, NamedExport, TsEntityName,
-    TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement,
+    Accessibility, ArrowExpr, Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl,
+    ExportDefaultExpr, Function, Id, Ident, ModuleExportName, ModuleItem, NamedExport,
+    TsEntityName, TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -228,6 +228,13 @@ impl Visit for TypeUsageAnalyzer<'_> {
         self.with_source(self.source, |this| {
             node.visit_children_with(this);
         });
+    }
+
+    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
+        // Skip body
+        node.params.visit_with(self);
+        node.type_params.visit_with(self);
+        node.return_type.visit_with(self);
     }
 
     fn visit_function(&mut self, node: &Function) {
