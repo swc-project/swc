@@ -1,402 +1,227 @@
-//! ECMAScript/TypeScript parser implementation
+//! High-performance parser for ECMAScript/TypeScript
 //!
-//! This module provides the core parser implementation for ECMAScript and
-//! TypeScript.
+//! This parser is designed for maximum performance and memory efficiency,
+//! operating at the token level for optimal throughput.
 
-use std::collections::HashSet;
+#![allow(clippy::redundant_closure_call)]
 
-use swc_common::errors::Handler;
-use swc_ecma_ast as ast;
+mod expr;
+mod pat;
+mod stmt;
+#[cfg(test)]
+mod tests;
+mod util;
+
+use std::rc::Rc;
+
+use swc_atoms::Atom;
+use swc_common::Span;
+use swc_ecma_ast::{Module, ModuleItem, Program, Script, Stmt};
 
 use crate::{
     error::{Error, ErrorKind, Result},
     lexer::Lexer,
-    token::{Token, TokenType, TokenValue},
-    Syntax,
+    token::{Token, TokenType},
+    JscTarget, SingleThreadedComments, Syntax,
 };
 
-// Sub-modules
-pub(crate) mod expr;
-mod stmt;
-
-/// Scope kind for keeping track of different kinds of scopes
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum ScopeKind {
-    /// Global scope
-    Global,
-    /// Module scope
-    Module,
-    /// Script scope
-    Script,
-    /// Function scope
-    Function,
-    /// Class scope
-    Class,
-    /// Block scope
-    Block,
-    /// Catch clause scope
-    Catch,
-    /// Loop scope (for for-in/of/loop)
-    For,
-    /// Switch scope
-    Switch,
-}
-
-/// Scope for tracking variables, labels, etc.
-#[derive(Debug, Clone)]
-pub(crate) struct Scope {
-    /// Kind of scope
-    kind: ScopeKind,
-
-    /// Set of labels declared in this scope
-    labels: HashSet<String>,
-
-    /// Parent scope
-    parent: Option<Box<Scope>>,
-}
-
-impl Scope {
-    /// Create a new scope
-    fn new(kind: ScopeKind, parent: Option<Box<Scope>>) -> Self {
-        Self {
-            kind,
-            labels: HashSet::new(),
-            parent,
-        }
-    }
-
-    /// Check if a label exists in this scope or any parent scope
-    fn has_label(&self, label: &str) -> bool {
-        if self.labels.contains(label) {
-            return true;
-        }
-
-        if let Some(ref parent) = self.parent {
-            return parent.has_label(label);
-        }
-
-        false
-    }
-
-    /// Add a label to this scope
-    fn add_label(&mut self, label: String) {
-        self.labels.insert(label);
-    }
-}
-
-/// ECMAScript/TypeScript parser
+/// High-performance parser for ECMAScript/TypeScript
+///
+/// This parser processes tokens from the lexer to build an AST.
+#[repr(C)] // Ensure predictable memory layout
 pub struct Parser<'a> {
-    /// Lexer for tokenizing the input
+    /// Lexer instance
     lexer: Lexer<'a>,
 
-    /// Error handler
-    handler: &'a Handler,
-
-    /// Current token
-    cur_token: Token,
-
-    /// Previous token
-    prev_token: Token,
-
     /// Syntax configuration
-    syntax: Syntax,
+    pub syntax: Syntax,
 
-    /// Current scope
-    scope: Scope,
+    /// Target ECMAScript version
+    pub target: JscTarget,
 
-    /// Strict mode flag
-    pub(crate) strict_mode: bool,
+    /// Whether the parser is in strict mode
+    pub strict_mode: bool,
 
-    /// In module flag
-    pub(crate) in_module: bool,
+    /// Whether the parser is in module mode
+    pub is_module: bool,
 
-    /// In function flag
-    pub(crate) in_function: bool,
+    /// Whether the parser is in a function context
+    pub in_function: bool,
 
-    /// In async function flag
-    pub(crate) in_async: bool,
+    /// Whether the parser is in a generator function
+    pub in_generator: bool,
 
-    /// In generator function flag
-    pub(crate) in_generator: bool,
+    /// Whether the parser is in an async function
+    pub in_async: bool,
 
-    /// In constructor flag
-    pub(crate) in_constructor: bool,
+    /// Whether the parser is in a loop
+    pub in_loop: bool,
 
-    /// In method flag
-    pub(crate) in_method: bool,
+    /// Whether the parser is in a switch statement
+    pub in_switch: bool,
 
-    /// In loop flag
-    pub(crate) in_loop: bool,
+    /// Whether the parser is in a class context
+    pub in_class: bool,
 
-    /// In switch flag
-    pub(crate) in_switch: bool,
+    /// Whether the parser is in a static block
+    pub in_static_block: bool,
+
+    /// Label set for break/continue statements
+    pub labels: Vec<Atom>,
+
+    /// Comments storage
+    pub comments: Option<Rc<SingleThreadedComments>>,
 }
 
 impl<'a> Parser<'a> {
-    /// Create a new parser
-    pub fn new(lexer: Lexer<'a>, handler: &'a Handler, syntax: Syntax) -> Self {
-        let mut parser = Self {
+    /// Create a new parser from a string input
+    #[inline]
+    pub fn new(
+        input: &'a str,
+        target: JscTarget,
+        syntax: Syntax,
+        is_module: bool,
+        comments: Option<Rc<SingleThreadedComments>>,
+    ) -> Self {
+        let lexer = Lexer::new(input, target, syntax, comments.clone());
+
+        Self {
             lexer,
-            handler,
-            cur_token: Token::default(),
-            prev_token: Token::default(),
             syntax,
-            scope: Scope::new(ScopeKind::Global, None),
-            strict_mode: false,
-            in_module: false,
+            target,
+            strict_mode: is_module, // Modules are always in strict mode
+            is_module,
             in_function: false,
-            in_async: false,
             in_generator: false,
-            in_constructor: false,
-            in_method: false,
+            in_async: false,
             in_loop: false,
             in_switch: false,
-        };
-
-        // Initialize the current token
-        parser.next_token();
-
-        parser
-    }
-
-    /// Advance to the next token
-    pub fn next_token(&mut self) {
-        self.prev_token = std::mem::take(&mut self.cur_token);
-        self.cur_token = self.lexer.next_token().unwrap_or_else(|e| {
-            // Report the error but continue with a dummy token
-            self.report_error(e);
-            Token::default()
-        });
-    }
-
-    /// Look ahead to the next token without consuming it
-    pub fn peek_token(&self) -> Token {
-        self.lexer.peek_token().unwrap_or_default()
-    }
-
-    /// Look ahead n tokens without consuming them
-    pub fn peek_token_n(&self, n: usize) -> Option<Token> {
-        self.lexer.peek_token_n(n).ok()
-    }
-
-    /// Create an error
-    pub fn error(&self, kind: ErrorKind) -> Error {
-        Error::new(kind, self.cur_token.span)
-    }
-
-    /// Report an error using the handler
-    pub fn report_error(&self, error: Error) {
-        self.handler.struct_err(&error.to_string()).emit();
-    }
-
-    /// Check if the current token has the given type
-    pub fn is_token_type(&self, token_type: TokenType) -> bool {
-        self.cur_token.token_type == token_type
-    }
-
-    /// Check if the current token is an identifier
-    pub fn is_token_identifier(&self) -> bool {
-        self.cur_token.token_type == TokenType::Ident
-    }
-
-    /// Check if the current token is an identifier with the given name
-    pub fn is_token_identifier_eq(&self, name: &str) -> bool {
-        if let TokenValue::Ident(ref ident) = self.cur_token.value {
-            ident == name
-        } else {
-            false
+            in_class: false,
+            in_static_block: false,
+            labels: Vec::new(),
+            comments,
         }
     }
 
-    /// Expect the current token to have the given type and advance
+    /// Parse a complete program (script or module)
+    pub fn parse_program(&mut self) -> Result<Program> {
+        if self.is_module {
+            let module = self.parse_module()?;
+            Ok(Program::Module(module))
+        } else {
+            let script = self.parse_script()?;
+            Ok(Program::Script(script))
+        }
+    }
+
+    /// Parse a script
+    fn parse_script(&mut self) -> Result<Script> {
+        let span_start = self.current_span().lo;
+        let body = self.parse_statements()?;
+        let span = Span::new(span_start, self.current_span().hi);
+
+        Ok(Script {
+            span,
+            body,
+            shebang: None, // TODO: Handle shebang
+        })
+    }
+
+    /// Parse a module
+    fn parse_module(&mut self) -> Result<Module> {
+        let span_start = self.current_span().lo;
+        let body = self.parse_module_items()?;
+        let span = Span::new(span_start, self.current_span().hi);
+
+        Ok(Module {
+            span,
+            body,
+            shebang: None, // TODO: Handle shebang
+        })
+    }
+
+    /// Parse statements until end of input or closing brace
+    fn parse_statements(&mut self) -> Result<Vec<Stmt>> {
+        let mut stmts = Vec::new();
+
+        while !self.is(TokenType::EOF) && !self.is(TokenType::RBrace) {
+            let stmt = self.parse_stmt()?;
+            stmts.push(stmt);
+        }
+
+        Ok(stmts)
+    }
+
+    /// Parse module items until end of input
+    fn parse_module_items(&mut self) -> Result<Vec<ModuleItem>> {
+        let mut items = Vec::new();
+
+        while !self.is(TokenType::EOF) {
+            // For now, just parse statements as module items
+            // TODO: Add support for import/export declarations
+            let stmt = self.parse_stmt()?;
+            items.push(ModuleItem::Stmt(stmt));
+        }
+
+        Ok(items)
+    }
+
+    /// Get the current token
+    #[inline(always)]
+    pub fn current(&self) -> &Token {
+        &self.lexer.current
+    }
+
+    /// Get the current token type
+    #[inline(always)]
+    pub fn current_token_type(&self) -> TokenType {
+        self.lexer.current.token_type
+    }
+
+    /// Get the current token span
+    #[inline(always)]
+    pub fn current_span(&self) -> Span {
+        self.lexer.current.span
+    }
+
+    /// Check if the current token is of the specified type
+    #[inline(always)]
+    pub fn is(&self, token_type: TokenType) -> bool {
+        self.current_token_type() == token_type
+    }
+
+    /// Check if the current token is one of the specified types
+    #[inline(always)]
+    pub fn is_one_of(&self, token_types: &[TokenType]) -> bool {
+        token_types.contains(&self.current_token_type())
+    }
+
+    /// Expect a specific token type and advance to the next token
+    #[inline]
     pub fn expect(&mut self, token_type: TokenType) -> Result<()> {
-        if self.is_token_type(token_type) {
-            self.next_token();
+        if self.is(token_type) {
+            self.lexer.next_token()?;
             Ok(())
         } else {
-            Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some(format!("{}", token_type)),
-                got: format!("{}", self.cur_token.token_type),
-            }))
+            let span = self.current_span();
+            Err(Error {
+                kind: ErrorKind::UnexpectedToken {
+                    expected: Some(token_type.as_str()),
+                    got: self.current_token_type().as_str().to_string(),
+                },
+                span,
+            })
         }
     }
 
-    /// Enter a new scope
-    pub fn enter_scope(&mut self, kind: ScopeKind) {
-        let parent = Some(Box::new(std::mem::replace(
-            &mut self.scope,
-            Scope::new(kind, None),
-        )));
-        self.scope.parent = parent;
-    }
-
-    /// Exit the current scope
-    pub fn exit_scope(&mut self) {
-        if let Some(parent) = std::mem::take(&mut self.scope.parent) {
-            self.scope = *parent;
+    /// Consume the current token if it matches the specified type
+    #[inline]
+    pub fn eat(&mut self, token_type: TokenType) -> Result<bool> {
+        if self.is(token_type) {
+            self.lexer.next_token()?;
+            Ok(true)
         } else {
-            // This should never happen if scopes are balanced
-            self.scope = Scope::new(ScopeKind::Global, None);
+            Ok(false)
         }
-    }
-
-    /// Add a label to the current scope
-    pub fn add_label(&mut self, label: String) {
-        self.scope.add_label(label);
-    }
-
-    /// Check if a label exists in the current scope chain
-    pub fn has_label(&self, label: &str) -> bool {
-        self.scope.has_label(label)
-    }
-
-    /// Parse an identifier name
-    pub fn parse_identifier_name(&mut self) -> Result<ast::Ident> {
-        if !self.is_token_identifier() {
-            return Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some("identifier"),
-                got: format!("{}", self.cur_token.token_type),
-            }));
-        }
-
-        let span = self.cur_token.span;
-        let sym = match &self.cur_token.value {
-            TokenValue::Ident(name) => name.clone().into(),
-            _ => unreachable!("Token is not an identifier"),
-        };
-
-        self.next_token(); // Consume the identifier
-
-        Ok(ast::Ident {
-            span,
-            sym,
-            optional: false,
-        })
-    }
-
-    /// Parse an identifier reference
-    pub fn parse_identifier_reference(&mut self) -> Result<ast::Expr> {
-        let ident = self.parse_identifier_name()?;
-        Ok(ast::Expr::Ident(ident))
-    }
-
-    /// Parse a literal (string, number, boolean, null, etc.)
-    pub fn parse_literal(&mut self) -> Result<ast::Expr> {
-        let span = self.cur_token.span;
-
-        match self.cur_token.token_type {
-            TokenType::Str => {
-                let str_lit = self.parse_string_literal()?;
-                Ok(ast::Expr::Lit(ast::Lit::Str(str_lit)))
-            }
-            TokenType::Num => {
-                let num_lit = self.parse_number_literal()?;
-                Ok(ast::Expr::Lit(ast::Lit::Num(num_lit)))
-            }
-            TokenType::True => {
-                self.next_token(); // Consume 'true'
-                Ok(ast::Expr::Lit(ast::Lit::Bool(ast::Bool {
-                    span,
-                    value: true,
-                })))
-            }
-            TokenType::False => {
-                self.next_token(); // Consume 'false'
-                Ok(ast::Expr::Lit(ast::Lit::Bool(ast::Bool {
-                    span,
-                    value: false,
-                })))
-            }
-            TokenType::Null => {
-                self.next_token(); // Consume 'null'
-                Ok(ast::Expr::Lit(ast::Lit::Null(ast::Null { span })))
-            }
-            TokenType::BigInt => {
-                match &self.cur_token.value {
-                    TokenValue::BigInt(value) => {
-                        let value = value.clone();
-                        self.next_token(); // Consume BigInt
-                        Ok(ast::Expr::Lit(ast::Lit::BigInt(ast::BigInt {
-                            span,
-                            value,
-                        })))
-                    }
-                    _ => Err(self.error(ErrorKind::UnexpectedToken {
-                        expected: Some("BigInt literal"),
-                        got: format!("{}", self.cur_token.token_type),
-                    })),
-                }
-            }
-            TokenType::RegExp => {
-                match &self.cur_token.value {
-                    TokenValue::RegExp { pattern, flags } => {
-                        let pattern = pattern.clone();
-                        let flags = flags.clone();
-                        self.next_token(); // Consume RegExp
-                        Ok(ast::Expr::Lit(ast::Lit::Regex(ast::Regex {
-                            span,
-                            exp: pattern,
-                            flags,
-                        })))
-                    }
-                    _ => Err(self.error(ErrorKind::UnexpectedToken {
-                        expected: Some("RegExp literal"),
-                        got: format!("{}", self.cur_token.token_type),
-                    })),
-                }
-            }
-            _ => Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some("literal"),
-                got: format!("{}", self.cur_token.token_type),
-            })),
-        }
-    }
-
-    /// Parse a string literal
-    pub fn parse_string_literal(&mut self) -> Result<ast::Str> {
-        if !self.is_token_type(TokenType::Str) {
-            return Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some("string literal"),
-                got: format!("{}", self.cur_token.token_type),
-            }));
-        }
-
-        let span = self.cur_token.span;
-        let value = match &self.cur_token.value {
-            TokenValue::Str(s) => s.clone().into(),
-            _ => unreachable!("Token is not a string literal"),
-        };
-
-        self.next_token(); // Consume the string
-
-        Ok(ast::Str {
-            span,
-            value,
-            raw: None,
-        })
-    }
-
-    /// Parse a number literal
-    pub fn parse_number_literal(&mut self) -> Result<ast::Number> {
-        if !self.is_token_type(TokenType::Num) {
-            return Err(self.error(ErrorKind::UnexpectedToken {
-                expected: Some("number literal"),
-                got: format!("{}", self.cur_token.token_type),
-            }));
-        }
-
-        let span = self.cur_token.span;
-        let value = match &self.cur_token.value {
-            TokenValue::Num(n) => *n,
-            _ => unreachable!("Token is not a number literal"),
-        };
-
-        self.next_token(); // Consume the number
-
-        Ok(ast::Number {
-            span,
-            value,
-            raw: None,
-        })
     }
 }
