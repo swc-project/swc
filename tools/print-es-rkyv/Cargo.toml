@@ -7,10 +7,12 @@ version    = "0.1.0"
 
 [dependencies]
 anyhow = { workspace = true }
-clap = { workspace = true, features = ["derive"] }
+clap = { version = "4.4", features = ["derive"] }
 rkyv = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+swc_atoms = { path = "../../crates/swc_atoms" }
+swc_common = { path = "../../crates/swc_common" }
 swc_ecma_ast = { path = "../../crates/swc_ecma_ast", features = [
   "rkyv-impl",
   "serde-impl",
