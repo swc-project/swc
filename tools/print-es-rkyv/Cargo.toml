@@ -6,8 +6,13 @@ repository = { workspace = true }
 version    = "0.1.0"
 
 [dependencies]
-rkyv            = { workspace = true }
-serde           = { workspace = true }
-serde_json      = { workspace = true }
-swc_ecma_ast    = { path = "../../crates/swc_ecma_ast", features = ["rkyv-impl"] }
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+rkyv = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+swc_ecma_ast = { path = "../../crates/swc_ecma_ast", features = [
+  "rkyv-impl",
+  "serde-impl",
+] }
 swc_ecma_parser = { path = "../../crates/swc_ecma_parser" }
