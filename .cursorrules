@@ -1,3 +1,3 @@
- - First, look for glob `**/.AI.md` by using terminal command `find . -name '.AI.md'` from the project root.
+ - First, look for glob `**/.AI.md`. Use terminal command `find . -name '.AI.md'` from the project root, if required.
  - Second, if you are going to read and/or write any file in a directory containing `.AI.md` file from the first step, read it and respect the instructions in it.
  - For example, if you are reading or writing a file at /a/b/c, you should check for `/a/.AI.md`, `/a/b/.AI.md` and `/a/b/c/.AI.md` in the order.
