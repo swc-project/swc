@@ -14,7 +14,7 @@ mod util;
 
 pub use error::{Error, ErrorKind, Result};
 pub use lexer::Lexer;
-// pub use parser::Parser;
+pub use parser::Parser;
 
 /// Target ECMAScript version
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
