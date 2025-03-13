@@ -8,33 +8,15 @@
 mod expr;
 mod pat;
 mod stmt;
+#[cfg(test)]
+mod tests;
 mod util;
 
 use std::rc::Rc;
 
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span, DUMMY_SP};
-use swc_ecma_ast::{
-    ArrayLit, ArrayPat, ArrowExpr, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignProp,
-    AssignTarget, AwaitExpr, BinExpr, BindingIdent, BlockStmt, BlockStmtOrExpr, Bool, CallExpr,
-    Callee, Class, ClassDecl, ClassExpr, ClassMember, ComputedPropName, CondExpr, Constructor,
-    Decl, DoWhileStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr,
-    ExprOrSpread, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt, Function,
-    GetterProp, Id, Ident, IfStmt, Import, ImportDecl, ImportDefaultSpecifier,
-    ImportNamedSpecifier, ImportPhase, ImportSpecifier, ImportStarAsSpecifier, Invalid, JSXAttr,
-    JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment, JSXElement,
-    JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer, JSXFragment,
-    JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement, JSXOpeningFragment,
-    JSXSpreadChild, JSXText, KeyValuePatProp, KeyValueProp, Lit, MemberExpr, MemberProp,
-    MetaPropExpr, MetaPropKind, MethodKind, MethodProp, Module, ModuleDecl, ModuleExportName,
-    ModuleItem, NamedExport, NewExpr, Null, Number, ObjectLit, ObjectPat, ObjectPatProp, OptCall,
-    OptChainBase, OptChainExpr, Param, ParenExpr, Pat, PrivateMethod, PrivateName, PrivateProp,
-    Program, Prop, PropName, PropOrSpread, RestPat, ReturnStmt, Script, SeqExpr, SetterProp,
-    SpreadElement, Stmt, Str, Super, SuperProp, SuperPropExpr, SwitchCase, SwitchStmt, TaggedTpl,
-    ThisExpr, ThrowStmt, Tpl, TplElement, TryStmt, UnaryExpr, UnaryOp, UpdateExpr, UpdateOp,
-    VarDecl, VarDeclKind, VarDeclOrExpr, VarDeclarator, WhileStmt, WithStmt, YieldExpr,
-};
+use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script, Stmt};
 
 use crate::{
     error::{Error, ErrorKind, Result},
