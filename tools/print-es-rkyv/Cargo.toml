@@ -1,0 +1,8 @@
+[package]
+edition.workspace    = true
+license.workspace    = true
+name                 = "print-es-rkyv"
+repository.workspace = true
+version              = "0.1.0"
+
+[dependencies]
