@@ -12,15 +12,19 @@ use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith, VisitWith};
+#[cfg(debug_assertions)]
+use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_timer::timer;
 use tracing::{debug, error};
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
+#[cfg(debug_assertions)]
+use crate::debug::AssertValid;
 use crate::{
     compress::hoist_decls::decl_hoister,
-    debug::{dump, AssertValid},
+    debug::dump,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
