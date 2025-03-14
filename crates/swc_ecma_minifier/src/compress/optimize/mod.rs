@@ -62,7 +62,6 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
-    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -118,7 +117,6 @@ pub(super) fn optimizer<'a>(
         data,
         ctx,
         mode,
-        debug_infinite_loop,
         functions: Default::default(),
     }
 }
@@ -238,9 +236,6 @@ struct Optimizer<'a> {
     ctx: Ctx,
 
     mode: &'a dyn Mode,
-
-    #[allow(unused)]
-    debug_infinite_loop: bool,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
 }
