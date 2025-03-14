@@ -4791,12 +4791,12 @@
      * ```
      */ function enableClassManagement(target) {
         /**
-       * Component model classes
-       * key: componentType,
-       * value:
-       *     componentClass, when componentType is 'xxx'
-       *     or Object.<subKey, componentClass>, when componentType is 'xxx.yy'
-       */ var storage = {};
+         * Component model classes
+         * key: componentType,
+         * value:
+         *     componentClass, when componentType is 'xxx'
+         *     or Object.<subKey, componentClass>, when componentType is 'xxx.yy'
+         */ var storage = {};
         target.registerClass = function(clz) {
             // `type` should not be a "instance memeber".
             // If using TS class, should better declared as `static type = 'series.pie'`.
@@ -4822,15 +4822,15 @@
         }, target.hasClass = function(componentType) {
             return !!storage[parseClassType(componentType).main];
         }, /**
-       * @return Like ['aa', 'bb'], but can not be ['aa.xx']
-       */ target.getAllClassMainTypes = function() {
+         * @return Like ['aa', 'bb'], but can not be ['aa.xx']
+         */ target.getAllClassMainTypes = function() {
             var types = [];
             return each(storage, function(obj, type) {
                 types.push(type);
             }), types;
         }, /**
-       * If a main type is container and has sub types
-       */ target.hasSubTypes = function(componentType) {
+         * If a main type is container and has sub types
+         */ target.hasSubTypes = function(componentType) {
             var obj = storage[parseClassType(componentType).main];
             return obj && obj[IS_CONTAINER];
         };
@@ -7882,15 +7882,15 @@
     ], tmpRichText = new ZRText(), TextStyleMixin = /** @class */ function() {
         function TextStyleMixin() {}
         return(/**
-       * Get color property or get color from option.textStyle.color
-       */ // TODO Callback
+             * Get color property or get color from option.textStyle.color
+             */ // TODO Callback
         TextStyleMixin.prototype.getTextColor = function(isEmphasis) {
             var ecModel = this.ecModel;
             return this.getShallow('color') || (!isEmphasis && ecModel ? ecModel.get(PATH_COLOR) : null);
         }, /**
-       * Create font string from fontStyle, fontWeight, fontSize, fontFamily
-       * @return {string}
-       */ TextStyleMixin.prototype.getFont = function() {
+             * Create font string from fontStyle, fontWeight, fontSize, fontFamily
+             * @return {string}
+             */ TextStyleMixin.prototype.getFont = function() {
             return getFont({
                 fontStyle: this.getShallow('fontStyle'),
                 fontWeight: this.getShallow('fontWeight'),
@@ -8026,8 +8026,8 @@
         return Model.prototype.init = function(option, parentModel, ecModel) {
             for(var rest = [], _i = 3; _i < arguments.length; _i++)rest[_i - 3] = arguments[_i];
         }, /**
-       * Merge the input option to me.
-       */ Model.prototype.mergeOption = function(option, ecModel) {
+             * Merge the input option to me.
+             */ Model.prototype.mergeOption = function(option, ecModel) {
             merge(this.option, option, !0);
         }, // TODO: TYPE strict key check?
         // get(path: string | string[], ignoreParent?: boolean): ModelOption;
@@ -8047,14 +8047,14 @@
             var hasPath = null != path, pathFinal = hasPath ? this.parsePath(path) : null;
             return new Model(hasPath ? this._doGet(pathFinal) : this.option, parentModel = parentModel || this.parentModel && this.parentModel.getModel(this.resolveParentPath(pathFinal)), this.ecModel);
         }, /**
-       * Squash option stack into one.
-       * parentModel will be removed after squashed.
-       *
-       * NOTE: resolveParentPath will not be applied here for simplicity. DON'T use this function
-       * if resolveParentPath is modified.
-       *
-       * @param deepMerge If do deep merge. Default to be false.
-       */ // squash(
+             * Squash option stack into one.
+             * parentModel will be removed after squashed.
+             *
+             * NOTE: resolveParentPath will not be applied here for simplicity. DON'T use this function
+             * if resolveParentPath is modified.
+             *
+             * @param deepMerge If do deep merge. Default to be false.
+             */ // squash(
         //     deepMerge?: boolean,
         //     handleCallback?: (func: () => object) => object
         // ) {
@@ -8084,8 +8084,8 @@
         //     this.parentModel = null;
         // }
         /**
-       * If model has option
-       */ Model.prototype.isEmpty = function() {
+             * If model has option
+             */ Model.prototype.isEmpty = function() {
             return null == this.option;
         }, Model.prototype.restoreData = function() {}, Model.prototype.clone = function() {
             return new this.constructor(clone(this.option));
@@ -8923,61 +8923,61 @@
             var layoutMode = fetchLayoutMode(this);
             layoutMode && mergeLayoutParam(this.option, option, layoutMode);
         }, /**
-       * Called immediately after `init` or `mergeOption` of this instance called.
-       */ ComponentModel.prototype.optionUpdated = function(newCptOption, isInit) {}, /**
-       * [How to declare defaultOption]:
-       *
-       * (A) If using class declaration in typescript (since echarts 5):
-       * ```ts
-       * import {ComponentOption} from '../model/option';
-       * export interface XxxOption extends ComponentOption {
-       *     aaa: number
-       * }
-       * export class XxxModel extends Component {
-       *     static type = 'xxx';
-       *     static defaultOption: XxxOption = {
-       *         aaa: 123
-       *     }
-       * }
-       * Component.registerClass(XxxModel);
-       * ```
-       * ```ts
-       * import {inheritDefaultOption} from '../util/component';
-       * import {XxxModel, XxxOption} from './XxxModel';
-       * export interface XxxSubOption extends XxxOption {
-       *     bbb: number
-       * }
-       * class XxxSubModel extends XxxModel {
-       *     static defaultOption: XxxSubOption = inheritDefaultOption(XxxModel.defaultOption, {
-       *         bbb: 456
-       *     })
-       *     fn() {
-       *         let opt = this.getDefaultOption();
-       *         // opt is {aaa: 123, bbb: 456}
-       *     }
-       * }
-       * ```
-       *
-       * (B) If using class extend (previous approach in echarts 3 & 4):
-       * ```js
-       * let XxxComponent = Component.extend({
-       *     defaultOption: {
-       *         xx: 123
-       *     }
-       * })
-       * ```
-       * ```js
-       * let XxxSubComponent = XxxComponent.extend({
-       *     defaultOption: {
-       *         yy: 456
-       *     },
-       *     fn: function () {
-       *         let opt = this.getDefaultOption();
-       *         // opt is {xx: 123, yy: 456}
-       *     }
-       * })
-       * ```
-       */ ComponentModel.prototype.getDefaultOption = function() {
+             * Called immediately after `init` or `mergeOption` of this instance called.
+             */ ComponentModel.prototype.optionUpdated = function(newCptOption, isInit) {}, /**
+             * [How to declare defaultOption]:
+             *
+             * (A) If using class declaration in typescript (since echarts 5):
+             * ```ts
+             * import {ComponentOption} from '../model/option';
+             * export interface XxxOption extends ComponentOption {
+             *     aaa: number
+             * }
+             * export class XxxModel extends Component {
+             *     static type = 'xxx';
+             *     static defaultOption: XxxOption = {
+             *         aaa: 123
+             *     }
+             * }
+             * Component.registerClass(XxxModel);
+             * ```
+             * ```ts
+             * import {inheritDefaultOption} from '../util/component';
+             * import {XxxModel, XxxOption} from './XxxModel';
+             * export interface XxxSubOption extends XxxOption {
+             *     bbb: number
+             * }
+             * class XxxSubModel extends XxxModel {
+             *     static defaultOption: XxxSubOption = inheritDefaultOption(XxxModel.defaultOption, {
+             *         bbb: 456
+             *     })
+             *     fn() {
+             *         let opt = this.getDefaultOption();
+             *         // opt is {aaa: 123, bbb: 456}
+             *     }
+             * }
+             * ```
+             *
+             * (B) If using class extend (previous approach in echarts 3 & 4):
+             * ```js
+             * let XxxComponent = Component.extend({
+             *     defaultOption: {
+             *         xx: 123
+             *     }
+             * })
+             * ```
+             * ```js
+             * let XxxSubComponent = XxxComponent.extend({
+             *     defaultOption: {
+             *         yy: 456
+             *     },
+             *     fn: function () {
+             *         let opt = this.getDefaultOption();
+             *         // opt is {xx: 123, yy: 456}
+             *     }
+             * })
+             * ```
+             */ ComponentModel.prototype.getDefaultOption = function() {
             var ctor = this.constructor; // If using class declaration, it is different to travel super class
             // in legacy env and auto merge defaultOption. So if using class
             // declaration, defaultOption should be merged manually.
@@ -8995,13 +8995,13 @@
             }
             return fields.defaultOption;
         }, /**
-       * Notice: always force to input param `useDefault` in case that forget to consider it.
-       * The same behavior as `modelUtil.parseFinder`.
-       *
-       * @param useDefault In many cases like series refer axis and axis refer grid,
-       *        If axis index / axis id not specified, use the first target as default.
-       *        In other cases like dataZoom refer axis, if not specified, measn no refer.
-       */ ComponentModel.prototype.getReferringComponents = function(mainType, opt) {
+             * Notice: always force to input param `useDefault` in case that forget to consider it.
+             * The same behavior as `modelUtil.parseFinder`.
+             *
+             * @param useDefault In many cases like series refer axis and axis refer grid,
+             *        If axis index / axis id not specified, use the first target as default.
+             *        In other cases like dataZoom refer axis, if not specified, measn no refer.
+             */ ComponentModel.prototype.getReferringComponents = function(mainType, opt) {
             return queryReferringComponents(this.ecModel, mainType, {
                 index: this.get(mainType + 'Index', !0),
                 id: this.get(mainType + 'Id', !0)
@@ -9035,12 +9035,12 @@
      * If there is circular dependencey, Error will be thrown.
      */ function(entity, dependencyGetter) {
         /**
-       * @param targetNameList Target Component type list.
-       *                       Can be ['aa', 'bb', 'aa.xx']
-       * @param fullNameList By which we can build dependency graph.
-       * @param callback Params: componentType, dependencies.
-       * @param context Scope of callback.
-       */ entity.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
+         * @param targetNameList Target Component type list.
+         *                       Can be ['aa', 'bb', 'aa.xx']
+         * @param fullNameList By which we can build dependency graph.
+         * @param callback Params: componentType, dependencies.
+         * @param context Scope of callback.
+         */ entity.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
             if (targetNameList.length) {
                 var graph, noEntryList, result = (graph = {}, noEntryList = [], each(fullNameList, function(name) {
                     var originalDeps, availableDeps, thisItem = createDependencyGraphItem(graph, name), availableDeps1 = (originalDeps = thisItem.originalDeps = dependencyGetter(name), availableDeps = [], each(originalDeps, function(dep) {
@@ -9552,12 +9552,12 @@
             var innerOpt = normalizeSetOptionInput(opts);
             this._optionManager.setOption(option, optionPreprocessorFuncs, innerOpt), this._resetOption(null, innerOpt);
         }, /**
-       * @param type null/undefined: reset all.
-       *        'recreate': force recreate all.
-       *        'timeline': only reset timeline option
-       *        'media': only reset media query option
-       * @return Whether option changed.
-       */ GlobalModel.prototype.resetOption = function(type, opt) {
+             * @param type null/undefined: reset all.
+             *        'recreate': force recreate all.
+             *        'timeline': only reset timeline option
+             *        'media': only reset media query option
+             * @return Whether option changed.
+             */ GlobalModel.prototype.resetOption = function(type, opt) {
             return this._resetOption(type, normalizeSetOptionInput(opt));
         }, GlobalModel.prototype._resetOption = function(type, opt) {
             var optionChanged = !1, optionManager = this._optionManager;
@@ -9652,8 +9652,8 @@
             } // If no series declared, ensure `_seriesIndices` initialized.
             , this), this._seriesIndices || reCreateSeriesIndices(this);
         }, /**
-       * Get option for output (cloned option and inner info removed)
-       */ GlobalModel.prototype.getOption = function() {
+             * Get option for output (cloned option and inner info removed)
+             */ GlobalModel.prototype.getOption = function() {
             var option = clone(this.option);
             return each(option, function(optInMainType, mainType) {
                 if (ComponentModel.hasClass(mainType)) {
@@ -9673,8 +9673,8 @@
         }, GlobalModel.prototype.getUpdatePayload = function() {
             return this._payload;
         }, /**
-       * @param idx If not specified, return the first one.
-       */ GlobalModel.prototype.getComponent = function(mainType, idx) {
+             * @param idx If not specified, return the first one.
+             */ GlobalModel.prototype.getComponent = function(mainType, idx) {
             var list = this._componentsMap.get(mainType);
             if (list) {
                 var cmpt = list[idx || 0];
@@ -9684,8 +9684,8 @@
                 }
             }
         }, /**
-       * @return Never be null/undefined.
-       */ GlobalModel.prototype.queryComponents = function(condition) {
+             * @return Never be null/undefined.
+             */ GlobalModel.prototype.queryComponents = function(condition) {
             var result, mainType = condition.mainType;
             if (!mainType) return [];
             var index = condition.index, id = condition.id, name = condition.name, cmpts = this._componentsMap.get(mainType);
@@ -9695,22 +9695,22 @@
                 return !!cmpt;
             }), filterBySubType(result, condition)) : [];
         }, /**
-       * The interface is different from queryComponents,
-       * which is convenient for inner usage.
-       *
-       * @usage
-       * let result = findComponents(
-       *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}}
-       * );
-       * let result = findComponents(
-       *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}}
-       * );
-       * let result = findComponents(
-       *     {mainType: 'series',
-       *     filter: function (model, index) {...}}
-       * );
-       * // result like [component0, componnet1, ...]
-       */ GlobalModel.prototype.findComponents = function(condition) {
+             * The interface is different from queryComponents,
+             * which is convenient for inner usage.
+             *
+             * @usage
+             * let result = findComponents(
+             *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}}
+             * );
+             * let result = findComponents(
+             *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}}
+             * );
+             * let result = findComponents(
+             *     {mainType: 'series',
+             *     filter: function (model, index) {...}}
+             * );
+             * // result like [component0, componnet1, ...]
+             */ GlobalModel.prototype.findComponents = function(condition) {
             var indexAttr, idAttr, nameAttr, res, query = condition.query, mainType = condition.mainType, queryCond = (indexAttr = mainType + 'Index', idAttr = mainType + 'Id', nameAttr = mainType + 'Name', query && (null != query[indexAttr] || null != query[idAttr] || null != query[nameAttr]) ? {
                 mainType: mainType,
                 // subType will be filtered finally.
@@ -9735,61 +9735,61 @@
                 cmpt && cb.call(context, cmpt, cmpt.componentIndex);
             }
         }, /**
-       * Get series list before filtered by name.
-       */ GlobalModel.prototype.getSeriesByName = function(name) {
+             * Get series list before filtered by name.
+             */ GlobalModel.prototype.getSeriesByName = function(name) {
             var nameStr = convertOptionIdName(name, null);
             return filter(this._componentsMap.get('series'), function(oneSeries) {
                 return !!oneSeries && null != nameStr && oneSeries.name === nameStr;
             });
         }, /**
-       * Get series list before filtered by index.
-       */ GlobalModel.prototype.getSeriesByIndex = function(seriesIndex) {
+             * Get series list before filtered by index.
+             */ GlobalModel.prototype.getSeriesByIndex = function(seriesIndex) {
             return this._componentsMap.get('series')[seriesIndex];
         }, /**
-       * Get series list before filtered by type.
-       * FIXME: rename to getRawSeriesByType?
-       */ GlobalModel.prototype.getSeriesByType = function(subType) {
+             * Get series list before filtered by type.
+             * FIXME: rename to getRawSeriesByType?
+             */ GlobalModel.prototype.getSeriesByType = function(subType) {
             return filter(this._componentsMap.get('series'), function(oneSeries) {
                 return !!oneSeries && oneSeries.subType === subType;
             });
         }, /**
-       * Get all series before filtered.
-       */ GlobalModel.prototype.getSeries = function() {
+             * Get all series before filtered.
+             */ GlobalModel.prototype.getSeries = function() {
             return filter(this._componentsMap.get('series').slice(), function(oneSeries) {
                 return !!oneSeries;
             });
         }, /**
-       * Count series before filtered.
-       */ GlobalModel.prototype.getSeriesCount = function() {
+             * Count series before filtered.
+             */ GlobalModel.prototype.getSeriesCount = function() {
             return this._componentsCount.get('series');
         }, /**
-       * After filtering, series may be different
-       * frome raw series.
-       */ GlobalModel.prototype.eachSeries = function(cb, context) {
+             * After filtering, series may be different
+             * frome raw series.
+             */ GlobalModel.prototype.eachSeries = function(cb, context) {
             assertSeriesInitialized(this), each(this._seriesIndices, function(rawSeriesIndex) {
                 var series = this._componentsMap.get('series')[rawSeriesIndex];
                 cb.call(context, series, rawSeriesIndex);
             }, this);
         }, /**
-       * Iterate raw series before filtered.
-       *
-       * @param {Function} cb
-       * @param {*} context
-       */ GlobalModel.prototype.eachRawSeries = function(cb, context) {
+             * Iterate raw series before filtered.
+             *
+             * @param {Function} cb
+             * @param {*} context
+             */ GlobalModel.prototype.eachRawSeries = function(cb, context) {
             each(this._componentsMap.get('series'), function(series) {
                 series && cb.call(context, series, series.componentIndex);
             });
         }, /**
-       * After filtering, series may be different.
-       * frome raw series.
-       */ GlobalModel.prototype.eachSeriesByType = function(subType, cb, context) {
+             * After filtering, series may be different.
+             * frome raw series.
+             */ GlobalModel.prototype.eachSeriesByType = function(subType, cb, context) {
             assertSeriesInitialized(this), each(this._seriesIndices, function(rawSeriesIndex) {
                 var series = this._componentsMap.get('series')[rawSeriesIndex];
                 series.subType === subType && cb.call(context, series, rawSeriesIndex);
             }, this);
         }, /**
-       * Iterate raw series before filtered of given type.
-       */ GlobalModel.prototype.eachRawSeriesByType = function(subType, cb, context) {
+             * Iterate raw series before filtered of given type.
+             */ GlobalModel.prototype.eachRawSeriesByType = function(subType, cb, context) {
             return each(this.getSeriesByType(subType), cb, context);
         }, GlobalModel.prototype.isSeriesFiltered = function(seriesModel) {
             return assertSeriesInitialized(this), null == this._seriesIndicesMap.get(seriesModel.componentIndex);
@@ -9923,9 +9923,9 @@
         // (step2) chart.setOption({timeline: {notMerge: true}, ...}, false);
         function OptionManager(api) {
             this._timelineOptions = [], this._mediaList = [], /**
-         * -1, means default.
-         * empty means no media.
-         */ this._currentMediaIndices = [], this._api = api;
+                 * -1, means default.
+                 * empty means no media.
+                 */ this._currentMediaIndices = [], this._api = api;
         }
         return OptionManager.prototype.setOption = function(rawOption, optionPreprocessorFuncs, opt) {
             rawOption && (// That set dat primitive is dangerous if user reuse the data when setOption again.
@@ -10596,8 +10596,8 @@
     var DIMENSION_LABEL_REG = /\{@(.+?)\}/g, DataFormatMixin = /** @class */ function() {
         function DataFormatMixin() {}
         return(/**
-       * Get params for formatter
-       */ DataFormatMixin.prototype.getDataParams = function(dataIndex, dataType) {
+             * Get params for formatter
+             */ DataFormatMixin.prototype.getDataParams = function(dataIndex, dataType) {
             var data = this.getData(dataType), rawValue = this.getRawValue(dataIndex, dataType), rawDataIndex = data.getRawIndex(dataIndex), name = data.getName(dataIndex), itemOpt = data.getRawDataItem(dataIndex), style = data.getItemVisual(dataIndex, 'style'), color = style && style[data.getItemVisual(dataIndex, 'drawType') || 'fill'], borderColor = style && style.stroke, mainType = this.mainType, isSeries = 'series' === mainType, userOutput = data.userOutput;
             return {
                 componentType: mainType,
@@ -10624,15 +10624,15 @@
                 ]
             };
         }, /**
-       * Format label
-       * @param dataIndex
-       * @param status 'normal' by default
-       * @param dataType
-       * @param labelDimIndex Only used in some chart that
-       *        use formatter in different dimensions, like radar.
-       * @param formatter Formatter given outside.
-       * @return return null/undefined if no formatter
-       */ DataFormatMixin.prototype.getFormattedLabel = function(dataIndex, status, dataType, labelDimIndex, formatter, extendParams) {
+             * Format label
+             * @param dataIndex
+             * @param status 'normal' by default
+             * @param dataType
+             * @param labelDimIndex Only used in some chart that
+             *        use formatter in different dimensions, like radar.
+             * @param formatter Formatter given outside.
+             * @return return null/undefined if no formatter
+             */ DataFormatMixin.prototype.getFormattedLabel = function(dataIndex, status, dataType, labelDimIndex, formatter, extendParams) {
             status = status || 'normal';
             var data = this.getData(dataType), params = this.getDataParams(dataIndex, dataType);
             return (extendParams && (params.value = extendParams.interpolatedValue), null != labelDimIndex && isArray(params.value) && (params.value = params.value[labelDimIndex]), formatter || (formatter = data.getItemModel(dataIndex).get('normal' === status ? [
@@ -10652,15 +10652,15 @@
                 return null != val ? val + '' : '';
             }) : void 0;
         }, /**
-       * Get raw value in option
-       */ DataFormatMixin.prototype.getRawValue = function(idx, dataType) {
+             * Get raw value in option
+             */ DataFormatMixin.prototype.getRawValue = function(idx, dataType) {
             return retrieveRawValue(this.getData(dataType), idx);
         }, /**
-       * Should be implemented.
-       * @param {number} dataIndex
-       * @param {boolean} [multipleSeries=false]
-       * @param {string} [dataType]
-       */ DataFormatMixin.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {}, DataFormatMixin);
+             * Should be implemented.
+             * @param {number} dataIndex
+             * @param {boolean} [multipleSeries=false]
+             * @param {string} [dataType]
+             */ DataFormatMixin.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {}, DataFormatMixin);
     }();
     // but guess little chance has been used outside. Do we need to backward
     // compat it?
@@ -10693,12 +10693,12 @@
             define1 = define1 || {}, this._reset = define1.reset, this._plan = define1.plan, this._count = define1.count, this._onDirty = define1.onDirty, this._dirty = !0;
         }
         return(/**
-       * @param step Specified step.
-       * @param skip Skip customer perform call.
-       * @param modBy Sampling window size.
-       * @param modDataCount Sampling count.
-       * @return whether unfinished.
-       */ Task.prototype.perform = function(performArgs) {
+             * @param step Specified step.
+             * @param skip Skip customer perform call.
+             * @param modBy Sampling window size.
+             * @param modDataCount Sampling count.
+             * @return whether unfinished.
+             */ Task.prototype.perform = function(performArgs) {
             var val, val1, planResult, forceFirstProgress, upTask = this._upstream, skip = performArgs && performArgs.skip;
             // Pull data. Must pull data each time, because context.data
             // may be updated by Series.setData.
@@ -10745,9 +10745,9 @@
         }, Task.prototype.unfinished = function() {
             return this._progress && this._dueIndex < this._dueEnd;
         }, /**
-       * @param downTask The downstream task.
-       * @return The downstream task.
-       */ Task.prototype.pipe = function(downTask) {
+             * @param downTask The downstream task.
+             * @return The downstream task.
+             */ Task.prototype.pipe = function(downTask) {
             assert(downTask && !downTask._disposed && downTask !== this), (this._downstream !== downTask || this._dirty) && (this._downstream = downTask, downTask._upstream = this, downTask.dirty());
         }, Task.prototype.dispose = function() {
             this._disposed || (this._upstream && (this._upstream._downstream = null), this._downstream && (this._downstream._upstream = null), this._dirty = !1, this._disposed = !0);
@@ -10922,11 +10922,11 @@
         }, FilterOrderComparator;
     }(), SortOrderComparator = /** @class */ function() {
         /**
-       * @param order by defualt: 'asc'
-       * @param incomparable by defualt: Always on the tail.
-       *        That is, if 'asc' => 'max', if 'desc' => 'min'
-       *        See the definition of "incomparable" in [SORT_COMPARISON_RULE]
-       */ function SortOrderComparator(order, incomparable) {
+             * @param order by defualt: 'asc'
+             * @param incomparable by defualt: Always on the tail.
+             *        That is, if 'asc' => 'max', if 'desc' => 'min'
+             *        See the definition of "incomparable" in [SORT_COMPARISON_RULE]
+             */ function SortOrderComparator(order, incomparable) {
             var isDesc = 'desc' === order;
             this._resultLT = isDesc ? 1 : -1, null == incomparable && (incomparable = isDesc ? 'min' : 'max'), this._incomparable = 'min' === incomparable ? -1 / 0 : 1 / 0;
         } // See [SORT_COMPARISON_RULE].
@@ -10961,20 +10961,20 @@
             // Only built-in transform available.
             throw Error('not supported');
         }, ExternalSource.prototype.cloneRawData = function() {}, /**
-       * @return If dimension not found, return null/undefined.
-       */ ExternalSource.prototype.getDimensionInfo = function(dim) {}, /**
-       * dimensions defined if and only if either:
-       * (a) dataset.dimensions are declared.
-       * (b) dataset data include dimensions definitions in data (detected or via specified `sourceHeader`).
-       * If dimensions are defined, `dimensionInfoAll` is corresponding to
-       * the defined dimensions.
-       * Otherwise, `dimensionInfoAll` is determined by data columns.
-       * @return Always return an array (even empty array).
-       */ ExternalSource.prototype.cloneAllDimensionInfo = function() {}, ExternalSource.prototype.count = function() {}, /**
-       * Only support by dimension index.
-       * No need to support by dimension name in transform function,
-       * becuase transform function is not case-specific, no need to use name literally.
-       */ ExternalSource.prototype.retrieveValue = function(dataIndex, dimIndex) {}, ExternalSource.prototype.retrieveValueFromItem = function(dataItem, dimIndex) {}, ExternalSource.prototype.convertValue = function(rawVal, dimInfo) {
+             * @return If dimension not found, return null/undefined.
+             */ ExternalSource.prototype.getDimensionInfo = function(dim) {}, /**
+             * dimensions defined if and only if either:
+             * (a) dataset.dimensions are declared.
+             * (b) dataset data include dimensions definitions in data (detected or via specified `sourceHeader`).
+             * If dimensions are defined, `dimensionInfoAll` is corresponding to
+             * the defined dimensions.
+             * Otherwise, `dimensionInfoAll` is determined by data columns.
+             * @return Always return an array (even empty array).
+             */ ExternalSource.prototype.cloneAllDimensionInfo = function() {}, ExternalSource.prototype.count = function() {}, /**
+             * Only support by dimension index.
+             * No need to support by dimension name in transform function,
+             * becuase transform function is not case-specific, no need to use name literally.
+             */ ExternalSource.prototype.retrieveValue = function(dataIndex, dimIndex) {}, ExternalSource.prototype.retrieveValueFromItem = function(dataItem, dimIndex) {}, ExternalSource.prototype.convertValue = function(rawVal, dimInfo) {
             return parseDataValue(rawVal, dimInfo);
         }, ExternalSource;
     }();
@@ -11102,19 +11102,19 @@
             this._sourceList = [], this._upstreamSignList = [], this._versionSignBase = 0, this._sourceHost = sourceHost;
         }
         return(/**
-       * Mark dirty.
-       */ SourceManager.prototype.dirty = function() {
+             * Mark dirty.
+             */ SourceManager.prototype.dirty = function() {
             this._setLocalSource([], []);
         }, SourceManager.prototype._setLocalSource = function(sourceList, upstreamSignList) {
             this._sourceList = sourceList, this._upstreamSignList = upstreamSignList, this._versionSignBase++, this._versionSignBase > 9e10 && (this._versionSignBase = 0);
         }, /**
-       * For detecting whether the upstream source is dirty, so that
-       * the local cached source (in `_sourceList`) should be discarded.
-       */ SourceManager.prototype._getVersionSign = function() {
+             * For detecting whether the upstream source is dirty, so that
+             * the local cached source (in `_sourceList`) should be discarded.
+             */ SourceManager.prototype._getVersionSign = function() {
             return this._sourceHost.uid + '_' + this._versionSignBase;
         }, /**
-       * Always return a source instance. Otherwise throw error.
-       */ SourceManager.prototype.prepareSource = function() {
+             * Always return a source instance. Otherwise throw error.
+             */ SourceManager.prototype.prepareSource = function() {
             // For the case that call `setOption` multiple time but no data changed,
             // cache the result source to prevent from repeating transform.
             this._isDirty() && this._createSource();
@@ -11221,27 +11221,27 @@
                         isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined'), isSupportedSourceFormat(detectSourceFormat(result.data)) || throwError('Transform result data should be array rows or object rows.');
                         var resultMetaRawOption, firstUpSource = upSourceList[0];
                         /**
-         * Intuitively, the end users known the content of the original `dataset.source`,
-         * calucating the transform result in mind.
-         * Suppose the original `dataset.source` is:
-         * ```js
-         * [
-         *     ['product', '2012', '2013', '2014', '2015'],
-         *     ['AAA', 41.1, 30.4, 65.1, 53.3],
-         *     ['BBB', 86.5, 92.1, 85.7, 83.1],
-         *     ['CCC', 24.1, 67.2, 79.5, 86.4]
-         * ]
-         * ```
-         * The dimension info have to be detected from the source data.
-         * Some of the transformers (like filter, sort) will follow the dimension info
-         * of upstream, while others use new dimensions (like aggregate).
-         * Transformer can output a field `dimensions` to define the its own output dimensions.
-         * We also allow transformers to ignore the output `dimensions` field, and
-         * inherit the upstream dimensions definition. It can reduce the burden of handling
-         * dimensions in transformers.
-         *
-         * See also [DIMENSION_INHERIT_RULE] in `sourceManager.ts`.
-         */ if (firstUpSource && 0 // If transformer returns `dimensions`, it means that the transformer has different
+             * Intuitively, the end users known the content of the original `dataset.source`,
+             * calucating the transform result in mind.
+             * Suppose the original `dataset.source` is:
+             * ```js
+             * [
+             *     ['product', '2012', '2013', '2014', '2015'],
+             *     ['AAA', 41.1, 30.4, 65.1, 53.3],
+             *     ['BBB', 86.5, 92.1, 85.7, 83.1],
+             *     ['CCC', 24.1, 67.2, 79.5, 86.4]
+             * ]
+             * ```
+             * The dimension info have to be detected from the source data.
+             * Some of the transformers (like filter, sort) will follow the dimension info
+             * of upstream, while others use new dimensions (like aggregate).
+             * Transformer can output a field `dimensions` to define the its own output dimensions.
+             * We also allow transformers to ignore the output `dimensions` field, and
+             * inherit the upstream dimensions definition. It can reduce the burden of handling
+             * dimensions in transformers.
+             *
+             * See also [DIMENSION_INHERIT_RULE] in `sourceManager.ts`.
+             */ if (firstUpSource && 0 // If transformer returns `dimensions`, it means that the transformer has different
                          === resultIndex && !result.dimensions) {
                             var startIndex = firstUpSource.startIndex; // We copy the header of upstream to the result becuase:
                             startIndex && (result.data = firstUpSource.data.slice(0, startIndex).concat(result.data)), resultMetaRawOption = {
@@ -11283,14 +11283,14 @@
                 upSrcMgr._isDirty() || this._upstreamSignList[i] !== upSrcMgr._getVersionSign()) return !0;
             }
         }, /**
-       * @param sourceIndex By defualt 0, means "main source".
-       *                    Most cases there is only one source.
-       */ SourceManager.prototype.getSource = function(sourceIndex) {
+             * @param sourceIndex By defualt 0, means "main source".
+             *                    Most cases there is only one source.
+             */ SourceManager.prototype.getSource = function(sourceIndex) {
             return this._sourceList[sourceIndex || 0];
         }, /**
-       * PEDING: Is it fast enough?
-       * If no upstream, return empty array.
-       */ SourceManager.prototype._getUpstreamSourceManagers = function() {
+             * PEDING: Is it fast enough?
+             * If no upstream, return empty array.
+             */ SourceManager.prototype._getUpstreamSourceManagers = function() {
             // Always get the relationship from the raw option.
             // Do not cache the link of the dependency graph, so that
             // no need to update them when change happen.
@@ -11370,14 +11370,14 @@
     }
     var builderMap = {
         /**
-       * A `section` block is like:
-       * ```
-       * header
-       * subBlock
-       * subBlock
-       * ...
-       * ```
-       */ section: {
+         * A `section` block is like:
+         * ```
+         * header
+         * subBlock
+         * subBlock
+         * ...
+         * ```
+         */ section: {
             planLayout: function(fragment) {
                 var subBlockLen = fragment.blocks.length, thisBlockHasInnerGap = subBlockLen > 1 || subBlockLen > 0 && !fragment.noHeader, thisGapLevelBetweenSubBlocks = 0;
                 each(fragment.blocks, function(subBlock) {
@@ -11418,11 +11418,11 @@
             }
         },
         /**
-       * A `nameValue` block is like:
-       * ```
-       * marker  name  value
-       * ```
-       */ nameValue: {
+         * A `nameValue` block is like:
+         * ```
+         * marker  name  value
+         * ```
+         */ nameValue: {
             planLayout: function(fragment) {
                 fragment.__gapLevelBetweenSubBlocks = 0;
             },
@@ -11511,20 +11511,20 @@
             });
             return isString(marker) ? marker : (assert(markerId), this.richTextStyles[markerId] = marker.style, marker.content);
         }, /**
-       * @usage
-       * ```ts
-       * const styledText = markupStyleCreator.wrapRichTextStyle([
-       *     // The styles will be auto merged.
-       *     {
-       *         fontSize: 12,
-       *         color: 'blue'
-       *     },
-       *     {
-       *         padding: 20
-       *     }
-       * ]);
-       * ```
-       */ TooltipMarkupStyleCreator.prototype.wrapRichTextStyle = function(text, styles) {
+             * @usage
+             * ```ts
+             * const styledText = markupStyleCreator.wrapRichTextStyle([
+             *     // The styles will be auto merged.
+             *     {
+             *         fontSize: 12,
+             *         color: 'blue'
+             *     },
+             *     {
+             *         padding: 20
+             *     }
+             * ]);
+             * ```
+             */ TooltipMarkupStyleCreator.prototype.wrapRichTextStyle = function(text, styles) {
             var finalStl = {};
             isArray(styles) ? each(styles, function(stl) {
                 return extend(finalStl, stl);
@@ -11630,8 +11630,8 @@
             // this.restoreData();
             autoSeriesName(this), this._initSelectedMapFromData(data);
         }, /**
-       * Util for merge default and theme to option
-       */ SeriesModel.prototype.mergeDefaultAndTheme = function(option, ecModel) {
+             * Util for merge default and theme to option
+             */ SeriesModel.prototype.mergeDefaultAndTheme = function(option, ecModel) {
             var layoutMode = fetchLayoutMode(this), inputPositionParams = layoutMode ? getLayoutParams(option) : {}, themeSubType = this.subType;
             ComponentModel.hasClass(themeSubType) && (themeSubType += 'Series'), merge(option, ecModel.getTheme().get(this.subType)), merge(option, this.getDefaultOption()), defaultEmphasis(option, 'label', [
                 'show'
@@ -11653,18 +11653,18 @@
                 'show'
             ], i = 0; i < data.length; i++)data[i] && data[i].label && defaultEmphasis(data[i], 'label', props);
         }, /**
-       * Init a data structure from data related option in series
-       * Must be overriden.
-       */ SeriesModel.prototype.getInitialData = function(option, ecModel) {}, /**
-       * Append data to list
-       */ SeriesModel.prototype.appendData = function(params) {
+             * Init a data structure from data related option in series
+             * Must be overriden.
+             */ SeriesModel.prototype.getInitialData = function(option, ecModel) {}, /**
+             * Append data to list
+             */ SeriesModel.prototype.appendData = function(params) {
             this.getRawData().appendData(params.data);
         }, /**
-       * Consider some method like `filter`, `map` need make new data,
-       * We should make sure that `seriesModel.getData()` get correct
-       * data in the stream procedure. So we fetch data from upstream
-       * each time `task.perform` called.
-       */ SeriesModel.prototype.getData = function(dataType) {
+             * Consider some method like `filter`, `map` need make new data,
+             * We should make sure that `seriesModel.getData()` get correct
+             * data in the stream procedure. So we fetch data from upstream
+             * each time `task.perform` called.
+             */ SeriesModel.prototype.getData = function(dataType) {
             var task = getCurrentTask(this);
             if (!task) // When series is not alive (that may happen when click toolbox
             // restore or setOption with not merge mode), series data may
@@ -11694,31 +11694,31 @@
         }, SeriesModel.prototype.getSource = function() {
             return inner$1(this).sourceManager.getSource();
         }, /**
-       * Get data before processed
-       */ SeriesModel.prototype.getRawData = function() {
+             * Get data before processed
+             */ SeriesModel.prototype.getRawData = function() {
             return inner$1(this).dataBeforeProcessed;
         }, /**
-       * Get base axis if has coordinate system and has axis.
-       * By default use coordSys.getBaseAxis();
-       * Can be overrided for some chart.
-       * @return {type} description
-       */ SeriesModel.prototype.getBaseAxis = function() {
+             * Get base axis if has coordinate system and has axis.
+             * By default use coordSys.getBaseAxis();
+             * Can be overrided for some chart.
+             * @return {type} description
+             */ SeriesModel.prototype.getBaseAxis = function() {
             var coordSys = this.coordinateSystem; // @ts-ignore
             return coordSys && coordSys.getBaseAxis && coordSys.getBaseAxis();
         }, /**
-       * Default tooltip formatter
-       *
-       * @param dataIndex
-       * @param multipleSeries
-       * @param dataType
-       * @param renderMode valid values: 'html'(by default) and 'richText'.
-       *        'html' is used for rendering tooltip in extra DOM form, and the result
-       *        string is used as DOM HTML content.
-       *        'richText' is used for rendering tooltip in rich text form, for those where
-       *        DOM operation is not supported.
-       * @return formatted tooltip with `html` and `markers`
-       *        Notice: The override method can also return string
-       */ SeriesModel.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
+             * Default tooltip formatter
+             *
+             * @param dataIndex
+             * @param multipleSeries
+             * @param dataType
+             * @param renderMode valid values: 'html'(by default) and 'richText'.
+             *        'html' is used for rendering tooltip in extra DOM form, and the result
+             *        string is used as DOM HTML content.
+             *        'richText' is used for rendering tooltip in rich text form, for those where
+             *        DOM operation is not supported.
+             * @return formatted tooltip with `html` and `markers`
+             *        Notice: The override method can also return string
+             */ SeriesModel.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
             return defaultSeriesFormatTooltip({
                 series: this,
                 dataIndex: dataIndex,
@@ -11734,17 +11734,17 @@
             var ecModel = this.ecModel, color = PaletteMixin.prototype.getColorFromPalette.call(this, name, scope, requestColorNum); // PENDING
             return color || (color = ecModel.getColorFromPalette(name, scope, requestColorNum)), color;
         }, /**
-       * Use `data.mapDimensionsAll(coordDim)` instead.
-       * @deprecated
-       */ SeriesModel.prototype.coordDimToDataDim = function(coordDim) {
+             * Use `data.mapDimensionsAll(coordDim)` instead.
+             * @deprecated
+             */ SeriesModel.prototype.coordDimToDataDim = function(coordDim) {
             return this.getRawData().mapDimensionsAll(coordDim);
         }, /**
-       * Get progressive rendering count each step
-       */ SeriesModel.prototype.getProgressive = function() {
+             * Get progressive rendering count each step
+             */ SeriesModel.prototype.getProgressive = function() {
             return this.get('progressive');
         }, /**
-       * Get progressive rendering count each step
-       */ SeriesModel.prototype.getProgressiveThreshold = function() {
+             * Get progressive rendering count each step
+             */ SeriesModel.prototype.getProgressiveThreshold = function() {
             return this.get('progressiveThreshold');
         }, SeriesModel.prototype.select = function(innerDataIndices, dataType) {
             this._innerSelect(this.getData(dataType), innerDataIndices);
@@ -11847,9 +11847,9 @@
             this.group = new Group(), this.uid = getUID('viewComponent');
         }
         return ComponentView.prototype.init = function(ecModel, api) {}, ComponentView.prototype.render = function(model, ecModel, api, payload) {}, ComponentView.prototype.dispose = function(ecModel, api) {}, ComponentView.prototype.updateView = function(model, ecModel, api, payload) {}, ComponentView.prototype.updateLayout = function(model, ecModel, api, payload) {}, ComponentView.prototype.updateVisual = function(model, ecModel, api, payload) {}, /**
-       * Hook for blur target series.
-       * Can be used in marker for blur the markers
-       */ ComponentView.prototype.blurSeries = function(seriesModels, ecModel) {}, ComponentView;
+             * Hook for blur target series.
+             * Can be used in marker for blur the markers
+             */ ComponentView.prototype.blurSeries = function(seriesModels, ecModel) {}, ComponentView;
     }();
     /**
      * @return {string} If large mode changed, return string 'reset';
@@ -11871,20 +11871,20 @@
             };
         }
         return ChartView.prototype.init = function(ecModel, api) {}, ChartView.prototype.render = function(seriesModel, ecModel, api, payload) {}, /**
-       * Highlight series or specified data item.
-       */ ChartView.prototype.highlight = function(seriesModel, ecModel, api, payload) {
+             * Highlight series or specified data item.
+             */ ChartView.prototype.highlight = function(seriesModel, ecModel, api, payload) {
             toggleHighlight(seriesModel.getData(), payload, 'emphasis');
         }, /**
-       * Downplay series or specified data item.
-       */ ChartView.prototype.downplay = function(seriesModel, ecModel, api, payload) {
+             * Downplay series or specified data item.
+             */ ChartView.prototype.downplay = function(seriesModel, ecModel, api, payload) {
             toggleHighlight(seriesModel.getData(), payload, 'normal');
         }, /**
-       * Remove self.
-       */ ChartView.prototype.remove = function(ecModel, api) {
+             * Remove self.
+             */ ChartView.prototype.remove = function(ecModel, api) {
             this.group.removeAll();
         }, /**
-       * Dispose self.
-       */ ChartView.prototype.dispose = function(ecModel, api) {}, ChartView.prototype.updateView = function(seriesModel, ecModel, api, payload) {
+             * Dispose self.
+             */ ChartView.prototype.dispose = function(ecModel, api) {}, ChartView.prototype.updateView = function(seriesModel, ecModel, api, payload) {
             this.render(seriesModel, ecModel, api, payload);
         }, ChartView.prototype.updateLayout = function(seriesModel, ecModel, api, payload) {
             this.render(seriesModel, ecModel, api, payload);
@@ -11956,13 +11956,13 @@
             debounceNextCall = null, diff = currCall - (thisDebounce ? lastCall : lastExec) - thisDelay, clearTimeout(timer), thisDebounce ? timer = setTimeout(exec, thisDelay) : diff >= 0 ? exec() : timer = setTimeout(exec, -diff), lastCall = currCall;
         };
         return(/**
-       * Clear throttle.
-       * @public
-       */ cb.clear = function() {
+         * Clear throttle.
+         * @public
+         */ cb.clear = function() {
             timer && (clearTimeout(timer), timer = null);
         }, /**
-       * Enable debounce once.
-       */ cb.debounceNextCall = function(debounceDelay) {
+         * Enable debounce once.
+         */ cb.debounceNextCall = function(debounceDelay) {
             debounceNextCall = debounceDelay;
         }, cb);
     }
@@ -12058,12 +12058,12 @@
         }, Scheduler.prototype.getPipeline = function(pipelineId) {
             return this._pipelineMap.get(pipelineId);
         }, /**
-       * Current, progressive rendering starts from visual and layout.
-       * Always detect render mode in the same stage, avoiding that incorrect
-       * detection caused by data filtering.
-       * Caution:
-       * `updateStreamModes` use `seriesModel.getData()`.
-       */ Scheduler.prototype.updateStreamModes = function(seriesModel, view) {
+             * Current, progressive rendering starts from visual and layout.
+             * Always detect render mode in the same stage, avoiding that incorrect
+             * detection caused by data filtering.
+             * Caution:
+             * `updateStreamModes` use `seriesModel.getData()`.
+             */ Scheduler.prototype.updateStreamModes = function(seriesModel, view) {
             var pipeline = this._pipelineMap.get(seriesModel.uid), dataLen = seriesModel.getData().count(), progressiveRender = pipeline.progressiveEnabled && view.incrementalPrepareRender && dataLen >= pipeline.threshold, large = seriesModel.get('large') && dataLen >= seriesModel.get('largeThreshold'), modDataCount = 'mod' === seriesModel.get('progressiveChunkMode') ? dataLen : null;
             seriesModel.pipelineContext = pipeline.context = {
                 progressiveRender: progressiveRender,
@@ -12930,9 +12930,9 @@
             }
         }
         /**
-       * Squeeze to allow overlap if there is no more space available.
-       * Let other overlapping strategy like hideOverlap do the job instead of keep exceeding the bounds.
-       */ function squeezeWhenBailout(delta) {
+         * Squeeze to allow overlap if there is no more space available.
+         * Let other overlapping strategy like hideOverlap do the job instead of keep exceeding the bounds.
+         */ function squeezeWhenBailout(delta) {
             for(var dir = delta < 0 ? -1 : 1, moveForEachLabel = Math.ceil((delta = Math.abs(delta)) / (len - 1)), i = 0; i < len - 1; i++)if (dir > 0 ? // Forward
             shiftList(moveForEachLabel, 0, i + 1) : // Backward
             shiftList(-moveForEachLabel, len - i - 1, len), (delta -= moveForEachLabel) <= 0) return;
@@ -12967,8 +12967,8 @@
         return LabelManager.prototype.clearLabels = function() {
             this._labelList = [], this._chartViewList = [];
         }, /**
-       * Add label to manager
-       */ LabelManager.prototype._addLabel = function(dataIndex, dataType, seriesModel, label, layoutOption) {
+             * Add label to manager
+             */ LabelManager.prototype._addLabel = function(dataIndex, dataType, seriesModel, label, layoutOption) {
             var hostRect, labelStyle = label.style, textConfig = label.__hostTarget.textConfig || {}, labelTransform = label.getComputedTransform(), labelRect = label.getBoundingRect().plain();
             BoundingRect.applyTransform(labelRect, labelRect, labelTransform), labelTransform ? dummyTransformable.setLocalTransform(labelTransform) : (// Identity transform.
             dummyTransformable.x = dummyTransformable.y = dummyTransformable.rotation = dummyTransformable.originX = dummyTransformable.originY = 0, dummyTransformable.scaleX = dummyTransformable.scaleY = 1);
@@ -13021,8 +13021,8 @@
             this._chartViewList.push(chartView);
             var seriesModel = chartView.__model, layoutOption = seriesModel.get('labelLayout');
             /**
-         * Ignore layouting if it's not specified anything.
-         */ (isFunction(layoutOption) || keys(layoutOption).length) && chartView.group.traverse(function(child) {
+                 * Ignore layouting if it's not specified anything.
+                 */ (isFunction(layoutOption) || keys(layoutOption).length) && chartView.group.traverse(function(child) {
                 if (child.ignore) return !0; // Stop traverse descendants.
                  // Only support label being hosted on graphic elements.
                 var textEl = child.getTextContent(), ecData = getECData(child);
@@ -13155,8 +13155,8 @@
                 return item.layoutOption.hideOverlap;
             }));
         }, /**
-       * Process all labels. Not only labels with layoutOption.
-       */ LabelManager.prototype.processLabelsOverall = function() {
+             * Process all labels. Not only labels with layoutOption.
+             */ LabelManager.prototype.processLabelsOverall = function() {
             var _this = this;
             each(this._chartViewList, function(chartView) {
                 var seriesModel = chartView.__model, ignoreLabelLineUpdate = chartView.ignoreLabelLineUpdate, animationEnabled = seriesModel.isAnimationEnabled();
@@ -13820,10 +13820,10 @@
             }(decalOpt.symbol), lineBlockLengthsX = map(dashArrayX, function(line) {
                 return getLineBlockLengthY(line);
             }), lineBlockLengthY = getLineBlockLengthY(dashArrayY), canvas = !isSVG && createCanvas(), svgRoot = isSVG && zr.painter.createSVGElement('g'), pSize = /**
-         * Get minumum length that can make a repeatable pattern.
-         *
-         * @return {Object} pattern width and height
-         */ function() {
+             * Get minumum length that can make a repeatable pattern.
+             *
+             * @return {Object} pattern width and height
+             */ function() {
                 for(var width = 1, i = 0, xlen = lineBlockLengthsX.length; i < xlen; ++i)width = getLeastCommonMultiple(width, lineBlockLengthsX[i]);
                 for(var symbolRepeats = 1, i = 0, xlen = symbolArray.length; i < xlen; ++i)symbolRepeats = getLeastCommonMultiple(symbolRepeats, symbolArray[i].length);
                 width *= symbolRepeats;
@@ -14264,10 +14264,10 @@
             this.name = name;
         }
         return(/**
-       * Get center point in data unit. That is,
-       * for GeoJSONRegion, the unit is lat/lng,
-       * for GeoSVGRegion, the unit is SVG local coord.
-       */ Region.prototype.getCenter = function() {}, Region);
+             * Get center point in data unit. That is,
+             * for GeoJSONRegion, the unit is lat/lng,
+             * for GeoSVGRegion, the unit is SVG local coord.
+             */ Region.prototype.getCenter = function() {}, Region);
     }(), GeoJSONRegion = /** @class */ function(_super) {
         function GeoJSONRegion(name, geometries, cp) {
             var _this = _super.call(this, name) || this;
@@ -14480,15 +14480,15 @@
                 named: named
             };
         }, /**
-       * Consider:
-       * (1) One graphic element can not be shared by different `geoView` running simultaneously.
-       *     Notice, also need to consider multiple echarts instances share a `mapRecord`.
-       * (2) Converting SVG to graphic elements is time consuming.
-       * (3) In the current architecture, `load` should be called frequently to get boundingRect,
-       *     and it is called without view info.
-       * So we maintain graphic elements in this module, and enables `view` to use/return these
-       * graphics from/to the pool with it's uid.
-       */ GeoSVGResource.prototype.useGraphic = function(hostKey) {
+             * Consider:
+             * (1) One graphic element can not be shared by different `geoView` running simultaneously.
+             *     Notice, also need to consider multiple echarts instances share a `mapRecord`.
+             * (2) Converting SVG to graphic elements is time consuming.
+             * (3) In the current architecture, `load` should be called frequently to get boundingRect,
+             *     and it is called without view info.
+             * So we maintain graphic elements in this module, and enables `view` to use/return these
+             * graphics from/to the pool with it's uid.
+             */ GeoSVGResource.prototype.useGraphic = function(hostKey) {
             var usedRootMap = this._usedGraphicMap, svgGraphic = usedRootMap.get(hostKey);
             return svgGraphic || (svgGraphic = this._freedGraphics.pop() // use the first boundingRect to avoid duplicated boundingRect calculation.
              || this._buildGraphic(this._parsedXML), usedRootMap.set(hostKey, svgGraphic)), svgGraphic;
@@ -14944,9 +14944,9 @@
             this.type = 'geoJSON', this._parsedMap = createHashMap(), this._mapName = mapName, this._specialAreas = specialAreas, this._geoJSON = isString(geoJSON) ? 'undefined' != typeof JSON && JSON.parse ? JSON.parse(geoJSON) : Function('return (' + geoJSON + ');')() : geoJSON;
         }
         return(/**
-       * @param nameMap can be null/undefined
-       * @param nameProperty can be null/undefined
-       */ GeoJSONResource.prototype.load = function(nameMap, nameProperty) {
+             * @param nameMap can be null/undefined
+             * @param nameProperty can be null/undefined
+             */ GeoJSONResource.prototype.load = function(nameMap, nameProperty) {
             nameProperty = nameProperty || 'name';
             var parsed = this._parsedMap.get(nameProperty);
             if (!parsed) {
@@ -15013,9 +15013,9 @@
                 specialArea && region.transformTo(specialArea.left, specialArea.top, specialArea.width, specialArea.height);
             }, this), rawRegions;
         }, /**
-       * Only for exporting to users.
-       * **MUST NOT** used internally.
-       */ GeoJSONResource.prototype.getMapForUser = function() {
+             * Only for exporting to users.
+             * **MUST NOT** used internally.
+             */ GeoJSONResource.prototype.getMapForUser = function() {
             return {
                 // For backward compatibility, use geoJson
                 // PENDING: it has been returning them without clone.
@@ -15178,8 +15178,8 @@
             this.getZr().wakeUp()) : (prepare(this), updateMethods.update.call(this), // fetched after `setOption`.
             this._zr.flush(), this[OPTION_UPDATED_KEY] = !1, this[IN_MAIN_PROCESS_KEY] = !1, flushPendingActions.call(this, silent), triggerUpdatedEvent.call(this, silent));
         }, /**
-       * @DEPRECATED
-       */ ECharts.prototype.setTheme = function() {
+             * @DEPRECATED
+             */ ECharts.prototype.setTheme = function() {
             console.error('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
         }, ECharts.prototype.getModel = function() {
             return this._model;
@@ -15192,8 +15192,8 @@
         }, ECharts.prototype.getDevicePixelRatio = function() {
             return this._zr.painter.dpr || hasWindow && window.devicePixelRatio || 1;
         }, /**
-       * Get canvas which has all thing rendered
-       */ ECharts.prototype.getRenderedCanvas = function(opts) {
+             * Get canvas which has all thing rendered
+             */ ECharts.prototype.getRenderedCanvas = function(opts) {
             if (env.canvasSupported) // Stop animations
             // Never works before in init animation, so remove it.
             // zrUtil.each(list, function (el) {
@@ -15201,8 +15201,8 @@
             // });
             return (opts = extend({}, opts || {})).pixelRatio = opts.pixelRatio || this.getDevicePixelRatio(), opts.backgroundColor = opts.backgroundColor || this._model.get('backgroundColor'), this._zr.painter.getRenderedCanvas(opts);
         }, /**
-       * Get svg data url
-       */ ECharts.prototype.getSvgDataURL = function() {
+             * Get svg data url
+             */ ECharts.prototype.getSvgDataURL = function() {
             if (env.svgSupported) {
                 var zr = this._zr;
                 return each(zr.storage.getDisplayList(), function(el) {
@@ -15283,10 +15283,10 @@
         }, ECharts.prototype.convertFromPixel = function(finder, value) {
             return doConvertPixel(this, 'convertFromPixel', finder, value);
         }, /**
-       * Is the specified coordinate systems or components contain the given pixel point.
-       * @param {Array|number} value
-       * @return {boolean} result
-       */ ECharts.prototype.containPixel = function(finder, value) {
+             * Is the specified coordinate systems or components contain the given pixel point.
+             * @param {Array|number} value
+             * @return {boolean} result
+             */ ECharts.prototype.containPixel = function(finder, value) {
             var result;
             if (this._disposed) {
                 disposedWarning(this.id);
@@ -15303,20 +15303,20 @@
                 }, this);
             }, this), !!result;
         }, /**
-       * Get visual from series or data.
-       * @param finder
-       *        If string, e.g., 'series', means {seriesIndex: 0}.
-       *        If Object, could contain some of these properties below:
-       *        {
-       *            seriesIndex / seriesId / seriesName,
-       *            dataIndex / dataIndexInside
-       *        }
-       *        If dataIndex is not specified, series visual will be fetched,
-       *        but not data item visual.
-       *        If all of seriesIndex, seriesId, seriesName are not specified,
-       *        visual will be fetched from first series.
-       * @param visualType 'color', 'symbol', 'symbolSize'
-       */ ECharts.prototype.getVisual = function(finder, visualType) {
+             * Get visual from series or data.
+             * @param finder
+             *        If string, e.g., 'series', means {seriesIndex: 0}.
+             *        If Object, could contain some of these properties below:
+             *        {
+             *            seriesIndex / seriesId / seriesName,
+             *            dataIndex / dataIndexInside
+             *        }
+             *        If dataIndex is not specified, series visual will be fetched,
+             *        but not data item visual.
+             *        If all of seriesIndex, seriesId, seriesName are not specified,
+             *        visual will be fetched from first series.
+             * @param visualType 'color', 'symbol', 'symbolSize'
+             */ ECharts.prototype.getVisual = function(finder, visualType) {
             var parsedFinder = parseFinder(this._model, finder, {
                 defaultMainType: 'series'
             }), seriesModel = parsedFinder.seriesModel;
@@ -15324,12 +15324,12 @@
             var data = seriesModel.getData(), dataIndexInside = parsedFinder.hasOwnProperty('dataIndexInside') ? parsedFinder.dataIndexInside : parsedFinder.hasOwnProperty('dataIndex') ? data.indexOfRawIndex(parsedFinder.dataIndex) : null;
             return null != dataIndexInside ? getItemVisualFromData(data, dataIndexInside, visualType) : getVisualFromData(data, visualType);
         }, /**
-       * Get view of corresponding component model
-       */ ECharts.prototype.getViewOfComponentModel = function(componentModel) {
+             * Get view of corresponding component model
+             */ ECharts.prototype.getViewOfComponentModel = function(componentModel) {
             return this._componentsMap[componentModel.__viewId];
         }, /**
-       * Get view of corresponding series model
-       */ ECharts.prototype.getViewOfSeriesModel = function(seriesModel) {
+             * Get view of corresponding series model
+             */ ECharts.prototype.getViewOfSeriesModel = function(seriesModel) {
             return this._chartsMap[seriesModel.__viewId];
         }, ECharts.prototype._initEvents = function() {
             var _this = this;
@@ -15406,8 +15406,8 @@
                 chart.dispose(ecModel, api);
             }), this._zr.dispose(), delete instances$1[this.id];
         }, /**
-       * Resize the chart
-       */ ECharts.prototype.resize = function(opts) {
+             * Resize the chart
+             */ ECharts.prototype.resize = function(opts) {
             if (assert(!this[IN_MAIN_PROCESS_KEY], '`resize` should not be called during main process.'), this._disposed) {
                 disposedWarning(this.id);
                 return;
@@ -15436,8 +15436,8 @@
             var el = loadingEffects[name](this._api, cfg), zr = this._zr;
             this._loadingFX = el, zr.add(el);
         }, /**
-       * Hide loading effect
-       */ ECharts.prototype.hideLoading = function() {
+             * Hide loading effect
+             */ ECharts.prototype.hideLoading = function() {
             if (this._disposed) {
                 disposedWarning(this.id);
                 return;
@@ -15447,14 +15447,14 @@
             var payload = extend({}, eventObj);
             return payload.type = eventActionMap[eventObj.type], payload;
         }, /**
-       * @param opt If pass boolean, means opt.silent
-       * @param opt.silent Default `false`. Whether trigger events.
-       * @param opt.flush Default `undefined`.
-       *        true: Flush immediately, and then pixel in canvas can be fetched
-       *            immediately. Caution: it might affect performance.
-       *        false: Not flush.
-       *        undefined: Auto decide whether perform flush.
-       */ ECharts.prototype.dispatchAction = function(payload, opt) {
+             * @param opt If pass boolean, means opt.silent
+             * @param opt.silent Default `false`. Whether trigger events.
+             * @param opt.flush Default `undefined`.
+             *        true: Flush immediately, and then pixel in canvas can be fetched
+             *            immediately. Caution: it might affect performance.
+             *        false: Not flush.
+             *        undefined: Auto decide whether perform flush.
+             */ ECharts.prototype.dispatchAction = function(payload, opt) {
             if (this._disposed) {
                 disposedWarning(this.id);
                 return;
@@ -15558,8 +15558,8 @@
                 var scheduler = ecIns._scheduler;
                 scheduler.restorePipelines(ecIns._model), scheduler.prepareStageTasks(), prepareView(ecIns, !0), prepareView(ecIns, !1), scheduler.plan();
             }, /**
-         * Prepare view instances of charts and components
-         */ prepareView = function(ecIns, isComponent) {
+                 * Prepare view instances of charts and components
+                 */ prepareView = function(ecIns, isComponent) {
                 for(var ecModel = ecIns._model, scheduler = ecIns._scheduler, viewList = isComponent ? ecIns._componentsViews : ecIns._chartsViews, viewMap = isComponent ? ecIns._componentsMap : ecIns._chartsMap, zr = ecIns._zr, api = ecIns._api, i = 0; i < viewList.length; i++)viewList[i].__alive = !1;
                 function doPrepare(model) {
                     // By defaut view will be reused if possible for the case that `setOption` with "notMerge"
@@ -15810,17 +15810,17 @@
             }, triggerUpdatedEvent = function(silent) {
                 silent || this.trigger('updated');
             }, /**
-         * Event `rendered` is triggered when zr
-         * rendered. It is useful for realtime
-         * snapshot (reflect animation).
-         *
-         * Event `finished` is triggered when:
-         * (1) zrender rendering finished.
-         * (2) initial animation finished.
-         * (3) progressive rendering finished.
-         * (4) no pending action.
-         * (5) no delayed setOption needs to be processed.
-         */ bindRenderedEvent = function(zr, ecIns) {
+                 * Event `rendered` is triggered when zr
+                 * rendered. It is useful for realtime
+                 * snapshot (reflect animation).
+                 *
+                 * Event `finished` is triggered when:
+                 * (1) zrender rendering finished.
+                 * (2) initial animation finished.
+                 * (3) progressive rendering finished.
+                 * (4) no pending action.
+                 * (5) no delayed setOption needs to be processed.
+                 */ bindRenderedEvent = function(zr, ecIns) {
                 zr.on('rendered', function(params) {
                     ecIns.trigger('rendered', params), !// and this checking is called on frame, we also check
                     // animation finished for robustness.
@@ -15872,8 +15872,8 @@
                     clearStates(componentModel, componentView), componentView.render(componentModel, ecModel, api, payload), updateZ(componentModel, componentView), updateStates(componentModel, componentView);
                 });
             }, /**
-         * Render each chart and component
-         */ renderSeries = function(ecIns, ecModel, api, payload, dirtyMap) {
+                 * Render each chart and component
+                 */ renderSeries = function(ecIns, ecModel, api, payload, dirtyMap) {
                 // Render all charts
                 var storage, elCount, scheduler = ecIns._scheduler, labelManager = ecIns._labelManager;
                 labelManager.clearLabels();
@@ -16501,29 +16501,29 @@
     }
     var DataDiffer = /** @class */ function() {
         /**
-       * @param context Can be visited by this.context in callback.
-       */ function DataDiffer(oldArr, newArr, oldKeyGetter, newKeyGetter, context, diffMode) {
+             * @param context Can be visited by this.context in callback.
+             */ function DataDiffer(oldArr, newArr, oldKeyGetter, newKeyGetter, context, diffMode) {
             this._old = oldArr, this._new = newArr, this._oldKeyGetter = oldKeyGetter || defaultKeyGetter, this._newKeyGetter = newKeyGetter || defaultKeyGetter, this.context = context, this._diffModeMultiple = 'multiple' === diffMode;
         }
         return(/**
-       * Callback function when add a data
-       */ DataDiffer.prototype.add = function(func) {
+             * Callback function when add a data
+             */ DataDiffer.prototype.add = function(func) {
             return this._add = func, this;
         }, /**
-       * Callback function when update a data
-       */ DataDiffer.prototype.update = function(func) {
+             * Callback function when update a data
+             */ DataDiffer.prototype.update = function(func) {
             return this._update = func, this;
         }, /**
-       * Callback function when update a data and only work in `cbMode: 'byKey'`.
-       */ DataDiffer.prototype.updateManyToOne = function(func) {
+             * Callback function when update a data and only work in `cbMode: 'byKey'`.
+             */ DataDiffer.prototype.updateManyToOne = function(func) {
             return this._updateManyToOne = func, this;
         }, /**
-       * Callback function when update a data and only work in `cbMode: 'byKey'`.
-       */ DataDiffer.prototype.updateOneToMany = function(func) {
+             * Callback function when update a data and only work in `cbMode: 'byKey'`.
+             */ DataDiffer.prototype.updateOneToMany = function(func) {
             return this._updateOneToMany = func, this;
         }, /**
-       * Callback function when remove a data
-       */ DataDiffer.prototype.remove = function(func) {
+             * Callback function when remove a data
+             */ DataDiffer.prototype.remove = function(func) {
             return this._remove = func, this;
         }, DataDiffer.prototype.execute = function() {
             this[this._diffModeMultiple ? '_executeMultiple' : '_executeOneToOne']();
@@ -16541,30 +16541,30 @@
             }
             this._performRestAdd(newDataKeyArr, newDataIndexMap);
         }, /**
-       * For example, consider the case:
-       * oldData: [o0, o1, o2, o3, o4, o5, o6, o7],
-       * newData: [n0, n1, n2, n3, n4, n5, n6, n7, n8],
-       * Where:
-       *     o0, o1, n0 has key 'a' (many to one)
-       *     o5, n4, n5, n6 has key 'b' (one to many)
-       *     o2, n1 has key 'c' (one to one)
-       *     n2, n3 has key 'd' (add)
-       *     o3, o4 has key 'e' (remove)
-       *     o6, o7, n7, n8 has key 'f' (many to many, treated as add and remove)
-       * Then:
-       *     (The order of the following directives are not ensured.)
-       *     this._updateManyToOne(n0, [o0, o1]);
-       *     this._updateOneToMany([n4, n5, n6], o5);
-       *     this._update(n1, o2);
-       *     this._remove(o3);
-       *     this._remove(o4);
-       *     this._remove(o6);
-       *     this._remove(o7);
-       *     this._add(n2);
-       *     this._add(n3);
-       *     this._add(n7);
-       *     this._add(n8);
-       */ DataDiffer.prototype._executeMultiple = function() {
+             * For example, consider the case:
+             * oldData: [o0, o1, o2, o3, o4, o5, o6, o7],
+             * newData: [n0, n1, n2, n3, n4, n5, n6, n7, n8],
+             * Where:
+             *     o0, o1, n0 has key 'a' (many to one)
+             *     o5, n4, n5, n6 has key 'b' (one to many)
+             *     o2, n1 has key 'c' (one to one)
+             *     n2, n3 has key 'd' (add)
+             *     o3, o4 has key 'e' (remove)
+             *     o6, o7, n7, n8 has key 'f' (many to many, treated as add and remove)
+             * Then:
+             *     (The order of the following directives are not ensured.)
+             *     this._updateManyToOne(n0, [o0, o1]);
+             *     this._updateOneToMany([n4, n5, n6], o5);
+             *     this._update(n1, o2);
+             *     this._remove(o3);
+             *     this._remove(o4);
+             *     this._remove(o6);
+             *     this._remove(o7);
+             *     this._add(n2);
+             *     this._add(n3);
+             *     this._add(n7);
+             *     this._add(n8);
+             */ DataDiffer.prototype._executeMultiple = function() {
             var oldArr = this._old, newArr = this._new, oldDataIndexMap = {}, newDataIndexMap = {}, oldDataKeyArr = [], newDataKeyArr = [];
             this._initIndexMap(oldArr, oldDataIndexMap, oldDataKeyArr, '_oldKeyGetter'), this._initIndexMap(newArr, newDataIndexMap, newDataKeyArr, '_newKeyGetter');
             for(var i = 0; i < oldDataKeyArr.length; i++){
@@ -16619,41 +16619,41 @@
     //     return valueDim;
     // }
     var DataDimensionInfo = /**
-       * @param opt All of the fields will be shallow copied.
-       */ function(opt) {
+             * @param opt All of the fields will be shallow copied.
+             */ function(opt) {
         /**
-         * The format of `otherDims` is:
-         * ```js
-         * {
-         *     tooltip: number optional,
-         *     label: number optional,
-         *     itemName: number optional,
-         *     seriesName: number optional,
-         * }
-         * ```
-         *
-         * A `series.encode` can specified these fields:
-         * ```js
-         * encode: {
-         *     // "3, 1, 5" is the index of data dimension.
-         *     tooltip: [3, 1, 5],
-         *     label: [0, 3],
-         *     ...
-         * }
-         * ```
-         * `otherDims` is the parse result of the `series.encode` above, like:
-         * ```js
-         * // Suppose the index of this data dimension is `3`.
-         * this.otherDims = {
-         *     // `3` is at the index `0` of the `encode.tooltip`
-         *     tooltip: 0,
-         *     // `3` is at the index `1` of the `encode.tooltip`
-         *     label: 1
-         * };
-         * ```
-         *
-         * This prop should never be `null`/`undefined` after initialized.
-         */ this.otherDims = {}, null != opt && extend(this, opt);
+                 * The format of `otherDims` is:
+                 * ```js
+                 * {
+                 *     tooltip: number optional,
+                 *     label: number optional,
+                 *     itemName: number optional,
+                 *     seriesName: number optional,
+                 * }
+                 * ```
+                 *
+                 * A `series.encode` can specified these fields:
+                 * ```js
+                 * encode: {
+                 *     // "3, 1, 5" is the index of data dimension.
+                 *     tooltip: [3, 1, 5],
+                 *     label: [0, 3],
+                 *     ...
+                 * }
+                 * ```
+                 * `otherDims` is the parse result of the `series.encode` above, like:
+                 * ```js
+                 * // Suppose the index of this data dimension is `3`.
+                 * this.otherDims = {
+                 *     // `3` is at the index `0` of the `encode.tooltip`
+                 *     tooltip: 0,
+                 *     // `3` is at the index `1` of the `encode.tooltip`
+                 *     label: 1
+                 * };
+                 * ```
+                 *
+                 * This prop should never be `null`/`undefined` after initialized.
+                 */ this.otherDims = {}, null != opt && extend(this, opt);
     }, mathFloor = Math.floor, isObject$3 = isObject, UNDEFINED = 'undefined', dataCtors = {
         float: typeof Float64Array === UNDEFINED ? Array : Float64Array,
         int: typeof Int32Array === UNDEFINED ? Array : Int32Array,
@@ -16679,10 +16679,10 @@
         '_rawExtent'
     ], List = /** @class */ function() {
         /**
-       * @param dimensions
-       *        For example, ['someDimName', {name: 'someDimName', type: 'someDimType'}, ...].
-       *        Dimensions should be concrete names like x, y, z, lng, lat, angle, radius
-       */ function List(dimensions, hostModel) {
+             * @param dimensions
+             *        For example, ['someDimName', {name: 'someDimName', type: 'someDimType'}, ...].
+             *        Dimensions should be concrete names like x, y, z, lng, lat, angle, radius
+             */ function List(dimensions, hostModel) {
             this.type = 'list', this._count = 0, this._rawCount = 0, this._storage = {}, // We profile the code `storage[dim]` and it seems to be KeyedLoadIC_Megamorphic instead of fast property access.
             // Not sure why this happens. But using an extra array seems leads to faster `initData`
             // See https://github.com/apache/incubator-echarts/pull/13314 for more explanation.
@@ -16706,10 +16706,10 @@
                 'downSample',
                 'lttbDownSample'
             ], /**
-         * Get raw data index.
-         * Do not initialize.
-         * Default `getRawIndex`. And it can be changed.
-         */ this.getRawIndex = getRawIndexWithoutIndices, dimensions = dimensions || [
+                 * Get raw data index.
+                 * Do not initialize.
+                 * Default `getRawIndex`. And it can be changed.
+                 */ this.getRawIndex = getRawIndexWithoutIndices, dimensions = dimensions || [
                 'x',
                 'y'
             ];
@@ -16744,38 +16744,38 @@
             }), summary.dataDimsOnCoord = dataDimsOnCoord, summary.encodeFirstDimNotExtra = encodeFirstDimNotExtra, (encodeLabel = encode.label) && encodeLabel.length && (defaultedLabel = encodeLabel.slice()), (encodeTooltip = encode.tooltip) && encodeTooltip.length ? defaultedTooltip = encodeTooltip.slice() : defaultedTooltip.length || (defaultedTooltip = defaultedLabel.slice()), encode.defaultedLabel = defaultedLabel, encode.defaultedTooltip = defaultedTooltip, summary), this._invertedIndicesMap = invertedIndicesMap, this.userOutput = this._dimensionsSummary.userOutput;
         }
         return(/**
-       * The meanings of the input parameter `dim`:
-       *
-       * + If dim is a number (e.g., `1`), it means the index of the dimension.
-       *   For example, `getDimension(0)` will return 'x' or 'lng' or 'radius'.
-       * + If dim is a number-like string (e.g., `"1"`):
-       *     + If there is the same concrete dim name defined in `this.dimensions`, it means that concrete name.
-       *     + If not, it will be converted to a number, which means the index of the dimension.
-       *        (why? because of the backward compatbility. We have been tolerating number-like string in
-       *        dimension setting, although now it seems that it is not a good idea.)
-       *     For example, `visualMap[i].dimension: "1"` is the same meaning as `visualMap[i].dimension: 1`,
-       *     if no dimension name is defined as `"1"`.
-       * + If dim is a not-number-like string, it means the concrete dim name.
-       *   For example, it can be be default name `"x"`, `"y"`, `"z"`, `"lng"`, `"lat"`, `"angle"`, `"radius"`,
-       *   or customized in `dimensions` property of option like `"age"`.
-       *
-       * Get dimension name
-       * @param dim See above.
-       * @return Concrete dim name.
-       */ List.prototype.getDimension = function(dim) {
+             * The meanings of the input parameter `dim`:
+             *
+             * + If dim is a number (e.g., `1`), it means the index of the dimension.
+             *   For example, `getDimension(0)` will return 'x' or 'lng' or 'radius'.
+             * + If dim is a number-like string (e.g., `"1"`):
+             *     + If there is the same concrete dim name defined in `this.dimensions`, it means that concrete name.
+             *     + If not, it will be converted to a number, which means the index of the dimension.
+             *        (why? because of the backward compatbility. We have been tolerating number-like string in
+             *        dimension setting, although now it seems that it is not a good idea.)
+             *     For example, `visualMap[i].dimension: "1"` is the same meaning as `visualMap[i].dimension: 1`,
+             *     if no dimension name is defined as `"1"`.
+             * + If dim is a not-number-like string, it means the concrete dim name.
+             *   For example, it can be be default name `"x"`, `"y"`, `"z"`, `"lng"`, `"lat"`, `"angle"`, `"radius"`,
+             *   or customized in `dimensions` property of option like `"age"`.
+             *
+             * Get dimension name
+             * @param dim See above.
+             * @return Concrete dim name.
+             */ List.prototype.getDimension = function(dim) {
             return 'number' // If being a number-like string but not being defined a dimension name.
              != typeof dim && (isNaN(dim) || this._dimensionInfos.hasOwnProperty(dim)) || (dim = this.dimensions[dim]), dim;
         }, /**
-       * Get type and calculation info of particular dimension
-       * @param dim
-       *        Dimension can be concrete names like x, y, z, lng, lat, angle, radius
-       *        Or a ordinal number. For example getDimensionInfo(0) will return 'x' or 'lng' or 'radius'
-       */ List.prototype.getDimensionInfo = function(dim) {
+             * Get type and calculation info of particular dimension
+             * @param dim
+             *        Dimension can be concrete names like x, y, z, lng, lat, angle, radius
+             *        Or a ordinal number. For example getDimensionInfo(0) will return 'x' or 'lng' or 'radius'
+             */ List.prototype.getDimensionInfo = function(dim) {
             // Do not clone, because there may be categories in dimInfo.
             return this._dimensionInfos[this.getDimension(dim)];
         }, /**
-       * concrete dimension name list on coord.
-       */ List.prototype.getDimensionsOnCoord = function() {
+             * concrete dimension name list on coord.
+             */ List.prototype.getDimensionsOnCoord = function() {
             return this._dimensionsSummary.dataDimsOnCoord.slice();
         }, List.prototype.mapDimension = function(coordDim, idx) {
             var dimensionsSummary = this._dimensionsSummary;
@@ -16785,14 +16785,14 @@
         }, List.prototype.mapDimensionsAll = function(coordDim) {
             return (this._dimensionsSummary.encode[coordDim] || []).slice();
         }, /**
-       * Initialize from data
-       * @param data source or data or data provider.
-       * @param nameList The name of a datum is used on data diff and
-       *        default label/tooltip.
-       *        A name can be specified in encode.itemName,
-       *        or dataItem.name (only for series option data),
-       *        or provided in nameList from outside.
-       */ List.prototype.initData = function(data, nameList, dimValueGetter) {
+             * Initialize from data
+             * @param data source or data or data provider.
+             * @param nameList The name of a datum is used on data diff and
+             *        default label/tooltip.
+             *        A name can be specified in encode.itemName,
+             *        or dataItem.name (only for series option data),
+             *        or provided in nameList from outside.
+             */ List.prototype.initData = function(data, nameList, dimValueGetter) {
             var notProvider = isSourceInstance(data) || isArrayLike(data), provider = notProvider ? new DefaultDataProvider(data, this.dimensions.length) : data;
             assert(notProvider || isFunction(provider.getItem) && isFunction(provider.count), 'Inavlid data provider.'), this._rawData = provider;
             var sourceFormat = provider.getSource().sourceFormat; // Clear
@@ -16801,28 +16801,28 @@
         }, List.prototype.getProvider = function() {
             return this._rawData;
         }, /**
-       * Caution: Can be only called on raw data (before `this._indices` created).
-       */ List.prototype.appendData = function(data) {
+             * Caution: Can be only called on raw data (before `this._indices` created).
+             */ List.prototype.appendData = function(data) {
             assert(!this._indices, 'appendData can only be called on raw data.');
             var rawData = this._rawData, start = this.count();
             rawData.appendData(data);
             var end = rawData.count();
             rawData.persistent || (end += start), this._initDataFromProvider(start, end, !0);
         }, /**
-       * Caution: Can be only called on raw data (before `this._indices` created).
-       * This method does not modify `rawData` (`dataProvider`), but only
-       * add values to storage.
-       *
-       * The final count will be increased by `Math.max(values.length, names.length)`.
-       *
-       * @param values That is the SourceType: 'arrayRows', like
-       *        [
-       *            [12, 33, 44],
-       *            [NaN, 43, 1],
-       *            ['-', 'asdf', 0]
-       *        ]
-       *        Each item is exaclty cooresponding to a dimension.
-       */ List.prototype.appendValues = function(values, names) {
+             * Caution: Can be only called on raw data (before `this._indices` created).
+             * This method does not modify `rawData` (`dataProvider`), but only
+             * add values to storage.
+             *
+             * The final count will be increased by `Math.max(values.length, names.length)`.
+             *
+             * @param values That is the SourceType: 'arrayRows', like
+             *        [
+             *            [12, 33, 44],
+             *            [NaN, 43, 1],
+             *            ['-', 'asdf', 0]
+             *        ]
+             *        Each item is exaclty cooresponding to a dimension.
+             */ List.prototype.appendValues = function(values, names) {
             for(var storage = this._storage, dimensions = this.dimensions, dimLen = dimensions.length, rawExtent = this._rawExtent, start = this.count(), end = start + Math.max(values.length, names ? names.length : 0), i = 0; i < dimLen; i++){
                 var dim = dimensions[i];
                 rawExtent[dim] || (rawExtent[dim] = getInitialExtent()), prepareStorage(storage, this._dimensionInfos[dim], end, !0);
@@ -16903,15 +16903,15 @@
             var dimStore = this._storageArr[dimIdx];
             return dimStore ? dimStore[this.getRawIndex(idx)] : NaN;
         }, /**
-       * Get value. Return NaN if idx is out of range.
-       * @param dim Dim must be concrete name.
-       */ List.prototype.get = function(dim, idx) {
+             * Get value. Return NaN if idx is out of range.
+             * @param dim Dim must be concrete name.
+             */ List.prototype.get = function(dim, idx) {
             if (!(idx >= 0 && idx < this._count)) return NaN;
             var dimStore = this._storage[dim];
             return dimStore ? dimStore[this.getRawIndex(idx)] : NaN;
         }, /**
-       * @param dim concrete dim
-       */ List.prototype.getByRawIndex = function(dim, rawIdx) {
+             * @param dim concrete dim
+             */ List.prototype.getByRawIndex = function(dim, rawIdx) {
             if (!(rawIdx >= 0 && rawIdx < this._rawCount)) return NaN;
             var dimStore = this._storage[dim];
             return dimStore ? dimStore[rawIdx] : NaN;
@@ -16922,17 +16922,17 @@
             for(var i = 0, len = dimensions.length; i < len; i++)values.push(this.get(dimensions[i], idx));
             return values;
         }, /**
-       * If value is NaN. Inlcuding '-'
-       * Only check the coord dimensions.
-       */ List.prototype.hasValue = function(idx) {
+             * If value is NaN. Inlcuding '-'
+             * Only check the coord dimensions.
+             */ List.prototype.hasValue = function(idx) {
             for(var dataDimsOnCoord = this._dimensionsSummary.dataDimsOnCoord, i = 0, len = dataDimsOnCoord.length; i < len; i++)// Ordinal type originally can be string or number.
             // But when an ordinal type is used on coord, it can
             // not be string but only number. So we can also use isNaN.
             if (isNaN(this.get(dataDimsOnCoord[i], idx))) return !1;
             return !0;
         }, /**
-       * Get extent of data in one dimension
-       */ List.prototype.getDataExtent = function(dim) {
+             * Get extent of data in one dimension
+             */ List.prototype.getDataExtent = function(dim) {
             // Make sure use concrete dim as cache name.
             dim = this.getDimension(dim);
             var dimExtent, dimData = this._storage[dim], initialExtent = getInitialExtent();
@@ -16950,32 +16950,32 @@
                 max
             ], this._extent[dim] = dimExtent, dimExtent;
         }, /**
-       * PENDING: In fact currently this function is only used to short-circuit
-       * the calling of `scale.unionExtentFromData` when data have been filtered by modules
-       * like "dataZoom". `scale.unionExtentFromData` is used to calculate data extent for series on
-       * an axis, but if a "axis related data filter module" is used, the extent of the axis have
-       * been fixed and no need to calling `scale.unionExtentFromData` actually.
-       * But if we add "custom data filter" in future, which is not "axis related", this method may
-       * be still needed.
-       *
-       * Optimize for the scenario that data is filtered by a given extent.
-       * Consider that if data amount is more than hundreds of thousand,
-       * extent calculation will cost more than 10ms and the cache will
-       * be erased because of the filtering.
-       */ List.prototype.getApproximateExtent = function(dim) {
+             * PENDING: In fact currently this function is only used to short-circuit
+             * the calling of `scale.unionExtentFromData` when data have been filtered by modules
+             * like "dataZoom". `scale.unionExtentFromData` is used to calculate data extent for series on
+             * an axis, but if a "axis related data filter module" is used, the extent of the axis have
+             * been fixed and no need to calling `scale.unionExtentFromData` actually.
+             * But if we add "custom data filter" in future, which is not "axis related", this method may
+             * be still needed.
+             *
+             * Optimize for the scenario that data is filtered by a given extent.
+             * Consider that if data amount is more than hundreds of thousand,
+             * extent calculation will cost more than 10ms and the cache will
+             * be erased because of the filtering.
+             */ List.prototype.getApproximateExtent = function(dim) {
             return dim = this.getDimension(dim), this._approximateExtent[dim] || this.getDataExtent(dim);
         }, /**
-       * Calculate extent on a filtered data might be time consuming.
-       * Approximate extent is only used for: calculte extent of filtered data outside.
-       */ List.prototype.setApproximateExtent = function(extent, dim) {
+             * Calculate extent on a filtered data might be time consuming.
+             * Approximate extent is only used for: calculte extent of filtered data outside.
+             */ List.prototype.setApproximateExtent = function(extent, dim) {
             dim = this.getDimension(dim), this._approximateExtent[dim] = extent.slice();
         }, List.prototype.getCalculationInfo = function(key) {
             return this._calculationInfo[key];
         }, List.prototype.setCalculationInfo = function(key, value) {
             isObject$3(key) ? extend(this._calculationInfo, key) : this._calculationInfo[key] = value;
         }, /**
-       * Get sum of data in one dimension
-       */ List.prototype.getSum = function(dim) {
+             * Get sum of data in one dimension
+             */ List.prototype.getSum = function(dim) {
             var dimData = this._storage[dim], sum = 0;
             if (dimData) for(var i = 0, len = this.count(); i < len; i++){
                 var value = this.get(dim, i);
@@ -16983,8 +16983,8 @@
             }
             return sum;
         }, /**
-       * Get median of data in one dimension
-       */ List.prototype.getMedian = function(dim) {
+             * Get median of data in one dimension
+             */ List.prototype.getMedian = function(dim) {
             var dimDataArray = []; // map all data of one dimension
             this.each(dim, function(val) {
                 isNaN(val) || dimDataArray.push(val);
@@ -17018,24 +17018,24 @@
         //     return -1;
         // }
         /**
-       * Only support the dimension which inverted index created.
-       * Do not support other cases until required.
-       * @param dim concrete dim
-       * @param value ordinal index
-       * @return rawIndex
-       */ List.prototype.rawIndexOf = function(dim, value) {
+             * Only support the dimension which inverted index created.
+             * Do not support other cases until required.
+             * @param dim concrete dim
+             * @param value ordinal index
+             * @return rawIndex
+             */ List.prototype.rawIndexOf = function(dim, value) {
             var invertedIndices = dim && this._invertedIndicesMap[dim];
             if (!invertedIndices) throw Error('Do not supported yet');
             var rawIndex = invertedIndices[value];
             return null == rawIndex || isNaN(rawIndex) ? -1 : rawIndex;
         }, /**
-       * Retreive the index with given name
-       */ List.prototype.indexOfName = function(name) {
+             * Retreive the index with given name
+             */ List.prototype.indexOfName = function(name) {
             for(var i = 0, len = this.count(); i < len; i++)if (this.getName(i) === name) return i;
             return -1;
         }, /**
-       * Retreive the index with given raw data index
-       */ List.prototype.indexOfRawIndex = function(rawIndex) {
+             * Retreive the index with given raw data index
+             */ List.prototype.indexOfRawIndex = function(rawIndex) {
             if (rawIndex >= this._rawCount || rawIndex < 0) return -1;
             if (!this._indices) return rawIndex;
              // Indices are ascending
@@ -17051,13 +17051,13 @@
             }
             return -1;
         }, /**
-       * Retreive the index of nearest value
-       * @param dim
-       * @param value
-       * @param [maxDistance=Infinity]
-       * @return If and only if multiple indices has
-       *         the same value, they are put to the result.
-       */ List.prototype.indicesOfNearest = function(dim, value, maxDistance) {
+             * Retreive the index of nearest value
+             * @param dim
+             * @param value
+             * @param [maxDistance=Infinity]
+             * @return If and only if multiple indices has
+             *         the same value, they are put to the result.
+             */ List.prototype.indicesOfNearest = function(dim, value, maxDistance) {
             var dimData = this._storage[dim], nearestIndices = [];
             if (!dimData) return nearestIndices;
             null == maxDistance && (maxDistance = 1 / 0);
@@ -17067,8 +17067,8 @@
             }
             return nearestIndices.length = nearestIndicesLen, nearestIndices;
         }, /**
-       * Get raw data item
-       */ List.prototype.getRawDataItem = function(idx) {
+             * Get raw data item
+             */ List.prototype.getRawDataItem = function(idx) {
             if (this._rawData.persistent) return this._rawData.getItem(this.getRawIndex(idx));
             for(var val = [], i = 0; i < this.dimensions.length; i++){
                 var dim = this.dimensions[i];
@@ -17076,19 +17076,19 @@
             }
             return val;
         }, /**
-       * @return Never be null/undefined. `number` will be converted to string. Becuase:
-       * In most cases, name is used in display, where returning a string is more convenient.
-       * In other cases, name is used in query (see `indexOfName`), where we can keep the
-       * rule that name `2` equals to name `'2'`.
-       */ List.prototype.getName = function(idx) {
+             * @return Never be null/undefined. `number` will be converted to string. Becuase:
+             * In most cases, name is used in display, where returning a string is more convenient.
+             * In other cases, name is used in query (see `indexOfName`), where we can keep the
+             * rule that name `2` equals to name `'2'`.
+             */ List.prototype.getName = function(idx) {
             var rawIndex = this.getRawIndex(idx), name = this._nameList[rawIndex];
             return null == name && null != this._nameDimIdx && (name = getIdNameFromStore(this, this._nameDimIdx, this._nameOrdinalMeta, rawIndex)), null == name && (name = ''), name;
         }, /**
-       * @return Never null/undefined. `number` will be converted to string. Becuase:
-       * In all cases having encountered at present, id is used in making diff comparison, which
-       * are usually based on hash map. We can keep the rule that the internal id are always string
-       * (treat `2` is the same as `'2'`) to make the related logic simple.
-       */ List.prototype.getId = function(idx) {
+             * @return Never null/undefined. `number` will be converted to string. Becuase:
+             * In all cases having encountered at present, id is used in making diff comparison, which
+             * are usually based on hash map. We can keep the rule that the internal id are always string
+             * (treat `2` is the same as `'2'`) to make the related logic simple.
+             */ List.prototype.getId = function(idx) {
             return getId(this, this.getRawIndex(idx));
         }, List.prototype.each = function(dims, cb, ctx, ctxCompat) {
             var _this = this;
@@ -17140,9 +17140,9 @@
                 return offset < count && (this._indices = newIndices), this._count = offset, this._extent = {}, this.getRawIndex = this._indices ? getRawIndexWithIndices : getRawIndexWithoutIndices, this;
             }
         }, /**
-       * Select data in range. (For optimization of filter)
-       * (Manually inline code, support 5 million data filtering in data zoom.)
-       */ List.prototype.selectRange = function(range) {
+             * Select data in range. (For optimization of filter)
+             * (Manually inline code, support 5 million data filtering in data zoom.)
+             */ List.prototype.selectRange = function(range) {
             var _this = this, len = this._count;
             if (len) {
                 var dimensions = [];
@@ -17213,9 +17213,9 @@
             }
             return list;
         }, /**
-       * Large data down sampling on given dimension
-       * @param sampleIndex Sample index for name and id
-       */ List.prototype.downSample = function(dimension, rate, sampleValue, sampleIndex) {
+             * Large data down sampling on given dimension
+             * @param sampleIndex Sample index for name and id
+             */ List.prototype.downSample = function(dimension, rate, sampleValue, sampleIndex) {
             for(var list = cloneListForMapAndSample(this, [
                 dimension
             ]), targetStorage = list._storage, frameValues = [], frameSize = mathFloor(1 / rate), dimStore = targetStorage[dimension], len = this.count(), rawExtentOnDim = list._rawExtent[dimension], newIndices = new (getIndicesCtor(this))(len), offset = 0, i = 0; i < len; i += frameSize){
@@ -17229,10 +17229,10 @@
             }
             return list._count = offset, list._indices = newIndices, list.getRawIndex = getRawIndexWithIndices, list;
         }, /**
-       * Large data down sampling using largest-triangle-three-buckets
-       * @param {string} valueDimension
-       * @param {number} targetCount
-       */ List.prototype.lttbDownSample = function(valueDimension, rate) {
+             * Large data down sampling using largest-triangle-three-buckets
+             * @param {string} valueDimension
+             * @param {number} targetCount
+             */ List.prototype.lttbDownSample = function(valueDimension, rate) {
             var maxArea, area, nextRawIndex, list = cloneListForMapAndSample(this, []), dimStore = list._storage[valueDimension], len = this.count(), newIndices = new (getIndicesCtor(this))(len), sampledIndex = 0, frameSize = mathFloor(1 / rate), currentRawIndex = this.getRawIndex(0);
             newIndices[sampledIndex++] = currentRawIndex;
             for(var i = 1; i < len - 1; i += frameSize){
@@ -17252,14 +17252,14 @@
             } // First frame use the last data.
             return newIndices[sampledIndex++] = this.getRawIndex(len - 1), list._count = sampledIndex, list._indices = newIndices, list.getRawIndex = getRawIndexWithIndices, list;
         }, /**
-       * Get model of one data item.
-       */ // TODO: Type of data item
+             * Get model of one data item.
+             */ // TODO: Type of data item
         List.prototype.getItemModel = function(idx) {
             var hostModel = this.hostModel;
             return new Model(this.getRawDataItem(idx), hostModel, hostModel && hostModel.ecModel);
         }, /**
-       * Create a data differ
-       */ List.prototype.diff = function(otherList) {
+             * Create a data differ
+             */ List.prototype.diff = function(otherList) {
             var thisList = this;
             return new DataDiffer(otherList ? otherList.getIndices() : [], this.getIndices(), function(idx) {
                 return getId(otherList, idx);
@@ -17267,25 +17267,25 @@
                 return getId(thisList, idx);
             });
         }, /**
-       * Get visual property.
-       */ List.prototype.getVisual = function(key) {
+             * Get visual property.
+             */ List.prototype.getVisual = function(key) {
             var visual = this._visual;
             return visual && visual[key];
         }, List.prototype.setVisual = function(kvObj, val) {
             this._visual = this._visual || {}, isObject$3(kvObj) ? extend(this._visual, kvObj) : this._visual[kvObj] = val;
         }, /**
-       * Get visual property of single data item
-       */ // eslint-disable-next-line
+             * Get visual property of single data item
+             */ // eslint-disable-next-line
         List.prototype.getItemVisual = function(idx, key) {
             var itemVisual = this._itemVisuals[idx], val = itemVisual && itemVisual[key];
             return null == val ? this.getVisual(key) : val;
         }, /**
-       * If exists visual property of single data item
-       */ List.prototype.hasItemVisual = function() {
+             * If exists visual property of single data item
+             */ List.prototype.hasItemVisual = function() {
             return this._itemVisuals.length > 0;
         }, /**
-       * Make sure itemVisual property is unique
-       */ // TODO: use key to save visual to reduce memory.
+             * Make sure itemVisual property is unique
+             */ // TODO: use key to save visual to reduce memory.
         List.prototype.ensureUniqueItemVisual = function(idx, key) {
             var itemVisuals = this._itemVisuals, itemVisual = itemVisuals[idx];
             itemVisual || (itemVisual = itemVisuals[idx] = {});
@@ -17295,8 +17295,8 @@
             var itemVisual = this._itemVisuals[idx] || {};
             this._itemVisuals[idx] = itemVisual, isObject$3(key) ? extend(itemVisual, key) : itemVisual[key] = value;
         }, /**
-       * Clear itemVisuals and list visual.
-       */ List.prototype.clearAllVisual = function() {
+             * Clear itemVisuals and list visual.
+             */ List.prototype.clearAllVisual = function() {
             this._visual = {}, this._itemVisuals = [];
         }, List.prototype.setLayout = function(key, val) {
             if (isObject$3(key)) {
@@ -17305,24 +17305,24 @@
             }
             this._layout[key] = val;
         }, /**
-       * Get layout property.
-       */ List.prototype.getLayout = function(key) {
+             * Get layout property.
+             */ List.prototype.getLayout = function(key) {
             return this._layout[key];
         }, /**
-       * Get layout of single data item
-       */ List.prototype.getItemLayout = function(idx) {
+             * Get layout of single data item
+             */ List.prototype.getItemLayout = function(idx) {
             return this._itemLayouts[idx];
         }, /**
-       * Set layout of single data item
-       */ List.prototype.setItemLayout = function(idx, layout, merge) {
+             * Set layout of single data item
+             */ List.prototype.setItemLayout = function(idx, layout, merge) {
             this._itemLayouts[idx] = merge ? extend(this._itemLayouts[idx] || {}, layout) : layout;
         }, /**
-       * Clear all layout of single data item
-       */ List.prototype.clearItemLayouts = function() {
+             * Clear all layout of single data item
+             */ List.prototype.clearItemLayouts = function() {
             this._itemLayouts.length = 0;
         }, /**
-       * Set graphic element relative to data. It can be set as null
-       */ List.prototype.setItemGraphicEl = function(idx, el) {
+             * Set graphic element relative to data. It can be set as null
+             */ List.prototype.setItemGraphicEl = function(idx, el) {
             var hostModel = this.hostModel;
             if (el) {
                 var ecData = getECData(el); // Add data index and series index for indexing the data by element
@@ -17337,9 +17337,9 @@
                 el && cb && cb.call(context, el, idx);
             });
         }, /**
-       * Shallow clone a new list except visual and layout properties, and graph elements.
-       * New list only change the indices.
-       */ List.prototype.cloneShallow = function(list) {
+             * Shallow clone a new list except visual and layout properties, and graph elements.
+             * New list only change the indices.
+             */ List.prototype.cloneShallow = function(list) {
             if (list || (list = new List(map(this.dimensions, this.getDimensionInfo, this), this.hostModel)), list._storage = this._storage, list._storageArr = this._storageArr, transferProperties(list, this), this._indices) {
                 var Ctor = this._indices.constructor;
                 if (Ctor === Array) {
@@ -17350,8 +17350,8 @@
             } else list._indices = null;
             return list.getRawIndex = list._indices ? getRawIndexWithIndices : getRawIndexWithoutIndices, list;
         }, /**
-       * Wrap some method to add more feature
-       */ List.prototype.wrapMethod = function(methodName, injectFunction) {
+             * Wrap some method to add more feature
+             */ List.prototype.wrapMethod = function(methodName, injectFunction) {
             var originalMethod = this[methodName];
             'function' == typeof originalMethod && (this.__wrappedMethods = this.__wrappedMethods || [], this.__wrappedMethods.push(methodName), this[methodName] = function() {
                 var res = originalMethod.apply(this, arguments);
@@ -17416,8 +17416,8 @@
             }, getRawIndexWithIndices = function(idx) {
                 return idx < this._count && idx >= 0 ? this._indices[idx] : -1;
             }, /**
-         * @see the comment of `List['getId']`.
-         */ getId = function(list, rawIndex) {
+                 * @see the comment of `List['getId']`.
+                 */ getId = function(list, rawIndex) {
                 var id = list._idList[rawIndex];
                 return null == id && null != list._idDimIdx && (id = getIdNameFromStore(list, list._idDimIdx, list._idOrdinalMeta, rawIndex)), null == id && (id = 'e\0\0' + rawIndex), id;
             }, normalizeDimensions = function(dimensions) {
@@ -17782,39 +17782,39 @@
         return Scale.prototype.getSetting = function(name) {
             return this._setting[name];
         }, /**
-       * Set extent from data
-       */ Scale.prototype.unionExtent = function(other) {
+             * Set extent from data
+             */ Scale.prototype.unionExtent = function(other) {
             var extent = this._extent;
             other[0] < extent[0] && (extent[0] = other[0]), other[1] > extent[1] && (extent[1] = other[1]);
         // this.setExtent(extent[0], extent[1]);
         }, /**
-       * Set extent from data
-       */ Scale.prototype.unionExtentFromData = function(data, dim) {
+             * Set extent from data
+             */ Scale.prototype.unionExtentFromData = function(data, dim) {
             this.unionExtent(data.getApproximateExtent(dim));
         }, /**
-       * Get extent
-       *
-       * Extent is always in increase order.
-       */ Scale.prototype.getExtent = function() {
+             * Get extent
+             *
+             * Extent is always in increase order.
+             */ Scale.prototype.getExtent = function() {
             return this._extent.slice();
         }, /**
-       * Set extent
-       */ Scale.prototype.setExtent = function(start, end) {
+             * Set extent
+             */ Scale.prototype.setExtent = function(start, end) {
             var thisExtent = this._extent;
             isNaN(start) || (thisExtent[0] = start), isNaN(end) || (thisExtent[1] = end);
         }, /**
-       * If value is in extent range
-       */ Scale.prototype.isInExtentRange = function(value) {
+             * If value is in extent range
+             */ Scale.prototype.isInExtentRange = function(value) {
             return this._extent[0] <= value && this._extent[1] >= value;
         }, /**
-       * When axis extent depends on data and no data exists,
-       * axis ticks should not be drawn, which is named 'blank'.
-       */ Scale.prototype.isBlank = function() {
+             * When axis extent depends on data and no data exists,
+             * axis ticks should not be drawn, which is named 'blank'.
+             */ Scale.prototype.isBlank = function() {
             return this._isBlank;
         }, /**
-       * When axis extent depends on data and no data exists,
-       * axis ticks should not be drawn, which is named 'blank'.
-       */ Scale.prototype.setBlank = function(isBlank) {
+             * When axis extent depends on data and no data exists,
+             * axis ticks should not be drawn, which is named 'blank'.
+             */ Scale.prototype.setBlank = function(isBlank) {
             this._isBlank = isBlank;
         }, Scale;
     }();
@@ -17835,8 +17835,8 @@
             // @ts-ignore
             return this._getOrCreateMap().get(category);
         }, /**
-       * @return The ordinal. If not found, return NaN.
-       */ OrdinalMeta.prototype.parseAndCollect = function(category) {
+             * @return The ordinal. If not found, return NaN.
+             */ OrdinalMeta.prototype.parseAndCollect = function(category) {
             var index, needCollect = this._needCollect; // The value of category dim can be the index of the given category set.
             // This feature is only supported when !needCollect, because we should
             // consider a common case: a value is 2017, which is a number but is
@@ -17893,15 +17893,15 @@
         }, OrdinalScale.prototype.contain = function(rank) {
             return contain$2(rank = this.parse(rank), this._extent) && null != this._ordinalMeta.categories[rank];
         }, /**
-       * Normalize given rank or name to linear [0, 1]
-       * @param val raw ordinal number.
-       * @return normalized value in [0, 1].
-       */ OrdinalScale.prototype.normalize = function(val) {
+             * Normalize given rank or name to linear [0, 1]
+             * @param val raw ordinal number.
+             * @return normalized value in [0, 1].
+             */ OrdinalScale.prototype.normalize = function(val) {
             return normalize$1(val = this._getTickNumber(this.parse(val)), this._extent);
         }, /**
-       * @param val normalized value in [0, 1].
-       * @return raw ordinal number.
-       */ OrdinalScale.prototype.scale = function(val) {
+             * @param val normalized value in [0, 1].
+             * @return raw ordinal number.
+             */ OrdinalScale.prototype.scale = function(val) {
             return val = Math.round(scale$2(val, this._extent)), this.getRawOrdinalNumber(val);
         }, OrdinalScale.prototype.getTicks = function() {
             for(var ticks = [], extent = this._extent, rank = extent[0]; rank <= extent[1];)ticks.push({
@@ -17909,8 +17909,8 @@
             }), rank++;
             return ticks;
         }, OrdinalScale.prototype.getMinorTicks = function(splitNumber) {}, /**
-       * @see `Ordinal['_ordinalNumbersByTick']`
-       */ OrdinalScale.prototype.setSortInfo = function(info) {
+             * @see `Ordinal['_ordinalNumbersByTick']`
+             */ OrdinalScale.prototype.setSortInfo = function(info) {
             if (null == info) {
                 this._ordinalNumbersByTick = this._ticksByOrdinalNumber = null;
                 return;
@@ -17928,26 +17928,26 @@
             // where ordinal numbers are used as tick value directly.
             return ticksByOrdinalNumber && ordinal >= 0 && ordinal < ticksByOrdinalNumber.length ? ticksByOrdinalNumber[ordinal] : ordinal;
         }, /**
-       * @usage
-       * ```js
-       * const ordinalNumber = ordinalScale.getRawOrdinalNumber(tickVal);
-       *
-       * // case0
-       * const rawOrdinalValue = axisModel.getCategories()[ordinalNumber];
-       * // case1
-       * const rawOrdinalValue = this._ordinalMeta.categories[ordinalNumber];
-       * // case2
-       * const coord = axis.dataToCoord(ordinalNumber);
-       * ```
-       *
-       * @param {OrdinalNumber} tickNumber index of display
-       */ OrdinalScale.prototype.getRawOrdinalNumber = function(tickNumber) {
+             * @usage
+             * ```js
+             * const ordinalNumber = ordinalScale.getRawOrdinalNumber(tickVal);
+             *
+             * // case0
+             * const rawOrdinalValue = axisModel.getCategories()[ordinalNumber];
+             * // case1
+             * const rawOrdinalValue = this._ordinalMeta.categories[ordinalNumber];
+             * // case2
+             * const coord = axis.dataToCoord(ordinalNumber);
+             * ```
+             *
+             * @param {OrdinalNumber} tickNumber index of display
+             */ OrdinalScale.prototype.getRawOrdinalNumber = function(tickNumber) {
             var ordinalNumbersByTick = this._ordinalNumbersByTick; // tickNumber may be out of range, e.g., when axis max is larger than `ordinalMeta.categories.length`.,
             // where ordinal numbers are used as tick value directly.
             return ordinalNumbersByTick && tickNumber >= 0 && tickNumber < ordinalNumbersByTick.length ? ordinalNumbersByTick[tickNumber] : tickNumber;
         }, /**
-       * Get item on tick
-       */ OrdinalScale.prototype.getLabel = function(tick) {
+             * Get item on tick
+             */ OrdinalScale.prototype.getLabel = function(tick) {
             if (!this.isBlank()) {
                 var ordinalNumber = this.getRawOrdinalNumber(tick.value), cateogry = this._ordinalMeta.categories[ordinalNumber];
                 // Return empty if it's not exist.
@@ -17958,9 +17958,9 @@
         }, OrdinalScale.prototype.unionExtentFromData = function(data, dim) {
             this.unionExtent(data.getApproximateExtent(dim));
         }, /**
-       * @override
-       * If value is in extent range
-       */ OrdinalScale.prototype.isInExtentRange = function(value) {
+             * @override
+             * If value is in extent range
+             */ OrdinalScale.prototype.isInExtentRange = function(value) {
             return value = this._getTickNumber(value), this._extent[0] <= value && this._extent[1] >= value;
         }, OrdinalScale.prototype.getOrdinalMeta = function() {
             return this._ordinalMeta;
@@ -17992,8 +17992,8 @@
             this._interval = interval, // We assume user wan't to set both interval, min, max to get a better result
             this._niceExtent = this._extent.slice(), this._intervalPrecision = getPrecisionSafe(interval) + 2;
         }, /**
-       * @param expandToNicedExtent Whether expand the ticks to niced extent.
-       */ IntervalScale.prototype.getTicks = function(expandToNicedExtent) {
+             * @param expandToNicedExtent Whether expand the ticks to niced extent.
+             */ IntervalScale.prototype.getTicks = function(expandToNicedExtent) {
             var interval = this._interval, extent = this._extent, niceTickExtent = this._niceExtent, intervalPrecision = this._intervalPrecision, ticks = [];
             if (!interval) return ticks;
              // Consider this case: using dataZoom toolbox, zoom and zoom.
@@ -18023,16 +18023,16 @@
             }
             return minorTicks;
         }, /**
-       * @param opt.precision If 'auto', use nice presision.
-       * @param opt.pad returns 1.50 but not 1.5 if precision is 2.
-       */ IntervalScale.prototype.getLabel = function(data, opt) {
+             * @param opt.precision If 'auto', use nice presision.
+             * @param opt.pad returns 1.50 but not 1.5 if precision is 2.
+             */ IntervalScale.prototype.getLabel = function(data, opt) {
             if (null == data) return '';
             var precision = opt && opt.precision;
             return null == precision ? precision = getPrecisionSafe(data.value) || 0 : 'auto' === precision && // Should be more precise then tick.
             (precision = this._intervalPrecision), addCommas(round(data.value, precision, !0));
         }, /**
-       * @param splitNumber By default `5`.
-       */ IntervalScale.prototype.niceTicks = function(splitNumber, minInterval, maxInterval) {
+             * @param splitNumber By default `5`.
+             */ IntervalScale.prototype.niceTicks = function(splitNumber, minInterval, maxInterval) {
             splitNumber = splitNumber || 5;
             var splitNumber1, result, interval, precision, extent = this._extent, span = extent[1] - extent[0];
             if (isFinite(span)) {
@@ -18086,12 +18086,12 @@
      * The value of 1000000 is in milliseconds.
      */ function(barSeries) {
             /**
-       * Map from axis.index to values.
-       * For a single time axis, axisValues is in the form like
-       * {'x_0': [1495555200000, 1495641600000, 1495728000000]}.
-       * Items in axisValues[x], e.g. 1495555200000, are time values of all
-       * series.
-       */ var axisValues = {};
+         * Map from axis.index to values.
+         * For a single time axis, axisValues is in the form like
+         * {'x_0': [1495555200000, 1495641600000, 1495728000000]}.
+         * Items in axisValues[x], e.g. 1495555200000, are time values of all
+         * series.
+         */ var axisValues = {};
             each(barSeries, function(seriesModel) {
                 var baseAxis = seriesModel.coordinateSystem.getBaseAxis();
                 if ('time' === baseAxis.type || 'value' === baseAxis.type) for(var data = seriesModel.getData(), key = baseAxis.dim + '_' + baseAxis.index, dim = data.mapDimension(baseAxis.dim), i = 0, cnt = data.count(); i < cnt; ++i){
@@ -18305,8 +18305,8 @@
             return _this.type = 'time', _this;
         }
         return __extends(TimeScale, _super), /**
-       * Get label is mainly for other components like dataZoom, tooltip.
-       */ TimeScale.prototype.getLabel = function(tick) {
+             * Get label is mainly for other components like dataZoom, tooltip.
+             */ TimeScale.prototype.getLabel = function(tick) {
             var useUTC = this.getSetting('useUTC');
             return format(tick.value, fullLeveledFormatter[function(timeUnit) {
                 switch(timeUnit){
@@ -18351,9 +18351,9 @@
                 return format(new Date(tick.value), template, isUTC, lang);
             }(tick, idx, labelFormatter, this.getSetting('locale'), isUTC);
         }, /**
-       * @override
-       * @param expandToNicedExtent Whether expand the ticks to niced extent.
-       */ TimeScale.prototype.getTicks = function(expandToNicedExtent) {
+             * @override
+             * @param expandToNicedExtent Whether expand the ticks to niced extent.
+             */ TimeScale.prototype.getTicks = function(expandToNicedExtent) {
             var interval = this._interval, extent = this._extent, ticks = [];
             if (!interval) return ticks;
             ticks.push({
@@ -18600,8 +18600,8 @@
             return _this.type = 'log', _this.base = 10, _this._originalScale = new IntervalScale(), _this._interval = 0, _this;
         }
         return __extends(LogScale, _super), /**
-       * @param Whether expand the ticks to niced extent.
-       */ LogScale.prototype.getTicks = function(expandToNicedExtent) {
+             * @param Whether expand the ticks to niced extent.
+             */ LogScale.prototype.getTicks = function(expandToNicedExtent) {
             var originalScale = this._originalScale, extent = this._extent, originalExtent = originalScale.getExtent();
             return map(intervalScaleProto.getTicks.call(this, expandToNicedExtent), function(tick) {
                 var val = tick.value, powVal = round(mathPow$1(this.base, val));
@@ -18613,8 +18613,8 @@
             var base = this.base;
             start = mathLog(start) / mathLog(base), end = mathLog(end) / mathLog(base), intervalScaleProto.setExtent.call(this, start, end);
         }, /**
-       * @return {number} end
-       */ LogScale.prototype.getExtent = function() {
+             * @return {number} end
+             */ LogScale.prototype.getExtent = function() {
             var base = this.base, extent = scaleProto.getExtent.call(this);
             extent[0] = mathPow$1(base, extent[0]), extent[1] = mathPow$1(base, extent[1]);
             var originalExtent = this._originalScale.getExtent();
@@ -18628,9 +18628,9 @@
             // filter value that <= 0
             this.unionExtent(data.getApproximateExtent(dim));
         }, /**
-       * Update interval and extent of intervals for nice ticks
-       * @param approxTickNum default 10 Given approx tick number
-       */ LogScale.prototype.niceTicks = function(approxTickNum) {
+             * Update interval and extent of intervals for nice ticks
+             * @param approxTickNum default 10 Given approx tick number
+             */ LogScale.prototype.niceTicks = function(approxTickNum) {
             approxTickNum = approxTickNum || 10;
             var extent = this._extent, span = extent[1] - extent[0];
             if (span !== 1 / 0 && !(span <= 0)) {
@@ -18660,9 +18660,9 @@
             this._prepareParams(scale, model, originalExtent);
         }
         return(/**
-       * Parameters depending on ouside (like model, user callback)
-       * are prepared and fixed here.
-       */ ScaleRawExtentInfo.prototype._prepareParams = function(scale, model, dataExtent) {
+             * Parameters depending on ouside (like model, user callback)
+             * are prepared and fixed here.
+             */ ScaleRawExtentInfo.prototype._prepareParams = function(scale, model, dataExtent) {
             dataExtent[1] < dataExtent[0] && (dataExtent = [
                 NaN,
                 NaN
@@ -18698,11 +18698,11 @@
                 ];
             }
         }, /**
-       * Calculate extent by prepared parameters.
-       * This method has no external dependency and can be called duplicatedly,
-       * getting the same result.
-       * If parameters changed, should call this method to recalcuate.
-       */ ScaleRawExtentInfo.prototype.calculate = function() {
+             * Calculate extent by prepared parameters.
+             * This method has no external dependency and can be called duplicatedly,
+             * getting the same result.
+             * If parameters changed, should call this method to recalcuate.
+             */ ScaleRawExtentInfo.prototype.calculate = function() {
             // Notice: When min/max is not set (that is, when there are null/undefined,
             // which is the most common case), these cases should be ensured:
             // (1) For 'ordinal', show all axis.data.
@@ -18960,9 +18960,9 @@
         return AxisModelCommonMixin.prototype.getNeedCrossZero = function() {
             return !this.option.scale;
         }, /**
-       * Should be implemented by each axis model if necessary.
-       * @return coordinate system model
-       */ AxisModelCommonMixin.prototype.getCoordSysModel = function() {}, AxisModelCommonMixin;
+             * Should be implemented by each axis model if necessary.
+             * @return coordinate system model
+             */ AxisModelCommonMixin.prototype.getCoordSysModel = function() {}, AxisModelCommonMixin;
     }(), helper = /*#__PURE__*/ Object.freeze({
         __proto__: null,
         createList: /**
@@ -19192,50 +19192,50 @@
             ];
         }
         return(/**
-       * If axis extent contain given coord
-       */ Axis.prototype.contain = function(coord) {
+             * If axis extent contain given coord
+             */ Axis.prototype.contain = function(coord) {
             var extent = this._extent, min = Math.min(extent[0], extent[1]), max = Math.max(extent[0], extent[1]);
             return coord >= min && coord <= max;
         }, /**
-       * If axis extent contain given data
-       */ Axis.prototype.containData = function(data) {
+             * If axis extent contain given data
+             */ Axis.prototype.containData = function(data) {
             return this.scale.contain(data);
         }, /**
-       * Get coord extent.
-       */ Axis.prototype.getExtent = function() {
+             * Get coord extent.
+             */ Axis.prototype.getExtent = function() {
             return this._extent.slice();
         }, /**
-       * Get precision used for formatting
-       */ Axis.prototype.getPixelPrecision = function(dataExtent) {
+             * Get precision used for formatting
+             */ Axis.prototype.getPixelPrecision = function(dataExtent) {
             return getPixelPrecision(dataExtent || this.scale.getExtent(), this._extent);
         }, /**
-       * Set coord extent
-       */ Axis.prototype.setExtent = function(start, end) {
+             * Set coord extent
+             */ Axis.prototype.setExtent = function(start, end) {
             var extent = this._extent;
             extent[0] = start, extent[1] = end;
         }, /**
-       * Convert data to coord. Data is the rank if it has an ordinal scale
-       */ Axis.prototype.dataToCoord = function(data, clamp) {
+             * Convert data to coord. Data is the rank if it has an ordinal scale
+             */ Axis.prototype.dataToCoord = function(data, clamp) {
             var extent = this._extent, scale = this.scale;
             return data = scale.normalize(data), this.onBand && 'ordinal' === scale.type && fixExtentWithBands(extent = extent.slice(), scale.count()), linearMap(data, NORMALIZED_EXTENT, extent, clamp);
         }, /**
-       * Convert coord to data. Data is the rank if it has an ordinal scale
-       */ Axis.prototype.coordToData = function(coord, clamp) {
+             * Convert coord to data. Data is the rank if it has an ordinal scale
+             */ Axis.prototype.coordToData = function(coord, clamp) {
             var extent = this._extent, scale = this.scale;
             this.onBand && 'ordinal' === scale.type && fixExtentWithBands(extent = extent.slice(), scale.count());
             var t = linearMap(coord, extent, NORMALIZED_EXTENT, clamp);
             return this.scale.scale(t);
         }, /**
-       * Convert pixel point to data in axis
-       */ Axis.prototype.pointToData = function(point, clamp) {}, /**
-       * Different from `zrUtil.map(axis.getTicks(), axis.dataToCoord, axis)`,
-       * `axis.getTicksCoords` considers `onBand`, which is used by
-       * `boundaryGap:true` of category axis and splitLine and splitArea.
-       * @param opt.tickModel default: axis.model.getModel('axisTick')
-       * @param opt.clamp If `true`, the first and the last
-       *        tick must be at the axis end points. Otherwise, clip ticks
-       *        that outside the axis extent.
-       */ Axis.prototype.getTicksCoords = function(opt) {
+             * Convert pixel point to data in axis
+             */ Axis.prototype.pointToData = function(point, clamp) {}, /**
+             * Different from `zrUtil.map(axis.getTicks(), axis.dataToCoord, axis)`,
+             * `axis.getTicksCoords` considers `onBand`, which is used by
+             * `boundaryGap:true` of category axis and splitLine and splitArea.
+             * @param opt.tickModel default: axis.model.getModel('axisTick')
+             * @param opt.clamp If `true`, the first and the last
+             *        tick must be at the axis end points. Otherwise, clip ticks
+             *        that outside the axis extent.
+             */ Axis.prototype.getTicksCoords = function(opt) {
             var tickModel = (opt = opt || {}).tickModel || this.getTickModel(), ticks = ('category' === this.type ? function(axis, tickModel) {
                 var ticks, tickCategoryInterval, ticksCache = getListCache(axis, 'ticks'), optionTickInterval = getOptionCategoryInterval(tickModel), result = listCacheGet(ticksCache, optionTickInterval);
                 if (result) return result;
@@ -19326,23 +19326,23 @@
         }, Axis.prototype.getLabelModel = function() {
             return this.model.getModel('axisLabel');
         }, /**
-       * Notice here we only get the default tick model. For splitLine
-       * or splitArea, we should pass the splitLineModel or splitAreaModel
-       * manually when calling `getTicksCoords`.
-       * In GL, this method may be overrided to:
-       * `axisModel.getModel('axisTick', grid3DModel.getModel('axisTick'));`
-       */ Axis.prototype.getTickModel = function() {
+             * Notice here we only get the default tick model. For splitLine
+             * or splitArea, we should pass the splitLineModel or splitAreaModel
+             * manually when calling `getTicksCoords`.
+             * In GL, this method may be overrided to:
+             * `axisModel.getModel('axisTick', grid3DModel.getModel('axisTick'));`
+             */ Axis.prototype.getTickModel = function() {
             return this.model.getModel('axisTick');
         }, /**
-       * Get width of band
-       */ Axis.prototype.getBandWidth = function() {
+             * Get width of band
+             */ Axis.prototype.getBandWidth = function() {
             var axisExtent = this._extent, dataExtent = this.scale.getExtent(), len = dataExtent[1] - dataExtent[0] + +!!this.onBand;
             return 0 === len && (len = 1), Math.abs(Math.abs(axisExtent[1] - axisExtent[0])) / len;
         }, /**
-       * Only be called in category axis.
-       * Can be overrided, consider other axes like in 3D.
-       * @return Auto interval for cateogry axis tick and label
-       */ Axis.prototype.calculateCategoryInterval = function() {
+             * Only be called in category axis.
+             * Can be overrided, consider other axes like in 3D.
+             * @return Auto interval for cateogry axis tick and label
+             */ Axis.prototype.calculateCategoryInterval = function() {
             return(/**
      * Calculate interval for category axis ticks and labels.
      * To get precise result, at least one of `getRotate` and `isHorizontal`
@@ -20560,40 +20560,40 @@
                 scaleY: symbolSize[1] / 2
             }), symbolPath.drift = driftSymbol, this._symbolType = symbolType, this.add(symbolPath);
         }, /**
-       * Stop animation
-       * @param {boolean} toLastFrame
-       */ Symbol.prototype.stopSymbolAnimation = function(toLastFrame) {
+             * Stop animation
+             * @param {boolean} toLastFrame
+             */ Symbol.prototype.stopSymbolAnimation = function(toLastFrame) {
             this.childAt(0).stopAnimation(null, toLastFrame);
         }, /**
-       * FIXME:
-       * Caution: This method breaks the encapsulation of this module,
-       * but it indeed brings convenience. So do not use the method
-       * unless you detailedly know all the implements of `Symbol`,
-       * especially animation.
-       *
-       * Get symbol path element.
-       */ Symbol.prototype.getSymbolPath = function() {
+             * FIXME:
+             * Caution: This method breaks the encapsulation of this module,
+             * but it indeed brings convenience. So do not use the method
+             * unless you detailedly know all the implements of `Symbol`,
+             * especially animation.
+             *
+             * Get symbol path element.
+             */ Symbol.prototype.getSymbolPath = function() {
             return this.childAt(0);
         }, /**
-       * Highlight symbol
-       */ Symbol.prototype.highlight = function() {
+             * Highlight symbol
+             */ Symbol.prototype.highlight = function() {
             enterEmphasis(this.childAt(0));
         }, /**
-       * Downplay symbol
-       */ Symbol.prototype.downplay = function() {
+             * Downplay symbol
+             */ Symbol.prototype.downplay = function() {
             leaveEmphasis(this.childAt(0));
         }, /**
-       * @param {number} zlevel
-       * @param {number} z
-       */ Symbol.prototype.setZ = function(zlevel, z) {
+             * @param {number} zlevel
+             * @param {number} z
+             */ Symbol.prototype.setZ = function(zlevel, z) {
             var symbolPath = this.childAt(0);
             symbolPath.zlevel = zlevel, symbolPath.z = z;
         }, Symbol.prototype.setDraggable = function(draggable) {
             var symbolPath = this.childAt(0);
             symbolPath.draggable = draggable, symbolPath.cursor = draggable ? 'move' : symbolPath.cursor;
         }, /**
-       * Update symbol properties
-       */ Symbol.prototype.updateData = function(data, idx, seriesScope, opts) {
+             * Update symbol properties
+             */ Symbol.prototype.updateData = function(data, idx, seriesScope, opts) {
             this.silent = !1;
             var symbolType = data.getItemVisual(idx, 'symbol') || 'circle', seriesModel = data.hostModel, symbolSize = Symbol.getSymbolSize(data, idx), isInit = symbolType !== this._symbolType, disableAnimation = opts && opts.disableAnimation;
             if (isInit) {
@@ -20749,8 +20749,8 @@
             this.group = new Group(), this._SymbolCtor = SymbolCtor || Symbol;
         }
         return(/**
-       * Update symbols draw by new data
-       */ SymbolDraw.prototype.updateData = function(data, opt) {
+             * Update symbols draw by new data
+             */ SymbolDraw.prototype.updateData = function(data, opt) {
             opt = normalizeUpdateOpt(opt);
             var group = this.group, seriesModel = data.hostModel, oldData = this._data, SymbolCtor = this._SymbolCtor, disableAnimation = opt.disableAnimation, seriesScope = makeSeriesScope(data), symbolUpdateOpt = {
                 disableAnimation: disableAnimation
@@ -20797,8 +20797,8 @@
         }, SymbolDraw.prototype.incrementalPrepareUpdate = function(data) {
             this._seriesScope = makeSeriesScope(data), this._data = null, this.group.removeAll();
         }, /**
-       * Update symbols draw by new data
-       */ SymbolDraw.prototype.incrementalUpdate = function(taskParams, data, opt) {
+             * Update symbols draw by new data
+             */ SymbolDraw.prototype.incrementalUpdate = function(taskParams, data, opt) {
             function updateIncrementalAndHover(el) {
                 el.isGroup || (el.incremental = !0, el.ensureState('emphasis').hoverLayer = !0);
             }
@@ -21487,8 +21487,8 @@
                 valueAnimation && labelInner(endLabel).setLabelText(value);
             }
         }, /**
-       * @private
-       */ // FIXME Two value axis
+             * @private
+             */ // FIXME Two value axis
         LineView.prototype._doUpdateAnimation = function(data, stackedOnPoints, coordSys, api, step, valueOrigin) {
             var polyline = this._polyline, polygon = this._polygon, seriesModel = data.hostModel, diff = function(oldData, newData, oldStackedOnPoints, newStackedOnPoints, oldCoordSys, newCoordSys, oldValueOrigin, newValueOrigin) {
                 var diffResult, diff = (diffResult = [], newData.diff(oldData).add(function(idx) {
@@ -21759,13 +21759,13 @@
                 createInvertedIndices: !!this.get('realtimeSort', !0) || null
             });
         }, /**
-       * @override
-       */ BarSeriesModel.prototype.getProgressive = function() {
+             * @override
+             */ BarSeriesModel.prototype.getProgressive = function() {
             // Do not support progressive in normal mode.
             return !!this.get('large') && this.get('progressive');
         }, /**
-       * @override
-       */ BarSeriesModel.prototype.getProgressiveThreshold = function() {
+             * @override
+             */ BarSeriesModel.prototype.getProgressiveThreshold = function() {
             // Do not support progressive in normal mode.
             var progressiveThreshold = this.get('progressiveThreshold'), largeThreshold = this.get('largeThreshold');
             return largeThreshold > progressiveThreshold && (progressiveThreshold = largeThreshold), progressiveThreshold;
@@ -21964,10 +21964,10 @@
             }
             return !1;
         }, /*
-       * Consider the case when A and B changed order, whose representing
-       * bars are both out of sight, we don't wish to trigger reorder action
-       * as long as the order in the view doesn't change.
-       */ BarView.prototype._isOrderDifferentInView = function(orderInfo, baseAxis) {
+             * Consider the case when A and B changed order, whose representing
+             * bars are both out of sight, we don't wish to trigger reorder action
+             * as long as the order in the view doesn't change.
+             */ BarView.prototype._isOrderDifferentInView = function(orderInfo, baseAxis) {
             for(var scale = baseAxis.scale, extent = scale.getExtent(), tickNum = Math.max(0, extent[0]), tickMax = Math.min(extent[1], scale.getOrdinalMeta().categories.length - 1); tickNum <= tickMax; ++tickNum)if (orderInfo.ordinalNumbers[tickNum] !== scale.getRawOrdinalNumber(tickNum)) return !0;
         }, BarView.prototype._updateSortWithinSameData = function(data, orderMapping, baseAxis, api) {
             if (this._isOrderChangedWithinSameData(data, orderMapping, baseAxis)) {
@@ -22728,17 +22728,17 @@
             return _this.useColorPaletteOnData = !0, _this;
         }
         return __extends(PieSeriesModel, _super), /**
-       * @overwrite
-       */ PieSeriesModel.prototype.init = function(option) {
+             * @overwrite
+             */ PieSeriesModel.prototype.init = function(option) {
             _super.prototype.init.apply(this, arguments), // Use a function instead of direct access because data reference may changed
             this.legendVisualProvider = new LegendVisualProvider(bind(this.getData, this), bind(this.getRawData, this)), this._defaultLabelLine(option);
         }, /**
-       * @overwrite
-       */ PieSeriesModel.prototype.mergeOption = function() {
+             * @overwrite
+             */ PieSeriesModel.prototype.mergeOption = function() {
             _super.prototype.mergeOption.apply(this, arguments);
         }, /**
-       * @overwrite
-       */ PieSeriesModel.prototype.getInitialData = function() {
+             * @overwrite
+             */ PieSeriesModel.prototype.getInitialData = function() {
             return createListSimply(this, {
                 coordDimensions: [
                     'value'
@@ -22746,8 +22746,8 @@
                 encodeDefaulter: curry(makeSeriesEncodeForNameBased, this)
             });
         }, /**
-       * @overwrite
-       */ PieSeriesModel.prototype.getDataParams = function(dataIndex) {
+             * @overwrite
+             */ PieSeriesModel.prototype.getDataParams = function(dataIndex) {
             var data = this.getData(), params = _super.prototype.getDataParams.call(this, dataIndex), valueList = [];
             return data.each(data.mapDimension('value'), function(value) {
                 valueList.push(value);
@@ -22942,8 +22942,8 @@
         return LargeSymbolDraw.prototype.isPersistent = function() {
             return !this._incremental;
         }, /**
-       * Update symbols draw by new data
-       */ LargeSymbolDraw.prototype.updateData = function(data, opt) {
+             * Update symbols draw by new data
+             */ LargeSymbolDraw.prototype.updateData = function(data, opt) {
             this.group.removeAll();
             var symbolEl = new LargeSymbolPath({
                 rectHover: !0,
@@ -23273,9 +23273,9 @@
                 }, AxisModel.prototype.optionUpdated = function() {
                     'category' === this.option.type && (this.__ordinalMeta = OrdinalMeta.createByAxisModel(this));
                 }, /**
-           * Should not be called before all of 'getInitailData' finished.
-           * Because categories are collected during initializing data.
-           */ AxisModel.prototype.getCategories = function(rawData) {
+                     * Should not be called before all of 'getInitailData' finished.
+                     * Because categories are collected during initializing data.
+                     */ AxisModel.prototype.getCategories = function(rawData) {
                     var option = this.option; // FIXME
                     // warning if called before all of 'getInitailData' finished.
                     if ('category' === option.type) return rawData ? option.data : this.__ordinalMeta.categories;
@@ -23321,9 +23321,9 @@
             return _this.type = 'cartesian2d', _this.dimensions = cartesian2DDimensions, _this;
         }
         return __extends(Cartesian2D, _super), /**
-       * Calculate an affine transform matrix if two axes are time or value.
-       * It's mainly for accelartion on the large time series data.
-       */ Cartesian2D.prototype.calcAffineTransform = function() {
+             * Calculate an affine transform matrix if two axes are time or value.
+             * It's mainly for accelartion on the large time series data.
+             */ Cartesian2D.prototype.calcAffineTransform = function() {
             this._transform = this._invTransform = null;
             var xAxisScale = this.getAxis('x').scale, yAxisScale = this.getAxis('y').scale;
             if (canCalculateAffineTransform(xAxisScale) && canCalculateAffineTransform(yAxisScale)) {
@@ -23347,8 +23347,8 @@
                 } // Accelerate data to point calculation on the special large time series data.
             }
         }, /**
-       * Base axis will be used on stacking.
-       */ Cartesian2D.prototype.getBaseAxis = function() {
+             * Base axis will be used on stacking.
+             */ Cartesian2D.prototype.getBaseAxis = function() {
             return this.getAxesByScale('ordinal')[0] || this.getAxesByScale('time')[0] || this.getAxis('x');
         }, Cartesian2D.prototype.containPoint = function(point) {
             var axisX = this.getAxis('x'), axisY = this.getAxis('y');
@@ -23372,9 +23372,9 @@
         }, Cartesian2D.prototype.getOtherAxis = function(axis) {
             return this.getAxis('x' === axis.dim ? 'y' : 'x');
         }, /**
-       * Get rect area of cartesian.
-       * Area will have a contain function to determine if a point is in the coordinate system.
-       */ Cartesian2D.prototype.getArea = function() {
+             * Get rect area of cartesian.
+             * Area will have a contain function to determine if a point is in the coordinate system.
+             */ Cartesian2D.prototype.getArea = function() {
             var xExtent = this.getAxis('x').getGlobalExtent(), yExtent = this.getAxis('y').getGlobalExtent(), x = Math.min(xExtent[0], xExtent[1]), y = Math.min(yExtent[0], yExtent[1]), width = Math.max(xExtent[0], xExtent[1]) - x, height = Math.max(yExtent[0], yExtent[1]) - y;
             return new BoundingRect(x, y, width, height);
         }, Cartesian2D;
@@ -23382,29 +23382,29 @@
         function Axis2D(dim, scale, coordExtent, axisType, position) {
             var _this = _super.call(this, dim, scale, coordExtent) || this;
             return(/**
-         * Index of axis, can be used as key
-         * Injected outside.
-         */ _this.index = 0, _this.type = axisType || 'value', _this.position = position || 'bottom', _this);
+                 * Index of axis, can be used as key
+                 * Injected outside.
+                 */ _this.index = 0, _this.type = axisType || 'value', _this.position = position || 'bottom', _this);
         }
         return __extends(Axis2D, _super), Axis2D.prototype.isHorizontal = function() {
             var position = this.position;
             return 'top' === position || 'bottom' === position;
         }, /**
-       * Each item cooresponds to this.getExtent(), which
-       * means globalExtent[0] may greater than globalExtent[1],
-       * unless `asc` is input.
-       *
-       * @param {boolean} [asc]
-       * @return {Array.<number>}
-       */ Axis2D.prototype.getGlobalExtent = function(asc) {
+             * Each item cooresponds to this.getExtent(), which
+             * means globalExtent[0] may greater than globalExtent[1],
+             * unless `asc` is input.
+             *
+             * @param {boolean} [asc]
+             * @return {Array.<number>}
+             */ Axis2D.prototype.getGlobalExtent = function(asc) {
             var ret = this.getExtent();
             return ret[0] = this.toGlobalCoord(ret[0]), ret[1] = this.toGlobalCoord(ret[1]), asc && ret[0] > ret[1] && ret.reverse(), ret;
         }, Axis2D.prototype.pointToData = function(point, clamp) {
             return this.coordToData(this.toLocalCoord(point[+('x' !== this.dim)]), clamp);
         }, /**
-       * Set ordinalSortInfo
-       * @param info new OrdinalSortInfo
-       */ Axis2D.prototype.setCategorySortInfo = function(info) {
+             * Set ordinalSortInfo
+             * @param info new OrdinalSortInfo
+             */ Axis2D.prototype.setCategorySortInfo = function(info) {
             if ('category' !== this.type) return !1;
             this.model.option.categorySortInfo = info, this.scale.setSortInfo(info);
         }, Axis2D;
@@ -23493,8 +23493,8 @@
             }), // FIXME It may cause getting wrong grid size in data processing stage
             this.resize(this.model, api);
         }, /**
-       * Resize the grid
-       */ Grid.prototype.resize = function(gridModel, api, ignoreContainLabel) {
+             * Resize the grid
+             */ Grid.prototype.resize = function(gridModel, api, ignoreContainLabel) {
             var boxLayoutParams = gridModel.getBoxLayoutParams(), isContainLabel = !ignoreContainLabel && gridModel.get('containLabel'), gridRect = getLayoutRect(boxLayoutParams, {
                 width: api.getWidth(),
                 height: api.getHeight()
@@ -23579,13 +23579,13 @@
         }, Grid.prototype.getCartesians = function() {
             return this._coordsList.slice();
         }, /**
-       * @implements
-       */ Grid.prototype.convertToPixel = function(ecModel, finder, value) {
+             * @implements
+             */ Grid.prototype.convertToPixel = function(ecModel, finder, value) {
             var target = this._findConvertTarget(finder);
             return target.cartesian ? target.cartesian.dataToPoint(value) : target.axis ? target.axis.toGlobalCoord(target.axis.dataToCoord(value)) : null;
         }, /**
-       * @implements
-       */ Grid.prototype.convertFromPixel = function(ecModel, finder, value) {
+             * @implements
+             */ Grid.prototype.convertFromPixel = function(ecModel, finder, value) {
             var target = this._findConvertTarget(finder);
             return target.cartesian ? target.cartesian.pointToData(value) : target.axis ? target.axis.coordToData(target.axis.toLocalCoord(value)) : null;
         }, Grid.prototype._findConvertTarget = function(finder) {
@@ -23595,13 +23595,13 @@
                 axis: axis
             };
         }, /**
-       * @implements
-       */ Grid.prototype.containPoint = function(point) {
+             * @implements
+             */ Grid.prototype.containPoint = function(point) {
             var coord = this._coordsList[0];
             if (coord) return coord.containPoint(point);
         }, /**
-       * Initialize cartesian coordinate systems
-       */ Grid.prototype._initCartesian = function(gridModel, ecModel, api) {
+             * Initialize cartesian coordinate systems
+             */ Grid.prototype._initCartesian = function(gridModel, ecModel, api) {
             var _this = this, grid = this, axisPositionUsed = {
                 left: !1,
                 right: !1,
@@ -23641,8 +23641,8 @@
                 });
             });
         }, /**
-       * Update cartesian properties from series.
-       */ Grid.prototype._updateScale = function(ecModel, gridModel) {
+             * Update cartesian properties from series.
+             */ Grid.prototype._updateScale = function(ecModel, gridModel) {
             function unionExtent(data, axis) {
                 each(getDataDimensionsOnAxis(data, axis.dim), function(dim) {
                     axis.scale.unionExtentFromData(data, dim);
@@ -23664,8 +23664,8 @@
                 }
             }, this);
         }, /**
-       * @param dim 'x' or 'y' or 'auto' or null/undefined
-       */ Grid.prototype.getTooltipAxes = function(dim) {
+             * @param dim 'x' or 'y' or 'auto' or null/undefined
+             */ Grid.prototype.getTooltipAxes = function(dim) {
             var baseAxes = [], otherAxes = [];
             return each(this.getCartesians(), function(cartesian) {
                 var baseAxis = null != dim && 'auto' !== dim ? cartesian.getAxis(dim) : cartesian.getBaseAxis(), otherAxis = cartesian.getOtherAxis(baseAxis);
@@ -24053,8 +24053,8 @@
             return _this.type = AxisView.type, _this;
         }
         return __extends(AxisView, _super), /**
-       * @override
-       */ AxisView.prototype.render = function(axisModel, ecModel, api, payload) {
+             * @override
+             */ AxisView.prototype.render = function(axisModel, ecModel, api, payload) {
             // FIXME
             // This process should proformed after coordinate systems updated
             // (axis scale updated), and should be performed each time update.
@@ -24074,17 +24074,17 @@
                 }
             }(axisModel), _super.prototype.render.apply(this, arguments), this._doUpdateAxisPointerClass(axisModel, api, !0);
         }, /**
-       * Action handler.
-       */ AxisView.prototype.updateAxisPointer = function(axisModel, ecModel, api, payload) {
+             * Action handler.
+             */ AxisView.prototype.updateAxisPointer = function(axisModel, ecModel, api, payload) {
             this._doUpdateAxisPointerClass(axisModel, api, !1);
         }, /**
-       * @override
-       */ AxisView.prototype.remove = function(ecModel, api) {
+             * @override
+             */ AxisView.prototype.remove = function(ecModel, api) {
             var axisPointer = this._axisPointer;
             axisPointer && axisPointer.remove(api);
         }, /**
-       * @override
-       */ AxisView.prototype.dispose = function(ecModel, api) {
+             * @override
+             */ AxisView.prototype.dispose = function(ecModel, api) {
             this._disposeAxisPointer(api), _super.prototype.dispose.apply(this, arguments);
         }, AxisView.prototype._doUpdateAxisPointerClass = function(axisModel, api, forceRender) {
             var axisInfo, Clazz = AxisView.getAxisPointerClass(this.axisPointerClass);
@@ -24162,8 +24162,8 @@
             return _this.type = CartesianAxisView.type, _this.axisPointerClass = 'CartesianAxisPointer', _this;
         }
         return __extends(CartesianAxisView, _super), /**
-       * @override
-       */ CartesianAxisView.prototype.render = function(axisModel, ecModel, api, payload) {
+             * @override
+             */ CartesianAxisView.prototype.render = function(axisModel, ecModel, api, payload) {
             this.group.removeAll();
             var oldAxisGroup = this._axisGroup;
             if (this._axisGroup = new Group(), this.group.add(this._axisGroup), axisModel.get('show')) {
@@ -24701,9 +24701,9 @@
     }(Axis), Radar = /** @class */ function() {
         function Radar(radarModel, ecModel, api) {
             /**
-         *
-         * Radar dimensions
-         */ this.dimensions = [], this._model = radarModel, this._indicatorAxes = map(radarModel.getIndicatorModels(), function(indicatorModel, idx) {
+                 *
+                 * Radar dimensions
+                 */ this.dimensions = [], this._model = radarModel, this._indicatorAxes = map(radarModel.getIndicatorModels(), function(indicatorModel, idx) {
                 var dim = 'indicator_' + idx, indicatorAxis = new IndicatorAxis(dim, new IntervalScale() // (indicatorModel.get('axisType') === 'log') ? new LogScale() : new IntervalScale()
                 );
                 return indicatorAxis.name = indicatorModel.get('name'), indicatorAxis.model = indicatorModel, indicatorModel.axis = indicatorAxis, this.dimensions.push(dim), indicatorAxis;
@@ -24800,8 +24800,8 @@
                 (radarSeries.coordinateSystem = radarList[radarSeries.get('radarIndex') || 0]);
             }), radarList;
         }, /**
-       * Radar dimensions is based on the data
-       */ Radar.dimensions = [], Radar;
+             * Radar dimensions is based on the data
+             */ Radar.dimensions = [], Radar;
     }();
     function install$7(registers) {
         registers.registerCoordinateSystem('radar', Radar), registers.registerComponentModel(RadarModel), registers.registerComponentView(RadarView$1), registers.registerVisual({
@@ -24836,10 +24836,10 @@
             _this._zr = zr;
             var mousedownHandler = bind(_this._mousedownHandler, _this), mousemoveHandler = bind(_this._mousemoveHandler, _this), mouseupHandler = bind(_this._mouseupHandler, _this), mousewheelHandler = bind(_this._mousewheelHandler, _this), pinchHandler = bind(_this._pinchHandler, _this);
             return(/**
-         * Notice: only enable needed types. For example, if 'zoom'
-         * is not needed, 'zoom' should not be enabled, otherwise
-         * default mousewheel behaviour (scroll page) will be disabled.
-         */ _this.enable = function(controlType, opt) {
+                 * Notice: only enable needed types. For example, if 'zoom'
+                 * is not needed, 'zoom' should not be enabled, otherwise
+                 * default mousewheel behaviour (scroll page) will be disabled.
+                 */ _this.enable = function(controlType, opt) {
                 // Disable previous first
                 this.disable(), this._opt = defaults(clone(opt) || {}, {
                     zoomOnMouseWheel: !0,
@@ -25226,16 +25226,16 @@
                 ]) && !onIrrelevantElement(e, api, mapOrGeoModel);
             });
         }, /**
-       * FIXME: this is a temporarily workaround.
-       * When `geoRoam` the elements need to be reset in `MapView['render']`, because the props like
-       * `ignore` might have been modified by `LabelManager`, and `LabelManager#addLabelsOfSeries`
-       * will subsequently cache `defaultAttr` like `ignore`. If do not do this reset, the modified
-       * props will have no chance to be restored.
-       * Note: this reset should be after `clearStates` in `renderSeries` becuase `useStates` in
-       * `renderSeries` will cache the modified `ignore` to `el._normalState`.
-       * TODO:
-       * Use clone/immutable in `LabelManager`?
-       */ MapDraw.prototype.resetForLabelLayout = function() {
+             * FIXME: this is a temporarily workaround.
+             * When `geoRoam` the elements need to be reset in `MapView['render']`, because the props like
+             * `ignore` might have been modified by `LabelManager`, and `LabelManager#addLabelsOfSeries`
+             * will subsequently cache `defaultAttr` like `ignore`. If do not do this reset, the modified
+             * props will have no chance to be restored.
+             * Note: this reset should be after `clearStates` in `renderSeries` becuase `useStates` in
+             * `renderSeries` will cache the modified `ignore` to `el._normalState`.
+             * TODO:
+             * Use clone/immutable in `LabelManager`?
+             */ MapDraw.prototype.resetForLabelLayout = function() {
             this.group.traverse(function(el) {
                 var label = el.getTextContent();
                 label && (label.ignore = mapLabelRaw(label).ignore);
@@ -25454,9 +25454,9 @@
             // find `dataIndex` by name.
             data.appendValues([], toAppendNames), data;
         }, /**
-       * If no host geo model, return null, which means using a
-       * inner exclusive geo model.
-       */ MapSeries.prototype.getHostGeoModel = function() {
+             * If no host geo model, return null, which means using a
+             * inner exclusive geo model.
+             */ MapSeries.prototype.getHostGeoModel = function() {
             var geoIndex = this.option.geoIndex;
             return null != geoIndex ? this.ecModel.getComponent('geo', geoIndex) : null;
         }, MapSeries.prototype.getMapType = function() {
@@ -25472,13 +25472,13 @@
             var data = this.getData();
             return data.get(data.mapDimension('value'), dataIndex);
         }, /**
-       * Get model of region
-       */ MapSeries.prototype.getRegionModel = function(regionName) {
+             * Get model of region
+             */ MapSeries.prototype.getRegionModel = function(regionName) {
             var data = this.getData();
             return data.getItemModel(data.indexOfName(regionName));
         }, /**
-       * Map tooltip formatter
-       */ MapSeries.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
+             * Map tooltip formatter
+             */ MapSeries.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
             for(var data = this.getData(), value = this.getRawValue(dataIndex), name = data.getName(dataIndex), seriesGroup = this.seriesGroup, seriesNames = [], i = 0; i < seriesGroup.length; i++){
                 var otherIndex = seriesGroup[i].originalData.indexOfName(name), valueDim = data.mapDimension('value');
                 isNaN(seriesGroup[i].originalData.get(valueDim, otherIndex)) || seriesNames.push(seriesGroup[i].name);
@@ -25632,39 +25632,39 @@
                 'x',
                 'y'
             ], /**
-         * Represents the transform brought by roam/zoom.
-         * If `View['_viewRect']` applies roam transform,
-         * we can get the final displayed rect.
-         */ _this._roamTransformable = new Transformable(), /**
-         * Represents the transform from `View['_rect']` to `View['_viewRect']`.
-         */ _this._rawTransformable = new Transformable(), _this.name = name, _this;
+                 * Represents the transform brought by roam/zoom.
+                 * If `View['_viewRect']` applies roam transform,
+                 * we can get the final displayed rect.
+                 */ _this._roamTransformable = new Transformable(), /**
+                 * Represents the transform from `View['_rect']` to `View['_viewRect']`.
+                 */ _this._rawTransformable = new Transformable(), _this.name = name, _this;
         }
         return __extends(View, _super), View.prototype.setBoundingRect = function(x, y, width, height) {
             return this._rect = new BoundingRect(x, y, width, height), this._rect;
         }, /**
-       * @return {module:zrender/core/BoundingRect}
-       */ View.prototype.getBoundingRect = function() {
+             * @return {module:zrender/core/BoundingRect}
+             */ View.prototype.getBoundingRect = function() {
             return this._rect;
         }, View.prototype.setViewRect = function(x, y, width, height) {
             this._transformTo(x, y, width, height), this._viewRect = new BoundingRect(x, y, width, height);
         }, /**
-       * Transformed to particular position and size
-       */ View.prototype._transformTo = function(x, y, width, height) {
+             * Transformed to particular position and size
+             */ View.prototype._transformTo = function(x, y, width, height) {
             var rect = this.getBoundingRect(), rawTransform = this._rawTransformable;
             rawTransform.transform = rect.calculateTransform(new BoundingRect(x, y, width, height));
             var rawParent = rawTransform.parent;
             rawTransform.parent = null, rawTransform.decomposeTransform(), rawTransform.parent = rawParent, this._updateTransform();
         }, /**
-       * Set center of view
-       */ View.prototype.setCenter = function(centerCoord) {
+             * Set center of view
+             */ View.prototype.setCenter = function(centerCoord) {
             centerCoord && (this._center = centerCoord, this._updateCenterAndZoom());
         }, View.prototype.setZoom = function(zoom) {
             zoom = zoom || 1;
             var zoomLimit = this.zoomLimit;
             zoomLimit && (null != zoomLimit.max && (zoom = Math.min(zoomLimit.max, zoom)), null != zoomLimit.min && (zoom = Math.max(zoomLimit.min, zoom))), this._zoom = zoom, this._updateCenterAndZoom();
         }, /**
-       * Get default center without roam
-       */ View.prototype.getDefaultCenter = function() {
+             * Get default center without roam
+             */ View.prototype.getDefaultCenter = function() {
             // Rect before any transform
             var rawRect = this.getBoundingRect();
             return [
@@ -25678,15 +25678,15 @@
         }, View.prototype.getRoamTransform = function() {
             return this._roamTransformable.getLocalTransform();
         }, /**
-       * Remove roam
-       */ View.prototype._updateCenterAndZoom = function() {
+             * Remove roam
+             */ View.prototype._updateCenterAndZoom = function() {
             // Must update after view transform updated
             var rawTransformMatrix = this._rawTransformable.getLocalTransform(), roamTransform = this._roamTransformable, defaultCenter = this.getDefaultCenter(), center = this.getCenter(), zoom = this.getZoom();
             center = applyTransform([], center, rawTransformMatrix), defaultCenter = applyTransform([], defaultCenter, rawTransformMatrix), roamTransform.originX = center[0], roamTransform.originY = center[1], roamTransform.x = defaultCenter[0] - center[0], roamTransform.y = defaultCenter[1] - center[1], roamTransform.scaleX = roamTransform.scaleY = zoom, this._updateTransform();
         }, /**
-       * Update transform props on `this` based on the current
-       * `this._roamTransformable` and `this._rawTransformable`.
-       */ View.prototype._updateTransform = function() {
+             * Update transform props on `this` based on the current
+             * `this._roamTransformable` and `this._rawTransformable`.
+             */ View.prototype._updateTransform = function() {
             var roamTransformable = this._roamTransformable, rawTransformable = this._rawTransformable;
             rawTransformable.parent = roamTransformable, roamTransformable.updateTransform(), rawTransformable.updateTransform(), copy$1(this.transform || (this.transform = []), rawTransformable.transform || create$1()), this._rawTransform = rawTransformable.getLocalTransform(), this.invTransform = this.invTransform || [], invert(this.invTransform, this.transform), this.decomposeTransform();
         }, View.prototype.getTransformInfo = function() {
@@ -25708,18 +25708,18 @@
         }, View.prototype.getViewRect = function() {
             return this._viewRect;
         }, /**
-       * Get view rect after roam transform
-       */ View.prototype.getViewRectAfterRoam = function() {
+             * Get view rect after roam transform
+             */ View.prototype.getViewRectAfterRoam = function() {
             var rect = this.getBoundingRect().clone();
             return rect.applyTransform(this.transform), rect;
         }, /**
-       * Convert a single (lon, lat) data item to (x, y) point.
-       */ View.prototype.dataToPoint = function(data, noRoam, out) {
+             * Convert a single (lon, lat) data item to (x, y) point.
+             */ View.prototype.dataToPoint = function(data, noRoam, out) {
             var transform = noRoam ? this._rawTransform : this.transform;
             return out = out || [], transform ? applyTransform(out, data, transform) : copy(out, data);
         }, /**
-       * Convert a (x, y) point to (lon, lat) data
-       */ View.prototype.pointToData = function(point) {
+             * Convert a (x, y) point to (lon, lat) data
+             */ View.prototype.pointToData = function(point) {
             var invTransform = this.invTransform;
             return invTransform ? applyTransform([], point, invTransform) : [
                 point[0],
@@ -25732,8 +25732,8 @@
             var coordSys = getCoordSys(finder);
             return coordSys === this ? coordSys.pointToData(pixel) : null;
         }, /**
-       * @implements
-       */ View.prototype.containPoint = function(point) {
+             * @implements
+             */ View.prototype.containPoint = function(point) {
             return this.getViewRectAfterRoam().contain(point[0], point[1]);
         }, View.dimensions = [
             'x',
@@ -25768,8 +25768,8 @@
             return _this.setBoundingRect(boundingRect.x, boundingRect.y, boundingRect.width, boundingRect.height), _this;
         }
         return __extends(Geo, _super), /**
-       * Whether contain the given [lng, lat] coord.
-       */ // Never used yet.
+             * Whether contain the given [lng, lat] coord.
+             */ // Never used yet.
         // containCoord(coord: number[]) {
         //     const regions = this.regions;
         //     for (let i = 0; i < regions.length; i++) {
@@ -25796,12 +25796,12 @@
                 if ('geoJSON' === region.type && region.contain(coord)) return regions[i];
             }
         }, /**
-       * Add geoCoord for indexing by name
-       */ Geo.prototype.addGeoCoord = function(name, geoCoord) {
+             * Add geoCoord for indexing by name
+             */ Geo.prototype.addGeoCoord = function(name, geoCoord) {
             this._nameCoordMap.set(name, geoCoord);
         }, /**
-       * Get geoCoord by name
-       */ Geo.prototype.getGeoCoord = function(name) {
+             * Get geoCoord by name
+             */ Geo.prototype.getGeoCoord = function(name) {
             var region = this._regionsMap.get(name); // calcualte center only on demand.
             return this._nameCoordMap.get(name) || region && region.getCenter();
         }, Geo.prototype.dataToPoint = function(data, noRoam, out) {
@@ -25888,8 +25888,8 @@
                 });
             }), geoList;
         }, /**
-       * Fill given regions array
-       */ GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
+             * Fill given regions array
+             */ GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
             return each(geoSourceManager_load(mapName, nameMap, nameProperty).regions, function(region) {
                 var name = region.name;
@@ -25921,13 +25921,13 @@
                 return regionName && (optionModelMap.set(regionName, new Model(regionOpt, _this, _this.ecModel)), regionOpt.selected && (selectedMap[regionName] = !0)), optionModelMap;
             }, createHashMap()), option.selectedMap || (option.selectedMap = selectedMap);
         }, /**
-       * Get model of region.
-       */ GeoModel.prototype.getRegionModel = function(name) {
+             * Get model of region.
+             */ GeoModel.prototype.getRegionModel = function(name) {
             return this._optionModelMap.get(name) || new Model(null, this, this.ecModel);
         }, /**
-       * Format label
-       * @param name Region name
-       */ GeoModel.prototype.getFormattedLabel = function(name, status) {
+             * Format label
+             * @param name Region name
+             */ GeoModel.prototype.getFormattedLabel = function(name, status) {
             var regionModel = this.getRegionModel(name), formatter = 'normal' === status ? regionModel.get([
                 'label',
                 'formatter'
@@ -26129,14 +26129,14 @@
             type: 'geoUnSelect',
             event: 'geounselected'
         }), /**
-       * @payload
-       * @property {string} [componentType=series]
-       * @property {number} [dx]
-       * @property {number} [dy]
-       * @property {number} [zoom]
-       * @property {number} [originX]
-       * @property {number} [originY]
-       */ registers.registerAction({
+         * @payload
+         * @property {string} [componentType=series]
+         * @property {number} [dx]
+         * @property {number} [dy]
+         * @property {number} [zoom]
+         * @property {number} [originX]
+         * @property {number} [originY]
+         */ registers.registerAction({
             type: 'geoRoam',
             event: 'geoRoam',
             update: 'updateTransform'
@@ -26651,16 +26651,16 @@
     var TreeNode = /** @class */ function() {
         function TreeNode(name, hostTree) {
             this.depth = 0, this.height = 0, /**
-         * Reference to list item.
-         * Do not persistent dataIndex outside,
-         * besause it may be changed by list.
-         * If dataIndex -1,
-         * this node is logical deleted (filtered) in list.
-         */ this.dataIndex = -1, this.children = [], this.viewChildren = [], this.isExpand = !1, this.name = name || '', this.hostTree = hostTree;
+                 * Reference to list item.
+                 * Do not persistent dataIndex outside,
+                 * besause it may be changed by list.
+                 * If dataIndex -1,
+                 * this node is logical deleted (filtered) in list.
+                 */ this.dataIndex = -1, this.children = [], this.viewChildren = [], this.isExpand = !1, this.name = name || '', this.hostTree = hostTree;
         }
         return(/**
-       * The node is removed.
-       */ TreeNode.prototype.isRemoved = function() {
+             * The node is removed.
+             */ TreeNode.prototype.isRemoved = function() {
             return this.dataIndex < 0;
         }, TreeNode.prototype.eachNode = function(options, cb, context) {
             'function' == typeof options && (context = cb, cb = options, options = null), isString(options = options || {}) && (options = {
@@ -26671,8 +26671,8 @@
             for(var i = 0; !suppressVisitSub && i < children.length; i++)children[i].eachNode(options, cb, context);
             'postorder' === order && cb.call(context, this);
         }, /**
-       * Update depth and height of this subtree.
-       */ TreeNode.prototype.updateDepthAndHeight = function(depth) {
+             * Update depth and height of this subtree.
+             */ TreeNode.prototype.updateDepthAndHeight = function(depth) {
             var height = 0;
             this.depth = depth;
             for(var i = 0; i < this.children.length; i++){
@@ -26693,9 +26693,9 @@
                 if (res) return res;
             }
         }, /**
-       * @param includeSelf Default false.
-       * @return order: [root, child, grandchild, ...]
-       */ TreeNode.prototype.getAncestors = function(includeSelf) {
+             * @param includeSelf Default false.
+             * @return order: [root, child, grandchild, ...]
+             */ TreeNode.prototype.getAncestors = function(includeSelf) {
             for(var ancestors = [], node = includeSelf ? this : this.parentNode; node;)ancestors.push(node), node = node.parentNode;
             return ancestors.reverse(), ancestors;
         }, TreeNode.prototype.getAncestorsIndices = function() {
@@ -26712,8 +26712,8 @@
         }, TreeNode.prototype.setLayout = function(layout, merge) {
             this.dataIndex >= 0 && this.hostTree.data.setItemLayout(this.dataIndex, layout, merge);
         }, /**
-       * @return {Object} layout
-       */ TreeNode.prototype.getLayout = function() {
+             * @return {Object} layout
+             */ TreeNode.prototype.getLayout = function() {
             return this.hostTree.data.getItemLayout(this.dataIndex);
         }, // getModel<T = unknown, S extends keyof T = keyof T>(path: S): Model<T[S]>
         TreeNode.prototype.getModel = function(path) {
@@ -26723,31 +26723,31 @@
         }, TreeNode.prototype.setVisual = function(key, value) {
             this.dataIndex >= 0 && this.hostTree.data.setItemVisual(this.dataIndex, key, value);
         }, /**
-       * Get item visual
-       * FIXME: make return type better
-       */ TreeNode.prototype.getVisual = function(key) {
+             * Get item visual
+             * FIXME: make return type better
+             */ TreeNode.prototype.getVisual = function(key) {
             return this.hostTree.data.getItemVisual(this.dataIndex, key);
         }, TreeNode.prototype.getRawIndex = function() {
             return this.hostTree.data.getRawIndex(this.dataIndex);
         }, TreeNode.prototype.getId = function() {
             return this.hostTree.data.getId(this.dataIndex);
         }, /**
-       * if this is an ancestor of another node
-       *
-       * @param node another node
-       * @return if is ancestor
-       */ TreeNode.prototype.isAncestorOf = function(node) {
+             * if this is an ancestor of another node
+             *
+             * @param node another node
+             * @return if is ancestor
+             */ TreeNode.prototype.isAncestorOf = function(node) {
             for(var parent = node.parentNode; parent;){
                 if (parent === this) return !0;
                 parent = parent.parentNode;
             }
             return !1;
         }, /**
-       * if this is an descendant of another node
-       *
-       * @param node another node
-       * @return if is descendant
-       */ TreeNode.prototype.isDescendantOf = function(node) {
+             * if this is an descendant of another node
+             *
+             * @param node another node
+             * @return if is descendant
+             */ TreeNode.prototype.isDescendantOf = function(node) {
             return node !== this && node.isAncestorOf(this);
         }, TreeNode);
     }(), Tree = /** @class */ function() {
@@ -26762,30 +26762,30 @@
         }, Tree.prototype.getNodeById = function(name) {
             return this.root.getNodeById(name);
         }, /**
-       * Update item available by list,
-       * when list has been performed options like 'filterSelf' or 'map'.
-       */ Tree.prototype.update = function() {
+             * Update item available by list,
+             * when list has been performed options like 'filterSelf' or 'map'.
+             */ Tree.prototype.update = function() {
             for(var data = this.data, nodes = this._nodes, i = 0, len = nodes.length; i < len; i++)nodes[i].dataIndex = -1;
             for(var i = 0, len = data.count(); i < len; i++)nodes[data.getRawIndex(i)].dataIndex = i;
         }, /**
-       * Clear all layouts
-       */ Tree.prototype.clearLayouts = function() {
+             * Clear all layouts
+             */ Tree.prototype.clearLayouts = function() {
             this.data.clearItemLayouts();
         }, /**
-       * data node format:
-       * {
-       *     name: ...
-       *     value: ...
-       *     children: [
-       *         {
-       *             name: ...
-       *             value: ...
-       *             children: ...
-       *         },
-       *         ...
-       *     ]
-       * }
-       */ Tree.createTree = function(dataRoot, hostModel, beforeLink) {
+             * data node format:
+             * {
+             *     name: ...
+             *     value: ...
+             *     children: [
+             *         {
+             *             name: ...
+             *             value: ...
+             *             children: ...
+             *         },
+             *         ...
+             *     ]
+             * }
+             */ Tree.createTree = function(dataRoot, hostModel, beforeLink) {
             var tree = new Tree(hostModel), listData = [], dimMax = 1;
             (function buildHierarchy(dataNode, parentNode) {
                 var children, value = dataNode.value;
@@ -26813,10 +26813,10 @@
             return _this.hasSymbolVisual = !0, _this.ignoreStyleOnData = !0, _this;
         }
         return __extends(TreeSeriesModel, _super), /**
-       * Init a tree data structure from data in option series
-       * @param  option  the object used to config echarts view
-       * @return storage initial data
-       */ TreeSeriesModel.prototype.getInitialData = function(option) {
+             * Init a tree data structure from data in option series
+             * @param  option  the object used to config echarts view
+             * @return storage initial data
+             */ TreeSeriesModel.prototype.getInitialData = function(option) {
             //create an virtual root
             var root = {
                 name: option.name,
@@ -26836,9 +26836,9 @@
                 node.isExpand = item && null != item.collapsed ? !item.collapsed : node.depth <= expandTreeDepth;
             }), tree.data;
         }, /**
-       * Make the configuration 'orient' backward compatibly, with 'horizontal = LR', 'vertical = TB'.
-       * @returns {string} orient
-       */ TreeSeriesModel.prototype.getOrient = function() {
+             * Make the configuration 'orient' backward compatibly, with 'horizontal = LR', 'vertical = TB'.
+             * @returns {string} orient
+             */ TreeSeriesModel.prototype.getOrient = function() {
             var orient = this.get('orient');
             return 'horizontal' === orient ? orient = 'LR' : 'vertical' === orient && (orient = 'TB'), orient;
         }, TreeSeriesModel.prototype.setZoom = function(zoom) {
@@ -27093,8 +27093,8 @@
             return _this.type = TreemapSeriesModel.type, _this.preventUsingHoverLayer = !0, _this;
         }
         return __extends(TreemapSeriesModel, _super), /**
-       * @override
-       */ TreemapSeriesModel.prototype.getInitialData = function(option, ecModel) {
+             * @override
+             */ TreemapSeriesModel.prototype.getInitialData = function(option, ecModel) {
             // Create a virtual root.
             var root = {
                 name: option.name,
@@ -27150,41 +27150,41 @@
         }, TreemapSeriesModel.prototype.optionUpdated = function() {
             this.resetViewRoot();
         }, /**
-       * @override
-       * @param {number} dataIndex
-       * @param {boolean} [mutipleSeries=false]
-       */ TreemapSeriesModel.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
+             * @override
+             * @param {number} dataIndex
+             * @param {boolean} [mutipleSeries=false]
+             */ TreemapSeriesModel.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
             var data = this.getData(), value = this.getRawValue(dataIndex);
             return createTooltipMarkup('nameValue', {
                 name: data.getName(dataIndex),
                 value: value
             });
         }, /**
-       * Add tree path to tooltip param
-       *
-       * @override
-       * @param {number} dataIndex
-       * @return {Object}
-       */ TreemapSeriesModel.prototype.getDataParams = function(dataIndex) {
+             * Add tree path to tooltip param
+             *
+             * @override
+             * @param {number} dataIndex
+             * @return {Object}
+             */ TreemapSeriesModel.prototype.getDataParams = function(dataIndex) {
             var params = _super.prototype.getDataParams.apply(this, arguments);
             return params.treePathInfo = wrapTreePathInfo(this.getData().tree.getNodeByDataIndex(dataIndex), this), params;
         }, /**
-       * @public
-       * @param {Object} layoutInfo {
-       *                                x: containerGroup x
-       *                                y: containerGroup y
-       *                                width: containerGroup width
-       *                                height: containerGroup height
-       *                            }
-       */ TreemapSeriesModel.prototype.setLayoutInfo = function(layoutInfo) {
+             * @public
+             * @param {Object} layoutInfo {
+             *                                x: containerGroup x
+             *                                y: containerGroup y
+             *                                width: containerGroup width
+             *                                height: containerGroup height
+             *                            }
+             */ TreemapSeriesModel.prototype.setLayoutInfo = function(layoutInfo) {
             /**
-         * @readOnly
-         * @type {Object}
-         */ this.layoutInfo = this.layoutInfo || {}, extend(this.layoutInfo, layoutInfo);
+                 * @readOnly
+                 * @type {Object}
+                 */ this.layoutInfo = this.layoutInfo || {}, extend(this.layoutInfo, layoutInfo);
         }, /**
-       * @param  {string} id
-       * @return {number} index
-       */ TreemapSeriesModel.prototype.mapIdToIndex = function(id) {
+             * @param  {string} id
+             * @return {number} index
+             */ TreemapSeriesModel.prototype.mapIdToIndex = function(id) {
             // A feature is implemented:
             // index is monotone increasing with the sequence of
             // input id at the first time.
@@ -27193,13 +27193,13 @@
             // color list at the beginning, which is useful for user
             // to adjust data-color mapping.
             /**
-         * @private
-         * @type {Object}
-         */ var idIndexMap = this._idIndexMap;
+                 * @private
+                 * @type {Object}
+                 */ var idIndexMap = this._idIndexMap;
             idIndexMap || (idIndexMap = this._idIndexMap = createHashMap(), /**
-           * @private
-           * @type {number}
-           */ this._idIndexMapCount = 0);
+                     * @private
+                     * @type {number}
+                     */ this._idIndexMapCount = 0);
             var index = idIndexMap.get(id);
             return null == index && idIndexMap.set(id, index = this._idIndexMapCount++), index;
         }, TreemapSeriesModel.prototype.getViewRoot = function() {
@@ -27338,9 +27338,9 @@
                 this._prepare(targetNode, layoutParam, textStyleModel), this._renderContent(seriesModel, layoutParam, normalStyleModel, textStyleModel, onSelect), positionElement(thisGroup, layoutParam.pos, layoutParam.box);
             }
         }, /**
-       * Prepare render list and total width
-       * @private
-       */ Breadcrumb.prototype._prepare = function(targetNode, layoutParam, textStyleModel) {
+             * Prepare render list and total width
+             * @private
+             */ Breadcrumb.prototype._prepare = function(targetNode, layoutParam, textStyleModel) {
             for(var node = targetNode; node; node = node.parentNode){
                 var text = convertOptionIdName(node.getModel().get('name'), ''), itemWidth = Math.max(textStyleModel.getTextRect(text).width + 16, layoutParam.emptyItemWidth);
                 layoutParam.totalWidth += itemWidth + 8, layoutParam.renderList.push({
@@ -27350,8 +27350,8 @@
                 });
             }
         }, /**
-       * @private
-       */ Breadcrumb.prototype._renderContent = function(seriesModel, layoutParam, normalStyleModel, textStyleModel, onSelect) {
+             * @private
+             */ Breadcrumb.prototype._renderContent = function(seriesModel, layoutParam, normalStyleModel, textStyleModel, onSelect) {
             for(var positionInfo, containerRect, margin, containerWidth, containerHeight, x, y, x2, y2, lastX = 0, emptyItemWidth = layoutParam.emptyItemWidth, height = seriesModel.get([
                 'breadcrumb',
                 'height'
@@ -27431,12 +27431,12 @@
             this._storage = [], this._elExistsMap = {};
         }
         return(/**
-       * Caution: a el can only be added once, otherwise 'done'
-       * might not be called. This method checks this (by el.id),
-       * suppresses adding and returns false when existing el found.
-       *
-       * @return Whether adding succeeded.
-       */ AnimationWrap.prototype.add = function(el, target, duration, delay, easing) {
+             * Caution: a el can only be added once, otherwise 'done'
+             * might not be called. This method checks this (by el.id),
+             * suppresses adding and returns false when existing el found.
+             *
+             * @return Whether adding succeeded.
+             */ AnimationWrap.prototype.add = function(el, target, duration, delay, easing) {
             return !this._elExistsMap[el.id] && (this._elExistsMap[el.id] = !0, this._storage.push({
                 el: el,
                 target: target,
@@ -27445,12 +27445,12 @@
                 easing: easing
             }), !0);
         }, /**
-       * Only execute when animation done/aborted.
-       */ AnimationWrap.prototype.finished = function(callback) {
+             * Only execute when animation done/aborted.
+             */ AnimationWrap.prototype.finished = function(callback) {
             return this._finishedCallback = callback, this;
         }, /**
-       * Will stop exist animation firstly.
-       */ AnimationWrap.prototype.start = function() {
+             * Will stop exist animation firstly.
+             */ AnimationWrap.prototype.start = function() {
             for(var _this = this, count = this._storage.length, checkTerminate = function() {
                 --count <= 0 && (// Guard.
                 _this._storage.length = 0, _this._elExistsMap = {}, _this._finishedCallback && _this._finishedCallback());
@@ -27503,8 +27503,8 @@
             return _this.type = TreemapView.type, _this._state = 'ready', _this._storage = createStorage(), _this;
         }
         return __extends(TreemapView, _super), /**
-       * @override
-       */ TreemapView.prototype.render = function(seriesModel, ecModel, api, payload) {
+             * @override
+             */ TreemapView.prototype.render = function(seriesModel, ecModel, api, payload) {
             if (!(0 > indexOf(ecModel.findComponents({
                 mainType: 'series',
                 subType: 'treemap',
@@ -27876,8 +27876,8 @@
                 }));
             });
         }, /**
-       * @override
-       */ TreemapView.prototype.remove = function() {
+             * @override
+             */ TreemapView.prototype.remove = function() {
             this._clearController(), this._containerGroup && this._containerGroup.removeAll(), this._storage = createStorage(), this._state = 'ready', this._breadcrumb && this._breadcrumb.remove();
         }, TreemapView.prototype.dispose = function() {
             this._clearController();
@@ -27896,14 +27896,14 @@
                 targetNode: targetInfo.node
             });
         }, /**
-       * @public
-       * @param {number} x Global coord x.
-       * @param {number} y Global coord y.
-       * @return {Object} info If not found, return undefined;
-       * @return {number} info.node Target node.
-       * @return {number} info.offsetX x refer to target node.
-       * @return {number} info.offsetY y refer to target node.
-       */ TreemapView.prototype.findTarget = function(x, y) {
+             * @public
+             * @param {number} x Global coord x.
+             * @param {number} y Global coord y.
+             * @return {Object} info If not found, return undefined;
+             * @return {number} info.node Target node.
+             * @return {number} info.offsetX x refer to target node.
+             * @return {number} info.offsetY y refer to target node.
+             */ TreemapView.prototype.findTarget = function(x, y) {
             var targetInfo;
             return this.seriesModel.getViewRoot().eachNode({
                 attr: 'viewChildren',
@@ -27963,11 +27963,11 @@
         }, VisualMapping.prototype.getNormalizer = function() {
             return bind(this._normalizeData, this);
         }, /**
-       * List available visual types.
-       *
-       * @public
-       * @return {Array.<string>}
-       */ VisualMapping.listVisualTypes = function() {
+             * List available visual types.
+             *
+             * @public
+             * @return {Array.<string>}
+             */ VisualMapping.listVisualTypes = function() {
             return keys(VisualMapping.visualHandlers);
         }, //  * @public
         //  */
@@ -27975,13 +27975,13 @@
         //     visualHandlers[name] = handler;
         // }
         /**
-       * @public
-       */ VisualMapping.isValidType = function(visualType) {
+             * @public
+             */ VisualMapping.isValidType = function(visualType) {
             return VisualMapping.visualHandlers.hasOwnProperty(visualType);
         }, /**
-       * Convinent method.
-       * Visual can be Object or Array or primary type.
-       */ VisualMapping.eachVisual = function(visual, callback, context) {
+             * Convinent method.
+             * Visual can be Object or Array or primary type.
+             */ VisualMapping.eachVisual = function(visual, callback, context) {
             isObject(visual) ? each(visual, callback, context) : callback.call(context, visual);
         }, VisualMapping.mapVisual = function(visual, callback, context) {
             var isPrimary, newVisual = isArray(visual) ? [] : isObject(visual) ? {} : (isPrimary = !0, null);
@@ -27990,20 +27990,20 @@
                 isPrimary ? newVisual = newVal : newVisual[key] = newVal;
             }), newVisual;
         }, /**
-       * Retrieve visual properties from given object.
-       */ VisualMapping.retrieveVisuals = function(obj) {
+             * Retrieve visual properties from given object.
+             */ VisualMapping.retrieveVisuals = function(obj) {
             var hasVisual, ret = {};
             return obj && each(VisualMapping.visualHandlers, function(h, visualType) {
                 obj.hasOwnProperty(visualType) && (ret[visualType] = obj[visualType], hasVisual = !0);
             }), hasVisual ? ret : null;
         }, /**
-       * Give order to visual types, considering colorSaturation, colorAlpha depends on color.
-       *
-       * @public
-       * @param {(Object|Array)} visualTypes If Object, like: {color: ..., colorSaturation: ...}
-       *                                     IF Array, like: ['color', 'symbol', 'colorSaturation']
-       * @return {Array.<string>} Sorted visual types.
-       */ VisualMapping.prepareVisualTypes = function(visualTypes) {
+             * Give order to visual types, considering colorSaturation, colorAlpha depends on color.
+             *
+             * @public
+             * @param {(Object|Array)} visualTypes If Object, like: {color: ..., colorSaturation: ...}
+             *                                     IF Array, like: ['color', 'symbol', 'colorSaturation']
+             * @return {Array.<string>} Sorted visual types.
+             */ VisualMapping.prepareVisualTypes = function(visualTypes) {
             if (isArray(visualTypes)) visualTypes = visualTypes.slice();
             else {
                 if (!isObject(visualTypes)) return [];
@@ -28018,17 +28018,17 @@
                 return 'color' === type2 && 'color' !== type1 && 0 === type1.indexOf('color') ? 1 : -1;
             }), visualTypes;
         }, /**
-       * 'color', 'colorSaturation', 'colorAlpha', ... are depends on 'color'.
-       * Other visuals are only depends on themself.
-       */ VisualMapping.dependsOn = function(visualType1, visualType2) {
+             * 'color', 'colorSaturation', 'colorAlpha', ... are depends on 'color'.
+             * Other visuals are only depends on themself.
+             */ VisualMapping.dependsOn = function(visualType1, visualType2) {
             return 'color' === visualType2 ? !!(visualType1 && 0 === visualType1.indexOf(visualType2)) : visualType1 === visualType2;
         }, /**
-       * @param value
-       * @param pieceList [{value: ..., interval: [min, max]}, ...]
-       *                         Always from small to big.
-       * @param findClosestWhenOutside Default to be false
-       * @return index
-       */ VisualMapping.findPieceIndex = function(value, pieceList, findClosestWhenOutside) {
+             * @param value
+             * @param pieceList [{value: ..., interval: [min, max]}, ...]
+             *                         Always from small to big.
+             * @param findClosestWhenOutside Default to be false
+             * @return index
+             */ VisualMapping.findPieceIndex = function(value, pieceList, findClosestWhenOutside) {
             for(var possibleI, abs = 1 / 0, i = 0, len = pieceList.length; i < len; i++){
                 var pieceValue = pieceList[i].value;
                 if (null != pieceValue) {
@@ -29032,21 +29032,21 @@
                                 inNodes[idx].fixed = !1;
                             },
                             /**
-         * Before step hook
-         */ beforeStep: function(cb) {
+             * Before step hook
+             */ beforeStep: function(cb) {
                                 beforeStepCallback = cb;
                             },
                             /**
-         * After step hook
-         */ afterStep: function(cb) {
+             * After step hook
+             */ afterStep: function(cb) {
                                 afterStepCallback = cb;
                             },
                             /**
-         * Some formulas were originally copied from "d3.js"
-         * https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/layout/force.js
-         * with some modifications made for this project.
-         * See the license statement at the head of this file.
-         */ step: function(cb) {
+             * Some formulas were originally copied from "d3.js"
+             * https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/layout/force.js
+             * with some modifications made for this project.
+             * See the license statement at the head of this file.
+             */ step: function(cb) {
                                 beforeStepCallback && beforeStepCallback(inNodes, inEdges);
                                 for(var v12 = [], nLen = inNodes.length, i = 0; i < inEdges.length; i++){
                                     var e = inEdges[i];
@@ -29656,17 +29656,17 @@
     var Graph = /** @class */ function() {
         function Graph(directed) {
             this.type = 'graph', this.nodes = [], this.edges = [], this._nodesMap = {}, /**
-         * @type {Object.<string, module:echarts/data/Graph.Edge>}
-         * @private
-         */ this._edgesMap = {}, this._directed = directed || !1;
+                 * @type {Object.<string, module:echarts/data/Graph.Edge>}
+                 * @private
+                 */ this._edgesMap = {}, this._directed = directed || !1;
         }
         return(/**
-       * If is directed graph
-       */ Graph.prototype.isDirected = function() {
+             * If is directed graph
+             */ Graph.prototype.isDirected = function() {
             return this._directed;
         }, /**
-       * Add a new node
-       */ Graph.prototype.addNode = function(id, dataIndex) {
+             * Add a new node
+             */ Graph.prototype.addNode = function(id, dataIndex) {
             id = null == id ? '' + dataIndex : '' + id;
             var nodesMap = this._nodesMap;
             if (nodesMap[generateNodeKey(id)]) {
@@ -29676,45 +29676,45 @@
             var node = new GraphNode(id, dataIndex);
             return node.hostGraph = this, this.nodes.push(node), nodesMap[generateNodeKey(id)] = node, node;
         }, /**
-       * Get node by data index
-       */ Graph.prototype.getNodeByIndex = function(dataIndex) {
+             * Get node by data index
+             */ Graph.prototype.getNodeByIndex = function(dataIndex) {
             var rawIdx = this.data.getRawIndex(dataIndex);
             return this.nodes[rawIdx];
         }, /**
-       * Get node by id
-       */ Graph.prototype.getNodeById = function(id) {
+             * Get node by id
+             */ Graph.prototype.getNodeById = function(id) {
             return this._nodesMap[generateNodeKey(id)];
         }, /**
-       * Add a new edge
-       */ Graph.prototype.addEdge = function(n1, n2, dataIndex) {
+             * Add a new edge
+             */ Graph.prototype.addEdge = function(n1, n2, dataIndex) {
             var nodesMap = this._nodesMap, edgesMap = this._edgesMap;
             if ('number' == typeof n1 && (n1 = this.nodes[n1]), 'number' == typeof n2 && (n2 = this.nodes[n2]), n1 instanceof GraphNode || (n1 = nodesMap[generateNodeKey(n1)]), n2 instanceof GraphNode || (n2 = nodesMap[generateNodeKey(n2)]), n1 && n2) {
                 var key = n1.id + '-' + n2.id, edge = new GraphEdge(n1, n2, dataIndex);
                 return edge.hostGraph = this, this._directed && (n1.outEdges.push(edge), n2.inEdges.push(edge)), n1.edges.push(edge), n1 !== n2 && n2.edges.push(edge), this.edges.push(edge), edgesMap[key] = edge, edge;
             }
         }, /**
-       * Get edge by data index
-       */ Graph.prototype.getEdgeByIndex = function(dataIndex) {
+             * Get edge by data index
+             */ Graph.prototype.getEdgeByIndex = function(dataIndex) {
             var rawIdx = this.edgeData.getRawIndex(dataIndex);
             return this.edges[rawIdx];
         }, /**
-       * Get edge by two linked nodes
-       */ Graph.prototype.getEdge = function(n1, n2) {
+             * Get edge by two linked nodes
+             */ Graph.prototype.getEdge = function(n1, n2) {
             n1 instanceof GraphNode && (n1 = n1.id), n2 instanceof GraphNode && (n2 = n2.id);
             var edgesMap = this._edgesMap;
             return this._directed ? edgesMap[n1 + '-' + n2] : edgesMap[n1 + '-' + n2] || edgesMap[n2 + '-' + n1];
         }, /**
-       * Iterate all nodes
-       */ Graph.prototype.eachNode = function(cb, context) {
+             * Iterate all nodes
+             */ Graph.prototype.eachNode = function(cb, context) {
             for(var nodes = this.nodes, len = nodes.length, i = 0; i < len; i++)nodes[i].dataIndex >= 0 && cb.call(context, nodes[i], i);
         }, /**
-       * Iterate all edges
-       */ Graph.prototype.eachEdge = function(cb, context) {
+             * Iterate all edges
+             */ Graph.prototype.eachEdge = function(cb, context) {
             for(var edges = this.edges, len = edges.length, i = 0; i < len; i++)edges[i].dataIndex >= 0 && edges[i].node1.dataIndex >= 0 && edges[i].node2.dataIndex >= 0 && cb.call(context, edges[i], i);
         }, /**
-       * Breadth first traverse
-       * Return true to stop traversing
-       */ Graph.prototype.breadthFirstTraverse = function(cb, startNode, direction, context) {
+             * Breadth first traverse
+             * Return true to stop traversing
+             */ Graph.prototype.breadthFirstTraverse = function(cb, startNode, direction, context) {
             if (startNode instanceof GraphNode || (startNode = this._nodesMap[generateNodeKey(startNode)]), startNode) {
                 for(var edgeType = 'out' === direction ? 'outEdges' : 'in' === direction ? 'inEdges' : 'edges', i = 0; i < this.nodes.length; i++)this.nodes[i].__visited = !1;
                 if (!cb.call(context, startNode, null)) for(var queue = [
@@ -29743,8 +29743,8 @@
             for(var i = 0, len = edges.length; i < len; i++)edges[i].dataIndex = -1;
             for(var i = 0, len = edgeData.count(); i < len; i++)edges[edgeData.getRawIndex(i)].dataIndex = i;
         }, /**
-       * @return {module:echarts/data/Graph}
-       */ Graph.prototype.clone = function() {
+             * @return {module:echarts/data/Graph}
+             */ Graph.prototype.clone = function() {
             for(var graph = new Graph(this._directed), nodes = this.nodes, edges = this.edges, i = 0; i < nodes.length; i++)graph.addNode(nodes[i].id, nodes[i].dataIndex);
             for(var i = 0; i < edges.length; i++){
                 var e = edges[i];
@@ -29757,16 +29757,16 @@
             this.inEdges = [], this.outEdges = [], this.edges = [], this.dataIndex = -1, this.id = null == id ? '' : id, this.dataIndex = null == dataIndex ? -1 : dataIndex;
         }
         return(/**
-       * @return {number}
-       */ GraphNode.prototype.degree = function() {
+             * @return {number}
+             */ GraphNode.prototype.degree = function() {
             return this.edges.length;
         }, /**
-       * @return {number}
-       */ GraphNode.prototype.inDegree = function() {
+             * @return {number}
+             */ GraphNode.prototype.inDegree = function() {
             return this.inEdges.length;
         }, /**
-      * @return {number}
-      */ GraphNode.prototype.outDegree = function() {
+            * @return {number}
+            */ GraphNode.prototype.outDegree = function() {
             return this.outEdges.length;
         }, GraphNode.prototype.getModel = function(path) {
             if (!(this.dataIndex < 0)) return this.hostGraph.data.getItemModel(this.dataIndex).getModel(path);
@@ -29801,8 +29801,8 @@
     function createGraphDataProxyMixin(hostName, dataName) {
         return {
             /**
-         * @param Default 'value'. can be 'a', 'b', 'c', 'd', 'e'.
-         */ getValue: function(dimension) {
+             * @param Default 'value'. can be 'a', 'b', 'c', 'd', 'e'.
+             */ getValue: function(dimension) {
                 var data = this[hostName][dataName];
                 return data.get(data.getDimension(dimension || 'value'), this.dataIndex);
             },
@@ -30822,8 +30822,8 @@
         return __extends(ParallelView, _super), ParallelView.prototype.init = function() {
             this.group.add(this._dataGroup);
         }, /**
-       * @override
-       */ ParallelView.prototype.render = function(seriesModel, ecModel, api, payload) {
+             * @override
+             */ ParallelView.prototype.render = function(seriesModel, ecModel, api, payload) {
             var dataGroup = this._dataGroup, data = seriesModel.getData(), oldData = this._data, coordSys = seriesModel.coordinateSystem, dimensions = coordSys.dimensions, seriesScope = makeSeriesScope$2(seriesModel);
             if (data.diff(oldData).add(function(newDataIndex) {
                 updateElCommon(addEl(data, dataGroup, newDataIndex, dimensions, coordSys), data, newDataIndex, seriesScope);
@@ -30910,10 +30910,10 @@
                 useEncodeDefaulter: bind(makeDefaultEncode, null, this)
             });
         }, /**
-       * User can get data raw indices on 'axisAreaSelected' event received.
-       *
-       * @return Raw indices
-       */ ParallelSeriesModel.prototype.getRawIndicesByActiveState = function(activeState) {
+             * User can get data raw indices on 'axisAreaSelected' event received.
+             *
+             * @return Raw indices
+             */ ParallelSeriesModel.prototype.getRawIndicesByActiveState = function(activeState) {
             var coordSys = this.coordinateSystem, data = this.getData(), indices = [];
             return coordSys.eachActiveState(data, function(theActiveState, dataIndex) {
                 activeState === theActiveState && indices.push(data.getRawIndex(dataIndex));
@@ -31059,13 +31059,13 @@
                 api.getZr().off(eventName, handler);
             }), this._handlers = null;
         }, /**
-       * @internal
-       * @param {Object} [opt] If null, cancle the last action triggering for debounce.
-       */ ParallelView.prototype._throttledDispatchExpand = function(opt) {
+             * @internal
+             * @param {Object} [opt] If null, cancle the last action triggering for debounce.
+             */ ParallelView.prototype._throttledDispatchExpand = function(opt) {
             this._dispatchExpand(opt);
         }, /**
-       * @internal
-       */ ParallelView.prototype._dispatchExpand = function(opt) {
+             * @internal
+             */ ParallelView.prototype._dispatchExpand = function(opt) {
             opt && this._api.dispatchAction(extend({
                 type: 'parallelAxisExpand'
             }, opt));
@@ -31128,8 +31128,8 @@
             var thisOption = this.option;
             newOption && merge(thisOption, newOption, !0), this._initDimensions();
         }, /**
-       * Whether series or axis is in this coordinate system.
-       */ ParallelModel.prototype.contains = function(model, ecModel) {
+             * Whether series or axis is in this coordinate system.
+             */ ParallelModel.prototype.contains = function(model, ecModel) {
             var parallelIndex = model.get('parallelIndex');
             return null != parallelIndex && ecModel.getComponent('parallel', parallelIndex) === this;
         }, ParallelModel.prototype.setAxisExpand = function(opt) {
@@ -31285,11 +31285,11 @@
     var mathMin$8 = Math.min, mathMax$8 = Math.max, mathFloor$2 = Math.floor, mathCeil$1 = Math.ceil, PI$7 = Math.PI, Parallel = /** @class */ function() {
         function Parallel(parallelModel, ecModel, api) {
             this.type = 'parallel', /**
-         * key: dimension
-         */ this._axesMap = createHashMap(), /**
-         * key: dimension
-         * value: {position: [], rotation, }
-         */ this._axesLayout = {}, this.dimensions = parallelModel.dimensions, this._model = parallelModel, this._init(parallelModel, ecModel, api);
+                 * key: dimension
+                 */ this._axesMap = createHashMap(), /**
+                 * key: dimension
+                 * value: {position: [], rotation, }
+                 */ this._axesLayout = {}, this.dimensions = parallelModel.dimensions, this._model = parallelModel, this._init(parallelModel, ecModel, api);
         }
         return Parallel.prototype._init = function(parallelModel, ecModel, api) {
             var dimensions = parallelModel.dimensions, parallelAxisIndex = parallelModel.parallelAxisIndex;
@@ -31301,8 +31301,8 @@
                 axis.onBand = isCategory && axisModel.get('boundaryGap'), axis.inverse = axisModel.get('inverse'), axisModel.axis = axis, axis.model = axisModel, axis.coordinateSystem = axisModel.coordinateSystem = this;
             }, this);
         }, /**
-       * Update axis scale after data processed
-       */ Parallel.prototype.update = function(ecModel, api) {
+             * Update axis scale after data processed
+             */ Parallel.prototype.update = function(ecModel, api) {
             this._updateAxesFromSeries(this._model, ecModel);
         }, Parallel.prototype.containPoint = function(point) {
             var layoutInfo = this._makeLayoutInfo(), axisBase = layoutInfo.axisBase, layoutBase = layoutInfo.layoutBase, pixelDimIndex = layoutInfo.pixelDimIndex, pAxis = point[1 - pixelDimIndex], pLayout = point[pixelDimIndex];
@@ -31310,8 +31310,8 @@
         }, Parallel.prototype.getModel = function() {
             return this._model;
         }, /**
-       * Update properties from series
-       */ Parallel.prototype._updateAxesFromSeries = function(parallelModel, ecModel) {
+             * Update properties from series
+             */ Parallel.prototype._updateAxesFromSeries = function(parallelModel, ecModel) {
             ecModel.eachSeries(function(seriesModel) {
                 if (parallelModel.contains(seriesModel, ecModel)) {
                     var data = seriesModel.getData();
@@ -31322,8 +31322,8 @@
                 }
             }, this);
         }, /**
-       * Resize the parallel coordinate system.
-       */ Parallel.prototype.resize = function(parallelModel, api) {
+             * Resize the parallel coordinate system.
+             */ Parallel.prototype.resize = function(parallelModel, api) {
             this._rect = getLayoutRect(parallelModel.getBoxLayoutParams(), {
                 width: api.getWidth(),
                 height: api.getHeight()
@@ -31423,18 +31423,18 @@
                 };
             }, this);
         }, /**
-       * Get axis by dim.
-       */ Parallel.prototype.getAxis = function(dim) {
+             * Get axis by dim.
+             */ Parallel.prototype.getAxis = function(dim) {
             return this._axesMap.get(dim);
         }, /**
-       * Convert a dim value of a single item of series data to Point.
-       */ Parallel.prototype.dataToPoint = function(value, dim) {
+             * Convert a dim value of a single item of series data to Point.
+             */ Parallel.prototype.dataToPoint = function(value, dim) {
             return this.axisCoordToPoint(this._axesMap.get(dim).dataToCoord(value), dim);
         }, /**
-       * Travel data for one time, get activeState of each data item.
-       * @param start the start dataIndex that travel from.
-       * @param end the next dataIndex of the last dataIndex will be travel.
-       */ Parallel.prototype.eachActiveState = function(data, callback, start, end) {
+             * Travel data for one time, get activeState of each data item.
+             * @param start the start dataIndex that travel from.
+             * @param end the next dataIndex of the last dataIndex will be travel.
+             */ Parallel.prototype.eachActiveState = function(data, callback, start, end) {
             null == start && (start = 0), null == end && (end = data.count());
             var axesMap = this._axesMap, dimensions = this.dimensions, dataDimensions = [], axisModels = [];
             each(dimensions, function(axisDim) {
@@ -31452,25 +31452,25 @@
                 callback(activeState, dataIndex);
             }
         }, /**
-       * Whether has any activeSet.
-       */ Parallel.prototype.hasAxisBrushed = function() {
+             * Whether has any activeSet.
+             */ Parallel.prototype.hasAxisBrushed = function() {
             for(var dimensions = this.dimensions, axesMap = this._axesMap, hasActiveSet = !1, j = 0, lenj = dimensions.length; j < lenj; j++)'normal' !== axesMap.get(dimensions[j]).model.getActiveState() && (hasActiveSet = !0);
             return hasActiveSet;
         }, /**
-       * Convert coords of each axis to Point.
-       *  Return point. For example: [10, 20]
-       */ Parallel.prototype.axisCoordToPoint = function(coord, dim) {
+             * Convert coords of each axis to Point.
+             *  Return point. For example: [10, 20]
+             */ Parallel.prototype.axisCoordToPoint = function(coord, dim) {
             return applyTransform$1([
                 coord,
                 0
             ], this._axesLayout[dim].transform);
         }, /**
-       * Get axis layout.
-       */ Parallel.prototype.getAxisLayout = function(dim) {
+             * Get axis layout.
+             */ Parallel.prototype.getAxisLayout = function(dim) {
             return clone(this._axesLayout[dim]);
         }, /**
-       * @return {Object} {axisExpandWindow, delta, behavior: 'jump' | 'slide' | 'none'}.
-       */ Parallel.prototype.getSlidedAxisExpandWindow = function(point) {
+             * @return {Object} {axisExpandWindow, delta, behavior: 'jump' | 'slide' | 'none'}.
+             */ Parallel.prototype.getSlidedAxisExpandWindow = function(point) {
             var delta, layoutInfo = this._makeLayoutInfo(), pixelDimIndex = layoutInfo.pixelDimIndex, axisExpandWindow = layoutInfo.axisExpandWindow.slice(), winSize = axisExpandWindow[1] - axisExpandWindow[0], extent = [
                 0,
                 layoutInfo.axisExpandWidth * (layoutInfo.axisCount - 1)
@@ -31515,8 +31515,8 @@
         function ParallelAxisModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = ParallelAxisModel.type, /**
-         * @readOnly
-         */ _this.activeIntervals = [], _this;
+                 * @readOnly
+                 */ _this.activeIntervals = [], _this;
         }
         return __extends(ParallelAxisModel, _super), ParallelAxisModel.prototype.getAreaSelectStyle = function() {
             return makeStyleMapper([
@@ -31542,19 +31542,19 @@
                 ] // Option decal is in `DecalObject` but style.decal is in `PatternObject`.
             ])(this.getModel('areaSelectStyle'));
         }, /**
-       * The code of this feature is put on AxisModel but not ParallelAxis,
-       * because axisModel can be alive after echarts updating but instance of
-       * ParallelAxis having been disposed. this._activeInterval should be kept
-       * when action dispatched (i.e. legend click).
-       *
-       * @param intervals `interval.length === 0` means set all active.
-       */ ParallelAxisModel.prototype.setActiveIntervals = function(intervals) {
+             * The code of this feature is put on AxisModel but not ParallelAxis,
+             * because axisModel can be alive after echarts updating but instance of
+             * ParallelAxis having been disposed. this._activeInterval should be kept
+             * when action dispatched (i.e. legend click).
+             *
+             * @param intervals `interval.length === 0` means set all active.
+             */ ParallelAxisModel.prototype.setActiveIntervals = function(intervals) {
             var activeIntervals = this.activeIntervals = clone(intervals); // Normalize
             if (activeIntervals) for(var i = activeIntervals.length - 1; i >= 0; i--)asc(activeIntervals[i]);
         }, /**
-       * @param value When only attempting detect whether 'no activeIntervals set',
-       *        `value` is not needed to be input.
-       */ ParallelAxisModel.prototype.getActiveState = function(value) {
+             * @param value When only attempting detect whether 'no activeIntervals set',
+             *        `value` is not needed to be input.
+             */ ParallelAxisModel.prototype.getActiveState = function(value) {
             var activeIntervals = this.activeIntervals;
             if (!activeIntervals.length) return 'normal';
             if (null == value || isNaN(+value)) return 'inactive';
@@ -31606,16 +31606,16 @@
         function BrushController(zr) {
             var _this = _super.call(this) || this;
             return(/**
-         * @internal
-         */ _this._track = [], /**
-         * @internal
-         */ _this._covers = [], _this._handlers = {}, assert(zr), _this._zr = zr, _this.group = new Group(), _this._uid = 'brushController_' + baseUID++, each(pointerHandlers, function(handler, eventName) {
+                 * @internal
+                 */ _this._track = [], /**
+                 * @internal
+                 */ _this._covers = [], _this._handlers = {}, assert(zr), _this._zr = zr, _this.group = new Group(), _this._uid = 'brushController_' + baseUID++, each(pointerHandlers, function(handler, eventName) {
                 this._handlers[eventName] = bind(handler, this);
             }, _this), _this);
         }
         return __extends(BrushController, _super), /**
-       * If set to `false`, select disabled.
-       */ BrushController.prototype.enableBrush = function(brushOption) {
+             * If set to `false`, select disabled.
+             */ BrushController.prototype.enableBrush = function(brushOption) {
             return assert(this._mounted), this._brushType && this._doDisableBrush(), brushOption.brushType && this._doEnableBrush(brushOption), this;
         }, BrushController.prototype._doEnableBrush = function(brushOption) {
             var userKey, zr = this._zr; // Consider roam, which takes globalPan too.
@@ -31628,8 +31628,8 @@
                 zr.off(eventName, handler);
             }), this._brushType = this._brushOption = null;
         }, /**
-       * @param panelOpts If not pass, it is global brush.
-       */ BrushController.prototype.setPanels = function(panelOpts) {
+             * @param panelOpts If not pass, it is global brush.
+             */ BrushController.prototype.setPanels = function(panelOpts) {
             if (panelOpts && panelOpts.length) {
                 var panels_1 = this._panels = {};
                 each(panelOpts, function(panelOpts) {
@@ -31650,10 +31650,10 @@
         }, //     each(this._covers, cb, context);
         // }
         /**
-       * Update covers.
-       * @param coverConfigList
-       *        If coverConfigList is null/undefined, all covers removed.
-       */ BrushController.prototype.updateCovers = function(coverConfigList) {
+             * Update covers.
+             * @param coverConfigList
+             *        If coverConfigList is null/undefined, all covers removed.
+             */ BrushController.prototype.updateCovers = function(coverConfigList) {
             assert(this._mounted), coverConfigList = map(coverConfigList, function(coverConfig) {
                 return merge(clone(DEFAULT_BRUSH_OPT), coverConfig, !0);
             });
@@ -32274,8 +32274,8 @@
                 parallelAxisModel.axis.model.setActiveIntervals(payload.intervals);
             });
         }), /**
-       * @payload
-       */ registers.registerAction('parallelAxisExpand', function(payload, ecModel) {
+         * @payload
+         */ registers.registerAction('parallelAxisExpand', function(payload, ecModel) {
             ecModel.eachComponent({
                 mainType: 'parallel',
                 query: payload
@@ -32397,11 +32397,11 @@
             return _this.type = SankeySeriesModel.type, _this;
         }
         return __extends(SankeySeriesModel, _super), /**
-       * Init a graph data structure from data in option series
-       *
-       * @param  {Object} option  the object used to config echarts view
-       * @return {module:echarts/data/List} storage initial data
-       */ SankeySeriesModel.prototype.getInitialData = function(option, ecModel) {
+             * Init a graph data structure from data in option series
+             *
+             * @param  {Object} option  the object used to config echarts view
+             * @return {module:echarts/data/List} storage initial data
+             */ SankeySeriesModel.prototype.getInitialData = function(option, ecModel) {
             var links = option.edges || option.links, nodes = option.data || option.nodes, levels = option.levels;
             this.levelModels = [];
             for(var levelModels = this.levelModels, i = 0; i < levels.length; i++)if (null != levels[i].depth && levels[i].depth >= 0) levelModels[levels[i].depth] = new Model(levels[i], this, ecModel);
@@ -32427,16 +32427,16 @@
             var dataItem = this.option.data[dataIndex];
             dataItem.localX = localPosition[0], dataItem.localY = localPosition[1];
         }, /**
-       * Return the graphic data structure
-       *
-       * @return graphic data structure
-       */ SankeySeriesModel.prototype.getGraph = function() {
+             * Return the graphic data structure
+             *
+             * @return graphic data structure
+             */ SankeySeriesModel.prototype.getGraph = function() {
             return this.getData().graph;
         }, /**
-       * Get edge data of graphic data structure
-       *
-       * @return data structure of list
-       */ SankeySeriesModel.prototype.getEdgeData = function() {
+             * Get edge data of graphic data structure
+             *
+             * @return data structure of list
+             */ SankeySeriesModel.prototype.getEdgeData = function() {
             return this.getGraph().edgeData;
         }, SankeySeriesModel.prototype.formatTooltip = function(dataIndex, multipleSeries, dataType) {
             function noValue(val) {
@@ -32793,8 +32793,8 @@
     var WhiskerBoxCommonMixin = /** @class */ function() {
         function WhiskerBoxCommonMixin() {}
         return(/**
-       * @override
-       */ WhiskerBoxCommonMixin.prototype.getInitialData = function(option, ecModel) {
+             * @override
+             */ WhiskerBoxCommonMixin.prototype.getInitialData = function(option, ecModel) {
             var ordinalMeta, addOrdinal, xAxisModel = ecModel.getComponent('xAxis', this.get('xAxisIndex')), yAxisModel = ecModel.getComponent('yAxis', this.get('yAxisIndex')), xAxisType = xAxisModel.get('type'), yAxisType = yAxisModel.get('type');
             // Consider time axis.
             'category' === xAxisType ? (option.layout = 'horizontal', ordinalMeta = xAxisModel.getOrdinalMeta(), addOrdinal = !0) : 'category' === yAxisType ? (option.layout = 'vertical', ordinalMeta = yAxisModel.getOrdinalMeta(), addOrdinal = !0) : option.layout = option.layout || 'horizontal';
@@ -32838,9 +32838,9 @@
                 encodeDefaulter: curry(makeSeriesEncodeForAxisCoordSys, coordDimensions, this)
             });
         }, /**
-       * If horizontal, base axis is x, otherwise y.
-       * @override
-       */ WhiskerBoxCommonMixin.prototype.getBaseAxis = function() {
+             * If horizontal, base axis is x, otherwise y.
+             * @override
+             */ WhiskerBoxCommonMixin.prototype.getBaseAxis = function() {
             var dim = this._baseAxisDim;
             return this.ecModel.getComponent(dim + 'Axis', this.get(dim + 'AxisIndex')).axis;
         }, WhiskerBoxCommonMixin);
@@ -32849,11 +32849,11 @@
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = BoxplotSeriesModel.type, // box width represents group size, so dimension should have 'size'.
             /**
-         * @see <https://en.wikipedia.org/wiki/Box_plot>
-         * The meanings of 'min' and 'max' depend on user,
-         * and echarts do not need to know it.
-         * @readOnly
-         */ _this.defaultValueDimensions = [
+                 * @see <https://en.wikipedia.org/wiki/Box_plot>
+                 * The meanings of 'min' and 'max' depend on user,
+                 * and echarts do not need to know it.
+                 * @readOnly
+                 */ _this.defaultValueDimensions = [
                 {
                     name: 'min',
                     defaultTooltip: !0
@@ -33319,9 +33319,9 @@
             ], _this;
         }
         return __extends(CandlestickSeriesModel, _super), /**
-       * Get dimension for shadow in dataZoom
-       * @return dimension name
-       */ CandlestickSeriesModel.prototype.getShadowDim = function() {
+             * Get dimension for shadow in dataZoom
+             * @return dimension name
+             */ CandlestickSeriesModel.prototype.getShadowDim = function() {
             return 'open';
         }, CandlestickSeriesModel.prototype.brushSelector = function(dataIndex, data, selectors) {
             var itemLayout = data.getItemLayout(dataIndex);
@@ -33506,8 +33506,8 @@
             }
             updateRipplePath(rippleGroup, effectCfg);
         }, /**
-       * Update effect symbol
-       */ EffectSymbol.prototype.updateEffectAnimation = function(effectCfg) {
+             * Update effect symbol
+             */ EffectSymbol.prototype.updateEffectAnimation = function(effectCfg) {
             for(var oldEffectCfg = this._effectCfg, rippleGroup = this.childAt(1), DIFFICULT_PROPS = [
                 'symbolType',
                 'period',
@@ -33521,16 +33521,16 @@
             }
             updateRipplePath(rippleGroup, effectCfg);
         }, /**
-       * Highlight symbol
-       */ EffectSymbol.prototype.highlight = function() {
+             * Highlight symbol
+             */ EffectSymbol.prototype.highlight = function() {
             enterEmphasis(this);
         }, /**
-       * Downplay symbol
-       */ EffectSymbol.prototype.downplay = function() {
+             * Downplay symbol
+             */ EffectSymbol.prototype.downplay = function() {
             leaveEmphasis(this);
         }, /**
-       * Update symbol properties
-       */ EffectSymbol.prototype.updateData = function(data, idx) {
+             * Update symbol properties
+             */ EffectSymbol.prototype.updateData = function(data, idx) {
             var symbolSize, _this = this, seriesModel = data.hostModel;
             this.childAt(0).updateData(data, idx);
             var rippleGroup = this.childAt(1), itemModel = data.getItemModel(idx), symbolType = data.getItemVisual(idx, 'symbol'), symbolSize1 = (isArray(symbolSize = data.getItemVisual(idx, 'symbolSize')) || (symbolSize = [
@@ -33821,8 +33821,8 @@
         return LargeLineDraw.prototype.isPersistent = function() {
             return !this._incremental;
         }, /**
-       * Update symbols draw by new data
-       */ LargeLineDraw.prototype.updateData = function(data) {
+             * Update symbols draw by new data
+             */ LargeLineDraw.prototype.updateData = function(data) {
             this.group.removeAll();
             var lineEl = new LargeLinesPath({
                 rectHover: !0,
@@ -33832,21 +33832,21 @@
                 segs: data.getLayout('linesPoints')
             }), this._setCommon(lineEl, data), this.group.add(lineEl), this._incremental = null;
         }, /**
-       * @override
-       */ LargeLineDraw.prototype.incrementalPrepareUpdate = function(data) {
+             * @override
+             */ LargeLineDraw.prototype.incrementalPrepareUpdate = function(data) {
             this.group.removeAll(), this._clearIncremental(), data.count() > 5e5 ? (this._incremental || (this._incremental = new IncrementalDisplayable({
                 silent: !0
             })), this.group.add(this._incremental)) : this._incremental = null;
         }, /**
-       * @override
-       */ LargeLineDraw.prototype.incrementalUpdate = function(taskParams, data) {
+             * @override
+             */ LargeLineDraw.prototype.incrementalUpdate = function(taskParams, data) {
             var lineEl = new LargeLinesPath();
             lineEl.setShape({
                 segs: data.getLayout('linesPoints')
             }), this._setCommon(lineEl, data, !!this._incremental), this._incremental ? this._incremental.addDisplayable(lineEl, !0) : (lineEl.rectHover = !0, lineEl.cursor = 'default', lineEl.__startIndex = taskParams.start, this.group.add(lineEl));
         }, /**
-       * @override
-       */ LargeLineDraw.prototype.remove = function() {
+             * @override
+             */ LargeLineDraw.prototype.remove = function() {
             this._clearIncremental(), this._incremental = null, this.group.removeAll();
         }, LargeLineDraw.prototype._setCommon = function(lineEl, data, isIncremental) {
             var hostModel = data.hostModel;
@@ -34182,11 +34182,11 @@
             this.canvas = canvas;
         }
         return(/**
-       * Renders Heatmap and returns the rendered canvas
-       * @param data array of data, each has x, y, value
-       * @param width canvas width
-       * @param height canvas height
-       */ HeatmapLayer.prototype.update = function(data, width, height, normalize, colorFunc, isInRange) {
+             * Renders Heatmap and returns the rendered canvas
+             * @param data array of data, each has x, y, value
+             * @param width canvas width
+             * @param height canvas height
+             */ HeatmapLayer.prototype.update = function(data, width, height, normalize, colorFunc, isInRange) {
             var brush = this._getBrush(), gradientInRange = this._getGradient(colorFunc, 'inRange'), gradientOutOfRange = this._getGradient(colorFunc, 'outOfRange'), r = this.pointSize + this.blurSize, canvas = this.canvas, ctx = canvas.getContext('2d'), len = data.length;
             canvas.width = width, canvas.height = height;
             for(var i = 0; i < len; ++i){
@@ -34206,8 +34206,8 @@
             }
             return ctx.putImageData(imageData, 0, 0), canvas;
         }, /**
-       * get canvas of a black circle brush used for canvas to draw later
-       */ HeatmapLayer.prototype._getBrush = function() {
+             * get canvas of a black circle brush used for canvas to draw later
+             */ HeatmapLayer.prototype._getBrush = function() {
             var brushCanvas = this._brushCanvas || (this._brushCanvas = createCanvas()), r = this.pointSize + this.blurSize, d = 2 * r; // set brush size
             brushCanvas.width = d, brushCanvas.height = d;
             var ctx = brushCanvas.getContext('2d');
@@ -34216,9 +34216,9 @@
             ctx.shadowOffsetX = d, ctx.shadowBlur = this.blurSize, // color in color map
             ctx.shadowColor = '#000', ctx.beginPath(), ctx.arc(-r, r, this.pointSize, 0, 2 * Math.PI, !0), ctx.closePath(), ctx.fill(), brushCanvas;
         }, /**
-       * get gradient color map
-       * @private
-       */ HeatmapLayer.prototype._getGradient = function(colorFunc, state) {
+             * get gradient color map
+             * @private
+             */ HeatmapLayer.prototype._getGradient = function(colorFunc, state) {
             for(var gradientPixels = this._gradientPixels, pixelsSingleState = gradientPixels[state] || (gradientPixels[state] = new Uint8ClampedArray(1024)), color = [
                 0,
                 0,
@@ -34880,18 +34880,18 @@
             return _this.type = ThemeRiverSeriesModel.type, _this.useColorPaletteOnData = !0, _this;
         }
         return __extends(ThemeRiverSeriesModel, _super), /**
-       * @override
-       */ ThemeRiverSeriesModel.prototype.init = function(option) {
+             * @override
+             */ ThemeRiverSeriesModel.prototype.init = function(option) {
             // eslint-disable-next-line
             _super.prototype.init.apply(this, arguments), // Enable legend selection for each data item
             // Use a function instead of direct access because data reference may changed
             this.legendVisualProvider = new LegendVisualProvider(bind(this.getData, this), bind(this.getRawData, this));
         }, /**
-       * If there is no value of a certain point in the time for some event,set it value to 0.
-       *
-       * @param {Array} data  initial data in the option
-       * @return {Array}
-       */ ThemeRiverSeriesModel.prototype.fixData = function(data) {
+             * If there is no value of a certain point in the time for some event,set it value to 0.
+             *
+             * @param {Array} data  initial data in the option
+             * @return {Array}
+             */ ThemeRiverSeriesModel.prototype.fixData = function(data) {
             var rawDataLength = data.length, timeValueKeys = {}, groupResult = groupData(data, function(item) {
                 return timeValueKeys.hasOwnProperty(item[0] + '') || (timeValueKeys[item[0] + ''] = -1), item[2];
             }), layerData = [];
@@ -34914,10 +34914,10 @@
             }
             return data;
         }, /**
-       * @override
-       * @param  option  the initial option that user gived
-       * @param  ecModel  the model object for themeRiver option
-       */ ThemeRiverSeriesModel.prototype.getInitialData = function(option, ecModel) {
+             * @override
+             * @param  option  the initial option that user gived
+             * @param  ecModel  the model object for themeRiver option
+             */ ThemeRiverSeriesModel.prototype.getInitialData = function(option, ecModel) {
             for(var axisType = this.getReferringComponents('singleAxis', SINGLE_REFERRING).models[0].get('type'), filterData = filter(option.data, function(dataItem) {
                 return void 0 !== dataItem[2];
             }), data = this.fixData(filterData || []), nameList = [], nameMap = this.nameMap = createHashMap(), count = 0, i = 0; i < data.length; ++i)nameList.push(data[i][2]), !nameMap.get(data[i][2]) && (nameMap.set(data[i][2], count), count++);
@@ -34947,9 +34947,9 @@
             }), this); // filter the data item with the value of label is undefined
             return list.initData(data), list;
         }, /**
-       * The raw data is divided into multiple layers and each layer
-       *     has same name.
-       */ ThemeRiverSeriesModel.prototype.getLayerSeries = function() {
+             * The raw data is divided into multiple layers and each layer
+             *     has same name.
+             */ ThemeRiverSeriesModel.prototype.getLayerSeries = function() {
             for(var data = this.getData(), lenCount = data.count(), indexArr = [], i = 0; i < lenCount; ++i)indexArr[i] = i;
             var timeDim = data.mapDimension('single'), groupResult = groupData(indexArr, function(index) {
                 return data.get('name', index);
@@ -34963,8 +34963,8 @@
                 });
             }), layerSeries;
         }, /**
-       * Get data indices for show tooltip content
-       */ ThemeRiverSeriesModel.prototype.getAxisTooltipData = function(dim, value, baseAxis) {
+             * Get data indices for show tooltip content
+             */ ThemeRiverSeriesModel.prototype.getAxisTooltipData = function(dim, value, baseAxis) {
             isArray(dim) || (dim = dim ? [
                 dim
             ] : []);
@@ -35178,8 +35178,8 @@
             })) : self1.virtualPiece && (// Remove
             group.remove(self1.virtualPiece), self1.virtualPiece = null), this._initEvents(), this._oldChildren = newChildren;
         }, /**
-       * @private
-       */ SunburstView.prototype._initEvents = function() {
+             * @private
+             */ SunburstView.prototype._initEvents = function() {
             var _this = this;
             this.group.off('click'), this.group.on('click', function(e) {
                 var targetFound = !1;
@@ -35196,8 +35196,8 @@
                 });
             });
         }, /**
-       * @private
-       */ SunburstView.prototype._rootToNode = function(node) {
+             * @private
+             */ SunburstView.prototype._rootToNode = function(node) {
             node !== this.seriesModel.getViewRoot() && this.api.dispatchAction({
                 type: ROOT_TO_NODE_ACTION,
                 from: this.uid,
@@ -35205,8 +35205,8 @@
                 targetNode: node
             });
         }, /**
-       * @implement
-       */ SunburstView.prototype.containPoint = function(point, seriesModel) {
+             * @implement
+             */ SunburstView.prototype.containPoint = function(point, seriesModel) {
             var itemLayout = seriesModel.getData().getItemLayout(0);
             if (itemLayout) {
                 var dx = point[0] - itemLayout.cx, dy = point[1] - itemLayout.cy, radius = Math.sqrt(dx * dx + dy * dy);
@@ -35249,8 +35249,8 @@
         }, SunburstSeriesModel.prototype.optionUpdated = function() {
             this.resetViewRoot();
         }, /*
-       * @override
-       */ SunburstSeriesModel.prototype.getDataParams = function(dataIndex) {
+             * @override
+             */ SunburstSeriesModel.prototype.getDataParams = function(dataIndex) {
             var params = _super.prototype.getDataParams.apply(this, arguments);
             return params.treePathInfo = wrapTreePathInfo(this.getData().tree.getNodeByDataIndex(dataIndex), this), params;
         }, SunburstSeriesModel.prototype.getViewRoot = function() {
@@ -35323,16 +35323,16 @@
             data: [],
             levels: [],
             /**
-         * Sort order.
-         *
-         * Valid values: 'desc', 'asc', null, or callback function.
-         * 'desc' and 'asc' for descend and ascendant order;
-         * null for not sorting;
-         * example of callback function:
-         * function(nodeA, nodeB) {
-         *     return nodeA.getValue() - nodeB.getValue();
-         * }
-         */ sort: 'desc'
+                 * Sort order.
+                 *
+                 * Valid values: 'desc', 'asc', null, or callback function.
+                 * 'desc' and 'asc' for descend and ascendant order;
+                 * null for not sorting;
+                 * example of callback function:
+                 * function(nodeA, nodeB) {
+                 *     return nodeA.getValue() - nodeB.getValue();
+                 * }
+                 */ sort: 'desc'
         }, SunburstSeriesModel;
     }(SeriesModel), RADIAN$2 = Math.PI / 180;
     function sunburstLayout(seriesType, ecModel, api) {
@@ -36577,31 +36577,31 @@
             getZr: api.getZr,
             getDevicePixelRatio: api.getDevicePixelRatio,
             value: /**
-       * @public
-       * @param dim by default 0.
-       * @param dataIndexInside by default `currDataIndexInside`.
-       */ function(dim, dataIndexInside) {
+         * @public
+         * @param dim by default 0.
+         * @param dataIndexInside by default `currDataIndexInside`.
+         */ function(dim, dataIndexInside) {
                 return null == dataIndexInside && (dataIndexInside = currDataIndexInside), data.get(data.getDimension(dim || 0), dataIndexInside);
             },
             style: /**
-       * @deprecated The orgininal intention of `api.style` is enable to set itemStyle
-       * like other series. But it not necessary and not easy to give a strict definition
-       * of what it return. And since echarts5 it needs to be make compat work. So
-       * deprecates it since echarts5.
-       *
-       * By default, `visual` is applied to style (to support visualMap).
-       * `visual.color` is applied at `fill`. If user want apply visual.color on `stroke`,
-       * it can be implemented as:
-       * `api.style({stroke: api.visual('color'), fill: null})`;
-       *
-       * [Compat]: since ec5, RectText has been separated from its hosts el.
-       * so `api.style()` will only return the style from `itemStyle` but not handle `label`
-       * any more. But `series.label` config is never published in doc.
-       * We still compat it in `api.style()`. But not encourage to use it and will still not
-       * to pulish it to doc.
-       * @public
-       * @param dataIndexInside by default `currDataIndexInside`.
-       */ function(userProps, dataIndexInside) {
+         * @deprecated The orgininal intention of `api.style` is enable to set itemStyle
+         * like other series. But it not necessary and not easy to give a strict definition
+         * of what it return. And since echarts5 it needs to be make compat work. So
+         * deprecates it since echarts5.
+         *
+         * By default, `visual` is applied to style (to support visualMap).
+         * `visual.color` is applied at `fill`. If user want apply visual.color on `stroke`,
+         * it can be implemented as:
+         * `api.style({stroke: api.visual('color'), fill: null})`;
+         *
+         * [Compat]: since ec5, RectText has been separated from its hosts el.
+         * so `api.style()` will only return the style from `itemStyle` but not handle `label`
+         * any more. But `series.label` config is never published in doc.
+         * We still compat it in `api.style()`. But not encourage to use it and will still not
+         * to pulish it to doc.
+         * @public
+         * @param dataIndexInside by default `currDataIndexInside`.
+         */ function(userProps, dataIndexInside) {
                 warnDeprecated('api.style', 'Please write literal style directly instead.'), null == dataIndexInside && (dataIndexInside = currDataIndexInside);
                 var style = data.getItemVisual(dataIndexInside, 'style'), visualColor = style && style.fill, opacity = style && style.opacity, itemStyle = getItemStyleModel(dataIndexInside, NORMAL).getItemStyle();
                 null != visualColor && (itemStyle.fill = visualColor), null != opacity && (itemStyle.opacity = opacity);
@@ -36613,10 +36613,10 @@
                 return preFetchFromExtra(userProps, itemStyle), itemStyle = convertToEC4StyleForCustomSerise(itemStyle, textStyle, textConfig), userProps && applyUserPropsAfter(itemStyle, userProps), itemStyle.legacy = !0, itemStyle;
             },
             ordinalRawValue: /**
-       * @public
-       * @param dim by default 0.
-       * @param dataIndexInside by default `currDataIndexInside`.
-       */ function(dim, dataIndexInside) {
+         * @public
+         * @param dim by default 0.
+         * @param dataIndexInside by default `currDataIndexInside`.
+         */ function(dim, dataIndexInside) {
                 null == dataIndexInside && (dataIndexInside = currDataIndexInside);
                 var dimInfo = data.getDimensionInfo(dim || 0);
                 if (dimInfo) {
@@ -36625,10 +36625,10 @@
                 }
             },
             styleEmphasis: /**
-       * @deprecated The reason see `api.style()`
-       * @public
-       * @param dataIndexInside by default `currDataIndexInside`.
-       */ function(userProps, dataIndexInside) {
+         * @deprecated The reason see `api.style()`
+         * @public
+         * @param dataIndexInside by default `currDataIndexInside`.
+         */ function(userProps, dataIndexInside) {
                 warnDeprecated('api.styleEmphasis', 'Please write literal style directly instead.'), null == dataIndexInside && (dataIndexInside = currDataIndexInside);
                 var itemStyle = getItemStyleModel(dataIndexInside, EMPHASIS).getItemStyle(), labelModel = getLabelModel(dataIndexInside, EMPHASIS), textStyle = createTextStyle(labelModel, null, null, !0, !0);
                 textStyle.text = labelModel.getShallow('show') ? retrieve3(customSeries.getFormattedLabel(dataIndexInside, EMPHASIS), customSeries.getFormattedLabel(dataIndexInside, NORMAL), getDefaultLabel(data, dataIndexInside)) : null;
@@ -36636,9 +36636,9 @@
                 return preFetchFromExtra(userProps, itemStyle), itemStyle = convertToEC4StyleForCustomSerise(itemStyle, textStyle, textConfig), userProps && applyUserPropsAfter(itemStyle, userProps), itemStyle.legacy = !0, itemStyle;
             },
             visual: /**
-       * @public
-       * @param dataIndexInside by default `currDataIndexInside`.
-       */ function(visualType, dataIndexInside) {
+         * @public
+         * @param dataIndexInside by default `currDataIndexInside`.
+         */ function(visualType, dataIndexInside) {
                 if (null == dataIndexInside && (dataIndexInside = currDataIndexInside), hasOwn(STYLE_VISUAL_TYPE, visualType)) {
                     var style_1 = data.getItemVisual(dataIndexInside, 'style');
                     return style_1 ? style_1[STYLE_VISUAL_TYPE[visualType]] : null;
@@ -36647,9 +36647,9 @@
                 if (hasOwn(NON_STYLE_VISUAL_PROPS, visualType)) return data.getItemVisual(dataIndexInside, visualType);
             },
             barLayout: /**
-       * @public
-       * @return If not support, return undefined.
-       */ function(opt) {
+         * @public
+         * @return If not support, return undefined.
+         */ function(opt) {
                 if ('cartesian2d' === coordSys.type) return(/**
      * @return {Object} {width, offset, offsetCenter} If axis.type is not 'category', return undefined.
      */ function(opt) {
@@ -36671,14 +36671,14 @@
                 }, opt)));
             },
             currentSeriesIndices: /**
-       * @public
-       */ function() {
+         * @public
+         */ function() {
                 return ecModel.getCurrentSeriesIndices();
             },
             font: /**
-       * @public
-       * @return font string
-       */ function(opt) {
+         * @public
+         * @return font string
+         */ function(opt) {
                 return getFont(opt, ecModel);
             }
         }, prepareResult.api || {}), userParams = {
@@ -37081,13 +37081,13 @@
     var inner$a = makeInner(), BaseAxisPointer = /** @class */ function() {
         function BaseAxisPointer() {
             this._dragging = !1, /**
-         * In px, arbitrary value. Do not set too small,
-         * no animation is ok for most cases.
-         */ this.animationThreshold = 15;
+                 * In px, arbitrary value. Do not set too small,
+                 * no animation is ok for most cases.
+                 */ this.animationThreshold = 15;
         }
         return(/**
-       * @implement
-       */ BaseAxisPointer.prototype.render = function(axisModel, axisPointerModel, api, forceRender) {
+             * @implement
+             */ BaseAxisPointer.prototype.render = function(axisModel, axisPointerModel, api, forceRender) {
             var value = axisPointerModel.get('value'), status = axisPointerModel.get('status');
             // So it is power consuming if performing `render` each time,
             // especially on mobile device.
@@ -37113,16 +37113,16 @@
                 updateMandatoryProps(group, axisPointerModel, !0), this._renderHandle(value);
             }
         }, /**
-       * @implement
-       */ BaseAxisPointer.prototype.remove = function(api) {
+             * @implement
+             */ BaseAxisPointer.prototype.remove = function(api) {
             this.clear(api);
         }, /**
-       * @implement
-       */ BaseAxisPointer.prototype.dispose = function(api) {
+             * @implement
+             */ BaseAxisPointer.prototype.dispose = function(api) {
             this.clear(api);
         }, /**
-       * @protected
-       */ BaseAxisPointer.prototype.determineAnimation = function(axisModel, axisPointerModel) {
+             * @protected
+             */ BaseAxisPointer.prototype.determineAnimation = function(axisModel, axisPointerModel) {
             var animation = axisPointerModel.get('animation'), axis = axisModel.axis, isCategoryAxis = 'category' === axis.type, useSnap = axisPointerModel.get('snap');
             if (!useSnap && !isCategoryAxis) return !1;
             if ('auto' === animation || null == animation) {
@@ -37139,33 +37139,33 @@
             }
             return !0 === animation;
         }, /**
-       * add {pointer, label, graphicKey} to elOption
-       * @protected
-       */ BaseAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {}, /**
-       * @protected
-       */ BaseAxisPointer.prototype.createPointerEl = function(group, elOption, axisModel, axisPointerModel) {
+             * add {pointer, label, graphicKey} to elOption
+             * @protected
+             */ BaseAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {}, /**
+             * @protected
+             */ BaseAxisPointer.prototype.createPointerEl = function(group, elOption, axisModel, axisPointerModel) {
             var pointerOption = elOption.pointer;
             if (pointerOption) {
                 var pointerEl = inner$a(group).pointerEl = new graphic[pointerOption.type](clone(elOption.pointer));
                 group.add(pointerEl);
             }
         }, /**
-       * @protected
-       */ BaseAxisPointer.prototype.createLabelEl = function(group, elOption, axisModel, axisPointerModel) {
+             * @protected
+             */ BaseAxisPointer.prototype.createLabelEl = function(group, elOption, axisModel, axisPointerModel) {
             if (elOption.label) {
                 var labelEl = inner$a(group).labelEl = new ZRText(clone(elOption.label));
                 group.add(labelEl), updateLabelShowHide(labelEl, axisPointerModel);
             }
         }, /**
-       * @protected
-       */ BaseAxisPointer.prototype.updatePointerEl = function(group, elOption, updateProps) {
+             * @protected
+             */ BaseAxisPointer.prototype.updatePointerEl = function(group, elOption, updateProps) {
             var pointerEl = inner$a(group).pointerEl;
             pointerEl && elOption.pointer && (pointerEl.setStyle(elOption.pointer.style), updateProps(pointerEl, {
                 shape: elOption.pointer.shape
             }));
         }, /**
-       * @protected
-       */ BaseAxisPointer.prototype.updateLabelEl = function(group, elOption, updateProps, axisPointerModel) {
+             * @protected
+             */ BaseAxisPointer.prototype.updateLabelEl = function(group, elOption, updateProps, axisPointerModel) {
             var labelEl = inner$a(group).labelEl;
             labelEl && (labelEl.setStyle(elOption.label.style), updateProps(labelEl, {
                 // Consider text length change in vertical axis, animation should
@@ -37176,8 +37176,8 @@
                 y: elOption.label.y
             }), updateLabelShowHide(labelEl, axisPointerModel));
         }, /**
-       * @private
-       */ BaseAxisPointer.prototype._renderHandle = function(value) {
+             * @private
+             */ BaseAxisPointer.prototype._renderHandle = function(value) {
             if (!this._dragging && this.updateHandleTransform) {
                 var isInit, axisPointerModel = this._axisPointerModel, zr = this._api.getZr(), handle = this._handle, handleModel = axisPointerModel.getModel('handle'), status = axisPointerModel.get('status');
                 if (!handleModel.get('show') || !status || 'hide' === status) {
@@ -37223,8 +37223,8 @@
                 this._payloadInfo = trans, handle.stopAnimation(), handle.attr(getHandleTransProps(trans)), inner$a(handle).lastProp = null, this._doDispatchAxisPointer();
             }
         }, /**
-       * Throttled method.
-       */ BaseAxisPointer.prototype._doDispatchAxisPointer = function() {
+             * Throttled method.
+             */ BaseAxisPointer.prototype._doDispatchAxisPointer = function() {
             if (this._handle) {
                 var payloadInfo = this._payloadInfo, axisModel = this._axisModel;
                 this._api.dispatchAction({
@@ -37251,14 +37251,14 @@
                 });
             }
         }, /**
-       * @private
-       */ BaseAxisPointer.prototype.clear = function(api) {
+             * @private
+             */ BaseAxisPointer.prototype.clear = function(api) {
             this._lastValue = null, this._lastStatus = null;
             var zr = api.getZr(), group = this._group, handle = this._handle;
             zr && group && (this._lastGraphicKey = null, group && zr.remove(group), handle && zr.remove(handle), this._group = null, this._handle = null, this._payloadInfo = null);
         }, /**
-       * @protected
-       */ BaseAxisPointer.prototype.doClear = function() {}, BaseAxisPointer.prototype.buildLabel = function(xy, wh, xDimIndex) {
+             * @protected
+             */ BaseAxisPointer.prototype.doClear = function() {}, BaseAxisPointer.prototype.buildLabel = function(xy, wh, xDimIndex) {
             return {
                 x: xy[xDimIndex = xDimIndex || 0],
                 y: xy[1 - xDimIndex],
@@ -37412,8 +37412,8 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(CartesianAxisPointer, _super), /**
-       * @override
-       */ CartesianAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
+             * @override
+             */ CartesianAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
             var axis = axisModel.axis, grid = axis.grid, axisPointerType = axisPointerModel.get('type'), otherExtent = getCartesian(grid, axis).getOtherAxis(axis).getGlobalExtent(), pixelValue = axis.toGlobalCoord(axis.dataToCoord(value, !0));
             if (axisPointerType && 'none' !== axisPointerType) {
                 var elStyle = buildElStyle(axisPointerModel), pointerOption = pointerShapeBuilder[axisPointerType](axis, pixelValue, otherExtent);
@@ -37421,8 +37421,8 @@
             }
             buildCartesianSingleLabelElOption(value, elOption, layout$1(grid.model, axisModel), axisModel, axisPointerModel, api);
         }, /**
-       * @override
-       */ CartesianAxisPointer.prototype.getHandleTransform = function(value, axisModel, axisPointerModel) {
+             * @override
+             */ CartesianAxisPointer.prototype.getHandleTransform = function(value, axisModel, axisPointerModel) {
             var layoutInfo = layout$1(axisModel.axis.grid.model, axisModel, {
                 labelInside: !1
             }); // @ts-ignore
@@ -37437,8 +37437,8 @@
                 rotation: layoutInfo.rotation + (layoutInfo.labelDirection < 0 ? Math.PI : 0)
             };
         }, /**
-       * @override
-       */ CartesianAxisPointer.prototype.updateHandleTransform = function(transform, delta, axisModel, axisPointerModel) {
+             * @override
+             */ CartesianAxisPointer.prototype.updateHandleTransform = function(transform, delta, axisModel, axisPointerModel) {
             var axis = axisModel.axis, grid = axis.grid, axisExtent = axis.getGlobalExtent(!0), otherExtent = getCartesian(grid, axis).getOtherAxis(axis).getGlobalExtent(), dimIndex = +('x' !== axis.dim), currPosition = [
                 transform.x,
                 transform.y
@@ -37886,23 +37886,23 @@
             // allAxesInfo should be updated when setOption performed.
             ecModel.getComponent('axisPointer').coordSysAxesInfo = (result1 = result = {
                 /**
-         * key: makeKey(axis.model)
-         * value: {
-         *      axis,
-         *      coordSys,
-         *      axisPointerModel,
-         *      triggerTooltip,
-         *      involveSeries,
-         *      snap,
-         *      seriesModels,
-         *      seriesDataCount
-         * }
-         */ axesInfo: {},
+             * key: makeKey(axis.model)
+             * value: {
+             *      axis,
+             *      coordSys,
+             *      axisPointerModel,
+             *      triggerTooltip,
+             *      involveSeries,
+             *      snap,
+             *      seriesModels,
+             *      seriesDataCount
+             * }
+             */ axesInfo: {},
                 seriesInvolved: !1,
                 /**
-         * key: makeKey(coordSys.model)
-         * value: Object: key makeKey(axis.model), value: axisInfo
-         */ coordSysAxesInfo: {},
+             * key: makeKey(coordSys.model)
+             * value: Object: key makeKey(axis.model), value: axisInfo
+             */ coordSysAxesInfo: {},
                 coordSysMap: {}
             }, globalTooltipModel = ecModel.getComponent('tooltip'), linksOption = (globalAxisPointerModel = ecModel.getComponent('axisPointer')).get('link', !0) || [], linkGroups = [], each(api.getCoordinateSystems(), function(coordSys) {
                 // Some coordinate system do not support axes, like geo.
@@ -38032,8 +38032,8 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(PolarAxisPointer, _super), /**
-       * @override
-       */ PolarAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
+             * @override
+             */ PolarAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
             var axis = axisModel.axis;
             'angle' === axis.dim && (this.animationThreshold = Math.PI / 18);
             var polar = axis.polar, otherExtent = polar.getOtherAxis(axis).getExtent(), coordValue = axis.dataToCoord(value), axisPointerType = axisPointerModel.get('type');
@@ -38169,12 +38169,12 @@
         return __extends(AngleAxis, _super), AngleAxis.prototype.pointToData = function(point, clamp) {
             return this.polar.pointToData(point, clamp)[+('radius' !== this.dim)];
         }, /**
-       * Only be called in category axis.
-       * Angle axis uses text height to decide interval
-       *
-       * @override
-       * @return {number} Auto interval for cateogry axis tick and label
-       */ AngleAxis.prototype.calculateCategoryInterval = function() {
+             * Only be called in category axis.
+             * Angle axis uses text height to decide interval
+             *
+             * @override
+             * @return {number} Auto interval for cateogry axis tick and label
+             */ AngleAxis.prototype.calculateCategoryInterval = function() {
             var labelModel = this.getLabelModel(), ordinalScale = this.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
             if (ordinalExtent[1] - ordinalExtent[0] < 1) return 0;
             var tickValue = ordinalExtent[0], unitH = Math.abs(this.dataToCoord(tickValue + 1) - this.dataToCoord(tickValue)), dh = Math.max(getBoundingRect(null == tickValue ? '' : tickValue + '', labelModel.getFont(), 'center', 'top').height, 7) / unitH;
@@ -38191,19 +38191,19 @@
                 'radius',
                 'angle'
             ], this.type = 'polar', /**
-         * x of polar center
-         */ this.cx = 0, /**
-         * y of polar center
-         */ this.cy = 0, this._radiusAxis = new RadiusAxis(), this._angleAxis = new AngleAxis(), this.axisPointerEnabled = !0, this.name = name || '', this._radiusAxis.polar = this._angleAxis.polar = this;
+                 * x of polar center
+                 */ this.cx = 0, /**
+                 * y of polar center
+                 */ this.cy = 0, this._radiusAxis = new RadiusAxis(), this._angleAxis = new AngleAxis(), this.axisPointerEnabled = !0, this.name = name || '', this._radiusAxis.polar = this._angleAxis.polar = this;
         }
         return(/**
-       * If contain coord
-       */ Polar.prototype.containPoint = function(point) {
+             * If contain coord
+             */ Polar.prototype.containPoint = function(point) {
             var coord = this.pointToCoord(point);
             return this._radiusAxis.contain(coord[0]) && this._angleAxis.contain(coord[1]);
         }, /**
-       * If contain data
-       */ Polar.prototype.containData = function(data) {
+             * If contain data
+             */ Polar.prototype.containData = function(data) {
             return this._radiusAxis.containData(data[0]) && this._angleAxis.containData(data[1]);
         }, Polar.prototype.getAxis = function(dim) {
             return this['_' + dim + 'Axis'];
@@ -38213,8 +38213,8 @@
                 this._angleAxis
             ];
         }, /**
-       * Get axes by type of scale
-       */ Polar.prototype.getAxesByScale = function(scaleType) {
+             * Get axes by type of scale
+             */ Polar.prototype.getAxesByScale = function(scaleType) {
             var axes = [], angleAxis = this._angleAxis, radiusAxis = this._radiusAxis;
             return angleAxis.scale.type === scaleType && axes.push(angleAxis), radiusAxis.scale.type === scaleType && axes.push(radiusAxis), axes;
         }, Polar.prototype.getAngleAxis = function() {
@@ -38225,9 +38225,9 @@
             var angleAxis = this._angleAxis;
             return axis === angleAxis ? this._radiusAxis : angleAxis;
         }, /**
-       * Base axis will be used on stacking.
-       *
-       */ Polar.prototype.getBaseAxis = function() {
+             * Base axis will be used on stacking.
+             *
+             */ Polar.prototype.getBaseAxis = function() {
             return this.getAxesByScale('ordinal')[0] || this.getAxesByScale('time')[0] || this.getAngleAxis();
         }, Polar.prototype.getTooltipAxes = function(dim) {
             var baseAxis = null != dim && 'auto' !== dim ? this.getAxis(dim) : this.getBaseAxis();
@@ -38240,24 +38240,24 @@
                 ]
             };
         }, /**
-       * Convert a single data item to (x, y) point.
-       * Parameter data is an array which the first element is radius and the second is angle
-       */ Polar.prototype.dataToPoint = function(data, clamp) {
+             * Convert a single data item to (x, y) point.
+             * Parameter data is an array which the first element is radius and the second is angle
+             */ Polar.prototype.dataToPoint = function(data, clamp) {
             return this.coordToPoint([
                 this._radiusAxis.dataToRadius(data[0], clamp),
                 this._angleAxis.dataToAngle(data[1], clamp)
             ]);
         }, /**
-       * Convert a (x, y) point to data
-       */ Polar.prototype.pointToData = function(point, clamp) {
+             * Convert a (x, y) point to data
+             */ Polar.prototype.pointToData = function(point, clamp) {
             var coord = this.pointToCoord(point);
             return [
                 this._radiusAxis.radiusToData(coord[0], clamp),
                 this._angleAxis.angleToData(coord[1], clamp)
             ];
         }, /**
-       * Convert a (x, y) point to (radius, angle) coord
-       */ Polar.prototype.pointToCoord = function(point) {
+             * Convert a (x, y) point to (radius, angle) coord
+             */ Polar.prototype.pointToCoord = function(point) {
             var dx = point[0] - this.cx, dy = point[1] - this.cy, angleAxis = this.getAngleAxis(), extent = angleAxis.getExtent(), minAngle = Math.min(extent[0], extent[1]), maxAngle = Math.max(extent[0], extent[1]);
             // FIXME
             angleAxis.inverse ? minAngle = maxAngle - 360 : maxAngle = minAngle + 360;
@@ -38269,17 +38269,17 @@
                 radian
             ];
         }, /**
-       * Convert a (radius, angle) coord to (x, y) point
-       */ Polar.prototype.coordToPoint = function(coord) {
+             * Convert a (radius, angle) coord to (x, y) point
+             */ Polar.prototype.coordToPoint = function(coord) {
             var radius = coord[0], radian = coord[1] / 180 * Math.PI;
             return [
                 Math.cos(radian) * radius + this.cx,
                 -Math.sin(radian) * radius + this.cy
             ];
         }, /**
-       * Get ring area of cartesian.
-       * Area will have a contain function to determine if a point is in the coordinate system.
-       */ Polar.prototype.getArea = function() {
+             * Get ring area of cartesian.
+             * Area will have a contain function to determine if a point is in the coordinate system.
+             */ Polar.prototype.getArea = function() {
             var angleAxis = this.getAngleAxis(), radiusExtent = this.getRadiusAxis().getExtent().slice();
             radiusExtent[0] > radiusExtent[1] && radiusExtent.reverse();
             var angleExtent = angleAxis.getExtent(), RADIAN = Math.PI / 180;
@@ -38950,8 +38950,8 @@
             return _this.type = axisType || 'value', _this.position = position || 'bottom', _this;
         }
         return __extends(SingleAxis, _super), /**
-       * Judge the orient of the axis.
-       */ SingleAxis.prototype.isHorizontal = function() {
+             * Judge the orient of the axis.
+             */ SingleAxis.prototype.isHorizontal = function() {
             var position = this.position;
             return 'top' === position || 'bottom' === position;
         }, SingleAxis.prototype.pointToData = function(point, clamp) {
@@ -38960,22 +38960,22 @@
     }(Axis), Single = /** @class */ function() {
         function Single(axisModel, ecModel, api) {
             this.type = 'single', this.dimension = 'single', /**
-         * Add it just for draw tooltip.
-         */ this.dimensions = [
+                 * Add it just for draw tooltip.
+                 */ this.dimensions = [
                 'single'
             ], this.axisPointerEnabled = !0, this.model = axisModel, this._init(axisModel, ecModel, api);
         }
         return(/**
-       * Initialize single coordinate system.
-       */ Single.prototype._init = function(axisModel, ecModel, api) {
+             * Initialize single coordinate system.
+             */ Single.prototype._init = function(axisModel, ecModel, api) {
             var axis = new SingleAxis(this.dimension, createScaleByModel(axisModel), [
                 0,
                 0
             ], axisModel.get('type'), axisModel.get('position')), isCategory = 'category' === axis.type;
             axis.onBand = isCategory && axisModel.get('boundaryGap'), axis.inverse = axisModel.get('inverse'), axis.orient = axisModel.get('orient'), axisModel.axis = axis, axis.model = axisModel, axis.coordinateSystem = this, this._axis = axis;
         }, /**
-       * Update axis scale after data processed
-       */ Single.prototype.update = function(ecModel, api) {
+             * Update axis scale after data processed
+             */ Single.prototype.update = function(ecModel, api) {
             ecModel.eachSeries(function(seriesModel) {
                 if (seriesModel.coordinateSystem === this) {
                     var data_1 = seriesModel.getData();
@@ -38985,8 +38985,8 @@
                 }
             }, this);
         }, /**
-       * Resize the single coordinate system.
-       */ Single.prototype.resize = function(axisModel, api) {
+             * Resize the single coordinate system.
+             */ Single.prototype.resize = function(axisModel, api) {
             this._rect = getLayoutRect({
                 left: axisModel.get('left'),
                 top: axisModel.get('top'),
@@ -39021,12 +39021,12 @@
                 return extentSum - coord + coordBase;
             };
         }, /**
-       * Get axis.
-       */ Single.prototype.getAxis = function() {
+             * Get axis.
+             */ Single.prototype.getAxis = function() {
             return this._axis;
         }, /**
-       * Get axis, add it just for draw tooltip.
-       */ Single.prototype.getBaseAxis = function() {
+             * Get axis, add it just for draw tooltip.
+             */ Single.prototype.getBaseAxis = function() {
             return this._axis;
         }, Single.prototype.getAxes = function() {
             return [
@@ -39041,8 +39041,8 @@
                 otherAxes: []
             };
         }, /**
-       * If contain point.
-       */ Single.prototype.containPoint = function(point) {
+             * If contain point.
+             */ Single.prototype.containPoint = function(point) {
             var rect = this.getRect(), axis = this.getAxis();
             return 'horizontal' === axis.orient ? axis.contain(axis.toLocalCoord(point[0])) && point[1] >= rect.y && point[1] <= rect.y + rect.height : axis.contain(axis.toLocalCoord(point[1])) && point[0] >= rect.y && point[0] <= rect.y + rect.height;
         }, Single.prototype.pointToData = function(point) {
@@ -39051,9 +39051,9 @@
                 axis.coordToData(axis.toLocalCoord(point[+('horizontal' !== axis.orient)]))
             ];
         }, /**
-       * Convert the series data to concrete point.
-       * Can be [val] | val
-       */ Single.prototype.dataToPoint = function(val) {
+             * Convert the series data to concrete point.
+             * Can be [val] | val
+             */ Single.prototype.dataToPoint = function(val) {
             var axis = this.getAxis(), rect = this.getRect(), pt = [], idx = +('horizontal' !== axis.orient);
             return val instanceof Array && (val = val[0]), pt[idx] = axis.toGlobalCoord(axis.dataToCoord(+val)), pt[1 - idx] = 0 === idx ? rect.y + rect.height / 2 : rect.x + rect.width / 2, pt;
         }, Single.prototype.convertToPixel = function(ecModel, finder, value) {
@@ -39093,8 +39093,8 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(SingleAxisPointer, _super), /**
-       * @override
-       */ SingleAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
+             * @override
+             */ SingleAxisPointer.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
             var axis = axisModel.axis, coordSys = axis.coordinateSystem, otherExtent = getGlobalExtent(coordSys, 1 - getPointDimIndex(axis)), pixelValue = coordSys.dataToPoint(value)[0], axisPointerType = axisPointerModel.get('type');
             if (axisPointerType && 'none' !== axisPointerType) {
                 var elStyle = buildElStyle(axisPointerModel), pointerOption = pointerShapeBuilder$2[axisPointerType](axis, pixelValue, otherExtent);
@@ -39102,8 +39102,8 @@
             }
             buildCartesianSingleLabelElOption(value, elOption, layout$2(axisModel), axisModel, axisPointerModel, api);
         }, /**
-       * @override
-       */ SingleAxisPointer.prototype.getHandleTransform = function(value, axisModel, axisPointerModel) {
+             * @override
+             */ SingleAxisPointer.prototype.getHandleTransform = function(value, axisModel, axisPointerModel) {
             var layoutInfo = layout$2(axisModel, {
                 labelInside: !1
             }); // @ts-ignore
@@ -39118,8 +39118,8 @@
                 rotation: layoutInfo.rotation + (layoutInfo.labelDirection < 0 ? Math.PI : 0)
             };
         }, /**
-       * @override
-       */ SingleAxisPointer.prototype.updateHandleTransform = function(transform, delta, axisModel, axisPointerModel) {
+             * @override
+             */ SingleAxisPointer.prototype.updateHandleTransform = function(transform, delta, axisModel, axisPointerModel) {
             var axis = axisModel.axis, coordSys = axis.coordinateSystem, dimIndex = getPointDimIndex(axis), axisExtent = getGlobalExtent(coordSys, dimIndex), currPosition = [
                 transform.x,
                 transform.y
@@ -39189,13 +39189,13 @@
             return _this.type = CalendarModel.type, _this;
         }
         return __extends(CalendarModel, _super), /**
-       * @override
-       */ CalendarModel.prototype.init = function(option, parentModel, ecModel) {
+             * @override
+             */ CalendarModel.prototype.init = function(option, parentModel, ecModel) {
             var inputPositionParams = getLayoutParams(option);
             _super.prototype.init.apply(this, arguments), mergeAndNormalizeLayoutParams(option, inputPositionParams);
         }, /**
-       * @override
-       */ CalendarModel.prototype.mergeOption = function(option) {
+             * @override
+             */ CalendarModel.prototype.mergeOption = function(option) {
             _super.prototype.mergeOption.apply(this, arguments), mergeAndNormalizeLayoutParams(this.option, option);
         }, CalendarModel.prototype.getCellSize = function() {
             // Has been normalized
@@ -39562,19 +39562,19 @@
         }, Calendar.prototype.getOrient = function() {
             return this._orient;
         }, /**
-       * getFirstDayOfWeek
-       *
-       * @example
-       *     0 : start at Sunday
-       *     1 : start at Monday
-       *
-       * @return {number}
-       */ Calendar.prototype.getFirstDayOfWeek = function() {
+             * getFirstDayOfWeek
+             *
+             * @example
+             *     0 : start at Sunday
+             *     1 : start at Monday
+             *
+             * @return {number}
+             */ Calendar.prototype.getFirstDayOfWeek = function() {
             return this._firstDayOfWeek;
         }, /**
-       * get date info
-       * }
-       */ Calendar.prototype.getDateInfo = function(date) {
+             * get date info
+             * }
+             */ Calendar.prototype.getDateInfo = function(date) {
             var y = (date = parseDate(date)).getFullYear(), m = date.getMonth() + 1, mStr = m < 10 ? '0' + m : '' + m, d = date.getDate(), dStr = d < 10 ? '0' + d : '' + d, day = date.getDay();
             return {
                 y: y + '',
@@ -39619,8 +39619,8 @@
                 cellSizeSpecified(cellSize, idx) || (cellSize[idx] = calendarRect[whNames[idx]] / cellNumbers[idx]);
             }), this._sw = cellSize[0], this._sh = cellSize[1];
         }, /**
-       * Convert a time data(time, value) item to (x, y) point.
-       */ // TODO Clamp of calendar is not same with cartesian coordinate systems.
+             * Convert a time data(time, value) item to (x, y) point.
+             */ // TODO Clamp of calendar is not same with cartesian coordinate systems.
         // It will return NaN if data exceeds.
         Calendar.prototype.dataToPoint = function(data, clamp) {
             isArray(data) && (data = data[0]), null == clamp && (clamp = !0);
@@ -39641,13 +39641,13 @@
                 this._rect.y + week * this._sh + this._sh / 2
             ];
         }, /**
-       * Convert a (x, y) point to time data
-       */ Calendar.prototype.pointToData = function(point) {
+             * Convert a (x, y) point to time data
+             */ Calendar.prototype.pointToData = function(point) {
             var date = this.pointToDate(point);
             return date && date.time;
         }, /**
-       * Convert a time date item to (x, y) four point.
-       */ Calendar.prototype.dataToRect = function(data, clamp) {
+             * Convert a time date item to (x, y) four point.
+             */ Calendar.prototype.dataToRect = function(data, clamp) {
             var point = this.dataToPoint(data, clamp);
             return {
                 contentShape: {
@@ -39675,11 +39675,11 @@
                 ]
             };
         }, /**
-       * Convert a (x, y) point to time date
-       *
-       * @param  {Array} point point
-       * @return {Object}       date
-       */ Calendar.prototype.pointToDate = function(point) {
+             * Convert a (x, y) point to time date
+             *
+             * @param  {Array} point point
+             * @return {Object}       date
+             */ Calendar.prototype.pointToDate = function(point) {
             var nthX = Math.floor((point[0] - this._rect.x) / this._sw) + 1, nthY = Math.floor((point[1] - this._rect.y) / this._sh) + 1, range = this._rangeInfo.range;
             return 'vertical' === this._orient ? this._getDateByWeeksAndDay(nthY, nthX - 1, range) : this._getDateByWeeksAndDay(nthX, nthY - 1, range);
         }, Calendar.prototype.convertToPixel = function(ecModel, finder, value) {
@@ -39691,9 +39691,9 @@
         }, Calendar.prototype.containPoint = function(point) {
             return console.warn('Not implemented.'), !1;
         }, /**
-       * initRange
-       * Normalize to an [start, end] array
-       */ Calendar.prototype._initRangeOption = function() {
+             * initRange
+             * Normalize to an [start, end] array
+             */ Calendar.prototype._initRangeOption = function() {
             var normalizedRange, range = this._model.get('range');
             if (isArray(range) && 1 === range.length && (range = range[0]), isArray(range)) normalizedRange = range;
             else {
@@ -39719,13 +39719,13 @@
             var tmp = this._getRangeInfo(normalizedRange);
             return tmp.start.time > tmp.end.time && normalizedRange.reverse(), normalizedRange;
         }, /**
-       * range info
-       *
-       * @private
-       * @param  {Array} range range ['2017-01-01', '2017-07-08']
-       *  If range[0] > range[1], they will not be reversed.
-       * @return {Object}       obj
-       */ Calendar.prototype._getRangeInfo = function(range) {
+             * range info
+             *
+             * @private
+             * @param  {Array} range range ['2017-01-01', '2017-07-08']
+             *  If range[0] > range[1], they will not be reversed.
+             * @return {Object}       obj
+             */ Calendar.prototype._getRangeInfo = function(range) {
             var reversed, parsedRange = [
                 this.getDateInfo(range[0]),
                 this.getDateInfo(range[1])
@@ -39751,14 +39751,14 @@
                 lweek: parsedRange[1].day
             };
         }, /**
-       * get date by nthWeeks and week day in range
-       *
-       * @private
-       * @param  {number} nthWeek the week
-       * @param  {number} day   the week day
-       * @param  {Array} range [d1, d2]
-       * @return {Object}
-       */ Calendar.prototype._getDateByWeeksAndDay = function(nthWeek, day, range) {
+             * get date by nthWeeks and week day in range
+             *
+             * @private
+             * @param  {number} nthWeek the week
+             * @param  {number} day   the week day
+             * @param  {Array} range [d1, d2]
+             * @return {Object}
+             */ Calendar.prototype._getDateByWeeksAndDay = function(nthWeek, day, range) {
             var rangeInfo = this._getRangeInfo(range);
             if (nthWeek > rangeInfo.weeks || 0 === nthWeek && day < rangeInfo.fweek || nthWeek === rangeInfo.weeks && day > rangeInfo.lweek) return null;
             var nthDay = (nthWeek - 1) * 7 - rangeInfo.fweek + day, date = new Date(rangeInfo.start.time);
@@ -39861,19 +39861,19 @@
             // `getOption` will contain unexpected $action.
             delete existList[i].$action;
         }, /**
-       * Convert
-       * [{
-       *  type: 'group',
-       *  id: 'xx',
-       *  children: [{type: 'circle'}, {type: 'polygon'}]
-       * }]
-       * to
-       * [
-       *  {type: 'group', id: 'xx'},
-       *  {type: 'circle', parentId: 'xx'},
-       *  {type: 'polygon', parentId: 'xx'}
-       * ]
-       */ GraphicComponentModel.prototype._flatten = function(optionList, result, parentOption) {
+             * Convert
+             * [{
+             *  type: 'group',
+             *  id: 'xx',
+             *  children: [{type: 'circle'}, {type: 'polygon'}]
+             * }]
+             * to
+             * [
+             *  {type: 'group', id: 'xx'},
+             *  {type: 'circle', parentId: 'xx'},
+             *  {type: 'polygon', parentId: 'xx'}
+             * ]
+             */ GraphicComponentModel.prototype._flatten = function(optionList, result, parentOption) {
             each(optionList, function(option) {
                 if (option) {
                     parentOption && (option.parentOption = parentOption), result.push(option);
@@ -39898,8 +39898,8 @@
         }, GraphicComponentView.prototype.render = function(graphicModel, ecModel, api) {
             graphicModel !== this._lastGraphicModel && this._clear(), this._lastGraphicModel = graphicModel, this._updateElements(graphicModel), this._relocate(graphicModel, api);
         }, /**
-       * Update graphic elements.
-       */ GraphicComponentView.prototype._updateElements = function(graphicModel) {
+             * Update graphic elements.
+             */ GraphicComponentView.prototype._updateElements = function(graphicModel) {
             var elOptionsToUpdate = graphicModel.useElOptionsToUpdate();
             if (elOptionsToUpdate) {
                 var elMap = this._elMap, rootGroup = this.group;
@@ -39947,8 +39947,8 @@
                 });
             }
         }, /**
-       * Locate graphic elements.
-       */ GraphicComponentView.prototype._relocate = function(graphicModel, api) {
+             * Locate graphic elements.
+             */ GraphicComponentView.prototype._relocate = function(graphicModel, api) {
             for(var elOptions = graphicModel.option.elements, rootGroup = this.group, elMap = this._elMap, apiWidth = api.getWidth(), apiHeight = api.getHeight(), i = 0; i < elOptions.length; i++){
                 var elOption = elOptions[i], id = convertOptionIdName(elOption.id, null), el = null != id ? elMap.get(id) : null;
                 if (el && el.isGroup) {
@@ -39976,8 +39976,8 @@
                 }
             }
         }, /**
-       * Clear all elements.
-       */ GraphicComponentView.prototype._clear = function() {
+             * Clear all elements.
+             */ GraphicComponentView.prototype._clear = function() {
             var elMap = this._elMap;
             elMap.each(function(el) {
                 removeEl(el, elMap);
@@ -40070,21 +40070,21 @@
         function DataZoomModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = DataZoomModel.type, _this._autoThrottle = !0, _this._noTarget = !0, /**
-         * It is `[rangeModeForMin, rangeModeForMax]`.
-         * The optional values for `rangeMode`:
-         * + `'value'` mode: the axis extent will always be determined by
-         *     `dataZoom.startValue` and `dataZoom.endValue`, despite
-         *     how data like and how `axis.min` and `axis.max` are.
-         * + `'percent'` mode: `100` represents 100% of the `[dMin, dMax]`,
-         *     where `dMin` is `axis.min` if `axis.min` specified, otherwise `data.extent[0]`,
-         *     and `dMax` is `axis.max` if `axis.max` specified, otherwise `data.extent[1]`.
-         *     Axis extent will be determined by the result of the percent of `[dMin, dMax]`.
-         *
-         * For example, when users are using dynamic data (update data periodically via `setOption`),
-         * if in `'value`' mode, the window will be kept in a fixed value range despite how
-         * data are appended, while if in `'percent'` mode, whe window range will be changed alone with
-         * the appended data (suppose `axis.min` and `axis.max` are not specified).
-         */ _this._rangePropMode = [
+                 * It is `[rangeModeForMin, rangeModeForMax]`.
+                 * The optional values for `rangeMode`:
+                 * + `'value'` mode: the axis extent will always be determined by
+                 *     `dataZoom.startValue` and `dataZoom.endValue`, despite
+                 *     how data like and how `axis.min` and `axis.max` are.
+                 * + `'percent'` mode: `100` represents 100% of the `[dMin, dMax]`,
+                 *     where `dMin` is `axis.min` if `axis.min` specified, otherwise `data.extent[0]`,
+                 *     and `dMax` is `axis.max` if `axis.max` specified, otherwise `data.extent[1]`.
+                 *     Axis extent will be determined by the result of the percent of `[dMin, dMax]`.
+                 *
+                 * For example, when users are using dynamic data (update data periodically via `setOption`),
+                 * if in `'value`' mode, the window will be kept in a fixed value range despite how
+                 * data are appended, while if in `'percent'` mode, whe window range will be changed alone with
+                 * the appended data (suppose `axis.min` and `axis.max` are not specified).
+                 */ _this._rangePropMode = [
                 'percent',
                 'percent'
             ], _this;
@@ -40092,26 +40092,26 @@
         return __extends(DataZoomModel, _super), DataZoomModel.prototype.init = function(option, parentModel, ecModel) {
             var inputRawOption = retrieveRawOption(option);
             /**
-         * Suppose a "main process" start at the point that model prepared (that is,
-         * model initialized or merged or method called in `action`).
-         * We should keep the `main process` idempotent, that is, given a set of values
-         * on `option`, we get the same result.
-         *
-         * But sometimes, values on `option` will be updated for providing users
-         * a "final calculated value" (`dataZoomProcessor` will do that). Those value
-         * should not be the base/input of the `main process`.
-         *
-         * So in that case we should save and keep the input of the `main process`
-         * separately, called `settledOption`.
-         *
-         * For example, consider the case:
-         * (Step_1) brush zoom the grid by `toolbox.dataZoom`,
-         *     where the original input `option.startValue`, `option.endValue` are earsed by
-         *     calculated value.
-         * (Step)2) click the legend to hide and show a series,
-         *     where the new range is calculated by the earsed `startValue` and `endValue`,
-         *     which brings incorrect result.
-         */ this.settledOption = inputRawOption, this.mergeDefaultAndTheme(option, ecModel), this._doInit(inputRawOption);
+                 * Suppose a "main process" start at the point that model prepared (that is,
+                 * model initialized or merged or method called in `action`).
+                 * We should keep the `main process` idempotent, that is, given a set of values
+                 * on `option`, we get the same result.
+                 *
+                 * But sometimes, values on `option` will be updated for providing users
+                 * a "final calculated value" (`dataZoomProcessor` will do that). Those value
+                 * should not be the base/input of the `main process`.
+                 *
+                 * So in that case we should save and keep the input of the `main process`
+                 * separately, called `settledOption`.
+                 *
+                 * For example, consider the case:
+                 * (Step_1) brush zoom the grid by `toolbox.dataZoom`,
+                 *     where the original input `option.startValue`, `option.endValue` are earsed by
+                 *     calculated value.
+                 * (Step)2) click the legend to hide and show a series,
+                 *     where the new range is calculated by the earsed `startValue` and `endValue`,
+                 *     which brings incorrect result.
+                 */ this.settledOption = inputRawOption, this.mergeDefaultAndTheme(option, ecModel), this._doInit(inputRawOption);
         }, DataZoomModel.prototype.mergeOption = function(newOption) {
             var inputRawOption = retrieveRawOption(newOption); //FIX #2591
             merge(this.option, newOption, !0), merge(this.settledOption, inputRawOption, !0), this._doInit(inputRawOption);
@@ -40230,27 +40230,27 @@
                 null == firstAxisModel && (firstAxisModel = this.ecModel.getComponent(getAxisMainType(axisDim), axisIndex));
             }, this), firstAxisModel;
         }, /**
-       * @param {Function} callback param: axisModel, dimNames, axisIndex, dataZoomModel, ecModel
-       */ DataZoomModel.prototype.eachTargetAxis = function(callback, context) {
+             * @param {Function} callback param: axisModel, dimNames, axisIndex, dataZoomModel, ecModel
+             */ DataZoomModel.prototype.eachTargetAxis = function(callback, context) {
             this._targetAxisInfoMap.each(function(axisInfo, axisDim) {
                 each(axisInfo.indexList, function(axisIndex) {
                     callback.call(context, axisDim, axisIndex);
                 });
             });
         }, /**
-       * @return If not found, return null/undefined.
-       */ DataZoomModel.prototype.getAxisProxy = function(axisDim, axisIndex) {
+             * @return If not found, return null/undefined.
+             */ DataZoomModel.prototype.getAxisProxy = function(axisDim, axisIndex) {
             var axisModel = this.getAxisModel(axisDim, axisIndex);
             if (axisModel) return axisModel.__dzAxisProxy;
         }, /**
-       * @return If not found, return null/undefined.
-       */ DataZoomModel.prototype.getAxisModel = function(axisDim, axisIndex) {
+             * @return If not found, return null/undefined.
+             */ DataZoomModel.prototype.getAxisModel = function(axisDim, axisIndex) {
             assert(axisDim && null != axisIndex);
             var axisInfo = this._targetAxisInfoMap.get(axisDim);
             if (axisInfo && axisInfo.indexMap[axisIndex]) return this.ecModel.getComponent(getAxisMainType(axisDim), axisIndex);
         }, /**
-       * If not specified, set to undefined.
-       */ DataZoomModel.prototype.setRawRange = function(opt) {
+             * If not specified, set to undefined.
+             */ DataZoomModel.prototype.setRawRange = function(opt) {
             var thisOption = this.option, settledOption = this.settledOption;
             each([
                 [
@@ -40287,17 +40287,17 @@
             var axisProxy = this.findRepresentativeAxisProxy();
             if (axisProxy) return axisProxy.getDataPercentWindow();
         }, /**
-       * For example, chart.getModel().getComponent('dataZoom').getValueRange('y', 0);
-       *
-       * @return [startValue, endValue] value can only be '-' or finite number.
-       */ DataZoomModel.prototype.getValueRange = function(axisDim, axisIndex) {
+             * For example, chart.getModel().getComponent('dataZoom').getValueRange('y', 0);
+             *
+             * @return [startValue, endValue] value can only be '-' or finite number.
+             */ DataZoomModel.prototype.getValueRange = function(axisDim, axisIndex) {
             if (null != axisDim || null != axisIndex) return this.getAxisProxy(axisDim, axisIndex).getDataValueWindow();
             var axisProxy = this.findRepresentativeAxisProxy();
             if (axisProxy) return axisProxy.getDataValueWindow();
         }, /**
-       * @param axisModel If axisModel given, find axisProxy
-       *      corresponding to the axisModel
-       */ DataZoomModel.prototype.findRepresentativeAxisProxy = function(axisModel) {
+             * @param axisModel If axisModel given, find axisProxy
+             *      corresponding to the axisModel
+             */ DataZoomModel.prototype.findRepresentativeAxisProxy = function(axisModel) {
             if (axisModel) return axisModel.__dzAxisProxy;
              // Find the first hosted axisProxy
             for(var firstProxy, axisDimList = this._targetAxisInfoMap.keys(), i = 0; i < axisDimList.length; i++)for(var axisDim = axisDimList[i], axisInfo = this._targetAxisInfoMap.get(axisDim), j = 0; j < axisInfo.indexList.length; j++){
@@ -40375,16 +40375,16 @@
         // this.hasSeriesStacked;
         }
         return(/**
-       * Whether the axisProxy is hosted by dataZoomModel.
-       */ AxisProxy.prototype.hostedBy = function(dataZoomModel) {
+             * Whether the axisProxy is hosted by dataZoomModel.
+             */ AxisProxy.prototype.hostedBy = function(dataZoomModel) {
             return this._dataZoomModel === dataZoomModel;
         }, /**
-       * @return Value can only be NaN or finite value.
-       */ AxisProxy.prototype.getDataValueWindow = function() {
+             * @return Value can only be NaN or finite value.
+             */ AxisProxy.prototype.getDataValueWindow = function() {
             return this._valueWindow.slice();
         }, /**
-       * @return {Array.<number>}
-       */ AxisProxy.prototype.getDataPercentWindow = function() {
+             * @return {Array.<number>}
+             */ AxisProxy.prototype.getDataPercentWindow = function() {
             return this._percentWindow.slice();
         }, AxisProxy.prototype.getTargetSeriesModels = function() {
             var seriesModels = [];
@@ -40399,8 +40399,8 @@
         }, AxisProxy.prototype.getMinMaxSpan = function() {
             return clone(this._minMaxSpan);
         }, /**
-       * Only calculate by given range and this._dataExtent, do not change anything.
-       */ AxisProxy.prototype.calculateDataWindow = function(opt) {
+             * Only calculate by given range and this._dataExtent, do not change anything.
+             */ AxisProxy.prototype.calculateDataWindow = function(opt) {
             var hasPropModeValue, dataExtent = this._dataExtent, scale = this.getAxisModel().axis.scale, rangePropMode = this._dataZoomModel.getRangePropMode(), percentExtent = [
                 0,
                 100
@@ -40430,10 +40430,10 @@
                 percentWindow: percentWindow
             };
         }, /**
-       * Notice: reset should not be called before series.restoreData() called,
-       * so it is recommanded to be called in "process stage" but not "model init
-       * stage".
-       */ AxisProxy.prototype.reset = function(dataZoomModel) {
+             * Notice: reset should not be called before series.restoreData() called,
+             * so it is recommanded to be called in "process stage" but not "model init
+             * stage".
+             */ AxisProxy.prototype.reset = function(dataZoomModel) {
             if (dataZoomModel === this._dataZoomModel) {
                 var axisDim, dataExtent, axisModel, rawExtentResult, targetSeries = this.getTargetSeriesModels(); // Culculate data window and data extent, and record them.
                 this._dataExtent = (axisDim = this._dimName, dataExtent = [
@@ -41354,10 +41354,10 @@
         'bmap'
     ], BrushTargetManager = /** @class */ function() {
         /**
-       * @param finder contains Index/Id/Name of xAxis/yAxis/geo/grid
-       *        Each can be {number|Array.<number>}. like: {xAxisIndex: [3, 4]}
-       * @param opt.include include coordinate system types.
-       */ function BrushTargetManager(finder, ecModel, opt) {
+             * @param finder contains Index/Id/Name of xAxis/yAxis/geo/grid
+             *        Each can be {number|Array.<number>}. like: {xAxisIndex: [3, 4]}
+             * @param opt.include include coordinate system types.
+             */ function BrushTargetManager(finder, ecModel, opt) {
             var _this = this;
             this._targetInfoList = [];
             var foundCpts = parseFinder$1(ecModel, finder);
@@ -41392,10 +41392,10 @@
                 });
             }, this);
         }, /**
-       * the `areas` is `BrushModel.areas`.
-       * Called in layout stage.
-       * convert `area.coordRange` to global range and set panelId to `area.range`.
-       */ BrushTargetManager.prototype.setInputRanges = function(areas, ecModel) {
+             * the `areas` is `BrushModel.areas`.
+             * Called in layout stage.
+             * convert `area.coordRange` to global range and set panelId to `area.range`.
+             */ BrushTargetManager.prototype.setInputRanges = function(areas, ecModel) {
             each(areas, function(area) {
                 var targetInfo = this.findTargetInfo(area, ecModel);
                 if (assert(!targetInfo || !0 === targetInfo || area.coordRange, 'coordRange must be specified when coord index specified.'), assert(!targetInfo || !0 !== targetInfo || area.range, 'range must be specified in global brush.'), area.range = area.range || [], targetInfo && !0 !== targetInfo) {
@@ -41429,10 +41429,10 @@
             var targetInfo = this.findTargetInfo(area, ecModel);
             return !0 === targetInfo || targetInfo && indexOf(targetInfo.coordSyses, seriesModel.coordinateSystem) >= 0;
         }, /**
-       * If return Object, a coord found.
-       * If reutrn true, global found.
-       * Otherwise nothing found.
-       */ BrushTargetManager.prototype.findTargetInfo = function(area, ecModel) {
+             * If return Object, a coord found.
+             * If reutrn true, global found.
+             * Otherwise nothing found.
+             */ BrushTargetManager.prototype.findTargetInfo = function(area, ecModel) {
             for(var targetInfoList = this._targetInfoList, foundCpts = parseFinder$1(ecModel, area), i = 0; i < targetInfoList.length; i++){
                 var targetInfo = targetInfoList[i], areaPanelId = area.panelId;
                 if (areaPanelId) {
@@ -41961,8 +41961,8 @@
             };
         }
         return(/**
-       * Update when tooltip is rendered
-       */ TooltipHTMLContent.prototype.update = function(tooltipModel) {
+             * Update when tooltip is rendered
+             */ TooltipHTMLContent.prototype.update = function(tooltipModel) {
             // FIXME
             // Move this logic to ec main?
             var container = this._container, position = getComputedStyle(container, 'position'), domStyle = container.style;
@@ -42035,9 +42035,9 @@
                 });
             }
         }, /**
-       * when `alwaysShowContent` is true,
-       * move the tooltip after chart resized
-       */ TooltipHTMLContent.prototype._moveIfResized = function() {
+             * when `alwaysShowContent` is true,
+             * move the tooltip after chart resized
+             */ TooltipHTMLContent.prototype._moveIfResized = function() {
             // The ratio of left to width
             var ratioX = this._styleCoord[2], ratioY = this._styleCoord[3]; // The ratio of top to height
             this.moveTo(ratioX * this._zr.getWidth(), ratioY * this._zr.getHeight());
@@ -42069,14 +42069,14 @@
             ], this._enterable = !0, this._zr = api.getZr(), makeStyleCoord$1(this._styleCoord, this._zr, api.getWidth() / 2, api.getHeight() / 2);
         }
         return(/**
-       * Update when tooltip is rendered
-       */ TooltipRichContent.prototype.update = function(tooltipModel) {
+             * Update when tooltip is rendered
+             */ TooltipRichContent.prototype.update = function(tooltipModel) {
             tooltipModel.get('alwaysShowContent') && this._moveIfResized();
         }, TooltipRichContent.prototype.show = function() {
             this._hideTimeout && clearTimeout(this._hideTimeout), this.el.show(), this._show = !0;
         }, /**
-       * Set tooltip content
-       */ TooltipRichContent.prototype.setContent = function(content, markupStyleCreator, tooltipModel, borderColor, arrowPosition) {
+             * Set tooltip content
+             */ TooltipRichContent.prototype.setContent = function(content, markupStyleCreator, tooltipModel, borderColor, arrowPosition) {
             isObject(content) && throwError('Passing DOM nodes as content is not supported in richText tooltip!'), this.el && this._zr.remove(this.el);
             var textStyleModel = tooltipModel.getModel('textStyle');
             this.el = new ZRText({
@@ -42129,9 +42129,9 @@
                 el.x = x + borderWidth + shadowOuterSize.left, el.y = y + borderWidth + shadowOuterSize.top, el.markRedraw();
             }
         }, /**
-       * when `alwaysShowContent` is true,
-       * move the tooltip after chart resized
-       */ TooltipRichContent.prototype._moveIfResized = function() {
+             * when `alwaysShowContent` is true,
+             * move the tooltip after chart resized
+             */ TooltipRichContent.prototype._moveIfResized = function() {
             // The ratio of left to width
             var ratioX = this._styleCoord[2], ratioY = this._styleCoord[3]; // The ratio of top to height
             this.moveTo(ratioX * this._zr.getWidth(), ratioY * this._zr.getHeight());
@@ -42188,9 +42188,9 @@
         }, TooltipView.prototype.render = function(tooltipModel, ecModel, api) {
             if (!env.node) {
                 this.group.removeAll(), this._tooltipModel = tooltipModel, this._ecModel = ecModel, this._api = api, /**
-         * @private
-         * @type {boolean}
-         */ this._alwaysShowContent = tooltipModel.get('alwaysShowContent');
+                 * @private
+                 * @type {boolean}
+                 */ this._alwaysShowContent = tooltipModel.get('alwaysShowContent');
                 var tooltipContent = this._tooltipContent;
                 tooltipContent.update(tooltipModel), tooltipContent.setEnterable(tooltipModel.get('enterable')), this._initGlobalListener(), this._keepShow();
             } // Reset
@@ -42217,21 +42217,21 @@
                 });
             }
         }, /**
-       * Show tip manually by
-       * dispatchAction({
-       *     type: 'showTip',
-       *     x: 10,
-       *     y: 10
-       * });
-       * Or
-       * dispatchAction({
-       *      type: 'showTip',
-       *      seriesIndex: 0,
-       *      dataIndex or dataIndexInside or name
-       * });
-       *
-       *  TODO Batch
-       */ TooltipView.prototype.manuallyShowTip = function(tooltipModel, ecModel, api, payload) {
+             * Show tip manually by
+             * dispatchAction({
+             *     type: 'showTip',
+             *     x: 10,
+             *     y: 10
+             * });
+             * Or
+             * dispatchAction({
+             *      type: 'showTip',
+             *      seriesIndex: 0,
+             *      dataIndex or dataIndexInside or name
+             * });
+             *
+             *  TODO Batch
+             */ TooltipView.prototype.manuallyShowTip = function(tooltipModel, ecModel, api, payload) {
             if (payload.from !== this.uid && !env.node) {
                 var dispatchAction = makeDispatchAction$1(payload, api); // Reset ticket
                 this._ticket = ''; // When triggered from axisPointer.
@@ -42755,17 +42755,17 @@
             isArray(brushLink) && each(brushLink, function(seriesIndex) {
                 linkedSeriesMap[seriesIndex] = 1;
             }), /**
-         * Logic for each series: (If the logic has to be modified one day, do it carefully!)
-         *
-         * ( brushed ┬ && ┬hasBrushExist ┬ && linkOthers  ) => StepA: ┬record, ┬ StepB: ┬visualByRecord.
-         *   !brushed┘    ├hasBrushExist ┤                            └nothing,┘        ├visualByRecord.
-         *                └!hasBrushExist┘                                              └nothing.
-         * ( !brushed  && ┬hasBrushExist ┬ && linkOthers  ) => StepA:  nothing,  StepB: ┬visualByRecord.
-         *                └!hasBrushExist┘                                              └nothing.
-         * ( brushed ┬ &&                     !linkOthers ) => StepA:  nothing,  StepB: ┬visualByCheck.
-         *   !brushed┘                                                                  └nothing.
-         * ( !brushed  &&                     !linkOthers ) => StepA:  nothing,  StepB:  nothing.
-         */ // Step A
+             * Logic for each series: (If the logic has to be modified one day, do it carefully!)
+             *
+             * ( brushed ┬ && ┬hasBrushExist ┬ && linkOthers  ) => StepA: ┬record, ┬ StepB: ┬visualByRecord.
+             *   !brushed┘    ├hasBrushExist ┤                            └nothing,┘        ├visualByRecord.
+             *                └!hasBrushExist┘                                              └nothing.
+             * ( !brushed  && ┬hasBrushExist ┬ && linkOthers  ) => StepA:  nothing,  StepB: ┬visualByRecord.
+             *                └!hasBrushExist┘                                              └nothing.
+             * ( brushed ┬ &&                     !linkOthers ) => StepA:  nothing,  StepB: ┬visualByCheck.
+             *   !brushed┘                                                                  └nothing.
+             * ( !brushed  &&                     !linkOthers ) => StepA:  nothing,  StepB:  nothing.
+             */ // Step A
             ecModel.eachSeries(function(seriesModel, seriesIndex) {
                 var coordSys, rangeInfoList = rangeInfoBySeries[seriesIndex] = [];
                 'parallel' === seriesModel.subType ? (coordSys = seriesModel.coordinateSystem, hasBrushExists = hasBrushExists || coordSys.hasAxisBrushed(), linkOthers(seriesIndex) && coordSys.eachActiveState(seriesModel.getData(), function(activeState, dataIndex) {
@@ -42925,11 +42925,11 @@
         function BrushModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = BrushModel.type, /**
-         * @readOnly
-         */ _this.areas = [], /**
-         * Current brush painting area settings.
-         * @readOnly
-         */ _this.brushOption = {}, _this;
+                 * @readOnly
+                 */ _this.areas = [], /**
+                 * Current brush painting area settings.
+                 * @readOnly
+                 */ _this.brushOption = {}, _this;
         }
         return __extends(BrushModel, _super), BrushModel.prototype.optionUpdated = function(newOption, isInit) {
             var thisOption = this.option;
@@ -42944,8 +42944,8 @@
             // be effected by the highlight z when brush.
             (inBrush.liftZ = 5);
         }, /**
-       * If `areas` is null/undefined, range state remain.
-       */ BrushModel.prototype.setAreas = function(areas) {
+             * If `areas` is null/undefined, range state remain.
+             */ BrushModel.prototype.setAreas = function(areas) {
             // This helps user to dispatchAction({type: 'brush'}) with no areas
             // set but just want to get the current brush select info from a `brush` event.
             assert(isArray(areas)), each(areas, function(area) {
@@ -42954,8 +42954,8 @@
                 return generateBrushOption(this.option, area);
             }, this));
         }, /**
-       * Set the current painting brush option.
-       */ BrushModel.prototype.setBrushOption = function(brushOption) {
+             * Set the current painting brush option.
+             */ BrushModel.prototype.setBrushOption = function(brushOption) {
             this.brushOption = generateBrushOption(this.option, brushOption), this.brushType = this.brushOption.brushType;
         }, BrushModel.type = 'brush', BrushModel.dependencies = [
             'geo',
@@ -43163,36 +43163,36 @@
             return _this.type = TimelineModel.type, _this.layoutMode = 'box', _this;
         }
         return __extends(TimelineModel, _super), /**
-       * @override
-       */ TimelineModel.prototype.init = function(option, parentModel, ecModel) {
+             * @override
+             */ TimelineModel.prototype.init = function(option, parentModel, ecModel) {
             this.mergeDefaultAndTheme(option, ecModel), this._initData();
         }, /**
-       * @override
-       */ TimelineModel.prototype.mergeOption = function(option) {
+             * @override
+             */ TimelineModel.prototype.mergeOption = function(option) {
             _super.prototype.mergeOption.apply(this, arguments), this._initData();
         }, TimelineModel.prototype.setCurrentIndex = function(currentIndex) {
             null == currentIndex && (currentIndex = this.option.currentIndex);
             var count = this._data.count();
             this.option.loop ? currentIndex = (currentIndex % count + count) % count : (currentIndex >= count && (currentIndex = count - 1), currentIndex < 0 && (currentIndex = 0)), this.option.currentIndex = currentIndex;
         }, /**
-       * @return {number} currentIndex
-       */ TimelineModel.prototype.getCurrentIndex = function() {
+             * @return {number} currentIndex
+             */ TimelineModel.prototype.getCurrentIndex = function() {
             return this.option.currentIndex;
         }, /**
-       * @return {boolean}
-       */ TimelineModel.prototype.isIndexMax = function() {
+             * @return {boolean}
+             */ TimelineModel.prototype.isIndexMax = function() {
             return this.getCurrentIndex() >= this._data.count() - 1;
         }, /**
-       * @param {boolean} state true: play, false: stop
-       */ TimelineModel.prototype.setPlayState = function(state) {
+             * @param {boolean} state true: play, false: stop
+             */ TimelineModel.prototype.setPlayState = function(state) {
             this.option.autoPlay = !!state;
         }, /**
-       * @return {boolean} true: play, false: stop
-       */ TimelineModel.prototype.getPlayState = function() {
+             * @return {boolean} true: play, false: stop
+             */ TimelineModel.prototype.getPlayState = function() {
             return !!this.option.autoPlay;
         }, /**
-       * @private
-       */ TimelineModel.prototype._initData = function() {
+             * @private
+             */ TimelineModel.prototype._initData = function() {
             var processedDataArr, thisOption = this.option, dataArr = thisOption.data || [], axisType = thisOption.axisType, names = this._names = [];
             'category' === axisType ? (processedDataArr = [], each(dataArr, function(item, index) {
                 var newItem, value = convertOptionIdName(getDataItemValue(item), '');
@@ -43210,13 +43210,13 @@
         }, TimelineModel.prototype.getData = function() {
             return this._data;
         }, /**
-       * @public
-       * @return {Array.<string>} categoreis
-       */ TimelineModel.prototype.getCategories = function() {
+             * @public
+             * @return {Array.<string>} categoreis
+             */ TimelineModel.prototype.getCategories = function() {
             if ('category' === this.get('axisType')) return this._names.slice();
         }, TimelineModel.type = 'timeline', /**
-       * @protected
-       */ TimelineModel.defaultOption = {
+             * @protected
+             */ TimelineModel.defaultOption = {
             zlevel: 0,
             z: 4,
             show: !0,
@@ -43247,8 +43247,8 @@
             return _this.type = SliderTimelineModel.type, _this;
         }
         return __extends(SliderTimelineModel, _super), SliderTimelineModel.type = 'timeline.slider', /**
-       * @protected
-       */ SliderTimelineModel.defaultOption = inheritDefaultOption(TimelineModel.defaultOption, {
+             * @protected
+             */ SliderTimelineModel.defaultOption = inheritDefaultOption(TimelineModel.defaultOption, {
             backgroundColor: 'rgba(0,0,0,0)',
             borderColor: '#ccc',
             borderWidth: 0,
@@ -43355,13 +43355,13 @@
             return _this.type = axisType || 'value', _this;
         }
         return __extends(TimelineAxis, _super), /**
-       * @override
-       */ TimelineAxis.prototype.getLabelModel = function() {
+             * @override
+             */ TimelineAxis.prototype.getLabelModel = function() {
             // Force override
             return this.model.getModel('label');
         }, /**
-       * @override
-       */ TimelineAxis.prototype.isHorizontal = function() {
+             * @override
+             */ TimelineAxis.prototype.isHorizontal = function() {
             return 'horizontal' === this.model.get('orient');
         }, TimelineAxis;
     }(Axis), PI$8 = Math.PI, labelDataIndexStore = makeInner(), SliderTimelineView = /** @class */ function(_super) {
@@ -43372,8 +43372,8 @@
         return __extends(SliderTimelineView, _super), SliderTimelineView.prototype.init = function(ecModel, api) {
             this.api = api;
         }, /**
-       * @override
-       */ SliderTimelineView.prototype.render = function(timelineModel, ecModel, api) {
+             * @override
+             */ SliderTimelineView.prototype.render = function(timelineModel, ecModel, api) {
             if (this.model = timelineModel, this.api = api, this.ecModel = ecModel, this.group.removeAll(), timelineModel.get('show', !0)) {
                 var layoutInfo_1 = this._layout(timelineModel, api), mainGroup_1 = this._createGroup('_mainGroup'), labelGroup = this._createGroup('_labelGroup'), axis_1 = this._axis = this._createAxis(layoutInfo_1, timelineModel);
                 timelineModel.formatTooltip = function(dataIndex) {
@@ -43394,12 +43394,12 @@
             }
             this._doPlayStop(), this._updateTicksStatus();
         }, /**
-       * @override
-       */ SliderTimelineView.prototype.remove = function() {
+             * @override
+             */ SliderTimelineView.prototype.remove = function() {
             this._clearTimer(), this.group.removeAll();
         }, /**
-       * @override
-       */ SliderTimelineView.prototype.dispose = function() {
+             * @override
+             */ SliderTimelineView.prototype.dispose = function() {
             this._clearTimer();
         }, SliderTimelineView.prototype._layout = function(timelineModel, api) {
             var parsedLabelPos, playPosition, prevBtnPosition, nextBtnPosition, labelPosOpt = timelineModel.get([
@@ -43855,12 +43855,12 @@
         function MarkerModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = MarkerModel.type, /**
-         * If marker model is created by self from series
-         */ _this.createdBySelf = !1, _this;
+                 * If marker model is created by self from series
+                 */ _this.createdBySelf = !1, _this;
         }
         return __extends(MarkerModel, _super), /**
-       * @overrite
-       */ MarkerModel.prototype.init = function(option, parentModel, ecModel) {
+             * @overrite
+             */ MarkerModel.prototype.init = function(option, parentModel, ecModel) {
             if ('marker' === this.type) throw Error('Marker component is abstract component. Use markLine, markPoint, markArea instead.');
             this.mergeDefaultAndTheme(option, ecModel), this._mergeOption(option, ecModel, !1, !0);
         }, MarkerModel.prototype.isAnimationEnabled = function() {
@@ -43868,8 +43868,8 @@
             var hostSeries = this.__hostSeries;
             return this.getShallow('animation') && hostSeries && hostSeries.isAnimationEnabled();
         }, /**
-       * @overrite
-       */ MarkerModel.prototype.mergeOption = function(newOpt, ecModel) {
+             * @overrite
+             */ MarkerModel.prototype.mergeOption = function(newOpt, ecModel) {
             this._mergeOption(newOpt, ecModel, !1, !1);
         }, MarkerModel.prototype._mergeOption = function(newOpt, ecModel, createdBySelf, isInit) {
             var componentType = this.mainType;
@@ -44658,18 +44658,18 @@
                 } else isPotential = !0;
                 isPotential && isNameSpecified(seriesModel) && potentialData.push(seriesModel.name);
             }), /**
-         * @type {Array.<string>}
-         * @private
-         */ this._availableNames = availableNames;
+                 * @type {Array.<string>}
+                 * @private
+                 */ this._availableNames = availableNames;
             var legendData = map(this.get('data') || potentialData, function(dataItem) {
                 return ('string' == typeof dataItem || 'number' == typeof dataItem) && (dataItem = {
                     name: dataItem
                 }), new Model(dataItem, this, this.ecModel);
             }, this);
             /**
-         * @type {Array.<module:echarts/model/Model>}
-         * @private
-         */ this._data = legendData;
+                 * @type {Array.<module:echarts/model/Model>}
+                 * @private
+                 */ this._data = legendData;
         }, LegendModel.prototype.getData = function() {
             return this._data;
         }, LegendModel.prototype.select = function(name) {
@@ -44801,16 +44801,16 @@
         return __extends(LegendView, _super), LegendView.prototype.init = function() {
             this.group.add(this._contentGroup = new Group()), this.group.add(this._selectorGroup = new Group()), this._isFirstRender = !0;
         }, /**
-       * @protected
-       */ LegendView.prototype.getContentGroup = function() {
+             * @protected
+             */ LegendView.prototype.getContentGroup = function() {
             return this._contentGroup;
         }, /**
-       * @protected
-       */ LegendView.prototype.getSelectorGroup = function() {
+             * @protected
+             */ LegendView.prototype.getSelectorGroup = function() {
             return this._selectorGroup;
         }, /**
-       * @override
-       */ LegendView.prototype.render = function(legendModel, ecModel, api) {
+             * @override
+             */ LegendView.prototype.render = function(legendModel, ecModel, api) {
             var isFirstRender = this._isFirstRender;
             if (this._isFirstRender = !1, this.resetInner(), legendModel.get('show', !0)) {
                 var itemAlign = legendModel.get('align'), orient = legendModel.get('orient');
@@ -44897,20 +44897,20 @@
                     if ('inherit' === value) switch(visualName){
                         case 'fill':
                             /**
-               * Series with visualDrawType as 'stroke' should have
-               * series stroke as legend fill
-               */ itemStyle.fill = itemVisualStyle[drawType];
+                         * Series with visualDrawType as 'stroke' should have
+                         * series stroke as legend fill
+                         */ itemStyle.fill = itemVisualStyle[drawType];
                             break;
                         case 'stroke':
                             /**
-               * symbol type with "emptyXXX" should use fill color
-               * in visual style
-               */ itemStyle.stroke = itemVisualStyle[symbolType.startsWith('empty') ? 'fill' : 'stroke'];
+                         * symbol type with "emptyXXX" should use fill color
+                         * in visual style
+                         */ itemStyle.stroke = itemVisualStyle[symbolType.startsWith('empty') ? 'fill' : 'stroke'];
                             break;
                         case 'opacity':
                             /**
-               * Use lineStyle.opacity if drawType is stroke
-               */ itemStyle.opacity = ('fill' === drawType ? itemVisualStyle : lineVisualStyle).opacity;
+                         * Use lineStyle.opacity if drawType is stroke
+                         */ itemStyle.opacity = ('fill' === drawType ? itemVisualStyle : lineVisualStyle).opacity;
                             break;
                         default:
                             itemStyle[visualName] = itemVisualStyle[visualName];
@@ -45002,8 +45002,8 @@
             };
             return mainRect[wh] = contentRect[wh] + selectorButtonGap + selectorRect[wh], mainRect[hw] = Math.max(contentRect[hw], selectorRect[hw]), mainRect[yx] = Math.min(0, selectorRect[yx] + selectorPos[1 - orientIdx]), mainRect;
         }, /**
-       * @protected
-       */ LegendView.prototype.remove = function() {
+             * @protected
+             */ LegendView.prototype.remove = function() {
             this.getContentGroup().removeAll(), this._isFirstRender = !0;
         }, LegendView.type = 'legend.plain', LegendView;
     }(ComponentView);
@@ -45110,22 +45110,22 @@
         registers.registerComponentModel(LegendModel), registers.registerComponentView(LegendView), registers.registerProcessor(registers.PRIORITY.PROCESSOR.SERIES_FILTER, legendFilter), registers.registerSubTypeDefaulter('legend', function() {
             return 'plain';
         }), /**
-       * @event legendToggleSelect
-       * @type {Object}
-       * @property {string} type 'legendToggleSelect'
-       * @property {string} [from]
-       * @property {string} name Series name or data item name
-       */ registers.registerAction('legendToggleSelect', 'legendselectchanged', curry(legendSelectActionHandler, 'toggleSelected')), registers.registerAction('legendAllSelect', 'legendselectall', curry(legendSelectActionHandler, 'allSelect')), registers.registerAction('legendInverseSelect', 'legendinverseselect', curry(legendSelectActionHandler, 'inverseSelect')), /**
-       * @event legendSelect
-       * @type {Object}
-       * @property {string} type 'legendSelect'
-       * @property {string} name Series name or data item name
-       */ registers.registerAction('legendSelect', 'legendselected', curry(legendSelectActionHandler, 'select')), /**
-       * @event legendUnSelect
-       * @type {Object}
-       * @property {string} type 'legendUnSelect'
-       * @property {string} name Series name or data item name
-       */ registers.registerAction('legendUnSelect', 'legendunselected', curry(legendSelectActionHandler, 'unSelect'));
+         * @event legendToggleSelect
+         * @type {Object}
+         * @property {string} type 'legendToggleSelect'
+         * @property {string} [from]
+         * @property {string} name Series name or data item name
+         */ registers.registerAction('legendToggleSelect', 'legendselectchanged', curry(legendSelectActionHandler, 'toggleSelected')), registers.registerAction('legendAllSelect', 'legendselectall', curry(legendSelectActionHandler, 'allSelect')), registers.registerAction('legendInverseSelect', 'legendinverseselect', curry(legendSelectActionHandler, 'inverseSelect')), /**
+         * @event legendSelect
+         * @type {Object}
+         * @property {string} type 'legendSelect'
+         * @property {string} name Series name or data item name
+         */ registers.registerAction('legendSelect', 'legendselected', curry(legendSelectActionHandler, 'select')), /**
+         * @event legendUnSelect
+         * @type {Object}
+         * @property {string} type 'legendUnSelect'
+         * @property {string} name Series name or data item name
+         */ registers.registerAction('legendUnSelect', 'legendunselected', curry(legendSelectActionHandler, 'unSelect'));
     }
     var ScrollableLegendModel = /** @class */ function(_super) {
         function ScrollableLegendModel() {
@@ -45133,15 +45133,15 @@
             return _this.type = ScrollableLegendModel.type, _this;
         }
         return __extends(ScrollableLegendModel, _super), /**
-       * @param {number} scrollDataIndex
-       */ ScrollableLegendModel.prototype.setScrollDataIndex = function(scrollDataIndex) {
+             * @param {number} scrollDataIndex
+             */ ScrollableLegendModel.prototype.setScrollDataIndex = function(scrollDataIndex) {
             this.option.scrollDataIndex = scrollDataIndex;
         }, ScrollableLegendModel.prototype.init = function(option, parentModel, ecModel) {
             var inputPositionParams = getLayoutParams(option);
             _super.prototype.init.call(this, option, parentModel, ecModel), mergeAndNormalizeLayoutParams$1(this, option, inputPositionParams);
         }, /**
-       * @override
-       */ ScrollableLegendModel.prototype.mergeOption = function(option, ecModel) {
+             * @override
+             */ ScrollableLegendModel.prototype.mergeOption = function(option, ecModel) {
             _super.prototype.mergeOption.call(this, option, ecModel), mergeAndNormalizeLayoutParams$1(this, this.option, option);
         }, ScrollableLegendModel.type = 'legend.scroll', ScrollableLegendModel.defaultOption = inheritDefaultOption(LegendModel.defaultOption, {
             scrollDataIndex: 0,
@@ -45192,12 +45192,12 @@
         return __extends(ScrollableLegendView, _super), ScrollableLegendView.prototype.init = function() {
             _super.prototype.init.call(this), this.group.add(this._containerGroup = new Group()), this._containerGroup.add(this.getContentGroup()), this.group.add(this._controllerGroup = new Group());
         }, /**
-       * @override
-       */ ScrollableLegendView.prototype.resetInner = function() {
+             * @override
+             */ ScrollableLegendView.prototype.resetInner = function() {
             _super.prototype.resetInner.call(this), this._controllerGroup.removeAll(), this._containerGroup.removeClipPath(), this._containerGroup.__rectSize = null;
         }, /**
-       * @override
-       */ ScrollableLegendView.prototype.renderInner = function(itemAlign, legendModel, ecModel, api, selector, orient, selectorPosition) {
+             * @override
+             */ ScrollableLegendView.prototype.renderInner = function(itemAlign, legendModel, ecModel, api, selector, orient, selectorPosition) {
             var self1 = this; // Render content items.
             _super.prototype.renderInner.call(this, itemAlign, legendModel, ecModel, api, selector, orient, selectorPosition);
             var controllerGroup = this._controllerGroup, pageIconSize = legendModel.get('pageIconSize', !0), pageIconSizeArr = isArray(pageIconSize) ? pageIconSize : [
@@ -45232,8 +45232,8 @@
                 silent: !0
             })), createPageButton('pageNext', 1);
         }, /**
-       * @override
-       */ ScrollableLegendView.prototype.layoutInner = function(legendModel, itemAlign, maxSize, isFirstRender, selector, selectorPosition) {
+             * @override
+             */ ScrollableLegendView.prototype.layoutInner = function(legendModel, itemAlign, maxSize, isFirstRender, selector, selectorPosition) {
             var selectorGroup = this.getSelectorGroup(), orientIdx = legendModel.getOrient().index, wh = WH$1[orientIdx], xy = XY$1[orientIdx], hw = WH$1[1 - orientIdx], yx = XY$1[1 - orientIdx];
             selector && boxLayout('horizontal', selectorGroup, legendModel.get('selectorItemGap', !0));
             var selectorButtonGap = legendModel.get('selectorButtonGap', !0), selectorRect = selectorGroup.getBoundingRect(), selectorPos = [
@@ -45318,13 +45318,13 @@
                 total: total
             }));
         }, /**
-       *  contentPosition: Array.<number>, null when data item not found.
-       *  pageIndex: number, null when data item not found.
-       *  pageCount: number, always be a number, can be 0.
-       *  pagePrevDataIndex: number, null when no previous page.
-       *  pageNextDataIndex: number, null when no next page.
-       * }
-       */ ScrollableLegendView.prototype._getPageInfo = function(legendModel) {
+             *  contentPosition: Array.<number>, null when data item not found.
+             *  pageIndex: number, null when data item not found.
+             *  pageCount: number, always be a number, can be 0.
+             *  pagePrevDataIndex: number, null when no previous page.
+             *  pageNextDataIndex: number, null when no next page.
+             * }
+             */ ScrollableLegendView.prototype._getPageInfo = function(legendModel) {
             var scrollDataIndex = legendModel.get('scrollDataIndex', !0), contentGroup = this.getContentGroup(), containerRectSize = this._containerGroup.__rectSize, orientIdx = legendModel.getOrient().index, wh = WH$1[orientIdx], xy = XY$1[orientIdx], targetItemIndex = this._findTargetItemIndex(scrollDataIndex), children = contentGroup.children(), targetItem = children[targetItemIndex], itemCount = children.length, pCount = +!!itemCount, result = {
                 contentPosition: [
                     contentGroup.x,
@@ -45415,11 +45415,11 @@
     * under the License.
     */ function(registers) {
             /**
-       * @event legendScroll
-       * @type {Object}
-       * @property {string} type 'legendScroll'
-       * @property {string} scrollDataIndex
-       */ registers.registerAction('legendScroll', 'legendscroll', function(payload, ecModel) {
+         * @event legendScroll
+         * @type {Object}
+         * @property {string} type 'legendScroll'
+         * @property {string} scrollDataIndex
+         */ registers.registerAction('legendScroll', 'legendscroll', function(payload, ecModel) {
                 var scrollDataIndex = payload.scrollDataIndex;
                 null != scrollDataIndex && ecModel.eachComponent({
                     mainType: 'legend',
@@ -46194,8 +46194,8 @@
              : value.toFixed(Math.min(labelPrecision, 20));
             return isFunction(labelFormatter) ? labelFormatter(value, valueStr) : isString(labelFormatter) ? labelFormatter.replace('{value}', valueStr) : valueStr;
         }, /**
-       * @param showOrHide true: show, false: hide
-       */ SliderZoomView.prototype._showDataInfo = function(showOrHide) {
+             * @param showOrHide true: show, false: hide
+             */ SliderZoomView.prototype._showDataInfo = function(showOrHide) {
             // Always show when drgging.
             showOrHide = this._dragging || showOrHide;
             var displayables = this._displayables, handleLabels = displayables.handleLabels;
@@ -46257,8 +46257,8 @@
                 height: size[1]
             });
         }, /**
-       * This action will be throttled.
-       */ SliderZoomView.prototype._dispatchZoomAction = function(realtime) {
+             * This action will be throttled.
+             */ SliderZoomView.prototype._dispatchZoomAction = function(realtime) {
             var range = this._range;
             this.api.dispatchAction({
                 type: 'dataZoom',
@@ -46294,8 +46294,8 @@
     }
     var visualDefault = {
         /**
-       * @public
-       */ get: function(visualType, key, isCategory) {
+         * @public
+         */ get: function(visualType, key, isCategory) {
             var value = clone((defaultOption$1[visualType] || {})[key]);
             return isCategory && isArray(value) ? value[value.length - 1] : value;
         }
@@ -46395,8 +46395,8 @@
                 type: 'box',
                 ignoreSize: !0
             }, /**
-         * [lowerBound, upperBound]
-         */ _this.dataBound = [
+                 * [lowerBound, upperBound]
+                 */ _this.dataBound = [
                 -1 / 0,
                 1 / 0
             ], _this.targetVisuals = {}, _this.controllerVisuals = {}, _this;
@@ -46404,54 +46404,54 @@
         return __extends(VisualMapModel, _super), VisualMapModel.prototype.init = function(option, parentModel, ecModel) {
             this.mergeDefaultAndTheme(option, ecModel);
         }, /**
-       * @protected
-       */ VisualMapModel.prototype.optionUpdated = function(newOption, isInit) {
+             * @protected
+             */ VisualMapModel.prototype.optionUpdated = function(newOption, isInit) {
             var thisOption = this.option; // FIXME
             env.canvasSupported || (thisOption.realtime = !1), isInit || replaceVisualOption(thisOption, newOption, this.replacableOptionKeys), this.textStyleModel = this.getModel('textStyle'), this.resetItemSize(), this.completeVisualOption();
         }, /**
-       * @protected
-       */ VisualMapModel.prototype.resetVisual = function(supplementVisualOption) {
+             * @protected
+             */ VisualMapModel.prototype.resetVisual = function(supplementVisualOption) {
             var stateList = this.stateList;
             supplementVisualOption = bind(supplementVisualOption, this), this.controllerVisuals = createVisualMappings(this.option.controller, stateList, supplementVisualOption), this.targetVisuals = createVisualMappings(this.option.target, stateList, supplementVisualOption);
         }, /**
-       * @public
-       */ VisualMapModel.prototype.getItemSymbol = function() {
+             * @public
+             */ VisualMapModel.prototype.getItemSymbol = function() {
             return null;
         }, /**
-       * @protected
-       * @return {Array.<number>} An array of series indices.
-       */ VisualMapModel.prototype.getTargetSeriesIndices = function() {
+             * @protected
+             * @return {Array.<number>} An array of series indices.
+             */ VisualMapModel.prototype.getTargetSeriesIndices = function() {
             var optionSeriesIndex = this.option.seriesIndex, seriesIndices = [];
             return null == optionSeriesIndex || 'all' === optionSeriesIndex ? this.ecModel.eachSeries(function(seriesModel, index) {
                 seriesIndices.push(index);
             }) : seriesIndices = normalizeToArray(optionSeriesIndex), seriesIndices;
         }, /**
-       * @public
-       */ VisualMapModel.prototype.eachTargetSeries = function(callback, context) {
+             * @public
+             */ VisualMapModel.prototype.eachTargetSeries = function(callback, context) {
             each(this.getTargetSeriesIndices(), function(seriesIndex) {
                 var seriesModel = this.ecModel.getSeriesByIndex(seriesIndex);
                 seriesModel && callback.call(context, seriesModel);
             }, this);
         }, /**
-       * @pubilc
-       */ VisualMapModel.prototype.isTargetSeries = function(seriesModel) {
+             * @pubilc
+             */ VisualMapModel.prototype.isTargetSeries = function(seriesModel) {
             var is = !1;
             return this.eachTargetSeries(function(model) {
                 model === seriesModel && (is = !0);
             }), is;
         }, /**
-       * @example
-       * this.formatValueText(someVal); // format single numeric value to text.
-       * this.formatValueText(someVal, true); // format single category value to text.
-       * this.formatValueText([min, max]); // format numeric min-max to text.
-       * this.formatValueText([this.dataBound[0], max]); // using data lower bound.
-       * this.formatValueText([min, this.dataBound[1]]); // using data upper bound.
-       *
-       * @param value Real value, or this.dataBound[0 or 1].
-       * @param isCategory Only available when value is number.
-       * @param edgeSymbols Open-close symbol when value is interval.
-       * @protected
-       */ VisualMapModel.prototype.formatValueText = function(value, isCategory, edgeSymbols) {
+             * @example
+             * this.formatValueText(someVal); // format single numeric value to text.
+             * this.formatValueText(someVal, true); // format single category value to text.
+             * this.formatValueText([min, max]); // format numeric min-max to text.
+             * this.formatValueText([this.dataBound[0], max]); // using data lower bound.
+             * this.formatValueText([min, this.dataBound[1]]); // using data upper bound.
+             *
+             * @param value Real value, or this.dataBound[0 or 1].
+             * @param isCategory Only available when value is number.
+             * @param edgeSymbols Open-close symbol when value is interval.
+             * @protected
+             */ VisualMapModel.prototype.formatValueText = function(value, isCategory, edgeSymbols) {
             var isMinMax, option = this.option, precision = option.precision, dataBound = this.dataBound, formatter = option.formatter;
             edgeSymbols = edgeSymbols || [
                 '<',
@@ -46471,16 +46471,16 @@
                 return val === dataBound[0] ? 'min' : val === dataBound[1] ? 'max' : (+val).toFixed(Math.min(precision, 20));
             }
         }, /**
-       * @protected
-       */ VisualMapModel.prototype.resetExtent = function() {
+             * @protected
+             */ VisualMapModel.prototype.resetExtent = function() {
             var thisOption = this.option, extent = asc([
                 thisOption.min,
                 thisOption.max
             ]); // Can not calculate data extent by data here.
             this._dataExtent = extent;
         }, /**
-       * Return  Concrete dimention. If return null/undefined, no dimension used.
-       */ VisualMapModel.prototype.getDataDimension = function(list) {
+             * Return  Concrete dimention. If return null/undefined, no dimension used.
+             */ VisualMapModel.prototype.getDataDimension = function(list) {
             var optDim = this.option.dimension, listDimensions = list.dimensions;
             if (null != optDim || listDimensions.length) {
                 if (null != optDim) return list.getDimension(optDim);
@@ -46563,30 +46563,30 @@
         }, VisualMapModel.prototype.isCategory = function() {
             return !!this.option.categories;
         }, /**
-       * @public
-       * @abstract
-       */ VisualMapModel.prototype.setSelected = function(selected) {}, VisualMapModel.prototype.getSelected = function() {
+             * @public
+             * @abstract
+             */ VisualMapModel.prototype.setSelected = function(selected) {}, VisualMapModel.prototype.getSelected = function() {
             return null;
         }, /**
-       * @public
-       * @abstract
-       */ VisualMapModel.prototype.getValueState = function(value) {
+             * @public
+             * @abstract
+             */ VisualMapModel.prototype.getValueState = function(value) {
             return null;
         }, /**
-       * FIXME
-       * Do not publish to thirt-part-dev temporarily
-       * util the interface is stable. (Should it return
-       * a function but not visual meta?)
-       *
-       * @pubilc
-       * @abstract
-       * @param getColorVisual
-       *        params: value, valueState
-       *        return: color
-       * @return {Object} visualMeta
-       *        should includes {stops, outerColors}
-       *        outerColor means [colorBeyondMinValue, colorBeyondMaxValue]
-       */ VisualMapModel.prototype.getVisualMeta = function(getColorVisual) {
+             * FIXME
+             * Do not publish to thirt-part-dev temporarily
+             * util the interface is stable. (Should it return
+             * a function but not visual meta?)
+             *
+             * @pubilc
+             * @abstract
+             * @param getColorVisual
+             *        params: value, valueState
+             *        return: color
+             * @return {Object} visualMeta
+             *        should includes {stops, outerColors}
+             *        outerColor means [colorBeyondMinValue, colorBeyondMaxValue]
+             */ VisualMapModel.prototype.getVisualMeta = function(getColorVisual) {
             return null;
         }, VisualMapModel.type = 'visualMap', VisualMapModel.dependencies = [
             'series'
@@ -46624,45 +46624,45 @@
             return _this.type = ContinuousModel.type, _this;
         }
         return __extends(ContinuousModel, _super), /**
-       * @override
-       */ ContinuousModel.prototype.optionUpdated = function(newOption, isInit) {
+             * @override
+             */ ContinuousModel.prototype.optionUpdated = function(newOption, isInit) {
             _super.prototype.optionUpdated.apply(this, arguments), this.resetExtent(), this.resetVisual(function(mappingOption) {
                 mappingOption.mappingMethod = 'linear', mappingOption.dataExtent = this.getExtent();
             }), this._resetRange();
         }, /**
-       * @protected
-       * @override
-       */ ContinuousModel.prototype.resetItemSize = function() {
+             * @protected
+             * @override
+             */ ContinuousModel.prototype.resetItemSize = function() {
             _super.prototype.resetItemSize.apply(this, arguments);
             var itemSize = this.itemSize;
             (null == itemSize[0] || isNaN(itemSize[0])) && (itemSize[0] = 20), (null == itemSize[1] || isNaN(itemSize[1])) && (itemSize[1] = 140);
         }, /**
-       * @private
-       */ ContinuousModel.prototype._resetRange = function() {
+             * @private
+             */ ContinuousModel.prototype._resetRange = function() {
             var dataExtent = this.getExtent(), range = this.option.range;
             !range || range.auto ? (// `range` should always be array (so we dont use other
             // value like 'auto') for user-friend. (consider getOption).
             dataExtent.auto = 1, this.option.range = dataExtent) : isArray(range) && (range[0] > range[1] && range.reverse(), range[0] = Math.max(range[0], dataExtent[0]), range[1] = Math.min(range[1], dataExtent[1]));
         }, /**
-       * @protected
-       * @override
-       */ ContinuousModel.prototype.completeVisualOption = function() {
+             * @protected
+             * @override
+             */ ContinuousModel.prototype.completeVisualOption = function() {
             _super.prototype.completeVisualOption.apply(this, arguments), each(this.stateList, function(state) {
                 var symbolSize = this.option.controller[state].symbolSize;
                 symbolSize && symbolSize[0] !== symbolSize[1] && (symbolSize[0] = symbolSize[1] / 3);
             }, this);
         }, /**
-       * @override
-       */ ContinuousModel.prototype.setSelected = function(selected) {
+             * @override
+             */ ContinuousModel.prototype.setSelected = function(selected) {
             this.option.range = selected.slice(), this._resetRange();
         }, /**
-       * @public
-       */ ContinuousModel.prototype.getSelected = function() {
+             * @public
+             */ ContinuousModel.prototype.getSelected = function() {
             var dataExtent = this.getExtent(), dataInterval = asc((this.get('range') || []).slice());
             return dataInterval[0] > dataExtent[1] && (dataInterval[0] = dataExtent[1]), dataInterval[1] > dataExtent[1] && (dataInterval[1] = dataExtent[1]), dataInterval[0] < dataExtent[0] && (dataInterval[0] = dataExtent[0]), dataInterval[1] < dataExtent[0] && (dataInterval[1] = dataExtent[0]), dataInterval;
         }, /**
-       * @override
-       */ ContinuousModel.prototype.getValueState = function(value) {
+             * @override
+             */ ContinuousModel.prototype.getValueState = function(value) {
             var range = this.option.range, dataExtent = this.getExtent();
             // range[1] is processed likewise.
             return (range[0] <= dataExtent[0] || range[0] <= value) && (range[1] >= dataExtent[1] || value <= range[1]) ? 'inRange' : 'outOfRange';
@@ -46678,8 +46678,8 @@
                 });
             }, this), result;
         }, /**
-       * @implement
-       */ ContinuousModel.prototype.getVisualMeta = function(getColorVisual) {
+             * @implement
+             */ ContinuousModel.prototype.getVisualMeta = function(getColorVisual) {
             var oVals = getColorStopValues(this, 'outOfRange', this.getExtent()), iVals = getColorStopValues(this, 'inRange', this.option.range.slice()), stops = [];
             function setStop(value, valueState) {
                 stops.push({
@@ -46743,8 +46743,8 @@
         return __extends(VisualMapView, _super), VisualMapView.prototype.init = function(ecModel, api) {
             this.ecModel = ecModel, this.api = api;
         }, /**
-       * @protected
-       */ VisualMapView.prototype.render = function(visualMapModel, ecModel, api, payload // TODO: TYPE
+             * @protected
+             */ VisualMapView.prototype.render = function(visualMapModel, ecModel, api, payload // TODO: TYPE
         ) {
             if (this.visualMapModel = visualMapModel, !1 === visualMapModel.get('show')) {
                 this.group.removeAll();
@@ -46752,8 +46752,8 @@
             }
             this.doRender(visualMapModel, ecModel, api, payload);
         }, /**
-       * @protected
-       */ VisualMapView.prototype.renderBackground = function(group) {
+             * @protected
+             */ VisualMapView.prototype.renderBackground = function(group) {
             var visualMapModel = this.visualMapModel, padding = normalizeCssArray(visualMapModel.get('padding') || 0), rect = group.getBoundingRect();
             group.add(new Rect({
                 z2: -1,
@@ -46771,14 +46771,14 @@
                 }
             }));
         }, /**
-       * @protected
-       * @param targetValue can be Infinity or -Infinity
-       * @param visualCluster Only can be 'color' 'opacity' 'symbol' 'symbolSize'
-       * @param opts
-       * @param opts.forceState Specify state, instead of using getValueState method.
-       * @param opts.convertOpacityToAlpha For color gradient in controller widget.
-       * @return {*} Visual value.
-       */ VisualMapView.prototype.getControllerVisual = function(targetValue, visualCluster, opts) {
+             * @protected
+             * @param targetValue can be Infinity or -Infinity
+             * @param visualCluster Only can be 'color' 'opacity' 'symbol' 'symbolSize'
+             * @param opts
+             * @param opts.forceState Specify state, instead of using getValueState method.
+             * @param opts.convertOpacityToAlpha For color gradient in controller widget.
+             * @return {*} Visual value.
+             */ VisualMapView.prototype.getControllerVisual = function(targetValue, visualCluster, opts) {
             var forceState = (opts = opts || {}).forceState, visualMapModel = this.visualMapModel, visualObj = {};
             function getter(key) {
                 return visualObj[key];
@@ -47012,11 +47012,11 @@
                 linearMap(dataInterval[1], dataExtent, sizeExtent, !0)
             ];
         }, /**
-       * @private
-       * @param {(number|string)} handleIndex 0 or 1 or 'all'
-       * @param {number} dx
-       * @param {number} dy
-       */ ContinuousView.prototype._updateInterval = function(handleIndex, delta) {
+             * @private
+             * @param {(number|string)} handleIndex 0 or 1 or 'all'
+             * @param {number} dx
+             * @param {number} dy
+             */ ContinuousView.prototype._updateInterval = function(handleIndex, delta) {
             delta = delta || 0;
             var visualMapModel = this.visualMapModel, handleEnds = this._handleEnds, sizeExtent = [
                 0,
@@ -47294,12 +47294,12 @@
                 batch: batch
             });
         }, /**
-       * @override
-       */ ContinuousView.prototype.dispose = function() {
+             * @override
+             */ ContinuousView.prototype.dispose = function() {
             this._clearHoverLinkFromSeries(), this._clearHoverLinkToSeries();
         }, /**
-       * @override
-       */ ContinuousView.prototype.remove = function() {
+             * @override
+             */ ContinuousView.prototype.remove = function() {
             this._clearHoverLinkFromSeries(), this._clearHoverLinkToSeries();
         }, ContinuousView.type = 'visualMap.continuous', ContinuousView;
     }(VisualMapView);
@@ -47471,9 +47471,9 @@
         function PiecewiseModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = PiecewiseModel.type, /**
-         * The order is always [low, ..., high].
-         * [{text: string, interval: Array.<number>}, ...]
-         */ _this._pieceList = [], _this;
+                 * The order is always [low, ..., high].
+                 * [{text: string, interval: Array.<number>}, ...]
+                 */ _this._pieceList = [], _this;
         }
         return __extends(PiecewiseModel, _super), PiecewiseModel.prototype.optionUpdated = function(newOption, isInit) {
             _super.prototype.optionUpdated.apply(this, arguments), this.resetExtent();
@@ -47488,9 +47488,9 @@
                 }));
             });
         }, /**
-       * @protected
-       * @override
-       */ PiecewiseModel.prototype.completeVisualOption = function() {
+             * @protected
+             * @override
+             */ PiecewiseModel.prototype.completeVisualOption = function() {
             // Consider this case:
             // visualMap: {
             //      pieces: [{symbol: 'circle', lt: 0}, {symbol: 'rect', gte: 0}]
@@ -47528,35 +47528,35 @@
                 }, this);
             } // thisOption.selectedMode === 'multiple', default: all selected.
         }, /**
-       * @public
-       */ PiecewiseModel.prototype.getItemSymbol = function() {
+             * @public
+             */ PiecewiseModel.prototype.getItemSymbol = function() {
             return this.get('itemSymbol');
         }, /**
-       * @public
-       */ PiecewiseModel.prototype.getSelectedMapKey = function(piece) {
+             * @public
+             */ PiecewiseModel.prototype.getSelectedMapKey = function(piece) {
             return 'categories' === this._mode ? piece.value + '' : piece.index + '';
         }, /**
-       * @public
-       */ PiecewiseModel.prototype.getPieceList = function() {
+             * @public
+             */ PiecewiseModel.prototype.getPieceList = function() {
             return this._pieceList;
         }, /**
-       * @return {string}
-       */ PiecewiseModel.prototype._determineMode = function() {
+             * @return {string}
+             */ PiecewiseModel.prototype._determineMode = function() {
             var option = this.option;
             return option.pieces && option.pieces.length > 0 ? 'pieces' : this.option.categories ? 'categories' : 'splitNumber';
         }, /**
-       * @override
-       */ PiecewiseModel.prototype.setSelected = function(selected) {
+             * @override
+             */ PiecewiseModel.prototype.setSelected = function(selected) {
             this.option.selected = clone(selected);
         }, /**
-       * @override
-       */ PiecewiseModel.prototype.getValueState = function(value) {
+             * @override
+             */ PiecewiseModel.prototype.getValueState = function(value) {
             var index = VisualMapping.findPieceIndex(value, this._pieceList);
             return null != index && this.option.selected[this.getSelectedMapKey(this._pieceList[index])] ? 'inRange' : 'outOfRange';
         }, /**
-       * @public
-       * @param pieceIndex piece index in visualMapModel.getPieceList()
-       */ PiecewiseModel.prototype.findTargetDataIndices = function(pieceIndex) {
+             * @public
+             * @param pieceIndex piece index in visualMapModel.getPieceList()
+             */ PiecewiseModel.prototype.findTargetDataIndices = function(pieceIndex) {
             var result = [], pieceList = this._pieceList;
             return this.eachTargetSeries(function(seriesModel) {
                 var dataIndices = [], data = seriesModel.getData();
@@ -47568,10 +47568,10 @@
                 });
             }, this), result;
         }, /**
-       * @private
-       * @param piece piece.value or piece.interval is required.
-       * @return  Can be Infinity or -Infinity
-       */ PiecewiseModel.prototype.getRepresentValue = function(piece) {
+             * @private
+             * @param piece piece.value or piece.interval is required.
+             * @return  Can be Infinity or -Infinity
+             */ PiecewiseModel.prototype.getRepresentValue = function(piece) {
             var representValue;
             if (this.isCategory()) representValue = piece.value;
             else if (null != piece.value) representValue = piece.value;
@@ -47840,9 +47840,9 @@
                 })), group.add(itemGroup);
             }
         }, /**
-       * @private
-       * @return {Object} {peiceList, endsText} The order is the same as screen pixel order.
-       */ PiecewiseVisualMapView.prototype._getViewData = function() {
+             * @private
+             * @return {Object} {peiceList, endsText} The order is the same as screen pixel order.
+             */ PiecewiseVisualMapView.prototype._getViewData = function() {
             var visualMapModel = this.visualMapModel, viewPieceList = map(visualMapModel.getPieceList(), function(piece, index) {
                 return {
                     piece: piece,
@@ -48245,14 +48245,14 @@
         function(registers) {
             registers.registerChartView(BarView), registers.registerSeriesModel(BarSeriesModel), registers.registerLayout(registers.PRIORITY.VISUAL.LAYOUT, curry(layout, 'bar')), // only exist in this module, but probably also exist in other modules, like `barPolar`.
             registers.registerLayout(registers.PRIORITY.VISUAL.PROGRESSIVE_LAYOUT, largeLayout), registers.registerProcessor(registers.PRIORITY.PROCESSOR.STATISTIC, dataSample('bar')), /**
-       * @payload
-       * @property {string} [componentType=series]
-       * @property {number} [dx]
-       * @property {number} [dy]
-       * @property {number} [zoom]
-       * @property {number} [originX]
-       * @property {number} [originY]
-       */ registers.registerAction({
+         * @payload
+         * @property {string} [componentType=series]
+         * @property {number} [dx]
+         * @property {number} [dy]
+         * @property {number} [zoom]
+         * @property {number} [originX]
+         * @property {number} [originY]
+         */ registers.registerAction({
                 type: 'changeAxisOrder',
                 event: 'changeAxisOrder',
                 update: 'update'
@@ -48528,13 +48528,13 @@
     // });
     use(function(registers) {
         use(install$s), registers.registerComponentModel(TooltipModel), registers.registerComponentView(TooltipView), /**
-       * @action
-       * @property {string} type
-       * @property {number} seriesIndex
-       * @property {number} dataIndex
-       * @property {number} [x]
-       * @property {number} [y]
-       */ registers.registerAction({
+         * @action
+         * @property {string} type
+         * @property {number} seriesIndex
+         * @property {number} dataIndex
+         * @property {number} [x]
+         * @property {number} [y]
+         */ registers.registerAction({
             type: 'showTip',
             event: 'showTip',
             update: 'tooltip:manuallyShowTip'
@@ -48570,26 +48570,26 @@
                 brushModel.setAreas(payload.areas);
             });
         }), /**
-       * payload: {
-       *      brushComponents: [
-       *          {
-       *              brushId,
-       *              brushIndex,
-       *              brushName,
-       *              series: [
-       *                  {
-       *                      seriesId,
-       *                      seriesIndex,
-       *                      seriesName,
-       *                      rawIndices: [21, 34, ...]
-       *                  },
-       *                  ...
-       *              ]
-       *          },
-       *          ...
-       *      ]
-       * }
-       */ registers.registerAction({
+         * payload: {
+         *      brushComponents: [
+         *          {
+         *              brushId,
+         *              brushIndex,
+         *              brushName,
+         *              series: [
+         *                  {
+         *                      seriesId,
+         *                      seriesIndex,
+         *                      seriesName,
+         *                      rawIndices: [21, 34, ...]
+         *                  },
+         *                  ...
+         *              ]
+         *          },
+         *          ...
+         *      ]
+         * }
+         */ registers.registerAction({
             type: 'brushSelect',
             event: 'brushSelected',
             update: 'none'
