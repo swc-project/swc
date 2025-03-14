@@ -4,12 +4,17 @@ const env = {
     hasError: false
 };
 try {
-    var x = _ts_add_disposable_resource(env, null, false);
+    var _ = _ts_add_disposable_resource(env, {
+        [Symbol.dispose]: ()=>{}
+    }, false);
+    b();
 } catch (e) {
     env.error = e;
     env.hasError = true;
 } finally{
     _ts_dispose_resources(env);
 }
-export default class {
+function a() {}
+export function b() {
+    a();
 }

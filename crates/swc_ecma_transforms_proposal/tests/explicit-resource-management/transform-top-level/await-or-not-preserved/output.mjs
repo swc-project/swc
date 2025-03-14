@@ -4,8 +4,8 @@ const env = {
     hasError: false
 };
 try {
-    const x = _ts_add_disposable_resource(env, A, false);
-    const y = _ts_add_disposable_resource(env, B, true);
+    var x = _ts_add_disposable_resource(env, A, false);
+    var y = _ts_add_disposable_resource(env, B, true);
 } catch (e) {
     env.error = e;
     env.hasError = true;
