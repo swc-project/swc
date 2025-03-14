@@ -7,6 +7,7 @@ use swc_common::BytePos;
 
 use crate::util::unlikely;
 
+const BATCH_SIZE: u32 = 32;
 /// High-performance cursor for traversing input bytes
 #[repr(C)] // Ensure predictable memory layout for better cache behavior
 pub struct Cursor<'a> {
@@ -18,6 +19,8 @@ pub struct Cursor<'a> {
 
     /// Input source as bytes
     input: &'a [u8],
+
+    end_from_batch: u32,
 }
 
 impl<'a> Cursor<'a> {
@@ -29,6 +32,7 @@ impl<'a> Cursor<'a> {
             input: bytes,
             pos: 0,
             len: bytes.len() as u32,
+            end_from_batch: bytes.len() as u32 - BATCH_SIZE,
         }
     }
 
@@ -108,38 +112,27 @@ impl<'a> Cursor<'a> {
     where
         F: Fn(u8) -> bool,
     {
-        // Warning: Do not scalarize if we do not use SIMD
-        // const BATCH_SIZE: u32 = 32;
-
-        // // Process in batches if we have more than BATCH_SIZE bytes
-        // while self.pos + BATCH_SIZE <= self.len {
-        //     let mut should_stop = false;
-
-        //     // Check all bytes in the batch
-        //     for i in 0..BATCH_SIZE {
-        //         // SAFETY: We've verified bounds above
-        //         let byte = unsafe { *self.input.get_unchecked((self.pos + i) as
-        // usize) };         if !predicate(byte) {
-        //             should_stop = true;
-        //             break;
-        //         }
-        //     }
-
-        //     if should_stop {
-        //         // Found stopping byte, switch to byte-by-byte
-        //         break;
-        //     }
-
-        //     // Skip the entire batch
-        //     self.pos += BATCH_SIZE;
-        // }
+        // Process in batches if we have more than BATCH_SIZE bytes
+        while self.pos <= self.end_from_batch {
+            // Check all bytes in the batch
+            for _ in 0..BATCH_SIZE {
+                // SAFETY: We've verified bounds above
+                let byte = unsafe { *self.input.get_unchecked(self.pos as usize) };
+                if !predicate(byte) {
+                    return;
+                }
+                // SAFETY: self.pos <= end_from_batch
+                self.pos += 1;
+            }
+        }
 
         // Byte-by-byte for the remainder
-        while let Some(byte) = self.peek() {
+        while self.pos < self.len {
+            let byte = *unsafe { self.input.get_unchecked(self.pos as usize) };
             if !predicate(byte) {
-                break;
+                return;
             }
-            self.advance();
+            self.pos += 1;
         }
     }
 
