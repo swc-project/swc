@@ -7502,17 +7502,17 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_LodashWrapper.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `undefined`.
- *
- * @static
- * @memberOf _
- * @since 2.3.0
- * @category Util
- * @example
- *
- * _.times(2, _.noop);
- * // => [undefined, undefined]
- */ function() {
+         * This method returns `undefined`.
+         *
+         * @static
+         * @memberOf _
+         * @since 2.3.0
+         * @category Util
+         * @example
+         *
+         * _.times(2, _.noop);
+         * // => [undefined, undefined]
+         */ function() {
             // No operation performed.
             };
         /***/ },
@@ -7521,38 +7521,38 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js");
             module1.exports = /**
- * Casts `value` as an array if it's not one.
- *
- * @static
- * @memberOf _
- * @since 4.4.0
- * @category Lang
- * @param {*} value The value to inspect.
- * @returns {Array} Returns the cast array.
- * @example
- *
- * _.castArray(1);
- * // => [1]
- *
- * _.castArray({ 'a': 1 });
- * // => [{ 'a': 1 }]
- *
- * _.castArray('abc');
- * // => ['abc']
- *
- * _.castArray(null);
- * // => [null]
- *
- * _.castArray(undefined);
- * // => [undefined]
- *
- * _.castArray();
- * // => []
- *
- * var array = [1, 2, 3];
- * console.log(_.castArray(array) === array);
- * // => true
- */ function() {
+         * Casts `value` as an array if it's not one.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.4.0
+         * @category Lang
+         * @param {*} value The value to inspect.
+         * @returns {Array} Returns the cast array.
+         * @example
+         *
+         * _.castArray(1);
+         * // => [1]
+         *
+         * _.castArray({ 'a': 1 });
+         * // => [{ 'a': 1 }]
+         *
+         * _.castArray('abc');
+         * // => ['abc']
+         *
+         * _.castArray(null);
+         * // => [null]
+         *
+         * _.castArray(undefined);
+         * // => [undefined]
+         *
+         * _.castArray();
+         * // => []
+         *
+         * var array = [1, 2, 3];
+         * console.log(_.castArray(array) === array);
+         * // => true
+         */ function() {
                 if (!arguments.length) return [];
                 var value = arguments[0];
                 return isArray(value) ? value : [
@@ -7565,12 +7565,12 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var listCacheClear = __webpack_require__(/*! ./_listCacheClear */ "../../../node_modules/lodash/_listCacheClear.js"), listCacheDelete = __webpack_require__(/*! ./_listCacheDelete */ "../../../node_modules/lodash/_listCacheDelete.js"), listCacheGet = __webpack_require__(/*! ./_listCacheGet */ "../../../node_modules/lodash/_listCacheGet.js"), listCacheHas = __webpack_require__(/*! ./_listCacheHas */ "../../../node_modules/lodash/_listCacheHas.js"), listCacheSet = __webpack_require__(/*! ./_listCacheSet */ "../../../node_modules/lodash/_listCacheSet.js");
             /**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */ function ListCache(entries) {
+         * Creates an list cache object.
+         *
+         * @private
+         * @constructor
+         * @param {Array} [entries] The key-value pairs to cache.
+         */ function ListCache(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
                 for(this.clear(); ++index < length;){
                     var entry = entries[index];
@@ -7589,15 +7589,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_apply.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */ function(func, thisArg, args) {
+         * A faster alternative to `Function#apply`, this function invokes `func`
+         * with the `this` binding of `thisArg` and the arguments of `args`.
+         *
+         * @private
+         * @param {Function} func The function to invoke.
+         * @param {*} thisArg The `this` binding of `func`.
+         * @param {Array} args The arguments to invoke `func` with.
+         * @returns {*} Returns the result of `func`.
+         */ function(func, thisArg, args) {
                 switch(args.length){
                     case 0:
                         return func.call(thisArg);
@@ -7615,15 +7615,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_arrayAggregator.js ***!
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `baseAggregator` for arrays.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} setter The function to set `accumulator` values.
- * @param {Function} iteratee The iteratee to transform keys.
- * @param {Object} accumulator The initial aggregated object.
- * @returns {Function} Returns `accumulator`.
- */ function(array, setter, iteratee, accumulator) {
+         * A specialized version of `baseAggregator` for arrays.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} setter The function to set `accumulator` values.
+         * @param {Function} iteratee The iteratee to transform keys.
+         * @param {Object} accumulator The initial aggregated object.
+         * @returns {Function} Returns `accumulator`.
+         */ function(array, setter, iteratee, accumulator) {
                 for(var index = -1, length = null == array ? 0 : array.length; ++index < length;){
                     var value = array[index];
                     setter(accumulator, value, iteratee(value), array);
@@ -7636,14 +7636,14 @@
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIndexOf = __webpack_require__(/*! ./_baseIndexOf */ "../../../node_modules/lodash/_baseIndexOf.js");
             module1.exports = /**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */ function(array, value) {
+         * A specialized version of `_.includes` for arrays without support for
+         * specifying an index to search from.
+         *
+         * @private
+         * @param {Array} [array] The array to inspect.
+         * @param {*} target The value to search for.
+         * @returns {boolean} Returns `true` if `target` is found, else `false`.
+         */ function(array, value) {
                 return !!(null == array ? 0 : array.length) && baseIndexOf(array, value, 0) > -1;
             };
         /***/ },
@@ -7651,14 +7651,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_arrayIncludesWith.js ***!
   \*************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This function is like `arrayIncludes` except that it accepts a comparator.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @param {Function} comparator The comparator invoked per element.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */ function(array, value, comparator) {
+         * This function is like `arrayIncludes` except that it accepts a comparator.
+         *
+         * @private
+         * @param {Array} [array] The array to inspect.
+         * @param {*} target The value to search for.
+         * @param {Function} comparator The comparator invoked per element.
+         * @returns {boolean} Returns `true` if `target` is found, else `false`.
+         */ function(array, value, comparator) {
                 for(var index = -1, length = null == array ? 0 : array.length; ++index < length;)if (comparator(value, array[index])) return !0;
                 return !1;
             };
@@ -7667,14 +7667,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_arrayMap.js ***!
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */ function(array, iteratee) {
+         * A specialized version of `_.map` for arrays without support for iteratee
+         * shorthands.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} iteratee The function invoked per iteration.
+         * @returns {Array} Returns the new mapped array.
+         */ function(array, iteratee) {
                 for(var index = -1, length = null == array ? 0 : array.length, result = Array(length); ++index < length;)result[index] = iteratee(array[index], index, array);
                 return result;
             };
@@ -7683,13 +7683,13 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_arrayPush.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */ function(array, values) {
+         * Appends the elements of `values` to `array`.
+         *
+         * @private
+         * @param {Array} array The array to modify.
+         * @param {Array} values The values to append.
+         * @returns {Array} Returns `array`.
+         */ function(array, values) {
                 for(var index = -1, length = values.length, offset = array.length; ++index < length;)array[offset + index] = values[index];
                 return array;
             };
@@ -7698,15 +7698,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_arraySome.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */ function(array, predicate) {
+         * A specialized version of `_.some` for arrays without support for iteratee
+         * shorthands.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} predicate The function invoked per iteration.
+         * @returns {boolean} Returns `true` if any element passes the predicate check,
+         *  else `false`.
+         */ function(array, predicate) {
                 for(var index = -1, length = null == array ? 0 : array.length; ++index < length;)if (predicate(array[index], index, array)) return !0;
                 return !1;
             };
@@ -7716,15 +7716,15 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseAssignValue = __webpack_require__(/*! ./_baseAssignValue */ "../../../node_modules/lodash/_baseAssignValue.js"), eq = __webpack_require__(/*! ./eq */ "../../../node_modules/lodash/eq.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
             module1.exports = /**
- * Assigns `value` to `key` of `object` if the existing value is not equivalent
- * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * for equality comparisons.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {string} key The key of the property to assign.
- * @param {*} value The value to assign.
- */ function(object, key, value) {
+         * Assigns `value` to `key` of `object` if the existing value is not equivalent
+         * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+         * for equality comparisons.
+         *
+         * @private
+         * @param {Object} object The object to modify.
+         * @param {string} key The key of the property to assign.
+         * @param {*} value The value to assign.
+         */ function(object, key, value) {
                 var objValue = object[key];
                 hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
             };
@@ -7734,13 +7734,13 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var eq = __webpack_require__(/*! ./eq */ "../../../node_modules/lodash/eq.js");
             module1.exports = /**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */ function(array, key) {
+         * Gets the index at which the `key` is found in `array` of key-value pairs.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {*} key The key to search for.
+         * @returns {number} Returns the index of the matched value, else `-1`.
+         */ function(array, key) {
                 for(var length = array.length; length--;)if (eq(array[length][0], key)) return length;
                 return -1;
             };
@@ -7749,15 +7749,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseAggregator.js ***!
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `baseAggregator` for arrays.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} setter The function to set `accumulator` values.
- * @param {Function} iteratee The iteratee to transform keys.
- * @param {Object} accumulator The initial aggregated object.
- * @returns {Function} Returns `accumulator`.
- */ function(array, setter, iteratee, accumulator) {
+         * A specialized version of `baseAggregator` for arrays.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} setter The function to set `accumulator` values.
+         * @param {Function} iteratee The iteratee to transform keys.
+         * @param {Object} accumulator The initial aggregated object.
+         * @returns {Function} Returns `accumulator`.
+         */ function(array, setter, iteratee, accumulator) {
                 for(var index = -1, length = null == array ? 0 : array.length; ++index < length;){
                     var value = array[index];
                     setter(accumulator, value, iteratee(value), array);
@@ -7770,14 +7770,14 @@
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var defineProperty = __webpack_require__(/*! ./_defineProperty */ "../../../node_modules/lodash/_defineProperty.js");
             module1.exports = /**
- * The base implementation of `assignValue` and `assignMergeValue` without
- * value checks.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {string} key The key of the property to assign.
- * @param {*} value The value to assign.
- */ function(object, key, value) {
+         * The base implementation of `assignValue` and `assignMergeValue` without
+         * value checks.
+         *
+         * @private
+         * @param {Object} object The object to modify.
+         * @param {string} key The key of the property to assign.
+         * @param {*} value The value to assign.
+         */ function(object, key, value) {
                 '__proto__' == key && defineProperty ? defineProperty(object, key, {
                     configurable: !0,
                     enumerable: !0,
@@ -7790,15 +7790,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseDelay.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.delay` and `_.defer` which accepts `args`
- * to provide to `func`.
- *
- * @private
- * @param {Function} func The function to delay.
- * @param {number} wait The number of milliseconds to delay invocation.
- * @param {Array} args The arguments to provide to `func`.
- * @returns {number|Object} Returns the timer id or timeout object.
- */ function(func, wait, args) {
+         * The base implementation of `_.delay` and `_.defer` which accepts `args`
+         * to provide to `func`.
+         *
+         * @private
+         * @param {Function} func The function to delay.
+         * @param {number} wait The number of milliseconds to delay invocation.
+         * @param {Array} args The arguments to provide to `func`.
+         * @returns {number|Object} Returns the timer id or timeout object.
+         */ function(func, wait, args) {
                 if ('function' != typeof func) throw TypeError('Expected a function');
                 return setTimeout(function() {
                     func.apply(void 0, args);
@@ -7810,16 +7810,16 @@
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var SetCache = __webpack_require__(/*! ./_SetCache */ "../../../node_modules/lodash/_SetCache.js"), arrayIncludes = __webpack_require__(/*! ./_arrayIncludes */ "../../../node_modules/lodash/_arrayIncludes.js"), arrayIncludesWith = __webpack_require__(/*! ./_arrayIncludesWith */ "../../../node_modules/lodash/_arrayIncludesWith.js"), arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), cacheHas = __webpack_require__(/*! ./_cacheHas */ "../../../node_modules/lodash/_cacheHas.js");
             module1.exports = /**
- * The base implementation of methods like `_.difference` without support
- * for excluding multiple arrays or iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Array} values The values to exclude.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
- */ function(array, values, iteratee, comparator) {
+         * The base implementation of methods like `_.difference` without support
+         * for excluding multiple arrays or iteratee shorthands.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {Array} values The values to exclude.
+         * @param {Function} [iteratee] The iteratee invoked per element.
+         * @param {Function} [comparator] The comparator invoked per element.
+         * @returns {Array} Returns the new array of filtered values.
+         */ function(array, values, iteratee, comparator) {
                 var index = -1, includes = arrayIncludes, isCommon = !0, length = array.length, result = [], valuesLength = values.length;
                 if (!length) return result;
                 iteratee && (values = arrayMap(values, baseUnary(iteratee))), comparator ? (includes = arrayIncludesWith, isCommon = !1) : values.length >= 200 && (includes = cacheHas, isCommon = !1, values = new SetCache(values));
@@ -7837,16 +7837,16 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseFindIndex.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.findIndex` and `_.findLastIndex` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} predicate The function invoked per iteration.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */ function(array, predicate, fromIndex, fromRight) {
+         * The base implementation of `_.findIndex` and `_.findLastIndex` without
+         * support for iteratee shorthands.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {Function} predicate The function invoked per iteration.
+         * @param {number} fromIndex The index to search from.
+         * @param {boolean} [fromRight] Specify iterating from right to left.
+         * @returns {number} Returns the index of the matched value, else `-1`.
+         */ function(array, predicate, fromIndex, fromRight) {
                 for(var length = array.length, index = fromIndex + (fromRight ? 1 : -1); fromRight ? index-- : ++index < length;)if (predicate(array[index], index, array)) return index;
                 return -1;
             };
@@ -7856,16 +7856,16 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayPush = __webpack_require__(/*! ./_arrayPush */ "../../../node_modules/lodash/_arrayPush.js"), isFlattenable = __webpack_require__(/*! ./_isFlattenable */ "../../../node_modules/lodash/_isFlattenable.js");
             module1.exports = /**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
- * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */ function baseFlatten(array, depth, predicate, isStrict, result) {
+         * The base implementation of `_.flatten` with support for restricting flattening.
+         *
+         * @private
+         * @param {Array} array The array to flatten.
+         * @param {number} depth The maximum recursion depth.
+         * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+         * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+         * @param {Array} [result=[]] The initial result value.
+         * @returns {Array} Returns the new flattened array.
+         */ function baseFlatten(array, depth, predicate, isStrict, result) {
                 var index = -1, length = array.length;
                 for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
                     var value = array[index];
@@ -7885,13 +7885,13 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseFor = __webpack_require__(/*! ./_baseFor */ "../../../node_modules/lodash/_baseFor.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js");
             module1.exports = /**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */ function(object, iteratee) {
+         * The base implementation of `_.forOwn` without support for iteratee shorthands.
+         *
+         * @private
+         * @param {Object} object The object to iterate over.
+         * @param {Function} iteratee The function invoked per iteration.
+         * @returns {Object} Returns `object`.
+         */ function(object, iteratee) {
                 return object && baseFor(object, iteratee, keys);
             };
         /***/ },
@@ -7900,13 +7900,13 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(/*! ./_castPath */ "../../../node_modules/lodash/_castPath.js"), toKey = __webpack_require__(/*! ./_toKey */ "../../../node_modules/lodash/_toKey.js");
             module1.exports = /**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */ function(object, path) {
+         * The base implementation of `_.get` without support for default values.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @param {Array|string} path The path of the property to get.
+         * @returns {*} Returns the resolved value.
+         */ function(object, path) {
                 path = castPath(path, object);
                 for(var index = 0, length = path.length; null != object && index < length;)object = object[toKey(path[index++])];
                 return index && index == length ? object : void 0;
@@ -7916,17 +7916,17 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseGetTag.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             /**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */ var nativeObjectToString = Object.prototype.toString;
+         * Used to resolve the
+         * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+         * of values.
+         */ var nativeObjectToString = Object.prototype.toString;
             module1.exports = /**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */ function(value) {
+         * Converts `value` to a string using `Object.prototype.toString`.
+         *
+         * @private
+         * @param {*} value The value to convert.
+         * @returns {string} Returns the converted string.
+         */ function(value) {
                 return nativeObjectToString.call(value);
             };
         /***/ },
@@ -7934,13 +7934,13 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseHasIn.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.hasIn` without support for deep paths.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */ function(object, key) {
+         * The base implementation of `_.hasIn` without support for deep paths.
+         *
+         * @private
+         * @param {Object} [object] The object to query.
+         * @param {Array|string} key The key to check.
+         * @returns {boolean} Returns `true` if `key` exists, else `false`.
+         */ function(object, key) {
                 return null != object && key in Object(object);
             };
         /***/ },
@@ -7948,15 +7948,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseIndexOf.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `_.indexOf` which performs strict equality
- * comparisons of values, i.e. `===`.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */ function(array, value, fromIndex) {
+         * A specialized version of `_.indexOf` which performs strict equality
+         * comparisons of values, i.e. `===`.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {*} value The value to search for.
+         * @param {number} fromIndex The index to search from.
+         * @returns {number} Returns the index of the matched value, else `-1`.
+         */ function(array, value, fromIndex) {
                 for(var index = fromIndex - 1, length = array.length; ++index < length;)if (array[index] === value) return index;
                 return -1;
             };
@@ -7966,16 +7966,16 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseForOwn = __webpack_require__(/*! ./_baseForOwn */ "../../../node_modules/lodash/_baseForOwn.js");
             module1.exports = /**
- * The base implementation of `_.invert` and `_.invertBy` which inverts
- * `object` with values transformed by `iteratee` and set by `setter`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} setter The function to set `accumulator` values.
- * @param {Function} iteratee The iteratee to transform values.
- * @param {Object} accumulator The initial inverted object.
- * @returns {Function} Returns `accumulator`.
- */ function(object, setter, iteratee, accumulator) {
+         * The base implementation of `_.invert` and `_.invertBy` which inverts
+         * `object` with values transformed by `iteratee` and set by `setter`.
+         *
+         * @private
+         * @param {Object} object The object to iterate over.
+         * @param {Function} setter The function to set `accumulator` values.
+         * @param {Function} iteratee The iteratee to transform values.
+         * @param {Object} accumulator The initial inverted object.
+         * @returns {Function} Returns `accumulator`.
+         */ function(object, setter, iteratee, accumulator) {
                 return baseForOwn(object, function(value, key, object) {
                     setter(accumulator, iteratee(value), key, object);
                 }), accumulator;
@@ -7986,12 +7986,12 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * The base implementation of `_.isDate` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a date object, else `false`.
- */ function(value) {
+         * The base implementation of `_.isDate` without Node.js optimizations.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a date object, else `false`.
+         */ function(value) {
                 return isObjectLike(value) && '[object Date]' == baseGetTag(value);
             };
         /***/ },
@@ -8000,19 +8000,19 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIsEqualDeep = __webpack_require__(/*! ./_baseIsEqualDeep */ "../../../node_modules/lodash/_baseIsEqualDeep.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * The base implementation of `_.isEqual` which supports partial comparisons
- * and tracks traversed objects.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {boolean} bitmask The bitmask flags.
- *  1 - Unordered comparison
- *  2 - Partial comparison
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {Object} [stack] Tracks traversed `value` and `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */ function baseIsEqual(value, other, bitmask, customizer, stack) {
+         * The base implementation of `_.isEqual` which supports partial comparisons
+         * and tracks traversed objects.
+         *
+         * @private
+         * @param {*} value The value to compare.
+         * @param {*} other The other value to compare.
+         * @param {boolean} bitmask The bitmask flags.
+         *  1 - Unordered comparison
+         *  2 - Partial comparison
+         * @param {Function} [customizer] The function to customize comparisons.
+         * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+         * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+         */ function baseIsEqual(value, other, bitmask, customizer, stack) {
                 return value === other || (null != value && null != other && (isObjectLike(value) || isObjectLike(other)) ? baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack) : value != value && other != other);
             };
         /***/ },
@@ -8021,19 +8021,19 @@
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var Stack = __webpack_require__(/*! ./_Stack */ "../../../node_modules/lodash/_Stack.js"), equalArrays = __webpack_require__(/*! ./_equalArrays */ "../../../node_modules/lodash/_equalArrays.js"), equalByTag = __webpack_require__(/*! ./_equalByTag */ "../../../node_modules/lodash/_equalByTag.js"), equalObjects = __webpack_require__(/*! ./_equalObjects */ "../../../node_modules/lodash/_equalObjects.js"), getTag = __webpack_require__(/*! ./_getTag */ "../../../node_modules/lodash/_getTag.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isBuffer = __webpack_require__(/*! ./isBuffer */ "../../../node_modules/lodash/isBuffer.js"), isTypedArray = __webpack_require__(/*! ./isTypedArray */ "../../../node_modules/lodash/isTypedArray.js"), argsTag = '[object Arguments]', arrayTag = '[object Array]', objectTag = '[object Object]', hasOwnProperty = Object.prototype.hasOwnProperty;
             module1.exports = /**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */ function(object, other, bitmask, customizer, equalFunc, stack) {
+         * A specialized version of `baseIsEqual` for arrays and objects which performs
+         * deep comparisons and tracks traversed objects enabling objects with circular
+         * references to be compared.
+         *
+         * @private
+         * @param {Object} object The object to compare.
+         * @param {Object} other The other object to compare.
+         * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+         * @param {Function} customizer The function to customize comparisons.
+         * @param {Function} equalFunc The function to determine equivalents of values.
+         * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+         * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+         */ function(object, other, bitmask, customizer, equalFunc, stack) {
                 var objIsArr = isArray(object), othIsArr = isArray(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
                 objTag = objTag == argsTag ? objectTag : objTag, othTag = othTag == argsTag ? objectTag : othTag;
                 var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
@@ -8057,15 +8057,15 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var Stack = __webpack_require__(/*! ./_Stack */ "../../../node_modules/lodash/_Stack.js"), baseIsEqual = __webpack_require__(/*! ./_baseIsEqual */ "../../../node_modules/lodash/_baseIsEqual.js");
             module1.exports = /**
- * The base implementation of `_.isMatch` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Object} source The object of property values to match.
- * @param {Array} matchData The property names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparisons.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */ function(object, source, matchData, customizer) {
+         * The base implementation of `_.isMatch` without support for iteratee shorthands.
+         *
+         * @private
+         * @param {Object} object The object to inspect.
+         * @param {Object} source The object of property values to match.
+         * @param {Array} matchData The property names, values, and compare flags to match.
+         * @param {Function} [customizer] The function to customize comparisons.
+         * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+         */ function(object, source, matchData, customizer) {
                 var index = matchData.length, length = index, noCustomizer = !customizer;
                 if (null == object) return !length;
                 for(object = Object(object); index--;){
@@ -8090,12 +8090,12 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * The base implementation of `_.isRegExp` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a regexp, else `false`.
- */ function(value) {
+         * The base implementation of `_.isRegExp` without Node.js optimizations.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a regexp, else `false`.
+         */ function(value) {
                 return isObjectLike(value) && '[object RegExp]' == baseGetTag(value);
             };
         /***/ },
@@ -8104,12 +8104,12 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseMatches = __webpack_require__(/*! ./_baseMatches */ "../../../node_modules/lodash/_baseMatches.js"), baseMatchesProperty = __webpack_require__(/*! ./_baseMatchesProperty */ "../../../node_modules/lodash/_baseMatchesProperty.js"), identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), property = __webpack_require__(/*! ./property */ "../../../node_modules/lodash/property.js");
             module1.exports = /**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */ function(value) {
+         * The base implementation of `_.iteratee`.
+         *
+         * @private
+         * @param {*} [value=_.identity] The value to convert to an iteratee.
+         * @returns {Function} Returns the iteratee.
+         */ function(value) {
                 return(// Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
                 // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
                 'function' == typeof value ? value : null == value ? identity : 'object' == typeof value ? isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value) : property(value));
@@ -8124,14 +8124,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseMap.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */ function(array, iteratee) {
+         * A specialized version of `_.map` for arrays without support for iteratee
+         * shorthands.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} iteratee The function invoked per iteration.
+         * @returns {Array} Returns the new mapped array.
+         */ function(array, iteratee) {
                 for(var index = -1, length = null == array ? 0 : array.length, result = Array(length); ++index < length;)result[index] = iteratee(array[index], index, array);
                 return result;
             };
@@ -8141,12 +8141,12 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIsMatch = __webpack_require__(/*! ./_baseIsMatch */ "../../../node_modules/lodash/_baseIsMatch.js"), getMatchData = __webpack_require__(/*! ./_getMatchData */ "../../../node_modules/lodash/_getMatchData.js"), matchesStrictComparable = __webpack_require__(/*! ./_matchesStrictComparable */ "../../../node_modules/lodash/_matchesStrictComparable.js");
             module1.exports = /**
- * The base implementation of `_.matches` which doesn't clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new spec function.
- */ function(source) {
+         * The base implementation of `_.matches` which doesn't clone `source`.
+         *
+         * @private
+         * @param {Object} source The object of property values to match.
+         * @returns {Function} Returns the new spec function.
+         */ function(source) {
                 var matchData = getMatchData(source);
                 return 1 == matchData.length && matchData[0][2] ? matchesStrictComparable(matchData[0][0], matchData[0][1]) : function(object) {
                     return object === source || baseIsMatch(object, source, matchData);
@@ -8158,13 +8158,13 @@
   \***************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIsEqual = __webpack_require__(/*! ./_baseIsEqual */ "../../../node_modules/lodash/_baseIsEqual.js"), get = __webpack_require__(/*! ./get */ "../../../node_modules/lodash/get.js"), hasIn = __webpack_require__(/*! ./hasIn */ "../../../node_modules/lodash/hasIn.js"), isKey = __webpack_require__(/*! ./_isKey */ "../../../node_modules/lodash/_isKey.js"), isStrictComparable = __webpack_require__(/*! ./_isStrictComparable */ "../../../node_modules/lodash/_isStrictComparable.js"), matchesStrictComparable = __webpack_require__(/*! ./_matchesStrictComparable */ "../../../node_modules/lodash/_matchesStrictComparable.js"), toKey = __webpack_require__(/*! ./_toKey */ "../../../node_modules/lodash/_toKey.js");
             module1.exports = /**
- * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new spec function.
- */ function(path, srcValue) {
+         * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
+         *
+         * @private
+         * @param {string} path The path of the property to get.
+         * @param {*} srcValue The value to match.
+         * @returns {Function} Returns the new spec function.
+         */ function(path, srcValue) {
                 return isKey(path) && isStrictComparable(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                     var objValue = get(object, path);
                     return void 0 === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
@@ -8176,14 +8176,14 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), baseGet = __webpack_require__(/*! ./_baseGet */ "../../../node_modules/lodash/_baseGet.js"), baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), baseMap = __webpack_require__(/*! ./_baseMap */ "../../../node_modules/lodash/_baseMap.js"), baseSortBy = __webpack_require__(/*! ./_baseSortBy */ "../../../node_modules/lodash/_baseSortBy.js"), baseUnary = __webpack_require__(/*! ./_baseUnary */ "../../../node_modules/lodash/_baseUnary.js"), compareMultiple = __webpack_require__(/*! ./_compareMultiple */ "../../../node_modules/lodash/_compareMultiple.js"), identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js");
             module1.exports = /**
- * The base implementation of `_.orderBy` without param guards.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
- * @param {string[]} orders The sort orders of `iteratees`.
- * @returns {Array} Returns the new sorted array.
- */ function(collection, iteratees, orders) {
+         * The base implementation of `_.orderBy` without param guards.
+         *
+         * @private
+         * @param {Array|Object} collection The collection to iterate over.
+         * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
+         * @param {string[]} orders The sort orders of `iteratees`.
+         * @returns {Array} Returns the new sorted array.
+         */ function(collection, iteratees, orders) {
                 iteratees = iteratees.length ? arrayMap(iteratees, function(iteratee) {
                     return isArray(iteratee) ? function(value) {
                         return baseGet(value, 1 === iteratee.length ? iteratee[0] : iteratee);
@@ -8210,14 +8210,14 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var basePickBy = __webpack_require__(/*! ./_basePickBy */ "../../../node_modules/lodash/_basePickBy.js"), hasIn = __webpack_require__(/*! ./hasIn */ "../../../node_modules/lodash/hasIn.js");
             module1.exports = /**
- * The base implementation of `_.pick` without support for individual
- * property identifiers.
- *
- * @private
- * @param {Object} object The source object.
- * @param {string[]} paths The property paths to pick.
- * @returns {Object} Returns the new object.
- */ function(object, paths) {
+         * The base implementation of `_.pick` without support for individual
+         * property identifiers.
+         *
+         * @private
+         * @param {Object} object The source object.
+         * @param {string[]} paths The property paths to pick.
+         * @returns {Object} Returns the new object.
+         */ function(object, paths) {
                 return basePickBy(object, paths, function(value, path) {
                     return hasIn(object, path);
                 });
@@ -8228,14 +8228,14 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGet = __webpack_require__(/*! ./_baseGet */ "../../../node_modules/lodash/_baseGet.js"), baseSet = __webpack_require__(/*! ./_baseSet */ "../../../node_modules/lodash/_baseSet.js"), castPath = __webpack_require__(/*! ./_castPath */ "../../../node_modules/lodash/_castPath.js");
             module1.exports = /**
- * The base implementation of  `_.pickBy` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The source object.
- * @param {string[]} paths The property paths to pick.
- * @param {Function} predicate The function invoked per property.
- * @returns {Object} Returns the new object.
- */ function(object, paths, predicate) {
+         * The base implementation of  `_.pickBy` without support for iteratee shorthands.
+         *
+         * @private
+         * @param {Object} object The source object.
+         * @param {string[]} paths The property paths to pick.
+         * @param {Function} predicate The function invoked per property.
+         * @returns {Object} Returns the new object.
+         */ function(object, paths, predicate) {
                 for(var index = -1, length = paths.length, result = {}; ++index < length;){
                     var path = paths[index], value = baseGet(object, path);
                     predicate(value, path) && baseSet(result, castPath(path, object), value);
@@ -8247,12 +8247,12 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseProperty.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new accessor function.
- */ function(key) {
+         * The base implementation of `_.property` without support for deep paths.
+         *
+         * @private
+         * @param {string} key The key of the property to get.
+         * @returns {Function} Returns the new accessor function.
+         */ function(key) {
                 return function(object) {
                     return null == object ? void 0 : object[key];
                 };
@@ -8263,12 +8263,12 @@
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGet = __webpack_require__(/*! ./_baseGet */ "../../../node_modules/lodash/_baseGet.js");
             module1.exports = /**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new accessor function.
- */ function(path) {
+         * A specialized version of `baseProperty` which supports deep paths.
+         *
+         * @private
+         * @param {Array|string} path The path of the property to get.
+         * @returns {Function} Returns the new accessor function.
+         */ function(path) {
                 return function(object) {
                     return baseGet(object, path);
                 };
@@ -8279,16 +8279,16 @@
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             /* Built-in method references for those with the same name as other `lodash` methods. */ var nativeCeil = Math.ceil, nativeMax = Math.max;
             module1.exports = /**
- * The base implementation of `_.range` and `_.rangeRight` which doesn't
- * coerce arguments.
- *
- * @private
- * @param {number} start The start of the range.
- * @param {number} end The end of the range.
- * @param {number} step The value to increment or decrement by.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Array} Returns the range of numbers.
- */ function(start, end, step, fromRight) {
+         * The base implementation of `_.range` and `_.rangeRight` which doesn't
+         * coerce arguments.
+         *
+         * @private
+         * @param {number} start The start of the range.
+         * @param {number} end The end of the range.
+         * @param {number} step The value to increment or decrement by.
+         * @param {boolean} [fromRight] Specify iterating from right to left.
+         * @returns {Array} Returns the range of numbers.
+         */ function(start, end, step, fromRight) {
                 for(var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array(length); length--;)result[fromRight ? length : ++index] = start, start += step;
                 return result;
             };
@@ -8298,13 +8298,13 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js"), overRest = __webpack_require__(/*! ./_overRest */ "../../../node_modules/lodash/_overRest.js"), setToString = __webpack_require__(/*! ./_setToString */ "../../../node_modules/lodash/_setToString.js");
             module1.exports = /**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */ function(func, start) {
+         * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+         *
+         * @private
+         * @param {Function} func The function to apply a rest parameter to.
+         * @param {number} [start=func.length-1] The start position of the rest parameter.
+         * @returns {Function} Returns the new function.
+         */ function(func, start) {
                 return setToString(overRest(func, start, identity), func + '');
             };
         /***/ },
@@ -8313,15 +8313,15 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assignValue = __webpack_require__(/*! ./_assignValue */ "../../../node_modules/lodash/_assignValue.js"), castPath = __webpack_require__(/*! ./_castPath */ "../../../node_modules/lodash/_castPath.js"), isIndex = __webpack_require__(/*! ./_isIndex */ "../../../node_modules/lodash/_isIndex.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js"), toKey = __webpack_require__(/*! ./_toKey */ "../../../node_modules/lodash/_toKey.js");
             module1.exports = /**
- * The base implementation of `_.set`.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {Array|string} path The path of the property to set.
- * @param {*} value The value to set.
- * @param {Function} [customizer] The function to customize path creation.
- * @returns {Object} Returns `object`.
- */ function(object, path, value, customizer) {
+         * The base implementation of `_.set`.
+         *
+         * @private
+         * @param {Object} object The object to modify.
+         * @param {Array|string} path The path of the property to set.
+         * @param {*} value The value to set.
+         * @param {Function} [customizer] The function to customize path creation.
+         * @returns {Object} Returns `object`.
+         */ function(object, path, value, customizer) {
                 if (!isObject(object)) return object;
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
@@ -8340,15 +8340,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseSortBy.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.sortBy` which uses `comparer` to define the
- * sort order of `array` and replaces criteria objects with their corresponding
- * values.
- *
- * @private
- * @param {Array} array The array to sort.
- * @param {Function} comparer The function to define sort order.
- * @returns {Array} Returns `array`.
- */ function(array, comparer) {
+         * The base implementation of `_.sortBy` which uses `comparer` to define the
+         * sort order of `array` and replaces criteria objects with their corresponding
+         * values.
+         *
+         * @private
+         * @param {Array} array The array to sort.
+         * @param {Function} comparer The function to define sort order.
+         * @returns {Array} Returns `array`.
+         */ function(array, comparer) {
                 var length = array.length;
                 for(array.sort(comparer); length--;)array[length] = array[length].value;
                 return array;
@@ -8359,14 +8359,14 @@
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var eq = __webpack_require__(/*! ./eq */ "../../../node_modules/lodash/eq.js");
             module1.exports = /**
- * The base implementation of `_.sortedUniq` and `_.sortedUniqBy` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @returns {Array} Returns the new duplicate free array.
- */ function(array, iteratee) {
+         * The base implementation of `_.sortedUniq` and `_.sortedUniqBy` without
+         * support for iteratee shorthands.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {Function} [iteratee] The iteratee invoked per element.
+         * @returns {Array} Returns the new duplicate free array.
+         */ function(array, iteratee) {
                 for(var index = -1, length = array.length, resIndex = 0, result = []; ++index < length;){
                     var value = array[index], computed = iteratee ? iteratee(value) : value;
                     if (!index || !eq(computed, seen)) {
@@ -8381,14 +8381,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseSum.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.sum` and `_.sumBy` without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {number} Returns the sum.
- */ function(array, iteratee) {
+         * The base implementation of `_.sum` and `_.sumBy` without support for
+         * iteratee shorthands.
+         *
+         * @private
+         * @param {Array} array The array to iterate over.
+         * @param {Function} iteratee The function invoked per iteration.
+         * @returns {number} Returns the sum.
+         */ function(array, iteratee) {
                 for(var result, index = -1, length = array.length; ++index < length;){
                     var current = iteratee(array[index]);
                     void 0 !== current && (result = void 0 === result ? current : result + current);
@@ -8401,14 +8401,14 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js");
             module1.exports = /**
- * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
- * of key-value pairs for `object` corresponding to the property names of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the key-value pairs.
- */ function(object, props) {
+         * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
+         * of key-value pairs for `object` corresponding to the property names of `props`.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @param {Array} props The property names to get values for.
+         * @returns {Object} Returns the key-value pairs.
+         */ function(object, props) {
                 return arrayMap(props, function(key) {
                     return [
                         key,
@@ -8422,13 +8422,13 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var Symbol1 = __webpack_require__(/*! ./_Symbol */ "../../../node_modules/lodash/_Symbol.js"), arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             module1.exports = /**
- * The base implementation of `_.toString` which doesn't convert nullish
- * values to empty strings.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */ function baseToString(value) {
+         * The base implementation of `_.toString` which doesn't convert nullish
+         * values to empty strings.
+         *
+         * @private
+         * @param {*} value The value to process.
+         * @returns {string} Returns the string.
+         */ function baseToString(value) {
                 // Exit early for strings to avoid a performance hit in some environments.
                 if ('string' == typeof value) return value;
                 if (isArray(value)) // Recursively convert values (susceptible to call stack limits).
@@ -8443,12 +8443,12 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var trimmedEndIndex = __webpack_require__(/*! ./_trimmedEndIndex */ "../../../node_modules/lodash/_trimmedEndIndex.js"), reTrimStart = /^\s+/;
             module1.exports = /**
- * The base implementation of `_.trim`.
- *
- * @private
- * @param {string} string The string to trim.
- * @returns {string} Returns the trimmed string.
- */ function(string) {
+         * The base implementation of `_.trim`.
+         *
+         * @private
+         * @param {string} string The string to trim.
+         * @returns {string} Returns the trimmed string.
+         */ function(string) {
                 return string ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '') : string;
             };
         /***/ },
@@ -8456,12 +8456,12 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_baseUnary.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The base implementation of `_.unary` without support for storing metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new capped function.
- */ function(func) {
+         * The base implementation of `_.unary` without support for storing metadata.
+         *
+         * @private
+         * @param {Function} func The function to cap arguments for.
+         * @returns {Function} Returns the new capped function.
+         */ function(func) {
                 return function(value) {
                     return func(value);
                 };
@@ -8472,14 +8472,14 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var SetCache = __webpack_require__(/*! ./_SetCache */ "../../../node_modules/lodash/_SetCache.js"), arrayIncludes = __webpack_require__(/*! ./_arrayIncludes */ "../../../node_modules/lodash/_arrayIncludes.js"), arrayIncludesWith = __webpack_require__(/*! ./_arrayIncludesWith */ "../../../node_modules/lodash/_arrayIncludesWith.js"), cacheHas = __webpack_require__(/*! ./_cacheHas */ "../../../node_modules/lodash/_cacheHas.js"), createSet = __webpack_require__(/*! ./_createSet */ "../../../node_modules/lodash/_createSet.js"), setToArray = __webpack_require__(/*! ./_setToArray */ "../../../node_modules/lodash/_setToArray.js");
             module1.exports = /**
- * The base implementation of `_.uniqBy` without support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new duplicate free array.
- */ function(array, iteratee, comparator) {
+         * The base implementation of `_.uniqBy` without support for iteratee shorthands.
+         *
+         * @private
+         * @param {Array} array The array to inspect.
+         * @param {Function} [iteratee] The iteratee invoked per element.
+         * @param {Function} [comparator] The comparator invoked per element.
+         * @returns {Array} Returns the new duplicate free array.
+         */ function(array, iteratee, comparator) {
                 var index = -1, includes = arrayIncludes, length = array.length, isCommon = !0, result = [], seen = result;
                 if (comparator) isCommon = !1, includes = arrayIncludesWith;
                 else if (length >= 200) {
@@ -8502,15 +8502,15 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js");
             module1.exports = /**
- * The base implementation of `_.values` and `_.valuesIn` which creates an
- * array of `object` property values corresponding to the property names
- * of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the array of property values.
- */ function(object, props) {
+         * The base implementation of `_.values` and `_.valuesIn` which creates an
+         * array of `object` property values corresponding to the property names
+         * of `props`.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @param {Array} props The property names to get values for.
+         * @returns {Object} Returns the array of property values.
+         */ function(object, props) {
                 return arrayMap(props, function(key) {
                     return object[key];
                 });
@@ -8521,14 +8521,14 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIndexOf = __webpack_require__(/*! ./_baseIndexOf */ "../../../node_modules/lodash/_baseIndexOf.js");
             module1.exports = /**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */ function(array, value) {
+         * A specialized version of `_.includes` for arrays without support for
+         * specifying an index to search from.
+         *
+         * @private
+         * @param {Array} [array] The array to inspect.
+         * @param {*} target The value to search for.
+         * @returns {boolean} Returns `true` if `target` is found, else `false`.
+         */ function(array, value) {
                 return !!(null == array ? 0 : array.length) && baseIndexOf(array, value, 0) > -1;
             };
         /***/ },
@@ -8536,21 +8536,21 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_castFunction.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */ function(value) {
+         * This method returns the first argument it receives.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Util
+         * @param {*} value Any value.
+         * @returns {*} Returns `value`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         *
+         * console.log(_.identity(object) === object);
+         * // => true
+         */ function(value) {
                 return value;
             };
         /***/ },
@@ -8559,13 +8559,13 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isKey = __webpack_require__(/*! ./_isKey */ "../../../node_modules/lodash/_isKey.js"), stringToPath = __webpack_require__(/*! ./_stringToPath */ "../../../node_modules/lodash/_stringToPath.js"), toString = __webpack_require__(/*! ./toString */ "../../../node_modules/lodash/toString.js");
             module1.exports = /**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @param {Object} [object] The object to query keys on.
- * @returns {Array} Returns the cast property path array.
- */ function(value, object) {
+         * Casts `value` to a path array if it's not one.
+         *
+         * @private
+         * @param {*} value The value to inspect.
+         * @param {Object} [object] The object to query keys on.
+         * @returns {Array} Returns the cast property path array.
+         */ function(value, object) {
                 return isArray(value) ? value : isKey(value, object) ? [
                     value
                 ] : stringToPath(toString(value));
@@ -8576,13 +8576,13 @@
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js");
             module1.exports = /**
- * Compares values to sort them in ascending order.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {number} Returns the sort order indicator for `value`.
- */ function(value, other) {
+         * Compares values to sort them in ascending order.
+         *
+         * @private
+         * @param {*} value The value to compare.
+         * @param {*} other The other value to compare.
+         * @returns {number} Returns the sort order indicator for `value`.
+         */ function(value, other) {
                 if (value !== other) {
                     var valIsDefined = void 0 !== value, valIsNull = null === value, valIsReflexive = value == value, valIsSymbol = isSymbol(value), othIsDefined = void 0 !== other, othIsNull = null === other, othIsReflexive = other == other, othIsSymbol = isSymbol(other);
                     if (!othIsNull && !othIsSymbol && !valIsSymbol && value > other || valIsSymbol && othIsDefined && othIsReflexive && !othIsNull && !othIsSymbol || valIsNull && othIsDefined && othIsReflexive || !valIsDefined && othIsReflexive || !valIsReflexive) return 1;
@@ -8596,19 +8596,19 @@
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var compareAscending = __webpack_require__(/*! ./_compareAscending */ "../../../node_modules/lodash/_compareAscending.js");
             module1.exports = /**
- * Used by `_.orderBy` to compare multiple properties of a value to another
- * and stable sort them.
- *
- * If `orders` is unspecified, all values are sorted in ascending order. Otherwise,
- * specify an order of "desc" for descending or "asc" for ascending sort order
- * of corresponding values.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {boolean[]|string[]} orders The order to sort by for each property.
- * @returns {number} Returns the sort order indicator for `object`.
- */ function(object, other, orders) {
+         * Used by `_.orderBy` to compare multiple properties of a value to another
+         * and stable sort them.
+         *
+         * If `orders` is unspecified, all values are sorted in ascending order. Otherwise,
+         * specify an order of "desc" for descending or "asc" for ascending sort order
+         * of corresponding values.
+         *
+         * @private
+         * @param {Object} object The object to compare.
+         * @param {Object} other The other object to compare.
+         * @param {boolean[]|string[]} orders The order to sort by for each property.
+         * @returns {number} Returns the sort order indicator for `object`.
+         */ function(object, other, orders) {
                 for(var index = -1, objCriteria = object.criteria, othCriteria = other.criteria, length = objCriteria.length, ordersLength = orders.length; ++index < length;){
                     var result = compareAscending(objCriteria[index], othCriteria[index]);
                     if (result) {
@@ -8631,15 +8631,15 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assignValue = __webpack_require__(/*! ./_assignValue */ "../../../node_modules/lodash/_assignValue.js"), baseAssignValue = __webpack_require__(/*! ./_baseAssignValue */ "../../../node_modules/lodash/_baseAssignValue.js");
             module1.exports = /**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property identifiers to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @param {Function} [customizer] The function to customize copied values.
- * @returns {Object} Returns `object`.
- */ function(source, props, object, customizer) {
+         * Copies properties of `source` to `object`.
+         *
+         * @private
+         * @param {Object} source The object to copy properties from.
+         * @param {Array} props The property identifiers to copy.
+         * @param {Object} [object={}] The object to copy properties to.
+         * @param {Function} [customizer] The function to customize copied values.
+         * @returns {Object} Returns `object`.
+         */ function(source, props, object, customizer) {
                 var isNew = !object;
                 object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
@@ -8654,13 +8654,13 @@
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayAggregator = __webpack_require__(/*! ./_arrayAggregator */ "../../../node_modules/lodash/_arrayAggregator.js"), baseAggregator = __webpack_require__(/*! ./_baseAggregator */ "../../../node_modules/lodash/_baseAggregator.js"), baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js");
             module1.exports = /**
- * Creates a function like `_.groupBy`.
- *
- * @private
- * @param {Function} setter The function to set accumulator values.
- * @param {Function} [initializer] The accumulator object initializer.
- * @returns {Function} Returns the new aggregator function.
- */ function(setter, initializer) {
+         * Creates a function like `_.groupBy`.
+         *
+         * @private
+         * @param {Function} setter The function to set accumulator values.
+         * @param {Function} [initializer] The accumulator object initializer.
+         * @returns {Function} Returns the new aggregator function.
+         */ function(setter, initializer) {
                 return function(collection, iteratee) {
                     var func = isArray(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
                     return func(collection, setter, baseIteratee(iteratee, 2), accumulator);
@@ -8672,12 +8672,12 @@
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseRest = __webpack_require__(/*! ./_baseRest */ "../../../node_modules/lodash/_baseRest.js"), isIterateeCall = __webpack_require__(/*! ./_isIterateeCall */ "../../../node_modules/lodash/_isIterateeCall.js");
             module1.exports = /**
- * Creates a function like `_.assign`.
- *
- * @private
- * @param {Function} assigner The function to assign values.
- * @returns {Function} Returns the new assigner function.
- */ function(assigner) {
+         * Creates a function like `_.assign`.
+         *
+         * @private
+         * @param {Function} assigner The function to assign values.
+         * @returns {Function} Returns the new assigner function.
+         */ function(assigner) {
                 return baseRest(function(object, sources) {
                     var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
                     for(customizer = assigner.length > 3 && 'function' == typeof customizer ? (length--, customizer) : void 0, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? void 0 : customizer, length = 1), object = Object(object); ++index < length;){
@@ -8692,12 +8692,12 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_createBaseFor.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */ function(fromRight) {
+         * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+         *
+         * @private
+         * @param {boolean} [fromRight] Specify iterating from right to left.
+         * @returns {Function} Returns the new base function.
+         */ function(fromRight) {
                 return function(object, iteratee, keysFunc) {
                     for(var index = -1, iterable = Object(object), props = keysFunc(object), length = props.length; length--;){
                         var key = props[fromRight ? length : ++index];
@@ -8712,12 +8712,12 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js");
             module1.exports = /**
- * Creates a `_.find` or `_.findLast` function.
- *
- * @private
- * @param {Function} findIndexFunc The function to find the collection index.
- * @returns {Function} Returns the new find function.
- */ function(findIndexFunc) {
+         * Creates a `_.find` or `_.findLast` function.
+         *
+         * @private
+         * @param {Function} findIndexFunc The function to find the collection index.
+         * @returns {Function} Returns the new find function.
+         */ function(findIndexFunc) {
                 return function(collection, predicate, fromIndex) {
                     var iterable = Object(collection);
                     if (!isArrayLike(collection)) {
@@ -8736,12 +8736,12 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var LodashWrapper = __webpack_require__(/*! ./_LodashWrapper */ "../../../node_modules/lodash/_LodashWrapper.js"), flatRest = __webpack_require__(/*! ./_flatRest */ "../../../node_modules/lodash/_flatRest.js"), getData = __webpack_require__(/*! ./_getData */ "../../../node_modules/lodash/_getData.js"), getFuncName = __webpack_require__(/*! ./_getFuncName */ "../../../node_modules/lodash/_getFuncName.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isLaziable = __webpack_require__(/*! ./_isLaziable */ "../../../node_modules/lodash/_isLaziable.js");
             module1.exports = /**
- * Creates a `_.flow` or `_.flowRight` function.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new flow function.
- */ function(fromRight) {
+         * Creates a `_.flow` or `_.flowRight` function.
+         *
+         * @private
+         * @param {boolean} [fromRight] Specify iterating from right to left.
+         * @returns {Function} Returns the new flow function.
+         */ function(fromRight) {
                 return flatRest(function(funcs) {
                     var length = funcs.length, index = length, prereq = LodashWrapper.prototype.thru;
                     for(fromRight && funcs.reverse(); index--;){
@@ -8767,13 +8767,13 @@
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseInverter = __webpack_require__(/*! ./_baseInverter */ "../../../node_modules/lodash/_baseInverter.js");
             module1.exports = /**
- * Creates a function like `_.invertBy`.
- *
- * @private
- * @param {Function} setter The function to set accumulator values.
- * @param {Function} toIteratee The function to resolve iteratees.
- * @returns {Function} Returns the new inverter function.
- */ function(setter, toIteratee) {
+         * Creates a function like `_.invertBy`.
+         *
+         * @private
+         * @param {Function} setter The function to set accumulator values.
+         * @param {Function} toIteratee The function to resolve iteratees.
+         * @returns {Function} Returns the new inverter function.
+         */ function(setter, toIteratee) {
                 return function(object, iteratee) {
                     return baseInverter(object, setter, toIteratee(iteratee), {});
                 };
@@ -8784,12 +8784,12 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseRange = __webpack_require__(/*! ./_baseRange */ "../../../node_modules/lodash/_baseRange.js"), isIterateeCall = __webpack_require__(/*! ./_isIterateeCall */ "../../../node_modules/lodash/_isIterateeCall.js"), toFinite = __webpack_require__(/*! ./toFinite */ "../../../node_modules/lodash/toFinite.js");
             module1.exports = /**
- * Creates a `_.range` or `_.rangeRight` function.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new range function.
- */ function(fromRight) {
+         * Creates a `_.range` or `_.rangeRight` function.
+         *
+         * @private
+         * @param {boolean} [fromRight] Specify iterating from right to left.
+         * @returns {Function} Returns the new range function.
+         */ function(fromRight) {
                 return function(start, end, step) {
                     return step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = void 0), // Ensure the sign of `-0` is preserved.
                     start = toFinite(start), void 0 === end ? (end = start, start = 0) : end = toFinite(end), step = void 0 === step ? start < end ? 1 : -1 : toFinite(step), baseRange(start, end, step, fromRight);
@@ -8800,17 +8800,17 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_createSet.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `undefined`.
- *
- * @static
- * @memberOf _
- * @since 2.3.0
- * @category Util
- * @example
- *
- * _.times(2, _.noop);
- * // => [undefined, undefined]
- */ function() {
+         * This method returns `undefined`.
+         *
+         * @static
+         * @memberOf _
+         * @since 2.3.0
+         * @category Util
+         * @example
+         *
+         * _.times(2, _.noop);
+         * // => [undefined, undefined]
+         */ function() {
             // No operation performed.
             };
         /***/ },
@@ -8819,12 +8819,12 @@
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseToPairs = __webpack_require__(/*! ./_baseToPairs */ "../../../node_modules/lodash/_baseToPairs.js"), getTag = __webpack_require__(/*! ./_getTag */ "../../../node_modules/lodash/_getTag.js"), mapToArray = __webpack_require__(/*! ./_mapToArray */ "../../../node_modules/lodash/_mapToArray.js"), setToPairs = __webpack_require__(/*! ./_setToPairs */ "../../../node_modules/lodash/_setToPairs.js");
             module1.exports = /**
- * Creates a `_.toPairs` or `_.toPairsIn` function.
- *
- * @private
- * @param {Function} keysFunc The function to get the keys of a given object.
- * @returns {Function} Returns the new pairs function.
- */ function(keysFunc) {
+         * Creates a `_.toPairs` or `_.toPairsIn` function.
+         *
+         * @private
+         * @param {Function} keysFunc The function to get the keys of a given object.
+         * @returns {Function} Returns the new pairs function.
+         */ function(keysFunc) {
                 return function(object) {
                     var tag = getTag(object);
                     return '[object Map]' == tag ? mapToArray(object) : '[object Set]' == tag ? setToPairs(object) : baseToPairs(object, keysFunc(object));
@@ -8847,18 +8847,18 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var SetCache = __webpack_require__(/*! ./_SetCache */ "../../../node_modules/lodash/_SetCache.js"), arraySome = __webpack_require__(/*! ./_arraySome */ "../../../node_modules/lodash/_arraySome.js"), cacheHas = __webpack_require__(/*! ./_cacheHas */ "../../../node_modules/lodash/_cacheHas.js");
             module1.exports = /**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} stack Tracks traversed `array` and `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */ function(array, other, bitmask, customizer, equalFunc, stack) {
+         * A specialized version of `baseIsEqualDeep` for arrays with support for
+         * partial deep comparisons.
+         *
+         * @private
+         * @param {Array} array The array to compare.
+         * @param {Array} other The other array to compare.
+         * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+         * @param {Function} customizer The function to customize comparisons.
+         * @param {Function} equalFunc The function to determine equivalents of values.
+         * @param {Object} stack Tracks traversed `array` and `other` objects.
+         * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+         */ function(array, other, bitmask, customizer, equalFunc, stack) {
                 var isPartial = 1 & bitmask, arrLength = array.length, othLength = other.length;
                 if (arrLength != othLength && !(isPartial && othLength > arrLength)) return !1;
                 // Check that cyclic values are equal.
@@ -8894,37 +8894,37 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_equalByTag.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */ function(value, other) {
+         * Performs a
+         * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+         * comparison between two values to determine if they are equivalent.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to compare.
+         * @param {*} other The other value to compare.
+         * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         * var other = { 'a': 1 };
+         *
+         * _.eq(object, object);
+         * // => true
+         *
+         * _.eq(object, other);
+         * // => false
+         *
+         * _.eq('a', 'a');
+         * // => true
+         *
+         * _.eq('a', Object('a'));
+         * // => false
+         *
+         * _.eq(NaN, NaN);
+         * // => true
+         */ function(value, other) {
                 return value === other || value != value && other != other;
             };
         /***/ },
@@ -8933,18 +8933,18 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var getAllKeys = __webpack_require__(/*! ./_getAllKeys */ "../../../node_modules/lodash/_getAllKeys.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
             module1.exports = /**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */ function(object, other, bitmask, customizer, equalFunc, stack) {
+         * A specialized version of `baseIsEqualDeep` for objects with support for
+         * partial deep comparisons.
+         *
+         * @private
+         * @param {Object} object The object to compare.
+         * @param {Object} other The other object to compare.
+         * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+         * @param {Function} customizer The function to customize comparisons.
+         * @param {Function} equalFunc The function to determine equivalents of values.
+         * @param {Object} stack Tracks traversed `object` and `other` objects.
+         * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+         */ function(object, other, bitmask, customizer, equalFunc, stack) {
                 var isPartial = 1 & bitmask, objProps = getAllKeys(object), objLength = objProps.length;
                 if (objLength != getAllKeys(other).length && !isPartial) return !1;
                 for(var index = objLength; index--;){
@@ -8979,12 +8979,12 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var flatten = __webpack_require__(/*! ./flatten */ "../../../node_modules/lodash/flatten.js"), overRest = __webpack_require__(/*! ./_overRest */ "../../../node_modules/lodash/_overRest.js"), setToString = __webpack_require__(/*! ./_setToString */ "../../../node_modules/lodash/_setToString.js");
             module1.exports = /**
- * A specialized version of `baseRest` which flattens the rest array.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @returns {Function} Returns the new function.
- */ function(func) {
+         * A specialized version of `baseRest` which flattens the rest array.
+         *
+         * @private
+         * @param {Function} func The function to apply a rest parameter to.
+         * @returns {Function} Returns the new function.
+         */ function(func) {
                 return setToString(overRest(func, void 0, flatten), func + '');
             };
         /***/ },
@@ -9004,14 +9004,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getAllKeysIn.js ***!
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This function is like
- * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * except that it includes inherited enumerable properties.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */ function(object) {
+         * This function is like
+         * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+         * except that it includes inherited enumerable properties.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @returns {Array} Returns the array of property names.
+         */ function(object) {
                 var result = [];
                 if (null != object) for(var key in Object(object))result.push(key);
                 return result;
@@ -9021,17 +9021,17 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getData.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `undefined`.
- *
- * @static
- * @memberOf _
- * @since 2.3.0
- * @category Util
- * @example
- *
- * _.times(2, _.noop);
- * // => [undefined, undefined]
- */ function() {
+         * This method returns `undefined`.
+         *
+         * @static
+         * @memberOf _
+         * @since 2.3.0
+         * @category Util
+         * @example
+         *
+         * _.times(2, _.noop);
+         * // => [undefined, undefined]
+         */ function() {
             // No operation performed.
             };
         /***/ },
@@ -9039,18 +9039,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getFuncName.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns an empty string.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {string} Returns the empty string.
- * @example
- *
- * _.times(2, _.stubString);
- * // => ['', '']
- */ function() {
+         * This method returns an empty string.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {string} Returns the empty string.
+         * @example
+         *
+         * _.times(2, _.stubString);
+         * // => ['', '']
+         */ function() {
                 return '';
             };
         /***/ },
@@ -9059,12 +9059,12 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isStrictComparable = __webpack_require__(/*! ./_isStrictComparable */ "../../../node_modules/lodash/_isStrictComparable.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js");
             module1.exports = /**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */ function(object) {
+         * Gets the property names, values, and compare flags of `object`.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @returns {Array} Returns the match data of `object`.
+         */ function(object) {
                 for(var result = keys(object), length = result.length; length--;){
                     var key = result[length], value = object[key];
                     result[length] = [
@@ -9080,13 +9080,13 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getNative.js ***!
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Gets the value at `key` of `object`.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {string} key The key of the property to get.
- * @returns {*} Returns the property value.
- */ function(object, key) {
+         * Gets the value at `key` of `object`.
+         *
+         * @private
+         * @param {Object} [object] The object to query.
+         * @param {string} key The key of the property to get.
+         * @returns {*} Returns the property value.
+         */ function(object, key) {
                 return null == object ? void 0 : object[key];
             };
         /***/ },
@@ -9099,17 +9099,17 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_getTag.js ***!
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             /**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */ var nativeObjectToString = Object.prototype.toString;
+         * Used to resolve the
+         * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+         * of values.
+         */ var nativeObjectToString = Object.prototype.toString;
             module1.exports = /**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */ function(value) {
+         * Converts `value` to a string using `Object.prototype.toString`.
+         *
+         * @private
+         * @param {*} value The value to convert.
+         * @returns {string} Returns the converted string.
+         */ function(value) {
                 return nativeObjectToString.call(value);
             };
         /***/ },
@@ -9118,14 +9118,14 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(/*! ./_castPath */ "../../../node_modules/lodash/_castPath.js"), isArguments = __webpack_require__(/*! ./isArguments */ "../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isIndex = __webpack_require__(/*! ./_isIndex */ "../../../node_modules/lodash/_isIndex.js"), isLength = __webpack_require__(/*! ./isLength */ "../../../node_modules/lodash/isLength.js"), toKey = __webpack_require__(/*! ./_toKey */ "../../../node_modules/lodash/_toKey.js");
             module1.exports = /**
- * Checks if `path` exists on `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @param {Function} hasFunc The function to check properties.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- */ function(object, path, hasFunc) {
+         * Checks if `path` exists on `object`.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @param {Array|string} path The path to check.
+         * @param {Function} hasFunc The function to check properties.
+         * @returns {boolean} Returns `true` if `path` exists, else `false`.
+         */ function(object, path, hasFunc) {
                 path = castPath(path, object);
                 for(var index = -1, length = path.length, result = !1; ++index < length;){
                     var key = toKey(path[index]);
@@ -9140,12 +9140,12 @@
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var Symbol1 = __webpack_require__(/*! ./_Symbol */ "../../../node_modules/lodash/_Symbol.js"), isArguments = __webpack_require__(/*! ./isArguments */ "../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), spreadableSymbol = Symbol1 ? Symbol1.isConcatSpreadable : void 0;
             module1.exports = /**
- * Checks if `value` is a flattenable `arguments` object or array.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
- */ function(value) {
+         * Checks if `value` is a flattenable `arguments` object or array.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+         */ function(value) {
                 return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
             };
         /***/ },
@@ -9154,13 +9154,13 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             /** Used to detect unsigned integer values. */ var reIsUint = /^(?:0|[1-9]\d*)$/;
             module1.exports = /**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */ function(value, length) {
+         * Checks if `value` is a valid array-like index.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+         * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+         */ function(value, length) {
                 var type = typeof value;
                 return !!(length = null == length ? 9007199254740991 : length) && ('number' == type || 'symbol' != type && reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
             };
@@ -9169,18 +9169,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_isIterateeCall.js ***!
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -9189,13 +9189,13 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, reIsPlainProp = /^\w*$/;
             module1.exports = /**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */ function(value, object) {
+         * Checks if `value` is a property name and not a property path.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @param {Object} [object] The object to query keys on.
+         * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+         */ function(value, object) {
                 if (isArray(value)) return !1;
                 var type = typeof value;
                 return !!('number' == type || 'symbol' == type || 'boolean' == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object(object);
@@ -9205,18 +9205,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_isLaziable.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -9224,18 +9224,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_isPrototype.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -9244,13 +9244,13 @@
   \**************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js");
             module1.exports = /**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */ function(value) {
+         * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+         *
+         * @private
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` if suitable for strict
+         *  equality comparisons, else `false`.
+         */ function(value) {
                 return value == value && !isObject(value);
             };
         /***/ },
@@ -9258,12 +9258,12 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_listCacheClear.js ***!
   \**********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Removes all key-value entries from the list cache.
- *
- * @private
- * @name clear
- * @memberOf ListCache
- */ function() {
+         * Removes all key-value entries from the list cache.
+         *
+         * @private
+         * @name clear
+         * @memberOf ListCache
+         */ function() {
                 this.__data__ = [], this.size = 0;
             };
         /***/ },
@@ -9272,14 +9272,14 @@
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(/*! ./_assocIndexOf */ "../../../node_modules/lodash/_assocIndexOf.js"), splice = Array.prototype.splice;
             module1.exports = /**
- * Removes `key` and its value from the list cache.
- *
- * @private
- * @name delete
- * @memberOf ListCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */ function(key) {
+         * Removes `key` and its value from the list cache.
+         *
+         * @private
+         * @name delete
+         * @memberOf ListCache
+         * @param {string} key The key of the value to remove.
+         * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+         */ function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             };
@@ -9289,14 +9289,14 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(/*! ./_assocIndexOf */ "../../../node_modules/lodash/_assocIndexOf.js");
             module1.exports = /**
- * Gets the list cache value for `key`.
- *
- * @private
- * @name get
- * @memberOf ListCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */ function(key) {
+         * Gets the list cache value for `key`.
+         *
+         * @private
+         * @name get
+         * @memberOf ListCache
+         * @param {string} key The key of the value to get.
+         * @returns {*} Returns the entry value.
+         */ function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return index < 0 ? void 0 : data[index][1];
             };
@@ -9306,14 +9306,14 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(/*! ./_assocIndexOf */ "../../../node_modules/lodash/_assocIndexOf.js");
             module1.exports = /**
- * Checks if a list cache value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf ListCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */ function(key) {
+         * Checks if a list cache value for `key` exists.
+         *
+         * @private
+         * @name has
+         * @memberOf ListCache
+         * @param {string} key The key of the entry to check.
+         * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+         */ function(key) {
                 return assocIndexOf(this.__data__, key) > -1;
             };
         /***/ },
@@ -9322,15 +9322,15 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assocIndexOf = __webpack_require__(/*! ./_assocIndexOf */ "../../../node_modules/lodash/_assocIndexOf.js");
             module1.exports = /**
- * Sets the list cache `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf ListCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the list cache instance.
- */ function(key, value) {
+         * Sets the list cache `key` to `value`.
+         *
+         * @private
+         * @name set
+         * @memberOf ListCache
+         * @param {string} key The key of the value to set.
+         * @param {*} value The value to set.
+         * @returns {Object} Returns the list cache instance.
+         */ function(key, value) {
                 var data = this.__data__, index = assocIndexOf(data, key);
                 return index < 0 ? (++this.size, data.push([
                     key,
@@ -9342,23 +9342,23 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_mapToArray.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns a new empty array.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {Array} Returns the new empty array.
- * @example
- *
- * var arrays = _.times(2, _.stubArray);
- *
- * console.log(arrays);
- * // => [[], []]
- *
- * console.log(arrays[0] === arrays[1]);
- * // => false
- */ function() {
+         * This method returns a new empty array.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {Array} Returns the new empty array.
+         * @example
+         *
+         * var arrays = _.times(2, _.stubArray);
+         *
+         * console.log(arrays);
+         * // => [[], []]
+         *
+         * console.log(arrays[0] === arrays[1]);
+         * // => false
+         */ function() {
                 return [];
             };
         /***/ },
@@ -9366,14 +9366,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_matchesStrictComparable.js ***!
   \*******************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `matchesProperty` for source values suitable
- * for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new spec function.
- */ function(key, srcValue) {
+         * A specialized version of `matchesProperty` for source values suitable
+         * for strict equality comparisons, i.e. `===`.
+         *
+         * @private
+         * @param {string} key The key of the property to get.
+         * @param {*} srcValue The value to match.
+         * @returns {Function} Returns the new spec function.
+         */ function(key, srcValue) {
                 return function(object) {
                     return null != object && object[key] === srcValue && (void 0 !== srcValue || key in Object(object));
                 };
@@ -9383,21 +9383,21 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_memoizeCapped.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */ function(value) {
+         * This method returns the first argument it receives.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Util
+         * @param {*} value Any value.
+         * @returns {*} Returns `value`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         *
+         * console.log(_.identity(object) === object);
+         * // => true
+         */ function(value) {
                 return value;
             };
         /***/ },
@@ -9421,13 +9421,13 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_overArg.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */ function(func, transform) {
+         * Creates a unary function that invokes `func` with its argument transformed.
+         *
+         * @private
+         * @param {Function} func The function to wrap.
+         * @param {Function} transform The argument transform.
+         * @returns {Function} Returns the new function.
+         */ function(func, transform) {
                 return function(arg) {
                     return func(transform(arg));
                 };
@@ -9438,14 +9438,14 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var apply = __webpack_require__(/*! ./_apply */ "../../../node_modules/lodash/_apply.js"), nativeMax = Math.max;
             module1.exports = /**
- * A specialized version of `baseRest` which transforms the rest array.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @param {Function} transform The rest array transform.
- * @returns {Function} Returns the new function.
- */ function(func, start, transform) {
+         * A specialized version of `baseRest` which transforms the rest array.
+         *
+         * @private
+         * @param {Function} func The function to apply a rest parameter to.
+         * @param {number} [start=func.length-1] The start position of the rest parameter.
+         * @param {Function} transform The rest array transform.
+         * @returns {Function} Returns the new function.
+         */ function(func, start, transform) {
                 return start = nativeMax(void 0 === start ? func.length - 1 : start, 0), function() {
                     for(var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array(length); ++index < length;)array[index] = args[start + index];
                     index = -1;
@@ -9464,23 +9464,23 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_setToArray.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns a new empty array.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {Array} Returns the new empty array.
- * @example
- *
- * var arrays = _.times(2, _.stubArray);
- *
- * console.log(arrays);
- * // => [[], []]
- *
- * console.log(arrays[0] === arrays[1]);
- * // => false
- */ function() {
+         * This method returns a new empty array.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {Array} Returns the new empty array.
+         * @example
+         *
+         * var arrays = _.times(2, _.stubArray);
+         *
+         * console.log(arrays);
+         * // => [[], []]
+         *
+         * console.log(arrays[0] === arrays[1]);
+         * // => false
+         */ function() {
                 return [];
             };
         /***/ },
@@ -9488,23 +9488,23 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_setToPairs.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns a new empty array.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {Array} Returns the new empty array.
- * @example
- *
- * var arrays = _.times(2, _.stubArray);
- *
- * console.log(arrays);
- * // => [[], []]
- *
- * console.log(arrays[0] === arrays[1]);
- * // => false
- */ function() {
+         * This method returns a new empty array.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {Array} Returns the new empty array.
+         * @example
+         *
+         * var arrays = _.times(2, _.stubArray);
+         *
+         * console.log(arrays);
+         * // => [[], []]
+         *
+         * console.log(arrays[0] === arrays[1]);
+         * // => false
+         */ function() {
                 return [];
             };
         /***/ },
@@ -9512,21 +9512,21 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_setToString.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */ function(value) {
+         * This method returns the first argument it receives.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Util
+         * @param {*} value Any value.
+         * @returns {*} Returns `value`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         *
+         * console.log(_.identity(object) === object);
+         * // => true
+         */ function(value) {
                 return value;
             };
         /***/ },
@@ -9546,12 +9546,12 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0;
             module1.exports = /**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */ function(value) {
+         * Converts `value` to a string key if it's not a string or symbol.
+         *
+         * @private
+         * @param {*} value The value to inspect.
+         * @returns {string|symbol} Returns the key.
+         */ function(value) {
                 if ('string' == typeof value || isSymbol(value)) return value;
                 var result = value + '';
                 return '0' == result && 1 / value == -INFINITY ? '-0' : result;
@@ -9562,13 +9562,13 @@
   \***********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             /** Used to match a single whitespace character. */ var reWhitespace = /\s/;
             module1.exports = /**
- * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
- * character of `string`.
- *
- * @private
- * @param {string} string The string to inspect.
- * @returns {number} Returns the index of the last non-whitespace character.
- */ function(string) {
+         * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+         * character of `string`.
+         *
+         * @private
+         * @param {string} string The string to inspect.
+         * @returns {number} Returns the index of the last non-whitespace character.
+         */ function(string) {
                 for(var index = string.length; index-- && reWhitespace.test(string.charAt(index)););
                 return index;
             };
@@ -9589,24 +9589,24 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/constant.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Creates a function that returns `value`.
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Util
- * @param {*} value The value to return from the new function.
- * @returns {Function} Returns the new constant function.
- * @example
- *
- * var objects = _.times(2, _.constant({ 'a': 1 }));
- *
- * console.log(objects);
- * // => [{ 'a': 1 }, { 'a': 1 }]
- *
- * console.log(objects[0] === objects[1]);
- * // => true
- */ function(value) {
+         * Creates a function that returns `value`.
+         *
+         * @static
+         * @memberOf _
+         * @since 2.4.0
+         * @category Util
+         * @param {*} value The value to return from the new function.
+         * @returns {Function} Returns the new constant function.
+         * @example
+         *
+         * var objects = _.times(2, _.constant({ 'a': 1 }));
+         *
+         * console.log(objects);
+         * // => [{ 'a': 1 }, { 'a': 1 }]
+         *
+         * console.log(objects[0] === objects[1]);
+         * // => true
+         */ function(value) {
                 return function() {
                     return value;
                 };
@@ -9617,59 +9617,59 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js"), now = __webpack_require__(/*! ./now */ "../../../node_modules/lodash/now.js"), toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js"), nativeMax = Math.max, nativeMin = Math.min;
             module1.exports = /**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */ function(func, wait, options) {
+         * Creates a debounced function that delays invoking `func` until after `wait`
+         * milliseconds have elapsed since the last time the debounced function was
+         * invoked. The debounced function comes with a `cancel` method to cancel
+         * delayed `func` invocations and a `flush` method to immediately invoke them.
+         * Provide `options` to indicate whether `func` should be invoked on the
+         * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+         * with the last arguments provided to the debounced function. Subsequent
+         * calls to the debounced function return the result of the last `func`
+         * invocation.
+         *
+         * **Note:** If `leading` and `trailing` options are `true`, `func` is
+         * invoked on the trailing edge of the timeout only if the debounced function
+         * is invoked more than once during the `wait` timeout.
+         *
+         * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+         * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+         *
+         * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+         * for details over the differences between `_.debounce` and `_.throttle`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Function
+         * @param {Function} func The function to debounce.
+         * @param {number} [wait=0] The number of milliseconds to delay.
+         * @param {Object} [options={}] The options object.
+         * @param {boolean} [options.leading=false]
+         *  Specify invoking on the leading edge of the timeout.
+         * @param {number} [options.maxWait]
+         *  The maximum time `func` is allowed to be delayed before it's invoked.
+         * @param {boolean} [options.trailing=true]
+         *  Specify invoking on the trailing edge of the timeout.
+         * @returns {Function} Returns the new debounced function.
+         * @example
+         *
+         * // Avoid costly calculations while the window size is in flux.
+         * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+         *
+         * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+         * jQuery(element).on('click', _.debounce(sendMail, 300, {
+         *   'leading': true,
+         *   'trailing': false
+         * }));
+         *
+         * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+         * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+         * var source = new EventSource('/stream');
+         * jQuery(source).on('message', debounced);
+         *
+         * // Cancel the trailing debounced invocation.
+         * jQuery(window).on('popstate', debounced.cancel);
+         */ function(func, wait, options) {
                 var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = !1, maxing = !1, trailing = !0;
                 if ('function' != typeof func) throw TypeError('Expected a function');
                 function invokeFunc(time) {
@@ -9746,37 +9746,37 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/eq.js ***!
   \*********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */ function(value, other) {
+         * Performs a
+         * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+         * comparison between two values to determine if they are equivalent.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to compare.
+         * @param {*} other The other value to compare.
+         * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         * var other = { 'a': 1 };
+         *
+         * _.eq(object, object);
+         * // => true
+         *
+         * _.eq(object, other);
+         * // => false
+         *
+         * _.eq('a', 'a');
+         * // => true
+         *
+         * _.eq('a', Object('a'));
+         * // => false
+         *
+         * _.eq(NaN, NaN);
+         * // => true
+         */ function(value, other) {
                 return value === other || value != value && other != other;
             };
         /***/ },
@@ -9790,40 +9790,40 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseFindIndex = __webpack_require__(/*! ./_baseFindIndex */ "../../../node_modules/lodash/_baseFindIndex.js"), baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), toInteger = __webpack_require__(/*! ./toInteger */ "../../../node_modules/lodash/toInteger.js"), nativeMax = Math.max;
             module1.exports = /**
- * This method is like `_.find` except that it returns the index of the first
- * element `predicate` returns truthy for instead of the element itself.
- *
- * @static
- * @memberOf _
- * @since 1.1.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @param {number} [fromIndex=0] The index to search from.
- * @returns {number} Returns the index of the found element, else `-1`.
- * @example
- *
- * var users = [
- *   { 'user': 'barney',  'active': false },
- *   { 'user': 'fred',    'active': false },
- *   { 'user': 'pebbles', 'active': true }
- * ];
- *
- * _.findIndex(users, function(o) { return o.user == 'barney'; });
- * // => 0
- *
- * // The `_.matches` iteratee shorthand.
- * _.findIndex(users, { 'user': 'fred', 'active': false });
- * // => 1
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.findIndex(users, ['active', false]);
- * // => 0
- *
- * // The `_.property` iteratee shorthand.
- * _.findIndex(users, 'active');
- * // => 2
- */ function(array, predicate, fromIndex) {
+         * This method is like `_.find` except that it returns the index of the first
+         * element `predicate` returns truthy for instead of the element itself.
+         *
+         * @static
+         * @memberOf _
+         * @since 1.1.0
+         * @category Array
+         * @param {Array} array The array to inspect.
+         * @param {Function} [predicate=_.identity] The function invoked per iteration.
+         * @param {number} [fromIndex=0] The index to search from.
+         * @returns {number} Returns the index of the found element, else `-1`.
+         * @example
+         *
+         * var users = [
+         *   { 'user': 'barney',  'active': false },
+         *   { 'user': 'fred',    'active': false },
+         *   { 'user': 'pebbles', 'active': true }
+         * ];
+         *
+         * _.findIndex(users, function(o) { return o.user == 'barney'; });
+         * // => 0
+         *
+         * // The `_.matches` iteratee shorthand.
+         * _.findIndex(users, { 'user': 'fred', 'active': false });
+         * // => 1
+         *
+         * // The `_.matchesProperty` iteratee shorthand.
+         * _.findIndex(users, ['active', false]);
+         * // => 0
+         *
+         * // The `_.property` iteratee shorthand.
+         * _.findIndex(users, 'active');
+         * // => 2
+         */ function(array, predicate, fromIndex) {
                 var length = null == array ? 0 : array.length;
                 if (!length) return -1;
                 var index = null == fromIndex ? 0 : toInteger(fromIndex);
@@ -9835,19 +9835,19 @@
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseFlatten = __webpack_require__(/*! ./_baseFlatten */ "../../../node_modules/lodash/_baseFlatten.js");
             module1.exports = /**
- * Flattens `array` a single level deep.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to flatten.
- * @returns {Array} Returns the new flattened array.
- * @example
- *
- * _.flatten([1, [2, [3, [4]], 5]]);
- * // => [1, 2, [3, [4]], 5]
- */ function(array) {
+         * Flattens `array` a single level deep.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Array
+         * @param {Array} array The array to flatten.
+         * @returns {Array} Returns the new flattened array.
+         * @example
+         *
+         * _.flatten([1, [2, [3, [4]], 5]]);
+         * // => [1, 2, [3, [4]], 5]
+         */ function(array) {
                 return (null == array ? 0 : array.length) ? baseFlatten(array, 1) : [];
             };
         /***/ },
@@ -9861,33 +9861,33 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseForOwn = __webpack_require__(/*! ./_baseForOwn */ "../../../node_modules/lodash/_baseForOwn.js"), castFunction = __webpack_require__(/*! ./_castFunction */ "../../../node_modules/lodash/_castFunction.js");
             module1.exports = /**
- * Iterates over own enumerable string keyed properties of an object and
- * invokes `iteratee` for each property. The iteratee is invoked with three
- * arguments: (value, key, object). Iteratee functions may exit iteration
- * early by explicitly returning `false`.
- *
- * @static
- * @memberOf _
- * @since 0.3.0
- * @category Object
- * @param {Object} object The object to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Object} Returns `object`.
- * @see _.forOwnRight
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.forOwn(new Foo, function(value, key) {
- *   console.log(key);
- * });
- * // => Logs 'a' then 'b' (iteration order is not guaranteed).
- */ function(object, iteratee) {
+         * Iterates over own enumerable string keyed properties of an object and
+         * invokes `iteratee` for each property. The iteratee is invoked with three
+         * arguments: (value, key, object). Iteratee functions may exit iteration
+         * early by explicitly returning `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.3.0
+         * @category Object
+         * @param {Object} object The object to iterate over.
+         * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+         * @returns {Object} Returns `object`.
+         * @see _.forOwnRight
+         * @example
+         *
+         * function Foo() {
+         *   this.a = 1;
+         *   this.b = 2;
+         * }
+         *
+         * Foo.prototype.c = 3;
+         *
+         * _.forOwn(new Foo, function(value, key) {
+         *   console.log(key);
+         * });
+         * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+         */ function(object, iteratee) {
                 return object && baseForOwn(object, castFunction(iteratee));
             };
         /***/ },
@@ -9895,20 +9895,20 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/fromPairs.js ***!
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * The inverse of `_.toPairs`; this method returns an object composed
- * from key-value `pairs`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} pairs The key-value pairs.
- * @returns {Object} Returns the new object.
- * @example
- *
- * _.fromPairs([['a', 1], ['b', 2]]);
- * // => { 'a': 1, 'b': 2 }
- */ function(pairs) {
+         * The inverse of `_.toPairs`; this method returns an object composed
+         * from key-value `pairs`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Array
+         * @param {Array} pairs The key-value pairs.
+         * @returns {Object} Returns the new object.
+         * @example
+         *
+         * _.fromPairs([['a', 1], ['b', 2]]);
+         * // => { 'a': 1, 'b': 2 }
+         */ function(pairs) {
                 for(var index = -1, length = null == pairs ? 0 : pairs.length, result = {}; ++index < length;){
                     var pair = pairs[index];
                     result[pair[0]] = pair[1];
@@ -9921,30 +9921,30 @@
   \**********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGet = __webpack_require__(/*! ./_baseGet */ "../../../node_modules/lodash/_baseGet.js");
             module1.exports = /**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined`, the `defaultValue` is returned in its place.
- *
- * @static
- * @memberOf _
- * @since 3.7.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned for `undefined` resolved values.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */ function(object, path, defaultValue) {
+         * Gets the value at `path` of `object`. If the resolved value is
+         * `undefined`, the `defaultValue` is returned in its place.
+         *
+         * @static
+         * @memberOf _
+         * @since 3.7.0
+         * @category Object
+         * @param {Object} object The object to query.
+         * @param {Array|string} path The path of the property to get.
+         * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+         * @returns {*} Returns the resolved value.
+         * @example
+         *
+         * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+         *
+         * _.get(object, 'a[0].b.c');
+         * // => 3
+         *
+         * _.get(object, ['a', '0', 'b', 'c']);
+         * // => 3
+         *
+         * _.get(object, 'a.b.c', 'default');
+         * // => 'default'
+         */ function(object, path, defaultValue) {
                 var result = null == object ? void 0 : baseGet(object, path);
                 return void 0 === result ? defaultValue : result;
             };
@@ -9964,31 +9964,31 @@
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseHasIn = __webpack_require__(/*! ./_baseHasIn */ "../../../node_modules/lodash/_baseHasIn.js"), hasPath = __webpack_require__(/*! ./_hasPath */ "../../../node_modules/lodash/_hasPath.js");
             module1.exports = /**
- * Checks if `path` is a direct or inherited property of `object`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = _.create({ 'a': _.create({ 'b': 2 }) });
- *
- * _.hasIn(object, 'a');
- * // => true
- *
- * _.hasIn(object, 'a.b');
- * // => true
- *
- * _.hasIn(object, ['a', 'b']);
- * // => true
- *
- * _.hasIn(object, 'b');
- * // => false
- */ function(object, path) {
+         * Checks if `path` is a direct or inherited property of `object`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Object
+         * @param {Object} object The object to query.
+         * @param {Array|string} path The path to check.
+         * @returns {boolean} Returns `true` if `path` exists, else `false`.
+         * @example
+         *
+         * var object = _.create({ 'a': _.create({ 'b': 2 }) });
+         *
+         * _.hasIn(object, 'a');
+         * // => true
+         *
+         * _.hasIn(object, 'a.b');
+         * // => true
+         *
+         * _.hasIn(object, ['a', 'b']);
+         * // => true
+         *
+         * _.hasIn(object, 'b');
+         * // => false
+         */ function(object, path) {
                 return null != object && hasPath(object, path, baseHasIn);
             };
         /***/ },
@@ -9996,21 +9996,21 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/identity.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */ function(value) {
+         * This method returns the first argument it receives.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Util
+         * @param {*} value Any value.
+         * @returns {*} Returns `value`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         *
+         * console.log(_.identity(object) === object);
+         * // => true
+         */ function(value) {
                 return value;
             };
         /***/ },
@@ -10019,14 +10019,14 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIndexOf = __webpack_require__(/*! ./_baseIndexOf */ "../../../node_modules/lodash/_baseIndexOf.js");
             module1.exports = /**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */ function(array, value) {
+         * A specialized version of `_.includes` for arrays without support for
+         * specifying an index to search from.
+         *
+         * @private
+         * @param {Array} [array] The array to inspect.
+         * @param {*} target The value to search for.
+         * @returns {boolean} Returns `true` if `target` is found, else `false`.
+         */ function(array, value) {
                 return !!(null == array ? 0 : array.length) && baseIndexOf(array, value, 0) > -1;
             };
         /***/ },
@@ -10042,18 +10042,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isArguments.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -10067,30 +10067,30 @@
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isFunction = __webpack_require__(/*! ./isFunction */ "../../../node_modules/lodash/isFunction.js"), isLength = __webpack_require__(/*! ./isLength */ "../../../node_modules/lodash/isLength.js");
             module1.exports = /**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */ function(value) {
+         * Checks if `value` is array-like. A value is considered array-like if it's
+         * not a function and has a `value.length` that's an integer greater than or
+         * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+         * @example
+         *
+         * _.isArrayLike([1, 2, 3]);
+         * // => true
+         *
+         * _.isArrayLike(document.body.children);
+         * // => true
+         *
+         * _.isArrayLike('abc');
+         * // => true
+         *
+         * _.isArrayLike(_.noop);
+         * // => false
+         */ function(value) {
                 return null != value && isLength(value.length) && !isFunction(value);
             };
         /***/ },
@@ -10099,30 +10099,30 @@
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */ function(value) {
+         * This method is like `_.isArrayLike` except that it also checks if `value`
+         * is an object.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is an array-like object,
+         *  else `false`.
+         * @example
+         *
+         * _.isArrayLikeObject([1, 2, 3]);
+         * // => true
+         *
+         * _.isArrayLikeObject(document.body.children);
+         * // => true
+         *
+         * _.isArrayLikeObject('abc');
+         * // => false
+         *
+         * _.isArrayLikeObject(_.noop);
+         * // => false
+         */ function(value) {
                 return isObjectLike(value) && isArrayLike(value);
             };
         /***/ },
@@ -10130,18 +10130,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isBuffer.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -10156,38 +10156,38 @@
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseKeys = __webpack_require__(/*! ./_baseKeys */ "../../../node_modules/lodash/_baseKeys.js"), getTag = __webpack_require__(/*! ./_getTag */ "../../../node_modules/lodash/_getTag.js"), isArguments = __webpack_require__(/*! ./isArguments */ "../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), isBuffer = __webpack_require__(/*! ./isBuffer */ "../../../node_modules/lodash/isBuffer.js"), isPrototype = __webpack_require__(/*! ./_isPrototype */ "../../../node_modules/lodash/_isPrototype.js"), isTypedArray = __webpack_require__(/*! ./isTypedArray */ "../../../node_modules/lodash/isTypedArray.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
             module1.exports = /**
- * Checks if `value` is an empty object, collection, map, or set.
- *
- * Objects are considered empty if they have no own enumerable string keyed
- * properties.
- *
- * Array-like values such as `arguments` objects, arrays, buffers, strings, or
- * jQuery-like collections are considered empty if they have a `length` of `0`.
- * Similarly, maps and sets are considered empty if they have a `size` of `0`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is empty, else `false`.
- * @example
- *
- * _.isEmpty(null);
- * // => true
- *
- * _.isEmpty(true);
- * // => true
- *
- * _.isEmpty(1);
- * // => true
- *
- * _.isEmpty([1, 2, 3]);
- * // => false
- *
- * _.isEmpty({ 'a': 1 });
- * // => false
- */ function(value) {
+         * Checks if `value` is an empty object, collection, map, or set.
+         *
+         * Objects are considered empty if they have no own enumerable string keyed
+         * properties.
+         *
+         * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+         * jQuery-like collections are considered empty if they have a `length` of `0`.
+         * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+         * @example
+         *
+         * _.isEmpty(null);
+         * // => true
+         *
+         * _.isEmpty(true);
+         * // => true
+         *
+         * _.isEmpty(1);
+         * // => true
+         *
+         * _.isEmpty([1, 2, 3]);
+         * // => false
+         *
+         * _.isEmpty({ 'a': 1 });
+         * // => false
+         */ function(value) {
                 if (null == value) return !0;
                 if (isArrayLike(value) && (isArray(value) || 'string' == typeof value || 'function' == typeof value.splice || isBuffer(value) || isTypedArray(value) || isArguments(value))) return !value.length;
                 var tag = getTag(value);
@@ -10202,33 +10202,33 @@
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIsEqual = __webpack_require__(/*! ./_baseIsEqual */ "../../../node_modules/lodash/_baseIsEqual.js");
             module1.exports = /**
- * Performs a deep comparison between two values to determine if they are
- * equivalent.
- *
- * **Note:** This method supports comparing arrays, array buffers, booleans,
- * date objects, error objects, maps, numbers, `Object` objects, regexes,
- * sets, strings, symbols, and typed arrays. `Object` objects are compared
- * by their own, not inherited, enumerable properties. Functions and DOM
- * nodes are compared by strict equality, i.e. `===`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.isEqual(object, other);
- * // => true
- *
- * object === other;
- * // => false
- */ function(value, other) {
+         * Performs a deep comparison between two values to determine if they are
+         * equivalent.
+         *
+         * **Note:** This method supports comparing arrays, array buffers, booleans,
+         * date objects, error objects, maps, numbers, `Object` objects, regexes,
+         * sets, strings, symbols, and typed arrays. `Object` objects are compared
+         * by their own, not inherited, enumerable properties. Functions and DOM
+         * nodes are compared by strict equality, i.e. `===`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to compare.
+         * @param {*} other The other value to compare.
+         * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+         * @example
+         *
+         * var object = { 'a': 1 };
+         * var other = { 'a': 1 };
+         *
+         * _.isEqual(object, other);
+         * // => true
+         *
+         * object === other;
+         * // => false
+         */ function(value, other) {
                 return baseIsEqual(value, other);
             };
         /***/ },
@@ -10237,22 +10237,22 @@
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js");
             module1.exports = /**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */ function(value) {
+         * Checks if `value` is classified as a `Function` object.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+         * @example
+         *
+         * _.isFunction(_);
+         * // => true
+         *
+         * _.isFunction(/abc/);
+         * // => false
+         */ function(value) {
                 if (!isObject(value)) return !1;
                 // The use of `Object#toString` avoids issues with the `typeof` operator
                 // in Safari 9 which returns 'object' for typed arrays and other constructors.
@@ -10264,31 +10264,31 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isLength.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */ function(value) {
+         * Checks if `value` is a valid array-like length.
+         *
+         * **Note:** This method is loosely based on
+         * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+         * @example
+         *
+         * _.isLength(3);
+         * // => true
+         *
+         * _.isLength(Number.MIN_VALUE);
+         * // => false
+         *
+         * _.isLength(Infinity);
+         * // => false
+         *
+         * _.isLength('3');
+         * // => false
+         */ function(value) {
                 return 'number' == typeof value && value > -1 && value % 1 == 0 && value <= 9007199254740991;
             };
         /***/ },
@@ -10297,33 +10297,33 @@
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var isNumber = __webpack_require__(/*! ./isNumber */ "../../../node_modules/lodash/isNumber.js");
             module1.exports = /**
- * Checks if `value` is `NaN`.
- *
- * **Note:** This method is based on
- * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
- * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
- * `undefined` and other non-number values.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
- * @example
- *
- * _.isNaN(NaN);
- * // => true
- *
- * _.isNaN(new Number(NaN));
- * // => true
- *
- * isNaN(undefined);
- * // => true
- *
- * _.isNaN(undefined);
- * // => false
- */ function(value) {
+         * Checks if `value` is `NaN`.
+         *
+         * **Note:** This method is based on
+         * [`Number.isNaN`](https://mdn.io/Number/isNaN) and is not the same as
+         * global [`isNaN`](https://mdn.io/isNaN) which returns `true` for
+         * `undefined` and other non-number values.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+         * @example
+         *
+         * _.isNaN(NaN);
+         * // => true
+         *
+         * _.isNaN(new Number(NaN));
+         * // => true
+         *
+         * isNaN(undefined);
+         * // => true
+         *
+         * _.isNaN(undefined);
+         * // => false
+         */ function(value) {
                 // An `NaN` primitive is the only value that is not equal to itself.
                 // Perform the `toStringTag` check first to avoid errors with some
                 // ActiveX objects in IE.
@@ -10334,25 +10334,25 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isNil.js ***!
   \************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Checks if `value` is `null` or `undefined`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
- * @example
- *
- * _.isNil(null);
- * // => true
- *
- * _.isNil(void 0);
- * // => true
- *
- * _.isNil(NaN);
- * // => false
- */ function(value) {
+         * Checks if `value` is `null` or `undefined`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+         * @example
+         *
+         * _.isNil(null);
+         * // => true
+         *
+         * _.isNil(void 0);
+         * // => true
+         *
+         * _.isNil(NaN);
+         * // => false
+         */ function(value) {
                 return null == value;
             };
         /***/ },
@@ -10361,31 +10361,31 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * Checks if `value` is classified as a `Number` primitive or object.
- *
- * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
- * classified as numbers, use the `_.isFinite` method.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a number, else `false`.
- * @example
- *
- * _.isNumber(3);
- * // => true
- *
- * _.isNumber(Number.MIN_VALUE);
- * // => true
- *
- * _.isNumber(Infinity);
- * // => true
- *
- * _.isNumber('3');
- * // => false
- */ function(value) {
+         * Checks if `value` is classified as a `Number` primitive or object.
+         *
+         * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+         * classified as numbers, use the `_.isFinite` method.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+         * @example
+         *
+         * _.isNumber(3);
+         * // => true
+         *
+         * _.isNumber(Number.MIN_VALUE);
+         * // => true
+         *
+         * _.isNumber(Infinity);
+         * // => true
+         *
+         * _.isNumber('3');
+         * // => false
+         */ function(value) {
                 return 'number' == typeof value || isObjectLike(value) && '[object Number]' == baseGetTag(value);
             };
         /***/ },
@@ -10393,30 +10393,30 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isObject.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */ function(value) {
+         * Checks if `value` is the
+         * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+         * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+         * @example
+         *
+         * _.isObject({});
+         * // => true
+         *
+         * _.isObject([1, 2, 3]);
+         * // => true
+         *
+         * _.isObject(_.noop);
+         * // => true
+         *
+         * _.isObject(null);
+         * // => false
+         */ function(value) {
                 var type = typeof value;
                 return null != value && ('object' == type || 'function' == type);
             };
@@ -10425,29 +10425,29 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isObjectLike.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */ function(value) {
+         * Checks if `value` is object-like. A value is object-like if it's not `null`
+         * and has a `typeof` result of "object".
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+         * @example
+         *
+         * _.isObjectLike({});
+         * // => true
+         *
+         * _.isObjectLike([1, 2, 3]);
+         * // => true
+         *
+         * _.isObjectLike(_.noop);
+         * // => false
+         *
+         * _.isObjectLike(null);
+         * // => false
+         */ function(value) {
                 return null != value && 'object' == typeof value;
             };
         /***/ },
@@ -10456,33 +10456,33 @@
   \********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), getPrototype = __webpack_require__(/*! ./_getPrototype */ "../../../node_modules/lodash/_getPrototype.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js"), objectProto = Object.prototype, funcToString = Function.prototype.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
             module1.exports = /**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */ function(value) {
+         * Checks if `value` is a plain object, that is, an object created by the
+         * `Object` constructor or one with a `[[Prototype]]` of `null`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.8.0
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+         * @example
+         *
+         * function Foo() {
+         *   this.a = 1;
+         * }
+         *
+         * _.isPlainObject(new Foo);
+         * // => false
+         *
+         * _.isPlainObject([1, 2, 3]);
+         * // => false
+         *
+         * _.isPlainObject({ 'x': 0, 'y': 0 });
+         * // => true
+         *
+         * _.isPlainObject(Object.create(null));
+         * // => true
+         */ function(value) {
                 if (!isObjectLike(value) || '[object Object]' != baseGetTag(value)) return !1;
                 var proto = getPrototype(value);
                 if (null === proto) return !0;
@@ -10501,22 +10501,22 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../../../node_modules/lodash/_baseGetTag.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js"), isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../../../node_modules/lodash/isObjectLike.js");
             module1.exports = /**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a string, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */ function(value) {
+         * Checks if `value` is classified as a `String` primitive or object.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is a string, else `false`.
+         * @example
+         *
+         * _.isString('abc');
+         * // => true
+         *
+         * _.isString(1);
+         * // => false
+         */ function(value) {
                 return 'string' == typeof value || !isArray(value) && isObjectLike(value) && '[object String]' == baseGetTag(value);
             };
         /***/ },
@@ -10524,18 +10524,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isSymbol.js ***!
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -10543,18 +10543,18 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isTypedArray.js ***!
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */ function() {
+         * This method returns `false`.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.13.0
+         * @category Util
+         * @returns {boolean} Returns `false`.
+         * @example
+         *
+         * _.times(2, _.stubFalse);
+         * // => [false, false]
+         */ function() {
                 return !1;
             };
         /***/ },
@@ -10562,22 +10562,22 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/isUndefined.js ***!
   \******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Checks if `value` is `undefined`.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
- * @example
- *
- * _.isUndefined(void 0);
- * // => true
- *
- * _.isUndefined(null);
- * // => false
- */ function(value) {
+         * Checks if `value` is `undefined`.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Lang
+         * @param {*} value The value to check.
+         * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+         * @example
+         *
+         * _.isUndefined(void 0);
+         * // => true
+         *
+         * _.isUndefined(null);
+         * // => false
+         */ function(value) {
                 return void 0 === value;
             };
         /***/ },
@@ -10590,14 +10590,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/keysIn.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * This function is like
- * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * except that it includes inherited enumerable properties.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */ function(object) {
+         * This function is like
+         * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+         * except that it includes inherited enumerable properties.
+         *
+         * @private
+         * @param {Object} object The object to query.
+         * @returns {Array} Returns the array of property names.
+         */ function(object) {
                 var result = [];
                 if (null != object) for(var key in Object(object))result.push(key);
                 return result;
@@ -10607,19 +10607,19 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/last.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Gets the last element of `array`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to query.
- * @returns {*} Returns the last element of `array`.
- * @example
- *
- * _.last([1, 2, 3]);
- * // => 3
- */ function(array) {
+         * Gets the last element of `array`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Array
+         * @param {Array} array The array to query.
+         * @returns {*} Returns the last element of `array`.
+         * @example
+         *
+         * _.last([1, 2, 3]);
+         * // => 3
+         */ function(array) {
                 var length = null == array ? 0 : array.length;
                 return length ? array[length - 1] : void 0;
             };
@@ -10629,33 +10629,33 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseAssignValue = __webpack_require__(/*! ./_baseAssignValue */ "../../../node_modules/lodash/_baseAssignValue.js"), baseForOwn = __webpack_require__(/*! ./_baseForOwn */ "../../../node_modules/lodash/_baseForOwn.js"), baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js");
             module1.exports = /**
- * Creates an object with the same keys as `object` and values generated
- * by running each own enumerable string keyed property of `object` thru
- * `iteratee`. The iteratee is invoked with three arguments:
- * (value, key, object).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Object
- * @param {Object} object The object to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Object} Returns the new mapped object.
- * @see _.mapKeys
- * @example
- *
- * var users = {
- *   'fred':    { 'user': 'fred',    'age': 40 },
- *   'pebbles': { 'user': 'pebbles', 'age': 1 }
- * };
- *
- * _.mapValues(users, function(o) { return o.age; });
- * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
- *
- * // The `_.property` iteratee shorthand.
- * _.mapValues(users, 'age');
- * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
- */ function(object, iteratee) {
+         * Creates an object with the same keys as `object` and values generated
+         * by running each own enumerable string keyed property of `object` thru
+         * `iteratee`. The iteratee is invoked with three arguments:
+         * (value, key, object).
+         *
+         * @static
+         * @memberOf _
+         * @since 2.4.0
+         * @category Object
+         * @param {Object} object The object to iterate over.
+         * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+         * @returns {Object} Returns the new mapped object.
+         * @see _.mapKeys
+         * @example
+         *
+         * var users = {
+         *   'fred':    { 'user': 'fred',    'age': 40 },
+         *   'pebbles': { 'user': 'pebbles', 'age': 1 }
+         * };
+         *
+         * _.mapValues(users, function(o) { return o.age; });
+         * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+         *
+         * // The `_.property` iteratee shorthand.
+         * _.mapValues(users, 'age');
+         * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+         */ function(object, iteratee) {
                 var result = {};
                 return iteratee = baseIteratee(iteratee, 3), baseForOwn(object, function(value, key, object) {
                     baseAssignValue(result, key, iteratee(value, key, object));
@@ -10666,25 +10666,25 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/negate.js ***!
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * Creates a function that negates the result of the predicate `func`. The
- * `func` predicate is invoked with the `this` binding and arguments of the
- * created function.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Function
- * @param {Function} predicate The predicate to negate.
- * @returns {Function} Returns the new negated function.
- * @example
- *
- * function isEven(n) {
- *   return n % 2 == 0;
- * }
- *
- * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
- * // => [1, 3, 5]
- */ function(predicate) {
+         * Creates a function that negates the result of the predicate `func`. The
+         * `func` predicate is invoked with the `this` binding and arguments of the
+         * created function.
+         *
+         * @static
+         * @memberOf _
+         * @since 3.0.0
+         * @category Function
+         * @param {Function} predicate The predicate to negate.
+         * @returns {Function} Returns the new negated function.
+         * @example
+         *
+         * function isEven(n) {
+         *   return n % 2 == 0;
+         * }
+         *
+         * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
+         * // => [1, 3, 5]
+         */ function(predicate) {
                 if ('function' != typeof predicate) throw TypeError('Expected a function');
                 return function() {
                     var args = arguments;
@@ -10715,25 +10715,25 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), negate = __webpack_require__(/*! ./negate */ "../../../node_modules/lodash/negate.js"), pickBy = __webpack_require__(/*! ./pickBy */ "../../../node_modules/lodash/pickBy.js");
             module1.exports = /**
- * The opposite of `_.pickBy`; this method creates an object composed of
- * the own and inherited enumerable string keyed properties of `object` that
- * `predicate` doesn't return truthy for. The predicate is invoked with two
- * arguments: (value, key).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Object
- * @param {Object} object The source object.
- * @param {Function} [predicate=_.identity] The function invoked per property.
- * @returns {Object} Returns the new object.
- * @example
- *
- * var object = { 'a': 1, 'b': '2', 'c': 3 };
- *
- * _.omitBy(object, _.isNumber);
- * // => { 'b': '2' }
- */ function(object, predicate) {
+         * The opposite of `_.pickBy`; this method creates an object composed of
+         * the own and inherited enumerable string keyed properties of `object` that
+         * `predicate` doesn't return truthy for. The predicate is invoked with two
+         * arguments: (value, key).
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Object
+         * @param {Object} object The source object.
+         * @param {Function} [predicate=_.identity] The function invoked per property.
+         * @returns {Object} Returns the new object.
+         * @example
+         *
+         * var object = { 'a': 1, 'b': '2', 'c': 3 };
+         *
+         * _.omitBy(object, _.isNumber);
+         * // => { 'b': '2' }
+         */ function(object, predicate) {
                 return pickBy(object, negate(baseIteratee(predicate)));
             };
         /***/ },
@@ -10742,34 +10742,34 @@
   \**************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseOrderBy = __webpack_require__(/*! ./_baseOrderBy */ "../../../node_modules/lodash/_baseOrderBy.js"), isArray = __webpack_require__(/*! ./isArray */ "../../../node_modules/lodash/isArray.js");
             module1.exports = /**
- * This method is like `_.sortBy` except that it allows specifying the sort
- * orders of the iteratees to sort by. If `orders` is unspecified, all values
- * are sorted in ascending order. Otherwise, specify an order of "desc" for
- * descending or "asc" for ascending sort order of corresponding values.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Array[]|Function[]|Object[]|string[]} [iteratees=[_.identity]]
- *  The iteratees to sort by.
- * @param {string[]} [orders] The sort orders of `iteratees`.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
- * @returns {Array} Returns the new sorted array.
- * @example
- *
- * var users = [
- *   { 'user': 'fred',   'age': 48 },
- *   { 'user': 'barney', 'age': 34 },
- *   { 'user': 'fred',   'age': 40 },
- *   { 'user': 'barney', 'age': 36 }
- * ];
- *
- * // Sort by `user` in ascending order and by `age` in descending order.
- * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
- * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
- */ function(collection, iteratees, orders, guard) {
+         * This method is like `_.sortBy` except that it allows specifying the sort
+         * orders of the iteratees to sort by. If `orders` is unspecified, all values
+         * are sorted in ascending order. Otherwise, specify an order of "desc" for
+         * descending or "asc" for ascending sort order of corresponding values.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Collection
+         * @param {Array|Object} collection The collection to iterate over.
+         * @param {Array[]|Function[]|Object[]|string[]} [iteratees=[_.identity]]
+         *  The iteratees to sort by.
+         * @param {string[]} [orders] The sort orders of `iteratees`.
+         * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+         * @returns {Array} Returns the new sorted array.
+         * @example
+         *
+         * var users = [
+         *   { 'user': 'fred',   'age': 48 },
+         *   { 'user': 'barney', 'age': 34 },
+         *   { 'user': 'fred',   'age': 40 },
+         *   { 'user': 'barney', 'age': 36 }
+         * ];
+         *
+         * // Sort by `user` in ascending order and by `age` in descending order.
+         * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+         * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+         */ function(collection, iteratees, orders, guard) {
                 return null == collection ? [] : (isArray(iteratees) || (iteratees = null == iteratees ? [] : [
                     iteratees
                 ]), isArray(orders = guard ? void 0 : orders) || (orders = null == orders ? [] : [
@@ -10790,23 +10790,23 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var arrayMap = __webpack_require__(/*! ./_arrayMap */ "../../../node_modules/lodash/_arrayMap.js"), baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), basePickBy = __webpack_require__(/*! ./_basePickBy */ "../../../node_modules/lodash/_basePickBy.js"), getAllKeysIn = __webpack_require__(/*! ./_getAllKeysIn */ "../../../node_modules/lodash/_getAllKeysIn.js");
             module1.exports = /**
- * Creates an object composed of the `object` properties `predicate` returns
- * truthy for. The predicate is invoked with two arguments: (value, key).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Object
- * @param {Object} object The source object.
- * @param {Function} [predicate=_.identity] The function invoked per property.
- * @returns {Object} Returns the new object.
- * @example
- *
- * var object = { 'a': 1, 'b': '2', 'c': 3 };
- *
- * _.pickBy(object, _.isNumber);
- * // => { 'a': 1, 'c': 3 }
- */ function(object, predicate) {
+         * Creates an object composed of the `object` properties `predicate` returns
+         * truthy for. The predicate is invoked with two arguments: (value, key).
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Object
+         * @param {Object} object The source object.
+         * @param {Function} [predicate=_.identity] The function invoked per property.
+         * @returns {Object} Returns the new object.
+         * @example
+         *
+         * var object = { 'a': 1, 'b': '2', 'c': 3 };
+         *
+         * _.pickBy(object, _.isNumber);
+         * // => { 'a': 1, 'c': 3 }
+         */ function(object, predicate) {
                 if (null == object) return {};
                 var props = arrayMap(getAllKeysIn(object), function(prop) {
                     return [
@@ -10823,27 +10823,27 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseProperty = __webpack_require__(/*! ./_baseProperty */ "../../../node_modules/lodash/_baseProperty.js"), basePropertyDeep = __webpack_require__(/*! ./_basePropertyDeep */ "../../../node_modules/lodash/_basePropertyDeep.js"), isKey = __webpack_require__(/*! ./_isKey */ "../../../node_modules/lodash/_isKey.js"), toKey = __webpack_require__(/*! ./_toKey */ "../../../node_modules/lodash/_toKey.js");
             module1.exports = /**
- * Creates a function that returns the value at `path` of a given object.
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Util
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new accessor function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': 2 } },
- *   { 'a': { 'b': 1 } }
- * ];
- *
- * _.map(objects, _.property('a.b'));
- * // => [2, 1]
- *
- * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
- * // => [1, 2]
- */ function(path) {
+         * Creates a function that returns the value at `path` of a given object.
+         *
+         * @static
+         * @memberOf _
+         * @since 2.4.0
+         * @category Util
+         * @param {Array|string} path The path of the property to get.
+         * @returns {Function} Returns the new accessor function.
+         * @example
+         *
+         * var objects = [
+         *   { 'a': { 'b': 2 } },
+         *   { 'a': { 'b': 1 } }
+         * ];
+         *
+         * _.map(objects, _.property('a.b'));
+         * // => [2, 1]
+         *
+         * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
+         * // => [1, 2]
+         */ function(path) {
                 return isKey(path) ? baseProperty(toKey(path)) : basePropertyDeep(path);
             };
         /***/ },
@@ -10856,15 +10856,15 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/some.js ***!
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = /**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */ function(array, predicate) {
+         * A specialized version of `_.some` for arrays without support for iteratee
+         * shorthands.
+         *
+         * @private
+         * @param {Array} [array] The array to iterate over.
+         * @param {Function} predicate The function invoked per iteration.
+         * @returns {boolean} Returns `true` if any element passes the predicate check,
+         *  else `false`.
+         */ function(array, predicate) {
                 for(var index = -1, length = null == array ? 0 : array.length; ++index < length;)if (predicate(array[index], index, array)) return !0;
                 return !1;
             };
@@ -10874,20 +10874,20 @@
   \*****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseSortedUniq = __webpack_require__(/*! ./_baseSortedUniq */ "../../../node_modules/lodash/_baseSortedUniq.js");
             module1.exports = /**
- * This method is like `_.uniq` except that it's designed and optimized
- * for sorted arrays.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @returns {Array} Returns the new duplicate free array.
- * @example
- *
- * _.sortedUniq([1, 1, 2]);
- * // => [1, 2]
- */ function(array) {
+         * This method is like `_.uniq` except that it's designed and optimized
+         * for sorted arrays.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Array
+         * @param {Array} array The array to inspect.
+         * @returns {Array} Returns the new duplicate free array.
+         * @example
+         *
+         * _.sortedUniq([1, 1, 2]);
+         * // => [1, 2]
+         */ function(array) {
                 return array && array.length ? baseSortedUniq(array) : [];
             };
         /***/ },
@@ -10896,19 +10896,19 @@
   \**********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseSum = __webpack_require__(/*! ./_baseSum */ "../../../node_modules/lodash/_baseSum.js"), identity = __webpack_require__(/*! ./identity */ "../../../node_modules/lodash/identity.js");
             module1.exports = /**
- * Computes the sum of the values in `array`.
- *
- * @static
- * @memberOf _
- * @since 3.4.0
- * @category Math
- * @param {Array} array The array to iterate over.
- * @returns {number} Returns the sum.
- * @example
- *
- * _.sum([4, 2, 8, 6]);
- * // => 20
- */ function(array) {
+         * Computes the sum of the values in `array`.
+         *
+         * @static
+         * @memberOf _
+         * @since 3.4.0
+         * @category Math
+         * @param {Array} array The array to iterate over.
+         * @returns {number} Returns the sum.
+         * @example
+         *
+         * _.sum([4, 2, 8, 6]);
+         * // => 20
+         */ function(array) {
                 return array && array.length ? baseSum(array, identity) : 0;
             };
         /***/ },
@@ -10917,49 +10917,49 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var debounce = __webpack_require__(/*! ./debounce */ "../../../node_modules/lodash/debounce.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js");
             module1.exports = /**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed `func` invocations and a `flush` method to
- * immediately invoke them. Provide `options` to indicate whether `func`
- * should be invoked on the leading and/or trailing edge of the `wait`
- * timeout. The `func` is invoked with the last arguments provided to the
- * throttled function. Subsequent calls to the throttled function return the
- * result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the throttled function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=true]
- *  Specify invoking on the leading edge of the timeout.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // Avoid excessively updating the position while scrolling.
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
- * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
- * jQuery(element).on('click', throttled);
- *
- * // Cancel the trailing throttled invocation.
- * jQuery(window).on('popstate', throttled.cancel);
- */ function(func, wait, options) {
+         * Creates a throttled function that only invokes `func` at most once per
+         * every `wait` milliseconds. The throttled function comes with a `cancel`
+         * method to cancel delayed `func` invocations and a `flush` method to
+         * immediately invoke them. Provide `options` to indicate whether `func`
+         * should be invoked on the leading and/or trailing edge of the `wait`
+         * timeout. The `func` is invoked with the last arguments provided to the
+         * throttled function. Subsequent calls to the throttled function return the
+         * result of the last `func` invocation.
+         *
+         * **Note:** If `leading` and `trailing` options are `true`, `func` is
+         * invoked on the trailing edge of the timeout only if the throttled function
+         * is invoked more than once during the `wait` timeout.
+         *
+         * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+         * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+         *
+         * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+         * for details over the differences between `_.throttle` and `_.debounce`.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Function
+         * @param {Function} func The function to throttle.
+         * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+         * @param {Object} [options={}] The options object.
+         * @param {boolean} [options.leading=true]
+         *  Specify invoking on the leading edge of the timeout.
+         * @param {boolean} [options.trailing=true]
+         *  Specify invoking on the trailing edge of the timeout.
+         * @returns {Function} Returns the new throttled function.
+         * @example
+         *
+         * // Avoid excessively updating the position while scrolling.
+         * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+         *
+         * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+         * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+         * jQuery(element).on('click', throttled);
+         *
+         * // Cancel the trailing throttled invocation.
+         * jQuery(window).on('popstate', throttled.cancel);
+         */ function(func, wait, options) {
                 var leading = !0, trailing = !0;
                 if ('function' != typeof func) throw TypeError('Expected a function');
                 return isObject(options) && (leading = 'leading' in options ? !!options.leading : leading, trailing = 'trailing' in options ? !!options.trailing : trailing), debounce(func, wait, {
@@ -10974,28 +10974,28 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var toNumber = __webpack_require__(/*! ./toNumber */ "../../../node_modules/lodash/toNumber.js"), INFINITY = 1 / 0;
             module1.exports = /**
- * Converts `value` to a finite number.
- *
- * @static
- * @memberOf _
- * @since 4.12.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted number.
- * @example
- *
- * _.toFinite(3.2);
- * // => 3.2
- *
- * _.toFinite(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toFinite(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toFinite('3.2');
- * // => 3.2
- */ function(value) {
+         * Converts `value` to a finite number.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.12.0
+         * @category Lang
+         * @param {*} value The value to convert.
+         * @returns {number} Returns the converted number.
+         * @example
+         *
+         * _.toFinite(3.2);
+         * // => 3.2
+         *
+         * _.toFinite(Number.MIN_VALUE);
+         * // => 5e-324
+         *
+         * _.toFinite(Infinity);
+         * // => 1.7976931348623157e+308
+         *
+         * _.toFinite('3.2');
+         * // => 3.2
+         */ function(value) {
                 return value ? (value = toNumber(value)) === INFINITY || value === -INFINITY ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
             };
         /***/ },
@@ -11004,31 +11004,31 @@
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var toFinite = __webpack_require__(/*! ./toFinite */ "../../../node_modules/lodash/toFinite.js");
             module1.exports = /**
- * Converts `value` to an integer.
- *
- * **Note:** This method is loosely based on
- * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3.2);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3.2');
- * // => 3
- */ function(value) {
+         * Converts `value` to an integer.
+         *
+         * **Note:** This method is loosely based on
+         * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to convert.
+         * @returns {number} Returns the converted integer.
+         * @example
+         *
+         * _.toInteger(3.2);
+         * // => 3
+         *
+         * _.toInteger(Number.MIN_VALUE);
+         * // => 0
+         *
+         * _.toInteger(Infinity);
+         * // => 1.7976931348623157e+308
+         *
+         * _.toInteger('3.2');
+         * // => 3
+         */ function(value) {
                 var result = toFinite(value), remainder = result % 1;
                 return result == result ? remainder ? result - remainder : result : 0;
             };
@@ -11038,28 +11038,28 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseTrim = __webpack_require__(/*! ./_baseTrim */ "../../../node_modules/lodash/_baseTrim.js"), isObject = __webpack_require__(/*! ./isObject */ "../../../node_modules/lodash/isObject.js"), isSymbol = __webpack_require__(/*! ./isSymbol */ "../../../node_modules/lodash/isSymbol.js"), NAN = 0 / 0, reIsBadHex = /^[-+]0x[0-9a-f]+$/i, reIsBinary = /^0b[01]+$/i, reIsOctal = /^0o[0-7]+$/i, freeParseInt = parseInt;
             module1.exports = /**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */ function(value) {
+         * Converts `value` to a number.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to process.
+         * @returns {number} Returns the number.
+         * @example
+         *
+         * _.toNumber(3.2);
+         * // => 3.2
+         *
+         * _.toNumber(Number.MIN_VALUE);
+         * // => 5e-324
+         *
+         * _.toNumber(Infinity);
+         * // => Infinity
+         *
+         * _.toNumber('3.2');
+         * // => 3.2
+         */ function(value) {
                 if ('number' == typeof value) return value;
                 if (isSymbol(value)) return NAN;
                 if (isObject(value)) {
@@ -11082,26 +11082,26 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseToString = __webpack_require__(/*! ./_baseToString */ "../../../node_modules/lodash/_baseToString.js");
             module1.exports = /**
- * Converts `value` to a string. An empty string is returned for `null`
- * and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */ function(value) {
+         * Converts `value` to a string. An empty string is returned for `null`
+         * and `undefined` values. The sign of `-0` is preserved.
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Lang
+         * @param {*} value The value to convert.
+         * @returns {string} Returns the converted string.
+         * @example
+         *
+         * _.toString(null);
+         * // => ''
+         *
+         * _.toString(-0);
+         * // => '-0'
+         *
+         * _.toString([1, 2, 3]);
+         * // => '1,2,3'
+         */ function(value) {
                 return null == value ? '' : baseToString(value);
             };
         /***/ },
@@ -11110,23 +11110,23 @@
   \***********************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseUniq = __webpack_require__(/*! ./_baseUniq */ "../../../node_modules/lodash/_baseUniq.js");
             module1.exports = /**
- * Creates a duplicate-free version of an array, using
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * for equality comparisons, in which only the first occurrence of each element
- * is kept. The order of result values is determined by the order they occur
- * in the array.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @returns {Array} Returns the new duplicate free array.
- * @example
- *
- * _.uniq([2, 1, 2]);
- * // => [2, 1]
- */ function(array) {
+         * Creates a duplicate-free version of an array, using
+         * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+         * for equality comparisons, in which only the first occurrence of each element
+         * is kept. The order of result values is determined by the order they occur
+         * in the array.
+         *
+         * @static
+         * @memberOf _
+         * @since 0.1.0
+         * @category Array
+         * @param {Array} array The array to inspect.
+         * @returns {Array} Returns the new duplicate free array.
+         * @example
+         *
+         * _.uniq([2, 1, 2]);
+         * // => [2, 1]
+         */ function(array) {
                 return array && array.length ? baseUniq(array) : [];
             };
         /***/ },
@@ -11135,28 +11135,28 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "../../../node_modules/lodash/_baseIteratee.js"), baseUniq = __webpack_require__(/*! ./_baseUniq */ "../../../node_modules/lodash/_baseUniq.js");
             module1.exports = /**
- * This method is like `_.uniq` except that it accepts `iteratee` which is
- * invoked for each element in `array` to generate the criterion by which
- * uniqueness is computed. The order of result values is determined by the
- * order they occur in the array. The iteratee is invoked with one argument:
- * (value).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
- * @returns {Array} Returns the new duplicate free array.
- * @example
- *
- * _.uniqBy([2.1, 1.2, 2.3], Math.floor);
- * // => [2.1, 1.2]
- *
- * // The `_.property` iteratee shorthand.
- * _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
- * // => [{ 'x': 1 }, { 'x': 2 }]
- */ function(array, iteratee) {
+         * This method is like `_.uniq` except that it accepts `iteratee` which is
+         * invoked for each element in `array` to generate the criterion by which
+         * uniqueness is computed. The order of result values is determined by the
+         * order they occur in the array. The iteratee is invoked with one argument:
+         * (value).
+         *
+         * @static
+         * @memberOf _
+         * @since 4.0.0
+         * @category Array
+         * @param {Array} array The array to inspect.
+         * @param {Function} [iteratee=_.identity] The iteratee invoked per element.
+         * @returns {Array} Returns the new duplicate free array.
+         * @example
+         *
+         * _.uniqBy([2.1, 1.2, 2.3], Math.floor);
+         * // => [2.1, 1.2]
+         *
+         * // The `_.property` iteratee shorthand.
+         * _.uniqBy([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
+         * // => [{ 'x': 1 }, { 'x': 2 }]
+         */ function(array, iteratee) {
                 return array && array.length ? baseUniq(array, baseIteratee(iteratee, 2)) : [];
             };
         /***/ },
@@ -11165,22 +11165,22 @@
   \***************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var toString = __webpack_require__(/*! ./toString */ "../../../node_modules/lodash/toString.js"), idCounter = 0;
             module1.exports = /**
- * Generates a unique ID. If `prefix` is given, the ID is appended to it.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {string} [prefix=''] The value to prefix the ID with.
- * @returns {string} Returns the unique ID.
- * @example
- *
- * _.uniqueId('contact_');
- * // => 'contact_104'
- *
- * _.uniqueId();
- * // => '105'
- */ function(prefix) {
+         * Generates a unique ID. If `prefix` is given, the ID is appended to it.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Util
+         * @param {string} [prefix=''] The value to prefix the ID with.
+         * @returns {string} Returns the unique ID.
+         * @example
+         *
+         * _.uniqueId('contact_');
+         * // => 'contact_104'
+         *
+         * _.uniqueId();
+         * // => '105'
+         */ function(prefix) {
                 var id = ++idCounter;
                 return toString(prefix) + id;
             };
@@ -11190,31 +11190,31 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var baseValues = __webpack_require__(/*! ./_baseValues */ "../../../node_modules/lodash/_baseValues.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js");
             module1.exports = /**
- * Creates an array of the own enumerable string keyed property values of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property values.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.values(new Foo);
- * // => [1, 2] (iteration order is not guaranteed)
- *
- * _.values('hi');
- * // => ['h', 'i']
- */ function(object) {
+         * Creates an array of the own enumerable string keyed property values of `object`.
+         *
+         * **Note:** Non-object values are coerced to objects.
+         *
+         * @static
+         * @since 0.1.0
+         * @memberOf _
+         * @category Object
+         * @param {Object} object The object to query.
+         * @returns {Array} Returns the array of property values.
+         * @example
+         *
+         * function Foo() {
+         *   this.a = 1;
+         *   this.b = 2;
+         * }
+         *
+         * Foo.prototype.c = 3;
+         *
+         * _.values(new Foo);
+         * // => [1, 2] (iteration order is not guaranteed)
+         *
+         * _.values('hi');
+         * // => ['h', 'i']
+         */ function(object) {
                 return null == object ? [] : baseValues(object, keys(object));
             };
         /***/ },
@@ -11231,10 +11231,10 @@
   \*******************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
             /*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/ /* eslint-disable no-unused-vars */ var getOwnPropertySymbols = Object.getOwnPropertySymbols, hasOwnProperty = Object.prototype.hasOwnProperty, propIsEnumerable = Object.prototype.propertyIsEnumerable;
+        object-assign
+        (c) Sindre Sorhus
+        @license MIT
+        */ /* eslint-disable no-unused-vars */ var getOwnPropertySymbols = Object.getOwnPropertySymbols, hasOwnProperty = Object.prototype.hasOwnProperty, propIsEnumerable = Object.prototype.propertyIsEnumerable;
             module1.exports = !function() {
                 try {
                     if (!Object.assign) return !1;
@@ -11277,22 +11277,22 @@ object-assign
   \*************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
             /**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */ var printWarning = function() {}, ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"), loggedTypeFailures = {}, has = Function.call.bind(Object.prototype.hasOwnProperty);
+         * Copyright (c) 2013-present, Facebook, Inc.
+         *
+         * This source code is licensed under the MIT license found in the
+         * LICENSE file in the root directory of this source tree.
+         */ var printWarning = function() {}, ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"), loggedTypeFailures = {}, has = Function.call.bind(Object.prototype.hasOwnProperty);
             /**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+         * Assert that the values match with the type specs.
+         * Error messages are memorized and will only be shown once.
+         *
+         * @param {object} typeSpecs Map of name to a ReactPropType
+         * @param {object} values Runtime values that need to be type-checked
+         * @param {string} location e.g. "prop", "context", "child context"
+         * @param {string} componentName Name of the component for error messages.
+         * @param {?Function} getStack Returns the component stack.
+         * @private
+         */ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
                 for(var typeSpecName in typeSpecs)if (has(typeSpecs, typeSpecName)) {
                     var error;
                     // Prop type validation may throw. In case they do, we don't want to
@@ -11328,10 +11328,10 @@ object-assign
                     throw Error(message);
                 } catch (x) {}
             }, /**
- * Resets warning cache when testing.
- *
- * @private
- */ checkPropTypes.resetWarningCache = function() {
+         * Resets warning cache when testing.
+         *
+         * @private
+         */ checkPropTypes.resetWarningCache = function() {
                 loggedTypeFailures = {};
             }, module1.exports = checkPropTypes;
         /***/ },
@@ -11340,11 +11340,11 @@ object-assign
   \**********************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
             /**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */ var ReactIs = __webpack_require__(/*! react-is */ "../../../node_modules/react-is/index.js"), assign = __webpack_require__(/*! object-assign */ "../../../node_modules/object-assign/index.js"), ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"), checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "../../../node_modules/prop-types/checkPropTypes.js"), has = Function.call.bind(Object.prototype.hasOwnProperty), printWarning = function() {};
+         * Copyright (c) 2013-present, Facebook, Inc.
+         *
+         * This source code is licensed under the MIT license found in the
+         * LICENSE file in the root directory of this source tree.
+         */ var ReactIs = __webpack_require__(/*! react-is */ "../../../node_modules/react-is/index.js"), assign = __webpack_require__(/*! object-assign */ "../../../node_modules/object-assign/index.js"), ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"), checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "../../../node_modules/prop-types/checkPropTypes.js"), has = Function.call.bind(Object.prototype.hasOwnProperty), printWarning = function() {};
             function emptyFunctionThatReturnsNull() {
                 return null;
             }
@@ -11409,19 +11409,19 @@ object-assign
                                     if (Array.isArray(propValue)) return propValue.every(isNode);
                                     if (null === propValue || isValidElement(propValue)) return !0;
                                     var iteratorFn = /**
-   * Returns the iterator method function contained on the iterable object.
-   *
-   * Be sure to invoke the function with the iterable as context:
-   *
-   *     var iteratorFn = getIteratorFn(myIterable);
-   *     if (iteratorFn) {
-   *       var iterator = iteratorFn.call(myIterable);
-   *       ...
-   *     }
-   *
-   * @param {?object} maybeIterable
-   * @return {?function}
-   */ function(maybeIterable) {
+           * Returns the iterator method function contained on the iterable object.
+           *
+           * Be sure to invoke the function with the iterable as context:
+           *
+           *     var iteratorFn = getIteratorFn(myIterable);
+           *     if (iteratorFn) {
+           *       var iterator = iteratorFn.call(myIterable);
+           *       ...
+           *     }
+           *
+           * @param {?object} maybeIterable
+           * @return {?function}
+           */ function(maybeIterable) {
                                         var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable['@@iterator']);
                                         if ('function' == typeof iteratorFn) return iteratorFn;
                                     }(propValue);
@@ -11520,12 +11520,12 @@ object-assign
                     }
                 };
                 /*eslint-enable no-self-compare*/ /**
-   * We use an Error-like object for backward compatibility as people may call
-   * PropTypes directly and inspect their output. However, we don't use real
-   * Errors anymore. We don't inspect their stack anyway, and creating them
-   * is prohibitively expensive if they are created too often, such as what
-   * happens in oneOfType() for any type before the one that matched.
-   */ function PropTypeError(message) {
+           * We use an Error-like object for backward compatibility as people may call
+           * PropTypes directly and inspect their output. However, we don't use real
+           * Errors anymore. We don't inspect their stack anyway, and creating them
+           * is prohibitively expensive if they are created too often, such as what
+           * happens in oneOfType() for any type before the one that matched.
+           */ function PropTypeError(message) {
                     this.message = message, this.stack = '';
                 }
                 function createChainableTypeChecker(validate) {
@@ -11810,13 +11810,13 @@ object-assign
                 return polar ? d3_shape__WEBPACK_IMPORTED_MODULE_3__.radialArea().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__["".concat(interpolationName, "Closed")]).angle(getAngleAccessor(scale)).outerRadius(getYAccessor(scale)).innerRadius(getY0Accessor(scale)) : getCartesianArea(props, interpolation);
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.ariaLabel, props), desc = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.desc, props), id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.ariaLabel, props), desc = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.desc, props), id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     fill: "black"
                 }, props.style), props), tabIndex = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
@@ -12936,17 +12936,17 @@ object-assign
                 }, style), props);
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props of following must be evaluated in this order:
-   * 1) `style`
-   * 2) `barWidth`
-   * 3) `cornerRadius`
-   *
-   * Everything else does not have to be evaluated in a particular order:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `tabIndex`
-   */ var style = getStyle(props.style, props), barWidth = getBarWidth(props.barWidth, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
+           * Potential evaluated props of following must be evaluated in this order:
+           * 1) `style`
+           * 2) `barWidth`
+           * 3) `cornerRadius`
+           *
+           * Everything else does not have to be evaluated in a particular order:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `tabIndex`
+           */ var style = getStyle(props.style, props), barWidth = getBarWidth(props.barWidth, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     style: style
                 })), cornerRadius = getCornerRadius(props.cornerRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     style: style,
@@ -13043,11 +13043,11 @@ object-assign
                 return point;
             });
             /**
- * A point in the 2d plane
- * @param {number} x - x coordinate
- * @param {number} y - y coordinate
- * @returns {object} - point object
- */ var point = function(x, y) {
+         * A point in the 2d plane
+         * @param {number} x - x coordinate
+         * @param {number} y - y coordinate
+         * @returns {object} - point object
+         */ var point = function(x, y) {
                 return {
                     x: x,
                     y: y,
@@ -13826,7 +13826,7 @@ object-assign
                 });
                 if (arrayX) throw Error("\n        data should not be given as in array for x\n      ");
                 if (arrayY) /* generate summary statistics for each datum. to do this, flatten
-      the depedentVarArray and process each datum separately */ return data.map(function(datum) {
+              the depedentVarArray and process each datum separately */ return data.map(function(datum) {
                     var dataArray = datum._y.map(function(d) {
                         var obj;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, datum, ("_y" in (obj = {}) ? Object.defineProperty(obj, "_y", {
@@ -15705,16 +15705,16 @@ object-assign
                 };
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props of following must be evaluated in this order:
-   * 1) `style`
-   * 2) `cornerRadius`
-   *
-   * Everything else does not have to be evaluated in a particular order:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `tabIndex`
-   */ var style = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
+           * Potential evaluated props of following must be evaluated in this order:
+           * 1) `style`
+           * 2) `cornerRadius`
+           *
+           * Everything else does not have to be evaluated in a particular order:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `tabIndex`
+           */ var style = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
                     stroke: "black"
                 }, props.style), props), candleWidth = getCandleWidth(props.candleWidth, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     style: style
@@ -17156,9 +17156,9 @@ object-assign
                             animating: !1
                         }
                     }, _this.interpolator = null, _this.queue = Array.isArray(_this.props.data) ? _this.props.data.slice(1) : [], /* build easing function */ _this.ease = d3_ease__WEBPACK_IMPORTED_MODULE_2__[_this.toNewName(_this.props.easing)], /*
-      There is no autobinding of this in ES6 classes
-      so we bind functionToBeRunEachFrame to current instance of victory animation class
-    */ _this.functionToBeRunEachFrame = _this.functionToBeRunEachFrame.bind(_assertThisInitialized(_this)), _this.timer = _this.context.animationTimer, _this;
+                There is no autobinding of this in ES6 classes
+                so we bind functionToBeRunEachFrame to current instance of victory animation class
+              */ _this.functionToBeRunEachFrame = _this.functionToBeRunEachFrame.bind(_assertThisInitialized(_this)), _this.timer = _this.context.animationTimer, _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -17232,9 +17232,9 @@ object-assign
                         key: "functionToBeRunEachFrame",
                         value: function(elapsed, duration) {
                             var step = /*
-        step can generate imprecise values, sometimes greater than 1
-        if this happens set the state to 1 and return, cancelling the timer
-      */ (duration = void 0 !== duration ? duration : this.props.duration) ? elapsed / duration : 1;
+                  step can generate imprecise values, sometimes greater than 1
+                  if this happens set the state to 1 and return, cancelling the timer
+                */ (duration = void 0 !== duration ? duration : this.props.duration) ? elapsed / duration : 1;
                             if (step >= 1) {
                                 this.setState({
                                     data: this.interpolator(1),
@@ -17247,10 +17247,10 @@ object-assign
                                 return;
                             }
                             /*
-        if we're not at the end of the timer, set the state by passing
-        current step value that's transformed by the ease function to the
-        interpolator, which is cached for performance whenever props are received
-      */ this.setState({
+                  if we're not at the end of the timer, set the state by passing
+                  current step value that's transformed by the ease function to the
+                  interpolator, which is cached for performance whenever props are received
+                */ this.setState({
                                 data: this.interpolator(this.ease(step)),
                                 animationInfo: {
                                     progress: step,
@@ -18050,10 +18050,10 @@ object-assign
                 return i && !inline ? calculateSpanDy(tspanValues, i, calculatedProps) : inline ? 0 === i ? current.backgroundPadding.top : void 0 : current.backgroundPadding.top;
             }, evaluateProps = function(props) {
                 /* Potential evaluated props are
-    1) text
-    2) style
-    3) everything else
-  */ var text = getContent(props.text, props), style = getStyles(props.style, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
+            1) text
+            2) style
+            3) everything else
+          */ var text = getContent(props.text, props), style = getStyles(props.style, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     text: text
                 })), backgroundStyle = getBackgroundStyles(props.backgroundStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
                     text: text,
@@ -18524,13 +18524,13 @@ object-assign
                 return "".concat(arcStart, " ").concat(arc1, " ").concat(arc2, " ").concat(closedPath ? "Z" : "");
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     stroke: "black",
                     fill: "none"
                 }, props.style), props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
@@ -18595,9 +18595,9 @@ object-assign
             }
             var evaluateProps = function(props) {
                 /**
-   * Potential evaluated prop is:
-   * `id`
-   */ var id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props);
+           * Potential evaluated prop is:
+           * `id`
+           */ var id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     id: id
                 });
@@ -18664,13 +18664,13 @@ object-assign
             }
             var evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     fill: "none"
                 }, props.style), props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
@@ -18791,13 +18791,13 @@ object-assign
             }
             var evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     stroke: "black"
                 }, props.style), props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
@@ -18983,15 +18983,15 @@ object-assign
                 return ("function" == typeof pathFunctions[symbol] ? pathFunctions[symbol] : pathFunctions.circle)(x, y, size);
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `size`
-   * `style`
-   * `symbol`
-   * `tabIndex`
-   */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), size = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.size, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(props.style, props), symbol = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.symbol, props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `size`
+           * `style`
+           * `symbol`
+           * `tabIndex`
+           */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), size = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.size, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(props.style, props), symbol = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.symbol, props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     ariaLabel: ariaLabel,
                     desc: desc,
@@ -19144,13 +19144,13 @@ object-assign
             }
             var evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `desc`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(props.style, props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `desc`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(props.style, props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     ariaLabel: ariaLabel,
                     desc: desc,
@@ -20210,19 +20210,19 @@ object-assign
                 }();
             }
             /* eslint-disable func-style */ /**
- * Returns the axis (x or y) of a particular axis component
- * @param {Object} props: the props object.
- * @param {Boolean} horizontal: true for horizontal charts
- * @returns {String} the dimension appropriate for the axis given its props
- */ function getAxis(props) {
+         * Returns the axis (x or y) of a particular axis component
+         * @param {Object} props: the props object.
+         * @param {Boolean} horizontal: true for horizontal charts
+         * @returns {String} the dimension appropriate for the axis given its props
+         */ function getAxis(props) {
                 return props.dependentAxis ? "y" : "x";
             }
             /**
- * Returns all axis components that pass a given predicate
- * @param {Array} childComponents: an array of children
- * @param {Function} predicate: a predicate function that will be called with each
- * @returns {Array} all axis components that pass the given predicate or []
- */ function findAxisComponents(childComponents, predicate) {
+         * Returns all axis components that pass a given predicate
+         * @param {Array} childComponents: an array of children
+         * @param {Function} predicate: a predicate function that will be called with each
+         * @returns {Array} all axis components that pass the given predicate or []
+         */ function findAxisComponents(childComponents, predicate) {
                 predicate = predicate || lodash_identity__WEBPACK_IMPORTED_MODULE_9___default.a;
                 var findAxes = function(children) {
                     return children.reduce(function(memo, child) {
@@ -20232,9 +20232,9 @@ object-assign
                 return findAxes(childComponents);
             }
             /**
- * @param {Object} props: axis component props
- * @returns {Boolean} true when the axis is vertical
- */ function isVertical(props) {
+         * @param {Object} props: axis component props
+         * @returns {Boolean} true when the axis is vertical
+         */ function isVertical(props) {
                 return ({
                     top: !1,
                     bottom: !1,
@@ -20243,9 +20243,9 @@ object-assign
                 })[props.orientation || (props.dependentAxis ? "left" : "bottom")];
             }
             /**
- * @param {Object} props: axis component props
- * @returns {Boolean} true when tickValues contain strings
- */ function stringTicks(props) {
+         * @param {Object} props: axis component props
+         * @returns {Boolean} true when tickValues contain strings
+         */ function stringTicks(props) {
                 return void 0 !== props.tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(props.tickValues);
             }
             function getTickArray(props) {
@@ -20278,11 +20278,11 @@ object-assign
                 });
             }
             /**
- * Returns a domain based tickValues
- * @param {Object} props: the props object
- * @param {String} axis: either x or y
- * @returns {Array} returns a domain from tickValues
- */ //eslint-disable-next-line max-statements
+         * Returns a domain based tickValues
+         * @param {Object} props: the props object
+         * @param {String} axis: either x or y
+         * @returns {Array} returns a domain from tickValues
+         */ //eslint-disable-next-line max-statements
             function getDomainFromData(props, axis) {
                 var polar = props.polar, _props$startAngle = props.startAngle, _props$endAngle = props.endAngle, tickArray = getTickArray(props), tickValues = tickArray ? tickArray.map(function(v) {
                     return v.value;
@@ -20359,22 +20359,22 @@ object-assign
                 },
                 getAxis: getAxis,
                 getAxisComponent: /**
- * Returns a single axis component of the desired axis type (x or y)
- * @param {Array} childComponents: an array of children
- * @param {String} axis: desired axis either "x" or "y".
- * @returns {ReactComponent} an axis component of the desired axis or undefined
- */ function(childComponents, axis) {
+         * Returns a single axis component of the desired axis type (x or y)
+         * @param {Array} childComponents: an array of children
+         * @param {String} axis: desired axis either "x" or "y".
+         * @returns {ReactComponent} an axis component of the desired axis or undefined
+         */ function(childComponents, axis) {
                     return findAxisComponents(childComponents, function(component) {
                         return component.type.getAxis(component.props) === axis;
                     })[0];
                 },
                 getAxisComponentsWithParent: /**
- * Returns all axis components of the desired axis type (x or y) along with any
- * parent components excluding VictoryChart
- * @param {Array} childComponents: an optional array of children.
- * @param {String} type: desired axis either "dependent" or "independent".
- * @returns {ReactComponent} an axis component of the desired type or undefined
- */ function(childComponents, type) {
+         * Returns all axis components of the desired axis type (x or y) along with any
+         * parent components excluding VictoryChart
+         * @param {Array} childComponents: an optional array of children.
+         * @param {String} type: desired axis either "dependent" or "independent".
+         * @returns {ReactComponent} an axis component of the desired type or undefined
+         */ function(childComponents, type) {
                     var findComponents = function(children) {
                         return children.reduce(function(memo, child) {
                             return child.type && "axis" === child.type.role && ("dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis) ? memo.concat(child) : child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
@@ -20793,23 +20793,23 @@ object-assign
                 ;
             } // This method will remove data points that break certain scales. (log scale only)
             /**
- * Returns an object mapping string data to numeric data
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Object} an object mapping string data to numeric data
- */ function createStringMap(props, axis) {
+         * Returns an object mapping string data to numeric data
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Object} an object mapping string data to numeric data
+         */ function createStringMap(props, axis) {
                 var stringsFromAxes = getStringsFromAxes(props, axis), stringsFromCategories = getStringsFromCategories(props, axis), stringsFromData = getStringsFromData(props, axis), allStrings = lodash_uniq__WEBPACK_IMPORTED_MODULE_11___default()(_toConsumableArray(stringsFromAxes).concat(_toConsumableArray(stringsFromCategories), _toConsumableArray(stringsFromData)));
                 return 0 === allStrings.length ? null : allStrings.reduce(function(memo, string, index) {
                     return memo[string] = index + 1, memo;
                 }, {});
             }
             /**
- * Returns formatted data. Data accessors are applied, and string values are replaced.
- * @param {Array} dataset: the original domain
- * @param {Object} props: the props object
- * @param {Array} expectedKeys: an array of expected data keys
- * @returns {Array} the formatted data
- */ function formatData(dataset, props, expectedKeys) {
+         * Returns formatted data. Data accessors are applied, and string values are replaced.
+         * @param {Array} dataset: the original domain
+         * @param {Object} props: the props object
+         * @param {Array} expectedKeys: an array of expected data keys
+         * @returns {Array} the formatted data
+         */ function formatData(dataset, props, expectedKeys) {
                 if (!(Array.isArray(dataset) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(dataset)) || 1 > getLength(dataset)) return [];
                 var stringMap, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
                     "x",
@@ -20867,10 +20867,10 @@ object-assign
                 });
             }
             /**
- * Returns generated x and y data based on domain and sample from props
- * @param {Object} props: the props object
- * @returns {Array} an array of data
- */ function generateData(props) {
+         * Returns generated x and y data based on domain and sample from props
+         * @param {Object} props: the props object
+         * @returns {Array} an array of data
+         */ function generateData(props) {
                 var xValues = generateDataArray(props, "x"), yValues = generateDataArray(props, "y");
                 return xValues.map(function(x, i) {
                     return {
@@ -20880,30 +20880,30 @@ object-assign
                 });
             }
             /**
- * Returns an array of categories for a given axis
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} an array of categories
- */ function getCategories(props, axis) {
+         * Returns an array of categories for a given axis
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} an array of categories
+         */ function getCategories(props, axis) {
                 return props.categories && !Array.isArray(props.categories) ? props.categories[axis] : props.categories;
             }
             /**
- * Returns an array of strings from axis tickValues for a given axis
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} an array of strings
- */ function getStringsFromAxes(props, axis) {
+         * Returns an array of strings from axis tickValues for a given axis
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} an array of strings
+         */ function getStringsFromAxes(props, axis) {
                 var tickValues = props.tickValues, tickFormat = props.tickFormat;
                 return (tickValues && (Array.isArray(tickValues) || tickValues[axis]) ? tickValues[axis] || tickValues : tickFormat && Array.isArray(tickFormat) ? tickFormat : []).filter(function(val) {
                     return "string" == typeof val;
                 });
             }
             /**
- * Returns an array of strings from categories for a given axis
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} an array of strings
- */ function getStringsFromCategories(props, axis) {
+         * Returns an array of strings from categories for a given axis
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} an array of strings
+         */ function getStringsFromCategories(props, axis) {
                 if (!props.categories) return [];
                 var categories = getCategories(props, axis), categoryStrings = categories && categories.filter(function(val) {
                     return "string" == typeof val;
@@ -20911,11 +20911,11 @@ object-assign
                 return categoryStrings ? _collection__WEBPACK_IMPORTED_MODULE_15__.default.removeUndefined(categoryStrings) : [];
             }
             /**
- * Returns an array of strings from data
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} an array of strings
- */ function getStringsFromData(props, axis) {
+         * Returns an array of strings from data
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} an array of strings
+         */ function getStringsFromData(props, axis) {
                 if (!(Array.isArray(props.data) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(props.data))) return [];
                 var key = void 0 === props[axis] ? axis : props[axis], accessor = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(key);
                 return sortData(props.data.reduce(function(memo, d) {
@@ -20931,13 +20931,13 @@ object-assign
             /* harmony default export */ __webpack_exports__.default = {
                 createStringMap: createStringMap,
                 downsample: /**
- * Reduces the size of a data array, such that it is <= maxPoints.
- * @param {Array} data: an array of data; must be sorted
- * @param {Number} maxPoints: maximum number of data points to return
- * @param {Number} startingIndex: the index of the data[0] *in the entire dataset*; this function
-                   assumes `data` param is a subset of larger dataset that has been zoommed
-  * @returns {Array} an array of data, a subset of data param
-  */ function(data, maxPoints) {
+         * Reduces the size of a data array, such that it is <= maxPoints.
+         * @param {Array} data: an array of data; must be sorted
+         * @param {Number} maxPoints: maximum number of data points to return
+         * @param {Number} startingIndex: the index of the data[0] *in the entire dataset*; this function
+                           assumes `data` param is a subset of larger dataset that has been zoommed
+          * @returns {Array} an array of data, a subset of data param
+          */ function(data, maxPoints) {
                     var startingIndex = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0, dataLength = getLength(data);
                     if (dataLength > maxPoints) {
                         // limit k to powers of 2, e.g. 64, 128, 256
@@ -20979,20 +20979,20 @@ object-assign
                 generateData: generateData,
                 getCategories: getCategories,
                 getData: /**
- * Returns an array of formatted data
- * @param {Object} props: the props object
- * @returns {Array} an array of data
- */ function(props) {
+         * Returns an array of formatted data
+         * @param {Object} props: the props object
+         * @returns {Array} an array of data
+         */ function(props) {
                     return props.data ? formatData(props.data, props) : formatData(generateData(props), props);
                 },
                 getStringsFromAxes: getStringsFromAxes,
                 getStringsFromCategories: getStringsFromCategories,
                 getStringsFromData: getStringsFromData,
                 isDataComponent: /**
- * Checks whether a given component can be used to calculate data
- * @param {Component} component: a React component instance
- * @returns {Boolean} Returns true if the given component has a role included in the whitelist
- */ function(component) {
+         * Checks whether a given component can be used to calculate data
+         * @param {Component} component: a React component instance
+         * @returns {Boolean} Returns true if the given component has a role included in the whitelist
+         */ function(component) {
                     var getRole = function(child) {
                         return child && child.type ? child.type.role : "";
                     }, role = getRole(component);
@@ -21160,13 +21160,13 @@ object-assign
                 return containsDate ? new Date(result) : result;
             } //eslint-disable-next-line max-statements
             /**
- * Returns a getDomain function
- * @param {Function} getDomainFromDataFunction: a function that takes props and axis and
- * returns a domain based on data
- * @param {Function} formatDomainFunction: a function that takes domain, props, and axis and
- * returns a formatted domain
- * @returns {Function} a function that takes props and axis and returns a formatted domain
- */ function createDomainFunction(getDomainFromDataFunction, formatDomainFunction) {
+         * Returns a getDomain function
+         * @param {Function} getDomainFromDataFunction: a function that takes props and axis and
+         * returns a domain based on data
+         * @param {Function} formatDomainFunction: a function that takes domain, props, and axis and
+         * returns a formatted domain
+         * @returns {Function} a function that takes props and axis and returns a formatted domain
+         */ function createDomainFunction(getDomainFromDataFunction, formatDomainFunction) {
                 return getDomainFromDataFunction = lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(getDomainFromDataFunction) ? getDomainFromDataFunction : getDomainFromData, formatDomainFunction = lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(formatDomainFunction) ? formatDomainFunction : formatDomain, function(props, axis) {
                     var propsDomain = getDomainFromProps(props, axis);
                     if (propsDomain) return formatDomainFunction(propsDomain, props, axis);
@@ -21175,12 +21175,12 @@ object-assign
                 };
             }
             /**
- * Returns a formatted domain.
- * @param {Array} domain: a domain in the form of a two element array
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} a domain in the form of a two element array
- */ function formatDomain(domain, props, axis) {
+         * Returns a formatted domain.
+         * @param {Array} domain: a domain in the form of a two element array
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} a domain in the form of a two element array
+         */ function formatDomain(domain, props, axis) {
                 var domain1, props1, axis1, almostZero;
                 return domain1 = function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
@@ -21230,12 +21230,12 @@ object-assign
                 ]);
             }
             /**
- * Returns a domain based on categories if they exist
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @param {Array} categories: an array of categories corresponding to a given axis
- * @returns {Array|undefined} returns a domain from categories or undefined
- */ function getDomainFromCategories(props, axis, categories) {
+         * Returns a domain based on categories if they exist
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @param {Array} categories: an array of categories corresponding to a given axis
+         * @returns {Array|undefined} returns a domain from categories or undefined
+         */ function getDomainFromCategories(props, axis, categories) {
                 categories = categories || _data__WEBPACK_IMPORTED_MODULE_7__.default.getCategories(props, axis);
                 var polar = props.polar, _props$startAngle = props.startAngle, _props$endAngle = props.endAngle;
                 if (categories) {
@@ -21248,12 +21248,12 @@ object-assign
                 }
             }
             /**
- * Returns a domain from a dataset for a given axis
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @param {Array} dataset: an array of data
- * @returns {Array} the domain based on data
- */ function getDomainFromData(props, axis, dataset) {
+         * Returns a domain from a dataset for a given axis
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @param {Array} dataset: an array of data
+         * @returns {Array} the domain based on data
+         */ function getDomainFromData(props, axis, dataset) {
                 dataset = dataset || _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props);
                 var dataset1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
@@ -21263,11 +21263,11 @@ object-assign
                 }))) : domain;
             }
             /**
- * Returns a domain in the form of a two element array given a min and max value.
- * @param {Number|Date} min: the props object
- * @param {Number|Date} max: the current axis
- * @returns {Array} the minDomain based on props
- */ function getDomainFromMinMax(min, max) {
+         * Returns a domain in the form of a two element array given a min and max value.
+         * @param {Number|Date} min: the props object
+         * @param {Number|Date} max: the current axis
+         * @returns {Array} the minDomain based on props
+         */ function getDomainFromMinMax(min, max) {
                 var verySmallNumber, minVal, maxVal;
                 return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
                     0,
@@ -21281,37 +21281,37 @@ object-assign
                 ];
             }
             /**
- * Returns a the domain for a given axis if domain is given in props
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array|undefined} the domain based on props
- */ function getDomainFromProps(props, axis) {
+         * Returns a the domain for a given axis if domain is given in props
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array|undefined} the domain based on props
+         */ function getDomainFromProps(props, axis) {
                 var minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 return lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domain) && props.domain[axis] ? props.domain[axis] : Array.isArray(props.domain) ? props.domain : void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
             }
             /**
- * Returns the maxDomain from props if it exists
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Number|Date|undefined} the maxDomain based on props
- */ function getMaxFromProps(props, axis) {
+         * Returns the maxDomain from props if it exists
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Number|Date|undefined} the maxDomain based on props
+         */ function getMaxFromProps(props, axis) {
                 return lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.maxDomain) && void 0 !== props.maxDomain[axis] ? props.maxDomain[axis] : "number" == typeof props.maxDomain || lodash_isDate__WEBPACK_IMPORTED_MODULE_0___default()(props.maxDomain) ? props.maxDomain : void 0;
             }
             /**
- * Returns the minDomain from props if it exists
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Number|Date|undefined} the minDomain based on props
- */ function getMinFromProps(props, axis) {
+         * Returns the minDomain from props if it exists
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Number|Date|undefined} the minDomain based on props
+         */ function getMinFromProps(props, axis) {
                 return lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.minDomain) && void 0 !== props.minDomain[axis] ? props.minDomain[axis] : "number" == typeof props.minDomain || lodash_isDate__WEBPACK_IMPORTED_MODULE_0___default()(props.minDomain) ? props.minDomain : void 0;
             }
             /**
- * Returns a symmetrically padded domain for polar charts
- * @param {Array} domain: the original domain
- * @param {Array} values: a flat array of values corresponding to either tickValues, or data values
- * for a given dimension i.e. only x values.
- * @returns {Array} the symmetric domain
- */ function getSymmetricDomain(domain, values) {
+         * Returns a symmetrically padded domain for polar charts
+         * @param {Array} domain: the original domain
+         * @param {Array} values: a flat array of values corresponding to either tickValues, or data values
+         * for a given dimension i.e. only x values.
+         * @returns {Array} the symmetric domain
+         */ function getSymmetricDomain(domain, values) {
                 var processedData = lodash_sortedUniq__WEBPACK_IMPORTED_MODULE_3___default()(values.sort(function(a, b) {
                     return a - b;
                 })), step = processedData[1] - processedData[0];
@@ -21324,11 +21324,11 @@ object-assign
                 createDomainFunction: createDomainFunction,
                 formatDomain: formatDomain,
                 getDomain: /**
- * Returns a domain for a given axis based on props, category, or data
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} the domain for the given axis
- */ function(props, axis) {
+         * Returns a domain for a given axis based on props, category, or data
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} the domain for the given axis
+         */ function(props, axis) {
                     return createDomainFunction()(props, axis);
                 },
                 getDomainFromCategories: getDomainFromCategories,
@@ -21336,12 +21336,12 @@ object-assign
                 getDomainFromMinMax: getDomainFromMinMax,
                 getDomainFromProps: getDomainFromProps,
                 getDomainWithZero: /**
- * Returns a domain for a given axis. This method forces the domain to include
- * zero unless the domain is explicitly specified in props.
- * @param {Object} props: the props object
- * @param {String} axis: the current axis
- * @returns {Array} the domain for the given axis
- */ function(props, axis) {
+         * Returns a domain for a given axis. This method forces the domain to include
+         * zero unless the domain is explicitly specified in props.
+         * @param {Object} props: the props object
+         * @param {String} axis: the current axis
+         * @returns {Array} the domain for the given axis
+         */ function(props, axis) {
                     var propsDomain = getDomainFromProps(props, axis);
                     if (propsDomain) return propsDomain;
                     var dataset = _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props), y0Min = dataset.reduce(function(min, datum) {
@@ -21361,10 +21361,10 @@ object-assign
                 getMinFromProps: getMinFromProps,
                 getSymmetricDomain: getSymmetricDomain,
                 isDomainComponent: /**
- * Checks whether a given component can be used to calculate domain
- * @param {Component} component: a React component instance
- * @returns {Boolean} Returns true if the given component has a role included in the whitelist
- */ function(component) {
+         * Checks whether a given component can be used to calculate domain
+         * @param {Component} component: a React component instance
+         * @returns {Boolean} Returns true if the given component has a role included in the whitelist
+         */ function(component) {
                     var getRole = function(child) {
                         return child && child.type ? child.type.role : "";
                     }, role = getRole(component);
@@ -21419,11 +21419,11 @@ object-assign
             var GLOBAL_EVENT_REGEX = /^onGlobal(.*)$/;
             /* harmony default export */ __webpack_exports__.default = {
                 /* Returns all own and shared events that should be attached to a single target element,
-   * i.e. an individual bar specified by target: "data", eventKey: [index].
-   * Returned events are scoped to the appropriate state. Either that of the component itself
-   * (i.e. VictoryBar) in the case of own events, or that of the parent component
-   * (i.e. VictoryChart) in the case of shared events
-   */ // eslint-disable-next-line max-params
+           * i.e. an individual bar specified by target: "data", eventKey: [index].
+           * Returned events are scoped to the appropriate state. Either that of the component itself
+           * (i.e. VictoryBar) in the case of own events, or that of the parent component
+           * (i.e. VictoryChart) in the case of shared events
+           */ // eslint-disable-next-line max-params
                 getEvents: function(props, target, eventKey, getScopedEvents) {
                     var _this = this, getEventsByTarget = function(events) {
                         var targetEvents, selectedEvents = (targetEvents = events.reduce(function(memo, event) {
@@ -21451,10 +21451,10 @@ object-assign
                     return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, sharedEvents, ownEvents);
                 },
                 /* Returns a modified events object where each event handler is replaced by a new
-   * function that calls the original handler and then calls setState with the return
-   * of the original event handler assigned to state property that maps to the target
-   * element.
-   */ // eslint-disable-next-line max-params
+           * function that calls the original handler and then calls setState with the return
+           * of the original event handler assigned to state property that maps to the target
+           * element.
+           */ // eslint-disable-next-line max-params
                 getScopedEvents: function(events, namespace, childType, baseProps) {
                     var _this2 = this;
                     if (lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(events)) return {};
@@ -21516,8 +21516,8 @@ object-assign
                     }, {});
                 },
                 /* Returns a partially applied event handler for a specific target element
-   * This allows event handlers to have access to props controlling each element
-   */ getPartialEvents: function(events, eventKey, childProps) {
+           * This allows event handlers to have access to props controlling each element
+           */ getPartialEvents: function(events, eventKey, childProps) {
                     return events ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(events).reduce(function(memo, eventName) {
                         return memo[eventName] = function(evt) {
                             return events[eventName](evt, childProps, eventKey, eventName);
@@ -21525,21 +21525,21 @@ object-assign
                     }, {}) : {};
                 },
                 /* Returns the property of the state object corresponding to event changes for
-   * a particular element
-   */ getEventState: function(eventKey, namespace, childType) {
+           * a particular element
+           */ getEventState: function(eventKey, namespace, childType) {
                     var state = this.state || {};
                     return childType ? state[childType] && state[childType][eventKey] && state[childType][eventKey][namespace] : "parent" === eventKey ? state[eventKey] && state[eventKey][namespace] || state[eventKey] : state[eventKey] && state[eventKey][namespace];
                 },
                 /**
-   * Returns a set of all mutations for shared events
-   *
-   * @param  {Array} mutations an array of mutations objects
-   * @param  {Object} baseProps an object that describes all props for children of VictorySharedEvents
-   * @param  {Object} baseState an object that describes state for children of VictorySharedEvents
-   * @param  {Array} childNames an array of childNames
-   *
-   * @return {Object} a object describing all mutations for VictorySharedEvents
-   */ // eslint-disable-next-line max-params
+           * Returns a set of all mutations for shared events
+           *
+           * @param  {Array} mutations an array of mutations objects
+           * @param  {Object} baseProps an object that describes all props for children of VictorySharedEvents
+           * @param  {Object} baseState an object that describes state for children of VictorySharedEvents
+           * @param  {Array} childNames an array of childNames
+           *
+           * @return {Object} a object describing all mutations for VictorySharedEvents
+           */ // eslint-disable-next-line max-params
                 getExternalMutationsWithChildren: function(mutations, baseProps, baseState, childNames) {
                     var _this3 = this;
                     return baseProps = baseProps || {}, baseState = baseState || {}, childNames.reduce(function(memo, childName) {
@@ -21550,15 +21550,15 @@ object-assign
                     }, {});
                 },
                 /**
-   * Returns a set of all mutations for a component
-   *
-   * @param  {Array} mutations an array of mutations objects
-   * @param  {Object} baseProps a props object (scoped to a childName when used by shared events)
-   * @param  {Object} baseState a state object (scoped to a childName when used by shared events)
-   * @param  {String} childName an optional childName
-   *
-   * @return {Object} a object describing mutations for a given component
-   */ // eslint-disable-next-line max-params
+           * Returns a set of all mutations for a component
+           *
+           * @param  {Array} mutations an array of mutations objects
+           * @param  {Object} baseProps a props object (scoped to a childName when used by shared events)
+           * @param  {Object} baseState a state object (scoped to a childName when used by shared events)
+           * @param  {String} childName an optional childName
+           *
+           * @return {Object} a object describing mutations for a given component
+           */ // eslint-disable-next-line max-params
                 getExternalMutations: function(mutations, baseProps, baseState, childName) {
                     var _this4 = this;
                     return baseProps = baseProps || {}, baseState = baseState || {}, lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps).reduce(function(memo, eventKey) {
@@ -21590,15 +21590,15 @@ object-assign
                     }, {});
                 },
                 /**
-   * Returns a set of mutations for a particular element given scoped baseProps and baseState
-   *
-   * @param  {Array} mutations an array of mutations objects
-   * @param  {Object} baseProps a props object (scoped the element specified by the identifier)
-   * @param  {Object} baseState a state object (scoped the element specified by the identifier)
-   * @param  {Object} identifier { eventKey, target, childName }
-   *
-   * @return {Object | undefined} a object describing mutations for a given element, or undefined
-   */ // eslint-disable-next-line max-params
+           * Returns a set of mutations for a particular element given scoped baseProps and baseState
+           *
+           * @param  {Array} mutations an array of mutations objects
+           * @param  {Object} baseProps a props object (scoped the element specified by the identifier)
+           * @param  {Object} baseState a state object (scoped the element specified by the identifier)
+           * @param  {Object} identifier { eventKey, target, childName }
+           *
+           * @return {Object | undefined} a object describing mutations for a given element, or undefined
+           */ // eslint-disable-next-line max-params
                 getExternalMutation: function(mutations, baseProps, baseState, identifier) {
                     var filterMutations = function(mutation, type) {
                         if ("string" == typeof mutation[type]) return "all" === mutation[type] || mutation[type] === identifier[type];
@@ -21628,8 +21628,8 @@ object-assign
                     }
                 },
                 /* Returns an array of defaultEvents from sub-components of a given component.
-   * i.e. any static `defaultEvents` on `labelComponent` will be returned
-   */ getComponentEvents: function(props, components) {
+           * i.e. any static `defaultEvents` on `labelComponent` will be returned
+           */ getComponentEvents: function(props, components) {
                     var events = Array.isArray(components) && components.reduce(function(memo, componentName) {
                         var _memo, component = props[componentName], defaultEvents = component && component.type && component.type.defaultEvents, componentEvents = lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents) ? defaultEvents(component.props) : defaultEvents;
                         return memo = Array.isArray(componentEvents) ? (_memo = memo).concat.apply(_memo, _toConsumableArray(componentEvents)) : memo;
@@ -21664,12 +21664,12 @@ object-assign
             __webpack_require__.r(__webpack_exports__);
             /* harmony import */ var lodash_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/keys */ "../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), lodash_pick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/pick */ "../../../node_modules/lodash/pick.js"), lodash_pick__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_pick__WEBPACK_IMPORTED_MODULE_2__), lodash_property__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/property */ "../../../node_modules/lodash/property.js"), lodash_property__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(lodash_property__WEBPACK_IMPORTED_MODULE_3__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/isFunction */ "../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__), lodash_defaults__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_5__), react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
             /**
- * creates an object with some keys excluded
- * replacement for lodash.omit for performance. does not mimick the entire lodash.omit api
- * @param {Object} originalObject: created object will be based on this object
- * @param {Array<String>} ks: an array of keys to omit from the new object
- * @returns {Object} new object with same properties as originalObject
- */ function omit(originalObject) {
+         * creates an object with some keys excluded
+         * replacement for lodash.omit for performance. does not mimick the entire lodash.omit api
+         * @param {Object} originalObject: created object will be based on this object
+         * @param {Array<String>} ks: an array of keys to omit from the new object
+         * @returns {Object} new object with same properties as originalObject
+         */ function omit(originalObject) {
                 var ks = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : [], newObject = {};
                 for(var key in originalObject)!(ks.indexOf(key) >= 0) && Object.prototype.hasOwnProperty.call(originalObject, key) && (newObject[key] = originalObject[key]);
                 return newObject;
@@ -21708,10 +21708,10 @@ object-assign
                 return Math.min(props.width - left - right, props.height - top - bottom) / 2;
             }
             /**
- * @param {Object} props: the props object
- * @returns {Boolean} returns true if the props object contains `horizontal: true` of if any
- * children or nested children are hoizontal
- */ function isHorizontal(props) {
+         * @param {Object} props: the props object
+         * @returns {Boolean} returns true if the props object contains `horizontal: true` of if any
+         * children or nested children are hoizontal
+         */ function isHorizontal(props) {
                 if (void 0 !== props.horizontal || !props.children) return props.horizontal;
                 var traverseChildren = function(childArray) {
                     return childArray.reduce(function(memo, child) {
@@ -21816,22 +21816,22 @@ object-assign
                     }, props, themeProps, fallbackProps);
                 },
                 getCurrentAxis: /**
- * Returns the given axis or the opposite axis when horizontal
- * @param {string} axis: the given axis, either "x" pr "y"
- * @param {Boolean} horizontal: true when the chart is flipped to the horizontal orientation
- * @returns {String} the dimension appropriate for the axis given its props "x" or "y"
- */ function(axis, horizontal) {
+         * Returns the given axis or the opposite axis when horizontal
+         * @param {string} axis: the given axis, either "x" pr "y"
+         * @param {Boolean} horizontal: true when the chart is flipped to the horizontal orientation
+         * @returns {String} the dimension appropriate for the axis given its props "x" or "y"
+         */ function(axis, horizontal) {
                     return horizontal ? "x" === axis ? "y" : "x" : axis;
                 },
                 reduceChildren: /**
- * @param {Array} children: an array of child components
- * @param {Function} iteratee: a function with arguments "child", "childName", and "parent"
- * @param {Object} parentProps: props from the parent that are applied to children
- * @param {any}  initialMemo: The object in which the iteration results are combined.
- * @param {Function} combine: Combines the result of the iteratee with the current memo
- *   to the memo for the next iteration step
- * @returns {Array} returns an array of results from calling the iteratee on all nested children
- */ /* eslint-disable max-params */ function(children, iteratee) {
+         * @param {Array} children: an array of child components
+         * @param {Function} iteratee: a function with arguments "child", "childName", and "parent"
+         * @param {Object} parentProps: props from the parent that are applied to children
+         * @param {any}  initialMemo: The object in which the iteration results are combined.
+         * @param {Function} combine: Combines the result of the iteratee with the current memo
+         *   to the memo for the next iteration step
+         * @returns {Array} returns an array of results from calling the iteratee on all nested children
+         */ /* eslint-disable max-params */ function(children, iteratee) {
                     var parentProps = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, initialMemo = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : [], combine = arguments.length > 4 && void 0 !== arguments[4] ? arguments[4] : function(memo, item) {
                         return memo.concat(item);
                     }, sharedProps = [
@@ -22028,12 +22028,12 @@ object-assign
             };
             /* harmony default export */ __webpack_exports__.default = {
                 /**
-   * Return a new validator based on `propType` but which logs a `console.error`
-   * with `explanation` if used.
-   * @param {Function} propType The old, deprecated propType.
-   * @param {String} explanation The message to provide the user of the deprecated propType.
-   * @returns {Function} Validator which logs usage of this propType
-   */ deprecated: function(propType, explanation) {
+           * Return a new validator based on `propType` but which logs a `console.error`
+           * with `explanation` if used.
+           * @param {Function} propType The old, deprecated propType.
+           * @param {String} explanation The message to provide the user of the deprecated propType.
+           * @returns {Function} Validator which logs usage of this propType
+           */ deprecated: function(propType, explanation) {
                     return function(props, propName, componentName) {
                         var obj;
                         return null != props[propName] && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
@@ -22045,12 +22045,12 @@ object-assign
                     };
                 },
                 /**
-   * Return a new validator which returns true
-   * if and only if all validators passed as arguments return true.
-   * Like React.propTypes.oneOfType, except "all" instead of "any"
-   * @param {Array} validators Validation functions.
-   * @returns {Function} Combined validator function
-   */ allOfType: function(validators) {
+           * Return a new validator which returns true
+           * if and only if all validators passed as arguments return true.
+           * Like React.propTypes.oneOfType, except "all" instead of "any"
+           * @param {Array} validators Validation functions.
+           * @returns {Function} Combined validator function
+           */ allOfType: function(validators) {
                     return makeChainable(function(props, propName, componentName) {
                         for(var _len2 = arguments.length, rest = Array(_len2 > 3 ? _len2 - 3 : 0), _key2 = 3; _key2 < _len2; _key2++)rest[_key2 - 3] = arguments[_key2];
                         return validators.reduce(function(result, validator) {
@@ -22063,32 +22063,32 @@ object-assign
                     });
                 },
                 /**
-   * Check that the value is a non-negative number.
-   */ nonNegative: makeChainable(function(props, propName, componentName) {
+           * Check that the value is a non-negative number.
+           */ nonNegative: makeChainable(function(props, propName, componentName) {
                     var value = props[propName];
                     if ("number" != typeof value || value < 0) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a non-negative number."));
                 }),
                 /**
-   * Check that the value is an integer.
-   */ integer: makeChainable(function(props, propName, componentName) {
+           * Check that the value is an integer.
+           */ integer: makeChainable(function(props, propName, componentName) {
                     var value = props[propName];
                     if ("number" != typeof value || value % 1 != 0) return Error("`".concat(propName, "` in `").concat(componentName, "` must be an integer."));
                 }),
                 /**
-   * Check that the value is greater than zero.
-   */ greaterThanZero: makeChainable(function(props, propName, componentName) {
+           * Check that the value is greater than zero.
+           */ greaterThanZero: makeChainable(function(props, propName, componentName) {
                     var value = props[propName];
                     if ("number" != typeof value || value <= 0) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a number greater than zero."));
                 }),
                 /**
-   * Check that the value is an Array of two unique values.
-   */ domain: makeChainable(function(props, propName, componentName) {
+           * Check that the value is an Array of two unique values.
+           */ domain: makeChainable(function(props, propName, componentName) {
                     var value = props[propName];
                     if (!Array.isArray(value) || 2 !== value.length || value[1] === value[0]) return Error("`".concat(propName, "` in `").concat(componentName, "` must be an array of two unique numeric values."));
                 }),
                 /**
-   * Check that the value looks like a d3 `scale` function.
-   */ scale: makeChainable(function(props, propName, componentName) {
+           * Check that the value looks like a d3 `scale` function.
+           */ scale: makeChainable(function(props, propName, componentName) {
                     var scl;
                     if (scl = props[propName], lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl) ? !(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.copy) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.domain) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.range)) : "string" != typeof scl || -1 === [
                         "linear",
@@ -22098,8 +22098,8 @@ object-assign
                     ].indexOf(scl)) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a d3 scale."));
                 }),
                 /**
-   * Check that an array contains items of the same type.
-   */ homogeneousArray: makeChainable(function(props, propName, componentName) {
+           * Check that an array contains items of the same type.
+           */ homogeneousArray: makeChainable(function(props, propName, componentName) {
                     var values = props[propName];
                     if (!Array.isArray(values)) return Error("`".concat(propName, "` in `").concat(componentName, "` must be an array."));
                     if (!(values.length < 2)) {
@@ -22113,13 +22113,13 @@ object-assign
                     }
                 }),
                 /**
-   * Check that array prop length matches props.data.length
-   */ matchDataLength: makeChainable(function(props, propName) {
+           * Check that array prop length matches props.data.length
+           */ matchDataLength: makeChainable(function(props, propName) {
                     if (props[propName] && Array.isArray(props[propName]) && props[propName].length !== props.data.length) return Error("Length of data and ".concat(propName, " arrays must match."));
                 }),
                 /**
-   * Check that the value is a regular expression
-   */ regExp: makeChainable(function(props, propName, componentName) {
+           * Check that the value is a regular expression
+           */ regExp: makeChainable(function(props, propName, componentName) {
                     if (props[propName] && !lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0___default()(props[propName])) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a regular expression."));
                 })
             };
@@ -22314,14 +22314,14 @@ object-assign
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             /**
- * Given an object with CSS/SVG transform definitions, return the string value
- * for use with the `transform` CSS property or SVG attribute. Note that we
- * can't always guarantee the order will match the author's intended order, so
- * authors should only use the object notation if they know that their transform
- * is commutative or that there is only one.
- * @param {Object} obj An object of transform definitions.
- * @returns {String} The generated transform string.
- */ var toTransformString = function(obj) {
+         * Given an object with CSS/SVG transform definitions, return the string value
+         * for use with the `transform` CSS property or SVG attribute. Note that we
+         * can't always guarantee the order will match the author's intended order, so
+         * authors should only use the object notation if they know that their transform
+         * is commutative or that there is only one.
+         * @param {Object} obj An object of transform definitions.
+         * @returns {String} The generated transform string.
+         */ var toTransformString = function(obj) {
                 for(var _len = arguments.length, more = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)more[_key - 1] = arguments[_key];
                 if (more.length > 0) return more.reduce(function(memo, currentObj) {
                     return [
@@ -22340,12 +22340,12 @@ object-assign
             /* harmony default export */ __webpack_exports__.default = {
                 toTransformString: toTransformString,
                 /**
-   * Given the name of a color scale, getColorScale will return an array
-   * of 5 hex string values in that color scale. If no 'name' parameter
-   * is given, it will return the Victory default grayscale.
-   * @param {String} name The name of the color scale to return (optional).
-   * @returns {Array} An array of 5 hex string values composing a color scale.
-   */ getColorScale: function(name) {
+           * Given the name of a color scale, getColorScale will return an array
+           * of 5 hex string values in that color scale. If no 'name' parameter
+           * is given, it will return the Victory default grayscale.
+           * @param {String} name The name of the color scale to return (optional).
+           * @returns {Array} An array of 5 hex string values composing a color scale.
+           */ getColorScale: function(name) {
                     var scales = {
                         grayscale: [
                             "#cccccc",
@@ -26033,21 +26033,21 @@ object-assign
             }
             /* harmony default export */ __webpack_exports__.default = {
                 getInitialTransitionState: /**
- * If a parent component has animation enabled, calculate the transitions
- * for any data of any child component that supports data transitions
- * Data transitions are defined as any two datasets where data nodes exist
- * in the first set and not the second, in the second and not the first,
- * or both.
- *
- * @param  {Children}  oldChildren   this.props.children from old props
- * @param  {Children}  nextChildren  this.props.children from next props
- *
- * @return {Object}                  Object with the following properties:
- *                                    - nodesWillExit
- *                                    - nodesWillEnter
- *                                    - childrenTransitions
- *                                    - nodesShouldEnter
- */ function(oldChildren, nextChildren) {
+         * If a parent component has animation enabled, calculate the transitions
+         * for any data of any child component that supports data transitions
+         * Data transitions are defined as any two datasets where data nodes exist
+         * in the first set and not the second, in the second and not the first,
+         * or both.
+         *
+         * @param  {Children}  oldChildren   this.props.children from old props
+         * @param  {Children}  nextChildren  this.props.children from next props
+         *
+         * @return {Object}                  Object with the following properties:
+         *                                    - nodesWillExit
+         *                                    - nodesWillEnter
+         *                                    - childrenTransitions
+         *                                    - nodesShouldEnter
+         */ function(oldChildren, nextChildren) {
                     var nodesWillExit = !1, nodesWillEnter = !1, getTransition = function(oldChild, newChild) {
                         if (!newChild || oldChild.type !== newChild.type) return {};
                         var oldData, nextData, oldDataKeyed, nextDataKeyed, _ref = (oldData = getChildData(oldChild), nextData = getChildData(newChild), oldDataKeyed = oldData && getKeyedData(oldData), nextDataKeyed = nextData && getKeyedData(nextData), {
@@ -26077,23 +26077,23 @@ object-assign
                     };
                 },
                 getTransitionPropsFactory: /**
- * getTransitionPropsFactory - putting the Java in JavaScript.  This will return a
- * function that returns prop transformations for a child, given that child's props
- * and its index in the parent's children array.
- *
- * In particular, this will include an `animate` object that is set appropriately
- * so that each child will be synchoronized for each stage of a transition
- * animation.  It will also include a transformed `data` object, where each datum
- * is transformed by `animate.onExit` and `animate.onEnter` `before` and `after`
- * functions.
- *
- * @param  {Object}  props       `this.props` for the parent component.
- * @param  {Object} state        `this.state` for the parent component.
- * @param  {Function} setState    Function that, when called, will `this.setState` on
- *                                 the parent component with the provided object.
- *
- * @return {Function}              Child-prop transformation function.
- */ function(props, state, setState) {
+         * getTransitionPropsFactory - putting the Java in JavaScript.  This will return a
+         * function that returns prop transformations for a child, given that child's props
+         * and its index in the parent's children array.
+         *
+         * In particular, this will include an `animate` object that is set appropriately
+         * so that each child will be synchoronized for each stage of a transition
+         * animation.  It will also include a transformed `data` object, where each datum
+         * is transformed by `animate.onExit` and `animate.onEnter` `before` and `after`
+         * functions.
+         *
+         * @param  {Object}  props       `this.props` for the parent component.
+         * @param  {Object} state        `this.state` for the parent component.
+         * @param  {Function} setState    Function that, when called, will `this.setState` on
+         *                                 the parent component with the provided object.
+         *
+         * @return {Function}              Child-prop transformation function.
+         */ function(props, state, setState) {
                     var nodesWillExit = state && state.nodesWillExit, nodesWillEnter = state && state.nodesWillEnter, nodesShouldEnter = state && state.nodesShouldEnter, nodesShouldLoad = state && state.nodesShouldLoad, nodesDoneLoad = state && state.nodesDoneLoad, childrenTransitions = state && state.childrenTransitions || [], transitionDurations = {
                         enter: props.animate && props.animate.onEnter && props.animate.onEnter.duration,
                         exit: props.animate && props.animate.onExit && props.animate.onExit.duration,
@@ -27178,12 +27178,12 @@ object-assign
                 }, {});
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     stroke: "black"
                 }, props.style), props), tabIndex = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
@@ -29760,12 +29760,12 @@ object-assign
                 }).radius(getYAccessor(scale)) : d3_shape__WEBPACK_IMPORTED_MODULE_3__.line().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).x(horizontal ? getYAccessor(scale) : getXAccessor(scale)).y(horizontal ? getXAccessor(scale) : getYAccessor(scale));
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `ariaLabel`
-   * `id`
-   * `style`
-   * `tabIndex`
-   */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+           * Potential evaluated props are:
+           * `ariaLabel`
+           * `id`
+           * `style`
+           * `tabIndex`
+           */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     fill: "none",
                     stroke: "black"
                 }, props.style), props), tabIndex = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.tabIndex, props);
@@ -30244,20 +30244,20 @@ object-assign
                 }, slice));
             }, evaluateProps = function(props) {
                 /**
-   * * Potential evaluated props of following must be evaluated in this order:
-   * 1) `style`
-   * 2) `radius`
-   * 3) `innerRadius`
-   *
-   * Everything else does not have to be evaluated in a particular order:
-   * `ariaLabel`
-   * `id`
-   * `cornerRadius`
-   * `padAngle`
-   * `sliceStartAngle`
-   * `sliceEndAngle`
-   * `tabIndex`
-   */ var style = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateStyle(props.style, props), radius = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(props.radius, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+           * * Potential evaluated props of following must be evaluated in this order:
+           * 1) `style`
+           * 2) `radius`
+           * 3) `innerRadius`
+           *
+           * Everything else does not have to be evaluated in a particular order:
+           * `ariaLabel`
+           * `id`
+           * `cornerRadius`
+           * `padAngle`
+           * `sliceStartAngle`
+           * `sliceEndAngle`
+           * `tabIndex`
+           */ var style = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateStyle(props.style, props), radius = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(props.radius, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     style: style
                 })), innerRadius = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(props.innerRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     style: style,
@@ -32466,10 +32466,10 @@ object-assign
                         value: function(props, childComponents, calculatedProps) {
                             var children = Object(_helper_methods__WEBPACK_IMPORTED_MODULE_7__.getChildren)(props, childComponents, calculatedProps), getAnimationProps = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getAnimationProps.bind(this);
                             /*
-        reverse render order for children of `VictoryStack` so that higher children in the stack
-        are rendered behind lower children. This looks nicer for stacked bars with cornerRadius, and
-        areas with strokes
-      */ return children.map(function(child, index) {
+                  reverse render order for children of `VictoryStack` so that higher children in the stack
+                  are rendered behind lower children. This looks nicer for stacked bars with cornerRadius, and
+                  areas with strokes
+                */ return children.map(function(child, index) {
                                 var childProps = lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
                                     animate: getAnimationProps(props, child, index)
                                 }, child.props);
@@ -32659,10 +32659,10 @@ object-assign
                 return "left" === orientation || "right" === orientation ? getHorizontalPath(props) : getVerticalPath(props);
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `id`
-   * `style`
-   */ var id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(props.style, props);
+           * Potential evaluated props are:
+           * `id`
+           * `style`
+           */ var id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(props.style, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     id: id,
                     style: style
@@ -34068,13 +34068,13 @@ object-assign
                 return Array.isArray(polygon) && polygon.length ? "M ".concat(props.polygon.join("L"), " Z") : "";
             }, evaluateProps = function(props) {
                 /**
-   * Potential evaluated props are:
-   * `aria-label`
-   * `id`
-   * `size`
-   * `style`
-   * `tabIndex
-   */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.id, props), size = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.size, props), style = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(props.style, props), tabIndex = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.tabIndex, props);
+           * Potential evaluated props are:
+           * `aria-label`
+           * `id`
+           * `size`
+           * `style`
+           * `tabIndex
+           */ var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.id, props), size = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.size, props), style = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(props.style, props), tabIndex = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateProp(props.tabIndex, props);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
                     ariaLabel: ariaLabel,
                     id: id,
@@ -34426,13 +34426,13 @@ object-assign
                     return checkDimension("x") && checkDimension("y");
                 },
                 /**
-   * Generates a new domain scaled by factor and constrained by the original domain.
-   * @param  {[Number, Number]} currentDomain  The domain to be scaled.
-   * @param  {Object} evt the event object
-   * @param  {Object} props the props of the targeted component
-   * @param  {String} axis the desired dimension (either x or y)
-   * @return {[Number, Number]}                The scale domain
-   */ // eslint-disable-next-line max-params
+           * Generates a new domain scaled by factor and constrained by the original domain.
+           * @param  {[Number, Number]} currentDomain  The domain to be scaled.
+           * @param  {Object} evt the event object
+           * @param  {Object} props the props of the targeted component
+           * @param  {String} axis the desired dimension (either x or y)
+           * @return {[Number, Number]}                The scale domain
+           */ // eslint-disable-next-line max-params
                 scale: function(currentDomain, evt, props, axis) {
                     var _currentDomain = _slicedToArray(currentDomain, 2), from = _currentDomain[0], range = Math.abs(_currentDomain[1] - from), minimumZoom = props.minimumZoom && props.minimumZoom[axis], factor = this.getScaleFactor(evt);
                     if (minimumZoom && range <= minimumZoom && factor < 1) return currentDomain;
@@ -34480,12 +34480,12 @@ object-assign
                     return victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDataCoordinates(props, originalScale, x, y);
                 },
                 /**
-   * Generate a new domain translated by the delta and constrained by the original domain.
-   * @param  {[Number, Number]} currentDomain  The domain to be translated.
-   * @param  {[Number, Number]} originalDomain The original domain for the data set.
-   * @param  {Number}           delta          The delta to translate by
-   * @return {[Number, Number]}                The translated domain
-   */ pan: function(currentDomain, originalDomain, delta) {
+           * Generate a new domain translated by the delta and constrained by the original domain.
+           * @param  {[Number, Number]} currentDomain  The domain to be translated.
+           * @param  {[Number, Number]} originalDomain The original domain for the data set.
+           * @param  {Number}           delta          The delta to translate by
+           * @return {[Number, Number]}                The translated domain
+           */ pan: function(currentDomain, originalDomain, delta) {
                     var newDomain, _currentDomain$map2 = _slicedToArray(currentDomain.map(function(val) {
                         return +val;
                     }), 2), fromCurrent = _currentDomain$map2[0], toCurrent = _currentDomain$map2[1], _originalDomain$map2 = _slicedToArray(originalDomain.map(function(val) {
