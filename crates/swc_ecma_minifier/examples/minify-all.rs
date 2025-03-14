@@ -10,7 +10,7 @@ use std::{
 
 use anyhow::Result;
 use rayon::prelude::*;
-use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -92,11 +92,13 @@ fn minify_all(files: &[PathBuf]) {
                 let unresolved_mark = Mark::new();
                 let top_level_mark = Mark::new();
 
+                let comments = SingleThreadedComments::default();
+
                 let Ok(program) = parse_file_as_module(
                     &fm,
                     Default::default(),
                     Default::default(),
-                    None,
+                    Some(&comments),
                     &mut Vec::new(),
                 )
                 .map_err(|err| {
@@ -111,7 +113,7 @@ fn minify_all(files: &[PathBuf]) {
                 let output = optimize(
                     program,
                     cm.clone(),
-                    None,
+                    Some(&comments),
                     None,
                     &MinifyOptions {
                         compress: Some(Default::default()),
