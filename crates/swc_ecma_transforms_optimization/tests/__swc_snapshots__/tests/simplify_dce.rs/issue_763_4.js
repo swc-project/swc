@@ -13,7 +13,7 @@ const resources = [
         label: 'Instagram'
     }
 ];
-export function foo(websites) {
+export function foo() {
     const a = resources.map((resource)=>({
             value: resource.value
         }));

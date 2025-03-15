@@ -31,7 +31,7 @@ function __swcpack_require__(mod) {
     cache = interop(module.exports);
     return cache;
 }
-var load = __swcpack_require__.bind(void 0, function(module, exports) {
+var load = __swcpack_require__.bind(void 0, function() {
     console.log("foo");
     console.log("bar");
 });

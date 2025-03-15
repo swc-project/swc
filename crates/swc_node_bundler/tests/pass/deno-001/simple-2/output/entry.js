@@ -23,10 +23,10 @@ class ServerRequest {
     }
 }
 console.log(ServerRequest);
-async function writeResponse(w, r) {}
-async function readRequest(conn, bufr) {}
+async function writeResponse() {}
+async function readRequest() {}
 console.log(deferred, writeResponse, readRequest, MuxAsyncIterator);
-async function listenAndServe(addr, handler) {}
+async function listenAndServe() {}
 listenAndServe({
     port: 8080
 }, async (req)=>{});

@@ -56,7 +56,7 @@ var load4 = __swcpack_require__.bind(void 0, function(module, exports) {
         bb: bb
     };
 });
-var load5 = __swcpack_require__.bind(void 0, function(module, exports) {
+var load5 = __swcpack_require__.bind(void 0, function() {
     console.log("c");
 });
 load4();
