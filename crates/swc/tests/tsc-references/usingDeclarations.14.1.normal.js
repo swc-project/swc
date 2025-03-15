@@ -7,7 +7,7 @@ const env = {
     hasError: false
 };
 try {
-    const x = _ts_add_disposable_resource(env, {}, false);
+    var x = _ts_add_disposable_resource(env, {}, false);
 } catch (e) {
     env.error = e;
     env.hasError = true;

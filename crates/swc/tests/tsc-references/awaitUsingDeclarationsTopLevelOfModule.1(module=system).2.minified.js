@@ -20,7 +20,7 @@ System.register([
                 hasError: !1
             };
             try {
-                let z = _ts_add_disposable_resource(env, {
+                var z = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
                 }, !0);
                 console.log(w, x, 2, z);

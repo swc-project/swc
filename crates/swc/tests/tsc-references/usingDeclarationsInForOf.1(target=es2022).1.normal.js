@@ -14,7 +14,7 @@ for (const _ of [
         hasError: false
     };
     try {
-        const d1 = _ts_add_disposable_resource(env, _, false);
+        var d1 = _ts_add_disposable_resource(env, _, false);
         {}
     } catch (e) {
         env.error = e;

@@ -17,20 +17,7 @@ var env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function() {
-        var env = {
-            stack: [],
-            error: void 0,
-            hasError: !1
-        };
-        try {
-            _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-        } catch (e) {
-            env.error = e, env.hasError = !0;
-        } finally{
-            _ts_dispose_resources(env);
-        }
-    }(), function(N) {
+    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function(N) {
         var env = {
             stack: [],
             error: void 0,
@@ -228,3 +215,17 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
+!function() {
+    var env = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
+    } catch (e) {
+        env.error = e, env.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env);
+    }
+}();

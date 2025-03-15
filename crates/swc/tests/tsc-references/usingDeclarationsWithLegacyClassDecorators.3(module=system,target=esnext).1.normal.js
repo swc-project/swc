@@ -26,7 +26,7 @@ System.register([
                 hasError: false
             };
             try {
-                const before = _ts_add_disposable_resource(env, null, false);
+                var before = _ts_add_disposable_resource(env, null, false);
                 _export("default", C = _ts_decorate([
                     dec
                 ], C));

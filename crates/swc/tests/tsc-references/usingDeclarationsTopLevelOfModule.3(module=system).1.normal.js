@@ -5,6 +5,9 @@ System.register([
 ], function(_export, _context) {
     "use strict";
     var _ts_add_disposable_resource, _ts_dispose_resources, env;
+    function f() {
+        console.log(y, z);
+    }
     return {
         setters: [
             function(_ts_add_disposable_resource1) {
@@ -21,14 +24,11 @@ System.register([
                 hasError: false
             };
             try {
-                const z = _ts_add_disposable_resource(env, {
+                var z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
                 if (false) {
                     var y = 1;
-                }
-                function f() {
-                    console.log(y, z);
                 }
             } catch (e) {
                 env.error = e;

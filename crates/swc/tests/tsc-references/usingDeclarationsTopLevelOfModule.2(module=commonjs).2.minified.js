@@ -5,7 +5,7 @@ const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_r
     hasError: !1
 };
 try {
-    let z = _ts_add_disposable_resource._(env, {
+    var z = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
     }, !1);
     console.log(2, z);

@@ -32,10 +32,10 @@ define([
         hasError: !1
     };
     try {
-        let z = _ts_add_disposable_resource._(env, {
+        var z = _ts_add_disposable_resource._(env, {
             [Symbol.dispose] () {}
-        }, !1);
-        console.log(w, x, 2, z);
+        }, !1), y = 2;
+        console.log(w, x, y, z);
     } catch (e) {
         env.error = e, env.hasError = !0;
     } finally{

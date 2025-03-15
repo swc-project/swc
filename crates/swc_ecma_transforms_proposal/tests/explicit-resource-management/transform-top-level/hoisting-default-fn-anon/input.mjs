@@ -1,2 +1,2 @@
 using x = null;
-export default function fn() {}
+export default function () {}
