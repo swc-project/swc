@@ -1,5 +1,5 @@
 [workspace]
-members  = ["xtask", "crates/*", "tools/generate-code", "tools/swc-releaser"]
+members  = ["xtask", "crates/*", "tools/*"]
 resolver = "2"
 
   [workspace.package]

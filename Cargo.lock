@@ -3483,6 +3483,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "print-es-rkyv"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap 4.5.9",
+ "rkyv",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+]
+
+[[package]]
 name = "proc-macro-crate"
 version = "1.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
