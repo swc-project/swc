@@ -6,8 +6,63 @@ use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
 use super::Pure;
 use crate::{compress::util::can_absorb_negate, util::make_bool};
+use super::{DropOpts, Pure};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::{
+    compress::util::{can_absorb_negate, negate_cost},
+    util::make_bool,
+};
 
 impl Pure<'_> {
+    pub(super) fn optimize_const_cond(&mut self, e: &mut Expr) {
+        let Expr::Cond(cond) = e else {
+            return;
+        };
+
+        let (p, Value::Known(v)) = cond.test.cast_to_bool(self.expr_ctx) else {
+            return;
+        };
+
+        if p.is_pure() {
+            if v {
+                self.changed = true;
+                report_change!("conditionals: `true ? foo : bar` => `foo` (pure test)");
+                *e = *cond.cons.take();
+            } else {
+                self.changed = true;
+                report_change!("conditionals: `false ? foo : bar` => `bar` (pure test)");
+                *e = *cond.alt.take();
+            }
+        } else {
+            self.ignore_return_value(
+                &mut cond.test,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            self.changed = true;
+
+            let mut exprs = Vec::with_capacity(2);
+            if !cond.test.is_invalid() {
+                exprs.push(take(&mut cond.test));
+            }
+
+            if v {
+                report_change!("conditionals: `true ? foo : bar` => `true, foo`");
+                exprs.push(take(&mut cond.cons));
+            } else {
+                report_change!("conditionals: `false ? foo : bar` => `false, bar`");
+                exprs.push(take(&mut cond.alt));
+            }
+
+            *e = *Expr::from_exprs(exprs);
+        }
+    }
+
     ///
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`

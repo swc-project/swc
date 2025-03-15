@@ -2,7 +2,7 @@
 
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::debug_assert_valid;
+use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{
     parallel::{cpu_count, Parallel, ParallelExt},
@@ -230,9 +230,15 @@ impl VisitMut for Pure<'_> {
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        e.args.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: false,
+                ..self.ctx
+            };
+            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        self.eval_spread_array(&mut e.args);
+        self.eval_spread_array_in_args(&mut e.args);
 
         self.drop_arguments_of_symbol_call(e);
     }
@@ -280,6 +286,47 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
+        // Expression simplifier
+        match e {
+            Expr::Member(..) => {
+                if !(self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign) {
+                    let mut changed = false;
+                    simplify::expr::optimize_member_expr(
+                        self.expr_ctx,
+                        e,
+                        self.ctx.is_callee,
+                        &mut changed,
+                    );
+
+                    if changed {
+                        report_change!("expression simplifier simplified a member expression");
+                    }
+                }
+            }
+
+            Expr::Unary(..) => {
+                let mut changed = false;
+                simplify::expr::optimize_unary_expr(self.expr_ctx, e, &mut changed);
+
+                if changed {
+                    report_change!("expression simplifier simplified a unary expression");
+                    self.changed = true;
+                }
+            }
+
+            Expr::Bin(..) => {
+                let mut changed = false;
+                simplify::expr::optimize_bin_expr(self.expr_ctx, e, &mut changed);
+
+                if changed {
+                    report_change!("expression simplifier simplified a binary expression");
+                    self.changed = true;
+                }
+            }
+
+            _ => {}
+        }
+
         match e {
             Expr::Seq(seq) => {
                 if seq.exprs.len() == 1 {
@@ -287,6 +334,7 @@ impl VisitMut for Pure<'_> {
                 }
             }
             Expr::Invalid(..) | Expr::Lit(..) => return,
+
             _ => {}
         }
 
@@ -350,6 +398,8 @@ impl VisitMut for Pure<'_> {
                 *e = *seq.exprs.take().into_iter().next().unwrap();
             }
         }
+
+        self.eval_array_spread(e);
 
         self.compress_array_join(e);
 
@@ -460,6 +510,8 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.optimize_const_cond(e);
+
         self.compress_conds_as_logical(e);
 
         if e.is_seq() {
@@ -473,6 +525,12 @@ impl VisitMut for Pure<'_> {
         }
 
         self.compress_conds_as_arithmetic(e);
+
+        self.eval_logical_expr(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.lift_seqs_of_bin(e);
 
@@ -649,10 +707,23 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        e.obj.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: false,
+                is_update_arg: false,
+                ..self.ctx
+            };
+            e.obj.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         if let MemberProp::Computed(c) = &mut e.prop {
-            c.visit_mut_with(self);
+            let ctx = Ctx {
+                is_callee: false,
+                is_update_arg: false,
+                is_lhs_of_assign: false,
+                ..self.ctx
+            };
+            c.visit_mut_with(&mut *self.with_ctx(ctx));
 
             // TODO: unify these two
             if let Some(ident) = self.optimize_property_of_member_expr(Some(&e.obj), c) {
@@ -681,7 +752,19 @@ impl VisitMut for Pure<'_> {
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        e.args.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: false,
+                ..self.ctx
+            };
+            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    fn visit_mut_object_lit(&mut self, e: &mut ObjectLit) {
+        e.visit_mut_children_with(self);
+
+        self.eval_spread_object(e);
     }
 
     fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
@@ -699,7 +782,7 @@ impl VisitMut for Pure<'_> {
 
         opt_call.args.visit_mut_with(self);
 
-        self.eval_spread_array(&mut opt_call.args);
+        self.eval_spread_array_in_args(&mut opt_call.args);
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -731,6 +814,14 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_par(nodes);
+
+        self.eval_spread_array_in_array(nodes);
+    }
+
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        p.visit_mut_children_with(self);
+
+        self.drop_neeedless_pat(p);
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -776,7 +867,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
-        e.visit_mut_children_with(self);
+        e.exprs.visit_mut_with(self);
 
         let exprs = &e.exprs;
         if maybe_par!(
@@ -814,7 +905,7 @@ impl VisitMut for Pure<'_> {
 
         self.merge_seq_call(e);
 
-        let can_drop_zero = !e.exprs.last().unwrap().directness_matters();
+        let can_drop_zero = !self.ctx.is_callee || !e.exprs.last().unwrap().directness_matters();
 
         let len = e.exprs.len();
         for (idx, e) in e.exprs.iter_mut().enumerate() {
@@ -824,7 +915,7 @@ impl VisitMut for Pure<'_> {
                 self.ignore_return_value(
                     e,
                     DropOpts {
-                        drop_number: can_drop_zero,
+                        drop_number: true,
                         drop_global_refs_if_unused: false,
                         drop_str_lit: true,
                     },
@@ -997,13 +1088,31 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        n.tag.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            n.tag.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        n.tpl.exprs.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: false,
+                ..self.ctx
+            };
+            n.tpl.exprs.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: false,
+                ..self.ctx
+            };
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
         self.compress_tpl(n);
