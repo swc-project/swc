@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "10.0.0"
+version       = "10.0.1"
 
 [dependencies]
 petgraph   = { workspace = true }

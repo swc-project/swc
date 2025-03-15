@@ -1,11 +1,56 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/proposal)** Fix declarations for `explicit-resource-management` ([#10198](https://github.com/swc-project/swc/issues/10198)) ([99ba555](https://github.com/swc-project/swc/commit/99ba555c810a89ceae899cf612f8ee17925f5581))
+
+
+- **(typescript)** Skip the body of ArrowExpr in type usage analysis  ([#10187](https://github.com/swc-project/swc/issues/10187)) ([9aca205](https://github.com/swc-project/swc/commit/9aca205c770988d6483dad372028fd1928e3f5b0))
+
+### Documentation
+
+
+
+- **(es/minifier)** Make `minifier` example utilize comments ([#10195](https://github.com/swc-project/swc/issues/10195)) ([ec3ebe7](https://github.com/swc-project/swc/commit/ec3ebe78fff5bce29ec780e45427ede56576d7c4))
+
 ### Features
 
 
 
+- **(es/fast-parser)** Implement the initial version ([#10185](https://github.com/swc-project/swc/issues/10185)) ([44e7c39](https://github.com/swc-project/swc/commit/44e7c39fda5d0a7cbdf9dbc3a8d9c85a24a22251))
+
+
 - **(ts/fast-strip)** Throw js object instead of map ([#10186](https://github.com/swc-project/swc/issues/10186)) ([2da0142](https://github.com/swc-project/swc/commit/2da0142217842bf85d84645beeafc7f706215469))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Fix lints & `size.sh` ([#10191](https://github.com/swc-project/swc/issues/10191)) ([e862c32](https://github.com/swc-project/swc/commit/e862c329fc9af61414b664e81030976bde313983))
+
+### Performance
+
+
+
+- **(es/minifier)** Do not repeat applying pure minifier on last ([#10196](https://github.com/swc-project/swc/issues/10196)) ([e6b7cee](https://github.com/swc-project/swc/commit/e6b7cee6cd0b4c9401981dcc9d40d758be94814b))
+
+### Refactor
+
+
+
+- **(es/minifier)** Remove code for infinite loop ([#10194](https://github.com/swc-project/swc/issues/10194)) ([fcc6884](https://github.com/swc-project/swc/commit/fcc68842422c0a46eee4d47956e77a727f202998))
+
+### Testing
+
+
+
+- **(es/minifier)** Update test inputs ([#10193](https://github.com/swc-project/swc/issues/10193)) ([97d8337](https://github.com/swc-project/swc/commit/97d83372dcc63cc68451a2a86672f8748c751600))
+
+
+- **(es/minifier)** Add a benchmark for real-world inputs ([#10204](https://github.com/swc-project/swc/issues/10204)) ([97f2180](https://github.com/swc-project/swc/commit/97f2180e86323fd530bed5a274a0e50abaf81237))
 
 ## [swc_core@v16.5.0] - 2025-03-12
 
@@ -1578,9 +1623,6 @@
 - **(es/isolated-dts)** Preserve comments ([#9572](https://github.com/swc-project/swc/issues/9572)) ([6d15d9c](https://github.com/swc-project/swc/commit/6d15d9c2eb4397b15908cda38f2e44e02d81ebc1))
 
 
-- **(es/minifier)** Support minifying JSX ([#9271](https://github.com/swc-project/swc/issues/9271)) ([9a6367b](https://github.com/swc-project/swc/commit/9a6367b0f661e500219aa3c17ca2ff037e498692))
-
-
 - **(es/minifier)** Fix detection of `this` ([#9339](https://github.com/swc-project/swc/issues/9339)) ([77da7cf](https://github.com/swc-project/swc/commit/77da7cf24bad5064206ab3e6dc248012d08576cf))
 
 
@@ -1728,12 +1770,6 @@
 
 
 
-- **(allocator)** Feature gate `nightly` via macros ([#9274](https://github.com/swc-project/swc/issues/9274)) ([a31fb58](https://github.com/swc-project/swc/commit/a31fb58399cc60ad5052d77b5accd560200a4f3d))
-
-
-- **(allocator)** Add `maybe` types ([#9278](https://github.com/swc-project/swc/issues/9278)) ([a417ff4](https://github.com/swc-project/swc/commit/a417ff4d868b45a2157154e2334b8e1177c369e1))
-
-
 - **(bindings/html)** Allow using `lightningcss` as minfiier ([#9462](https://github.com/swc-project/swc/issues/9462)) ([74d6478](https://github.com/swc-project/swc/commit/74d6478be1eb8cdf1df096c360c159db64b64d8a))
 
 
@@ -1848,9 +1884,6 @@
 
 
 
-- **(allocator)** Use `std` instead of `allocator-api2` ([#9281](https://github.com/swc-project/swc/issues/9281)) ([88723db](https://github.com/swc-project/swc/commit/88723dbf19a402c6395d34b71a5a8a712b4bf1bc))
-
-
 - **(es/codegen)** Use `Vec<T>` from `swc_allocator` ([#9280](https://github.com/swc-project/swc/issues/9280)) ([c1cd0b9](https://github.com/swc-project/swc/commit/c1cd0b99c14b03c250f2d278f10480da733e0dfa))
 
 
@@ -1876,9 +1909,6 @@
 
 
 - **(visit)** Add linear AST traversal ([#9452](https://github.com/swc-project/swc/issues/9452)) ([911d4ea](https://github.com/swc-project/swc/commit/911d4eaa146ff493636308a3cebd8b21d941bfde))
-
-
-- Enable LTO for benchmarks ([#9279](https://github.com/swc-project/swc/issues/9279)) ([a3020b2](https://github.com/swc-project/swc/commit/a3020b2bc77d38fde772b98a14c80deb6c4a6911))
 
 ### Refactor
 

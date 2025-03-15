@@ -4793,7 +4793,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.5.0"
+version = "16.6.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5379,7 +5379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.0.4"
+version = "12.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5666,7 +5666,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "11.0.0"
+version = "11.0.1"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.7.1",
@@ -5696,7 +5696,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "11.0.1"
+version = "11.0.2"
 dependencies = [
  "either",
  "rustc-hash 2.1.0",
@@ -6285,7 +6285,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "10.0.0"
+version = "10.0.1"
 dependencies = [
  "petgraph",
  "rustc-hash 2.1.0",
