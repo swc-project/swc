@@ -9,11 +9,7 @@ var env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, null, !1);
-    var C = function C() {
-        _class_call_check(this, C);
-    };
-    C = _ts_decorate([
+    _ts_add_disposable_resource(env, null, !1), C = _ts_decorate([
         dec
     ], C);
 } catch (e) {
@@ -21,4 +17,7 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
+var C = function C() {
+    _class_call_check(this, C);
+};
 export { C as D };

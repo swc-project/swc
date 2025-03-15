@@ -8,8 +8,6 @@ const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_add_disposable_
     hasError: !1
 };
 try {
-    class C {
-    }
     C = _ts_decorate._([
         dec
     ], C), _ts_add_disposable_resource._(env, null, !1);
@@ -17,4 +15,6 @@ try {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources._(env);
+}
+class C {
 }

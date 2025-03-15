@@ -10,154 +10,7 @@ try {
     var N;
     _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1);
-    class C1 {
-        constructor(){
-            this.a = ()=>{
-                let env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: !1
-                };
-                try {
-                    _ts_add_disposable_resource(env, {
-                        [Symbol.dispose] () {}
-                    }, !1);
-                } catch (e) {
-                    env.error = e, env.hasError = !0;
-                } finally{
-                    _ts_dispose_resources(env);
-                }
-            };
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        static{
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        m() {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        get x() {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                return _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1), 0;
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        set x(v) {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        async am() {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1), await null;
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        *g() {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1), yield;
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        async *ag() {
-            let env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, !1), yield, await null;
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-    }
-    !function(N) {
+    }, !1), function(N) {
         let env = {
             stack: [],
             error: void 0,
@@ -387,4 +240,150 @@ try {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
+}
+class C1 {
+    constructor(){
+        this.a = ()=>{
+            let env = {
+                stack: [],
+                error: void 0,
+                hasError: !1
+            };
+            try {
+                _ts_add_disposable_resource(env, {
+                    [Symbol.dispose] () {}
+                }, !1);
+            } catch (e) {
+                env.error = e, env.hasError = !0;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        };
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    static{
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    m() {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    get x() {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            return _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1), 0;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    set x(v) {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    async am() {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1), await null;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    *g() {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1), yield;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    async *ag() {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1), yield, await null;
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
 }

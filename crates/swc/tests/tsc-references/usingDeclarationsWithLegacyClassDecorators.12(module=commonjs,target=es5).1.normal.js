@@ -19,10 +19,6 @@ var env = {
     hasError: false
 };
 try {
-    var C = function C() {
-        "use strict";
-        _class_call_check._(this, C);
-    };
     C = _ts_decorate._([
         dec
     ], C);
@@ -33,3 +29,7 @@ try {
 } finally{
     _ts_dispose_resources._(env);
 }
+var C = function C() {
+    "use strict";
+    _class_call_check._(this, C);
+};

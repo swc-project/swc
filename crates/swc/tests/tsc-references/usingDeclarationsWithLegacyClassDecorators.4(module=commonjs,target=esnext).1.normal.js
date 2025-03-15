@@ -18,7 +18,7 @@ const env = {
     hasError: false
 };
 try {
-    const before = _ts_add_disposable_resource._(env, null, false);
+    var before = _ts_add_disposable_resource._(env, null, false);
     _class = _ts_decorate._([
         dec
     ], _class);

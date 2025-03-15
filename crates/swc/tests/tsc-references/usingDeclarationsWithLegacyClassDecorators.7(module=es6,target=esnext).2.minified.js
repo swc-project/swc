@@ -8,8 +8,6 @@ let env = {
     hasError: !1
 };
 try {
-    class C {
-    }
     C = _ts_decorate([
         dec
     ], C), _ts_add_disposable_resource(env, null, !1);
@@ -17,4 +15,6 @@ try {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
+}
+class C {
 }

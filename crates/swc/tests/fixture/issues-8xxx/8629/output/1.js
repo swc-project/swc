@@ -8,7 +8,7 @@ const env = {
 try {
     var _computedKey;
     _computedKey = Symbol.dispose;
-    const _disposable = _ts_add_disposable_resource(env, new Disposable(), false);
+    var _disposable = _ts_add_disposable_resource(env, new Disposable(), false);
     console.log('ok');
 } catch (e) {
     env.error = e;

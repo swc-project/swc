@@ -10,94 +10,10 @@ const env = {
     hasError: false
 };
 try {
-    const d1 = _ts_add_disposable_resource(env, {
+    var d1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
-    function f() {
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d2 = _ts_add_disposable_resource(env, {
-                [Symbol.dispose] () {}
-            }, false);
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            _ts_dispose_resources(env);
-        }
-    }
-    function af() {
-        return _af.apply(this, arguments);
-    }
-    function _af() {
-        _af = _async_to_generator(function*() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d3 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                yield null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        });
-        return _af.apply(this, arguments);
-    }
-    function* g() {
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d4 = _ts_add_disposable_resource(env, {
-                [Symbol.dispose] () {}
-            }, false);
-            yield;
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            _ts_dispose_resources(env);
-        }
-    }
-    function ag() {
-        return _ag.apply(this, arguments);
-    }
-    function _ag() {
-        _ag = _wrap_async_generator(function*() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d5 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                yield;
-                yield _await_async_generator(null);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        });
-        return _ag.apply(this, arguments);
-    }
-    const a = ()=>{
+    var a = ()=>{
         const env = {
             stack: [],
             error: void 0,
@@ -114,210 +30,6 @@ try {
             _ts_dispose_resources(env);
         }
     };
-    class C1 {
-        m() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d10 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        get x() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d11 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                return 0;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        set x(v) {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d12 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        am() {
-            return _async_to_generator(function*() {
-                const env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: false
-                };
-                try {
-                    const d13 = _ts_add_disposable_resource(env, {
-                        [Symbol.dispose] () {}
-                    }, false);
-                    yield null;
-                } catch (e) {
-                    env.error = e;
-                    env.hasError = true;
-                } finally{
-                    _ts_dispose_resources(env);
-                }
-            })();
-        }
-        *g() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d14 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                yield;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-        ag() {
-            return _wrap_async_generator(function*() {
-                const env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: false
-                };
-                try {
-                    const d15 = _ts_add_disposable_resource(env, {
-                        [Symbol.dispose] () {}
-                    }, false);
-                    yield;
-                    yield _await_async_generator(null);
-                } catch (e) {
-                    env.error = e;
-                    env.hasError = true;
-                } finally{
-                    _ts_dispose_resources(env);
-                }
-            })();
-        }
-        constructor(){
-            this.a = ()=>{
-                const env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: false
-                };
-                try {
-                    const d7 = _ts_add_disposable_resource(env, {
-                        [Symbol.dispose] () {}
-                    }, false);
-                } catch (e) {
-                    env.error = e;
-                    env.hasError = true;
-                } finally{
-                    _ts_dispose_resources(env);
-                }
-            };
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d8 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-    }
-    (()=>{
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d9 = _ts_add_disposable_resource(env, {
-                [Symbol.dispose] () {}
-            }, false);
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            _ts_dispose_resources(env);
-        }
-    })();
-    class C2 extends C1 {
-        constructor(){
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d16 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                super();
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-    }
-    class C3 extends C1 {
-        constructor(){
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d17 = _ts_add_disposable_resource(env, {
-                    [Symbol.dispose] () {}
-                }, false);
-                super(), this.y = 1;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }
-    }
     (function(N) {
         const env = {
             stack: [],
@@ -325,7 +37,7 @@ try {
             hasError: false
         };
         try {
-            const d18 = _ts_add_disposable_resource(env, {
+            var d18 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
         } catch (e) {
@@ -583,5 +295,293 @@ try {
     env.hasError = true;
 } finally{
     _ts_dispose_resources(env);
+}
+function f() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const d2 = _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, false);
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
+}
+function af() {
+    return _af.apply(this, arguments);
+}
+function _af() {
+    _af = _async_to_generator(function*() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d3 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            yield null;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    });
+    return _af.apply(this, arguments);
+}
+function* g() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const d4 = _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, false);
+        yield;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
+}
+function ag() {
+    return _ag.apply(this, arguments);
+}
+function _ag() {
+    _ag = _wrap_async_generator(function*() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d5 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            yield;
+            yield _await_async_generator(null);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    });
+    return _ag.apply(this, arguments);
+}
+class C1 {
+    m() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d10 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    get x() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d11 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            return 0;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    set x(v) {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d12 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    am() {
+        return _async_to_generator(function*() {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const d13 = _ts_add_disposable_resource(env, {
+                    [Symbol.dispose] () {}
+                }, false);
+                yield null;
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        })();
+    }
+    *g() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d14 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            yield;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+    ag() {
+        return _wrap_async_generator(function*() {
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const d15 = _ts_add_disposable_resource(env, {
+                    [Symbol.dispose] () {}
+                }, false);
+                yield;
+                yield _await_async_generator(null);
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        })();
+    }
+    constructor(){
+        this.a = ()=>{
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const d7 = _ts_add_disposable_resource(env, {
+                    [Symbol.dispose] () {}
+                }, false);
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        };
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d8 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+}
+(()=>{
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const d9 = _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, false);
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        _ts_dispose_resources(env);
+    }
+})();
+class C2 extends C1 {
+    constructor(){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d16 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            super();
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
+}
+class C3 extends C1 {
+    constructor(){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d17 = _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, false);
+            super(), this.y = 1;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }
 }
 export { };

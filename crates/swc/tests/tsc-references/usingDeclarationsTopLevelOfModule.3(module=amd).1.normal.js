@@ -21,19 +21,19 @@ define([
         hasError: false
     };
     try {
-        const z = _ts_add_disposable_resource._(env, {
+        var z = _ts_add_disposable_resource._(env, {
             [Symbol.dispose] () {}
         }, false);
         if (false) {
             var y = 1;
-        }
-        function f() {
-            console.log(y, z);
         }
     } catch (e) {
         env.error = e;
         env.hasError = true;
     } finally{
         _ts_dispose_resources._(env);
+    }
+    function f() {
+        console.log(y, z);
     }
 });
