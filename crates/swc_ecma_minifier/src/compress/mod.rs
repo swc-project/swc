@@ -2,7 +2,7 @@
 use std::fmt::{self, Debug, Display, Formatter};
 #[cfg(feature = "debug")]
 use std::thread;
-use std::{borrow::Cow, fmt::Write, time::Instant};
+use std::{borrow::Cow, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -16,7 +16,7 @@ use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitWith;
 use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_timer::timer;
-use tracing::{debug, error};
+use tracing::debug;
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
@@ -51,7 +51,6 @@ where
         mangle_options,
         changed: false,
         pass: 1,
-        dump_for_infinite_loop: Default::default(),
         mode,
     };
 
@@ -73,8 +72,6 @@ struct Compressor<'a> {
     mangle_options: Option<&'a MangleOptions>,
     changed: bool,
     pass: usize,
-
-    dump_for_infinite_loop: Vec<String>,
 
     mode: &'a dyn Mode,
 }
@@ -144,28 +141,12 @@ impl Compressor<'_> {
 
         // This exists to prevent hanging.
         if self.pass > 200 {
-            if self.dump_for_infinite_loop.is_empty() {
-                error!("Seems like there's an infinite loop");
-            }
-
             let code = force_dump_program(n);
 
-            if self.dump_for_infinite_loop.contains(&code) {
-                let mut msg = String::new();
-
-                for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
-                    let _ = write!(msg, "Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code);
-
-                    // std::fs::write(&format!("pass_{}.js", i), code).unwrap();
-                }
-
-                panic!(
-                    "Infinite loop detected (current pass = {})\n{}",
-                    self.pass, msg
-                )
-            } else {
-                self.dump_for_infinite_loop.push(code);
-            }
+            panic!(
+                "Infinite loop detected (current pass = {})\n{}",
+                self.pass, code
+            );
         }
 
         #[cfg(feature = "debug")]
@@ -272,7 +253,6 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
-                !self.dump_for_infinite_loop.is_empty(),
             );
             n.visit_mut_with(&mut visitor);
 
