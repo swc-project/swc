@@ -59,9 +59,9 @@
                             if (A) return A;
                             let O = (void (h = 0)).filter((m)=>{
                                 var S;
-                                return Z(m) && (S = 0, true);
+                                return Z(m) && "body" !== void (S = 0);
                             }), L = null, j = "fixed" === Q(m).position, B = j ? ee(m) : m;
-                            for(; Z(B) && (k = 0, true);){
+                            for(; Z(B) && !void (k = 0);){
                                 let m = Q(B), S = function(m) {
                                     let S = /firefox/i.test(function() {
                                         if (R) return R;
@@ -101,7 +101,7 @@
                 isElement: Z,
                 getDimensions: function(m) {
                     var S, h;
-                    return (S = 0), m.getBoundingClientRect();
+                    return void (S = 0) ? void (h = 0) : m.getBoundingClientRect();
                 },
                 getOffsetParent: et,
                 getDocumentElement: function(m) {},
@@ -379,12 +379,12 @@
                     t,
                     r
                 ]);
-                let ep = K && N && Object.keys(L).length > 0;
+                let ed = K && N && Object.keys(L).length > 0;
                 return D ? (0, O.jsxs)(d, {
                     id: t,
                     role: "tooltip",
                     className: (0, I.default)("react-tooltip", el.tooltip, el[o], e, `react-tooltip__place-${k}`, {
-                        [el.show]: ep,
+                        [el.show]: ed,
                         [el.fixed]: "fixed" === a,
                         [el.clickable]: T
                     }),
