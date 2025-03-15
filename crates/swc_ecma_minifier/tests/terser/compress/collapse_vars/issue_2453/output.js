@@ -1,1 +1,1 @@
-console.log(42);
+void console.log(42);

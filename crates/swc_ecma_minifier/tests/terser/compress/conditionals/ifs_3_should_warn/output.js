@@ -1,5 +1,10 @@
 var x, y;
-var qq;
-bar();
-var jj;
-foo();
+if (1) bar();
+else {
+    var qq;
+    foo();
+}
+if (0) {
+    var jj;
+    bar();
+} else foo();

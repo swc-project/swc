@@ -2011,15 +2011,14 @@
                         rasterize: function(depthlabel) {
                             var color, bc, lc, labelindex, cx, cy, vertex, p, cc, sc, pos, i, colorMap = [], connectedCount = 0;
                             for(i = 0; i < 400; i++)colorMap[i] = 0;
-                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) {
-                                if ((color = imageData[pos]) !== bc) {
-                                    if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
-                                    else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
-                                        for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
-                                        null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
-                                    }
-                                } else labelData[pos] = labelindex;
-                            } else labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? (labelindex = 0, bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0]) : bc = colorMap[labelindex = labelData[pos]];
+                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) if ((color = imageData[pos]) !== bc) {
+                                if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
+                                else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
+                                    for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
+                                    null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
+                                }
+                            } else labelData[pos] = labelindex;
+                            else labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? (labelindex = 0, bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0]) : bc = colorMap[labelindex = labelData[pos]];
                             for(sc = cc; null !== sc;)sc.index = depthlabel, sc = sc.nextpeer;
                             return {
                                 cc: cc,
@@ -2078,8 +2077,11 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) == 5) images[outImagePtr + offset + u | 0] = 1;
-                            else images[outImagePtr + offset + u | 0] = 0;
+                            if ((sum | 0) == 5) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
                         }
                     }
                 }
@@ -2145,8 +2147,11 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) > 0) images[outImagePtr + offset + u | 0] = 1;
-                            else images[outImagePtr + offset + u | 0] = 0;
+                            if ((sum | 0) > 0) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
                         }
                     }
                 }

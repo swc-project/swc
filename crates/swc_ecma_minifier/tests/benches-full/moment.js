@@ -621,15 +621,13 @@
         delete locales[name], null);
         var locale, parentConfig = baseConfig;
         if (config.abbr = name, null != locales[name]) deprecateSimple('defineLocaleOverride', "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."), parentConfig = locales[name]._config;
-        else if (null != config.parentLocale) {
-            if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
-            else {
-                if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
-                    name: name,
-                    config: config
-                }), null;
-                parentConfig = locale._config;
-            }
+        else if (null != config.parentLocale) if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
+        else {
+            if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
+                name: name,
+                config: config
+            }), null;
+            parentConfig = locale._config;
         }
         return locales[name] = new Locale(mergeConfigs(parentConfig, config)), localeFamilies[name] && localeFamilies[name].forEach(function(x) {
             defineLocale(x.name, x.config);
@@ -810,12 +808,10 @@
                 config._isValid = !1;
                 return;
             }
-            if (match[4]) {
-                if (tzRegex.exec(match[4])) tzFormat = 'Z';
-                else {
-                    config._isValid = !1;
-                    return;
-                }
+            if (match[4]) if (tzRegex.exec(match[4])) tzFormat = 'Z';
+            else {
+                config._isValid = !1;
+                return;
             }
             config._f = dateFormat + (timeFormat || '') + (tzFormat || ''), configFromStringAndFormat(config);
         } else config._isValid = !1;
@@ -1354,54 +1350,52 @@
     }
     proto.add = add, proto.calendar = function(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
-        if (1 == arguments.length) {
-            if (arguments[0]) {
-                var input, arrayTest, dataTypeTest;
-                (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input.filter(function(item) {
-                    return !isNumber(item) && isString(input);
-                }).length), arrayTest && dataTypeTest) || function(input) {
-                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                        'years',
-                        'year',
-                        'y',
-                        'months',
-                        'month',
-                        'M',
-                        'days',
-                        'day',
-                        'd',
-                        'dates',
-                        'date',
-                        'D',
-                        'hours',
-                        'hour',
-                        'h',
-                        'minutes',
-                        'minute',
-                        'm',
-                        'seconds',
-                        'second',
-                        's',
-                        'milliseconds',
-                        'millisecond',
-                        'ms'
-                    ];
-                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                    return objectTest && propertyTest;
-                }(input) || null == input) ? (time = arguments[0], formats = void 0) : function(input) {
-                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                        'sameDay',
-                        'nextDay',
-                        'lastDay',
-                        'nextWeek',
-                        'lastWeek',
-                        'sameElse'
-                    ];
-                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                    return objectTest && propertyTest;
-                }(arguments[0]) && (formats = arguments[0], time = void 0);
-            } else time = void 0, formats = void 0;
-        }
+        if (1 == arguments.length) if (arguments[0]) {
+            var input, arrayTest, dataTypeTest;
+            (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input.filter(function(item) {
+                return !isNumber(item) && isString(input);
+            }).length), arrayTest && dataTypeTest) || function(input) {
+                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                    'years',
+                    'year',
+                    'y',
+                    'months',
+                    'month',
+                    'M',
+                    'days',
+                    'day',
+                    'd',
+                    'dates',
+                    'date',
+                    'D',
+                    'hours',
+                    'hour',
+                    'h',
+                    'minutes',
+                    'minute',
+                    'm',
+                    'seconds',
+                    'second',
+                    's',
+                    'milliseconds',
+                    'millisecond',
+                    'ms'
+                ];
+                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                return objectTest && propertyTest;
+            }(input) || null == input) ? (time = arguments[0], formats = void 0) : function(input) {
+                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                    'sameDay',
+                    'nextDay',
+                    'lastDay',
+                    'nextWeek',
+                    'lastWeek',
+                    'sameElse'
+                ];
+                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                return objectTest && propertyTest;
+            }(arguments[0]) && (formats = arguments[0], time = void 0);
+        } else time = void 0, formats = void 0;
         // We want to compare the start of today, vs this.
         // Getting start-of-today depends on whether we're local/utc/offset or not.
         var now = time || createLocal(), sod = cloneWithOffset(now, this).startOf('day'), format = hooks.calendarFormat(this, sod) || 'sameElse', output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);

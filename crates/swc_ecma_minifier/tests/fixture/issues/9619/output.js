@@ -1,2 +1,2 @@
-var a = (()=>"expected")();
+var a = (()=>("production", "expected"))();
 console.log(a);

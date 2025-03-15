@@ -1129,14 +1129,12 @@
                             log$1.error(e);
                         }
                     }
-                }), 1 === data.handlers[type].length) {
-                    if (elem.addEventListener) {
-                        var options = !1;
-                        supportsPassive() && passiveEvents.indexOf(type) > -1 && (options = {
-                            passive: !0
-                        }), elem.addEventListener(type, data.dispatcher, options);
-                    } else elem.attachEvent && elem.attachEvent("on" + type, data.dispatcher);
-                }
+                }), 1 === data.handlers[type].length) if (elem.addEventListener) {
+                    var options = !1;
+                    supportsPassive() && passiveEvents.indexOf(type) > -1 && (options = {
+                        passive: !0
+                    }), elem.addEventListener(type, data.dispatcher, options);
+                } else elem.attachEvent && elem.attachEvent("on" + type, data.dispatcher);
             }
             /**
              * Removes event listeners from an element
@@ -4626,39 +4624,38 @@
                  * @fires Tech#vttjserror
                  */ _proto.addWebVttScript_ = function() {
                     var _this5 = this;
-                    if (!global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT) {
-                        // signals that the Tech is ready at which point Tech.el_ is part of the DOM
-                        // before inserting the WebVTT script
-                        if (global_document__WEBPACK_IMPORTED_MODULE_1___default().body.contains(this.el())) {
-                            // load via require if available and vtt.js script location was not passed in
-                            // as an option. novtt builds will turn the above require call into an empty object
-                            // which will cause this if check to always fail.
-                            if (!this.options_["vtt.js"] && isPlain(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()) && Object.keys(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()).length > 0) {
-                                this.trigger("vttjsloaded");
-                                return;
-                            } // load vtt.js via the script location option or the cdn of no location was
-                            // passed in
-                            var script = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("script");
-                            script.src = this.options_["vtt.js"] || "https://vjs.zencdn.net/vttjs/0.14.1/vtt.min.js", script.onload = function() {
-                                /**
+                    if (!global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT) // signals that the Tech is ready at which point Tech.el_ is part of the DOM
+                    // before inserting the WebVTT script
+                    if (global_document__WEBPACK_IMPORTED_MODULE_1___default().body.contains(this.el())) {
+                        // load via require if available and vtt.js script location was not passed in
+                        // as an option. novtt builds will turn the above require call into an empty object
+                        // which will cause this if check to always fail.
+                        if (!this.options_["vtt.js"] && isPlain(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()) && Object.keys(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()).length > 0) {
+                            this.trigger("vttjsloaded");
+                            return;
+                        } // load vtt.js via the script location option or the cdn of no location was
+                        // passed in
+                        var script = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("script");
+                        script.src = this.options_["vtt.js"] || "https://vjs.zencdn.net/vttjs/0.14.1/vtt.min.js", script.onload = function() {
+                            /**
                              * Fired when vtt.js is loaded.
                              *
                              * @event Tech#vttjsloaded
                              * @type {EventTarget~Event}
                              */ _this5.trigger("vttjsloaded");
-                            }, script.onerror = function() {
-                                /**
+                        }, script.onerror = function() {
+                            /**
                              * Fired when vtt.js was not loaded due to an error
                              *
                              * @event Tech#vttjsloaded
                              * @type {EventTarget~Event}
                              */ _this5.trigger("vttjserror");
-                            }, this.on("dispose", function() {
-                                script.onload = null, script.onerror = null;
-                            }), // we don't overwrite the injected window.WebVTT if it loads right away
-                            global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT = !0, this.el().parentNode.appendChild(script);
-                        } else this.ready(this.addWebVttScript_);
-                    } // Initially, Tech.el_ is a child of a dummy-div wait until the Component system
+                        }, this.on("dispose", function() {
+                            script.onload = null, script.onerror = null;
+                        }), // we don't overwrite the injected window.WebVTT if it loads right away
+                        global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT = !0, this.el().parentNode.appendChild(script);
+                    } else this.ready(this.addWebVttScript_);
+                     // Initially, Tech.el_ is a child of a dummy-div wait until the Component system
                 }, /**
                  * Emulate texttracks
                  *
@@ -12194,18 +12191,17 @@
                     // This latter part coincides with the load order
                     // (tag must exist before Player)
                     (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, // see enableTouchActivity in Component
-                    options.reportTouchActivity = !1, !options.language) {
-                        if ("function" == typeof tag.closest) {
-                            var _this, closest = tag.closest("[lang]");
-                            closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
-                        } else for(var element = tag; element && 1 === element.nodeType;){
-                            if (getAttributes(element).hasOwnProperty("lang")) {
-                                options.language = element.getAttribute("lang");
-                                break;
-                            }
-                            element = element.parentNode;
+                    options.reportTouchActivity = !1, !options.language) if ("function" == typeof tag.closest) {
+                        var _this, closest = tag.closest("[lang]");
+                        closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
+                    } else for(var element = tag; element && 1 === element.nodeType;){
+                        if (getAttributes(element).hasOwnProperty("lang")) {
+                            options.language = element.getAttribute("lang");
+                            break;
                         }
-                    } // Run base component initializing with new options
+                        element = element.parentNode;
+                    }
+                     // Run base component initializing with new options
                     // someone, bail early with an informative error
                     if ((_this = _Component.call(this, null, options, ready) || this).boundDocumentFullscreenChange_ = function(e) {
                         return _this.documentFullscreenChange_(e);
@@ -13896,12 +13892,12 @@
                             }(src, middlewares[src.type], next, player);
                         }, 1);
                     }(this, sources[0], function(middlewareSource, mws) {
-                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
+                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
-                        }, 0), void // this needs a better comment about why this is needed
+                        }, 0), // this needs a better comment about why this is needed
                         _this14.triggerReady());
                         !/**
              * When the tech is set, passes the tech to each middleware's `setTech` method.
@@ -16629,7 +16625,7 @@
                 if ("estimate" === matchedSegment.type) return(// we've run out of retries
                 0 === retryCount ? callback({
                     message: programTime + " is not buffered yet. Try again"
-                }) : (seekTo(matchedSegment.estimatedStart + mediaOffset), void tech.one("seeked", function() {
+                }) : void (seekTo(matchedSegment.estimatedStart + mediaOffset), tech.one("seeked", function() {
                     seekToProgramTime({
                         programTime: programTime,
                         playlist: playlist,
@@ -17085,16 +17081,15 @@
                              * @param type {string} the event name
                              */ this.trigger = function(type) {
                             var callbacks, i, length, args;
-                            if (callbacks = listeners[type]) {
-                                // can add a significant amount of overhead. Avoid the
-                                // intermediate object creation for the common case of a
-                                // single callback argument
-                                if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                                else {
-                                    for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
-                                    for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
-                                }
-                            } // Slicing the arguments on every invocation of this method
+                            if (callbacks = listeners[type]) // can add a significant amount of overhead. Avoid the
+                            // intermediate object creation for the common case of a
+                            // single callback argument
+                            if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                            else {
+                                for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
+                                for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
+                            }
+                             // Slicing the arguments on every invocation of this method
                         }, /**
                              * Destroys the stream and cleans up.
                              */ this.dispose = function() {
@@ -19029,60 +19024,58 @@
                             this.lastControlCode_ = null;
                             return;
                         } // Store control codes
-                        if ((0xf000 & data) == 0x1000 ? this.lastControlCode_ = data : data !== this.PADDING_ && (this.lastControlCode_ = null), char0 = data >>> 8, char1 = 0xff & data, data !== this.PADDING_) {
-                            if (data === this.RESUME_CAPTION_LOADING_) this.mode_ = "popOn";
-                            else if (data === this.END_OF_CAPTION_) // If an EOC is received while in paint-on mode, the displayed caption
-                            // text should be swapped to non-displayed memory as if it was a pop-on
-                            // caption. Because of that, we should explicitly switch back to pop-on
-                            // mode
-                            this.mode_ = "popOn", this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), swap = this.displayed_, this.displayed_ = this.nonDisplayed_, this.nonDisplayed_ = swap, this.startPts_ = packet.pts;
-                            else if (data === this.ROLL_UP_2_ROWS_) this.rollUpRows_ = 2, this.setRollUp(packet.pts);
-                            else if (data === this.ROLL_UP_3_ROWS_) this.rollUpRows_ = 3, this.setRollUp(packet.pts);
-                            else if (data === this.ROLL_UP_4_ROWS_) this.rollUpRows_ = 4, this.setRollUp(packet.pts);
-                            else if (data === this.CARRIAGE_RETURN_) this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), this.shiftRowsUp_(), this.startPts_ = packet.pts;
-                            else if (data === this.BACKSPACE_) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
-                            else if (data === this.ERASE_DISPLAYED_MEMORY_) this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer();
-                            else if (data === this.ERASE_NON_DISPLAYED_MEMORY_) this.nonDisplayed_ = createDisplayBuffer();
-                            else if (data === this.RESUME_DIRECT_CAPTIONING_) "paintOn" !== this.mode_ && (// NOTE: This should be removed when proper caption positioning is
-                            // implemented
-                            this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer()), this.mode_ = "paintOn", this.startPts_ = packet.pts;
-                            else if (this.isSpecialCharacter(char0, char1)) text = getCharFromCode(// Bitmask char0 so that we can apply character transformations
-                            // regardless of field and data channel.
-                            // Then byte-shift to the left and OR with char1 so we can pass the
-                            // entire character code to `getCharFromCode`.
-                            (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
-                            else if (this.isExtCharacter(char0, char1)) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1), text = getCharFromCode(// regardless of field and data channel.
-                            // Then byte-shift to the left and OR with char1 so we can pass the
-                            // entire character code to `getCharFromCode`.
-                            (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
-                            else if (this.isMidRowCode(char0, char1)) // Attributes are not additive, so clear all formatting
-                            this.clearFormatting(packet.pts), // should be replaced with spaces, so add one now
-                            this[this.mode_](packet.pts, " "), this.column_++, (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
-                                "i"
-                            ]), (0x1 & char1) == 0x1 && this.addFormatting(packet.pts, [
+                        if ((0xf000 & data) == 0x1000 ? this.lastControlCode_ = data : data !== this.PADDING_ && (this.lastControlCode_ = null), char0 = data >>> 8, char1 = 0xff & data, data !== this.PADDING_) if (data === this.RESUME_CAPTION_LOADING_) this.mode_ = "popOn";
+                        else if (data === this.END_OF_CAPTION_) // If an EOC is received while in paint-on mode, the displayed caption
+                        // text should be swapped to non-displayed memory as if it was a pop-on
+                        // caption. Because of that, we should explicitly switch back to pop-on
+                        // mode
+                        this.mode_ = "popOn", this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), swap = this.displayed_, this.displayed_ = this.nonDisplayed_, this.nonDisplayed_ = swap, this.startPts_ = packet.pts;
+                        else if (data === this.ROLL_UP_2_ROWS_) this.rollUpRows_ = 2, this.setRollUp(packet.pts);
+                        else if (data === this.ROLL_UP_3_ROWS_) this.rollUpRows_ = 3, this.setRollUp(packet.pts);
+                        else if (data === this.ROLL_UP_4_ROWS_) this.rollUpRows_ = 4, this.setRollUp(packet.pts);
+                        else if (data === this.CARRIAGE_RETURN_) this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), this.shiftRowsUp_(), this.startPts_ = packet.pts;
+                        else if (data === this.BACKSPACE_) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
+                        else if (data === this.ERASE_DISPLAYED_MEMORY_) this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer();
+                        else if (data === this.ERASE_NON_DISPLAYED_MEMORY_) this.nonDisplayed_ = createDisplayBuffer();
+                        else if (data === this.RESUME_DIRECT_CAPTIONING_) "paintOn" !== this.mode_ && (// NOTE: This should be removed when proper caption positioning is
+                        // implemented
+                        this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer()), this.mode_ = "paintOn", this.startPts_ = packet.pts;
+                        else if (this.isSpecialCharacter(char0, char1)) text = getCharFromCode(// Bitmask char0 so that we can apply character transformations
+                        // regardless of field and data channel.
+                        // Then byte-shift to the left and OR with char1 so we can pass the
+                        // entire character code to `getCharFromCode`.
+                        (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
+                        else if (this.isExtCharacter(char0, char1)) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1), text = getCharFromCode(// regardless of field and data channel.
+                        // Then byte-shift to the left and OR with char1 so we can pass the
+                        // entire character code to `getCharFromCode`.
+                        (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
+                        else if (this.isMidRowCode(char0, char1)) // Attributes are not additive, so clear all formatting
+                        this.clearFormatting(packet.pts), // should be replaced with spaces, so add one now
+                        this[this.mode_](packet.pts, " "), this.column_++, (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
+                            "i"
+                        ]), (0x1 & char1) == 0x1 && this.addFormatting(packet.pts, [
+                            "u"
+                        ]);
+                        else if (this.isOffsetControlCode(char0, char1)) // Cursor position is set by indent PAC (see below) in 4-column
+                        // increments, with an additional offset code of 1-3 to reach any
+                        // of the 32 columns specified by CEA-608. So all we need to do
+                        // here is increment the column cursor by the given offset.
+                        this.column_ += 0x03 & char1; // Detect PACs (Preamble Address Codes)
+                        else if (this.isPAC(char0, char1)) {
+                            // There's no logic for PAC -> row mapping, so we have to just
+                            // find the row code in an array and use its index :(
+                            var row = ROWS.indexOf(0x1f20 & data); // Configure the caption window if we're in roll-up mode
+                            "rollUp" === this.mode_ && (row - this.rollUpRows_ + 1 < 0 && (row = this.rollUpRows_ - 1), this.setRollUp(packet.pts, row)), row !== this.row_ && (// formatting is only persistent for current row
+                            this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && -1 === this.formatting_.indexOf("u") && this.addFormatting(packet.pts, [
                                 "u"
+                            ]), (0x10 & data) == 0x10 && // We've got an indent level code. Each successive even number
+                            // increments the column cursor by 4, so we can get the desired
+                            // column position by bit-shifting to the right (to get n/2)
+                            // and multiplying by 4.
+                            (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
+                                "i"
                             ]);
-                            else if (this.isOffsetControlCode(char0, char1)) // Cursor position is set by indent PAC (see below) in 4-column
-                            // increments, with an additional offset code of 1-3 to reach any
-                            // of the 32 columns specified by CEA-608. So all we need to do
-                            // here is increment the column cursor by the given offset.
-                            this.column_ += 0x03 & char1; // Detect PACs (Preamble Address Codes)
-                            else if (this.isPAC(char0, char1)) {
-                                // There's no logic for PAC -> row mapping, so we have to just
-                                // find the row code in an array and use its index :(
-                                var row = ROWS.indexOf(0x1f20 & data); // Configure the caption window if we're in roll-up mode
-                                "rollUp" === this.mode_ && (row - this.rollUpRows_ + 1 < 0 && (row = this.rollUpRows_ - 1), this.setRollUp(packet.pts, row)), row !== this.row_ && (// formatting is only persistent for current row
-                                this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && -1 === this.formatting_.indexOf("u") && this.addFormatting(packet.pts, [
-                                    "u"
-                                ]), (0x10 & data) == 0x10 && // We've got an indent level code. Each successive even number
-                                // increments the column cursor by 4, so we can get the desired
-                                // column position by bit-shifting to the right (to get n/2)
-                                // and multiplying by 4.
-                                (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
-                                    "i"
-                                ]);
-                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length); // finish data processing
-                        }
+                        } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length); // finish data processing
                     };
                 };
                 Cea608Stream.prototype = new Stream(), // display buffer
@@ -22553,22 +22546,21 @@
                         var mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
                         // this is important because we can abort a request and this value must be
                         // equal to the last appended mediaIndex
-                        if (this.logger_("live window shift [" + mediaSequenceDiff + "]"), null !== this.mediaIndex) {
-                            // update during that. mediaIndex would go from 0 to -1 if mediaSequence in the
-                            // new playlist was incremented by 1.
-                            if (this.mediaIndex -= mediaSequenceDiff, this.mediaIndex < 0) this.mediaIndex = null, this.partIndex = null;
-                            else {
-                                var segment = this.playlist_.segments[this.mediaIndex]; // partIndex should remain the same for the same segment
-                                // unless parts fell off of the playlist for this segment.
-                                // In that case we need to reset partIndex and resync
-                                if (this.partIndex && (!segment.parts || !segment.parts.length || !segment.parts[this.partIndex])) {
-                                    var mediaIndex = this.mediaIndex;
-                                    this.logger_("currently processing part (index " + this.partIndex + ") no longer exists."), this.resetLoader(), // as the part was dropped from our current playlists segment.
-                                    // The mediaIndex will still be valid so keep that around.
-                                    this.mediaIndex = mediaIndex;
-                                }
+                        if (this.logger_("live window shift [" + mediaSequenceDiff + "]"), null !== this.mediaIndex) // update during that. mediaIndex would go from 0 to -1 if mediaSequence in the
+                        // new playlist was incremented by 1.
+                        if (this.mediaIndex -= mediaSequenceDiff, this.mediaIndex < 0) this.mediaIndex = null, this.partIndex = null;
+                        else {
+                            var segment = this.playlist_.segments[this.mediaIndex]; // partIndex should remain the same for the same segment
+                            // unless parts fell off of the playlist for this segment.
+                            // In that case we need to reset partIndex and resync
+                            if (this.partIndex && (!segment.parts || !segment.parts.length || !segment.parts[this.partIndex])) {
+                                var mediaIndex = this.mediaIndex;
+                                this.logger_("currently processing part (index " + this.partIndex + ") no longer exists."), this.resetLoader(), // as the part was dropped from our current playlists segment.
+                                // The mediaIndex will still be valid so keep that around.
+                                this.mediaIndex = mediaIndex;
                             }
-                        } // update the mediaIndex on the SegmentInfo object
+                        }
+                         // update the mediaIndex on the SegmentInfo object
                         segmentInfo && (segmentInfo.mediaIndex -= mediaSequenceDiff, segmentInfo.mediaIndex < 0 ? (segmentInfo.mediaIndex = null, segmentInfo.partIndex = null) : (segmentInfo.mediaIndex >= 0 && (segmentInfo.segment = newPlaylist.segments[segmentInfo.mediaIndex]), segmentInfo.partIndex >= 0 && segmentInfo.segment.parts && (segmentInfo.part = segmentInfo.segment.parts[segmentInfo.partIndex]))), this.syncController_.saveExpiredSegmentInfo(oldPlaylist, newPlaylist);
                     }
                 }, /**
@@ -22726,12 +22718,10 @@
                     // that the next part we append is "independent" if possible.
                     // So we check if the previous part is independent, and request
                     // it if it is.
-                    if ("number" != typeof next.partIndex && nextSegment.parts && (next.partIndex = 0, nextPart = nextSegment.parts[0]), !bufferedTime && nextPart && !nextPart.independent) {
-                        if (0 === next.partIndex) {
-                            var lastSegment = segments[next.mediaIndex - 1], lastSegmentLastPart = lastSegment.parts && lastSegment.parts.length && lastSegment.parts[lastSegment.parts.length - 1];
-                            lastSegmentLastPart && lastSegmentLastPart.independent && (next.mediaIndex -= 1, next.partIndex = lastSegment.parts.length - 1, next.independent = "previous segment");
-                        } else nextSegment.parts[next.partIndex - 1].independent && (next.partIndex -= 1, next.independent = "previous part");
-                    }
+                    if ("number" != typeof next.partIndex && nextSegment.parts && (next.partIndex = 0, nextPart = nextSegment.parts[0]), !bufferedTime && nextPart && !nextPart.independent) if (0 === next.partIndex) {
+                        var lastSegment = segments[next.mediaIndex - 1], lastSegmentLastPart = lastSegment.parts && lastSegment.parts.length && lastSegment.parts[lastSegment.parts.length - 1];
+                        lastSegmentLastPart && lastSegmentLastPart.independent && (next.mediaIndex -= 1, next.partIndex = lastSegment.parts.length - 1, next.independent = "previous segment");
+                    } else nextSegment.parts[next.partIndex - 1].independent && (next.partIndex -= 1, next.independent = "previous part");
                     var ended = this.mediaSource_ && "ended" === this.mediaSource_.readyState; // do not choose a next segment if all of the following:
                     return(// 1. this is the last segment in the playlist
                     // 2. end of stream has been called on the media source already
@@ -24733,13 +24723,12 @@
                          * @param {string} type the event name
                          */ _proto.trigger = function(type) {
                         var callbacks = this.listeners[type];
-                        if (callbacks) {
-                            // can add a significant amount of overhead. Avoid the
-                            // intermediate object creation for the common case of a
-                            // single callback argument
-                            if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                            else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
-                        } // Slicing the arguments on every invocation of this method
+                        if (callbacks) // can add a significant amount of overhead. Avoid the
+                        // intermediate object creation for the common case of a
+                        // single callback argument
+                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                         // Slicing the arguments on every invocation of this method
                     }, /**
                          * Destroys the stream and cleans up.
                          */ _proto.dispose = function() {
@@ -25177,19 +25166,17 @@
                         var variants = null; // set to variants to main media active group
                         media.attributes[type] && (variants = groups[media.attributes[type]]);
                         var groupKeys = Object.keys(groups);
-                        if (!variants) {
-                            // find the masterPlaylistLoader media
-                            // that is in a media group if we are dealing
-                            // with audio only
-                            if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
-                                var groupPropertyList = groups[groupKeys[i]];
-                                if (groupMatch(groupPropertyList, media)) {
-                                    variants = groupPropertyList;
-                                    break;
-                                }
-                            } // use the main group if it exists
-                            else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
-                        }
+                        if (!variants) // find the masterPlaylistLoader media
+                        // that is in a media group if we are dealing
+                        // with audio only
+                        if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
+                            var groupPropertyList = groups[groupKeys[i]];
+                            if (groupMatch(groupPropertyList, media)) {
+                                variants = groupPropertyList;
+                                break;
+                            }
+                        } // use the main group if it exists
+                        else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
                         return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
                         })[0] || null;

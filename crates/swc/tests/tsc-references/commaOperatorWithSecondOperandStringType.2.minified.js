@@ -1,3 +1,3 @@
 //// [commaOperatorWithSecondOperandStringType.ts]
 var NUMBER;
-NUMBER.toString(), NUMBER.toString();
+new Date(), NUMBER.toString(), new Date(), NUMBER.toString();

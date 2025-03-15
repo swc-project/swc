@@ -1,2 +1,2 @@
 //// [parserConstructorAmbiguity1.ts]
-A;
+new Date, A;

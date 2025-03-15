@@ -802,20 +802,18 @@
                                         characters1 += ";";
                                     // { rule/at-rule
                                     default:
-                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) {
-                                            if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
-                                            else switch(atrule){
-                                                // d m s
-                                                case 100:
-                                                case 109:
-                                                case 115:
-                                                    parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
-                                                    break;
-                                                default:
-                                                    parse(characters1, reference, reference, reference, [
-                                                        ""
-                                                    ], children, length, points, children);
-                                            }
+                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
+                                        else switch(atrule){
+                                            // d m s
+                                            case 100:
+                                            case 109:
+                                            case 115:
+                                                parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
+                                                break;
+                                            default:
+                                                parse(characters1, reference, reference, reference, [
+                                                    ""
+                                                ], children, length, points, children);
                                         }
                                 }
                                 index = offset = property = 0, variable = ampersand = 1, type = characters1 = "", length = pseudo;

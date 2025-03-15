@@ -1,3 +1,5 @@
-for (;;) a();
-for (;;) c();
-d();
+for(;;)a();
+for(;;)c();
+do {
+    d();
+}while (false)

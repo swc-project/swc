@@ -168,11 +168,9 @@
         return !!data && 'string' != typeof data && 'number' == typeof data.length;
     }
     function each(arr, cb, context) {
-        if (arr && cb) {
-            if (arr.forEach && arr.forEach === nativeForEach) arr.forEach(cb, context);
-            else if (arr.length === +arr.length) for(var i = 0, len = arr.length; i < len; i++)cb.call(context, arr[i], i, arr);
-            else for(var key in arr)arr.hasOwnProperty(key) && cb.call(context, arr[key], key, arr);
-        }
+        if (arr && cb) if (arr.forEach && arr.forEach === nativeForEach) arr.forEach(cb, context);
+        else if (arr.length === +arr.length) for(var i = 0, len = arr.length; i < len; i++)cb.call(context, arr[i], i, arr);
+        else for(var key in arr)arr.hasOwnProperty(key) && cb.call(context, arr[key], key, arr);
     }
     function map(arr, cb, context) {
         if (!arr) return [];
@@ -2402,34 +2400,32 @@
         }, Track.prototype.addKeyframe = function(time, value) {
             time >= this.maxTime ? this.maxTime = time : this._needsSort = !0;
             var keyframes = this.keyframes, len = keyframes.length;
-            if (this.interpolable) {
-                if (isArrayLike(value)) {
-                    var value1, arrayDim = isArrayLike((value1 = value) && value1[0]) ? 2 : 1;
-                    if (len > 0 && this.arrDim !== arrayDim || 1 === arrayDim && 'number' != typeof value[0] || 2 === arrayDim && 'number' != typeof value[0][0]) {
-                        this.interpolable = !1;
-                        return;
-                    }
-                    if (len > 0) {
-                        var lastFrame = keyframes[len - 1];
-                        this._isAllValueEqual && (1 === arrayDim && is1DArraySame(value, lastFrame.value) || (this._isAllValueEqual = !1));
-                    }
-                    this.arrDim = arrayDim;
-                } else {
-                    if (this.arrDim > 0) {
-                        this.interpolable = !1;
-                        return;
-                    }
-                    if ('string' == typeof value) {
-                        var colorArray = parse(value);
-                        colorArray ? (value = colorArray, this.isValueColor = !0) : this.interpolable = !1;
-                    } else if ('number' != typeof value || isNaN(value)) {
-                        this.interpolable = !1;
-                        return;
-                    }
-                    if (this._isAllValueEqual && len > 0) {
-                        var lastFrame = keyframes[len - 1];
-                        this.isValueColor && !is1DArraySame(lastFrame.value, value) ? this._isAllValueEqual = !1 : lastFrame.value !== value && (this._isAllValueEqual = !1);
-                    }
+            if (this.interpolable) if (isArrayLike(value)) {
+                var value1, arrayDim = isArrayLike((value1 = value) && value1[0]) ? 2 : 1;
+                if (len > 0 && this.arrDim !== arrayDim || 1 === arrayDim && 'number' != typeof value[0] || 2 === arrayDim && 'number' != typeof value[0][0]) {
+                    this.interpolable = !1;
+                    return;
+                }
+                if (len > 0) {
+                    var lastFrame = keyframes[len - 1];
+                    this._isAllValueEqual && (1 === arrayDim && is1DArraySame(value, lastFrame.value) || (this._isAllValueEqual = !1));
+                }
+                this.arrDim = arrayDim;
+            } else {
+                if (this.arrDim > 0) {
+                    this.interpolable = !1;
+                    return;
+                }
+                if ('string' == typeof value) {
+                    var colorArray = parse(value);
+                    colorArray ? (value = colorArray, this.isValueColor = !0) : this.interpolable = !1;
+                } else if ('number' != typeof value || isNaN(value)) {
+                    this.interpolable = !1;
+                    return;
+                }
+                if (this._isAllValueEqual && len > 0) {
+                    var lastFrame = keyframes[len - 1];
+                    this.isValueColor && !is1DArraySame(lastFrame.value, value) ? this._isAllValueEqual = !1 : lastFrame.value !== value && (this._isAllValueEqual = !1);
                 }
             }
             var kf = {
@@ -2446,10 +2442,8 @@
             for(var arrDim = this.arrDim, kfsLen = kfs.length, lastKf = kfs[kfsLen - 1], i = 0; i < kfsLen; i++)kfs[i].percent = kfs[i].time / this.maxTime, arrDim > 0 && i !== kfsLen - 1 && function(val0, val1, arrDim) {
                 if (val0.push && val1.push) {
                     var arr0Len = val0.length, arr1Len = val1.length;
-                    if (arr0Len !== arr1Len) {
-                        if (arr0Len > arr1Len) val0.length = arr1Len;
-                        else for(var i = arr0Len; i < arr1Len; i++)val0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
-                    }
+                    if (arr0Len !== arr1Len) if (arr0Len > arr1Len) val0.length = arr1Len;
+                    else for(var i = arr0Len; i < arr1Len; i++)val0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
                     for(var len2 = val0[0] && val0[0].length, i = 0; i < val0.length; i++)if (1 === arrDim) isNaN(val0[i]) && (val0[i] = val1[i]);
                     else for(var j = 0; j < len2; j++)isNaN(val0[i][j]) && (val0[i][j] = val1[i][j]);
                 }
@@ -3193,15 +3187,14 @@
         !function animateToShallow(animatable, topKey, source, target, cfg, animationProps, animators, reverse) {
             for(var animatableKeys = [], changedKeys = [], targetKeys = keys(target), duration = cfg.duration, delay = cfg.delay, additive = cfg.additive, setToFinal = cfg.setToFinal, animateAll = !isObject(animationProps), k = 0; k < targetKeys.length; k++){
                 var innerKey = targetKeys[k];
-                if (null != source[innerKey] && null != target[innerKey] && (animateAll || animationProps[innerKey])) {
-                    if (isObject(target[innerKey]) && !isArrayLike(target[innerKey])) {
-                        if (topKey) {
-                            reverse || (source[innerKey] = target[innerKey], animatable.updateDuringAnimation(topKey));
-                            continue;
-                        }
-                        animateToShallow(animatable, innerKey, source[innerKey], target[innerKey], cfg, animationProps && animationProps[innerKey], animators, reverse);
-                    } else animatableKeys.push(innerKey), changedKeys.push(innerKey);
-                } else reverse || (source[innerKey] = target[innerKey], animatable.updateDuringAnimation(topKey), changedKeys.push(innerKey));
+                if (null != source[innerKey] && null != target[innerKey] && (animateAll || animationProps[innerKey])) if (isObject(target[innerKey]) && !isArrayLike(target[innerKey])) {
+                    if (topKey) {
+                        reverse || (source[innerKey] = target[innerKey], animatable.updateDuringAnimation(topKey));
+                        continue;
+                    }
+                    animateToShallow(animatable, innerKey, source[innerKey], target[innerKey], cfg, animationProps && animationProps[innerKey], animators, reverse);
+                } else animatableKeys.push(innerKey), changedKeys.push(innerKey);
+                else reverse || (source[innerKey] = target[innerKey], animatable.updateDuringAnimation(topKey), changedKeys.push(innerKey));
             }
             var keyLen = animatableKeys.length;
             if (keyLen > 0 || cfg.force && !animators.length) {
@@ -3224,17 +3217,16 @@
                     for(var i = 0; i < keyLen; i++){
                         var innerKey = animatableKeys[i];
                         sourceClone[innerKey] = cloneValue(source[innerKey]), function(target, source, key) {
-                            if (isArrayLike(source[key])) {
-                                if (isArrayLike(target[key]) || (target[key] = []), isTypedArray(source[key])) {
-                                    var len = source[key].length;
-                                    target[key].length !== len && (target[key] = new source[key].constructor(len), copyArrShallow(target[key], source[key], len));
-                                } else {
-                                    var sourceArr = source[key], targetArr = target[key], len0 = sourceArr.length;
-                                    if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i = 0; i < len0; i++)targetArr[i] ? copyArrShallow(targetArr[i], sourceArr[i], len1) : targetArr[i] = Array.prototype.slice.call(sourceArr[i]);
-                                    else copyArrShallow(targetArr, sourceArr, len0);
-                                    targetArr.length = sourceArr.length;
-                                }
-                            } else target[key] = source[key];
+                            if (isArrayLike(source[key])) if (isArrayLike(target[key]) || (target[key] = []), isTypedArray(source[key])) {
+                                var len = source[key].length;
+                                target[key].length !== len && (target[key] = new source[key].constructor(len), copyArrShallow(target[key], source[key], len));
+                            } else {
+                                var sourceArr = source[key], targetArr = target[key], len0 = sourceArr.length;
+                                if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i = 0; i < len0; i++)targetArr[i] ? copyArrShallow(targetArr[i], sourceArr[i], len1) : targetArr[i] = Array.prototype.slice.call(sourceArr[i]);
+                                else copyArrShallow(targetArr, sourceArr, len0);
+                                targetArr.length = sourceArr.length;
+                            }
+                            else target[key] = source[key];
                         }(source, target, innerKey);
                     }
                 }
@@ -3992,15 +3984,14 @@
         // See echarts/test/ut/spec/util/number.js#linearMap#accuracyError
         // It is a little verbose for efficiency considering this method
         // is a hotspot.
-        if (clamp) {
-            if (subDomain > 0) {
-                if (val <= domain[0]) return range[0];
-                if (val >= domain[1]) return range[1];
-            } else {
-                if (val >= domain[0]) return range[0];
-                if (val <= domain[1]) return range[1];
-            }
+        if (clamp) if (subDomain > 0) {
+            if (val <= domain[0]) return range[0];
+            if (val >= domain[1]) return range[1];
         } else {
+            if (val >= domain[0]) return range[0];
+            if (val <= domain[1]) return range[1];
+        }
+        else {
             if (val === domain[0]) return range[0];
             if (val === domain[1]) return range[1];
         }
@@ -5107,22 +5098,20 @@
         }, Displayable.prototype._applyStateObj = function(stateName, state, normalState, keepCurrentStates, transition, animationCfg) {
             _super.prototype._applyStateObj.call(this, stateName, state, normalState, keepCurrentStates, transition, animationCfg);
             var targetStyle, needsRestoreToNormal = !(state && keepCurrentStates);
-            if (state && state.style ? transition ? keepCurrentStates ? targetStyle = state.style : (targetStyle = this._mergeStyle(this.createStyle(), normalState.style), this._mergeStyle(targetStyle, state.style)) : (targetStyle = this._mergeStyle(this.createStyle(), keepCurrentStates ? this.style : normalState.style), this._mergeStyle(targetStyle, state.style)) : needsRestoreToNormal && (targetStyle = normalState.style), targetStyle) {
-                if (transition) {
-                    var sourceStyle = this.style;
-                    if (this.style = this.createStyle(needsRestoreToNormal ? {} : sourceStyle), needsRestoreToNormal) for(var changedKeys = keys(sourceStyle), i = 0; i < changedKeys.length; i++){
-                        var key = changedKeys[i];
-                        key in targetStyle && (targetStyle[key] = targetStyle[key], this.style[key] = sourceStyle[key]);
-                    }
-                    for(var targetKeys = keys(targetStyle), i = 0; i < targetKeys.length; i++){
-                        var key = targetKeys[i];
-                        this.style[key] = this.style[key];
-                    }
-                    this._transitionState(stateName, {
-                        style: targetStyle
-                    }, animationCfg, this.getAnimationStyleProps());
-                } else this.useStyle(targetStyle);
-            }
+            if (state && state.style ? transition ? keepCurrentStates ? targetStyle = state.style : (targetStyle = this._mergeStyle(this.createStyle(), normalState.style), this._mergeStyle(targetStyle, state.style)) : (targetStyle = this._mergeStyle(this.createStyle(), keepCurrentStates ? this.style : normalState.style), this._mergeStyle(targetStyle, state.style)) : needsRestoreToNormal && (targetStyle = normalState.style), targetStyle) if (transition) {
+                var sourceStyle = this.style;
+                if (this.style = this.createStyle(needsRestoreToNormal ? {} : sourceStyle), needsRestoreToNormal) for(var changedKeys = keys(sourceStyle), i = 0; i < changedKeys.length; i++){
+                    var key = changedKeys[i];
+                    key in targetStyle && (targetStyle[key] = targetStyle[key], this.style[key] = sourceStyle[key]);
+                }
+                for(var targetKeys = keys(targetStyle), i = 0; i < targetKeys.length; i++){
+                    var key = targetKeys[i];
+                    this.style[key] = this.style[key];
+                }
+                this._transitionState(stateName, {
+                    style: targetStyle
+                }, animationCfg, this.getAnimationStyleProps());
+            } else this.useStyle(targetStyle);
             for(var i = 0; i < PRIMARY_STATES_KEYS$1.length; i++){
                 var key = PRIMARY_STATES_KEYS$1[i];
                 state && null != state[key] ? this[key] = state[key] : needsRestoreToNormal && null != normalState[key] && (this[key] = normalState[key]);
@@ -5155,13 +5144,12 @@
     }
     function cubicRootAt(p0, p1, p2, p3, val, roots) {
         var a = p3 + 3 * (p1 - p2) - p0, b = 3 * (p2 - 2 * p1 + p0), c = 3 * (p1 - p0), d = p0 - val, A = b * b - 3 * a * c, B = b * c - 9 * a * d, C = c * c - 3 * b * d, n = 0;
-        if (isAroundZero(A) && isAroundZero(B)) {
-            if (isAroundZero(b)) roots[0] = 0;
-            else {
-                var t1 = -c / b;
-                t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
-            }
-        } else {
+        if (isAroundZero(A) && isAroundZero(B)) if (isAroundZero(b)) roots[0] = 0;
+        else {
+            var t1 = -c / b;
+            t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
+        }
+        else {
             var disc = B * B - 4 * A * C;
             if (isAroundZero(disc)) {
                 var K = B / A, t1 = -b / a + K, t2 = -K / 2;
@@ -5885,18 +5873,16 @@
         }, Path.prototype._applyStateObj = function(stateName, state, normalState, keepCurrentStates, transition, animationCfg) {
             _super.prototype._applyStateObj.call(this, stateName, state, normalState, keepCurrentStates, transition, animationCfg);
             var targetShape, needsRestoreToNormal = !(state && keepCurrentStates);
-            if (state && state.shape ? transition ? keepCurrentStates ? targetShape = state.shape : (targetShape = extend({}, normalState.shape), extend(targetShape, state.shape)) : (targetShape = extend({}, keepCurrentStates ? this.shape : normalState.shape), extend(targetShape, state.shape)) : needsRestoreToNormal && (targetShape = normalState.shape), targetShape) {
-                if (transition) {
-                    this.shape = extend({}, this.shape);
-                    for(var targetShapePrimaryProps = {}, shapeKeys = keys(targetShape), i = 0; i < shapeKeys.length; i++){
-                        var key = shapeKeys[i];
-                        'object' == typeof targetShape[key] ? this.shape[key] = targetShape[key] : targetShapePrimaryProps[key] = targetShape[key];
-                    }
-                    this._transitionState(stateName, {
-                        shape: targetShapePrimaryProps
-                    }, animationCfg);
-                } else this.shape = targetShape, this.dirtyShape();
-            }
+            if (state && state.shape ? transition ? keepCurrentStates ? targetShape = state.shape : (targetShape = extend({}, normalState.shape), extend(targetShape, state.shape)) : (targetShape = extend({}, keepCurrentStates ? this.shape : normalState.shape), extend(targetShape, state.shape)) : needsRestoreToNormal && (targetShape = normalState.shape), targetShape) if (transition) {
+                this.shape = extend({}, this.shape);
+                for(var targetShapePrimaryProps = {}, shapeKeys = keys(targetShape), i = 0; i < shapeKeys.length; i++){
+                    var key = shapeKeys[i];
+                    'object' == typeof targetShape[key] ? this.shape[key] = targetShape[key] : targetShapePrimaryProps[key] = targetShape[key];
+                }
+                this._transitionState(stateName, {
+                    shape: targetShapePrimaryProps
+                }, animationCfg);
+            } else this.shape = targetShape, this.dirtyShape();
         }, Path.prototype._mergeStates = function(states) {
             for(var mergedShape, mergedState = _super.prototype._mergeStates.call(this, states), i = 0; i < states.length; i++){
                 var state = states[i];
@@ -6812,37 +6798,34 @@
                         normalizeArcAngles(tmpAngles, !clockwise), arc = mathAbs$1(tmpAngles[0] - tmpAngles[1]);
                     }
                     var x = shape.cx, y = shape.cy, cornerRadius = shape.cornerRadius || 0, innerCornerRadius = shape.innerCornerRadius || 0;
-                    if (radius > 1e-4) {
-                        if (arc > PI2$5 - 1e-4) ctx.moveTo(x + radius * mathCos$3(startAngle), y + radius * mathSin$3(startAngle)), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise), innerRadius > 1e-4 && (ctx.moveTo(x + innerRadius * mathCos$3(endAngle), y + innerRadius * mathSin$3(endAngle)), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise));
-                        else {
-                            var halfRd = mathAbs$1(radius - innerRadius) / 2, cr = mathMin$3(halfRd, cornerRadius), icr = mathMin$3(halfRd, innerCornerRadius), cr0 = icr, cr1 = cr, xrs = radius * mathCos$3(startAngle), yrs = radius * mathSin$3(startAngle), xire = innerRadius * mathCos$3(endAngle), yire = innerRadius * mathSin$3(endAngle), xre = void 0, yre = void 0, xirs = void 0, yirs = void 0;
-                            if ((cr > 1e-4 || icr > 1e-4) && (xre = radius * mathCos$3(endAngle), yre = radius * mathSin$3(endAngle), xirs = innerRadius * mathCos$3(startAngle), yirs = innerRadius * mathSin$3(startAngle), arc < PI$2)) {
-                                var it_1 = function(x0, y0, x1, y1, x2, y2, x3, y3) {
-                                    var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
-                                    if (!(t * t < 1e-4)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
-                                        x0 + t * x10,
-                                        y0 + t * y10
-                                    ];
-                                }(xrs, yrs, xirs, yirs, xre, yre, xire, yire);
-                                if (it_1) {
-                                    var x0 = xrs - it_1[0], y0 = yrs - it_1[1], x1 = xre - it_1[0], y1 = yre - it_1[1], a = 1 / mathSin$3(mathACos((x0 * x1 + y0 * y1) / (mathSqrt$4(x0 * x0 + y0 * y0) * mathSqrt$4(x1 * x1 + y1 * y1))) / 2), b = mathSqrt$4(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
-                                    cr0 = mathMin$3(icr, (innerRadius - b) / (a - 1)), cr1 = mathMin$3(cr, (radius - b) / (a + 1));
-                                }
+                    if (radius > 1e-4) if (arc > PI2$5 - 1e-4) ctx.moveTo(x + radius * mathCos$3(startAngle), y + radius * mathSin$3(startAngle)), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise), innerRadius > 1e-4 && (ctx.moveTo(x + innerRadius * mathCos$3(endAngle), y + innerRadius * mathSin$3(endAngle)), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise));
+                    else {
+                        var halfRd = mathAbs$1(radius - innerRadius) / 2, cr = mathMin$3(halfRd, cornerRadius), icr = mathMin$3(halfRd, innerCornerRadius), cr0 = icr, cr1 = cr, xrs = radius * mathCos$3(startAngle), yrs = radius * mathSin$3(startAngle), xire = innerRadius * mathCos$3(endAngle), yire = innerRadius * mathSin$3(endAngle), xre = void 0, yre = void 0, xirs = void 0, yirs = void 0;
+                        if ((cr > 1e-4 || icr > 1e-4) && (xre = radius * mathCos$3(endAngle), yre = radius * mathSin$3(endAngle), xirs = innerRadius * mathCos$3(startAngle), yirs = innerRadius * mathSin$3(startAngle), arc < PI$2)) {
+                            var it_1 = function(x0, y0, x1, y1, x2, y2, x3, y3) {
+                                var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
+                                if (!(t * t < 1e-4)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
+                                    x0 + t * x10,
+                                    y0 + t * y10
+                                ];
+                            }(xrs, yrs, xirs, yirs, xre, yre, xire, yire);
+                            if (it_1) {
+                                var x0 = xrs - it_1[0], y0 = yrs - it_1[1], x1 = xre - it_1[0], y1 = yre - it_1[1], a = 1 / mathSin$3(mathACos((x0 * x1 + y0 * y1) / (mathSqrt$4(x0 * x0 + y0 * y0) * mathSqrt$4(x1 * x1 + y1 * y1))) / 2), b = mathSqrt$4(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
+                                cr0 = mathMin$3(icr, (innerRadius - b) / (a - 1)), cr1 = mathMin$3(cr, (radius - b) / (a + 1));
                             }
-                            if (arc > 1e-4) {
-                                if (cr1 > 1e-4) {
-                                    var ct0 = computeCornerTangents(xirs, yirs, xrs, yrs, radius, cr1, clockwise), ct1 = computeCornerTangents(xre, yre, xire, yire, radius, cr1, clockwise);
-                                    ctx.moveTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr1 < cr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, radius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), !clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr1, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
-                                } else ctx.moveTo(x + xrs, y + yrs), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise);
-                            } else ctx.moveTo(x + xrs, y + yrs);
-                            if (innerRadius > 1e-4 && arc > 1e-4) {
-                                if (cr0 > 1e-4) {
-                                    var ct0 = computeCornerTangents(xire, yire, xre, yre, innerRadius, -cr0, clockwise), ct1 = computeCornerTangents(xrs, yrs, xirs, yirs, innerRadius, -cr0, clockwise);
-                                    ctx.lineTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr0 < icr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, innerRadius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr0, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
-                                } else ctx.lineTo(x + xire, y + yire), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise);
-                            } else ctx.lineTo(x + xire, y + yire);
                         }
-                    } else ctx.moveTo(x, y);
+                        if (arc > 1e-4) if (cr1 > 1e-4) {
+                            var ct0 = computeCornerTangents(xirs, yirs, xrs, yrs, radius, cr1, clockwise), ct1 = computeCornerTangents(xre, yre, xire, yire, radius, cr1, clockwise);
+                            ctx.moveTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr1 < cr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, radius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), !clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr1, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
+                        } else ctx.moveTo(x + xrs, y + yrs), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise);
+                        else ctx.moveTo(x + xrs, y + yrs);
+                        if (innerRadius > 1e-4 && arc > 1e-4) if (cr0 > 1e-4) {
+                            var ct0 = computeCornerTangents(xire, yire, xre, yre, innerRadius, -cr0, clockwise), ct1 = computeCornerTangents(xrs, yrs, xirs, yirs, innerRadius, -cr0, clockwise);
+                            ctx.lineTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr0 < icr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, innerRadius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr0, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
+                        } else ctx.lineTo(x + xire, y + yire), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise);
+                        else ctx.lineTo(x + xire, y + yire);
+                    }
+                    else ctx.moveTo(x, y);
                     ctx.closePath();
                 }
             }(ctx, shape);
@@ -9428,14 +9411,13 @@
             isObject(dimDefItem) ? (dimName = dimDefItem.name, dimType = dimDefItem.type) : isString(dimDefItem) && (dimName = dimDefItem);
         }
         if (null != dimType) return 'ordinal' === dimType ? BE_ORDINAL.Must : BE_ORDINAL.Not;
-        if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
-            if ('row' === seriesLayoutBy) {
-                for(var sample = data[dimIndex], i = 0; i < (sample || []).length && i < 5; i++)if (null != (result = detectValue(sample[startIndex + i]))) return result;
-            } else for(var i = 0; i < data.length && i < 5; i++){
-                var row = data[startIndex + i];
-                if (row && null != (result = detectValue(row[dimIndex]))) return result;
-            }
-        } else if (sourceFormat === SOURCE_FORMAT_OBJECT_ROWS) {
+        if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) if ('row' === seriesLayoutBy) {
+            for(var sample = data[dimIndex], i = 0; i < (sample || []).length && i < 5; i++)if (null != (result = detectValue(sample[startIndex + i]))) return result;
+        } else for(var i = 0; i < data.length && i < 5; i++){
+            var row = data[startIndex + i];
+            if (row && null != (result = detectValue(row[dimIndex]))) return result;
+        }
+        else if (sourceFormat === SOURCE_FORMAT_OBJECT_ROWS) {
             if (!dimName) return BE_ORDINAL.Not;
             for(var i = 0; i < data.length && i < 5; i++){
                 var item = data[i];
@@ -9590,12 +9572,10 @@
             // `datasetMap` is used to make default encode.
             innerGlobalModel(this).datasetMap = createHashMap(), // For example: color, animaiton options, etc.
             each(newOption, function(componentOption, mainType) {
-                if (null != componentOption) {
-                    if (ComponentModel.hasClass(mainType)) mainType && (newCmptTypes.push(mainType), newCmptTypeMap.set(mainType, !0));
-                    else {
-                        var componentImportName = BUITIN_COMPONENTS_MAP[mainType];
-                        componentImportName && !componetsMissingLogPrinted[componentImportName] && (error("Component " + mainType + " is used but not imported.\nimport { " + componentImportName + " } from 'echarts/components';\necharts.use([" + componentImportName + "]);"), componetsMissingLogPrinted[componentImportName] = !0), option[mainType] = null == option[mainType] ? clone(componentOption) : merge(option[mainType], componentOption, !0);
-                    }
+                if (null != componentOption) if (ComponentModel.hasClass(mainType)) mainType && (newCmptTypes.push(mainType), newCmptTypeMap.set(mainType, !0));
+                else {
+                    var componentImportName = BUITIN_COMPONENTS_MAP[mainType];
+                    componentImportName && !componetsMissingLogPrinted[componentImportName] && (error("Component " + mainType + " is used but not imported.\nimport { " + componentImportName + " } from 'echarts/components';\necharts.use([" + componentImportName + "]);"), componetsMissingLogPrinted[componentImportName] = !0), option[mainType] = null == option[mainType] ? clone(componentOption) : merge(option[mainType], componentOption, !0);
                 }
             }), replaceMergeMainTypeMap && // If there is a mainType `xxx` in `replaceMerge` but not declared in option,
             // we trade it as it is declared in option as `{xxx: []}`. Because:
@@ -10397,8 +10377,7 @@
                     if (isArray(item)) {
                         sourceFormat = SOURCE_FORMAT_ARRAY_ROWS;
                         break;
-                    }
-                    if (isObject(item)) {
+                    } else if (isObject(item)) {
                         sourceFormat = SOURCE_FORMAT_OBJECT_ROWS;
                         break;
                     }
@@ -12819,17 +12798,15 @@
     }
     function buildLabelLinePath(path, shape) {
         var smooth = shape.smooth, points = shape.points;
-        if (points) {
-            if (path.moveTo(points[0][0], points[0][1]), smooth > 0 && points.length >= 3) {
-                var len1 = distance(points[0], points[1]), len2 = distance(points[1], points[2]);
-                if (!len1 || !len2) {
-                    path.lineTo(points[1][0], points[1][1]), path.lineTo(points[2][0], points[2][1]);
-                    return;
-                }
-                var moveLen = Math.min(len1, len2) * smooth, midPoint0 = lerp([], points[1], points[0], moveLen / len1), midPoint2 = lerp([], points[1], points[2], moveLen / len2), midPoint1 = lerp([], midPoint0, midPoint2, 0.5);
-                path.bezierCurveTo(midPoint0[0], midPoint0[1], midPoint0[0], midPoint0[1], midPoint1[0], midPoint1[1]), path.bezierCurveTo(midPoint2[0], midPoint2[1], midPoint2[0], midPoint2[1], points[2][0], points[2][1]);
-            } else for(var i = 1; i < points.length; i++)path.lineTo(points[i][0], points[i][1]);
-        }
+        if (points) if (path.moveTo(points[0][0], points[0][1]), smooth > 0 && points.length >= 3) {
+            var len1 = distance(points[0], points[1]), len2 = distance(points[1], points[2]);
+            if (!len1 || !len2) {
+                path.lineTo(points[1][0], points[1][1]), path.lineTo(points[2][0], points[2][1]);
+                return;
+            }
+            var moveLen = Math.min(len1, len2) * smooth, midPoint0 = lerp([], points[1], points[0], moveLen / len1), midPoint2 = lerp([], points[1], points[2], moveLen / len2), midPoint1 = lerp([], midPoint0, midPoint2, 0.5);
+            path.bezierCurveTo(midPoint0[0], midPoint0[1], midPoint0[0], midPoint0[1], midPoint1[0], midPoint1[1]), path.bezierCurveTo(midPoint2[0], midPoint2[1], midPoint2[0], midPoint2[1], points[2][0], points[2][1]);
+        } else for(var i = 1; i < points.length; i++)path.lineTo(points[i][0], points[i][1]);
     }
     /**
      * Create a label line if necessary and set it's style.
@@ -15616,35 +15593,34 @@
                     null != modelId && excludeSeriesIdMap.set(modelId, !0);
                 })), isHighDownPayload(payload) && allLeaveBlur(ecIns._api), ecModel && ecModel.eachComponent(condition, function(model) {
                     if (!excludeSeriesIdMap || null == excludeSeriesIdMap.get(model.id)) {
-                        if (isHighDownPayload(payload)) {
-                            if (model instanceof SeriesModel) payload.type !== HIGHLIGHT_ACTION_TYPE || payload.notBlur || function(seriesModel, payload, api) {
-                                var seriesIndex = seriesModel.seriesIndex, data = seriesModel.getData(payload.dataType), dataIndex = queryDataIndex(data, payload);
-                                dataIndex = (isArray(dataIndex) ? dataIndex[0] : dataIndex) || 0;
-                                var el = data.getItemGraphicEl(dataIndex);
-                                if (!el) for(var count = data.count(), current = 0; !el && current < count;)el = data.getItemGraphicEl(current++);
-                                if (el) {
-                                    var ecData = getECData(el);
-                                    blurSeries(seriesIndex, ecData.focus, ecData.blurScope, api);
-                                } else {
-                                    // If there is no element put on the data. Try getting it from raw option
-                                    // TODO Should put it on seriesModel?
-                                    var focus_1 = seriesModel.get([
-                                        'emphasis',
-                                        'focus'
-                                    ]), blurScope = seriesModel.get([
-                                        'emphasis',
-                                        'blurScope'
-                                    ]);
-                                    null != focus_1 && blurSeries(seriesIndex, focus_1, blurScope, api);
-                                }
-                            }(model, payload, ecIns._api);
-                            else {
-                                var _a = findComponentHighDownDispatchers(model.mainType, model.componentIndex, payload.name, ecIns._api), focusSelf = _a.focusSelf, dispatchers = _a.dispatchers;
-                                payload.type === HIGHLIGHT_ACTION_TYPE && focusSelf && !payload.notBlur && blurComponent(model.mainType, model.componentIndex, ecIns._api), dispatchers && each(dispatchers, function(dispatcher) {
-                                    payload.type === HIGHLIGHT_ACTION_TYPE ? enterEmphasis(dispatcher) : leaveEmphasis(dispatcher);
-                                });
+                        if (isHighDownPayload(payload)) if (model instanceof SeriesModel) payload.type !== HIGHLIGHT_ACTION_TYPE || payload.notBlur || function(seriesModel, payload, api) {
+                            var seriesIndex = seriesModel.seriesIndex, data = seriesModel.getData(payload.dataType), dataIndex = queryDataIndex(data, payload);
+                            dataIndex = (isArray(dataIndex) ? dataIndex[0] : dataIndex) || 0;
+                            var el = data.getItemGraphicEl(dataIndex);
+                            if (!el) for(var count = data.count(), current = 0; !el && current < count;)el = data.getItemGraphicEl(current++);
+                            if (el) {
+                                var ecData = getECData(el);
+                                blurSeries(seriesIndex, ecData.focus, ecData.blurScope, api);
+                            } else {
+                                // If there is no element put on the data. Try getting it from raw option
+                                // TODO Should put it on seriesModel?
+                                var focus_1 = seriesModel.get([
+                                    'emphasis',
+                                    'focus'
+                                ]), blurScope = seriesModel.get([
+                                    'emphasis',
+                                    'blurScope'
+                                ]);
+                                null != focus_1 && blurSeries(seriesIndex, focus_1, blurScope, api);
                             }
-                        } else isSelectChangePayload(payload) && model instanceof SeriesModel && (function(seriesModel, payload, api) {
+                        }(model, payload, ecIns._api);
+                        else {
+                            var _a = findComponentHighDownDispatchers(model.mainType, model.componentIndex, payload.name, ecIns._api), focusSelf = _a.focusSelf, dispatchers = _a.dispatchers;
+                            payload.type === HIGHLIGHT_ACTION_TYPE && focusSelf && !payload.notBlur && blurComponent(model.mainType, model.componentIndex, ecIns._api), dispatchers && each(dispatchers, function(dispatcher) {
+                                payload.type === HIGHLIGHT_ACTION_TYPE ? enterEmphasis(dispatcher) : leaveEmphasis(dispatcher);
+                            });
+                        }
+                        else isSelectChangePayload(payload) && model instanceof SeriesModel && (function(seriesModel, payload, api) {
                             if (isSelectChangePayload(payload)) {
                                 var dataType = payload.dataType, dataIndex = queryDataIndex(seriesModel.getData(dataType), payload);
                                 isArray(dataIndex) || (dataIndex = [
@@ -15690,12 +15666,10 @@
                         ecModel.eachComponent(function(componentType, componentModel) {
                             if ('series' !== componentType) {
                                 var componentView = _this.getViewOfComponentModel(componentModel);
-                                if (componentView && componentView.__alive) {
-                                    if (componentView.updateTransform) {
-                                        var result = componentView.updateTransform(componentModel, ecModel, api, payload);
-                                        result && result.update && componentDirtyList.push(componentView);
-                                    } else componentDirtyList.push(componentView);
-                                }
+                                if (componentView && componentView.__alive) if (componentView.updateTransform) {
+                                    var result = componentView.updateTransform(componentModel, ecModel, api, payload);
+                                    result && result.update && componentDirtyList.push(componentView);
+                                } else componentDirtyList.push(componentView);
                             }
                         });
                         var seriesDirtyMap = createHashMap();
@@ -17170,19 +17144,18 @@
                             quickFinished = !0;
                         }
                     }
-                    if (!quickFinished) {
-                        if (1 === dimSize) for(var i = 0; i < originalCount; i++){
-                            var rawIndex = this.getRawIndex(i), val = storageArr[dimIndices[0]][rawIndex];
-                            (val >= min && val <= max || isNaN(val)) && (newIndices[offset++] = rawIndex);
+                    if (!quickFinished) if (1 === dimSize) for(var i = 0; i < originalCount; i++){
+                        var rawIndex = this.getRawIndex(i), val = storageArr[dimIndices[0]][rawIndex];
+                        (val >= min && val <= max || isNaN(val)) && (newIndices[offset++] = rawIndex);
+                    }
+                    else for(var i = 0; i < originalCount; i++){
+                        for(var keep = !0, rawIndex = this.getRawIndex(i), k = 0; k < dimSize; k++){
+                            var dimk = dimensions[k], val = storageArr[dimIndices[k]][rawIndex];
+                            (val < range[dimk][0] || val > range[dimk][1]) && (keep = !1);
                         }
-                        else for(var i = 0; i < originalCount; i++){
-                            for(var keep = !0, rawIndex = this.getRawIndex(i), k = 0; k < dimSize; k++){
-                                var dimk = dimensions[k], val = storageArr[dimIndices[k]][rawIndex];
-                                (val < range[dimk][0] || val > range[dimk][1]) && (keep = !1);
-                            }
-                            keep && (newIndices[offset++] = this.getRawIndex(i));
-                        }
-                    } // Set indices after filtered.
+                        keep && (newIndices[offset++] = this.getRawIndex(i));
+                    }
+                     // Set indices after filtered.
                     return offset < originalCount && (this._indices = newIndices), this._count = offset, this._extent = {}, this.getRawIndex = this._indices ? getRawIndexWithIndices : getRawIndexWithoutIndices, this;
                 }
             }
@@ -18045,17 +18018,15 @@
             } // User may set axis min 0 and data are all negative
         }, IntervalScale.prototype.niceExtent = function(opt) {
             var extent = this._extent; // If extent start and end are same, expand them
-            if (extent[0] === extent[1]) {
-                if (0 !== extent[0]) {
-                    // Expand extent
-                    var expandSize = extent[0]; // In the fowllowing case
-                    //      Axis has been fixed max 100
-                    //      Plus data are all 100 and axis extent are [100, 100].
-                    // Extend to the both side will cause expanded max is larger than fixed max.
-                    // So only expand to the smaller side.
-                    opt.fixMax || (extent[1] += expandSize / 2), extent[0] -= expandSize / 2;
-                } else extent[1] = 1;
-            }
+            if (extent[0] === extent[1]) if (0 !== extent[0]) {
+                // Expand extent
+                var expandSize = extent[0]; // In the fowllowing case
+                //      Axis has been fixed max 100
+                //      Plus data are all 100 and axis extent are [100, 100].
+                // Extend to the both side will cause expanded max is larger than fixed max.
+                // So only expand to the smaller side.
+                opt.fixMax || (extent[1] += expandSize / 2), extent[0] -= expandSize / 2;
+            } else extent[1] = 1;
             isFinite(extent[1] - extent[0]) || (extent[0] = 0, extent[1] = 1), this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
             var interval = this._interval;
             opt.fixMin || (extent[0] = round(Math.floor(extent[0] / interval) * interval)), opt.fixMax || (extent[1] = round(Math.ceil(extent[1] / interval) * interval));
@@ -19705,13 +19676,12 @@
             if (svgElement instanceof SVGElement) svgElement.parentNode !== patternDom && (patternDom.innerHTML = '', patternDom.appendChild(svgElement), patternDom.setAttribute('width', pattern.svgWidth + ''), patternDom.setAttribute('height', pattern.svgHeight + ''));
             else {
                 var img = void 0, prevImage = patternDom.getElementsByTagName('image');
-                if (prevImage.length) {
-                    if (pattern.image) img = prevImage[0];
-                    else {
-                        patternDom.removeChild(prevImage[0]);
-                        return;
-                    }
-                } else pattern.image && (img = this.createElement('image'));
+                if (prevImage.length) if (pattern.image) img = prevImage[0];
+                else {
+                    patternDom.removeChild(prevImage[0]);
+                    return;
+                }
+                else pattern.image && (img = this.createElement('image'));
                 if (img) {
                     var imageSrc = void 0;
                     if ('string' == typeof pattern.image ? imageSrc = pattern.image : pattern.image instanceof HTMLImageElement ? imageSrc = pattern.image.src : pattern.image instanceof HTMLCanvasElement && (imageSrc = pattern.image.toDataURL()), imageSrc) {
@@ -20045,30 +20015,28 @@
             if (this.__firstTimePaint) return this.__firstTimePaint = !1, null;
             var hasIntersections, mergedRepaintRects = [], maxRepaintRectCount = this.maxRepaintRectCount, full = !1, pendingRect = new BoundingRect(0, 0, 0, 0);
             function addRectToMergePool(rect) {
-                if (!(!rect.isFinite() || rect.isZero())) {
-                    if (0 === mergedRepaintRects.length) {
+                if (!(!rect.isFinite() || rect.isZero())) if (0 === mergedRepaintRects.length) {
+                    var boundingRect = new BoundingRect(0, 0, 0, 0);
+                    boundingRect.copy(rect), mergedRepaintRects.push(boundingRect);
+                } else {
+                    for(var isMerged = !1, minDeltaArea = 1 / 0, bestRectToMergeIdx = 0, i = 0; i < mergedRepaintRects.length; ++i){
+                        var mergedRect = mergedRepaintRects[i];
+                        if (mergedRect.intersect(rect)) {
+                            var pendingRect_1 = new BoundingRect(0, 0, 0, 0);
+                            pendingRect_1.copy(mergedRect), pendingRect_1.union(rect), mergedRepaintRects[i] = pendingRect_1, isMerged = !0;
+                            break;
+                        }
+                        if (full) {
+                            pendingRect.copy(rect), pendingRect.union(mergedRect);
+                            var aArea = rect.width * rect.height, bArea = mergedRect.width * mergedRect.height, deltaArea = pendingRect.width * pendingRect.height - aArea - bArea;
+                            deltaArea < minDeltaArea && (minDeltaArea = deltaArea, bestRectToMergeIdx = i);
+                        }
+                    }
+                    if (full && (mergedRepaintRects[bestRectToMergeIdx].union(rect), isMerged = !0), !isMerged) {
                         var boundingRect = new BoundingRect(0, 0, 0, 0);
                         boundingRect.copy(rect), mergedRepaintRects.push(boundingRect);
-                    } else {
-                        for(var isMerged = !1, minDeltaArea = 1 / 0, bestRectToMergeIdx = 0, i = 0; i < mergedRepaintRects.length; ++i){
-                            var mergedRect = mergedRepaintRects[i];
-                            if (mergedRect.intersect(rect)) {
-                                var pendingRect_1 = new BoundingRect(0, 0, 0, 0);
-                                pendingRect_1.copy(mergedRect), pendingRect_1.union(rect), mergedRepaintRects[i] = pendingRect_1, isMerged = !0;
-                                break;
-                            }
-                            if (full) {
-                                pendingRect.copy(rect), pendingRect.union(mergedRect);
-                                var aArea = rect.width * rect.height, bArea = mergedRect.width * mergedRect.height, deltaArea = pendingRect.width * pendingRect.height - aArea - bArea;
-                                deltaArea < minDeltaArea && (minDeltaArea = deltaArea, bestRectToMergeIdx = i);
-                            }
-                        }
-                        if (full && (mergedRepaintRects[bestRectToMergeIdx].union(rect), isMerged = !0), !isMerged) {
-                            var boundingRect = new BoundingRect(0, 0, 0, 0);
-                            boundingRect.copy(rect), mergedRepaintRects.push(boundingRect);
-                        }
-                        full || (full = mergedRepaintRects.length >= maxRepaintRectCount);
                     }
+                    full || (full = mergedRepaintRects.length >= maxRepaintRectCount);
                 }
             }
             for(var i = this.__startIndex; i < this.__endIndex; ++i){
@@ -20252,13 +20220,12 @@
                     }
                     scope.prevElClipPaths && ctx.restore();
                 };
-                if (repaintRects) {
-                    if (0 === repaintRects.length) i = layer.__endIndex;
-                    else for(var dpr = this_1.dpr, r = 0; r < repaintRects.length; ++r){
-                        var rect = repaintRects[r];
-                        ctx.save(), ctx.beginPath(), ctx.rect(rect.x * dpr, rect.y * dpr, rect.width * dpr, rect.height * dpr), ctx.clip(), repaint(rect), ctx.restore();
-                    }
-                } else ctx.save(), repaint(), ctx.restore();
+                if (repaintRects) if (0 === repaintRects.length) i = layer.__endIndex;
+                else for(var dpr = this_1.dpr, r = 0; r < repaintRects.length; ++r){
+                    var rect = repaintRects[r];
+                    ctx.save(), ctx.beginPath(), ctx.rect(rect.x * dpr, rect.y * dpr, rect.width * dpr, rect.height * dpr), ctx.clip(), repaint(rect), ctx.restore();
+                }
+                else ctx.save(), repaint(), ctx.restore();
                 layer.__drawIndex = i, layer.__drawIndex < layer.__endIndex && (finished = !1);
             }(k);
             return env.wxa && each(this._layers, function(layer) {
@@ -20291,12 +20258,10 @@
                 for(i = 0; i < len - 1 && (!(zlevelList[i] < zlevel) || !(zlevelList[i + 1] > zlevel)); i++);
                 prevLayer = layersMap[zlevelList[i]];
             }
-            if (zlevelList.splice(i + 1, 0, zlevel), layersMap[zlevel] = layer, !layer.virtual) {
-                if (prevLayer) {
-                    var prevDom = prevLayer.dom;
-                    prevDom.nextSibling ? domRoot.insertBefore(layer.dom, prevDom.nextSibling) : domRoot.appendChild(layer.dom);
-                } else domRoot.firstChild ? domRoot.insertBefore(layer.dom, domRoot.firstChild) : domRoot.appendChild(layer.dom);
-            }
+            if (zlevelList.splice(i + 1, 0, zlevel), layersMap[zlevel] = layer, !layer.virtual) if (prevLayer) {
+                var prevDom = prevLayer.dom;
+                prevDom.nextSibling ? domRoot.insertBefore(layer.dom, prevDom.nextSibling) : domRoot.appendChild(layer.dom);
+            } else domRoot.firstChild ? domRoot.insertBefore(layer.dom, domRoot.firstChild) : domRoot.appendChild(layer.dom);
             layer.__painter = this;
         }, CanvasPainter.prototype.eachLayer = function(cb, context) {
             for(var zlevelList = this._zlevelList, i = 0; i < zlevelList.length; i++){
@@ -21035,7 +21000,7 @@
     function createClipPath(coordSys, hasAnimation, seriesModel, done, during) {
         if (coordSys) {
             if ('polar' === coordSys.type) return createPolarClipPath(coordSys, hasAnimation, seriesModel);
-            if ('cartesian2d' === coordSys.type) return createGridClipPath(coordSys, hasAnimation, seriesModel, done, during);
+            else if ('cartesian2d' === coordSys.type) return createGridClipPath(coordSys, hasAnimation, seriesModel, done, during);
         }
         return null;
     }
@@ -22260,24 +22225,22 @@
                         r
                     ]) : r
                 }), currentAngle = endAngle;
-            }), restAngle < PI2$8 && validDataCount) {
-                // Average the angle if rest angle is not enough after all angles is
-                // Constrained by minAngle
-                if (restAngle <= 1e-3) {
-                    var angle_1 = PI2$8 / validDataCount;
-                    data.each(valueDim, function(value, idx) {
-                        if (!isNaN(value)) {
-                            var layout_1 = data.getItemLayout(idx);
-                            layout_1.angle = angle_1, layout_1.startAngle = startAngle + dir * idx * angle_1, layout_1.endAngle = startAngle + dir * (idx + 1) * angle_1;
-                        }
-                    });
-                } else unitRadian = restAngle / valueSumLargerThanMinAngle, currentAngle = startAngle, data.each(valueDim, function(value, idx) {
+            }), restAngle < PI2$8 && validDataCount) // Average the angle if rest angle is not enough after all angles is
+            // Constrained by minAngle
+            if (restAngle <= 1e-3) {
+                var angle_1 = PI2$8 / validDataCount;
+                data.each(valueDim, function(value, idx) {
                     if (!isNaN(value)) {
-                        var layout_2 = data.getItemLayout(idx), angle = layout_2.angle === minAngle ? minAngle : value * unitRadian;
-                        layout_2.startAngle = currentAngle, layout_2.endAngle = currentAngle + dir * angle, currentAngle += dir * angle;
+                        var layout_1 = data.getItemLayout(idx);
+                        layout_1.angle = angle_1, layout_1.startAngle = startAngle + dir * idx * angle_1, layout_1.endAngle = startAngle + dir * (idx + 1) * angle_1;
                     }
                 });
-            }
+            } else unitRadian = restAngle / valueSumLargerThanMinAngle, currentAngle = startAngle, data.each(valueDim, function(value, idx) {
+                if (!isNaN(value)) {
+                    var layout_2 = data.getItemLayout(idx), angle = layout_2.angle === minAngle ? minAngle : value * unitRadian;
+                    layout_2.startAngle = currentAngle, layout_2.endAngle = currentAngle + dir * angle, currentAngle += dir * angle;
+                }
+            });
         });
     }
     /*
@@ -26446,43 +26409,41 @@
             })), updateProps(edge, {
                 shape: getEdgeShape(layout, orient, curvature, sourceLayout, targetLayout)
             }, seriesModel));
-            else if ('polyline' === edgeShape) {
-                if ('orthogonal' === layout) {
-                    if (node !== virtualRoot && node.children && 0 !== node.children.length && !0 === node.isExpand) {
-                        for(var children = node.children, childPoints = [], i = 0; i < children.length; i++){
-                            var childLayout = children[i].getLayout();
-                            childPoints.push([
-                                childLayout.x,
-                                childLayout.y
-                            ]);
-                        }
-                        edge || (edge = symbolEl.__edge = new TreePath({
-                            shape: {
-                                parentPoint: [
-                                    targetLayout.x,
-                                    targetLayout.y
-                                ],
-                                childPoints: [
-                                    [
-                                        targetLayout.x,
-                                        targetLayout.y
-                                    ]
-                                ],
-                                orient: orient,
-                                forkPosition: edgeForkPosition
-                            }
-                        })), updateProps(edge, {
-                            shape: {
-                                parentPoint: [
-                                    targetLayout.x,
-                                    targetLayout.y
-                                ],
-                                childPoints: childPoints
-                            }
-                        }, seriesModel);
+            else if ('polyline' === edgeShape) if ('orthogonal' === layout) {
+                if (node !== virtualRoot && node.children && 0 !== node.children.length && !0 === node.isExpand) {
+                    for(var children = node.children, childPoints = [], i = 0; i < children.length; i++){
+                        var childLayout = children[i].getLayout();
+                        childPoints.push([
+                            childLayout.x,
+                            childLayout.y
+                        ]);
                     }
-                } else throw Error('The polyline edgeShape can only be used in orthogonal layout');
-            }
+                    edge || (edge = symbolEl.__edge = new TreePath({
+                        shape: {
+                            parentPoint: [
+                                targetLayout.x,
+                                targetLayout.y
+                            ],
+                            childPoints: [
+                                [
+                                    targetLayout.x,
+                                    targetLayout.y
+                                ]
+                            ],
+                            orient: orient,
+                            forkPosition: edgeForkPosition
+                        }
+                    })), updateProps(edge, {
+                        shape: {
+                            parentPoint: [
+                                targetLayout.x,
+                                targetLayout.y
+                            ],
+                            childPoints: childPoints
+                        }
+                    }, seriesModel);
+                }
+            } else throw Error('The polyline edgeShape can only be used in orthogonal layout');
             edge && (edge.useStyle(defaults({
                 strokeNoScale: !0,
                 fill: null
@@ -28958,150 +28919,148 @@
     function graphForceLayout(ecModel) {
         ecModel.eachSeriesByType('graph', function(graphSeries) {
             var coordSys = graphSeries.coordinateSystem;
-            if (!coordSys || 'view' === coordSys.type) {
-                if ('force' === graphSeries.get('layout')) {
-                    var preservedPoints_1 = graphSeries.preservedPoints || {}, graph_1 = graphSeries.getGraph(), nodeData_1 = graph_1.data, edgeData = graph_1.edgeData, forceModel = graphSeries.getModel('force'), initLayout = forceModel.get('initLayout');
-                    graphSeries.preservedPoints ? nodeData_1.each(function(idx) {
-                        var id = nodeData_1.getId(idx);
-                        nodeData_1.setItemLayout(idx, preservedPoints_1[id] || [
-                            NaN,
-                            NaN
-                        ]);
-                    }) : initLayout && 'none' !== initLayout ? 'circular' === initLayout && circularLayout(graphSeries, 'value') : simpleLayout(graphSeries);
-                    var nodeDataExtent_1 = nodeData_1.getDataExtent('value'), edgeDataExtent_1 = edgeData.getDataExtent('value'), repulsion = forceModel.get('repulsion'), edgeLength = forceModel.get('edgeLength'), repulsionArr_1 = isArray(repulsion) ? repulsion : [
-                        repulsion,
-                        repulsion
-                    ], edgeLengthArr_1 = isArray(edgeLength) ? edgeLength : [
-                        edgeLength,
-                        edgeLength
-                    ];
-                    edgeLengthArr_1 = [
-                        edgeLengthArr_1[1],
-                        edgeLengthArr_1[0]
-                    ];
-                    var nodes_1 = nodeData_1.mapArray('value', function(value, idx) {
-                        var point = nodeData_1.getItemLayout(idx), rep = linearMap(value, nodeDataExtent_1, repulsionArr_1);
-                        return isNaN(rep) && (rep = (repulsionArr_1[0] + repulsionArr_1[1]) / 2), {
-                            w: rep,
-                            rep: rep,
-                            fixed: nodeData_1.getItemModel(idx).get('fixed'),
-                            p: !point || isNaN(point[0]) || isNaN(point[1]) ? null : point
-                        };
-                    }), edges = edgeData.mapArray('value', function(value, idx) {
-                        var edge = graph_1.getEdgeByIndex(idx), d = linearMap(value, edgeDataExtent_1, edgeLengthArr_1);
-                        isNaN(d) && (d = (edgeLengthArr_1[0] + edgeLengthArr_1[1]) / 2);
-                        var edgeModel = edge.getModel(), curveness = retrieve3(edge.getModel().get([
-                            'lineStyle',
-                            'curveness'
-                        ]), -getCurvenessForEdge(edge, graphSeries, idx, !0), 0);
-                        return {
-                            n1: nodes_1[edge.node1.dataIndex],
-                            n2: nodes_1[edge.node2.dataIndex],
-                            d: d,
-                            curveness: curveness,
-                            ignoreForceLayout: edgeModel.get('ignoreForceLayout')
-                        };
-                    }), forceInstance = //     return e.n1 === n ? e.n2 : e.n1;
+            if (!coordSys || 'view' === coordSys.type) if ('force' === graphSeries.get('layout')) {
+                var preservedPoints_1 = graphSeries.preservedPoints || {}, graph_1 = graphSeries.getGraph(), nodeData_1 = graph_1.data, edgeData = graph_1.edgeData, forceModel = graphSeries.getModel('force'), initLayout = forceModel.get('initLayout');
+                graphSeries.preservedPoints ? nodeData_1.each(function(idx) {
+                    var id = nodeData_1.getId(idx);
+                    nodeData_1.setItemLayout(idx, preservedPoints_1[id] || [
+                        NaN,
+                        NaN
+                    ]);
+                }) : initLayout && 'none' !== initLayout ? 'circular' === initLayout && circularLayout(graphSeries, 'value') : simpleLayout(graphSeries);
+                var nodeDataExtent_1 = nodeData_1.getDataExtent('value'), edgeDataExtent_1 = edgeData.getDataExtent('value'), repulsion = forceModel.get('repulsion'), edgeLength = forceModel.get('edgeLength'), repulsionArr_1 = isArray(repulsion) ? repulsion : [
+                    repulsion,
+                    repulsion
+                ], edgeLengthArr_1 = isArray(edgeLength) ? edgeLength : [
+                    edgeLength,
+                    edgeLength
+                ];
+                edgeLengthArr_1 = [
+                    edgeLengthArr_1[1],
+                    edgeLengthArr_1[0]
+                ];
+                var nodes_1 = nodeData_1.mapArray('value', function(value, idx) {
+                    var point = nodeData_1.getItemLayout(idx), rep = linearMap(value, nodeDataExtent_1, repulsionArr_1);
+                    return isNaN(rep) && (rep = (repulsionArr_1[0] + repulsionArr_1[1]) / 2), {
+                        w: rep,
+                        rep: rep,
+                        fixed: nodeData_1.getItemModel(idx).get('fixed'),
+                        p: !point || isNaN(point[0]) || isNaN(point[1]) ? null : point
+                    };
+                }), edges = edgeData.mapArray('value', function(value, idx) {
+                    var edge = graph_1.getEdgeByIndex(idx), d = linearMap(value, edgeDataExtent_1, edgeLengthArr_1);
+                    isNaN(d) && (d = (edgeLengthArr_1[0] + edgeLengthArr_1[1]) / 2);
+                    var edgeModel = edge.getModel(), curveness = retrieve3(edge.getModel().get([
+                        'lineStyle',
+                        'curveness'
+                    ]), -getCurvenessForEdge(edge, graphSeries, idx, !0), 0);
+                    return {
+                        n1: nodes_1[edge.node1.dataIndex],
+                        n2: nodes_1[edge.node2.dataIndex],
+                        d: d,
+                        curveness: curveness,
+                        ignoreForceLayout: edgeModel.get('ignoreForceLayout')
+                    };
+                }), forceInstance = //     return e.n1 === n ? e.n2 : e.n1;
+                // }
+                function(inNodes, inEdges, opts) {
+                    //     let e = edges[i];
+                    //     let n1 = e.n1;
+                    //     let n2 = e.n2;
+                    //     n1.edges = n1.edges || [];
+                    //     n2.edges = n2.edges || [];
+                    //     n1.edges.push(e);
+                    //     n2.edges.push(e);
                     // }
-                    function(inNodes, inEdges, opts) {
-                        //     let e = edges[i];
-                        //     let n1 = e.n1;
-                        //     let n2 = e.n2;
-                        //     n1.edges = n1.edges || [];
-                        //     n2.edges = n2.edges || [];
-                        //     n1.edges.push(e);
-                        //     n2.edges.push(e);
-                        // }
-                        // Init position
-                        for(var beforeStepCallback, afterStepCallback, rect = opts.rect, width = rect.width, height = rect.height, center = [
-                            rect.x + width / 2,
-                            rect.y + height / 2
-                        ], gravity = null == opts.gravity ? 0.1 : opts.gravity, i = 0; i < inNodes.length; i++){
-                            var n = inNodes[i];
-                            n.p || (n.p = create(width * (Math.random() - 0.5) + center[0], height * (Math.random() - 0.5) + center[1])), n.pp = clone$1(n.p), n.edges = null;
-                        } // Formula in 'Graph Drawing by Force-directed Placement'
-                        var initialFriction = null == opts.friction ? 0.6 : opts.friction, friction = initialFriction;
-                        return {
-                            warmUp: function() {
-                                friction = 0.8 * initialFriction;
-                            },
-                            setFixed: function(idx) {
-                                inNodes[idx].fixed = !0;
-                            },
-                            setUnfixed: function(idx) {
-                                inNodes[idx].fixed = !1;
-                            },
-                            /**
+                    // Init position
+                    for(var beforeStepCallback, afterStepCallback, rect = opts.rect, width = rect.width, height = rect.height, center = [
+                        rect.x + width / 2,
+                        rect.y + height / 2
+                    ], gravity = null == opts.gravity ? 0.1 : opts.gravity, i = 0; i < inNodes.length; i++){
+                        var n = inNodes[i];
+                        n.p || (n.p = create(width * (Math.random() - 0.5) + center[0], height * (Math.random() - 0.5) + center[1])), n.pp = clone$1(n.p), n.edges = null;
+                    } // Formula in 'Graph Drawing by Force-directed Placement'
+                    var initialFriction = null == opts.friction ? 0.6 : opts.friction, friction = initialFriction;
+                    return {
+                        warmUp: function() {
+                            friction = 0.8 * initialFriction;
+                        },
+                        setFixed: function(idx) {
+                            inNodes[idx].fixed = !0;
+                        },
+                        setUnfixed: function(idx) {
+                            inNodes[idx].fixed = !1;
+                        },
+                        /**
              * Before step hook
              */ beforeStep: function(cb) {
-                                beforeStepCallback = cb;
-                            },
-                            /**
+                            beforeStepCallback = cb;
+                        },
+                        /**
              * After step hook
              */ afterStep: function(cb) {
-                                afterStepCallback = cb;
-                            },
-                            /**
+                            afterStepCallback = cb;
+                        },
+                        /**
              * Some formulas were originally copied from "d3.js"
              * https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/layout/force.js
              * with some modifications made for this project.
              * See the license statement at the head of this file.
              */ step: function(cb) {
-                                beforeStepCallback && beforeStepCallback(inNodes, inEdges);
-                                for(var v12 = [], nLen = inNodes.length, i = 0; i < inEdges.length; i++){
-                                    var e = inEdges[i];
-                                    if (!e.ignoreForceLayout) {
-                                        var n1 = e.n1, n2 = e.n2;
-                                        sub(v12, n2.p, n1.p);
-                                        var d = len(v12) - e.d, w = n2.w / (n1.w + n2.w);
-                                        isNaN(w) && (w = 0), normalize(v12, v12), n1.fixed || scaleAndAdd(n1.p, n1.p, v12, w * d * friction), n2.fixed || scaleAndAdd(n2.p, n2.p, v12, -(1 - w) * d * friction);
-                                    }
-                                } // Gravity
-                                for(var i = 0; i < nLen; i++){
-                                    var n = inNodes[i];
-                                    n.fixed || (sub(v12, center, n.p), // vec2.scale(v12, v12, 1 / d);
-                                    // let gravityFactor = gravity;
-                                    scaleAndAdd(n.p, n.p, v12, gravity * friction));
-                                } // Repulsive
-                                // PENDING
-                                for(var i = 0; i < nLen; i++)for(var n1 = inNodes[i], j = i + 1; j < nLen; j++){
-                                    var n2 = inNodes[j];
+                            beforeStepCallback && beforeStepCallback(inNodes, inEdges);
+                            for(var v12 = [], nLen = inNodes.length, i = 0; i < inEdges.length; i++){
+                                var e = inEdges[i];
+                                if (!e.ignoreForceLayout) {
+                                    var n1 = e.n1, n2 = e.n2;
                                     sub(v12, n2.p, n1.p);
-                                    var d = len(v12);
-                                    0 === d && (// Random repulse
-                                    set(v12, Math.random() - 0.5, Math.random() - 0.5), d = 1);
-                                    var repFact = (n1.rep + n2.rep) / d / d;
-                                    n1.fixed || scaleAndAdd(n1.pp, n1.pp, v12, repFact), n2.fixed || scaleAndAdd(n2.pp, n2.pp, v12, -repFact);
+                                    var d = len(v12) - e.d, w = n2.w / (n1.w + n2.w);
+                                    isNaN(w) && (w = 0), normalize(v12, v12), n1.fixed || scaleAndAdd(n1.p, n1.p, v12, w * d * friction), n2.fixed || scaleAndAdd(n2.p, n2.p, v12, -(1 - w) * d * friction);
                                 }
-                                for(var v = [], i = 0; i < nLen; i++){
-                                    var n = inNodes[i];
-                                    n.fixed || (sub(v, n.p, n.pp), scaleAndAdd(n.p, n.p, v, friction), copy(n.pp, n.p));
-                                }
-                                var finished = (friction *= 0.992) < 0.01;
-                                afterStepCallback && afterStepCallback(inNodes, inEdges, finished), cb && cb(finished);
+                            } // Gravity
+                            for(var i = 0; i < nLen; i++){
+                                var n = inNodes[i];
+                                n.fixed || (sub(v12, center, n.p), // vec2.scale(v12, v12, 1 / d);
+                                // let gravityFactor = gravity;
+                                scaleAndAdd(n.p, n.p, v12, gravity * friction));
+                            } // Repulsive
+                            // PENDING
+                            for(var i = 0; i < nLen; i++)for(var n1 = inNodes[i], j = i + 1; j < nLen; j++){
+                                var n2 = inNodes[j];
+                                sub(v12, n2.p, n1.p);
+                                var d = len(v12);
+                                0 === d && (// Random repulse
+                                set(v12, Math.random() - 0.5, Math.random() - 0.5), d = 1);
+                                var repFact = (n1.rep + n2.rep) / d / d;
+                                n1.fixed || scaleAndAdd(n1.pp, n1.pp, v12, repFact), n2.fixed || scaleAndAdd(n2.pp, n2.pp, v12, -repFact);
                             }
-                        };
-                    }(nodes_1, edges, {
-                        rect: coordSys.getBoundingRect(),
-                        gravity: forceModel.get('gravity'),
-                        friction: forceModel.get('friction')
-                    });
-                    forceInstance.beforeStep(function(nodes, edges) {
-                        for(var i = 0, l = nodes.length; i < l; i++)nodes[i].fixed && // Write back to layout instance
-                        copy(nodes[i].p, graph_1.getNodeByIndex(i).getLayout());
-                    }), forceInstance.afterStep(function(nodes, edges, stopped) {
-                        for(var i = 0, l = nodes.length; i < l; i++)nodes[i].fixed || graph_1.getNodeByIndex(i).setLayout(nodes[i].p), preservedPoints_1[nodeData_1.getId(i)] = nodes[i].p;
-                        for(var i = 0, l = edges.length; i < l; i++){
-                            var e = edges[i], edge = graph_1.getEdgeByIndex(i), p1 = e.n1.p, p2 = e.n2.p, points = edge.getLayout();
-                            (points = points ? points.slice() : [])[0] = points[0] || [], points[1] = points[1] || [], copy(points[0], p1), copy(points[1], p2), +e.curveness && (points[2] = [
-                                (p1[0] + p2[0]) / 2 - (p1[1] - p2[1]) * e.curveness,
-                                (p1[1] + p2[1]) / 2 - (p2[0] - p1[0]) * e.curveness
-                            ]), edge.setLayout(points);
+                            for(var v = [], i = 0; i < nLen; i++){
+                                var n = inNodes[i];
+                                n.fixed || (sub(v, n.p, n.pp), scaleAndAdd(n.p, n.p, v, friction), copy(n.pp, n.p));
+                            }
+                            var finished = (friction *= 0.992) < 0.01;
+                            afterStepCallback && afterStepCallback(inNodes, inEdges, finished), cb && cb(finished);
                         }
-                    }), graphSeries.forceLayout = forceInstance, graphSeries.preservedPoints = preservedPoints_1, forceInstance.step();
-                } else // Remove prev injected forceLayout instance
-                graphSeries.forceLayout = null;
-            }
+                    };
+                }(nodes_1, edges, {
+                    rect: coordSys.getBoundingRect(),
+                    gravity: forceModel.get('gravity'),
+                    friction: forceModel.get('friction')
+                });
+                forceInstance.beforeStep(function(nodes, edges) {
+                    for(var i = 0, l = nodes.length; i < l; i++)nodes[i].fixed && // Write back to layout instance
+                    copy(nodes[i].p, graph_1.getNodeByIndex(i).getLayout());
+                }), forceInstance.afterStep(function(nodes, edges, stopped) {
+                    for(var i = 0, l = nodes.length; i < l; i++)nodes[i].fixed || graph_1.getNodeByIndex(i).setLayout(nodes[i].p), preservedPoints_1[nodeData_1.getId(i)] = nodes[i].p;
+                    for(var i = 0, l = edges.length; i < l; i++){
+                        var e = edges[i], edge = graph_1.getEdgeByIndex(i), p1 = e.n1.p, p2 = e.n2.p, points = edge.getLayout();
+                        (points = points ? points.slice() : [])[0] = points[0] || [], points[1] = points[1] || [], copy(points[0], p1), copy(points[1], p2), +e.curveness && (points[2] = [
+                            (p1[0] + p2[0]) / 2 - (p1[1] - p2[1]) * e.curveness,
+                            (p1[1] + p2[1]) / 2 - (p2[0] - p1[0]) * e.curveness
+                        ]), edge.setLayout(points);
+                    }
+                }), graphSeries.forceLayout = forceInstance, graphSeries.preservedPoints = preservedPoints_1, forceInstance.step();
+            } else // Remove prev injected forceLayout instance
+            graphSeries.forceLayout = null;
         });
     }
     function createViewCoordSys(ecModel, api) {
@@ -35163,6 +35122,10 @@
                             if (oldNode && oldNode.piece) newNode ? (// Update
                             oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
                             else if (newNode) {
+                            if (oldNode && oldNode.piece) {
+                                newNode ? (// Update
+                                oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : !!oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
+                            } else if (newNode) {
                                 // Add
                                 var piece = new SunburstPiece(newNode, seriesModel, ecModel, api);
                                 group.add(piece), data.setItemGraphicEl(newNode.dataIndex, piece);
@@ -36383,11 +36346,10 @@
             var key = enterFromKeys[i];
             checkTransformPropRefer(key, 'el.enterFrom'), transFromProps[key] = enterFrom[key];
         }
-        if (!isInit) {
-            // If morphing, force transition all transform props.
-            // otherwise might have incorrect morphing animation.
-            if (morphFromEl) {
-                var fromTransformable = /**
+        if (!isInit) // If morphing, force transition all transform props.
+        // otherwise might have incorrect morphing animation.
+        if (morphFromEl) {
+            var fromTransformable = /**
      * If make "transform"(x/y/scaleX/scaleY/orient/originX/originY) transition between
      * two path elements that have different hierarchy, before we retrieve the "from" props,
      * we have to calculate the local transition of the "oldPath" based on the parent of
@@ -36407,24 +36369,23 @@
      *     (2.2) "morph" option is not allowed to be set on Group, so all of the groups have
      *     been finished their "updateElNormal" when calling this method in morphing process.
      */ function(oldEl, newEl) {
-                    if (!oldEl || oldEl === newEl || oldEl.parent === newEl.parent) return oldEl;
-                     // Not sure oldEl is rendered (may have "lazyUpdate"),
-                    // so always call `getComputedTransform`.
-                    var tmpM = tmpTransformable.transform || (tmpTransformable.transform = identity([])), oldGlobalTransform = oldEl.getComputedTransform();
-                    oldGlobalTransform ? copy$1(tmpM, oldGlobalTransform) : identity(tmpM);
-                    var newParent = newEl.parent;
-                    return newParent && newParent.getComputedTransform(), tmpTransformable.originX = oldEl.originX, tmpTransformable.originY = oldEl.originY, tmpTransformable.parent = newParent, tmpTransformable.decomposeTransform(), tmpTransformable;
-                }(morphFromEl, el);
-                setTransformPropToTransitionFrom(transFromProps, 'x', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'y', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'scaleX', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'scaleY', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'originX', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'originY', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'rotation', fromTransformable);
-            } else if (elOption.transition) for(var transitionKeys = normalizeToArray(elOption.transition), i = 0; i < transitionKeys.length; i++){
-                var key = transitionKeys[i];
-                if ('style' !== key && 'shape' !== key && 'extra' !== key) {
-                    var elVal = el[key];
-                    checkTransformPropRefer(key, 'el.transition'), checkNonStyleTansitionRefer(key, elOption[key], elVal), transFromProps[key] = elVal;
-                }
+                if (!oldEl || oldEl === newEl || oldEl.parent === newEl.parent) return oldEl;
+                 // Not sure oldEl is rendered (may have "lazyUpdate"),
+                // so always call `getComputedTransform`.
+                var tmpM = tmpTransformable.transform || (tmpTransformable.transform = identity([])), oldGlobalTransform = oldEl.getComputedTransform();
+                oldGlobalTransform ? copy$1(tmpM, oldGlobalTransform) : identity(tmpM);
+                var newParent = newEl.parent;
+                return newParent && newParent.getComputedTransform(), tmpTransformable.originX = oldEl.originX, tmpTransformable.originY = oldEl.originY, tmpTransformable.parent = newParent, tmpTransformable.decomposeTransform(), tmpTransformable;
+            }(morphFromEl, el);
+            setTransformPropToTransitionFrom(transFromProps, 'x', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'y', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'scaleX', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'scaleY', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'originX', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'originY', fromTransformable), setTransformPropToTransitionFrom(transFromProps, 'rotation', fromTransformable);
+        } else if (elOption.transition) for(var transitionKeys = normalizeToArray(elOption.transition), i = 0; i < transitionKeys.length; i++){
+            var key = transitionKeys[i];
+            if ('style' !== key && 'shape' !== key && 'extra' !== key) {
+                var elVal = el[key];
+                checkTransformPropRefer(key, 'el.transition'), checkNonStyleTansitionRefer(key, elOption[key], elVal), transFromProps[key] = elVal;
             }
-            else setTransformPropToTransitionFrom(transFromProps, 'x', el), setTransformPropToTransitionFrom(transFromProps, 'y', el);
         }
+        else setTransformPropToTransitionFrom(transFromProps, 'x', el), setTransformPropToTransitionFrom(transFromProps, 'y', el);
         var leaveTo = elOption.leaveTo;
         if (leaveTo) for(var leaveToProps = getOrCreateLeaveToPropsFromEl(el), leaveToKeys = keys(leaveTo), i = 0; i < leaveToKeys.length; i++){
             var key = leaveToKeys[i];
@@ -37646,14 +37607,13 @@
         };
         var el = data.getItemGraphicEl(dataIndex), coordSys = seriesModel.coordinateSystem;
         if (seriesModel.getTooltipPosition) point = seriesModel.getTooltipPosition(dataIndex) || [];
-        else if (coordSys && coordSys.dataToPoint) {
-            if (finder.isStacked) {
-                var baseAxis = coordSys.getBaseAxis(), valueAxisDim = coordSys.getOtherAxis(baseAxis).dim, baseAxisDim = baseAxis.dim, baseDataOffset = +('x' === valueAxisDim || 'radius' === valueAxisDim), baseDim = data.mapDimension(baseAxisDim), stackedData = [];
-                stackedData[baseDataOffset] = data.get(baseDim, dataIndex), stackedData[1 - baseDataOffset] = data.get(data.getCalculationInfo('stackResultDimension'), dataIndex), point = coordSys.dataToPoint(stackedData) || [];
-            } else point = coordSys.dataToPoint(data.getValues(map(coordSys.dimensions, function(dim) {
-                return data.mapDimension(dim);
-            }), dataIndex)) || [];
-        } else if (el) {
+        else if (coordSys && coordSys.dataToPoint) if (finder.isStacked) {
+            var baseAxis = coordSys.getBaseAxis(), valueAxisDim = coordSys.getOtherAxis(baseAxis).dim, baseAxisDim = baseAxis.dim, baseDataOffset = +('x' === valueAxisDim || 'radius' === valueAxisDim), baseDim = data.mapDimension(baseAxisDim), stackedData = [];
+            stackedData[baseDataOffset] = data.get(baseDim, dataIndex), stackedData[1 - baseDataOffset] = data.get(data.getCalculationInfo('stackResultDimension'), dataIndex), point = coordSys.dataToPoint(stackedData) || [];
+        } else point = coordSys.dataToPoint(data.getValues(map(coordSys.dimensions, function(dim) {
+            return data.mapDimension(dim);
+        }), dataIndex)) || [];
+        else if (el) {
             // Use graphic bounding rect
             var rect = el.getBoundingRect().clone();
             rect.applyTransform(el.transform), point = [
@@ -39836,15 +39796,14 @@
                 }(resultItem, newElOption), function(existList, index, newElOption) {
                     // Update existing options, for `getOption` feature.
                     var newElOptCopy = extend({}, newElOption), existElOption = existList[index], $action = newElOption.$action || 'merge';
-                    if ('merge' === $action) {
-                        if (existElOption) {
-                            var newType = newElOption.type;
-                            assert(!newType || existElOption.type === newType, 'Please set $action: "replace" to change `type`'), // the same object, so `merge` will not change newElOptCopy.
-                            merge(existElOption, newElOptCopy, !0), mergeLayoutParam(existElOption, newElOptCopy, {
-                                ignoreSize: !0
-                            }), copyLayoutParams(newElOption, existElOption);
-                        } else existList[index] = newElOptCopy;
-                    } else 'replace' === $action ? existList[index] = newElOptCopy : 'remove' === $action && // null will be cleaned later.
+                    if ('merge' === $action) if (existElOption) {
+                        var newType = newElOption.type;
+                        assert(!newType || existElOption.type === newType, 'Please set $action: "replace" to change `type`'), // the same object, so `merge` will not change newElOptCopy.
+                        merge(existElOption, newElOptCopy, !0), mergeLayoutParam(existElOption, newElOptCopy, {
+                            ignoreSize: !0
+                        }), copyLayoutParams(newElOption, existElOption);
+                    } else existList[index] = newElOptCopy;
+                    else 'replace' === $action ? existList[index] = newElOptCopy : 'remove' === $action && // null will be cleaned later.
                     existElOption && (existList[index] = null);
                 }(existList, index, newElOption), (existItem = existList[index]) && (existItem.hv = newElOption.hv = [
                     isSetLoc(newElOption, [
@@ -39925,12 +39884,10 @@
                     var $action = elOption.$action || 'merge';
                     'merge' === $action ? elExisting ? elExisting.attr(elOptionCleaned) : createEl$1(id, targetElParent, elOptionCleaned, elMap) : 'replace' === $action ? (removeEl(elExisting, elMap), createEl$1(id, targetElParent, elOptionCleaned, elMap)) : 'remove' === $action && removeEl(elExisting, elMap);
                     var el = elMap.get(id);
-                    if (el && textContentOption) {
-                        if ('merge' === $action) {
-                            var textContentExisting = el.getTextContent();
-                            textContentExisting ? textContentExisting.attr(textContentOption) : el.setTextContent(new ZRText(textContentOption));
-                        } else 'replace' === $action && el.setTextContent(new ZRText(textContentOption));
-                    }
+                    if (el && textContentOption) if ('merge' === $action) {
+                        var textContentExisting = el.getTextContent();
+                        textContentExisting ? textContentExisting.attr(textContentOption) : el.setTextContent(new ZRText(textContentOption));
+                    } else 'replace' === $action && el.setTextContent(new ZRText(textContentOption));
                     if (el) {
                         var elOption1, eventData, elInner = inner$e(el);
                         elInner.__ecGraphicWidthOption = elOption.width, elInner.__ecGraphicHeightOption = elOption.height, eventData = getECData(el).eventData, el.silent || el.ignore || eventData || (eventData = getECData(el).eventData = {
@@ -40882,32 +40839,31 @@
                 excludeComponents: model.get('excludeComponents'),
                 pixelRatio: model.get('pixelRatio')
             });
-            if ('function' != typeof MouseEvent || !env.browser.newEdge && (env.browser.ie || env.browser.edge)) {
-                if (window.navigator.msSaveOrOpenBlob || isSvg) {
-                    var parts = url.split(','), base64Encoded = parts[0].indexOf('base64') > -1, bstr = isSvg // should decode the svg data uri first
-                     ? decodeURIComponent(parts[1]) : parts[1]; // data:[<mime type>][;charset=<charset>][;base64],<encoded data>
-                    // otherwise, like `svg` data uri exported by zrender,
-                    // there will be an error, for it's not encoded with base64.
-                    // (just a url-encoded string through `encodeURIComponent`)
-                    base64Encoded && (bstr = atob(bstr));
-                    var filename = title + '.' + type;
-                    if (window.navigator.msSaveOrOpenBlob) {
-                        for(var n = bstr.length, u8arr = new Uint8Array(n); n--;)u8arr[n] = bstr.charCodeAt(n);
-                        var blob = new Blob([
-                            u8arr
-                        ]);
-                        window.navigator.msSaveOrOpenBlob(blob, filename);
-                    } else {
-                        var frame = document.createElement('iframe');
-                        document.body.appendChild(frame);
-                        var cw = frame.contentWindow, doc = cw.document;
-                        doc.open('image/svg+xml', 'replace'), doc.write(bstr), doc.close(), cw.focus(), doc.execCommand('SaveAs', !0, filename), document.body.removeChild(frame);
-                    }
+            if ('function' != typeof MouseEvent || !env.browser.newEdge && (env.browser.ie || env.browser.edge)) if (window.navigator.msSaveOrOpenBlob || isSvg) {
+                var parts = url.split(','), base64Encoded = parts[0].indexOf('base64') > -1, bstr = isSvg // should decode the svg data uri first
+                 ? decodeURIComponent(parts[1]) : parts[1]; // data:[<mime type>][;charset=<charset>][;base64],<encoded data>
+                // otherwise, like `svg` data uri exported by zrender,
+                // there will be an error, for it's not encoded with base64.
+                // (just a url-encoded string through `encodeURIComponent`)
+                base64Encoded && (bstr = atob(bstr));
+                var filename = title + '.' + type;
+                if (window.navigator.msSaveOrOpenBlob) {
+                    for(var n = bstr.length, u8arr = new Uint8Array(n); n--;)u8arr[n] = bstr.charCodeAt(n);
+                    var blob = new Blob([
+                        u8arr
+                    ]);
+                    window.navigator.msSaveOrOpenBlob(blob, filename);
                 } else {
-                    var lang = model.get('lang'), html = '<body style="margin:0;"><img src="' + url + '" style="max-width:100%;" title="' + (lang && lang[0] || '') + '" /></body>', tab = window.open();
-                    tab.document.write(html), tab.document.title = title;
+                    var frame = document.createElement('iframe');
+                    document.body.appendChild(frame);
+                    var cw = frame.contentWindow, doc = cw.document;
+                    doc.open('image/svg+xml', 'replace'), doc.write(bstr), doc.close(), cw.focus(), doc.execCommand('SaveAs', !0, filename), document.body.removeChild(frame);
                 }
             } else {
+                var lang = model.get('lang'), html = '<body style="margin:0;"><img src="' + url + '" style="max-width:100%;" title="' + (lang && lang[0] || '') + '" /></body>', tab = window.open();
+                tab.document.write(html), tab.document.title = title;
+            }
+            else {
                 var $a = document.createElement('a');
                 $a.download = title + '.' + type, $a.target = '_blank', $a.href = url;
                 var evt = new MouseEvent('click', {
@@ -47246,15 +47202,13 @@
                     }
                     function mapToArray(map, isData) {
                         var result = [];
-                        for(var i in map)if (map.hasOwnProperty(i) && null != map[i]) {
-                            if (isData) result.push(+i);
-                            else {
-                                var dataIndices = mapToArray(map[i], !0);
-                                dataIndices.length && result.push({
-                                    seriesId: i,
-                                    dataIndex: dataIndices
-                                });
-                            }
+                        for(var i in map)if (map.hasOwnProperty(i) && null != map[i]) if (isData) result.push(+i);
+                        else {
+                            var dataIndices = mapToArray(map[i], !0);
+                            dataIndices.length && result.push({
+                                seriesId: i,
+                                dataIndex: dataIndices
+                            });
                         }
                         return result;
                     }

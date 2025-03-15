@@ -7,6 +7,6 @@ var M, M1, C = function C() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();
-}, new C(), new C(), new function D() {
+}, new Date(12), new C(), new C(), new function D() {
     _class_call_check(this, D);
 }(), new C(), new M1.A();
