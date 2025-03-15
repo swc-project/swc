@@ -45,8 +45,8 @@ pub fn bench_libs(c: &mut Criterion) {
     bench_file("vue");
 }
 
-criterion_group!(files, bench_libs);
-criterion_main!(files);
+criterion_group!(bench_all, bench_libs);
+criterion_main!(bench_all);
 
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
