@@ -115,6 +115,7 @@ fn git_clone(url: &str, commit: &str, path: &Path) {
     }
 
     let status = Command::new("git")
+        .current_dir(path)
         .args(["checkout", commit])
         .status()
         .unwrap();
