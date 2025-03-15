@@ -274,8 +274,7 @@ function(global, factory) {
         }
     }
     function maxIndex(values, valueof) {
-        let max;
-        let maxIndex = -1, index = -1;
+        let max, maxIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         return maxIndex;
@@ -286,8 +285,7 @@ function(global, factory) {
         }(arrays));
     }
     function minIndex(values, valueof) {
-        let min;
-        let minIndex = -1, index = -1;
+        let min, minIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         return minIndex;
@@ -10279,8 +10277,7 @@ function(global, factory) {
     }, exports1.geoTransverseMercatorRaw = transverseMercatorRaw, exports1.gray = function(l, opacity) {
         return new Lab(l, 0, 0, null == opacity ? 1 : opacity);
     }, exports1.greatest = function(values, compare = ascending) {
-        let max;
-        let defined = !1;
+        let max, defined = !1;
         if (1 === compare.length) {
             let maxValue;
             for (const element of values){
@@ -10359,8 +10356,7 @@ function(global, factory) {
     }, exports1.lab = lab, exports1.lch = function(l, c, h, opacity) {
         return 1 == arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
     }, exports1.least = function(values, compare = ascending) {
-        let min;
-        let defined = !1;
+        let min, defined = !1;
         if (1 === compare.length) {
             let minValue;
             for (const element of values){

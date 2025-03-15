@@ -1,5 +1,4 @@
-let a;
-let myArr = [];
+let a, myArr = [];
 function foo(arr) {
     return arr.push('foo'), 'foo';
 }

@@ -1701,8 +1701,7 @@
                 };
             }
             function resolveHref(router, href, resolveAs) {
-                let base;
-                let urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
+                let base, urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
                 // repeated slashes and backslashes in the URL are considered
                 // invalid and will never match a Next.js page/file
                 const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
