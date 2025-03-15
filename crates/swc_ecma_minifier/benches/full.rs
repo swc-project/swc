@@ -9,7 +9,7 @@ use std::{
 };
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
-use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, GLOBALS};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -83,7 +83,9 @@ fn bench_real(c: &mut Criterion) {
         b.iter(|| {
             // We benchmark full time, including time for creating cm, handler
 
-            Worker::default().maybe_par(0, &*sources, |_, src| run(src));
+            GLOBALS.set(&Default::default(), || {
+                Worker::default().maybe_par(0, &*sources, |_, src| run(src));
+            });
         })
     });
 }
@@ -142,60 +144,58 @@ fn expand_dirs(dir: &Path) -> Vec<PathBuf> {
 
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
-        HANDLER.set(&handler, || {
-            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
-            let Ok(program) = parse_file_as_program(
-                &fm,
-                Default::default(),
-                Default::default(),
-                None,
-                &mut Vec::new(),
-            )
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false))) else {
-                return Ok(());
-            };
-
-            let output = optimize(
-                program,
-                cm.clone(),
-                None,
-                None,
-                &MinifyOptions {
-                    rename: false,
-                    compress: Some(Default::default()),
-                    mangle: Some(MangleOptions {
-                        props: None,
-                        top_level: Some(true),
-                        keep_class_names: false,
-                        keep_fn_names: false,
-                        keep_private_props: false,
-                        ie8: false,
-                        ..Default::default()
-                    }),
-                    wrap: false,
-                    enclose: false,
-                },
-                &ExtraOptions {
-                    unresolved_mark,
-                    top_level_mark,
-                    mangle_name_cache: None,
-                },
-            );
-
-            let output = output.apply(fixer(None));
-
-            let code = print(cm, &[output], true);
-
-            black_box(code);
-            Ok(())
+        let Ok(program) = parse_file_as_program(
+            &fm,
+            Default::default(),
+            Default::default(),
+            None,
+            &mut Vec::new(),
+        )
+        .map_err(|err| {
+            err.into_diagnostic(&handler).emit();
         })
+        .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false))) else {
+            return Ok(());
+        };
+
+        let output = optimize(
+            program,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                rename: false,
+                compress: Some(Default::default()),
+                mangle: Some(MangleOptions {
+                    props: None,
+                    top_level: Some(true),
+                    keep_class_names: false,
+                    keep_fn_names: false,
+                    keep_private_props: false,
+                    ie8: false,
+                    ..Default::default()
+                }),
+                wrap: false,
+                enclose: false,
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+                mangle_name_cache: None,
+            },
+        );
+
+        let output = output.apply(fixer(None));
+
+        let code = print(cm, &[output], true);
+
+        black_box(code);
+        Ok(())
     })
     .unwrap();
 }
