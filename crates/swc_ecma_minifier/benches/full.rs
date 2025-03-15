@@ -52,6 +52,10 @@ fn bench_libs(c: &mut Criterion) {
 }
 
 fn bench_real(c: &mut Criterion) {
+    if std::env::var("CI").is_ok_and(|v| v == "1") {
+        return;
+    }
+
     let input_dir = CARGO_TARGET_DIR.join("swc-minifier-inputs");
 
     git_clone(
