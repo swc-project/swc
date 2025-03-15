@@ -148,7 +148,7 @@ fn run(src: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let program = parse_file_as_program(
+            let Ok(program) = parse_file_as_program(
                 &fm,
                 Default::default(),
                 Default::default(),
@@ -158,8 +158,9 @@ fn run(src: &str) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false)))
-            .unwrap();
+            .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false))) else {
+                return Ok(());
+            };
 
             let output = optimize(
                 program,
