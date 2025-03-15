@@ -272,7 +272,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
-        e.visit_mut_children_with(self);
+        self.visit_par_ref(&mut [&mut *e.test, &mut *e.cons, &mut *e.alt]);
 
         self.optimize_expr_in_bool_ctx(&mut e.test, false);
 
