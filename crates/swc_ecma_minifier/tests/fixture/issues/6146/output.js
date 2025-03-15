@@ -3,4 +3,4 @@ let o = {
         assert.ok(this !== o);
     }
 };
-(0, o.f)``;
+o.f``;

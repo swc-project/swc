@@ -4,6 +4,6 @@ import { _ as _define_property } from "@swc/helpers/_/_define_property";
 foo((_define_property(_obj = {
     p: "",
     0: function() {}
-}, "hibye", !0), _define_property(_obj, 1, 0), _define_property(_obj, NaN, [
+}, "hi" + "bye", !0), _define_property(_obj, 0 + 1, 0), _define_property(_obj, +"hi", [
     0
 ]), _obj));

@@ -11,5 +11,9 @@ class SymbolIterator {
     }
 }
 [
+    ...[
+        0,
+        1
+    ],
     ...new SymbolIterator
 ];

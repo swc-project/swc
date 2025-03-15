@@ -1,6 +1,6 @@
 //// [nullIsSubtypeOfEverythingButUndefined.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-new Date();
+0 || new Date(), 0 && new Date();
 var E, E1 = ((E = E1 || {})[E.A = 0] = "A", E);
 function f() {}
 (f || (f = {})).bar = 1;

@@ -22,17 +22,17 @@
             // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), components_Input = function(param) {
                 var value = param.value, onChange = param.onChange;
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)("input", {
+                return /*#__PURE__*/ jsx_runtime.jsx("input", {
                     value: value,
                     onChange: onChange
                 });
             }, components_Form = function(param) {
                 var value = param.value, onChange = param.onChange;
-                return (0, react.useEffect)(function() {
+                return react.useEffect(function() {
                     // If parent component spreads the props,
                     // will cause remount on every re-render
                     console.log("EFFECT");
-                }, []), /*#__PURE__*/ (0, jsx_runtime.jsx)(components_Input, {
+                }, []), /*#__PURE__*/ jsx_runtime.jsx(components_Input, {
                     value: value,
                     onChange: onChange
                 });
@@ -50,16 +50,16 @@
             // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Form = __webpack_require__(2726), NoSpread = function(param) {
                 var value = param.value, onChange = param.onChange;
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)(Form /* default */ .Z, {
+                return /*#__PURE__*/ jsx_runtime.jsx(Form /* default */ .Z, {
                     value: value,
                     onChange: onChange
                 });
             };
             function PageWithNoSpread() {
-                var ref = (0, react.useState)(""), text = ref[0], setText = ref[1], handleChange = (0, react.useCallback)(function(e) {
+                var ref = react.useState(""), text = ref[0], setText = ref[1], handleChange = react.useCallback(function(e) {
                     setText(e.target.value);
                 }, []);
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)(NoSpread, {
+                return /*#__PURE__*/ jsx_runtime.jsx(NoSpread, {
                     onChange: handleChange,
                     value: text
                 });

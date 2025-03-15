@@ -287,7 +287,7 @@
                             try {
                                 for(_iterator.s(); !(_step = _iterator.n()).done;){
                                     var moduleId = _step.value;
-                                    if (-1 !== ids.indexOf(moduleId)) return init();
+                                    if (ids.indexOf(moduleId) !== -1) return init();
                                 }
                             } catch (err) {
                                 _iterator.e(err);
@@ -351,17 +351,17 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             /* harmony import */ var _loader, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7945), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__), react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6086), next_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4652), next_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1843);
-            /* harmony default export */ __webpack_exports__.default = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default)({
-                loader: (_loader = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z)(/*#__PURE__*/ _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            /* harmony default export */ __webpack_exports__.default = next_dynamic__WEBPACK_IMPORTED_MODULE_2__.default({
+                loader: (_loader = _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z(/*#__PURE__*/ _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                     return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_context) {
                         for(;;)switch(_context.prev = _context.next){
                             case 0:
                                 return _context.abrupt("return", function() {
-                                    return /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                                    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs("div", {
                                         className: "dynamic-style",
                                         children: [
-                                            /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
-                                                children: /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+                                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx(next_head__WEBPACK_IMPORTED_MODULE_3__.default, {
+                                                children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx("style", {
                                                     dangerouslySetInnerHTML: {
                                                         __html: "\n            .dynamic-style {\n              background-color: green;\n              height: 200px;\n            }\n          "
                                                     }

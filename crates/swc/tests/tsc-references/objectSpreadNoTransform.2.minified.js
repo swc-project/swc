@@ -1,7 +1,10 @@
 //// [objectSpreadNoTransform.ts]
 var b, rest;
-({ b, ...rest } = {
+const o = {
     x: 1,
-    a: 'yes',
-    b: 'no'
-});
+    ...{
+        a: 'yes',
+        b: 'no'
+    }
+};
+({ b, ...rest } = o);

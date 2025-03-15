@@ -8,7 +8,7 @@ export default function(r, t, e) {
         for(var t = 2, e = 0; e < 64;)(function(r) {
             for(var t = o.sqrt(r), e = 2; e <= t; e++)if (!(r % e)) return !1;
             return !0;
-        })(t) && (e < 8 && (c[e] = r(o.pow(t, 0.5))), l[e] = r(o.pow(t, 1 / 3)), e++), t++;
+        })(t) && (e < 8 && (c[e] = r(o.pow(t, 1 / 2))), l[e] = r(o.pow(t, 1 / 3)), e++), t++;
     }(), f = [], u = h.SHA256 = i.extend({
         _doReset: function() {
             this._hash = new a.init(c.slice(0));

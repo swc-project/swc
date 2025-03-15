@@ -19,7 +19,7 @@
     var readyList, // A central reference to the root jQuery(document)
     rootjQuery, // Support: IE<9
     // For `typeof node.method` instead of `node.method !== undefined`
-    core_strundefined = "undefined", // Use the correct document accordingly with window argument (sandbox)
+    core_strundefined = typeof undefined, // Use the correct document accordingly with window argument (sandbox)
     document = window1.document, location = window1.location, // Map over jQuery in case of overwrite
     _jQuery = window1.jQuery, // Map over the $ in case of overwrite
     _$ = window1.$, // [[Class]] -> type pairs
@@ -1209,7 +1209,7 @@
                 ((eventHandle = elemData.handle = function(e) {
                     // Discard the second event of a jQuery.event.trigger() and
                     // when an event is called after a page has unloaded
-                    return e && jQuery.event.triggered === e.type ? undefined : jQuery.event.dispatch.apply(eventHandle.elem, arguments);
+                    return "function" === core_strundefined || e && jQuery.event.triggered === e.type ? undefined : jQuery.event.dispatch.apply(eventHandle.elem, arguments);
                 }).elem = elem), t = // Handle multiple events separated by a space
                 // jQuery(...).bind("mouseover mouseout", fn);
                 (types = (types || "").match(core_rnotwhite) || [
@@ -1589,7 +1589,7 @@
         var i, cachedruns, Expr, getText, isXML, compile, hasDuplicate, outermostContext, // Local document vars
         setDocument, document, docElem, documentIsXML, rbuggyQSA, rbuggyMatches, matches, contains, sortOrder, // Instance-specific data
         expando = "sizzle" + -new Date(), preferredDoc = window1.document, support = {}, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), // General-purpose constants
-        strundefined = "undefined", // Array methods
+        strundefined = typeof void 0, MAX_NEGATIVE = 1 << 31, // Array methods
         arr = [], pop = arr.pop, push = arr.push, slice = arr.slice, // Use a stripped-down indexOf if we can't use a native one
         indexOf = arr.indexOf || function(elem) {
             for(var i = 0, len = this.length; i < len; i++)if (this[i] === elem) return i;
@@ -1734,7 +1734,7 @@
             }(selector.replace(rtrim, "$1"), context, results, seed);
         }
         function siblingCheck(a, b) {
-            var cur = b && a, diff = cur && (~b.sourceIndex || -2147483648) - (~a.sourceIndex || -2147483648);
+            var cur = b && a, diff = cur && (~b.sourceIndex || MAX_NEGATIVE) - (~a.sourceIndex || MAX_NEGATIVE);
             // Use IE sourceIndex if available on both nodes
             if (diff) return diff;
             // Check if b follows a
@@ -2024,9 +2024,9 @@
                 },
                 CLASS: function(className) {
                     var pattern = classCache[className + " "];
-                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)"), classCache(className, function(elem) {
+                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")) && classCache(className, function(elem) {
                         return pattern.test(elem.className || typeof elem.getAttribute !== strundefined && elem.getAttribute("class") || "");
-                    }));
+                    });
                 },
                 ATTR: function(name1, operator, check) {
                     return function(elem) {
@@ -2544,7 +2544,7 @@
             return r;
         }
     });
-    var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video", rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g, rnoshimcache = RegExp("<(?:" + nodeNames + ")[\\s/>]", "i"), rleadingWhitespace = /^\s+/, rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rtbody = /<tbody/i, rhtml = /<|&#?\w+;/, rnoInnerhtml = /<(?:script|style|link)/i, manipulation_rcheckableType = /^(?:checkbox|radio)$/i, // checked="checked" or checked
+    var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|" + "header|hgroup|mark|meter|nav|output|progress|section|summary|time|video", rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g, rnoshimcache = RegExp("<(?:" + nodeNames + ")[\\s/>]", "i"), rleadingWhitespace = /^\s+/, rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, rtagName = /<([\w:]+)/, rtbody = /<tbody/i, rhtml = /<|&#?\w+;/, rnoInnerhtml = /<(?:script|style|link)/i, manipulation_rcheckableType = /^(?:checkbox|radio)$/i, // checked="checked" or checked
     rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i, rscriptType = /^$|\/(?:java|ecma)script/i, rscriptTypeMasked = /^true\/(.*)/, rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g, // We have to close these tags to support XHTML (#13200)
     wrapMap = {
         option: [
@@ -2837,7 +2837,7 @@
             } else nodes.push(context.createTextNode(elem));
             for(tmp && safe.removeChild(tmp), jQuery.support.appendChecked || jQuery.grep(getAll(nodes, "input"), fixDefaultChecked), i = 0; elem = nodes[i++];)// #4087 - If origin and destination elements are the same, and this is
             // that element, do not do anything
-            if ((!selection || -1 === jQuery.inArray(elem, selection)) && (contains = jQuery.contains(elem.ownerDocument, elem), // Append to fragment
+            if ((!selection || jQuery.inArray(elem, selection) === -1) && (contains = jQuery.contains(elem.ownerDocument, elem), // Append to fragment
             tmp = getAll(safe.appendChild(elem), "script"), contains && setGlobalEval(tmp), scripts)) for(j = 0; elem = tmp[j++];)rscriptType.test(elem.type || "") && scripts.push(elem);
             return tmp = null, safe;
         },
@@ -3179,7 +3179,7 @@
         })(prefix, a[prefix], traditional, add);
         // Return the resulting serialization
         return s.join("&").replace(r20, "+");
-    }, jQuery.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "), function(i, name1) {
+    }, jQuery.each(("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name1) {
         // Handle event binding
         jQuery.fn[name1] = function(data, fn) {
             return arguments.length > 0 ? this.on(name1, null, data, fn) : this.trigger(name1);

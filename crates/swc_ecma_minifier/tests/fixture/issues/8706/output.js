@@ -1,1 +1,1 @@
-console.log("swc");
+console.log('swc');

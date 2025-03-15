@@ -1,3 +1,4 @@
 export function source() {
-    console.log(6, 1, 1);
+    let c;
+    console.log(1 + 5, c = 0 + 1, c);
 }

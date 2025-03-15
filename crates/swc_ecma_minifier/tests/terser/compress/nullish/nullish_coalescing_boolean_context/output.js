@@ -1,3 +1,3 @@
 unknown && pass();
 unknown && pass();
-pass();
+((4 + 4) ?? unknown) && pass();

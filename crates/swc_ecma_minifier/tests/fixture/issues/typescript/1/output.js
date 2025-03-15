@@ -258,7 +258,7 @@ var ts, ts1, dynamicImportUMDHelper;
             var expressionResult = ts1.visitNode(currentModuleInfo.exportEquals.expression, visitor);
             if (expressionResult) if (emitAsReturn) {
                 var statement = factory.createReturnStatement(expressionResult);
-                ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1920 /* NoComments */ ), statements.push(statement);
+                ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 384 /* NoTokenSourceMaps */  | 1536 /* NoComments */ ), statements.push(statement);
             } else {
                 var statement = factory.createExpressionStatement(factory.createAssignment(factory.createPropertyAccessExpression(factory.createIdentifier("module"), "exports"), expressionResult));
                 ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statements.push(statement);
@@ -451,7 +451,7 @@ var ts, ts1, dynamicImportUMDHelper;
     function visitorWorker(node, valueIsDiscarded) {
         // This visitor does not need to descend into the tree if there is no dynamic import, destructuring assignment, or update expression
         // as export/import statements are only transformed at the top level of a file.
-        if (!(71307264 /* ContainsUpdateExpressionForIdentifier */  & node.transformFlags)) return node;
+        if (!(node.transformFlags & (4194304 /* ContainsDynamicImport */  | 4096 /* ContainsDestructuringAssignment */  | 67108864 /* ContainsUpdateExpressionForIdentifier */ ))) return node;
         switch(node.kind){
             case 241 /* ForStatement */ :
                 return factory.updateForStatement(node, ts1.visitNode(node.initializer, discardedValueVisitor, ts1.isForInitializer), ts1.visitNode(node.condition, visitor, ts1.isExpression), ts1.visitNode(node.incrementor, discardedValueVisitor, ts1.isExpression), ts1.visitIterationBody(node.statement, visitor, context));

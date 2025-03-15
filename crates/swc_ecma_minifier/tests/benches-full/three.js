@@ -36,19 +36,19 @@ function(global, factory) {
         addEventListener: function(type, listener) {
             void 0 === this._listeners && (this._listeners = {});
             var listeners = this._listeners;
-            void 0 === listeners[type] && (listeners[type] = []), -1 === listeners[type].indexOf(listener) && listeners[type].push(listener);
+            void 0 === listeners[type] && (listeners[type] = []), listeners[type].indexOf(listener) === -1 && listeners[type].push(listener);
         },
         hasEventListener: function(type, listener) {
             if (void 0 === this._listeners) return !1;
             var listeners = this._listeners;
-            return void 0 !== listeners[type] && -1 !== listeners[type].indexOf(listener);
+            return void 0 !== listeners[type] && listeners[type].indexOf(listener) !== -1;
         },
         removeEventListener: function(type, listener) {
             if (void 0 !== this._listeners) {
                 var listenerArray = this._listeners[type];
                 if (void 0 !== listenerArray) {
                     var index = listenerArray.indexOf(listener);
-                    -1 !== index && listenerArray.splice(index, 1);
+                    index !== -1 && listenerArray.splice(index, 1);
                 }
             }
         },
@@ -1110,19 +1110,19 @@ function(global, factory) {
         function Box3(min, max) {
             Object.defineProperty(this, 'isBox3', {
                 value: !0
-            }), this.min = void 0 !== min ? min : new Vector3(Infinity, Infinity, Infinity), this.max = void 0 !== max ? max : new Vector3(-1 / 0, -1 / 0, -1 / 0);
+            }), this.min = void 0 !== min ? min : new Vector3(+(1 / 0), +(1 / 0), +(1 / 0)), this.max = void 0 !== max ? max : new Vector3(-1 / 0, -1 / 0, -1 / 0);
         }
         var _proto = Box3.prototype;
         return _proto.set = function(min, max) {
             return this.min.copy(min), this.max.copy(max), this;
         }, _proto.setFromArray = function(array) {
-            for(var minX = Infinity, minY = Infinity, minZ = Infinity, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = array.length; i < l; i += 3){
+            for(var minX = +(1 / 0), minY = +(1 / 0), minZ = +(1 / 0), maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = array.length; i < l; i += 3){
                 var x = array[i], y = array[i + 1], z = array[i + 2];
                 x < minX && (minX = x), y < minY && (minY = y), z < minZ && (minZ = z), x > maxX && (maxX = x), y > maxY && (maxY = y), z > maxZ && (maxZ = z);
             }
             return this.min.set(minX, minY, minZ), this.max.set(maxX, maxY, maxZ), this;
         }, _proto.setFromBufferAttribute = function(attribute) {
-            for(var minX = Infinity, minY = Infinity, minZ = Infinity, maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = attribute.count; i < l; i++){
+            for(var minX = +(1 / 0), minY = +(1 / 0), minZ = +(1 / 0), maxX = -1 / 0, maxY = -1 / 0, maxZ = -1 / 0, i = 0, l = attribute.count; i < l; i++){
                 var x = attribute.getX(i), y = attribute.getY(i), z = attribute.getZ(i);
                 x < minX && (minX = x), y < minY && (minY = y), z < minZ && (minZ = z), x > maxX && (maxX = x), y > maxY && (maxY = y), z > maxZ && (maxZ = z);
             }
@@ -1141,7 +1141,7 @@ function(global, factory) {
         }, _proto.copy = function(box) {
             return this.min.copy(box.min), this.max.copy(box.max), this;
         }, _proto.makeEmpty = function() {
-            return this.min.x = this.min.y = this.min.z = Infinity, this.max.x = this.max.y = this.max.z = -1 / 0, this;
+            return this.min.x = this.min.y = this.min.z = +(1 / 0), this.max.x = this.max.y = this.max.z = -1 / 0, this;
         }, _proto.isEmpty = function() {
             // this is a more robust check for empty than ( volume <= 0 ) because volume can get positive with two negative axes
             return this.max.x < this.min.x || this.max.y < this.min.y || this.max.z < this.min.z;
@@ -1680,7 +1680,7 @@ function(global, factory) {
     ];
     var _matrix = /*@__PURE__*/ new Matrix4(), _quaternion$1 = /*@__PURE__*/ new Quaternion(), Layers = /*#__PURE__*/ function() {
         function Layers() {
-            this.mask = 1;
+            this.mask = 1 | 0;
         }
         var _proto = Layers.prototype;
         return _proto.set = function(channel) {
@@ -1688,7 +1688,7 @@ function(global, factory) {
         }, _proto.enable = function(channel) {
             this.mask |= 1 << channel | 0;
         }, _proto.enableAll = function() {
-            this.mask = -1;
+            this.mask = 0xffffffff | 0;
         }, _proto.toggle = function(channel) {
             this.mask ^= 1 << channel | 0;
         }, _proto.disable = function(channel) {
@@ -1825,7 +1825,7 @@ function(global, factory) {
                 return this;
             }
             var index = this.children.indexOf(object);
-            return -1 !== index && (object.parent = null, this.children.splice(index, 1), object.dispatchEvent(_removedEvent)), this;
+            return index !== -1 && (object.parent = null, this.children.splice(index, 1), object.dispatchEvent(_removedEvent)), this;
         },
         clear: function() {
             for(var i = 0; i < this.children.length; i++){
@@ -2266,7 +2266,7 @@ function(global, factory) {
         l: 0
     };
     function hue2rgb(p, q, t) {
-        return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + (q - p) * 6 * t : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * 6 * (2 / 3 - t) : p;
+        return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * 6 * (2 / 3 - t) : p;
     }
     function SRGBToLinear(c) {
         return c < 0.04045 ? 0.0773993808 * c : Math.pow(0.9478672986 * c + 0.0521327014, 2.4);
@@ -2967,7 +2967,7 @@ function(global, factory) {
             null === this.boundingBox && (this.boundingBox = new Box3());
             var position = this.attributes.position, morphAttributesPosition = this.morphAttributes.position;
             if (position && position.isGLBufferAttribute) {
-                console.error('THREE.BufferGeometry.computeBoundingBox(): GLBufferAttribute requires a manual bounding box. Alternatively set "mesh.frustumCulled" to "false".', this), this.boundingBox.set(new Vector3(-1 / 0, -1 / 0, -1 / 0), new Vector3(Infinity, Infinity, Infinity));
+                console.error('THREE.BufferGeometry.computeBoundingBox(): GLBufferAttribute requires a manual bounding box. Alternatively set "mesh.frustumCulled" to "false".', this), this.boundingBox.set(new Vector3(-1 / 0, -1 / 0, -1 / 0), new Vector3(+(1 / 0), +(1 / 0), +(1 / 0)));
                 return;
             }
             if (void 0 !== position) {
@@ -3022,7 +3022,7 @@ function(global, factory) {
                 console.error('THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry);
                 return;
             }
-            void 0 === offset && (offset = 0, console.warn("THREE.BufferGeometry.merge(): Overwriting original geometry, starting at offset=0. Use BufferGeometryUtils.mergeBufferGeometries() for lossless merge."));
+            void 0 === offset && (offset = 0, console.warn('THREE.BufferGeometry.merge(): Overwriting original geometry, starting at offset=0. ' + 'Use BufferGeometryUtils.mergeBufferGeometries() for lossless merge.'));
             var attributes = this.attributes;
             for(var key in attributes)if (void 0 !== geometry.attributes[key]) for(var attributeArray1 = attributes[key].array, attribute2 = geometry.attributes[key], attributeArray2 = attribute2.array, attributeOffset = attribute2.itemSize * offset, length = Math.min(attributeArray2.length, attributeArray1.length - attributeOffset), i = 0, j = attributeOffset; i < length; i++, j++)attributeArray1[j] = attributeArray2[i];
             return this;
@@ -3661,7 +3661,7 @@ function(global, factory) {
                     type: type,
                     bytesPerElement: array.BYTES_PER_ELEMENT,
                     version: attribute1.version
-                })) : data.version < attribute.version && (buffer1 = data.buffer, array1 = (attribute2 = attribute).array, updateRange = attribute2.updateRange, gl.bindBuffer(bufferType, buffer1), -1 === updateRange.count ? // Not using update ranges
+                })) : data.version < attribute.version && (buffer1 = data.buffer, array1 = (attribute2 = attribute).array, updateRange = attribute2.updateRange, gl.bindBuffer(bufferType, buffer1), updateRange.count === -1 ? // Not using update ranges
                 gl.bufferSubData(bufferType, 0, array1) : (isWebGL2 ? gl.bufferSubData(bufferType, updateRange.offset * array1.BYTES_PER_ELEMENT, array1, updateRange.offset, updateRange.count) : gl.bufferSubData(bufferType, updateRange.offset * array1.BYTES_PER_ELEMENT, array1.subarray(updateRange.offset, updateRange.offset + updateRange.count)), updateRange.count = -1), data.version = attribute.version);
             }
         };
@@ -5672,11 +5672,11 @@ function(global, factory) {
             parameters.envMap ? getTexelDecodingFunction('envMapTexelToLinear', parameters.envMapEncoding) : '',
             parameters.emissiveMap ? getTexelDecodingFunction('emissiveMapTexelToLinear', parameters.emissiveMapEncoding) : '',
             parameters.lightMap ? getTexelDecodingFunction('lightMapTexelToLinear', parameters.lightMapEncoding) : '',
-            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(parameters.outputEncoding))[0] + components[1] + '; }',
+            'vec4 ' + "linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(parameters.outputEncoding))[0] + components[1] + '; }',
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
         ].filter(filterEmptyLine).join('\n')), vertexShader = replaceClippingPlaneNums(vertexShader = replaceLightNums(vertexShader = resolveIncludes(vertexShader), parameters), parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader = replaceLightNums(fragmentShader = resolveIncludes(fragmentShader), parameters), parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (// GLSL 3.0 conversion for built-in materials and ShaderMaterial
-        versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
+        versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture" + '\n' + prefixVertex, prefixFragment = [
             '#define varying in',
             parameters.glslVersion === GLSL3 ? '' : 'out highp vec4 pc_fragColor;',
             parameters.glslVersion === GLSL3 ? '' : '#define gl_FragColor pc_fragColor',
@@ -6320,8 +6320,8 @@ function(global, factory) {
             2: 2
         }, shadowMaterialVertical = new ShaderMaterial({
             defines: {
-                SAMPLE_RATE: 0.25,
-                HALF_SAMPLE_RATE: 0.125
+                SAMPLE_RATE: 2.0 / 8.0,
+                HALF_SAMPLE_RATE: 1.0 / 8.0
             },
             uniforms: {
                 shadow_pass: {
@@ -6542,7 +6542,7 @@ function(global, factory) {
             };
         } //
         (), enabledCapabilities = {}, currentProgram = null, currentBlendingEnabled = null, currentBlending = null, currentBlendEquation = null, currentBlendSrc = null, currentBlendDst = null, currentBlendEquationAlpha = null, currentBlendSrcAlpha = null, currentBlendDstAlpha = null, currentPremultipledAlpha = !1, currentFlipSided = null, currentCullFace = null, currentLineWidth = null, currentPolygonOffsetFactor = null, currentPolygonOffsetUnits = null, maxTextures = gl.getParameter(35661), lineWidthAvailable = !1, glVersion = gl.getParameter(7938);
-        -1 !== glVersion.indexOf('WebGL') ? lineWidthAvailable = parseFloat(/^WebGL (\d)/.exec(glVersion)[1]) >= 1.0 : -1 !== glVersion.indexOf('OpenGL ES') && (lineWidthAvailable = parseFloat(/^OpenGL ES (\d)/.exec(glVersion)[1]) >= 2.0);
+        glVersion.indexOf('WebGL') !== -1 ? lineWidthAvailable = parseFloat(/^WebGL (\d)/.exec(glVersion)[1]) >= 1.0 : glVersion.indexOf('OpenGL ES') !== -1 && (lineWidthAvailable = parseFloat(/^OpenGL ES (\d)/.exec(glVersion)[1]) >= 2.0);
         var currentTextureSlot = null, currentBoundTextures = {}, currentScissor = new Vector4(), currentViewport = new Vector4();
         function createTexture(type, target, count) {
             var data = new Uint8Array(4), texture = gl.createTexture(); // 4 is required to match default unpack alignment of 4.
@@ -7633,11 +7633,11 @@ function(global, factory) {
                     null !== jointPose && (joint.matrix.fromArray(jointPose.transform.matrix), joint.matrix.decompose(joint.position, joint.rotation, joint.scale), joint.jointRadius = jointPose.radius), joint.visible = null !== jointPose;
                     // Check pinch
                     var indexTip = hand.joints[window.XRHand.INDEX_PHALANX_TIP], thumbTip = hand.joints[window.XRHand.THUMB_PHALANX_TIP], distance = indexTip.position.distanceTo(thumbTip.position);
-                    hand.inputState.pinching && distance > 0.025 ? (hand.inputState.pinching = !1, this.dispatchEvent({
+                    hand.inputState.pinching && distance > 0.02 + 0.005 ? (hand.inputState.pinching = !1, this.dispatchEvent({
                         type: 'pinchend',
                         handedness: inputSource.handedness,
                         target: this
-                    })) : !hand.inputState.pinching && distance <= 0.015 && (hand.inputState.pinching = !0, this.dispatchEvent({
+                    })) : !hand.inputState.pinching && distance <= 0.02 - 0.005 && (hand.inputState.pinching = !0, this.dispatchEvent({
                         type: 'pinchstart',
                         handedness: inputSource.handedness,
                         target: this
@@ -10135,7 +10135,7 @@ function(global, factory) {
         function TextBufferGeometry(text, parameters) {
             void 0 === parameters && (parameters = {});
             var _this, font = parameters.font;
-            if (!(font && font.isFont)) return console.error('THREE.TextGeometry: font parameter is not an instance of THREE.Font.'), new BufferGeometry();
+            if (!(font && font.isFont)) return console.error('THREE.TextGeometry: font parameter is not an instance of THREE.Font.'), new BufferGeometry() || _assertThisInitialized(_this);
             var shapes = font.generateShapes(text, parameters.size); // translate parameters to ExtrudeGeometry API
             return parameters.depth = void 0 !== parameters.height ? parameters.height : 50, void 0 === parameters.bevelThickness && (parameters.bevelThickness = 10), void 0 === parameters.bevelSize && (parameters.bevelSize = 8), void 0 === parameters.bevelEnabled && (parameters.bevelEnabled = !1), (_this = _ExtrudeBufferGeometr.call(this, shapes, parameters) || this).type = 'TextBufferGeometry', _this;
         }
@@ -11121,7 +11121,7 @@ function(global, factory) {
         // IMPORTANT: We do not shift around keys to the start of the track time, because for interpolated keys this will change their values
         trim: function(startTime, endTime) {
             for(var times = this.times, nKeys = times.length, from = 0, to = nKeys - 1; from !== nKeys && times[from] < startTime;)++from;
-            for(; -1 !== to && times[to] > endTime;)--to;
+            for(; to !== -1 && times[to] > endTime;)--to;
             if (++to, 0 !== from || to !== nKeys) {
                 from >= to && (from = (to = Math.max(to, 1)) - 1);
                 var stride = this.getValueSize();
@@ -11400,7 +11400,7 @@ function(global, factory) {
             return handlers.push(regex, loader), this;
         }, this.removeHandler = function(regex) {
             var index = handlers.indexOf(regex);
-            return -1 !== index && handlers.splice(index, 2), this;
+            return index !== -1 && handlers.splice(index, 2), this;
         }, this.getHandler = function(file) {
             for(var i = 0, l = handlers.length; i < l; i += 2){
                 var regex = handlers[i], loader = handlers[i + 1];
@@ -12524,7 +12524,7 @@ function(global, factory) {
             // normal is assumed to be unit length
             var x = normal.x, y = normal.y, z = normal.z, coeff = this.coefficients;
             return target.copy(coeff[0]).multiplyScalar(0.886227), // band 1
-            target.addScaledVector(coeff[1], 1.023328 * y), target.addScaledVector(coeff[2], 1.023328 * z), target.addScaledVector(coeff[3], 1.023328 * x), target.addScaledVector(coeff[4], 0.858086 * x * y), target.addScaledVector(coeff[5], 0.858086 * y * z), target.addScaledVector(coeff[6], 0.743125 * z * z - 0.247708), target.addScaledVector(coeff[7], 0.858086 * x * z), target.addScaledVector(coeff[8], 0.429043 * (x * x - y * y)), target;
+            target.addScaledVector(coeff[1], 2.0 * 0.511664 * y), target.addScaledVector(coeff[2], 2.0 * 0.511664 * z), target.addScaledVector(coeff[3], 2.0 * 0.511664 * x), target.addScaledVector(coeff[4], 2.0 * 0.429043 * x * y), target.addScaledVector(coeff[5], 2.0 * 0.429043 * y * z), target.addScaledVector(coeff[6], 0.743125 * z * z - 0.247708), target.addScaledVector(coeff[7], 2.0 * 0.429043 * x * z), target.addScaledVector(coeff[8], 0.429043 * (x * x - y * y)), target;
         }, _proto.add = function(sh) {
             for(var i = 0; i < 9; i++)this.coefficients[i].add(sh.coefficients[i]);
             return this;
@@ -12656,7 +12656,7 @@ function(global, factory) {
         },
         extractUrlBase: function(url) {
             var index = url.lastIndexOf('/');
-            return -1 === index ? './' : url.substr(0, index + 1);
+            return index === -1 ? './' : url.substr(0, index + 1);
         }
     };
     function InstancedBufferGeometry() {
@@ -13690,7 +13690,7 @@ function(global, factory) {
         }
     });
     // Characters [].:/ are reserved for track binding syntax.
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp("^" + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp('^' + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'
@@ -13792,18 +13792,18 @@ function(global, factory) {
                 // required
                 propertyIndex: matches[6]
             }, lastDot = results.nodeName && results.nodeName.lastIndexOf('.');
-            if (void 0 !== lastDot && -1 !== lastDot) {
+            if (void 0 !== lastDot && lastDot !== -1) {
                 var objectName = results.nodeName.substring(lastDot + 1); // Object names must be checked against an allowlist. Otherwise, there
                 // is no way to parse 'foo.bar.baz': 'baz' must be a property, but
                 // 'bar' could be the objectName, or part of a nodeName (which can
                 // include '.' characters).
-                -1 !== _supportedObjectNames.indexOf(objectName) && (results.nodeName = results.nodeName.substring(0, lastDot), results.objectName = objectName);
+                _supportedObjectNames.indexOf(objectName) !== -1 && (results.nodeName = results.nodeName.substring(0, lastDot), results.objectName = objectName);
             }
             if (null === results.propertyName || 0 === results.propertyName.length) throw Error('PropertyBinding: can not parse propertyName from trackName: ' + trackName);
             return results;
         },
         findNode: function(root, nodeName) {
-            if (!nodeName || '' === nodeName || '.' === nodeName || -1 === nodeName || nodeName === root.name || nodeName === root.uuid) return root;
+            if (!nodeName || '' === nodeName || '.' === nodeName || nodeName === -1 || nodeName === root.name || nodeName === root.uuid) return root;
              // search into skeleton bones.
             if (root.skeleton) {
                 var bone = root.skeleton.getBoneByName(nodeName);
@@ -14022,7 +14022,7 @@ function(global, factory) {
                         // or may not exist
                         (binding = new PropertyBinding(object, paths[_j], parsedPaths[_j])), bindingsForPath[firstActiveIndex] = binding;
                     }
-                } else objects[index] !== knownObject && console.error("THREE.AnimationObjectGroup: Different objects with the same UUID detected. Clean the caches or recreate your infrastructure when reloading scenes."); // else the object is already where we want it to be
+                } else objects[index] !== knownObject && console.error('THREE.AnimationObjectGroup: Different objects with the same UUID ' + 'detected. Clean the caches or recreate your infrastructure when reloading scenes.'); // else the object is already where we want it to be
             } // for arguments
             this.nCachedObjects_ = nCachedObjects;
         },
@@ -14216,9 +14216,9 @@ function(global, factory) {
             return this._effectiveTimeScale = timeScale, timeScale;
         }, _proto._updateTime = function(deltaTime) {
             var duration = this._clip.duration, loop = this.loop, time = this.time + deltaTime, loopCount = this._loopCount, pingPong = 2202 === loop;
-            if (0 === deltaTime) return -1 === loopCount ? time : pingPong && (1 & loopCount) == 1 ? duration - time : time;
+            if (0 === deltaTime) return loopCount === -1 ? time : pingPong && (1 & loopCount) == 1 ? duration - time : time;
             if (2200 === loop) {
-                -1 === loopCount && (// just started
+                loopCount === -1 && (// just started
                 this._loopCount = 0, this._setEndings(!0, !0, !1));
                 handle_stop: {
                     if (time >= duration) time = duration;
@@ -14234,7 +14234,7 @@ function(global, factory) {
                     });
                 }
             } else {
-                if (-1 === loopCount && (deltaTime >= 0 ? (loopCount = 0, this._setEndings(!0, 0 === this.repetitions, pingPong)) : // when looping in reverse direction, the initial
+                if (loopCount === -1 && (deltaTime >= 0 ? (loopCount = 0, this._setEndings(!0, 0 === this.repetitions, pingPong)) : // when looping in reverse direction, the initial
                 // transition through zero counts as a repetition,
                 // so leave loopCount at -1
                 this._setEndings(0 === this.repetitions, !0, pingPong)), time >= duration || time < 0) {
@@ -14645,7 +14645,7 @@ function(global, factory) {
         function Box2(min, max) {
             Object.defineProperty(this, 'isBox2', {
                 value: !0
-            }), this.min = void 0 !== min ? min : new Vector2(Infinity, Infinity), this.max = void 0 !== max ? max : new Vector2(-1 / 0, -1 / 0);
+            }), this.min = void 0 !== min ? min : new Vector2(+(1 / 0), +(1 / 0)), this.max = void 0 !== max ? max : new Vector2(-1 / 0, -1 / 0);
         }
         var _proto = Box2.prototype;
         return _proto.set = function(min, max) {
@@ -14662,7 +14662,7 @@ function(global, factory) {
         }, _proto.copy = function(box) {
             return this.min.copy(box.min), this.max.copy(box.max), this;
         }, _proto.makeEmpty = function() {
-            return this.min.x = this.min.y = Infinity, this.max.x = this.max.y = -1 / 0, this;
+            return this.min.x = this.min.y = +(1 / 0), this.max.x = this.max.y = -1 / 0, this;
         }, _proto.isEmpty = function() {
             // this is a more robust check for empty than ( volume <= 0 ) because volume can get positive with two negative axes
             return this.max.x < this.min.x || this.max.y < this.min.y;
@@ -14984,7 +14984,7 @@ function(global, factory) {
         return _inheritsLoose(CameraHelper, _LineSegments), CameraHelper.prototype.update = function() {
             var geometry = this.geometry, pointMap = this.pointMap;
             // world matrix must be identity
-            _camera.projectionMatrixInverse.copy(this.camera.projectionMatrixInverse), setPoint('c', pointMap, geometry, _camera, 0, 0, -1), setPoint('t', pointMap, geometry, _camera, 0, 0, 1), setPoint('n1', pointMap, geometry, _camera, -1, -1, -1), setPoint('n2', pointMap, geometry, _camera, 1, -1, -1), setPoint('n3', pointMap, geometry, _camera, -1, 1, -1), setPoint('n4', pointMap, geometry, _camera, 1, 1, -1), setPoint('f1', pointMap, geometry, _camera, -1, -1, 1), setPoint('f2', pointMap, geometry, _camera, 1, -1, 1), setPoint('f3', pointMap, geometry, _camera, -1, 1, 1), setPoint('f4', pointMap, geometry, _camera, 1, 1, 1), setPoint('u1', pointMap, geometry, _camera, 0.7, 1.1, -1), setPoint('u2', pointMap, geometry, _camera, -0.7, 1.1, -1), setPoint('u3', pointMap, geometry, _camera, 0, 2, -1), setPoint('cf1', pointMap, geometry, _camera, -1, 0, 1), setPoint('cf2', pointMap, geometry, _camera, 1, 0, 1), setPoint('cf3', pointMap, geometry, _camera, 0, -1, 1), setPoint('cf4', pointMap, geometry, _camera, 0, 1, 1), setPoint('cn1', pointMap, geometry, _camera, -1, 0, -1), setPoint('cn2', pointMap, geometry, _camera, 1, 0, -1), setPoint('cn3', pointMap, geometry, _camera, 0, -1, -1), setPoint('cn4', pointMap, geometry, _camera, 0, 1, -1), geometry.getAttribute('position').needsUpdate = !0;
+            _camera.projectionMatrixInverse.copy(this.camera.projectionMatrixInverse), setPoint('c', pointMap, geometry, _camera, 0, 0, -1), setPoint('t', pointMap, geometry, _camera, 0, 0, 1), setPoint('n1', pointMap, geometry, _camera, -1, -1, -1), setPoint('n2', pointMap, geometry, _camera, 1, -1, -1), setPoint('n3', pointMap, geometry, _camera, -1, 1, -1), setPoint('n4', pointMap, geometry, _camera, 1, 1, -1), setPoint('f1', pointMap, geometry, _camera, -1, -1, 1), setPoint('f2', pointMap, geometry, _camera, 1, -1, 1), setPoint('f3', pointMap, geometry, _camera, -1, 1, 1), setPoint('f4', pointMap, geometry, _camera, 1, 1, 1), setPoint('u1', pointMap, geometry, _camera, 0.7 * 1, 1.1 * 1, -1), setPoint('u2', pointMap, geometry, _camera, -0.7 * 1, 1.1 * 1, -1), setPoint('u3', pointMap, geometry, _camera, 0, 2 * 1, -1), setPoint('cf1', pointMap, geometry, _camera, -1, 0, 1), setPoint('cf2', pointMap, geometry, _camera, 1, 0, 1), setPoint('cf3', pointMap, geometry, _camera, 0, -1, 1), setPoint('cf4', pointMap, geometry, _camera, 0, 1, 1), setPoint('cn1', pointMap, geometry, _camera, -1, 0, -1), setPoint('cn2', pointMap, geometry, _camera, 1, 0, -1), setPoint('cn3', pointMap, geometry, _camera, 0, -1, -1), setPoint('cn4', pointMap, geometry, _camera, 0, 1, -1), geometry.getAttribute('position').needsUpdate = !0;
         }, CameraHelper;
     }(LineSegments);
     function setPoint(point, pointMap, geometry, camera, x, y, z) {
@@ -15020,7 +15020,7 @@ function(global, factory) {
                 6,
                 3,
                 7
-            ]), positions = new Float32Array(24), geometry = new BufferGeometry();
+            ]), positions = new Float32Array(8 * 3), geometry = new BufferGeometry();
             return geometry.setIndex(new BufferAttribute(indices, 1)), geometry.setAttribute('position', new BufferAttribute(positions, 3)), (_this = _LineSegments.call(this, geometry, new LineBasicMaterial({
                 color: color,
                 toneMapped: !1
@@ -15265,12 +15265,12 @@ function(global, factory) {
         0.446,
         0.526,
         0.582
-    ], TOTAL_LODS = 5 + EXTRA_LOD_SIGMA.length, ENCODINGS = ((_ENCODINGS = {})[3000] = 0, _ENCODINGS[3001] = 1, _ENCODINGS[3002] = 2, _ENCODINGS[3004] = 3, _ENCODINGS[3005] = 4, _ENCODINGS[3006] = 5, _ENCODINGS[3007] = 6, _ENCODINGS), _flatCamera = /*@__PURE__*/ new OrthographicCamera(), _createPlanes2 = /*@__PURE__*/ function() {
+    ], TOTAL_LODS = 8 - 4 + 1 + EXTRA_LOD_SIGMA.length, ENCODINGS = ((_ENCODINGS = {})[3000] = 0, _ENCODINGS[3001] = 1, _ENCODINGS[3002] = 2, _ENCODINGS[3004] = 3, _ENCODINGS[3005] = 4, _ENCODINGS[3006] = 5, _ENCODINGS[3007] = 6, _ENCODINGS), _flatCamera = /*@__PURE__*/ new OrthographicCamera(), _createPlanes2 = /*@__PURE__*/ function() {
         for(var _lodPlanes = [], _sizeLods = [], _sigmas = [], lod = 8, i = 0; i < TOTAL_LODS; i++){
             var sizeLod = Math.pow(2, lod);
             _sizeLods.push(sizeLod);
             var sigma = 1.0 / sizeLod;
-            i > 4 ? sigma = EXTRA_LOD_SIGMA[i - 8 + 4 - 1] : 0 == i && (sigma = 0), _sigmas.push(sigma);
+            i > 8 - 4 ? sigma = EXTRA_LOD_SIGMA[i - 8 + 4 - 1] : 0 == i && (sigma = 0), _sigmas.push(sigma);
             for(var texelSize = 1.0 / (sizeLod - 1), min = -texelSize / 2, max = 1 + texelSize / 2, uv1 = [
                 min,
                 min,
@@ -15284,7 +15284,7 @@ function(global, factory) {
                 max,
                 min,
                 max
-            ], position = new Float32Array(108), uv = new Float32Array(72), faceIndex = new Float32Array(36), face = 0; face < 6; face++){
+            ], position = new Float32Array(3 * 6 * 6), uv = new Float32Array(2 * 6 * 6), faceIndex = new Float32Array(6 * +6), face = 0; face < 6; face++){
                 var x = face % 3 * 2 / 3 - 1, y = face > 2 ? 0 : -1, coordinates = [
                     x,
                     y,
@@ -15305,7 +15305,7 @@ function(global, factory) {
                     y + 1,
                     0
                 ];
-                position.set(coordinates, 18 * face), uv.set(uv1, 12 * face);
+                position.set(coordinates, 3 * 6 * face), uv.set(uv1, 2 * 6 * face);
                 var fill = [
                     face,
                     face,
@@ -15314,7 +15314,7 @@ function(global, factory) {
                     face,
                     face
                 ];
-                faceIndex.set(fill, 6 * face);
+                faceIndex.set(fill, +6 * face);
             }
             var planes = new BufferGeometry();
             planes.setAttribute('position', new BufferAttribute(position, 3)), planes.setAttribute('uv', new BufferAttribute(uv, 2)), planes.setAttribute('faceIndex', new BufferAttribute(faceIndex, 1)), _lodPlanes.push(planes), lod > 4 && lod--;
@@ -15444,7 +15444,7 @@ function(global, factory) {
             var background = scene.background;
             if (background && background.isColor) {
                 background.convertSRGBToLinear();
-                var fExp = Math.min(Math.max(Math.ceil(Math.log2(Math.max(background.r, background.g, background.b))), -128), 127.0);
+                var fExp = Math.min(Math.max(Math.ceil(Math.log2(Math.max(background.r, background.g, background.b))), -128.0), 127.0);
                 background = background.multiplyScalar(Math.pow(2.0, -fExp)), renderer.setClearColor(background, (fExp + 128.0) / 255.0), scene.background = null;
             }
             for(var i = 0; i < 6; i++){
@@ -15456,7 +15456,7 @@ function(global, factory) {
             var renderer = this._renderer;
             texture.isCubeTexture ? null == this._cubemapShader && (this._cubemapShader = _getCubemapShader()) : null == this._equirectShader && (this._equirectShader = _getEquirectShader());
             var material = texture.isCubeTexture ? this._cubemapShader : this._equirectShader, mesh = new Mesh(_lodPlanes[0], material), uniforms = material.uniforms;
-            uniforms.envMap.value = texture, texture.isCubeTexture || uniforms.texelSize.value.set(1.0 / texture.image.width, 1.0 / texture.image.height), uniforms.inputEncoding.value = ENCODINGS[texture.encoding], uniforms.outputEncoding.value = ENCODINGS[cubeUVRenderTarget.texture.encoding], _setViewport(cubeUVRenderTarget, 0, 0, 768, 512), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(mesh, _flatCamera);
+            uniforms.envMap.value = texture, texture.isCubeTexture || uniforms.texelSize.value.set(1.0 / texture.image.width, 1.0 / texture.image.height), uniforms.inputEncoding.value = ENCODINGS[texture.encoding], uniforms.outputEncoding.value = ENCODINGS[cubeUVRenderTarget.texture.encoding], _setViewport(cubeUVRenderTarget, 0, 0, 3 * 256, 2 * 256), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(mesh, _flatCamera);
         }, _proto._applyPMREM = function(cubeUVRenderTarget) {
             var renderer = this._renderer, autoClear = renderer.autoClear;
             renderer.autoClear = !1;
@@ -15471,7 +15471,7 @@ function(global, factory) {
         }, _proto._halfBlur = function(targetIn, targetOut, lodIn, lodOut, sigmaRadians, direction, poleAxis) {
             var renderer = this._renderer, blurMaterial = this._blurMaterial;
             'latitudinal' !== direction && 'longitudinal' !== direction && console.error('blur direction must be either latitudinal or longitudinal!');
-            var blurMesh = new Mesh(_lodPlanes[lodOut], blurMaterial), blurUniforms = blurMaterial.uniforms, pixels = _sizeLods[lodIn] - 1, radiansPerPixel = isFinite(sigmaRadians) ? Math.PI / (2 * pixels) : 2 * Math.PI / 39, sigmaPixels = sigmaRadians / radiansPerPixel, samples = isFinite(sigmaRadians) ? 1 + Math.floor(3 * sigmaPixels) : 20;
+            var blurMesh = new Mesh(_lodPlanes[lodOut], blurMaterial), blurUniforms = blurMaterial.uniforms, pixels = _sizeLods[lodIn] - 1, radiansPerPixel = isFinite(sigmaRadians) ? Math.PI / (2 * pixels) : 2 * Math.PI / (2 * 20 - 1), sigmaPixels = sigmaRadians / radiansPerPixel, samples = isFinite(sigmaRadians) ? 1 + Math.floor(3 * sigmaPixels) : 20;
             samples > 20 && console.warn("sigmaRadians, " + sigmaRadians + ", is too large and will clip, as it requested " + samples + " samples when the maximum is set to 20");
             for(var weights = [], sum = 0, i = 0; i < 20; ++i){
                 var _x = i / sigmaPixels, weight = Math.exp(-_x * _x / 2);
@@ -15480,11 +15480,11 @@ function(global, factory) {
             for(var _i = 0; _i < weights.length; _i++)weights[_i] = weights[_i] / sum;
             blurUniforms.envMap.value = targetIn.texture, blurUniforms.samples.value = samples, blurUniforms.weights.value = weights, blurUniforms.latitudinal.value = 'latitudinal' === direction, poleAxis && (blurUniforms.poleAxis.value = poleAxis), blurUniforms.dTheta.value = radiansPerPixel, blurUniforms.mipInt.value = 8 - lodIn, blurUniforms.inputEncoding.value = ENCODINGS[targetIn.texture.encoding], blurUniforms.outputEncoding.value = ENCODINGS[targetIn.texture.encoding];
             var outputSize = _sizeLods[lodOut];
-            _setViewport(targetOut, 3 * Math.max(0, 256 - 2 * outputSize), 512 * (0 !== lodOut) + 2 * outputSize * (lodOut > 4 ? lodOut - 8 + 4 : 0), 3 * outputSize, 2 * outputSize), renderer.setRenderTarget(targetOut), renderer.render(blurMesh, _flatCamera);
+            _setViewport(targetOut, 3 * Math.max(0, 256 - 2 * outputSize), (0 === lodOut ? 0 : 2 * 256) + 2 * outputSize * (lodOut > 8 - 4 ? lodOut - 8 + 4 : 0), 3 * outputSize, 2 * outputSize), renderer.setRenderTarget(targetOut), renderer.render(blurMesh, _flatCamera);
         }, PMREMGenerator;
     }();
     function _createRenderTarget(params) {
-        var cubeUVRenderTarget = new WebGLRenderTarget(768, 768, params);
+        var cubeUVRenderTarget = new WebGLRenderTarget(3 * 256, 3 * 256, params);
         return cubeUVRenderTarget.texture.mapping = 306, cubeUVRenderTarget.texture.name = 'PMREM.cubeUv', cubeUVRenderTarget.scissorTest = !0, cubeUVRenderTarget;
     }
     function _setViewport(target, x, y, width, height) {
@@ -15900,7 +15900,7 @@ function(global, factory) {
             console.warn('THREE.Curve: .__arcLengthDivisions is now .arcLengthDivisions.'), this.arcLengthDivisions = value;
         }
     }), PerspectiveCamera.prototype.setLens = function(focalLength, filmGauge) {
-        console.warn("THREE.PerspectiveCamera.setLens is deprecated. Use .setFocalLength and .filmGauge for a photographic setup."), void 0 !== filmGauge && (this.filmGauge = filmGauge), this.setFocalLength(focalLength);
+        console.warn('THREE.PerspectiveCamera.setLens is deprecated. ' + 'Use .setFocalLength and .filmGauge for a photographic setup.'), void 0 !== filmGauge && (this.filmGauge = filmGauge), this.setFocalLength(focalLength);
     }, Object.defineProperties(Light.prototype, {
         onlyShadow: {
             set: function() {

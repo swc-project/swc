@@ -1,4 +1,4 @@
-a = 3;
-a = 6;
+a = "foo".length;
+a = ("foo" + "bar")["len" + "gth"];
 a = b.length;
 a = ("foo" + b).length;

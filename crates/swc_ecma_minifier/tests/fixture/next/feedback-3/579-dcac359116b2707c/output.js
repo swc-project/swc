@@ -1071,7 +1071,7 @@
                                     strictNullHandling: "boolean" == typeof t.strictNullHandling ? t.strictNullHandling : s.strictNullHandling
                                 };
                             }(e);
-                            "function" == typeof u.filter ? n = (0, u.filter)("", n) : c(u.filter) && (r = u.filter);
+                            "function" == typeof u.filter ? n = u.filter("", n) : c(u.filter) && (r = u.filter);
                             var y, l = [];
                             if ("object" != typeof n || null === n) return "";
                             y = e && e.arrayFormat in p ? e.arrayFormat : e && "indices" in e ? e.indices ? "indices" : "repeat" : "indices";
@@ -2391,7 +2391,7 @@
                     }
                     return o.exports;
                 }
-                a.ab = "//", t.exports = a(177);
+                a.ab = "/" + "/", t.exports = a(177);
             }();
         /***/ },
         /***/ 1664: /***/ function(t, e, r) {

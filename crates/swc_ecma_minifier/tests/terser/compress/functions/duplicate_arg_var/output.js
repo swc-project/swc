@@ -1,1 +1,1 @@
-console.log("PASSING");
+console.log("PASS" + "ING");

@@ -414,7 +414,7 @@
                 };
                 for(var fromOffset = -1, toOffset = -1, offset = base, i = 0;; i++){
                     var child = this.children[i], end = offset + child.size;
-                    if (-1 == fromOffset && from <= end) {
+                    if (fromOffset == -1 && from <= end) {
                         var childBase = offset + child.border;
                         // FIXME maybe descend mark views to parse a narrower range?
                         if (from >= childBase && to <= end - child.border && child.node && child.contentDOM && this.contentDOM.contains(child.contentDOM)) return child.parseRange(from, to, childBase);
@@ -427,7 +427,7 @@
                             }
                             from -= prev.size;
                         }
-                        -1 == fromOffset && (fromOffset = 0);
+                        fromOffset == -1 && (fromOffset = 0);
                     }
                     if (fromOffset > -1 && (end > to || i == this.children.length - 1)) {
                         to = end;
@@ -439,7 +439,7 @@
                             }
                             to += next.size;
                         }
-                        -1 == toOffset && (toOffset = this.contentDOM.childNodes.length);
+                        toOffset == -1 && (toOffset = this.contentDOM.childNodes.length);
                         break;
                     }
                     offset = end;
@@ -1004,8 +1004,8 @@
                         for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);
                         for(var name$1 in cur)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && cur[name$1] != prev[name$1] && dom.setAttribute(name$1, cur[name$1]);
                         if (prev.class != cur.class) {
-                            for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)-1 == curList.indexOf(prevList[i]) && dom.classList.remove(prevList[i]);
-                            for(var i$1 = 0; i$1 < curList.length; i$1++)-1 == prevList.indexOf(curList[i$1]) && dom.classList.add(curList[i$1]);
+                            for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)curList.indexOf(prevList[i]) == -1 && dom.classList.remove(prevList[i]);
+                            for(var i$1 = 0; i$1 < curList.length; i$1++)prevList.indexOf(curList[i$1]) == -1 && dom.classList.add(curList[i$1]);
                         }
                         if (prev.style != cur.style) {
                             if (prev.style) for(var m, prop = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g; m = prop.exec(prev.style);)dom.style.removeProperty(m[1]);
@@ -1790,7 +1790,7 @@
                 };
             }
             function runHandlerOnContext(view, propName, pos, inside, event) {
-                if (-1 == inside) return !1;
+                if (inside == -1) return !1;
                 for(var $pos = view.state.doc.resolve(inside), loop = function(i) {
                     if (view.someProp(propName, function(f) {
                         return i > $pos.depth ? f(view, pos, $pos.nodeAfter, $pos.before(i), event, !0) : f(view, pos, $pos.node(i), $pos.before(i), event, !1);
@@ -1881,7 +1881,7 @@
                     }) || function(view, inside, event) {
                         if (0 != event.button) return !1;
                         var doc = view.state.doc;
-                        if (-1 == inside) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
+                        if (inside == -1) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
                         for(var $pos = doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
                             var node = i > $pos.depth ? $pos.nodeAfter : $pos.node(i), nodePos = $pos.before(i);
                             if (node.inlineContent) updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, nodePos + 1, nodePos + 1 + node.content.size), "pointer");
@@ -1915,7 +1915,7 @@
                 }, 20), this.view.domObserver.start()), view.root.addEventListener("mouseup", this.up = this.up.bind(this)), view.root.addEventListener("mousemove", this.move = this.move.bind(this)), setSelectionOrigin(view, "pointer");
             };
             function inOrNearComposition(view, event) {
-                return !!view.composing || !!(result.safari && 500 > Math.abs(event.timeStamp - view.compositionEndedAt)) && (view.compositionEndedAt = -200000000, !0);
+                return !!view.composing || !!(result.safari && 500 > Math.abs(event.timeStamp - view.compositionEndedAt)) && (view.compositionEndedAt = -2e8, !0);
             }
             MouseDown.prototype.done = function() {
                 var this$1 = this;
@@ -1928,7 +1928,7 @@
                     (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event) || view.someProp("handleClick", function(f) {
                         return f(view, pos, event);
                     }) || (selectNode ? function(view, inside) {
-                        if (-1 == inside) return !1;
+                        if (inside == -1) return !1;
                         var selectedNode, selectAt, sel = view.state.selection;
                         sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection && (selectedNode = sel.node);
                         for(var $pos = view.state.doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
@@ -1940,7 +1940,7 @@
                         }
                         return null != selectAt && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(view.state.doc, selectAt), "pointer"), !0);
                     }(view, inside) : function(view, inside) {
-                        if (-1 == inside) return !1;
+                        if (inside == -1) return !1;
                         var $pos = view.state.doc.resolve(inside), node = $pos.nodeAfter;
                         return !!(node && node.isAtom && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) && (updateSelection(view, new prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection($pos), "pointer"), !0);
                     }(view, inside))) ? event.preventDefault() : 0 == event.button && (this.flushed || // Safari ignores clicks on draggable elements
@@ -2094,7 +2094,7 @@
                             }
                             if (slice) {
                                 e.preventDefault();
-                                var insertPos = slice ? (0, prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ /* .dropPoint */ .nj)(view.state.doc, $mouse.pos, slice) : $mouse.pos;
+                                var insertPos = slice ? prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ /* .dropPoint */ .nj(view.state.doc, $mouse.pos, slice) : $mouse.pos;
                                 null == insertPos && (insertPos = $mouse.pos);
                                 var tr = view.state.tr;
                                 move && tr.deleteSelection();
@@ -2358,10 +2358,10 @@
                     for(var children = oldChildren.slice(), shift = function(oldStart, oldEnd, newStart, newEnd) {
                         for(var i = 0; i < children.length; i += 3){
                             var end = children[i + 1], dSize = void 0;
-                            -1 != end && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
+                            end != -1 && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
                         }
                     }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
-                    for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
+                    for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (children[i$1 + 1] == -1) {
                         // Touched nodes
                         var from = mapping.map(oldChildren[i$1] + oldOffset), fromLocal = from - offset;
                         if (fromLocal < 0 || fromLocal >= node.content.size) {
@@ -2378,7 +2378,7 @@
                     // Remaining children must be collected and rebuilt into the appropriate structure
                     if (mustRebuild) {
                         var built = buildTree(function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
-                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && // Gather all decorations from the remaining marked children
+                            for(var i = 0; i < children.length; i += 3)children[i + 1] == -1 && // Gather all decorations from the remaining marked children
                             function gather(set, oldOffset) {
                                 for(var i = 0; i < set.local.length; i++){
                                     var mapped = set.local[i].map(mapping, offset, oldOffset);
@@ -2627,7 +2627,7 @@
                         x: 0,
                         y: 0,
                         type: ""
-                    }, view.lastSelectionOrigin = null, view.lastSelectionTime = 0, view.lastIOSEnter = 0, view.lastIOSEnterFallbackTimeout = null, view.lastAndroidDelete = 0, view.composing = !1, view.composingTimeout = null, view.compositionNodes = [], view.compositionEndedAt = -200000000, view.domObserver = new DOMObserver(view, function(from, to, typeOver, added) {
+                    }, view.lastSelectionOrigin = null, view.lastSelectionTime = 0, view.lastIOSEnter = 0, view.lastIOSEnterFallbackTimeout = null, view.lastAndroidDelete = 0, view.composing = !1, view.composingTimeout = null, view.compositionNodes = [], view.compositionEndedAt = -2e8, view.domObserver = new DOMObserver(view, function(from, to, typeOver, added) {
                         return function(view, from, to, typeOver, addedNodes) {
                             if (from < 0) {
                                 var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view.lastSelectionTime > Date.now() - 50 ? view.lastSelectionOrigin : null, newSel = selectionFromDOM(view, origin);

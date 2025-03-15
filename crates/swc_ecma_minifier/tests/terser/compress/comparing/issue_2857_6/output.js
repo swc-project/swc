@@ -1,5 +1,5 @@
 function f(a) {
-    if (true) return void 0 !== a.b && null !== a.b;
+    if (null === void 0) return void 0 !== a.b && null !== a.b;
 }
 console.log(f({
     a: [

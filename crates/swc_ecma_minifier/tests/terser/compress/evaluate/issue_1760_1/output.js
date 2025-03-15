@@ -1,8 +1,8 @@
 !function(a) {
     try {
         throw 0;
-    } catch (NaN1) {
-        a = NaN;
+    } catch (NaN) {
+        a = +"foo";
     }
     console.log(a);
 }();

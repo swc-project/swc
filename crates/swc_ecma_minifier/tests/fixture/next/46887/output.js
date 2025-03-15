@@ -45,7 +45,7 @@ export var CSL = {};
         // Combine open/close elements for empty terms,
         // so that they will be passed through correctly
         // as empty strings.
-        for(var i = lst.length - 2; i > -1; i--)if (-1 === lst[i].slice(1).indexOf("<")) {
+        for(var i = lst.length - 2; i > -1; i--)if (lst[i].slice(1).indexOf("<") === -1) {
             var stub = lst[i].slice(0, 5);
             "/>" !== lst[i].slice(-2) && ("<term" === stub ? "</term" === lst[i + 1].slice(0, 6) && (lst[i] = lst[i] + lst[i + 1], lst = lst.slice(0, i + 1).concat(lst.slice(i + 2))) : [
                 "<sing",

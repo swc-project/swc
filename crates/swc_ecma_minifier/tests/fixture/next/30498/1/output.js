@@ -10,7 +10,7 @@ export class StringSchema extends BaseSchema {
             params: {
                 regex
             },
-            test: (value)=>isAbsent(value) || "" === value && excludeEmptyString || -1 !== value.search(regex)
+            test: (value)=>isAbsent(value) || "" === value && excludeEmptyString || value.search(regex) !== -1
         });
     }
 }

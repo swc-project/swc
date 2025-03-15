@@ -514,7 +514,7 @@
         if ((isUndef(target) || isPrimitive(target)) && warn("Cannot set reactive property on undefined, null, or primitive value: " + target), Array.isArray(target) && isValidArrayIndex(key)) return target.length = Math.max(target.length, key), target.splice(key, 1, val), val;
         if (key in target && !(key in Object.prototype)) return target[key] = val, val;
         var ob = target.__ob__;
-        return target._isVue || ob && ob.vmCount ? warn("Avoid adding reactive properties to a Vue instance or its root $data at runtime - declare it upfront in the data option.") : ob ? (defineReactive$$1(ob.value, key, val), ob.dep.notify()) : target[key] = val, val;
+        return target._isVue || ob && ob.vmCount ? warn('Avoid adding reactive properties to a Vue instance or its root $data ' + 'at runtime - declare it upfront in the data option.') : ob ? (defineReactive$$1(ob.value, key, val), ob.dep.notify()) : target[key] = val, val;
     }
     /**
    * Delete a property and trigger change if necessary.
@@ -525,7 +525,7 @@
         }
         var ob = target.__ob__;
         if (target._isVue || ob && ob.vmCount) {
-            warn("Avoid deleting properties on a Vue instance or its root $data - just set it to null.");
+            warn('Avoid deleting properties on a Vue instance or its root $data ' + '- just set it to null.');
             return;
         }
         hasOwn(target, key) && (delete target[key], ob && ob.dep.notify());
@@ -573,7 +573,7 @@
             childVal
         ] : parentVal;
         return res ? function(hooks) {
-            for(var res = [], i = 0; i < hooks.length; i++)-1 === res.indexOf(hooks[i]) && res.push(hooks[i]);
+            for(var res = [], i = 0; i < hooks.length; i++)res.indexOf(hooks[i]) === -1 && res.push(hooks[i]);
             return res;
         }(res) : res;
     }
@@ -590,7 +590,7 @@
     strats.el = strats.propsData = function(parent, child, vm, key) {
         return vm || warn("option \"" + key + '" can only be used during instance creation with the `new` keyword.'), defaultStrat(parent, child);
     }, strats.data = function(parentVal, childVal, vm) {
-        return vm ? mergeDataOrFn(parentVal, childVal, vm) : childVal && 'function' != typeof childVal ? (warn('The "data" option should be a function that returns a per-instance value in component definitions.', vm), parentVal) : mergeDataOrFn(parentVal, childVal);
+        return vm ? mergeDataOrFn(parentVal, childVal, vm) : childVal && 'function' != typeof childVal ? (warn('The "data" option should be a function ' + "that returns a per-instance value in component definitions.", vm), parentVal) : mergeDataOrFn(parentVal, childVal);
     }, LIFECYCLE_HOOKS.forEach(function(hook) {
         strats[hook] = mergeHook;
     }), ASSET_TYPES.forEach(function(type) {
@@ -626,7 +626,7 @@
         return void 0 === childVal ? parentVal : childVal;
     };
     function validateComponentName(name) {
-        RegExp("^[a-zA-Z][\\-\\.0-9_" + unicodeRegExp.source + "]*$").test(name) || warn('Invalid component name: "' + name + '". Component names should conform to valid custom element name in html5 specification.'), (isBuiltInTag(name) || config.isReservedTag(name)) && warn("Do not use built-in or reserved HTML elements as component id: " + name);
+        RegExp("^[a-zA-Z][\\-\\.0-9_" + unicodeRegExp.source + "]*$").test(name) || warn('Invalid component name: "' + name + '". Component names should conform to valid custom element name in html5 specification.'), (isBuiltInTag(name) || config.isReservedTag(name)) && warn('Do not use built-in or reserved HTML elements as component ' + 'id: ' + name);
     }
     function assertObjectType(name, value, vm) {
         isPlainObject(value) || warn("Invalid value for option \"" + name + '": expected an Object, but got ' + toRawType(value) + ".", vm);
@@ -656,7 +656,7 @@
                 else if (isPlainObject(props)) for(var key in props)val = props[key], res[camelize(key)] = isPlainObject(val) ? val : {
                     type: val
                 };
-                else warn('Invalid value for option "props": expected an Array or an Object, but got ' + toRawType(props) + ".", vm);
+                else warn("Invalid value for option \"props\": expected an Array or an Object, " + "but got " + toRawType(props) + ".", vm);
                 options.props = res;
             }
         }(child, vm), !/**
@@ -676,7 +676,7 @@
                         from: val
                     };
                 }
-                else warn('Invalid value for option "inject": expected an Array or an Object, but got ' + toRawType(inject) + ".", vm);
+                else warn("Invalid value for option \"inject\": expected an Array or an Object, " + "but got " + toRawType(inject) + ".", vm);
             }
         }(child, vm), !/**
    * Normalize raw function directives into object format.
@@ -918,7 +918,7 @@
         perf.measure(name, startTag, endTag), perf.clearMarks(startTag), perf.clearMarks(endTag);
     // perf.clearMeasures(name)
     });
-    var allowedGlobals = makeMap("Infinity,undefined,NaN,isFinite,isNaN,parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,require" // for Webpack/Browserify
+    var allowedGlobals = makeMap('Infinity,undefined,NaN,isFinite,isNaN,' + "parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,require" // for Webpack/Browserify
     ), warnNonPresent = function(target, key) {
         warn("Property or method \"" + key + '" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property. See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.', target);
     }, warnReservedPrefix = function(target, key) {
@@ -1138,7 +1138,7 @@
         return resolveAsset(this.$options, 'filters', id, !0) || identity;
     }
     /*  */ function isKeyNotMatch(expect, actual) {
-        return Array.isArray(expect) ? -1 === expect.indexOf(actual) : expect !== actual;
+        return Array.isArray(expect) ? expect.indexOf(actual) === -1 : expect !== actual;
     }
     /**
    * Runtime helper for checking keyCodes from config.
@@ -1334,7 +1334,7 @@
                 if (isTrue(factory.error) && isDef(factory.errorComp)) return factory.errorComp;
                 if (isDef(factory.resolved)) return factory.resolved;
                 var owner = currentRenderingInstance;
-                if (owner && isDef(factory.owners) && -1 === factory.owners.indexOf(owner) && // already pending
+                if (owner && isDef(factory.owners) && factory.owners.indexOf(owner) === -1 && // already pending
                 factory.owners.push(owner), isTrue(factory.loading) && isDef(factory.loadingComp)) return factory.loadingComp;
                 if (owner && !isDef(factory.owners)) {
                     var owners = factory.owners = [
@@ -1370,7 +1370,7 @@
             }, node;
             data = data || {}, // resolve constructor options in case global mixins are applied after
             // component constructor creation
-            resolveConstructorOptions(Ctor), isDef(data.model) && (options = Ctor.options, data2 = data, prop = options.model && options.model.prop || 'value', event = options.model && options.model.event || 'input', (data2.attrs || (data2.attrs = {}))[prop] = data2.model.value, existing = (on = data2.on || (data2.on = {}))[event], callback = data2.model.callback, isDef(existing) ? (Array.isArray(existing) ? -1 === existing.indexOf(callback) : existing !== callback) && (on[event] = [
+            resolveConstructorOptions(Ctor), isDef(data.model) && (options = Ctor.options, data2 = data, prop = options.model && options.model.prop || 'value', event = options.model && options.model.event || 'input', (data2.attrs || (data2.attrs = {}))[prop] = data2.model.value, existing = (on = data2.on || (data2.on = {}))[event], callback = data2.model.callback, isDef(existing) ? (Array.isArray(existing) ? existing.indexOf(callback) === -1 : existing !== callback) && (on[event] = [
                 callback
             ].concat(existing)) : on[event] = callback);
             // extract props
@@ -1440,7 +1440,7 @@
     // without getting yelled at by flow
     function createElement(context, tag, data, children, normalizationType, alwaysNormalize) {
         var tag1, data1, children1, normalizationType1, vnode, ns, Ctor, data2;
-        return (Array.isArray(data) || isPrimitive(data)) && (normalizationType = children, children = data, data = void 0), isTrue(alwaysNormalize) && (normalizationType = 2), tag1 = tag, data1 = data, children1 = children, normalizationType1 = normalizationType, isDef(data1) && isDef(data1.__ob__) ? (warn("Avoid using observed data object as vnode data: " + JSON.stringify(data1) + "\nAlways create fresh vnode data objects in each render!", context), createEmptyVNode()) : (isDef(data1) && isDef(data1.is) && (tag1 = data1.is), tag1) ? (isDef(data1) && isDef(data1.key) && !isPrimitive(data1.key) && warn("Avoid using non-primitive value as key, use string/number value instead.", context), Array.isArray(children1) && 'function' == typeof children1[0] && ((data1 = data1 || {}).scopedSlots = {
+        return (Array.isArray(data) || isPrimitive(data)) && (normalizationType = children, children = data, data = void 0), isTrue(alwaysNormalize) && (normalizationType = 2), tag1 = tag, data1 = data, children1 = children, normalizationType1 = normalizationType, isDef(data1) && isDef(data1.__ob__) ? (warn("Avoid using observed data object as vnode data: " + JSON.stringify(data1) + "\nAlways create fresh vnode data objects in each render!", context), createEmptyVNode()) : (isDef(data1) && isDef(data1.is) && (tag1 = data1.is), tag1) ? (isDef(data1) && isDef(data1.key) && !isPrimitive(data1.key) && warn('Avoid using non-primitive value as key, ' + 'use string/number value instead.', context), Array.isArray(children1) && 'function' == typeof children1[0] && ((data1 = data1 || {}).scopedSlots = {
             default: children1[0]
         }, children1.length = 0), 2 === normalizationType1 ? children1 = normalizeChildren(children1) : 1 === normalizationType1 && (children1 = /*  */ // The template compiler attempts to minimize the need for normalization by
         // statically analyzing the template at compile time.
@@ -1789,7 +1789,7 @@
             isUpdatingChildComponent || warn("$listeners is readonly.", vm);
         }, !0), callHook(this, 'beforeCreate'), vm1 = this, (result = resolveInject(vm1.$options.inject, vm1)) && (shouldObserve = !1, Object.keys(result).forEach(function(key) {
             defineReactive$$1(vm1, key, result[key], function() {
-                warn('Avoid mutating an injected value directly since the changes will be overwritten whenever the provided component re-renders. injection being mutated: "' + key + "\"", vm1);
+                warn("Avoid mutating an injected value directly since the changes will be " + 'overwritten whenever the provided component re-renders. injection being mutated: "' + key + "\"", vm1);
             });
         }), shouldObserve = !0), this._watchers = [], (opts = this.$options).props && function(vm, propsOptions) {
             var propsData = vm.$options.propsData || {}, props = vm._props = {}, keys = vm.$options._propKeys = [], isRoot = !vm.$parent;
@@ -1799,7 +1799,7 @@
                 keys.push(key);
                 var value = validateProp(key, propsOptions, propsData, vm), hyphenatedKey = hyphenate(key);
                 (isReservedAttribute(hyphenatedKey) || config.isReservedAttr(hyphenatedKey)) && warn("\"" + hyphenatedKey + "\" is a reserved attribute and cannot be used as component prop.", vm), defineReactive$$1(props, key, value, function() {
-                    isRoot || isUpdatingChildComponent || warn("Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: \"" + key + "\"", vm);
+                    isRoot || isUpdatingChildComponent || warn("Avoid mutating a prop directly since the value will be " + "overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: \"" + key + "\"", vm);
                 }), key in vm || proxy(vm, "_props", key);
             };
             for(var key in propsOptions)loop(key);
@@ -1819,7 +1819,7 @@
                 } finally{
                     popTarget();
                 }
-            }(data, vm) : data || {}) || (data = {}, warn("data functions should return an object:\nhttps://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function", vm));
+            }(data, vm) : data || {}) || (data = {}, warn('data functions should return an object:\n' + 'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function', vm));
             for(// proxy data on instance
             var keys = Object.keys(data), props = vm.$options.props, methods = vm.$options.methods, i = keys.length; i--;){
                 var key = keys[i];
@@ -1847,7 +1847,7 @@
     }, (propsDef = {}).get = function() {
         return this._props;
     }, dataDef.set = function() {
-        warn("Avoid replacing instance root $data. Use nested data properties instead.", this);
+        warn('Avoid replacing instance root $data. ' + 'Use nested data properties instead.', this);
     }, propsDef.set = function() {
         warn("$props is readonly.", this);
     }, Object.defineProperty(Vue1.prototype, '$data', dataDef), Object.defineProperty(Vue1.prototype, '$props', propsDef), Vue1.prototype.$set = set, Vue1.prototype.$delete = del, Vue1.prototype.$watch = function(expOrFn, cb, options) {
@@ -1945,7 +1945,7 @@
         } finally{
             currentRenderingInstance = null;
         }
-        return Array.isArray(vnode) && 1 === vnode.length && (vnode = vnode[0]), vnode instanceof VNode || (Array.isArray(vnode) && warn("Multiple root nodes returned from render function. Render function should return a single root node.", this), vnode = createEmptyVNode()), // set parent
+        return Array.isArray(vnode) && 1 === vnode.length && (vnode = vnode[0]), vnode instanceof VNode || (Array.isArray(vnode) && warn('Multiple root nodes returned from render function. Render function ' + 'should return a single root node.', this), vnode = createEmptyVNode()), // set parent
         vnode.parent = _parentVnode, vnode;
     };
     var patternTypes = [
@@ -2079,7 +2079,7 @@
     // during template compilation
     var isReservedAttr = makeMap('style,class'), acceptValue = makeMap('input,textarea,option,select,progress'), mustUseProp = function(tag, type, attr) {
         return 'value' === attr && acceptValue(tag) && 'button' !== type || 'selected' === attr && 'option' === tag || 'checked' === attr && 'input' === tag || 'muted' === attr && 'video' === tag;
-    }, isEnumeratedAttr = makeMap('contenteditable,draggable,spellcheck'), isValidContentEditableValue = makeMap('events,caret,typing,plaintext-only'), isBooleanAttr = makeMap("allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"), xlinkNS = 'http://www.w3.org/1999/xlink', isXlink = function(name) {
+    }, isEnumeratedAttr = makeMap('contenteditable,draggable,spellcheck'), isValidContentEditableValue = makeMap('events,caret,typing,plaintext-only'), isBooleanAttr = makeMap('allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,' + "default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"), xlinkNS = 'http://www.w3.org/1999/xlink', isXlink = function(name) {
         return ':' === name.charAt(5) && 'xlink' === name.slice(0, 5);
     }, getXlinkProp = function(name) {
         return isXlink(name) ? name.slice(6, name.length) : '';
@@ -2111,7 +2111,7 @@
     /*  */ var namespaceMap = {
         svg: 'http://www.w3.org/2000/svg',
         math: 'http://www.w3.org/1998/Math/MathML'
-    }, isHTMLTag = makeMap("html,body,base,head,link,meta,style,title,address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,menuitem,summary,content,element,shadow,template,blockquote,iframe,tfoot"), isSVG = makeMap("svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view", !0), isReservedTag = function(tag) {
+    }, isHTMLTag = makeMap('html,body,base,head,link,meta,style,title,' + "address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,embed,object,param,source,canvas,script,noscript,del,ins,caption,col,colgroup,table,thead,tbody,td,th,tr,button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,output,progress,select,textarea,details,dialog,menu,menuitem,summary,content,element,shadow,template,blockquote,iframe,tfoot"), isSVG = makeMap('svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' + "foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view", !0), isReservedTag = function(tag) {
         return isHTMLTag(tag) || isSVG(tag);
     };
     function getTagNamespace(tag) {
@@ -2391,7 +2391,7 @@
         ;
     }
     function addHandler(el, name, value, modifiers, important, warn, range, dynamic) {
-        modifiers = modifiers || emptyObject, warn && modifiers.prevent && modifiers.passive && warn("passive and prevent can't be used together. Passive handler can't prevent default event.", range), modifiers.right ? dynamic ? name = "(" + name + ")==='click'?'contextmenu':(" + name + ")" : 'click' === name && (name = 'contextmenu', delete modifiers.right) : modifiers.middle && (dynamic ? name = "(" + name + ")==='click'?'mouseup':(" + name + ")" : 'click' === name && (name = 'mouseup')), modifiers.capture && (delete modifiers.capture, name = prependModifierMarker('!', name, dynamic)), modifiers.once && (delete modifiers.once, name = prependModifierMarker('~', name, dynamic)), modifiers.passive && (delete modifiers.passive, name = prependModifierMarker('&', name, dynamic)), modifiers.native ? (delete modifiers.native, events = el.nativeEvents || (el.nativeEvents = {})) : events = el.events || (el.events = {});
+        modifiers = modifiers || emptyObject, warn && modifiers.prevent && modifiers.passive && warn('passive and prevent can\'t be used together. ' + 'Passive handler can\'t prevent default event.', range), modifiers.right ? dynamic ? name = "(" + name + ")==='click'?'contextmenu':(" + name + ")" : 'click' === name && (name = 'contextmenu', delete modifiers.right) : modifiers.middle && (dynamic ? name = "(" + name + ")==='click'?'mouseup':(" + name + ")" : 'click' === name && (name = 'mouseup')), modifiers.capture && (delete modifiers.capture, name = prependModifierMarker('!', name, dynamic)), modifiers.once && (delete modifiers.once, name = prependModifierMarker('~', name, dynamic)), modifiers.passive && (delete modifiers.passive, name = prependModifierMarker('&', name, dynamic)), modifiers.native ? (delete modifiers.native, events = el.nativeEvents || (el.nativeEvents = {})) : events = el.events || (el.events = {});
         var events, newHandler = rangeSetItem({
             value: value.trim(),
             dynamic: dynamic
@@ -2444,12 +2444,12 @@
    * Cross-platform code generation for component v-model
    */ function genComponentModel(el, value, modifiers) {
         var ref = modifiers || {}, number = ref.number, trim = ref.trim, valueExpression = '$$v';
-        trim && (valueExpression = "(typeof $$v === 'string'? $$v.trim(): $$v)"), number && (valueExpression = "_n(" + valueExpression + ")");
+        trim && (valueExpression = "(typeof " + "$$v === 'string'? $$v.trim(): $$v)"), number && (valueExpression = "_n(" + valueExpression + ")");
         var assignment = genAssignmentCode(value, valueExpression);
         el.model = {
             value: "(" + value + ")",
             expression: JSON.stringify(value),
-            callback: "function ($$v) {" + assignment + "}"
+            callback: "function (" + "$$v) {" + assignment + "}"
         };
     }
     /**
@@ -3050,7 +3050,7 @@
                     if (isRealElement) {
                         if (1 === oldVnode.nodeType && oldVnode.hasAttribute(SSR_ATTR) && (oldVnode.removeAttribute(SSR_ATTR), hydrating = !0), isTrue(hydrating)) {
                             if (hydrate(oldVnode, vnode, insertedVnodeQueue)) return invokeInsertHook(vnode, insertedVnodeQueue, !0), oldVnode;
-                            warn("The client-side rendered virtual DOM tree is not matching server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.");
+                            warn('The client-side rendered virtual DOM tree is not matching ' + "server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.");
                         }
                         elm = oldVnode, // either not server-rendered, or hydration failed.
                         // create an empty node and replace it
@@ -3289,7 +3289,7 @@
                 var this$1 = this, children = this.$slots.default;
                 if (children && // filter out text nodes (possible whitespaces)
                 (children = children.filter(isNotTextNode)).length) {
-                    children.length > 1 && warn("<transition> can only be used on a single element. Use <transition-group> for lists.", this.$parent);
+                    children.length > 1 && warn('<transition> can only be used on a single element. Use ' + '<transition-group> for lists.', this.$parent);
                     var mode = this.mode;
                     mode && 'in-out' !== mode && 'out-in' !== mode && warn('invalid <transition> mode: ' + mode, this.$parent);
                     var rawChild = children[0];
@@ -3400,7 +3400,7 @@
     Vue1.prototype.__patch__ = inBrowser ? patch : noop, // public mount method
     Vue1.prototype.$mount = function(el, hydrating) {
         var vm, el1, hydrating1, updateComponent;
-        return el = el && inBrowser ? query(el) : void 0, vm = this, el1 = el, hydrating1 = hydrating, vm.$el = el1, vm.$options.render || (vm.$options.render = createEmptyVNode, vm.$options.template && '#' !== vm.$options.template.charAt(0) || vm.$options.el || el1 ? warn("You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.", vm) : warn('Failed to mount component: template or render function not defined.', vm)), callHook(vm, 'beforeMount'), updateComponent = config.performance && mark ? function() {
+        return el = el && inBrowser ? query(el) : void 0, vm = this, el1 = el, hydrating1 = hydrating, vm.$el = el1, vm.$options.render || (vm.$options.render = createEmptyVNode, vm.$options.template && '#' !== vm.$options.template.charAt(0) || vm.$options.el || el1 ? warn('You are using the runtime-only build of Vue where the template ' + "compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.", vm) : warn('Failed to mount component: template or render function not defined.', vm)), callHook(vm, 'beforeMount'), updateComponent = config.performance && mark ? function() {
             var name = vm._name, id = vm._uid, startTag = "vue-perf-start:" + id, endTag = "vue-perf-end:" + id;
             mark(startTag);
             var vnode = vm._render();
@@ -3416,7 +3416,7 @@
             }
         }, !0), hydrating1 = !1, null == vm.$vnode && (vm._isMounted = !0, callHook(vm, 'mounted')), vm;
     }, inBrowser && setTimeout(function() {
-        config.devtools && (devtools ? devtools.emit('init', Vue1) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
+        config.devtools && (devtools ? devtools.emit('init', Vue1) : console[console.info ? 'info' : 'log']('Download the Vue Devtools extension for a better development experience:\n' + 'https://github.com/vuejs/vue-devtools')), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\n" + "Make sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
     }, 0);
     /*  */ var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g, regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g, buildRegex = cached(function(delimiters) {
         return RegExp(delimiters[0].replace(regexEscapeRE, '\\$&') + '((?:.|\\n)+?)' + delimiters[1].replace(regexEscapeRE, '\\$&'), 'g');
@@ -3438,7 +3438,7 @@
             };
         }
     }
-    /*  */ var isUnaryTag = makeMap("area,base,br,col,embed,frame,hr,img,input,isindex,keygen,link,meta,param,source,track,wbr"), canBeLeftOpenTag = makeMap('colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source'), isNonPhrasingTag = makeMap("address,article,aside,base,blockquote,body,caption,col,colgroup,dd,details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta,optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead,title,tr,track"), attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/, dynamicArgAttribute = /^\s*((?:v-[\w-]+:|@|:|#)\[[^=]+\][^\s"'<>\/=]*)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/, ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z" + unicodeRegExp.source + "]*", qnameCapture = "((?:" + ncname + "\\:)?" + ncname + ")", startTagOpen = RegExp("^<" + qnameCapture), startTagClose = /^\s*(\/?)>/, endTag = RegExp("^<\\/" + qnameCapture + "[^>]*>"), doctype = /^<!DOCTYPE [^>]+>/i, comment = /^<!\--/, conditionalComment = /^<!\[/, isPlainTextElement = makeMap('script,style,textarea', !0), reCache = {}, decodingMap = {
+    /*  */ var isUnaryTag = makeMap('area,base,br,col,embed,frame,hr,img,input,isindex,keygen,' + 'link,meta,param,source,track,wbr'), canBeLeftOpenTag = makeMap('colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source'), isNonPhrasingTag = makeMap('address,article,aside,base,blockquote,body,caption,col,colgroup,dd,' + "details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta,optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead,title,tr,track"), attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/, dynamicArgAttribute = /^\s*((?:v-[\w-]+:|@|:|#)\[[^=]+\][^\s"'<>\/=]*)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/, ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z" + unicodeRegExp.source + "]*", qnameCapture = "((?:" + ncname + "\\:)?" + ncname + ")", startTagOpen = RegExp("^<" + qnameCapture), startTagClose = /^\s*(\/?)>/, endTag = RegExp("^<\\/" + qnameCapture + "[^>]*>"), doctype = /^<!DOCTYPE [^>]+>/i, comment = /^<!\--/, conditionalComment = /^<!\[/, isPlainTextElement = makeMap('script,style,textarea', !0), reCache = {}, decodingMap = {
         '&lt;': '<',
         '&gt;': '>',
         '&quot;': '"',
@@ -3471,7 +3471,7 @@
             if (exp) {
                 if ('template' === el.tag && warn$2("<template> cannot be keyed. Place the key on real elements instead.", getRawBindingAttr(el, 'key')), el.for) {
                     var iterator = el.iterator2 || el.iterator1, parent = el.parent;
-                    iterator && iterator === exp && parent && 'transition-group' === parent.tag && warn$2("Do not use v-for index as key on <transition-group> children, this is the same as not using keys.", getRawBindingAttr(el, 'key'), !0);
+                    iterator && iterator === exp && parent && 'transition-group' === parent.tag && warn$2("Do not use v-for index as key on <transition-group> children, " + "this is the same as not using keys.", getRawBindingAttr(el, 'key'), !0);
                 }
                 el.key = exp;
             }
@@ -3486,14 +3486,14 @@
         }(el)), // handle content being passed to a component as slot,
         // e.g. <template slot="xxx">, <div slot-scope="xxx">
         function(el) {
-            'template' === el.tag ? ((slotScope = getAndRemoveAttr(el, 'scope')) && warn$2('the "scope" attribute for scoped slots have been deprecated and replaced by "slot-scope" since 2.5. The new "slot-scope" attribute can also be used on plain elements in addition to <template> to denote scoped slots.', el.rawAttrsMap.scope, !0), el.slotScope = slotScope || getAndRemoveAttr(el, 'slot-scope')) : (slotScope = getAndRemoveAttr(el, 'slot-scope')) && (el.attrsMap['v-for'] && warn$2("Ambiguous combined usage of slot-scope and v-for on <" + el.tag + "> (v-for takes higher priority). Use a wrapper <template> for the scoped slot to make it clearer.", el.rawAttrsMap['slot-scope'], !0), el.slotScope = slotScope);
+            'template' === el.tag ? ((slotScope = getAndRemoveAttr(el, 'scope')) && warn$2("the \"scope\" attribute for scoped slots have been deprecated and " + 'replaced by "slot-scope" since 2.5. The new "slot-scope" attribute can also be used on plain elements in addition to <template> to denote scoped slots.', el.rawAttrsMap.scope, !0), el.slotScope = slotScope || getAndRemoveAttr(el, 'slot-scope')) : (slotScope = getAndRemoveAttr(el, 'slot-scope')) && (el.attrsMap['v-for'] && warn$2("Ambiguous combined usage of slot-scope and v-for on <" + el.tag + "> (v-for takes higher priority). Use a wrapper <template> for the scoped slot to make it clearer.", el.rawAttrsMap['slot-scope'], !0), el.slotScope = slotScope);
             // slot="xxx"
             var slotScope, slotTarget = getBindingAttr(el, 'slot');
             if (slotTarget && (el.slotTarget = '""' === slotTarget ? '"default"' : slotTarget, el.slotTargetDynamic = !!(el.attrsMap[':slot'] || el.attrsMap['v-bind:slot']), 'template' === el.tag || el.slotScope || addAttr(el, 'slot', slotTarget, getRawBindingAttr(el, 'slot'))), 'template' === el.tag) {
                 // v-slot on <template>
                 var slotBinding = getAndRemoveAttrByRegex(el, slotRE);
                 if (slotBinding) {
-                    (el.slotTarget || el.slotScope) && warn$2("Unexpected mixed usage of different slot syntaxes.", el), el.parent && !maybeComponent(el.parent) && warn$2("<template v-slot> can only appear at the root level inside the receiving component", el);
+                    (el.slotTarget || el.slotScope) && warn$2("Unexpected mixed usage of different slot syntaxes.", el), el.parent && !maybeComponent(el.parent) && warn$2("<template v-slot> can only appear at the root level inside " + "the receiving component", el);
                     var ref = getSlotName(slotBinding), name = ref.name, dynamic = ref.dynamic;
                     el.slotTarget = name, el.slotTargetDynamic = dynamic, el.slotScope = slotBinding.value || emptySlotScopeToken;
                 }
@@ -3501,7 +3501,7 @@
                 // v-slot on component, denotes default slot
                 var slotBinding$1 = getAndRemoveAttrByRegex(el, slotRE);
                 if (slotBinding$1) {
-                    maybeComponent(el) || warn$2("v-slot can only be used on components or <template>.", slotBinding$1), (el.slotScope || el.slotTarget) && warn$2("Unexpected mixed usage of different slot syntaxes.", el), el.scopedSlots && warn$2("To avoid scope ambiguity, the default slot should also use <template> syntax when there are other named slots.", slotBinding$1);
+                    maybeComponent(el) || warn$2("v-slot can only be used on components or <template>.", slotBinding$1), (el.slotScope || el.slotTarget) && warn$2("Unexpected mixed usage of different slot syntaxes.", el), el.scopedSlots && warn$2("To avoid scope ambiguity, the default slot should also use " + "<template> syntax when there are other named slots.", slotBinding$1);
                     // add the component's children to its default slot
                     var slots = el.scopedSlots || (el.scopedSlots = {}), ref$1 = getSlotName(slotBinding$1), name$1 = ref$1.name, dynamic$1 = ref$1.dynamic, slotContainer = slots[name$1] = createASTElement('template', [], el);
                     slotContainer.slotTarget = name$1, slotContainer.slotTargetDynamic = dynamic$1, slotContainer.children = el.children.filter(function(c) {
@@ -3511,7 +3511,7 @@
                     el.plain = !1;
                 }
             }
-        }(element), 'slot' === (el1 = element).tag && (el1.slotName = getBindingAttr(el1, 'name'), el1.key && warn$2("`key` does not work on <slot> because slots are abstract outlets and can possibly expand into multiple elements. Use the key on a wrapping element instead.", getRawBindingAttr(el1, 'key'))), (binding = getBindingAttr(el2 = element, 'is')) && (el2.component = binding), null != getAndRemoveAttr(el2, 'inline-template') && (el2.inlineTemplate = !0);
+        }(element), 'slot' === (el1 = element).tag && (el1.slotName = getBindingAttr(el1, 'name'), el1.key && warn$2("`key` does not work on <slot> because slots are abstract outlets " + "and can possibly expand into multiple elements. Use the key on a wrapping element instead.", getRawBindingAttr(el1, 'key'))), (binding = getBindingAttr(el2 = element, 'is')) && (el2.component = binding), null != getAndRemoveAttr(el2, 'inline-template') && (el2.inlineTemplate = !0);
         for(var el, ref, el1, el2, binding, i = 0; i < transforms.length; i++)element = transforms[i](element, options) || element;
         return function(el) {
             var i, l, name, rawName, value, modifiers, syncGen, isDynamic, list = el.attrsList;
@@ -3645,7 +3645,7 @@
                 var code, number, valueBinding, trueValueBinding, falseValueBinding, number1, valueBinding1, value = dir.value, modifiers = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) // component v-model doesn't need extra runtime
                 return genComponentModel(el, value, modifiers), !1;
-                if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
+                if ('select' === tag) addHandler(el, 'change', "var $$selectedVal = Array.prototype.filter" + '.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
                 else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
@@ -4008,7 +4008,7 @@
     }
     /*  */ // these keywords should not appear inside expressions, but operators like
     // typeof, instanceof and in are allowed
-    var prohibitedKeywordRE = RegExp('\\b' + "do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const,super,throw,while,yield,delete,export,import,return,switch,default,extends,finally,continue,debugger,function,arguments".split(',').join('\\b|\\b') + '\\b'), unaryOperatorsRE = RegExp('\\b' + 'delete,typeof,void'.split(',').join('\\s*\\([^\\)]*\\)|\\b') + '\\s*\\([^\\)]*\\)'), stripStringRE = /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*\$\{|\}(?:[^`\\]|\\.)*`|`(?:[^`\\]|\\.)*`/g;
+    var prohibitedKeywordRE = RegExp('\\b' + ('do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const,' + "super,throw,while,yield,delete,export,import,return,switch,default,extends,finally,continue,debugger,function,arguments").split(',').join('\\b|\\b') + '\\b'), unaryOperatorsRE = RegExp('\\b' + 'delete,typeof,void'.split(',').join('\\s*\\([^\\)]*\\)|\\b') + '\\s*\\([^\\)]*\\)'), stripStringRE = /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*\$\{|\}(?:[^`\\]|\\.)*`|`(?:[^`\\]|\\.)*`/g;
     function checkIdentifier(ident, type, text, warn, range) {
         if ('string' == typeof ident) try {
             Function("var " + ident + "=_");
@@ -4021,7 +4021,7 @@
             Function("return " + exp);
         } catch (e) {
             var keywordMatch = exp.replace(stripStringRE, '').match(prohibitedKeywordRE);
-            warn(keywordMatch ? 'avoid using JavaScript keyword as property name: "' + keywordMatch[0] + "\"\n  Raw expression: " + text.trim() : "invalid expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
+            warn(keywordMatch ? "avoid using JavaScript keyword as property name: " + "\"" + keywordMatch[0] + "\"\n  Raw expression: " + text.trim() : "invalid expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
         }
     }
     function repeat$1(str, n) {
@@ -4056,7 +4056,7 @@
                 if (trimEndingWhitespace(element), inVPre || element.processed || (element = processElement(element, options)), stack.length || element === root || (root.if && (element.elseif || element.else) ? (checkRootConstraints(element), addIfCondition(root, {
                     exp: element.elseif,
                     block: element
-                })) : warnOnce("Component template should contain exactly one root element. If you are using v-if on multiple elements, use v-else-if to chain them instead.", {
+                })) : warnOnce("Component template should contain exactly one root element. " + "If you are using v-if on multiple elements, use v-else-if to chain them instead.", {
                     start: element.start
                 })), currentParent && !element.forbidden) if (element.elseif || element.else) {
                     var el, prev;
@@ -4095,7 +4095,7 @@
             function checkRootConstraints(el) {
                 ('slot' === el.tag || 'template' === el.tag) && warnOnce("Cannot use <" + el.tag + "> as component root element because it may contain multiple nodes.", {
                     start: el.start
-                }), el.attrsMap.hasOwnProperty('v-for') && warnOnce("Cannot use v-for on stateful component root element because it renders multiple elements.", el.rawAttrsMap['v-for']);
+                }), el.attrsMap.hasOwnProperty('v-for') && warnOnce('Cannot use v-for on stateful component root element because ' + 'it renders multiple elements.', el.rawAttrsMap['v-for']);
             }
             return function(html, options) {
                 for(var last, lastTag, stack = [], expectHTML = options.expectHTML, isUnaryTag$$1 = options.isUnaryTag || no, canBeLeftOpenTag$$1 = options.canBeLeftOpenTag || no, index = 0; html;){
@@ -4235,11 +4235,11 @@
                     ns && (element.ns = ns), options.outputSourceRange && (element.start = start$1, element.end = end, element.rawAttrsMap = element.attrsList.reduce(function(cumulated, attr) {
                         return cumulated[attr.name] = attr, cumulated;
                     }, {})), attrs.forEach(function(attr) {
-                        invalidAttributeRE.test(attr.name) && warn$2("Invalid dynamic argument expression: attribute names cannot contain spaces, quotes, <, >, / or =.", {
+                        invalidAttributeRE.test(attr.name) && warn$2("Invalid dynamic argument expression: attribute names cannot contain " + "spaces, quotes, <, >, / or =.", {
                             start: attr.start + attr.name.indexOf("["),
                             end: attr.start + attr.name.length
                         });
-                    }), 'style' !== (el = element).tag && ('script' !== el.tag || el.attrsMap.type && 'text/javascript' !== el.attrsMap.type) || isServerRendering() || (element.forbidden = !0, warn$2("Templates should only be responsible for mapping the state to the UI. Avoid placing tags with side-effects in your templates, such as <" + tag + ">, as they will not be parsed.", {
+                    }), 'style' !== (el = element).tag && ('script' !== el.tag || el.attrsMap.type && 'text/javascript' !== el.attrsMap.type) || isServerRendering() || (element.forbidden = !0, warn$2('Templates should only be responsible for mapping the state to the ' + "UI. Avoid placing tags with side-effects in your templates, such as <" + tag + ">, as they will not be parsed.", {
                         start: element.start
                     }));
                     // apply pre-transforms
@@ -4384,7 +4384,7 @@
                                 }
                             }(value, name + "=\"" + value + "\"", warn, range) : onRE.test(name) ? function(exp, text, warn, range) {
                                 var stripped = exp.replace(stripStringRE, ''), keywordMatch = stripped.match(unaryOperatorsRE);
-                                keywordMatch && '$' !== stripped.charAt(keywordMatch.index - 1) && warn('avoid using JavaScript unary operator as property name: "' + keywordMatch[0] + "\" in expression " + text.trim(), range), checkExpression(exp, text, warn, range);
+                                keywordMatch && '$' !== stripped.charAt(keywordMatch.index - 1) && warn("avoid using JavaScript unary operator as property name: " + "\"" + keywordMatch[0] + "\" in expression " + text.trim(), range), checkExpression(exp, text, warn, range);
                             }(value, name + "=\"" + value + "\"", warn, range) : checkExpression(value, name + "=\"" + value + "\"", warn, range);
                         }
                     }
@@ -4401,7 +4401,7 @@
                 try {
                     Function('return 1');
                 } catch (e) {
-                    e.toString().match(/unsafe-eval|CSP/) && warn$$1("It seems you are using the standalone build of Vue.js in an environment with Content Security Policy that prohibits unsafe-eval. The template compiler cannot work in this environment. Consider relaxing the policy to allow unsafe-eval or pre-compiling your templates into render functions.");
+                    e.toString().match(/unsafe-eval|CSP/) && warn$$1('It seems you are using the standalone build of Vue.js in an ' + "environment with Content Security Policy that prohibits unsafe-eval. The template compiler cannot work in this environment. Consider relaxing the policy to allow unsafe-eval or pre-compiling your templates into render functions.");
                 }
                 // check cache
                 var key = options.delimiters ? String(options.delimiters) + template : template;

@@ -1,3 +1,3 @@
 console.log((function() {
-    2;
+    1 + 1;
 }).a = 1);

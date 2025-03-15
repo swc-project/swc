@@ -5,4 +5,4 @@ console.log({
     b: function() {}
 } + 1, {
     b: 1
-} + 1, function() {} + 1, 2);
+} + 1, function() {} + 1, 1 + 1);

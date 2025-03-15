@@ -243,6 +243,9 @@
             function w(a, b) {
                 return -1 != a.indexOf(b);
             }
+            function ua(a, b) {
+                return a < b ? -1 : +(a > b);
+            }
             a: {
                 var va = l.navigator;
                 if (va) {
@@ -1561,7 +1564,7 @@
                         let a = 0;
                         const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
-                            var a1, b1, a2, b2, a3, b3, e = b[h] || "", f = c[h] || "";
+                            var e = b[h] || "", f = c[h] || "";
                             do {
                                 if (e = /(\d*)(\D*)(.*)/.exec(e) || [
                                     "",
@@ -1574,7 +1577,7 @@
                                     "",
                                     ""
                                 ], 0 == e[0].length && 0 == f[0].length) break;
-                                a1 = 0 == e[1].length ? 0 : parseInt(e[1], 10), b1 = 0 == f[1].length ? 0 : parseInt(f[1], 10), a = (a1 < b1 ? -1 : +(a1 > b1)) || (a2 = 0 == e[2].length, b2 = 0 == f[2].length, a2 < b2 ? -1 : +(a2 > b2)) || (a3 = e[2], b3 = f[2], a3 < b3 ? -1 : +(a3 > b3)), e = e[3], f = f[3];
+                                a = ua(0 == e[1].length ? 0 : parseInt(e[1], 10), 0 == f[1].length ? 0 : parseInt(f[1], 10)) || ua(0 == e[2].length, 0 == f[2].length) || ua(e[2], f[2]), e = e[3], f = f[3];
                             }while (0 == a)
                         }
                         return 0 <= a;
@@ -1792,7 +1795,7 @@
                 })) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -2143,7 +2146,7 @@
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -2369,11 +2372,11 @@
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__ /* .ErrorFactory */ .LL("app", "Firebase", {
-                "no-app": "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
+                "no-app": "No Firebase App '{$appName}' has been created - " + "call Firebase App.initializeApp()",
                 "bad-app-name": "Illegal App name: '{$appName}",
                 "duplicate-app": "Firebase App named '{$appName}' already exists with different options or config",
                 "app-deleted": "Firebase App named '{$appName}' already deleted",
-                "invalid-app-argument": "firebase.{$appName}() takes either no argument or a Firebase App instance.",
+                "invalid-app-argument": "firebase.{$appName}() takes either no argument or a " + "Firebase App instance.",
                 "invalid-log-argument": "First argument to `onLog` must be null or a function."
             });
             /**

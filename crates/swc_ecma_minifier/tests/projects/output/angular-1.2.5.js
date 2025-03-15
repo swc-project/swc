@@ -135,11 +135,21 @@
    * @description Converts the specified string to lowercase.
    * @param {string} string String to be converted to lowercase.
    * @returns {string} Lowercased string.
-   */ var promiseWarning, /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
+   */ var promiseWarning, lowercase = function(string) {
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
-    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
+    };
+    lowercase = function(s) {
+        /* jshint bitwise: false */ return isString(s) ? s.replace(/[A-Z]/g, function(ch) {
+            return String.fromCharCode(32 | ch.charCodeAt(0));
+        }) : s;
+    }, uppercase = function(s) {
+        /* jshint bitwise: false */ return isString(s) ? s.replace(/[a-z]/g, function(ch) {
+            return String.fromCharCode(ch.charCodeAt(0) & ~32);
+        }) : s;
+    };
+    var /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
         "0",
         "0",
         "0"
@@ -1025,7 +1035,7 @@
         if (cssClasses && element.setAttribute) {
             var existingClasses = (" " + (element.getAttribute("class") || "") + " ").replace(/[\n\t]/g, " ");
             forEach(cssClasses.split(" "), function(cssClass) {
-                cssClass = trim(cssClass), -1 === existingClasses.indexOf(" " + cssClass + " ") && (existingClasses += cssClass + " ");
+                cssClass = trim(cssClass), existingClasses.indexOf(" " + cssClass + " ") === -1 && (existingClasses += cssClass + " ");
             }), element.setAttribute("class", trim(existingClasses));
         }
     }
@@ -1965,7 +1975,7 @@
                         }
                         else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
                     } catch (e) {
-                        throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && // Safari & FF's stack traces don't contain error.message content
+                        throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && e.stack.indexOf(e.message) == -1 && // Safari & FF's stack traces don't contain error.message content
                         // unlike those of Chrome and IE
                         // So if stack doesn't contain message, we create a new string that contains both.
                         // Since error.stack is read-only in Safari, I'm overriding e and not e.stack here.
@@ -3531,7 +3541,7 @@
                                             };
                                             break;
                                         default:
-                                            throw $compileMinErr("iscp", "Invalid isolate scope definition for directive '{0}'. Definition: {... {1}: '{2}' ...}", newIsolateScopeDirective.name, scopeName, definition);
+                                            throw $compileMinErr("iscp", "Invalid isolate scope definition for directive '{0}'." + " Definition: {... {1}: '{2}' ...}", newIsolateScopeDirective.name, scopeName, definition);
                                     }
                                 });
                             }
@@ -3620,7 +3630,7 @@
                                                     return {
                                                         pre: function(scope, element, attr) {
                                                             var $$observers = attr.$$observers || (attr.$$observers = {});
-                                                            if (EVENT_HANDLER_ATTR_REGEXP.test(name)) throw $compileMinErr("nodomevents", "Interpolations for HTML DOM event attributes are disallowed.  Please use the ng- versions (such as ng-click instead of onclick) instead.");
+                                                            if (EVENT_HANDLER_ATTR_REGEXP.test(name)) throw $compileMinErr("nodomevents", "Interpolations for HTML DOM event attributes are disallowed.  Please use the " + "ng- versions (such as ng-click instead of onclick) instead.");
                                                             // if attribute was updated so that there is no interpolation going on we don't want to
                                                             // register any observers
                                                             // we need to interpolate again, in case the attribute value has been updated
@@ -3725,7 +3735,7 @@
                     if (name === ignoreDirective) return null;
                     var match = null;
                     if (hasDirectives.hasOwnProperty(name)) for(var directive, directives = $injector.get(name + Suffix), i = 0, ii = directives.length; i < ii; i++)try {
-                        directive = directives[i], (undefined === maxPriority || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
+                        directive = directives[i], (undefined === maxPriority || maxPriority > directive.priority) && directive.restrict.indexOf(location) != -1 && (startAttrName && (directive = inherit(directive, {
                             $$start: startAttrName,
                             $$end: endAttrName
                         })), tDirectives.push(directive), match = directive);
@@ -4564,7 +4574,7 @@
                                         ]), forEach(value, function(v) {
                                             isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
                                         }));
-                                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
+                                    }), url + (url.indexOf("?") == -1 ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
                                 if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
                                     if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
@@ -4599,7 +4609,7 @@
                                 }
                                 function removePendingReq() {
                                     var idx = indexOf($http.pendingRequests, config);
-                                    -1 !== idx && $http.pendingRequests.splice(idx, 1);
+                                    idx !== -1 && $http.pendingRequests.splice(idx, 1);
                                 }
                             })(config, reqData, headers).then(transformResponse, transformResponse);
                         },
@@ -4781,8 +4791,8 @@
             "$window",
             "$document",
             function($browser, $window, $document) {
-                var $browser1, XHR1, $browserDefer, callbacks, rawDocument;
-                return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
+                var $browser1, XHR1, $browserDefer, callbacks, rawDocument, ABORTED;
+                return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], ABORTED = -1, function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
                     var status;
                     if ($browser1.$$incOutstandingRequestCount(), url = url || $browser1.url(), "jsonp" == lowercase(method)) {
                         var url1, done, script, doneWrapper, callbackId = "_" + (callbacks.counter++).toString(36);
@@ -4808,7 +4818,7 @@
                         xhr.onreadystatechange = function() {
                             if (4 == xhr.readyState) {
                                 var responseHeaders = null, response = null;
-                                -1 !== status && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), // responseText is the old-school way of retrieving response (supported by IE8 & 9)
+                                status !== ABORTED && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), // responseText is the old-school way of retrieving response (supported by IE8 & 9)
                                 // response/responseType properties were introduced in XHR Level2 spec (supported by IE10)
                                 completeRequest(callback, status || xhr.status, response, responseHeaders);
                             }
@@ -4817,7 +4827,7 @@
                     if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
                     else timeout && timeout.then && timeout.then(timeoutRequest);
                     function timeoutRequest() {
-                        status = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
+                        status = ABORTED, jsonpDone && jsonpDone(), xhr && xhr.abort();
                     }
                     function completeRequest(callback, status, response, headersString) {
                         var protocol = urlResolve(url).protocol;
@@ -4934,7 +4944,7 @@
      *      against.
      *
      */ function $interpolate(text, mustHaveExpression, trustedContext) {
-                    for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)-1 != (startIndex = text.indexOf(startSymbol, index)) && -1 != (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) ? (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0) : (// we did not find anything, so we have to add the remainder to the parts array
+                    for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)(startIndex = text.indexOf(startSymbol, index)) != -1 && (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) != -1 ? (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0) : (// we did not find anything, so we have to add the remainder to the parts array
                     index != length && parts.push(text.substring(index)), index = length);
                     // Concatenating expressions makes it hard to reason about whether some combination of
                     // concatenated values are unsafe to use and could easily lead to XSS.  By requiring that a
@@ -4943,7 +4953,7 @@
                     // make it obvious that you bound the value to some user controlled value.  This helps reduce
                     // the load when auditing for XSS issues.
                     if ((length = parts.length) || (// we added, nothing, must have been an empty string.
-                    parts.push(""), length = 1), trustedContext && parts.length > 1) throw $interpolateMinErr("noconcat", "Error while interpolating: {0}\nStrict Contextual Escaping disallows interpolations that concatenate multiple expressions when a trusted value is required.  See http://docs.angularjs.org/api/ng.$sce", text);
+                    parts.push(""), length = 1), trustedContext && parts.length > 1) throw $interpolateMinErr("noconcat", "Error while interpolating: {0}\nStrict Contextual Escaping disallows " + "interpolations that concatenate multiple expressions when a trusted value is required.  See http://docs.angularjs.org/api/ng.$sce", text);
                     if (!mustHaveExpression || hasInterpolation) return concat.length = length, (fn = function(context) {
                         try {
                             for(var part, i = 0, ii = length; i < ii; i++)"function" == typeof (part = parts[i]) && (part = part(context), part = trustedContext ? $sce.getTrusted(trustedContext, part) : $sce.valueOf(part), null === part || isUndefined(part) ? part = "" : "string" != typeof part && (part = toJson(part))), concat[i] = part;
@@ -5140,7 +5150,7 @@
     }
     function stripHash(url) {
         var index = url.indexOf("#");
-        return -1 == index ? url : url.substr(0, index);
+        return index == -1 ? url : url.substr(0, index);
     }
     function stripFile(url) {
         return url.substr(0, stripHash(url).lastIndexOf("/") + 1);
@@ -5458,7 +5468,7 @@
                         var args = [];
                         return forEach(arguments, function(arg) {
                             var arg1;
-                            args.push(((arg1 = arg) instanceof Error && (arg1.stack ? arg1 = arg1.message && -1 === arg1.stack.indexOf(arg1.message) ? "Error: " + arg1.message + "\n" + arg1.stack : arg1.stack : arg1.sourceURL && (arg1 = arg1.message + "\n" + arg1.sourceURL + ":" + arg1.line)), arg1));
+                            args.push(((arg1 = arg) instanceof Error && (arg1.stack ? arg1 = arg1.message && arg1.stack.indexOf(arg1.message) === -1 ? "Error: " + arg1.message + "\n" + arg1.stack : arg1.stack : arg1.sourceURL && (arg1 = arg1.message + "\n" + arg1.sourceURL + ":" + arg1.line)), arg1));
                         }), logFn.apply(console, args);
                     } : function(arg1, arg2) {
                         logFn(arg1, null == arg2 ? "" : arg2);
@@ -5759,7 +5769,7 @@
             for(var token, json = []; this.index < this.text.length;){
                 if (this.ch = this.text.charAt(this.index), this.is("\"'")) this.readString(this.ch);
                 else if (this.isNumber(this.ch) || this.is(".") && this.isNumber(this.peek())) this.readNumber();
-                else if (this.isIdent(this.ch)) this.readIdent(), this.was("{,") && "{" === json[0] && (token = this.tokens[this.tokens.length - 1]) && (token.json = -1 === token.text.indexOf("."));
+                else if (this.isIdent(this.ch)) this.readIdent(), this.was("{,") && "{" === json[0] && (token = this.tokens[this.tokens.length - 1]) && (token.json = token.text.indexOf(".") === -1);
                 else if (this.is("(){}[].,;:?")) this.tokens.push({
                     index: this.index,
                     text: this.ch,
@@ -5790,10 +5800,10 @@
             return this.tokens;
         },
         is: function(chars) {
-            return -1 !== chars.indexOf(this.ch);
+            return chars.indexOf(this.ch) !== -1;
         },
         was: function(chars) {
-            return -1 !== chars.indexOf(this.lastCh);
+            return chars.indexOf(this.lastCh) !== -1;
         },
         peek: function(i) {
             var num = i || 1;
@@ -6184,7 +6194,7 @@
         else {
             var code = "var l, fn, p;\n";
             forEach(pathKeys, function(key, index) {
-                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? "s" : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? 'if (s && s.then) {\n pw("' + fullExp.replace(/(["\r\n])/g, "\\$1") + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : "");
+                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\n" + "l=s;\ns=" + (index ? "s" : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? "if (s && s.then) {\n" + ' pw("' + fullExp.replace(/(["\r\n])/g, "\\$1") + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : "");
             });
             /* jshint -W054 */ var evaledFnGetter = Function("s", "k", "pw", code += "return s;"); // s=scope, k=locals, pw=promiseWarning
             /* jshint +W054 */ evaledFnGetter.toString = function() {
@@ -7139,7 +7149,7 @@
                                 if (!(next = current.$$childHead || current !== this && current.$$nextSibling)) for(; current !== this && !(next = current.$$nextSibling);)current = current.$parent;
                             }while (current = next)
                             // `break traverseScopesLoop;` takes us to here
-                            if (dirty && !ttl--) throw clearPhase(), $rootScopeMinErr("infdig", "{0} $digest() iterations reached. Aborting!\nWatchers fired in the last 5 iterations: {1}", TTL, toJson(watchLog));
+                            if (dirty && !ttl--) throw clearPhase(), $rootScopeMinErr("infdig", "{0} $digest() iterations reached. Aborting!\n" + "Watchers fired in the last 5 iterations: {1}", TTL, toJson(watchLog));
                         }while (dirty || asyncQueue.length)
                         for(clearPhase(); postDigestQueue.length;)try {
                             postDigestQueue.shift()();
@@ -8136,7 +8146,7 @@
             function($parse, $sniffer, $sceDelegate) {
                 // Prereq: Ensure that we're not running in IE8 quirks mode.  In that mode, IE allows
                 // the "expression(javascript expression)" syntax which is insecure.
-                if (enabled && $sniffer.msie && $sniffer.msieDocumentMode < 8) throw $sceMinErr("iequirks", "Strict Contextual Escaping does not support Internet Explorer version < 9 in quirks mode.  You can fix this by adding the text <!doctype html> to the top of your HTML document.  See http://docs.angularjs.org/api/ng.$sce for more information.");
+                if (enabled && $sniffer.msie && $sniffer.msieDocumentMode < 8) throw $sceMinErr("iequirks", "Strict Contextual Escaping does not support Internet Explorer version < 9 in quirks " + "mode.  You can fix this by adding the text <!doctype html> to the top of your HTML document.  See http://docs.angularjs.org/api/ng.$sce for more information.");
                 var sce = copy(SCE_CONTEXTS);
                 /**
          * @ngdoc function
@@ -8970,7 +8980,7 @@
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return "";
         var isNegative = number < 0, numStr = (number = Math.abs(number)) + "", formatedText = "", parts = [], hasExponent = !1;
-        if (-1 !== numStr.indexOf("e")) {
+        if (numStr.indexOf("e") !== -1) {
             var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
             match && "-" == match[2] && match[3] > fractionSize + 1 ? numStr = "0" : (formatedText = numStr, hasExponent = !0);
         }
@@ -8998,7 +9008,7 @@
     function dateGetter(name, size, offset, trim) {
         return offset = offset || 0, function(date) {
             var value = date["get" + name]();
-            return (offset > 0 || value > -offset) && (value += offset), 0 === value && -12 == offset && (value = 12), padNumber(value, size, trim);
+            return (offset > 0 || value > -offset) && (value += offset), 0 === value && offset == -12 && (value = 12), padNumber(value, size, trim);
         };
     }
     function dateStrGetter(name, shortForm) {
@@ -9651,7 +9661,7 @@
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
-                    if (-1 != indexOf(queue, control)) return;
+                    if (indexOf(queue, control) != -1) return;
                 } else errors[validationToken] = queue = [], invalidCount++, toggleValidCss(!1, validationToken), parentForm.$setValidity(validationToken, !1, form);
                 queue.push(control), form.$valid = !1, form.$invalid = !0;
             }
@@ -11517,7 +11527,7 @@
             "$element",
             "$transclude",
             function($element, $transclude) {
-                if (!$transclude) throw minErr("ngTransclude")("orphan", "Illegal use of ngTransclude directive in the template! No parent directive that requires a transclusion found. Element: {0}", startingTag($element));
+                if (!$transclude) throw minErr("ngTransclude")("orphan", "Illegal use of ngTransclude directive in the template! " + "No parent directive that requires a transclusion found. Element: {0}", startingTag($element));
                 // remember the transclusion fn but call it during linking so that we don't process transclusion before directives on
                 // the parent element even when the transclusion replaces the current element. (we can't use priority here because
                 // that applies only to compile fns and not controllers
@@ -11604,7 +11614,7 @@
                             });
                         }
                         optionsExp ? function(scope, selectElement, ctrl) {
-                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement));
+                            if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of " + "'_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement));
                             var match, displayFn = $parse(match[2] || match[1]), valueName = match[4] || match[6], keyName = match[5], groupByFn = $parse(match[3] || ""), valueFn = $parse(match[2] ? match[1] : valueName), valuesFn = $parse(match[7]), trackFn = match[8] ? $parse(match[8]) : null, // This is an array of array of existing option groups in DOM.
                             // We try to reuse these if possible
                             // - optionGroupsCache[0] is the options with no option group
@@ -11883,7 +11893,7 @@
                     return function(name, context) {
                         if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
                     }(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
-                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
+                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled " + "the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
                         /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
                             // Private state
                             _invokeQueue: invokeQueue,

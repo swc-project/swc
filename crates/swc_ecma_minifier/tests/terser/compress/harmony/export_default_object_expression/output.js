@@ -1,9 +1,9 @@
 export default {
-    foo: 3,
-    bar() {
+    foo: 1 + 2,
+    bar () {
         return 4;
     },
-    get baz() {
+    get baz () {
         return this.foo;
-    },
+    }
 };

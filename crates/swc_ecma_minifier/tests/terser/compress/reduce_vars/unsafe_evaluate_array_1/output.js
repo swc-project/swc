@@ -1,7 +1,7 @@
 function f0() {
     var a = 1;
     [][1] = 2;
-    console.log(4);
+    console.log(1 + 3);
 }
 function f1() {
     var a = [

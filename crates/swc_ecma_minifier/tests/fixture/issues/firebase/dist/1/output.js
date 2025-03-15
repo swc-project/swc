@@ -96,7 +96,7 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
             options: this.options
         };
     }, FirebaseAppImpl;
-}(), ERRORS = ((_a = {})["no-app" /* NO_APP */ ] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument" /* INVALID_APP_ARGUMENT */ ] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS), firebase$1 = /**
+}(), ERRORS = ((_a = {})["no-app" /* NO_APP */ ] = "No Firebase App '{$appName}' has been created - " + "call Firebase App.initializeApp()", _a["invalid-app-argument" /* INVALID_APP_ARGUMENT */ ] = "firebase.{$appName}() takes either no argument or a " + "Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS), firebase$1 = /**
  * @license
  * Copyright 2019 Google LLC
  *

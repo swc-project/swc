@@ -856,7 +856,7 @@
             });
             /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js");
             function Color() {}
-            var darker = 0.7, brighter = 1.4285714285714286, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+            var darker = 0.7, brighter = 1 / 0.7, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
                 reI,
                 reI,
                 reI
@@ -1159,12 +1159,12 @@
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Cubehelix", function() {
                 return Cubehelix;
             });
-            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), BC_DA = -1.78277 * 0.29227 - 0.1347134789;
+            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), A = -0.14861, B = +1.78277, C = -0.29227, D = -0.90649, E = +1.97294, ED = E * D, EB = E * B, BC_DA = B * C - D * A;
             function cubehelix(h, s, l, opacity) {
                 return 1 == arguments.length ? function(o) {
                     if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
                     o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb || (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
-                    var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : NaN;
+                    var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + ED * r - EB * g) / (BC_DA + ED - EB), bl = b - l, k = (E * (g - l) - C * bl) / D, s = Math.sqrt(k * k + bl * bl) / (E * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : NaN;
                     return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
                 }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
             }
@@ -1180,7 +1180,7 @@
                 },
                 rgb: function() {
                     var h = isNaN(this.h) ? 0 : (this.h + 120) * _math_js__WEBPACK_IMPORTED_MODULE_2__.deg2rad, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-                    return new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
+                    return new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(255 * (l + a * (A * cosh + B * sinh)), 255 * (l + a * (C * cosh + D * sinh)), 255 * (l + E * cosh * a), this.opacity);
                 }
             }));
         /***/ },
@@ -3405,7 +3405,7 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calendar", function() {
                 return calendar;
             });
-            /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-array */ "../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-interpolate */ "../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-time */ "../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! d3-time-format */ "../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./array */ "../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./continuous */ "../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./nice */ "../../../node_modules/d3-scale/src/nice.js");
+            /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-array */ "../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-interpolate */ "../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-time */ "../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! d3-time-format */ "../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./array */ "../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./continuous */ "../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./nice */ "../../../node_modules/d3-scale/src/nice.js"), durationMinute = 60 * 1000, durationHour = 60 * 1000 * 60, durationDay = 60 * 1000 * 60 * 24, durationWeek = 60 * 1000 * 60 * 24 * 7, durationMonth = 60 * 1000 * 60 * 24 * 30, durationYear = 60 * 1000 * 60 * 24 * 365;
             function date(t) {
                 return new Date(t);
             }
@@ -3422,87 +3422,87 @@
                     [
                         second,
                         5,
-                        5000
+                        5 * 1000
                     ],
                     [
                         second,
                         15,
-                        15000
+                        15 * 1000
                     ],
                     [
                         second,
                         30,
-                        30000
+                        30 * 1000
                     ],
                     [
                         minute,
                         1,
-                        60000
+                        durationMinute
                     ],
                     [
                         minute,
                         5,
-                        300000
+                        5 * durationMinute
                     ],
                     [
                         minute,
                         15,
-                        900000
+                        15 * durationMinute
                     ],
                     [
                         minute,
                         30,
-                        1800000
+                        30 * durationMinute
                     ],
                     [
                         hour,
                         1,
-                        3600000
+                        durationHour
                     ],
                     [
                         hour,
                         3,
-                        10800000
+                        3 * durationHour
                     ],
                     [
                         hour,
                         6,
-                        21600000
+                        6 * durationHour
                     ],
                     [
                         hour,
                         12,
-                        43200000
+                        12 * durationHour
                     ],
                     [
                         day,
                         1,
-                        86400000
+                        durationDay
                     ],
                     [
                         day,
                         2,
-                        172800000
+                        2 * durationDay
                     ],
                     [
                         week,
                         1,
-                        604800000
+                        durationWeek
                     ],
                     [
                         month,
                         1,
-                        2592000000
+                        durationMonth
                     ],
                     [
                         month,
                         3,
-                        7776000000
+                        3 * durationMonth
                     ],
                     [
                         year,
                         1,
-                        31536000000
+                        durationYear
                     ]
                 ];
                 function tickFormat(date) {
@@ -3516,7 +3516,7 @@
                         var target = Math.abs(stop - start) / interval, i = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.bisector)(function(i) {
                             return i[2];
                         }).right(tickIntervals, target);
-                        i === tickIntervals.length ? (step = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start / 31536000000, stop / 31536000000, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start, stop, interval), 1), interval = millisecond);
+                        i === tickIntervals.length ? (step = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start / durationYear, stop / durationYear, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start, stop, interval), 1), interval = millisecond);
                     }
                     return null == step ? interval : interval.every(step);
                 }
@@ -5288,11 +5288,11 @@
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a = (k / 2 + 1) * 3;
+            var c = -0.5, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a = (k / 2 + 1) * 3;
             /* harmony default export */ __webpack_exports__.default = {
                 draw: function(context, size) {
                     var r = Math.sqrt(size / a), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
-                    context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
+                    context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(c * x0 - s * y0, s * x0 + c * y0), context.lineTo(c * x0 - s * y1, s * x0 + c * y1), context.lineTo(c * x2 - s * y1, s * x2 + c * y1), context.lineTo(c * x0 + s * y0, c * y0 - s * x0), context.lineTo(c * x0 + s * y1, c * y1 - s * x0), context.lineTo(c * x2 + s * y1, c * y1 - s * x2), context.closePath();
                 }
             };
         /***/ },
@@ -6117,7 +6117,7 @@
                         }, function(date, step) {
                             if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
                              // eslint-disable-line no-empty
-                            else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                            else for(; --step >= 0;)for(; offseti(date, +1), !test(date););
                              // eslint-disable-line no-empty
                         });
                     }, count && (interval.count = function(start, end) {
@@ -7168,7 +7168,7 @@
         /***/ "../../../node_modules/delaunator/delaunator.js": /*!*********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/delaunator/delaunator.js ***!
   \*********************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
-            module1.exports = function() {
+            0 || (module1.exports = function() {
                 'use strict';
                 var EDGE_STACK = new Uint32Array(512), Delaunator = function(coords) {
                     var n = coords.length >> 1;
@@ -7287,13 +7287,13 @@
                         var i$8 = this._ids[k], x$2 = coords[2 * i$8], y$2 = coords[2 * i$8 + 1];
                         // skip near-duplicate points
                         if (!(k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x$2 - xp) && 0.0000000000000002220446049250313 >= Math.abs(y$2 - yp)) && (xp = x$2, yp = y$2, i$8 !== i0 && i$8 !== i1 && i$8 !== i2)) {
-                            for(var start = 0, j$1 = 0, key = this._hashKey(x$2, y$2); j$1 < this._hashSize && (-1 === (start = hullHash[(key + j$1) % this._hashSize]) || start === hullNext[start]); j$1++);
+                            for(var start = 0, j$1 = 0, key = this._hashKey(x$2, y$2); j$1 < this._hashSize && ((start = hullHash[(key + j$1) % this._hashSize]) === -1 || start === hullNext[start]); j$1++);
                             for(// find a visible edge on the convex hull using edge hash
                             var e = start = hullPrev[start], q = void 0; q = hullNext[e], !orient(x$2, y$2, coords[2 * e], coords[2 * e + 1], coords[2 * q], coords[2 * q + 1]);)if ((e = q) === start) {
                                 e = -1;
                                 break;
                             }
-                            if (-1 !== e) {
+                            if (e !== -1) {
                                 // add the first triangle from the point
                                 var t = this._addTriangle(e, i$8, hullNext[e], -1, -1, hullTri[e]);
                                 // recursively flip triangles from the point until they satisfy the Delaunay condition
@@ -7319,7 +7319,7 @@
                     // recursion eliminated with a fixed-size stack
                     for(var triangles = this._triangles, halfedges = this._halfedges, coords = this.coords, i = 0, ar = 0;;){
                         var b = halfedges[a], a0 = a - a % 3;
-                        if (ar = a0 + (a + 2) % 3, -1 === b) {
+                        if (ar = a0 + (a + 2) % 3, b === -1) {
                             if (0 === i) break;
                             a = EDGE_STACK[--i];
                             continue;
@@ -7332,7 +7332,7 @@
                             triangles[a] = p1, triangles[b] = p0;
                             var hbl = halfedges[bl];
                             // edge swapped on the other side of the hull (rare); fix the halfedge reference
-                            if (-1 === hbl) {
+                            if (hbl === -1) {
                                 var e = this._hullStart;
                                 do {
                                     if (this._hullTri[e] === bl) {
@@ -7352,13 +7352,13 @@
                     }
                     return ar;
                 }, Delaunator.prototype._link = function(a, b) {
-                    this._halfedges[a] = b, -1 !== b && (this._halfedges[b] = a);
+                    this._halfedges[a] = b, b !== -1 && (this._halfedges[b] = a);
                 }, // add a new triangle given vertex indices and adjacent half-edge ids
                 Delaunator.prototype._addTriangle = function(i0, i1, i2, a, b, c) {
                     var t = this.trianglesLen;
                     return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
                 }, Delaunator;
-            }();
+            }());
         /***/ },
         /***/ "../../../node_modules/delaunay-find/lib/index.js": /*!***********************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/delaunay-find/lib/index.js ***!
@@ -7417,7 +7417,7 @@
                     // on the hull we give priority to exterior halfedges
                     for(var halfedges = this.halfedges = delaunator.halfedges, hull = this.hull = delaunator.hull, triangles = this.triangles = delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1), _e = 0, _n = halfedges.length; _e < _n; ++_e){
                         var _p = triangles[_e % 3 == 2 ? _e - 2 : _e + 1];
-                        (-1 === halfedges[_e] || -1 === inedges[_p]) && (inedges[_p] = _e);
+                        (halfedges[_e] === -1 || inedges[_p] === -1) && (inedges[_p] = _e);
                     }
                     for(var _i = 0, _n2 = hull.length; _i < _n2; ++_i)hullIndex[hull[_i]] = _i;
                      // degenerate case: 1 or 2 (distinct) points
@@ -7425,11 +7425,11 @@
                 } // eslint-disable-next-line max-statements
                 , _proto.neighbors = function(i) {
                     var results = [], inedges = this.inedges, hull = this.hull, _hullIndex = this._hullIndex, halfedges = this.halfedges, triangles = this.triangles, e0 = inedges[i];
-                    if (-1 === e0) return results; // coincident point
+                    if (e0 === -1) return results; // coincident point
                     var e = e0, p0 = -1;
                     do {
                         if (p0 = triangles[e], results.push(p0), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
-                        if (-1 === (e = halfedges[e])) {
+                        if ((e = halfedges[e]) === -1) {
                             var p = hull[(_hullIndex[i] + 1) % hull.length];
                             p !== p0 && results.push(p);
                             break;
@@ -7443,7 +7443,7 @@
                     return c;
                 }, _proto._step = function(i, x, y) {
                     var inedges = this.inedges, points = this.points;
-                    if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+                    if (inedges[i] === -1 || !points.length) return (i + 1) % (points.length >> 1);
                     for(var c = i, dc = Math.pow(x - points[2 * i], 2) + Math.pow(y - points[2 * i + 1], 2), _iterator = this.neighbors(i), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;){
                         if (_isArray) {
                             if (_i2 >= _iterator.length) break;
@@ -8068,7 +8068,7 @@
                     } else {
                         var stack = new Stack;
                         if (customizer) var result = customizer(objValue, srcValue, key, object, source, stack);
-                        if (!(void 0 === result ? baseIsEqual(srcValue, objValue, 3, customizer, stack) : result)) return !1;
+                        if (!(void 0 === result ? baseIsEqual(srcValue, objValue, 1 | 2, customizer, stack) : result)) return !1;
                     }
                 }
                 return !0;
@@ -8156,7 +8156,7 @@
          */ function(path, srcValue) {
                 return isKey(path) && isStrictComparable(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                     var objValue = get(object, path);
-                    return void 0 === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
+                    return void 0 === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 1 | 2);
                 };
             };
         /***/ },
@@ -8740,7 +8740,7 @@
                     }
                     for(index = wrapper ? index : length; ++index < length;){
                         var funcName = getFuncName(func = funcs[index]), data = 'wrapper' == funcName ? getData(func) : void 0;
-                        wrapper = data && isLaziable(data[0]) && 424 == data[1] && !data[4].length && 1 == data[9] ? wrapper[getFuncName(data[0])].apply(wrapper, data[3]) : 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
+                        wrapper = data && isLaziable(data[0]) && data[1] == (128 | 8 | 32 | 256) && !data[4].length && 1 == data[9] ? wrapper[getFuncName(data[0])].apply(wrapper, data[3]) : 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
                     }
                     return function() {
                         var args = arguments, value = args[0];
@@ -9394,7 +9394,7 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/lodash/_nodeUtil.js ***!
   \****************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             /* WEBPACK VAR INJECTION */ (function(module1) {
-                var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process;
+                var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../../../node_modules/lodash/_freeGlobal.js"), freeExports = !0 && exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process;
                 module1.exports = function() {
                     try {
                         // Use `util.types` for Node.js 10+.
@@ -11452,10 +11452,10 @@
                         }) : (arguments.length > 1 ? printWarning('Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + " arguments. A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).") : printWarning('Invalid argument supplied to oneOf, expected an array.'), emptyFunctionThatReturnsNull);
                     },
                     oneOfType: function(arrayOfTypeCheckers) {
-                        if (!Array.isArray(arrayOfTypeCheckers)) return printWarning('Invalid argument supplied to oneOfType, expected an instance of array.'), emptyFunctionThatReturnsNull;
+                        if (!Array.isArray(arrayOfTypeCheckers)) return 0 || printWarning('Invalid argument supplied to oneOfType, expected an instance of array.'), emptyFunctionThatReturnsNull;
                         for(var i = 0; i < arrayOfTypeCheckers.length; i++){
                             var checker = arrayOfTypeCheckers[i];
-                            if ('function' != typeof checker) return printWarning("Invalid argument supplied to oneOfType. Expected an array of check functions, but received " + // Returns a string that is postfixed to a warning about an invalid type.
+                            if ('function' != typeof checker) return printWarning('Invalid argument supplied to oneOfType. Expected an array of check functions, but ' + 'received ' + // Returns a string that is postfixed to a warning about an invalid type.
                             // For example, "undefined" or "of type array"
                             function(value) {
                                 var type = getPreciseType(value);
@@ -11523,14 +11523,14 @@
                         if (componentName = componentName || ANONYMOUS, propFullName = propFullName || propName, secret !== ReactPropTypesSecret) {
                             if (throwOnDirectAccess) {
                                 // New behavior only for users of `prop-types` package
-                                var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
+                                var err = Error('Calling PropTypes validators directly is not supported by the `prop-types` package. ' + "Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
                                 throw err.name = 'Invariant Violation', err;
                             }
                             if ('undefined' != typeof console) {
                                 // Old behavior for people using React.PropTypes
                                 var cacheKey = componentName + ':' + propName;
                                 !manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
-                                manualPropTypeWarningCount < 3 && (printWarning("You are manually calling a React.PropTypes validation function for the `" + propFullName + '` prop on `' + componentName + "`. This is deprecated and will throw in the standalone `prop-types` package. You may be seeing this warning due to a third-party PropTypes library. See https://fb.me/react-warning-dont-call-proptypes for details."), manualPropTypeCallCache[cacheKey] = !0, manualPropTypeWarningCount++);
+                                manualPropTypeWarningCount < 3 && (printWarning('You are manually calling a React.PropTypes validation ' + 'function for the `' + propFullName + '` prop on `' + componentName + "`. This is deprecated and will throw in the standalone `prop-types` package. You may be seeing this warning due to a third-party PropTypes library. See https://fb.me/react-warning-dont-call-proptypes for details."), manualPropTypeCallCache[cacheKey] = !0, manualPropTypeWarningCount++);
                             }
                         }
                         return null != props[propName] ? validate(props, propName, componentName, location, propFullName) : isRequired ? new PropTypeError(null === props[propName] ? 'The ' + location + ' `' + propFullName + "` is marked as required in `" + componentName + '`, but its value is `null`.' : 'The ' + location + ' `' + propFullName + "` is marked as required in `" + componentName + '`, but its value is `undefined`.') : null;
@@ -11617,7 +11617,7 @@
                         return a != a && b != b;
                     }(a, b);
                 } catch (error) {
-                    if (error.message && error.message.match(/stack|recursion/i) || -2146828260 === error.number) return(// warn on circular references, don't crash
+                    if (error.message && error.message.match(/stack|recursion/i) || error.number === -2146828260) return(// warn on circular references, don't crash
                     // browsers give this different errors name and messages:
                     // chrome/safari: "RangeError", "Maximum call stack size exceeded"
                     // firefox: "InternalError", too much recursion"
@@ -11673,7 +11673,7 @@
                     return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
                 }
                 exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
-                    return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+                    return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn('The ReactIs.isAsyncMode() alias has been deprecated, ' + "and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
                 }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
                     return typeOf(object) === REACT_CONTEXT_TYPE;
                 }, exports1.isContextProvider = function(object) {
@@ -11958,13 +11958,20 @@
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-area/es/helper-methods.js"), _area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./area */ "../../victory-area/es/area.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), fallbackProps = {
+            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-area/es/helper-methods.js"), _area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./area */ "../../victory-area/es/area.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 interpolation: "linear"
             }, VictoryArea = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryArea() {
                     var call;
                     return !function(instance, Constructor) {
@@ -11984,7 +11991,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryArea, _React$Component), protoProps = [
+                }(VictoryArea, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -12001,12 +12008,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryArea.prototype, protoProps), VictoryArea;
+                ]) && _defineProperties(VictoryArea.prototype, protoProps), _defineProperties(VictoryArea, staticProps), VictoryArea;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryArea, "animationWhitelist", {
                 configurable: !0,
@@ -12520,12 +12522,19 @@
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helper-methods */ "../../victory-axis/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helper-methods */ "../../victory-axis/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryAxis = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -12545,7 +12554,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAxis, _React$Component), protoProps = [
+                }(VictoryAxis, _React$Component), (protoProps = [
                     {
                         key: "renderLine",
                         value: function(props) {
@@ -12651,12 +12660,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryAxis.prototype, protoProps), VictoryAxis;
+                ]) && _defineProperties(VictoryAxis.prototype, protoProps), _defineProperties(VictoryAxis, staticProps), VictoryAxis;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryAxis, "animationWhitelist", {
                 configurable: !0,
@@ -13510,12 +13514,19 @@
   \**********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-bar/es/helper-methods.js"), _bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bar */ "../../victory-bar/es/bar.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), fallbackProps = {
+            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-bar/es/helper-methods.js"), _bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bar */ "../../victory-bar/es/bar.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryBar = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -13535,7 +13546,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBar, _React$Component), protoProps = [
+                }(VictoryBar, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -13552,12 +13563,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryBar.prototype, protoProps), VictoryBar;
+                ]) && _defineProperties(VictoryBar.prototype, protoProps), _defineProperties(VictoryBar, staticProps), VictoryBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryBar, "animationWhitelist", {
                 configurable: !0,
@@ -14072,6 +14078,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var fallbackProps = {
                 width: 450,
                 height: 300,
@@ -14082,7 +14094,7 @@
                     left: 20
                 }
             }, VictoryBoxPlot = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryBoxPlot() {
                     var call;
                     return !function(instance, Constructor) {
@@ -14102,7 +14114,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBoxPlot, _React$Component), protoProps = [
+                }(VictoryBoxPlot, _React$Component), (protoProps = [
                     {
                         key: "renderBoxPlot",
                         value: function(props) {
@@ -14148,12 +14160,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryBoxPlot.prototype, protoProps), VictoryBoxPlot;
+                ]) && _defineProperties(VictoryBoxPlot.prototype, protoProps), _defineProperties(VictoryBoxPlot, staticProps), VictoryBoxPlot;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryBoxPlot, "animationWhitelist", {
                 configurable: !0,
@@ -14897,10 +14904,16 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var brushContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictoryBrushContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -14920,7 +14933,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryBrushContainer, _base), protoProps = [
+                    }(VictoryBrushContainer, _base), (protoProps = [
                         {
                             key: "getSelectBox",
                             value: function(props, coordinates) {
@@ -15005,12 +15018,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getRect(props)));
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryBrushContainer.prototype, protoProps), VictoryBrushContainer;
+                    ]) && _defineProperties(VictoryBrushContainer.prototype, protoProps), _defineProperties(VictoryBrushContainer, staticProps), VictoryBrushContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -15126,6 +15134,12 @@
                 return VictoryBrushLine;
             });
             /* harmony import */ var lodash_pick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/pick */ "../../../node_modules/lodash/pick.js"), lodash_pick__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_pick__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/isFunction */ "../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_defaults__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_2__), lodash_assign__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__), victory_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_7__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -15217,7 +15231,7 @@
                 stroke: "none",
                 fill: "none"
             }, VictoryBrushLine = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryBrushLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -15237,7 +15251,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBrushLine, _React$Component), protoProps = [
+                }(VictoryBrushLine, _React$Component), (protoProps = [
                     {
                         key: "getRectDimensions",
                         value: function(props, brushWidth, domain) {
@@ -15376,12 +15390,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("g", this.props.events, this.renderLine(this.props), this.renderBrushArea(this.props), this.renderBrush(this.props), this.renderHandles(this.props));
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryBrushLine.prototype, protoProps), VictoryBrushLine;
+                ]) && _defineProperties(VictoryBrushLine.prototype, protoProps), _defineProperties(VictoryBrushLine, staticProps), VictoryBrushLine;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryBrushLine, "propTypes", {
                 configurable: !0,
@@ -16030,6 +16039,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             /*eslint-disable no-magic-numbers */ var fallbackProps = {
                 width: 450,
                 height: 300,
@@ -16098,7 +16113,7 @@
             ], datumHasXandY = function(datum) {
                 return !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._x) && !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._y);
             }, VictoryCandlestick = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryCandlestick() {
                     var call;
                     return !function(instance, Constructor) {
@@ -16118,7 +16133,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryCandlestick, _React$Component), protoProps = [
+                }(VictoryCandlestick, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -16164,12 +16179,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryCandlestick.prototype, protoProps), VictoryCandlestick;
+                ]) && _defineProperties(VictoryCandlestick.prototype, protoProps), _defineProperties(VictoryCandlestick, staticProps), VictoryCandlestick;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryCandlestick, "animationWhitelist", {
                 configurable: !0,
@@ -16607,6 +16617,12 @@
                 return VictoryChart;
             });
             /* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), lodash_defaults__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! victory-shared-events */ "../../victory-shared-events/es/index.js"), victory_axis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! victory-axis */ "../../victory-axis/es/index.js"), victory_polar_axis__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! victory-polar-axis */ "../../victory-polar-axis/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./helper-methods */ "../../victory-chart/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_10__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -16616,7 +16632,7 @@
                 height: 300,
                 padding: 50
             }, VictoryChart = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryChart(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -16637,7 +16653,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryChart, _React$Component), protoProps = [
+                }(VictoryChart, _React$Component), (protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -16699,12 +16715,7 @@
                             }, newChildren);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryChart.prototype, protoProps), VictoryChart;
+                ]) && _defineProperties(VictoryChart.prototype, protoProps), _defineProperties(VictoryChart, staticProps), VictoryChart;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryChart, "displayName", {
                 configurable: !0,
@@ -16972,8 +16983,15 @@
   \*************************************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), VictoryAccessibleGroup = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var VictoryAccessibleGroup = /*#__PURE__*/ function(_React$Component) {
+                var protoProps, staticProps;
                 function VictoryAccessibleGroup() {
                     var call;
                     return !function(instance, Constructor) {
@@ -16993,7 +17011,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAccessibleGroup, _React$Component), protoProps = [
+                }(VictoryAccessibleGroup, _React$Component), (protoProps = [
                     {
                         key: "render",
                         value: function() {
@@ -17013,12 +17031,7 @@
                             }, children);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryAccessibleGroup.prototype, protoProps), VictoryAccessibleGroup;
+                ]) && _defineProperties(VictoryAccessibleGroup.prototype, protoProps), _defineProperties(VictoryAccessibleGroup, staticProps), VictoryAccessibleGroup;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAccessibleGroup, "displayName", {
                 configurable: !0,
@@ -17128,12 +17141,18 @@
                 return VictoryAnimation;
             });
             /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), d3_ease__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-ease */ "../../../node_modules/d3-ease/src/index.js"), _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "../../victory-core/es/victory-animation/util.js"), _victory_util_timer_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../victory-util/timer-context */ "../../victory-core/es/victory-util/timer-context.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_5__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             /*global setTimeout:false */ var VictoryAnimation = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryAnimation(props, context) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -17159,7 +17178,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAnimation, _React$Component), protoProps = [
+                }(VictoryAnimation, _React$Component), (protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -17254,12 +17273,7 @@
                             return this.props.children(this.state.data, this.state.animationInfo);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryAnimation.prototype, protoProps), VictoryAnimation;
+                ]) && _defineProperties(VictoryAnimation.prototype, protoProps), _defineProperties(VictoryAnimation, staticProps), VictoryAnimation;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAnimation, "displayName", {
                 configurable: !0,
@@ -17359,8 +17373,14 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var VictoryClipContainer = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryClipContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -17380,7 +17400,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryClipContainer, _React$Component), protoProps = [
+                }(VictoryClipContainer, _React$Component), (protoProps = [
                     {
                         key: "calculateAttributes",
                         value: function(props) {
@@ -17509,12 +17529,7 @@
                             return this.renderClippedGroup(clipProps, this.clipId);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryClipContainer.prototype, protoProps), VictoryClipContainer;
+                ]) && _defineProperties(VictoryClipContainer.prototype, protoProps), _defineProperties(VictoryClipContainer, staticProps), VictoryClipContainer;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryClipContainer, "displayName", {
                 configurable: !0,
@@ -17611,8 +17626,14 @@
                 }
                 return target;
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var VictoryContainer = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -17644,7 +17665,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryContainer, _React$Component), protoProps = [
+                }(VictoryContainer, _React$Component), (protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -17759,12 +17780,7 @@
                             return this.renderContainer(this.props, svgProps, style);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryContainer.prototype, protoProps), VictoryContainer;
+                ]) && _defineProperties(VictoryContainer.prototype, protoProps), _defineProperties(VictoryContainer, staticProps), VictoryContainer;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryContainer, "displayName", {
                 configurable: !0,
@@ -18296,12 +18312,18 @@
                 return Portal;
             });
             /* harmony import */ var lodash_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/keys */ "../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../victory-util/prop-types */ "../../victory-core/es/victory-util/prop-types.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var Portal = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -18318,7 +18340,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), protoProps = [
+                }(Portal, _React$Component), (protoProps = [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -18355,12 +18377,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(Portal.prototype, protoProps), Portal;
+                ]) && _defineProperties(Portal.prototype, protoProps), _defineProperties(Portal, staticProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -18387,8 +18404,15 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
                 return VictoryPortal;
             });
-            /* harmony import */ var lodash_defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../victory-util/log */ "../../victory-core/es/victory-util/log.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../victory-util/helpers */ "../../victory-core/es/victory-util/helpers.js"), _portal_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./portal-context */ "../../victory-core/es/victory-portal/portal-context.js"), VictoryPortal = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+            /* harmony import */ var lodash_defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../victory-util/log */ "../../victory-core/es/victory-util/log.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../victory-util/helpers */ "../../victory-core/es/victory-util/helpers.js"), _portal_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./portal-context */ "../../victory-core/es/victory-portal/portal-context.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var VictoryPortal = /*#__PURE__*/ function(_React$Component) {
+                var protoProps, staticProps;
                 function VictoryPortal() {
                     var call;
                     return !function(instance, Constructor) {
@@ -18408,11 +18432,11 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPortal, _React$Component), protoProps = [
+                }(VictoryPortal, _React$Component), (protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
-                            this.checkedContext || ("function" != typeof this.context.portalUpdate && (_victory_util_log__WEBPACK_IMPORTED_MODULE_3__.default.warn("`renderInPortal` is not supported outside of `VictoryContainer`. Component will be rendered in place"), this.renderInPlace = !0), this.checkedContext = !0), this.forceUpdate();
+                            this.checkedContext || ("function" != typeof this.context.portalUpdate && (_victory_util_log__WEBPACK_IMPORTED_MODULE_3__.default.warn("`renderInPortal` is not supported outside of `VictoryContainer`. " + "Component will be rendered in place"), this.renderInPlace = !0), this.checkedContext = !0), this.forceUpdate();
                         }
                     },
                     {
@@ -18446,12 +18470,7 @@
                             return this.renderPortal(child);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryPortal.prototype, protoProps), VictoryPortal;
+                ]) && _defineProperties(VictoryPortal.prototype, protoProps), _defineProperties(VictoryPortal, staticProps), VictoryPortal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryPortal, "displayName", {
                 configurable: !0,
@@ -19725,12 +19744,18 @@
                     return target;
                 }).apply(this, arguments);
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var VictoryTransition = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -19751,7 +19776,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTransition, _React$Component), protoProps = [
+                }(VictoryTransition, _React$Component), (protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -19876,12 +19901,7 @@
                             });
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryTransition.prototype, protoProps), VictoryTransition;
+                ]) && _defineProperties(VictoryTransition.prototype, protoProps), _defineProperties(VictoryTransition, staticProps), VictoryTransition;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryTransition, "displayName", {
                 configurable: !0,
@@ -19925,6 +19945,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -19945,7 +19971,7 @@
             ]; //  used for checking state changes. Expected components can be passed in via options
             /* harmony default export */ __webpack_exports__.default = function(WrappedComponent, options) {
                 return /*#__PURE__*/ function(_WrappedComponent) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -19967,7 +19993,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(addEvents, _WrappedComponent), protoProps = [
+                    }(addEvents, _WrappedComponent), (protoProps = [
                         {
                             key: "shouldComponentUpdate",
                             value: function(nextProps) {
@@ -20171,12 +20197,7 @@
                                 return this.renderContainer(groupComponent, children);
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(addEvents.prototype, protoProps), addEvents;
+                    ]) && _defineProperties(addEvents.prototype, protoProps), _defineProperties(addEvents, staticProps), addEvents;
                 }(WrappedComponent);
             };
         /***/ },
@@ -20807,9 +20828,9 @@
                 }, {}), preformattedData = lodash_isEqual__WEBPACK_IMPORTED_MODULE_3___default()(expectedKeys, defaultKeys) && "_x" === props.x && "_y" === props.y && "_y0" === props.y0;
                 !1 === preformattedData && // stringMap is not required if the data is preformatted
                 (stringMap = {
-                    x: -1 !== expectedKeys.indexOf("x") ? createStringMap(props, "x") : void 0,
-                    y: -1 !== expectedKeys.indexOf("y") ? createStringMap(props, "y") : void 0,
-                    y0: -1 !== expectedKeys.indexOf("y0") ? createStringMap(props, "y") : void 0
+                    x: expectedKeys.indexOf("x") !== -1 ? createStringMap(props, "x") : void 0,
+                    y: expectedKeys.indexOf("y") !== -1 ? createStringMap(props, "y") : void 0,
+                    y0: expectedKeys.indexOf("y0") !== -1 ? createStringMap(props, "y") : void 0
                 });
                 var cleanedData = function(dataset, props) {
                     var smallNumber = 1 / Number.MAX_SAFE_INTEGER, scaleType = {
@@ -20912,7 +20933,7 @@
                 }, []).filter(function(datum) {
                     return "string" == typeof datum;
                 }).reduce(function(prev, curr) {
-                    return null != curr && -1 === prev.indexOf(curr) && prev.push(curr), prev;
+                    return null != curr && prev.indexOf(curr) === -1 && prev.push(curr), prev;
                 }, []);
             }
             /* harmony default export */ __webpack_exports__.default = {
@@ -21256,7 +21277,7 @@
          * @returns {Array} the minDomain based on props
          */ function getDomainFromMinMax(min, max) {
                 var verySmallNumber, minVal, maxVal;
-                return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
+                return +min == +max ? (verySmallNumber = 0 === max ? 2 * 0.0000000001 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
                     0,
                     maxVal
                 ] : [
@@ -22077,12 +22098,12 @@
            * Check that the value looks like a d3 `scale` function.
            */ scale: makeChainable(function(props, propName, componentName) {
                     var scl;
-                    if (scl = props[propName], lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl) ? !(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.copy) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.domain) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.range)) : "string" != typeof scl || -1 === [
+                    if (scl = props[propName], lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl) ? !(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.copy) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.domain) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.range)) : "string" != typeof scl || [
                         "linear",
                         "time",
                         "log",
                         "sqrt"
-                    ].indexOf(scl)) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a d3 scale."));
+                    ].indexOf(scl) === -1) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a d3 scale."));
                 }),
                 /**
            * Check that an array contains items of the same type.
@@ -25929,14 +25950,21 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
                 return Timer;
             });
-            /* harmony import */ var d3_timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-timer */ "../../../node_modules/d3-timer/src/index.js"), Timer = /*#__PURE__*/ function() {
-                var protoProps;
+            /* harmony import */ var d3_timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-timer */ "../../../node_modules/d3-timer/src/index.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var Timer = /*#__PURE__*/ function() {
+                var protoProps, staticProps;
                 function Timer() {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, Timer), this.shouldAnimate = !0, this.subscribers = [], this.loop = this.loop.bind(this), this.timer = null, this.activeSubscriptions = 0;
                 }
-                return protoProps = [
+                return (protoProps = [
                     {
                         key: "bypassAnimation",
                         value: function() {
@@ -25987,12 +26015,7 @@
                             null !== id && this.subscribers[id - 1] && (delete this.subscribers[id - 1], this.activeSubscriptions--), 0 === this.activeSubscriptions && this.stop();
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(Timer.prototype, protoProps), Timer;
+                ]) && _defineProperties(Timer.prototype, protoProps), _defineProperties(Timer, staticProps), Timer;
             }();
         /***/ },
         /***/ "../../victory-core/es/victory-util/transitions.js": /*!************************************************************************************************!*\
@@ -26040,7 +26063,7 @@
                         var oldData, nextData, oldDataKeyed, nextDataKeyed, _ref = (oldData = getChildData(oldChild), nextData = getChildData(newChild), oldDataKeyed = oldData && getKeyedData(oldData), nextDataKeyed = nextData && getKeyedData(nextData), {
                             entering: oldDataKeyed && getKeyedDataDifference(nextDataKeyed, oldDataKeyed),
                             exiting: nextDataKeyed && getKeyedDataDifference(oldDataKeyed, nextDataKeyed)
-                        }), entering = _ref.entering, exiting = _ref.exiting;
+                        } || {}), entering = _ref.entering, exiting = _ref.exiting;
                         return nodesWillExit = nodesWillExit || !!exiting, nodesWillEnter = nodesWillEnter || !!entering, {
                             entering: entering || !1,
                             exiting: exiting || !1
@@ -26593,6 +26616,12 @@
                 }
                 return target;
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var ensureArray = function(thing) {
                 return thing ? Array.isArray(thing) ? thing : [
                     thing
@@ -26607,7 +26636,7 @@
                     }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
-                            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                         } catch (err) {
                             _d = !0, _e = err;
                         } finally{
@@ -26652,7 +26681,7 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = /*#__PURE__*/ function(_NaiveCombinedContain) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -26672,7 +26701,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), (protoProps = [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -26683,12 +26712,7 @@
                                 }, props.children);
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryCombinedContainer.prototype, protoProps), VictoryCombinedContainer;
+                    ]) && _defineProperties(VictoryCombinedContainer.prototype, protoProps), _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -26890,10 +26914,16 @@
                     writable: !0
                 }) : obj[key] = value, obj;
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var cursorContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictoryCursorContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -26913,7 +26943,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCursorContainer, _base), protoProps = [
+                    }(VictoryCursorContainer, _base), (protoProps = [
                         {
                             key: "getCursorPosition",
                             value: function(props) {
@@ -26998,12 +27028,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getCursorElements(props)));
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryCursorContainer.prototype, protoProps), VictoryCursorContainer;
+                    ]) && _defineProperties(VictoryCursorContainer.prototype, protoProps), _defineProperties(VictoryCursorContainer, staticProps), VictoryCursorContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -27376,12 +27401,19 @@
   \********************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _error_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error-bar */ "../../victory-errorbar/es/error-bar.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-errorbar/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _error_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error-bar */ "../../victory-errorbar/es/error-bar.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-errorbar/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryErrorBar = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryErrorBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -27401,7 +27433,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryErrorBar, _React$Component), protoProps = [
+                }(VictoryErrorBar, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -27418,12 +27450,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryErrorBar.prototype, protoProps), VictoryErrorBar;
+                ]) && _defineProperties(VictoryErrorBar.prototype, protoProps), _defineProperties(VictoryErrorBar, staticProps), VictoryErrorBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryErrorBar, "animationWhitelist", {
                 configurable: !0,
@@ -27699,6 +27726,12 @@
                 return VictoryGroup;
             });
             /* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! victory-shared-events */ "../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helper-methods */ "../../victory-group/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -27709,7 +27742,7 @@
                 padding: 50,
                 offset: 0
             }, VictoryGroup = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryGroup(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -27730,7 +27763,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryGroup, _React$Component), protoProps = [
+                }(VictoryGroup, _React$Component), (protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -27787,12 +27820,7 @@
                             }, newChildren);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryGroup.prototype, protoProps), VictoryGroup;
+                ]) && _defineProperties(VictoryGroup.prototype, protoProps), _defineProperties(VictoryGroup, staticProps), VictoryGroup;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryGroup, "displayName", {
                 configurable: !0,
@@ -28078,12 +28106,19 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VictoryHistogram", function() {
                 return VictoryHistogram;
             });
-            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-bar */ "../../victory-bar/es/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-histogram/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-bar */ "../../victory-bar/es/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-histogram/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryHistogram = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryHistogram() {
                     var call;
                     return !function(instance, Constructor) {
@@ -28103,7 +28138,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryHistogram, _React$Component), protoProps = [
+                }(VictoryHistogram, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -28120,12 +28155,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryHistogram.prototype, protoProps), VictoryHistogram;
+                ]) && _defineProperties(VictoryHistogram.prototype, protoProps), _defineProperties(VictoryHistogram, staticProps), VictoryHistogram;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryHistogram, "animationWhitelist", {
                 configurable: !0,
@@ -29424,6 +29454,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var fallbackProps = {
                 orientation: "vertical",
                 titleOrientation: "top",
@@ -29432,7 +29468,7 @@
                 x: 0,
                 y: 0
             }, VictoryLegend = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryLegend() {
                     var call;
                     return !function(instance, Constructor) {
@@ -29452,7 +29488,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLegend, _React$Component), protoProps = [
+                }(VictoryLegend, _React$Component), (protoProps = [
                     {
                         key: "renderChildren",
                         value: function(props) {
@@ -29489,12 +29525,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryLegend.prototype, protoProps), VictoryLegend;
+                ]) && _defineProperties(VictoryLegend.prototype, protoProps), _defineProperties(VictoryLegend, staticProps), VictoryLegend;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryLegend, "displayName", {
                 configurable: !0,
@@ -29866,13 +29897,20 @@
   \************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-line/es/helper-methods.js"), _curve__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./curve */ "../../victory-line/es/curve.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), fallbackProps = {
+            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper-methods */ "../../victory-line/es/helper-methods.js"), _curve__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./curve */ "../../victory-line/es/curve.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 interpolation: "linear"
             }, VictoryLine = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -29892,7 +29930,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLine, _React$Component), protoProps = [
+                }(VictoryLine, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -29909,12 +29947,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryLine.prototype, protoProps), VictoryLine;
+                ]) && _defineProperties(VictoryLine.prototype, protoProps), _defineProperties(VictoryLine, staticProps), VictoryLine;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryLine, "animationWhitelist", {
                 configurable: !0,
@@ -30308,7 +30341,14 @@
   \**********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./slice */ "../../victory-pie/es/slice.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-pie/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./slice */ "../../victory-pie/es/slice.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helper-methods */ "../../victory-pie/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            /*eslint no-magic-numbers: ["error", { "ignore": [-1, 0, 1, 2] }]*/ var fallbackProps = {
                 endAngle: 360,
                 height: 400,
                 innerRadius: 0,
@@ -30330,7 +30370,7 @@
                 ],
                 labelPosition: "centroid"
             }, VictoryPie = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryPie() {
                     var call;
                     return !function(instance, Constructor) {
@@ -30350,7 +30390,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPie, _React$Component), protoProps = [
+                }(VictoryPie, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in victory-native
@@ -30367,12 +30407,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryPie.prototype, protoProps), VictoryPie;
+                ]) && _defineProperties(VictoryPie.prototype, protoProps), _defineProperties(VictoryPie, staticProps), VictoryPie;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryPie, "animationWhitelist", {
                 configurable: !0,
@@ -30924,12 +30959,18 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryPolarAxis = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryPolarAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -30949,7 +30990,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPolarAxis, _React$Component), protoProps = [
+                }(VictoryPolarAxis, _React$Component), (protoProps = [
                     {
                         key: "renderAxisLine",
                         value: function(props) {
@@ -31016,12 +31057,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryPolarAxis.prototype, protoProps), VictoryPolarAxis;
+                ]) && _defineProperties(VictoryPolarAxis.prototype, protoProps), _defineProperties(VictoryPolarAxis, staticProps), VictoryPolarAxis;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryPolarAxis, "animationWhitelist", {
                 configurable: !0,
@@ -31349,14 +31385,21 @@
   \******************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper-methods */ "../../victory-scatter/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper-methods */ "../../victory-scatter/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 size: 3,
                 symbol: "circle"
             }, VictoryScatter = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryScatter() {
                     var call;
                     return !function(instance, Constructor) {
@@ -31376,7 +31419,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryScatter, _React$Component), protoProps = [
+                }(VictoryScatter, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -31393,12 +31436,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryScatter.prototype, protoProps), VictoryScatter;
+                ]) && _defineProperties(VictoryScatter.prototype, protoProps), _defineProperties(VictoryScatter, staticProps), VictoryScatter;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryScatter, "animationWhitelist", {
                 configurable: !0,
@@ -31747,10 +31785,16 @@
                 }
                 return target;
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var selectionContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictorySelectionContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -31770,7 +31814,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictorySelectionContainer, _base), protoProps = [
+                    }(VictorySelectionContainer, _base), (protoProps = [
                         {
                             key: "getRect",
                             value: function(props) {
@@ -31803,12 +31847,7 @@
                                 ]);
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictorySelectionContainer.prototype, protoProps), VictorySelectionContainer;
+                    ]) && _defineProperties(VictorySelectionContainer.prototype, protoProps), _defineProperties(VictorySelectionContainer, staticProps), VictorySelectionContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -31899,12 +31938,18 @@
                 return VictorySharedEvents;
             });
             /* harmony import */ var lodash_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/difference */ "../../../node_modules/lodash/difference.js"), lodash_difference__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_difference__WEBPACK_IMPORTED_MODULE_0__), lodash_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/keys */ "../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_1__), lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/fromPairs */ "../../../node_modules/lodash/fromPairs.js"), lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2__), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__), lodash_defaults__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_4__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/isFunction */ "../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__), lodash_assign__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_6__), react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__), prop_types__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_8__), victory_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_10__), json_stringify_safe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! json-stringify-safe */ "../../../node_modules/json-stringify-safe/stringify.js"), json_stringify_safe__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/ __webpack_require__.n(json_stringify_safe__WEBPACK_IMPORTED_MODULE_11__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var VictorySharedEvents = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictorySharedEvents(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -31921,7 +31966,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictorySharedEvents, _React$Component), protoProps = [
+                }(VictorySharedEvents, _React$Component), (protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -32035,7 +32080,7 @@
                             }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
-                                    for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                                    for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                                 } catch (err) {
                                     _d = !0, _e = err;
                                 } finally{
@@ -32149,12 +32194,7 @@
                             });
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictorySharedEvents.prototype, protoProps), VictorySharedEvents;
+                ]) && _defineProperties(VictorySharedEvents.prototype, protoProps), _defineProperties(VictorySharedEvents, staticProps), VictorySharedEvents;
             }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
             Object.defineProperty(VictorySharedEvents, "displayName", {
                 configurable: !0,
@@ -32403,6 +32443,12 @@
                 return VictoryStack;
             });
             /* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEmpty */ "../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! victory-shared-events */ "../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helper-methods */ "../../victory-stack/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-fast-compare */ "../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/ __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -32412,7 +32458,7 @@
                 height: 300,
                 padding: 50
             }, VictoryStack = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryStack(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -32433,7 +32479,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryStack, _React$Component), protoProps = [
+                }(VictoryStack, _React$Component), (protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -32494,12 +32540,7 @@
                             }, newChildren);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryStack.prototype, protoProps), VictoryStack;
+                ]) && _defineProperties(VictoryStack.prototype, protoProps), _defineProperties(VictoryStack, staticProps), VictoryStack;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryStack, "displayName", {
                 configurable: !0,
@@ -32706,12 +32747,19 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
                 return VictoryTooltip;
             });
-            /* harmony import */ var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/orderBy */ "../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/isPlainObject */ "../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/uniqueId */ "../../../node_modules/lodash/uniqueId.js"), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__), prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _flyout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flyout */ "../../victory-tooltip/es/flyout.js"), fallbackProps = {
+            /* harmony import */ var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/orderBy */ "../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/isPlainObject */ "../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/uniqueId */ "../../../node_modules/lodash/uniqueId.js"), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/assign */ "../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/ __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__), prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _flyout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flyout */ "../../victory-tooltip/es/flyout.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 cornerRadius: 5,
                 pointerLength: 10,
                 pointerWidth: 10
             }, VictoryTooltip = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryTooltip(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -32731,7 +32779,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTooltip, _React$Component), protoProps = [
+                }(VictoryTooltip, _React$Component), (protoProps = [
                     {
                         key: "getDefaultOrientation",
                         value: function(props) {
@@ -33056,12 +33104,7 @@
                             return this.renderTooltip(props);
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryTooltip.prototype, protoProps), VictoryTooltip;
+                ]) && _defineProperties(VictoryTooltip.prototype, protoProps), _defineProperties(VictoryTooltip, staticProps), VictoryTooltip;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryTooltip, "displayName", {
                 configurable: !0,
@@ -33332,10 +33375,16 @@
                 }
                 return target;
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var voronoiContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictoryVoronoiContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -33355,7 +33404,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryVoronoiContainer, _base), protoProps = [
+                    }(VictoryVoronoiContainer, _base), (protoProps = [
                         {
                             key: "getDimension",
                             value: function(props) {
@@ -33491,12 +33540,7 @@
                                 ]);
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryVoronoiContainer.prototype, protoProps), VictoryVoronoiContainer;
+                    ]) && _defineProperties(VictoryVoronoiContainer.prototype, protoProps), _defineProperties(VictoryVoronoiContainer, staticProps), VictoryVoronoiContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -33873,12 +33917,19 @@
   \******************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), victory_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _voronoi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./voronoi */ "../../victory-voronoi/es/voronoi.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper-methods */ "../../victory-voronoi/es/helper-methods.js"), fallbackProps = {
+            /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), victory_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! victory-core */ "../../victory-core/es/index.js"), _voronoi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./voronoi */ "../../victory-voronoi/es/voronoi.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper-methods */ "../../victory-voronoi/es/helper-methods.js");
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+            var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryVoronoi = /*#__PURE__*/ function(_React$Component) {
-                var protoProps;
+                var protoProps, staticProps;
                 function VictoryVoronoi() {
                     var call;
                     return !function(instance, Constructor) {
@@ -33898,7 +33949,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryVoronoi, _React$Component), protoProps = [
+                }(VictoryVoronoi, _React$Component), (protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -33915,12 +33966,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(VictoryVoronoi.prototype, protoProps), VictoryVoronoi;
+                ]) && _defineProperties(VictoryVoronoi.prototype, protoProps), _defineProperties(VictoryVoronoi, staticProps), VictoryVoronoi;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryVoronoi, "animationWhitelist", {
                 configurable: !0,
@@ -34174,10 +34220,16 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
             var zoomContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
-                    var protoProps;
+                    var protoProps, staticProps;
                     function VictoryZoomContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -34197,7 +34249,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryZoomContainer, _base), protoProps = [
+                    }(VictoryZoomContainer, _base), (protoProps = [
                         {
                             key: "clipDataComponents",
                             value: function(children, props) {
@@ -34240,7 +34292,7 @@
                                     }), endIndex = data1.findIndex(function(d) {
                                         return d[dimension] > domain[dimension][1];
                                     }); // important: assumes data is ordered by dimension
-                                    0 !== startIndex && (startIndex -= 1), -1 !== endIndex && (endIndex += 1);
+                                    0 !== startIndex && (startIndex -= 1), endIndex !== -1 && (endIndex += 1);
                                     var visibleData = data1.slice(startIndex, endIndex);
                                     return victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.downsample(visibleData, !0 === downsample ? 150 : downsample, startIndex);
                                 }
@@ -34274,12 +34326,7 @@
                                 return this.clipDataComponents(children, props);
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryZoomContainer.prototype, protoProps), VictoryZoomContainer;
+                    ]) && _defineProperties(VictoryZoomContainer.prototype, protoProps), _defineProperties(VictoryZoomContainer, staticProps), VictoryZoomContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,

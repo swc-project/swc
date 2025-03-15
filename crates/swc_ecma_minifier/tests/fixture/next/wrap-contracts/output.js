@@ -16,7 +16,7 @@
             const one = new BN(1);
             function Unmarshal(data) {
                 const byteLen = EC.n.bitLength() + 7 >> 3;
-                if (EC.g.mul(10), (-2 & data[0]) != 2 || data.length != 1 + byteLen) return [
+                if (EC.g.mul(10), (data[0] & ~1) != 2 || data.length != 1 + byteLen) return [
                     null,
                     null
                 ];
@@ -64,7 +64,7 @@
                         ...toBytesInt32(i),
                         ...m
                     ])).slice(0, byteLen));
-                    if (-1 == k.cmp(EC.curve.n.sub(one))) return k.add(one);
+                    if (k.cmp(EC.curve.n.sub(one)) == -1) return k.add(one);
                     i++;
                 }
             }
@@ -111,8 +111,8 @@
  * @throws Will throw if VRF proof is invalid
  */ function(publicKey, data, proof) {
                     const currentKey = EC.keyFromPublic(publicKey);
-                    if (129 !== proof.length) throw Error('invalid vrf');
-                    const s = proof.slice(0, 32), t = proof.slice(32, 64), vrf = proof.slice(64, 129), uhPoint = decodePoint(vrf);
+                    if (proof.length !== 64 + 65) throw Error('invalid vrf');
+                    const s = proof.slice(0, 32), t = proof.slice(32, 64), vrf = proof.slice(64, 64 + 65), uhPoint = decodePoint(vrf);
                     if (!uhPoint) throw Error('invalid vrf');
                     // [t]G + [s]([k]G) = [t+ks]G
                     const tgPoint = EC.curve.g.mul(t), ksgPoint = currentKey.getPublic().mul(s), tksgPoint = tgPoint.add(ksgPoint), hPoint = H1(data), thPoint = hPoint.mul(t), shPoint = uhPoint.mul(s), tkshPoint = thPoint.add(shPoint), h2 = H2([
@@ -134,7 +134,7 @@
             };
         /***/ },
         /***/ 3783: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            !function(module, exports) {
+            /* module decorator */ module = __webpack_require__.nmd(module), function(module, exports) {
                 'use strict';
                 // Utils
                 function assert(val, msg) {
@@ -714,7 +714,7 @@
                     for(var carry = 0, i = 0; i < len; i++)carry += 0 | ws[i], rws[2 * i] = 0x1fff & carry, carry >>>= 13, rws[2 * i + 1] = 0x1fff & carry, carry >>>= 13;
                     // Pad with zeroes
                     for(i = 2 * len; i < N; ++i)rws[i] = 0;
-                    assert(0 === carry), assert((-8192 & carry) == 0);
+                    assert(0 === carry), assert((carry & ~0x1fff) == 0);
                 }, FFTM.prototype.stub = function(N) {
                     for(var ph = Array(N), i = 0; i < N; i++)ph[i] = 0;
                     return ph;
@@ -870,7 +870,7 @@
                     for(; i < this.length - shift; i++)carry = (w = (0 | this.words[i + shift]) + carry) >> 26, this.words[i + shift] = 0x3ffffff & w;
                     if (0 === carry) return this._strip();
                     for(// Subtraction overflow
-                    assert(-1 === carry), carry = 0, i = 0; i < this.length; i++)carry = (w = -(0 | this.words[i]) + carry) >> 26, this.words[i] = 0x3ffffff & w;
+                    assert(carry === -1), carry = 0, i = 0; i < this.length; i++)carry = (w = -(0 | this.words[i]) + carry) >> 26, this.words[i] = 0x3ffffff & w;
                     return this.negative = 1, this._strip();
                 }, BN.prototype._wordDiv = function(num, mode) {
                     var q, shift = this.length - num.length, a = this.clone(), b = num, bhi = 0 | b.words[b.length - 1];
@@ -944,7 +944,7 @@
                 }, BN.prototype.modrn = function(num) {
                     var isNegNum = num < 0;
                     isNegNum && (num = -num), assert(num <= 0x3ffffff);
-                    for(var p = 67108864 % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
+                    for(var p = (1 << 26) % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
                     return isNegNum ? -acc : acc;
                 }, // WARNING: DEPRECATED
                 BN.prototype.modn = function(num) {
@@ -1077,9 +1077,9 @@
                 }, BN.prototype.gte = function(num) {
                     return this.cmp(num) >= 0;
                 }, BN.prototype.ltn = function(num) {
-                    return -1 === this.cmpn(num);
+                    return this.cmpn(num) === -1;
                 }, BN.prototype.lt = function(num) {
-                    return -1 === this.cmp(num);
+                    return this.cmp(num) === -1;
                 }, BN.prototype.lten = function(num) {
                     return 0 >= this.cmpn(num);
                 }, BN.prototype.lte = function(num) {
@@ -1285,7 +1285,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(16);
+                    var windowSize = 4, wnd = Array(1 << 4);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -1328,7 +1328,7 @@
                 }, Mont.prototype.invm = function(a) {
                     return this.imod(a._invmp(this.m).mul(this.r2))._forceRed(this);
                 };
-            }(/* module decorator */ module = __webpack_require__.nmd(module), this);
+            }(!1 || module, this);
         /***/ },
         /***/ 9464: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2556,12 +2556,12 @@
                 async getTransactionOffset(id) {
                     const resp = await this.api.get(`tx/${id}/offset`);
                     if (200 === resp.status) return resp.data;
-                    throw Error(`Unable to get transaction offset: ${(0, error_1.getError)(resp)}`);
+                    throw Error(`Unable to get transaction offset: ${error_1.getError(resp)}`);
                 }
                 async getChunk(offset) {
                     const resp = await this.api.get(`chunk/${offset}`);
                     if (200 === resp.status) return resp.data;
-                    throw Error(`Unable to get chunk: ${(0, error_1.getError)(resp)}`);
+                    throw Error(`Unable to get chunk: ${error_1.getError(resp)}`);
                 }
                 async getChunkData(offset) {
                     const chunk = await this.getChunk(offset);
@@ -2740,7 +2740,7 @@
                     let instance = axios_1.default.create({
                         baseURL: `${this.config.protocol}://${this.config.host}:${this.config.port}`,
                         timeout: this.config.timeout,
-                        maxContentLength: 536870912,
+                        maxContentLength: 1024 * 1024 * 512,
                         headers
                     });
                     return this.config.logging && (instance.interceptors.request.use((request)=>(this.config.logger(`Requesting: ${request.baseURL}/${request.url}`), request)), instance.interceptors.response.use((response)=>(this.config.logger(`Response:   ${response.config.url} - ${response.status}`), response))), instance;
@@ -2872,10 +2872,10 @@
                     }
                 }
                 jwkToPem(jwk) {
-                    return (0, pem_1.jwkTopem)(jwk);
+                    return pem_1.jwkTopem(jwk);
                 }
                 pemToJWK(pem) {
-                    return (0, pem_1.pemTojwk)(pem);
+                    return pem_1.pemTojwk(pem);
                 }
                 parseHashAlgorithm(algorithm) {
                     switch(algorithm){
@@ -3103,7 +3103,7 @@
             /**
  * @see {@link https://github.com/ArweaveTeam/arweave/blob/fbc381e0e36efffa45d13f2faa6199d3766edaa2/apps/arweave/src/ar_merkle.erl}
  */ const common_1 = __importDefault(__webpack_require__(9499)), utils_1 = __webpack_require__(5160);
-            exports.MAX_CHUNK_SIZE = 262144, exports.MIN_CHUNK_SIZE = 32768;
+            exports.MAX_CHUNK_SIZE = 256 * 1024, exports.MIN_CHUNK_SIZE = 32 * 1024;
             const NOTE_SIZE = 32, HASH_SIZE = 32;
             /**
  * Takes the input data and chunks it into (mostly) equal sized chunks.
@@ -3168,14 +3168,14 @@
             function resolveBranchProofs(node, proof = new Uint8Array(), depth = 0) {
                 if ("leaf" == node.type) return {
                     offset: node.maxByteRange - 1,
-                    proof: (0, utils_1.concatBuffers)([
+                    proof: utils_1.concatBuffers([
                         proof,
                         node.dataHash,
                         intToBuffer(node.maxByteRange)
                     ])
                 };
                 if ("branch" == node.type) {
-                    const partialProof = (0, utils_1.concatBuffers)([
+                    const partialProof = utils_1.concatBuffers([
                         proof,
                         node.leftChild.id,
                         node.rightChild.id,
@@ -3233,7 +3233,7 @@
                         await hash(pathData),
                         await hash(endOffsetBuffer)
                     ]);
-                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
+                    return !!exports.arrayCompare(id, pathDataHash) && {
                         offset: rightBound - 1,
                         leftBound: leftBound,
                         rightBound: rightBound,
@@ -3245,7 +3245,7 @@
                     await hash(right),
                     await hash(offsetBuffer)
                 ]);
-                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
+                return !!exports.arrayCompare(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
             }
             /**
  * Inspect an arweave chunk proof.
@@ -3325,7 +3325,7 @@
                 "data_size_too_big",
                 "chunk_proof_ratio_not_attractive",
                 "invalid_proof"
-            ], ERROR_DELAY = 40000;
+            ], ERROR_DELAY = 1000 * 40;
             class TransactionUploader {
                 constructor(api, transaction){
                     if (this.api = api, this.chunkIndex = 0, this.txPosted = !1, this.lastRequestTimeEnd = 0, this.totalErrors = 0, this.lastResponseStatus = 0, this.lastResponseError = "", !transaction.id) throw Error("Transaction is not signed");
@@ -3365,7 +3365,7 @@
                     }
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
-                    if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
+                    if (!await merkle_1.validatePath(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
                     // Catch network errors and turn them into objects with status -1 and an error message.
                     const resp = await this.api.post("chunk", this.transaction.getChunk(this.chunkIndex, this.data)).catch((e)=>(console.error(e.message), {
                             status: -1,
@@ -3374,7 +3374,7 @@
                             }
                         }));
                     if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, 200 == this.lastResponseStatus) this.chunkIndex++;
-                    else if (this.lastResponseError = (0, error_1.getError)(resp), FATAL_CHUNK_UPLOAD_ERRORS.includes(this.lastResponseError)) throw Error(`Fatal error uploading chunk ${this.chunkIndex}: ${this.lastResponseError}`);
+                    else if (this.lastResponseError = error_1.getError(resp), FATAL_CHUNK_UPLOAD_ERRORS.includes(this.lastResponseError)) throw Error(`Fatal error uploading chunk ${this.chunkIndex}: ${this.lastResponseError}`);
                 }
                 /**
      * Reconstructs an upload from its serialized state and data.
@@ -3438,11 +3438,11 @@
                             this.txPosted = !0, this.chunkIndex = MAX_CHUNKS_IN_BODY;
                             return;
                         }
-                        throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+                        throw this.lastResponseError = error_1.getError(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     }
                     // Post the transaction with no data.
                     const resp = await this.api.post("tx", this.transaction);
-                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = error_1.getError(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     this.txPosted = !0;
                 }
             }
@@ -3529,7 +3529,7 @@
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
-                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
+                    !this.chunks && data.byteLength > 0 && (this.chunks = await merkle_1.generateTransactionChunks(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
                         chunks: [],
                         data_root: new Uint8Array(),
                         proofs: []
@@ -3596,7 +3596,7 @@
                                         string: !1
                                     })
                                 ]);
-                            return await (0, deepHash_1.default)([
+                            return await deepHash_1.default([
                                 ArweaveUtils.stringToBuffer(this.format.toString()),
                                 this.get("owner", {
                                     decode: !0,
@@ -3916,7 +3916,7 @@
                     const response = await this.api.get(`tx/${id}`);
                     if (200 == response.status) {
                         const data_size = parseInt(response.data.data_size);
-                        if (response.data.format >= 2 && data_size > 0 && data_size <= 12582912) {
+                        if (response.data.format >= 2 && data_size > 0 && data_size <= 1024 * 1024 * 12) {
                             const data = await this.getData(id);
                             return new transaction_1.default(Object.assign(Object.assign({}, response.data), {
                                 data
@@ -4264,12 +4264,12 @@
                 async getTransactionOffset(id) {
                     const resp = await this.api.get(`tx/${id}/offset`);
                     if (200 === resp.status) return resp.data;
-                    throw Error(`Unable to get transaction offset: ${(0, error_1.getError)(resp)}`);
+                    throw Error(`Unable to get transaction offset: ${error_1.getError(resp)}`);
                 }
                 async getChunk(offset) {
                     const resp = await this.api.get(`chunk/${offset}`);
                     if (200 === resp.status) return resp.data;
-                    throw Error(`Unable to get chunk: ${(0, error_1.getError)(resp)}`);
+                    throw Error(`Unable to get chunk: ${error_1.getError(resp)}`);
                 }
                 async getChunkData(offset) {
                     const chunk = await this.getChunk(offset);
@@ -4464,7 +4464,7 @@
                     let instance = axios_1.default.create({
                         baseURL: `${this.config.protocol}://${this.config.host}:${this.config.port}`,
                         timeout: this.config.timeout,
-                        maxContentLength: 536870912,
+                        maxContentLength: 1024 * 1024 * 512,
                         headers
                     });
                     return this.config.logging && (instance.interceptors.request.use((request)=>(this.config.logger(`Requesting: ${request.baseURL}/${request.url}`), request)), instance.interceptors.response.use((response)=>(this.config.logger(`Response:   ${response.config.url} - ${response.status}`), response))), instance;
@@ -4697,7 +4697,7 @@
             /**
  * @see {@link https://github.com/ArweaveTeam/arweave/blob/fbc381e0e36efffa45d13f2faa6199d3766edaa2/apps/arweave/src/ar_merkle.erl}
  */ const common_1 = __webpack_require__(536), utils_1 = __webpack_require__(8244);
-            exports.MAX_CHUNK_SIZE = 262144, exports.MIN_CHUNK_SIZE = 32768;
+            exports.MAX_CHUNK_SIZE = 256 * 1024, exports.MIN_CHUNK_SIZE = 32 * 1024;
             const NOTE_SIZE = 32, HASH_SIZE = 32;
             /**
  * Takes the input data and chunks it into (mostly) equal sized chunks.
@@ -4762,14 +4762,14 @@
             function resolveBranchProofs(node, proof = new Uint8Array(), depth = 0) {
                 if ("leaf" == node.type) return {
                     offset: node.maxByteRange - 1,
-                    proof: (0, utils_1.concatBuffers)([
+                    proof: utils_1.concatBuffers([
                         proof,
                         node.dataHash,
                         intToBuffer(node.maxByteRange)
                     ])
                 };
                 if ("branch" == node.type) {
-                    const partialProof = (0, utils_1.concatBuffers)([
+                    const partialProof = utils_1.concatBuffers([
                         proof,
                         node.leftChild.id,
                         node.rightChild.id,
@@ -4827,7 +4827,7 @@
                         await hash(pathData),
                         await hash(endOffsetBuffer)
                     ]);
-                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
+                    return !!exports.arrayCompare(id, pathDataHash) && {
                         offset: rightBound - 1,
                         leftBound: leftBound,
                         rightBound: rightBound,
@@ -4839,7 +4839,7 @@
                     await hash(right),
                     await hash(offsetBuffer)
                 ]);
-                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
+                return !!exports.arrayCompare(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
             }
             /**
  * Inspect an arweave chunk proof.
@@ -4891,7 +4891,7 @@
                 "data_size_too_big",
                 "chunk_proof_ratio_not_attractive",
                 "invalid_proof"
-            ], ERROR_DELAY = 40000;
+            ], ERROR_DELAY = 1000 * 40;
             class TransactionUploader {
                 constructor(api, transaction){
                     if (this.api = api, this.chunkIndex = 0, this.txPosted = !1, this.lastRequestTimeEnd = 0, this.totalErrors = 0, this.lastResponseStatus = 0, this.lastResponseError = "", !transaction.id) throw Error("Transaction is not signed");
@@ -4931,7 +4931,7 @@
                     }
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
-                    if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
+                    if (!await merkle_1.validatePath(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
                     // Catch network errors and turn them into objects with status -1 and an error message.
                     const resp = await this.api.post("chunk", this.transaction.getChunk(this.chunkIndex, this.data)).catch((e)=>(console.error(e.message), {
                             status: -1,
@@ -4940,7 +4940,7 @@
                             }
                         }));
                     if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, 200 == this.lastResponseStatus) this.chunkIndex++;
-                    else if (this.lastResponseError = (0, error_1.getError)(resp), FATAL_CHUNK_UPLOAD_ERRORS.includes(this.lastResponseError)) throw Error(`Fatal error uploading chunk ${this.chunkIndex}: ${this.lastResponseError}`);
+                    else if (this.lastResponseError = error_1.getError(resp), FATAL_CHUNK_UPLOAD_ERRORS.includes(this.lastResponseError)) throw Error(`Fatal error uploading chunk ${this.chunkIndex}: ${this.lastResponseError}`);
                 }
                 /**
      * Reconstructs an upload from its serialized state and data.
@@ -5004,11 +5004,11 @@
                             this.txPosted = !0, this.chunkIndex = MAX_CHUNKS_IN_BODY;
                             return;
                         }
-                        throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+                        throw this.lastResponseError = error_1.getError(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     }
                     // Post the transaction with no data.
                     const resp = await this.api.post("tx", this.transaction);
-                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = error_1.getError(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     this.txPosted = !0;
                 }
             }
@@ -5067,7 +5067,7 @@
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
-                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
+                    !this.chunks && data.byteLength > 0 && (this.chunks = await merkle_1.generateTransactionChunks(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
                         chunks: [],
                         data_root: new Uint8Array(),
                         proofs: []
@@ -5134,7 +5134,7 @@
                                         string: !1
                                     })
                                 ]);
-                            return await (0, deepHash_1.default)([
+                            return await deepHash_1.default([
                                 ArweaveUtils.stringToBuffer(this.format.toString()),
                                 this.get("owner", {
                                     decode: !0,
@@ -5379,7 +5379,7 @@
                     const response = await this.api.get(`tx/${id}`);
                     if (200 == response.status) {
                         const data_size = parseInt(response.data.data_size);
-                        if (response.data.format >= 2 && data_size > 0 && data_size <= 12582912) {
+                        if (response.data.format >= 2 && data_size > 0 && data_size <= 1024 * 1024 * 12) {
                             const data = await this.getData(id);
                             return new transaction_1.default(Object.assign(Object.assign({}, response.data), {
                                 data
@@ -6244,12 +6244,12 @@
                 }
                 if ('numstr' === tag) {
                     const numstr = buffer.raw().toString('ascii');
-                    return this._isNumstr(numstr) ? numstr : buffer.error("Decoding of string type: numstr unsupported characters");
+                    return this._isNumstr(numstr) ? numstr : buffer.error('Decoding of string type: ' + 'numstr unsupported characters');
                 }
                 if ('octstr' === tag || 'objDesc' === tag) return buffer.raw();
                 if ('printstr' === tag) {
                     const printstr = buffer.raw().toString('ascii');
-                    return this._isPrintstr(printstr) ? printstr : buffer.error("Decoding of string type: printstr unsupported characters");
+                    return this._isPrintstr(printstr) ? printstr : buffer.error('Decoding of string type: ' + 'printstr unsupported characters');
                 }
                 return /str$/.test(tag) ? buffer.raw().toString() : buffer.error('Decoding of string type: ' + tag + ' unsupported');
             }, DERNode.prototype._decodeObjid = function(buffer, values, relative) {
@@ -6304,7 +6304,7 @@
                 let start = -1, end = -1;
                 for(let i = 0; i < lines.length; i++){
                     const match = lines[i].match(re);
-                    if (null !== match && match[2] === label) if (-1 === start) {
+                    if (null !== match && match[2] === label) if (start === -1) {
                         if ('BEGIN' !== match[1]) break;
                         start = i;
                     } else {
@@ -6313,7 +6313,7 @@
                         break;
                     }
                 }
-                if (-1 === start || -1 === end) throw Error('PEM section not found for: ' + label);
+                if (start === -1 || end === -1) throw Error('PEM section not found for: ' + label);
                 const base64 = lines.slice(start + 1, end).join('');
                 // Remove excessive symbols
                 base64.replace(/[^a-z0-9+/=]+/gi, '');
@@ -6361,7 +6361,7 @@
                 // Count octets required to store length
                 let lenOctets = 1;
                 for(let i = content.length; i >= 0x100; i >>= 8)lenOctets++;
-                const header = Buffer.alloc(2 + lenOctets);
+                const header = Buffer.alloc(1 + 1 + lenOctets);
                 header[0] = encodedTag, header[1] = 0x80 | lenOctets;
                 for(let i = 1 + lenOctets, j = content.length; j > 0; i--, j >>= 8)header[i] = 0xff & j;
                 return this._createEncoderBuffer([
@@ -6378,7 +6378,7 @@
                     for(let i = 0; i < str.length; i++)buf.writeUInt16BE(str.charCodeAt(i), 2 * i);
                     return this._createEncoderBuffer(buf);
                 }
-                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: numstr supports only digits and space") : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: printstr supports only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) ? this._createEncoderBuffer(str) : 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
+                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: numstr supports ' + 'only digits and space') : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: printstr supports ' + "only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) ? this._createEncoderBuffer(str) : 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
             }, DERNode.prototype._encodeObjid = function(id, values, relative) {
                 if ('string' == typeof id) {
                     if (!values) return this.reporter.error('string objid given, but no values map found');
@@ -6389,7 +6389,7 @@
                     id = id.slice();
                     for(let i = 0; i < id.length; i++)id[i] |= 0;
                 }
-                if (!Array.isArray(id)) return this.reporter.error("objid() should be either array or string, got: " + JSON.stringify(id));
+                if (!Array.isArray(id)) return this.reporter.error('objid() should be either array or string, ' + 'got: ' + JSON.stringify(id));
                 if (!relative) {
                     if (id[1] >= 40) return this.reporter.error('Second objid identifier OOB');
                     id.splice(0, 2, 40 * id[0] + id[1]);
@@ -6564,11 +6564,11 @@
                         request && (reject(!cancel || cancel && cancel.type ? new CanceledError() : cancel), request.abort(), request = null);
                     }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), requestData || (requestData = null);
                     var protocol = parseProtocol(fullPath);
-                    if (protocol && -1 === [
+                    if (protocol && [
                         'http',
                         'https',
                         'file'
-                    ].indexOf(protocol)) {
+                    ].indexOf(protocol) === -1) {
                         reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
                         return;
                     }
@@ -6660,7 +6660,7 @@
  */ CancelToken.prototype.unsubscribe = function(listener) {
                 if (this._listeners) {
                     var index = this._listeners.indexOf(listener);
-                    -1 !== index && this._listeners.splice(index, 1);
+                    index !== -1 && this._listeners.splice(index, 1);
                 }
             }, /**
  * Returns an object that contains a new `CancelToken` and a function that, when called,
@@ -7180,7 +7180,7 @@
                 }
                 if (serializedParams) {
                     var hashmarkIndex = url.indexOf('#');
-                    -1 !== hashmarkIndex && (url = url.slice(0, hashmarkIndex)), url += (-1 === url.indexOf('?') ? '?' : '&') + serializedParams;
+                    hashmarkIndex !== -1 && (url = url.slice(0, hashmarkIndex)), url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
                 }
                 return url;
             };
@@ -7403,7 +7403,7 @@
                 }
                 function build(data, parentKey) {
                     if (utils.isPlainObject(data) || utils.isArray(data)) {
-                        if (-1 !== stack.indexOf(data)) throw Error('Circular reference detected in ' + parentKey);
+                        if (stack.indexOf(data) !== -1) throw Error('Circular reference detected in ' + parentKey);
                         stack.push(data), utils.forEach(data, function(value, key) {
                             if (!utils.isUndefined(value)) {
                                 var arr, fullKey = parentKey ? parentKey + '.' + key : key;
@@ -7712,7 +7712,7 @@
  */ function endsWith(str, searchString, position) {
                 str = String(str), (void 0 === position || position > str.length) && (position = str.length), position -= searchString.length;
                 var lastIndex = str.indexOf(searchString, position);
-                return -1 !== lastIndex && lastIndex === position;
+                return lastIndex !== -1 && lastIndex === position;
             }
             /**
  * Returns new array from array like object
@@ -7781,7 +7781,7 @@
                 // Trim off extra bytes after placeholder bytes are found
                 // See: https://github.com/beatgammit/base64-js/issues/42
                 var validLen = b64.indexOf('=');
-                -1 === validLen && (validLen = len);
+                validLen === -1 && (validLen = len);
                 var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
                 return [
                     validLen,
@@ -7918,7 +7918,7 @@
                     TO_EXP_POS = 21, // RANGE : [MIN_EXP, MAX_EXP]
                     // The minimum exponent value, beneath which underflow to zero occurs.
                     // Number type: -324  (5e-324)
-                    MIN_EXP = -10000000, // The maximum exponent value, above which overflow to Infinity occurs.
+                    MIN_EXP = -1e7, // The maximum exponent value, above which overflow to Infinity occurs.
                     // Number type:  308  (1.7976931348623157e+308)
                     // For MAX_EXP > 1e7, e.g. new BigNumber('1e100000000').plus(1) may be slow.
                     MAX_EXP = 1e7, // Whether to use cryptographically-secure random number generation, if available.
@@ -8264,7 +8264,7 @@
                         if (!BigNumber.DEBUG) return !0;
                         var i, n, c = v.c, e = v.e, s = v.s;
                         out: if ('[object Array]' == ({}).toString.call(c)) {
-                            if ((1 === s || -1 === s) && e >= -MAX && e <= MAX && e === mathfloor(e)) {
+                            if ((1 === s || s === -1) && e >= -MAX && e <= MAX && e === mathfloor(e)) {
                                 // If the first element is zero, the BigNumber value must be zero.
                                 if (0 === c[0]) {
                                     if (0 === e && 1 === c.length) return !0;
@@ -8279,7 +8279,7 @@
                                     if (0 !== n) return !0;
                                 }
                             }
-                        } else if (null === c && null === e && (null === s || 1 === s || -1 === s)) return !0;
+                        } else if (null === c && null === e && (null === s || 1 === s || s === -1)) return !0;
                         throw Error(bignumberError + 'Invalid BigNumber: ' + v);
                     }, /*
      * Return a new BigNumber whose value is the maximum of the arguments.
@@ -8495,7 +8495,7 @@
                                         if (prodL < remL && (prod = [
                                             0
                                         ].concat(prod)), // Subtract product from remainder.
-                                        subtract(rem, prod, remL, base), remL = rem.length, -1 == cmp) // Compare divisor and new remainder.
+                                        subtract(rem, prod, remL, base), remL = rem.length, cmp == -1) // Compare divisor and new remainder.
                                         // If divisor < new remainder, subtract divisor from remainder.
                                         // Trial digit n too low.
                                         // n is 1 too low about 5% of the time, and very rarely 2 too low.
@@ -8696,7 +8696,7 @@
      * Return true if the value of this BigNumber is less than or equal to the value of
      * BigNumber(y, b), otherwise return false.
      */ P.isLessThanOrEqualTo = P.lte = function(y, b) {
-                        return -1 === (b = compare(this, new BigNumber(y, b))) || 0 === b;
+                        return (b = compare(this, new BigNumber(y, b))) === -1 || 0 === b;
                     }, /*
      * Return true if the value of this BigNumber is NaN, otherwise return false.
      */ P.isNaN = function() {
@@ -9153,7 +9153,7 @@
             }(0);
         /***/ },
         /***/ 3550: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            !function(module, exports) {
+            /* module decorator */ module = __webpack_require__.nmd(module), function(module, exports) {
                 'use strict';
                 // Utils
                 function assert(val, msg) {
@@ -9708,7 +9708,7 @@
                     for(var carry = 0, i = 0; i < len; i++)carry += 0 | ws[i], rws[2 * i] = 0x1fff & carry, carry >>>= 13, rws[2 * i + 1] = 0x1fff & carry, carry >>>= 13;
                     // Pad with zeroes
                     for(i = 2 * len; i < N; ++i)rws[i] = 0;
-                    assert(0 === carry), assert((-8192 & carry) == 0);
+                    assert(0 === carry), assert((carry & ~0x1fff) == 0);
                 }, FFTM.prototype.stub = function(N) {
                     for(var ph = Array(N), i = 0; i < N; i++)ph[i] = 0;
                     return ph;
@@ -9863,7 +9863,7 @@
                     for(; i < this.length - shift; i++)carry = (w = (0 | this.words[i + shift]) + carry) >> 26, this.words[i + shift] = 0x3ffffff & w;
                     if (0 === carry) return this.strip();
                     for(// Subtraction overflow
-                    assert(-1 === carry), carry = 0, i = 0; i < this.length; i++)carry = (w = -(0 | this.words[i]) + carry) >> 26, this.words[i] = 0x3ffffff & w;
+                    assert(carry === -1), carry = 0, i = 0; i < this.length; i++)carry = (w = -(0 | this.words[i]) + carry) >> 26, this.words[i] = 0x3ffffff & w;
                     return this.negative = 1, this.strip();
                 }, BN.prototype._wordDiv = function(num, mode) {
                     var q, shift = this.length - num.length, a = this.clone(), b = num, bhi = 0 | b.words[b.length - 1];
@@ -9936,7 +9936,7 @@
                     cmp < 0 || 1 === r2 && 0 === cmp ? dm.div : 0 !== dm.div.negative ? dm.div.isubn(1) : dm.div.iaddn(1));
                 }, BN.prototype.modn = function(num) {
                     assert(num <= 0x3ffffff);
-                    for(var p = 67108864 % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
+                    for(var p = (1 << 26) % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
                     return acc;
                 }, // In-place division by number
                 BN.prototype.idivn = function(num) {
@@ -10065,9 +10065,9 @@
                 }, BN.prototype.gte = function(num) {
                     return this.cmp(num) >= 0;
                 }, BN.prototype.ltn = function(num) {
-                    return -1 === this.cmpn(num);
+                    return this.cmpn(num) === -1;
                 }, BN.prototype.lt = function(num) {
-                    return -1 === this.cmp(num);
+                    return this.cmp(num) === -1;
                 }, BN.prototype.lten = function(num) {
                     return 0 >= this.cmpn(num);
                 }, BN.prototype.lte = function(num) {
@@ -10273,7 +10273,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(16);
+                    var windowSize = 4, wnd = Array(1 << 4);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -10316,7 +10316,7 @@
                 }, Mont.prototype.invm = function(a) {
                     return this.imod(a._invmp(this.m).mul(this.r2))._forceRed(this);
                 };
-            }(/* module decorator */ module = __webpack_require__.nmd(module), this);
+            }(!1 || module, this);
         /***/ },
         /***/ 9931: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var r;
@@ -10765,7 +10765,7 @@
             function from(value, encodingOrOffset, length) {
                 if ('string' == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayView(value);
-                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                if (null == value) throw TypeError('The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' + 'or Array-like Object. Received type ' + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || 'undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
                 if ('number' == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 const valueOf = value.valueOf && value.valueOf();
@@ -10773,7 +10773,7 @@
                 const b = fromObject(value);
                 if (b) return b;
                 if ('undefined' != typeof Symbol && null != Symbol.toPrimitive && 'function' == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]('string'), encodingOrOffset, length);
-                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                throw TypeError('The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' + 'or Array-like Object. Received type ' + typeof value);
             }
             function assertSize(size) {
                 if ('number' != typeof size) throw TypeError('"size" argument must be of type number');
@@ -10824,7 +10824,7 @@
             function checked(length) {
                 // Note: cannot use `length < K_MAX_LENGTH` here because that fails when
                 // length is NaN (which is otherwise coerced to zero.)
-                if (length >= K_MAX_LENGTH) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + ' bytes');
+                if (length >= K_MAX_LENGTH) throw RangeError('Attempt to allocate Buffer larger than maximum ' + 'size: 0x' + K_MAX_LENGTH.toString(16) + ' bytes');
                 return 0 | length;
             }
             function SlowBuffer(length) {
@@ -10833,7 +10833,7 @@
             function byteLength(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ('string' != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
+                if ('string' != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. ' + 'Received type ' + typeof string);
                 const len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 // Use a for loop to avoid recursion
@@ -10906,7 +10906,7 @@
             function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
-                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset *= 1 // Coerce to Number.
+                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -0x80000000 && (byteOffset = -0x80000000), numberIsNaN(byteOffset *= 1 // Coerce to Number.
                 ) && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
                 (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
@@ -10935,9 +10935,9 @@
                 }
                 if (dir) {
                     let foundIndex = -1;
-                    for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, -1 === foundIndex ? 0 : i - foundIndex)) {
-                        if (-1 === foundIndex && (foundIndex = i), i - foundIndex + 1 === valLength) return foundIndex * indexSize;
-                    } else -1 !== foundIndex && (i -= i - foundIndex), foundIndex = -1;
+                    for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+                        if (foundIndex === -1 && (foundIndex = i), i - foundIndex + 1 === valLength) return foundIndex * indexSize;
+                    } else foundIndex !== -1 && (i -= i - foundIndex), foundIndex = -1;
                 } else for(byteOffset + valLength > arrLength && (byteOffset = arrLength - valLength), i = byteOffset; i >= 0; i--){
                     let found = !0;
                     for(let j = 0; j < valLength; j++)if (read(arr, i + j) !== read(val, j)) {
@@ -11019,7 +11019,7 @@
  * using __proto__. Firefox 4-29 lacks support for adding new properties to `Uint8Array`
  * (See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438). IE 10 lacks support
  * for __proto__ and has a buggy typed array implementation.
- */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), Buffer.TYPED_ARRAY_SUPPORT || 'undefined' == typeof console || 'function' != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, 'parent', {
+ */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), Buffer.TYPED_ARRAY_SUPPORT || 'undefined' == typeof console || 'function' != typeof console.error || console.error('This browser lacks typed array (Uint8Array) support which is required by ' + '`buffer` v5.x. Use `buffer` v4.x if you require old browser support.'), Object.defineProperty(Buffer.prototype, 'parent', {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -11130,7 +11130,7 @@
                 const max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString('hex', 0, max).replace(/(.{2})/g, '$1 ').trim(), this.length > max && (str += ' ... '), '<Buffer ' + str + '>';
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. ' + 'Received type ' + typeof target);
                 if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw RangeError('out of range index');
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
@@ -11144,7 +11144,7 @@
                 }
                 return x < y ? -1 : +(y < x);
             }, Buffer.prototype.includes = function(val, byteOffset, encoding) {
-                return -1 !== this.indexOf(val, byteOffset, encoding);
+                return this.indexOf(val, byteOffset, encoding) !== -1;
             }, Buffer.prototype.indexOf = function(val, byteOffset, encoding) {
                 return bidirectionalIndexOf(this, val, byteOffset, encoding, !0);
             }, Buffer.prototype.lastIndexOf = function(val, byteOffset, encoding) {
@@ -11255,10 +11255,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             Buffer.prototype.slice = function(start, end) {
                 const len = this.length;
@@ -11387,15 +11387,15 @@
                 for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -0x80), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -0x8000), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -0x8000), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeBigInt64LE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64LE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'));
             }), Buffer.prototype.writeBigInt64BE = defineBigIntMethod(function(value, offset = 0) {
@@ -12560,28 +12560,28 @@
             }), defineCurve('p384', {
                 type: 'short',
                 prime: null,
-                p: "ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe ffffffff 00000000 00000000 ffffffff",
-                a: "ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe ffffffff 00000000 00000000 fffffffc",
-                b: "b3312fa7 e23ee7e4 988e056b e3f82d19 181d9c6e fe814112 0314088f 5013875a c656398d 8a2ed19d 2a85c8ed d3ec2aef",
-                n: "ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff c7634d81 f4372ddf 581a0db2 48b0a77a ecec196a ccc52973",
+                p: 'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ' + 'fffffffe ffffffff 00000000 00000000 ffffffff',
+                a: 'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ' + 'fffffffe ffffffff 00000000 00000000 fffffffc',
+                b: 'b3312fa7 e23ee7e4 988e056b e3f82d19 181d9c6e fe814112 0314088f ' + '5013875a c656398d 8a2ed19d 2a85c8ed d3ec2aef',
+                n: 'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff c7634d81 ' + 'f4372ddf 581a0db2 48b0a77a ecec196a ccc52973',
                 hash: hash.sha384,
                 gRed: !1,
                 g: [
-                    "aa87ca22 be8b0537 8eb1c71e f320ad74 6e1d3b62 8ba79b98 59f741e0 82542a38 5502f25d bf55296c 3a545e38 72760ab7",
-                    "3617de4a 96262c6f 5d9e98bf 9292dc29 f8f41dbd 289a147c e9da3113 b5f0b8c0 0a60b1ce 1d7e819d 7a431d7c 90ea0e5f"
+                    'aa87ca22 be8b0537 8eb1c71e f320ad74 6e1d3b62 8ba79b98 59f741e0 82542a38 ' + '5502f25d bf55296c 3a545e38 72760ab7',
+                    '3617de4a 96262c6f 5d9e98bf 9292dc29 f8f41dbd 289a147c e9da3113 b5f0b8c0 ' + '0a60b1ce 1d7e819d 7a431d7c 90ea0e5f'
                 ]
             }), defineCurve('p521', {
                 type: 'short',
                 prime: null,
-                p: "000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff",
-                a: "000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffc",
-                b: "00000051 953eb961 8e1c9a1f 929a21a0 b68540ee a2da725b 99b315f3 b8b48991 8ef109e1 56193951 ec7e937b 1652c0bd 3bb1bf07 3573df88 3d2c34f1 ef451fd4 6b503f00",
-                n: "000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffa 51868783 bf2f966b 7fcc0148 f709a5d0 3bb5c9b8 899c47ae bb6fb71e 91386409",
+                p: '000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ' + "ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff",
+                a: '000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ' + "ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffc",
+                b: '00000051 953eb961 8e1c9a1f 929a21a0 b68540ee a2da725b ' + "99b315f3 b8b48991 8ef109e1 56193951 ec7e937b 1652c0bd 3bb1bf07 3573df88 3d2c34f1 ef451fd4 6b503f00",
+                n: '000001ff ffffffff ffffffff ffffffff ffffffff ffffffff ' + "ffffffff ffffffff fffffffa 51868783 bf2f966b 7fcc0148 f709a5d0 3bb5c9b8 899c47ae bb6fb71e 91386409",
                 hash: hash.sha512,
                 gRed: !1,
                 g: [
-                    "000000c6 858e06b7 0404e9cd 9e3ecb66 2395b442 9c648139 053fb521 f828af60 6b4d3dba a14b5e77 efe75928 fe1dc127 a2ffa8de 3348b3c1 856a429b f97e7e31 c2e5bd66",
-                    "00000118 39296a78 9a3bc004 5c8a5fb4 2c7d1bd9 98f54449 579b4468 17afbd17 273e662c 97ee7299 5ef42640 c550b901 3fad0761 353c7086 a272c240 88be9476 9fd16650"
+                    '000000c6 858e06b7 0404e9cd 9e3ecb66 2395b442 9c648139 ' + "053fb521 f828af60 6b4d3dba a14b5e77 efe75928 fe1dc127 a2ffa8de 3348b3c1 856a429b f97e7e31 c2e5bd66",
+                    '00000118 39296a78 9a3bc004 5c8a5fb4 2c7d1bd9 98f54449 ' + "579b4468 17afbd17 273e662c 97ee7299 5ef42640 c550b901 3fad0761 353c7086 a272c240 88be9476 9fd16650"
                 ]
             }), defineCurve('curve25519', {
                 type: 'mont',
@@ -12920,7 +12920,7 @@
                 var enc = point.getY().toArray('le', this.encodingLength);
                 return enc[this.encodingLength - 1] |= 0x80 * !!point.getX().isOdd(), enc;
             }, EDDSA.prototype.decodePoint = function(bytes) {
-                var lastIx = (bytes = utils.parseBytes(bytes)).length - 1, normed = bytes.slice(0, lastIx).concat(-129 & bytes[lastIx]), xIsOdd = (0x80 & bytes[lastIx]) != 0, y = utils.intFromLE(normed);
+                var lastIx = (bytes = utils.parseBytes(bytes)).length - 1, normed = bytes.slice(0, lastIx).concat(bytes[lastIx] & ~0x80), xIsOdd = (0x80 & bytes[lastIx]) != 0, y = utils.intFromLE(normed);
                 return this.curve.pointFromY(y, xIsOdd);
             }, EDDSA.prototype.encodeInt = function(num) {
                 return num.toArray('le', this.encodingLength);
@@ -14055,7 +14055,7 @@
         /***/ },
         /***/ 3346: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             !function(global, factory) {
-                module.exports = factory();
+                0 || (module.exports = factory());
             }(0, function() {
                 'use strict';
                 var toStringFunction = Function.prototype.toString, create = Object.create, defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getPrototypeOf$1 = Object.getPrototypeOf, _a = Object.prototype, hasOwnProperty = _a.hasOwnProperty, propertyIsEnumerable = _a.propertyIsEnumerable, SYMBOL_PROPERTIES = 'function' == typeof getOwnPropertySymbols, WEAK_MAP = 'function' == typeof WeakMap, createCache = function() {
@@ -16113,7 +16113,7 @@
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 0.00000005960464477539062 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
+                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539063 - 0.000000000000000000000006617444900424222 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
                 for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
@@ -16254,7 +16254,7 @@
                 root.JS_SHA256_NO_WINDOW && (WINDOW = !1);
                 var WEB_WORKER = !WINDOW && 'object' == typeof self, NODE_JS = !root.JS_SHA256_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node;
                 NODE_JS ? root = __webpack_require__.g : WEB_WORKER && (root = self);
-                var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
+                var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && module.exports, AMD = !0 && __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
                     -2147483648,
                     8388608,
                     32768,
@@ -16512,7 +16512,7 @@
                 root.JS_SHA512_NO_WINDOW && (WINDOW = !1);
                 var WEB_WORKER = !WINDOW && 'object' == typeof self;
                 !root.JS_SHA512_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node ? root = __webpack_require__.g : WEB_WORKER && (root = self);
-                var COMMON_JS = !root.JS_SHA512_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA512_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
+                var COMMON_JS = !root.JS_SHA512_NO_COMMON_JS && module.exports, AMD = !0 && __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA512_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
                     -2147483648,
                     8388608,
                     32768,
@@ -17858,7 +17858,7 @@
         /***/ },
         /***/ 4626: /***/ function(module, exports, __webpack_require__) {
             /* module decorator */ module = __webpack_require__.nmd(module);
-            var root = __webpack_require__(5639), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
+            var root = __webpack_require__(5639), freeExports = !0 && exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
             /**
  * Creates a clone of  `buffer`.
  *
@@ -18497,7 +18497,7 @@
         /***/ },
         /***/ 1167: /***/ function(module, exports, __webpack_require__) {
             /* module decorator */ module = __webpack_require__.nmd(module);
-            var freeGlobal = __webpack_require__(1957), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+            var freeGlobal = __webpack_require__(1957), freeExports = !0 && exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
                 try {
                     // Use `util.types` for Node.js 10+.
                     var types = freeModule && freeModule.require && freeModule.require('util').types;
@@ -18740,7 +18740,7 @@
         /***/ },
         /***/ 4144: /***/ function(module, exports, __webpack_require__) {
             /* module decorator */ module = __webpack_require__.nmd(module);
-            var root = __webpack_require__(5639), stubFalse = __webpack_require__(5062), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, isBuffer = (Buffer ? Buffer.isBuffer : void 0) || stubFalse;
+            var root = __webpack_require__(5639), stubFalse = __webpack_require__(5062), freeExports = !0 && exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, isBuffer = (Buffer ? Buffer.isBuffer : void 0) || stubFalse;
             module.exports = isBuffer;
         /***/ },
         /***/ 3560: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -19134,7 +19134,7 @@
                     this[kTree] = tree, this.nextTick(callback);
                 }
                 _clear(options, callback) {
-                    if (-1 === options.limit && !Object.keys(options).some(isRangeOption)) return(// Delete everything by creating a new empty tree.
+                    if (options.limit === -1 && !Object.keys(options).some(isRangeOption)) return(// Delete everything by creating a new empty tree.
                     this[kTree] = createRBT(compare), this.nextTick(callback));
                     const iterator = this._keys({
                         ...options
@@ -19377,7 +19377,7 @@
                             return (void 0 === r || r > e.length) && (r = e.length), e.substring(r - t.length, r) === t;
                         }
                         function includes(e, t, r) {
-                            return "number" != typeof r && (r = 0), !(r + t.length > e.length) && -1 !== e.indexOf(t, r);
+                            return "number" != typeof r && (r = 0), !(r + t.length > e.length) && e.indexOf(t, r) !== -1;
                         }
                         createErrorType("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
@@ -19662,7 +19662,7 @@
                             function ondata(t) {
                                 u("ondata");
                                 var i = e.write(t);
-                                u("dest.write", i), !1 === i && ((1 === n.pipesCount && n.pipes === e || n.pipesCount > 1 && -1 !== indexOf(n.pipes, e)) && !f && (u("false write response, pause", n.awaitDrain), n.awaitDrain++), r.pause());
+                                u("dest.write", i), !1 === i && ((1 === n.pipesCount && n.pipes === e || n.pipesCount > 1 && indexOf(n.pipes, e) !== -1) && !f && (u("false write response, pause", n.awaitDrain), n.awaitDrain++), r.pause());
                             }
                             function onerror(t) {
                                 u("onerror", t), unpipe(), e.removeListener("error", onerror), 0 === a(e, "error") && R(e, t);
@@ -19692,7 +19692,7 @@
                                 return this;
                             }
                             var o = indexOf(t.pipes, e);
-                            return -1 === o || (t.pipes.splice(o, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
+                            return o === -1 || (t.pipes.splice(o, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
                         }, Readable.prototype.on = function(e, t) {
                             var r = o.prototype.on.call(this, e, t), n = this._readableState;
                             return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" !== e || n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this)), r;
@@ -19955,7 +19955,7 @@
                                 Object.defineProperty(WritableState.prototype, "buffer", {
                                     get: i.deprecate(function() {
                                         return this.getBuffer();
-                                    }, "_writableState.buffer is deprecated. Use _writableState.getBuffer instead.", "DEP0003")
+                                    }, "_writableState.buffer is deprecated. Use _writableState.getBuffer " + "instead.", "DEP0003")
                                 });
                             } catch (e) {}
                         }(), "function" == typeof Symbol && Symbol.hasInstance && "function" == typeof Function.prototype[Symbol.hasInstance] ? (m = Function.prototype[Symbol.hasInstance], Object.defineProperty(Writable, Symbol.hasInstance, {
@@ -20509,7 +20509,7 @@
                                     if (!(isFinite(a) && Math.floor(a) === a) || a < 0) throw new n(i ? r : "highWaterMark", a);
                                     return Math.floor(a);
                                 }
-                                return e.objectMode ? 16 : 16384;
+                                return e.objectMode ? 16 : 16 * 1024;
                             }
                         };
                     },
@@ -20644,7 +20644,7 @@
                             var n = t.length - 1;
                             if (n < r) return 0;
                             var i = utf8CheckByte(t[n]);
-                            return i >= 0 ? (i > 0 && (e.lastNeed = i - 1), i) : --n < r || -2 === i ? 0 : (i = utf8CheckByte(t[n])) >= 0 ? (i > 0 && (e.lastNeed = i - 2), i) : --n < r || -2 === i ? 0 : (i = utf8CheckByte(t[n])) >= 0 ? (i > 0 && (2 === i ? i = 0 : e.lastNeed = i - 3), i) : 0;
+                            return i >= 0 ? (i > 0 && (e.lastNeed = i - 1), i) : --n < r || i === -2 ? 0 : (i = utf8CheckByte(t[n])) >= 0 ? (i > 0 && (e.lastNeed = i - 2), i) : --n < r || i === -2 ? 0 : (i = utf8CheckByte(t[n])) >= 0 ? (i > 0 && (2 === i ? i = 0 : e.lastNeed = i - 3), i) : 0;
                         }
                         function utf8CheckExtraBytes(e, t, r) {
                             if ((192 & t[0]) != 128) return e.lastNeed = 0, "�";
@@ -20852,7 +20852,7 @@
                             });
                             var c = Object_keys(r), i = n.call(r, this.code);
                             return forEach(Object_keys(r), function(t) {
-                                (t in e || -1 === indexOf(c, t)) && (e[t] = r[t]);
+                                (t in e || indexOf(c, t) === -1) && (e[t] = r[t]);
                             }), forEach(globals, function(t) {
                                 t in e || defineProp(e, t, r[t]);
                             }), document.body.removeChild(t), i;
@@ -22301,7 +22301,7 @@
                         case 'object':
                             {
                                 if (null === value) return 'null';
-                                if (-1 !== stack.indexOf(value)) return circularValue;
+                                if (stack.indexOf(value) !== -1) return circularValue;
                                 let res = '', join = ',';
                                 const originalIndentation = indentation;
                                 if (Array.isArray(value)) {
@@ -22354,7 +22354,7 @@
                         case 'object':
                             {
                                 if (null === value) return 'null';
-                                if (-1 !== stack.indexOf(value)) return circularValue;
+                                if (stack.indexOf(value) !== -1) return circularValue;
                                 const originalIndentation = indentation;
                                 let res = '', join = ',';
                                 if (Array.isArray(value)) {
@@ -22405,7 +22405,7 @@
                                     if ('object' != typeof (value = value.toJSON(key))) return stringifyIndent(key, value, stack, spacer, indentation);
                                     if (null === value) return 'null';
                                 }
-                                if (-1 !== stack.indexOf(value)) return circularValue;
+                                if (stack.indexOf(value) !== -1) return circularValue;
                                 const originalIndentation = indentation;
                                 if (Array.isArray(value)) {
                                     if (0 === value.length) return '[]';
@@ -22463,7 +22463,7 @@
                                     if ('object' != typeof (value = value.toJSON(key))) return stringifySimple(key, value, stack);
                                     if (null === value) return 'null';
                                 }
-                                if (-1 !== stack.indexOf(value)) return circularValue;
+                                if (stack.indexOf(value) !== -1) return circularValue;
                                 let res = '';
                                 if (Array.isArray(value)) {
                                     if (0 === value.length) return '[]';
@@ -22533,7 +22533,7 @@
                 return Buffer(value, encodingOrOffset, length);
             }), Safer.alloc || (Safer.alloc = function(size, fill, encoding) {
                 if ('number' != typeof size) throw TypeError('The "size" argument must be of type number. Received type ' + typeof size);
-                if (size < 0 || size >= 2 * 1073741824) throw RangeError('The value "' + size + '" is invalid for option "size"');
+                if (size < 0 || size >= 2 * (1 << 30)) throw RangeError('The value "' + size + '" is invalid for option "size"');
                 var buf = Buffer(size);
                 return fill && 0 !== fill.length ? 'string' == typeof encoding ? buf.fill(fill, encoding) : buf.fill(fill) : buf.fill(0), buf;
             }), !safer.kStringMaxLength) try {
@@ -22647,7 +22647,7 @@
                 var j = buf.length - 1;
                 if (j < i) return 0;
                 var nb = utf8CheckByte(buf[j]);
-                return nb >= 0 ? (nb > 0 && (self1.lastNeed = nb - 1), nb) : --j < i || -2 === nb ? 0 : (nb = utf8CheckByte(buf[j])) >= 0 ? (nb > 0 && (self1.lastNeed = nb - 2), nb) : --j < i || -2 === nb ? 0 : (nb = utf8CheckByte(buf[j])) >= 0 ? (nb > 0 && (2 === nb ? nb = 0 : self1.lastNeed = nb - 3), nb) : 0;
+                return nb >= 0 ? (nb > 0 && (self1.lastNeed = nb - 1), nb) : --j < i || nb === -2 ? 0 : (nb = utf8CheckByte(buf[j])) >= 0 ? (nb > 0 && (self1.lastNeed = nb - 2), nb) : --j < i || nb === -2 ? 0 : (nb = utf8CheckByte(buf[j])) >= 0 ? (nb > 0 && (2 === nb ? nb = 0 : self1.lastNeed = nb - 3), nb) : 0;
             }
             // Validates as many continuation bytes for a multi-byte UTF-8 character as
             // needed or are available. If we see a non-continuation byte where we expect
@@ -22850,7 +22850,7 @@
                         pos = p8 + len << 3, off += len;
                         continue;
                     }
-                    if (noBuf && (buf = _check(buf, off + 131072)), 1 == BTYPE && (lmap = U.flmap, dmap = U.fdmap, ML = 511, MD = 31), 2 == BTYPE) {
+                    if (noBuf && (buf = _check(buf, off + (1 << 17))), 1 == BTYPE && (lmap = U.flmap, dmap = U.fdmap, ML = (1 << 9) - 1, MD = (1 << 5) - 1), 2 == BTYPE) {
                         HLIT = bitsE(data, pos, 5) + 257, HDIST = bitsE(data, pos + 5, 5) + 1, HCLEN = bitsE(data, pos + 10, 4) + 4, pos += 14;
                         for(var i = 0; i < 38; i += 2)U.itree[i] = 0, U.itree[i + 1] = 0;
                         for(var tl = 1, i = 0; i < HCLEN; i++){
@@ -22882,7 +22882,7 @@
                             var dcode = dmap[get17(data, pos) & MD];
                             pos += 15 & dcode;
                             var dlit = dcode >>> 4, dbs = U.ddef[dlit], dst = (dbs >>> 4) + bitsF(data, pos, 15 & dbs);
-                            for(pos += 15 & dbs, noBuf && (buf = _check(buf, off + 131072)); off < end;)buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst];
+                            for(pos += 15 & dbs, noBuf && (buf = _check(buf, off + (1 << 17))); off < end;)buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst];
                             off = end;
                         //while(off!=end) {  buf[off]=buf[off++-dst];  }
                         }
@@ -23127,17 +23127,17 @@ function _get9(dt, pos) {
                     imap: new u16(512),
                     itree: [],
                     //rev9 : new u16(  512)
-                    rev15: new u16(32768),
+                    rev15: new u16(1 << 15),
                     lhst: new u32(286),
                     dhst: new u32(30),
                     ihst: new u32(19),
                     lits: new u32(15000),
-                    strt: new u16(65536),
-                    prev: new u16(32768)
+                    strt: new u16(1 << 16),
+                    prev: new u16(1 << 15)
                 };
             }();
             !function() {
-                for(var len = 32768, i = 0; i < len; i++){
+                for(var len = 1 << 15, i = 0; i < len; i++){
                     var x = i;
                     x = (0xff00ff00 & (x = (0xf0f0f0f0 & (x = (0xcccccccc & (x = (0xaaaaaaaa & x) >>> 1 | (0x55555555 & x) << 1)) >>> 2 | (0x33333333 & x) << 2)) >>> 4 | (0x0f0f0f0f & x) << 4)) >>> 8 | (0x00ff00ff & x) << 8, U.rev15[i] = (x >>> 16 | x << 16) >>> 17;
                 }
@@ -23145,7 +23145,7 @@ function _get9(dt, pos) {
                     for(; 0 != n--;)tgt.push(0, sv);
                 }
                 for(var i = 0; i < 32; i++)U.ldef[i] = U.of0[i] << 3 | U.exb[i], U.ddef[i] = U.df0[i] << 4 | U.dxb[i];
-                pushV(U.fltree, 144, 8), pushV(U.fltree, 112, 9), pushV(U.fltree, 24, 7), pushV(U.fltree, 8, 8), /*
+                pushV(U.fltree, 144, 8), pushV(U.fltree, 255 - 143, 9), pushV(U.fltree, 279 - 255, 7), pushV(U.fltree, 287 - 279, 8), /*
 	var i = 0;
 	for(; i<=143; i++) U.fltree.push(0,8);
 	for(; i<=255; i++) U.fltree.push(0,9);
@@ -24586,7 +24586,7 @@ class Zip {
                     return vrf && tags.push({
                         name: SmartWeaveTags_1.SmartWeaveTags.REQUEST_VRF,
                         value: 'true'
-                    }), await (0, create_interaction_tx_1.createInteractionTx)(this.warp.arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, bundle, reward);
+                    }), await create_interaction_tx_1.createInteractionTx(this.warp.arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, bundle, reward);
                 }
                 txId() {
                     return this._contractTxId;
@@ -24608,7 +24608,7 @@ class Zip {
                 async waitForConfirmation(transactionId) {
                     const { arweave } = this.warp, status = await arweave.transactions.getStatus(transactionId);
                     if (null !== status.confirmed) return this.logger.info(`Transaction ${transactionId} confirmed`, status), status;
-                    this.logger.info(`Transaction ${transactionId} not yet confirmed. Waiting another 20 seconds before next check.`), await (0, utils_1.sleep)(20000), await this.waitForConfirmation(transactionId);
+                    this.logger.info(`Transaction ${transactionId} not yet confirmed. Waiting another 20 seconds before next check.`), await utils_1.sleep(20000), await this.waitForConfirmation(transactionId);
                 }
                 async createExecutionContext(contractTxId, upToSortKey, forceDefinitionLoad = !1, interactions) {
                     var _a;
@@ -24678,7 +24678,7 @@ class Zip {
                         caller: executionContext.caller
                     };
                     this.logger.debug('interaction', interaction);
-                    const tx = await (0, create_interaction_tx_1.createInteractionTx)(arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, !0), dummyTx = (0, create_interaction_tx_1.createDummyTx)(tx, executionContext.caller, currentBlockData);
+                    const tx = await create_interaction_tx_1.createInteractionTx(arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, !0), dummyTx = create_interaction_tx_1.createDummyTx(tx, executionContext.caller, currentBlockData);
                     this.logger.debug('Creating sortKey for', {
                         blockId: dummyTx.block.id,
                         id: dummyTx.id,
@@ -24735,7 +24735,7 @@ class Zip {
                     return this._benchmarkStats;
                 }
                 stateHash(state) {
-                    const jsonState = (0, safe_stable_stringify_1.default)(state), hash = crypto1.createHash('sha256');
+                    const jsonState = safe_stable_stringify_1.default(state), hash = crypto1.createHash('sha256');
                     return hash.update(jsonState), hash.digest('hex');
                 }
                 async syncState(externalUrl, params) {
@@ -24969,7 +24969,7 @@ class Zip {
                         if (data.push(zippedSourceCode), 'rust' == wasmLang) {
                             if (!wasmGlueCode) throw Error('No path to generated wasm-bindgen js code');
                             const wasmBindgenSrc = fs_1.default.readFileSync(wasmGlueCode, 'utf-8');
-                            metadata.dtor = parseInt((0, wasm_bindgen_tools_1.matchMutClosureDtor)(wasmBindgenSrc)), data.push(Buffer.from(wasmBindgenSrc));
+                            metadata.dtor = parseInt(wasm_bindgen_tools_1.matchMutClosureDtor(wasmBindgenSrc)), data.push(Buffer.from(wasmBindgenSrc));
                         }
                     }
                     const allData = 'wasm' == contractType ? this.joinBuffers(data) : src;
@@ -24999,8 +24999,8 @@ class Zip {
                 }
                 async zipContents(source) {
                     const archiver = __webpack_require__(1445), outputStreamBuffer = new (__webpack_require__(4034)).WritableStreamBuffer({
-                        initialSize: 1024000,
-                        incrementAmount: 1024000 // grow by 1000 kilobytes each time buffer overflows.
+                        initialSize: 1000 * 1024,
+                        incrementAmount: 1000 * 1024 // grow by 1000 kilobytes each time buffer overflows.
                     }), archive = archiver('zip', {
                         zlib: {
                             level: 9
@@ -25037,7 +25037,7 @@ class Zip {
                 }
                 async migrateSqlite(sqlitePath) {
                     this.logger.info(`Migrating from sqlite ${sqlitePath} to leveldb.`);
-                    const knexDb = (0, knex_1.default)({
+                    const knexDb = knex_1.default({
                         client: 'sqlite3',
                         connection: {
                             filename: sqlitePath
@@ -25496,7 +25496,7 @@ class Zip {
                 async getNextPage(variables) {
                     const benchmark = Benchmark_1.Benchmark.measure();
                     let response = await this.arweaveWrapper.gql(ArweaveGatewayInteractionsLoader.query, variables);
-                    for(this.logger.debug('GQL page load:', benchmark.elapsed()); 403 === response.status;)this.logger.warn(`GQL rate limiting, waiting ${ArweaveGatewayInteractionsLoader._30seconds}ms before next try.`), await (0, utils_1.sleep)(ArweaveGatewayInteractionsLoader._30seconds), response = await this.arweaveWrapper.gql(ArweaveGatewayInteractionsLoader.query, variables);
+                    for(this.logger.debug('GQL page load:', benchmark.elapsed()); 403 === response.status;)this.logger.warn(`GQL rate limiting, waiting ${ArweaveGatewayInteractionsLoader._30seconds}ms before next try.`), await utils_1.sleep(ArweaveGatewayInteractionsLoader._30seconds), response = await this.arweaveWrapper.gql(ArweaveGatewayInteractionsLoader.query, variables);
                     if (200 !== response.status) throw Error(`Unable to retrieve transactions. Arweave gateway responded with status ${response.status}.`);
                     if (response.data.errors) throw this.logger.error(response.data.errors), Error('Error while loading interaction transactions');
                     return response.data.data.transactions;
@@ -25535,7 +25535,7 @@ class Zip {
         cursor
       }
     }
-  }`, ArweaveGatewayInteractionsLoader._30seconds = 30000;
+  }`, ArweaveGatewayInteractionsLoader._30seconds = 30 * 1000;
         //# sourceMappingURL=ArweaveGatewayInteractionsLoader.js.map
         /***/ },
         /***/ 7346: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -25605,7 +25605,7 @@ class Zip {
                     if (!contractTxId) throw Error('Contract tx id not set in the execution context');
                     for (const entry of currentTx || [])if (entry.contractTxId === executionContext.contractDefinition.txId) {
                         const index = missingInteractions.findIndex((tx)=>tx.id === entry.interactionTxId);
-                        -1 !== index && (this.cLogger.debug('Inf. Loop fix - removing interaction', {
+                        index !== -1 && (this.cLogger.debug('Inf. Loop fix - removing interaction', {
                             height: missingInteractions[index].block.height,
                             contractTxId: entry.contractTxId,
                             interactionTxId: entry.interactionTxId,
@@ -25627,7 +25627,7 @@ class Zip {
                 }
                 async onStateEvaluated(transaction, executionContext, state) {
                     const contractTxId = executionContext.contractDefinition.txId;
-                    this.cLogger.debug(`${(0, utils_1.indent)(executionContext.contract.callDepth())}onStateEvaluated: cache update for contract ${contractTxId} [${transaction.sortKey}]`), // this will be problematic if we decide to cache only "onStateEvaluated" and containsInteractionsFromSequencer = true
+                    this.cLogger.debug(`${utils_1.indent(executionContext.contract.callDepth())}onStateEvaluated: cache update for contract ${contractTxId} [${transaction.sortKey}]`), // this will be problematic if we decide to cache only "onStateEvaluated" and containsInteractionsFromSequencer = true
                     // as a workaround, we're now caching every 100 interactions
                     await this.putInCache(contractTxId, transaction, state);
                 }
@@ -25720,7 +25720,7 @@ class Zip {
                 async doLoad(contractTxId, forcedSrcTxId) {
                     const benchmark = Benchmark_1.Benchmark.measure(), contractTx = await this.arweaveWrapper.tx(contractTxId), owner = await this.arweave.wallets.ownerToAddress(contractTx.owner);
                     this.logger.debug('Contract tx and owner', benchmark.elapsed()), benchmark.reset();
-                    const contractSrcTxId = forcedSrcTxId || (0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.CONTRACT_SRC_TX_ID), minFee = (0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.MIN_FEE);
+                    const contractSrcTxId = forcedSrcTxId || utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.CONTRACT_SRC_TX_ID), minFee = utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.MIN_FEE);
                     this.logger.debug('Tags decoding', benchmark.elapsed()), benchmark.reset();
                     const s = await this.evalInitialState(contractTx);
                     this.logger.debug('init state', s);
@@ -25744,12 +25744,12 @@ class Zip {
                 }
                 async loadContractSource(contractSrcTxId) {
                     let srcWasmLang, wasmSrc, srcMetaData;
-                    const benchmark = Benchmark_1.Benchmark.measure(), contractSrcTx = await this.arweaveWrapper.tx(contractSrcTxId), srcContentType = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE);
+                    const benchmark = Benchmark_1.Benchmark.measure(), contractSrcTx = await this.arweaveWrapper.tx(contractSrcTxId), srcContentType = utils_1.getTag(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE);
                     if (!supportedSrcContentTypes.includes(srcContentType)) throw Error(`Contract source content type ${srcContentType} not supported`);
                     const contractType = 'application/javascript' == srcContentType ? 'js' : 'wasm', src = 'js' == contractType ? await this.arweaveWrapper.txDataString(contractSrcTxId) : await this.arweaveWrapper.txData(contractSrcTxId);
                     if ('wasm' == contractType) {
-                        if (wasmSrc = new WasmSrc_1.WasmSrc(src), !(srcWasmLang = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_LANG))) throw Error(`Wasm lang not set for wasm contract src ${contractSrcTxId}`);
-                        srcMetaData = JSON.parse((0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
+                        if (wasmSrc = new WasmSrc_1.WasmSrc(src), !(srcWasmLang = utils_1.getTag(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_LANG))) throw Error(`Wasm lang not set for wasm contract src ${contractSrcTxId}`);
+                        srcMetaData = JSON.parse(utils_1.getTag(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
                     }
                     return this.logger.debug('Contract src tx load', benchmark.elapsed()), benchmark.reset(), {
                         src: 'js' == contractType ? src : null,
@@ -25761,10 +25761,10 @@ class Zip {
                     };
                 }
                 async evalInitialState(contractTx) {
-                    if ((0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE)) return (0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE);
-                    if (!(0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE_TX)) return this.arweaveWrapper.txDataString(contractTx.id);
+                    if (utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE)) return utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE);
+                    if (!utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE_TX)) return this.arweaveWrapper.txDataString(contractTx.id);
                     {
-                        const stateTX = (0, utils_1.getTag)(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE_TX);
+                        const stateTX = utils_1.getTag(contractTx, SmartWeaveTags_1.SmartWeaveTags.INIT_STATE_TX);
                         return this.arweaveWrapper.txDataString(stateTX);
                     }
                 }
@@ -25806,7 +25806,7 @@ class Zip {
                     const validity = baseState.validity, errorMessages = baseState.errorMessages;
                     null == executionContext || executionContext.handler.initState(currentState);
                     const depth = executionContext.contract.callDepth();
-                    this.logger.info(`${(0, utils_1.indent)(depth)}Evaluating state for ${contractDefinition.txId} [${missingInteractions.length} non-cached of ${sortedInteractions.length} all]`);
+                    this.logger.info(`${utils_1.indent(depth)}Evaluating state for ${contractDefinition.txId} [${missingInteractions.length} non-cached of ${sortedInteractions.length} all]`);
                     let errorMessage = null, lastConfirmedTxState = null;
                     const missingInteractionsLength = missingInteractions.length;
                     executionContext.handler.initState(currentState);
@@ -25814,16 +25814,16 @@ class Zip {
                         const missingInteraction = missingInteractions[i], singleInteractionBenchmark = Benchmark_1.Benchmark.measure();
                         if (currentSortKey = missingInteraction.sortKey, missingInteraction.vrf && !this.verifyVrf(missingInteraction.vrf, missingInteraction.sortKey, this.arweave)) throw Error('Vrf verification failed.');
                         // other contract makes write ("writing contract") on THIS contract
-                        if (this.logger.debug(`${(0, utils_1.indent)(depth)}[${contractDefinition.txId}][${missingInteraction.id}][${missingInteraction.block.height}]: ${missingInteractions.indexOf(missingInteraction) + 1}/${missingInteractions.length} [of all:${sortedInteractions.length}]`), this.tagsParser.isInteractWrite(missingInteraction, contractDefinition.txId) && internalWrites) {
+                        if (this.logger.debug(`${utils_1.indent(depth)}[${contractDefinition.txId}][${missingInteraction.id}][${missingInteraction.block.height}]: ${missingInteractions.indexOf(missingInteraction) + 1}/${missingInteractions.length} [of all:${sortedInteractions.length}]`), this.tagsParser.isInteractWrite(missingInteraction, contractDefinition.txId) && internalWrites) {
                             // evaluating txId of the contract that is writing on THIS contract
                             const writingContractTxId = this.tagsParser.getContractTag(missingInteraction);
-                            this.logger.debug(`${(0, utils_1.indent)(depth)}Internal Write - Loading writing contract`, writingContractTxId);
+                            this.logger.debug(`${utils_1.indent(depth)}Internal Write - Loading writing contract`, writingContractTxId);
                             const interactionCall = contract.getCallStack().addInteractionData({
                                 interaction: null,
                                 interactionTx: missingInteraction,
                                 currentTx
                             }), writingContract = executionContext.warp.contract(writingContractTxId, executionContext.contract, missingInteraction);
-                            await this.onContractCall(missingInteraction, executionContext, new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages)), this.logger.debug(`${(0, utils_1.indent)(depth)}Reading state of the calling contract at`, missingInteraction.sortKey), /**
+                            await this.onContractCall(missingInteraction, executionContext, new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages)), this.logger.debug(`${utils_1.indent(depth)}Reading state of the calling contract at`, missingInteraction.sortKey), /**
                  Reading the state of the writing contract.
                  This in turn will cause the state of THIS contract to be
                  updated in cache - see {@link ContractHandlerApi.assignWrite}
@@ -25840,7 +25840,7 @@ class Zip {
                                 currentState = newState.cachedValue.state, // we need to update the state in the wasm module
                                 null == executionContext || executionContext.handler.initState(currentState), validity[missingInteraction.id] = newState.cachedValue.validity[missingInteraction.id], (null === (_a = newState.cachedValue.errorMessages) || void 0 === _a ? void 0 : _a[missingInteraction.id]) && (errorMessages[missingInteraction.id] = newState.cachedValue.errorMessages[missingInteraction.id]);
                                 const toCache = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
-                                await this.onStateUpdate(missingInteraction, executionContext, toCache), (0, StateCache_1.canBeCached)(missingInteraction) && (lastConfirmedTxState = {
+                                await this.onStateUpdate(missingInteraction, executionContext, toCache), StateCache_1.canBeCached(missingInteraction) && (lastConfirmedTxState = {
                                     tx: missingInteraction,
                                     state: toCache
                                 });
@@ -25857,12 +25857,12 @@ class Zip {
                             // "direct" interaction with this contract - "standard" processing
                             const inputTag = this.tagsParser.getInputTag(missingInteraction, executionContext.contractDefinition.txId);
                             if (!inputTag) {
-                                this.logger.error(`${(0, utils_1.indent)(depth)}Skipping tx - Input tag not found for ${missingInteraction.id}`);
+                                this.logger.error(`${utils_1.indent(depth)}Skipping tx - Input tag not found for ${missingInteraction.id}`);
                                 continue;
                             }
                             const input = this.parseInput(inputTag);
                             if (!input) {
-                                this.logger.error(`${(0, utils_1.indent)(depth)}Skipping tx - invalid Input tag - ${missingInteraction.id}`);
+                                this.logger.error(`${utils_1.indent(depth)}Skipping tx - invalid Input tag - ${missingInteraction.id}`);
                                 continue;
                             }
                             const interaction = {
@@ -25873,9 +25873,9 @@ class Zip {
                                 interactionTx: missingInteraction,
                                 currentTx
                             };
-                            this.logger.debug(`${(0, utils_1.indent)(depth)}Interaction:`, interaction);
+                            this.logger.debug(`${utils_1.indent(depth)}Interaction:`, interaction);
                             const interactionCall = contract.getCallStack().addInteractionData(interactionData), result = await executionContext.handler.handle(executionContext, new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages), interactionData);
-                            if (errorMessage = result.errorMessage, 'ok' !== result.type && (errorMessages[missingInteraction.id] = errorMessage), this.logResult(result, missingInteraction, executionContext), this.logger.debug(`${(0, utils_1.indent)(depth)}Interaction evaluation`, singleInteractionBenchmark.elapsed()), interactionCall.update({
+                            if (errorMessage = result.errorMessage, 'ok' !== result.type && (errorMessages[missingInteraction.id] = errorMessage), this.logResult(result, missingInteraction, executionContext), this.logger.debug(`${utils_1.indent(depth)}Interaction evaluation`, singleInteractionBenchmark.elapsed()), interactionCall.update({
                                 cacheHit: !1,
                                 outputState: stackTrace.saveState ? currentState : void 0,
                                 executionTime: singleInteractionBenchmark.elapsed(!0),
@@ -25885,7 +25885,7 @@ class Zip {
                             }), 'exception' === result.type && !0 !== ignoreExceptions) throw Error(`Exception while processing ${JSON.stringify(interaction)}:\n${result.errorMessage}`);
                             validity[missingInteraction.id] = 'ok' === result.type, currentState = result.state;
                             const toCache = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
-                            (0, StateCache_1.canBeCached)(missingInteraction) && (lastConfirmedTxState = {
+                            StateCache_1.canBeCached(missingInteraction) && (lastConfirmedTxState = {
                                 tx: missingInteraction,
                                 state: toCache
                             }), await this.onStateUpdate(missingInteraction, executionContext, toCache);
@@ -25900,7 +25900,7 @@ class Zip {
                     const keys = EC.keyFromPublic(vrf.pubkey, 'hex');
                     try {
                         // ProofHoHash throws its own 'invalid vrf' exception
-                        hash = (0, vrf_js_1.ProofHoHash)(keys.getPublic(), arweave.utils.stringToBuffer(sortKey), arweave.utils.b64UrlToBuffer(vrf.proof));
+                        hash = vrf_js_1.ProofHoHash(keys.getPublic(), arweave.utils.stringToBuffer(sortKey), arweave.utils.b64UrlToBuffer(vrf.proof));
                     } catch (e) {
                         return !1;
                     }
@@ -25984,7 +25984,7 @@ class Zip {
                                     const wasmInstanceExports = {
                                         exports: null
                                     };
-                                    wasmInstance = await loader_1.default.instantiateStreaming(wasmResponse, (0, as_wasm_imports_1.asWasmImports)(swGlobal, wasmInstanceExports)), // note: well, exports are required by some imports
+                                    wasmInstance = await loader_1.default.instantiateStreaming(wasmResponse, as_wasm_imports_1.asWasmImports(swGlobal, wasmInstanceExports)), // note: well, exports are required by some imports
                                     // - e.g. those that use wasmModule.exports.__newString underneath (like Block.indep_hash)
                                     wasmInstanceExports.exports = wasmInstance.exports;
                                     break;
@@ -25997,7 +25997,7 @@ class Zip {
                                             wasm_bindgen__convert__closures__invoke2_mut__: null,
                                             _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__: null
                                         }
-                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), wbindgenImports = WebAssembly.Module.imports(wasmModule).filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports, exports } = (0, rust_wasm_imports_1.rustWasmImports)(swGlobal, wbindgenImports, wasmInstanceExports, contractDefinition.metadata.dtor);
+                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), wbindgenImports = WebAssembly.Module.imports(wasmModule).filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports, exports } = rust_wasm_imports_1.rustWasmImports(swGlobal, wbindgenImports, wasmInstanceExports, contractDefinition.metadata.dtor);
                                     jsExports = exports, wasmInstanceExports.exports = (wasmInstance = await WebAssembly.instantiate(wasmModule, imports)).exports, // ... no comments ...
                                     Object.keys(wasmInstance.exports).forEach((moduleExport)=>{
                                         moduleExport.startsWith('wasm_bindgen__convert__closures__invoke2_mut__') && (wasmInstanceExports.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = wasmInstance.exports[moduleExport]), moduleExport.startsWith('_dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__') && (wasmInstanceExports.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = wasmInstance.exports[moduleExport]);
@@ -26024,7 +26024,7 @@ class Zip {
                     }
                     {
                         this.logger.info('Creating handler for js contract', contractDefinition.txId);
-                        const normalizedSource = (0, normalize_source_1.normalizeContractSource)(contractDefinition.src, evaluationOptions.useVM2);
+                        const normalizedSource = normalize_source_1.normalizeContractSource(contractDefinition.src, evaluationOptions.useVM2);
                         if (!evaluationOptions.allowUnsafeClient && normalizedSource.includes('SmartWeave.unsafeClient')) throw Error('Using unsafeClient is not allowed by default. Use EvaluationOptions.allowUnsafeClient flag.');
                         if (!evaluationOptions.allowBigInt && normalizedSource.includes('BigInt')) throw Error('Using BigInt is not allowed by default. Use EvaluationOptions.allowBigInt flag.');
                         if (evaluationOptions.useVM2) {
@@ -26092,7 +26092,7 @@ class Zip {
                     const blockHashBytes = this.arweave.utils.b64UrlToBuffer(blockId), txIdBytes = this.arweave.utils.b64UrlToBuffer(transactionId), concatenated = this.arweave.utils.concatBuffers([
                         blockHashBytes,
                         txIdBytes
-                    ]), hashed = (0, utils_1.arrayToHex)(await this.arweave.crypto.hash(concatenated)), blockHeightString = `${blockHeight}`.padStart(12, '0'), arweaveMs = dummy ? lastSortKeyMs : defaultArweaveMs;
+                    ]), hashed = utils_1.arrayToHex(await this.arweave.crypto.hash(concatenated)), blockHeightString = `${blockHeight}`.padStart(12, '0'), arweaveMs = dummy ? lastSortKeyMs : defaultArweaveMs;
                     return `${blockHeightString},${arweaveMs},${hashed}`;
                 }
                 extractBlockHeight(sortKey) {
@@ -26210,7 +26210,7 @@ class Zip {
  * in {@link ContractDefinitionLoader} - i.e. loads the definition from Arweave gateway.
  */ class WarpGatewayContractDefinitionLoader {
                 constructor(baseUrl, arweave, cache){
-                    this.baseUrl = baseUrl, this.cache = cache, this.rLogger = LoggerFactory_1.LoggerFactory.INST.create('WarpGatewayContractDefinitionLoader'), this.baseUrl = (0, utils_2.stripTrailingSlash)(baseUrl), this.contractDefinitionLoader = new ContractDefinitionLoader_1.ContractDefinitionLoader(arweave, cache), this.arweaveWrapper = new ArweaveWrapper_1.ArweaveWrapper(arweave);
+                    this.baseUrl = baseUrl, this.cache = cache, this.rLogger = LoggerFactory_1.LoggerFactory.INST.create('WarpGatewayContractDefinitionLoader'), this.baseUrl = utils_2.stripTrailingSlash(baseUrl), this.contractDefinitionLoader = new ContractDefinitionLoader_1.ContractDefinitionLoader(arweave, cache), this.arweaveWrapper = new ArweaveWrapper_1.ArweaveWrapper(arweave);
                 }
                 async load(contractTxId, evolvedSrcTxId) {
                     var _a, _b, _c;
@@ -26229,7 +26229,7 @@ class Zip {
                             const wasmSrc = new WasmSrc_1.WasmSrc(result.srcBinary);
                             result.srcBinary = wasmSrc.wasmBinary(), sourceTx = result.srcTx ? new transaction_1.default({
                                 ...result.srcTx
-                            }) : await this.arweaveWrapper.tx(result.srcTxId), result.metadata = JSON.parse((0, utils_1.getTag)(sourceTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
+                            }) : await this.arweaveWrapper.tx(result.srcTxId), result.metadata = JSON.parse(utils_1.getTag(sourceTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
                         }
                         return result.contractType = result.src ? 'js' : 'wasm', result;
                     } catch (e) {
@@ -26276,7 +26276,7 @@ class Zip {
  * - read more {@link https://github.com/warp-contracts/redstone-sw-gateway#corrupted-transactions}.
  */ class WarpGatewayInteractionsLoader {
                 constructor(baseUrl, confirmationStatus = null, source = null){
-                    this.baseUrl = baseUrl, this.confirmationStatus = confirmationStatus, this.source = source, this.logger = LoggerFactory_1.LoggerFactory.INST.create('WarpGatewayInteractionsLoader'), this.baseUrl = (0, utils_1.stripTrailingSlash)(baseUrl), Object.assign(this, confirmationStatus), this.source = source;
+                    this.baseUrl = baseUrl, this.confirmationStatus = confirmationStatus, this.source = source, this.logger = LoggerFactory_1.LoggerFactory.INST.create('WarpGatewayInteractionsLoader'), this.baseUrl = utils_1.stripTrailingSlash(baseUrl), Object.assign(this, confirmationStatus), this.source = source;
                 }
                 async load(contractId, fromSortKey, toSortKey, evaluationOptions) {
                     this.logger.debug('Loading interactions: for ', {
@@ -26404,7 +26404,7 @@ class Zip {
                         // (by simply using destructuring operator)...
                         // but this (i.e. returning always stateWithValidity from here) would break backwards compatibility
                         // in current contract's source code..:/
-                        return returnValidity ? (0, utils_1.deepCopy)(stateWithValidity) : (0, utils_1.deepCopy)(stateWithValidity.cachedValue.state);
+                        return returnValidity ? utils_1.deepCopy(stateWithValidity) : utils_1.deepCopy(stateWithValidity.cachedValue.state);
                     };
                 }
                 assignRefreshState(executionContext) {
@@ -26429,9 +26429,9 @@ class Zip {
                     super(swGlobal, contractDefinition), this.contractFunction = contractFunction;
                 }
                 async handle(executionContext, currentResult, interactionData) {
-                    const { timeoutId, timeoutPromise } = (0, utils_1.timeout)(executionContext.evaluationOptions.maxInteractionEvaluationTimeSeconds);
+                    const { timeoutId, timeoutPromise } = utils_1.timeout(executionContext.evaluationOptions.maxInteractionEvaluationTimeSeconds);
                     try {
-                        const { interaction, interactionTx, currentTx } = interactionData, stateCopy = (0, utils_1.deepCopy)(currentResult.state, executionContext.evaluationOptions.useFastCopy);
+                        const { interaction, interactionTx, currentTx } = interactionData, stateCopy = utils_1.deepCopy(currentResult.state, executionContext.evaluationOptions.useFastCopy);
                         this.swGlobal._activeTx = interactionTx, this.swGlobal.caller = interaction.caller, this.assignReadContractState(executionContext, currentTx, currentResult, interactionTx), this.assignViewContractState(executionContext), this.assignWrite(executionContext, currentTx), this.assignRefreshState(executionContext);
                         const handlerResult = await Promise.race([
                             timeoutPromise,
@@ -26532,7 +26532,7 @@ class Zip {
                     switch(this.contractDefinition.srcWasmLang){
                         case 'assemblyscript':
                             {
-                                const statePtr = this.wasmExports.__newString((0, safe_stable_stringify_1.default)(state));
+                                const statePtr = this.wasmExports.__newString(safe_stable_stringify_1.default(state));
                                 this.wasmExports.initState(statePtr);
                                 break;
                             }
@@ -26540,7 +26540,7 @@ class Zip {
                             this.wasmExports.initState(state);
                             break;
                         case 'go':
-                            this.wasmExports.initState((0, safe_stable_stringify_1.default)(state));
+                            this.wasmExports.initState(safe_stable_stringify_1.default(state));
                             break;
                         default:
                             throw Error(`Support for ${this.contractDefinition.srcWasmLang} not implemented yet.`);
@@ -26550,7 +26550,7 @@ class Zip {
                     switch(this.contractDefinition.srcWasmLang){
                         case 'assemblyscript':
                             {
-                                const actionPtr = this.wasmExports.__newString((0, safe_stable_stringify_1.default)(action.input)), resultPtr = this.wasmExports.handle(actionPtr);
+                                const actionPtr = this.wasmExports.__newString(safe_stable_stringify_1.default(action.input)), resultPtr = this.wasmExports.handle(actionPtr);
                                 return JSON.parse(this.wasmExports.__getString(resultPtr));
                             }
                         case 'rust':
@@ -26567,7 +26567,7 @@ class Zip {
                                 }
                             }
                         case 'go':
-                            return JSON.parse(await this.wasmExports.handle((0, safe_stable_stringify_1.default)(action.input)));
+                            return JSON.parse(await this.wasmExports.handle(safe_stable_stringify_1.default(action.input)));
                         default:
                             throw Error(`Support for ${this.contractDefinition.srcWasmLang} not implemented yet.`);
                     }
@@ -26632,7 +26632,7 @@ class Zip {
                     return this.splitted[0];
                 }
                 async sourceCode() {
-                    const { entries } = await (0, unzipit_1.unzip)(this.splitted[1]), result = new Map();
+                    const { entries } = await unzipit_1.unzip(this.splitted[1]), result = new Map();
                     for (const [name, entry] of Object.entries(entries)){
                         if (entry.isDirectory) continue;
                         const content = await entry.text();
@@ -27871,7 +27871,7 @@ class Zip {
                     this.shouldLog('fatal') && console.error(this.message('fatal', message), optionalParams);
                 }
                 shouldLog(logLevel) {
-                    return (0, LoggerSettings_1.lvlToOrder)(logLevel) >= (0, LoggerSettings_1.lvlToOrder)(this.settings.minLevel);
+                    return LoggerSettings_1.lvlToOrder(logLevel) >= LoggerSettings_1.lvlToOrder(this.settings.minLevel);
                 }
                 setSettings(settings) {
                     this.settings = settings;
@@ -28154,7 +28154,7 @@ class Zip {
                 value: !0
             }), exports.indent = exports.stripTrailingSlash = exports.timeout = exports.descS = exports.desc = exports.ascS = exports.asc = exports.mapReviver = exports.mapReplacer = exports.deepCopy = exports.sleep = void 0;
             /* eslint-disable */ const cloneDeep_1 = __importDefault(__webpack_require__(361)), fast_copy_1 = __importDefault(__webpack_require__(3346));
-            exports.sleep = (ms)=>new Promise((resolve)=>setTimeout(resolve, ms)), exports.deepCopy = (input, useFastCopy = !1)=>useFastCopy ? (0, fast_copy_1.default)(input) : (0, cloneDeep_1.default)(input), exports.mapReplacer = (key, value)=>value instanceof Map ? {
+            exports.sleep = (ms)=>new Promise((resolve)=>setTimeout(resolve, ms)), exports.deepCopy = (input, useFastCopy = !1)=>useFastCopy ? fast_copy_1.default(input) : cloneDeep_1.default(input), exports.mapReplacer = (key, value)=>value instanceof Map ? {
                     dataType: 'Map',
                     value: Array.from(value.entries())
                 } : value, exports.mapReviver = (key, value)=>'object' == typeof value && null !== value && 'Map' === value.dataType ? new Map(value.value) : value, exports.asc = (a, b)=>a - b, exports.ascS = (a, b)=>+a - +b, exports.desc = (a, b)=>b - a, exports.descS = (a, b)=>+b - +a, exports.timeout = function(s) {
@@ -28207,7 +28207,7 @@ class Zip {
                     value: !0
                 }), exports.default = void 0, exports.demangle = demangle, exports.instantiate = instantiate, exports.instantiateStreaming = instantiateStreaming, exports.instantiateSync = instantiateSync;
                 // Runtime header offsets
-                const ID_OFFSET = -8, SIZE_OFFSET = -4, ARRAYBUFFER_ID = 0, STRING_ID = 1, ARRAYBUFFERVIEW = 1, ARRAY = 2, STATICARRAY = 4, VAL_ALIGN_OFFSET = 6, VAL_SIGNED = 2048, VAL_FLOAT = 4096, VAL_MANAGED = 16384, ARRAYBUFFERVIEW_BUFFER_OFFSET = 0, ARRAYBUFFERVIEW_DATASTART_OFFSET = 4, ARRAYBUFFERVIEW_BYTELENGTH_OFFSET = 8, ARRAYBUFFERVIEW_SIZE = 12, ARRAY_LENGTH_OFFSET = 12, ARRAY_SIZE = 16, E_NO_EXPORT_TABLE = "Operation requires compiling with --exportTable", E_NO_EXPORT_RUNTIME = "Operation requires compiling with --exportRuntime", F_NO_EXPORT_RUNTIME = ()=>{
+                const ID_OFFSET = -8, SIZE_OFFSET = -4, ARRAYBUFFER_ID = 0, STRING_ID = 1, ARRAYBUFFERVIEW = 1 << 0, ARRAY = 1 << 1, STATICARRAY = 1 << 2, VAL_ALIGN_OFFSET = 6, VAL_SIGNED = 1 << 11, VAL_FLOAT = 1 << 12, VAL_MANAGED = 1 << 14, ARRAYBUFFERVIEW_BUFFER_OFFSET = 0, ARRAYBUFFERVIEW_DATASTART_OFFSET = 4, ARRAYBUFFERVIEW_BYTELENGTH_OFFSET = 8, ARRAYBUFFERVIEW_SIZE = 12, ARRAY_LENGTH_OFFSET = 12, ARRAY_SIZE = 16, E_NO_EXPORT_TABLE = "Operation requires compiling with --exportTable", E_NO_EXPORT_RUNTIME = "Operation requires compiling with --exportRuntime", F_NO_EXPORT_RUNTIME = ()=>{
                     throw Error(E_NO_EXPORT_RUNTIME);
                 }, BIGINT = "undefined" != typeof BigUint64Array, THIS = Symbol(), STRING_SMALLSIZE = 192, STRING_CHUNKSIZE = 1024, utf16 = new TextDecoder("utf-16le", {
                     fatal: !0

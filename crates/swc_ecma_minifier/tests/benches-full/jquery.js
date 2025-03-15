@@ -253,7 +253,7 @@
         indexOf = function(list, elem) {
             for(var i = 0, len = list.length; i < len; i++)if (list[i] === elem) return i;
             return -1;
-        }, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", // Regular expressions
+        }, booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|" + "ismap|loop|multiple|open|readonly|required|scoped", // Regular expressions
         // http://www.w3.org/TR/css3-selectors/#whitespace
         whitespace = "[\\x20\\t\\r\\n\\f]", // https://www.w3.org/TR/css-syntax-3/#ident-token-diagram
         identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace + "?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+", // Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
@@ -594,7 +594,7 @@
                 // Old Firefox doesn't throw on a badly-escaped identifier.
                 el.querySelectorAll("\\\f"), rbuggyQSA.push("[\\r\\n\\f]");
             }), assert(function(el) {
-                el.innerHTML = "<a href='' disabled='disabled'></a><select disabled='disabled'><option/></select>";
+                el.innerHTML = "<a href='' disabled='disabled'></a>" + "<select disabled='disabled'><option/></select>";
                 // Support: Windows 8 Native Apps
                 // The type and name attributes are restricted during .innerHTML assignment
                 var input = document.createElement("input");
@@ -789,9 +789,9 @@
                 },
                 CLASS: function(className) {
                     var pattern = classCache[className + " "];
-                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)"), classCache(className, function(elem) {
+                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")) && classCache(className, function(elem) {
                         return pattern.test("string" == typeof elem.className && elem.className || void 0 !== elem.getAttribute && elem.getAttribute("class") || "");
-                    }));
+                    });
                 },
                 ATTR: function(name, operator, check) {
                     return function(elem) {
@@ -2760,7 +2760,7 @@
         function computeStyleTests() {
             // This is a singleton, we need to execute it only once
             if (div) {
-                container.style.cssText = "position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0", div.style.cssText = "position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%", documentElement.appendChild(container).appendChild(div);
+                container.style.cssText = "position:absolute;left:-11111px;width:60px;" + "margin-top:1px;padding:0;border:0", div.style.cssText = "position:relative;display:block;box-sizing:border-box;overflow:scroll;" + "margin:auto;border:1px;padding:1px;width:60%;top:1%", documentElement.appendChild(container).appendChild(div);
                 var divStyle = window1.getComputedStyle(div);
                 pixelPositionVal = "1%" !== divStyle.top, // Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
                 reliableMarginLeftVal = 12 === roundPixelMeasures(divStyle.marginLeft), // Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
@@ -4198,7 +4198,7 @@
     }), // Install script dataType
     jQuery.ajaxSetup({
         accepts: {
-            script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+            script: "text/javascript, application/javascript, " + "application/ecmascript, application/x-ecmascript"
         },
         contents: {
             script: /\b(?:java|ecma)script\b/
@@ -4454,7 +4454,7 @@
         hover: function(fnOver, fnOut) {
             return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
         }
-    }), jQuery.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "), function(_i, name) {
+    }), jQuery.each(("blur focus focusin focusout resize scroll click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu").split(" "), function(_i, name) {
         // Handle event binding
         jQuery.fn[name] = function(data, fn) {
             return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);

@@ -14,20 +14,20 @@
             });
             // EXTERNAL MODULE: ./node_modules/next/dist/compiled/react/jsx-runtime.js
             var jsx_runtime = __webpack_require__(7437), react = __webpack_require__(2265);
-            const Context = /*#__PURE__*/ (0, react.createContext)({}), ContextProvider = (param)=>{
+            const Context = /*#__PURE__*/ react.createContext({}), ContextProvider = (param)=>{
                 let { children } = param;
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)(Context.Provider, {
+                return /*#__PURE__*/ jsx_runtime.jsx(Context.Provider, {
                     value: {},
                     children: children
                 });
             }, ClientCompoenent = ()=>{
-                const [count, setCount] = (0, react.useState)(0);
-                return /*#__PURE__*/ (0, jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+                const [count, setCount] = react.useState(0);
+                return /*#__PURE__*/ jsx_runtime.jsxs(jsx_runtime.Fragment, {
                     children: [
-                        /*#__PURE__*/ (0, jsx_runtime.jsx)(ContextProvider, {
-                            children: /*#__PURE__*/ (0, jsx_runtime.jsx)("input", {})
+                        /*#__PURE__*/ jsx_runtime.jsx(ContextProvider, {
+                            children: /*#__PURE__*/ jsx_runtime.jsx("input", {})
                         }),
-                        /*#__PURE__*/ (0, jsx_runtime.jsx)("button", {
+                        /*#__PURE__*/ jsx_runtime.jsx("button", {
                             onClick: ()=>{
                                 console.log("click"), setCount(count + 1);
                             },

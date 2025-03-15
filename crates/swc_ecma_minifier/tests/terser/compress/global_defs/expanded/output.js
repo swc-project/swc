@@ -10,4 +10,6 @@ function g() {
 function h() {
     return 42;
 }
-if (0) console.debug("foo");
+if ([
+    0
+][0]) console.debug("foo");

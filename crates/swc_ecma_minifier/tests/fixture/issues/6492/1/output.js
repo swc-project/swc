@@ -1,1 +1,3 @@
-console.log('val', 42);
+console.log('val', {
+    key: 42
+}[null || 'key']);

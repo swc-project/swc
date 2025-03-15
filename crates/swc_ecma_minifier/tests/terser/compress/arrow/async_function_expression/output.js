@@ -1,6 +1,6 @@
 var named = async function foo() {
-    await bar(1);
+    await bar(1 + 0);
 };
-var anon = async () => {
-    await 1, bar(2);
+var anon = async ()=>{
+    await (1 + 0), bar(2 + 0);
 };

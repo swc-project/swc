@@ -80,9 +80,9 @@
             });
             /* harmony default export */ __webpack_exports__.default = function(param) {
                 var Component = param.Component, pageProps = param.pageProps;
-                return (0, react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function() {
+                return react__WEBPACK_IMPORTED_MODULE_2__.useEffect(function() {
                     initBranch();
-                }, []), /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(Component, function(target) {
+                }, []), /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx(Component, function(target) {
                     for(var i = 1; i < arguments.length; i++){
                         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -125,7 +125,7 @@
                             var r = e.length;
                             if (r % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
                             var t = e.indexOf("=");
-                            -1 === t && (t = r);
+                            t === -1 && (t = r);
                             var f = t === r ? 0 : 4 - t % 4;
                             return [
                                 t,
@@ -161,7 +161,7 @@
                                 return n !== t && (f = f.slice(0, n)), f;
                             }(e, r);
                             if (ArrayBuffer.isView(e)) return fromArrayLike(e);
-                            if (null == e) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
+                            if (null == e) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, " + "or Array-like Object. Received type " + typeof e);
                             if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return function(e, r, t) {
                                 var f;
                                 if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
@@ -180,7 +180,7 @@
                             }(e);
                             if (n) return n;
                             if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
-                            throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
+                            throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, " + "or Array-like Object. Received type " + typeof e);
                         }
                         function assertSize(e) {
                             if ("number" != typeof e) throw TypeError('"size" argument must be of type number');
@@ -194,13 +194,13 @@
                             return t;
                         }
                         function checked(e) {
-                            if (e >= 2147483647) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x7fffffff bytes");
+                            if (e >= 2147483647) throw RangeError("Attempt to allocate Buffer larger than maximum " + "size: 0x7fffffff bytes");
                             return 0 | e;
                         }
                         function byteLength(e, r) {
                             if (Buffer.isBuffer(e)) return e.length;
                             if (ArrayBuffer.isView(e) || isInstance(e, ArrayBuffer)) return e.byteLength;
-                            if ("string" != typeof e) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof e);
+                            if ("string" != typeof e) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. ' + "Received type " + typeof e);
                             var t = e.length, f = arguments.length > 2 && !0 === arguments[2];
                             if (!f && 0 === t) return 0;
                             for(var n = !1;;)switch(r){
@@ -300,9 +300,9 @@
                             }
                             if (n) {
                                 var s = -1;
-                                for(a = t; a < o; a++)if (read(e, a) === read(r, -1 === s ? 0 : a - s)) {
-                                    if (-1 === s && (s = a), a - s + 1 === u) return s * i;
-                                } else -1 !== s && (a -= a - s), s = -1;
+                                for(a = t; a < o; a++)if (read(e, a) === read(r, s === -1 ? 0 : a - s)) {
+                                    if (s === -1 && (s = a), a - s + 1 === u) return s * i;
+                                } else s !== -1 && (a -= a - s), s = -1;
                             } else for(t + u > o && (t = o - u), a = t; a >= 0; a--){
                                 for(var h = !0, c = 0; c < u; c++)if (read(e, a + c) !== read(r, c)) {
                                     h = !1;
@@ -351,10 +351,10 @@
                             if (t + f > e.length || t < 0) throw RangeError("Index out of range");
                         }
                         function writeFloat(e, r, t, f, i) {
-                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n.write(e, r, t, f, 23, 4), t + 4;
+                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -34028234663852886e22), n.write(e, r, t, f, 23, 4), t + 4;
                         }
                         function writeDouble(e, r, t, f, i) {
-                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), n.write(e, r, t, f, 52, 8), t + 8;
+                            return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 8, 17976931348623157e292, -17976931348623157e292), n.write(e, r, t, f, 52, 8), t + 8;
                         }
                         r.Buffer = Buffer, r.SlowBuffer = function(e) {
                             return +e != e && (e = 0), Buffer.alloc(+e);
@@ -369,7 +369,7 @@
                             } catch (e) {
                                 return !1;
                             }
-                        }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+                        }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by " + "`buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                             enumerable: !0,
                             get: function() {
                                 if (Buffer.isBuffer(this)) return this.buffer;
@@ -450,7 +450,7 @@
                             var e = "", t = r.INSPECT_MAX_BYTES;
                             return e = this.toString("hex", 0, t).replace(/(.{2})/g, "$1 ").trim(), this.length > t && (e += " ... "), "<Buffer " + e + ">";
                         }, i && (Buffer.prototype[i] = Buffer.prototype.inspect), Buffer.prototype.compare = function(e, r, t, f, n) {
-                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof e);
+                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. ' + "Received type " + typeof e);
                             if (void 0 === r && (r = 0), void 0 === t && (t = e ? e.length : 0), void 0 === f && (f = 0), void 0 === n && (n = this.length), r < 0 || t > e.length || f < 0 || n > this.length) throw RangeError("out of range index");
                             if (f >= n && r >= t) return 0;
                             if (f >= n) return -1;
@@ -462,7 +462,7 @@
                             }
                             return i < o ? -1 : +(o < i);
                         }, Buffer.prototype.includes = function(e, r, t) {
-                            return -1 !== this.indexOf(e, r, t);
+                            return this.indexOf(e, r, t) !== -1;
                         }, Buffer.prototype.indexOf = function(e, r, t) {
                             return bidirectionalIndexOf(this, e, r, t, !0);
                         }, Buffer.prototype.lastIndexOf = function(e, r, t) {
@@ -731,7 +731,7 @@
                             }
                             return (p ? -1 : 1) * o * Math.pow(2, i - f);
                         }, r.write = function(e, r, t, f, n, i) {
-                            var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 0.00000005960464477539062 * (23 === n), p = f ? 0 : i - 1, y = f ? 1 : -1, g = +(r < 0 || 0 === r && 1 / r < 0);
+                            var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 23 === n ? 0.00000005960464477539063 - 0.000000000000000000000006617444900424222 : 0, p = f ? 0 : i - 1, y = f ? 1 : -1, g = +(r < 0 || 0 === r && 1 / r < 0);
                             for(isNaN(r = Math.abs(r)) || r === 1 / 0 ? (u = +!!isNaN(r), o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
                             for(o = o << n | u, s += n; s > 0; e[t + p] = 255 & o, p += y, o /= 256, s -= 8);
                             e[t + p - y] |= 128 * g;
@@ -751,7 +751,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(293);
+                __nccwpck_require__.ab = "/" + "/", module.exports = __nccwpck_require__(293);
             }();
         /***/ },
         /***/ 6774: /***/ function() {
@@ -856,7 +856,7 @@
                     }
                     return i.exports;
                 }
-                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(162);
+                __nccwpck_require__.ab = "/" + "/", module.exports = __nccwpck_require__(162);
             }();
         /***/ },
         /***/ 9720: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -2638,7 +2638,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(650);
+                __nccwpck_require__.ab = "/" + "/", module.exports = __nccwpck_require__(650);
             }();
         /***/ }
     },

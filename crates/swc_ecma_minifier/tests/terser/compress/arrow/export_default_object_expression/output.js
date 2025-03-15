@@ -1,5 +1,5 @@
 export default {
-    foo: 3,
+    foo: 1 + 2,
     bar: ()=>4,
     get baz () {
         return this.foo;

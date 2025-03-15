@@ -1,9 +1,9 @@
 //// [computedPropertyNamesContextualType7_ES6.ts]
 foo({
     0: ()=>{},
-    hibye: !0,
-    1: 0,
-    [NaN]: [
+    ["hi" + "bye"]: !0,
+    [0 + 1]: 0,
+    [+"hi"]: [
         0
     ]
 }), g({

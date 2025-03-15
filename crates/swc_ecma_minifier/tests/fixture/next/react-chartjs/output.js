@@ -6,11 +6,11 @@ export function generateTicks$1(generationOptions, dataRange) {
     const unit = step || 1;
     const maxSpaces = maxTicks - 1;
     const { min: rmin, max: rmax } = dataRange;
-    const minDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(min);
-    const maxDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(max);
-    const countDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(count);
+    const minDefined = !_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k(min);
+    const maxDefined = !_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k(max);
+    const countDefined = !_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k(count);
     const minSpacing = (rmax - rmin) / (maxDigits + 1);
-    let spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)((rmax - rmin) / maxSpaces / unit) * unit;
+    let spacing = _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI((rmax - rmin) / maxSpaces / unit) * unit;
     if (spacing < 1e-14 && !minDefined && !maxDefined) {
         return [
             {
@@ -22,8 +22,8 @@ export function generateTicks$1(generationOptions, dataRange) {
         ];
     }
     numSpaces = Math.ceil(rmax / spacing) - Math.floor(rmin / spacing);
-    if (numSpaces > maxSpaces) spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)(numSpaces * spacing / maxSpaces / unit) * unit;
-    if (!(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision)) spacing = Math.ceil(spacing * (factor = Math.pow(10, precision))) / factor;
+    if (numSpaces > maxSpaces) spacing = _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI(numSpaces * spacing / maxSpaces / unit) * unit;
+    if (!_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k(precision)) spacing = Math.ceil(spacing * (factor = Math.pow(10, precision))) / factor;
     if ('ticks' === bounds) {
         niceMin = Math.floor(rmin / spacing) * spacing;
         niceMax = Math.ceil(rmax / spacing) * spacing;
@@ -31,7 +31,7 @@ export function generateTicks$1(generationOptions, dataRange) {
         niceMin = rmin;
         niceMax = rmax;
     }
-    if (minDefined && maxDefined && step && (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aJ)((max - min) / step, spacing / 1000)) {
+    if (minDefined && maxDefined && step && _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aJ((max - min) / step, spacing / 1000)) {
         numSpaces = Math.round(Math.min((max - min) / spacing, maxTicks));
         spacing = (max - min) / numSpaces;
         niceMin = min;
@@ -41,10 +41,10 @@ export function generateTicks$1(generationOptions, dataRange) {
         spacing = ((niceMax = maxDefined ? max : niceMax) - niceMin) / (numSpaces = count - 1);
     } else {
         numSpaces = (niceMax - niceMin) / spacing;
-        numSpaces = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(numSpaces, Math.round(numSpaces), spacing / 1000) ? Math.round(numSpaces) : Math.ceil(numSpaces);
+        numSpaces = _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK(numSpaces, Math.round(numSpaces), spacing / 1000) ? Math.round(numSpaces) : Math.ceil(numSpaces);
     }
-    const decimalPlaces = Math.max((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL)(spacing), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL)(niceMin));
-    niceMin = Math.round(niceMin * (factor = Math.pow(10, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision) ? decimalPlaces : precision))) / factor;
+    const decimalPlaces = Math.max(_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL(spacing), _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL(niceMin));
+    niceMin = Math.round(niceMin * (factor = Math.pow(10, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k(precision) ? decimalPlaces : precision))) / factor;
     niceMax = Math.round(niceMax * factor) / factor;
     let j = 0;
     if (minDefined) {
@@ -53,13 +53,13 @@ export function generateTicks$1(generationOptions, dataRange) {
                 value: min
             });
             if (niceMin < min) j++;
-            if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(Math.round((niceMin + j * spacing) * factor) / factor, min, relativeLabelSize(min, minSpacing, generationOptions))) j++;
+            if (_chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK(Math.round((niceMin + j * spacing) * factor) / factor, min, relativeLabelSize(min, minSpacing, generationOptions))) j++;
         } else if (niceMin < min) j++;
     }
     for(; j < numSpaces; ++j)ticks.push({
         value: Math.round((niceMin + j * spacing) * factor) / factor
     });
-    if (maxDefined && includeBounds && niceMax !== max) if (ticks.length && (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(ticks[ticks.length - 1].value, max, relativeLabelSize(max, minSpacing, generationOptions))) ticks[ticks.length - 1].value = max;
+    if (maxDefined && includeBounds && niceMax !== max) if (ticks.length && _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK(ticks[ticks.length - 1].value, max, relativeLabelSize(max, minSpacing, generationOptions))) ticks[ticks.length - 1].value = max;
     else ticks.push({
         value: max
     });

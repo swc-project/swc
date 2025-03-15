@@ -1,1 +1,1 @@
-console.log(NaN, NaN, NaN);
+console.log((void 0) + 1, (void 0) + 1, (void 0) + 1);

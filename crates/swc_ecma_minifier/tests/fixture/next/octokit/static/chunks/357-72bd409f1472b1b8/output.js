@@ -1,6 +1,6 @@
 export default function(module, __unused_webpack_exports, __webpack_require__) {
-    var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, require$$8, splice, Bottleneck_1;
-    commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
+    var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, splice, Bottleneck_1;
+    0 || (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
         load: function(received, defaults, onto = {}) {
             var k, ref, v;
             for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
@@ -129,7 +129,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         }
         _sanitizePriority(priority) {
             var sProperty;
-            return (sProperty = ~~priority !== priority ? 5 : priority) < 0 ? 0 : sProperty > 9 ? 9 : sProperty;
+            return (sProperty = ~~priority !== priority ? 5 : priority) < 0 ? 0 : sProperty > 10 - 1 ? 10 - 1 : sProperty;
         }
         _randomIndex() {
             return Math.random().toString(36).slice(2);
@@ -394,16 +394,16 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 return Object.keys(this.instances);
             }
             async clusterKeys() {
-                var cursor, found, i, k, keys, len, next, start;
+                var cursor, end, found, i, k, keys, len, next, start;
                 if (null == this.connection) return this.Promise.resolve(this.keys());
-                for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
+                for(keys = [], cursor = null, start = `b_${this.id}-`.length, end = "_settings".length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
                     "scan",
                     null != cursor ? cursor : 0,
                     "match",
                     `b_${this.id}-*_settings`,
                     "count",
                     10000
-                ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
+                ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -end));
                 return keys;
             }
             _startAutoCleanup() {
@@ -430,7 +430,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             }
         }
         return Group.prototype.defaults = {
-            timeout: 300000,
+            timeout: 1000 * 60 * 5,
             connection: null,
             Promise: Promise,
             id: "group-key"
@@ -601,7 +601,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                         }));
                         return this._dropAllQueued(options.dropErrorMessage), waitForExecuting(0);
                     }))) : this.schedule({
-                    priority: 9,
+                    priority: 10 - 1,
                     weight: 0
                 }, ()=>waitForExecuting(1)), this._receive = function(job) {
                     return job._reject(new Bottleneck.prototype.BottleneckError(options.enqueueErrorMessage));
@@ -708,5 +708,5 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             dropWaitingJobs: !0,
             dropErrorMessage: "This limiter has been stopped."
         }, Bottleneck;
-    }).call(commonjsGlobal);
+    }).call(commonjsGlobal));
 /***/ }

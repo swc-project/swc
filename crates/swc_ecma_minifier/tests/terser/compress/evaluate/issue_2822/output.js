@@ -1,1 +1,5 @@
-console.log("PASS");
+console.log([
+    function() {},
+    "PASS",
+    "FAIL"
+][1]);

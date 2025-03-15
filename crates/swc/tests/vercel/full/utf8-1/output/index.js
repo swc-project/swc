@@ -33,7 +33,7 @@ function p() {
                     ];
                 case 3:
                     return e = t.sent(), a = '/' === i ? 'index' : i, (Array.isArray(e.c) ? e.c : Object.keys(e.c)).some(function(e) {
-                        return -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a))) || -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a)).replace(/\//g, '\\'));
+                        return e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a))) !== -1 || e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a)).replace(/\//g, '\\')) !== -1;
                     }) ? document.location.reload(!0) : u = _, [
                         3,
                         5

@@ -677,7 +677,7 @@
                 };
             };
             Object.prototype.hasOwnProperty;
-            var EmotionCacheContext = /* #__PURE__ */ (0, react.createContext)(// we're doing this to avoid preconstruct's dead code elimination in this one case
+            var EmotionCacheContext = /* #__PURE__ */ react.createContext(// we're doing this to avoid preconstruct's dead code elimination in this one case
             // because this module is primarily intended for the browser and node
             // but it's also required in react native and similar environments sometimes
             // and we could have a special build just for that
@@ -691,7 +691,7 @@
                     // note this very very intentionally targets all style elements regardless of the key to ensure
                     // that creating a cache works inside of render of a React component
                     Array.prototype.forEach.call(ssrStyles, function(node) {
-                        -1 !== node.getAttribute("data-emotion").indexOf(" ") && (document.head.appendChild(node), node.setAttribute("data-s", ""));
+                        node.getAttribute("data-emotion").indexOf(" ") !== -1 && (document.head.appendChild(node), node.setAttribute("data-s", ""));
                     });
                 }
                 var stylisPlugins = options.stylisPlugins || defaultStylisPlugins, inserted = {}, nodesToHydrate = [];
@@ -706,11 +706,11 @@
                     removeLabel
                 ].concat(stylisPlugins, [
                     stringify,
-                    (callback = function(rule) {
+                    1 ? (callback = function(rule) {
                         currentSheet.insert(rule);
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
-                    })
+                    }) : 0
                 ])).length, function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
@@ -772,8 +772,8 @@
                  * @return {number}
                  */ function(type, index) {
                                             for(; next();)// //
-                                            if (type + character === 57) break;
-                                            else if (type + character === 84 && 47 === peek()) break;
+                                            if (type + character === 47 + 10) break;
+                                            else if (type + character === 42 + 42 && 47 === peek()) break;
                                             return "/*" + Utility_substr(characters, index, position - 1) + "*" + Utility_from(47 === type ? type : next());
                                         }(next(), position), root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0), declarations);
                                         break;
@@ -878,7 +878,7 @@
                 key: "css"
             }) : null);
             EmotionCacheContext.Provider;
-            var emotion_element_99289b21_browser_esm_ThemeContext = /* #__PURE__ */ (0, react.createContext)({});
+            var emotion_element_99289b21_browser_esm_ThemeContext = /* #__PURE__ */ react.createContext({});
             // EXTERNAL MODULE: ./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js
             __webpack_require__(8679); // CONCATENATED MODULE: ./node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
             var emotion_utils_browser_esm_insertStyles = function(cache, serialized, isStringTag) {
@@ -896,8 +896,8 @@
             }, Global = (func = function(props, cache) {
                 var serialized = emotion_serialize_browser_esm_serializeStyles([
                     props.styles
-                ], void 0, (0, react.useContext)(emotion_element_99289b21_browser_esm_ThemeContext)), sheetRef = (0, react.useRef)();
-                return (0, react.useLayoutEffect)(function() {
+                ], void 0, react.useContext(emotion_element_99289b21_browser_esm_ThemeContext)), sheetRef = react.useRef();
+                return react.useLayoutEffect(function() {
                     var key = cache.key + "-global", sheet = new StyleSheet({
                         key: key,
                         nonce: cache.sheet.nonce,
@@ -914,7 +914,7 @@
                     };
                 }, [
                     cache
-                ]), (0, react.useLayoutEffect)(function() {
+                ]), react.useLayoutEffect(function() {
                     var sheetRefCurrent = sheetRef.current, sheet = sheetRefCurrent[0];
                     if (sheetRefCurrent[1]) {
                         sheetRefCurrent[1] = !1;
@@ -931,8 +931,8 @@
                     cache,
                     serialized.name
                 ]), null;
-            }, /*#__PURE__*/ (0, react.forwardRef)(function(props, ref) {
-                return func(props, (0, react.useContext)(EmotionCacheContext), ref);
+            }, /*#__PURE__*/ react.forwardRef(function(props, ref) {
+                return func(props, react.useContext(EmotionCacheContext), ref);
             })); // CONCATENATED MODULE: ./node_modules/@emotion/react/dist/emotion-react.browser.esm.js
         /***/ },
         /***/ 8679: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1109,7 +1109,7 @@
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{

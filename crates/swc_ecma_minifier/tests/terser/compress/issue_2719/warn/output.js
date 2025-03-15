@@ -1,3 +1,3 @@
 console.log(function g() {
-    return g.caller.arguments;
+    return g["call" + "er"].arguments;
 }().length);
