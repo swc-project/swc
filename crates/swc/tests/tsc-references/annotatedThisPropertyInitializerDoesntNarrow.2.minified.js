@@ -5,6 +5,6 @@ export var C = /*#__PURE__*/ function() {
         _class_call_check(this, C), this.assets = {};
     }
     return C.prototype.m = function() {
-        this.assets;
+        0, this.assets;
     }, C;
 }();

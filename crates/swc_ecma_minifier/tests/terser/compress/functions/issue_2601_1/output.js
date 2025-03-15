@@ -1,2 +1,5 @@
 var a = "FAIL";
-console.log(a = "PASS");
+(function() {
+    var b;
+    (void 0) && b(), a = "PASS";
+})(), console.log(a);

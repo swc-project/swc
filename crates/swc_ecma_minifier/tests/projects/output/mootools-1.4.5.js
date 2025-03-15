@@ -455,7 +455,7 @@ provides: Array
         return result;
     },
     contains: function(item, from) {
-        return -1 != this.indexOf(item, from);
+        return this.indexOf(item, from) != -1;
     },
     append: function(array) {
         return this.push.apply(this, array), this;
@@ -1233,7 +1233,7 @@ provides: [Class.Extras, Chain, Events, Options]
             var events = this.$events[type];
             if (events && !fn.internal) {
                 var index = events.indexOf(fn);
-                -1 != index && delete events[index];
+                index != -1 && delete events[index];
             }
             return this;
         },
@@ -1327,8 +1327,8 @@ __END__
 	)"
 */ "^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
     function parser(rawMatch, separator, combinator, combinatorChildren, tagName, id, className1, attributeKey, attributeOperator, attributeQuote, attributeValue, pseudoMarker, pseudoClass, pseudoQuote, pseudoClassQuotedValue, pseudoClassValue) {
-        if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
-        if (combinator || combinatorChildren || -1 === combinatorIndex) {
+        if ((separator || separatorIndex === -1) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
+        if (combinator || combinatorChildren || combinatorIndex === -1) {
             combinator = combinator || " ";
             var test, regexp, currentSeparator = parsed.expressions[separatorIndex];
             reversed && currentSeparator[combinatorIndex] && (currentSeparator[combinatorIndex].reverseCombinator = reverseCombinator(combinator)), currentSeparator[++combinatorIndex] = {
@@ -2860,7 +2860,7 @@ provides: Element.Event
             var events = this.retrieve("events");
             if (!events || !events[type]) return this;
             var list = events[type], index = list.keys.indexOf(fn);
-            if (-1 == index) return this;
+            if (index == -1) return this;
             var value = list.values[index];
             delete list.keys[index], delete list.values[index];
             var custom = Element.Events[type];
@@ -3023,7 +3023,7 @@ provides: [Element.Delegation]
                         forms: [],
                         fns: []
                     }, forms = listener.forms, fns = listener.fns;
-                    if (-1 == forms.indexOf(form)) {
+                    if (forms.indexOf(form) == -1) {
                         forms.push(form);
                         var _fn = function(event) {
                             bubbleUp(self, match, fn, event, target);
@@ -3056,7 +3056,7 @@ provides: [Element.Delegation]
     });
     /*</ltIE9>*/ var proto = Element.prototype, addEvent = proto.addEvent, removeEvent = proto.removeEvent, relay = function(old, method) {
         return function(type, fn, useCapture) {
-            if (-1 == type.indexOf(":relay")) return old.call(this, type, fn, useCapture);
+            if (type.indexOf(":relay") == -1) return old.call(this, type, fn, useCapture);
             var parsed = Slick.parse(type).expressions[0][0];
             if ("relay" != parsed.pseudos[0].key) return old.call(this, type, fn, useCapture);
             var newType = parsed.tag;
@@ -4199,7 +4199,7 @@ provides: Cookie
     write: function(value) {
         if (this.options.encode && (value = encodeURIComponent(value)), this.options.domain && (value += "; domain=" + this.options.domain), this.options.path && (value += "; path=" + this.options.path), this.options.duration) {
             var date = new Date();
-            date.setTime(date.getTime() + 86400000 * this.options.duration), value += "; expires=" + date.toGMTString();
+            date.setTime(date.getTime() + 24 * this.options.duration * 60 * 60 * 1000), value += "; expires=" + date.toGMTString();
         }
         return this.options.secure && (value += "; secure"), this.options.document.cookie = this.key + "=" + value, this;
     },

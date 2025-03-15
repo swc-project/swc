@@ -10,7 +10,7 @@
                     return /* binding */ CountUp;
                 }
             });
-            var __assign = function() {
+            var __assign = (void 0) || function() {
                 return (__assign = Object.assign || function(t) {
                     for(var i, a = 1, s = arguments.length; a < s; a++)for(var n in i = arguments[a])Object.prototype.hasOwnProperty.call(i, n) && (t[n] = i[n]);
                     return t;
@@ -145,7 +145,7 @@
                 })) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -496,7 +496,7 @@
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 0 || 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{

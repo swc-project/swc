@@ -1,10 +1,10 @@
 var x, y;
-if (1) bar();
-else {
+if (x && !(x + "1") && y) {
     var qq;
     foo();
-}
-if (0) {
+} else bar();
+if (x || x + "1" || y) foo();
+else {
     var jj;
     bar();
-} else foo();
+}

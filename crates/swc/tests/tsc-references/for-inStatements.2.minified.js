@@ -21,9 +21,9 @@ for(var x in /[a-z]/);
 for(var x in new Date());
 for(var x in c || d);
 for(var x in e ? c : d);
-for(var x in c);
-for(var x in d);
-for(var x in d[x]);
+for(var x in 1 ? c : d);
+for(var x in 0 ? c : d);
+for(var x in 1 ? d[x] : c[x]);
 for(var x in c[d]);
 for(var x in function(x) {
     return x;

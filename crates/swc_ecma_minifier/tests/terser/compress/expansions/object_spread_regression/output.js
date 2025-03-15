@@ -1,3 +1,5 @@
-const x = () => {
-    let o = {};
+const x = ()=>{
+    let o = {
+        ...{}
+    };
 };

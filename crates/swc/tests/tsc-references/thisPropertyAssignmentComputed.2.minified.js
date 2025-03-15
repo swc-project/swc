@@ -1,2 +1,2 @@
 //// [thisPropertyAssignmentComputed.js]
-this.ab = 0;
+this["a" + "b"] = 0;

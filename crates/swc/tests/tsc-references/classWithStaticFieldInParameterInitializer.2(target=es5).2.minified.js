@@ -6,14 +6,14 @@ var C = function C() {
     _class_call_check(this, C);
 };
 !function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : /*#__PURE__*/ function(C) {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : function(C) {
         function _class() {
             return _class_call_check(this, _class), _call_super(this, _class, arguments);
         }
         return _inherits(_class, C), _class;
     }(C).x = 1;
 }(), function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : /*#__PURE__*/ function(C) {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : function(C) {
         function _class() {
             return _class_call_check(this, _class), _call_super(this, _class, arguments);
         }

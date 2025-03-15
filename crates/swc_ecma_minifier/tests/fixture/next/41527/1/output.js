@@ -31,7 +31,7 @@ class Toolbar extends Module {
     attach(input) {
         let format = Array.from(input.classList).find((className)=>0 === className.indexOf('ql-'));
         if (!format) return;
-        if (format = format.slice(3), 'BUTTON' === input.tagName && input.setAttribute('type', 'button'), null == this.handlers[format] && null == this.quill.scroll.query(format)) {
+        if (format = format.slice('ql-'.length), 'BUTTON' === input.tagName && input.setAttribute('type', 'button'), null == this.handlers[format] && null == this.quill.scroll.query(format)) {
             debug.warn('ignoring attaching to nonexistent format', format, input);
             return;
         }

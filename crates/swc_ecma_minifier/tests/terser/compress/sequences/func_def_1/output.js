@@ -1,4 +1,4 @@
 function f() {
-    return f = 0, false;
+    return !!(f = 0);
 }
 console.log(f());

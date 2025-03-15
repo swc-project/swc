@@ -152,7 +152,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         }, AstPath;
     }();
     function isValidAstNode(ast) {
-        return null !== ast && -1 !== ast.minChar && -1 !== ast.limChar;
+        return null !== ast && ast.minChar !== -1 && ast.limChar !== -1;
     }
     TypeScript.AstPath = AstPath, TypeScript.isValidAstNode = isValidAstNode;
     var AstPathContext = function AstPathContext() {

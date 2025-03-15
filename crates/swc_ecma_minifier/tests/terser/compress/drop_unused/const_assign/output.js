@@ -1,5 +1,5 @@
 function f() {
-    return 3;
+    return 1 + 2;
 }
 function g() {
     const b = 2;

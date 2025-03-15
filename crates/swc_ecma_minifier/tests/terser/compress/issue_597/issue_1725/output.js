@@ -1,1 +1,1 @@
-console.log("PASS");
+(0 === [].length) % (1 / 0) ? console.log("PASS") : console.log("FAIL");

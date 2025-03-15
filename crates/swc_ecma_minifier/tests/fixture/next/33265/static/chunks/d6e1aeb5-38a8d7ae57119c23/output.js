@@ -431,7 +431,7 @@
                     var val = properties[propName]; // See #2176
                     // We originally were accepting both properties and attributes in the
                     // same object, but that doesn't work so well.
-                    -1 !== propName.indexOf("aria-") || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\ncreateEl(type, properties, attributes). Attempting to set " + propName + " to " + val + "."), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
+                    propName.indexOf("aria-") !== -1 || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\n" + "has been deprecated. Use the third argument instead.\ncreateEl(type, properties, attributes). Attempting to set " + propName + " to " + val + "."), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
                 }), Object.getOwnPropertyNames(attributes).forEach(function(attrName) {
                     el.setAttribute(attrName, attributes[attrName]);
                 }), content && appendContent(el, content), el;
@@ -573,10 +573,10 @@
              *         All attributes of the element. Boolean attributes will be `true` or
              *         `false`, others will be strings.
              */ function getAttributes(tag) {
-                var obj = {}; // known boolean attributes
+                var obj = {}, knownBooleans = "," + "autoplay,controls,playsinline,loop,muted,default,defaultMuted,"; // known boolean attributes
                 if (tag && tag.attributes && tag.attributes.length > 0) for(var attrs = tag.attributes, i = attrs.length - 1; i >= 0; i--){
                     var attrName = attrs[i].name, attrVal = attrs[i].value;
-                    ("boolean" == typeof tag[attrName] || -1 !== ",autoplay,controls,playsinline,loop,muted,default,defaultMuted,".indexOf("," + attrName + ",")) && // the value of an included boolean attribute is typically an empty
+                    ("boolean" == typeof tag[attrName] || knownBooleans.indexOf("," + attrName + ",") !== -1) && // the value of an included boolean attribute is typically an empty
                     // string ('') which would equal false if we just check for a false value.
                     // we also don't want support bad code like autoplay='false'
                     (attrVal = null !== attrVal), obj[attrName] = attrVal;
@@ -2361,7 +2361,7 @@
    *         The dimension when getting or 0 if unset
    */ _proto.dimension = function(widthOrHeight, num, skipListeners) {
                     if (void 0 !== num) {
-                        (null === num || num != num) && (num = 0), -1 !== ("" + num).indexOf("%") || -1 !== ("" + num).indexOf("px") ? this.el_.style[widthOrHeight] = num : "auto" === num ? this.el_.style[widthOrHeight] = "" : this.el_.style[widthOrHeight] = num + "px", skipListeners || /**
+                        (null === num || num != num) && (num = 0), ("" + num).indexOf("%") !== -1 || ("" + num).indexOf("px") !== -1 ? this.el_.style[widthOrHeight] = num : "auto" === num ? this.el_.style[widthOrHeight] = "" : this.el_.style[widthOrHeight] = num + "px", skipListeners || /**
                              * Triggered when a component is resized.
                              *
                              * @event Component#componentresize
@@ -2373,7 +2373,7 @@
                     if (!this.el_) return 0;
                      // Get dimension value from style
                     var val = this.el_.style[widthOrHeight], pxIndex = val.indexOf("px");
-                    return -1 !== pxIndex ? parseInt(val.slice(0, pxIndex), 10) : parseInt(this.el_["offset" + toTitleCase$1(widthOrHeight)], 10) // No px so using % or no style was set, so falling back to offsetWidth/height
+                    return pxIndex !== -1 ? parseInt(val.slice(0, pxIndex), 10) : parseInt(this.el_["offset" + toTitleCase$1(widthOrHeight)], 10) // No px so using % or no style was set, so falling back to offsetWidth/height
                     ;
                 }, /**
                  * Get the computed width or the height of the component's element.
@@ -3084,7 +3084,7 @@
                     var json = trackToJson_(trackEl.track);
                     return trackEl.src && (json.src = trackEl.src), json;
                 }).concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
-                    return -1 === trackObjs.indexOf(track);
+                    return trackObjs.indexOf(track) === -1;
                 }).map(trackToJson_));
             }, MODAL_CLASS_NAME = "vjs-modal-dialog", ModalDialog = /*#__PURE__*/ function(_Component) {
                 /**
@@ -3139,7 +3139,7 @@
                         id: _this.el().getAttribute("aria-describedby")
                     }), textContent(_this.descEl_, _this.description()), _this.el_.appendChild(_this.descEl_), _this.el_.appendChild(_this.contentEl_), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ModalDialog, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ModalDialog, _Component);
                 /**
                  * Create the `ModalDialog`'s DOM element
                  *
@@ -3355,7 +3355,7 @@
                  */ _proto.focusableEls_ = function() {
                     var allChildren = this.el_.querySelectorAll("*");
                     return Array.prototype.filter.call(allChildren, function(child) {
-                        return (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAnchorElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAreaElement) && child.hasAttribute("href") || (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLInputElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLSelectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLTextAreaElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLButtonElement) && !child.hasAttribute("disabled") || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLIFrameElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLObjectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLEmbedElement || child.hasAttribute("tabindex") && -1 !== child.getAttribute("tabindex") || child.hasAttribute("contenteditable");
+                        return (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAnchorElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAreaElement) && child.hasAttribute("href") || (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLInputElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLSelectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLTextAreaElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLButtonElement) && !child.hasAttribute("disabled") || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLIFrameElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLObjectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLEmbedElement || child.hasAttribute("tabindex") && child.getAttribute("tabindex") !== -1 || child.hasAttribute("contenteditable");
                     });
                 }, ModalDialog;
             }(Component$1);
@@ -3388,7 +3388,7 @@
                      * @member {number} length
                      *         The current number of `Track`s in the this Trackist.
                      * @instance
-                     */ Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "length", {
+                     */ Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "length", {
                         get: function() {
                             return this.tracks_.length;
                         }
@@ -3396,7 +3396,7 @@
                     for(var i = 0; i < tracks.length; i++)_this.addTrack(tracks[i]);
                     return _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TrackList, _EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TrackList, _EventTarget);
                 /**
                  * Add a {@link Track} to the `TrackList`
                  *
@@ -3411,7 +3411,7 @@
                         get: function() {
                             return this.tracks_[index];
                         }
-                    }), -1 === this.tracks_.indexOf(track) && (this.tracks_.push(track), /**
+                    }), this.tracks_.indexOf(track) === -1 && (this.tracks_.push(track), /**
                          * Triggered when a track is added to a track list.
                          *
                          * @event TrackList#addtrack
@@ -3524,7 +3524,7 @@
                     }
                     return (_this = _TrackList.call(this, tracks) || this).changing_ = !1, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(AudioTrackList, _TrackList);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(AudioTrackList, _TrackList);
                 /**
                  * Add an {@link AudioTrack} to the `AudioTrackList`.
                  *
@@ -3567,7 +3567,7 @@
                     return (_this = _TrackList.call(this, tracks) || this).changing_ = !1, /**
                      * @member {number} VideoTrackList#selectedIndex
                      *         The current index of the selected {@link VideoTrack`}.
-                     */ Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "selectedIndex", {
+                     */ Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "selectedIndex", {
                         get: function() {
                             for(var _i = 0; _i < this.length; _i++)if (this[_i].selected) return _i;
                             return -1;
@@ -3575,7 +3575,7 @@
                         set: function() {}
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VideoTrackList, _TrackList);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VideoTrackList, _TrackList);
                 /**
                  * Add a {@link VideoTrack} to the `VideoTrackList`.
                  *
@@ -3599,7 +3599,7 @@
                 function TextTrackList() {
                     return _TrackList.apply(this, arguments) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrackList, _TrackList);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrackList, _TrackList);
                 var _proto = TextTrackList.prototype;
                 return(/**
                  * Add a {@link TextTrack} to the `TextTrackList`
@@ -3617,10 +3617,10 @@
                     }), /**
                      * @listens TextTrack#modechange
                      * @fires TrackList#change
-                     */ track.addEventListener("modechange", this.queueChange_), -1 === [
+                     */ track.addEventListener("modechange", this.queueChange_), [
                         "metadata",
                         "chapters"
-                    ].indexOf(track.kind) && track.addEventListener("modechange", this.triggerSelectedlanguagechange_);
+                    ].indexOf(track.kind) === -1 && track.addEventListener("modechange", this.triggerSelectedlanguagechange_);
                 }, _proto.removeTrack = function(rtrack) {
                     _TrackList.prototype.removeTrack.call(this, rtrack), rtrack.removeEventListener && (this.queueChange_ && rtrack.removeEventListener("modechange", this.queueChange_), this.selectedlanguagechange_ && rtrack.removeEventListener("modechange", this.triggerSelectedlanguagechange_));
                 }, TextTrackList);
@@ -3657,7 +3657,7 @@
                         get: function() {
                             return this.trackElements_[index];
                         }
-                    }), -1 === this.trackElements_.indexOf(trackElement) && this.trackElements_.push(trackElement);
+                    }), this.trackElements_.indexOf(trackElement) === -1 && this.trackElements_.push(trackElement);
                 }, /**
                  * Get an {@link HtmlTrackElement} from the `HtmlTrackElementList` given an
                  * {@link TextTrack}.
@@ -3795,7 +3795,7 @@
                         kind: options.kind || "",
                         language: options.language || ""
                     }, label = options.label || "", _loop = function(key) {
-                        Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), key, {
+                        Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), key, {
                             get: function() {
                                 return trackProps[key];
                             },
@@ -3810,7 +3810,7 @@
                      * @instance
                      *
                      * @fires Track#labelchange
-                     */ Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "label", {
+                     */ Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "label", {
                         get: function() {
                             return label;
                         },
@@ -3826,7 +3826,7 @@
                         }
                     }), _this);
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Track, _EventTarget), Track;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Track, _EventTarget), Track;
             }(EventTarget$2), parseUrl = function(url) {
                 // This entire method can be replace with URL once we are able to drop IE11
                 var props = [
@@ -3943,7 +3943,7 @@
                         language: options.language || options.srclang || ""
                     }), mode = TextTrackMode[settings.mode] || "disabled", default_ = settings.default;
                     ("metadata" === settings.kind || "chapters" === settings.kind) && (mode = "hidden"), (_this = _Track.call(this, settings) || this).tech_ = settings.tech, _this.cues_ = [], _this.activeCues_ = [], _this.preload_ = !1 !== _this.tech_.preloadTextTracks;
-                    var cues = new TextTrackCueList(_this.cues_), activeCues = new TextTrackCueList(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), function() {
+                    var cues = new TextTrackCueList(_this.cues_), activeCues = new TextTrackCueList(_this.activeCues_), changed = !1, timeupdateHandler = bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), function() {
                         !(!this.tech_.isReady_ || this.tech_.isDisposed()) && (// due to its nature as a getter function. Do not remove or cues will
                         // stop updating!
                         // Use the setter to prevent deletion from uglify (pure_getters rule)
@@ -3951,7 +3951,7 @@
                     });
                     return _this.tech_.one("dispose", function() {
                         _this.tech_.off("timeupdate", timeupdateHandler);
-                    }), "disabled" !== mode && _this.tech_.on("timeupdate", timeupdateHandler), Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), {
+                    }), "disabled" !== mode && _this.tech_.on("timeupdate", timeupdateHandler), Object.defineProperties(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), {
                         /**
                              * @memberof TextTrack
                              * @member {boolean} default
@@ -4017,7 +4017,7 @@
                                     cue.startTime <= ct && cue.endTime >= ct ? active.push(cue) : cue.startTime === cue.endTime && cue.startTime <= ct && cue.startTime + 0.5 >= ct && active.push(cue);
                                 }
                                 if (changed = !1, active.length !== this.activeCues_.length) changed = !0;
-                                else for(var _i = 0; _i < active.length; _i++)-1 === this.activeCues_.indexOf(active[_i]) && (changed = !0);
+                                else for(var _i = 0; _i < active.length; _i++)this.activeCues_.indexOf(active[_i]) === -1 && (changed = !0);
                                 return this.activeCues_ = active, activeCues.setCues_(this.activeCues_), activeCues;
                             },
                             // /!\ Keep this setter empty (see the timeupdate handler above)
@@ -4025,9 +4025,9 @@
                         }
                     }), settings.src ? (_this.src = settings.src, _this.preload_ || // Tracks will load on-demand.
                     // Act like we're loaded for other purposes.
-                    (_this.loaded_ = !0), (_this.preload_ || "subtitles" !== settings.kind && "captions" !== settings.kind) && loadTrack(_this.src, (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this))) : _this.loaded_ = !0, _this;
+                    (_this.loaded_ = !0), (_this.preload_ || "subtitles" !== settings.kind && "captions" !== settings.kind) && loadTrack(_this.src, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this))) : _this.loaded_ = !0, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrack, _Track);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrack, _Track);
                 /**
                  * Add a cue to the internal list of cues.
                  *
@@ -4106,7 +4106,7 @@
                      * @instance
                      *
                      * @fires VideoTrack#selectedchange
-                     */ Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "enabled", {
+                     */ Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "enabled", {
                         get: function() {
                             return enabled;
                         },
@@ -4125,7 +4125,7 @@
                         }
                     }), settings.enabled && (_this.enabled = settings.enabled), _this.loaded_ = !0, _this);
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(AudioTrack, _Track), AudioTrack;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(AudioTrack, _Track), AudioTrack;
             }(Track), VideoTrack = /*#__PURE__*/ function(_Track) {
                 /**
                  * Create an instance of this class.
@@ -4162,7 +4162,7 @@
                      * @instance
                      *
                      * @fires VideoTrack#selectedchange
-                     */ Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "selected", {
+                     */ Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "selected", {
                         get: function() {
                             return selected;
                         },
@@ -4181,7 +4181,7 @@
                         }
                     }), settings.selected && (_this.selected = settings.selected), _this);
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VideoTrack, _Track), VideoTrack;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VideoTrack, _Track), VideoTrack;
             }(Track), HTMLTrackElement = /*#__PURE__*/ function(_EventTarget) {
                 /**
                  * Create an instance of this class.
@@ -4219,7 +4219,7 @@
                  */ function HTMLTrackElement(options) {
                     void 0 === options && (options = {});
                     var readyState, _this = _EventTarget.call(this) || this, track = new TextTrack(options);
-                    return _this.kind = track.kind, _this.src = track.src, _this.srclang = track.language, _this.label = track.label, _this.default = track.default, Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), {
+                    return _this.kind = track.kind, _this.src = track.src, _this.srclang = track.language, _this.label = track.label, _this.default = track.default, Object.defineProperties(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), {
                         /**
                              * @memberof HTMLTrackElement
                              * @member {HTMLTrackElement~ReadyState} readyState
@@ -4247,11 +4247,11 @@
                      */ track.addEventListener("loadeddata", function() {
                         readyState = 2, _this.trigger({
                             type: "load",
-                            target: (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)
+                            target: _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)
                         });
                     }), _this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(HTMLTrackElement, _EventTarget), HTMLTrackElement;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(HTMLTrackElement, _EventTarget), HTMLTrackElement;
             }(EventTarget$2);
             HTMLTrackElement.prototype.allowedEvents_ = {
                 load: "load"
@@ -4294,7 +4294,7 @@
                     getterName: "remoteTextTrackEls",
                     privateName: "remoteTextTrackEls_"
                 }
-            }, ALL = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, NORMAL, REMOTE);
+            }, ALL = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z({}, NORMAL, REMOTE);
             REMOTE.names = Object.keys(REMOTE), NORMAL.names = Object.keys(NORMAL), ALL.names = [].concat(REMOTE.names).concat(NORMAL.names);
             /**
              * This is the base class for media playback technology controllers, such as
@@ -4340,7 +4340,7 @@
                         !1 === options["native" + track + "Tracks"] && (_this["featuresNative" + track + "Tracks"] = !1);
                     }), !1 === options.nativeCaptions || !1 === options.nativeTextTracks ? _this.featuresNativeTextTracks = !1 : (!0 === options.nativeCaptions || !0 === options.nativeTextTracks) && (_this.featuresNativeTextTracks = !0), _this.featuresNativeTextTracks || _this.emulateTextTracks(), _this.preloadTextTracks = !1 !== options.preloadTextTracks, _this.autoRemoteTextTracks_ = new ALL.text.ListClass(), _this.initTrackListeners(), options.nativeControlsForTouch || _this.emitTapEvents(), _this.constructor && (_this.name_ = _this.constructor.name || "Unknown Tech"), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Tech, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Tech, _Component);
                 /**
                  * A special function to trigger source set in a way that will allow player
                  * to re-trigger if the player or tech are not ready yet.
@@ -5289,7 +5289,7 @@
                     }
                     return _this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MediaLoader, _Component), MediaLoader;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MediaLoader, _Component), MediaLoader;
             }(Component$1);
             Component$1.registerComponent("MediaLoader", MediaLoader);
             /**
@@ -5321,7 +5321,7 @@
                         return _this.handleKeyDown(e);
                     }, _this.emitTapEvents(), _this.enable(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ClickableComponent, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ClickableComponent, _Component);
                 /**
                  * Create the `ClickableComponent`s DOM element.
                  *
@@ -5461,7 +5461,7 @@
                         return _this.update(e);
                     }, player.on("posterchange", _this.update_), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PosterImage, _ClickableComponent);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PosterImage, _ClickableComponent);
                 /**
                  * Clean up and dispose of the `PosterImage`.
                  */ var _proto = PosterImage.prototype;
@@ -5599,7 +5599,7 @@
                     }), // if a track should show by default and the display hadn't loaded yet.
                     // Should probably be moved to an external track loader when we support
                     // tracks that don't need a display.
-                    player.ready(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), function() {
+                    player.ready(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), function() {
                         if (player.tech_ && player.tech_.featuresNativeTextTracks) {
                             this.hide();
                             return;
@@ -5611,7 +5611,7 @@
                         this.preselectTrack();
                     })), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrackDisplay, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrackDisplay, _Component);
                 /**
                  * Preselect a track following this precedence:
                  * - matches the previously selected {@link TextTrack}'s language and kind
@@ -5732,7 +5732,7 @@
                 function LoadingSpinner() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(LoadingSpinner, _Component), /**
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(LoadingSpinner, _Component), /**
                  * Create the `LoadingSpinner`s DOM element.
                  *
                  * @return {Element}
@@ -5759,7 +5759,7 @@
                 function Button() {
                     return _ClickableComponent.apply(this, arguments) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Button, _ClickableComponent);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Button, _ClickableComponent);
                 var _proto = Button.prototype;
                 return(/**
                  * Create the `Button`s DOM element.
@@ -5852,7 +5852,7 @@
                         return _this.handleMouseDown(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(BigPlayButton, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(BigPlayButton, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -5920,7 +5920,7 @@
                     var _this;
                     return (_this = _Button.call(this, player, options) || this).controlText(options && options.controlText || _this.localize("Close")), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(CloseButton, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(CloseButton, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -5995,7 +5995,7 @@
                         return _this.handleEnded(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlayToggle, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PlayToggle, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -6131,7 +6131,7 @@
                         return _this.updateContent(e);
                     }), _this.updateTextNode_(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TimeDisplay, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TimeDisplay, _Component);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -6205,7 +6205,7 @@
                 function CurrentTimeDisplay() {
                     return _TimeDisplay.apply(this, arguments) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(CurrentTimeDisplay, _TimeDisplay);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(CurrentTimeDisplay, _TimeDisplay);
                 var _proto = CurrentTimeDisplay.prototype;
                 return(/**
                  * Builds the default DOM `className`.
@@ -6265,7 +6265,7 @@
                     // can likely be removed for 7.0.
                     _this.on(player, "loadedmetadata", updateContent), _this);
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(DurationDisplay, _TimeDisplay);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(DurationDisplay, _TimeDisplay);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -6311,7 +6311,7 @@
                 function TimeDivider() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TimeDivider, _Component), /**
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TimeDivider, _Component), /**
                  * Create the component's DOM element
                  *
                  * @return {Element}
@@ -6350,7 +6350,7 @@
                         return _this.updateContent(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(RemainingTimeDisplay, _TimeDisplay);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(RemainingTimeDisplay, _TimeDisplay);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -6414,7 +6414,7 @@
                         return _this.updateShowing(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(LiveDisplay, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(LiveDisplay, _Component);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -6467,7 +6467,7 @@
                         return _this.updateLiveEdgeStatus(e);
                     }, _this.on(_this.player_.liveTracker, "liveedgechange", _this.updateLiveEdgeStatusHandler_)), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SeekToLive, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SeekToLive, _Button);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -6543,7 +6543,7 @@
                         return _this.update(e);
                     }, _this.bar = _this.getChild(_this.options_.barName), _this.vertical(!!_this.options_.vertical), _this.enable(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Slider, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Slider, _Component);
                 /**
                  * Are controls are currently enabled for this slider or not.
                  *
@@ -6730,7 +6730,7 @@
                         return _this.update(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(LoadProgressBar, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(LoadProgressBar, _Component);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -6789,9 +6789,9 @@
                  *        The key/value store of player options.
                  */ function TimeTooltip(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update), 30), _this;
+                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update), 30), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TimeTooltip, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TimeTooltip, _Component);
                 /**
                  * Create the time tooltip DOM element
                  *
@@ -6878,9 +6878,9 @@
                  *        The key/value store of player options.
                  */ function PlayProgressBar(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update), 30), _this;
+                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update), 30), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlayProgressBar, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PlayProgressBar, _Component);
                 /**
                  * Create the the DOM element for this class.
                  *
@@ -6937,9 +6937,9 @@
                  *        The key/value store of player options.
                  */ function MouseTimeDisplay(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update), 30), _this;
+                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update), 30), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MouseTimeDisplay, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MouseTimeDisplay, _Component);
                 /**
                  * Create the DOM element for this class.
                  *
@@ -6995,7 +6995,7 @@
                     var _this;
                     return (_this = _Slider.call(this, player, options) || this).setEventHandlers_(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SeekBar, _Slider);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SeekBar, _Slider);
                 /**
                  * Sets the event handlers
                  *
@@ -7190,7 +7190,7 @@
                         event.preventDefault(), event.stopPropagation();
                         var gotoFraction = (keycode__WEBPACK_IMPORTED_MODULE_3___default().codes[keycode__WEBPACK_IMPORTED_MODULE_3___default()(event)] - keycode__WEBPACK_IMPORTED_MODULE_3___default().codes[0]) * 10.0 / 100.0;
                         liveTracker && liveTracker.isLive() ? this.userSeek_(liveTracker.seekableStart() + liveTracker.liveWindow() * gotoFraction) : this.userSeek_(this.player_.duration() * gotoFraction);
-                    } else keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgDn") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() - 60)) : keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgUp") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() + 60)) : // Pass keydown handling up for unsupported keys
+                    } else keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgDn") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() - 5 * 12)) : keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgUp") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() + 5 * 12)) : // Pass keydown handling up for unsupported keys
                     _Slider.prototype.handleKeyDown.call(this, event);
                 }, _proto.dispose = function() {
                     this.disableInterval_(), this.off(this.player_, [
@@ -7234,13 +7234,13 @@
                  *        The key/value store of player options.
                  */ function ProgressControl(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).handleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleMouseMove), 30), _this.throttledHandleMouseSeek = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleMouseSeek), 30), _this.handleMouseUpHandler_ = function(e) {
+                    return (_this = _Component.call(this, player, options) || this).handleMouseMove = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.handleMouseMove), 30), _this.throttledHandleMouseSeek = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.handleMouseSeek), 30), _this.handleMouseUpHandler_ = function(e) {
                         return _this.handleMouseUp(e);
                     }, _this.handleMouseDownHandler_ = function(e) {
                         return _this.handleMouseDown(e);
                     }, _this.enable(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ProgressControl, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ProgressControl, _Component);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -7387,7 +7387,7 @@
                         return _this.handlePictureInPictureEnabledChange(e);
                     }), _this.disable(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PictureInPictureToggle, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PictureInPictureToggle, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -7451,7 +7451,7 @@
                         return _this.handleFullscreenChange(e);
                     }), !1 === global_document__WEBPACK_IMPORTED_MODULE_1___default()[player.fsApi_.fullscreenEnabled] && _this.disable(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(FullscreenToggle, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(FullscreenToggle, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -7509,7 +7509,7 @@
                 function VolumeLevel() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VolumeLevel, _Component), /**
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VolumeLevel, _Component), /**
                  * Create the `Component`'s DOM element
                  *
                  * @return {Element}
@@ -7539,9 +7539,9 @@
                  *        The key/value store of player options.
                  */ function VolumeLevelTooltip(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update), 30), _this;
+                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update), 30), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VolumeLevelTooltip, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VolumeLevelTooltip, _Component);
                 /**
                  * Create the volume tooltip DOM element
                  *
@@ -7630,9 +7630,9 @@
                  *        The key/value store of player options.
                  */ function MouseVolumeLevelDisplay(player, options) {
                     var _this;
-                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update), 30), _this;
+                    return (_this = _Component.call(this, player, options) || this).update = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update), 30), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MouseVolumeLevelDisplay, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MouseVolumeLevelDisplay, _Component);
                 /**
                  * Create the DOM element for this class.
                  *
@@ -7698,7 +7698,7 @@
                         return _this.updateARIAAttributes();
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VolumeBar, _Slider);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VolumeBar, _Slider);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -7816,7 +7816,7 @@
                  *        The key/value store of player options.
                  */ function VolumeControl(player, options) {
                     var _this;
-                    return void 0 === options && (options = {}), options.vertical = options.vertical || !1, (void 0 === options.volumeBar || isPlain(options.volumeBar)) && (options.volumeBar = options.volumeBar || {}, options.volumeBar.vertical = options.vertical), _this = _Component.call(this, player, options) || this, checkVolumeSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), player), _this.throttledHandleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleMouseMove), 30), _this.handleMouseUpHandler_ = function(e) {
+                    return void 0 === options && (options = {}), options.vertical = options.vertical || !1, (void 0 === options.volumeBar || isPlain(options.volumeBar)) && (options.volumeBar = options.volumeBar || {}, options.volumeBar.vertical = options.vertical), _this = _Component.call(this, player, options) || this, checkVolumeSupport(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), player), _this.throttledHandleMouseMove = throttle(bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.handleMouseMove), 30), _this.handleMouseUpHandler_ = function(e) {
                         return _this.handleMouseUp(e);
                     }, _this.on("mousedown", function(e) {
                         return _this.handleMouseDown(e);
@@ -7837,7 +7837,7 @@
                         _this.volumeBar.removeClass("vjs-slider-active"), _this.removeClass("vjs-slider-active"), _this.trigger("sliderinactive");
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VolumeControl, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VolumeControl, _Component);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -7919,14 +7919,14 @@
                  *        The key/value store of player options.
                  */ function MuteToggle(player, options) {
                     var _this;
-                    return _this = _Button.call(this, player, options) || this, checkMuteSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), player), _this.on(player, [
+                    return _this = _Button.call(this, player, options) || this, checkMuteSupport(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), player), _this.on(player, [
                         "loadstart",
                         "volumechange"
                     ], function(e) {
                         return _this.update(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MuteToggle, _Button);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MuteToggle, _Button);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -8031,7 +8031,7 @@
                         "sliderinactive"
                     ], _this.sliderInactive_), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VolumePanel, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VolumePanel, _Component);
                 /**
                  * Add vjs-slider-active class to the VolumePanel
                  *
@@ -8149,7 +8149,7 @@
                         return _this.handleTapClick(e);
                     }, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Menu, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Menu, _Component);
                 /**
                  * Add event listeners to the {@link MenuItem}.
                  *
@@ -8310,7 +8310,7 @@
                         return _this.handleSubmenuKeyDown(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MenuButton, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MenuButton, _Component);
                 /**
                  * Update the menu based on the current state of its items.
                  */ var _proto = MenuButton.prototype;
@@ -8504,13 +8504,13 @@
                  *        The key/value store of player options.
                  */ function TrackButton(player, options) {
                     var _this, tracks = options.tracks;
-                    if ((_this = _MenuButton.call(this, player, options) || this).items.length <= 1 && _this.hide(), !tracks) return (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this);
-                    var updateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update);
+                    if ((_this = _MenuButton.call(this, player, options) || this).items.length <= 1 && _this.hide(), !tracks) return _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this);
+                    var updateHandler = bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update);
                     return tracks.addEventListener("removetrack", updateHandler), tracks.addEventListener("addtrack", updateHandler), tracks.addEventListener("labelchange", updateHandler), _this.player_.on("ready", updateHandler), _this.player_.on("dispose", function() {
                         tracks.removeEventListener("removetrack", updateHandler), tracks.removeEventListener("addtrack", updateHandler), tracks.removeEventListener("labelchange", updateHandler);
                     }), _this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TrackButton, _MenuButton), TrackButton;
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TrackButton, _MenuButton), TrackButton;
             }(MenuButton);
             Component$1.registerComponent("TrackButton", TrackButton);
             /**
@@ -8542,7 +8542,7 @@
                     var _this;
                     return (_this = _ClickableComponent.call(this, player, options) || this).selectable = options.selectable, _this.isSelected_ = options.selected || !1, _this.multiSelectable = options.multiSelectable, _this.selected(_this.isSelected_), _this.selectable ? _this.multiSelectable ? _this.el_.setAttribute("role", "menuitemcheckbox") : _this.el_.setAttribute("role", "menuitemradio") : _this.el_.setAttribute("role", "menuitem"), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MenuItem, _ClickableComponent);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MenuItem, _ClickableComponent);
                 /**
                  * Create the `MenuItem's DOM element
                  *
@@ -8626,10 +8626,10 @@
                     ]).filter(Boolean);
                     var changeHandler = function() {
                         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                        _this.handleTracksChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), args);
+                        _this.handleTracksChange.apply(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), args);
                     }, selectedLanguageChangeHandler = function() {
                         for(var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
-                        _this.handleSelectedLanguageChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), args);
+                        _this.handleSelectedLanguageChange.apply(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), args);
                     };
                     return player.on([
                         "loadstart",
@@ -8652,7 +8652,7 @@
                         event || (event = global_document__WEBPACK_IMPORTED_MODULE_1___default().createEvent("Event")).initEvent("change", !0, !0), tracks.dispatchEvent(event);
                     }), _this.handleTracksChange(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrackMenuItem, _MenuItem);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrackMenuItem, _MenuItem);
                 /**
                  * This gets called when an `TextTrackMenuItem` is "clicked". See
                  * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -8669,7 +8669,7 @@
                     if (_MenuItem.prototype.handleClick.call(this, event), tracks) for(var i = 0; i < tracks.length; i++){
                         var track = tracks[i]; // If the track from the text tracks list is not of the right kind,
                         // skip it. We do not want to affect tracks of incompatible kind(s).
-                        -1 !== this.kinds.indexOf(track.kind) && (track === referenceTrack ? "showing" !== track.mode && (track.mode = "showing") : "disabled" !== track.mode && (track.mode = "disabled")); // If this text track is the component's track and it is not showing,
+                        this.kinds.indexOf(track.kind) !== -1 && (track === referenceTrack ? "showing" !== track.mode && (track.mode = "showing") : "disabled" !== track.mode && (track.mode = "disabled")); // If this text track is the component's track and it is not showing,
                     }
                 }, /**
                  * Handle text track list change
@@ -8726,7 +8726,7 @@
                         options.kind
                     ]), options.label ? options.track.label = options.label : options.track.label = options.kinds.join(" and ") + " off", options.selectable = !0, options.multiSelectable = !1, _TextTrackMenuItem.call(this, player, options) || this);
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(OffTextTrackMenuItem, _TextTrackMenuItem);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(OffTextTrackMenuItem, _TextTrackMenuItem);
                 /**
                  * Handle text track change
                  *
@@ -8777,7 +8777,7 @@
                  */ function TextTrackButton(player, options) {
                     return void 0 === options && (options = {}), options.tracks = player.textTracks(), _TrackButton.call(this, player, options) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrackButton, _TrackButton), TextTrackButton.prototype.createItems = function(items, TrackMenuItem) {
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrackButton, _TrackButton), TextTrackButton.prototype.createItems = function(items, TrackMenuItem) {
                     void 0 === items && (items = []), void 0 === TrackMenuItem && (TrackMenuItem = TextTrackMenuItem), this.label_ && (label = this.label_ + " off"), items.push(new OffTextTrackMenuItem(this.player_, {
                         kinds: this.kinds_,
                         kind: this.kind_,
@@ -8821,9 +8821,9 @@
                  *        The key/value store of player options.
                  */ function ChaptersTrackMenuItem(player, options) {
                     var _this, track = options.track, cue = options.cue, currentTime = player.currentTime();
-                    return options.selectable = !0, options.multiSelectable = !1, options.label = cue.text, options.selected = cue.startTime <= currentTime && currentTime < cue.endTime, (_this = _MenuItem.call(this, player, options) || this).track = track, _this.cue = cue, track.addEventListener("cuechange", bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.update)), _this;
+                    return options.selectable = !0, options.multiSelectable = !1, options.label = cue.text, options.selected = cue.startTime <= currentTime && currentTime < cue.endTime, (_this = _MenuItem.call(this, player, options) || this).track = track, _this.cue = cue, track.addEventListener("cuechange", bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.update)), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ChaptersTrackMenuItem, _MenuItem);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ChaptersTrackMenuItem, _MenuItem);
                 /**
                  * This gets called when an `ChaptersTrackMenuItem` is "clicked". See
                  * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -8871,7 +8871,7 @@
                  */ function ChaptersButton(player, options, ready) {
                     return _TextTrackButton.call(this, player, options, ready) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ChaptersButton, _TextTrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ChaptersButton, _TextTrackButton);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -8985,12 +8985,12 @@
                  * @param {Component~ReadyCallback} [ready]
                  *        The function to call when this component is ready.
                  */ function DescriptionsButton(player, options, ready) {
-                    var _this = _TextTrackButton.call(this, player, options, ready) || this, tracks = player.textTracks(), changeHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleTracksChange);
+                    var _this = _TextTrackButton.call(this, player, options, ready) || this, tracks = player.textTracks(), changeHandler = bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), _this.handleTracksChange);
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(DescriptionsButton, _TextTrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(DescriptionsButton, _TextTrackButton);
                 /**
                  * Handle text track change
                  *
@@ -9049,7 +9049,7 @@
                  */ function SubtitlesButton(player, options, ready) {
                     return _TextTrackButton.call(this, player, options, ready) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SubtitlesButton, _TextTrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SubtitlesButton, _TextTrackButton);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -9097,7 +9097,7 @@
                         mode: "disabled"
                     }, options.selectable = !1, options.name = "CaptionSettingsMenuItem", (_this = _TextTrackMenuItem.call(this, player, options) || this).addClass("vjs-texttrack-settings"), _this.controlText(", opens " + options.kind + " settings dialog"), _this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(CaptionSettingsMenuItem, _TextTrackMenuItem), CaptionSettingsMenuItem.prototype.handleClick = function(event) {
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(CaptionSettingsMenuItem, _TextTrackMenuItem), CaptionSettingsMenuItem.prototype.handleClick = function(event) {
                     this.player().getChild("textTrackSettings").open();
                 }, CaptionSettingsMenuItem;
             }(TextTrackMenuItem);
@@ -9121,7 +9121,7 @@
                  */ function CaptionsButton(player, options, ready) {
                     return _TextTrackButton.call(this, player, options, ready) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(CaptionsButton, _TextTrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(CaptionsButton, _TextTrackButton);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -9164,7 +9164,7 @@
                 function SubsCapsMenuItem() {
                     return _TextTrackMenuItem.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SubsCapsMenuItem, _TextTrackMenuItem), SubsCapsMenuItem.prototype.createEl = function(type, props, attrs) {
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SubsCapsMenuItem, _TextTrackMenuItem), SubsCapsMenuItem.prototype.createEl = function(type, props, attrs) {
                     var el = _TextTrackMenuItem.prototype.createEl.call(this, type, props, attrs), parentSpan = el.querySelector(".vjs-menu-item-text");
                     return "captions" === this.options_.track.kind && (parentSpan.appendChild(createEl("span", {
                         className: "vjs-icon-placeholder"
@@ -9194,7 +9194,7 @@
                         "fr-ca"
                     ].indexOf(_this.player_.language_) > -1 && (_this.label_ = "captions"), _this.menuButton_.controlText(toTitleCase$1(_this.label_)), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SubsCapsButton, _TextTrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SubsCapsButton, _TextTrackButton);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -9250,13 +9250,13 @@
                     options.label = track.label || track.language || "Unknown", options.selected = track.enabled, (_this = _MenuItem.call(this, player, options) || this).track = track, _this.addClass("vjs-" + track.kind + "-menu-item");
                     var changeHandler = function() {
                         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                        _this.handleTracksChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), args);
+                        _this.handleTracksChange.apply(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), args);
                     };
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
                         tracks.removeEventListener("change", changeHandler);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(AudioTrackMenuItem, _MenuItem);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(AudioTrackMenuItem, _MenuItem);
                 var _proto = AudioTrackMenuItem.prototype;
                 return _proto.createEl = function(type, props, attrs) {
                     var el = _MenuItem.prototype.createEl.call(this, type, props, attrs), parentSpan = el.querySelector(".vjs-menu-item-text");
@@ -9309,7 +9309,7 @@
                  */ function AudioTrackButton(player, options) {
                     return void 0 === options && (options = {}), options.tracks = player.audioTracks(), _TrackButton.call(this, player, options) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(AudioTrackButton, _TrackButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(AudioTrackButton, _TrackButton);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -9369,7 +9369,7 @@
                         return _this.update(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlaybackRateMenuItem, _MenuItem);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PlaybackRateMenuItem, _MenuItem);
                 /**
                  * This gets called when an `PlaybackRateMenuItem` is "clicked". See
                  * {@link ClickableComponent} for more detailed information on what a click can be.
@@ -9423,7 +9423,7 @@
                         return _this.handlePlaybackRateschange(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlaybackRateMenuButton, _MenuButton);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PlaybackRateMenuButton, _MenuButton);
                 /**
                  * Create the `Component`'s DOM element
                  *
@@ -9534,7 +9534,7 @@
                 function Spacer() {
                     return _Component.apply(this, arguments) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Spacer, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Spacer, _Component);
                 var _proto = Spacer.prototype;
                 return(/**
                  * Builds the default DOM `className`.
@@ -9561,7 +9561,7 @@
                 function CustomControlSpacer() {
                     return _Spacer.apply(this, arguments) || this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(CustomControlSpacer, _Spacer);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(CustomControlSpacer, _Spacer);
                 var _proto = CustomControlSpacer.prototype;
                 return(/**
                  * Builds the default DOM `className`.
@@ -9593,7 +9593,7 @@
                 function ControlBar() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ControlBar, _Component), /**
+                return _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ControlBar, _Component), /**
                  * Create the `Component`'s DOM element
                  *
                  * @return {Element}
@@ -9650,7 +9650,7 @@
                         return _this.open(e);
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ErrorDisplay, _ModalDialog);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ErrorDisplay, _ModalDialog);
                 /**
                  * Builds the default DOM `className`.
                  *
@@ -9675,7 +9675,7 @@
              * The default options for an `ErrorDisplay`.
              *
              * @private
-             */ ErrorDisplay.prototype.options_ = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, ModalDialog.prototype.options_, {
+             */ ErrorDisplay.prototype.options_ = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z({}, ModalDialog.prototype.options_, {
                 pauseOnOpen: !1,
                 fillAlways: !0,
                 temporary: !1,
@@ -9925,7 +9925,7 @@
                  *         The key/value store of player options.
                  */ function TextTrackSettings(player, options) {
                     var _this;
-                    return options.temporary = !1, (_this = _ModalDialog.call(this, player, options) || this).updateDisplay = _this.updateDisplay.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.fill(), _this.hasBeenOpened_ = _this.hasBeenFilled_ = !0, _this.endDialog = createEl("p", {
+                    return options.temporary = !1, (_this = _ModalDialog.call(this, player, options) || this).updateDisplay = _this.updateDisplay.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.fill(), _this.hasBeenOpened_ = _this.hasBeenFilled_ = !0, _this.endDialog = createEl("p", {
                         className: "vjs-control-text",
                         textContent: _this.localize("End of dialog window.")
                     }), _this.el().appendChild(_this.endDialog), _this.setDefaults(), void 0 === options.persistTextTrackSettings && (_this.options_.persistTextTrackSettings = _this.options_.playerOptions.persistTextTrackSettings), _this.on(_this.$(".vjs-done-button"), "click", function() {
@@ -9936,7 +9936,7 @@
                         _this.on(_this.$(config.selector), "change", _this.updateDisplay);
                     }), _this.options_.persistTextTrackSettings && _this.restoreSettings(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TextTrackSettings, _ModalDialog);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TextTrackSettings, _ModalDialog);
                 var _proto = TextTrackSettings.prototype;
                 return _proto.dispose = function() {
                     this.endDialog = null, _ModalDialog.prototype.dispose.call(this);
@@ -10106,13 +10106,13 @@
                  * @return {Object}
                  *         An object with config values parsed from the DOM or localStorage.
                  */ _proto.getValues = function() {
-                    var fn, _this3 = this;
+                    var fn, initial, _this3 = this;
                     return fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
+                    }, void 0 === (initial = {}) && (initial = 0), keys(selectConfigs).reduce(function(accum, key) {
                         return fn(accum, selectConfigs[key], key);
-                    }, {});
+                    }, initial);
                 }, /**
                  * Sets text track settings from an object of values.
                  *
@@ -10226,7 +10226,7 @@
                     }, options);
                     return (_this = _Component.call(this, player, options_) || this).ResizeObserver = options.ResizeObserver || global_window__WEBPACK_IMPORTED_MODULE_0___default().ResizeObserver, _this.loadListener_ = null, _this.resizeObserver_ = null, _this.debouncedHandler_ = debounce(function() {
                         _this.resizeHandler();
-                    }, 100, !1, (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), RESIZE_OBSERVER_AVAILABLE ? (_this.resizeObserver_ = new _this.ResizeObserver(_this.debouncedHandler_), _this.resizeObserver_.observe(player.el())) : (_this.loadListener_ = function() {
+                    }, 100, !1, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), RESIZE_OBSERVER_AVAILABLE ? (_this.resizeObserver_ = new _this.ResizeObserver(_this.debouncedHandler_), _this.resizeObserver_.observe(player.el())) : (_this.loadListener_ = function() {
                         if (_this.el_ && _this.el_.contentWindow) {
                             var debouncedHandler_ = _this.debouncedHandler_, unloadListener_ = _this.unloadListener_ = function() {
                                 off(this, "resize", debouncedHandler_), off(this, "unload", unloadListener_), unloadListener_ = null;
@@ -10236,7 +10236,7 @@
                         }
                     }, _this.one("load", _this.loadListener_)), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(ResizeManager, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(ResizeManager, _Component);
                 var _proto = ResizeManager.prototype;
                 return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "iframe", {
@@ -10309,7 +10309,7 @@
                         return _this.toggleTracking();
                     }), IE_VERSION && "hidden" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && "visibilityState" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && _this.on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "visibilitychange", _this.handleVisibilityChange_), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(LiveTracker, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(LiveTracker, _Component);
                 /**
                  * toggle tracking based on document visiblility
                  */ var _proto = LiveTracker.prototype;
@@ -10321,7 +10321,7 @@
                  */ _proto.trackLive_ = function() {
                     var seekable = this.player_.seekable(); // skip undefined seekable
                     if (seekable && seekable.length) {
-                        var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1000;
+                        var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = this.lastTime_ === -1 ? 0 : (newTime - this.lastTime_) / 1000;
                         this.lastTime_ = newTime, this.pastSeekEnd_ = this.pastSeekEnd() + deltaTime;
                         var liveCurrentTime = this.liveCurrentTime(), currentTime = this.player_.currentTime(), isBehind = this.player_.paused() || this.seekedBehindLive_ || Math.abs(liveCurrentTime - currentTime) > this.options_.liveTolerance;
                         this.timeupdateSeen_ && liveCurrentTime !== 1 / 0 || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
@@ -10440,7 +10440,7 @@
                  *         Seconds past the current seekable end
                  */ _proto.pastSeekEnd = function() {
                     var seekableEnd = this.seekableEnd();
-                    return -1 !== this.lastSeekEnd_ && seekableEnd !== this.lastSeekEnd_ && (this.pastSeekEnd_ = 0), this.lastSeekEnd_ = seekableEnd, this.pastSeekEnd_;
+                    return this.lastSeekEnd_ !== -1 && seekableEnd !== this.lastSeekEnd_ && (this.pastSeekEnd_ = 0), this.lastSeekEnd_ = seekableEnd, this.pastSeekEnd_;
                 }, /**
                  * If we are currently behind the live edge, aka currentTime will be
                  * behind on a seekableendchange
@@ -10495,7 +10495,7 @@
                  // only count valid/non-duplicate source elements
                 for(var i = 0; i < sources.length; i++){
                     var url = sources[i].src;
-                    url && -1 === srcUrls.indexOf(url) && srcUrls.push(url);
+                    url && srcUrls.indexOf(url) === -1 && srcUrls.push(url);
                 } // there were no valid sources
                 return !!srcUrls.length && (1 === srcUrls.length && (src = srcUrls[0]), tech.triggerSourceset(src), !0) // there is only one valid source element url
                 ;
@@ -10618,10 +10618,10 @@
                         }
                         for(var i = 0; i < removeNodes.length; i++)_this.el_.removeChild(removeNodes[i]);
                     }
-                    return _this.proxyNativeTracks_(), _this.featuresNativeTextTracks && crossoriginTracks && log$1.warn("Text Tracks are being loaded from another origin but the crossorigin attribute isn't used.\nThis may prevent text tracks from loading."), _this.restoreMetadataTracksInIOSNativePlayer_(), (TOUCH_ENABLED || IS_IPHONE || IS_NATIVE_ANDROID) && !0 === options.nativeControlsForTouch && _this.setControls(!0), // into a `fullscreenchange` event
+                    return _this.proxyNativeTracks_(), _this.featuresNativeTextTracks && crossoriginTracks && log$1.warn("Text Tracks are being loaded from another origin but the crossorigin attribute isn't used.\n" + "This may prevent text tracks from loading."), _this.restoreMetadataTracksInIOSNativePlayer_(), (TOUCH_ENABLED || IS_IPHONE || IS_NATIVE_ANDROID) && !0 === options.nativeControlsForTouch && _this.setControls(!0), // into a `fullscreenchange` event
                     _this.proxyWebkitFullscreen_(), _this.triggerReady(), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Html5, _Tech);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Html5, _Tech);
                 /**
                  * Dispose of `HTML5` media element and remove all tracks.
                  */ var _proto = Html5.prototype;
@@ -12226,7 +12226,7 @@
                     }, _this.boundHandleTechTap_ = function(e) {
                         return _this.handleTechTap_(e);
                     }, _this.isFullscreen_ = !1, _this.log = createLogger(_this.id_), _this.fsApi_ = FullscreenApi, _this.isPosterFromTech_ = !1, // and a seek is happening
-                    _this.queuedCallbacks_ = [], _this.isReady_ = !1, _this.hasStarted_ = !1, _this.userActive_ = !1, _this.debugEnabled_ = !1, !_this.options_ || !_this.options_.techOrder || !_this.options_.techOrder.length) throw Error("No techOrder specified. Did you overwrite videojs.options instead of just changing the properties you want to override?");
+                    _this.queuedCallbacks_ = [], _this.isReady_ = !1, _this.hasStarted_ = !1, _this.userActive_ = !1, _this.debugEnabled_ = !1, !_this.options_ || !_this.options_.techOrder || !_this.options_.techOrder.length) throw Error("No techOrder specified. Did you overwrite " + "videojs.options instead of just changing the properties you want to override?");
                      // Store the original tag used to set options
                     if (_this.tag = tag, _this.tagAttributes = tag && getAttributes(tag), _this.language(_this.options_.language), options.languages) {
                         // Normalise player option languages to lowercase
@@ -12246,7 +12246,7 @@
                      *
                      * @private
                      * @return {Boolean} True if the user is scrubbing
-                     */ _this.scrubbing_ = !1, _this.el_ = _this.createEl(), evented((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), {
+                     */ _this.scrubbing_ = !1, _this.el_ = _this.createEl(), evented(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), {
                         eventBusKey: "el_"
                     }), _this.fsApi_.requestFullscreen && (on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), _this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_), _this.on(_this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_)), _this.fluid_ && _this.on([
                         "playerreset",
@@ -12258,7 +12258,7 @@
                     var playerOptionsCopy = mergeOptions$3(_this.options_); // Load plugins
                     options.plugins && Object.keys(options.plugins).forEach(function(name) {
                         _this[name](options.plugins[name]);
-                    }), options.debug && _this.debug(!0), _this.options_.playerOptions = playerOptionsCopy, _this.middleware_ = [], _this.playbackRates(options.playbackRates), _this.initChildren(), _this.isAudio("audio" === tag.nodeName.toLowerCase()), _this.controls() ? _this.addClass("vjs-controls-enabled") : _this.addClass("vjs-controls-disabled"), _this.el_.setAttribute("role", "region"), _this.isAudio() ? _this.el_.setAttribute("aria-label", _this.localize("Audio Player")) : _this.el_.setAttribute("aria-label", _this.localize("Video Player")), _this.isAudio() && _this.addClass("vjs-audio"), _this.flexNotSupported_() && _this.addClass("vjs-no-flex"), TOUCH_ENABLED && _this.addClass("vjs-touch-enabled"), IS_IOS || _this.addClass("vjs-workinghover"), Player.players[_this.id_] = (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this);
+                    }), options.debug && _this.debug(!0), _this.options_.playerOptions = playerOptionsCopy, _this.middleware_ = [], _this.playbackRates(options.playbackRates), _this.initChildren(), _this.isAudio("audio" === tag.nodeName.toLowerCase()), _this.controls() ? _this.addClass("vjs-controls-enabled") : _this.addClass("vjs-controls-disabled"), _this.el_.setAttribute("role", "region"), _this.isAudio() ? _this.el_.setAttribute("aria-label", _this.localize("Audio Player")) : _this.el_.setAttribute("aria-label", _this.localize("Video Player")), _this.isAudio() && _this.addClass("vjs-audio"), _this.flexNotSupported_() && _this.addClass("vjs-no-flex"), TOUCH_ENABLED && _this.addClass("vjs-touch-enabled"), IS_IOS || _this.addClass("vjs-workinghover"), Player.players[_this.id_] = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this);
                     var majorVersion = version$5.split(".")[0];
                     return _this.addClass("vjs-v" + majorVersion), // like the control bar show themselves if needed
                     _this.userActive(!0), _this.reportUserActivity(), _this.one("play", function(e) {
@@ -12271,7 +12271,7 @@
                         return _this.handleLanguagechange(e);
                     }), _this.breakpoints(_this.options_.breakpoints), _this.responsive(_this.options_.responsive), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Player, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(Player, _Component);
                 /**
                  * Destroys the video player and does any necessary cleanup.
                  *
@@ -12609,7 +12609,7 @@
                  * @return {Tech}
                  *         The Tech
                  */ _proto.tech = function(safety) {
-                    return void 0 === safety && log$1.warn("Using the tech directly can be dangerous. I hope you know what you're doing.\nSee https://github.com/videojs/video.js/issues/2617 for more info.\n"), this.tech_;
+                    return void 0 === safety && log$1.warn("Using the tech directly can be dangerous. I hope you know what you're doing.\n" + "See https://github.com/videojs/video.js/issues/2617 for more info.\n"), this.tech_;
                 }, /**
                  * Set up click and touch listeners for the playback element
                  *
@@ -13711,16 +13711,16 @@
                  * @listens keydown
                  */ _proto.handleKeyDown = function(event) {
                     var el, tagName, userActions = this.options_.userActions; // Bail out if hotkeys are not configured.
-                    userActions && userActions.hotkeys && (tagName = (el = this.el_.ownerDocument.activeElement).tagName.toLowerCase(), el.isContentEditable || ("input" === tagName ? -1 === [
+                    userActions && userActions.hotkeys && (tagName = (el = this.el_.ownerDocument.activeElement).tagName.toLowerCase(), el.isContentEditable || ("input" === tagName ? [
                         "button",
                         "checkbox",
                         "hidden",
                         "radio",
                         "reset",
                         "submit"
-                    ].indexOf(el.type) : -1 !== [
+                    ].indexOf(el.type) === -1 : [
                         "textarea"
-                    ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event))); // Function that determines whether or not to exclude an element from
+                    ].indexOf(tagName) !== -1) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event))); // Function that determines whether or not to exclude an element from
                 }, /**
                  * Called when this Player receives a hotkey keydown event.
                  * Supported player-wide hotkeys are:
@@ -15036,7 +15036,7 @@
                         instance: null
                     }, !0);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    var instance = (0, _babel_runtime_helpers_construct__WEBPACK_IMPORTED_MODULE_18__ /* ["default"] */ .Z)(PluginSubClass, [
+                    var instance = _babel_runtime_helpers_construct__WEBPACK_IMPORTED_MODULE_18__ /* ["default"] */ .Z(PluginSubClass, [
                         this
                     ].concat(args)); // The plugin is replaced by a function that returns the current instance.
                     return this[name] = function() {
@@ -15481,7 +15481,7 @@
                 var subClass = function() {
                     superClass.apply(this, arguments);
                 }, methods = {};
-                for(var name in "object" == typeof subClassMethods ? (subClassMethods.constructor !== Object.prototype.constructor && (subClass = subClassMethods.constructor), methods = subClassMethods) : "function" == typeof subClassMethods && (subClass = subClassMethods), (0, _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_19__ /* ["default"] */ .Z)(subClass, superClass), superClass && (subClass.super_ = superClass), methods)methods.hasOwnProperty(name) && (subClass.prototype[name] = methods[name]);
+                for(var name in "object" == typeof subClassMethods ? (subClassMethods.constructor !== Object.prototype.constructor && (subClass = subClassMethods.constructor), methods = subClassMethods) : "function" == typeof subClassMethods && (subClass = subClassMethods), _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_19__ /* ["default"] */ .Z(subClass, superClass), superClass && (subClass.super_ = superClass), methods)methods.hasOwnProperty(name) && (subClass.prototype[name] = methods[name]);
                 return subClass;
             }, videojs.mergeOptions = mergeOptions$3, videojs.bind = bind, videojs.registerPlugin = Plugin.registerPlugin, videojs.deregisterPlugin = Plugin.deregisterPlugin, /**
              * Deprecated method to register a plugin with Video.js
@@ -15845,7 +15845,7 @@
                     var _ret = function(i) {
                         var playlist = master.playlists[i], CODECS = playlist.attributes && playlist.attributes.CODECS;
                         return CODECS && CODECS.split(",").every(function(c) {
-                            return (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .isAudioCodec */ .KL)(c);
+                            return _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .isAudioCodec */ .KL(c);
                         }) || someAudioVariant(master, function(variant) {
                             return playlistMatch(playlist, variant);
                         }) ? "continue" : {
@@ -16065,7 +16065,7 @@
                             if (p.attributes && p.attributes.AUDIO && p.attributes.AUDIO === groupKey) return;
                         }
                         properties.playlists = [
-                            (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, properties)
+                            _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z({}, properties)
                         ];
                     }
                     properties.playlists.forEach(function(p, i) {
@@ -16182,9 +16182,9 @@
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
                     _this.src = src, _this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife;
                     var vhsOptions = vhs.options_;
-                    return _this.customTagParsers = vhsOptions && vhsOptions.customTagParsers || [], _this.customTagMappers = vhsOptions && vhsOptions.customTagMappers || [], _this.experimentalLLHLS = vhsOptions && vhsOptions.experimentalLLHLS || !1, videojs.browser.IE_VERSION && (_this.experimentalLLHLS = !1), _this.state = "HAVE_NOTHING", _this.handleMediaupdatetimeout_ = _this.handleMediaupdatetimeout_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.on("mediaupdatetimeout", _this.handleMediaupdatetimeout_), _this;
+                    return _this.customTagParsers = vhsOptions && vhsOptions.customTagParsers || [], _this.customTagMappers = vhsOptions && vhsOptions.customTagMappers || [], _this.experimentalLLHLS = vhsOptions && vhsOptions.experimentalLLHLS || !1, videojs.browser.IE_VERSION && (_this.experimentalLLHLS = !1), _this.state = "HAVE_NOTHING", _this.handleMediaupdatetimeout_ = _this.handleMediaupdatetimeout_.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.on("mediaupdatetimeout", _this.handleMediaupdatetimeout_), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlaylistLoader, _EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(PlaylistLoader, _EventTarget);
                 var _proto = PlaylistLoader.prototype;
                 return _proto.handleMediaupdatetimeout_ = function() {
                     var _this2 = this;
@@ -16289,7 +16289,7 @@
                         playlist = this.master.playlists[playlist];
                     }
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.finalRenditionTimeout), shouldDelay) {
-                        var delay = (playlist.partTargetDuration || playlist.targetDuration) / 2 * 1000 || 5000;
+                        var delay = (playlist.partTargetDuration || playlist.targetDuration) / 2 * 1000 || 5 * 1000;
                         this.finalRenditionTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(this.media.bind(this, playlist, !1), delay);
                         return;
                     }
@@ -16344,7 +16344,7 @@
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null);
                     var media = this.media();
                     if (shouldDelay) {
-                        var delay = media ? (media.partTargetDuration || media.targetDuration) / 2 * 1000 : 5000;
+                        var delay = media ? (media.partTargetDuration || media.targetDuration) / 2 * 1000 : 5 * 1000;
                         this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this5.mediaUpdateTimeout = null, _this5.load();
                         }, delay);
@@ -16443,7 +16443,7 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8 * 1000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     // Add a default timeout
@@ -16598,7 +16598,7 @@
                     message: "valid programTime was not found"
                 });
                 if ("estimate" === matchedSegment.type) return callback({
-                    message: "Accurate programTime could not be determined. Please seek to e.seekTime and try again",
+                    message: "Accurate programTime could not be determined." + " Please seek to e.seekTime and try again",
                     seekTime: matchedSegment.estimatedStart
                 });
                 var programTimeObject = {
@@ -16654,10 +16654,10 @@
                          // grap the new part of content that was just downloaded
                         var newPart = request.responseText.substring(bytes && bytes.byteLength || 0, request.responseText.length); // add that onto bytes
                         // or we need at least two bytes after an id3Offset
-                        if (bytes = (0, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .concatTypedArrays */ .lx)(bytes, (0, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .stringToBytes */ .qX)(newPart, !0)), id3Offset = id3Offset || (0, _videojs_vhs_utils_es_id3_helpers__WEBPACK_IMPORTED_MODULE_11__ /* .getId3Offset */ .c)(bytes), bytes.length < 10 || id3Offset && bytes.length < id3Offset + 2) return callbackOnCompleted(request, function() {
+                        if (bytes = _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .concatTypedArrays */ .lx(bytes, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .stringToBytes */ .qX(newPart, !0)), id3Offset = id3Offset || _videojs_vhs_utils_es_id3_helpers__WEBPACK_IMPORTED_MODULE_11__ /* .getId3Offset */ .c(bytes), bytes.length < 10 || id3Offset && bytes.length < id3Offset + 2) return callbackOnCompleted(request, function() {
                             return endRequestAndCallback(error, request, "", bytes);
                         });
-                        var type = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm)(bytes); // if this looks like a ts segment but we don't have enough data
+                        var type = _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm(bytes); // if this looks like a ts segment but we don't have enough data
                         return(// to see the second sync byte, wait until we have enough data
                         // before declaring it ts
                         "ts" === type && bytes.length < 188 || !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
@@ -16696,7 +16696,7 @@
                 } // if everything was the same with segments, this is the same playlist.
                 return !0;
             }, parseMasterXml = function(_ref) {
-                var masterXml = _ref.masterXml, srcUrl = _ref.srcUrl, clientOffset = _ref.clientOffset, sidxMapping = _ref.sidxMapping, master = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .parse */ .Qc)(masterXml, {
+                var masterXml = _ref.masterXml, srcUrl = _ref.srcUrl, clientOffset = _ref.clientOffset, sidxMapping = _ref.sidxMapping, master = mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .parse */ .Qc(masterXml, {
                     manifestUri: srcUrl,
                     clientOffset: clientOffset,
                     sidxMapping: sidxMapping
@@ -16710,8 +16710,8 @@
                 }), i = 0; i < newMaster.playlists.length; i++){
                     var playlist = newMaster.playlists[i];
                     if (playlist.sidx) {
-                        var sidxKey = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm)(playlist.sidx); // add sidx segments to the playlist if we have all the sidx info already
-                        sidxMapping && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx && (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .addSidxSegmentsToPlaylist */ .jp)(playlist, sidxMapping[sidxKey].sidx, playlist.sidx.resolvedUri);
+                        var sidxKey = mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm(playlist.sidx); // add sidx segments to the playlist if we have all the sidx info already
+                        sidxMapping && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx && mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .addSidxSegmentsToPlaylist */ .jp(playlist, sidxMapping[sidxKey].sidx, playlist.sidx.resolvedUri);
                     }
                     var playlistUpdate = updateMaster$1(update, playlist, dashPlaylistUnchanged);
                     playlistUpdate && (update = playlistUpdate, noChanges = !1);
@@ -16727,7 +16727,7 @@
                 for(var id in playlists){
                     var currentSidxInfo = playlists[id].sidx;
                     if (currentSidxInfo) {
-                        var a, key = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm)(currentSidxInfo);
+                        var a, key = mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm(currentSidxInfo);
                         if (!oldSidxMapping[key]) break;
                         (!(a = oldSidxMapping[key].sidxInfo).map && !currentSidxInfo.map || a.map && currentSidxInfo.map && a.map.byterange.offset === currentSidxInfo.map.byterange.offset && a.map.byterange.length === currentSidxInfo.map.byterange.length) && a.uri === currentSidxInfo.uri && a.byterange.offset === currentSidxInfo.byterange.offset && a.byterange.length === currentSidxInfo.byterange.length && (newSidxMapping[key] = oldSidxMapping[key]);
                     }
@@ -16745,7 +16745,7 @@
                 // playlist loader setups from media groups will expect to be able to pass a playlist
                 // (since there aren't external URLs to media playlists with DASH)
                 function DashPlaylistLoader(srcUrlOrPlaylist, vhs, options, masterPlaylistLoader) {
-                    void 0 === options && (options = {}), (_this = _EventTarget.call(this) || this).masterPlaylistLoader_ = masterPlaylistLoader || (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), masterPlaylistLoader || (_this.isMaster_ = !0);
+                    void 0 === options && (options = {}), (_this = _EventTarget.call(this) || this).masterPlaylistLoader_ = masterPlaylistLoader || _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), masterPlaylistLoader || (_this.isMaster_ = !0);
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
                     if (_this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife, !srcUrlOrPlaylist) throw Error("A non-empty playlist URL or object is required");
                      // event naming?
@@ -16756,7 +16756,7 @@
                     }), _this.state = "HAVE_NOTHING", _this.loadedPlaylists_ = {}, _this.logger_ = logger("DashPlaylistLoader"), _this.isMaster_ ? (_this.masterPlaylistLoader_.srcUrl = srcUrlOrPlaylist, // once multi-period is refactored
                     _this.masterPlaylistLoader_.sidxMapping_ = {}) : _this.childPlaylist_ = srcUrlOrPlaylist, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(DashPlaylistLoader, _EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(DashPlaylistLoader, _EventTarget);
                 var _proto = DashPlaylistLoader.prototype;
                 return _proto.requestErrored_ = function(err, request, startingState) {
                     return(// disposed
@@ -16774,7 +16774,7 @@
                  * Verify that the container of the sidx segment can be parsed
                  * and if it can, get and parse that segment.
                  */ _proto.addSidxSegments_ = function(playlist, startingState, cb) {
-                    var _this2 = this, sidxKey = playlist.sidx && (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm)(playlist.sidx);
+                    var _this2 = this, sidxKey = playlist.sidx && mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .generateSidxKey */ .mm(playlist.sidx);
                     if (!playlist.sidx || !sidxKey || this.masterPlaylistLoader_.sidxMapping_[sidxKey]) {
                         // keep this function async
                         this.mediaRequest_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
@@ -16786,7 +16786,7 @@
                         if (!_this2.requestErrored_(err, request, startingState)) {
                             var sidx, sidxMapping = _this2.masterPlaylistLoader_.sidxMapping_;
                             try {
-                                sidx = mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10___default()((0, _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .toUint8 */ .Ki)(request.response).subarray(8));
+                                sidx = mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10___default()(_videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ /* .toUint8 */ .Ki(request.response).subarray(8));
                             } catch (e) {
                                 // sidx parsing failed.
                                 _this2.requestErrored_(e, request, startingState);
@@ -16795,7 +16795,7 @@
                             return sidxMapping[sidxKey] = {
                                 sidxInfo: playlist.sidx,
                                 sidx: sidx
-                            }, (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .addSidxSegmentsToPlaylist */ .jp)(playlist, sidx, playlist.sidx.resolvedUri), cb(!0);
+                            }, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .addSidxSegmentsToPlaylist */ .jp(playlist, sidx, playlist.sidx.resolvedUri), cb(!0);
                         }
                     };
                     this.request = containerRequest(uri, this.vhs_.xhr, function(err, request, container, bytes) {
@@ -16872,7 +16872,7 @@
                     global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null;
                     var media = this.media();
                     if (isFinalRendition) {
-                        var delay = media ? media.targetDuration / 2 * 1000 : 5000;
+                        var delay = media ? media.targetDuration / 2 * 1000 : 5 * 1000;
                         this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             return _this4.load();
                         }, delay);
@@ -16923,7 +16923,7 @@
                  * @param {Function} done
                  *        Function to call when clock sync has completed
                  */ _proto.syncClientServerClock_ = function(done) {
-                    var _this7 = this, utcTiming = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .parseUTCTiming */ .LG)(this.masterPlaylistLoader_.masterXml_);
+                    var _this7 = this, utcTiming = mpd_parser__WEBPACK_IMPORTED_MODULE_9__ /* .parseUTCTiming */ .LG(this.masterPlaylistLoader_.masterXml_);
                     return(// server clock
                     null === utcTiming ? (this.masterPlaylistLoader_.clientOffset_ = this.masterLoaded_ - Date.now(), done()) : "DIRECT" === utcTiming.method ? (this.masterPlaylistLoader_.clientOffset_ = utcTiming.value - Date.now(), done()) : void (this.request = this.vhs_.xhr({
                         uri: resolveUrl(this.masterPlaylistLoader_.srcUrl, utcTiming.value),
@@ -17130,7 +17130,17 @@
                     this.trigger("endedtimeline", flushSource);
                 }, Stream.prototype.reset = function(flushSource) {
                     this.trigger("reset", flushSource);
-                }, function() {
+                };
+                /**
+                     * mux.js
+                     *
+                     * Copyright (c) Brightcove
+                     * Licensed Apache-2.0 https://github.com/videojs/mux.js/blob/master/LICENSE
+                     *
+                     * Functions that generate fragmented MP4s suitable for use with Media
+                     * Source Extensions.
+                     */ var UINT32_MAX = 4294967296 - 1;
+                !function() {
                     var i;
                     // don't throw an error
                     if (types = {
@@ -17805,8 +17815,9 @@
                      * Generate a track fragment (traf) box. A traf box collects metadata
                      * about tracks in a movie fragment (moof) box.
                      */ traf = function(track) {
-                    var trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable, upperWordBaseMediaDecodeTime, lowerWordBaseMediaDecodeTime;
-                    return (trackFragmentHeader = box(types.tfhd, new Uint8Array([
+                    var trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable, dataOffset, upperWordBaseMediaDecodeTime, lowerWordBaseMediaDecodeTime;
+                    return(// audio tracks require less metadata
+                    (trackFragmentHeader = box(types.tfhd, new Uint8Array([
                         0x00,
                         0x00,
                         0x00,
@@ -17831,7 +17842,7 @@
                         0x00,
                         0x00,
                         0x00
-                    ])), upperWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime / 4294967296), lowerWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime % 4294967296), trackFragmentDecodeTime = box(types.tfdt, new Uint8Array([
+                    ])), upperWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime / (UINT32_MAX + 1)), lowerWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime % (UINT32_MAX + 1)), trackFragmentDecodeTime = box(types.tfdt, new Uint8Array([
                         0x01,
                         0x00,
                         0x00,
@@ -17845,9 +17856,17 @@
                         lowerWordBaseMediaDecodeTime >>> 16 & 0xff,
                         lowerWordBaseMediaDecodeTime >>> 8 & 0xff,
                         0xff & lowerWordBaseMediaDecodeTime
-                    ])), "audio" === track.type) ? (trackFragmentRun = trun$1(track, 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (// box (sdtp)
+                    ])), // the containing moof to the first payload byte of the associated
+                    // mdat
+                    dataOffset = 32 + // tfhd
+                    20 + // tfdt
+                    8 + // traf header
+                    16 + // mfhd
+                    8 + // moof header
+                    8, "audio" === track.type) ? (trackFragmentRun = trun$1(track, dataOffset), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (// box (sdtp)
                     // generate one and adjust offsets to match
-                    sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable));
+                    sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + dataOffset), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable)) // video tracks should contain an independent and disposable samples
+                    );
                 }, /**
                      * Generate a track box.
                      * @param track {object} a track definition
@@ -17903,11 +17922,11 @@
                     ];
                 }, videoTrun = function(track, offset) {
                     var bytesOffest, bytes, header, samples, sample, i;
-                    for(offset += 20 + 16 * (samples = track.samples || []).length, (bytes = new Uint8Array((header = trunHeader(samples, offset)).length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
+                    for(offset += 8 + 12 + 16 * (samples = track.samples || []).length, (bytes = new Uint8Array((header = trunHeader(samples, offset)).length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = sample.flags.degradationPriority & 0xf0 << 8, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
                     return box(types.trun, bytes);
                 }, audioTrun = function(track, offset) {
                     var bytes, bytesOffest, header, samples, sample, i;
-                    for(offset += 20 + 8 * (samples = track.samples || []).length, (bytes = new Uint8Array((header = trunHeader(samples, offset)).length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
+                    for(offset += 8 + 12 + 8 * (samples = track.samples || []).length, (bytes = new Uint8Array((header = trunHeader(samples, offset)).length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
                     return box(types.trun, bytes);
                 }, trun$1 = function(track, offset) {
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
@@ -19015,7 +19034,7 @@
                     0x1400,
                     0x1420
                 ], createDisplayBuffer = function() {
-                    for(var result = [], i = 15; i--;)result.push("");
+                    for(var result = [], i = 14 + 1; i--;)result.push("");
                     return result;
                 }, Cea608Stream = function Cea608Stream(field, dataChannel) {
                     Cea608Stream.prototype.init.call(this), this.field_ = field || 0, this.dataChannel_ = dataChannel || 0, this.name_ = "CC" + ((this.field_ << 1 | this.dataChannel_) + 1), this.setConstants(), this.reset(), this.push = function(packet) {
@@ -19066,7 +19085,7 @@
                             // find the row code in an array and use its index :(
                             var row = ROWS.indexOf(0x1f20 & data); // Configure the caption window if we're in roll-up mode
                             "rollUp" === this.mode_ && (row - this.rollUpRows_ + 1 < 0 && (row = this.rollUpRows_ - 1), this.setRollUp(packet.pts, row)), row !== this.row_ && (// formatting is only persistent for current row
-                            this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && -1 === this.formatting_.indexOf("u") && this.addFormatting(packet.pts, [
+                            this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && this.formatting_.indexOf("u") === -1 && this.addFormatting(packet.pts, [
                                 "u"
                             ]), (0x10 & data) == 0x10 && // We've got an indent level code. Each successive even number
                             // increments the column cursor by 4, so we can get the desired
@@ -19229,7 +19248,7 @@
                 }, Cea608Stream.prototype.shiftRowsUp_ = function() {
                     var i; // clear out inactive rows
                     for(i = 0; i < this.topRow_; i++)this.displayed_[i] = "";
-                    for(i = this.row_ + 1; i < 15; i++)this.displayed_[i] = "";
+                    for(i = this.row_ + 1; i < 14 + 1; i++)this.displayed_[i] = "";
                      // shift displayed rows up
                     for(i = this.topRow_; i < this.row_; i++)this.displayed_[i] = this.displayed_[i + 1];
                      // clear out the bottom row
@@ -20074,7 +20093,7 @@
                     parseId3TagSize: parseId3TagSize,
                     parseAdtsSize: function(header, byteIndex) {
                         var lowThree = (0xe0 & header[byteIndex + 5]) >> 5, middle = header[byteIndex + 4] << 3;
-                        return 6144 & header[byteIndex + 3] | middle | lowThree;
+                        return header[byteIndex + 3] & 0x3 << 11 | middle | lowThree;
                     },
                     parseType: function(header, byteIndex) {
                         return 73 === header[byteIndex] && 68 === header[byteIndex + 1] && 51 === header[byteIndex + 2] ? "timed-metadata" : !0 & header[byteIndex] && (0xf0 & header[byteIndex + 1]) == 0xf0 ? "audio" : null;
@@ -21029,7 +21048,7 @@
                                         // the keyframe seems to work fine with HLS playback
                                         // and definitely preferable to a crash with TypeError...
                                         firstKeyFrame ? (result.firstKeyFrame = firstKeyFrame, result.firstKeyFrame.type = "video") : // eslint-disable-next-line
-                                        console.warn("Failed to extract PTS/DTS from PES at first keyframe. This could be an unusual TS segment, or else mux.js did not parse your TS segment correctly. If you know your TS segments do contain PTS/DTS on keyframes please file a bug report! You can try ffprobe to double check for yourself.");
+                                        console.warn("Failed to extract PTS/DTS from PES at first keyframe. " + "This could be an unusual TS segment, or else mux.js did not parse your TS segment correctly. If you know your TS segments do contain PTS/DTS on keyframes please file a bug report! You can try ffprobe to double check for yourself.");
                                     }
                                     currentFrame.size = 0;
                                 }
@@ -21456,7 +21475,7 @@
                     }), transmuxer;
                 }
             }, workerCallback = function(options) {
-                var transmuxer = options.transmuxer, endAction = options.endAction || options.action, callback = options.callback, message = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, options, {
+                var transmuxer = options.transmuxer, endAction = options.endAction || options.action, callback = options.callback, message = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z({}, options, {
                     endAction: null,
                     transmuxer: null,
                     callback: null
@@ -21487,7 +21506,7 @@
                 };
                 return stats.bytesReceived = progressEvent.loaded, // because we should only use bandwidth stats on progress to determine when
                 // abort a request early due to insufficient bandwidth
-                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8000), stats;
+                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8 * 1000), stats;
             }, handleErrors = function(error, request) {
                 return request.timedout ? {
                     status: request.status,
@@ -21529,7 +21548,7 @@
                     return finishProcessingFn(null, segment);
                 };
             }, parseInitSegment = function(segment, _callback) {
-                var type = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm)(segment.map.bytes); // TODO: We should also handle ts init segments here, but we
+                var type = _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm(segment.map.bytes); // TODO: We should also handle ts init segments here, but we
                 // only know how to parse mp4 init segments at the moment
                 if ("mp4" !== type) return _callback({
                     internal: !0,
@@ -21641,7 +21660,7 @@
                 // to check if something is fmp4. This will allow us to save bandwidth
                 // because we can only blacklist a playlist and abort requests
                 // by codec after trackinfo triggers.
-                if ((0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .isLikelyFmp4MediaSegment */ .cz)(bytesAsUint8Array)) {
+                if (_videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .isLikelyFmp4MediaSegment */ .cz(bytesAsUint8Array)) {
                     segment.isFmp4 = !0;
                     var tracks = segment.map.tracks, trackInfo = {
                         isFmp4: !0,
@@ -21703,7 +21722,7 @@
                     doneFn(null, segment, {});
                     return;
                 }
-                if (void 0 === segment.container && (segment.container = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm)(bytesAsUint8Array)), "ts" !== segment.container && "aac" !== segment.container) {
+                if (void 0 === segment.container && (segment.container = _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm(bytesAsUint8Array)), "ts" !== segment.container && "aac" !== segment.container) {
                     trackInfoFn(segment, {
                         hasAudio: !1,
                         hasVideo: !1
@@ -21926,7 +21945,7 @@
                 // if the codecs were explicitly specified, use them instead of the
                 // defaults
                 var mediaAttributes = media.attributes || {};
-                if (mediaAttributes.CODECS) return (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(mediaAttributes.CODECS);
+                if (mediaAttributes.CODECS) return _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(mediaAttributes.CODECS);
             }, isMaat = function(master, media) {
                 var mediaAttributes = media.attributes || {};
                 return master && master.mediaGroups && master.mediaGroups.AUDIO && mediaAttributes.AUDIO && master.mediaGroups.AUDIO[mediaAttributes.AUDIO];
@@ -21943,7 +21962,7 @@
                 var codecs = {};
                 return codecList.forEach(function(_ref) {
                     var mediaType = _ref.mediaType, type = _ref.type, details = _ref.details;
-                    codecs[mediaType] = codecs[mediaType] || [], codecs[mediaType].push((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .translateLegacyCodec */ .ws)("" + type + details));
+                    codecs[mediaType] = codecs[mediaType] || [], codecs[mediaType].push(_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .translateLegacyCodec */ .ws("" + type + details));
                 }), Object.keys(codecs).forEach(function(mediaType) {
                     if (codecs[mediaType].length > 1) {
                         logFn$1("multiple " + mediaType + " codecs found as attributes: " + codecs[mediaType].join(", ") + ". Setting playlist codecs to null so that we wait for mux.js to probe segments for real codecs."), codecs[mediaType] = null;
@@ -21961,7 +21980,7 @@
                     // It is possible for codecs to be specified on the audio media group playlist but
                     // not on the rendition playlist. This is mostly the case for DASH, where audio and
                     // video are always separate (and separately specified).
-                    var defaultCodecs = unwrapCodecList((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .codecsFromDefault */ .Jg)(master, mediaAttributes.AUDIO) || []);
+                    var defaultCodecs = unwrapCodecList(_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .codecsFromDefault */ .Jg(master, mediaAttributes.AUDIO) || []);
                     defaultCodecs.audio && (codecInfo.audio = defaultCodecs.audio);
                 }
                 return codecInfo;
@@ -22233,7 +22252,7 @@
                 return buffer.slice(0, i).concat(gops);
             }, removeGopBuffer = function(buffer, start, end, mapping) {
                 for(var startPts = Math.ceil((start - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), endPts = Math.ceil((end - mapping) * mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__.ONE_SECOND_IN_TS), updatedBuffer = buffer.slice(), i = buffer.length; i-- && !(buffer[i].pts <= endPts););
-                if (-1 === i) // no removal because end of remove range is before start of buffer
+                if (i === -1) // no removal because end of remove range is before start of buffer
                 return updatedBuffer;
                 for(var j = i + 1; j-- && !(buffer[j].pts <= startPts););
                  // clamp remove range start to 0 index
@@ -22372,7 +22391,7 @@
                         return _this.trigger("syncinfoupdate");
                     }, _this.syncController_.on("syncinfoupdate", _this.triggerSyncInfoUpdate_), _this.mediaSource_.addEventListener("sourceopen", function() {
                         _this.isEndOfStream_() || (_this.ended_ = !1);
-                    }), _this.fetchAtBuffer_ = !1, _this.logger_ = logger("SegmentLoader[" + _this.loaderType_ + "]"), Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "state", {
+                    }), _this.fetchAtBuffer_ = !1, _this.logger_ = logger("SegmentLoader[" + _this.loaderType_ + "]"), Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), "state", {
                         get: function() {
                             return this.state_;
                         },
@@ -22387,7 +22406,7 @@
                         _this.hasEnoughInfoToLoad_() && _this.processLoadQueue_(), _this.hasEnoughInfoToAppend_() && _this.processCallQueue_();
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SegmentLoader, _videojs$EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SegmentLoader, _videojs$EventTarget);
                 var _proto = SegmentLoader.prototype;
                 return _proto.createTransmuxer_ = function() {
                     return segmentTransmuxer.createTransmuxer({
@@ -23063,7 +23082,7 @@
                         // allow for appends of segments this size). In the future, it may be possible to
                         // split up the segment and append in pieces, but for now, error out this playlist
                         // in an attempt to switch to a more manageable rendition.
-                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to buffer, triggering an error. Appended byte length: " + bytes.byteLength + ", audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", "), this.error({
+                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to " + "buffer, triggering an error. Appended byte length: " + bytes.byteLength + ", audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", "), this.error({
                             message: "Quota exceeded error with append of a single segment of content",
                             excludeUntil: 1 / 0
                         }), this.trigger("error");
@@ -23088,10 +23107,10 @@
                     // before retrying.
                     var timeToRemoveUntil = this.currentTime_() - 1;
                     this.logger_("On QUOTA_EXCEEDED_ERR, removing audio/video from 0 to " + timeToRemoveUntil), this.remove(0, timeToRemoveUntil, function() {
-                        _this3.logger_("On QUOTA_EXCEEDED_ERR, retrying append in 1s"), _this3.waitingOnRemove_ = !1, // attempts (since we can't clear less than the minimum)
+                        _this3.logger_("On QUOTA_EXCEEDED_ERR, retrying append in " + "1s"), _this3.waitingOnRemove_ = !1, // attempts (since we can't clear less than the minimum)
                         _this3.quotaExceededErrorRetryTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this3.logger_("On QUOTA_EXCEEDED_ERR, re-processing call queue"), _this3.quotaExceededErrorRetryTimeout_ = null, _this3.processCallQueue_();
-                        }, 1000);
+                        }, 1000 * 1);
                     }, !0);
                 }, _proto.handleAppendError_ = function(_ref6, error) {
                     var segmentInfo = _ref6.segmentInfo, type = _ref6.type, bytes = _ref6.bytes; // if there's no error, nothing to do
@@ -23167,10 +23186,10 @@
                         this.loadQueue_.push(function() {
                             // regenerate the audioAppendStart, timestampOffset, etc as they
                             // may have changed since this function was added to the queue.
-                            var options = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, segmentInfo, {
+                            var options = _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z({}, segmentInfo, {
                                 forceTimestampOffset: !0
                             });
-                            (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)(segmentInfo, _this4.generateSegmentInfo_(options)), _this4.isPendingTimestampOffset_ = !1, _this4.updateTransmuxerAndRequestSegment_(segmentInfo);
+                            _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z(segmentInfo, _this4.generateSegmentInfo_(options)), _this4.isPendingTimestampOffset_ = !1, _this4.updateTransmuxerAndRequestSegment_(segmentInfo);
                         });
                         return;
                     }
@@ -23359,7 +23378,7 @@
                 }, _proto.checkForIllegalMediaSwitch = function(trackInfo) {
                     var loaderType, startingMedia, illegalMediaSwitchError = (loaderType = this.loaderType_, startingMedia = this.getCurrentMediaInfo_(), // Although these checks should most likely cover non 'main' types, for now it narrows
                     // the scope of our checks.
-                    "main" === loaderType && startingMedia && trackInfo ? trackInfo.hasAudio || trackInfo.hasVideo ? startingMedia.hasVideo && !trackInfo.hasVideo ? "Only audio found in segment when we expected video. We can't switch to audio only from a stream that had video. To get rid of this message, please add codec information to the manifest." : !startingMedia.hasVideo && trackInfo.hasVideo ? "Video found in segment when we expected only audio. We can't switch to a stream with video from an audio only stream. To get rid of this message, please add codec information to the manifest." : null : "Neither audio nor video found in segment." : null);
+                    "main" === loaderType && startingMedia && trackInfo ? trackInfo.hasAudio || trackInfo.hasVideo ? startingMedia.hasVideo && !trackInfo.hasVideo ? "Only audio found in segment when we expected video." + " We can't switch to audio only from a stream that had video. To get rid of this message, please add codec information to the manifest." : !startingMedia.hasVideo && trackInfo.hasVideo ? "Video found in segment when we expected only audio." + " We can't switch to a stream with video from an audio only stream. To get rid of this message, please add codec information to the manifest." : null : "Neither audio nor video found in segment." : null);
                     return !!illegalMediaSwitchError && (this.error({
                         message: illegalMediaSwitchError,
                         blacklistDuration: 1 / 0
@@ -23458,7 +23477,7 @@
                         this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
-                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000); // Add one to the time to ensure that we don't accidentally attempt to divide
+                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8 * 1000); // Add one to the time to ensure that we don't accidentally attempt to divide
                     //   newAvg = oldAvg + (sample - oldAvg) / (sampleCount + 1)
                     this.throughput.rate += (segmentProcessingThroughput - rate) / ++this.throughput.count;
                 }, /**
@@ -23548,7 +23567,7 @@
                 var buffer = sourceUpdater[type + "Buffer"], titleType = toTitleCase(type);
                 buffer && (buffer.removeEventListener("updateend", sourceUpdater["on" + titleType + "UpdateEnd_"]), buffer.removeEventListener("error", sourceUpdater["on" + titleType + "Error_"]), sourceUpdater.codecs[type] = null, sourceUpdater[type + "Buffer"] = null);
             }, inSourceBuffers = function(mediaSource, sourceBuffer) {
-                return mediaSource && sourceBuffer && -1 !== Array.prototype.indexOf.call(mediaSource.sourceBuffers, sourceBuffer);
+                return mediaSource && sourceBuffer && Array.prototype.indexOf.call(mediaSource.sourceBuffers, sourceBuffer) !== -1;
             }, actions = {
                 appendBuffer: function(bytes, segmentInfo, onError) {
                     return function(type, sourceUpdater) {
@@ -23630,7 +23649,7 @@
                 },
                 addSourceBuffer: function(type, codec) {
                     return function(sourceUpdater) {
-                        var titleType = toTitleCase(type), mime = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5)(codec);
+                        var titleType = toTitleCase(type), mime = _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5(codec);
                         sourceUpdater.logger_("Adding " + type + "Buffer with codec " + codec + " to mediaSource");
                         var sourceBuffer = sourceUpdater.mediaSource.addSourceBuffer(mime);
                         sourceBuffer.addEventListener("updateend", sourceUpdater["on" + titleType + "UpdateEnd_"]), sourceBuffer.addEventListener("error", sourceUpdater["on" + titleType + "Error_"]), sourceUpdater.codecs[type] = codec, sourceUpdater[type + "Buffer"] = sourceBuffer;
@@ -23652,7 +23671,7 @@
                 },
                 changeType: function(codec) {
                     return function(type, sourceUpdater) {
-                        var sourceBuffer = sourceUpdater[type + "Buffer"], mime = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5)(codec);
+                        var sourceBuffer = sourceUpdater[type + "Buffer"], mime = _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5(codec);
                         // or the media source does not contain this source buffer.
                         inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer) && sourceUpdater.codecs[type] !== codec && (sourceUpdater.logger_("changing " + type + "Buffer codec from " + sourceUpdater.codecs[type] + " to " + codec), sourceBuffer.changeType(mime), sourceUpdater.codecs[type] = codec); // do not update codec if we don't need to.
                     };
@@ -23684,11 +23703,11 @@
                 function SourceUpdater(mediaSource) {
                     var _this;
                     return (_this = _videojs$EventTarget.call(this) || this).mediaSource = mediaSource, _this.sourceopenListener_ = function() {
-                        return shiftQueue("mediaSource", (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this));
+                        return shiftQueue("mediaSource", _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this));
                     }, _this.mediaSource.addEventListener("sourceopen", _this.sourceopenListener_), _this.logger_ = logger("SourceUpdater"), _this.audioTimestampOffset_ = 0, _this.videoTimestampOffset_ = 0, _this.queue = [], _this.queuePending = {
                         audio: null,
                         video: null
-                    }, _this.delayedAudioAppendQueue_ = [], _this.videoAppendQueued_ = !1, _this.codecs = {}, _this.onVideoUpdateEnd_ = onUpdateend("video", (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.onAudioUpdateEnd_ = onUpdateend("audio", (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.onVideoError_ = function(e) {
+                    }, _this.delayedAudioAppendQueue_ = [], _this.videoAppendQueued_ = !1, _this.codecs = {}, _this.onVideoUpdateEnd_ = onUpdateend("video", _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.onAudioUpdateEnd_ = onUpdateend("audio", _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.onVideoError_ = function(e) {
                         // used for debugging
                         _this.videoError_ = e;
                     }, _this.onAudioError_ = function(e) {
@@ -23696,7 +23715,7 @@
                         _this.audioError_ = e;
                     }, _this.createdSourceBuffers_ = !1, _this.initializedEme_ = !1, _this.triggeredReady_ = !1, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SourceUpdater, _videojs$EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SourceUpdater, _videojs$EventTarget);
                 var _proto = SourceUpdater.prototype;
                 return _proto.initializedEme = function() {
                     this.initializedEme_ = !0, this.triggerReady();
@@ -24032,7 +24051,7 @@
                     (_this = _SegmentLoader.call(this, settings, options) || this).mediaSource_ = null, _this.subtitlesTrack_ = null, _this.loaderType_ = "subtitle", _this.featuresNativeTextTracks_ = settings.featuresNativeTextTracks, // the sync controller leads to improper behavior.
                     _this.shouldSaveSegmentTimingInfo_ = !1, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VTTSegmentLoader, _SegmentLoader);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VTTSegmentLoader, _SegmentLoader);
                 var _proto = VTTSegmentLoader.prototype;
                 return _proto.createTransmuxer_ = function() {
                     // don't need to transmux any subtitles
@@ -24410,7 +24429,7 @@
                     var _this;
                     return (_this = _videojs$EventTarget.call(this) || this).timelines = [], _this.discontinuities = [], _this.timelineToDatetimeMappings = {}, _this.logger_ = logger("SyncController"), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(SyncController, _videojs$EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(SyncController, _videojs$EventTarget);
                 /**
                  * Find a sync-point for the playlist specified
                  *
@@ -24631,7 +24650,7 @@
                     var _this;
                     return (_this = _videojs$EventTarget.call(this) || this).pendingTimelineChanges_ = {}, _this.lastTimelineChanges_ = {}, _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(TimelineChangeController, _videojs$EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(TimelineChangeController, _videojs$EventTarget);
                 var _proto = TimelineChangeController.prototype;
                 return _proto.clearPendingTimelineChange = function(type) {
                     this.pendingTimelineChanges_[type] = null, this.trigger("pendingtimelinechange");
@@ -24928,7 +24947,7 @@
                             });
                             return;
                         }
-                        for(var trackId in videojs.log.warn("Problem encountered loading the alternate audio track.Switching back to default."), mediaType.tracks)mediaType.tracks[trackId].enabled = mediaType.tracks[trackId] === defaultTrack;
+                        for(var trackId in videojs.log.warn("Problem encountered loading the alternate audio track." + "Switching back to default."), mediaType.tracks)mediaType.tracks[trackId].enabled = mediaType.tracks[trackId] === defaultTrack;
                         mediaType.onTrackChanged();
                     };
                 },
@@ -24946,7 +24965,7 @@
                  */ SUBTITLES: function(type, settings) {
                     return function() {
                         var segmentLoader = settings.segmentLoaders[type], mediaType = settings.mediaTypes[type];
-                        videojs.log.warn("Problem encountered loading the subtitle track.Disabling subtitle track."), stopLoaders(segmentLoader, mediaType);
+                        videojs.log.warn("Problem encountered loading the subtitle track." + "Disabling subtitle track."), stopLoaders(segmentLoader, mediaType);
                         var track = mediaType.activeTrack();
                         track && (track.mode = "disabled"), mediaType.onTrackChanged();
                     };
@@ -25289,7 +25308,7 @@
                         logger_: logger("MediaGroups[" + type + "]")
                     };
                 }), mediaTypes;
-            }, loaderStats = [
+            }, ABORT_EARLY_BLACKLIST_SECONDS = 60 * 2, loaderStats = [
                 "mediaRequests",
                 "mediaRequestsAborted",
                 "mediaRequestsTimedout",
@@ -25339,7 +25358,7 @@
                         handleManifestRedirects: handleManifestRedirects,
                         maxPlaylistRetries: maxPlaylistRetries,
                         timeout: null
-                    }, _this.on("error", _this.pauseLoading), _this.mediaTypes_ = createMediaTypes(), _this.mediaSource = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).MediaSource(), _this.handleDurationChange_ = _this.handleDurationChange_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.handleSourceOpen_ = _this.handleSourceOpen_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.handleSourceEnded_ = _this.handleSourceEnded_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.mediaSource.addEventListener("durationchange", _this.handleDurationChange_), _this.mediaSource.addEventListener("sourceopen", _this.handleSourceOpen_), _this.mediaSource.addEventListener("sourceended", _this.handleSourceEnded_), // everything, and the MediaSource should not be detached without a proper disposal
+                    }, _this.on("error", _this.pauseLoading), _this.mediaTypes_ = createMediaTypes(), _this.mediaSource = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).MediaSource(), _this.handleDurationChange_ = _this.handleDurationChange_.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.handleSourceOpen_ = _this.handleSourceOpen_.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.handleSourceEnded_ = _this.handleSourceEnded_.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this)), _this.mediaSource.addEventListener("durationchange", _this.handleDurationChange_), _this.mediaSource.addEventListener("sourceopen", _this.handleSourceOpen_), _this.mediaSource.addEventListener("sourceended", _this.handleSourceEnded_), // everything, and the MediaSource should not be detached without a proper disposal
                     _this.seekable_ = videojs.createTimeRanges(), _this.hasPlayed_ = !1, _this.syncController_ = new SyncController(options), _this.segmentMetadataTrack_ = tech.addRemoteTextTrack({
                         kind: "metadata",
                         label: "segment-metadata"
@@ -25401,7 +25420,7 @@
                     // mediaBytesTransferred_
                     // mediaAppends_
                     loaderStats.forEach(function(stat) {
-                        _this[stat + "_"] = sumLoaderStat.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), stat);
+                        _this[stat + "_"] = sumLoaderStat.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this), stat);
                     }), _this.logger_ = logger("MPC"), _this.triggeredFmp4Usage = !1, "none" === _this.tech_.preload() ? (_this.loadOnPlay_ = function() {
                         _this.loadOnPlay_ = null, _this.masterPlaylistLoader_.load();
                     }, _this.tech_.one("play", _this.loadOnPlay_)) : _this.masterPlaylistLoader_.load(), _this.timeToLoadedData__ = -1, _this.mainAppendsToLoadedData__ = -1, _this.audioAppendsToLoadedData__ = -1;
@@ -25413,7 +25432,7 @@
                         });
                     }), _this;
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MasterPlaylistController, _videojs$EventTarget);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(MasterPlaylistController, _videojs$EventTarget);
                 var _proto = MasterPlaylistController.prototype;
                 return _proto.mainAppendsToLoadedData_ = function() {
                     return this.mainAppendsToLoadedData__;
@@ -25421,7 +25440,7 @@
                     return this.audioAppendsToLoadedData__;
                 }, _proto.appendsToLoadedData_ = function() {
                     var main = this.mainAppendsToLoadedData_(), audio = this.audioAppendsToLoadedData_();
-                    return -1 === main || -1 === audio ? -1 : main + audio;
+                    return main === -1 || audio === -1 ? -1 : main + audio;
                 }, _proto.timeToLoadedData_ = function() {
                     return this.timeToLoadedData__;
                 }, /**
@@ -25500,7 +25519,7 @@
                  */ _proto.setupMasterPlaylistLoaderListeners_ = function() {
                     var _this3 = this;
                     this.masterPlaylistLoader_.on("loadedmetadata", function() {
-                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1500 * media.targetDuration;
+                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1.5 * media.targetDuration * 1000;
                         isLowestEnabledRendition(_this3.masterPlaylistLoader_.master, _this3.masterPlaylistLoader_.media()) ? _this3.requestOptions_.timeout = 0 : _this3.requestOptions_.timeout = requestTimeout, media.endList && "none" !== _this3.tech_.preload() && (_this3.mainSegmentLoader_.playlist(media, _this3.requestOptions_), _this3.mainSegmentLoader_.load()), setupMediaGroups({
                             sourceType: _this3.sourceType_,
                             segmentLoaders: {
@@ -25536,7 +25555,7 @@
                     }), this.masterPlaylistLoader_.on("mediachanging", function() {
                         _this3.mainSegmentLoader_.abort(), _this3.mainSegmentLoader_.pause();
                     }), this.masterPlaylistLoader_.on("mediachange", function() {
-                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1500 * media.targetDuration;
+                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1.5 * media.targetDuration * 1000;
                         isLowestEnabledRendition(_this3.masterPlaylistLoader_.master, _this3.masterPlaylistLoader_.media()) ? _this3.requestOptions_.timeout = 0 : _this3.requestOptions_.timeout = requestTimeout, // that the segments have changed in some way and use that to
                         // update the SegmentLoader instead of doing it twice here and
                         // on `loadedplaylist`
@@ -25674,8 +25693,8 @@
                         _this4.experimentalBufferBasedABR || (_this4.delegateLoaders_("all", [
                             "abort"
                         ]), _this4.blacklistCurrentPlaylist({
-                            message: "Aborted early because there isn't enough bandwidth to complete the request without rebuffering."
-                        }, 120));
+                            message: "Aborted early because there isn't enough bandwidth to complete the " + "request without rebuffering."
+                        }, ABORT_EARLY_BLACKLIST_SECONDS));
                     });
                     var updateCodecs = function() {
                         if (!_this4.sourceUpdater_.hasCreatedSourceBuffers()) return _this4.tryToCreateSourceBuffers_();
@@ -25878,7 +25897,7 @@
                                 var excludeUntil = playlist.excludeUntil; // a playlist cannot be reincluded if it wasn't excluded to begin with.
                                 void 0 !== excludeUntil && excludeUntil !== 1 / 0 && (reincluded = !0, delete playlist.excludeUntil);
                             }
-                        }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last rendition is about to be excluded."), // playlist. This is needed for users relying on the retryplaylist event to catch a
+                        }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last " + "rendition is about to be excluded."), // playlist. This is needed for users relying on the retryplaylist event to catch a
                         // case where the player might be stuck and looping through "dead" playlists.
                         this.tech_.trigger("retryplaylist"));
                     } // Blacklist this playlist
@@ -25909,7 +25928,7 @@
                         "abort",
                         "pause"
                     ]);
-                    var delayDuration = nextPlaylist.targetDuration / 2 * 1000 || 5000, shouldDelay = "number" == typeof nextPlaylist.lastRequest && Date.now() - nextPlaylist.lastRequest <= delayDuration;
+                    var delayDuration = nextPlaylist.targetDuration / 2 * 1000 || 5 * 1000, shouldDelay = "number" == typeof nextPlaylist.lastRequest && Date.now() - nextPlaylist.lastRequest <= delayDuration;
                     return this.switchMedia_(nextPlaylist, "exclude", isFinalRendition || shouldDelay);
                 }, /**
                  * Pause all segment/playlist loaders
@@ -26084,7 +26103,7 @@
                         "audio"
                     ].forEach(function(type) {
                         var isFmp4, codec;
-                        if (codecs.hasOwnProperty(type) && (isFmp4 = media[type].isFmp4, codec = codecs[type], isFmp4 ? !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7)(codec) : !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi)(codec))) {
+                        if (codecs.hasOwnProperty(type) && (isFmp4 = media[type].isFmp4, codec = codecs[type], isFmp4 ? !_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7(codec) : !_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi(codec))) {
                             var supporter = media[type].isFmp4 ? "browser" : "muxer";
                             unsupportedCodecs[supporter] = unsupportedCodecs[supporter] || [], unsupportedCodecs[supporter].push(codecs[type]), "audio" === type && (unsupportedAudio = supporter);
                         }
@@ -26112,7 +26131,7 @@
                             "video",
                             "audio"
                         ].forEach(function(type) {
-                            var newCodec = ((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(_this9.sourceUpdater_.codecs[type] || "")[0] || {}).type, oldCodec = ((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(codecs[type] || "")[0] || {}).type;
+                            var newCodec = (_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(_this9.sourceUpdater_.codecs[type] || "")[0] || {}).type, oldCodec = (_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(codecs[type] || "")[0] || {}).type;
                             newCodec && oldCodec && newCodec.toLowerCase() !== oldCodec.toLowerCase() && switchMessages.push('"' + _this9.sourceUpdater_.codecs[type] + '" -> "' + codecs[type] + '"');
                         }), switchMessages.length) {
                             this.blacklistCurrentPlaylist({
@@ -26151,10 +26170,10 @@
                     // playlist? Why did we ever mix indexes and keys?
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key]; // check if we already processed this playlist.
-                        if (-1 === ids.indexOf(variant.id)) {
+                        if (ids.indexOf(variant.id) === -1) {
                             ids.push(variant.id);
                             var codecs = codecsForPlaylist(_this10.master, variant), unsupported = [];
-                            !codecs.audio || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi)(codecs.audio) || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7)(codecs.audio) || unsupported.push("audio codec " + codecs.audio), !codecs.video || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi)(codecs.video) || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7)(codecs.video) || unsupported.push("video codec " + codecs.video), codecs.text && "stpp.ttml.im1t" === codecs.text && unsupported.push("text codec " + codecs.text), unsupported.length && (variant.excludeUntil = 1 / 0, _this10.logger_("excluding " + variant.id + " for unsupported: " + unsupported.join(", ")));
+                            !codecs.audio || _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi(codecs.audio) || _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7(codecs.audio) || unsupported.push("audio codec " + codecs.audio), !codecs.video || _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .muxerSupportsCodec */ .Hi(codecs.video) || _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7(codecs.video) || unsupported.push("video codec " + codecs.video), codecs.text && "stpp.ttml.im1t" === codecs.text && unsupported.push("text codec " + codecs.text), unsupported.length && (variant.excludeUntil = 1 / 0, _this10.logger_("excluding " + variant.id + " for unsupported: " + unsupported.join(", ")));
                         }
                     });
                 }, /**
@@ -26171,18 +26190,18 @@
                  * indefinitely.
                  * @private
                  */ _proto.excludeIncompatibleVariants_ = function(codecString) {
-                    var _this11 = this, ids = [], playlists = this.master().playlists, codecs = unwrapCodecList((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(codecString)), codecCount_ = codecCount(codecs), videoDetails = codecs.video && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(codecs.video)[0] || null, audioDetails = codecs.audio && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(codecs.audio)[0] || null;
+                    var _this11 = this, ids = [], playlists = this.master().playlists, codecs = unwrapCodecList(_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(codecString)), codecCount_ = codecCount(codecs), videoDetails = codecs.video && _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(codecs.video)[0] || null, audioDetails = codecs.audio && _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(codecs.audio)[0] || null;
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key]; // check if we already processed this playlist.
                         // or it if it is already excluded forever.
-                        if (-1 === ids.indexOf(variant.id) && variant.excludeUntil !== 1 / 0) {
+                        if (ids.indexOf(variant.id) === -1 && variant.excludeUntil !== 1 / 0) {
                             ids.push(variant.id);
                             var blacklistReasons = [], variantCodecs = codecsForPlaylist(_this11.masterPlaylistLoader_.master, variant), variantCodecCount = codecCount(variantCodecs); // get codecs from the playlist for this variant
                             // variant is incompatible. Wait for mux.js to probe
                             if (variantCodecs.audio || variantCodecs.video) {
                                 // during playback.
                                 if (variantCodecCount !== codecCount_ && blacklistReasons.push('codec count "' + variantCodecCount + '" !== "' + codecCount_ + '"'), !_this11.sourceUpdater_.canChangeType()) {
-                                    var variantVideoDetails = variantCodecs.video && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(variantCodecs.video)[0] || null, variantAudioDetails = variantCodecs.audio && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(variantCodecs.audio)[0] || null;
+                                    var variantVideoDetails = variantCodecs.video && _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(variantCodecs.video)[0] || null, variantAudioDetails = variantCodecs.audio && _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(variantCodecs.audio)[0] || null;
                                     variantVideoDetails && videoDetails && variantVideoDetails.type.toLowerCase() !== videoDetails.type.toLowerCase() && blacklistReasons.push('video codec "' + variantVideoDetails.type + '" !== "' + videoDetails.type + '"'), variantAudioDetails && audioDetails && variantAudioDetails.type.toLowerCase() !== audioDetails.type.toLowerCase() && blacklistReasons.push('audio codec "' + variantAudioDetails.type + '" !== "' + audioDetails.type + '"');
                                 }
                                 blacklistReasons.length && (variant.excludeUntil = 1 / 0, _this11.logger_("blacklisting " + variant.id + ": " + blacklistReasons.join(" && ")));
@@ -26649,13 +26668,13 @@
             };
             // as one do not cause exceptions.
             Vhs.canPlaySource = function() {
-                return videojs.log.warn("HLS is no longer a tech. Please remove it from your player's techOrder.");
+                return videojs.log.warn("HLS is no longer a tech. Please remove it from " + "your player's techOrder.");
             };
             var emeKeySystems = function(keySystemOptions, mainPlaylist, audioPlaylist) {
                 if (!keySystemOptions) return keySystemOptions;
                 var codecs = {};
-                mainPlaylist && mainPlaylist.attributes && mainPlaylist.attributes.CODECS && (codecs = unwrapCodecList((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS)(mainPlaylist.attributes.CODECS))), audioPlaylist && audioPlaylist.attributes && audioPlaylist.attributes.CODECS && (codecs.audio = audioPlaylist.attributes.CODECS);
-                var videoContentType = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5)(codecs.video), audioContentType = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5)(codecs.audio), keySystemContentTypes = {};
+                mainPlaylist && mainPlaylist.attributes && mainPlaylist.attributes.CODECS && (codecs = unwrapCodecList(_videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .parseCodecs */ .kS(mainPlaylist.attributes.CODECS))), audioPlaylist && audioPlaylist.attributes && audioPlaylist.attributes.CODECS && (codecs.audio = audioPlaylist.attributes.CODECS);
+                var videoContentType = _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5(codecs.video), audioContentType = _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5(codecs.audio), keySystemContentTypes = {};
                 for(var keySystem in keySystemOptions)keySystemContentTypes[keySystem] = {}, audioContentType && (keySystemContentTypes[keySystem].audioContentType = audioContentType), videoContentType && (keySystemContentTypes[keySystem].videoContentType = videoContentType), mainPlaylist.contentProtection && mainPlaylist.contentProtection[keySystem] && mainPlaylist.contentProtection[keySystem].pssh && (keySystemContentTypes[keySystem].pssh = mainPlaylist.contentProtection[keySystem].pssh), "string" == typeof keySystemOptions[keySystem] && (keySystemContentTypes[keySystem].url = keySystemOptions[keySystem]);
                 return videojs.mergeOptions(keySystemOptions, keySystemContentTypes);
             }, waitForKeySessionCreation = function(_ref) {
@@ -26756,7 +26775,7 @@
              * HLS is a source handler, not a tech. Make sure attempts to use it
              * as one do not cause exceptions.
              */ Vhs.isSupported = function() {
-                return videojs.log.warn("HLS is no longer a tech. Please remove it from your player's techOrder.");
+                return videojs.log.warn("HLS is no longer a tech. Please remove it from " + "your player's techOrder.");
             };
             /**
              * The Vhs Handler object, where we orchestrate all of the parts
@@ -26778,7 +26797,7 @@
                                 return videojs.log.warn("player.hls is deprecated. Use player.tech().vhs instead."), tech.trigger({
                                     type: "usage",
                                     name: "hls-player-access"
-                                }), (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this);
+                                }), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this);
                             },
                             configurable: !0
                         }), _player.hasOwnProperty("vhs") || Object.defineProperty(_player, "vhs", {
@@ -26786,12 +26805,12 @@
                                 return videojs.log.warn("player.vhs is deprecated. Use player.tech().vhs instead."), tech.trigger({
                                     type: "usage",
                                     name: "vhs-player-access"
-                                }), (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this);
+                                }), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this);
                             },
                             configurable: !0
                         }), _player.hasOwnProperty("dash") || Object.defineProperty(_player, "dash", {
                             get: function() {
-                                return videojs.log.warn("player.dash is deprecated. Use player.tech().vhs instead."), (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this);
+                                return videojs.log.warn("player.dash is deprecated. Use player.tech().vhs instead."), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z(_this);
                             },
                             configurable: !0
                         }), _this.player_ = _player;
@@ -26799,7 +26818,7 @@
                     if (_this.tech_ = tech, _this.source_ = source, _this.stats = {}, _this.ignoreNextSeekingEvent_ = !1, _this.setOptions_(), _this.options_.overrideNative && tech.overrideNativeAudioTracks && tech.overrideNativeVideoTracks) tech.overrideNativeAudioTracks(!0), tech.overrideNativeVideoTracks(!0);
                     else if (_this.options_.overrideNative && (tech.featuresNativeVideoTracks || tech.featuresNativeAudioTracks)) // overriding native HLS only works if audio tracks have been emulated
                     // error early if we're misconfigured
-                    throw Error("Overriding native HLS requires emulated tracks. See https://git.io/vMpjB");
+                    throw Error("Overriding native HLS requires emulated tracks. " + "See https://git.io/vMpjB");
                      // listen for fullscreenchange events for this player so that we
                     return(// can adjust our quality selection quickly
                     _this.on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), [
@@ -26825,11 +26844,11 @@
                         this.tech_.error() && this.masterPlaylistController_ && this.masterPlaylistController_.pauseLoading();
                     }), _this.on(_this.tech_, "play", _this.play), _this);
                 }
-                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(VhsHandler, _Component);
+                _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z(VhsHandler, _Component);
                 var _proto = VhsHandler.prototype;
                 return _proto.setOptions_ = function() {
                     var _this2 = this; // defaults
-                    if (this.options_.withCredentials = this.options_.withCredentials || !1, this.options_.handleManifestRedirects = !1 !== this.options_.handleManifestRedirects, this.options_.limitRenditionByPlayerDimensions = !1 !== this.options_.limitRenditionByPlayerDimensions, this.options_.useDevicePixelRatio = this.options_.useDevicePixelRatio || !1, this.options_.smoothQualityChange = this.options_.smoothQualityChange || !1, this.options_.useBandwidthFromLocalStorage = void 0 !== this.source_.useBandwidthFromLocalStorage ? this.source_.useBandwidthFromLocalStorage : this.options_.useBandwidthFromLocalStorage || !1, this.options_.useNetworkInformationApi = this.options_.useNetworkInformationApi || !1, this.options_.customTagParsers = this.options_.customTagParsers || [], this.options_.customTagMappers = this.options_.customTagMappers || [], this.options_.cacheEncryptionKeys = this.options_.cacheEncryptionKeys || !1, "number" != typeof this.options_.blacklistDuration && (this.options_.blacklistDuration = 300), "number" != typeof this.options_.bandwidth && this.options_.useBandwidthFromLocalStorage) {
+                    if (this.options_.withCredentials = this.options_.withCredentials || !1, this.options_.handleManifestRedirects = !1 !== this.options_.handleManifestRedirects, this.options_.limitRenditionByPlayerDimensions = !1 !== this.options_.limitRenditionByPlayerDimensions, this.options_.useDevicePixelRatio = this.options_.useDevicePixelRatio || !1, this.options_.smoothQualityChange = this.options_.smoothQualityChange || !1, this.options_.useBandwidthFromLocalStorage = void 0 !== this.source_.useBandwidthFromLocalStorage ? this.source_.useBandwidthFromLocalStorage : this.options_.useBandwidthFromLocalStorage || !1, this.options_.useNetworkInformationApi = this.options_.useNetworkInformationApi || !1, this.options_.customTagParsers = this.options_.customTagParsers || [], this.options_.customTagMappers = this.options_.customTagMappers || [], this.options_.cacheEncryptionKeys = this.options_.cacheEncryptionKeys || !1, "number" != typeof this.options_.blacklistDuration && (this.options_.blacklistDuration = 5 * 60), "number" != typeof this.options_.bandwidth && this.options_.useBandwidthFromLocalStorage) {
                         var storedObject = getVhsLocalStorage();
                         storedObject && storedObject.bandwidth && (this.options_.bandwidth = storedObject.bandwidth, this.tech_.trigger({
                             type: "usage",
@@ -26875,7 +26894,7 @@
                     var dataUri, _this3 = this; // do nothing if the src is falsey
                     if (_src) {
                         this.setOptions_(), this.options_.src = 0 === (dataUri = this.source_.src).toLowerCase().indexOf("data:application/vnd.videojs.vhs+json,") ? JSON.parse(dataUri.substring(dataUri.indexOf(",") + 1)) : dataUri // no known case for this data URI, return the string as-is
-                        , this.options_.tech = this.tech_, this.options_.externVhs = Vhs, this.options_.sourceType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ /* .simpleTypeFromSourceType */ .t)(type), this.options_.seekTo = function(time) {
+                        , this.options_.tech = this.tech_, this.options_.externVhs = Vhs, this.options_.sourceType = _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ /* .simpleTypeFromSourceType */ .t(type), this.options_.seekTo = function(time) {
                             _this3.tech_.setCurrentTime(time);
                         }, this.options_.smoothQualityChange && videojs.log.warn("smoothQualityChange is deprecated and will be removed in the next major version"), this.masterPlaylistController_ = new MasterPlaylistController(this.options_);
                         var playbackWatcherOptions = videojs.mergeOptions({
@@ -26925,7 +26944,7 @@
                                     if (this.options_.useNetworkInformationApi && networkInformation) {
                                         // downlink returns Mbps
                                         // https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlink
-                                        var networkInfoBandwidthEstBitsPerSec = 1000000 * networkInformation.downlink; // downlink maxes out at 10 Mbps. In the event that both networkInformationApi and the player
+                                        var networkInfoBandwidthEstBitsPerSec = 1000 * networkInformation.downlink * 1000; // downlink maxes out at 10 Mbps. In the event that both networkInformationApi and the player
                                         // estimate a bandwidth greater than 10 Mbps, use the larger of the two estimates to ensure that
                                         // high quality streams are not filtered out.
                                         playerBandwidthEst = networkInfoBandwidthEstBitsPerSec >= 10e6 && playerBandwidthEst >= 10e6 ? Math.max(playerBandwidthEst, networkInfoBandwidthEstBitsPerSec) : networkInfoBandwidthEstBitsPerSec;
@@ -27237,18 +27256,18 @@
                 },
                 canPlayType: function(type, options) {
                     void 0 === options && (options = {});
-                    var _videojs$mergeOptions2 = videojs.mergeOptions(videojs.options, options).vhs.overrideNative, overrideNative = void 0 === _videojs$mergeOptions2 ? !videojs.browser.IS_ANY_SAFARI : _videojs$mergeOptions2, supportedType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ /* .simpleTypeFromSourceType */ .t)(type);
+                    var _videojs$mergeOptions2 = videojs.mergeOptions(videojs.options, options).vhs.overrideNative, overrideNative = void 0 === _videojs$mergeOptions2 ? !videojs.browser.IS_ANY_SAFARI : _videojs$mergeOptions2, supportedType = _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ /* .simpleTypeFromSourceType */ .t(type);
                     return supportedType && (!Vhs.supportsTypeNatively(supportedType) || overrideNative) ? "maybe" : "";
                 }
             };
-            (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7)("avc1.4d400d,mp4a.40.2") && videojs.getTech("Html5").registerSourceHandler(VhsSourceHandler, 0), videojs.VhsHandler = VhsHandler, Object.defineProperty(videojs, "HlsHandler", {
+            _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .browserSupportsCodec */ .p7("avc1.4d400d,mp4a.40.2") && videojs.getTech("Html5").registerSourceHandler(VhsSourceHandler, 0), videojs.VhsHandler = VhsHandler, Object.defineProperty(videojs, "HlsHandler", {
                 get: function() {
                     return videojs.log.warn("videojs.HlsHandler is deprecated. Use videojs.VhsHandler instead."), VhsHandler;
                 },
                 configurable: !0
             }), videojs.VhsSourceHandler = VhsSourceHandler, Object.defineProperty(videojs, "HlsSourceHandler", {
                 get: function() {
-                    return videojs.log.warn("videojs.HlsSourceHandler is deprecated. Use videojs.VhsSourceHandler instead."), VhsSourceHandler;
+                    return videojs.log.warn("videojs.HlsSourceHandler is deprecated. " + "Use videojs.VhsSourceHandler instead."), VhsSourceHandler;
                 },
                 configurable: !0
             }), videojs.Vhs = Vhs, Object.defineProperty(videojs, "Hls", {

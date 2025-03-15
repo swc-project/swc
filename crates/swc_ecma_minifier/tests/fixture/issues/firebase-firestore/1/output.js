@@ -3690,7 +3690,29 @@
                     this.name = t, this.readTime = e, this.bundledQuery = n;
                 }
             }
-            /** Name of the IndexedDb object store. */ Bs.store = "namedQueries", Bs.keyPath = "name", vs.store, Vs.store, Ss.store, Ns.store, ks.store, Ps.store, Os.store, $s.store, Ms.store, xs.store, Fs.store, Ls.store, Bs.store;
+            /** Name of the IndexedDb object store. */ Bs.store = "namedQueries", Bs.keyPath = "name", [
+                ...[
+                    ...[
+                        ...[
+                            ...[
+                                vs.store,
+                                Vs.store,
+                                Ss.store,
+                                Ns.store,
+                                ks.store,
+                                Ps.store,
+                                Os.store,
+                                $s.store
+                            ],
+                            Ms.store
+                        ],
+                        xs.store
+                    ],
+                    Fs.store
+                ],
+                Ls.store,
+                Bs.store
+            ];
             // V2 is no longer usable (see comment at top of file)
             // Visible for testing
             /**
@@ -5735,7 +5757,7 @@
                         "/",
                         t,
                         "/channel"
-                    ], s = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .createWebChannelTransport */ .UE)(), i = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .getStatEventTarget */ .FJ)(), r = {
+                    ], s = _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .createWebChannelTransport */ .UE(), i = _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .getStatEventTarget */ .FJ(), r = {
                         // Required for backend stickiness, routing behavior is based on this
                         // parameter.
                         httpSessionIdParam: "gsessionid",
@@ -5774,7 +5796,7 @@
                     // doesn't have an Origin header. So we have to exclude a few browser environments that are
                     // known to (sometimes) not include an Origin. See
                     // https://github.com/firebase/firebase-js-sdk/issues/1491.
-                    (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isMobileCordova */ .uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isReactNative */ .b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isElectron */ .d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isIE */ .w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isUWP */ .Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isBrowserExtension */ .ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
+                    _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isMobileCordova */ .uI() || _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isReactNative */ .b$() || _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isElectron */ .d() || _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isIE */ .w1() || _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isUWP */ .Mn() || _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isBrowserExtension */ .ru() || (r.httpHeadersOverwriteParam = "$httpHeaders");
                     const o = n.join("");
                     $("Connection", "Creating WebChannel: " + o, r);
                     const c = s.createWebChannel(o, r);
@@ -8245,7 +8267,7 @@
                 }
             }
             function ba(t, e, ...n) {
-                if (t = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .getModularInstance */ .m9)(t), /**
+                if (t = _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .getModularInstance */ .m9(t), /**
                  * An instance map that ensures only one Datastore exists per Firestore
                  * instance.
                  */ /**
@@ -9155,13 +9177,13 @@
                  *
                  * @packageDocumentation
                  */ !function(t, e = !0) {
-                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
+                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
                     const i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
                     return n = Object.assign({
                         useFetchStreams: e
                     }, n), i._setSettings(n), i;
-                }, "PUBLIC" /* PUBLIC */ )), (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", void 0), // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-                (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", "esm2017");
+                }, "PUBLIC" /* PUBLIC */ )), _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN(S, "3.3.0", void 0), // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+                _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN(S, "3.3.0", "esm2017");
             }();
         //# sourceMappingURL=index.esm2017.js.map
         /***/ }

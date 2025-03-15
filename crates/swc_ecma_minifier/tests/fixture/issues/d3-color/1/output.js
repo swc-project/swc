@@ -1,12 +1,12 @@
 import define, { extend } from "./define.js";
 import { Color, rgbConvert, Rgb, darker, brighter } from "./color.js";
 import { deg2rad, rad2deg } from "./math.js";
-var BC_DA = -1.78277 * 0.29227 - 0.1347134789;
+var A = -0.14861, B = +1.78277, C = -0.29227, D = -0.90649, E = +1.97294, ED = E * D, EB = E * B, BC_DA = B * C - D * A;
 export default function cubehelix(h, s, l, opacity) {
     return 1 == arguments.length ? function(o) {
         if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
         o instanceof Rgb || (o = rgbConvert(o));
-        var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * rad2deg - 120 : NaN;
+        var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + ED * r - EB * g) / (BC_DA + ED - EB), bl = b - l, k = (E * (g - l) - C * bl) / D, s = Math.sqrt(k * k + bl * bl) / (E * l * (1 - l)), h = s ? Math.atan2(k, bl) * rad2deg - 120 : NaN;
         return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
     }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
 }
@@ -22,6 +22,6 @@ define(Cubehelix, cubehelix, extend(Color, {
     },
     rgb: function() {
         var h = isNaN(this.h) ? 0 : (this.h + 120) * deg2rad, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-        return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
+        return new Rgb(255 * (l + a * (A * cosh + B * sinh)), 255 * (l + a * (C * cosh + D * sinh)), 255 * (l + E * cosh * a), this.opacity);
     }
 }));

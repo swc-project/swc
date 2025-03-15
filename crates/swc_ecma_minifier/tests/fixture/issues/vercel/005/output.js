@@ -1,3 +1,4 @@
+const m = 60 * 1000, h = 60 * 1000 * 60, d = 60 * 1000 * 60 * 24, w = 60 * 1000 * 60 * 24 * 7, y = 60 * 1000 * 60 * 24 * 365.25;
 export default function(value, options) {
     try {
         if ("string" == typeof value && value.length > 0) return function(str) {
@@ -11,27 +12,27 @@ export default function(value, options) {
                 case "yrs":
                 case "yr":
                 case "y":
-                    return 31557600000 * n;
+                    return n * y;
                 case "weeks":
                 case "week":
                 case "w":
-                    return 604800000 * n;
+                    return n * w;
                 case "days":
                 case "day":
                 case "d":
-                    return 86400000 * n;
+                    return n * d;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 3600000 * n;
+                    return n * h;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 60000 * n;
+                    return n * m;
                 case "seconds":
                 case "second":
                 case "secs":
@@ -50,10 +51,10 @@ export default function(value, options) {
         }(value);
         if ("number" == typeof value && isFinite(value)) return options?.long ? function(ms) {
             const msAbs = Math.abs(ms);
-            return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
+            return msAbs >= d ? plural(ms, msAbs, d, "day") : msAbs >= h ? plural(ms, msAbs, h, "hour") : msAbs >= m ? plural(ms, msAbs, m, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
         }(value) : function(ms) {
             const msAbs = Math.abs(ms);
-            return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
+            return msAbs >= d ? `${Math.round(ms / d)}d` : msAbs >= h ? `${Math.round(ms / h)}h` : msAbs >= m ? `${Math.round(ms / m)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
         }(value);
         throw Error("Value is not a string or number.");
     } catch (error) {

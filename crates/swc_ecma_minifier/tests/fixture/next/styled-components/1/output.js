@@ -3508,7 +3508,7 @@
             }, module.exports = deepmerge;
         /***/ },
         /***/ 5202: /***/ function() {
-            !function() {
+            0 || function() {
                 "use strict";
                 /**
                  * Applies the :focus-visible polyfill at the given scope.
@@ -4531,13 +4531,13 @@
                 ], r = 0, o = t.length; r < o; r += 1)n.push(t[r], e[r + 1]);
                 return n;
             }, S = function(t) {
-                return null !== t && "object" == typeof t && "[object Object]" === (t.toString ? t.toString() : Object.prototype.toString.call(t)) && !(0, react_is.typeOf)(t);
+                return null !== t && "object" == typeof t && "[object Object]" === (t.toString ? t.toString() : Object.prototype.toString.call(t)) && !react_is.typeOf(t);
             }, w = Object.freeze([]), E = Object.freeze({});
             function b(e) {
                 return "function" == typeof e;
             }
             function _(e) {
-                return e.displayName || e.name || "Component";
+                return !1 || e.displayName || e.name || "Component";
             }
             function N(e) {
                 return e && "string" == typeof e.styledComponentId;
@@ -4545,7 +4545,7 @@
             var A = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I = "undefined" != typeof window && "HTMLElement" in window, P = !!("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O = {};
             function j(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
-                throw Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
+                throw 0 ? 0 : Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
             }
             var T = function() {
                 function e(e) {
@@ -4739,7 +4739,7 @@
             }
             var oe = ne("5.3.5"), se = function() {
                 function e(e, t, n) {
-                    this.rules = e, this.staticRulesId = "", this.isStatic = (void 0 === n || n.isStatic) && re(e), this.componentId = t, this.baseHash = te(oe, t), this.baseStyle = n, Z.registerId(t);
+                    this.rules = e, this.staticRulesId = "", this.isStatic = !0 && (void 0 === n || n.isStatic) && re(e), this.componentId = t, this.baseHash = te(oe, t), this.baseStyle = n, Z.registerId(t);
                 }
                 return e.prototype.generateAndInjectStyles = function(e, t, n) {
                     var r = this.componentId, o = [];
@@ -4832,13 +4832,13 @@
             }
             var ue = react.createContext(), de = (ue.Consumer, react.createContext()), he = (de.Consumer, new Z()), pe = ce();
             function fe() {
-                return (0, react.useContext)(ue) || he;
+                return react.useContext(ue) || he;
             }
             function me() {
-                return (0, react.useContext)(de) || pe;
+                return react.useContext(de) || pe;
             }
             function ye(e) {
-                var t = (0, react.useState)(e.stylisPlugins), n = t[0], s = t[1], c = fe(), u = (0, react.useMemo)(function() {
+                var t = react.useState(e.stylisPlugins), n = t[0], s = t[1], c = fe(), u = react.useMemo(function() {
                     var t = c;
                     return e.sheet ? t = e.sheet : e.target && (t = t.reconstructWithOptions({
                         target: e.target
@@ -4849,7 +4849,7 @@
                     e.disableCSSOMInjection,
                     e.sheet,
                     e.target
-                ]), l = (0, react.useMemo)(function() {
+                ]), l = react.useMemo(function() {
                     return ce({
                         options: {
                             prefix: !e.disableVendorPrefixes
@@ -4860,7 +4860,7 @@
                     e.disableVendorPrefixes,
                     n
                 ]);
-                return (0, react.useEffect)(function() {
+                return react.useEffect(function() {
                     shallowequal_default()(n, e.stylisPlugins) || s(e.stylisPlugins);
                 }, [
                     e.stylisPlugins
@@ -4868,7 +4868,7 @@
                     value: u
                 }, react.createElement(de.Provider, {
                     value: l
-                }, e.children));
+                }, 1 ? e.children : 0));
             }
             var ve = function() {
                 function e(e, t) {
@@ -4933,9 +4933,15 @@
                 return "function" == typeof e || "object" == typeof e && null !== e && !Array.isArray(e);
             }, Ge = react.createContext();
             function Fe(e) {
-                var t = (0, react.useContext)(Ge), n = (0, react.useMemo)(function() {
-                    var e1;
-                    return (e1 = e.theme) ? b(e1) ? e1(t) : Array.isArray(e1) || "object" != typeof e1 ? j(8) : t ? v({}, t, {}, e1) : e1 : j(14);
+                var t = react.useContext(Ge), n = react.useMemo(function() {
+                    return function(e, t) {
+                        if (!e) return j(14);
+                        if (b(e)) {
+                            var n = e(t);
+                            return 0 ? 0 : n;
+                        }
+                        return Array.isArray(e) || "object" != typeof e ? j(8) : t ? v({}, t, {}, e) : e;
+                    }(e.theme, t);
                 }, [
                     e.theme,
                     t
@@ -4947,7 +4953,7 @@
             Ge.Consumer;
             var Ye = {}, He = function(e) {
                 return function e(t, r, o) {
-                    if (void 0 === o && (o = E), !(0, react_is.isValidElementType)(r)) return j(1, String(r));
+                    if (void 0 === o && (o = E), !react_is.isValidElementType(r)) return j(1, String(r));
                     var s = function() {
                         return t(r, o, Ce.apply(void 0, arguments));
                     };
@@ -4965,7 +4971,7 @@
                     } : e.shouldForwardProp);
                     var e1, t1, n1, r, C, I = new se(n, g, o ? e.componentStyle : void 0), P = I.isStatic && 0 === c.length, O = function(e, t) {
                         return function(e, t, n, r) {
-                            var e1, r1, o, o1, s, o2 = e.attrs, i = e.componentStyle, a = e.defaultProps, c = e.foldedComponentIds, d = e.shouldForwardProp, h = e.styledComponentId, p = e.target, f = (void 0 === (e1 = Re(t, (0, react.useContext)(Ge), a) || E) && (e1 = E), r1 = v({}, t, {
+                            var e1, r1, o, o1, s, o2 = e.attrs, i = e.componentStyle, a = e.defaultProps, c = e.foldedComponentIds, d = e.shouldForwardProp, h = e.styledComponentId, p = e.target, f = (void 0 === (e1 = Re(t, react.useContext(Ge), a) || E) && (e1 = E), r1 = v({}, t, {
                                 theme: e1
                             }), o = {}, o2.forEach(function(e) {
                                 var t, n, s, i = e;
@@ -4975,7 +4981,7 @@
                                 o
                             ]), y = f[0], g = f[1], S = (o1 = fe(), s = me(), r ? i.generateAndInjectStyles(E, o1, s) : i.generateAndInjectStyles(y, o1, s)), _ = g.$as || t.$as || g.as || t.as || p, N = ke(_), A = g !== t ? v({}, t, {}, g) : t, C = {};
                             for(var I in A)"$" !== I[0] && "as" !== I && ("forwardedAs" === I ? C.as = A[I] : (d ? d(I, isPropValid, _) : !N || isPropValid(I)) && (C[I] = A[I]));
-                            return t.style && g.style !== t.style && (C.style = v({}, t.style, {}, g.style)), C.className = Array.prototype.concat(c, h, S !== h ? S : null, t.className, g.className).filter(Boolean).join(" "), C.ref = n, (0, react.createElement)(_, C);
+                            return t.style && g.style !== t.style && (C.style = v({}, t.style, {}, g.style)), C.className = Array.prototype.concat(c, h, S !== h ? S : null, t.className, g.className).filter(Boolean).join(" "), C.ref = n, react.createElement(_, C);
                         }(C, e, t, P);
                     };
                     return O.displayName = f, (C = react.forwardRef(O)).attrs = S, C.componentStyle = I, C.displayName = f, C.shouldForwardProp = A, C.foldedComponentIds = o ? Array.prototype.concat(e.foldedComponentIds, e.styledComponentId) : w, C.styledComponentId = g, C.target = o ? e.target : e, C.withComponent = function(e) {
@@ -5896,7 +5902,7 @@
             }, positiveOrNegative = function(scale, value) {
                 if ("number" != typeof value || value >= 0) return index_esm_get(scale, value, value);
                 var absolute = Math.abs(value), n = index_esm_get(scale, absolute, absolute);
-                return "string" == typeof n ? "-" + n : -1 * n;
+                return "string" == typeof n ? "-" + n : -+n;
             }, transforms = [
                 "margin",
                 "marginTop",
@@ -6389,7 +6395,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            const ButtonBase = /*#__PURE__*/ (0, react.forwardRef)(({ children, as: Component = "button", sx: sxProp = {}, ...props }, forwardedRef)=>{
+            const ButtonBase = /*#__PURE__*/ react.forwardRef(({ children, as: Component = "button", sx: sxProp = {}, ...props }, forwardedRef)=>{
                 const { leadingIcon: LeadingIcon, trailingIcon: TrailingIcon, variant = "default", size = "medium" } = props, { theme } = useTheme(), iconWrapStyles = {
                     display: "inline-block"
                 }, sxStyles = cjs_default().all([
@@ -6427,7 +6433,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            const ButtonComponent = /*#__PURE__*/ (0, react.forwardRef)(({ children, ...props }, forwardedRef)=>/*#__PURE__*/ react.createElement(ButtonBase, Button_extends({
+            const ButtonComponent = /*#__PURE__*/ react.forwardRef(({ children, ...props }, forwardedRef)=>/*#__PURE__*/ react.createElement(ButtonBase, Button_extends({
                     ref: forwardedRef
                 }, props, {
                     as: "button"
@@ -6488,7 +6494,7 @@
              * When using SSR with React Aria, applications must be wrapped in an SSRProvider.
              * This ensures that auto generated ids are consistent between the client and server.
              */ function SSRProvider(props) {
-                let cur = (0, react.useContext)($f01a183cc7bdff77849e49ad26eb904$var$SSRContext), value = (0, react.useMemo)(()=>({
+                let cur = react.useContext($f01a183cc7bdff77849e49ad26eb904$var$SSRContext), value = react.useMemo(()=>({
                         // If this is the first SSRProvider, start with an empty string prefix, otherwise
                         // append and increment the counter.
                         prefix: cur === $f01a183cc7bdff77849e49ad26eb904$var$defaultContext ? "" : cur.prefix + "-" + ++cur.current,
@@ -6517,8 +6523,8 @@
                     e
                 ].concat(n)), a = "sc-global-" + xe(JSON.stringify(i)), u = new $e(i, a);
                 function l(e) {
-                    var t = fe(), n = me(), o = (0, react.useContext)(Ge), l = (0, react.useRef)(t.allocateGSInstance(a)).current;
-                    return t.server && h(l, e, t, o, n), (0, react.useLayoutEffect)(function() {
+                    var t = fe(), n = me(), o = react.useContext(Ge), l = react.useRef(t.allocateGSInstance(a)).current;
+                    return t.server && h(l, e, t, o, n), react.useLayoutEffect(function() {
                         if (!t.server) return h(l, e, t, o, n), function() {
                             return u.removeStyles(l, t);
                         };
@@ -6562,20 +6568,20 @@
                 lineHeight: "default"
             };
             var ThemedApp = function() {
-                var ref = (0, react.useState)(!1), render = ref[0], setRender = ref[1];
-                return (0, react.useEffect)(function() {
+                var ref = react.useState(!1), render = ref[0], setRender = ref[1];
+                return react.useEffect(function() {
                     console.log("PRERENDER: useEffect"), setRender(!0);
-                }, []), console.log("Env:", "production"), console.log("PRERENDER: ".concat(render)), /*#__PURE__*/ (0, jsx_runtime.jsx)(Box, {
-                    children: !!render && /*#__PURE__*/ (0, jsx_runtime.jsx)(Button, {
+                }, []), console.log("Env:", "production"), console.log("PRERENDER: ".concat(render)), /*#__PURE__*/ jsx_runtime.jsx(Box, {
+                    children: !!render && /*#__PURE__*/ jsx_runtime.jsx(Button, {
                         variant: "danger",
                         children: "Test"
                     })
                 });
             }, _app = function() {
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)(SSRProvider, {
-                    children: /*#__PURE__*/ (0, jsx_runtime.jsx)(ThemeProvider, {
-                        children: /*#__PURE__*/ (0, jsx_runtime.jsx)(BaseStyles, {
-                            children: /*#__PURE__*/ (0, jsx_runtime.jsx)(ThemedApp, {})
+                return /*#__PURE__*/ jsx_runtime.jsx(SSRProvider, {
+                    children: /*#__PURE__*/ jsx_runtime.jsx(ThemeProvider, {
+                        children: /*#__PURE__*/ jsx_runtime.jsx(BaseStyles, {
+                            children: /*#__PURE__*/ jsx_runtime.jsx(ThemedApp, {})
                         })
                     })
                 });
@@ -6680,7 +6686,7 @@
                     }
                     return i.exports;
                 }
-                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(162);
+                __nccwpck_require__.ab = "/" + "/", module.exports = __nccwpck_require__(162);
             }();
         /***/ },
         /***/ 9921: /***/ function(__unused_webpack_module, exports) {

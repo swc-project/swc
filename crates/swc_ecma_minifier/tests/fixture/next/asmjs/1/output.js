@@ -181,7 +181,7 @@ export function foo(global, env, buffer) {
         b = b | 0;
         d = d | 0;
         a: do if (!(c[a + (b << 3) + 4 >> 2] | 0)) {
-            if ((b | 2) == 3 ? c[a + 60 >> 2] | 0 : 0) {
+            if ((b | 2 | 0) == 3 ? c[a + 60 >> 2] | 0 : 0) {
                 a = a + 56 | 0;
                 break;
             }
@@ -201,7 +201,7 @@ export function foo(global, env, buffer) {
                     {}
             }
             if (!(c[a + 68 >> 2] | 0)) {
-                a = (b | 1) == 5 ? 948 : d;
+                a = (b | 1 | 0) == 5 ? 948 : d;
                 break;
             } else {
                 a = a + 64 | 0;
@@ -1643,8 +1643,8 @@ export function foo(global, env, buffer) {
             c[b + 520 >> 2] = 0;
             c[b + 924 >> 2] = -1;
             c[b + 928 >> 2] = -1;
-            g[b + 932 >> 2] = T(-1);
-            g[b + 936 >> 2] = T(-1);
+            g[b + 932 >> 2] = T(-1.0);
+            g[b + 936 >> 2] = T(-1.0);
             F = 1;
         }
         a: do if (!(c[b + 964 >> 2] | 0)) {
@@ -2022,7 +2022,7 @@ export function foo(global, env, buffer) {
             N = (pa | 0) == 1;
             O = (pa | 0) == 2;
             P = 976 + (Ja << 2) | 0;
-            Q = (Aa | 2) == 2;
+            Q = (Aa | 2 | 0) == 2;
             W = I & (_ ^ 1);
             R = 1040 + (Ka << 2) | 0;
             S = 1040 + (Ja << 2) | 0;
@@ -2156,7 +2156,7 @@ export function foo(global, env, buffer) {
                         v = T(eC(f, T(cC(v, T(g[q + 504 >> 2])))));
                         if (t) {
                             f = T(v * T(Fe(q)));
-                            if (f != T(-0) ? (Ma = T(v - T(y * f)), ja = T(Ie(q, Ja, Ma, H, Ea)), Ma != ja) : 0) {
+                            if (f != T(-0.0) ? (Ma = T(v - T(y * f)), ja = T(Ie(q, Ja, Ma, H, Ea)), Ma != ja) : 0) {
                                 w = T(w - T(ja - v));
                                 e = T(e + f);
                             }
@@ -2184,7 +2184,7 @@ export function foo(global, env, buffer) {
                             if (B) {
                                 Ma = T(w * T(Fe(r)));
                                 v = T(-Ma);
-                                if (Ma != T(-0)) {
+                                if (Ma != T(-0.0)) {
                                     Ma = T(z * v);
                                     v = T(Ie(r, Ja, T(w + (C ? v : Ma)), H, Ea));
                                 } else v = w;
@@ -2708,8 +2708,8 @@ export function foo(global, env, buffer) {
                         h = c[h + 960 >> 2] | 0;
                     }while ((h | 0) != 0)
                 }
-                q = (Ja | 2) == 3;
-                r = (Ka | 2) == 3;
+                q = (Ja | 2 | 0) == 3;
+                r = (Ka | 2 | 0) == 3;
                 if (q | r) {
                     h = 0;
                     do {
@@ -3018,7 +3018,7 @@ export function foo(global, env, buffer) {
     }
     function oe(a) {
         a = a | 0;
-        return (a | 1) == 3 | 0;
+        return (a | 1 | 0) == 3 | 0;
     }
     function pe(a, b) {
         a = a | 0;
@@ -3116,10 +3116,10 @@ export function foo(global, env, buffer) {
             Db[c[r >> 2] & 1](q, a, o, e, p, f);
             o = T(j + T(g[q >> 2]));
             p = T(b - m);
-            g[a + 908 >> 2] = T(Ie(a, 2, (e | 2) == 2 ? o : p, h, h));
+            g[a + 908 >> 2] = T(Ie(a, 2, (e | 2 | 0) == 2 ? o : p, h, h));
             p = T(k + T(g[q + 4 >> 2]));
             b = T(d - n);
-            b = T(Ie(a, 0, (f | 2) == 2 ? p : b, i, h));
+            b = T(Ie(a, 0, (f | 2 | 0) == 2 ? p : b, i, h));
         }
         g[a + 912 >> 2] = b;
         l = s;
@@ -3139,9 +3139,9 @@ export function foo(global, env, buffer) {
         l = T(Ud(a, 2, f));
         j = T(Ud(a, 0, f));
         b = T(b - l);
-        g[a + 908 >> 2] = T(Ie(a, 2, (d | 2) == 2 ? k : b, f, f));
+        g[a + 908 >> 2] = T(Ie(a, 2, (d | 2 | 0) == 2 ? k : b, f, f));
         c = T(c - j);
-        g[a + 912 >> 2] = T(Ie(a, 0, (e | 2) == 2 ? i : c, h, f));
+        g[a + 912 >> 2] = T(Ie(a, 0, (e | 2 | 0) == 2 ? i : c, h, f));
         return;
     }
     function ye(a, b, c, d, e, f, h) {
@@ -3699,7 +3699,7 @@ export function foo(global, env, buffer) {
     }
     function We(a) {
         a = a | 0;
-        return (a | 1) == 1 | 0;
+        return (a | 1 | 0) == 1 | 0;
     }
     function Xe(b) {
         b = b | 0;
@@ -18560,7 +18560,7 @@ export function foo(global, env, buffer) {
             g = c[f + 8 >> 2] | 0;
             f = c[f + 4 >> 2] | 0;
             while(1){
-                Ma(b | 0, d[f >> 0] | 0, a[g >> 0] | 0);
+                Ma(b | 0, d[f >> 0] | 0 | 0, a[g >> 0] | 0);
                 e = e + 4 | 0;
                 b = c[e >> 2] | 0;
                 if (!b) break;
@@ -19340,7 +19340,7 @@ export function foo(global, env, buffer) {
                 if (b >>> 0 < 2147483647) {
                     a = FC(b | 0) | 0;
                     if ((a | 0) == ((c[e >> 2] | 0) + (c[r >> 2] | 0) | 0)) {
-                        if ((a | 0) != -1) {
+                        if ((a | 0) != (-1 | 0)) {
                             h = b;
                             g = a;
                             v = 135;
@@ -19355,7 +19355,7 @@ export function foo(global, env, buffer) {
             while (0)
             do if ((v | 0) == 118) {
                 d = FC(0) | 0;
-                if ((d | 0) != -1 ? (b = d, p = c[2902] | 0, q = p + -1 | 0, b = ((q & b | 0) == 0 ? 0 : (q + b & 0 - p) - b | 0) + k | 0, p = c[2891] | 0, q = b + p | 0, b >>> 0 > n >>> 0 & b >>> 0 < 2147483647) : 0) {
+                if ((d | 0) != (-1 | 0) ? (b = d, p = c[2902] | 0, q = p + -1 | 0, b = ((q & b | 0) == 0 ? 0 : (q + b & 0 - p) - b | 0) + k | 0, p = c[2891] | 0, q = b + p | 0, b >>> 0 > n >>> 0 & b >>> 0 < 2147483647) : 0) {
                     r = c[2893] | 0;
                     if (r | 0 ? q >>> 0 <= p >>> 0 | q >>> 0 > r >>> 0 : 0) {
                         b = 0;
@@ -19376,7 +19376,7 @@ export function foo(global, env, buffer) {
             while (0)
             do if ((v | 0) == 126) {
                 d = 0 - b | 0;
-                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) if ((e | 0) == -1) {
+                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != (-1 | 0)))) if ((e | 0) == (-1 | 0)) {
                     b = 0;
                     break;
                 } else {
@@ -19393,7 +19393,7 @@ export function foo(global, env, buffer) {
                     v = 135;
                     break b;
                 }
-                if ((FC(a | 0) | 0) == -1) {
+                if ((FC(a | 0) | 0) == (-1 | 0)) {
                     FC(d | 0) | 0;
                     b = 0;
                     break;
@@ -19412,7 +19412,7 @@ export function foo(global, env, buffer) {
             v = 133;
         }
         while (0)
-        if (((v | 0) == 133 ? k >>> 0 < 2147483647 : 0) ? (u = FC(k | 0) | 0, r = FC(0) | 0, s = r - u | 0, t = s >>> 0 > (n + 40 | 0) >>> 0, !((u | 0) == -1 | t ^ 1 | u >>> 0 < r >>> 0 & ((u | 0) != -1 & (r | 0) != -1) ^ 1)) : 0) {
+        if (((v | 0) == 133 ? k >>> 0 < 2147483647 : 0) ? (u = FC(k | 0) | 0, r = FC(0) | 0, s = r - u | 0, t = s >>> 0 > (n + 40 | 0) >>> 0, !((u | 0) == (-1 | 0) | t ^ 1 | u >>> 0 < r >>> 0 & ((u | 0) != (-1 | 0) & (r | 0) != (-1 | 0)) ^ 1)) : 0) {
             h = t ? s : b;
             g = u;
             v = 135;
@@ -20513,7 +20513,7 @@ export function foo(global, env, buffer) {
                         break;
                     }
                     if (x) {
-                        p = (c[f >> 2] | 0) + 3 & -4;
+                        p = (c[f >> 2] | 0) + (4 - 1) & ~(4 - 1);
                         k = c[p >> 2] | 0;
                         c[f >> 2] = p + 4;
                         p = 0;
@@ -20557,7 +20557,7 @@ export function foo(global, env, buffer) {
                     break a;
                 }
                 if (x) {
-                    v = (c[f >> 2] | 0) + 3 & -4;
+                    v = (c[f >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     m = c[v >> 2] | 0;
                     c[f >> 2] = v + 4;
                 } else m = 0;
@@ -20982,7 +20982,7 @@ export function foo(global, env, buffer) {
         a: do if (b >>> 0 <= 20) do switch(b | 0){
             case 9:
                 {
-                    e = (c[d >> 2] | 0) + 3 & -4;
+                    e = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     b = c[e >> 2] | 0;
                     c[d >> 2] = e + 4;
                     c[a >> 2] = b;
@@ -20990,7 +20990,7 @@ export function foo(global, env, buffer) {
                 }
             case 10:
                 {
-                    e = (c[d >> 2] | 0) + 3 & -4;
+                    e = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     b = c[e >> 2] | 0;
                     c[d >> 2] = e + 4;
                     e = a;
@@ -21000,7 +21000,7 @@ export function foo(global, env, buffer) {
                 }
             case 11:
                 {
-                    e = (c[d >> 2] | 0) + 3 & -4;
+                    e = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     b = c[e >> 2] | 0;
                     c[d >> 2] = e + 4;
                     e = a;
@@ -21010,7 +21010,7 @@ export function foo(global, env, buffer) {
                 }
             case 12:
                 {
-                    e = (c[d >> 2] | 0) + 7 & -8;
+                    e = (c[d >> 2] | 0) + (8 - 1) & ~(8 - 1);
                     b = e;
                     f = c[b >> 2] | 0;
                     b = c[b + 4 >> 2] | 0;
@@ -21022,7 +21022,7 @@ export function foo(global, env, buffer) {
                 }
             case 13:
                 {
-                    f = (c[d >> 2] | 0) + 3 & -4;
+                    f = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     e = c[f >> 2] | 0;
                     c[d >> 2] = f + 4;
                     e = (e & 65535) << 16 >> 16;
@@ -21033,7 +21033,7 @@ export function foo(global, env, buffer) {
                 }
             case 14:
                 {
-                    f = (c[d >> 2] | 0) + 3 & -4;
+                    f = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     e = c[f >> 2] | 0;
                     c[d >> 2] = f + 4;
                     f = a;
@@ -21043,7 +21043,7 @@ export function foo(global, env, buffer) {
                 }
             case 15:
                 {
-                    f = (c[d >> 2] | 0) + 3 & -4;
+                    f = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     e = c[f >> 2] | 0;
                     c[d >> 2] = f + 4;
                     e = (e & 255) << 24 >> 24;
@@ -21054,7 +21054,7 @@ export function foo(global, env, buffer) {
                 }
             case 16:
                 {
-                    f = (c[d >> 2] | 0) + 3 & -4;
+                    f = (c[d >> 2] | 0) + (4 - 1) & ~(4 - 1);
                     e = c[f >> 2] | 0;
                     c[d >> 2] = f + 4;
                     f = a;
@@ -21064,7 +21064,7 @@ export function foo(global, env, buffer) {
                 }
             case 17:
                 {
-                    f = (c[d >> 2] | 0) + 7 & -8;
+                    f = (c[d >> 2] | 0) + (8 - 1) & ~(8 - 1);
                     g = +h[f >> 3];
                     c[d >> 2] = f + 8;
                     h[a >> 3] = g;
@@ -21072,7 +21072,7 @@ export function foo(global, env, buffer) {
                 }
             case 18:
                 {
-                    f = (c[d >> 2] | 0) + 7 & -8;
+                    f = (c[d >> 2] | 0) + (8 - 1) & ~(8 - 1);
                     g = +h[f >> 3];
                     c[d >> 2] = f + 8;
                     h[a >> 3] = g;
@@ -21129,7 +21129,7 @@ export function foo(global, env, buffer) {
         } else c = b;
         if (c) while(1){
             d = d + -1 | 0;
-            a[d >> 0] = (c >>> 0) % 10 | 48;
+            a[d >> 0] = (c >>> 0) % 10 | 0 | 48;
             if (c >>> 0 < 10) break;
             else c = (c >>> 0) / 10 | 0;
         }
@@ -21262,7 +21262,7 @@ export function foo(global, env, buffer) {
         }
         RB(e) | 0;
         D = A & 2146435072;
-        do if (D >>> 0 < 2146435072 | (D | 0) == 2146435072 & false) {
+        do if (D >>> 0 < 2146435072 | (D | 0) == 2146435072 & 0 < 0) {
             r = +SB(e, u) * 2.0;
             j = r != 0.0;
             if (j) c[u >> 2] = (c[u >> 2] | 0) + -1;
@@ -21524,11 +21524,11 @@ export function foo(global, env, buffer) {
                             do {
                                 j = j * 10 | 0;
                                 n = n + 1 | 0;
-                            }while (!((z >>> 0) % (j >>> 0) | 0))
+                            }while (!((z >>> 0) % (j >>> 0) | 0 | 0))
                         } else n = 0;
                     } else n = 9;
                     j = ((w - y >> 2) * 9 | 0) + -9 | 0;
-                    if ((o | 32) == 102) {
+                    if ((o | 32 | 0) == 102) {
                         s = j - n | 0;
                         s = (s | 0) > 0 ? s : 0;
                         k = (k | 0) < (s | 0) ? k : s;
@@ -21549,7 +21549,7 @@ export function foo(global, env, buffer) {
             while (0)
             t = k | s;
             p = (t | 0) != 0 & 1;
-            q = (o | 32) == 102;
+            q = (o | 32 | 0) == 102;
             if (q) {
                 v = 0;
                 j = (m | 0) > 0 ? m : 0;
@@ -21655,7 +21655,7 @@ export function foo(global, env, buffer) {
             j = C + 3 | 0;
             OB(b, 32, f, j, h & -65537);
             GB(b, B, C);
-            GB(b, e != e | false ? G ? 5686 : 5690 : G ? 5678 : 5682, 3);
+            GB(b, e != e | 0.0 != 0.0 ? G ? 5686 : 5690 : G ? 5678 : 5682, 3);
             OB(b, 32, f, j, h ^ 8192);
         }
         while (0)
@@ -22375,7 +22375,7 @@ export function foo(global, env, buffer) {
             }
             if ((h | 0) == 1) {
                 o = j | b & 0;
-                p = a | 0;
+                p = a | 0 | 0;
                 return (A = o, p) | 0;
             } else {
                 p = CC(h | 0) | 0;
@@ -22440,7 +22440,7 @@ export function foo(global, env, buffer) {
             j = 0;
             i = 0;
         } else {
-            m = d | 0;
+            m = d | 0 | 0;
             l = n | e & 0;
             k = xC(m | 0, l | 0, -1, -1) | 0;
             d = A;
@@ -22469,7 +22469,7 @@ export function foo(global, env, buffer) {
             c[f + 4 >> 2] = b;
         }
         o = (g | 0) >>> 31 | (k | h) << 1 | (h << 1 | g >>> 31) & 0 | j;
-        p = (g << 1 | 0) & -2 | i;
+        p = (g << 1 | 0 >>> 31) & -2 | i;
         return (A = o, p) | 0;
     }
     function EC(a, b, c, d) {

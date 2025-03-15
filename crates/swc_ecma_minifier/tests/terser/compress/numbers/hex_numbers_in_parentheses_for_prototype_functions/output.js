@@ -1,5 +1,5 @@
 -2;
--2..toFixed(0);
+(-2).toFixed(0);
 2;
 2..toFixed(0);
 0.2;

@@ -266,9 +266,9 @@
                 0x64
             ]); // https://wiki.xiph.org/OggOpus
             var normalizePath = function(path) {
-                return "string" == typeof path ? (0, byte_helpers /* stringToBytes */ .qX)(path) : path;
+                return "string" == typeof path ? byte_helpers /* stringToBytes */ .qX(path) : path;
             }, parseDescriptors = function(bytes) {
-                bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                bytes = byte_helpers /* toUint8 */ .Ki(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
                     var tag = bytes[i], size = 0, headerSize = 0, byte = bytes[++headerSize];
                     for(headerSize++; 0x80 & byte;)size = (0x7f & byte) << 7, byte = bytes[headerSize], headerSize++;
@@ -300,7 +300,7 @@
                         }; // depends on es id
                         if (0x80 & desc.flags && (desc.dependsOnEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), 0x40 & desc.flags) {
                             var len = bytes[desc.size];
-                            desc.url = (0, byte_helpers /* bytesToString */ .d3)(bytes.subarray(desc.size + 1, desc.size + 1 + len)), desc.size += len;
+                            desc.url = byte_helpers /* bytesToString */ .d3(bytes.subarray(desc.size + 1, desc.size + 1 + len)), desc.size += len;
                         } // ocr es id
                         return 0x20 & desc.flags && (desc.ocrEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), desc.descriptors = parseDescriptors(bytes.subarray(desc.size)) || [], desc;
                     }
@@ -364,7 +364,7 @@
                     return normalizePath(p);
                 }) : [
                     normalizePath(paths1)
-                ], bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                ], bytes = byte_helpers /* toUint8 */ .Ki(bytes);
                 var paths1, results = [];
                 if (!paths.length) // short-circuit the search for empty paths
                 return results;
@@ -379,101 +379,101 @@
                         end = bytes.length;
                     }
                     var data = bytes.subarray(i + 8, end);
-                    (0, byte_helpers /* bytesMatch */ .G3)(type, paths[0]) && (1 === paths.length ? // this is the end of the path and we've found the box we were
+                    byte_helpers /* bytesMatch */ .G3(type, paths[0]) && (1 === paths.length ? // this is the end of the path and we've found the box we were
                     // looking for
                     results.push(data) : // recursively search for the next box along the path
                     results.push.apply(results, findBox(data, paths.slice(1), complete))), i = end;
                 } // we've finished searching all of bytes
                 return results;
             }, EBML_TAGS = {
-                EBML: (0, byte_helpers /* toUint8 */ .Ki)([
+                EBML: byte_helpers /* toUint8 */ .Ki([
                     0x1a,
                     0x45,
                     0xdf,
                     0xa3
                 ]),
-                DocType: (0, byte_helpers /* toUint8 */ .Ki)([
+                DocType: byte_helpers /* toUint8 */ .Ki([
                     0x42,
                     0x82
                 ]),
-                Segment: (0, byte_helpers /* toUint8 */ .Ki)([
+                Segment: byte_helpers /* toUint8 */ .Ki([
                     0x18,
                     0x53,
                     0x80,
                     0x67
                 ]),
-                SegmentInfo: (0, byte_helpers /* toUint8 */ .Ki)([
+                SegmentInfo: byte_helpers /* toUint8 */ .Ki([
                     0x15,
                     0x49,
                     0xa9,
                     0x66
                 ]),
-                Tracks: (0, byte_helpers /* toUint8 */ .Ki)([
+                Tracks: byte_helpers /* toUint8 */ .Ki([
                     0x16,
                     0x54,
                     0xae,
                     0x6b
                 ]),
-                Track: (0, byte_helpers /* toUint8 */ .Ki)([
+                Track: byte_helpers /* toUint8 */ .Ki([
                     0xae
                 ]),
-                TrackNumber: (0, byte_helpers /* toUint8 */ .Ki)([
+                TrackNumber: byte_helpers /* toUint8 */ .Ki([
                     0xd7
                 ]),
-                DefaultDuration: (0, byte_helpers /* toUint8 */ .Ki)([
+                DefaultDuration: byte_helpers /* toUint8 */ .Ki([
                     0x23,
                     0xe3,
                     0x83
                 ]),
-                TrackEntry: (0, byte_helpers /* toUint8 */ .Ki)([
+                TrackEntry: byte_helpers /* toUint8 */ .Ki([
                     0xae
                 ]),
-                TrackType: (0, byte_helpers /* toUint8 */ .Ki)([
+                TrackType: byte_helpers /* toUint8 */ .Ki([
                     0x83
                 ]),
-                FlagDefault: (0, byte_helpers /* toUint8 */ .Ki)([
+                FlagDefault: byte_helpers /* toUint8 */ .Ki([
                     0x88
                 ]),
-                CodecID: (0, byte_helpers /* toUint8 */ .Ki)([
+                CodecID: byte_helpers /* toUint8 */ .Ki([
                     0x86
                 ]),
-                CodecPrivate: (0, byte_helpers /* toUint8 */ .Ki)([
+                CodecPrivate: byte_helpers /* toUint8 */ .Ki([
                     0x63,
                     0xa2
                 ]),
-                VideoTrack: (0, byte_helpers /* toUint8 */ .Ki)([
+                VideoTrack: byte_helpers /* toUint8 */ .Ki([
                     0xe0
                 ]),
-                AudioTrack: (0, byte_helpers /* toUint8 */ .Ki)([
+                AudioTrack: byte_helpers /* toUint8 */ .Ki([
                     0xe1
                 ]),
                 // Not used yet, but will be used for live webm/mkv
                 // see https://www.matroska.org/technical/basics.html#block-structure
                 // see https://www.matroska.org/technical/basics.html#simpleblock-structure
-                Cluster: (0, byte_helpers /* toUint8 */ .Ki)([
+                Cluster: byte_helpers /* toUint8 */ .Ki([
                     0x1f,
                     0x43,
                     0xb6,
                     0x75
                 ]),
-                Timestamp: (0, byte_helpers /* toUint8 */ .Ki)([
+                Timestamp: byte_helpers /* toUint8 */ .Ki([
                     0xe7
                 ]),
-                TimestampScale: (0, byte_helpers /* toUint8 */ .Ki)([
+                TimestampScale: byte_helpers /* toUint8 */ .Ki([
                     0x2a,
                     0xd7,
                     0xb1
                 ]),
-                BlockGroup: (0, byte_helpers /* toUint8 */ .Ki)([
+                BlockGroup: byte_helpers /* toUint8 */ .Ki([
                     0xa0
                 ]),
-                BlockDuration: (0, byte_helpers /* toUint8 */ .Ki)([
+                BlockDuration: byte_helpers /* toUint8 */ .Ki([
                     0x9b
                 ]),
-                Block: (0, byte_helpers /* toUint8 */ .Ki)([
+                Block: byte_helpers /* toUint8 */ .Ki([
                     0xa1
                 ]),
-                SimpleBlock: (0, byte_helpers /* toUint8 */ .Ki)([
+                SimpleBlock: byte_helpers /* toUint8 */ .Ki([
                     0xa3
                 ])
             }, LENGTH_TABLE = [
@@ -493,7 +493,7 @@
                 var length = getLength(bytes[offset]), valueBytes = bytes.subarray(offset, offset + length);
                 return removeLength && (valueBytes = Array.prototype.slice.call(bytes, offset, offset + length), valueBytes[0] ^= LENGTH_TABLE[length - 1]), {
                     length: length,
-                    value: (0, byte_helpers /* bytesToNumber */ .tm)(valueBytes, {
+                    value: byte_helpers /* bytesToNumber */ .tm(valueBytes, {
                         signed: signed
                     }),
                     bytes: valueBytes
@@ -501,11 +501,11 @@
             }, ebml_helpers_normalizePath = function normalizePath(path) {
                 return "string" == typeof path ? path.match(/.{1,2}/g).map(function(p) {
                     return normalizePath(p);
-                }) : "number" == typeof path ? (0, byte_helpers /* numberToBytes */ .hL)(path) : path;
+                }) : "number" == typeof path ? byte_helpers /* numberToBytes */ .hL(path) : path;
             }, getInfinityDataSize = function getInfinityDataSize(id, bytes, offset) {
                 if (offset >= bytes.length) return bytes.length;
                 var innerid = getvint(bytes, offset, !1);
-                if ((0, byte_helpers /* bytesMatch */ .G3)(id.bytes, innerid.bytes)) return offset;
+                if (byte_helpers /* bytesMatch */ .G3(id.bytes, innerid.bytes)) return offset;
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
@@ -513,35 +513,35 @@
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
-                ], bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                ], bytes = byte_helpers /* toUint8 */ .Ki(bytes);
                 var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
                     0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
                     var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
-                    (0, byte_helpers /* bytesMatch */ .G3)(paths[0], id.bytes) && (1 === paths.length ? // this is the end of the paths and we've found the tag we were
+                    byte_helpers /* bytesMatch */ .G3(paths[0], id.bytes) && (1 === paths.length ? // this is the end of the paths and we've found the tag we were
                     // looking for
                     results.push(data) : // recursively search for the next tag inside of the data
                     // of this one
                     results = results.concat(findEbml(data, paths.slice(1)))), i += id.length + dataHeader.length + data.length;
                 }
                 return results;
-            }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = (0, byte_helpers /* toUint8 */ .Ki)([
+            }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = byte_helpers /* toUint8 */ .Ki([
                 0x00,
                 0x00,
                 0x00,
                 0x01
-            ]), NAL_TYPE_TWO = (0, byte_helpers /* toUint8 */ .Ki)([
+            ]), NAL_TYPE_TWO = byte_helpers /* toUint8 */ .Ki([
                 0x00,
                 0x00,
                 0x01
-            ]), EMULATION_PREVENTION = (0, byte_helpers /* toUint8 */ .Ki)([
+            ]), EMULATION_PREVENTION = byte_helpers /* toUint8 */ .Ki([
                 0x00,
                 0x00,
                 0x03
             ]), discardEmulationPreventionBytes = function(bytes) {
-                for(var positions = [], i = 1; i < bytes.length - 2;)(0, byte_helpers /* bytesMatch */ .G3)(bytes.subarray(i, i + 3), EMULATION_PREVENTION) && (positions.push(i + 2), i++), i++;
+                for(var positions = [], i = 1; i < bytes.length - 2;)byte_helpers /* bytesMatch */ .G3(bytes.subarray(i, i + 3), EMULATION_PREVENTION) && (positions.push(i + 2), i++), i++;
                  // If no Emulation Prevention Bytes were found just return the original
                 // array
                 if (0 === positions.length) return bytes;
@@ -551,7 +551,7 @@
                 sourceIndex++, positions.shift()), newData[i] = bytes[sourceIndex];
                 return newData;
             }, findNal = function(bytes, dataType, types, nalLimit) {
-                void 0 === nalLimit && (nalLimit = 1 / 0), bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes), types = [].concat(types);
+                void 0 === nalLimit && (nalLimit = 1 / 0), bytes = byte_helpers /* toUint8 */ .Ki(bytes), types = [].concat(types);
                 // we reach the end of bytes
                 // we reach the maximum number of nals they want to seach
                 // NOTE: that we disregard nalLimit when we have found the start
@@ -559,25 +559,25 @@
                 for(var nalStart, i = 0, nalsFound = 0; i < bytes.length && (nalsFound < nalLimit || nalStart);){
                     var nalOffset = void 0;
                     // find the next nal unit
-                    if ((0, byte_helpers /* bytesMatch */ .G3)(bytes.subarray(i), NAL_TYPE_ONE) ? nalOffset = 4 : (0, byte_helpers /* bytesMatch */ .G3)(bytes.subarray(i), NAL_TYPE_TWO) && (nalOffset = 3), !nalOffset) {
+                    if (byte_helpers /* bytesMatch */ .G3(bytes.subarray(i), NAL_TYPE_ONE) ? nalOffset = 4 : byte_helpers /* bytesMatch */ .G3(bytes.subarray(i), NAL_TYPE_TWO) && (nalOffset = 3), !nalOffset) {
                         i++;
                         continue;
                     }
                     if (nalsFound++, nalStart) return discardEmulationPreventionBytes(bytes.subarray(nalStart, i));
                     var nalType = void 0;
-                    "h264" === dataType ? nalType = 0x1f & bytes[i + nalOffset] : "h265" === dataType && (nalType = bytes[i + nalOffset] >> 1 & 0x3f), -1 !== types.indexOf(nalType) && (nalStart = i + nalOffset), i += nalOffset + ("h264" === dataType ? 1 : 2);
+                    "h264" === dataType ? nalType = 0x1f & bytes[i + nalOffset] : "h265" === dataType && (nalType = bytes[i + nalOffset] >> 1 & 0x3f), types.indexOf(nalType) !== -1 && (nalStart = i + nalOffset), i += nalOffset + ("h264" === dataType ? 1 : 2);
                 }
                 return bytes.subarray(0, 0);
             }, CONSTANTS = {
                 // "webm" string literal in hex
-                webm: (0, byte_helpers /* toUint8 */ .Ki)([
+                webm: byte_helpers /* toUint8 */ .Ki([
                     0x77,
                     0x65,
                     0x62,
                     0x6d
                 ]),
                 // "matroska" string literal in hex
-                matroska: (0, byte_helpers /* toUint8 */ .Ki)([
+                matroska: byte_helpers /* toUint8 */ .Ki([
                     0x6d,
                     0x61,
                     0x74,
@@ -588,14 +588,14 @@
                     0x61
                 ]),
                 // "fLaC" string literal in hex
-                flac: (0, byte_helpers /* toUint8 */ .Ki)([
+                flac: byte_helpers /* toUint8 */ .Ki([
                     0x66,
                     0x4c,
                     0x61,
                     0x43
                 ]),
                 // "OggS" string literal in hex
-                ogg: (0, byte_helpers /* toUint8 */ .Ki)([
+                ogg: byte_helpers /* toUint8 */ .Ki([
                     0x4f,
                     0x67,
                     0x67,
@@ -603,32 +603,32 @@
                 ]),
                 // ac-3 sync byte, also works for ec-3 as that is simply a codec
                 // of ac-3
-                ac3: (0, byte_helpers /* toUint8 */ .Ki)([
+                ac3: byte_helpers /* toUint8 */ .Ki([
                     0x0b,
                     0x77
                 ]),
                 // "RIFF" string literal in hex used for wav and avi
-                riff: (0, byte_helpers /* toUint8 */ .Ki)([
+                riff: byte_helpers /* toUint8 */ .Ki([
                     0x52,
                     0x49,
                     0x46,
                     0x46
                 ]),
                 // "AVI" string literal in hex
-                avi: (0, byte_helpers /* toUint8 */ .Ki)([
+                avi: byte_helpers /* toUint8 */ .Ki([
                     0x41,
                     0x56,
                     0x49
                 ]),
                 // "WAVE" string literal in hex
-                wav: (0, byte_helpers /* toUint8 */ .Ki)([
+                wav: byte_helpers /* toUint8 */ .Ki([
                     0x57,
                     0x41,
                     0x56,
                     0x45
                 ]),
                 // "ftyp3g" string literal in hex
-                "3gp": (0, byte_helpers /* toUint8 */ .Ki)([
+                "3gp": byte_helpers /* toUint8 */ .Ki([
                     0x66,
                     0x74,
                     0x79,
@@ -637,21 +637,21 @@
                     0x67
                 ]),
                 // "ftyp" string literal in hex
-                mp4: (0, byte_helpers /* toUint8 */ .Ki)([
+                mp4: byte_helpers /* toUint8 */ .Ki([
                     0x66,
                     0x74,
                     0x79,
                     0x70
                 ]),
                 // "styp" string literal in hex
-                fmp4: (0, byte_helpers /* toUint8 */ .Ki)([
+                fmp4: byte_helpers /* toUint8 */ .Ki([
                     0x73,
                     0x74,
                     0x79,
                     0x70
                 ]),
                 // "ftypqt" string literal in hex
-                mov: (0, byte_helpers /* toUint8 */ .Ki)([
+                mov: byte_helpers /* toUint8 */ .Ki([
                     0x66,
                     0x74,
                     0x79,
@@ -660,14 +660,14 @@
                     0x74
                 ]),
                 // moov string literal in hex
-                moov: (0, byte_helpers /* toUint8 */ .Ki)([
+                moov: byte_helpers /* toUint8 */ .Ki([
                     0x6d,
                     0x6f,
                     0x6f,
                     0x76
                 ]),
                 // moof string literal in hex
-                moof: (0, byte_helpers /* toUint8 */ .Ki)([
+                moof: byte_helpers /* toUint8 */ .Ki([
                     0x6d,
                     0x6f,
                     0x6f,
@@ -675,8 +675,8 @@
                 ])
             }, _isLikely = {
                 aac: function(bytes) {
-                    var offset = (0, id3_helpers /* getId3Offset */ .c)(bytes);
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, [
+                    var offset = id3_helpers /* getId3Offset */ .c(bytes);
+                    return byte_helpers /* bytesMatch */ .G3(bytes, [
                         0xff,
                         0x10
                     ], {
@@ -688,8 +688,8 @@
                     });
                 },
                 mp3: function(bytes) {
-                    var offset = (0, id3_helpers /* getId3Offset */ .c)(bytes);
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, [
+                    var offset = id3_helpers /* getId3Offset */ .c(bytes);
+                    return byte_helpers /* bytesMatch */ .G3(bytes, [
                         0xff,
                         0x02
                     ], {
@@ -705,41 +705,41 @@
                         EBML_TAGS.EBML,
                         EBML_TAGS.DocType
                     ])[0]; // check if DocType EBML tag is webm
-                    return (0, byte_helpers /* bytesMatch */ .G3)(docType, CONSTANTS.webm);
+                    return byte_helpers /* bytesMatch */ .G3(docType, CONSTANTS.webm);
                 },
                 mkv: function(bytes) {
                     var docType = findEbml(bytes, [
                         EBML_TAGS.EBML,
                         EBML_TAGS.DocType
                     ])[0]; // check if DocType EBML tag is matroska
-                    return (0, byte_helpers /* bytesMatch */ .G3)(docType, CONSTANTS.matroska);
+                    return byte_helpers /* bytesMatch */ .G3(docType, CONSTANTS.matroska);
                 },
                 mp4: function(bytes) {
                     return(// if this file is another base media file format, it is not mp4
-                    !(_isLikely["3gp"](bytes) || _isLikely.mov(bytes)) && (!!((0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.mp4, {
+                    !(_isLikely["3gp"](bytes) || _isLikely.mov(bytes)) && (!!(byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.mp4, {
                         offset: 4
-                    }) || (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.fmp4, {
+                    }) || byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.fmp4, {
                         offset: 4
-                    }) || (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.moof, {
+                    }) || byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.moof, {
                         offset: 4
-                    }) || (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.moov, {
+                    }) || byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.moov, {
                         offset: 4
                     })) || void 0) // if this file starts with a ftyp or styp box its mp4
                     );
                 },
                 mov: function(bytes) {
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.mov, {
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.mov, {
                         offset: 4
                     });
                 },
                 "3gp": function(bytes) {
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS["3gp"], {
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS["3gp"], {
                         offset: 4
                     });
                 },
                 ac3: function(bytes) {
-                    var offset = (0, id3_helpers /* getId3Offset */ .c)(bytes);
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.ac3, {
+                    var offset = id3_helpers /* getId3Offset */ .c(bytes);
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.ac3, {
                         offset: offset
                     });
                 },
@@ -752,21 +752,21 @@
                     return !1;
                 },
                 flac: function(bytes) {
-                    var offset = (0, id3_helpers /* getId3Offset */ .c)(bytes);
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.flac, {
+                    var offset = id3_helpers /* getId3Offset */ .c(bytes);
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.flac, {
                         offset: offset
                     });
                 },
                 ogg: function(bytes) {
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.ogg);
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.ogg);
                 },
                 avi: function(bytes) {
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.riff) && (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.avi, {
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.riff) && byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.avi, {
                         offset: 8
                     });
                 },
                 wav: function(bytes) {
-                    return (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.riff) && (0, byte_helpers /* bytesMatch */ .G3)(bytes, CONSTANTS.wav, {
+                    return byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.riff) && byte_helpers /* bytesMatch */ .G3(bytes, CONSTANTS.wav, {
                         offset: 8
                     });
                 },
@@ -793,12 +793,12 @@
             isLikelyTypes.forEach(function(type) {
                 var isLikelyFn = _isLikely[type];
                 _isLikely[type] = function(bytes) {
-                    return isLikelyFn((0, byte_helpers /* toUint8 */ .Ki)(bytes));
+                    return isLikelyFn(byte_helpers /* toUint8 */ .Ki(bytes));
                 };
             }); // export after wrapping
             // https://en.wikipedia.org/wiki/List_of_file_signatures
             var detectContainerForBytes = function(bytes) {
-                bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                bytes = byte_helpers /* toUint8 */ .Ki(bytes);
                 for(var i = 0; i < isLikelyTypes.length; i++){
                     var type = isLikelyTypes[i];
                     if (_isLikely[type](bytes)) return type;
@@ -830,16 +830,16 @@
                     return /* binding */ getId3Offset;
                 }
             });
-            /* unused harmony export getId3Size */ /* harmony import */ var _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(562), ID3 = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki)([
+            /* unused harmony export getId3Size */ /* harmony import */ var _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(562), ID3 = _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki([
                 0x49,
                 0x44,
                 0x33
             ]), getId3Size = function(bytes, offset) {
                 void 0 === offset && (offset = 0);
-                var flags = (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki)(bytes))[offset + 5], returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
+                var flags = (bytes = _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki(bytes))[offset + 5], returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
                 return (16 & flags) >> 4 ? returnSize + 20 : returnSize + 10;
             }, getId3Offset = function getId3Offset(bytes, offset) {
-                return (void 0 === offset && (offset = 0), (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki)(bytes)).length - offset < 10 || !(0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .bytesMatch */ .G3)(bytes, ID3, {
+                return (void 0 === offset && (offset = 0), (bytes = _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .toUint8 */ .Ki(bytes)).length - offset < 10 || !_byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ /* .bytesMatch */ .G3(bytes, ID3, {
                     offset: offset
                 })) ? offset : (offset += getId3Size(bytes, offset), getId3Offset(bytes, offset));
             };
@@ -1973,7 +1973,7 @@
                                     if (!matches) {
                                         var nodeClassNamesSet = toOrderedSet(nodeClassNames);
                                         matches = classNamesSet.every(function(element) {
-                                            return nodeClassNamesSet && -1 !== nodeClassNamesSet.indexOf(element);
+                                            return nodeClassNamesSet && nodeClassNamesSet.indexOf(element) !== -1;
                                         });
                                     }
                                     matches && ls.push(node);
@@ -3004,7 +3004,7 @@
                     var _this;
                     return (_this = _Stream.call(this) || this).buffer = "", _this;
                 }
-                return (0, inheritsLoose /* default */ .Z)(LineStream, _Stream), LineStream.prototype.push = function(data) {
+                return inheritsLoose /* default */ .Z(LineStream, _Stream), LineStream.prototype.push = function(data) {
                     var nextNewline;
                     for(this.buffer += data, nextNewline = this.buffer.indexOf("\n"); nextNewline > -1; nextNewline = this.buffer.indexOf("\n"))this.trigger("data", this.buffer.substring(0, nextNewline)), this.buffer = this.buffer.substring(nextNewline + 1);
                 }, LineStream;
@@ -3015,7 +3015,7 @@
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, parseAttributes = function(attributes) {
                 for(// split the string using attributes as the separator
-                var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)// filter out unmatched portions of the string
+                var attr, attrs = attributes.split(RegExp("(?:^|,)((?:" + '[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)// filter out unmatched portions of the string
                 "" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]); // split the key and value
                 return result;
             }, ParseStream = /*#__PURE__*/ function(_Stream) {
@@ -3023,7 +3023,7 @@
                     var _this;
                     return (_this = _Stream.call(this) || this).customParsers = [], _this.tagMappers = [], _this;
                 }
-                (0, inheritsLoose /* default */ .Z)(ParseStream, _Stream);
+                inheritsLoose /* default */ .Z(ParseStream, _Stream);
                 /**
                  * Parses an additional line of input.
                  *
@@ -3107,7 +3107,7 @@
                                 return;
                             }
                             if (match = /^#EXT-X-BYTERANGE:?(.*)?$/.exec(newLine)) {
-                                event = (0, esm_extends /* default */ .Z)(parseByterange(match[1]), {
+                                event = esm_extends /* default */ .Z(parseByterange(match[1]), {
                                     type: "tag",
                                     tagType: "byterange"
                                 }), _this2.trigger("data", event);
@@ -3350,7 +3350,7 @@
             }, Parser = /*#__PURE__*/ function(_Stream) {
                 function Parser() {
                     (_this = _Stream.call(this) || this).lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
-                    /* eslint-disable consistent-this */ var _this, currentMap, _key, self1 = (0, assertThisInitialized /* default */ .Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
+                    /* eslint-disable consistent-this */ var _this, currentMap, _key, self1 = assertThisInitialized /* default */ .Z(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
                         AUDIO: {},
                         VIDEO: {},
                         "CLOSED-CAPTIONS": {},
@@ -3432,11 +3432,11 @@
                                         } // check if the content is encrypted for Widevine
                                         // Widevine/HLS spec: https://storage.googleapis.com/wvdocs/Widevine_DRM_HLS.pdf
                                         if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) {
-                                            if (-1 === [
+                                            if ([
                                                 "SAMPLE-AES",
                                                 "SAMPLE-AES-CTR",
                                                 "SAMPLE-AES-CENC"
-                                            ].indexOf(entry.attributes.METHOD)) {
+                                            ].indexOf(entry.attributes.METHOD) === -1) {
                                                 this.trigger("warn", {
                                                     message: "invalid key method provided for Widevine"
                                                 });
@@ -3464,7 +3464,7 @@
                                                     keyId: entry.attributes.KEYID.substring(2)
                                                 },
                                                 // decode the base64-encoded PSSH box
-                                                pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
+                                                pssh: decode_b64_to_uint8_array /* default */ .Z(entry.attributes.URI.split(",")[1])
                                             };
                                             return;
                                         }
@@ -3512,7 +3512,7 @@
                                             });
                                             return;
                                         }
-                                        currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
+                                        currentUri.attributes || (currentUri.attributes = {}), esm_extends /* default */ .Z(currentUri.attributes, entry.attributes);
                                     },
                                     media: function() {
                                         if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) {
@@ -3643,7 +3643,7 @@
                         })[entry.type].call(self1);
                     }), _this;
                 }
-                (0, inheritsLoose /* default */ .Z)(Parser, _Stream);
+                inheritsLoose /* default */ .Z(Parser, _Stream);
                 var _proto = Parser.prototype;
                 return _proto.warnOnMissingAttributes_ = function(identifier, attributes, required) {
                     var missing = [];
@@ -3732,7 +3732,7 @@
             }, urlTypeToSegment = function(_ref) {
                 var _ref$baseUrl = _ref.baseUrl, _ref$source = _ref.source, source = void 0 === _ref$source ? "" : _ref$source, _ref$range = _ref.range, range = void 0 === _ref$range ? "" : _ref$range, _ref$indexRange = _ref.indexRange, indexRange = void 0 === _ref$indexRange ? "" : _ref$indexRange, segment = {
                     uri: source,
-                    resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
+                    resolvedUri: _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
                 };
                 if (range || indexRange) {
                     var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10);
@@ -4071,7 +4071,7 @@
                         uri: uri,
                         timeline: segment.timeline,
                         duration: segment.duration,
-                        resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)(attributes.baseUrl || "", uri),
+                        resolvedUri: _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z(attributes.baseUrl || "", uri),
                         map: mapSegment,
                         number: segment.number,
                         presentationTime: presentationTime
@@ -4134,7 +4134,7 @@
                 var match = /P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)D)?(?:T(?:(\d*)H)?(?:(\d*)M)?(?:([\d.]*)S)?)?/.exec(str);
                 if (!match) return 0;
                 var _match$slice = match.slice(1), year = _match$slice[0], month = _match$slice[1], day = _match$slice[2], hour = _match$slice[3], minute = _match$slice[4], second = _match$slice[5];
-                return 31536000 * parseFloat(year || 0) + 2592000 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
+                return parseFloat(year || 0) * (365 * 24 * 60 * 60) + parseFloat(month || 0) * (30 * 24 * 60 * 60) + parseFloat(day || 0) * (24 * 60 * 60) + parseFloat(hour || 0) * (60 * 60) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
             }, parsers = {
                 /**
                  * Specifies the duration of the entire Media Presentation. Format is a duration string
@@ -4347,7 +4347,7 @@
             }, buildBaseUrls = function(referenceUrls, baseUrlElements) {
                 return baseUrlElements.length ? flatten(referenceUrls.map(function(reference) {
                     return baseUrlElements.map(function(baseUrlElement) {
-                        return (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)(reference, getContent(baseUrlElement));
+                        return _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z(reference, getContent(baseUrlElement));
                     });
                 })) : referenceUrls;
             }, getSegmentInformation = function(adaptationSet) {
@@ -4483,7 +4483,7 @@
                                     };
                                     var psshNode = findChildren(node, "cenc:pssh")[0];
                                     if (psshNode) {
-                                        var pssh = getContent(psshNode), psshBuffer = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ /* ["default"] */ .Z)(pssh);
+                                        var pssh = getContent(psshNode), psshBuffer = pssh && _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ /* ["default"] */ .Z(pssh);
                                         acc[keySystem].pssh = psshBuffer;
                                     }
                                 }
@@ -4629,7 +4629,7 @@
                     // make sure Video.js player is only initialized once
                     if (!playerRef.current) {
                         var videoElement = videoRef.current;
-                        if (videoElement) var player = playerRef.current = (0, video_es /* default */ .Z)(videoElement, options, function() {
+                        if (videoElement) var player = playerRef.current = video_es /* default */ .Z(videoElement, options, function() {
                             console.log("player is ready"), onReady && onReady(player);
                         });
                     }
@@ -4645,21 +4645,21 @@
                     };
                 }, [
                     playerRef
-                ]), /*#__PURE__*/ (0, jsx_runtime.jsx)("div", {
+                ]), /*#__PURE__*/ jsx_runtime.jsx("div", {
                     "data-vjs-player": !0,
-                    children: /*#__PURE__*/ (0, jsx_runtime.jsx)("video", {
+                    children: /*#__PURE__*/ jsx_runtime.jsx("video", {
                         ref: videoRef,
                         className: "video-js vjs-big-play-centered"
                     })
                 });
             }; // CONCATENATED MODULE: ./pages/index.js
             function Home() {
-                var playerRef = (0, react.useRef)(null);
-                return /*#__PURE__*/ (0, jsx_runtime.jsx)("div", {
+                var playerRef = react.useRef(null);
+                return /*#__PURE__*/ jsx_runtime.jsx("div", {
                     className: Home_module_default().container,
-                    children: /*#__PURE__*/ (0, jsx_runtime.jsx)("main", {
+                    children: /*#__PURE__*/ jsx_runtime.jsx("main", {
                         className: Home_module_default().main,
-                        children: /*#__PURE__*/ (0, jsx_runtime.jsx)(components_VideoJS, {
+                        children: /*#__PURE__*/ jsx_runtime.jsx(components_VideoJS, {
                             options: {
                                 autoplay: !0,
                                 controls: !0,
@@ -5661,7 +5661,7 @@
                     return;
                 }
                 var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
-                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
+                    font: Math.round(0.05 * containerBox.height * 100) / 100 + "px sans-serif"
                 };
                 !function() {
                     for(var styleBox, cue, i = 0; i < cues.length; i++)// Compute the intial position and styles of the cue div.
@@ -5674,7 +5674,7 @@
                             if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                             if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                             for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                            return -1 * ++count;
+                            return -+ ++count;
                         }(cue), axis = [];
                         // If we have a line number to align the cue to.
                         if (cue.snapToLines) {
@@ -5876,7 +5876,7 @@
                                     self1.cue.align = "middle";
                                 }
                                 // 30-39 - Check if self line contains an optional identifier or timing data.
-                                if (self1.state = "CUE", -1 === line.indexOf("-->")) {
+                                if (self1.state = "CUE", line.indexOf("-->") === -1) {
                                     self1.cue.id = line;
                                     continue;
                                 }
@@ -5990,7 +5990,7 @@
                                 self1.state = "CUETEXT";
                                 continue;
                             case "CUETEXT":
-                                var hasSubstring = -1 !== line.indexOf("-->");
+                                var hasSubstring = line.indexOf("-->") !== -1;
                                 // 34 - If we have an empty line then report the cue.
                                 // 35 - If we have the special substring '-->' then report the cue,
                                 // but do not collect the line as we need to process the current
@@ -6334,7 +6334,7 @@
                 // Trim off extra bytes after placeholder bytes are found
                 // See: https://github.com/beatgammit/base64-js/issues/42
                 var validLen = b64.indexOf("=");
-                -1 === validLen && (validLen = len);
+                validLen === -1 && (validLen = len);
                 var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
                 return [
                     validLen,
@@ -6385,7 +6385,7 @@
                     (buf = buf.slice(0, actual)), buf;
                 }(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
-                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, " + "or Array-like Object. Received type " + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return function(array, byteOffset, length) {
                     var buf;
                     if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
@@ -6405,7 +6405,7 @@
                 }(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, " + "or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
                 if ("number" != typeof size) throw TypeError('"size" argument must be of type number');
@@ -6421,13 +6421,13 @@
             function checked(length) {
                 // Note: cannot use `length < K_MAX_LENGTH` here because that fails when
                 // length is NaN (which is otherwise coerced to zero.)
-                if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x7fffffff bytes");
+                if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum " + "size: 0x7fffffff bytes");
                 return 0 | length;
             }
             function byteLength(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ("string" != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
+                if ("string" != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. ' + "Received type " + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(// Use a for loop to avoid recursion
@@ -6517,7 +6517,7 @@
                 var obj;
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
-                if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+                if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -0x80000000 && (byteOffset = -0x80000000), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
                 (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
                     byteOffset = buffer.length - 1;
@@ -6544,9 +6544,9 @@
                 }
                 if (dir) {
                     var foundIndex = -1;
-                    for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, -1 === foundIndex ? 0 : i - foundIndex)) {
-                        if (-1 === foundIndex && (foundIndex = i), i - foundIndex + 1 === valLength) return foundIndex * indexSize;
-                    } else -1 !== foundIndex && (i -= i - foundIndex), foundIndex = -1;
+                    for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+                        if (foundIndex === -1 && (foundIndex = i), i - foundIndex + 1 === valLength) return foundIndex * indexSize;
+                    } else foundIndex !== -1 && (i -= i - foundIndex), foundIndex = -1;
                 } else for(byteOffset + valLength > arrLength && (byteOffset = arrLength - valLength), i = byteOffset; i >= 0; i--){
                     for(var found = !0, j = 0; j < valLength; j++)if (read(arr, i + j) !== read(val, j)) {
                         found = !1;
@@ -6601,10 +6601,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -3.4028234663852886e38), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -1.7976931348623157e308), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && // eslint-disable-line eqeqeq
@@ -6634,7 +6634,7 @@
                 } catch (e) {
                     return !1;
                 }
-            }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+            }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by " + "`buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -6737,7 +6737,7 @@
                 var str = "", max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim(), this.length > max && (str += " ... "), "<Buffer " + str + ">";
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. ' + "Received type " + typeof target);
                 if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw RangeError("out of range index");
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
@@ -6749,7 +6749,7 @@
                 }
                 return x < y ? -1 : +(y < x);
             }, Buffer.prototype.includes = function(val, byteOffset, encoding) {
-                return -1 !== this.indexOf(val, byteOffset, encoding);
+                return this.indexOf(val, byteOffset, encoding) !== -1;
             }, Buffer.prototype.indexOf = function(val, byteOffset, encoding) {
                 return bidirectionalIndexOf(this, val, byteOffset, encoding, !0);
             }, Buffer.prototype.lastIndexOf = function(val, byteOffset, encoding) {
@@ -6903,15 +6903,15 @@
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -0x80), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -0x8000), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -0x8000), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
                 return writeFloat(this, value, offset, !0, noAssert);
             }, Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {
@@ -7053,7 +7053,7 @@
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 0.00000005960464477539062 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
+                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539063 - 0.000000000000000000000006617444900424222 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
                 for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
@@ -7099,7 +7099,7 @@
                     ];
                     a.push.apply(a, args);
                     var instance = new (Function.bind.apply(Parent, a))();
-                    return Class && (0, setPrototypeOf /* default */ .Z)(instance, Class.prototype), instance;
+                    return Class && setPrototypeOf /* default */ .Z(instance, Class.prototype), instance;
                 } : Reflect.construct).apply(null, arguments);
             }
         /***/ },
@@ -7139,7 +7139,7 @@
                         }
                     }),
                     writable: !1
-                }), superClass && (0, _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)(subClass, superClass);
+                }), superClass && _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z(subClass, superClass);
             }
         /***/ },
         /***/ 4578: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
@@ -7151,7 +7151,7 @@
             });
             /* harmony import */ var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9611);
             function _inheritsLoose(subClass, superClass) {
-                subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, (0, _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z)(subClass, superClass);
+                subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ /* ["default"] */ .Z(subClass, superClass);
             }
         /***/ },
         /***/ 9611: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {

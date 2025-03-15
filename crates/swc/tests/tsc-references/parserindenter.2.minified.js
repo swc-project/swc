@@ -7,7 +7,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }
     var _proto = Indenter.prototype;
     return _proto.GetIndentationEdits = function(token, nextToken, node, sameLineIndent) {
-        this.logger.information() && this.logger.log("GetIndentationEdits(t1=[" + token.Span.startPosition() + "," + token.Span.endPosition() + "], t2=[" + (null == nextToken ? "null" : nextToken.Span.startPosition() + "," + nextToken.Span.endPosition()) + "])");
+        this.logger.information() && this.logger.log("GetIndentationEdits(" + "t1=[" + token.Span.startPosition() + "," + token.Span.endPosition() + "], t2=[" + (null == nextToken ? "null" : nextToken.Span.startPosition() + "," + nextToken.Span.endPosition()) + "])");
         var result = this.GetIndentationEditsWorker(token, nextToken, node, sameLineIndent);
         if (this.logger.information()) for(var i = 0; i < result.count(); i++){
             var edit = result.get(i);

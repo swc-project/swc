@@ -1,6 +1,6 @@
 const ENV = 3;
 var FOO = 4;
-f(10);
+f(+10);
 --FOO;
 DEBUG = 1;
 DEBUG++;

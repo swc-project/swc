@@ -97,7 +97,7 @@ available.
         success: !0
     };
     // inheritance utilities are not available yet
-    for(prop in docEl && -1 == docClass.indexOf(DOC_LABEL) && (docClass && (docClass += " "), docEl.className = docClass += DOC_LABEL), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
+    for(prop in docEl && docClass.indexOf(DOC_LABEL) == -1 && (docClass && (docClass += " "), docEl.className = docClass += DOC_LABEL), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
         /**
     Applies a new configuration object to the config of this YUI instance. This
     will merge new group/module definitions, and will also update the loader
@@ -381,7 +381,7 @@ with any configuration info required for the module.
                             break;
                         }
                     }
-                } else loader && loader.moduleInfo[name] && (mod = loader.moduleInfo[name], moot = !0), !moot && name && -1 === name.indexOf("skin-") && -1 === name.indexOf("css") && (this.Env._missed.push(name), this.Env._missed = this.Array.dedupe(this.Env._missed), this.message("NOT loaded: " + name, "warn", "yui"));
+                } else loader && loader.moduleInfo[name] && (mod = loader.moduleInfo[name], moot = !0), !moot && name && name.indexOf("skin-") === -1 && name.indexOf("css") === -1 && (this.Env._missed.push(name), this.Env._missed = this.Array.dedupe(this.Env._missed), this.message("NOT loaded: " + name, "warn", "yui"));
             }
             return !0;
         },
@@ -3652,7 +3652,7 @@ Contains the core of YUI's feature test architecture.
         groups: {},
         patterns: {}
     }).groups, yui2Update = function(tnt, yui2, config) {
-        var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
+        var root = "2in3" + "." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.yui2.base = base + root, groups.yui2.root = root, groups.yui2.comboBase = combo;
     }, galleryUpdate = function(tag, config) {
         var root = (tag || "gallery-2013.08.22-21-03") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;

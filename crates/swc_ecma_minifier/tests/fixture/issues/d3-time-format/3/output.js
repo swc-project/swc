@@ -13,7 +13,9 @@
             });
             // UNUSED EXPORTS: updateTimeScale
             // EXTERNAL MODULE: ../node_modules/d3-array/src/bisector.js
-            var locale, bisector = __webpack_require__(24852), src_ticks = __webpack_require__(73002), t0 = new Date(), t1 = new Date();
+            var locale, bisector = __webpack_require__(24852), src_ticks = __webpack_require__(73002);
+            const durationMinute = 60 * 1000, durationHour = 60 * 1000 * 60, durationDay = 60 * 1000 * 60 * 24, durationWeek = 60 * 1000 * 60 * 24 * 7, durationMonth = 60 * 1000 * 60 * 24 * 30, durationYear = 60 * 1000 * 60 * 24 * 365;
+            var t0 = new Date(), t1 = new Date();
             function newInterval(floori, offseti, count, field) {
                 function interval(date) {
                     return floori(date = 0 == arguments.length ? new Date() : new Date(+date)), date;
@@ -39,7 +41,7 @@
                     }, function(date, step) {
                         if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
                          // eslint-disable-line no-empty
-                        else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                        else for(; --step >= 0;)for(; offseti(date, +1), !test(date););
                          // eslint-disable-line no-empty
                     });
                 }, count && (interval.count = function(start, end) {
@@ -82,31 +84,31 @@
             var minute = newInterval(function(date) {
                 date.setTime(date - date.getMilliseconds() - 1000 * date.getSeconds());
             }, function(date, step) {
-                date.setTime(+date + 60000 * step);
+                date.setTime(+date + step * durationMinute);
             }, function(start, end) {
-                return (end - start) / 60000;
+                return (end - start) / durationMinute;
             }, function(date) {
                 return date.getMinutes();
             });
             minute.range;
             var hour = newInterval(function(date) {
-                date.setTime(date - date.getMilliseconds() - 1000 * date.getSeconds() - 60000 * date.getMinutes());
+                date.setTime(date - date.getMilliseconds() - 1000 * date.getSeconds() - date.getMinutes() * durationMinute);
             }, function(date, step) {
-                date.setTime(+date + 3600000 * step);
+                date.setTime(+date + step * durationHour);
             }, function(start, end) {
-                return (end - start) / 3600000;
+                return (end - start) / durationHour;
             }, function(date) {
                 return date.getHours();
             });
             hour.range;
-            var day = newInterval((date)=>date.setHours(0, 0, 0, 0), (date, step)=>date.setDate(date.getDate() + step), (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 86400000, (date)=>date.getDate() - 1);
+            var day = newInterval((date)=>date.setHours(0, 0, 0, 0), (date, step)=>date.setDate(date.getDate() + step), (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * durationMinute) / durationDay, (date)=>date.getDate() - 1);
             function weekday(i) {
                 return newInterval(function(date) {
                     date.setDate(date.getDate() - (date.getDay() + 7 - i) % 7), date.setHours(0, 0, 0, 0);
                 }, function(date, step) {
                     date.setDate(date.getDate() + 7 * step);
                 }, function(start, end) {
-                    return (end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 604800000;
+                    return (end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * durationMinute) / durationWeek;
                 });
             }
             day.range;
@@ -142,9 +144,9 @@
             var utcMinute = newInterval(function(date) {
                 date.setUTCSeconds(0, 0);
             }, function(date, step) {
-                date.setTime(+date + 60000 * step);
+                date.setTime(+date + step * durationMinute);
             }, function(start, end) {
-                return (end - start) / 60000;
+                return (end - start) / durationMinute;
             }, function(date) {
                 return date.getUTCMinutes();
             });
@@ -152,9 +154,9 @@
             var utcHour = newInterval(function(date) {
                 date.setUTCMinutes(0, 0, 0);
             }, function(date, step) {
-                date.setTime(+date + 3600000 * step);
+                date.setTime(+date + step * durationHour);
             }, function(start, end) {
-                return (end - start) / 3600000;
+                return (end - start) / durationHour;
             }, function(date) {
                 return date.getUTCHours();
             });
@@ -164,7 +166,7 @@
             }, function(date, step) {
                 date.setUTCDate(date.getUTCDate() + step);
             }, function(start, end) {
-                return (end - start) / 86400000;
+                return (end - start) / durationDay;
             }, function(date) {
                 return date.getUTCDate() - 1;
             });
@@ -174,7 +176,7 @@
                 }, function(date, step) {
                     date.setUTCDate(date.getUTCDate() + 7 * step);
                 }, function(start, end) {
-                    return (end - start) / 604800000;
+                    return (end - start) / durationWeek;
                 });
             }
             utcDay.range;
@@ -209,93 +211,93 @@
                     [
                         second,
                         5,
-                        5000
+                        5 * 1000
                     ],
                     [
                         second,
                         15,
-                        15000
+                        15 * 1000
                     ],
                     [
                         second,
                         30,
-                        30000
+                        30 * 1000
                     ],
                     [
                         minute,
                         1,
-                        60000
+                        durationMinute
                     ],
                     [
                         minute,
                         5,
-                        300000
+                        5 * durationMinute
                     ],
                     [
                         minute,
                         15,
-                        900000
+                        15 * durationMinute
                     ],
                     [
                         minute,
                         30,
-                        1800000
+                        30 * durationMinute
                     ],
                     [
                         hour,
                         1,
-                        3600000
+                        durationHour
                     ],
                     [
                         hour,
                         3,
-                        10800000
+                        3 * durationHour
                     ],
                     [
                         hour,
                         6,
-                        21600000
+                        6 * durationHour
                     ],
                     [
                         hour,
                         12,
-                        43200000
+                        12 * durationHour
                     ],
                     [
                         day,
                         1,
-                        86400000
+                        durationDay
                     ],
                     [
                         day,
                         2,
-                        172800000
+                        2 * durationDay
                     ],
                     [
                         week,
                         1,
-                        604800000
+                        durationWeek
                     ],
                     [
                         month,
                         1,
-                        2592000000
+                        durationMonth
                     ],
                     [
                         month,
                         3,
-                        7776000000
+                        3 * durationMonth
                     ],
                     [
                         year,
                         1,
-                        31536000000
+                        durationYear
                     ]
                 ];
                 function tickInterval(start, stop, count) {
-                    const target = Math.abs(stop - start) / count, i = (0, bisector /* default */ .Z)(([, , step])=>step).right(tickIntervals, target);
-                    if (i === tickIntervals.length) return year.every((0, src_ticks /* tickStep */ .ly)(start / 31536000000, stop / 31536000000, count));
-                    if (0 === i) return millisecond.every(Math.max((0, src_ticks /* tickStep */ .ly)(start, stop, count), 1));
+                    const target = Math.abs(stop - start) / count, i = bisector /* default */ .Z(([, , step])=>step).right(tickIntervals, target);
+                    if (i === tickIntervals.length) return year.every(src_ticks /* tickStep */ .ly(start / durationYear, stop / durationYear, count));
+                    if (0 === i) return millisecond.every(Math.max(src_ticks /* tickStep */ .ly(start, stop, count), 1));
                     const [t, step] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
                     return t.every(step);
                 }

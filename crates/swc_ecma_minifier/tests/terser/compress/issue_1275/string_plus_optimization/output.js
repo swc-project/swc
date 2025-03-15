@@ -3,12 +3,12 @@ function foo(anything) {
         throw "nope";
     }
     try {
-        console.log((throwing_function(), "yes"));
+        console.log("0" + throwing_function() ? "yes" : "no");
     } catch (ex) {
         console.log(ex);
     }
-    console.log("yes");
-    console.log("Yes");
+    console.log("0" + anything ? "yes" : "no");
+    console.log(anything + "0" ? "Yes" : "No");
     console.log("" + anything);
     console.log(anything + "");
 }

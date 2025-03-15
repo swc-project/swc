@@ -36,8 +36,8 @@
                 var table_size; /* size of current table */ 
                 var total_size; /* sum of root table size and 2nd level table sizes */ 
                 var sorted; /* symbols sorted by code length */ 
-                var count = new Int32Array(16); /* number of codes of each length */ 
-                var offset = new Int32Array(16); /* offsets in sorted table for each length */ 
+                var count = new Int32Array(15 + 1); /* number of codes of each length */ 
+                var offset = new Int32Array(15 + 1); /* offsets in sorted table for each length */ 
                 sorted = new Int32Array(code_lengths_size);
                 /* build histogram of code lengths */ for(symbol = 0; symbol < code_lengths_size; symbol++)count[code_lengths[symbol]]++;
                 /* generate offsets into sorted symbol table by code length */ offset[1] = 0;

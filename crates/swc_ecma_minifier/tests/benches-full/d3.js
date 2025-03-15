@@ -1132,7 +1132,7 @@ function(global, factory) {
         var value = this._.on.apply(this._, arguments);
         return value === this._ ? this : value;
     };
-    var reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+    var brighter = 1 / 0.7, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
         reI,
         reI,
         reI
@@ -1391,7 +1391,7 @@ function(global, factory) {
         toString: color_formatRgb
     }), define1(Rgb, rgb, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
@@ -1408,7 +1408,7 @@ function(global, factory) {
         toString: rgb_formatRgb
     })), define1(Hsl, hsl, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
@@ -1490,12 +1490,12 @@ function(global, factory) {
             return hcl2lab(this).rgb();
         }
     }));
-    var BC_DA = -1.78277 * 0.29227 - 0.1347134789;
+    var A = -0.14861, B = +1.78277, C = -0.29227, D = -0.90649, E = +1.97294, ED = E * D, EB = E * B, BC_DA = B * C - D * A;
     function cubehelix(h, s, l, opacity) {
         return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
             o instanceof Rgb || (o = rgbConvert(o));
-            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
+            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + ED * r - EB * g) / (BC_DA + ED - EB), bl = b - l, k = (E * (g - l) - C * bl) / D, s = Math.sqrt(k * k + bl * bl) / (E * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
             return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
         }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
     }
@@ -1522,14 +1522,14 @@ function(global, factory) {
     }
     define1(Cubehelix, cubehelix, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
         },
         rgb: function() {
             var h = isNaN(this.h) ? 0 : (this.h + 120) * radians, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-            return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
+            return new Rgb(255 * (l + a * (A * cosh + B * sinh)), 255 * (l + a * (C * cosh + D * sinh)), 255 * (l + E * cosh * a), this.opacity);
         }
     }));
     var constant$3 = (x)=>()=>x;
@@ -2494,27 +2494,27 @@ function(global, factory) {
         se: "ne",
         sw: "nw"
     }, signsX = {
-        overlay: 1,
-        selection: 1,
+        overlay: +1,
+        selection: +1,
         n: null,
-        e: 1,
+        e: +1,
         s: null,
         w: -1,
         nw: -1,
-        ne: 1,
-        se: 1,
+        ne: +1,
+        se: +1,
         sw: -1
     }, signsY = {
-        overlay: 1,
-        selection: 1,
+        overlay: +1,
+        selection: +1,
         n: -1,
         e: null,
-        s: 1,
+        s: +1,
         w: null,
         nw: -1,
         ne: -1,
-        se: 1,
-        sw: 1
+        se: +1,
+        sw: +1
     };
     function type(t) {
         return {
@@ -3249,7 +3249,7 @@ function(global, factory) {
                     ring
                 ]) : holes.push(ring);
             }), holes.forEach(function(hole) {
-                for(var polygon, i = 0, n = polygons.length; i < n; ++i)if (-1 !== function(ring, hole) {
+                for(var polygon, i = 0, n = polygons.length; i < n; ++i)if (function(ring, hole) {
                     for(var c, i = -1, n = hole.length; ++i < n;)if (c = function(ring, point) {
                         for(var x = point[0], y = point[1], contains = -1, i = 0, n = ring.length, j = n - 1; i < n; j = i++){
                             var pi = ring[i], xi = pi[0], yi = pi[1], pj = ring[j], xj = pj[0], yj = pj[1];
@@ -3262,7 +3262,7 @@ function(global, factory) {
                         return contains;
                     }(ring, hole[i])) return c;
                     return 0;
-                }((polygon = polygons[i])[0], hole)) {
+                }((polygon = polygons[i])[0], hole) !== -1) {
                     polygon.push(hole);
                     return;
                 }
@@ -3410,13 +3410,13 @@ function(global, factory) {
                 if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x - xp) && 0.0000000000000002220446049250313 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 // find a visible edge on the convex hull using edge hash
                 let start = 0;
-                for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
+                for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && ((start = hullHash[(key + j) % this._hashSize]) === -1 || start === hullNext[start]); j++);
                 let e = start = hullPrev[start], q;
                 for(; q = hullNext[e], !orient(x, y, coords[2 * e], coords[2 * e + 1], coords[2 * q], coords[2 * q + 1]);)if ((e = q) === start) {
                     e = -1;
                     break;
                 }
-                if (-1 === e) continue; // likely a near-duplicate point; skip it
+                if (e === -1) continue; // likely a near-duplicate point; skip it
                 // add the first triangle from the point
                 let t = this._addTriangle(e, i, hullNext[e], -1, -1, hullTri[e]);
                 // recursively flip triangles from the point until they satisfy the Delaunay condition
@@ -3448,7 +3448,7 @@ function(global, factory) {
             // recursion eliminated with a fixed-size stack
             for(;;){
                 const b = halfedges[a], a0 = a - a % 3;
-                if (ar = a0 + (a + 2) % 3, -1 === b) {
+                if (ar = a0 + (a + 2) % 3, b === -1) {
                     if (0 === i) break;
                     a = EDGE_STACK[--i];
                     continue;
@@ -3461,7 +3461,7 @@ function(global, factory) {
                     triangles[a] = p1, triangles[b] = p0;
                     const hbl = halfedges[bl];
                     // edge swapped on the other side of the hull (rare); fix the halfedge reference
-                    if (-1 === hbl) {
+                    if (hbl === -1) {
                         let e = this._hullStart;
                         do {
                             if (this._hullTri[e] === bl) {
@@ -3482,7 +3482,7 @@ function(global, factory) {
             return ar;
         }
         _link(a, b) {
-            this._halfedges[a] = b, -1 !== b && (this._halfedges[b] = a);
+            this._halfedges[a] = b, b !== -1 && (this._halfedges[b] = a);
         }
         // add a new triangle given vertex indices and adjacent half-edge ids
         _addTriangle(i0, i1, i2, a, b, c) {
@@ -3681,14 +3681,14 @@ function(global, factory) {
         }
         _cell(i) {
             const { circumcenters, delaunay: { inedges, halfedges, triangles } } = this, e0 = inedges[i];
-            if (-1 === e0) return null; // coincident point
+            if (e0 === -1) return null; // coincident point
             const points = [];
             let e = e0;
             do {
                 const t = Math.floor(e / 3);
                 if (points.push(circumcenters[2 * t], circumcenters[2 * t + 1]), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
                 e = halfedges[e];
-            }while (e !== e0 && -1 !== e)
+            }while (e !== e0 && e !== -1)
             return points;
         }
         _clip(i) {
@@ -3902,7 +3902,7 @@ function(global, factory) {
             // on the hull we give priority to exterior halfedges
             for(let e = 0, n = halfedges.length; e < n; ++e){
                 const p = triangles[e % 3 == 2 ? e - 2 : e + 1];
-                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
+                (halfedges[e] === -1 || inedges[p] === -1) && (inedges[p] = e);
             }
             for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
             // degenerate case: 1 or 2 (distinct) points
@@ -3920,11 +3920,11 @@ function(global, factory) {
                 return;
             }
             const e0 = inedges[i];
-            if (-1 === e0) return; // coincident point
+            if (e0 === -1) return; // coincident point
             let e = e0, p0 = -1;
             do {
                 if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
+                if ((e = halfedges[e]) === -1) {
                     const p = hull[(_hullIndex[i] + 1) % hull.length];
                     p !== p0 && (yield p);
                     return;
@@ -3940,7 +3940,7 @@ function(global, factory) {
         }
         _step(i, x, y) {
             const { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
-            if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+            if (inedges[i] === -1 || !points.length) return (i + 1) % (points.length >> 1);
             let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2);
             const e0 = inedges[i];
             let e = e0;
@@ -3948,7 +3948,7 @@ function(global, factory) {
                 let t = triangles[e];
                 const dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
                 if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
+                if ((e = halfedges[e]) === -1) {
                     if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
                     break;
                 }
@@ -4684,7 +4684,7 @@ function(global, factory) {
             boundsStream.point = boundsRingPoint, boundsStream.lineStart = boundsRingStart, boundsStream.lineEnd = boundsRingEnd, deltaSum = new Adder(), areaStream.polygonStart();
         },
         polygonEnd: function() {
-            areaStream.polygonEnd(), boundsStream.point = boundsPoint, boundsStream.lineStart = boundsLineStart, boundsStream.lineEnd = boundsLineEnd, areaRingSum < 0 ? (lambda0$1 = -(lambda1 = 180), phi0 = -(phi1 = 90)) : deltaSum > 1e-6 ? phi1 = 90 : deltaSum < -0.000001 && (phi0 = -90), range$1[0] = lambda0$1, range$1[1] = lambda1;
+            areaStream.polygonEnd(), boundsStream.point = boundsPoint, boundsStream.lineStart = boundsLineStart, boundsStream.lineEnd = boundsLineEnd, areaRingSum < 0 ? (lambda0$1 = -(lambda1 = 180), phi0 = -(phi1 = 90)) : deltaSum > 1e-6 ? phi1 = 90 : deltaSum < -1e-6 && (phi0 = -90), range$1[0] = lambda0$1, range$1[1] = lambda1;
         },
         sphere: function() {
             lambda0$1 = -(lambda1 = 180), phi0 = -(phi1 = 90);
@@ -4923,7 +4923,7 @@ function(global, factory) {
                         return;
                     }
                     // handle degenerate cases by moving the point
-                    p1[0] += 0.000002;
+                    p1[0] += 2 * 1e-6;
                 }
                 subject.push(x = new Intersection(p0, segment, null, !0)), clip.push(x.o = new Intersection(p0, null, x, !1)), subject.push(x = new Intersection(p1, segment, null, !1)), clip.push(x.o = new Intersection(p1, null, x, !0));
             }
@@ -4964,7 +4964,7 @@ function(global, factory) {
             -cos$1(lambda),
             0
         ], angle = 0, winding = 0, sum = new Adder();
-        1 === sinPhi ? phi = halfPi$2 + 1e-6 : -1 === sinPhi && (phi = -halfPi$2 - 1e-6);
+        1 === sinPhi ? phi = halfPi$2 + 1e-6 : sinPhi === -1 && (phi = -halfPi$2 - 1e-6);
         for(var i = 0, n = polygon.length; i < n; ++i)if (m = (ring = polygon[i]).length) for(var ring, m, point0 = ring[m - 1], lambda0 = longitude(point0), phi0 = point0[1] / 2 + quarterPi, sinPhi0 = sin$1(phi0), cosPhi0 = cos$1(phi0), j = 0; j < m; ++j, lambda0 = lambda1, sinPhi0 = sinPhi1, cosPhi0 = cosPhi1, point0 = point1){
             var point1 = ring[j], lambda1 = longitude(point1), phi1 = point1[1] / 2 + quarterPi, sinPhi1 = sin$1(phi1), cosPhi1 = cos$1(phi1), delta = lambda1 - lambda0, sign = delta >= 0 ? 1 : -1, absDelta = sign * delta, antimeridian = absDelta > pi$3, k = sinPhi0 * sinPhi1;
             // Are the longitudes either side of the point’s meridian (lambda),
@@ -4988,7 +4988,7 @@ function(global, factory) {
         // Second, count the (signed) number of times a segment crosses a lambda
         // from the point to the South pole.  If it is zero, then the point is the
         // same side as the South pole.
-        return (angle < -0.000001 || angle < 1e-6 && sum < -0.000000000001) ^ 1 & winding;
+        return (angle < -1e-6 || angle < 1e-6 && sum < -1e-12) ^ 1 & winding;
     }
     function clip(pointVisible, clipLine, interpolate, start) {
         return function(sink) {
@@ -5168,6 +5168,7 @@ function(global, factory) {
             radius - pi$3
         ]);
     }
+    var clipMin = -1e9;
     // TODO Use d3-polygon’s polygonContains here for the ring check?
     // TODO Eliminate duplicate buffering in clipBuffer and polygon.push?
     function clipRectangle(x0, y0, x1, y1) {
@@ -5226,11 +5227,11 @@ function(global, factory) {
                 else if (v && v_) activeStream.point(x, y);
                 else {
                     var a = [
-                        x_ = Math.max(-1000000000, Math.min(1e9, x_)),
-                        y_ = Math.max(-1000000000, Math.min(1e9, y_))
+                        x_ = Math.max(clipMin, Math.min(1e9, x_)),
+                        y_ = Math.max(clipMin, Math.min(1e9, y_))
                     ], b = [
-                        x = Math.max(-1000000000, Math.min(1e9, x)),
-                        y = Math.max(-1000000000, Math.min(1e9, y))
+                        x = Math.max(clipMin, Math.min(1e9, x)),
+                        y = Math.max(clipMin, Math.min(1e9, y))
                     ];
                     !function(a, b, x0, y0, x1, y1) {
                         var r, ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
@@ -5464,20 +5465,20 @@ function(global, factory) {
         }, graticule.extentMajor([
             [
                 -180,
-                -89.999999
+                -90 + 1e-6
             ],
             [
                 180,
-                89.999999
+                90 - 1e-6
             ]
         ]).extentMinor([
             [
                 -180,
-                -80.000001
+                -80 - 1e-6
             ],
             [
                 180,
-                80.000001
+                80 + 1e-6
             ]
         ]);
     }
@@ -6143,12 +6144,12 @@ function(global, factory) {
             2 * atan(exp(y)) - halfPi$2
         ];
     }, equirectangularRaw.invert = equirectangularRaw;
-    var M = sqrt(3) / 2;
+    var A2 = -0.081106, M = sqrt(3) / 2;
     function equalEarthRaw(lambda, phi) {
         var l = asin(M * sin$1(phi)), l2 = l * l, l6 = l2 * l2 * l2;
         return [
-            lambda * cos$1(l) / (M * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2))),
-            l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2))
+            lambda * cos$1(l) / (M * (1.340264 + 3 * A2 * l2 + l6 * (7 * 0.000893 + 9 * 0.003796 * l2))),
+            l * (1.340264 + A2 * l2 + l6 * (0.000893 + 0.003796 * l2))
         ];
     }
     function gnomonicRaw(x, y) {
@@ -6395,16 +6396,16 @@ function(global, factory) {
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
-        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
+        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + A2 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + 3 * A2 * l2 + l6 * (7 * 0.000893 + 9 * 0.003796 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
         return [
-            M * x * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)) / cos$1(l),
+            M * x * (1.340264 + 3 * A2 * l2 + l6 * (7 * 0.000893 + 9 * 0.003796 * l2)) / cos$1(l),
             asin(sin$1(l) / M)
         ];
     }, gnomonicRaw.invert = azimuthalInvert(atan), naturalEarth1Raw.invert = function(x, y) {
         var delta, phi = y, i = 25;
         do {
             var phi2 = phi * phi, phi4 = phi2 * phi2;
-            phi -= delta = (phi * (1.007226 + phi2 * (0.015085 + phi4 * (-0.044475 + 0.028874 * phi2 - 0.005916 * phi4))) - y) / (1.007226 + phi2 * (0.045255 + phi4 * (-0.311325 + 0.259866 * phi2 - 0.005916 * 11 * phi4)));
+            phi -= delta = (phi * (1.007226 + phi2 * (0.015085 + phi4 * (-0.044475 + 0.028874 * phi2 - 0.005916 * phi4))) - y) / (1.007226 + phi2 * (0.015085 * 3 + phi4 * (-7 * 0.044475 + 0.028874 * 9 * phi2 - 0.005916 * 11 * phi4)));
         }while (abs$2(delta) > 1e-6 && --i > 0)
         return [
             x / (0.8707 + (phi2 = phi * phi) * (-0.131979 + phi2 * (-0.013791 + phi2 * phi2 * phi2 * (0.003971 - 0.001529 * phi2)))),
@@ -7108,7 +7109,7 @@ function(global, factory) {
             }, function(date, step) {
                 if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
                  // eslint-disable-line no-empty
-                else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                else for(; --step >= 0;)for(; offseti(date, +1), !test(date););
                  // eslint-disable-line no-empty
             });
         }, count && (interval.count = function(start, end) {
@@ -7789,7 +7790,7 @@ function(global, factory) {
     } : exports1.utcFormat(isoSpecifier), parseIso = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
         var date = new Date(string);
         return isNaN(date) ? null : date;
-    } : exports1.utcParse(isoSpecifier);
+    } : exports1.utcParse(isoSpecifier), durationMinute$1 = 60 * 1000, durationHour$1 = 60 * 1000 * 60, durationDay$1 = 60 * 1000 * 60 * 24, durationWeek$1 = 60 * 1000 * 60 * 24 * 7, durationMonth = 60 * 1000 * 60 * 24 * 30, durationYear = 60 * 1000 * 60 * 24 * 365;
     function date$1(t) {
         return new Date(t);
     }
@@ -7806,87 +7807,87 @@ function(global, factory) {
             [
                 second,
                 5,
-                5000
+                5 * 1000
             ],
             [
                 second,
                 15,
-                15000
+                15 * 1000
             ],
             [
                 second,
                 30,
-                30000
+                30 * 1000
             ],
             [
                 minute,
                 1,
-                60000
+                durationMinute$1
             ],
             [
                 minute,
                 5,
-                300000
+                5 * durationMinute$1
             ],
             [
                 minute,
                 15,
-                900000
+                15 * durationMinute$1
             ],
             [
                 minute,
                 30,
-                1800000
+                30 * durationMinute$1
             ],
             [
                 hour,
                 1,
-                3600000
+                durationHour$1
             ],
             [
                 hour,
                 3,
-                10800000
+                3 * durationHour$1
             ],
             [
                 hour,
                 6,
-                21600000
+                6 * durationHour$1
             ],
             [
                 hour,
                 12,
-                43200000
+                12 * durationHour$1
             ],
             [
                 day,
                 1,
-                86400000
+                durationDay$1
             ],
             [
                 day,
                 2,
-                172800000
+                2 * durationDay$1
             ],
             [
                 week,
                 1,
-                604800000
+                durationWeek$1
             ],
             [
                 month,
                 1,
-                2592000000
+                durationMonth
             ],
             [
                 month,
                 3,
-                7776000000
+                3 * durationMonth
             ],
             [
                 year,
                 1,
-                31536000000
+                durationYear
             ]
         ];
         function tickFormat(date) {
@@ -7900,7 +7901,7 @@ function(global, factory) {
                 var step, target = Math.abs(stop - start) / interval, i = bisector(function(i) {
                     return i[2];
                 }).right(tickIntervals, target);
-                return i === tickIntervals.length ? (step = tickStep(start / 31536000000, stop / 31536000000, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(tickStep(start, stop, interval), 1), interval = millisecond), interval.every(step);
+                return i === tickIntervals.length ? (step = tickStep(start / durationYear, stop / durationYear, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(tickStep(start, stop, interval), 1), interval = millisecond), interval.every(step);
             }
             return interval;
         }
@@ -8391,10 +8392,10 @@ function(global, factory) {
             var y = -Math.sqrt(size / (3 * sqrt3));
             context.moveTo(0, 2 * y), context.lineTo(-sqrt3 * y, -y), context.lineTo(sqrt3 * y, -y), context.closePath();
         }
-    }, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a$1 = (k / 2 + 1) * 3, wye = {
+    }, c$3 = -0.5, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a$1 = (k / 2 + 1) * 3, wye = {
         draw: function(context, size) {
             var r = Math.sqrt(size / a$1), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
-            context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
+            context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(c$3 * x0 - s * y0, s * x0 + c$3 * y0), context.lineTo(c$3 * x0 - s * y1, s * x0 + c$3 * y1), context.lineTo(c$3 * x2 - s * y1, s * x2 + c$3 * y1), context.lineTo(c$3 * x0 + s * y0, c$3 * y0 - s * x0), context.lineTo(c$3 * x0 + s * y1, c$3 * y1 - s * x0), context.lineTo(c$3 * x2 + s * y1, c$3 * y1 - s * x2), context.closePath();
         }
     }, symbols = [
         circle$2,
@@ -9318,7 +9319,7 @@ function(global, factory) {
             ] : null;
         }, cluster;
     }, exports1.color = color, exports1.contourDensity = function() {
-        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 60, n = 270, m = 155, threshold = constant$6(20);
+        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 3 * 20, n = 960 + 3 * 20 * 2 >> 2, m = 500 + 3 * 20 * 2 >> 2, threshold = constant$6(20);
         function density(data) {
             var values0 = new Float32Array(n * m), values1 = new Float32Array(n * m);
             data.forEach(function(d, i, data) {
@@ -10002,9 +10003,9 @@ function(global, factory) {
     }, exports1.geoArea = function(object) {
         return areaSum = new Adder(), geoStream(object, areaStream), 2 * areaSum;
     }, exports1.geoAzimuthalEqualArea = function() {
-        return projection(azimuthalEqualAreaRaw).scale(124.75).clipAngle(179.999);
+        return projection(azimuthalEqualAreaRaw).scale(124.75).clipAngle(180 - 1e-3);
     }, exports1.geoAzimuthalEqualAreaRaw = azimuthalEqualAreaRaw, exports1.geoAzimuthalEquidistant = function() {
-        return projection(azimuthalEquidistantRaw).scale(79.4188).clipAngle(179.999);
+        return projection(azimuthalEquidistantRaw).scale(79.4188).clipAngle(180 - 1e-3);
     }, exports1.geoAzimuthalEquidistantRaw = azimuthalEquidistantRaw, exports1.geoBounds = function(feature) {
         var i, n, a, b, merged, deltaMax, delta;
         // First, sort ranges by their minimum longitudes.
@@ -10204,7 +10205,7 @@ function(global, factory) {
     }, exports1.geoMercatorRaw = mercatorRaw, exports1.geoNaturalEarth1 = function() {
         return projection(naturalEarth1Raw).scale(175.295);
     }, exports1.geoNaturalEarth1Raw = naturalEarth1Raw, exports1.geoOrthographic = function() {
-        return projection(orthographicRaw).scale(249.5).clipAngle(90.000001);
+        return projection(orthographicRaw).scale(249.5).clipAngle(90 + 1e-6);
     }, exports1.geoOrthographicRaw = orthographicRaw, exports1.geoPath = function(projection, context) {
         var projectionStream, contextStream, pointRadius = 4.5;
         function path(object) {

@@ -15,7 +15,7 @@ export class Text {
     /// Replace a range of the text with the given content.
     replace(t, n, i) {
         let s = [];
-        return this.decompose(0, t, s, 2 /* Open.To */ ), i.length && i.decompose(0, i.length, s, 3 /* Open.To */ ), this.decompose(n, this.length, s, 1 /* Open.From */ ), e.from(s, this.length - (n - t) + i.length);
+        return this.decompose(0, t, s, 2 /* Open.To */ ), i.length && i.decompose(0, i.length, s, 1 /* Open.From */  | 2 /* Open.To */ ), this.decompose(n, this.length, s, 1 /* Open.From */ ), e.from(s, this.length - (n - t) + i.length);
     }
     /// Append another document to this one.
     append(t) {
@@ -175,7 +175,7 @@ class e extends Text {
             // that child
             if (t >= h && n <= r) {
                 let o = l.replace(t - h, n - h, i), f = this.lines - l.lines + o.lines;
-                if (o.lines < f >> 4 && o.lines > f >> 6) {
+                if (o.lines < f >> 5 /* Tree.BranchShift */  - 1 && o.lines > f >> 5 /* Tree.BranchShift */  + 1) {
                     let h = this.children.slice();
                     return h[s] = o, new e(h, this.length - (n - t) + i.length);
                 }

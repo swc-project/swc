@@ -5,5 +5,5 @@ extractIndexer({
 }), extractIndexer({
     0: ""
 }), extractIndexer({
-    0: ""
+    ["" || 0]: ""
 });

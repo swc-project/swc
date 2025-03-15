@@ -114,7 +114,7 @@
             // EXTERNAL MODULE: ../../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
             var assertThisInitialized = __webpack_require__(2911); // CONCATENATED MODULE: ../../../node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
             function _possibleConstructorReturn(self1, call) {
-                return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (0, assertThisInitialized /* default */ .Z)(self1);
+                return call && ("object" === _typeof(call) || "function" == typeof call) ? call : assertThisInitialized /* default */ .Z(self1);
             }
         /***/ },
         /***/ 8551: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -369,7 +369,7 @@
                             try {
                                 for(_iterator.s(); !(_step = _iterator.n()).done;){
                                     var moduleId = _step.value;
-                                    if (-1 !== ids.indexOf(moduleId)) return init();
+                                    if (ids.indexOf(moduleId) !== -1) return init();
                                 }
                             } catch (err) {
                                 _iterator.e(err);
@@ -437,7 +437,7 @@
                 }
             });
             /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8436), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(8370), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2911), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3001), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7130), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2374), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9178), Welcome = /*#__PURE__*/ function(_React$Component) {
-                (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z)(Welcome, _React$Component);
+                _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ /* .default */ .Z(Welcome, _React$Component);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
@@ -447,20 +447,20 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */ .Z)(Welcome);
-                    return result = hasNativeReflectConstruct ? Reflect.construct(Super, arguments, (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */ .Z)(this).constructor) : Super.apply(this, arguments), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ /* .default */ .Z)(this, result);
+                    var result, Super = _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */ .Z(Welcome);
+                    return result = hasNativeReflectConstruct ? Reflect.construct(Super, arguments, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */ .Z(this).constructor) : Super.apply(this, arguments), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ /* .default */ .Z(this, result);
                 });
                 function Welcome() {
                     var _this;
-                    (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ /* .default */ .Z)(this, Welcome);
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ /* .default */ .Z(this, Welcome);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args)), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ /* .default */ .Z)((0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ /* .default */ .Z)(_this), "state", {
+                    ].concat(args)), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ /* .default */ .Z(_Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ /* .default */ .Z(_this), "state", {
                         name: null
                     }), _this;
                 }
-                return (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ /* .default */ .Z)(Welcome, [
+                return _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ /* .default */ .Z(Welcome, [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -474,7 +474,7 @@
                         key: "render",
                         value: function() {
                             var name = this.state.name;
-                            return name ? /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+                            return name ? /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs("p", {
                                 children: [
                                     "Welcome, ",
                                     name
@@ -488,7 +488,7 @@
         /***/ 8837: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), next_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4652), _components_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9087), Welcome2 = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_1__.default)(function() {
+            /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), next_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4652), _components_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9087), Welcome2 = next_dynamic__WEBPACK_IMPORTED_MODULE_1__.default(function() {
                 return Promise.resolve().then(__webpack_require__.bind(__webpack_require__, 9087));
             }, {
                 loadableGenerated: {
@@ -498,17 +498,17 @@
                         ];
                     },
                     modules: [
-                        "dynamic/no-chunk.js -> ../../components/welcome"
+                        "dynamic/no-chunk.js -> " + "../../components/welcome"
                     ]
                 }
             });
             /* harmony default export */ __webpack_exports__.default = function() {
-                return /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs("div", {
                     children: [
-                        /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_welcome__WEBPACK_IMPORTED_MODULE_2__.default, {
+                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_welcome__WEBPACK_IMPORTED_MODULE_2__.default, {
                             name: "normal"
                         }),
-                        /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Welcome2, {
+                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(Welcome2, {
                             name: "dynamic"
                         })
                     ]

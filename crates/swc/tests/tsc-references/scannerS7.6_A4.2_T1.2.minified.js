@@ -1,1 +1,2 @@
 //// [scannerS7.6_A4.2_T1.ts]
+$ERROR('#А'), $ERROR('#Б'), $ERROR('#В'), $ERROR('#Г'), $ERROR('#Д'), $ERROR('#Е'), $ERROR('#Ж'), $ERROR('#З'), $ERROR('#И'), $ERROR('#Й'), $ERROR('#К'), $ERROR('#Л'), $ERROR('#М'), $ERROR('#Н'), $ERROR('#О'), $ERROR('#П'), $ERROR('#Р'), $ERROR('#С'), $ERROR('#Т'), $ERROR('#У'), $ERROR('#Ф'), $ERROR('#Х'), $ERROR('#Ц'), $ERROR('#Ч'), $ERROR('#Ш'), $ERROR('#Щ'), $ERROR('#Ъ'), $ERROR('#Ы'), $ERROR('#Ь'), $ERROR('#Э'), $ERROR('#Ю'), $ERROR('#Я'), 0 && $ERROR('#Ё');

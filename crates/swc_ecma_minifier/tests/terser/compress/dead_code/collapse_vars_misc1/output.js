@@ -1,5 +1,5 @@
 function f10(x) {
-    return 8;
+    return 5 + 3;
 }
 function f11(x) {
     var b = 3;

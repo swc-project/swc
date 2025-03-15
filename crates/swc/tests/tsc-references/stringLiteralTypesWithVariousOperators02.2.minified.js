@@ -1,3 +1,3 @@
 //// [stringLiteralTypesWithVariousOperators02.ts]
-var abcOrXyzOrNumber = "ABC";
+var abcOrXyzOrNumber = "ABC" || "XYZ" || 100;
 abcOrXyzOrNumber++, --abcOrXyzOrNumber;

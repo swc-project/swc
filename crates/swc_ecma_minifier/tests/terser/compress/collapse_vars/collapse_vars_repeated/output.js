@@ -4,4 +4,4 @@ function f1() {
 function f2(x) {
     return x;
 }
-console.log("GOOD!!"), console.log("GOOD!!");
+console.log("GOOD" + "!!"), console.log("GOOD" + "!!");

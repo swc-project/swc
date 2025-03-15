@@ -31,16 +31,16 @@ export var modifiers = {
                 offsets1 = [
                     0,
                     0
-                ], useHeight = -1 !== [
+                ], useHeight = [
                     'right',
                     'left'
-                ].indexOf(basePlacement), divider = (fragments = offset.split(/(\+|\-)/).map(function(frag) {
+                ].indexOf(basePlacement) !== -1, divider = (fragments = offset.split(/(\+|\-)/).map(function(frag) {
                     return frag.trim();
                 })).indexOf(find(fragments, function(frag) {
-                    return -1 !== frag.search(/,|\s/);
-                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, // Loop trough the offsets arrays and execute the operations
+                    return frag.search(/,|\s/) !== -1;
+                })), fragments[divider] && fragments[divider].indexOf(',') === -1 && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, // Loop trough the offsets arrays and execute the operations
                 // Convert the values with units to absolute pixels to allow our computations
-                (ops = (ops = -1 !== divider ? [
+                (ops = (ops = divider !== -1 ? [
                     fragments.slice(0, divider).concat([
                         fragments[divider].split(splitRegex)[0]
                     ]),
@@ -56,10 +56,10 @@ export var modifiers = {
                     return op// This aggregates any `+` or `-` sign that aren't considered operators
                     // e.g.: 10 + +5 => [10, +, +5]
                     .reduce(function(a, b) {
-                        if ('' === a[a.length - 1] && -1 !== [
+                        if ('' === a[a.length - 1] && [
                             '+',
                             '-'
-                        ].indexOf(b)) return a[a.length - 1] = b, mergeWithPrevious = true, a;
+                        ].indexOf(b) !== -1) return a[a.length - 1] = b, mergeWithPrevious = true, a;
                         if (mergeWithPrevious) return a[a.length - 1] += b, mergeWithPrevious = false, a;
                         return a.concat(b);
                     }, [])// Here we convert the string values into number values (in px)
