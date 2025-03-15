@@ -10,13 +10,12 @@ use std::{
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::parse_file_as_module;
+use swc_ecma_parser::parse_file_as_program;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_utils::parallel::{Parallel, ParallelExt};
 use testing::CARGO_TARGET_DIR;
@@ -149,7 +148,7 @@ fn run(src: &str) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            let program = parse_file_as_module(
+            let program = parse_file_as_program(
                 &fm,
                 Default::default(),
                 Default::default(),
@@ -159,8 +158,7 @@ fn run(src: &str) {
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(Program::Module)
-            .map(|module| module.apply(resolver(unresolved_mark, top_level_mark, false)))
+            .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, false)))
             .unwrap();
 
             let output = optimize(
