@@ -373,22 +373,6 @@ impl VisitMut for VarMover {
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
-    /// Noop
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
-
-    /// Noop
-    fn visit_mut_function(&mut self, _: &mut Function) {}
-
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
-
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
-
-    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
-        if let ModuleItem::Stmt(_) = s {
-            s.visit_mut_children_with(self);
-        }
-    }
-
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         if self.target != VarDeclKind::Var {
             // noop
@@ -396,6 +380,24 @@ impl VisitMut for VarMover {
         }
 
         n.visit_mut_children_with(self);
+    }
+
+    /// Noop
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_for_head(&mut self, _: &mut ForHead) {}
+
+    /// Noop
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
+
+    fn visit_mut_module_decl(&mut self, _: &mut ModuleDecl) {}
+
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        if let ModuleItem::Stmt(_) = s {
+            s.visit_mut_children_with(self);
+        }
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -408,6 +410,8 @@ impl VisitMut for VarMover {
         }
     }
 
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
@@ -419,14 +423,18 @@ impl VisitMut for VarMover {
         }
     }
 
+    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
+        s.visit_mut_children_with(self);
+
+        s.retain(|s| !matches!(s, Stmt::Empty(..)));
+    }
+
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
         let old = self.var_decl_kind.take();
         self.var_decl_kind = Some(v.kind);
         v.visit_mut_children_with(self);
         self.var_decl_kind = old;
     }
-
-    fn visit_mut_for_head(&mut self, _: &mut ForHead) {}
 
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
@@ -475,8 +483,6 @@ impl VisitMut for VarMover {
 
         *d = new;
     }
-
-    fn visit_mut_module_decl(&mut self, _: &mut ModuleDecl) {}
 }
 
 pub(super) struct VarPrepender {
