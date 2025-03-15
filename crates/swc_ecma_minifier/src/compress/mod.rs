@@ -6,13 +6,13 @@ use std::{borrow::Cow, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
-use swc_common::pass::{CompilerPass, Optional, Repeated};
+use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_usage_analyzer::marks::Marks;
+use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_timer::timer;
 use tracing::debug;
 
@@ -43,25 +43,14 @@ pub(crate) fn compressor<'a, M>(
 where
     M: Mode,
 {
-    let compressor = Compressor {
+    Compressor {
         marks,
         options,
         mangle_options,
         changed: false,
         pass: 1,
         mode,
-    };
-
-    (
-        compressor,
-        Optional {
-            enabled: options.evaluate || options.side_effects,
-            visitor: visit_mut_pass(expr_simplifier(
-                marks.unresolved_mark,
-                ExprSimplifierConfig {},
-            )),
-        },
-    )
+    }
 }
 
 struct Compressor<'a> {
