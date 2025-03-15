@@ -1,7 +1,6 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{class_has_side_effect, collect_decls, find_pat_ids, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
@@ -814,12 +813,6 @@ impl Optimizer<'_> {
                                 self.changed = true;
 
                                 me.obj.clone_from(new);
-                                // TODO(kdy1): Optimize performance by skipping visiting of children
-                                // nodes.
-                                e.visit_mut_with(&mut expr_simplifier(
-                                    self.marks.unresolved_mark,
-                                    Default::default(),
-                                ));
                             }
                         }
                     }

@@ -95,1127 +95,6 @@ impl Repeated for SimplifyExpr {
     }
 }
 
-impl SimplifyExpr {
-    fn optimize_member_expr(&mut self, expr: &mut Expr) {
-        let MemberExpr { obj, prop, .. } = match expr {
-            Expr::Member(member) => member,
-            _ => return,
-        };
-        if self.is_modifying {
-            return;
-        }
-
-        #[derive(Clone, PartialEq)]
-        enum KnownOp {
-            /// [a, b].length
-            Len,
-
-            /// [a, b][0]
-            ///
-            /// {0.5: "bar"}[0.5]
-            /// Note: callers need to check `v.fract() == 0.0` in some cases.
-            /// ie non-integer indexes for arrays result in `undefined`
-            /// but not for objects (because indexing an object
-            /// returns the value of the key, ie `0.5` will not
-            /// return `undefined` if a key `0.5` exists
-            /// and its value is not `undefined`).
-            Index(f64),
-
-            /// ({}).foo
-            IndexStr(Atom),
-        }
-        let op = match prop {
-            MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
-                KnownOp::Len
-            }
-            MemberProp::Ident(IdentName { sym, .. }) => {
-                if self.in_callee {
-                    return;
-                }
-
-                KnownOp::IndexStr(sym.clone())
-            }
-            MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if self.in_callee {
-                    return;
-                }
-
-                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                    // x[5]
-                    KnownOp::Index(*value)
-                } else if let Known(s) = expr.as_pure_string(self.expr_ctx) {
-                    if s == "length" && !obj.is_object() {
-                        // Length of non-object type
-                        KnownOp::Len
-                    } else if let Ok(n) = s.parse::<f64>() {
-                        // x['0'] is treated as x[0]
-                        KnownOp::Index(n)
-                    } else {
-                        // x[''] or x[...] where ... is an expression like [], ie x[[]]
-                        KnownOp::IndexStr(s.into())
-                    }
-                } else {
-                    return;
-                }
-            }
-            _ => return,
-        };
-
-        // Note: pristine_globals refers to the compress config option pristine_globals.
-        // Any potential cases where globals are not pristine are handled in compress,
-        // e.g. x[-1] is not changed as the object's prototype may be modified.
-        // For example, Array.prototype[-1] = "foo" will result in [][-1] returning
-        // "foo".
-
-        match &mut **obj {
-            Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
-                // 'foo'.length
-                //
-                // Prototype changes do not affect .length, so we don't need to worry
-                // about pristine_globals here.
-                KnownOp::Len => {
-                    self.changed = true;
-
-                    *expr = Lit::Num(Number {
-                        value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
-                        span: *span,
-                        raw: None,
-                    })
-                    .into();
-                }
-
-                // 'foo'[1]
-                KnownOp::Index(idx) => {
-                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                        // Prototype changes affect indexing if the index is out of bounds, so we
-                        // don't replace out-of-bound indexes.
-                        return;
-                    }
-
-                    let Some(value) = nth_char(value, idx as _) else {
-                        return;
-                    };
-
-                    self.changed = true;
-
-                    *expr = Lit::Str(Str {
-                        raw: None,
-                        value: value.into(),
-                        span: *span,
-                    })
-                    .into()
-                }
-
-                // 'foo'['']
-                //
-                // Handled in compress
-                KnownOp::IndexStr(..) => {}
-            },
-
-            // [1, 2, 3].length
-            //
-            // [1, 2, 3][0]
-            Expr::Array(ArrayLit { elems, span }) => {
-                // do nothing if spread exists
-                let has_spread = elems.iter().any(|elem| {
-                    elem.as_ref()
-                        .map(|elem| elem.spread.is_some())
-                        .unwrap_or(false)
-                });
-
-                if has_spread {
-                    return;
-                }
-
-                match op {
-                    KnownOp::Len => {
-                        // do nothing if replacement will have side effects
-                        let may_have_side_effects = elems
-                            .iter()
-                            .filter_map(|e| e.as_ref())
-                            .any(|e| e.expr.may_have_side_effects(self.expr_ctx));
-
-                        if may_have_side_effects {
-                            return;
-                        }
-
-                        // Prototype changes do not affect .length
-                        self.changed = true;
-
-                        *expr = Lit::Num(Number {
-                            value: elems.len() as _,
-                            span: *span,
-                            raw: None,
-                        })
-                        .into();
-                    }
-
-                    KnownOp::Index(idx) => {
-                        // If the fraction part is non-zero, or if the index is out of bounds,
-                        // then we handle this in compress as Array's prototype may be modified.
-                        if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
-                            return;
-                        }
-
-                        // Don't change if after has side effects.
-                        let after_has_side_effect =
-                            elems
-                                .iter()
-                                .skip((idx as usize + 1) as _)
-                                .any(|elem| match elem {
-                                    Some(elem) => elem.expr.may_have_side_effects(self.expr_ctx),
-                                    None => false,
-                                });
-
-                        if after_has_side_effect {
-                            return;
-                        }
-
-                        self.changed = true;
-
-                        // elements before target element
-                        let before: Vec<Option<ExprOrSpread>> =
-                            elems.drain(..(idx as usize)).collect();
-                        let mut iter = elems.take().into_iter();
-                        // element at idx
-                        let e = iter.next().flatten();
-                        // elements after target element
-                        let after: Vec<Option<ExprOrSpread>> = iter.collect();
-
-                        // element value
-                        let v = match e {
-                            None => Expr::undefined(*span),
-                            Some(e) => e.expr,
-                        };
-
-                        // Replacement expressions.
-                        let mut exprs = Vec::new();
-
-                        // Add before side effects.
-                        for elem in before.into_iter().flatten() {
-                            self.expr_ctx
-                                .extract_side_effects_to(&mut exprs, *elem.expr);
-                        }
-
-                        // Element value.
-                        let val = v;
-
-                        // Add after side effects.
-                        for elem in after.into_iter().flatten() {
-                            self.expr_ctx
-                                .extract_side_effects_to(&mut exprs, *elem.expr);
-                        }
-
-                        // Note: we always replace with a SeqExpr so that
-                        // `this` remains undefined in strict mode.
-
-                        if exprs.is_empty() {
-                            // No side effects exist, replace with:
-                            // (0, val)
-                            *expr = SeqExpr {
-                                span: val.span(),
-                                exprs: vec![0.into(), val],
-                            }
-                            .into();
-                            return;
-                        }
-
-                        // Add value and replace with SeqExpr
-                        exprs.push(val);
-                        *expr = SeqExpr { span: *span, exprs }.into();
-                    }
-
-                    // Handled in compress
-                    KnownOp::IndexStr(..) => {}
-                }
-            }
-
-            // { foo: true }['foo']
-            //
-            // { 0.5: true }[0.5]
-            Expr::Object(ObjectLit { props, span }) => {
-                // get key
-                let key = match op {
-                    KnownOp::Index(i) => Atom::from(i.to_string()),
-                    KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
-                    _ => return,
-                };
-
-                // Get `key`s value. Non-existent keys are handled in compress.
-                // This also checks if spread exists.
-                let Some(v) = get_key_value(&key, props) else {
-                    return;
-                };
-
-                self.changed = true;
-
-                *expr = *self.expr_ctx.preserve_effects(
-                    *span,
-                    v,
-                    once(
-                        ObjectLit {
-                            props: props.take(),
-                            span: *span,
-                        }
-                        .into(),
-                    ),
-                );
-            }
-
-            _ => {}
-        }
-    }
-
-    fn optimize_bin_expr(&mut self, expr: &mut Expr) {
-        let BinExpr {
-            left,
-            op,
-            right,
-            span,
-        } = match expr {
-            Expr::Bin(bin) => bin,
-            _ => return,
-        };
-
-        macro_rules! try_replace {
-            ($v:expr) => {{
-                match $v {
-                    Known(v) => {
-                        // TODO: Optimize
-                        self.changed = true;
-
-                        *expr = *make_bool_expr(self.expr_ctx, *span, v, {
-                            iter::once(left.take()).chain(iter::once(right.take()))
-                        });
-                        return;
-                    }
-                    _ => {}
-                }
-            }};
-            (number, $v:expr) => {{
-                match $v {
-                    Known(v) => {
-                        self.changed = true;
-
-                        let value_expr = if !v.is_nan() {
-                            Expr::Lit(Lit::Num(Number {
-                                value: v,
-                                span: *span,
-                                raw: None,
-                            }))
-                        } else {
-                            Expr::Ident(Ident::new(
-                                "NaN".into(),
-                                *span,
-                                self.expr_ctx.unresolved_ctxt,
-                            ))
-                        };
-
-                        *expr = *self.expr_ctx.preserve_effects(*span, value_expr.into(), {
-                            iter::once(left.take()).chain(iter::once(right.take()))
-                        });
-                        return;
-                    }
-                    _ => {}
-                }
-            }};
-        }
-
-        match op {
-            op!(bin, "+") => {
-                // It's string concatenation if either left or right is string.
-                if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
-                    if let (Known(l), Known(r)) = (
-                        left.as_pure_string(self.expr_ctx),
-                        right.as_pure_string(self.expr_ctx),
-                    ) {
-                        let mut l = l.into_owned();
-
-                        l.push_str(&r);
-
-                        self.changed = true;
-
-                        *expr = Lit::Str(Str {
-                            raw: None,
-                            value: l.into(),
-                            span: *span,
-                        })
-                        .into();
-                        return;
-                    }
-                }
-
-                match expr.get_type(self.expr_ctx) {
-                    // String concatenation
-                    Known(StringType) => match expr {
-                        Expr::Bin(BinExpr {
-                            left, right, span, ..
-                        }) => {
-                            if !left.may_have_side_effects(self.expr_ctx)
-                                && !right.may_have_side_effects(self.expr_ctx)
-                            {
-                                if let (Known(l), Known(r)) = (
-                                    left.as_pure_string(self.expr_ctx),
-                                    right.as_pure_string(self.expr_ctx),
-                                ) {
-                                    self.changed = true;
-
-                                    let value = format!("{}{}", l, r);
-
-                                    *expr = Lit::Str(Str {
-                                        raw: None,
-                                        value: value.into(),
-                                        span: *span,
-                                    })
-                                    .into();
-                                }
-                            }
-                        }
-                        _ => unreachable!(),
-                    },
-                    // Numerical calculation
-                    Known(BoolType) | Known(NullType) | Known(NumberType)
-                    | Known(UndefinedType) => {
-                        match expr {
-                            Expr::Bin(BinExpr {
-                                left, right, span, ..
-                            }) => {
-                                if let Known(v) =
-                                    self.perform_arithmetic_op(op!(bin, "+"), left, right)
-                                {
-                                    self.changed = true;
-                                    let span = *span;
-
-                                    let value_expr = if !v.is_nan() {
-                                        Lit::Num(Number {
-                                            value: v,
-                                            span,
-                                            raw: None,
-                                        })
-                                        .into()
-                                    } else {
-                                        Ident::new(
-                                            "NaN".into(),
-                                            span,
-                                            self.expr_ctx.unresolved_ctxt,
-                                        )
-                                        .into()
-                                    };
-
-                                    *expr = *self.expr_ctx.preserve_effects(
-                                        span,
-                                        value_expr,
-                                        iter::once(left.take()).chain(iter::once(right.take())),
-                                    );
-                                }
-                            }
-                            _ => unreachable!(),
-                        };
-                    }
-                    _ => {}
-                }
-
-                //TODO: try string concat
-            }
-
-            op!("&&") | op!("||") => {
-                if let (_, Known(val)) = left.cast_to_bool(self.expr_ctx) {
-                    let node = if *op == op!("&&") {
-                        if val {
-                            // 1 && $right
-                            right
-                        } else {
-                            self.changed = true;
-
-                            // 0 && $right
-                            *expr = *left.take();
-                            return;
-                        }
-                    } else if val {
-                        self.changed = true;
-
-                        // 1 || $right
-                        *expr = *(left.take());
-                        return;
-                    } else {
-                        // 0 || $right
-                        right
-                    };
-
-                    if !left.may_have_side_effects(self.expr_ctx) {
-                        self.changed = true;
-
-                        if node.directness_matters() {
-                            *expr = SeqExpr {
-                                span: node.span(),
-                                exprs: vec![0.into(), node.take()],
-                            }
-                            .into();
-                        } else {
-                            *expr = *node.take();
-                        }
-                    } else {
-                        self.changed = true;
-
-                        let mut seq = SeqExpr {
-                            span: *span,
-                            exprs: vec![left.take(), node.take()],
-                        };
-
-                        seq.visit_mut_with(self);
-
-                        *expr = seq.into()
-                    };
-                }
-            }
-            op!("instanceof") => {
-                fn is_non_obj(e: &Expr) -> bool {
-                    match e {
-                        // Non-object types are never instances.
-                        Expr::Lit(Lit::Str { .. })
-                        | Expr::Lit(Lit::Num(..))
-                        | Expr::Lit(Lit::Null(..))
-                        | Expr::Lit(Lit::Bool(..)) => true,
-                        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
-                        Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
-                        Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
-
-                        Expr::Unary(UnaryExpr {
-                            op: op!("!"),
-                            ref arg,
-                            ..
-                        })
-                        | Expr::Unary(UnaryExpr {
-                            op: op!(unary, "-"),
-                            ref arg,
-                            ..
-                        })
-                        | Expr::Unary(UnaryExpr {
-                            op: op!("void"),
-                            ref arg,
-                            ..
-                        }) => is_non_obj(arg),
-                        _ => false,
-                    }
-                }
-
-                fn is_obj(e: &Expr) -> bool {
-                    matches!(
-                        *e,
-                        Expr::Array { .. }
-                            | Expr::Object { .. }
-                            | Expr::Fn { .. }
-                            | Expr::New { .. }
-                    )
-                }
-
-                // Non-object types are never instances.
-                if is_non_obj(left) {
-                    self.changed = true;
-
-                    *expr = *make_bool_expr(self.expr_ctx, *span, false, iter::once(right.take()));
-                    return;
-                }
-
-                if is_obj(left) && right.is_global_ref_to(self.expr_ctx, "Object") {
-                    self.changed = true;
-
-                    *expr = *make_bool_expr(self.expr_ctx, *span, true, iter::once(left.take()));
-                }
-            }
-
-            // Arithmetic operations
-            op!(bin, "-") | op!("/") | op!("%") | op!("**") => {
-                try_replace!(number, self.perform_arithmetic_op(*op, left, right))
-            }
-
-            // Bit shift operations
-            op!("<<") | op!(">>") | op!(">>>") => {
-                fn try_fold_shift(
-                    ctx: ExprCtx,
-                    op: BinaryOp,
-                    left: &Expr,
-                    right: &Expr,
-                ) -> Value<f64> {
-                    if !left.is_number() || !right.is_number() {
-                        return Unknown;
-                    }
-
-                    let (lv, rv) = match (left.as_pure_number(ctx), right.as_pure_number(ctx)) {
-                        (Known(lv), Known(rv)) => (lv, rv),
-                        _ => unreachable!(),
-                    };
-                    let (lv, rv) = (JsNumber::from(lv), JsNumber::from(rv));
-
-                    Known(match op {
-                        op!("<<") => *(lv << rv),
-                        op!(">>") => *(lv >> rv),
-                        op!(">>>") => *(lv.unsigned_shr(rv)),
-
-                        _ => unreachable!("Unknown bit operator {:?}", op),
-                    })
-                }
-                try_replace!(number, try_fold_shift(self.expr_ctx, *op, left, right))
-            }
-
-            // These needs one more check.
-            //
-            // (a * 1) * 2 --> a * (1 * 2) --> a * 2
-            op!("*") | op!("&") | op!("|") | op!("^") => {
-                try_replace!(number, self.perform_arithmetic_op(*op, left, right));
-
-                // Try left.rhs * right
-                if let Expr::Bin(BinExpr {
-                    span: _,
-                    left: left_lhs,
-                    op: left_op,
-                    right: left_rhs,
-                }) = &mut **left
-                {
-                    if *left_op == *op {
-                        if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
-                            let value_expr = if !value.is_nan() {
-                                Lit::Num(Number {
-                                    value,
-                                    span: *span,
-                                    raw: None,
-                                })
-                                .into()
-                            } else {
-                                Ident::new("NaN".into(), *span, self.expr_ctx.unresolved_ctxt)
-                                    .into()
-                            };
-
-                            self.changed = true;
-                            *left = left_lhs.take();
-                            *right = Box::new(value_expr);
-                        }
-                    }
-                }
-            }
-
-            // Comparisons
-            op!("<") => {
-                try_replace!(self.perform_abstract_rel_cmp(left, right, false))
-            }
-            op!(">") => {
-                try_replace!(self.perform_abstract_rel_cmp(right, left, false))
-            }
-            op!("<=") => {
-                try_replace!(!self.perform_abstract_rel_cmp(right, left, true))
-            }
-            op!(">=") => {
-                try_replace!(!self.perform_abstract_rel_cmp(left, right, true))
-            }
-
-            op!("==") => try_replace!(self.perform_abstract_eq_cmp(*span, left, right)),
-            op!("!=") => try_replace!(!self.perform_abstract_eq_cmp(*span, left, right)),
-            op!("===") => try_replace!(self.perform_strict_eq_cmp(left, right)),
-            op!("!==") => try_replace!(!self.perform_strict_eq_cmp(left, right)),
-            _ => {}
-        };
-    }
-
-    /// Folds 'typeof(foo)' if foo is a literal, e.g.
-    ///
-    /// typeof("bar") --> "string"
-    ///
-    /// typeof(6) --> "number"
-    fn try_fold_typeof(&mut self, expr: &mut Expr) {
-        let UnaryExpr { op, arg, span } = match expr {
-            Expr::Unary(unary) => unary,
-            _ => return,
-        };
-        assert_eq!(*op, op!("typeof"));
-
-        let val = match &**arg {
-            Expr::Fn(..) => "function",
-            Expr::Lit(Lit::Str { .. }) => "string",
-            Expr::Lit(Lit::Num(..)) => "number",
-            Expr::Lit(Lit::Bool(..)) => "boolean",
-            Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => "undefined",
-
-            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => {
-                // We can assume `undefined` is `undefined`,
-                // because overriding `undefined` is always hard error in swc.
-                "undefined"
-            }
-
-            _ => {
-                return;
-            }
-        };
-
-        self.changed = true;
-
-        *expr = Lit::Str(Str {
-            span: *span,
-            raw: None,
-            value: val.into(),
-        })
-        .into();
-    }
-
-    fn optimize_unary_expr(&mut self, expr: &mut Expr) {
-        let UnaryExpr { op, arg, span } = match expr {
-            Expr::Unary(unary) => unary,
-            _ => return,
-        };
-        let may_have_side_effects = arg.may_have_side_effects(self.expr_ctx);
-
-        match op {
-            op!("typeof") if !may_have_side_effects => {
-                self.try_fold_typeof(expr);
-            }
-            op!("!") => {
-                match &**arg {
-                    // Don't expand booleans.
-                    Expr::Lit(Lit::Num(..)) => return,
-
-                    // Don't remove ! from negated iifes.
-                    Expr::Call(call) => {
-                        if let Callee::Expr(callee) = &call.callee {
-                            if let Expr::Fn(..) = &**callee {
-                                return;
-                            }
-                        }
-                    }
-                    _ => {}
-                }
-
-                if let (_, Known(val)) = arg.cast_to_bool(self.expr_ctx) {
-                    self.changed = true;
-
-                    *expr = *make_bool_expr(self.expr_ctx, *span, !val, iter::once(arg.take()));
-                }
-            }
-            op!(unary, "+") => {
-                if let Known(v) = arg.as_pure_number(self.expr_ctx) {
-                    self.changed = true;
-
-                    if v.is_nan() {
-                        *expr = *self.expr_ctx.preserve_effects(
-                            *span,
-                            Ident::new("NaN".into(), *span, self.expr_ctx.unresolved_ctxt).into(),
-                            iter::once(arg.take()),
-                        );
-                        return;
-                    }
-
-                    *expr = *self.expr_ctx.preserve_effects(
-                        *span,
-                        Lit::Num(Number {
-                            value: v,
-                            span: *span,
-                            raw: None,
-                        })
-                        .into(),
-                        iter::once(arg.take()),
-                    );
-                }
-            }
-            op!(unary, "-") => match &**arg {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => {}
-                // "-NaN" is "NaN"
-                Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => {
-                    self.changed = true;
-                    *expr = *(arg.take());
-                }
-                Expr::Lit(Lit::Num(Number { value: f, .. })) => {
-                    self.changed = true;
-                    *expr = Lit::Num(Number {
-                        value: -f,
-                        span: *span,
-                        raw: None,
-                    })
-                    .into();
-                }
-                _ => {
-
-                    // TODO: Report that user is something bad (negating
-                    // non-number value)
-                }
-            },
-            op!("void") if !may_have_side_effects => {
-                match &**arg {
-                    Expr::Lit(Lit::Num(Number { value, .. })) if *value == 0.0 => return,
-                    _ => {}
-                }
-                self.changed = true;
-
-                *arg = Lit::Num(Number {
-                    value: 0.0,
-                    span: arg.span(),
-                    raw: None,
-                })
-                .into();
-            }
-
-            op!("~") => {
-                if let Known(value) = arg.as_pure_number(self.expr_ctx) {
-                    if value.fract() == 0.0 {
-                        self.changed = true;
-                        *expr = Lit::Num(Number {
-                            span: *span,
-                            value: if value < 0.0 {
-                                !(value as i32 as u32) as i32 as f64
-                            } else {
-                                !(value as u32) as i32 as f64
-                            },
-                            raw: None,
-                        })
-                        .into();
-                    }
-                    // TODO: Report error
-                }
-            }
-            _ => {}
-        }
-    }
-
-    /// Try to fold arithmetic binary operators
-    fn perform_arithmetic_op(&self, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
-        /// Replace only if it becomes shorter
-        macro_rules! try_replace {
-            ($value:expr) => {{
-                let (ls, rs) = (left.span(), right.span());
-                if ls.is_dummy() || rs.is_dummy() {
-                    Known($value)
-                } else {
-                    let new_len = format!("{}", $value).len();
-                    if right.span().hi() > left.span().lo() {
-                        let orig_len = right.span().hi() - right.span().lo() + left.span().hi()
-                            - left.span().lo();
-                        if new_len <= orig_len.0 as usize + 1 {
-                            Known($value)
-                        } else {
-                            Unknown
-                        }
-                    } else {
-                        Known($value)
-                    }
-                }
-            }};
-            (i32, $value:expr) => {
-                try_replace!($value as f64)
-            };
-        }
-
-        let (lv, rv) = (
-            left.as_pure_number(self.expr_ctx),
-            right.as_pure_number(self.expr_ctx),
-        );
-
-        if (lv.is_unknown() && rv.is_unknown())
-            || op == op!(bin, "+")
-                && (!left.get_type(self.expr_ctx).casted_to_number_on_add()
-                    || !right.get_type(self.expr_ctx).casted_to_number_on_add())
-        {
-            return Unknown;
-        }
-
-        match op {
-            op!(bin, "+") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv + rv);
-                }
-
-                if lv == Known(0.0) {
-                    return rv;
-                } else if rv == Known(0.0) {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-            op!(bin, "-") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv - rv);
-                }
-
-                // 0 - x => -x
-                if lv == Known(0.0) {
-                    return rv;
-                }
-
-                // x - 0 => x
-                if rv == Known(0.0) {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-            op!("*") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv * rv);
-                }
-                // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
-                // advantage of that without some kind of non-NaN proof.  So the special cases
-                // here only deal with 1*x
-                if Known(1.0) == lv {
-                    return rv;
-                }
-                if Known(1.0) == rv {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-
-            op!("/") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    if rv == 0.0 {
-                        return Unknown;
-                    }
-                    return try_replace!(lv / rv);
-                }
-
-                // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
-
-                if rv == Known(1.0) {
-                    // TODO: cloneTree
-                    // x/1->x
-                    return lv;
-                }
-                return Unknown;
-            }
-
-            op!("**") => {
-                if Known(0.0) == rv {
-                    return Known(1.0);
-                }
-
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    let lv: JsNumber = lv.into();
-                    let rv: JsNumber = rv.into();
-                    let result: f64 = lv.pow(rv).into();
-                    return try_replace!(result);
-                }
-
-                return Unknown;
-            }
-            _ => {}
-        }
-        let (lv, rv) = match (lv, rv) {
-            (Known(lv), Known(rv)) => (lv, rv),
-            _ => return Unknown,
-        };
-
-        match op {
-            op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
-            op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
-            op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
-            op!("%") => {
-                if rv == 0.0 {
-                    return Unknown;
-                }
-                try_replace!(lv % rv)
-            }
-            _ => unreachable!("unknown binary operator: {:?}", op),
-        }
-    }
-
-    /// This actually performs `<`.
-    ///
-    /// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
-    fn perform_abstract_rel_cmp(
-        &mut self,
-        left: &Expr,
-        right: &Expr,
-        will_negate: bool,
-    ) -> Value<bool> {
-        match (left, right) {
-            // Special case: `x < x` is always false.
-            (
-                &Expr::Ident(
-                    Ident {
-                        sym: ref li,
-                        ctxt: l_ctxt,
-                        ..
-                    },
-                    ..,
-                ),
-                &Expr::Ident(Ident {
-                    sym: ref ri,
-                    ctxt: r_ctxt,
-                    ..
-                }),
-            ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
-                return Known(false);
-            }
-            // Special case: `typeof a < typeof a` is always false.
-            (
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref la,
-                    ..
-                }),
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref ra,
-                    ..
-                }),
-            ) if la.as_ident().is_some()
-                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
-            {
-                return Known(false)
-            }
-            _ => {}
-        }
-
-        // Try to evaluate based on the general type.
-        let (lt, rt) = (left.get_type(self.expr_ctx), right.get_type(self.expr_ctx));
-
-        if let (Known(StringType), Known(StringType)) = (lt, rt) {
-            if let (Known(lv), Known(rv)) = (
-                left.as_pure_string(self.expr_ctx),
-                right.as_pure_string(self.expr_ctx),
-            ) {
-                // In JS, browsers parse \v differently. So do not compare strings if one
-                // contains \v.
-                if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                    return Unknown;
-                } else {
-                    return Known(lv < rv);
-                }
-            }
-        }
-
-        // Then, try to evaluate based on the value of the node. Try comparing as
-        // numbers.
-        let (lv, rv) = (
-            try_val!(left.as_pure_number(self.expr_ctx)),
-            try_val!(right.as_pure_number(self.expr_ctx)),
-        );
-        if lv.is_nan() || rv.is_nan() {
-            return Known(will_negate);
-        }
-
-        Known(lv < rv)
-    }
-
-    /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
-    fn perform_abstract_eq_cmp(&mut self, span: Span, left: &Expr, right: &Expr) -> Value<bool> {
-        let (lt, rt) = (
-            try_val!(left.get_type(self.expr_ctx)),
-            try_val!(right.get_type(self.expr_ctx)),
-        );
-
-        if lt == rt {
-            return self.perform_strict_eq_cmp(left, right);
-        }
-
-        match (lt, rt) {
-            (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
-            (NumberType, StringType) | (_, BoolType) => {
-                let rv = try_val!(right.as_pure_number(self.expr_ctx));
-                self.perform_abstract_eq_cmp(
-                    span,
-                    left,
-                    &Lit::Num(Number {
-                        value: rv,
-                        span,
-                        raw: None,
-                    })
-                    .into(),
-                )
-            }
-
-            (StringType, NumberType) | (BoolType, _) => {
-                let lv = try_val!(left.as_pure_number(self.expr_ctx));
-                self.perform_abstract_eq_cmp(
-                    span,
-                    &Lit::Num(Number {
-                        value: lv,
-                        span,
-                        raw: None,
-                    })
-                    .into(),
-                    right,
-                )
-            }
-
-            (StringType, ObjectType)
-            | (NumberType, ObjectType)
-            | (ObjectType, StringType)
-            | (ObjectType, NumberType) => Unknown,
-
-            _ => Known(false),
-        }
-    }
-
-    /// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
-    fn perform_strict_eq_cmp(&mut self, left: &Expr, right: &Expr) -> Value<bool> {
-        // Any strict equality comparison against NaN returns false.
-        if left.is_nan() || right.is_nan() {
-            return Known(false);
-        }
-        match (left, right) {
-            // Special case, typeof a == typeof a is always true.
-            (
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref la,
-                    ..
-                }),
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref ra,
-                    ..
-                }),
-            ) if la.as_ident().is_some()
-                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
-            {
-                return Known(true)
-            }
-            _ => {}
-        }
-
-        let (lt, rt) = (
-            try_val!(left.get_type(self.expr_ctx)),
-            try_val!(right.get_type(self.expr_ctx)),
-        );
-        // Strict equality can only be true for values of the same type.
-        if lt != rt {
-            return Known(false);
-        }
-
-        match lt {
-            UndefinedType | NullType => Known(true),
-            NumberType => Known(
-                try_val!(left.as_pure_number(self.expr_ctx))
-                    == try_val!(right.as_pure_number(self.expr_ctx)),
-            ),
-            StringType => {
-                let (lv, rv) = (
-                    try_val!(left.as_pure_string(self.expr_ctx)),
-                    try_val!(right.as_pure_string(self.expr_ctx)),
-                );
-                // In JS, browsers parse \v differently. So do not consider strings
-                // equal if one contains \v.
-                if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                    return Unknown;
-                }
-                Known(lv == rv)
-            }
-            BoolType => {
-                let (lv, rv) = (
-                    left.as_pure_bool(self.expr_ctx),
-                    right.as_pure_bool(self.expr_ctx),
-                );
-
-                // lv && rv || !lv && !rv
-
-                lv.and(rv).or((!lv).and(!rv))
-            }
-            ObjectType | SymbolType => Unknown,
-        }
-    }
-}
-
 impl VisitMut for SimplifyExpr {
     noop_visit_mut_type!();
 
@@ -1346,18 +225,23 @@ impl VisitMut for SimplifyExpr {
 
         match expr {
             Expr::Unary(_) => {
-                self.optimize_unary_expr(expr);
+                optimize_unary_expr(self.expr_ctx, expr, &mut self.changed);
                 debug_assert_valid(expr);
             }
             Expr::Bin(_) => {
-                self.optimize_bin_expr(expr);
+                optimize_bin_expr(self.expr_ctx, expr, &mut self.changed);
+                if expr.is_seq() {
+                    expr.visit_mut_with(self);
+                }
 
                 debug_assert_valid(expr);
             }
             Expr::Member(_) => {
-                self.optimize_member_expr(expr);
+                if !self.is_modifying {
+                    optimize_member_expr(self.expr_ctx, expr, self.in_callee, &mut self.changed);
 
-                debug_assert_valid(expr);
+                    debug_assert_valid(expr);
+                }
             }
 
             Expr::Cond(CondExpr {
@@ -1798,4 +682,1101 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
     }
 
     None
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE.
+pub fn optimize_member_expr(
+    expr_ctx: ExprCtx,
+    expr: &mut Expr,
+    is_callee: bool,
+    changed: &mut bool,
+) {
+    let MemberExpr { obj, prop, .. } = match expr {
+        Expr::Member(member) => member,
+        _ => return,
+    };
+
+    #[derive(Clone, PartialEq)]
+    enum KnownOp {
+        /// [a, b].length
+        Len,
+
+        /// [a, b][0]
+        ///
+        /// {0.5: "bar"}[0.5]
+        /// Note: callers need to check `v.fract() == 0.0` in some cases.
+        /// ie non-integer indexes for arrays result in `undefined`
+        /// but not for objects (because indexing an object
+        /// returns the value of the key, ie `0.5` will not
+        /// return `undefined` if a key `0.5` exists
+        /// and its value is not `undefined`).
+        Index(f64),
+
+        /// ({}).foo
+        IndexStr(Atom),
+    }
+    let op = match prop {
+        MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
+            KnownOp::Len
+        }
+        MemberProp::Ident(IdentName { sym, .. }) => {
+            if is_callee {
+                return;
+            }
+
+            KnownOp::IndexStr(sym.clone())
+        }
+        MemberProp::Computed(ComputedPropName { expr, .. }) => {
+            if is_callee {
+                return;
+            }
+
+            if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                // x[5]
+                KnownOp::Index(*value)
+            } else if let Known(s) = expr.as_pure_string(expr_ctx) {
+                if s == "length" && !obj.is_object() {
+                    // Length of non-object type
+                    KnownOp::Len
+                } else if let Ok(n) = s.parse::<f64>() {
+                    // x['0'] is treated as x[0]
+                    KnownOp::Index(n)
+                } else {
+                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
+                    KnownOp::IndexStr(s.into())
+                }
+            } else {
+                return;
+            }
+        }
+        _ => return,
+    };
+
+    // Note: pristine_globals refers to the compress config option pristine_globals.
+    // Any potential cases where globals are not pristine are handled in compress,
+    // e.g. x[-1] is not changed as the object's prototype may be modified.
+    // For example, Array.prototype[-1] = "foo" will result in [][-1] returning
+    // "foo".
+
+    match &mut **obj {
+        Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
+            // 'foo'.length
+            //
+            // Prototype changes do not affect .length, so we don't need to worry
+            // about pristine_globals here.
+            KnownOp::Len => {
+                *changed = true;
+
+                *expr = Lit::Num(Number {
+                    value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
+                    span: *span,
+                    raw: None,
+                })
+                .into();
+            }
+
+            // 'foo'[1]
+            KnownOp::Index(idx) => {
+                if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
+                    // Prototype changes affect indexing if the index is out of bounds, so we
+                    // don't replace out-of-bound indexes.
+                    return;
+                }
+
+                let Some(value) = nth_char(value, idx as _) else {
+                    return;
+                };
+
+                *changed = true;
+
+                *expr = Lit::Str(Str {
+                    raw: None,
+                    value: value.into(),
+                    span: *span,
+                })
+                .into()
+            }
+
+            // 'foo'['']
+            //
+            // Handled in compress
+            KnownOp::IndexStr(..) => {}
+        },
+
+        // [1, 2, 3].length
+        //
+        // [1, 2, 3][0]
+        Expr::Array(ArrayLit { elems, span }) => {
+            // do nothing if spread exists
+            let has_spread = elems.iter().any(|elem| {
+                elem.as_ref()
+                    .map(|elem| elem.spread.is_some())
+                    .unwrap_or(false)
+            });
+
+            if has_spread {
+                return;
+            }
+
+            match op {
+                KnownOp::Len => {
+                    // do nothing if replacement will have side effects
+                    let may_have_side_effects = elems
+                        .iter()
+                        .filter_map(|e| e.as_ref())
+                        .any(|e| e.expr.may_have_side_effects(expr_ctx));
+
+                    if may_have_side_effects {
+                        return;
+                    }
+
+                    // Prototype changes do not affect .length
+                    *changed = true;
+
+                    *expr = Lit::Num(Number {
+                        value: elems.len() as _,
+                        span: *span,
+                        raw: None,
+                    })
+                    .into();
+                }
+
+                KnownOp::Index(idx) => {
+                    // If the fraction part is non-zero, or if the index is out of bounds,
+                    // then we handle this in compress as Array's prototype may be modified.
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                        return;
+                    }
+
+                    // Don't change if after has side effects.
+                    let after_has_side_effect =
+                        elems
+                            .iter()
+                            .skip((idx as usize + 1) as _)
+                            .any(|elem| match elem {
+                                Some(elem) => elem.expr.may_have_side_effects(expr_ctx),
+                                None => false,
+                            });
+
+                    if after_has_side_effect {
+                        return;
+                    }
+
+                    *changed = true;
+
+                    // elements before target element
+                    let before: Vec<Option<ExprOrSpread>> = elems.drain(..(idx as usize)).collect();
+                    let mut iter = elems.take().into_iter();
+                    // element at idx
+                    let e = iter.next().flatten();
+                    // elements after target element
+                    let after: Vec<Option<ExprOrSpread>> = iter.collect();
+
+                    // element value
+                    let v = match e {
+                        None => Expr::undefined(*span),
+                        Some(e) => e.expr,
+                    };
+
+                    // Replacement expressions.
+                    let mut exprs = Vec::new();
+
+                    // Add before side effects.
+                    for elem in before.into_iter().flatten() {
+                        expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
+                    }
+
+                    // Element value.
+                    let val = v;
+
+                    // Add after side effects.
+                    for elem in after.into_iter().flatten() {
+                        expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
+                    }
+
+                    // Note: we always replace with a SeqExpr so that
+                    // `this` remains undefined in strict mode.
+
+                    // No side effects exist, replace with:
+                    // (0, val)
+                    if exprs.is_empty() && val.directness_matters() {
+                        exprs.push(0.into());
+                    }
+
+                    // Add value and replace with SeqExpr
+                    exprs.push(val);
+                    *expr = *Expr::from_exprs(exprs);
+                }
+
+                // Handled in compress
+                KnownOp::IndexStr(..) => {}
+            }
+        }
+
+        // { foo: true }['foo']
+        //
+        // { 0.5: true }[0.5]
+        Expr::Object(ObjectLit { props, span }) => {
+            // get key
+            let key = match op {
+                KnownOp::Index(i) => Atom::from(i.to_string()),
+                KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                _ => return,
+            };
+
+            // Get `key`s value. Non-existent keys are handled in compress.
+            // This also checks if spread exists.
+            let Some(v) = get_key_value(&key, props) else {
+                return;
+            };
+
+            *changed = true;
+
+            *expr = *expr_ctx.preserve_effects(
+                *span,
+                v,
+                once(
+                    ObjectLit {
+                        props: props.take(),
+                        span: *span,
+                    }
+                    .into(),
+                ),
+            );
+        }
+
+        _ => {}
+    }
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE.
+pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
+    let BinExpr {
+        left,
+        op,
+        right,
+        span,
+    } = match expr {
+        Expr::Bin(bin) => bin,
+        _ => return,
+    };
+    let op = *op;
+
+    macro_rules! try_replace {
+        ($v:expr) => {{
+            match $v {
+                Known(v) => {
+                    // TODO: Optimize
+                    *changed = true;
+
+                    *expr = *make_bool_expr(expr_ctx, *span, v, {
+                        iter::once(left.take()).chain(iter::once(right.take()))
+                    });
+                    return;
+                }
+                _ => {}
+            }
+        }};
+        (number, $v:expr) => {{
+            match $v {
+                Known(v) => {
+                    *changed = true;
+
+                    let value_expr = if !v.is_nan() {
+                        Expr::Lit(Lit::Num(Number {
+                            value: v,
+                            span: *span,
+                            raw: None,
+                        }))
+                    } else {
+                        Expr::Ident(Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt))
+                    };
+
+                    *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {
+                        iter::once(left.take()).chain(iter::once(right.take()))
+                    });
+                    return;
+                }
+                _ => {}
+            }
+        }};
+    }
+
+    match op {
+        op!(bin, "+") => {
+            // It's string concatenation if either left or right is string.
+            if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
+                if let (Known(l), Known(r)) = (
+                    left.as_pure_string(expr_ctx),
+                    right.as_pure_string(expr_ctx),
+                ) {
+                    let mut l = l.into_owned();
+
+                    l.push_str(&r);
+
+                    *changed = true;
+
+                    *expr = Lit::Str(Str {
+                        raw: None,
+                        value: l.into(),
+                        span: *span,
+                    })
+                    .into();
+                    return;
+                }
+            }
+
+            match expr.get_type(expr_ctx) {
+                // String concatenation
+                Known(StringType) => match expr {
+                    Expr::Bin(BinExpr {
+                        left, right, span, ..
+                    }) => {
+                        if !left.may_have_side_effects(expr_ctx)
+                            && !right.may_have_side_effects(expr_ctx)
+                        {
+                            if let (Known(l), Known(r)) = (
+                                left.as_pure_string(expr_ctx),
+                                right.as_pure_string(expr_ctx),
+                            ) {
+                                *changed = true;
+
+                                let value = format!("{}{}", l, r);
+
+                                *expr = Lit::Str(Str {
+                                    raw: None,
+                                    value: value.into(),
+                                    span: *span,
+                                })
+                                .into();
+                            }
+                        }
+                    }
+                    _ => unreachable!(),
+                },
+                // Numerical calculation
+                Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
+                    match expr {
+                        Expr::Bin(BinExpr {
+                            left, right, span, ..
+                        }) => {
+                            if let Known(v) = perform_arithmetic_op(expr_ctx, op, left, right) {
+                                *changed = true;
+                                let span = *span;
+
+                                let value_expr = if !v.is_nan() {
+                                    Lit::Num(Number {
+                                        value: v,
+                                        span,
+                                        raw: None,
+                                    })
+                                    .into()
+                                } else {
+                                    Ident::new("NaN".into(), span, expr_ctx.unresolved_ctxt).into()
+                                };
+
+                                *expr = *expr_ctx.preserve_effects(
+                                    span,
+                                    value_expr,
+                                    iter::once(left.take()).chain(iter::once(right.take())),
+                                );
+                            }
+                        }
+                        _ => unreachable!(),
+                    };
+                }
+                _ => {}
+            }
+
+            //TODO: try string concat
+        }
+
+        op!("&&") | op!("||") => {
+            if let (_, Known(val)) = left.cast_to_bool(expr_ctx) {
+                let node = if op == op!("&&") {
+                    if val {
+                        // 1 && $right
+                        right
+                    } else {
+                        *changed = true;
+
+                        // 0 && $right
+                        *expr = *left.take();
+                        return;
+                    }
+                } else if val {
+                    *changed = true;
+
+                    // 1 || $right
+                    *expr = *(left.take());
+                    return;
+                } else {
+                    // 0 || $right
+                    right
+                };
+
+                if !left.may_have_side_effects(expr_ctx) {
+                    *changed = true;
+
+                    if node.directness_matters() {
+                        *expr = SeqExpr {
+                            span: node.span(),
+                            exprs: vec![0.into(), node.take()],
+                        }
+                        .into();
+                    } else {
+                        *expr = *node.take();
+                    }
+                } else {
+                    *changed = true;
+
+                    let seq = SeqExpr {
+                        span: *span,
+                        exprs: vec![left.take(), node.take()],
+                    };
+
+                    *expr = seq.into()
+                };
+            }
+        }
+        op!("instanceof") => {
+            fn is_non_obj(e: &Expr) -> bool {
+                match e {
+                    // Non-object types are never instances.
+                    Expr::Lit(Lit::Str { .. })
+                    | Expr::Lit(Lit::Num(..))
+                    | Expr::Lit(Lit::Null(..))
+                    | Expr::Lit(Lit::Bool(..)) => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
+
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"),
+                        ref arg,
+                        ..
+                    })
+                    | Expr::Unary(UnaryExpr {
+                        op: op!(unary, "-"),
+                        ref arg,
+                        ..
+                    })
+                    | Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        ref arg,
+                        ..
+                    }) => is_non_obj(arg),
+                    _ => false,
+                }
+            }
+
+            fn is_obj(e: &Expr) -> bool {
+                matches!(
+                    *e,
+                    Expr::Array { .. } | Expr::Object { .. } | Expr::Fn { .. } | Expr::New { .. }
+                )
+            }
+
+            // Non-object types are never instances.
+            if is_non_obj(left) {
+                *changed = true;
+
+                *expr = *make_bool_expr(expr_ctx, *span, false, iter::once(right.take()));
+                return;
+            }
+
+            if is_obj(left) && right.is_global_ref_to(expr_ctx, "Object") {
+                *changed = true;
+
+                *expr = *make_bool_expr(expr_ctx, *span, true, iter::once(left.take()));
+            }
+        }
+
+        // Arithmetic operations
+        op!(bin, "-") | op!("/") | op!("%") | op!("**") => {
+            try_replace!(number, perform_arithmetic_op(expr_ctx, op, left, right))
+        }
+
+        // Bit shift operations
+        op!("<<") | op!(">>") | op!(">>>") => {
+            fn try_fold_shift(ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+                if !left.is_number() || !right.is_number() {
+                    return Unknown;
+                }
+
+                let (lv, rv) = match (left.as_pure_number(ctx), right.as_pure_number(ctx)) {
+                    (Known(lv), Known(rv)) => (lv, rv),
+                    _ => unreachable!(),
+                };
+                let (lv, rv) = (JsNumber::from(lv), JsNumber::from(rv));
+
+                Known(match op {
+                    op!("<<") => *(lv << rv),
+                    op!(">>") => *(lv >> rv),
+                    op!(">>>") => *(lv.unsigned_shr(rv)),
+
+                    _ => unreachable!("Unknown bit operator {:?}", op),
+                })
+            }
+            try_replace!(number, try_fold_shift(expr_ctx, op, left, right))
+        }
+
+        // These needs one more check.
+        //
+        // (a * 1) * 2 --> a * (1 * 2) --> a * 2
+        op!("*") | op!("&") | op!("|") | op!("^") => {
+            try_replace!(number, perform_arithmetic_op(expr_ctx, op, left, right));
+
+            // Try left.rhs * right
+            if let Expr::Bin(BinExpr {
+                span: _,
+                left: left_lhs,
+                op: left_op,
+                right: left_rhs,
+            }) = &mut **left
+            {
+                if *left_op == op {
+                    if let Known(value) = perform_arithmetic_op(expr_ctx, op, left_rhs, right) {
+                        let value_expr = if !value.is_nan() {
+                            Lit::Num(Number {
+                                value,
+                                span: *span,
+                                raw: None,
+                            })
+                            .into()
+                        } else {
+                            Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt).into()
+                        };
+
+                        *changed = true;
+                        *left = left_lhs.take();
+                        *right = Box::new(value_expr);
+                    }
+                }
+            }
+        }
+
+        // Comparisons
+        op!("<") => {
+            try_replace!(perform_abstract_rel_cmp(expr_ctx, left, right, false))
+        }
+        op!(">") => {
+            try_replace!(perform_abstract_rel_cmp(expr_ctx, right, left, false))
+        }
+        op!("<=") => {
+            try_replace!(!perform_abstract_rel_cmp(expr_ctx, right, left, true))
+        }
+        op!(">=") => {
+            try_replace!(!perform_abstract_rel_cmp(expr_ctx, left, right, true))
+        }
+
+        op!("==") => try_replace!(perform_abstract_eq_cmp(expr_ctx, *span, left, right)),
+        op!("!=") => try_replace!(!perform_abstract_eq_cmp(expr_ctx, *span, left, right)),
+        op!("===") => try_replace!(perform_strict_eq_cmp(expr_ctx, left, right)),
+        op!("!==") => try_replace!(!perform_strict_eq_cmp(expr_ctx, left, right)),
+        _ => {}
+    };
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE.
+pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
+    let UnaryExpr { op, arg, span } = match expr {
+        Expr::Unary(unary) => unary,
+        _ => return,
+    };
+    let may_have_side_effects = arg.may_have_side_effects(expr_ctx);
+
+    match op {
+        op!("typeof") if !may_have_side_effects => {
+            try_fold_typeof(expr_ctx, expr, changed);
+        }
+        op!("!") => {
+            match &**arg {
+                // Don't expand booleans.
+                Expr::Lit(Lit::Num(..)) => return,
+
+                // Don't remove ! from negated iifes.
+                Expr::Call(call) => {
+                    if let Callee::Expr(callee) = &call.callee {
+                        if let Expr::Fn(..) = &**callee {
+                            return;
+                        }
+                    }
+                }
+                _ => {}
+            }
+
+            if let (_, Known(val)) = arg.cast_to_bool(expr_ctx) {
+                *changed = true;
+
+                *expr = *make_bool_expr(expr_ctx, *span, !val, iter::once(arg.take()));
+            }
+        }
+        op!(unary, "+") => {
+            if let Known(v) = arg.as_pure_number(expr_ctx) {
+                *changed = true;
+
+                if v.is_nan() {
+                    *expr = *expr_ctx.preserve_effects(
+                        *span,
+                        Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt).into(),
+                        iter::once(arg.take()),
+                    );
+                    return;
+                }
+
+                *expr = *expr_ctx.preserve_effects(
+                    *span,
+                    Lit::Num(Number {
+                        value: v,
+                        span: *span,
+                        raw: None,
+                    })
+                    .into(),
+                    iter::once(arg.take()),
+                );
+            }
+        }
+        op!(unary, "-") => match &**arg {
+            Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => {}
+            // "-NaN" is "NaN"
+            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => {
+                *changed = true;
+                *expr = *(arg.take());
+            }
+            Expr::Lit(Lit::Num(Number { value: f, .. })) => {
+                *changed = true;
+                *expr = Lit::Num(Number {
+                    value: -f,
+                    span: *span,
+                    raw: None,
+                })
+                .into();
+            }
+            _ => {
+
+                // TODO: Report that user is something bad (negating
+                // non-number value)
+            }
+        },
+        op!("void") if !may_have_side_effects => {
+            match &**arg {
+                Expr::Lit(Lit::Num(Number { value, .. })) if *value == 0.0 => return,
+                _ => {}
+            }
+            *changed = true;
+
+            *arg = Lit::Num(Number {
+                value: 0.0,
+                span: arg.span(),
+                raw: None,
+            })
+            .into();
+        }
+
+        op!("~") => {
+            if let Known(value) = arg.as_pure_number(expr_ctx) {
+                if value.fract() == 0.0 {
+                    *changed = true;
+                    *expr = Lit::Num(Number {
+                        span: *span,
+                        value: if value < 0.0 {
+                            !(value as i32 as u32) as i32 as f64
+                        } else {
+                            !(value as u32) as i32 as f64
+                        },
+                        raw: None,
+                    })
+                    .into();
+                }
+                // TODO: Report error
+            }
+        }
+        _ => {}
+    }
+}
+
+/// Folds 'typeof(foo)' if foo is a literal, e.g.
+///
+/// typeof("bar") --> "string"
+///
+/// typeof(6) --> "number"
+fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
+    let UnaryExpr { op, arg, span } = match expr {
+        Expr::Unary(unary) => unary,
+        _ => return,
+    };
+    assert_eq!(*op, op!("typeof"));
+
+    let val = match &**arg {
+        Expr::Fn(..) => "function",
+        Expr::Lit(Lit::Str { .. }) => "string",
+        Expr::Lit(Lit::Num(..)) => "number",
+        Expr::Lit(Lit::Bool(..)) => "boolean",
+        Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
+        Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) => "undefined",
+
+        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => {
+            // We can assume `undefined` is `undefined`,
+            // because overriding `undefined` is always hard error in swc.
+            "undefined"
+        }
+
+        _ => {
+            return;
+        }
+    };
+
+    *changed = true;
+
+    *expr = Lit::Str(Str {
+        span: *span,
+        raw: None,
+        value: val.into(),
+    })
+    .into();
+}
+
+/// Try to fold arithmetic binary operators
+fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+    /// Replace only if it becomes shorter
+    macro_rules! try_replace {
+        ($value:expr) => {{
+            let (ls, rs) = (left.span(), right.span());
+            if ls.is_dummy() || rs.is_dummy() {
+                Known($value)
+            } else {
+                let new_len = format!("{}", $value).len();
+                if right.span().hi() > left.span().lo() {
+                    let orig_len =
+                        right.span().hi() - right.span().lo() + left.span().hi() - left.span().lo();
+                    if new_len <= orig_len.0 as usize + 1 {
+                        Known($value)
+                    } else {
+                        Unknown
+                    }
+                } else {
+                    Known($value)
+                }
+            }
+        }};
+        (i32, $value:expr) => {
+            try_replace!($value as f64)
+        };
+    }
+
+    let (lv, rv) = (
+        left.as_pure_number(expr_ctx),
+        right.as_pure_number(expr_ctx),
+    );
+
+    if (lv.is_unknown() && rv.is_unknown())
+        || op == op!(bin, "+")
+            && (!left.get_type(expr_ctx).casted_to_number_on_add()
+                || !right.get_type(expr_ctx).casted_to_number_on_add())
+    {
+        return Unknown;
+    }
+
+    match op {
+        op!(bin, "+") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv + rv);
+            }
+
+            if lv == Known(0.0) {
+                return rv;
+            } else if rv == Known(0.0) {
+                return lv;
+            }
+
+            return Unknown;
+        }
+        op!(bin, "-") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv - rv);
+            }
+
+            // 0 - x => -x
+            if lv == Known(0.0) {
+                return rv;
+            }
+
+            // x - 0 => x
+            if rv == Known(0.0) {
+                return lv;
+            }
+
+            return Unknown;
+        }
+        op!("*") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv * rv);
+            }
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
+            // advantage of that without some kind of non-NaN proof.  So the special cases
+            // here only deal with 1*x
+            if Known(1.0) == lv {
+                return rv;
+            }
+            if Known(1.0) == rv {
+                return lv;
+            }
+
+            return Unknown;
+        }
+
+        op!("/") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                if rv == 0.0 {
+                    return Unknown;
+                }
+                return try_replace!(lv / rv);
+            }
+
+            // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
+
+            if rv == Known(1.0) {
+                // TODO: cloneTree
+                // x/1->x
+                return lv;
+            }
+            return Unknown;
+        }
+
+        op!("**") => {
+            if Known(0.0) == rv {
+                return Known(1.0);
+            }
+
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                let lv: JsNumber = lv.into();
+                let rv: JsNumber = rv.into();
+                let result: f64 = lv.pow(rv).into();
+                return try_replace!(result);
+            }
+
+            return Unknown;
+        }
+        _ => {}
+    }
+    let (lv, rv) = match (lv, rv) {
+        (Known(lv), Known(rv)) => (lv, rv),
+        _ => return Unknown,
+    };
+
+    match op {
+        op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
+        op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
+        op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+        op!("%") => {
+            if rv == 0.0 {
+                return Unknown;
+            }
+            try_replace!(lv % rv)
+        }
+        _ => unreachable!("unknown binary operator: {:?}", op),
+    }
+}
+
+/// This actually performs `<`.
+///
+/// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
+fn perform_abstract_rel_cmp(
+    expr_ctx: ExprCtx,
+    left: &Expr,
+    right: &Expr,
+    will_negate: bool,
+) -> Value<bool> {
+    match (left, right) {
+        // Special case: `x < x` is always false.
+        (
+            &Expr::Ident(
+                Ident {
+                    sym: ref li,
+                    ctxt: l_ctxt,
+                    ..
+                },
+                ..,
+            ),
+            &Expr::Ident(Ident {
+                sym: ref ri,
+                ctxt: r_ctxt,
+                ..
+            }),
+        ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
+            return Known(false);
+        }
+        // Special case: `typeof a < typeof a` is always false.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.as_ident().is_some()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(false)
+        }
+        _ => {}
+    }
+
+    // Try to evaluate based on the general type.
+    let (lt, rt) = (left.get_type(expr_ctx), right.get_type(expr_ctx));
+
+    if let (Known(StringType), Known(StringType)) = (lt, rt) {
+        if let (Known(lv), Known(rv)) = (
+            left.as_pure_string(expr_ctx),
+            right.as_pure_string(expr_ctx),
+        ) {
+            // In JS, browsers parse \v differently. So do not compare strings if one
+            // contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            } else {
+                return Known(lv < rv);
+            }
+        }
+    }
+
+    // Then, try to evaluate based on the value of the node. Try comparing as
+    // numbers.
+    let (lv, rv) = (
+        try_val!(left.as_pure_number(expr_ctx)),
+        try_val!(right.as_pure_number(expr_ctx)),
+    );
+    if lv.is_nan() || rv.is_nan() {
+        return Known(will_negate);
+    }
+
+    Known(lv < rv)
+}
+
+/// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
+fn perform_abstract_eq_cmp(
+    expr_ctx: ExprCtx,
+    span: Span,
+    left: &Expr,
+    right: &Expr,
+) -> Value<bool> {
+    let (lt, rt) = (
+        try_val!(left.get_type(expr_ctx)),
+        try_val!(right.get_type(expr_ctx)),
+    );
+
+    if lt == rt {
+        return perform_strict_eq_cmp(expr_ctx, left, right);
+    }
+
+    match (lt, rt) {
+        (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
+        (NumberType, StringType) | (_, BoolType) => {
+            let rv = try_val!(right.as_pure_number(expr_ctx));
+            perform_abstract_eq_cmp(
+                expr_ctx,
+                span,
+                left,
+                &Lit::Num(Number {
+                    value: rv,
+                    span,
+                    raw: None,
+                })
+                .into(),
+            )
+        }
+
+        (StringType, NumberType) | (BoolType, _) => {
+            let lv = try_val!(left.as_pure_number(expr_ctx));
+            perform_abstract_eq_cmp(
+                expr_ctx,
+                span,
+                &Lit::Num(Number {
+                    value: lv,
+                    span,
+                    raw: None,
+                })
+                .into(),
+                right,
+            )
+        }
+
+        (StringType, ObjectType)
+        | (NumberType, ObjectType)
+        | (ObjectType, StringType)
+        | (ObjectType, NumberType) => Unknown,
+
+        _ => Known(false),
+    }
+}
+
+/// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
+fn perform_strict_eq_cmp(expr_ctx: ExprCtx, left: &Expr, right: &Expr) -> Value<bool> {
+    // Any strict equality comparison against NaN returns false.
+    if left.is_nan() || right.is_nan() {
+        return Known(false);
+    }
+    match (left, right) {
+        // Special case, typeof a == typeof a is always true.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.as_ident().is_some()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(true)
+        }
+        _ => {}
+    }
+
+    let (lt, rt) = (
+        try_val!(left.get_type(expr_ctx)),
+        try_val!(right.get_type(expr_ctx)),
+    );
+    // Strict equality can only be true for values of the same type.
+    if lt != rt {
+        return Known(false);
+    }
+
+    match lt {
+        UndefinedType | NullType => Known(true),
+        NumberType => Known(
+            try_val!(left.as_pure_number(expr_ctx)) == try_val!(right.as_pure_number(expr_ctx)),
+        ),
+        StringType => {
+            let (lv, rv) = (
+                try_val!(left.as_pure_string(expr_ctx)),
+                try_val!(right.as_pure_string(expr_ctx)),
+            );
+            // In JS, browsers parse \v differently. So do not consider strings
+            // equal if one contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            }
+            Known(lv == rv)
+        }
+        BoolType => {
+            let (lv, rv) = (left.as_pure_bool(expr_ctx), right.as_pure_bool(expr_ctx));
+
+            // lv && rv || !lv && !rv
+
+            lv.and(rv).or((!lv).and(!rv))
+        }
+        ObjectType | SymbolType => Unknown,
+    }
 }
