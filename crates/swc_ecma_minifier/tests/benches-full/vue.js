@@ -4330,7 +4330,7 @@
                 }
             }), root;
         }(template.trim(), options);
-        !1 !== options.optimize && ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, // first pass: mark all non-static nodes.
+        !1 === options.optimize || ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, // first pass: mark all non-static nodes.
         function markStatic$1(node) {
             if (node.static = 2 !== node.type && (3 === node.type || !!(node.pre || !node.hasBindings && // no dynamic bindings
             !node.if && !node.for && // not v-if or v-for or v-else

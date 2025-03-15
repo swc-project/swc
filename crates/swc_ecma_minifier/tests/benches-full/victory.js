@@ -28540,8 +28540,7 @@
             });
             /* harmony import */ var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ascending.js */ "../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function greatest(values, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
-                let max;
-                let defined = !1;
+                let max, defined = !1;
                 if (1 === compare.length) {
                     let maxValue;
                     for (const element of values){
@@ -28801,8 +28800,7 @@
             });
             /* harmony import */ var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ascending.js */ "../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function least(values, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
-                let min;
-                let defined = !1;
+                let min, defined = !1;
                 if (1 === compare.length) {
                     let minValue;
                     for (const element of values){
@@ -28851,8 +28849,7 @@
   \************************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function maxIndex(values, valueof) {
-                let max;
-                let maxIndex = -1, index = -1;
+                let max, maxIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 return maxIndex;
@@ -28923,8 +28920,7 @@
   \************************************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function minIndex(values, valueof) {
-                let min;
-                let minIndex = -1, index = -1;
+                let min, minIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 return minIndex;

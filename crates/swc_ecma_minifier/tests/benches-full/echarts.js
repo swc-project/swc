@@ -35161,7 +35161,7 @@
                         if (renderLabelForZeroData || !newNode || newNode.getValue() || // Not render data with value 0
                         (newNode = null), newNode !== virtualRoot && oldNode !== virtualRoot) {
                             if (oldNode && oldNode.piece) newNode ? (// Update
-                            oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : !!oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
+                            oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
                             else if (newNode) {
                                 // Add
                                 var piece = new SunburstPiece(newNode, seriesModel, ecModel, api);

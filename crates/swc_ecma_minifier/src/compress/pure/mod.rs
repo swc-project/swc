@@ -907,8 +907,6 @@ impl VisitMut for Pure<'_> {
 
         self.handle_stmt_likes(items);
 
-        items.retain(|s| !matches!(s, Stmt::Empty(..)));
-
         #[cfg(debug_assertions)]
         {
             items.visit_with(&mut AssertValid);

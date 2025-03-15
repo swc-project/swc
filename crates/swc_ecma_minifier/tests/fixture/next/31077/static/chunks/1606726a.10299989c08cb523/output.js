@@ -1219,8 +1219,8 @@
             // contentEditable.
             ViewTreeUpdater.prototype.addTextblockHacks = function() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
-                !(!lastChild || // Empty textblock
-                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
+                (!lastChild || // Empty textblock
+                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) && ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
             }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {

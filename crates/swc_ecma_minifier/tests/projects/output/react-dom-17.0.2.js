@@ -4166,7 +4166,7 @@
                             return;
                         }
                     }
-                    handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" !== domEventName || !(state = (node = targetNode)._wrapperState) || !state.controlled || "number" !== node.type || // If controlled, assign the value attribute to the current value on blur
+                    handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" !== domEventName || (state = (node = targetNode)._wrapperState) && state.controlled && "number" === node.type && // If controlled, assign the value attribute to the current value on blur
                     setDefaultValue(node, "number", node.value);
                 }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * This plugin creates an `onSelect` event that normalizes select events

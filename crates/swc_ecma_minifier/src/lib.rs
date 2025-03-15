@@ -200,25 +200,16 @@ pub fn optimize(
 
         n.visit_mut_with(&mut postcompress_optimizer(c));
 
-        let mut pass = 0;
-        loop {
-            pass += 1;
-
-            let mut v = pure_optimizer(
-                c,
-                marks,
-                PureOptimizerConfig {
-                    force_str_for_tpl: Minification.force_str_for_tpl(),
-                    enable_join_vars: true,
-                    #[cfg(feature = "debug")]
-                    debug_infinite_loop: false,
-                },
-            );
-            n.visit_mut_with(&mut v);
-            if !v.changed() || c.passes <= pass {
-                break;
-            }
-        }
+        n.visit_mut_with(&mut pure_optimizer(
+            c,
+            marks,
+            PureOptimizerConfig {
+                force_str_for_tpl: Minification.force_str_for_tpl(),
+                enable_join_vars: true,
+                #[cfg(feature = "debug")]
+                debug_infinite_loop: false,
+            },
+        ));
     }
 
     if let Some(ref mut _t) = timings {
