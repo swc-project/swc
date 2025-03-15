@@ -62,7 +62,7 @@ fn bench_real(c: &mut Criterion) {
     );
 
     let mut group = c.benchmark_group("es/minifier/real");
-    group.sample_size(3);
+    group.sample_size(10);
 
     let files = expand_dirs(&input_dir);
     let sources = files
