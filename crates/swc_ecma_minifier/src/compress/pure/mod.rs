@@ -178,11 +178,20 @@ impl Pure<'_> {
     }
 
     /// Visit `nodes`, maybe in parallel.
-    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
+    fn visit_par<N>(&mut self, nodes: &mut [N])
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
         self.maybe_par(cpu_count() * 2, nodes, |v, node| {
+            node.visit_mut_with(v);
+        });
+    }
+
+    fn visit_par_ref<N>(&mut self, nodes: &mut [&mut N])
+    where
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+    {
+        self.maybe_par(0, nodes, |v, node| {
             node.visit_mut_with(v);
         });
     }
@@ -204,8 +213,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
-        self.visit_mut_expr(&mut e.left);
-        self.visit_mut_expr(&mut e.right);
+        self.visit_par_ref(&mut [&mut *e.left, &mut *e.right]);
 
         self.compress_cmp_with_long_op(e);
 
