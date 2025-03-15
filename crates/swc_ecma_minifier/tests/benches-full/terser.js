@@ -66,14 +66,11 @@
         if (croak) {
             for(const i in ret)if (HOP(ret, i) && !HOP(defs, i)) throw new DefaultsError("`" + i + "` is not a supported option", defs);
         }
-        for(const i in defs)if (HOP(defs, i)) {
-            if (args && HOP(args, i)) {
-                if ("ecma" === i) {
-                    let ecma = 0 | args[i];
-                    ecma > 5 && ecma < 2015 && (ecma += 2009), ret[i] = ecma;
-                } else ret[i] = args && HOP(args, i) ? args[i] : defs[i];
-            } else ret[i] = defs[i];
-        }
+        for(const i in defs)if (HOP(defs, i)) if (args && HOP(args, i)) if ("ecma" === i) {
+            let ecma = 0 | args[i];
+            ecma > 5 && ecma < 2015 && (ecma += 2009), ret[i] = ecma;
+        } else ret[i] = args && HOP(args, i) ? args[i] : defs[i];
+        else ret[i] = defs[i];
         return ret;
     }
     function noop() {}
@@ -8750,24 +8747,22 @@
                             if ((!def || !(def.orig.length > 1)) && (args.unshift(make_node(AST_VarDef, sym, {
                                 name: sym,
                                 value: arg
-                            })), !names.has(sym.name))) {
-                                if (names.add(sym.name), sym instanceof AST_Expansion) {
-                                    var elements = iife.args.slice(i);
-                                    elements.every((arg)=>!has_overlapping_symbol(fn, arg, fn_strict)) && candidates.unshift([
-                                        make_node(AST_VarDef, sym, {
-                                            name: sym.expression,
-                                            value: make_node(AST_Array, iife, {
-                                                elements: elements
-                                            })
-                                        })
-                                    ]);
-                                } else arg ? (arg instanceof AST_Lambda && arg.pinned() || has_overlapping_symbol(fn, arg, fn_strict)) && (arg = null) : arg = make_node(AST_Undefined, sym).transform(compressor), arg && candidates.unshift([
+                            })), !names.has(sym.name))) if (names.add(sym.name), sym instanceof AST_Expansion) {
+                                var elements = iife.args.slice(i);
+                                elements.every((arg)=>!has_overlapping_symbol(fn, arg, fn_strict)) && candidates.unshift([
                                     make_node(AST_VarDef, sym, {
-                                        name: sym,
-                                        value: arg
+                                        name: sym.expression,
+                                        value: make_node(AST_Array, iife, {
+                                            elements: elements
+                                        })
                                     })
                                 ]);
-                            }
+                            } else arg ? (arg instanceof AST_Lambda && arg.pinned() || has_overlapping_symbol(fn, arg, fn_strict)) && (arg = null) : arg = make_node(AST_Undefined, sym).transform(compressor), arg && candidates.unshift([
+                                make_node(AST_VarDef, sym, {
+                                    name: sym,
+                                    value: arg
+                                })
+                            ]);
                         }
                     }
                 }();
@@ -9726,24 +9721,22 @@
             var orig = self1.condition;
             self1.condition = make_node_from_constant(cond, orig), self1.condition = best_of_expression(self1.condition.transform(compressor), orig);
         }
-        if (compressor.option("dead_code")) {
-            if (cond instanceof AST_Node && (cond = self1.condition.tail_node().evaluate(compressor)), cond) {
-                if (!(cond instanceof AST_Node)) {
-                    var body = [];
-                    return body.push(make_node(AST_SimpleStatement, self1.condition, {
-                        body: self1.condition
-                    })), body.push(self1.body), self1.alternative && trim_unreachable_code(compressor, self1.alternative, body), make_node(AST_BlockStatement, self1, {
-                        body: body
-                    }).optimize(compressor);
-                }
-            } else {
+        if (compressor.option("dead_code")) if (cond instanceof AST_Node && (cond = self1.condition.tail_node().evaluate(compressor)), cond) {
+            if (!(cond instanceof AST_Node)) {
                 var body = [];
-                return trim_unreachable_code(compressor, self1.body, body), body.push(make_node(AST_SimpleStatement, self1.condition, {
+                return body.push(make_node(AST_SimpleStatement, self1.condition, {
                     body: self1.condition
-                })), self1.alternative && body.push(self1.alternative), make_node(AST_BlockStatement, self1, {
+                })), body.push(self1.body), self1.alternative && trim_unreachable_code(compressor, self1.alternative, body), make_node(AST_BlockStatement, self1, {
                     body: body
                 }).optimize(compressor);
             }
+        } else {
+            var body = [];
+            return trim_unreachable_code(compressor, self1.body, body), body.push(make_node(AST_SimpleStatement, self1.condition, {
+                body: self1.condition
+            })), self1.alternative && body.push(self1.alternative), make_node(AST_BlockStatement, self1, {
+                body: body
+            }).optimize(compressor);
         }
         var negated = self1.condition.negate(compressor), self_condition_length = self1.condition.size(), negated_length = negated.size(), negated_is_best = negated_length < self_condition_length;
         if (self1.alternative && negated_is_best) {
@@ -10906,24 +10899,22 @@
                 let y, z, x_node, y_node, z_node = self1.left;
                 if ("&" === self1.operator && self1.right instanceof AST_Binary && "|" === self1.right.operator && "number" == typeof (z = self1.left.evaluate(compressor)) && ("number" == typeof (y = self1.right.right.evaluate(compressor)) ? (// z & (X | y)
                 x_node = self1.right.left, y_node = self1.right.right) : "number" == typeof (y = self1.right.left.evaluate(compressor)) && (// z & (y | X)
-                x_node = self1.right.right, y_node = self1.right.left), x_node && y_node)) {
-                    if ((y & z) == 0) self1 = make_node(AST_Binary, self1, {
-                        operator: self1.operator,
-                        left: z_node,
-                        right: x_node
+                x_node = self1.right.right, y_node = self1.right.left), x_node && y_node)) if ((y & z) == 0) self1 = make_node(AST_Binary, self1, {
+                    operator: self1.operator,
+                    left: z_node,
+                    right: x_node
+                });
+                else {
+                    const reordered_ops = make_node(AST_Binary, self1, {
+                        operator: "|",
+                        left: make_node(AST_Binary, self1, {
+                            operator: "&",
+                            left: x_node,
+                            right: z_node
+                        }),
+                        right: make_node_from_constant(y & z, y_node)
                     });
-                    else {
-                        const reordered_ops = make_node(AST_Binary, self1, {
-                            operator: "|",
-                            left: make_node(AST_Binary, self1, {
-                                operator: "&",
-                                left: x_node,
-                                right: z_node
-                            }),
-                            right: make_node_from_constant(y & z, y_node)
-                        });
-                        self1 = best_of(compressor, self1, reordered_ops);
-                    }
+                    self1 = best_of(compressor, self1, reordered_ops);
                 }
                 if (self1.left.equivalent_to(self1.right) && !self1.left.has_side_effects(compressor)) {
                     if ("^" === self1.operator) return make_node(AST_Number, self1, {
@@ -11411,12 +11402,10 @@
         if (compressor.option("properties")) {
             var key = prop.evaluate(compressor);
             if (key !== prop) {
-                if ("string" == typeof key) {
-                    if ("undefined" == key) key = void 0;
-                    else {
-                        var value = parseFloat(key);
-                        value.toString() == key && (key = value);
-                    }
+                if ("string" == typeof key) if ("undefined" == key) key = void 0;
+                else {
+                    var value = parseFloat(key);
+                    value.toString() == key && (key = value);
                 }
                 prop = self1.property = best_of_expression(prop, make_node_from_constant(key, prop).transform(compressor));
                 var property = "" + key;
@@ -20178,25 +20167,23 @@
             }
             delete format_options.ast, delete format_options.code, delete format_options.spidermonkey;
             var stream = OutputStream(format_options);
-            if (toplevel.print(stream), result.code = stream.get(), options.sourceMap) {
-                if (Object.defineProperty(result, "map", {
-                    configurable: !0,
-                    enumerable: !0,
-                    get () {
-                        const map = format_options.source_map.getEncoded();
-                        return result.map = options.sourceMap.asObject ? map : JSON.stringify(map);
-                    },
-                    set (value) {
-                        Object.defineProperty(result, "map", {
-                            value,
-                            writable: !0
-                        });
-                    }
-                }), result.decoded_map = format_options.source_map.getDecoded(), "inline" == options.sourceMap.url) {
-                    var sourceMap1 = "object" == typeof result.map ? JSON.stringify(result.map) : result.map;
-                    result.code += "\n//# sourceMappingURL=data:application/json;charset=utf-8;base64," + to_base64(sourceMap1);
-                } else options.sourceMap.url && (result.code += "\n//# sourceMappingURL=" + options.sourceMap.url);
-            }
+            if (toplevel.print(stream), result.code = stream.get(), options.sourceMap) if (Object.defineProperty(result, "map", {
+                configurable: !0,
+                enumerable: !0,
+                get () {
+                    const map = format_options.source_map.getEncoded();
+                    return result.map = options.sourceMap.asObject ? map : JSON.stringify(map);
+                },
+                set (value) {
+                    Object.defineProperty(result, "map", {
+                        value,
+                        writable: !0
+                    });
+                }
+            }), result.decoded_map = format_options.source_map.getDecoded(), "inline" == options.sourceMap.url) {
+                var sourceMap1 = "object" == typeof result.map ? JSON.stringify(result.map) : result.map;
+                result.code += "\n//# sourceMappingURL=data:application/json;charset=utf-8;base64," + to_base64(sourceMap1);
+            } else options.sourceMap.url && (result.code += "\n//# sourceMappingURL=" + options.sourceMap.url);
         }
         return options.nameCache && options.mangle && (options.mangle.cache && (options.nameCache.vars = cache_to_json(options.mangle.cache)), options.mangle.properties && options.mangle.properties.cache && (options.nameCache.props = cache_to_json(options.mangle.properties.cache))), format_options && format_options.source_map && format_options.source_map.destroy(), timings && (timings.end = Date.now(), result.timings = {
             parse: 1e-3 * (timings.rename - timings.parse),

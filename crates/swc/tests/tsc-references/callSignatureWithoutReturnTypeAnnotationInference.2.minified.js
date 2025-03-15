@@ -6,7 +6,11 @@ function m1() {
 }
 !function foo3() {
     return foo3();
-}(), _type_of(1), (M = M1 || (M1 = {})).x = 1, M.C = function C() {
+}(), function(x) {
+    try {} catch (e) {
+        return [];
+    } finally{}
+}(0), _type_of(1), (M = M1 || (M1 = {})).x = 1, M.C = function C() {
     _class_call_check(this, C);
 }, (m1 || (m1 = {})).y = 2;
 var e1, M, M1, c1 = function c1(x) {

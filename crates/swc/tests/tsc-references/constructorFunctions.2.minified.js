@@ -17,7 +17,7 @@ C2(), new C2(), C3(), new C3();
 var C4 = function() {
     if (!_instanceof(this, C4)) return new C4();
 };
-C4(), new C4(), new function c5_v2() {
+C4(), new C4(), new function() {}(), new function c5_v2() {
     _class_call_check(this, c5_v2);
 }(), new function() {
     this.functions = [
@@ -31,4 +31,4 @@ C4(), new C4(), new function c5_v2() {
             return x - 1;
         }
     ];
-}();
+}(), new function(num) {}();

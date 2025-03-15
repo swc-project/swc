@@ -9,7 +9,7 @@ for((M = M1 || (M1 = {})).A = function A() {
     return x.toString();
 };;);
 for(;;);
-for(;;);
+for(new Date(12);;);
 for(;;);
 for(;;);
 for(;;);

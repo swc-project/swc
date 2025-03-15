@@ -1,2 +1,7 @@
-foo, bar, fall, baz;
-qux();
+switch(foo){
+    case bar:
+    case fall:
+    case baz:
+    default:
+        qux();
+}

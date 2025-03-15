@@ -1,1 +1,4 @@
-"bar" === foo || other();
+if ("bar" === foo) ;
+else {
+    other();
+}

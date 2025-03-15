@@ -2154,15 +2154,13 @@
                             return t < 10 ? "0" + t.toString(10) : t.toString(10);
                         }
                         e.debuglog = function(t) {
-                            if (!a[t = t.toUpperCase()]) {
-                                if (p.test(t)) {
-                                    var r = n.pid;
-                                    a[t] = function() {
-                                        var o = e.format.apply(e, arguments);
-                                        console.error("%s %d: %s", t, r, o);
-                                    };
-                                } else a[t] = function() {};
-                            }
+                            if (!a[t = t.toUpperCase()]) if (p.test(t)) {
+                                var r = n.pid;
+                                a[t] = function() {
+                                    var o = e.format.apply(e, arguments);
+                                    console.error("%s %d: %s", t, r, o);
+                                };
+                            } else a[t] = function() {};
                             return a[t];
                         }, e.inspect = u, u.colors = {
                             bold: [

@@ -1,2 +1,5 @@
 if (1 === bar) bar();
-else other();
+else {
+    1;
+    other();
+}

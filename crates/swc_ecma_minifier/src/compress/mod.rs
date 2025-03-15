@@ -8,9 +8,7 @@ use std::{borrow::Cow, time::Instant};
 use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::simplify::{
-    dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
-};
+use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
@@ -249,40 +247,6 @@ impl Compressor<'_> {
 
             // let done = dump(&*n);
             // debug!("===== Result =====\n{}", done);
-        }
-
-        if self.options.conditionals || self.options.dead_code {
-            #[cfg(feature = "debug")]
-            let start = dump(&*n, false);
-
-            let start_time = now();
-
-            let mut v = dead_branch_remover(self.marks.unresolved_mark);
-            n.visit_mut_with(&mut v);
-
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                tracing::info!(
-                    "compress: dead_branch_remover took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
-
-            #[cfg(feature = "debug")]
-            {
-                let simplified = dump(&*n, false);
-
-                if start != simplified {
-                    debug!(
-                        "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
-                        start, simplified
-                    );
-                }
-            }
-
-            self.changed |= v.changed();
         }
     }
 }

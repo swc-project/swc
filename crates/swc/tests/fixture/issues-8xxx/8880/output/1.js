@@ -10,7 +10,7 @@ function a(module, exports, farmRequire, farmDynamicRequire) {
     farmRequire("15d5169f");
     (0, _dep734fea04.c)(function(module, exports) {
         var e__1, e__3, t, d;
-        e__1 = _dep734fea04.a, module.exports = (t = (e__3 = _dayjs.default) && "object" == (0, _typeof.default)(e__3) && "default" in e__3 ? e__3 : {
+        e__1 = _dep734fea04.a, void (module.exports = (t = (e__3 = _dayjs.default) && "object" == (0, _typeof.default)(e__3) && "default" in e__3 ? e__3 : {
             default: e__3
         }, d = {
             name: "zh-cn",
@@ -55,6 +55,6 @@ function a(module, exports, farmRequire, farmDynamicRequire) {
                 var t = 100 * e + _;
                 return t < 600 ? "凌晨" : t < 900 ? "早上" : t < 1100 ? "上午" : t < 1300 ? "中午" : t < 1800 ? "下午" : "晚上";
             }
-        }, t["default"].locale(d, null, !0), d);
+        }, t["default"].locale(d, null, !0), d));
     });
 }

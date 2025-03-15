@@ -540,16 +540,14 @@
             var parts, curOption, i, options = key;
             if (0 == arguments.length) // don't return a reference to the internal hash
             return jQuery.widget.extend({}, this.options);
-            if ("string" == typeof key) {
-                if (// handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
-                options = {}, key = (parts = key.split(".")).shift(), parts.length) {
-                    for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
-                    if (key = parts.pop(), undefined2 === value) return curOption[key] === undefined2 ? null : curOption[key];
-                    curOption[key] = value;
-                } else {
-                    if (undefined2 === value) return this.options[key] === undefined2 ? null : this.options[key];
-                    options[key] = value;
-                }
+            if ("string" == typeof key) if (// handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
+            options = {}, key = (parts = key.split(".")).shift(), parts.length) {
+                for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
+                if (key = parts.pop(), undefined2 === value) return curOption[key] === undefined2 ? null : curOption[key];
+                curOption[key] = value;
+            } else {
+                if (undefined2 === value) return this.options[key] === undefined2 ? null : this.options[key];
+                options[key] = value;
             }
             return this._setOptions(options), this;
         },
@@ -2038,7 +2036,7 @@
         // be needed, as jQuery.event.special.orientationchange.orientation()
         $.event.special.orientationchange.orientation = get_orientation = function() {
             var isPortrait = !0, elem = document1.documentElement;
-            return ($.support.orientation ? portrait_map[window.orientation] : elem && elem.clientWidth / elem.clientHeight < 1.1) ? "portrait" : "landscape";
+            return (0, $.support.orientation ? portrait_map[window.orientation] : elem && elem.clientWidth / elem.clientHeight < 1.1) ? "portrait" : "landscape";
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
@@ -2832,15 +2830,13 @@
                         //            the current value of the base tag is at the time this code
                         //            is called. For now we are just assuming that any url with a
                         //            hash in it is an application page reference.
-                        if (-1 !== href.search("#")) {
-                            if (href = href.replace(/[^#]*#/, "")) //we have apath so make it the href we want to load.
-                            href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
-                            else {
-                                //link was an empty hash meant purely
-                                //for interaction, so we ignore it.
-                                event1.preventDefault();
-                                return;
-                            }
+                        if (-1 !== href.search("#")) if (href = href.replace(/[^#]*#/, "")) //we have apath so make it the href we want to load.
+                        href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
+                        else {
+                            //link was an empty hash meant purely
+                            //for interaction, so we ignore it.
+                            event1.preventDefault();
+                            return;
                         }
                         if ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $.mobile.path.isExternal(href) && !$.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) {
                             httpCleanup();
@@ -3287,10 +3283,8 @@
                 c: 4,
                 d: 5
             }, grid = o.grid;
-            if (!grid) {
-                if ($kids.length <= 5) for(letter in gridCols)gridCols[letter] === $kids.length && (grid = letter);
-                else grid = "a", $this.addClass("ui-grid-duo");
-            }
+            if (!grid) if ($kids.length <= 5) for(letter in gridCols)gridCols[letter] === $kids.length && (grid = letter);
+            else grid = "a", $this.addClass("ui-grid-duo");
             iterator = gridCols[grid], $this.addClass("ui-grid-" + grid), $kids.filter(":nth-child(" + iterator + "n+1)").addClass("ui-block-a"), iterator > 1 && $kids.filter(":nth-child(" + iterator + "n+2)").addClass("ui-block-b"), iterator > 2 && $kids.filter(":nth-child(" + iterator + "n+3)").addClass("ui-block-c"), iterator > 3 && $kids.filter(":nth-child(" + iterator + "n+4)").addClass("ui-block-d"), iterator > 4 && $kids.filter(":nth-child(" + iterator + "n+5)").addClass("ui-block-e");
         });
     }, function($, undefined) {
@@ -4397,7 +4391,7 @@
     }, function($, undefined) {
         function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
             var returnValue = desired;
-            return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
+            return 0, windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
         }
         function getWindowCoordinates(theWindow) {
             return {
@@ -4645,16 +4639,14 @@
             _desiredCoords: function(openOptions) {
                 var offset, dst = null, windowCoordinates = getWindowCoordinates(this.window), x = openOptions.x, y = openOptions.y, pTo = openOptions.positionTo;
                 // Establish which element will serve as the reference
-                if (pTo && "origin" !== pTo) {
-                    if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
-                    else {
-                        try {
-                            dst = $(pTo);
-                        } catch (err) {
-                            dst = null;
-                        }
-                        dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
+                if (pTo && "origin" !== pTo) if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
+                else {
+                    try {
+                        dst = $(pTo);
+                    } catch (err) {
+                        dst = null;
                     }
+                    dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
                 }
                 return dst && (x = (offset = dst.offset()).left + dst.outerWidth() / 2, y = offset.top + dst.outerHeight() / 2), ("number" !== $.type(x) || isNaN(x)) && (x = windowCoordinates.cx / 2 + windowCoordinates.x), ("number" !== $.type(y) || isNaN(y)) && (y = windowCoordinates.cy / 2 + windowCoordinates.y), {
                     x: x,

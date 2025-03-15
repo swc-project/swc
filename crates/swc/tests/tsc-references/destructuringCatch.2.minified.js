@@ -30,3 +30,6 @@ try {
     var _param_ = _sliced_to_array(param, 1)[0];
     _sliced_to_array(_param_.x, 1)[0], _param_.z;
 }
+try {} catch (param) {
+    _sliced_to_array(param, 1)[0];
+}

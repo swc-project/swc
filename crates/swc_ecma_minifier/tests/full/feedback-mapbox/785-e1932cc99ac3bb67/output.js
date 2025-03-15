@@ -21,7 +21,7 @@
                  * @param {Object} obj
                  * @param {Function} iterator
                  * @param {Object} context
-                 */function g(t,e,n){var r;if(t){if(t.forEach)t.forEach(e,n);else if(t.length!==s)for(r=0;r<t.length;)e.call(n,t[r],r,t),r++;else for(r in t)t.hasOwnProperty(r)&&e.call(n,t[r],r,t)}}/**
+                 */function g(t,e,n){var r;if(t)if(t.forEach)t.forEach(e,n);else if(t.length!==s)for(r=0;r<t.length;)e.call(n,t[r],r,t),r++;else for(r in t)t.hasOwnProperty(r)&&e.call(n,t[r],r,t)}/**
                  * wrap a method with a deprecation warning and stack trace
                  * @param {Function} method
                  * @param {String} name

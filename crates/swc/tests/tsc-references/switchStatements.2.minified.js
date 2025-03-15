@@ -42,3 +42,4 @@ switch(new C()){
     }:
     case new C():
 }
+new Date(12);
