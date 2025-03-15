@@ -15,7 +15,7 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 
-pub fn bench_files(c: &mut Criterion) {
+pub fn bench_libs(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/minifier/libs");
     group.sample_size(10);
 
@@ -45,7 +45,7 @@ pub fn bench_files(c: &mut Criterion) {
     bench_file("vue");
 }
 
-criterion_group!(files, bench_files);
+criterion_group!(files, bench_libs);
 criterion_main!(files);
 
 fn run(src: &str) {
