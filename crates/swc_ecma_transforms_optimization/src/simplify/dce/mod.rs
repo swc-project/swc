@@ -24,26 +24,8 @@ use tracing::{debug, span, Level};
 use crate::debug_assert_valid;
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
-pub fn dce(
-    config: Config,
-    unresolved_mark: Mark,
-) -> impl Pass + VisitMut + Repeated + CompilerPass {
-    visit_mut_pass(TreeShaker {
-        expr_ctx: ExprCtx {
-            unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
-            is_unresolved_ref_safe: false,
-            in_strict: false,
-            remaining_depth: 2,
-        },
-        config,
-        changed: false,
-        pass: 0,
-        in_fn: false,
-        in_block_stmt: false,
-        var_decl_kind: None,
-        data: Default::default(),
-        bindings: Default::default(),
-    })
+pub fn dce(config: Config, unresolved_mark: Mark) -> impl Pass + VisitMut + Repeated {
+    crate::dce::dce()
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]

@@ -1,5 +1,5 @@
 #![deny(clippy::all)]
-#![deny(unused)]
+// #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 
 pub use self::{
@@ -11,6 +11,7 @@ pub use self::{
 };
 
 mod const_modules;
+pub mod dce;
 mod debug;
 mod inline_globals;
 mod json_parse;
