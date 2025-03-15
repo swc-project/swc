@@ -74,25 +74,33 @@ impl NoParamReassign {
                     .unwrap()
                     .insert(id.to_id());
             }
-            Pat::Object(ObjectPat { props, .. }) => props.iter().for_each(|prop| {
-                match prop {
-                    ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        self.scoped_params
-                            .get_mut(self.scopes.last().unwrap())
-                            .unwrap()
-                            .insert(key.to_id());
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
+                props.iter().for_each(|prop| {
+                    match prop {
+                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                            self.scoped_params
+                                .get_mut(self.scopes.last().unwrap())
+                                .unwrap()
+                                .insert(key.to_id());
+                        }
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
+                            self.collect_function_params(value.as_ref());
+                        }
+                        _ => {}
+                    };
+                });
+            }
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
+
+                elems.iter().for_each(|elem| {
+                    if let Some(elem) = elem {
+                        self.collect_function_params(elem);
                     }
-                    ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
-                        self.collect_function_params(value.as_ref());
-                    }
-                    _ => {}
-                };
-            }),
-            Pat::Array(ArrayPat { elems, .. }) => elems.iter().for_each(|elem| {
-                if let Some(elem) = elem {
-                    self.collect_function_params(elem);
-                }
-            }),
+                });
+            }
             _ => {}
         }
     }

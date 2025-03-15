@@ -96,14 +96,18 @@ impl NoLoopFunc {
                     .unwrap()
                     .insert(ident.to_id());
             }
-            Pat::Array(ArrayPat { elems, .. }) => {
+            Pat::Array(arr) => {
+                let ArrayPat { elems, .. } = &**arr;
+
                 elems.iter().for_each(|elem| {
                     if let Some(elem) = elem {
                         self.extract_vars(elem);
                     }
                 });
             }
-            Pat::Object(ObjectPat { props, .. }) => {
+            Pat::Object(obj) => {
+                let ObjectPat { props, .. } = &**obj;
+
                 props.iter().for_each(|prop| match prop {
                     ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
                         self.scoped_unsafe_vars

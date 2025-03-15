@@ -1462,9 +1462,9 @@ impl TryFrom<Box<Expr>> for AssignTarget {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum AssignTargetPat {
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
     #[tag("Invalid")]
     Invalid(Invalid),
 }
@@ -1593,6 +1593,10 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsSatisfiesExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 
+bridge_from!(AssignTarget, AssignTargetPat, Box<ArrayPat>);
+bridge_from!(AssignTarget, AssignTargetPat, Box<ObjectPat>);
+bridge_from!(AssignTargetPat, Box<ArrayPat>, ArrayPat);
+bridge_from!(AssignTargetPat, Box<ObjectPat>, ObjectPat);
 bridge_from!(AssignTarget, AssignTargetPat, ArrayPat);
 bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 

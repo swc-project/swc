@@ -1188,7 +1188,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,
-            name: Pat::Object(ObjectPat {
+            name: Pat::Object(Box::new(ObjectPat {
                 span: DUMMY_SP,
                 props: imports
                     .into_iter()
@@ -1209,7 +1209,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                     .collect(),
                 optional: false,
                 type_ann: None,
-            }),
+            })),
             // require('react')
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,

@@ -468,13 +468,13 @@ pub enum TsFnParam {
     Ident(BindingIdent),
 
     #[tag("ArrayPattern")]
-    Array(ArrayPat),
+    Array(Box<ArrayPat>),
 
     #[tag("RestElement")]
     Rest(RestPat),
 
     #[tag("ObjectPattern")]
-    Object(ObjectPat),
+    Object(Box<ObjectPat>),
 }
 
 #[ast_node("TsFunctionType")]
