@@ -5,7 +5,25 @@
 
 
 
+- **(es/ast)** Fix Typo in API ([#10210](https://github.com/swc-project/swc/issues/10210)) ([8eb87ba](https://github.com/swc-project/swc/commit/8eb87ba89698f5d8ce2ade37737ae3e285f1235c))
+
+
+- **(es/minifier)** Do not drop numbers incorrectly ([#10211](https://github.com/swc-project/swc/issues/10211)) ([80ccd86](https://github.com/swc-project/swc/commit/80ccd861a280c133f48e6fe01e80814da8f03cc4))
+
+
 - **(es/types)** Add missing types for `jsc.transform.react.refresh` ([#10206](https://github.com/swc-project/swc/issues/10206)) ([e71b000](https://github.com/swc-project/swc/commit/e71b000392a01ecb5a35ec8f0faac9cd79ff2cd1))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Make `test.sh` faster ([#10209](https://github.com/swc-project/swc/issues/10209)) ([f28d96e](https://github.com/swc-project/swc/commit/f28d96e356d07d9d2bdb68815a0736b380b53e93))
+
+### Refactor
+
+
+
+- **(es/minifier)** Move some deps to dev deps ([#10216](https://github.com/swc-project/swc/issues/10216)) ([1dcdbbc](https://github.com/swc-project/swc/commit/1dcdbbc78d64f6eb52f320f50b3928e9f185bf6f))
 
 ### Testing
 
@@ -15,6 +33,12 @@
 
 
 - **(es/minifier)** Test only sizes for large inputs ([#10208](https://github.com/swc-project/swc/issues/10208)) ([bec3e3e](https://github.com/swc-project/swc/commit/bec3e3e960a7afe2f82b389bb8d9b0162d69e2b6))
+
+
+- **(es/minifier)** Add full tests back ([#10212](https://github.com/swc-project/swc/issues/10212)) ([e6c04b4](https://github.com/swc-project/swc/commit/e6c04b4f58ee6d7a7fca6bace5fa1ec959551873))
+
+
+- **(es/minifier)** Remove `full` tests with too large input ([#10213](https://github.com/swc-project/swc/issues/10213)) ([99b590f](https://github.com/swc-project/swc/commit/99b590f869f950373bc784e9080a5321a5e96d1c))
 
 ## [swc_core@v16.6.0] - 2025-03-15
 
@@ -1550,9 +1574,6 @@
 - **(ast)** Add `archive(check_bytes)` to all relevant AST types ([#9574](https://github.com/swc-project/swc/issues/9574)) ([185d6f5](https://github.com/swc-project/swc/commit/185d6f55b35f4f8323035c1199cddb9dd547f254))
 
 
-- **(bindings/types)** Add missing mangle options ([#9298](https://github.com/swc-project/swc/issues/9298)) ([567f40d](https://github.com/swc-project/swc/commit/567f40d7973f25d554770d0138323f6dcfeb67c4))
-
-
 - **(bindings/wasm)** Fix typing ([#9469](https://github.com/swc-project/swc/issues/9469)) ([8c007c4](https://github.com/swc-project/swc/commit/8c007c402f73c0839e45066eaa8a01b98edf2f94))
 
 
@@ -1695,9 +1716,6 @@
 
 
 - **(es/parser)** Fix failure of TS instantiation followed by satisfies ([#9583](https://github.com/swc-project/swc/issues/9583)) ([77900d8](https://github.com/swc-project/swc/commit/77900d808e2a3be2e62b74022c88a81b26a73f86))
-
-
-- **(es/typescript)** Fix typings ([#9301](https://github.com/swc-project/swc/issues/9301)) ([27ca712](https://github.com/swc-project/swc/commit/27ca712812421ce7cef7770b1dde790080ce09ea))
 
 
 - **(es/typescript)** Preserve type assertions ([#9328](https://github.com/swc-project/swc/issues/9328)) ([4d60f52](https://github.com/swc-project/swc/commit/4d60f528d1e7f3a1606cb2c288786491dbafbd5b))
@@ -1902,9 +1920,6 @@
 
 
 - **(es/utils)** Rewrite inject_after_super ([#9496](https://github.com/swc-project/swc/issues/9496)) ([c562cfa](https://github.com/swc-project/swc/commit/c562cfa8af1163a4946ef79cb025d461c7e2e5e0))
-
-
-- **(visit)** Add `#[inline]` ([#9302](https://github.com/swc-project/swc/issues/9302)) ([0b3dbb8](https://github.com/swc-project/swc/commit/0b3dbb893752952a0bc7ffc5ba9801291c65f019))
 
 
 - **(visit)** Add linear AST traversal ([#9452](https://github.com/swc-project/swc/issues/9452)) ([911d4ea](https://github.com/swc-project/swc/commit/911d4eaa146ff493636308a3cebd8b21d941bfde))

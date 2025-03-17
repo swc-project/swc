@@ -4810,7 +4810,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.6.0"
+version = "16.6.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5058,7 +5058,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "8.0.0"
+version = "8.0.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5149,7 +5149,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "11.0.0"
+version = "11.0.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -5396,7 +5396,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.1.0"
+version = "12.1.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5685,7 +5685,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "11.0.1"
+version = "11.0.2"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.7.1",
