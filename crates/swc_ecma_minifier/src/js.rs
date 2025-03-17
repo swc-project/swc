@@ -199,7 +199,7 @@ impl Default for JsMinifyFormatOptions {
 }
 
 fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {
-    BoolOrDataConfig::from_obj(JsMinifyCommentOption::PreserveSomeComments)
+    BoolOrDataConfig::from_bool(false)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
