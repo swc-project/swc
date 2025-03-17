@@ -10,7 +10,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
-use tracing::{debug, span, Level};
+use tracing::{span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use super::util::is_pure_undefined_or_null;
