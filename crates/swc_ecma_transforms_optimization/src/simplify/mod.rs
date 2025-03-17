@@ -7,13 +7,13 @@ use swc_ecma_ast::Pass;
 
 pub use self::{
     branch::dead_branch_remover,
-    expr::{expr_simplifier, optimize_bin_expr, Config as ExprSimplifierConfig},
+    expr::{expr_simplifier, Config as ExprSimplifierConfig},
 };
 
 mod branch;
 pub mod const_propagation;
 pub mod dce;
-mod expr;
+pub mod expr;
 pub mod inlining;
 
 #[derive(Debug, Default)]
