@@ -721,7 +721,7 @@ fn test_optimize_switch_with_labelless_break() {
             "  case 'x': let x = 2; break;",
             "}",
         ),
-        concat!("let x = 1;", "{let x = 2}"),
+        concat!("let x = 1;", "let x1 = 2"),
     );
 }
 
