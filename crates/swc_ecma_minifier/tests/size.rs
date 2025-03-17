@@ -1,8 +1,13 @@
-use std::{fmt::Write, path::PathBuf};
+use std::{
+    fmt::Write,
+    path::{Path, PathBuf},
+};
 
 use flate2::{write::GzEncoder, Compression};
 use humansize::format_size;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
+use indexmap::IndexMap;
+use rustc_hash::FxBuildHasher;
+use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap, GLOBALS};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -10,7 +15,9 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::parse_file_as_program;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
+use swc_ecma_utils::parallel::{Parallel, ParallelExt};
 use testing::NormalizedOutput;
+use walkdir::WalkDir;
 
 struct FileSize {
     size: usize,
@@ -21,19 +28,26 @@ struct FileSize {
 fn bench_libs() {
     let dir = PathBuf::from("benches/full");
 
+    let files = expand_dirs(&dir);
+
+    let result = calc_size_par(&files);
+    let output = format_result(result);
+
+    NormalizedOutput::from(output)
+        .compare_to_file("tests/libs-size.snapshot.md")
+        .unwrap();
+}
+
+fn format_result(mut result: IndexMap<String, FileSize, FxBuildHasher>) -> String {
     let mut output = String::new();
-    // Create a markdown table
+
+    // Sort by file name
+    result.sort_by_cached_key(|file_name, _| file_name.clone());
 
     writeln!(output, "| File | Size | Gzipped Size |").unwrap();
     writeln!(output, "| --- | --- | --- |").unwrap();
 
-    for entry in dir.read_dir().unwrap() {
-        let entry = entry.unwrap();
-        let path = entry.path();
-        let file_name = path.file_name().unwrap().to_str().unwrap();
-        let src = std::fs::read_to_string(&path).unwrap();
-        let file_size = run(&src);
-
+    for (file_name, file_size) in result {
         writeln!(
             output,
             "| {} | {} | {} |",
@@ -44,9 +58,56 @@ fn bench_libs() {
         .unwrap();
     }
 
-    NormalizedOutput::from(output)
-        .compare_to_file("tests/libs-size.snapshot.md")
-        .unwrap();
+    output
+}
+
+fn calc_size_par(files: &[PathBuf]) -> IndexMap<String, FileSize, FxBuildHasher> {
+    GLOBALS.set(&Default::default(), || {
+        let mut worker = Worker::default();
+
+        worker.maybe_par(0, files, |worker, path| {
+            let file_name = path.file_name().unwrap().to_str().unwrap();
+            let src = std::fs::read_to_string(path).unwrap();
+            let file_size = run(&src);
+
+            worker.result.insert(file_name.to_string(), file_size);
+        });
+
+        worker.result
+    })
+}
+
+/// Return the whole input files as abolute path.
+fn expand_dirs(dir: &Path) -> Vec<PathBuf> {
+    WalkDir::new(dir)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter_map(|entry| {
+            if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
+                Some(entry.into_path())
+            } else {
+                None
+            }
+        })
+        .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
+        .collect::<Vec<_>>()
+}
+
+#[derive(Default)]
+struct Worker {
+    result: IndexMap<String, FileSize, FxBuildHasher>,
+}
+
+impl Parallel for Worker {
+    fn create(&self) -> Self {
+        Worker {
+            ..Default::default()
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.result.extend(other.result);
+    }
 }
 
 fn run(src: &str) -> FileSize {
