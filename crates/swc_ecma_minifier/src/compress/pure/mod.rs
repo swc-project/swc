@@ -294,6 +294,8 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
+        self.simplify_assign_expr(e);
+
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
                 span,

@@ -10,6 +10,30 @@ use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt}
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    pub(super) fn simplify_assign_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: AssignTarget::Simple(l),
+                right: r,
+                ..
+            }) if match &*l {
+                SimpleAssignTarget::Ident(l) => match &**r {
+                    Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
+                    _ => false,
+                },
+                _ => false,
+            } =>
+            {
+                report_change!("Dropping assignment to the same variable");
+                self.changed = true;
+                *e = r.take().ident().unwrap().into();
+            }
+
+            _ => {}
+        }
+    }
+
     ///
     ///  - Removes `L1: break L1`
     pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
