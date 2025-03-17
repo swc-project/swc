@@ -996,13 +996,22 @@ fn optimize_loop_body(stmt: Stmt) -> Stmt {
     .into()
 }
 
-fn prepare_loop_body_for_inlining(stmt: Stmt) -> Stmt {
-    match stmt {
-        Stmt::Block(..) => stmt,
-        _ => Stmt::Block(BlockStmt {
-            stmts: vec![stmt],
+fn process_body_before_removing_loop(body: Stmt) -> Stmt {
+    let mut stmts = match body {
+        Stmt::Block(BlockStmt { stmts, .. }) => remove_break(stmts, true),
+        _ => remove_break(vec![body], true),
+    };
+
+    if stmts.is_empty() {
+        EmptyStmt { span: DUMMY_SP }.into()
+    } else if stmts.len() == 1 {
+        stmts.remove(0)
+    } else {
+        BlockStmt {
+            stmts,
             ..Default::default()
-        }),
+        }
+        .into()
     }
 }
 
@@ -1424,7 +1433,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
                         debug!("Switch -> Block as default is the only case");
                     }
 
-                    let mut stmts = remove_break(s.cases.remove(0).cons);
+                    let mut stmts = remove_break(s.cases.remove(0).cons, false);
                     if let Some(expr) = ignore_result(s.discriminant, true, expr_ctx) {
                         prepend_stmt(&mut stmts, expr.into_stmt());
                     }
@@ -1521,7 +1530,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
                             }
                         }
 
-                        let mut stmts = remove_break(stmts);
+                        let mut stmts = remove_break(stmts, false);
 
                         decls.extend(
                             cases
@@ -1607,7 +1616,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
 
                             if !has_conditional_stopper(&s.cases[i].cons) {
                                 let stmts = s.cases.remove(i).cons;
-                                let mut stmts = remove_break(stmts);
+                                let mut stmts = remove_break(stmts, false);
 
                                 if !vars.is_empty() {
                                     prepend_stmt(
@@ -1731,7 +1740,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
                         );
 
                         let stmts = s.cases.pop().unwrap().cons;
-                        let mut stmts = remove_break(stmts);
+                        let mut stmts = remove_break(stmts, false);
 
                         if !exprs.is_empty() {
                             prepend_stmt(
@@ -1904,7 +1913,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
                         }
                         .into()
                     } else {
-                        let mut body = prepare_loop_body_for_inlining(*s.body);
+                        let mut body = process_body_before_removing_loop(*s.body);
                         reoptimize_stmt(&mut body, expr_ctx, changed);
 
                         if let Some(test) = ignore_result(s.test, true, expr_ctx) {
@@ -2199,8 +2208,12 @@ pub fn optimize_stmt_likes<T>(
     *stmts = new_stmts
 }
 
-fn remove_break(stmts: Vec<Stmt>) -> Vec<Stmt> {
-    fn remove_break_inner(stmts: Vec<Stmt>, done: &mut bool) -> Vec<Stmt> {
+fn remove_break(stmts: Vec<Stmt>, is_for_removing_loop: bool) -> Vec<Stmt> {
+    fn remove_break_inner(
+        stmts: Vec<Stmt>,
+        is_for_removing_loop: bool,
+        done: &mut bool,
+    ) -> Vec<Stmt> {
         stmts.move_flat_map(|s| {
             if *done {
                 match s {
@@ -2235,13 +2248,23 @@ fn remove_break(stmts: Vec<Stmt>) -> Vec<Stmt> {
                     *done = true;
                     None
                 }
+
+                Stmt::Continue(ContinueStmt { label: None, .. }) => {
+                    if is_for_removing_loop {
+                        *done = true;
+                        None
+                    } else {
+                        Some(s)
+                    }
+                }
+
                 Stmt::Return(..) | Stmt::Throw(..) => {
                     *done = true;
                     Some(s)
                 }
 
                 Stmt::Block(block) => {
-                    let stmts = remove_break_inner(block.stmts, done);
+                    let stmts = remove_break_inner(block.stmts, is_for_removing_loop, done);
 
                     if stmts.is_empty() {
                         return None;
@@ -2251,7 +2274,7 @@ fn remove_break(stmts: Vec<Stmt>) -> Vec<Stmt> {
                 }
 
                 Stmt::Labeled(l) => {
-                    let mut body = remove_break_inner(vec![*l.body], done);
+                    let mut body = remove_break_inner(vec![*l.body], is_for_removing_loop, done);
 
                     if body.is_empty() {
                         return None;
@@ -2277,5 +2300,5 @@ fn remove_break(stmts: Vec<Stmt>) -> Vec<Stmt> {
     debug_assert!(!has_conditional_stopper(&stmts) || has_unconditional_stopper(&stmts));
 
     let mut done = false;
-    remove_break_inner(stmts, &mut done)
+    remove_break_inner(stmts, is_for_removing_loop, &mut done)
 }
