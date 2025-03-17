@@ -1,8 +1,8 @@
-use std::mem::swap;
+use std::mem::{swap, take};
 
-use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_utils::{ExprExt, StmtExt, Type, Value};
 
 use super::Pure;
 #[cfg(feature = "debug")]
@@ -243,6 +243,57 @@ impl Pure<'_> {
                     *e = make_bool(bin.span, true);
                 }
             }
+        }
+    }
+
+    pub(super) fn optimize_empty_try_stmt(&mut self, s: &mut Stmt) {
+        let Stmt::Try(ts) = s else {
+            return;
+        };
+
+        if !ts.block.stmts.is_empty() {
+            return;
+        }
+
+        report_change!("conditionals: Optimizing empty try block");
+        self.changed = true;
+
+        let mut vars = None;
+
+        if ts.handler.is_some() {
+            let vec = ts
+                .handler
+                .iter()
+                .flat_map(|c| c.body.stmts.iter())
+                .flat_map(|s| s.extract_var_ids())
+                .map(|i| VarDeclarator {
+                    span: DUMMY_SP,
+                    name: i.into(),
+                    init: None,
+                    definite: false,
+                })
+                .collect::<Vec<_>>();
+            if !vec.is_empty() {
+                vars = Some(vec);
+            }
+        }
+
+        *s = ts.finalizer.take().map(Stmt::from).unwrap_or_default();
+
+        if let Some(vars) = vars {
+            *s = Stmt::Block(BlockStmt {
+                stmts: vec![
+                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vars,
+                    }))),
+                    take(s),
+                ],
+                ..Default::default()
+            });
         }
     }
 }
