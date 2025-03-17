@@ -1026,6 +1026,22 @@ impl Pure<'_> {
                 return;
             }
 
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
+                self.changed = true;
+
+                let new =
+                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
             Expr::TaggedTpl(TaggedTpl {
                 span, ctxt, tpl, ..
             }) if ctxt.has_mark(self.marks.pure) => {
@@ -1039,8 +1055,12 @@ impl Pure<'_> {
             }
 
             Expr::New(NewExpr {
-                span, ctxt, args, ..
-            }) if ctxt.has_mark(self.marks.pure) => {
+                callee,
+                span,
+                ctxt,
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
