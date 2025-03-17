@@ -5402,6 +5402,7 @@ dependencies = [
  "backtrace",
  "codspeed-criterion-compat",
  "criterion",
+ "flate2",
  "humansize",
  "indexmap 2.7.1",
  "num-bigint",
