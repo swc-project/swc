@@ -118,6 +118,9 @@ fn gzip_size(data: &[u8]) -> usize {
     use std::io::Write;
 
     let mut cmd = Command::new("gzip");
+    cmd.arg("-9");
+    cmd.arg("-c");
+    cmd.arg("-");
     cmd.stdin(Stdio::piped());
     cmd.stdout(Stdio::piped());
 
