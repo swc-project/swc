@@ -216,6 +216,9 @@ describe("should remove comments", () => {
                 mangle: {
                     topLevel: true,
                 },
+                format: {
+                    comments: 'some'
+                }
             }
         );
 
@@ -244,6 +247,9 @@ describe("should remove comments", () => {
                 mangle: {
                     topLevel: true,
                 },
+                format: {
+                    comments: 'some'
+                }
             }
         );
 
