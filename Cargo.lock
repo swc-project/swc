@@ -5387,6 +5387,7 @@ dependencies = [
  "backtrace",
  "codspeed-criterion-compat",
  "criterion",
+ "flate2",
  "indexmap 2.7.1",
  "num-bigint",
  "num_cpus",
