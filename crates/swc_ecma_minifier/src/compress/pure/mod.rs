@@ -703,6 +703,12 @@ impl VisitMut for Pure<'_> {
                 }
             }
         }
+
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            if e.is_invalid() {
+                *n = None;
+            }
+        }
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
@@ -876,15 +882,6 @@ impl VisitMut for Pure<'_> {
             if es.expr.is_invalid() {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
-            }
-        }
-
-        #[cfg(feature = "debug")]
-        if self.config.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_stmt: {}", text);
             }
         }
 
