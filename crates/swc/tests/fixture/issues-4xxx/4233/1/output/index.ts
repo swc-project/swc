@@ -1,7 +1,3 @@
-function foo() {
-    try {} catch (e) {
-        throw(// hi
-        baz(), e);
-    }
-}
+function foo() {}
+// hi
 foo();
