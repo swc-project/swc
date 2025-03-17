@@ -107,9 +107,9 @@ impl Pure<'_> {
 
         if let Stmt::Labeled(ls) = s {
             if ls.body.is_empty() {
-                *s = Stmt::dummy();
                 self.changed = true;
                 report_change!("Dropping an empty label statement: `{}`", ls.label);
+                *s = Stmt::dummy();
                 return None;
             }
 
