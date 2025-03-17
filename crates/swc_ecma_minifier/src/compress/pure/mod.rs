@@ -838,6 +838,15 @@ impl VisitMut for Pure<'_> {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
             }
+
+            Stmt::Block(bs) => {
+                if bs.stmts.is_empty() {
+                    *s = Stmt::dummy();
+                    self.changed = true;
+                    report_change!("Dropping an empty block statement");
+                    return;
+                }
+            }
             _ => {}
         }
 
