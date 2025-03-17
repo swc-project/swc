@@ -7,7 +7,7 @@ use flate2::{write::GzEncoder, Compression};
 use humansize::format_size;
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc::{config::JsMinifyOptions, Compiler};
+use swc::{config::JsMinifyOptions, BoolOrDataConfig, Compiler};
 use swc_common::{FileName, GLOBALS};
 use swc_ecma_utils::parallel::{Parallel, ParallelExt};
 use testing::NormalizedOutput;
@@ -115,7 +115,8 @@ fn run(src: &str) -> FileSize {
         let c = Compiler::new(cm.clone());
         let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
-        let config = JsMinifyOptions::default();
+        let mut config = JsMinifyOptions::default();
+        config.format.comments = BoolOrDataConfig::from_bool(false);
 
         let output = c.minify(fm, &handler, &config, Default::default()).unwrap();
 
