@@ -875,345 +875,6 @@ impl SimplifyExpr {
             _ => {}
         }
     }
-
-    /// Try to fold arithmetic binary operators
-    fn perform_arithmetic_op(&self, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
-        /// Replace only if it becomes shorter
-        macro_rules! try_replace {
-            ($value:expr) => {{
-                let (ls, rs) = (left.span(), right.span());
-                if ls.is_dummy() || rs.is_dummy() {
-                    Known($value)
-                } else {
-                    let new_len = format!("{}", $value).len();
-                    if right.span().hi() > left.span().lo() {
-                        let orig_len = right.span().hi() - right.span().lo() + left.span().hi()
-                            - left.span().lo();
-                        if new_len <= orig_len.0 as usize + 1 {
-                            Known($value)
-                        } else {
-                            Unknown
-                        }
-                    } else {
-                        Known($value)
-                    }
-                }
-            }};
-            (i32, $value:expr) => {
-                try_replace!($value as f64)
-            };
-        }
-
-        let (lv, rv) = (
-            left.as_pure_number(self.expr_ctx),
-            right.as_pure_number(self.expr_ctx),
-        );
-
-        if (lv.is_unknown() && rv.is_unknown())
-            || op == op!(bin, "+")
-                && (!left.get_type(self.expr_ctx).casted_to_number_on_add()
-                    || !right.get_type(self.expr_ctx).casted_to_number_on_add())
-        {
-            return Unknown;
-        }
-
-        match op {
-            op!(bin, "+") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv + rv);
-                }
-
-                if lv == Known(0.0) {
-                    return rv;
-                } else if rv == Known(0.0) {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-            op!(bin, "-") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv - rv);
-                }
-
-                // 0 - x => -x
-                if lv == Known(0.0) {
-                    return rv;
-                }
-
-                // x - 0 => x
-                if rv == Known(0.0) {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-            op!("*") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    return try_replace!(lv * rv);
-                }
-                // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
-                // advantage of that without some kind of non-NaN proof.  So the special cases
-                // here only deal with 1*x
-                if Known(1.0) == lv {
-                    return rv;
-                }
-                if Known(1.0) == rv {
-                    return lv;
-                }
-
-                return Unknown;
-            }
-
-            op!("/") => {
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    if rv == 0.0 {
-                        return Unknown;
-                    }
-                    return try_replace!(lv / rv);
-                }
-
-                // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
-
-                if rv == Known(1.0) {
-                    // TODO: cloneTree
-                    // x/1->x
-                    return lv;
-                }
-                return Unknown;
-            }
-
-            op!("**") => {
-                if Known(0.0) == rv {
-                    return Known(1.0);
-                }
-
-                if let (Known(lv), Known(rv)) = (lv, rv) {
-                    let lv: JsNumber = lv.into();
-                    let rv: JsNumber = rv.into();
-                    let result: f64 = lv.pow(rv).into();
-                    return try_replace!(result);
-                }
-
-                return Unknown;
-            }
-            _ => {}
-        }
-        let (lv, rv) = match (lv, rv) {
-            (Known(lv), Known(rv)) => (lv, rv),
-            _ => return Unknown,
-        };
-
-        match op {
-            op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
-            op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
-            op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
-            op!("%") => {
-                if rv == 0.0 {
-                    return Unknown;
-                }
-                try_replace!(lv % rv)
-            }
-            _ => unreachable!("unknown binary operator: {:?}", op),
-        }
-    }
-
-    /// This actually performs `<`.
-    ///
-    /// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
-    fn perform_abstract_rel_cmp(
-        &mut self,
-        left: &Expr,
-        right: &Expr,
-        will_negate: bool,
-    ) -> Value<bool> {
-        match (left, right) {
-            // Special case: `x < x` is always false.
-            (
-                &Expr::Ident(
-                    Ident {
-                        sym: ref li,
-                        ctxt: l_ctxt,
-                        ..
-                    },
-                    ..,
-                ),
-                &Expr::Ident(Ident {
-                    sym: ref ri,
-                    ctxt: r_ctxt,
-                    ..
-                }),
-            ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
-                return Known(false);
-            }
-            // Special case: `typeof a < typeof a` is always false.
-            (
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref la,
-                    ..
-                }),
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref ra,
-                    ..
-                }),
-            ) if la.as_ident().is_some()
-                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
-            {
-                return Known(false)
-            }
-            _ => {}
-        }
-
-        // Try to evaluate based on the general type.
-        let (lt, rt) = (left.get_type(self.expr_ctx), right.get_type(self.expr_ctx));
-
-        if let (Known(StringType), Known(StringType)) = (lt, rt) {
-            if let (Known(lv), Known(rv)) = (
-                left.as_pure_string(self.expr_ctx),
-                right.as_pure_string(self.expr_ctx),
-            ) {
-                // In JS, browsers parse \v differently. So do not compare strings if one
-                // contains \v.
-                if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                    return Unknown;
-                } else {
-                    return Known(lv < rv);
-                }
-            }
-        }
-
-        // Then, try to evaluate based on the value of the node. Try comparing as
-        // numbers.
-        let (lv, rv) = (
-            try_val!(left.as_pure_number(self.expr_ctx)),
-            try_val!(right.as_pure_number(self.expr_ctx)),
-        );
-        if lv.is_nan() || rv.is_nan() {
-            return Known(will_negate);
-        }
-
-        Known(lv < rv)
-    }
-
-    /// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
-    fn perform_abstract_eq_cmp(&mut self, span: Span, left: &Expr, right: &Expr) -> Value<bool> {
-        let (lt, rt) = (
-            try_val!(left.get_type(self.expr_ctx)),
-            try_val!(right.get_type(self.expr_ctx)),
-        );
-
-        if lt == rt {
-            return self.perform_strict_eq_cmp(left, right);
-        }
-
-        match (lt, rt) {
-            (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
-            (NumberType, StringType) | (_, BoolType) => {
-                let rv = try_val!(right.as_pure_number(self.expr_ctx));
-                self.perform_abstract_eq_cmp(
-                    span,
-                    left,
-                    &Lit::Num(Number {
-                        value: rv,
-                        span,
-                        raw: None,
-                    })
-                    .into(),
-                )
-            }
-
-            (StringType, NumberType) | (BoolType, _) => {
-                let lv = try_val!(left.as_pure_number(self.expr_ctx));
-                self.perform_abstract_eq_cmp(
-                    span,
-                    &Lit::Num(Number {
-                        value: lv,
-                        span,
-                        raw: None,
-                    })
-                    .into(),
-                    right,
-                )
-            }
-
-            (StringType, ObjectType)
-            | (NumberType, ObjectType)
-            | (ObjectType, StringType)
-            | (ObjectType, NumberType) => Unknown,
-
-            _ => Known(false),
-        }
-    }
-
-    /// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
-    fn perform_strict_eq_cmp(&mut self, left: &Expr, right: &Expr) -> Value<bool> {
-        // Any strict equality comparison against NaN returns false.
-        if left.is_nan() || right.is_nan() {
-            return Known(false);
-        }
-        match (left, right) {
-            // Special case, typeof a == typeof a is always true.
-            (
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref la,
-                    ..
-                }),
-                &Expr::Unary(UnaryExpr {
-                    op: op!("typeof"),
-                    arg: ref ra,
-                    ..
-                }),
-            ) if la.as_ident().is_some()
-                && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
-            {
-                return Known(true)
-            }
-            _ => {}
-        }
-
-        let (lt, rt) = (
-            try_val!(left.get_type(self.expr_ctx)),
-            try_val!(right.get_type(self.expr_ctx)),
-        );
-        // Strict equality can only be true for values of the same type.
-        if lt != rt {
-            return Known(false);
-        }
-
-        match lt {
-            UndefinedType | NullType => Known(true),
-            NumberType => Known(
-                try_val!(left.as_pure_number(self.expr_ctx))
-                    == try_val!(right.as_pure_number(self.expr_ctx)),
-            ),
-            StringType => {
-                let (lv, rv) = (
-                    try_val!(left.as_pure_string(self.expr_ctx)),
-                    try_val!(right.as_pure_string(self.expr_ctx)),
-                );
-                // In JS, browsers parse \v differently. So do not consider strings
-                // equal if one contains \v.
-                if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
-                    return Unknown;
-                }
-                Known(lv == rv)
-            }
-            BoolType => {
-                let (lv, rv) = (
-                    left.as_pure_bool(self.expr_ctx),
-                    right.as_pure_bool(self.expr_ctx),
-                );
-
-                // lv && rv || !lv && !rv
-
-                lv.and(rv).or((!lv).and(!rv))
-            }
-            ObjectType | SymbolType => Unknown,
-        }
-    }
 }
 
 impl VisitMut for SimplifyExpr {
@@ -1798,4 +1459,674 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
     }
 
     None
+}
+
+pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool) {
+    let BinExpr {
+        left,
+        op,
+        right,
+        span,
+    } = match expr {
+        Expr::Bin(bin) => bin,
+        _ => return,
+    };
+
+    macro_rules! try_replace {
+        ($v:expr) => {{
+            match $v {
+                Known(v) => {
+                    // TODO: Optimize
+                    *changed = true;
+
+                    *expr = *make_bool_expr(expr_ctx, *span, v, {
+                        iter::once(left.take()).chain(iter::once(right.take()))
+                    });
+                    return;
+                }
+                _ => {}
+            }
+        }};
+        (number, $v:expr) => {{
+            match $v {
+                Known(v) => {
+                    *changed = true;
+
+                    let value_expr = if !v.is_nan() {
+                        Expr::Lit(Lit::Num(Number {
+                            value: v,
+                            span: *span,
+                            raw: None,
+                        }))
+                    } else {
+                        Expr::Ident(Ident::new(
+                            "NaN".into(),
+                            *span,
+                            self.expr_ctx.unresolved_ctxt,
+                        ))
+                    };
+
+                    *expr = *self.expr_ctx.preserve_effects(*span, value_expr.into(), {
+                        iter::once(left.take()).chain(iter::once(right.take()))
+                    });
+                    return;
+                }
+                _ => {}
+            }
+        }};
+    }
+
+    match op {
+        op!(bin, "+") => {
+            // It's string concatenation if either left or right is string.
+            if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
+                if let (Known(l), Known(r)) = (
+                    left.as_pure_string(expr_ctx),
+                    right.as_pure_string(expr_ctx),
+                ) {
+                    let mut l = l.into_owned();
+
+                    l.push_str(&r);
+
+                    *changed = true;
+
+                    *expr = Lit::Str(Str {
+                        raw: None,
+                        value: l.into(),
+                        span: *span,
+                    })
+                    .into();
+                    return;
+                }
+            }
+
+            match expr.get_type(expr_ctx) {
+                // String concatenation
+                Known(StringType) => match expr {
+                    Expr::Bin(BinExpr {
+                        left, right, span, ..
+                    }) => {
+                        if !left.may_have_side_effects(expr_ctx)
+                            && !right.may_have_side_effects(expr_ctx)
+                        {
+                            if let (Known(l), Known(r)) = (
+                                left.as_pure_string(expr_ctx),
+                                right.as_pure_string(expr_ctx),
+                            ) {
+                                *changed = true;
+
+                                let value = format!("{}{}", l, r);
+
+                                *expr = Lit::Str(Str {
+                                    raw: None,
+                                    value: value.into(),
+                                    span: *span,
+                                })
+                                .into();
+                            }
+                        }
+                    }
+                    _ => unreachable!(),
+                },
+                // Numerical calculation
+                Known(BoolType) | Known(NullType) | Known(NumberType) | Known(UndefinedType) => {
+                    match expr {
+                        Expr::Bin(BinExpr {
+                            left, right, span, ..
+                        }) => {
+                            if let Known(v) = perform_arithmetic_op(op!(bin, "+"), left, right) {
+                                *changed = true;
+                                let span = *span;
+
+                                let value_expr = if !v.is_nan() {
+                                    Lit::Num(Number {
+                                        value: v,
+                                        span,
+                                        raw: None,
+                                    })
+                                    .into()
+                                } else {
+                                    Ident::new("NaN".into(), span, expr_ctx.unresolved_ctxt).into()
+                                };
+
+                                *expr = *expr_ctx.preserve_effects(
+                                    span,
+                                    value_expr,
+                                    iter::once(left.take()).chain(iter::once(right.take())),
+                                );
+                            }
+                        }
+                        _ => unreachable!(),
+                    };
+                }
+                _ => {}
+            }
+
+            //TODO: try string concat
+        }
+
+        op!("&&") | op!("||") => {
+            if let (_, Known(val)) = left.cast_to_bool(self.expr_ctx) {
+                let node = if *op == op!("&&") {
+                    if val {
+                        // 1 && $right
+                        right
+                    } else {
+                        self.changed = true;
+
+                        // 0 && $right
+                        *expr = *left.take();
+                        return;
+                    }
+                } else if val {
+                    self.changed = true;
+
+                    // 1 || $right
+                    *expr = *(left.take());
+                    return;
+                } else {
+                    // 0 || $right
+                    right
+                };
+
+                if !left.may_have_side_effects(expr_ctx) {
+                    *changed = true;
+
+                    if node.directness_maters() {
+                        *expr = SeqExpr {
+                            span: node.span(),
+                            exprs: vec![0.into(), node.take()],
+                        }
+                        .into();
+                    } else {
+                        *expr = *node.take();
+                    }
+                } else {
+                    self.changed = true;
+
+                    let mut seq = SeqExpr {
+                        span: *span,
+                        exprs: vec![left.take(), node.take()],
+                    };
+
+                    seq.visit_mut_with(self);
+
+                    *expr = seq.into()
+                };
+            }
+        }
+        op!("instanceof") => {
+            fn is_non_obj(e: &Expr) -> bool {
+                match e {
+                    // Non-object types are never instances.
+                    Expr::Lit(Lit::Str { .. })
+                    | Expr::Lit(Lit::Num(..))
+                    | Expr::Lit(Lit::Null(..))
+                    | Expr::Lit(Lit::Bool(..)) => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
+
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"),
+                        ref arg,
+                        ..
+                    })
+                    | Expr::Unary(UnaryExpr {
+                        op: op!(unary, "-"),
+                        ref arg,
+                        ..
+                    })
+                    | Expr::Unary(UnaryExpr {
+                        op: op!("void"),
+                        ref arg,
+                        ..
+                    }) => is_non_obj(arg),
+                    _ => false,
+                }
+            }
+
+            fn is_obj(e: &Expr) -> bool {
+                matches!(
+                    *e,
+                    Expr::Array { .. } | Expr::Object { .. } | Expr::Fn { .. } | Expr::New { .. }
+                )
+            }
+
+            // Non-object types are never instances.
+            if is_non_obj(left) {
+                self.changed = true;
+
+                *expr = *make_bool_expr(self.expr_ctx, *span, false, iter::once(right.take()));
+                return;
+            }
+
+            if is_obj(left) && right.is_global_ref_to(self.expr_ctx, "Object") {
+                self.changed = true;
+
+                *expr = *make_bool_expr(self.expr_ctx, *span, true, iter::once(left.take()));
+            }
+        }
+
+        // Arithmetic operations
+        op!(bin, "-") | op!("/") | op!("%") | op!("**") => {
+            try_replace!(number, self.perform_arithmetic_op(*op, left, right))
+        }
+
+        // Bit shift operations
+        op!("<<") | op!(">>") | op!(">>>") => {
+            fn try_fold_shift(ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &Expr) -> Value<f64> {
+                if !left.is_number() || !right.is_number() {
+                    return Unknown;
+                }
+
+                let (lv, rv) = match (left.as_pure_number(ctx), right.as_pure_number(ctx)) {
+                    (Known(lv), Known(rv)) => (lv, rv),
+                    _ => unreachable!(),
+                };
+                let (lv, rv) = (JsNumber::from(lv), JsNumber::from(rv));
+
+                Known(match op {
+                    op!("<<") => *(lv << rv),
+                    op!(">>") => *(lv >> rv),
+                    op!(">>>") => *(lv.unsigned_shr(rv)),
+
+                    _ => unreachable!("Unknown bit operator {:?}", op),
+                })
+            }
+            try_replace!(number, try_fold_shift(self.expr_ctx, *op, left, right))
+        }
+
+        // These needs one more check.
+        //
+        // (a * 1) * 2 --> a * (1 * 2) --> a * 2
+        op!("*") | op!("&") | op!("|") | op!("^") => {
+            try_replace!(number, self.perform_arithmetic_op(*op, left, right));
+
+            // Try left.rhs * right
+            if let Expr::Bin(BinExpr {
+                span: _,
+                left: left_lhs,
+                op: left_op,
+                right: left_rhs,
+            }) = &mut **left
+            {
+                if *left_op == *op {
+                    if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
+                        let value_expr = if !value.is_nan() {
+                            Lit::Num(Number {
+                                value,
+                                span: *span,
+                                raw: None,
+                            })
+                            .into()
+                        } else {
+                            Ident::new("NaN".into(), *span, self.expr_ctx.unresolved_ctxt).into()
+                        };
+
+                        self.changed = true;
+                        *left = left_lhs.take();
+                        *right = Box::new(value_expr);
+                    }
+                }
+            }
+        }
+
+        // Comparisons
+        op!("<") => {
+            try_replace!(self.perform_abstract_rel_cmp(left, right, false))
+        }
+        op!(">") => {
+            try_replace!(self.perform_abstract_rel_cmp(right, left, false))
+        }
+        op!("<=") => {
+            try_replace!(!self.perform_abstract_rel_cmp(right, left, true))
+        }
+        op!(">=") => {
+            try_replace!(!self.perform_abstract_rel_cmp(left, right, true))
+        }
+
+        op!("==") => try_replace!(self.perform_abstract_eq_cmp(*span, left, right)),
+        op!("!=") => try_replace!(!self.perform_abstract_eq_cmp(*span, left, right)),
+        op!("===") => try_replace!(self.perform_strict_eq_cmp(left, right)),
+        op!("!==") => try_replace!(!self.perform_strict_eq_cmp(left, right)),
+        _ => {}
+    };
+}
+
+/// Try to fold arithmetic binary operators
+fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr, expr_ctx: ExprCtx) -> Value<f64> {
+    /// Replace only if it becomes shorter
+    macro_rules! try_replace {
+        ($value:expr) => {{
+            let (ls, rs) = (left.span(), right.span());
+            if ls.is_dummy() || rs.is_dummy() {
+                Known($value)
+            } else {
+                let new_len = format!("{}", $value).len();
+                if right.span().hi() > left.span().lo() {
+                    let orig_len =
+                        right.span().hi() - right.span().lo() + left.span().hi() - left.span().lo();
+                    if new_len <= orig_len.0 as usize + 1 {
+                        Known($value)
+                    } else {
+                        Unknown
+                    }
+                } else {
+                    Known($value)
+                }
+            }
+        }};
+        (i32, $value:expr) => {
+            try_replace!($value as f64)
+        };
+    }
+
+    let (lv, rv) = (
+        left.as_pure_number(self.expr_ctx),
+        right.as_pure_number(self.expr_ctx),
+    );
+
+    if (lv.is_unknown() && rv.is_unknown())
+        || op == op!(bin, "+")
+            && (!left.get_type(self.expr_ctx).casted_to_number_on_add()
+                || !right.get_type(self.expr_ctx).casted_to_number_on_add())
+    {
+        return Unknown;
+    }
+
+    match op {
+        op!(bin, "+") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv + rv);
+            }
+
+            if lv == Known(0.0) {
+                return rv;
+            } else if rv == Known(0.0) {
+                return lv;
+            }
+
+            return Unknown;
+        }
+        op!(bin, "-") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv - rv);
+            }
+
+            // 0 - x => -x
+            if lv == Known(0.0) {
+                return rv;
+            }
+
+            // x - 0 => x
+            if rv == Known(0.0) {
+                return lv;
+            }
+
+            return Unknown;
+        }
+        op!("*") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                return try_replace!(lv * rv);
+            }
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
+            // advantage of that without some kind of non-NaN proof.  So the special cases
+            // here only deal with 1*x
+            if Known(1.0) == lv {
+                return rv;
+            }
+            if Known(1.0) == rv {
+                return lv;
+            }
+
+            return Unknown;
+        }
+
+        op!("/") => {
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                if rv == 0.0 {
+                    return Unknown;
+                }
+                return try_replace!(lv / rv);
+            }
+
+            // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
+
+            if rv == Known(1.0) {
+                // TODO: cloneTree
+                // x/1->x
+                return lv;
+            }
+            return Unknown;
+        }
+
+        op!("**") => {
+            if Known(0.0) == rv {
+                return Known(1.0);
+            }
+
+            if let (Known(lv), Known(rv)) = (lv, rv) {
+                let lv: JsNumber = lv.into();
+                let rv: JsNumber = rv.into();
+                let result: f64 = lv.pow(rv).into();
+                return try_replace!(result);
+            }
+
+            return Unknown;
+        }
+        _ => {}
+    }
+    let (lv, rv) = match (lv, rv) {
+        (Known(lv), Known(rv)) => (lv, rv),
+        _ => return Unknown,
+    };
+
+    match op {
+        op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
+        op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
+        op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+        op!("%") => {
+            if rv == 0.0 {
+                return Unknown;
+            }
+            try_replace!(lv % rv)
+        }
+        _ => unreachable!("unknown binary operator: {:?}", op),
+    }
+}
+
+/// This actually performs `<`.
+///
+/// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
+fn perform_abstract_rel_cmp(left: &Expr, right: &Expr, will_negate: bool) -> Value<bool> {
+    match (left, right) {
+        // Special case: `x < x` is always false.
+        (
+            &Expr::Ident(
+                Ident {
+                    sym: ref li,
+                    ctxt: l_ctxt,
+                    ..
+                },
+                ..,
+            ),
+            &Expr::Ident(Ident {
+                sym: ref ri,
+                ctxt: r_ctxt,
+                ..
+            }),
+        ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
+            return Known(false);
+        }
+        // Special case: `typeof a < typeof a` is always false.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.as_ident().is_some()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(false)
+        }
+        _ => {}
+    }
+
+    // Try to evaluate based on the general type.
+    let (lt, rt) = (left.get_type(expr_ctx), right.get_type(expr_ctx));
+
+    if let (Known(StringType), Known(StringType)) = (lt, rt) {
+        if let (Known(lv), Known(rv)) = (
+            left.as_pure_string(expr_ctx),
+            right.as_pure_string(expr_ctx),
+        ) {
+            // In JS, browsers parse \v differently. So do not compare strings if one
+            // contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            } else {
+                return Known(lv < rv);
+            }
+        }
+    }
+
+    // Then, try to evaluate based on the value of the node. Try comparing as
+    // numbers.
+    let (lv, rv) = (
+        try_val!(left.as_pure_number(expr_ctx)),
+        try_val!(right.as_pure_number(expr_ctx)),
+    );
+    if lv.is_nan() || rv.is_nan() {
+        return Known(will_negate);
+    }
+
+    Known(lv < rv)
+}
+
+/// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
+fn perform_abstract_eq_cmp(
+    span: Span,
+    left: &Expr,
+    right: &Expr,
+    expr_ctx: ExprCtx,
+) -> Value<bool> {
+    let (lt, rt) = (
+        try_val!(left.get_type(expr_ctx)),
+        try_val!(right.get_type(expr_ctx)),
+    );
+
+    if lt == rt {
+        return perform_strict_eq_cmp(left, right, expr_ctx);
+    }
+
+    match (lt, rt) {
+        (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
+        (NumberType, StringType) | (_, BoolType) => {
+            let rv = try_val!(right.as_pure_number(expr_ctx));
+            perform_abstract_eq_cmp(
+                span,
+                left,
+                &Lit::Num(Number {
+                    value: rv,
+                    span,
+                    raw: None,
+                })
+                .into(),
+                expr_ctx,
+            )
+        }
+
+        (StringType, NumberType) | (BoolType, _) => {
+            let lv = try_val!(left.as_pure_number(expr_ctx));
+            perform_abstract_eq_cmp(
+                span,
+                &Lit::Num(Number {
+                    value: lv,
+                    span,
+                    raw: None,
+                })
+                .into(),
+                right,
+                expr_ctx,
+            )
+        }
+
+        (StringType, ObjectType)
+        | (NumberType, ObjectType)
+        | (ObjectType, StringType)
+        | (ObjectType, NumberType) => Unknown,
+
+        _ => Known(false),
+    }
+}
+
+/// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
+fn perform_strict_eq_cmp(left: &Expr, right: &Expr, expr_ctx: ExprCtx) -> Value<bool> {
+    // Any strict equality comparison against NaN returns false.
+    if left.is_nan() || right.is_nan() {
+        return Known(false);
+    }
+    match (left, right) {
+        // Special case, typeof a == typeof a is always true.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.as_ident().is_some()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(true)
+        }
+        _ => {}
+    }
+
+    let (lt, rt) = (
+        try_val!(left.get_type(expr_ctx)),
+        try_val!(right.get_type(expr_ctx)),
+    );
+    // Strict equality can only be true for values of the same type.
+    if lt != rt {
+        return Known(false);
+    }
+
+    match lt {
+        UndefinedType | NullType => Known(true),
+        NumberType => Known(
+            try_val!(left.as_pure_number(expr_ctx)) == try_val!(right.as_pure_number(expr_ctx)),
+        ),
+        StringType => {
+            let (lv, rv) = (
+                try_val!(left.as_pure_string(expr_ctx)),
+                try_val!(right.as_pure_string(expr_ctx)),
+            );
+            // In JS, browsers parse \v differently. So do not consider strings
+            // equal if one contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            }
+            Known(lv == rv)
+        }
+        BoolType => {
+            let (lv, rv) = (left.as_pure_bool(expr_ctx), right.as_pure_bool(expr_ctx));
+
+            // lv && rv || !lv && !rv
+
+            lv.and(rv).or((!lv).and(!rv))
+        }
+        ObjectType | SymbolType => Unknown,
+    }
 }
