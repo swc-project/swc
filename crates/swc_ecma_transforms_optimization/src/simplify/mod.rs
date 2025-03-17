@@ -7,7 +7,7 @@ use swc_ecma_ast::Pass;
 
 pub use self::{
     branch::dead_branch_remover,
-    expr::{expr_simplifier, Config as ExprSimplifierConfig},
+    expr::{expr_simplifier, optimize_bin_expr, Config as ExprSimplifierConfig},
 };
 
 mod branch;
