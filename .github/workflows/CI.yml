@@ -272,9 +272,14 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
+        if: matrix.settings.crate != 'swc' && matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
+
+      - name: Run cargo test (swc)
+        if: matrix.settings.crate == 'swc'
+        run: |
+          cargo test -p swc --release
 
       - name: Run cargo test (core)
         if: matrix.settings.crate == 'swc_core'
