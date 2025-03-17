@@ -1011,7 +1011,7 @@ impl VisitMut for SimplifyExpr {
                 debug_assert_valid(expr);
             }
             Expr::Bin(_) => {
-                self.optimize_bin_expr(expr);
+                optimize_bin_expr(expr, self.expr_ctx, &mut self.changed);
 
                 debug_assert_valid(expr);
             }
@@ -1499,14 +1499,10 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
                             raw: None,
                         }))
                     } else {
-                        Expr::Ident(Ident::new(
-                            "NaN".into(),
-                            *span,
-                            self.expr_ctx.unresolved_ctxt,
-                        ))
+                        Expr::Ident(Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt))
                     };
 
-                    *expr = *self.expr_ctx.preserve_effects(*span, value_expr.into(), {
+                    *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {
                         iter::once(left.take()).chain(iter::once(right.take()))
                     });
                     return;
@@ -1574,7 +1570,9 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
                         Expr::Bin(BinExpr {
                             left, right, span, ..
                         }) => {
-                            if let Known(v) = perform_arithmetic_op(op!(bin, "+"), left, right) {
+                            if let Known(v) =
+                                perform_arithmetic_op(op!(bin, "+"), left, right, expr_ctx)
+                            {
                                 *changed = true;
                                 let span = *span;
 
@@ -1606,20 +1604,20 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
         }
 
         op!("&&") | op!("||") => {
-            if let (_, Known(val)) = left.cast_to_bool(self.expr_ctx) {
+            if let (_, Known(val)) = left.cast_to_bool(expr_ctx) {
                 let node = if *op == op!("&&") {
                     if val {
                         // 1 && $right
                         right
                     } else {
-                        self.changed = true;
+                        *changed = true;
 
                         // 0 && $right
                         *expr = *left.take();
                         return;
                     }
                 } else if val {
-                    self.changed = true;
+                    *changed = true;
 
                     // 1 || $right
                     *expr = *(left.take());
@@ -1642,14 +1640,12 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
                         *expr = *node.take();
                     }
                 } else {
-                    self.changed = true;
+                    *changed = true;
 
-                    let mut seq = SeqExpr {
+                    let seq = SeqExpr {
                         span: *span,
                         exprs: vec![left.take(), node.take()],
                     };
-
-                    seq.visit_mut_with(self);
 
                     *expr = seq.into()
                 };
@@ -1695,22 +1691,22 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
 
             // Non-object types are never instances.
             if is_non_obj(left) {
-                self.changed = true;
+                *changed = true;
 
-                *expr = *make_bool_expr(self.expr_ctx, *span, false, iter::once(right.take()));
+                *expr = *make_bool_expr(expr_ctx, *span, false, iter::once(right.take()));
                 return;
             }
 
-            if is_obj(left) && right.is_global_ref_to(self.expr_ctx, "Object") {
-                self.changed = true;
+            if is_obj(left) && right.is_global_ref_to(expr_ctx, "Object") {
+                *changed = true;
 
-                *expr = *make_bool_expr(self.expr_ctx, *span, true, iter::once(left.take()));
+                *expr = *make_bool_expr(expr_ctx, *span, true, iter::once(left.take()));
             }
         }
 
         // Arithmetic operations
         op!(bin, "-") | op!("/") | op!("%") | op!("**") => {
-            try_replace!(number, self.perform_arithmetic_op(*op, left, right))
+            try_replace!(number, perform_arithmetic_op(*op, left, right, expr_ctx))
         }
 
         // Bit shift operations
@@ -1734,14 +1730,14 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
                     _ => unreachable!("Unknown bit operator {:?}", op),
                 })
             }
-            try_replace!(number, try_fold_shift(self.expr_ctx, *op, left, right))
+            try_replace!(number, try_fold_shift(expr_ctx, *op, left, right))
         }
 
         // These needs one more check.
         //
         // (a * 1) * 2 --> a * (1 * 2) --> a * 2
         op!("*") | op!("&") | op!("|") | op!("^") => {
-            try_replace!(number, self.perform_arithmetic_op(*op, left, right));
+            try_replace!(number, perform_arithmetic_op(*op, left, right, expr_ctx));
 
             // Try left.rhs * right
             if let Expr::Bin(BinExpr {
@@ -1752,7 +1748,7 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
             }) = &mut **left
             {
                 if *left_op == *op {
-                    if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
+                    if let Known(value) = perform_arithmetic_op(*op, left_rhs, right, expr_ctx) {
                         let value_expr = if !value.is_nan() {
                             Lit::Num(Number {
                                 value,
@@ -1761,10 +1757,10 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
                             })
                             .into()
                         } else {
-                            Ident::new("NaN".into(), *span, self.expr_ctx.unresolved_ctxt).into()
+                            Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt).into()
                         };
 
-                        self.changed = true;
+                        *changed = true;
                         *left = left_lhs.take();
                         *right = Box::new(value_expr);
                     }
@@ -1774,22 +1770,22 @@ pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool)
 
         // Comparisons
         op!("<") => {
-            try_replace!(self.perform_abstract_rel_cmp(left, right, false))
+            try_replace!(perform_abstract_rel_cmp(left, right, false, expr_ctx))
         }
         op!(">") => {
-            try_replace!(self.perform_abstract_rel_cmp(right, left, false))
+            try_replace!(perform_abstract_rel_cmp(right, left, false, expr_ctx))
         }
         op!("<=") => {
-            try_replace!(!self.perform_abstract_rel_cmp(right, left, true))
+            try_replace!(!perform_abstract_rel_cmp(right, left, true, expr_ctx))
         }
         op!(">=") => {
-            try_replace!(!self.perform_abstract_rel_cmp(left, right, true))
+            try_replace!(!perform_abstract_rel_cmp(left, right, true, expr_ctx))
         }
 
-        op!("==") => try_replace!(self.perform_abstract_eq_cmp(*span, left, right)),
-        op!("!=") => try_replace!(!self.perform_abstract_eq_cmp(*span, left, right)),
-        op!("===") => try_replace!(self.perform_strict_eq_cmp(left, right)),
-        op!("!==") => try_replace!(!self.perform_strict_eq_cmp(left, right)),
+        op!("==") => try_replace!(perform_abstract_eq_cmp(*span, left, right, expr_ctx)),
+        op!("!=") => try_replace!(perform_abstract_eq_cmp(*span, left, right, expr_ctx)),
+        op!("===") => try_replace!(perform_strict_eq_cmp(left, right, expr_ctx)),
+        op!("!==") => try_replace!(!perform_strict_eq_cmp(left, right, expr_ctx)),
         _ => {}
     };
 }
@@ -1823,14 +1819,14 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr, expr_ctx: Expr
     }
 
     let (lv, rv) = (
-        left.as_pure_number(self.expr_ctx),
-        right.as_pure_number(self.expr_ctx),
+        left.as_pure_number(expr_ctx),
+        right.as_pure_number(expr_ctx),
     );
 
     if (lv.is_unknown() && rv.is_unknown())
         || op == op!(bin, "+")
-            && (!left.get_type(self.expr_ctx).casted_to_number_on_add()
-                || !right.get_type(self.expr_ctx).casted_to_number_on_add())
+            && (!left.get_type(expr_ctx).casted_to_number_on_add()
+                || !right.get_type(expr_ctx).casted_to_number_on_add())
     {
         return Unknown;
     }
@@ -1939,7 +1935,12 @@ fn perform_arithmetic_op(op: BinaryOp, left: &Expr, right: &Expr, expr_ctx: Expr
 /// This actually performs `<`.
 ///
 /// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
-fn perform_abstract_rel_cmp(left: &Expr, right: &Expr, will_negate: bool) -> Value<bool> {
+fn perform_abstract_rel_cmp(
+    left: &Expr,
+    right: &Expr,
+    will_negate: bool,
+    expr_ctx: ExprCtx,
+) -> Value<bool> {
     match (left, right) {
         // Special case: `x < x` is always false.
         (
