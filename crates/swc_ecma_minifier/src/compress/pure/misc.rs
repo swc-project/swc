@@ -749,7 +749,7 @@ impl Pure<'_> {
                     arg.as_deref_mut().unwrap(),
                     DropOpts {
                         drop_global_refs_if_unused: true,
-                        drop_zero: true,
+                        drop_number: true,
                         drop_str_lit: true,
                         ..Default::default()
                     },
@@ -919,7 +919,7 @@ impl Pure<'_> {
                     DropOpts {
                         drop_global_refs_if_unused: true,
                         drop_str_lit: true,
-                        drop_zero: true,
+                        drop_number: true,
                     },
                 );
 
@@ -1091,10 +1091,11 @@ impl Pure<'_> {
             _ => (),
         }
 
-        if self.options.unused {
+        if self.options.unused && opts.drop_number {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
+                    report_change!("Dropping a number");
                     self.changed = true;
                     *e = Invalid { span: DUMMY_SP }.into();
                     return;
@@ -1133,7 +1134,7 @@ impl Pure<'_> {
                         DropOpts {
                             drop_str_lit: true,
                             drop_global_refs_if_unused: true,
-                            drop_zero: true,
+                            drop_number: true,
                             ..opts
                         },
                     );
@@ -1206,7 +1207,8 @@ impl Pure<'_> {
         if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
-                    if n.value == 0.0 && opts.drop_zero {
+                    if n.value == 0.0 && opts.drop_number {
+                        report_change!("Dropping a zero number");
                         self.changed = true;
                         *e = Invalid { span: DUMMY_SP }.into();
                         return;
@@ -1259,7 +1261,7 @@ impl Pure<'_> {
                     self.ignore_return_value(
                         &mut bin.left,
                         DropOpts {
-                            drop_zero: true,
+                            drop_number: true,
                             drop_global_refs_if_unused: true,
                             drop_str_lit: true,
                             ..opts
@@ -1268,7 +1270,7 @@ impl Pure<'_> {
                     self.ignore_return_value(
                         &mut bin.right,
                         DropOpts {
-                            drop_zero: true,
+                            drop_number: true,
                             drop_global_refs_if_unused: true,
                             drop_str_lit: true,
                             ..opts
@@ -1487,7 +1489,7 @@ impl Pure<'_> {
                                         &mut e.expr,
                                         DropOpts {
                                             drop_global_refs_if_unused: true,
-                                            drop_zero: true,
+                                            drop_number: true,
                                             drop_str_lit: true,
                                             ..opts
                                         },
@@ -1518,7 +1520,7 @@ impl Pure<'_> {
                             &mut expr,
                             DropOpts {
                                 drop_str_lit: true,
-                                drop_zero: true,
+                                drop_number: true,
                                 drop_global_refs_if_unused: true,
                                 ..opts
                             },
@@ -1715,7 +1717,7 @@ pub(super) struct DropOpts {
     /// If true and `unused` option is enabled, references to global variables
     /// will be dropped, even if `side_effects` is false.
     pub drop_global_refs_if_unused: bool,
-    pub drop_zero: bool,
+    pub drop_number: bool,
     pub drop_str_lit: bool,
 }
 
