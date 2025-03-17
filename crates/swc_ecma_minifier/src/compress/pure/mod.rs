@@ -593,6 +593,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_for_init(&mut s.init);
 
+        self.optimize_for_update(&mut s.update);
+
         self.optimize_for_if_break(s);
 
         self.merge_for_if_break(s);

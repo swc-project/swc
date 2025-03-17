@@ -10,15 +10,40 @@ impl Pure<'_> {
             return;
         }
 
-        if let Some(VarDeclOrExpr::Expr(init)) = init {
+        if let Some(VarDeclOrExpr::Expr(e)) = init {
             self.ignore_return_value(
-                init,
+                e,
                 DropOpts {
                     drop_number: true,
                     drop_str_lit: true,
                     ..Default::default()
                 },
             );
+
+            if e.is_invalid() {
+                *init = None;
+            }
+        }
+    }
+
+    pub(super) fn optimize_for_update(&mut self, update: &mut Option<Box<Expr>>) {
+        if !self.options.loops {
+            return;
+        }
+
+        if let Some(e) = update {
+            self.ignore_return_value(
+                e,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            if e.is_invalid() {
+                *update = None;
+            }
         }
     }
 
