@@ -19,8 +19,6 @@ pub struct Cursor<'a> {
 
     /// Input source as bytes
     input: &'a [u8],
-
-    end_from_batch: u32,
 }
 
 impl<'a> Cursor<'a> {
@@ -28,11 +26,11 @@ impl<'a> Cursor<'a> {
     #[inline(always)]
     pub fn new(input: &'a str) -> Self {
         let bytes = input.as_bytes();
+
         Self {
             input: bytes,
             pos: 0,
             len: bytes.len() as u32,
-            end_from_batch: bytes.len() as u32 - BATCH_SIZE,
         }
     }
 
@@ -113,7 +111,7 @@ impl<'a> Cursor<'a> {
         F: Fn(u8) -> bool,
     {
         // Process in batches if we have more than BATCH_SIZE bytes
-        while self.pos <= self.end_from_batch {
+        while self.pos + BATCH_SIZE <= self.input.len() as u32 {
             // Check all bytes in the batch
             for _ in 0..BATCH_SIZE {
                 // SAFETY: We've verified bounds above
@@ -121,7 +119,7 @@ impl<'a> Cursor<'a> {
                 if !predicate(byte) {
                     return;
                 }
-                // SAFETY: self.pos <= end_from_batch
+                // SAFETY: self.pos + BATCH_SIZE <= self.input.len()
                 self.pos += 1;
             }
         }
