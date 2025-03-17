@@ -1,6 +1,9 @@
-use std::{fmt::Write, path::PathBuf};
+use std::{
+    fmt::Write,
+    path::PathBuf,
+    process::{Command, Stdio},
+};
 
-use flate2::{write::GzEncoder, Compression};
 use humansize::format_size;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -114,9 +117,16 @@ fn run(src: &str) -> FileSize {
 fn gzip_size(data: &[u8]) -> usize {
     use std::io::Write;
 
-    let mut gz = GzEncoder::new(Vec::new(), Compression::best());
-    gz.write_all(data).unwrap();
-    gz.finish().unwrap().len()
+    let mut cmd = Command::new("gzip");
+    cmd.stdin(Stdio::piped());
+    cmd.stdout(Stdio::piped());
+
+    let mut child = cmd.spawn().unwrap();
+    let mut stdin = child.stdin.take().unwrap();
+    stdin.write_all(data).unwrap();
+
+    let output = child.wait_with_output().unwrap();
+    output.stdout.len()
 }
 
 fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
