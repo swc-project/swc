@@ -834,9 +834,21 @@ impl VisitMut for Pure<'_> {
         }
 
         match s {
-            Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
-                *s = EmptyStmt { span: DUMMY_SP }.into();
-                return;
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                self.ignore_return_value(
+                    expr,
+                    DropOpts {
+                        drop_number: true,
+                        ..Default::default()
+                    },
+                );
+
+                if expr.is_invalid() {
+                    *s = Stmt::dummy();
+                    self.changed = true;
+                    report_change!("Dropping an invalid expression statement");
+                    return;
+                }
             }
 
             Stmt::Block(bs) => {
