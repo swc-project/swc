@@ -854,7 +854,6 @@ export interface ReactConfig {
    * Enable fast refresh feature for React app
    */
   refresh?:
-  refresh?:
     | boolean
     | {
           /**
